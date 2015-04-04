@@ -1,0 +1,45 @@
+﻿@model Nexmo.Web.Sample.Models.Actions
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h1>Nexmo Sample</h1>
+
+<h2>Number Insight</h2>
+@using (Html.BeginForm("NumberInsight", "Home"))
+{
+    @Html.LabelFor(m => m.NI.Number)
+    @Html.TextBoxFor(m => m.NI.Number)
+    
+    <input type="submit"/>
+}
+
+<h2>Number Verify</h2>
+@using (Html.BeginForm("NumberVerify", "Home"))
+{
+    @Html.LabelFor(m => m.NV_V.Number)
+    @Html.TextBoxFor(m => m.NV_V.Number)
+
+    @Html.LabelFor(m => m.NV_V.Brand)
+    @Html.TextBoxFor(m => m.NV_V.Brand)
+    <input type="submit" />
+}
+
+<h2>Number Verify - Check</h2>
+@using (Html.BeginForm("NumberVerifyCheck", "Home"))
+{
+    @Html.LabelFor(m => m.NV_C.RequestId)
+    @Html.TextBoxFor(m => m.NV_C.RequestId)
+
+    @Html.LabelFor(m => m.NV_C.Code)
+    @Html.TextBoxFor(m => m.NV_C.Code)
+    <input type="submit" />
+}
+
+<h2>Number Verify - Search</h2>
+@using (Html.BeginForm("NumberVerifySearch", "Home"))
+{
+    @Html.LabelFor(m => m.NV_S.RequestId)
+    @Html.TextBoxFor(m => m.NV_S.RequestId)
+    <input type="submit" />
+}
