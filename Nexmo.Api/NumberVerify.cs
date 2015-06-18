@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Nexmo.Api
@@ -9,6 +9,13 @@ namespace Nexmo.Api
         {
             public string number { get; set; }
             public string brand { get; set; }
+            public string country { get; set; }
+            public string sender_id { get; set; }
+            public string code_length { get; set; }
+            public string lg { get; set; }
+            public string require_type { get; set; }
+            public string pin_expiry { get; set; }
+            public string max_event_wait { get; set; }
         }
 
         public class VerifyResponse
@@ -20,11 +27,13 @@ namespace Nexmo.Api
 
         public static VerifyResponse Verify(VerifyRequest request)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), new Dictionary<string, string>()
-            {
-                {"number", request.number},
-                {"brand", request.brand}
-            });
+            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request);
+
+            //var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), new Dictionary<string, string>()
+            //{
+            //    {"number", request.number},
+            //    {"brand", request.brand}
+            //});
 
             return JsonConvert.DeserializeObject<VerifyResponse>(jsonstring);
         }
