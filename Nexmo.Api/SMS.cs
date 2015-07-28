@@ -51,7 +51,6 @@ namespace Nexmo.Api
 
         public static SMSResponse SendSMS(SMSRequest request)
         {
-
             if (string.IsNullOrEmpty(request.from))
             {
                 request.from = System.Configuration.ConfigurationManager.AppSettings["Nexmo.sender_id"];
@@ -61,11 +60,7 @@ namespace Nexmo.Api
 
             return JsonConvert.DeserializeObject<SMSResponse>(jsonstring);
         }
-        
-        
-        
-        // TODO: send message
-        
+
         // TODO: deliver receipt callback
 
         // TODO: inbound msg

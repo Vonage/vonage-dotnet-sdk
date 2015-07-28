@@ -72,7 +72,7 @@ API support status:
   * [ ] Event-based
   * [ ] Marketing
 * SMS
-  * [ ] Send
+  * [X] Send
   * [ ] Receipt
   * [ ] Inbound
 * Voice

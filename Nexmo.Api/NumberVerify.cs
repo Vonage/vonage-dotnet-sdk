@@ -29,12 +29,6 @@ namespace Nexmo.Api
         {
             var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request);
 
-            //var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), new Dictionary<string, string>()
-            //{
-            //    {"number", request.number},
-            //    {"brand", request.brand}
-            //});
-
             return JsonConvert.DeserializeObject<VerifyResponse>(jsonstring);
         }
 

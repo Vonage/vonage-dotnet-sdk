@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ namespace Nexmo.Api
     {
         public static Uri GetBaseUriFor(Type component, string url = null)
         {
-            var baseUri = typeof (NumberVerify) == component ? new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Api"]) : new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Rest"]);
+            var baseUri = typeof(NumberVerify) == component ? new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Api"]) : new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Rest"]);
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
 
@@ -33,36 +34,29 @@ namespace Nexmo.Api
         public static string DoRequest(Uri uri, object parameters)
         {
             var sb = new StringBuilder();
-            Dictionary<string, string> Dic = new Dictionary<string, string>();
+            var apiParams = new Dictionary<string, string>();
 
-            foreach (System.Reflection.PropertyInfo var in parameters.GetType().GetProperties())
+            foreach (var property in parameters.GetType().GetProperties())
             {
                 string jsonPropertyName = null;
 
-                if (var.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Length > 0)
+                if (property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Length > 0)
                 {
-                    jsonPropertyName= ((JsonPropertyAttribute)var.GetCustomAttributes(typeof(JsonPropertyAttribute), false)[0]).PropertyName;
+                    jsonPropertyName = ((JsonPropertyAttribute)property.GetCustomAttributes(typeof(JsonPropertyAttribute), false)[0]).PropertyName;
                 }
 
-                if (parameters.GetType().GetProperty(var.Name).GetValue(parameters, null) != null)
-                {
-                    if (string.IsNullOrEmpty(jsonPropertyName))
-                    {
-                        Dic.Add(var.Name, parameters.GetType().GetProperty(var.Name).GetValue(parameters, null).ToString());
-                    }
-                    else
-                    {
-                        Dic.Add(jsonPropertyName, parameters.GetType().GetProperty(var.Name).GetValue(parameters, null).ToString());
-                    }
-                }
+                if (null == parameters.GetType().GetProperty(property.Name).GetValue(parameters, null)) continue;
+
+                apiParams.Add(string.IsNullOrEmpty(jsonPropertyName) ? property.Name : jsonPropertyName,
+                    parameters.GetType().GetProperty(property.Name).GetValue(parameters, null).ToString());
             }
 
-            Dic.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
-            Dic.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
+            apiParams.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
+            apiParams.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
 
-            foreach (var key in Dic.Keys)
+            foreach (var key in apiParams.Keys)
             {
-                sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(Dic[key]));
+                sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(apiParams[key]));
             }
 
             return DoRequest(new Uri(uri, "?" + sb));
@@ -71,7 +65,7 @@ namespace Nexmo.Api
         public static string DoRequest(Uri uri)
         {
             var req = WebRequest.CreateHttp(uri);
-            
+
             var resp = req.GetResponseAsync().Result;
             string json;
             using (var sr = new StreamReader(resp.GetResponseStream()))
