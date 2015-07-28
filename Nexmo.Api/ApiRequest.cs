@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace Nexmo.Api
 {
@@ -29,10 +30,48 @@ namespace Nexmo.Api
             return DoRequest(new Uri(uri, "?" + sb));
         }
 
+        public static string DoRequest(Uri uri, object parameters)
+        {
+            var sb = new StringBuilder();
+            Dictionary<string, string> Dic = new Dictionary<string, string>();
+
+            foreach (System.Reflection.PropertyInfo var in parameters.GetType().GetProperties())
+            {
+                string jsonPropertyName = null;
+
+                if (var.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Length > 0)
+                {
+                    jsonPropertyName= ((JsonPropertyAttribute)var.GetCustomAttributes(typeof(JsonPropertyAttribute), false)[0]).PropertyName;
+                }
+
+                if (parameters.GetType().GetProperty(var.Name).GetValue(parameters, null) != null)
+                {
+                    if (string.IsNullOrEmpty(jsonPropertyName))
+                    {
+                        Dic.Add(var.Name, parameters.GetType().GetProperty(var.Name).GetValue(parameters, null).ToString());
+                    }
+                    else
+                    {
+                        Dic.Add(jsonPropertyName, parameters.GetType().GetProperty(var.Name).GetValue(parameters, null).ToString());
+                    }
+                }
+            }
+
+            Dic.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
+            Dic.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
+
+            foreach (var key in Dic.Keys)
+            {
+                sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(Dic[key]));
+            }
+
+            return DoRequest(new Uri(uri, "?" + sb));
+        }
+
         public static string DoRequest(Uri uri)
         {
             var req = WebRequest.CreateHttp(uri);
-
+            
             var resp = req.GetResponseAsync().Result;
             string json;
             using (var sr = new StreamReader(resp.GetResponseStream()))
