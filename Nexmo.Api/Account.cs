@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using Newtonsoft.Json;
+using Nexmo.Api.Request;
 
 namespace Nexmo.Api
 {

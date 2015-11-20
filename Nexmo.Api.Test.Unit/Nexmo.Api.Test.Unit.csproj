@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EE7DA727-2AE3-4C76-809A-56B7433004FE}</ProjectGuid>
+    <ProjectGuid>{62C64008-D7DF-4647-8C2B-4F8A15A21631}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nexmo.Api</RootNamespace>
-    <AssemblyName>Nexmo.Api</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Nexmo.Api.Test.Unit</RootNamespace>
+    <AssemblyName>Nexmo.Api.Test.Unit</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,14 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.0.5797.27534, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,25 +47,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Request\WebRequestAdapter.cs" />
-    <Compile Include="Request\IHttpWebRequest.cs" />
-    <Compile Include="Request\IHttpWebRequestFactory.cs" />
-    <Compile Include="Request\IWebResponse.cs" />
-    <Compile Include="Request\WebResponseAdapter.cs" />
-    <Compile Include="NumberVerify.cs" />
-    <Compile Include="NumberInsight.cs" />
-    <Compile Include="Voice.cs" />
-    <Compile Include="ShortCode.cs" />
-    <Compile Include="SMS.cs" />
-    <Compile Include="Search.cs" />
-    <Compile Include="Number.cs" />
-    <Compile Include="Account.cs" />
-    <Compile Include="Request\ApiRequest.cs" />
+    <Compile Include="AccountTest.cs" />
+    <Compile Include="MockWebRequestFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request\NetWebRequestFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config.example" />
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nexmo.Api\Nexmo.Api.csproj">
+      <Project>{EE7DA727-2AE3-4C76-809A-56B7433004FE}</Project>
+      <Name>Nexmo.Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

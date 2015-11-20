@@ -1,17 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 
-namespace Nexmo.Api
+namespace Nexmo.Api.Request
 {
-    public static class ApiRequest
+    internal static class ApiRequest
     {
+        private static IHttpWebRequestFactory _webRequestFactory = new NetWebRequestFactory();
+        public static IHttpWebRequestFactory WebRequestFactory
+        {
+            get
+            {
+                return _webRequestFactory;
+            }
+            set { _webRequestFactory = value; }
+        }
+
         public static Uri GetBaseUriFor(Type component, string url = null)
         {
             var baseUri = typeof(NumberVerify) == component ? new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Api"]) : new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Rest"]);
@@ -64,14 +73,15 @@ namespace Nexmo.Api
 
         public static string DoRequest(Uri uri)
         {
-            var req = WebRequest.CreateHttp(uri);
+            var req = _webRequestFactory.CreateHttp(uri);
 
-            var resp = req.GetResponseAsync().Result;
+            var resp = req.GetResponse();
             string json;
             using (var sr = new StreamReader(resp.GetResponseStream()))
             {
                 json = sr.ReadToEnd();
             }
+            Debug.WriteLine(json);
             return json;
         }
 
@@ -85,7 +95,7 @@ namespace Nexmo.Api
                 sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(parameters[key]));
             }
 
-            var req = WebRequest.CreateHttp(uri);
+            var req = _webRequestFactory.CreateHttp(uri);
 
             req.Method = "POST";
             var data = Encoding.ASCII.GetBytes(sb.ToString());
@@ -96,7 +106,7 @@ namespace Nexmo.Api
             requestStream.Write(data, 0, data.Length);
             requestStream.Close();
 
-            var resp = req.GetResponseAsync().Result;
+            var resp = req.GetResponse();
             string json;
             using (var sr = new StreamReader(resp.GetResponseStream()))
             {

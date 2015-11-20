@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <appSettings>
+    <add key="Nexmo.Url.Rest" value="https://rest-sandbox.nexmo.com"/>
+    <add key="Nexmo.Url.Api" value="https://api.nexmo.com"/>
+    <add key="Nexmo.api_key" value="deadbeef" />
+    <add key="Nexmo.api_secret" value="deadbeef" />
+  </appSettings>
+</configuration>
