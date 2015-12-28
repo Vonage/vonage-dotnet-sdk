@@ -48,9 +48,9 @@ API support status:
 * Account
   * [x] Balance
   * [x] Pricing
-  * [ ] Settings
-  * [ ] Top Up
-  * [ ] Numbers
+  * [X] Settings
+  * [X] Top Up
+  * [X] Numbers
 * Number
   * [X] Search
   * [X] Buy

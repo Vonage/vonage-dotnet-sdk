@@ -39,5 +39,58 @@ namespace Nexmo.Api.Test.Unit
             Assert.AreEqual("US-FIXED", pricing.networks[0].code);
             Assert.AreEqual("United States of America Landline", pricing.networks[0].network);
         }
+
+        [Test]
+        public void should_set_settings()
+        {
+            var resp = new Mock<IWebResponse>();
+            resp.Setup(e => e.GetResponseStream()).Returns(new MemoryStream(Encoding.UTF8.GetBytes(
+@"{""api-secret"": ""newSecret1"",""mo-callback-url"": ""http://mo.callbackurl.com"",""dr-callback-url"": ""http://dr.callbackurl.com"",}")));
+            var postDataStream = new MemoryStream();
+            _request.Setup(e => e.GetRequestStream()).Returns(postDataStream);
+            _request.Setup(e => e.GetResponse()).Returns(resp.Object);
+            var result = Account.SetSettings("newSecret1", "http://mo.callbackurl.com", "http://dr.callbackurl.com");
+
+            _mock.Verify(h => h.CreateHttp(new Uri(
+                string.Format("{0}/account/settings", RestUrl))),
+                Times.Once);
+            postDataStream.Position = 0;
+            var sr = new StreamReader(postDataStream);
+            var postData = sr.ReadToEnd();
+            Assert.AreEqual(string.Format("newSecret=newSecret1&moCallBackUrl=http%3a%2f%2fmo.callbackurl.com&drCallBackUrl=http%3a%2f%2fdr.callbackurl.com&api_key={0}&api_secret={1}&", ApiKey, ApiSecret), postData);
+
+            Assert.AreEqual("newSecret1", result.apiSecret);
+            Assert.AreEqual("http://mo.callbackurl.com", result.moCallbackUrl);
+            Assert.AreEqual("http://dr.callbackurl.com", result.drCallbackUrl);
+        }
+
+        [Test]
+        public void should_topUp()
+        {
+            var resp = new Mock<IWebResponse>();
+            resp.Setup(e => e.GetResponseStream()).Returns(new MemoryStream(Encoding.UTF8.GetBytes(@"{}")));
+            _request.Setup(e => e.GetResponse()).Returns(resp.Object);
+            Account.TopUp("00X123456Y7890123Z");
+
+            _mock.Verify(h => h.CreateHttp(new Uri(
+                string.Format("{0}/account/top-up?trx=00X123456Y7890123Z&api_key={1}&api_secret={2}&", RestUrl, ApiKey, ApiSecret))),
+                Times.Once);
+        }
+
+        [Test]
+        public void should_get_numbers()
+        {
+            var resp = new Mock<IWebResponse>();
+            resp.Setup(e => e.GetResponseStream()).Returns(new MemoryStream(Encoding.UTF8.GetBytes(
+@"{""count"":1,""numbers"":[{""country"":""US"",""msisdn"":""17775551212"",""type"":""mobile-lvn"",""features"":[""VOICE"",""SMS""]}]}")));
+            _request.Setup(e => e.GetResponse()).Returns(resp.Object);
+            var numbers = Account.GetNumbers();
+
+            _mock.Verify(h => h.CreateHttp(new Uri(
+                string.Format("{0}/account/numbers?api_key={1}&api_secret={2}&", RestUrl, ApiKey, ApiSecret))),
+                Times.Once);
+            Assert.AreEqual(1, numbers.count);
+            Assert.AreEqual("17775551212", numbers.numbers[0].msisdn);
+        }
     }
 }
