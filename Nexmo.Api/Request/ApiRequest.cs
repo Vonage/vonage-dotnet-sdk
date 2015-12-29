@@ -40,18 +40,18 @@ namespace Nexmo.Api.Request
             return DoRequest(new Uri(uri, "?" + sb));
         }
 
-        public static string DoRequest(Uri uri, object parameters)
+        private static Dictionary<string, string> GetParameters(object parameters)
         {
-            var sb = new StringBuilder();
             var apiParams = new Dictionary<string, string>();
-
             foreach (var property in parameters.GetType().GetProperties())
             {
                 string jsonPropertyName = null;
 
-                if (property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Length > 0)
+                if (property.GetCustomAttributes(typeof (JsonPropertyAttribute), false).Length > 0)
                 {
-                    jsonPropertyName = ((JsonPropertyAttribute)property.GetCustomAttributes(typeof(JsonPropertyAttribute), false)[0]).PropertyName;
+                    jsonPropertyName =
+                        ((JsonPropertyAttribute) property.GetCustomAttributes(typeof (JsonPropertyAttribute), false)[0])
+                            .PropertyName;
                 }
 
                 if (null == parameters.GetType().GetProperty(property.Name).GetValue(parameters, null)) continue;
@@ -59,10 +59,17 @@ namespace Nexmo.Api.Request
                 apiParams.Add(string.IsNullOrEmpty(jsonPropertyName) ? property.Name : jsonPropertyName,
                     parameters.GetType().GetProperty(property.Name).GetValue(parameters, null).ToString());
             }
+            return apiParams;
+        }
+
+        public static string DoRequest(Uri uri, object parameters)
+        {
+            var apiParams = GetParameters(parameters);
 
             apiParams.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
             apiParams.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
 
+            var sb = new StringBuilder();
             foreach (var key in apiParams.Keys)
             {
                 sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(apiParams[key]));
@@ -85,11 +92,17 @@ namespace Nexmo.Api.Request
             return json;
         }
 
+        public static string DoPostRequest(Uri uri, object parameters)
+        {
+            var apiParams = GetParameters(parameters);
+            return DoPostRequest(uri, apiParams);            
+        }
+
         public static string DoPostRequest(Uri uri, Dictionary<string, string> parameters)
         {
-            var sb = new StringBuilder();
             parameters.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
             parameters.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
+            var sb = new StringBuilder();
             foreach (var key in parameters.Keys)
             {
                 sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(parameters[key]));

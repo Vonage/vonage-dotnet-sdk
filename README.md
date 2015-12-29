@@ -52,10 +52,10 @@ API support status:
   * [ ] Top Up
   * [ ] Numbers
 * Number
-  * [ ] Search
-  * [ ] Buy
-  * [ ] Cancel
-  * [ ] Update
+  * [X] Search
+  * [X] Buy
+  * [X] Cancel
+  * [X] Update
 * NumberInsight
   * [x] Request
   * [x] Response

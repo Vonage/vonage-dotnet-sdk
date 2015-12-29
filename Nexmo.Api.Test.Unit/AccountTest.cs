@@ -8,21 +8,8 @@ using NUnit.Framework;
 namespace Nexmo.Api.Test.Unit
 {
     [TestFixture]
-    public class AccountTest
+    internal class AccountTest : MockedWebTest
     {
-        private Mock<IHttpWebRequestFactory> _mock;
-        private Mock<IHttpWebRequest> _request;
-
-        [SetUp]
-        public void Setup()
-        {
-            _mock = new Mock<IHttpWebRequestFactory>();
-            _request = new Mock<IHttpWebRequest>();
-            _mock.Setup(x => x.CreateHttp(It.IsAny<Uri>()))
-                .Returns<Uri>(r => _request.Object);
-            ApiRequest.WebRequestFactory = _mock.Object;
-        }
-
         [Test]
         public void should_get_account_balance()
         {
@@ -31,7 +18,9 @@ namespace Nexmo.Api.Test.Unit
             _request.Setup(e => e.GetResponse()).Returns(resp.Object);
             var balance = Account.GetBalance();
 
-            _mock.Verify(h => h.CreateHttp(new Uri("https://rest-sandbox.nexmo.com/account/get-balance/SD_81218/PS_90451")), Times.Once);
+            _mock.Verify(h => h.CreateHttp(new Uri(
+                string.Format("{0}/account/get-balance/{1}/{2}", RestUrl, ApiKey, ApiSecret))),
+                Times.Once);
             Assert.AreEqual(.43d, balance);
         }
 
@@ -44,7 +33,9 @@ namespace Nexmo.Api.Test.Unit
             _request.Setup(e => e.GetResponse()).Returns(resp.Object);
             var pricing = Account.GetPricing("US");
 
-            _mock.Verify(h => h.CreateHttp(new Uri("https://rest-sandbox.nexmo.com/account/get-pricing/outbound/SD_81218/PS_90451/US")), Times.Once);
+            _mock.Verify(h => h.CreateHttp(new Uri(
+                string.Format("{0}/account/get-pricing/outbound/{1}/{2}/US", RestUrl, ApiKey, ApiSecret))),
+                Times.Once);
             Assert.AreEqual("US-FIXED", pricing.networks[0].code);
             Assert.AreEqual("United States of America Landline", pricing.networks[0].network);
         }

@@ -53,6 +53,7 @@
     <Compile Include="Request\WebResponseAdapter.cs" />
     <Compile Include="NumberVerify.cs" />
     <Compile Include="NumberInsight.cs" />
+    <Compile Include="ResponseBase.cs" />
     <Compile Include="Voice.cs" />
     <Compile Include="ShortCode.cs" />
     <Compile Include="SMS.cs" />
