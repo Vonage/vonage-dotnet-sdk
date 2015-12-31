@@ -64,9 +64,9 @@ API support status:
   * [x] Check
   * [x] Search
 * Search
-  * [ ] Message
-  * [ ] Messages
-  * [ ] Rejections
+  * [X] Message
+  * [X] Messages
+  * [X] Rejections
 * Short Code
   * [ ] 2FA
   * [ ] Event-based
