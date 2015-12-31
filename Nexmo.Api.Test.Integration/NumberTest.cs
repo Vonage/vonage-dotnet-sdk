@@ -10,8 +10,6 @@ namespace Nexmo.Api.Test.Integration
         [Test]
         public void should_search_numbers()
         {
-            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-
             var results = Number.Search(new Number.SearchRequest
             {
                 country = "US"
@@ -36,8 +34,6 @@ namespace Nexmo.Api.Test.Integration
         [Test]
         public void should_buy_then_update_finally_cancel_number()
         {
-            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-
             // find a number to buy
             const string country = "US";
             var results = Number.Search(new Number.SearchRequest

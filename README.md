@@ -36,7 +36,7 @@ Make sure to copy web.config.example to web.config and enter your key/secret.
 Developer Instructions: 
 ===========================
 
-We are currently targeting the 4.5 framework and using Visual Studio 2013 SP4.
+We are currently targeting the 4.5.2 framework and using Visual Studio 2013 Update 5.
 
 1. Get latest code either by cloning the repository or downloading a snapshot of the source
 2. Open "Nexmo.Api.sln"

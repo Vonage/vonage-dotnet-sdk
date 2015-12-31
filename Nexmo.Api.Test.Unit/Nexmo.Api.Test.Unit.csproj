@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MockedWebTest.cs" />
+    <Compile Include="SmsTest.cs" />
     <Compile Include="NumberTest.cs" />
     <Compile Include="AccountTest.cs" />
     <Compile Include="MockWebRequestFactory.cs" />
