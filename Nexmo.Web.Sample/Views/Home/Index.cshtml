@@ -2,8 +2,42 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
 <h1>Nexmo Sample</h1>
+
+<h2>SMS</h2>
+<h3>Send</h3>
+@using (Html.BeginForm("Sms", "Home"))
+{
+    @Html.LabelFor(m => m.SMS.from)
+    @Html.TextBoxFor(m => m.SMS.from)
+
+    @Html.LabelFor(m => m.SMS.to)
+    @Html.TextBoxFor(m => m.SMS.to)
+
+    @Html.LabelFor(m => m.SMS.text)
+    @Html.TextAreaFor(m => m.SMS.text)
+
+    <input type="submit" />
+}
+<h3>Receipts</h3>
+@if (!Model.Receipts.Any())
+{
+    <span>No receipts</span>
+}
+@foreach (var r in Model.Receipts)
+{
+    <span>@r.to - recv'd @r.message_timestamp</span>
+}
+<h3>Inbounds</h3>
+@if (!Model.Inbounds.Any())
+{
+    <span>No inbounds</span>
+}
+@foreach (var i in Model.Inbounds)
+{
+    <span>[@i.message_timestamp] @i.msisdn => @i.to = @i.text</span>
+}
+<hr/>
 
 <h2>Number Insight</h2>
 @using (Html.BeginForm("NumberInsight", "Home"))

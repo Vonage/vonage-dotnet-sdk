@@ -1,9 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using Nexmo.Api;
 
 namespace Nexmo.Web.Sample.Models
 {
     public class Actions
     {
+        public SMS.SMSRequest SMS { get; set; }
+        public List<SMS.SMSDeliveryReceipt> Receipts { get; set; }
+        public List<SMS.SMSInbound> Inbounds { get; set; }
+
         public NumberInsight NI { get; set; }
         public NumberVerify NV_V { get; set; }
         public NumberVerifyCheck NV_C { get; set; }

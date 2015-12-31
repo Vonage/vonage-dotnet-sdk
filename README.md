@@ -73,8 +73,8 @@ API support status:
   * [ ] Marketing
 * SMS
   * [X] Send
-  * [ ] Receipt
-  * [ ] Inbound
+  * [X] Receipt
+  * [X] Inbound
 * Voice
   * [ ] Call
   * [ ] TTS/TTS Prompt

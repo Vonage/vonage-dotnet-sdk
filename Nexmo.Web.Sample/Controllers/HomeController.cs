@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Runtime.Caching;
+using System.Web.Mvc;
+using Nexmo.Api;
 using Nexmo.Web.Sample.Models;
 using NumberInsight = Nexmo.Api.NumberInsight;
 using NumberVerify = Nexmo.Api.NumberVerify;
@@ -9,8 +12,35 @@ namespace Nexmo.Web.Sample.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            const string receiptKey = "sms_receipts";
+            var receipts = new List<SMS.SMSDeliveryReceipt>();
+            if (MemoryCache.Default.Contains(receiptKey))
+            {
+                receipts = (List<SMS.SMSDeliveryReceipt>)MemoryCache.Default.Get(receiptKey);
+                MemoryCache.Default.Remove(receiptKey);
+            }
+
+            const string inboundsKey = "sms_inbounds";
+            var inbounds = new List<SMS.SMSInbound>();
+            if (MemoryCache.Default.Contains(inboundsKey))
+            {
+                inbounds = (List<SMS.SMSInbound>)MemoryCache.Default.Get(inboundsKey);
+                MemoryCache.Default.Remove(inboundsKey);
+            }
+
+            return View(new Actions
+            {
+                Receipts = receipts,
+                Inbounds = inbounds
+            });
         }
+
+        [HttpPost]
+        public ActionResult Sms(Actions act)
+        {
+            return Json(SMS.SendSMS(act.SMS));
+        }
+
 
         [HttpPost]
         public ActionResult NumberInsight(Actions act)

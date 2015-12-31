@@ -140,6 +140,48 @@ namespace Nexmo.Api
             public string error_text { get; set; }
         }
 
+        public class SMSDeliveryReceipt
+        {
+            public string to { get; set; }
+            [JsonProperty("network-code")]
+            public string network_code { get; set; }
+            public string messageId { get; set; }
+            public string msisdn { get; set; }
+            public string status { get; set; }
+            [JsonProperty("err-code")]
+            public string err_code { get; set; }
+            public string price { get; set; }
+            public string scts { get; set; }
+            [JsonProperty("message-timestamp")]
+            public string message_timestamp { get; set; }
+            [JsonProperty("client-ref")]
+            public string client_ref { get; set; }            
+        }
+
+        public class SMSInbound
+        {
+            public string type { get; set; }
+            public string to { get; set; }
+            public string msisdn { get; set; }
+            public string messageId { get; set; }
+            [JsonProperty("message-timestamp")]
+            public string message_timestamp { get; set; }
+
+            public string text { get; set; }
+            public string keyword { get; set; }
+
+            public string concat { get; set; }
+            [JsonProperty("concat-ref")]
+            public string concat_ref { get; set; }
+            [JsonProperty("concat-total")]
+            public string concat_total { get; set; }
+            [JsonProperty("concat-part")]
+            public string concat_part { get; set; }
+
+            public string data { get; set; }
+            public string udh { get; set; }
+        }
+
         public static SMSResponse SendSMS(SMSRequest request)
         {
             if (string.IsNullOrEmpty(request.from))
@@ -151,9 +193,5 @@ namespace Nexmo.Api
 
             return JsonConvert.DeserializeObject<SMSResponse>(jsonstring);
         }
-
-        // TODO: deliver receipt callback
-
-        // TODO: inbound msg
     }
 }
