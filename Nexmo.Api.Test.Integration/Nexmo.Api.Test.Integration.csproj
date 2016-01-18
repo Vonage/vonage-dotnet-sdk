@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ShortCodeTest.cs" />
     <Compile Include="SearchTest.cs" />
     <Compile Include="SmsTest.cs" />
     <Compile Include="NumberTest.cs" />

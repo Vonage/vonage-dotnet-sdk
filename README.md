@@ -68,8 +68,8 @@ API support status:
   * [X] Messages
   * [X] Rejections
 * Short Code
-  * [ ] 2FA
-  * [ ] Event-based
+  * [X] 2FA
+  * [X] Alerts
   * [ ] Marketing
 * SMS
   * [X] Send

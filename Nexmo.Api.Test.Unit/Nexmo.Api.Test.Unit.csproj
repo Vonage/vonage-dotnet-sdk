@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ShortCodeTest.cs" />
     <Compile Include="MockedWebTest.cs" />
     <Compile Include="SearchTest.cs" />
     <Compile Include="SmsTest.cs" />

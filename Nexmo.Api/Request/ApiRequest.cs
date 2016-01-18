@@ -62,7 +62,7 @@ namespace Nexmo.Api.Request
             return apiParams;
         }
 
-        public static string DoRequest(Uri uri, object parameters)
+        public static StringBuilder GetQueryStringBuilderFor(object parameters)
         {
             var apiParams = GetParameters(parameters);
 
@@ -74,6 +74,12 @@ namespace Nexmo.Api.Request
             {
                 sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(apiParams[key]));
             }
+            return sb;
+        }
+
+        public static string DoRequest(Uri uri, object parameters)
+        {
+            var sb = GetQueryStringBuilderFor(parameters);
 
             return DoRequest(new Uri(uri, "?" + sb));
         }
