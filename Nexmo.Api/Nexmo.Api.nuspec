@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Nexmo.Csharp.Client</id>
+    <version>$version$</version>
+    <title>Nexmo.Csharp.Client</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/Nexmo/csharp-client/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/Nexmo/csharp-client</projectUrl>
+    <iconUrl>https://dashboard.nexmo.com/apple-touch-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>© Nexmo 2016</copyright>
+    <tags>SMS voice telephony phone nexmo</tags>
+  </metadata>
+</package>

@@ -65,6 +65,7 @@
     <Compile Include="Request\NetWebRequestFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Nexmo.Api.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
