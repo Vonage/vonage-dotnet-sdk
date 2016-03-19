@@ -3,7 +3,7 @@
   <metadata>
     <id>Nexmo.Csharp.Client</id>
     <version>$version$</version>
-    <title>Nexmo.Csharp.Client</title>
+    <title>Nexmo API Client</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>https://github.com/Nexmo/csharp-client/blob/master/LICENSE.md</licenseUrl>

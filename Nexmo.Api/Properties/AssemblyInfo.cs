@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Nexmo.Api")]
-[assembly: AssemblyDescription("Official C#/.NET wrapper for the nexmo API (http://nexmo.com/)")]
+[assembly: AssemblyDescription("Official C#/.NET wrapper for the nexmo API")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Nexmo")]
 [assembly: AssemblyProduct("Nexmo.Api")]
