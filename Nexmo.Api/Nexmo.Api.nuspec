@@ -2,17 +2,27 @@
 <package >
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>$version$</version>
+    <version>1.0.0</version>
     <title>Nexmo API Client</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <authors>Nexmo</authors>
+    <owners>Nexmo</owners>
     <licenseUrl>https://github.com/Nexmo/csharp-client/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/Nexmo/csharp-client</projectUrl>
     <iconUrl>https://dashboard.nexmo.com/apple-touch-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>Official C#/.NET wrapper for the nexmo API</description>
     <releaseNotes>Initial release.</releaseNotes>
     <copyright>© Nexmo 2016</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
+    <dependencies>
+      <group>
+        <dependency id="Newtonsoft.Json" version="8.0.3" />
+      </group>
+    </dependencies>
   </metadata>
+  <files>
+    <file src="bin\net452\Nexmo.Api.dll" target="lib\net452\Nexmo.Api.dll" />
+    <file src="bin\net46\Nexmo.Api.dll" target="lib\net46\Nexmo.Api.dll" />
+    <file src="bin\net461\Nexmo.Api.dll" target="lib\net461\Nexmo.Api.dll" />
+  </files>
 </package>
