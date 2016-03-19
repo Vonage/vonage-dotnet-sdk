@@ -105,15 +105,19 @@ namespace Nexmo.Api
             public string status_report_req { get; set; }
             [JsonProperty("client-ref")]
             public string client_ref { get; set; }
-            [JsonProperty("network-code")]
-            public string network_code { get; set; }
-            public string vcar { get; set; }
+            public string vcard { get; set; }
             public string vcal { get; set; }
             public string ttl { get; set; }
+            public string callback { get; set; }
             [JsonProperty("message-class")]
             public string message_class { get; set; }
             public string udh { get; set; }
+            [JsonProperty("protocol-id")]
+            public string protocol_id { get; set; }
             public string body { get; set; }
+            public string title { get; set; }
+            public string url { get; set; }
+            public string validity { get; set; }
         }
 
         public class SMSResponse

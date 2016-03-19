@@ -16,7 +16,7 @@ namespace Nexmo.Api
             public string lg { get; set; }
             public string require_type { get; set; }
             public string pin_expiry { get; set; }
-            public string max_event_wait { get; set; }
+            public string next_event_wait { get; set; }
         }
 
         public class VerifyResponse
@@ -100,5 +100,7 @@ namespace Nexmo.Api
 
             return JsonConvert.DeserializeObject<SearchResponse>(jsonstring);
         }
+
+        // TODO: Verify Control
     }
 }

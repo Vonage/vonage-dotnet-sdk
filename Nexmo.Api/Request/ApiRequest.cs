@@ -94,7 +94,6 @@ namespace Nexmo.Api.Request
             {
                 json = sr.ReadToEnd();
             }
-            Debug.WriteLine(json);
             return json;
         }
 
