@@ -8,7 +8,7 @@ namespace Nexmo.Api.Test.Integration
         [Test]
         public void should_send_sms()
         {
-            var results = SMS.SendSMS(new SMS.SMSRequest
+            var results = SMS.Send(new SMS.SMSRequest
             {
                 from = "15555551212",
                 to = "17775551212",

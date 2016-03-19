@@ -186,7 +186,7 @@ namespace Nexmo.Api
             public string udh { get; set; }
         }
 
-        public static SMSResponse SendSMS(SMSRequest request)
+        public static SMSResponse Send(SMSRequest request)
         {
             if (string.IsNullOrEmpty(request.from))
             {

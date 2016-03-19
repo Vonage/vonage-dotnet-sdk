@@ -16,7 +16,7 @@ namespace Nexmo.Api.Test.Unit
             var resp = new Mock<IWebResponse>();
             resp.Setup(e => e.GetResponseStream()).Returns(new MemoryStream(Encoding.UTF8.GetBytes("{\"message-count\": \"1\",\"messages\": [{\"to\": \"17775551212\",\"message-id\": \"02000000A3AF32FA\",\"status\": \"0\",\"remaining-balance\": \"7.55560000\",\"message-price\": \"0.00480000\",\"network\": \"310004\"}]}")));
             _request.Setup(e => e.GetResponse()).Returns(resp.Object);
-            var results = SMS.SendSMS(new SMS.SMSRequest
+            var results = SMS.Send(new SMS.SMSRequest
             {
                 from = "98975",
                 to = "17775551212",

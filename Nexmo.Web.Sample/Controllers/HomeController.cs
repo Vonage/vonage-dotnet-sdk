@@ -33,7 +33,7 @@ namespace Nexmo.Web.Sample.Controllers
         [HttpPost]
         public ActionResult Sms(Actions act)
         {
-            return Json(SMS.SendSMS(act.SMS));
+            return Json(SMS.Send(act.SMS));
         }
 
 
