@@ -9,6 +9,8 @@ namespace Nexmo.Web.Sample.Models
         public SMS.SMSRequest SMS { get; set; }
         public List<SMS.SMSDeliveryReceipt> Receipts { get; set; }
         public List<SMS.SMSInbound> Inbounds { get; set; }
+        public List<Voice.CallReturn> VoiceReturns { get; set; }
+        public List<Voice.TextToSpeechReturn> TTSReturns { get; set; }
 
         public NumberInsight NI { get; set; }
         public NumberVerify NV_V { get; set; }

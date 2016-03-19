@@ -76,6 +76,5 @@ API support status:
   * [X] Receipt
   * [X] Inbound
 * Voice
-  * [ ] Call
-  * [ ] TTS/TTS Prompt
-  * [ ] SIP
+  * [X] Call
+  * [X] TTS/TTS Prompt

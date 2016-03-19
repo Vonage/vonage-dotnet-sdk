@@ -11,6 +11,7 @@ namespace Nexmo.Api.Test.Unit
         protected Mock<IHttpWebRequestFactory> _mock;
         protected Mock<IHttpWebRequest> _request;
 
+        protected string ApiUrl = ConfigurationManager.AppSettings["Nexmo.Url.Api"];
         protected string RestUrl = ConfigurationManager.AppSettings["Nexmo.Url.Rest"];
         protected string ApiKey = ConfigurationManager.AppSettings["Nexmo.api_key"];
         protected string ApiSecret = ConfigurationManager.AppSettings["Nexmo.api_secret"];

@@ -37,6 +37,24 @@
 {
     <span>[@i.message_timestamp] @i.msisdn => @i.to = @i.text</span>
 }
+<h3>Voice Returns</h3>
+@if (!Model.VoiceReturns.Any())
+{
+    <span>No call returns</span>
+}
+@foreach (var i in Model.VoiceReturns)
+{
+    <span>[@i.to] (@i.status) @i.CallDuration @i.CallPrice</span>
+}
+<h3>TTS Returns</h3>
+@if (!Model.TTSReturns.Any())
+{
+    <span>No TTS returns</span>
+}
+@foreach (var i in Model.TTSReturns)
+{
+    <span>[@i.to] (@i.status) @i.call_direction @i.call_price [@i.digits]</span>
+}
 <hr/>
 
 <h2>Number Insight</h2>

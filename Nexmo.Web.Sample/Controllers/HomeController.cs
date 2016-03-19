@@ -10,28 +10,23 @@ namespace Nexmo.Web.Sample.Controllers
 {
     public class HomeController : Controller
     {
+        private static List<T> GetFromCacheAndClear<T>(string key)
+        {
+            var values = new List<T>();
+            if (!MemoryCache.Default.Contains(key)) return values;
+            values = (List<T>)MemoryCache.Default.Get(key);
+            MemoryCache.Default.Remove(key);
+            return values;
+        }
+
         public ActionResult Index()
         {
-            const string receiptKey = "sms_receipts";
-            var receipts = new List<SMS.SMSDeliveryReceipt>();
-            if (MemoryCache.Default.Contains(receiptKey))
-            {
-                receipts = (List<SMS.SMSDeliveryReceipt>)MemoryCache.Default.Get(receiptKey);
-                MemoryCache.Default.Remove(receiptKey);
-            }
-
-            const string inboundsKey = "sms_inbounds";
-            var inbounds = new List<SMS.SMSInbound>();
-            if (MemoryCache.Default.Contains(inboundsKey))
-            {
-                inbounds = (List<SMS.SMSInbound>)MemoryCache.Default.Get(inboundsKey);
-                MemoryCache.Default.Remove(inboundsKey);
-            }
-
             return View(new Actions
             {
-                Receipts = receipts,
-                Inbounds = inbounds
+                Receipts = GetFromCacheAndClear<SMS.SMSDeliveryReceipt>("sms_receipts"),
+                Inbounds = GetFromCacheAndClear<SMS.SMSInbound>("sms_inbounds"),
+                VoiceReturns = GetFromCacheAndClear<Voice.CallReturn>("voice_call_returns"),
+                TTSReturns = GetFromCacheAndClear<Voice.TextToSpeechReturn>("tts_call_returns")
             });
         }
 
