@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="ShortCodeTest.cs" />
     <Compile Include="SearchTest.cs" />
+    <Compile Include="NumberInsightTest.cs" />
     <Compile Include="VoiceTest.cs" />
     <Compile Include="SmsTest.cs" />
     <Compile Include="NumberTest.cs" />
