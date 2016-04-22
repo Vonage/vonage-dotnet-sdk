@@ -101,6 +101,37 @@ namespace Nexmo.Api
             return JsonConvert.DeserializeObject<SearchResponse>(jsonstring);
         }
 
-        // TODO: Verify Control
-    }
+        public class ControlRequest
+        {
+            /// <summary>
+            /// The request_id you received in the Verify Request Response
+            /// </summary>
+            public string request_id { get; set; }
+            /// <summary>
+            /// Change the command workflow. Supported values are:
+            ///   cancel - stop the request
+            ///   trigger_next_event - advance the request to the next part of the process.
+            /// </summary>
+            public string cmd { get; set; }
+        }
+
+        public class ControlResponse
+        {
+            /// <summary>
+            /// The Verify Control Response code) that explains how your request proceeded
+            /// </summary>
+            public string status { get; set; }
+            /// <summary>
+            /// The cmd you sent in the request.
+            /// </summary>
+            public string command { get; set; }
+        }
+
+        public static ControlResponse Control(ControlRequest request)
+        {
+            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), request);
+
+            return JsonConvert.DeserializeObject<ControlResponse>(jsonstring);
+        }
+}
 }

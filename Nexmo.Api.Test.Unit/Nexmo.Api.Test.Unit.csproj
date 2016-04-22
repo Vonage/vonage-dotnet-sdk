@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NumberVerifyTest.cs" />
     <Compile Include="ShortCodeTest.cs" />
     <Compile Include="MockedWebTest.cs" />
     <Compile Include="SearchTest.cs" />
