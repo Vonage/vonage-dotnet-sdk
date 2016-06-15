@@ -6,7 +6,6 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
  * [Installation](#installation)
  * [Configuration](#configuration)
- * [Usage](#usage)
  * [Examples](#examples)
  * [Coverage](#api-coverage)
  * [Contributing](#contributing)
