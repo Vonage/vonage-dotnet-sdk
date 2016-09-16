@@ -67,6 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application.cs" />
+    <Compile Include="Request\NexmoResponse.cs" />
     <Compile Include="Request\WebRequestAdapter.cs" />
     <Compile Include="Request\IHttpWebRequest.cs" />
     <Compile Include="Request\IHttpWebRequestFactory.cs" />

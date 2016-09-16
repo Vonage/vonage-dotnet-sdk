@@ -104,11 +104,11 @@ namespace Nexmo.Api
             if (null != httpDrCallbackurlCom)
                 parameters.Add("drCallBackUrl", httpDrCallbackurlCom);
 
-            var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/settings"), parameters);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/settings"), parameters);
 
             // TODO: update secret?
 
-            return JsonConvert.DeserializeObject<Settings>(jsonstring);
+            return JsonConvert.DeserializeObject<Settings>(response.JsonResponse);
         }
 
         public static void TopUp(string transaction)

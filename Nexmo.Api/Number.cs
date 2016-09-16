@@ -89,31 +89,31 @@ namespace Nexmo.Api
 
         public static ResponseBase Buy(string country, string number)
         {
-            var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/buy"), new Dictionary<string, string>()
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/buy"), new Dictionary<string, string>()
             {
                 {"country", country},
                 {"msisdn", number}
             });
 
-            return JsonConvert.DeserializeObject<ResponseBase>(jsonstring);
+            return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }
 
         public static ResponseBase Update(NumberUpdateCommand cmd)
         {
-            var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/update"), cmd);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/update"), cmd);
 
-            return JsonConvert.DeserializeObject<ResponseBase>(jsonstring);
+            return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }
 
         public static ResponseBase Cancel(string country, string number)
         {
-            var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/cancel"), new Dictionary<string, string>
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/cancel"), new Dictionary<string, string>
             {
                 {"country", country},
                 {"msisdn", number}
             });
 
-            return JsonConvert.DeserializeObject<ResponseBase>(jsonstring);
+            return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }
     }
 }

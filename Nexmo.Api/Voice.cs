@@ -352,9 +352,9 @@ namespace Nexmo.Api
 
         public static CallRequestResponse Call(CallCommand cmd)
         {
-            var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Voice), "/call/json"), cmd);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Voice), "/call/json"), cmd);
 
-            return JsonConvert.DeserializeObject<CallRequestResponse>(jsonstring);
+            return JsonConvert.DeserializeObject<CallRequestResponse>(response.JsonResponse);
         }
 
         public static CallReturn ParseCallReturn(string json)
@@ -364,9 +364,9 @@ namespace Nexmo.Api
 
         public static TextToSpeechRequestResponse TextToSpeech(TextToSpeechCallCommand cmd)
         {
-            var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/tts/json"), cmd);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/tts/json"), cmd);
 
-            return JsonConvert.DeserializeObject<TextToSpeechRequestResponse>(jsonstring);
+            return JsonConvert.DeserializeObject<TextToSpeechRequestResponse>(response.JsonResponse);
         }
 
         public static TextToSpeechReturn ParseTextToSpeechReturn(string json)
@@ -379,14 +379,14 @@ namespace Nexmo.Api
             var confirm = cmd as TextToSpeechPromptConfirmCommand;
             if (confirm != null)
             {
-                var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/tts-prompt/json"), confirm);
-                return JsonConvert.DeserializeObject<TextToSpeechRequestResponse>(jsonstring);
+                var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/tts-prompt/json"), confirm);
+                return JsonConvert.DeserializeObject<TextToSpeechRequestResponse>(response.JsonResponse);
             }
             var capture = cmd as TextToSpeechPromptCaptureCommand;
             if (capture != null)
             {
-                var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/tts-prompt/json"), capture);
-                return JsonConvert.DeserializeObject<TextToSpeechRequestResponse>(jsonstring);
+                var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/tts-prompt/json"), capture);
+                return JsonConvert.DeserializeObject<TextToSpeechRequestResponse>(response.JsonResponse);
             }
             throw new ArgumentException("cmd must be either confirm or capture");
         }

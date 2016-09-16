@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json;
@@ -23,7 +23,16 @@ namespace Nexmo.Api.Request
 
         public static Uri GetBaseUriFor(Type component, string url = null)
         {
-            var baseUri = typeof(NumberVerify) == component ? new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Api"]) : new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Rest"]);
+            Uri baseUri;
+            if (typeof(NumberVerify) == component
+                || typeof(Application) == component)
+            {
+                baseUri = new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Api"]);
+            }
+            else
+            {
+                baseUri = new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Rest"]);
+            }
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
 
@@ -97,25 +106,23 @@ namespace Nexmo.Api.Request
             return json;
         }
 
-        public static string DoPostRequest(Uri uri, object parameters)
+        public static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters)
         {
-            var apiParams = GetParameters(parameters);
-            return DoPostRequest(uri, apiParams);            
-        }
-
-        public static string DoPostRequest(Uri uri, Dictionary<string, string> parameters)
-        {
-            parameters.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
-            parameters.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
             var sb = new StringBuilder();
-            foreach (var key in parameters.Keys)
+            // if parameters is null, assume that key and secret have been taken care of
+            if (null != parameters)
             {
-                sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(parameters[key]));
+                parameters.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
+                parameters.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
+                foreach (var key in parameters.Keys)
+                {
+                    sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(parameters[key]));
+                }
             }
 
             var req = _webRequestFactory.CreateHttp(uri);
 
-            req.Method = "POST";
+            req.Method = method;
             var data = Encoding.ASCII.GetBytes(sb.ToString());
 
             req.ContentType = "application/x-www-form-urlencoded";
@@ -124,13 +131,47 @@ namespace Nexmo.Api.Request
             requestStream.Write(data, 0, data.Length);
             requestStream.Close();
 
-            var resp = req.GetResponse();
-            string json;
-            using (var sr = new StreamReader(resp.GetResponseStream()))
+            try
             {
-                json = sr.ReadToEnd();
+                var resp = req.GetResponse();
+                string json;
+                using (var sr = new StreamReader(resp.GetResponseStream()))
+                {
+                    json = sr.ReadToEnd();
+                }
+                return new NexmoResponse
+                {
+                    Status = resp.GetResponseStatusCode(),
+                    JsonResponse = json
+                };
             }
-            return json;
+            catch (WebException ex)
+            {
+                return new NexmoResponse
+                {
+                    Status = ((HttpWebResponse)ex.Response).StatusCode
+                };
+            }
         }
+
+        public static NexmoResponse DoPostRequest(Uri uri, object parameters)
+        {
+            var apiParams = GetParameters(parameters);
+            return DoPostRequest(uri, apiParams);            
+        }
+        public static NexmoResponse DoPutRequest(Uri uri, object parameters)
+        {
+            var apiParams = GetParameters(parameters);
+            return DoPutRequest(uri, apiParams);
+        }
+        public static NexmoResponse DoDeleteRequest(Uri uri, object parameters)
+        {
+            var apiParams = GetParameters(parameters);
+            return DoDeleteRequest(uri, apiParams);
+        }
+
+        public static NexmoResponse DoPostRequest(Uri uri, Dictionary<string, string> parameters) => DoRequest("POST", uri, parameters);
+        public static NexmoResponse DoPutRequest(Uri uri, Dictionary<string, string> parameters) => DoRequest("PUT", uri, parameters);
+        public static NexmoResponse DoDeleteRequest(Uri uri, Dictionary<string, string> parameters) => DoRequest("DELETE", uri, parameters);
     }
 }

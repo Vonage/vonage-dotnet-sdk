@@ -125,27 +125,27 @@ namespace Nexmo.Api
 
         public static NumberInsightBasicResponse RequestBasic(NumberInsightBasicRequest request)
         {
-            var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/number/format/json"), request);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/number/format/json"), request);
 
-            return JsonConvert.DeserializeObject<NumberInsightBasicResponse>(jsonstring);
+            return JsonConvert.DeserializeObject<NumberInsightBasicResponse>(response.JsonResponse);
         }
 
         public static NumberInsightStandardResponse RequestStandard(NumberInsightBasicRequest request)
         {
-            var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/number/lookup/json"), request);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/number/lookup/json"), request);
 
-            return JsonConvert.DeserializeObject<NumberInsightStandardResponse>(jsonstring);
+            return JsonConvert.DeserializeObject<NumberInsightStandardResponse>(response.JsonResponse);
         }
 
         public static NumberInsightRequestResponse Request(NumberInsightRequest request)
         {
-            var jsonstring = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberInsight), "/ni/json"), new Dictionary<string, string>
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberInsight), "/ni/json"), new Dictionary<string, string>
             {
                 {"number", request.Number},
                 {"callback", request.Callback}
             });
 
-            return JsonConvert.DeserializeObject<NumberInsightRequestResponse>(jsonstring);
+            return JsonConvert.DeserializeObject<NumberInsightRequestResponse>(response.JsonResponse);
         }
 
         public static NumberInsightResponse Response(string json)

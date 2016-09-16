@@ -16,5 +16,10 @@ namespace Nexmo.Api.Request
         {
             return _response.GetResponseStream();
         }
+
+        public HttpStatusCode GetResponseStatusCode()
+        {
+            return ((HttpWebResponse) _response).StatusCode;
+        }
     }
 }
