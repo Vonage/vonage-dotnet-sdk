@@ -21,11 +21,34 @@ namespace Nexmo.Api.Request
             set { _webRequestFactory = value; }
         }
 
+        private static Dictionary<string, string> GetParameters(object parameters)
+        {
+            var apiParams = new Dictionary<string, string>();
+            foreach (var property in parameters.GetType().GetProperties())
+            {
+                string jsonPropertyName = null;
+
+                if (property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Length > 0)
+                {
+                    jsonPropertyName =
+                        ((JsonPropertyAttribute)property.GetCustomAttributes(typeof(JsonPropertyAttribute), false)[0])
+                            .PropertyName;
+                }
+
+                if (null == parameters.GetType().GetProperty(property.Name).GetValue(parameters, null)) continue;
+
+                apiParams.Add(string.IsNullOrEmpty(jsonPropertyName) ? property.Name : jsonPropertyName,
+                    parameters.GetType().GetProperty(property.Name).GetValue(parameters, null).ToString());
+            }
+            return apiParams;
+        }
+
         public static Uri GetBaseUriFor(Type component, string url = null)
         {
             Uri baseUri;
             if (typeof(NumberVerify) == component
-                || typeof(Application) == component)
+                || typeof(Application) == component
+                || typeof(Call) == component)
             {
                 baseUri = new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Api"]);
             }
@@ -49,35 +72,12 @@ namespace Nexmo.Api.Request
             return DoRequest(new Uri(uri, "?" + sb));
         }
 
-        private static Dictionary<string, string> GetParameters(object parameters)
-        {
-            var apiParams = new Dictionary<string, string>();
-            foreach (var property in parameters.GetType().GetProperties())
-            {
-                string jsonPropertyName = null;
-
-                if (property.GetCustomAttributes(typeof (JsonPropertyAttribute), false).Length > 0)
-                {
-                    jsonPropertyName =
-                        ((JsonPropertyAttribute) property.GetCustomAttributes(typeof (JsonPropertyAttribute), false)[0])
-                            .PropertyName;
-                }
-
-                if (null == parameters.GetType().GetProperty(property.Name).GetValue(parameters, null)) continue;
-
-                apiParams.Add(string.IsNullOrEmpty(jsonPropertyName) ? property.Name : jsonPropertyName,
-                    parameters.GetType().GetProperty(property.Name).GetValue(parameters, null).ToString());
-            }
-            return apiParams;
-        }
-
         public static StringBuilder GetQueryStringBuilderFor(object parameters)
         {
             var apiParams = GetParameters(parameters);
 
             apiParams.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
             apiParams.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
-
             var sb = new StringBuilder();
             foreach (var key in apiParams.Keys)
             {
@@ -96,7 +96,6 @@ namespace Nexmo.Api.Request
         public static string DoRequest(Uri uri)
         {
             var req = _webRequestFactory.CreateHttp(uri);
-
             var resp = req.GetResponse();
             string json;
             using (var sr = new StreamReader(resp.GetResponseStream()))

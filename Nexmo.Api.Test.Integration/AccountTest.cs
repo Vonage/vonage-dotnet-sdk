@@ -1,4 +1,4 @@
-﻿using System.Net;
+﻿using System.Linq;
 using NUnit.Framework;
 
 namespace Nexmo.Api.Test.Integration
@@ -17,8 +17,8 @@ namespace Nexmo.Api.Test.Integration
         public void should_get_pricing()
         {
             var pricing = Account.GetPricing("US");
-            Assert.AreEqual("US-FIXED", pricing.networks[0].code);
-            Assert.AreEqual("United States of America Landline", pricing.networks[0].network);
+            var verizon = pricing.networks.Single(n => n.code == "310004");
+            Assert.AreEqual("Verizon Wireless", verizon.network);
         }
 
         [Test]

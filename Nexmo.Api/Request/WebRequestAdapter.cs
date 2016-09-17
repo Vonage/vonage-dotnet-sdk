@@ -37,5 +37,10 @@ namespace Nexmo.Api.Request
         {
             return _request.GetRequestStream();
         }
+
+        public void SetBearerToken(string token)
+        {
+            _request.Headers.Add("Authorization", $"Bearer {token}");
+        }
     }
 }

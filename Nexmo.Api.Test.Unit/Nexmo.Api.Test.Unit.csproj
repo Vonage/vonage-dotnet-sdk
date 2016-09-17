@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationTest.cs" />
+    <Compile Include="JwtTest.cs" />
     <Compile Include="NumberVerifyTest.cs" />
     <Compile Include="ShortCodeTest.cs" />
     <Compile Include="MockedWebTest.cs" />

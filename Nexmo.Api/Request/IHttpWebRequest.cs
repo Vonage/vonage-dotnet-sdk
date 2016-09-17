@@ -9,5 +9,6 @@ namespace Nexmo.Api.Request
         long ContentLength { get; set; }
         IWebResponse GetResponse();
         Stream GetRequestStream();
+        void SetBearerToken(string token);
     }
 }
