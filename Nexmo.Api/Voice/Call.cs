@@ -18,6 +18,19 @@ namespace Nexmo.Api.Voice
             public Endpoint from { get; set; }
             public string[] answer_url { get; set; }
         }
+
+        public class CallCommandResponse
+        {
+            /// <summary>
+            /// A string explaining the state of this request.
+            /// </summary>
+            public string message { get; set; }
+            /// <summary>
+            /// The unique id for this request.
+            /// </summary>
+            public string uuid { get; set; }
+        }
+
         public class CallEditCommand
         {
             /// <summary>
