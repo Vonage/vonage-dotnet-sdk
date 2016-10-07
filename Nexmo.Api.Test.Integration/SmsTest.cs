@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Configuration;
+using NUnit.Framework;
 
 namespace Nexmo.Api.Test.Integration
 {
@@ -10,11 +11,11 @@ namespace Nexmo.Api.Test.Integration
         {
             var results = SMS.Send(new SMS.SMSRequest
             {
-                from = "15555551212",
-                to = "17775551212",
+                from = ConfigurationManager.AppSettings["nexmo_number"],
+                to = ConfigurationManager.AppSettings["test_number"],
                 text = "this is a test"
             });
-            Assert.AreEqual("17775551212", results.messages[0].to);
+            Assert.AreEqual(ConfigurationManager.AppSettings["test_number"], results.messages[0].to);
             Assert.AreEqual("0", results.messages[0].status);
         }
     }

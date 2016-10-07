@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Net;
-using Nexmo.Api;
+using Nexmo.Api.Voice;
 
 namespace Nexmo.Samples.Voice.FirstTTS
 {

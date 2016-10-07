@@ -73,7 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="Call.cs" />
+    <Compile Include="Voice\Call.Talk.cs" />
+    <Compile Include="Voice\Call.Stream.cs" />
+    <Compile Include="Voice\Call.cs" />
     <Compile Include="Jwt.cs" />
     <Compile Include="PemParse.cs" />
     <Compile Include="Request\VersionedApiRequest.cs" />
@@ -86,7 +88,6 @@
     <Compile Include="NumberVerify.cs" />
     <Compile Include="NumberInsight.cs" />
     <Compile Include="ResponseBase.cs" />
-    <Compile Include="Voice.cs" />
     <Compile Include="ShortCode.cs" />
     <Compile Include="SMS.cs" />
     <Compile Include="Search.cs" />

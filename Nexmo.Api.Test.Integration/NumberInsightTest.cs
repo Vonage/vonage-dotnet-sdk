@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Configuration;
+using NUnit.Framework;
 
 namespace Nexmo.Api.Test.Integration
 {
@@ -10,10 +11,10 @@ namespace Nexmo.Api.Test.Integration
         {
             var result = NumberInsight.RequestBasic(new NumberInsight.NumberInsightBasicRequest
             {
-                number = "15555551212"
+                number = ConfigurationManager.AppSettings["test_number"]
             });
             Assert.AreEqual("0", result.status);
-            Assert.AreEqual("15555551212", result.international_format_number);
+            Assert.AreEqual(ConfigurationManager.AppSettings["test_number"], result.international_format_number);
             Assert.AreEqual("(555) 555-1212", result.national_format_number);
             
         }
@@ -23,10 +24,10 @@ namespace Nexmo.Api.Test.Integration
         {
             var result = NumberInsight.RequestStandard(new NumberInsight.NumberInsightBasicRequest()
             {
-                number = "15555551212"
+                number = ConfigurationManager.AppSettings["test_number"]
             });
             Assert.AreEqual("0", result.status);
-            Assert.AreEqual("15555551212", result.international_format_number);
+            Assert.AreEqual(ConfigurationManager.AppSettings["test_number"], result.international_format_number);
             Assert.AreEqual("(555) 555-1212", result.national_format_number);
             Assert.AreEqual("Verizon Wireless", result.current_carrier.name);
         }

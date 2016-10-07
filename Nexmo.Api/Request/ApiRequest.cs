@@ -21,7 +21,7 @@ namespace Nexmo.Api.Request
             set { _webRequestFactory = value; }
         }
 
-        private static Dictionary<string, string> GetParameters(object parameters)
+        internal static Dictionary<string, string> GetParameters(object parameters)
         {
             var apiParams = new Dictionary<string, string>();
             foreach (var property in parameters.GetType().GetProperties())
@@ -48,7 +48,7 @@ namespace Nexmo.Api.Request
             Uri baseUri;
             if (typeof(NumberVerify) == component
                 || typeof(Application) == component
-                || typeof(Call) == component)
+                || typeof(Voice.Call) == component)
             {
                 baseUri = new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Api"]);
             }

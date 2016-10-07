@@ -193,8 +193,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\Api\TTSController.cs" />
-    <Compile Include="Controllers\Api\VoiceController.cs" />
     <Compile Include="Controllers\Api\SmsInboundController.cs" />
     <Compile Include="Controllers\Api\SmsDeliveryController.cs" />
     <Compile Include="Controllers\Api\NIController.cs" />
@@ -229,9 +227,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Content\voiceDemo.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Web.config.example" />
   </ItemGroup>
   <ItemGroup>

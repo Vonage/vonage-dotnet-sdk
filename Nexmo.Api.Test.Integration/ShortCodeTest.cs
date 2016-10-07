@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using NUnit.Framework;
 
 namespace Nexmo.Api.Test.Integration
@@ -11,7 +12,7 @@ namespace Nexmo.Api.Test.Integration
         {
             var response = ShortCode.RequestTwoFactorAuth(new ShortCode.TwoFactorAuthRequest
             {
-                to = "17775551212",
+                to = ConfigurationManager.AppSettings["test_number"],
                 pin = 1467
             });
             Assert.AreEqual("1", response.message_count);
@@ -22,7 +23,7 @@ namespace Nexmo.Api.Test.Integration
         {
             var response = ShortCode.RequestAlert(new ShortCode.AlertRequest
             {
-                to = "17775551212"
+                to = ConfigurationManager.AppSettings["test_number"],
             }, new Dictionary<string, string>
             {
                 {"mcount", "xyz123"}

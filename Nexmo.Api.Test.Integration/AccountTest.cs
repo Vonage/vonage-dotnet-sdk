@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using NUnit.Framework;
 
 namespace Nexmo.Api.Test.Integration
@@ -43,7 +44,7 @@ namespace Nexmo.Api.Test.Integration
         {
             var response = Account.GetNumbers();
             Assert.AreEqual(1, response.count);
-            Assert.AreEqual("17775551212", response.numbers[0].msisdn);
+            Assert.AreEqual(ConfigurationManager.AppSettings["nexmo_number"], response.numbers[0].msisdn);
         }
     }
 }

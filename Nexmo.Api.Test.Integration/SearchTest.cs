@@ -1,4 +1,4 @@
-﻿using System.Net;
+﻿using System.Configuration;
 using NUnit.Framework;
 
 namespace Nexmo.Api.Test.Integration
@@ -21,7 +21,7 @@ namespace Nexmo.Api.Test.Integration
             var msgs = Search.GetMessages(new Search.SearchRequest
             {
                 date = "2015-12-31",
-                to = "17775551212"
+                to = ConfigurationManager.AppSettings["nexmo_number"]
             });
 
             Assert.AreEqual(1, msgs.count);
@@ -33,7 +33,7 @@ namespace Nexmo.Api.Test.Integration
             var msgs = Search.GetRejections(new Search.SearchRequest
             {
                 date = "2015-12-31",
-                to = "17775551212"
+                to = ConfigurationManager.AppSettings["nexmo_number"]
             });
 
             Assert.AreEqual(1, msgs.count);

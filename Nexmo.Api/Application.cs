@@ -44,22 +44,6 @@ namespace Nexmo.Api
         public string event_method { get; set; }
     }
 
-    ////////
-    // TODO: Handle HAL better
-    public class Link
-    {
-        public string href { get; set; }
-    }
-    public class HALLinks
-    {
-        public Link self { get; set; }
-        public Link next { get; set; }
-        public Link prev { get; set; }
-        public Link first { get; set; }
-        public Link last { get; set; }
-    }
-    ////////
-
     public class KeyPair
     {
         /// <summary>
@@ -98,13 +82,8 @@ namespace Nexmo.Api
         public List<ApplicationResponse> applications { get; set; }
     }
 
-    public class ApplicationListResponse
-    {
-        public int count { get; set; }
-        public int page_size { get; set; }
-        public int page_index { get; set; }
-        public ApplicationList _embedded { get; set; }
-    }
+    public class ApplicationListResponse : PaginatedResponse<ApplicationList>
+    {}
 
     public class Application
     {

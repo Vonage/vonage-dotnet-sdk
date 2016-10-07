@@ -5,5 +5,8 @@
     <add key="Nexmo.Url.Api" value="https://api.nexmo.com"/>
     <add key="Nexmo.api_key" value="deadbeef" />
     <add key="Nexmo.api_secret" value="deadbeef" />
+
+    <add key="Nexmo.Application.Id" value="ffffffff-ffff-ffff-ffff-ffffffffffff" />
+    <add key="Nexmo.Application.Key" value="C:\path\to\your\application\private.key"/>
   </appSettings>
 </configuration>

@@ -25,8 +25,6 @@ namespace Nexmo.Web.Sample.Controllers
             {
                 Receipts = GetFromCacheAndClear<SMS.SMSDeliveryReceipt>("sms_receipts"),
                 Inbounds = GetFromCacheAndClear<SMS.SMSInbound>("sms_inbounds"),
-                VoiceReturns = GetFromCacheAndClear<Voice.CallReturn>("voice_call_returns"),
-                TTSReturns = GetFromCacheAndClear<Voice.TextToSpeechReturn>("tts_call_returns")
             });
         }
 
