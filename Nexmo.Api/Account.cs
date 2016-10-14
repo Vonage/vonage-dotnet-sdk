@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Configuration;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -77,7 +76,7 @@ namespace Nexmo.Api
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-balance/" +
-                ConfigurationManager.AppSettings["Nexmo.api_key"] + "/" + ConfigurationManager.AppSettings["Nexmo.api_secret"]));
+                Configuration.Instance.Settings["Nexmo.api_key"] + "/" + Configuration.Instance.Settings["Nexmo.api_secret"]));
 
             var obj = JsonConvert.DeserializeObject<Balance>(json);
             return obj.value;
@@ -87,7 +86,7 @@ namespace Nexmo.Api
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-pricing/outbound/" +
-                ConfigurationManager.AppSettings["Nexmo.api_key"] + "/" + ConfigurationManager.AppSettings["Nexmo.api_secret"] +
+                Configuration.Instance.Settings["Nexmo.api_key"] + "/" + Configuration.Instance.Settings["Nexmo.api_secret"] +
                 "/" + country));
 
             var obj = JsonConvert.DeserializeObject<Pricing>(json);

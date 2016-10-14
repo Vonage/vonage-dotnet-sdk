@@ -11,13 +11,11 @@ namespace Nexmo.Api
         internal static string CreateToken(string appId, string privateKeyFile)
         {
             string jwtTokenId;
-            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
-            {
-                var tokenData = new byte[64];
-                rng.GetBytes(tokenData);
 
-                jwtTokenId = Convert.ToBase64String(tokenData);
-            }
+            var tokenData = new byte[64];
+            RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            rng.GetBytes(tokenData);
+            jwtTokenId = Convert.ToBase64String(tokenData);
 
             var payload = new Dictionary<string, object>
             {

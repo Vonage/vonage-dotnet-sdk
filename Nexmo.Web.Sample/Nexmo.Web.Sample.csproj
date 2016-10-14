@@ -229,12 +229,6 @@
     <Content Include="packages.config" />
     <None Include="Web.config.example" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Nexmo.Api\Nexmo.Api.csproj">
-      <Project>{ee7da727-2ae3-4c76-809a-56b7433004fe}</Project>
-      <Name>Nexmo.Api</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

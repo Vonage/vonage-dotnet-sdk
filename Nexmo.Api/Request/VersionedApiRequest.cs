@@ -1,25 +1,14 @@
 using System;
-using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Web;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace Nexmo.Api.Request
 {
     internal static class VersionedApiRequest
     {
-        private static IHttpWebRequestFactory _webRequestFactory = new NetWebRequestFactory();
-        public static IHttpWebRequestFactory WebRequestFactory
-        {
-            get
-            {
-                return _webRequestFactory;
-            }
-            set { _webRequestFactory = value; }
-        }
-
         private static StringBuilder GetQueryStringBuilderFor(object parameters)
         {
             var apiParams = ApiRequest.GetParameters(parameters);
@@ -27,20 +16,33 @@ namespace Nexmo.Api.Request
             var sb = new StringBuilder();
             foreach (var key in apiParams.Keys)
             {
-                sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(apiParams[key]));
+                sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(apiParams[key]));
             }
             return sb;
         }
 
         private static string DoRequest(Uri uri)
         {
-            var req = _webRequestFactory.CreateHttp(uri);
+            var client = new HttpClient();
+            var req = new HttpRequestMessage
+            {
+                RequestUri = uri,
+                Method = HttpMethod.Get,
+            };
             // attempt bearer token auth
-            req.SetBearerToken(Jwt.CreateToken(ConfigurationManager.AppSettings["Nexmo.Application.Id"], ConfigurationManager.AppSettings["Nexmo.Application.Key"]));
+            req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+                Jwt.CreateToken(Configuration.Instance.Settings["Nexmo.Application.Id"], Configuration.Instance.Settings["Nexmo.Application.Key"]));
 
-            var resp = req.GetResponse();
+            var sendTask = client.SendAsync(req);
+            sendTask.Wait();
+
+            //if (!sendTask.Result.IsSuccessStatusCode)
+            //    throw new Exception("Error while retrieving resource.");
+
             string json;
-            using (var sr = new StreamReader(resp.GetResponseStream()))
+            var readTask = sendTask.Result.Content.ReadAsStreamAsync();
+            readTask.Wait();
+            using (var sr = new StreamReader(readTask.Result))
             {
                 json = sr.ReadToEnd();
             }
@@ -49,39 +51,44 @@ namespace Nexmo.Api.Request
 
         public static NexmoResponse DoRequest(string method, Uri uri, object payload)
         {
-            var req = _webRequestFactory.CreateHttp(uri);
+            var client = new HttpClient();
+            var req = new HttpRequestMessage
+            {
+                RequestUri = uri,
+                Method = new HttpMethod(method),
+            };
             // attempt bearer token auth
-            req.SetBearerToken(Jwt.CreateToken(ConfigurationManager.AppSettings["Nexmo.Application.Id"], ConfigurationManager.AppSettings["Nexmo.Application.Key"]));
+            req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+                Jwt.CreateToken(Configuration.Instance.Settings["Nexmo.Application.Id"], Configuration.Instance.Settings["Nexmo.Application.Key"]));
 
-            req.Method = method;
-            req.ContentType = "application/json";
             var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload));
-            req.ContentLength = data.Length;
-            var requestStream = req.GetRequestStream();
-            requestStream.Write(data, 0, data.Length);
-            requestStream.Close();
+            req.Content = new ByteArrayContent(data);
+            req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            //req.Content.Headers.ContentLength = data.Length;
 
-            try
-            {
-                var resp = req.GetResponse();
-                string json;
-                using (var sr = new StreamReader(resp.GetResponseStream()))
-                {
-                    json = sr.ReadToEnd();
-                }
-                return new NexmoResponse
-                {
-                    Status = resp.GetResponseStatusCode(),
-                    JsonResponse = json
-                };
-            }
-            catch (WebException ex)
+            var sendTask = client.SendAsync(req);
+            sendTask.Wait();
+
+            if (!sendTask.Result.IsSuccessStatusCode)
             {
                 return new NexmoResponse
                 {
-                    Status = ((HttpWebResponse)ex.Response).StatusCode
+                    Status = sendTask.Result.StatusCode
                 };
             }
+
+            string json;
+            var readTask = sendTask.Result.Content.ReadAsStreamAsync();
+            readTask.Wait();
+            using (var sr = new StreamReader(readTask.Result))
+            {
+                json = sr.ReadToEnd();
+            }
+            return new NexmoResponse
+            {
+                Status = sendTask.Result.StatusCode,
+                JsonResponse = json
+            };
         }
 
         public static string DoRequest(Uri uri, object parameters)

@@ -1,44 +1,36 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
-using System.Web;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace Nexmo.Api.Request
 {
     internal static class ApiRequest
     {
-        private static IHttpWebRequestFactory _webRequestFactory = new NetWebRequestFactory();
-        public static IHttpWebRequestFactory WebRequestFactory
-        {
-            get
-            {
-                return _webRequestFactory;
-            }
-            set { _webRequestFactory = value; }
-        }
-
         internal static Dictionary<string, string> GetParameters(object parameters)
         {
+            var paramType = parameters.GetType().GetTypeInfo();
             var apiParams = new Dictionary<string, string>();
-            foreach (var property in parameters.GetType().GetProperties())
+            foreach (var property in paramType.GetProperties())
             {
                 string jsonPropertyName = null;
 
-                if (property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Length > 0)
+                if (property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Count() > 0)
                 {
                     jsonPropertyName =
-                        ((JsonPropertyAttribute)property.GetCustomAttributes(typeof(JsonPropertyAttribute), false)[0])
+                        ((JsonPropertyAttribute)property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).First())
                             .PropertyName;
                 }
 
-                if (null == parameters.GetType().GetProperty(property.Name).GetValue(parameters, null)) continue;
+                if (null == paramType.GetProperty(property.Name).GetValue(parameters, null)) continue;
 
                 apiParams.Add(string.IsNullOrEmpty(jsonPropertyName) ? property.Name : jsonPropertyName,
-                    parameters.GetType().GetProperty(property.Name).GetValue(parameters, null).ToString());
+                    paramType.GetProperty(property.Name).GetValue(parameters, null).ToString());
             }
             return apiParams;
         }
@@ -50,11 +42,11 @@ namespace Nexmo.Api.Request
                 || typeof(Application) == component
                 || typeof(Voice.Call) == component)
             {
-                baseUri = new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Api"]);
+                baseUri = new Uri(Configuration.Instance.Settings["Nexmo.Url.Api"]);
             }
             else
             {
-                baseUri = new Uri(ConfigurationManager.AppSettings["Nexmo.Url.Rest"]);
+                baseUri = new Uri(Configuration.Instance.Settings["Nexmo.Url.Rest"]);
             }
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
@@ -62,11 +54,11 @@ namespace Nexmo.Api.Request
         public static string DoRequest(Uri uri, Dictionary<string, string> parameters)
         {
             var sb = new StringBuilder();
-            parameters.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
-            parameters.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
+            parameters.Add("api_key", Configuration.Instance.Settings["Nexmo.api_key"]);
+            parameters.Add("api_secret", Configuration.Instance.Settings["Nexmo.api_secret"]);
             foreach (var key in parameters.Keys)
             {
-                sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(parameters[key]));
+                sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(parameters[key]));
             }
 
             return DoRequest(new Uri(uri, "?" + sb));
@@ -76,12 +68,12 @@ namespace Nexmo.Api.Request
         {
             var apiParams = GetParameters(parameters);
 
-            apiParams.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
-            apiParams.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
+            apiParams.Add("api_key", Configuration.Instance.Settings["Nexmo.api_key"]);
+            apiParams.Add("api_secret", Configuration.Instance.Settings["Nexmo.api_secret"]);
             var sb = new StringBuilder();
             foreach (var key in apiParams.Keys)
             {
-                sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(apiParams[key]));
+                sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(apiParams[key]));
             }
             return sb;
         }
@@ -95,10 +87,19 @@ namespace Nexmo.Api.Request
 
         public static string DoRequest(Uri uri)
         {
-            var req = _webRequestFactory.CreateHttp(uri);
-            var resp = req.GetResponse();
+            var client = new HttpClient();
+            var req = new HttpRequestMessage
+            {
+                RequestUri = uri,
+                Method = HttpMethod.Get,
+            };
+
+            var sendTask = client.SendAsync(req);
+            sendTask.Wait();
+            var readTask = sendTask.Result.Content.ReadAsStreamAsync();
+            readTask.Wait();
             string json;
-            using (var sr = new StreamReader(resp.GetResponseStream()))
+            using (var sr = new StreamReader(readTask.Result))
             {
                 json = sr.ReadToEnd();
             }
@@ -111,46 +112,49 @@ namespace Nexmo.Api.Request
             // if parameters is null, assume that key and secret have been taken care of
             if (null != parameters)
             {
-                parameters.Add("api_key", ConfigurationManager.AppSettings["Nexmo.api_key"]);
-                parameters.Add("api_secret", ConfigurationManager.AppSettings["Nexmo.api_secret"]);
+                parameters.Add("api_key", Configuration.Instance.Settings["Nexmo.api_key"]);
+                parameters.Add("api_secret", Configuration.Instance.Settings["Nexmo.api_secret"]);
                 foreach (var key in parameters.Keys)
                 {
-                    sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(parameters[key]));
+                    sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(parameters[key]));
                 }
             }
 
-            var req = _webRequestFactory.CreateHttp(uri);
+            var client = new HttpClient();
+            var req = new HttpRequestMessage
+            {
+                RequestUri = uri,
+                Method = new HttpMethod(method),
+            };
 
-            req.Method = method;
             var data = Encoding.ASCII.GetBytes(sb.ToString());
+            req.Content = new ByteArrayContent(data);
+            req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            //req.Content.Headers.ContentLength = data.Length;
 
-            req.ContentType = "application/x-www-form-urlencoded";
-            req.ContentLength = data.Length;
-            var requestStream = req.GetRequestStream();
-            requestStream.Write(data, 0, data.Length);
-            requestStream.Close();
+            var sendTask = client.SendAsync(req);
+            sendTask.Wait();
 
-            try
-            {
-                var resp = req.GetResponse();
-                string json;
-                using (var sr = new StreamReader(resp.GetResponseStream()))
-                {
-                    json = sr.ReadToEnd();
-                }
-                return new NexmoResponse
-                {
-                    Status = resp.GetResponseStatusCode(),
-                    JsonResponse = json
-                };
-            }
-            catch (WebException ex)
+            if (!sendTask.Result.IsSuccessStatusCode)
             {
                 return new NexmoResponse
                 {
-                    Status = ((HttpWebResponse)ex.Response).StatusCode
+                    Status = sendTask.Result.StatusCode
                 };
             }
+
+            string json;
+            var readTask = sendTask.Result.Content.ReadAsStreamAsync();
+            readTask.Wait();
+            using (var sr = new StreamReader(readTask.Result))
+            {
+                json = sr.ReadToEnd();
+            }
+            return new NexmoResponse
+            {
+                Status = sendTask.Result.StatusCode,
+                JsonResponse = json
+            };
         }
 
         public static NexmoResponse DoPostRequest(Uri uri, object parameters)

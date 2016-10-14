@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -43,7 +42,7 @@ namespace Nexmo.Api
             var sb = ApiRequest.GetQueryStringBuilderFor(request);
             foreach (var key in customValues.Keys)
             {
-                sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(customValues[key]));
+                sb.AppendFormat("{0}={1}&", System.Net.WebUtility.UrlEncode(key), System.Net.WebUtility.UrlEncode(customValues[key]));
             }
 
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/alert/json?" + sb));

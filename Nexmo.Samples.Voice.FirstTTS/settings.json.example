@@ -1,0 +1,6 @@
+﻿{
+  "Nexmo.Url.Rest": "https://rest.nexmo.com",
+  "Nexmo.Url.Api": "https://api.nexmo.com",
+  "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+  "Nexmo.Application.Key": "c:\\path\\to\\your\\application\\private.key"
+}
