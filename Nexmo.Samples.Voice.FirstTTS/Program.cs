@@ -17,7 +17,7 @@ namespace Nexmo.Samples.Voice.FirstTTS
 
             // Set up some variables
             var applicationId = Configuration.Instance.Settings["Nexmo.Application.Id"];
-            const string phoneNumberToCall = "15555551212";
+            var phoneNumberToCall = Configuration.Instance.Settings["test_number"];
 
             // Make a TTS Call to a phone number
 
@@ -38,7 +38,7 @@ namespace Nexmo.Samples.Voice.FirstTTS
                 from = new Call.Endpoint
                 {
                     type = "phone",
-                    number = "15554443333"
+                    number = Configuration.Instance.Settings["nexmo_number"]
                 },
                 answer_url = new[]
                 {
