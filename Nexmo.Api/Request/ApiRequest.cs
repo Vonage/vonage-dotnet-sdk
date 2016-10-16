@@ -20,7 +20,7 @@ namespace Nexmo.Api.Request
             {
                 string jsonPropertyName = null;
 
-                if (property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Count() > 0)
+                if (property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Any())
                 {
                     jsonPropertyName =
                         ((JsonPropertyAttribute)property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).First())
@@ -87,14 +87,13 @@ namespace Nexmo.Api.Request
 
         public static string DoRequest(Uri uri)
         {
-            var client = new HttpClient();
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
                 Method = HttpMethod.Get,
             };
 
-            var sendTask = client.SendAsync(req);
+            var sendTask = Configuration.Instance.Client.SendAsync(req);
             sendTask.Wait();
             var readTask = sendTask.Result.Content.ReadAsStreamAsync();
             readTask.Wait();
@@ -120,7 +119,6 @@ namespace Nexmo.Api.Request
                 }
             }
 
-            var client = new HttpClient();
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
@@ -132,7 +130,7 @@ namespace Nexmo.Api.Request
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
             //req.Content.Headers.ContentLength = data.Length;
 
-            var sendTask = client.SendAsync(req);
+            var sendTask = Configuration.Instance.Client.SendAsync(req);
             sendTask.Wait();
 
             if (!sendTask.Result.IsSuccessStatusCode)

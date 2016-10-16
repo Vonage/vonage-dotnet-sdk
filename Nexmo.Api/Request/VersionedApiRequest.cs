@@ -23,7 +23,6 @@ namespace Nexmo.Api.Request
 
         private static string DoRequest(Uri uri)
         {
-            var client = new HttpClient();
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
@@ -33,7 +32,7 @@ namespace Nexmo.Api.Request
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(Configuration.Instance.Settings["Nexmo.Application.Id"], Configuration.Instance.Settings["Nexmo.Application.Key"]));
 
-            var sendTask = client.SendAsync(req);
+            var sendTask = Configuration.Instance.Client.SendAsync(req);
             sendTask.Wait();
 
             //if (!sendTask.Result.IsSuccessStatusCode)
@@ -51,7 +50,6 @@ namespace Nexmo.Api.Request
 
         public static NexmoResponse DoRequest(string method, Uri uri, object payload)
         {
-            var client = new HttpClient();
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
@@ -66,7 +64,7 @@ namespace Nexmo.Api.Request
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             //req.Content.Headers.ContentLength = data.Length;
 
-            var sendTask = client.SendAsync(req);
+            var sendTask = Configuration.Instance.Client.SendAsync(req);
             sendTask.Wait();
 
             if (!sendTask.Result.IsSuccessStatusCode)

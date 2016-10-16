@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 
 namespace Nexmo.Api
 {
     public sealed class Configuration
     {
-        private static readonly Configuration instance = new Configuration();
-
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
         static Configuration()
@@ -19,20 +14,18 @@ namespace Nexmo.Api
         private Configuration()
         {
             var builder = new ConfigurationBuilder()
-            //.SetBasePath(env.ContentRootPath)
             .AddJsonFile("settings.json", false, true);
 
             Settings = builder.Build();
         }
 
-        public static Configuration Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        private HttpClient _client;
+
+        public static Configuration Instance { get; } = new Configuration();
 
         public IConfiguration Settings { get; private set; }
+        public HttpMessageHandler ClientHandler { get; set; }
+
+        public HttpClient Client => _client ?? (_client = ClientHandler == null ? new HttpClient() : new HttpClient(ClientHandler));
     }
 }

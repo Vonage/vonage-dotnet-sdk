@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using Nexmo.Api.Voice;
+﻿using Nexmo.Api.Voice;
 using NUnit.Framework;
 
 namespace Nexmo.Api.Test.Integration
@@ -17,13 +16,13 @@ namespace Nexmo.Api.Test.Integration
                     new Call.Endpoint
                     {
                         type = "phone",
-                        number = ConfigurationManager.AppSettings["test_number"]
+                        number = Configuration.Instance.Settings["test_number"]
                     }
                 },
                 from = new Call.Endpoint
                 {
                     type = "phone",
-                    number = ConfigurationManager.AppSettings["nexmo_number"]
+                    number = Configuration.Instance.Settings["nexmo_number"]
                 },
                 answer_url = new[]
                 {
@@ -69,13 +68,13 @@ namespace Nexmo.Api.Test.Integration
                     new Call.Endpoint
                     {
                         type = "phone",
-                        number = ConfigurationManager.AppSettings["test_number"]
+                        number = Configuration.Instance.Settings["test_number"]
                     }
                 },
                 from = new Call.Endpoint
                 {
                     type = "phone",
-                    number = ConfigurationManager.AppSettings["nexmo_number"]
+                    number = Configuration.Instance.Settings["nexmo_number"]
                 },
                 answer_url = new[]
                 {

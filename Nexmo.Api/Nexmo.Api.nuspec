@@ -2,27 +2,35 @@
 <package >
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>1.0.0</version>
+    <version>2.0.0-rc1</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
-    <licenseUrl>https://github.com/Nexmo/csharp-client/blob/master/LICENSE.md</licenseUrl>
-    <projectUrl>https://github.com/Nexmo/csharp-client</projectUrl>
+    <licenseUrl>https://github.com/Nexmo/nexmo-dotnet/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/Nexmo/nexmo-dotnet</projectUrl>
     <iconUrl>https://dashboard.nexmo.com/apple-touch-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Official C#/.NET wrapper for the nexmo API</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <description>Official C#/.NET wrapper for the Nexmo API</description>
+    <releaseNotes>TODO</releaseNotes>
     <copyright>© Nexmo 2016</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
     <dependencies>
       <group>
-        <dependency id="Newtonsoft.Json" version="8.0.3" />
+        <dependency id="Microsoft.Extensions.Configuration" version="1.0.*" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.*" />
+        <dependency id="System.Net.Http" version="4.*" />
+        <dependency id="System.Runtime.Extensions" version="4.*" />
+        
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="jose-jwt" version="2.0.1" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\net452\Nexmo.Api.dll" target="lib\net452\Nexmo.Api.dll" />
-    <file src="bin\net46\Nexmo.Api.dll" target="lib\net46\Nexmo.Api.dll" />
-    <file src="bin\net461\Nexmo.Api.dll" target="lib\net461\Nexmo.Api.dll" />
+    <file src="bin\Release\net452\Nexmo.Api.dll" target="lib\net452\Nexmo.Api.dll" />
+    <file src="bin\Release\net46\Nexmo.Api.dll" target="lib\net46\Nexmo.Api.dll" />
+    <file src="bin\Release\net461\Nexmo.Api.dll" target="lib\net461\Nexmo.Api.dll" />
+    <file src="bin\Release\net462\Nexmo.Api.dll" target="lib\net462\Nexmo.Api.dll" />
+    <file src="bin\Release\netstandard1.6\Nexmo.Api.dll" target="lib\netstandard1.6\Nexmo.Api.dll" />
   </files>
 </package>

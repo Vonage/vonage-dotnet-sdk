@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net;
 using NUnit.Framework;
 
 namespace Nexmo.Api.Test.Integration
