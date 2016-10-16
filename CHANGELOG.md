@@ -6,6 +6,7 @@
 * Application API support
 * Application-based call API support
 * .NET Standard 1.6 support
+* __[BREAKING]__ Moved configuration from app.config to settings.json
 * __[BREAKING]__ Nexmo.Api.Voice static class has been deprecated - you must move to the new Voice calls inside the new Nexmo.Api.Voice namespace. See [the Nexmo docs](https://docs.nexmo.com/voice/voice-api) for details.
 
 JWT notes:
