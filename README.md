@@ -25,20 +25,24 @@ To install the C# client library using NuGet:
 Alternatively:
 
 * Download or build (see developer instructions) the Nexmo.Api.dll.
-* If you have downloaded a release, ensure you are referencing the
-Newtonsoft.Json.dll dependency by either including it with your project's
-NuGet dependencies or manually referencing it.
+* If you have downloaded a release, ensure you are referencing the required dependencies by
+either including them with your project's NuGet dependencies or manually referencing them.
 * Reference the assembly in your code.
 
 Configuration:
 --------------
-* Provide your API key, secret, and nexmo URLs in appSettings:
+* Provide the nexmo URLs, API key, secret, and application credentials (for JWT) in ```settings.json```:
 
-```XML
-<add key="Nexmo.Url.Rest" value="https://rest.nexmo.com" />
-<add key="Nexmo.Url.Api" value="https://api.nexmo.com" />
-<add key="Nexmo.api_key" value="<YOUR KEY>" />
-<add key="Nexmo.api_secret" value="<YOUR SECRET>" />
+```json
+{
+  "Nexmo.Url.Rest": "https://rest.nexmo.com",
+  "Nexmo.Url.Api": "https://api.nexmo.com",
+  "Nexmo.api_key": "deadbeef",
+  "Nexmo.api_secret": "deadbeef",
+
+  "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+  "Nexmo.Application.Key": "c:\\path\\to\\your\\application\\private.key"
+}
 ```
 
 Examples
@@ -48,7 +52,7 @@ The following examples show how to:
  * [Receive a message](#receiving-a-message)
  * [Initiate a call](#initiating-a-call)
 
-### Sending A Message
+### Sending a Message
 
 Use [Nexmo's SMS API][doc_sms] to send a SMS message.
 
@@ -75,13 +79,30 @@ public ActionResult Get([FromUri]SMS.SMSDeliveryReceipt response)
 ### Initiating a Call
 
 Use [Nexmo's Call API][doc_voice] to initiate a voice call.
+
+__NOTE:__ You must have a valid Application ID and key in order to make voice calls! Use ```Nexmo.Api.Application``` to register. See the [Application API][doc_app] documentation for details.
+
 ```C#
-var result = Voice.Call(new Voice.CallCommand
+using Nexmo.Api.Voice;
+
+Call.Do(new Call.CallCommand
 {
-    to = "17775551212",
-    answer_url = "https://abcdefgh.ngrok.io/content/voiceDemo.xml",
-    status_url = "https://abcdefgh.ngrok.io/api/voice",
-    from = "15555551212",
+    to = new[]
+    {
+        new Call.Endpoint {
+            type = "phone",
+            number = "15555551212"
+        }
+    },
+    from = new Call.Endpoint
+    {
+        type = "phone",
+        number = "15557772424"
+    },
+    answer_url = new[]
+    {
+        "https://nexmo-community.github.io/ncco-examples/first_call_talk.json"
+    }
 });
 ```
 
@@ -130,22 +151,44 @@ API Coverage
         * [X] Event Based Alerts
             * [X] Sending Alerts
             * [X] Campaign Subscription Management
-* Voice
-    * [X] Outbound Calls
-    * [X] Inbound Call
-    * [X] Text-To-Speech Call
-    * [X] Text-To-Speech Prompt
+* Application
+	* [X] Create
+	* [X] List
+	* [X] Update
+	* [X] Delete
+* Call
+    * [X] Outbound
+    * [X] Get
+    * [X] List
+    * [X] Edit
+    * [X] TTS
+    * [X] Stream
+    * [X] DTMF
 
 Contributing
 ------------
 
-We are currently targeting the 4.5.2 - 4.6.1 frameworks and using Visual Studio 2015 Update 1.
+Targeted frameworks:
+
+* 4.5.2
+* 4.6, 4.6.1, 4.6.2
+* .NET Standard 1.6
+
+Visual Studio 2015 is required (Community should be fine). Update 3 is recommended.
 
 1. Get latest code either by cloning the repository or downloading a snapshot of the source.
 2. Open "Nexmo.Api.sln"
 3. Build! NuGet dependencies should be brought down automatically; check your settings if they are not.
 
 Pull requests are welcome!
+
+Thanks
+------
+
+Special thanks to our contributors:
+
+* [jdpearce](https://github.com/jdpearce)
+* [jonferreira](https://github.com/jonferreira)
 
 License
 -------
@@ -155,5 +198,6 @@ This library is released under the [MIT License][license]
 [create_account]: https://docs.nexmo.com/tools/dashboard#setting-up-your-nexmo-account
 [signup]: https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
 [doc_sms]: https://docs.nexmo.com/api-ref/sms-api?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
-[doc_voice]: https://docs.nexmo.com/voice/call?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+[doc_voice]: https://docs.nexmo.com/voice/voice-api?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+[doc_app]: https://docs.nexmo.com/tools/application-api?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
 [license]: LICENSE.md
