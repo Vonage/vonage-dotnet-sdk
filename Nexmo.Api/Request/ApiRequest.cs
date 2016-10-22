@@ -105,7 +105,7 @@ namespace Nexmo.Api.Request
             return json;
         }
 
-        public static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters)
+        private static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters)
         {
             var sb = new StringBuilder();
             // if parameters is null, assume that key and secret have been taken care of
@@ -128,7 +128,6 @@ namespace Nexmo.Api.Request
             var data = Encoding.ASCII.GetBytes(sb.ToString());
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
-            //req.Content.Headers.ContentLength = data.Length;
 
             var sendTask = Configuration.Instance.Client.SendAsync(req);
             sendTask.Wait();
@@ -159,16 +158,6 @@ namespace Nexmo.Api.Request
         {
             var apiParams = GetParameters(parameters);
             return DoPostRequest(uri, apiParams);            
-        }
-        public static NexmoResponse DoPutRequest(Uri uri, object parameters)
-        {
-            var apiParams = GetParameters(parameters);
-            return DoPutRequest(uri, apiParams);
-        }
-        public static NexmoResponse DoDeleteRequest(Uri uri, object parameters)
-        {
-            var apiParams = GetParameters(parameters);
-            return DoDeleteRequest(uri, apiParams);
         }
 
         public static NexmoResponse DoPostRequest(Uri uri, Dictionary<string, string> parameters) => DoRequest("POST", uri, parameters);

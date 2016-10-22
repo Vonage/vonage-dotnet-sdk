@@ -23,7 +23,9 @@
     "netstandard1.6": {
       "dependencies": {
         "NETStandard.Library": "1.6.0",
-        "System.Security.Cryptography.Algorithms": "4.2.0"
+        "System.Security.Cryptography.Algorithms": "4.2.0",
+        "System.Security.Cryptography.OpenSsl": "4.0.0",
+        "System.Security.Cryptography.Cng": "4.2.0"
       }
     }
   }

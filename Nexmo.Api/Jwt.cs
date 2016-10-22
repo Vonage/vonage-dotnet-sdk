@@ -10,12 +10,10 @@ namespace Nexmo.Api
     {
         internal static string CreateToken(string appId, string privateKeyFile)
         {
-            string jwtTokenId;
-
             var tokenData = new byte[64];
-            RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            var rng = RandomNumberGenerator.Create();
             rng.GetBytes(tokenData);
-            jwtTokenId = Convert.ToBase64String(tokenData);
+            var jwtTokenId = Convert.ToBase64String(tokenData);
 
             var payload = new Dictionary<string, object>
             {
@@ -26,7 +24,7 @@ namespace Nexmo.Api
 
             var pemContents = File.ReadAllText(privateKeyFile);
             var rsa = PemParse.DecodePEMKey(pemContents);
-
+            
             return JWT.Encode(payload, rsa, JwsAlgorithm.RS256);
         }
     }

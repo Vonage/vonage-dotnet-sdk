@@ -1,3 +1,7 @@
+# 2.0.0-rc2 (2016-10-22)
+
+* Fix JWT generation (key import fail) on OSX/Linux
+
 # 2.0.0-rc1 (2016-10-16)
 
 * NumberInsight basic + standard support

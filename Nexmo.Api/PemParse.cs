@@ -51,6 +51,7 @@ THE SOFTWARE.
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -61,7 +62,7 @@ namespace Nexmo.Api
         private const string pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
         private const string pemprivfooter = "-----END RSA PRIVATE KEY-----";
 
-        public static RSACryptoServiceProvider DecodePEMKey(string pemstr)
+        public static RSA DecodePEMKey(string pemstr)
         {
             if (!pemstr.StartsWith(pemprivheader) || !pemstr.EndsWith(pemprivfooter)) return null;
             var pemprivatekey = DecodeOpenSSLPrivateKey(pemstr);
@@ -145,7 +146,7 @@ namespace Nexmo.Api
             //////////}
         }
 
-        public static RSACryptoServiceProvider DecodeRSAPrivateKey(byte[] privkey)
+        public static RSA DecodeRSAPrivateKey(byte[] privkey)
         {
             byte[] MODULUS, E, D, P, Q, DP, DQ, IQ;
 
@@ -213,21 +214,50 @@ namespace Nexmo.Api
                     //}
 
                     // ------- create RSACryptoServiceProvider instance and initialize with public key -----
-                    var RSA = new RSACryptoServiceProvider();
-                    var RSAparams = new RSAParameters();
-                    RSAparams.Modulus = MODULUS;
-                    RSAparams.Exponent = E;
-                    RSAparams.D = D;
-                    RSAparams.P = P;
-                    RSAparams.Q = Q;
-                    RSAparams.DP = DP;
-                    RSAparams.DQ = DQ;
-                    RSAparams.InverseQ = IQ;
+#if NETSTANDARD1_6
+                    RSA RSA;
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+                        RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        RSA = new RSAOpenSsl();
+                    }
+                    else
+                    {
+                        RSA = new RSACng();
+                    }
+                    var RSAparams = new RSAParameters
+                    {
+                        Modulus = MODULUS,
+                        Exponent = E,
+                        D = D,
+                        P = P,
+                        Q = Q,
+                        DP = DP,
+                        DQ = DQ,
+                        InverseQ = IQ
+                    };
                     RSA.ImportParameters(RSAparams);
                     return RSA;
+#else
+                    var RSA = new RSACryptoServiceProvider();
+                    var RSAparams = new RSAParameters
+                    {
+                        Modulus = MODULUS,
+                        Exponent = E,
+                        D = D,
+                        P = P,
+                        Q = Q,
+                        DP = DP,
+                        DQ = DQ,
+                        InverseQ = IQ
+                    };
+                    RSA.ImportParameters(RSAparams);
+                    return RSA;
+#endif
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    // TODO: log this!
                     return null;
                 }
             }

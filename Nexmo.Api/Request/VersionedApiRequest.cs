@@ -62,7 +62,6 @@ namespace Nexmo.Api.Request
             var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload));
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-            //req.Content.Headers.ContentLength = data.Length;
 
             var sendTask = Configuration.Instance.Client.SendAsync(req);
             sendTask.Wait();
