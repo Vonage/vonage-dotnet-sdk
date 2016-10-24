@@ -255,7 +255,7 @@ namespace Nexmo.Api
                     return RSA;
 #endif
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // TODO: log this!
                     return null;

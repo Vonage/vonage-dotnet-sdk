@@ -1,3 +1,7 @@
+# 2.0.0 (2016-10-24)
+
+* Dependency marking for netstandard1.6
+
 # 2.0.0-rc2 (2016-10-22)
 
 * Fix JWT generation (key import fail) on OSX/Linux

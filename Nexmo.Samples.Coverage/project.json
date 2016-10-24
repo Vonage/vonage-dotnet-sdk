@@ -1,23 +1,22 @@
-{
+﻿{
   "version": "1.0.0-*",
   "buildOptions": {
     "emitEntryPoint": true
   },
+
   "dependencies": {
+    "Microsoft.NETCore.App": {
+      //"type": "platform",
+      "version": "1.0.1"
+    },
     "Nexmo.Api": "2.0.*"
   },
 
   "frameworks": {
-    "net452": {
-    },
     "netcoreapp1.0": {
       "imports": "dnxcore50",
       "dependencies": {
-        //"NETStandard.Library": "1.6.0",
-        "Microsoft.NETCore.App": {
-          //"type": "platform",
-          "version": "1.0.*"
-        }
+        "NETStandard.Library": "1.6.0"
       }
     }
   },
