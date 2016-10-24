@@ -190,7 +190,7 @@ namespace Nexmo.Api
         {
             if (string.IsNullOrEmpty(request.from))
             {
-                request.from = System.Configuration.ConfigurationManager.AppSettings["Nexmo.sender_id"];
+                request.from = Configuration.Instance.Settings["Nexmo.sender_id"];
             }
 
             var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(SMSResponse), "/sms/json"), request);

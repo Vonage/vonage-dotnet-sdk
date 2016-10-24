@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Configuration;
 using System.Net;
+using Nexmo.Api;
 using Nexmo.Api.Voice;
 
 namespace Nexmo.Samples.Voice.FirstTTS
@@ -9,11 +9,15 @@ namespace Nexmo.Samples.Voice.FirstTTS
     {
         private static void Main(string[] args)
         {
+            // https://github.com/dotnet/corefx/issues/4476
+            // https://github.com/dotnet/corefx/issues/7623
+#if net452
             ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+#endif
 
             // Set up some variables
-            var applicationId = ConfigurationManager.AppSettings["Nexmo.Application.Id"];
-            const string phoneNumberToCall = "15555551212";
+            var applicationId = Configuration.Instance.Settings["Nexmo.Application.Id"];
+            var phoneNumberToCall = Configuration.Instance.Settings["test_number"];
 
             // Make a TTS Call to a phone number
 
@@ -34,7 +38,7 @@ namespace Nexmo.Samples.Voice.FirstTTS
                 from = new Call.Endpoint
                 {
                     type = "phone",
-                    number = "15554443333"
+                    number = Configuration.Instance.Settings["nexmo_number"]
                 },
                 answer_url = new[]
                 {
