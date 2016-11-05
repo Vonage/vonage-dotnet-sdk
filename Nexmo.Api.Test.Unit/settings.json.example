@@ -1,5 +1,6 @@
 ﻿{
   "appSettings": {
+    "Nexmo.UserAgent": "myApp/1.0",
     "Nexmo.Url.Rest": "https://rest.nexmo.com",
     "Nexmo.Url.Api": "https://api.nexmo.com",
     "Nexmo.api_key": "deadbeef",

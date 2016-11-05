@@ -92,6 +92,7 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = HttpMethod.Get,
             };
+            VersionedApiRequest.SetUserAgent(ref req);
 
             var sendTask = Configuration.Instance.Client.SendAsync(req);
             sendTask.Wait();
@@ -124,6 +125,7 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = new HttpMethod(method),
             };
+            VersionedApiRequest.SetUserAgent(ref req);
 
             var data = Encoding.ASCII.GetBytes(sb.ToString());
             req.Content = new ByteArrayContent(data);

@@ -36,6 +36,7 @@ Configuration:
 ```json
 {
   "appSettings": {
+    "Nexmo.UserAgent": "myApp/1.0",
     "Nexmo.Url.Rest": "https://rest.nexmo.com",
     "Nexmo.Url.Api": "https://api.nexmo.com",
     "Nexmo.api_key": "<YOUR KEY>",
@@ -51,6 +52,7 @@ Configuration:
 
 ```xml
 <appSettings>
+  <add key="Nexmo.UserAgent" value="myApp/1.0" />
   <add key="Nexmo.Url.Rest" value="https://rest.nexmo.com" />
   <add key="Nexmo.Url.Api" value="https://api.nexmo.com" />
   <add key="Nexmo.api_key" value="<YOUR KEY>" />

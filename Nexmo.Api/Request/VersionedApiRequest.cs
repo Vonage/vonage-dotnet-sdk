@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Reflection;
 
 namespace Nexmo.Api.Request
 {
@@ -28,6 +29,7 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = HttpMethod.Get,
             };
+            SetUserAgent(ref req);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"], Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"]));
@@ -48,6 +50,44 @@ namespace Nexmo.Api.Request
             return json;
         }
 
+        private static string _userAgent;
+        public static void SetUserAgent(ref HttpRequestMessage request)
+        {
+            if (string.IsNullOrEmpty(_userAgent))
+            {
+#if NETSTANDARD1_6
+                // TODO: watch the next core release; may have functionality to make this cleaner
+                var runtimeVersion = (System.Runtime.InteropServices.RuntimeInformation.OSDescription + System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
+                    .Replace(" ", "")
+                    .Replace("/", "")
+                    .Replace(":", "")
+                    .Replace(";", "")
+                    .Replace("_", "")
+                    ;
+#else
+                var runtimeVersion = System.Diagnostics.FileVersionInfo
+                    .GetVersionInfo(typeof(int).Assembly.Location)
+                    .ProductVersion;
+#endif
+                var libraryVersion = typeof(VersionedApiRequest)
+                    .GetTypeInfo()
+                    .Assembly
+                    .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                    .InformationalVersion;
+
+                _userAgent = $"nexmo-dotnet/{libraryVersion} dotnet/{runtimeVersion}";
+
+                var appVersion = Configuration.Instance.Settings["appSettings:Nexmo.UserAgent"];
+                if (!string.IsNullOrWhiteSpace(appVersion))
+                {
+                    _userAgent += $" {appVersion}";
+                }
+                Console.Write("#");
+            }
+
+            request.Headers.UserAgent.ParseAdd(_userAgent);
+        }
+
         public static NexmoResponse DoRequest(string method, Uri uri, object payload)
         {
             var req = new HttpRequestMessage
@@ -55,6 +95,7 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = new HttpMethod(method),
             };
+            SetUserAgent(ref req);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"], Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"]));
