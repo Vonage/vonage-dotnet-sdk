@@ -35,15 +35,31 @@ Configuration:
 
 ```json
 {
-  "Nexmo.Url.Rest": "https://rest.nexmo.com",
-  "Nexmo.Url.Api": "https://api.nexmo.com",
-  "Nexmo.api_key": "deadbeef",
-  "Nexmo.api_secret": "deadbeef",
-
-  "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
-  "Nexmo.Application.Key": "c:\\path\\to\\your\\application\\private.key"
+  "appSettings": {
+    "Nexmo.Url.Rest": "https://rest.nexmo.com",
+    "Nexmo.Url.Api": "https://api.nexmo.com",
+    "Nexmo.api_key": "<YOUR KEY>",
+    "Nexmo.api_secret": "<YOUR SECRET>",
+    
+    "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+    "Nexmo.Application.Key": "c:\\path\\to\\your\\application\\private.key"
+  }
 }
 ```
+
+* In v2.1.0+, you may also continue to use ```web.config``` for configuration:
+
+```xml
+<appSettings>
+  <add key="Nexmo.Url.Rest" value="https://rest.nexmo.com" />
+  <add key="Nexmo.Url.Api" value="https://api.nexmo.com" />
+  <add key="Nexmo.api_key" value="<YOUR KEY>" />
+  <add key="Nexmo.api_secret" value="<YOUR SECRET>" />
+</appSettings>
+```
+
+* ```settings.json``` takes precedence over ```web.config```. As you are able, please move your project
+to JSON configuration as this will be going away in a future release.
 
 Examples
 --------

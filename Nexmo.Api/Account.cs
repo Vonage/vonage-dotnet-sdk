@@ -76,7 +76,7 @@ namespace Nexmo.Api
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-balance/" +
-                Configuration.Instance.Settings["Nexmo.api_key"] + "/" + Configuration.Instance.Settings["Nexmo.api_secret"]));
+                Configuration.Instance.Settings["appSettings:Nexmo.api_key"] + "/" + Configuration.Instance.Settings["appSettings:Nexmo.api_secret"]));
 
             var obj = JsonConvert.DeserializeObject<Balance>(json);
             return obj.value;
@@ -86,7 +86,7 @@ namespace Nexmo.Api
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-pricing/outbound/" +
-                Configuration.Instance.Settings["Nexmo.api_key"] + "/" + Configuration.Instance.Settings["Nexmo.api_secret"] +
+                Configuration.Instance.Settings["appSettings:Nexmo.api_key"] + "/" + Configuration.Instance.Settings["appSettings:Nexmo.api_secret"] +
                 "/" + country));
 
             var obj = JsonConvert.DeserializeObject<Pricing>(json);

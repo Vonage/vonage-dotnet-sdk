@@ -21,10 +21,10 @@ namespace Nexmo.Api.Test.Unit
 
     internal class MockedWebTest
     {
-        protected string ApiUrl = Configuration.Instance.Settings["Nexmo.Url.Api"];
-        protected string RestUrl = Configuration.Instance.Settings["Nexmo.Url.Rest"];
-        protected string ApiKey = Configuration.Instance.Settings["Nexmo.api_key"];
-        protected string ApiSecret = Configuration.Instance.Settings["Nexmo.api_secret"];
+        protected string ApiUrl = Configuration.Instance.Settings["appSettings:Nexmo.Url.Api"];
+        protected string RestUrl = Configuration.Instance.Settings["appSettings:Nexmo.Url.Rest"];
+        protected string ApiKey = Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
+        protected string ApiSecret = Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
 
         protected void SetExpect(string uri, string response, string content = "")
         {

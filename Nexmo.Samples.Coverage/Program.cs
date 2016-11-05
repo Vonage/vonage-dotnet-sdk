@@ -86,7 +86,7 @@ namespace Nexmo.Samples.Coverage
         {
             var appList = Application.List();
             Console.WriteLine("BEFORE: Application.List() = {0}", appList.Count);
-            foreach (var app in appList.Where(a => a.id != Configuration.Instance.Settings["Nexmo.Application.Id"]))
+            foreach (var app in appList.Where(a => a.id != Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"]))
             {
                 Console.WriteLine(app.id);
                 Application.Delete(app.id);

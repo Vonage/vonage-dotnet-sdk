@@ -1,11 +1,13 @@
 ﻿{
-  "Nexmo.Url.Rest": "https://rest.nexmo.com",
-  "Nexmo.Url.Api": "https://api.nexmo.com",
-  "Nexmo.api_key": "deadbeef",
-  "Nexmo.api_secret": "deadbeef",
+  "appSettings": {
+    "Nexmo.Url.Rest": "https://rest.nexmo.com",
+    "Nexmo.Url.Api": "https://api.nexmo.com",
+    "Nexmo.api_key": "deadbeef",
+    "Nexmo.api_secret": "deadbeef",
 
-  "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
-  "Nexmo.Application.Key": "c:\\path\\to\\your\\application\\private.key",
+    "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+    "Nexmo.Application.Key": "c:\\path\\to\\your\\application\\private.key"
+  },
 
   "nexmo_number": "15555551212",
   "test_number": "15557771212"

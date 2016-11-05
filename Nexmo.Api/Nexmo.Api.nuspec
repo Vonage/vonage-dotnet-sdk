@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,26 +12,16 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      2.0.0:
-      * Dependency marking for netstandard1.6
-      RC2:
-      * Fix JWT generation (key import fail) on OSX/Linux
-      RC1:
-      * NumberInsight basic + standard support
-      * NumberVerify control call
-      * JWT token generation
-      * Application API support
-      * Application-based call API support
-      * .NET Standard 1.6 support
-      * [BREAKING] Moved configuration from app.config to settings.json
-      * [BREAKING] Nexmo.Api.Voice static class has been deprecated - you must move to the new Voice calls inside the new Nexmo.Api.Voice namespace. See [the Nexmo docs](https://docs.nexmo.com/voice/voice-api) for details.
+      * [FIXED] Moved configuration from app.config to settings.json
     </releaseNotes>
     <copyright>© Nexmo 2016</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
     <dependencies>
       <group>
         <dependency id="Microsoft.Extensions.Configuration" version="1.0.*" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.*" />
         <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.*" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.*" />
         <dependency id="System.Net.Http" version="4.*" />
         <dependency id="System.Runtime.Extensions" version="4.*" />
         

@@ -1,3 +1,7 @@
+# 2.1.0 (???)
+
+* __[BREAKING]__ Support web.config XML. This has changed the settings.json structure slightly. Please check the README for details.
+
 # 2.0.0 (2016-10-24)
 
 * Dependency marking for netstandard1.6

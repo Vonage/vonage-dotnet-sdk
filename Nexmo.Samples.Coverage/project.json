@@ -9,7 +9,11 @@
       //"type": "platform",
       "version": "1.0.1"
     },
-    "Nexmo.Api": "2.0.*"
+    "Microsoft.Extensions.Configuration": "1.0.*",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.0.*",
+    "Microsoft.Extensions.Configuration.Json": "1.0.*",
+    "Microsoft.Extensions.Logging.Abstractions": "1.0.*",
+    "Nexmo.Csharp.Client": "2.1.*"
   },
 
   "frameworks": {

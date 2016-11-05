@@ -42,11 +42,11 @@ namespace Nexmo.Api.Request
                 || typeof(Application) == component
                 || typeof(Voice.Call) == component)
             {
-                baseUri = new Uri(Configuration.Instance.Settings["Nexmo.Url.Api"]);
+                baseUri = new Uri(Configuration.Instance.Settings["appSettings:Nexmo.Url.Api"]);
             }
             else
             {
-                baseUri = new Uri(Configuration.Instance.Settings["Nexmo.Url.Rest"]);
+                baseUri = new Uri(Configuration.Instance.Settings["appSettings:Nexmo.Url.Rest"]);
             }
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
@@ -54,8 +54,8 @@ namespace Nexmo.Api.Request
         public static string DoRequest(Uri uri, Dictionary<string, string> parameters)
         {
             var sb = new StringBuilder();
-            parameters.Add("api_key", Configuration.Instance.Settings["Nexmo.api_key"]);
-            parameters.Add("api_secret", Configuration.Instance.Settings["Nexmo.api_secret"]);
+            parameters.Add("api_key", Configuration.Instance.Settings["appSettings:Nexmo.api_key"]);
+            parameters.Add("api_secret", Configuration.Instance.Settings["appSettings:Nexmo.api_secret"]);
             foreach (var key in parameters.Keys)
             {
                 sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(parameters[key]));
@@ -68,8 +68,8 @@ namespace Nexmo.Api.Request
         {
             var apiParams = GetParameters(parameters);
 
-            apiParams.Add("api_key", Configuration.Instance.Settings["Nexmo.api_key"]);
-            apiParams.Add("api_secret", Configuration.Instance.Settings["Nexmo.api_secret"]);
+            apiParams.Add("api_key", Configuration.Instance.Settings["appSettings:Nexmo.api_key"]);
+            apiParams.Add("api_secret", Configuration.Instance.Settings["appSettings:Nexmo.api_secret"]);
             var sb = new StringBuilder();
             foreach (var key in apiParams.Keys)
             {
@@ -111,8 +111,8 @@ namespace Nexmo.Api.Request
             // if parameters is null, assume that key and secret have been taken care of
             if (null != parameters)
             {
-                parameters.Add("api_key", Configuration.Instance.Settings["Nexmo.api_key"]);
-                parameters.Add("api_secret", Configuration.Instance.Settings["Nexmo.api_secret"]);
+                parameters.Add("api_key", Configuration.Instance.Settings["appSettings:Nexmo.api_key"]);
+                parameters.Add("api_secret", Configuration.Instance.Settings["appSettings:Nexmo.api_secret"]);
                 foreach (var key in parameters.Keys)
                 {
                     sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(parameters[key]));

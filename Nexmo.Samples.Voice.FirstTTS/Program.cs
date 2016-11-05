@@ -16,7 +16,7 @@ namespace Nexmo.Samples.Voice.FirstTTS
 #endif
 
             // Set up some variables
-            var applicationId = Configuration.Instance.Settings["Nexmo.Application.Id"];
+            var applicationId = Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
             var phoneNumberToCall = Configuration.Instance.Settings["test_number"];
 
             // Make a TTS Call to a phone number

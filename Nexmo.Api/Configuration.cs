@@ -1,5 +1,7 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using Microsoft.Extensions.Configuration;
+using Nexmo.Api.ConfigurationExtensions;
 
 namespace Nexmo.Api
 {
@@ -14,7 +16,15 @@ namespace Nexmo.Api
         private Configuration()
         {
             var builder = new ConfigurationBuilder()
-            .AddJsonFile("settings.json", false, true);
+                .AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    { "appSettings:Nexmo.Url.Rest", "https://rest.nexmo.com"},
+                    { "appSettings:Nexmo.Url.Api", "https://api.nexmo.com"}
+                })
+                .AddConfigFile("web.config", true)
+                .AddConfigFile("app.config", true)
+                .AddJsonFile("settings.json", true, true)
+            ;
 
             Settings = builder.Build();
         }

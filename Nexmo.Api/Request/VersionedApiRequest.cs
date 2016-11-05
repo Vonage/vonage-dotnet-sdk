@@ -30,7 +30,7 @@ namespace Nexmo.Api.Request
             };
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                Jwt.CreateToken(Configuration.Instance.Settings["Nexmo.Application.Id"], Configuration.Instance.Settings["Nexmo.Application.Key"]));
+                Jwt.CreateToken(Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"], Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"]));
 
             var sendTask = Configuration.Instance.Client.SendAsync(req);
             sendTask.Wait();
@@ -57,7 +57,7 @@ namespace Nexmo.Api.Request
             };
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                Jwt.CreateToken(Configuration.Instance.Settings["Nexmo.Application.Id"], Configuration.Instance.Settings["Nexmo.Application.Key"]));
+                Jwt.CreateToken(Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"], Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"]));
 
             var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload));
             req.Content = new ByteArrayContent(data);

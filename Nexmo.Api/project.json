@@ -1,9 +1,11 @@
 {
-  "version": "1.0.0-*",
+  "version": "2.1.0-*",
 
   "dependencies": {
     "Microsoft.Extensions.Configuration": "1.0.*",
     "Microsoft.Extensions.Configuration.Json": "1.0.*",
+    "Microsoft.Extensions.Logging": "1.0.*",
+    "System.Collections.Immutable": "1.2.*",
     "System.Net.Http": "4.*",
     "System.Runtime.Extensions": "4.*",
 
@@ -13,19 +15,36 @@
 
   "frameworks": {
     "net452": {
+      "frameworkAssemblies": {
+        "System.Xml": "4.0.0.0",
+        "System.Xml.Linq": "4.0.0.0"
+      }
     },
     "net46": {
+      "frameworkAssemblies": {
+        "System.Xml": "4.0.0.0",
+        "System.Xml.Linq": "4.0.0.0"
+      }
     },
     "net461": {
+      "frameworkAssemblies": {
+        "System.Xml": "4.0.0.0",
+        "System.Xml.Linq": "4.0.0.0"
+      }
     },
     "net462": {
+      "frameworkAssemblies": {
+        "System.Xml": "4.0.0.0",
+        "System.Xml.Linq": "4.0.0.0"
+      }
     },
     "netstandard1.6": {
       "dependencies": {
         "NETStandard.Library": "1.6.0",
         "System.Security.Cryptography.Algorithms": "4.2.0",
         "System.Security.Cryptography.OpenSsl": "4.0.0",
-        "System.Security.Cryptography.Cng": "4.2.0"
+        "System.Security.Cryptography.Cng": "4.2.0",
+        "System.Xml.XDocument": "4.0.*"
       }
     }
   }

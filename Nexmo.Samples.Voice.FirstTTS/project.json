@@ -4,7 +4,8 @@
     "emitEntryPoint": true
   },
   "dependencies": {
-    "Nexmo.Api": "2.0.*"
+    "Nexmo.Csharp.Client": "2.1.*",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.0.*"
   },
 
   "frameworks": {
