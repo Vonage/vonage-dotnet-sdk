@@ -1,0 +1,81 @@
+@model Nexmo.Samples.Web.Models.Actions
+@{
+    ViewBag.Title = "Home Page";
+}
+<h1>Nexmo Sample</h1>
+
+<h2>SMS</h2>
+<h3>Send</h3>
+<form asp-controller="Sms" asp-action="Sms" method="post">
+    @Html.LabelFor(m => m.SMS.from)
+    @Html.TextBoxFor(m => m.SMS.from)
+
+    @Html.LabelFor(m => m.SMS.to)
+    @Html.TextBoxFor(m => m.SMS.to)
+
+    @Html.LabelFor(m => m.SMS.text)
+    @Html.TextAreaFor(m => m.SMS.text)
+
+    <input type="submit" />
+</form>
+<h3>Receipts</h3>
+@if (!Model.Receipts.Any())
+{
+    <span>No receipts</span>
+}
+else
+{
+    @foreach (var r in Model.Receipts)
+    {
+        <span>@r.to - recv'd @r.message_timestamp</span>
+    }
+}
+
+<h3>Inbounds</h3>
+@if (!Model.Inbounds.Any())
+{
+    <span>No inbounds</span>
+}
+else
+{
+    @foreach (var i in Model.Inbounds)
+    {
+        <span>[@i.message_timestamp] @i.msisdn => @i.to = @i.text</span>
+    }
+}
+<hr/>
+
+<h2>Number Insight</h2>
+<form asp-controller="NumberInsight" asp-action="NumberInsight" method="post">
+    @Html.LabelFor(m => m.NI.Number)
+    @Html.TextBoxFor(m => m.NI.Number)
+    
+    <input type="submit"/>
+</form>
+
+<h2>Number Verify</h2>
+<form asp-controller="NumberVerify" asp-action="Verify" method="post">
+    @Html.LabelFor(m => m.NV_V.Number)
+    @Html.TextBoxFor(m => m.NV_V.Number)
+
+    @Html.LabelFor(m => m.NV_V.Brand)
+    @Html.TextBoxFor(m => m.NV_V.Brand)
+    <input type="submit" />
+</form>
+
+<h2>Number Verify - Check</h2>
+<form asp-controller="NumberVerify" asp-action="Check" method="post">
+    @Html.LabelFor(m => m.NV_C.RequestId)
+    @Html.TextBoxFor(m => m.NV_C.RequestId)
+
+    @Html.LabelFor(m => m.NV_C.Code)
+    @Html.TextBoxFor(m => m.NV_C.Code)
+    <input type="submit" />
+</form>
+
+<h2>Number Verify - Search</h2>
+<form asp-controller="NumberVerify" asp-action="Search" method="post">
+    @Html.LabelFor(m => m.NV_S.RequestId)
+    @Html.TextBoxFor(m => m.NV_S.RequestId)
+    <input type="submit" />
+</form>
