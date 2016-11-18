@@ -12,7 +12,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * [FIXED] Moved configuration from app.config to settings.json
+      * User-Agent reporting. You may also append an application-specific ID via settings.json.
+      * [BREAKING] Support web.config XML. This has changed the settings.json structure slightly.
     </releaseNotes>
     <copyright>© Nexmo 2016</copyright>
     <tags>SMS voice telephony phone nexmo</tags>

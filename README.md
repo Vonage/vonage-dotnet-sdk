@@ -94,6 +94,8 @@ public ActionResult Get([FromUri]SMS.SMSDeliveryReceipt response)
 }
 ```
 
+__NOTE:__ ```[FromUri]``` is deprecated in .NET Core; ```[FromQuery]``` works in this case.
+
 ### Initiating a Call
 
 Use [Nexmo's Call API][doc_voice] to initiate a voice call.
@@ -127,7 +129,7 @@ Call.Do(new Call.CallCommand
 ### Additional Examples
 
 * Check out the sample MVC application and tests for more examples.
-Make sure to copy web.config.example to web.config and enter your key/secret.
+Make sure to copy settings.json.example/web.config.example to settings.json/web.config and enter your key/secret.
 
 API Coverage
 ------------

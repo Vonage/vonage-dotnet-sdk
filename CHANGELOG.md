@@ -1,5 +1,6 @@
-# 2.1.0 (???)
+# 2.1.0 (2016-11-18)
 
+* User-Agent reporting. You may also append an application-specific ID via settings.json.
 * __[BREAKING]__ Support web.config XML. This has changed the settings.json structure slightly. Please check the README for details.
 
 # 2.0.0 (2016-10-24)
