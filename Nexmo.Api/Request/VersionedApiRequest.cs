@@ -82,7 +82,6 @@ namespace Nexmo.Api.Request
                 {
                     _userAgent += $" {appVersion}";
                 }
-                Console.Write("#");
             }
 
             request.Headers.UserAgent.ParseAdd(_userAgent);
