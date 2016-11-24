@@ -193,9 +193,9 @@ namespace Nexmo.Api
                 request.from = Configuration.Instance.Settings["Nexmo.sender_id"];
             }
 
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(SMSResponse), "/sms/json"), request);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(SMSResponse), "/sms/json"), request);
 
-            return JsonConvert.DeserializeObject<SMSResponse>(jsonstring);
+            return JsonConvert.DeserializeObject<SMSResponse>(response.JsonResponse);
         }
     }
 }
