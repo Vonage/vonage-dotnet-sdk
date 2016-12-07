@@ -31,7 +31,7 @@ either including them with your project's NuGet dependencies or manually referen
 
 Configuration:
 --------------
-* Provide the nexmo URLs, API key, secret, and application credentials (for JWT) in ```settings.json```:
+* Provide the nexmo URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
 
 ```json
 {
@@ -62,6 +62,7 @@ Configuration:
 
 * In the event multiple configuration files are found, the order of precedence is as follows:
 
+	* ```appsettings.json``` which overrides
 	* ```settings.json``` which overrides
 	* ```<executing process name>.config``` which overrides
 	* ```app.config``` which overrides
@@ -136,7 +137,7 @@ Call.Do(new Call.CallCommand
 ### Additional Examples
 
 * Check out the sample MVC application and tests for more examples.
-Make sure to copy settings.json.example/web.config.example to settings.json/web.config and enter your key/secret.
+Make sure to copy appsettings.json.example/web.config.example to appsettings.json/web.config and enter your key/secret.
 
 API Coverage
 ------------

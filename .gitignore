@@ -190,5 +190,6 @@ FakesAssemblies/
 web.config
 app.config
 settings.json
+appsettings.json
 Nexmo.Api.Test.Unit/private.key
 project.lock.json

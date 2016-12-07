@@ -26,6 +26,7 @@ namespace Nexmo.Api
                 .AddConfigFile("app.config", true)
                 .AddConfigFile($"{System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName)}.config", true)
                 .AddJsonFile("settings.json", true, true)
+                .AddJsonFile("appsettings.json", true, true)
             ;
 
             Settings = builder.Build();

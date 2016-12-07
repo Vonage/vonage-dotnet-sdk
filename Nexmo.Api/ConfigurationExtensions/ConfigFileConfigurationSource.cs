@@ -29,7 +29,7 @@ namespace Nexmo.Api.ConfigurationExtensions
 
             var parsersToUse = new List<IConfigurationParser> {
                 new KeyValueParser(),
-                new KeyValueParser("name", "connectionString")
+                new KeyValueParser("connectionStrings", "name", "connectionString")
             };
 
             parsersToUse.AddRange(parsers);

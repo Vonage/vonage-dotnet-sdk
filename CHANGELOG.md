@@ -1,3 +1,9 @@
+# 2.1.2 (2016-12-07)
+
+* Look for ```appsettings.json``` (netcore webapp convention)
+* Ensure XML config parser only looks for keyvalues inside ```<appSettings>``` and ```<connectionStrings>``` elements.
+* Gracefully ignore elements with key attribute but not value attribute.
+
 # 2.1.1 (2016-12-06)
 
 * Look for ```<executing process>.exe.config``` file for XML configuration.

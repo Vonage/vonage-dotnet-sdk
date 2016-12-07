@@ -44,23 +44,25 @@ namespace Nexmo.Api.ConfigurationExtensions
     public class KeyValueParser : IConfigurationParser
     {
         private readonly ILogger _logger;
+        private readonly string _parentElementName = "appSettings";
         private readonly string _keyName = "key";
         private readonly string _valueName = "value";
         private readonly string[] _supportedActions = Enum.GetNames(typeof(ConfigurationAction)).Select(x => x.ToLowerInvariant()).ToArray();
 
         public KeyValueParser()
-            : this("key", "value")
+            : this("appSettings", "key", "value")
         { }
 
         /// <summary>
         /// The key/value attribute names.
         /// </summary>
-        public KeyValueParser(string key, string value)
-            : this(key, value, null)
+        public KeyValueParser(string parentElementName, string key, string value)
+            : this(parentElementName, key, value, null)
         { }
 
-        public KeyValueParser(string key, string value, ILogger logger)
+        public KeyValueParser(string parentElementName, string key, string value, ILogger logger)
         {
+            _parentElementName = parentElementName;
             _keyName = key;
             _valueName = value;
             _logger = logger;
@@ -93,10 +95,7 @@ namespace Nexmo.Api.ConfigurationExtensions
 
                 if (!hasSupportedAction)
                 {
-                    if (_logger != null)
-                    {
-                        _logger.LogWarning($"Contains an unsupported config element. [{node.ToString()}]");
-                    }
+                    _logger?.LogWarning($"Contains an unsupported config element. [{node.ToString()}]");
 
                     continue;
                 }
@@ -111,12 +110,24 @@ namespace Nexmo.Api.ConfigurationExtensions
         {
             ConfigurationAction action;
 
+            // ensure parent element matches
+            if (element.Parent == null && !string.IsNullOrEmpty(_parentElementName))
+            {
+                _logger?.LogInformation($"No parent element, but expected parent element. [{element.ToString()}]");
+
+                return;
+            }
+            if (element.Parent != null && element.Parent.Name.ToString() != _parentElementName)
+            {
+                _logger?.LogInformation($"Matched element with an unsupported parent. [{element.ToString()}]");
+
+                return;
+            }
+
+            // matched, ensure we support action
             if (!Enum.TryParse(element.Name.ToString(), true, out action))
             {
-                if (_logger != null)
-                {
-                    _logger.LogInformation($"Element with an unsupported action. [{element.ToString()}]");
-                }
+                _logger?.LogInformation($"Element with an unsupported action. [{element.ToString()}]");
 
                 return;
             }
@@ -126,10 +137,7 @@ namespace Nexmo.Api.ConfigurationExtensions
 
             if (key == null)
             {
-                if (_logger != null)
-                {
-                    _logger.LogInformation($"[{element.ToString()}] is not supported because it does not have an attribute with {_keyName}");
-                }
+                _logger?.LogInformation($"[{element.ToString()}] is not supported because it does not have an attribute with {_keyName}");
 
                 return;
             }
@@ -141,9 +149,9 @@ namespace Nexmo.Api.ConfigurationExtensions
                 case ConfigurationAction.Add:
                     string valueToAdd = null;
 
-                    if (value == null && _logger != null)
+                    if (value == null)
                     {
-                        _logger.LogWarning($"Could not parse the value attribute [{_valueName}] from [{element.ToString()}]. Using null as value...");
+                        _logger?.LogWarning($"Could not parse the value attribute [{_valueName}] from [{element.ToString()}]. Using null as value...");
                     }
                     else
                     {
@@ -152,10 +160,7 @@ namespace Nexmo.Api.ConfigurationExtensions
 
                     if (results.ContainsKey(fullkey))
                     {
-                        if (_logger != null)
-                        {
-                            _logger.LogWarning($"{fullkey} exists. Replacing existing value [{results[fullkey]}] with {valueToAdd}");
-                        }
+                        _logger?.LogWarning($"{fullkey} exists. Replacing existing value [{results[fullkey]}] with {valueToAdd}");
 
                         results[fullkey] = valueToAdd;
                     }
