@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,8 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * User-Agent reporting. You may also append an application-specific ID via settings.json.
-      * [BREAKING] Support web.config XML. This has changed the settings.json structure slightly.
+      * Look for executing_process_filename.exe.config file for XML configuration.
     </releaseNotes>
     <copyright>© Nexmo 2016</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
@@ -30,9 +29,11 @@
         <dependency id="jose-jwt" version="2.0.*" />
       </group>
       <group targetFramework="netstandard1.6">
+        <dependency id="System.Diagnostics.Process" version="4.1.*" />
         <dependency id="System.Security.Cryptography.Algorithms" version="4.2.*" />
         <dependency id="System.Security.Cryptography.OpenSsl" version="4.0.*" />
         <dependency id="System.Security.Cryptography.Cng" version="4.2.*" />
+        <dependency id="System.Xml.XDocument" version="4.0.*" />
       </group>
     </dependencies>
   </metadata>

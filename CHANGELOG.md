@@ -1,3 +1,7 @@
+# 2.1.1 (2016-12-06)
+
+* Look for ```<executing process>.exe.config``` file for XML configuration.
+
 # 2.1.0 (2016-11-18)
 
 * User-Agent reporting. You may also append an application-specific ID via settings.json.

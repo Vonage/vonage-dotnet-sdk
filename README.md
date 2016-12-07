@@ -60,8 +60,15 @@ Configuration:
 </appSettings>
 ```
 
-* ```settings.json``` takes precedence over ```web.config```. As you are able, please move your project
-to JSON configuration as this will be going away in a future release.
+* In the event multiple configuration files are found, the order of precedence is as follows:
+
+	* ```settings.json``` which overrides
+	* ```<executing process name>.config``` which overrides
+	* ```app.config``` which overrides
+	* ```web.config```
+
+* As you are able, please move your project to JSON configuration as XML
+configuration will be going away in a future release.
 
 Examples
 --------

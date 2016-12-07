@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Nexmo.Api.ConfigurationExtensions;
@@ -23,6 +24,7 @@ namespace Nexmo.Api
                 })
                 .AddConfigFile("web.config", true)
                 .AddConfigFile("app.config", true)
+                .AddConfigFile($"{System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName)}.config", true)
                 .AddJsonFile("settings.json", true, true)
             ;
 
