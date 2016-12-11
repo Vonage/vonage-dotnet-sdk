@@ -1,3 +1,7 @@
+# 2.2.0 (2016-12-??)
+
+* Optional API request rate limiting.
+
 # 2.1.2 (2016-12-07)
 
 * Look for ```appsettings.json``` (netcore webapp convention)

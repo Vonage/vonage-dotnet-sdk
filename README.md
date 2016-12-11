@@ -71,6 +71,19 @@ Configuration:
 * As you are able, please move your project to JSON configuration as XML
 configuration will be going away in a future release.
 
+### Configuration Reference
+
+Key | Description
+----|------------
+Nexmo.api_key | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)
+Nexmo.api_secret | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)
+Nexmo.Application.Id | Your application ID
+Nexmo.Application.Key | Path to your application key
+Nexmo.Url.Rest | Optional. Nexmo REST API base URL. Defaults to https://rest.nexmo.com
+Nexmo.Url.Api | Optional. Nexmo API base URL. Defaults to https://api.nexmo.com
+Nexmo.Api.RequestsPerSecond | Optional. Throttle to specified requests per second.
+Nexmo.UserAgent | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`
+
 Examples
 --------
 The following examples show how to:
