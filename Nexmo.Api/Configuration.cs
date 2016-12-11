@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Nexmo.Api.ConfigurationExtensions;
+using Nexmo.Api.Request;
 
 namespace Nexmo.Api
 {
@@ -36,9 +38,22 @@ namespace Nexmo.Api
 
         public static Configuration Instance { get; } = new Configuration();
 
-        public IConfiguration Settings { get; private set; }
+        public IConfiguration Settings { get; }
         public HttpMessageHandler ClientHandler { get; set; }
 
-        public HttpClient Client => _client ?? (_client = ClientHandler == null ? new HttpClient() : new HttpClient(ClientHandler));
+        public HttpClient Client
+        {
+            get
+            {
+                var reqPerSec = Instance.Settings["appSettings:Nexmo.Api.RequestsPerSecond"];
+                if (string.IsNullOrEmpty(reqPerSec))
+                    return _client ?? (_client = new HttpClient());
+
+                var delay = 1 / double.Parse(reqPerSec);
+                var execTimeSpanSemaphore = new TimeSpanSemaphore(1, TimeSpan.FromSeconds(delay));
+                var handler = ClientHandler != null ? new ThrottlingMessageHandler(execTimeSpanSemaphore, ClientHandler) : new ThrottlingMessageHandler(execTimeSpanSemaphore);
+                return _client ?? (_client = new HttpClient(handler));
+            }
+        }
     }
 }

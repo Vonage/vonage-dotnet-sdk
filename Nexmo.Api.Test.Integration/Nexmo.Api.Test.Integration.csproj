@@ -125,13 +125,14 @@
     <Compile Include="NumberTest.cs" />
     <Compile Include="AccountTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThrottleTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Nexmo.Api.Test.Unit\settings.json">
-      <Link>settings.json</Link>
+    <None Include="..\Nexmo.Api.Test.Unit\appsettings.json">
+      <Link>appsettings.json</Link>
     </None>
-    <None Include="..\Nexmo.Api.Test.Unit\settings.json.example">
-      <Link>settings.json.example</Link>
+    <None Include="..\Nexmo.Api.Test.Unit\appsettings.json.example">
+      <Link>appsettings.json.example</Link>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
