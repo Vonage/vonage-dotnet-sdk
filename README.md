@@ -1,6 +1,8 @@
 Nexmo Client Library for C#/.NET
 ===================================
 
+[![](http://img.shields.io/nuget/v/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
+
 You can use this C# client library to add [Nexmo's API](#api-coverage) to your application. To use this, you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
