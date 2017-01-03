@@ -14,37 +14,6 @@ namespace Nexmo.Api.Request
 {
     internal static class ApiRequest
     {
-        ///// There is no built-in byte[] => hex string, so here's an implementation
-        /// http://stackoverflow.com/questions/311165/how-do-you-convert-byte-array-to-hexadecimal-string-and-vice-versa/24343727#24343727
-        /// We're not going to going with the unchecked version. Seems overkill for now.
-        private static readonly uint[] _lookup32 = CreateLookup32();
-
-        private static uint[] CreateLookup32()
-        {
-            var result = new uint[256];
-            for (var i = 0; i < 256; i++)
-            {
-                var s = i.ToString("X2");
-                result[i] = s[0] + ((uint)s[1] << 16);
-            }
-            return result;
-        }
-
-        private static string ByteArrayToHexViaLookup32(byte[] bytes)
-        {
-            var lookup32 = _lookup32;
-            var result = new char[bytes.Length * 2];
-            for (var i = 0; i < bytes.Length; i++)
-            {
-                var val = lookup32[bytes[i]];
-                result[2 * i] = (char)val;
-                result[2 * i + 1] = (char)(val >> 16);
-            }
-            return new string(result);
-        }
-
-        //////
-
         private static StringBuilder BuildQueryString(IDictionary<string, string> parameters)
         {
             var sb = new StringBuilder();
@@ -58,20 +27,20 @@ namespace Nexmo.Api.Request
             parameters.Add("api_key", Configuration.Instance.Settings["appSettings:Nexmo.api_key"].ToUpper());
             if (string.IsNullOrEmpty(Configuration.Instance.Settings["appSettings:Nexmo.security_secret"]))
             {
-                // do not sign
+                // security secret not provided, do not sign
                 parameters.Add("api_secret", Configuration.Instance.Settings["appSettings:Nexmo.api_secret"]);
                 buildStringFromParams(parameters, sb);
                 return sb;
             }
-            // sort and sign request
+            // security secret provided, sort and sign request
             parameters.Add("timestamp", ((int)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds).ToString(CultureInfo.InvariantCulture));
-            var sorted = new SortedDictionary<string, string>(parameters);
-            buildStringFromParams(sorted, sb);
+            var sortedParams = new SortedDictionary<string, string>(parameters);
+            buildStringFromParams(sortedParams, sb);
             var queryToSign = "&" + sb;
             queryToSign = queryToSign.Remove(queryToSign.Length - 1) + Configuration.Instance.Settings["appSettings:Nexmo.security_secret"].ToUpper();
             var hashgen = MD5.Create();
             var hash = hashgen.ComputeHash(Encoding.UTF8.GetBytes(queryToSign));
-            sb.AppendFormat("sig={0}", ByteArrayToHexViaLookup32(hash).ToLower());
+            sb.AppendFormat("sig={0}", ByteArrayToHexHelper.ByteArrayToHex(hash).ToLower());
             return sb;
         }
 
