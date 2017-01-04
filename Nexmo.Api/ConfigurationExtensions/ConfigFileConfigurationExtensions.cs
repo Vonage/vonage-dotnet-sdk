@@ -12,26 +12,6 @@ namespace Nexmo.Api.ConfigurationExtensions
     public static class ConfigFileConfigurationExtensions
     {
         /// <summary>
-        /// Adds configuration values of a *.config file to the ConfigurationBuilder
-        /// </summary>
-        /// <param name="builder">Builder to add configuration values to</param>
-        /// <param name="configContents">Contents of *.config file</param>
-        /// <param name="parsers">Additional parsers to use to parse the config contents</param>
-        //public static IConfigurationBuilder AddConfiguration(this IConfigurationBuilder builder, string configContents, params IConfigurationParser[] parsers)
-        //{
-        //    if (configContents == null)
-        //    {
-        //        throw new ArgumentNullException(nameof(configContents));
-        //    }
-        //    if (string.IsNullOrEmpty(configContents))
-        //    {
-        //        throw new ArgumentException("Contents for configuration cannot be empty.", nameof(configContents));
-        //    }
-
-        //    return builder.Add(new ConfigFileConfigurationSource(configContents, false, false, null, parsers));
-        //}
-
-        /// <summary>
         /// Adds configuration values for a *.config file to the ConfigurationBuilder
         /// </summary>
         /// <param name="builder">Builder to add configuration values to</param>

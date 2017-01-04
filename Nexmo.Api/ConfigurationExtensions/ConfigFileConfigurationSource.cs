@@ -16,10 +16,6 @@ namespace Nexmo.Api.ConfigurationExtensions
         public bool Optional { get; set; }
         public IEnumerable<IConfigurationParser> Parsers { get; set; }
 
-        //public ConfigFileConfigurationSource(string configuration, bool loadFromFile, bool optional, params IConfigurationParser[] parsers)
-        //    : this(configuration, loadFromFile, optional, null, parsers)
-        //{ }
-
         public ConfigFileConfigurationSource(string configuration, bool loadFromFile, bool optional, ILogger logger, params IConfigurationParser[] parsers)
         {
             LoadFromFile = loadFromFile;

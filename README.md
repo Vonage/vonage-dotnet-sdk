@@ -90,6 +90,8 @@ Nexmo.UserAgent | Optional. Your app-specific usage identifier in the format of 
 
 From 2.2.0 onward, you can request console logging by placing a ```logging.json``` file alongside your ```appsettings.json``` configuration.
 
+Note that logging Nexmo.Api messages will very likely expose your key and secret to the console as they can be part of the query string.
+
 Example ```logging.json``` contents that would log all requests as well as major configuration errors:
 
 ```json

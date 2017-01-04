@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
 using Nexmo.Api;
 using Nexmo.Api.Voice;
 
