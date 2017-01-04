@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api.ConfigurationExtensions
 {
@@ -16,28 +17,28 @@ namespace Nexmo.Api.ConfigurationExtensions
         /// <param name="builder">Builder to add configuration values to</param>
         /// <param name="configContents">Contents of *.config file</param>
         /// <param name="parsers">Additional parsers to use to parse the config contents</param>
-        public static IConfigurationBuilder AddConfiguration(this IConfigurationBuilder builder, string configContents, params IConfigurationParser[] parsers)
-        {
-            if (configContents == null)
-            {
-                throw new ArgumentNullException(nameof(configContents));
-            }
-            else if (string.IsNullOrEmpty(configContents))
-            {
-                throw new ArgumentException("Contents for configuration cannot be empty.", nameof(configContents));
-            }
+        //public static IConfigurationBuilder AddConfiguration(this IConfigurationBuilder builder, string configContents, params IConfigurationParser[] parsers)
+        //{
+        //    if (configContents == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(configContents));
+        //    }
+        //    if (string.IsNullOrEmpty(configContents))
+        //    {
+        //        throw new ArgumentException("Contents for configuration cannot be empty.", nameof(configContents));
+        //    }
 
-            return builder.Add(new ConfigFileConfigurationSource(configContents, false, false, parsers));
-        }
+        //    return builder.Add(new ConfigFileConfigurationSource(configContents, false, false, null, parsers));
+        //}
 
         /// <summary>
         /// Adds configuration values for a *.config file to the ConfigurationBuilder
         /// </summary>
         /// <param name="builder">Builder to add configuration values to</param>
         /// <param name="path">Path to *.config file</param>
-        public static IConfigurationBuilder AddConfigFile(this IConfigurationBuilder builder, string path)
+        public static IConfigurationBuilder AddConfigFile(this IConfigurationBuilder builder, string path, ILogger logger)
         {
-            return builder.AddConfigFile(path, optional: false);
+            return builder.AddConfigFile(path, false, logger);
         }
 
         /// <summary>
@@ -47,13 +48,13 @@ namespace Nexmo.Api.ConfigurationExtensions
         /// <param name="path">Path to *.config file</param>
         /// <param name="optional">true if file is optional; false otherwise</param>
         /// <param name="parsers">Additional parsers to use to parse the config file</param>
-        public static IConfigurationBuilder AddConfigFile(this IConfigurationBuilder builder, string path, bool optional, params IConfigurationParser[] parsers)
+        public static IConfigurationBuilder AddConfigFile(this IConfigurationBuilder builder, string path, bool optional, ILogger logger, params IConfigurationParser[] parsers)
         {
             if (path == null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
-            else if (string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentException("Path for configuration cannot be null/empty.", nameof(path));
             }
@@ -63,7 +64,7 @@ namespace Nexmo.Api.ConfigurationExtensions
                 throw new FileNotFoundException($"Could not find configuration file. File: [{path}]", path);
             }
 
-            return builder.Add(new ConfigFileConfigurationSource(path, true, optional, parsers));
+            return builder.Add(new ConfigFileConfigurationSource(path, true, optional, logger, parsers));
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api.Request
 {
@@ -34,20 +35,26 @@ namespace Nexmo.Api.Request
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"], Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"]));
 
-            var sendTask = Configuration.Instance.Client.SendAsync(req);
-            sendTask.Wait();
-
-            //if (!sendTask.Result.IsSuccessStatusCode)
-            //    throw new Exception("Error while retrieving resource.");
-
-            string json;
-            var readTask = sendTask.Result.Content.ReadAsStreamAsync();
-            readTask.Wait();
-            using (var sr = new StreamReader(readTask.Result))
+            using (Configuration.Instance.ApiLogger.BeginScope("VersionedApiRequest.DoRequest {0}", uri.GetHashCode()))
             {
-                json = sr.ReadToEnd();
+                Configuration.Instance.ApiLogger.LogDebug($"GET {uri}");
+
+                var sendTask = Configuration.Instance.Client.SendAsync(req);
+                sendTask.Wait();
+
+                //if (!sendTask.Result.IsSuccessStatusCode)
+                //    throw new Exception("Error while retrieving resource.");
+
+                string json;
+                var readTask = sendTask.Result.Content.ReadAsStreamAsync();
+                readTask.Wait();
+                using (var sr = new StreamReader(readTask.Result))
+                {
+                    json = sr.ReadToEnd();
+                }
+                Configuration.Instance.ApiLogger.LogDebug(json);
+                return json;
             }
-            return json;
         }
 
         private static string _userAgent;
@@ -103,29 +110,35 @@ namespace Nexmo.Api.Request
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            var sendTask = Configuration.Instance.Client.SendAsync(req);
-            sendTask.Wait();
-
-            if (!sendTask.Result.IsSuccessStatusCode)
+            using (Configuration.Instance.ApiLogger.BeginScope("ApiRequest.DoRequest {0}", uri.GetHashCode()))
             {
+                Configuration.Instance.ApiLogger.LogDebug($"{method} {uri} {payload}");
+                var sendTask = Configuration.Instance.Client.SendAsync(req);
+                sendTask.Wait();
+
+                if (!sendTask.Result.IsSuccessStatusCode)
+                {
+                    Configuration.Instance.ApiLogger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+                    return new NexmoResponse
+                    {
+                        Status = sendTask.Result.StatusCode
+                    };
+                }
+
+                string json;
+                var readTask = sendTask.Result.Content.ReadAsStreamAsync();
+                readTask.Wait();
+                using (var sr = new StreamReader(readTask.Result))
+                {
+                    json = sr.ReadToEnd();
+                }
+                Configuration.Instance.ApiLogger.LogDebug(json);
                 return new NexmoResponse
                 {
-                    Status = sendTask.Result.StatusCode
+                    Status = sendTask.Result.StatusCode,
+                    JsonResponse = json
                 };
             }
-
-            string json;
-            var readTask = sendTask.Result.Content.ReadAsStreamAsync();
-            readTask.Wait();
-            using (var sr = new StreamReader(readTask.Result))
-            {
-                json = sr.ReadToEnd();
-            }
-            return new NexmoResponse
-            {
-                Status = sendTask.Result.StatusCode,
-                JsonResponse = json
-            };
         }
 
         public static string DoRequest(Uri uri, object parameters)

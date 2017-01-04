@@ -86,6 +86,23 @@ Nexmo.Url.Api | Optional. Nexmo API base URL. Defaults to https://api.nexmo.com
 Nexmo.Api.RequestsPerSecond | Optional. Throttle to specified requests per second.
 Nexmo.UserAgent | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`
 
+### Logging
+
+From 2.2.0 onward, you can request console logging by placing a ```logging.json``` file alongside your ```appsettings.json``` configuration.
+
+Example ```logging.json``` contents that would log all requests as well as major configuration errors:
+
+```json
+{
+  "IncludeScopes": "true",
+  "LogLevel": {
+    "Default": "Debug",
+    "Nexmo.Api": "Debug",
+    "Nexmo.Api.Configuration": "Error"
+  }
+}
+```
+
 Examples
 --------
 The following examples show how to:

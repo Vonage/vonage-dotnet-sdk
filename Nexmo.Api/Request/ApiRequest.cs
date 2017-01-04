@@ -9,6 +9,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Security.Cryptography;
+using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api.Request
 {
@@ -108,20 +109,25 @@ namespace Nexmo.Api.Request
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
-                Method = HttpMethod.Get,
+                Method = HttpMethod.Get
             };
             VersionedApiRequest.SetUserAgent(ref req);
 
-            var sendTask = Configuration.Instance.Client.SendAsync(req);
-            sendTask.Wait();
-            var readTask = sendTask.Result.Content.ReadAsStreamAsync();
-            readTask.Wait();
-            string json;
-            using (var sr = new StreamReader(readTask.Result))
+            using (Configuration.Instance.ApiLogger.BeginScope("ApiRequest.DoRequest {0}",uri.GetHashCode()))
             {
-                json = sr.ReadToEnd();
+                Configuration.Instance.ApiLogger.LogDebug($"GET {uri}");
+                var sendTask = Configuration.Instance.Client.SendAsync(req);
+                sendTask.Wait();
+                var readTask = sendTask.Result.Content.ReadAsStreamAsync();
+                readTask.Wait();
+                string json;
+                using (var sr = new StreamReader(readTask.Result))
+                {
+                    json = sr.ReadToEnd();
+                }
+                Configuration.Instance.ApiLogger.LogDebug(json);
+                return json;
             }
-            return json;
         }
 
         private static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters)
@@ -144,29 +150,35 @@ namespace Nexmo.Api.Request
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
-            var sendTask = Configuration.Instance.Client.SendAsync(req);
-            sendTask.Wait();
-
-            if (!sendTask.Result.IsSuccessStatusCode)
+            using (Configuration.Instance.ApiLogger.BeginScope("ApiRequest.DoRequest {0}", uri.GetHashCode()))
             {
+                Configuration.Instance.ApiLogger.LogDebug($"{method} {uri} {sb}");
+                var sendTask = Configuration.Instance.Client.SendAsync(req);
+                sendTask.Wait();
+
+                if (!sendTask.Result.IsSuccessStatusCode)
+                {
+                    Configuration.Instance.ApiLogger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+                    return new NexmoResponse
+                    {
+                        Status = sendTask.Result.StatusCode
+                    };
+                }
+
+                string json;
+                var readTask = sendTask.Result.Content.ReadAsStreamAsync();
+                readTask.Wait();
+                using (var sr = new StreamReader(readTask.Result))
+                {
+                    json = sr.ReadToEnd();
+                }
+                Configuration.Instance.ApiLogger.LogDebug(json);
                 return new NexmoResponse
                 {
-                    Status = sendTask.Result.StatusCode
+                    Status = sendTask.Result.StatusCode,
+                    JsonResponse = json
                 };
             }
-
-            string json;
-            var readTask = sendTask.Result.Content.ReadAsStreamAsync();
-            readTask.Wait();
-            using (var sr = new StreamReader(readTask.Result))
-            {
-                json = sr.ReadToEnd();
-            }
-            return new NexmoResponse
-            {
-                Status = sendTask.Result.StatusCode,
-                JsonResponse = json
-            };
         }
 
         public static NexmoResponse DoPostRequest(Uri uri, object parameters)

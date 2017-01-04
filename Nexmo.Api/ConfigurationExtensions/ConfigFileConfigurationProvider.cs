@@ -72,15 +72,11 @@ namespace Nexmo.Api.ConfigurationExtensions
         {
             if (_loadFromFile && !File.Exists(_configuration))
             {
-                if (_isOptional)
-                {
-                    if (_logger != null)
-                    {
-                        _logger.LogInformation($"Optional config not found: [{_configuration}]");
-                    }
-                    return;
-                }
-                throw new FileNotFoundException("Could not find configuration file to load.", _configuration);
+                if (!_isOptional)
+                    throw new FileNotFoundException("Could not find configuration file to load.", _configuration);
+
+                _logger?.LogInformation($"Optional config not found: [{_configuration}]");
+                return;
             }
 
             var document = _loadFromFile ? XDocument.Load(_configuration) : XDocument.Parse(_configuration);
@@ -102,20 +98,18 @@ namespace Nexmo.Api.ConfigurationExtensions
         /// </summary>
         private void ParseElement(XElement element, Stack<string> context, SortedDictionary<string, string> results)
         {
-            bool parsed = false;
+            var parsed = false;
             foreach (var parser in _parsers)
             {
-                if (parser.CanParseElement(element))
-                {
-                    parsed = true;
-                    parser.ParseElement(element, context, results);
-                    break;
-                }
+                if (!parser.CanParseElement(element)) continue;
+                parsed = true;
+                parser.ParseElement(element, context, results);
+                break;
             }
 
-            if (!parsed && _logger != null)
+            if (!parsed)
             {
-                _logger.LogWarning($"None of the parsers could parse [{element.ToString()}]!");
+                _logger?.LogWarning($"None of the parsers could parse [{element}]!");
             }
         }
     }
