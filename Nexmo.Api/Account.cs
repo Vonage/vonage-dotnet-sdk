@@ -75,8 +75,9 @@ namespace Nexmo.Api
         public static decimal GetBalance()
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
-                "/account/get-balance/" +
-                Configuration.Instance.Settings["appSettings:Nexmo.api_key"] + "/" + Configuration.Instance.Settings["appSettings:Nexmo.api_secret"]));
+                "/account/get-balance"),
+                // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
+                new Dictionary<string, string>());
 
             var obj = JsonConvert.DeserializeObject<Balance>(json);
             return obj.value;
@@ -85,9 +86,11 @@ namespace Nexmo.Api
         public static Pricing GetPricing(string country)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
-                "/account/get-pricing/outbound/" +
-                Configuration.Instance.Settings["appSettings:Nexmo.api_key"] + "/" + Configuration.Instance.Settings["appSettings:Nexmo.api_secret"] +
-                "/" + country));
+                "/account/get-pricing/outbound/"),
+                new Dictionary<string, string>
+                {
+                    { "country", country }
+                });
 
             var obj = JsonConvert.DeserializeObject<Pricing>(json);
             return obj;
