@@ -14,7 +14,7 @@
     <releaseNotes>
       * Request signing support (https://docs.nexmo.com/messaging/signing-messages)
     </releaseNotes>
-    <copyright>© Nexmo 2016</copyright>
+    <copyright>© Nexmo 2017</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
     <dependencies>
       <group>

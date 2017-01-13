@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Nexmo.Api.Test.Unit")]
-[assembly: AssemblyCopyright("© Nexmo 2016")]
+[assembly: AssemblyCopyright("© Nexmo 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
