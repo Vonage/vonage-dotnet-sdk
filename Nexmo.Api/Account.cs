@@ -72,31 +72,33 @@ namespace Nexmo.Api
             public string voiceCallbackValue { get; set; }
         }
 
-        public static decimal GetBalance()
+        public static decimal GetBalance(Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-balance"),
                 // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
-                new Dictionary<string, string>());
+                new Dictionary<string, string>(),
+                creds);
 
             var obj = JsonConvert.DeserializeObject<Balance>(json);
             return obj.value;
         }
 
-        public static Pricing GetPricing(string country)
+        public static Pricing GetPricing(string country, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-pricing/outbound/"),
                 new Dictionary<string, string>
                 {
                     { "country", country }
-                });
+                },
+                creds);
 
             var obj = JsonConvert.DeserializeObject<Pricing>(json);
             return obj;
         }
 
-        public static Settings SetSettings(string newsecret = null, string httpMoCallbackurlCom = null, string httpDrCallbackurlCom = null)
+        public static Settings SetSettings(string newsecret = null, string httpMoCallbackurlCom = null, string httpDrCallbackurlCom = null, Credentials creds = null)
         {
             var parameters = new Dictionary<string, string>();
             if (null != newsecret)
@@ -106,31 +108,32 @@ namespace Nexmo.Api
             if (null != httpDrCallbackurlCom)
                 parameters.Add("drCallBackUrl", httpDrCallbackurlCom);
 
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/settings"), parameters);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/settings"), parameters, creds);
 
             // TODO: update secret?
 
             return JsonConvert.DeserializeObject<Settings>(response.JsonResponse);
         }
 
-        public static void TopUp(string transaction)
+        public static void TopUp(string transaction, Credentials creds = null)
         {
             ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/top-up"), new Dictionary<string, string>
             {
                 {"trx", transaction}
-            });
+            },
+            creds);
 
             // TODO: return response
         }
 
-        public static NumbersResponse GetNumbers()
+        public static NumbersResponse GetNumbers(Credentials creds = null)
         {
-            return GetNumbers(new NumbersRequest());
+            return GetNumbers(new NumbersRequest(), creds);
         }
 
-        public static NumbersResponse GetNumbers(NumbersRequest request)
+        public static NumbersResponse GetNumbers(NumbersRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers"), request);
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers"), request, creds);
             return JsonConvert.DeserializeObject<NumbersResponse>(json);
         }
     }

@@ -111,24 +111,25 @@ namespace Nexmo.Api
             public string to { get; set; }
         }
 
-        public static Message GetMessage(string id)
+        public static Message GetMessage(string id, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Search), "/search/message"), new Dictionary<string, string>
             {
                 {"id", id}
-            });
+            },
+            creds);
             return JsonConvert.DeserializeObject<Message>(json);
         }
 
-        public static Messages<Message> GetMessages(SearchRequest request)
+        public static Messages<Message> GetMessages(SearchRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Search), "/search/messages"), request);
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Search), "/search/messages"), request, creds);
             return JsonConvert.DeserializeObject<Messages<Message>>(json);
         }
 
-        public static Messages<MessageBase> GetRejections(SearchRequest request)
+        public static Messages<MessageBase> GetRejections(SearchRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Search), "/search/rejections"), request);
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Search), "/search/rejections"), request, creds);
             return JsonConvert.DeserializeObject<Messages<MessageBase>>(json);
         }
     }

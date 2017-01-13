@@ -26,9 +26,9 @@ namespace Nexmo.Api
             public string error_text { get; set; }
         }
 
-        public static VerifyResponse Verify(VerifyRequest request)
+        public static VerifyResponse Verify(VerifyRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request);
+            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request, creds);
 
             return JsonConvert.DeserializeObject<VerifyResponse>(jsonstring);
         }
@@ -48,13 +48,14 @@ namespace Nexmo.Api
             public string error_text { get; set; }
         }
 
-        public static CheckResponse Check(CheckRequest request)
+        public static CheckResponse Check(CheckRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/check/json"), new Dictionary<string, string>()
+            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/check/json"), new Dictionary<string, string>
             {
                 {"request_id", request.request_id},
                 {"code", request.code}
-            });
+            },
+            creds);
 
             return JsonConvert.DeserializeObject<CheckResponse>(jsonstring);
         }
@@ -90,13 +91,14 @@ namespace Nexmo.Api
             public string ip_address { get; set; }
         }
 
-        public static SearchResponse Search(SearchRequest request)
+        public static SearchResponse Search(SearchRequest request, Credentials creds = null)
         {
             var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/search/json"), new Dictionary<string, string>()
             {
                 {"request_id", request.request_id},
                 {"request_ids", request.request_ids}
-            });
+            },
+            creds);
 
             return JsonConvert.DeserializeObject<SearchResponse>(jsonstring);
         }
@@ -127,9 +129,9 @@ namespace Nexmo.Api
             public string command { get; set; }
         }
 
-        public static ControlResponse Control(ControlRequest request)
+        public static ControlResponse Control(ControlRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), request);
+            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), request, creds);
 
             return JsonConvert.DeserializeObject<ControlResponse>(jsonstring);
         }

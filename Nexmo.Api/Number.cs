@@ -81,37 +81,39 @@ namespace Nexmo.Api
             public IEnumerable<SearchResult> numbers { get; set; }
         }
 
-        public static SearchResults Search(SearchRequest request)
+        public static SearchResults Search(SearchRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/search/"), request);
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/search/"), request, creds);
             return JsonConvert.DeserializeObject<SearchResults>(json);
         }
 
-        public static ResponseBase Buy(string country, string number)
+        public static ResponseBase Buy(string country, string number, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/buy"), new Dictionary<string, string>()
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/buy"), new Dictionary<string, string>
             {
                 {"country", country},
                 {"msisdn", number}
-            });
+            },
+            creds);
 
             return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }
 
-        public static ResponseBase Update(NumberUpdateCommand cmd)
+        public static ResponseBase Update(NumberUpdateCommand cmd, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/update"), cmd);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/update"), cmd, creds);
 
             return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }
 
-        public static ResponseBase Cancel(string country, string number)
+        public static ResponseBase Cancel(string country, string number, Credentials creds = null)
         {
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/cancel"), new Dictionary<string, string>
             {
                 {"country", country},
                 {"msisdn", number}
-            });
+            },
+            creds);
 
             return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }

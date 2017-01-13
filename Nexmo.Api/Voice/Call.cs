@@ -151,9 +151,9 @@ namespace Nexmo.Api.Voice
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
-        public static CallResponse Do(CallCommand cmd)
+        public static CallResponse Do(CallCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), cmd);
+            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), cmd, creds);
 
             return JsonConvert.DeserializeObject<CallResponse>(response.JsonResponse);
         }
@@ -161,9 +161,9 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// GET /v1/calls - retrieve information about all your Calls
         /// </summary>
-        public static PaginatedResponse<CallList> List(SearchFilter filter)
+        public static PaginatedResponse<CallList> List(SearchFilter filter, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), filter);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), filter, creds);
 
             return JsonConvert.DeserializeObject<PaginatedResponse<CallList>>(response);
         }
@@ -178,9 +178,9 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// GET /v1/calls/{uuid} - retrieve information about a single Call
         /// </summary>
-        public static CallResponse Get(string id)
+        public static CallResponse Get(string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new {});
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new {}, creds);
 
             return JsonConvert.DeserializeObject<CallResponse>(response);
         }
@@ -188,9 +188,9 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// PUT /v1/calls/{uuid} - modify an existing Call
         /// </summary>
-        public static CallResponse Edit(string id, CallEditCommand cmd)
+        public static CallResponse Edit(string id, CallEditCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd);
+            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd, creds);
 
             return JsonConvert.DeserializeObject<CallResponse>(response.JsonResponse);
         }

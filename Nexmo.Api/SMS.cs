@@ -186,14 +186,14 @@ namespace Nexmo.Api
             public string udh { get; set; }
         }
 
-        public static SMSResponse Send(SMSRequest request)
+        public static SMSResponse Send(SMSRequest request, Credentials creds = null)
         {
             if (string.IsNullOrEmpty(request.from))
             {
                 request.from = Configuration.Instance.Settings["Nexmo.sender_id"];
             }
 
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(SMSResponse), "/sms/json"), request);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(SMSResponse), "/sms/json"), request, creds);
 
             return JsonConvert.DeserializeObject<SMSResponse>(response.JsonResponse);
         }

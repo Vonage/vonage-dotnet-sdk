@@ -92,9 +92,9 @@ namespace Nexmo.Api
         /// </summary>
         /// <param name="request">Application request</param>
         /// <returns></returns>
-        public static ApplicationResponse Create(ApplicationRequest request)
+        public static ApplicationResponse Create(ApplicationRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"), request);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"), request, creds);
 
             return JsonConvert.DeserializeObject<ApplicationResponse>(response.JsonResponse);
         }
@@ -106,7 +106,7 @@ namespace Nexmo.Api
         /// <param name="PageIndex">Set the offset from the first page. The default value is 0, calls to this endpoint return a page of <page_size>. For example, set page_index to 3 to retrieve items 31 - 40 when page_size is the default value.</param>
         /// <param name="AppId">Optional id of specific application to retrieve</param>
         /// <returns></returns>
-        public static List<ApplicationResponse> List(int PageSize = 10, int PageIndex = 0, string AppId = "")
+        public static List<ApplicationResponse> List(int PageSize = 10, int PageIndex = 0, string AppId = "", Credentials creds = null)
         {
             if (!string.IsNullOrEmpty(AppId))
             {
@@ -116,7 +116,8 @@ namespace Nexmo.Api
                         ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Application),
                         $"/v1/applications/{AppId}"),
                         // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
-                        new Dictionary<string, string>()))
+                        new Dictionary<string, string>(),
+                        creds))
                 };
 
             }
@@ -125,7 +126,8 @@ namespace Nexmo.Api
             {
                 { "page_size", PageSize.ToString()},
                 { "page_index", PageIndex.ToString()}
-            });
+            },
+            creds);
             var response = JsonConvert.DeserializeObject<ApplicationListResponse>(json);
             return response._embedded.applications;
         }
@@ -135,11 +137,11 @@ namespace Nexmo.Api
         /// </summary>
         /// <param name="request">Application request</param>
         /// <returns></returns>
-        public static ApplicationResponse Update(ApplicationRequest request)
+        public static ApplicationResponse Update(ApplicationRequest request, Credentials creds = null)
         {
             var sb = ApiRequest.GetQueryStringBuilderFor(request);
             var response = ApiRequest.DoPutRequest(ApiRequest.GetBaseUriFor(typeof(Application),
-                $"/v1/applications/{request.id}?{sb}"), null);
+                $"/v1/applications/{request.id}?{sb}"), null, creds);
 
             return JsonConvert.DeserializeObject<ApplicationResponse>(response.JsonResponse);
         }
@@ -149,11 +151,11 @@ namespace Nexmo.Api
         /// </summary>
         /// <param name="AppId">The application id to delete</param>
         /// <returns></returns>
-        public static bool Delete(string AppId)
+        public static bool Delete(string AppId, Credentials creds = null)
         {
             var sb = ApiRequest.GetQueryStringBuilderFor(new object());
             var response = ApiRequest.DoDeleteRequest(ApiRequest.GetBaseUriFor(typeof(Application),
-                $"/v1/applications/{AppId}?{sb}"), null);
+                $"/v1/applications/{AppId}?{sb}"), null, creds);
 
             return response.Status == HttpStatusCode.NoContent;
         }

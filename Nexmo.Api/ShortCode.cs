@@ -26,18 +26,18 @@ namespace Nexmo.Api
             public string type { get; set; }
         }
 
-        public static SMS.SMSResponse RequestTwoFactorAuth(TwoFactorAuthRequest request)
+        public static SMS.SMSResponse RequestTwoFactorAuth(TwoFactorAuthRequest request, Credentials creds = null)
         {
             if (!request.pin.HasValue)
             {
                 request.pin = new Random().Next(0, 9999);
             }
 
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/2fa/json"), request);
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/2fa/json"), request, creds);
             return JsonConvert.DeserializeObject<SMS.SMSResponse>(json);
         }
 
-        public static SMS.SMSResponse RequestAlert(AlertRequest request, Dictionary<string, string> customValues)
+        public static SMS.SMSResponse RequestAlert(AlertRequest request, Dictionary<string, string> customValues, Credentials creds = null)
         {
             var sb = ApiRequest.GetQueryStringBuilderFor(request);
             foreach (var key in customValues.Keys)
@@ -45,7 +45,7 @@ namespace Nexmo.Api
                 sb.AppendFormat("{0}={1}&", System.Net.WebUtility.UrlEncode(key), System.Net.WebUtility.UrlEncode(customValues[key]));
             }
 
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/alert/json?" + sb));
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/alert/json?" + sb), creds);
             return JsonConvert.DeserializeObject<SMS.SMSResponse>(json);
         }
     }

@@ -15,8 +15,12 @@ namespace Nexmo.Api.Request
 {
     internal static class ApiRequest
     {
-        private static StringBuilder BuildQueryString(IDictionary<string, string> parameters)
+        private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null)
         {
+            var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"]).ToUpper();
+            var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
+            var securitySecret = creds?.SecuritySecret ?? Configuration.Instance.Settings["appSettings:Nexmo.security_secret"];
+
             var sb = new StringBuilder();
             Action<IDictionary<string, string>, StringBuilder> buildStringFromParams = (param, strings) =>
             {
@@ -25,11 +29,11 @@ namespace Nexmo.Api.Request
                     strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), WebUtility.UrlEncode(kvp.Value));
                 }
             };
-            parameters.Add("api_key", Configuration.Instance.Settings["appSettings:Nexmo.api_key"].ToUpper());
-            if (string.IsNullOrEmpty(Configuration.Instance.Settings["appSettings:Nexmo.security_secret"]))
+            parameters.Add("api_key", apiKey);
+            if (string.IsNullOrEmpty(securitySecret))
             {
                 // security secret not provided, do not sign
-                parameters.Add("api_secret", Configuration.Instance.Settings["appSettings:Nexmo.api_secret"]);
+                parameters.Add("api_secret", apiSecret);
                 buildStringFromParams(parameters, sb);
                 return sb;
             }
@@ -38,7 +42,7 @@ namespace Nexmo.Api.Request
             var sortedParams = new SortedDictionary<string, string>(parameters);
             buildStringFromParams(sortedParams, sb);
             var queryToSign = "&" + sb;
-            queryToSign = queryToSign.Remove(queryToSign.Length - 1) + Configuration.Instance.Settings["appSettings:Nexmo.security_secret"].ToUpper();
+            queryToSign = queryToSign.Remove(queryToSign.Length - 1) + securitySecret.ToUpper();
             var hashgen = MD5.Create();
             var hash = hashgen.ComputeHash(Encoding.UTF8.GetBytes(queryToSign));
             sb.AppendFormat("sig={0}", ByteArrayToHexHelper.ByteArrayToHex(hash).ToLower());
@@ -84,22 +88,22 @@ namespace Nexmo.Api.Request
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
 
-        public static StringBuilder GetQueryStringBuilderFor(object parameters)
+        public static StringBuilder GetQueryStringBuilderFor(object parameters, Credentials creds = null)
         {
             var apiParams = GetParameters(parameters);
-            var sb = BuildQueryString(apiParams);
+            var sb = BuildQueryString(apiParams, creds);
             return sb;
         }
 
-        public static string DoRequest(Uri uri, Dictionary<string, string> parameters)
+        public static string DoRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
         {
-            var sb = BuildQueryString(parameters);
+            var sb = BuildQueryString(parameters, creds);
             return DoRequest(new Uri(uri, "?" + sb));
         }
 
-        public static string DoRequest(Uri uri, object parameters)
+        public static string DoRequest(Uri uri, object parameters, Credentials creds = null)
         {
-            var sb = GetQueryStringBuilderFor(parameters);
+            var sb = GetQueryStringBuilderFor(parameters, creds);
 
             return DoRequest(new Uri(uri, "?" + sb));
         }
@@ -130,13 +134,13 @@ namespace Nexmo.Api.Request
             }
         }
 
-        private static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters)
+        private static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
         {
             var sb = new StringBuilder();
             // if parameters is null, assume that key and secret have been taken care of
             if (null != parameters)
             {
-                sb = BuildQueryString(parameters);
+                sb = BuildQueryString(parameters, creds);
             }
 
             var req = new HttpRequestMessage
@@ -181,14 +185,14 @@ namespace Nexmo.Api.Request
             }
         }
 
-        public static NexmoResponse DoPostRequest(Uri uri, object parameters)
+        public static NexmoResponse DoPostRequest(Uri uri, object parameters, Credentials creds = null)
         {
             var apiParams = GetParameters(parameters);
-            return DoPostRequest(uri, apiParams);            
+            return DoPostRequest(uri, apiParams, creds);            
         }
 
-        public static NexmoResponse DoPostRequest(Uri uri, Dictionary<string, string> parameters) => DoRequest("POST", uri, parameters);
-        public static NexmoResponse DoPutRequest(Uri uri, Dictionary<string, string> parameters) => DoRequest("PUT", uri, parameters);
-        public static NexmoResponse DoDeleteRequest(Uri uri, Dictionary<string, string> parameters) => DoRequest("DELETE", uri, parameters);
+        public static NexmoResponse DoPostRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("POST", uri, parameters, creds);
+        public static NexmoResponse DoPutRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("PUT", uri, parameters, creds);
+        public static NexmoResponse DoDeleteRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("DELETE", uri, parameters, creds);
     }
 }

@@ -23,8 +23,11 @@ namespace Nexmo.Api.Request
             return sb;
         }
 
-        private static string DoRequest(Uri uri)
+        private static string DoRequest(Uri uri, Credentials creds = null)
         {
+            var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
+            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
+
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
@@ -33,7 +36,7 @@ namespace Nexmo.Api.Request
             SetUserAgent(ref req);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                Jwt.CreateToken(Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"], Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"]));
+                Jwt.CreateToken(appId, appKeyPath));
 
             using (Configuration.Instance.ApiLogger.BeginScope("VersionedApiRequest.DoRequest {0}", uri.GetHashCode()))
             {
@@ -94,8 +97,11 @@ namespace Nexmo.Api.Request
             request.Headers.UserAgent.ParseAdd(_userAgent);
         }
 
-        public static NexmoResponse DoRequest(string method, Uri uri, object payload)
+        public static NexmoResponse DoRequest(string method, Uri uri, object payload, Credentials creds = null)
         {
+            var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
+            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
+
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
@@ -104,7 +110,7 @@ namespace Nexmo.Api.Request
             SetUserAgent(ref req);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                Jwt.CreateToken(Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"], Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"]));
+                Jwt.CreateToken(appId, appKeyPath));
 
             var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload));
             req.Content = new ByteArrayContent(data);
@@ -141,11 +147,11 @@ namespace Nexmo.Api.Request
             }
         }
 
-        public static string DoRequest(Uri uri, object parameters)
+        public static string DoRequest(Uri uri, object parameters, Credentials creds = null)
         {
             var sb = GetQueryStringBuilderFor(parameters);
 
-            return DoRequest(new Uri(uri, "?" + sb));
+            return DoRequest(new Uri(uri, "?" + sb), creds);
         }
     }
 }
