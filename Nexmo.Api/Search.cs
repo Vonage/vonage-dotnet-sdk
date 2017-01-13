@@ -111,6 +111,12 @@ namespace Nexmo.Api
             public string to { get; set; }
         }
 
+        /// <summary>
+        /// Search for information about a single message that you sent using SMS API.
+        /// </summary>
+        /// <param name="id">Nexmo message ID</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static Message GetMessage(string id, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Search), "/search/message"), new Dictionary<string, string>
@@ -121,12 +127,24 @@ namespace Nexmo.Api
             return JsonConvert.DeserializeObject<Message>(json);
         }
 
+        /// <summary>
+        /// Search for information about the messages you sent using SMS API.
+        /// </summary>
+        /// <param name="request">Search request with numbers</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static Messages<Message> GetMessages(SearchRequest request, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Search), "/search/messages"), request, creds);
             return JsonConvert.DeserializeObject<Messages<Message>>(json);
         }
 
+        /// <summary>
+        /// Search for messages that have been rejected by Nexmo. Messages rejected by carrier do not appear.
+        /// </summary>
+        /// <param name="request">Search request with numbers</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static Messages<MessageBase> GetRejections(SearchRequest request, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Search), "/search/rejections"), request, creds);

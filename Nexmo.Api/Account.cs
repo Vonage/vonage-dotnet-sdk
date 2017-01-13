@@ -72,6 +72,11 @@ namespace Nexmo.Api
             public string voiceCallbackValue { get; set; }
         }
 
+        /// <summary>
+        /// Get current account balance
+        /// </summary>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns>decimal balance</returns>
         public static decimal GetBalance(Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
@@ -84,6 +89,12 @@ namespace Nexmo.Api
             return obj.value;
         }
 
+        /// <summary>
+        /// Get Nexmo pricing for the given country
+        /// </summary>
+        /// <param name="country">ISO 3166-1 alpha-2 country code</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns>Pricing data</returns>
         public static Pricing GetPricing(string country, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
@@ -98,6 +109,14 @@ namespace Nexmo.Api
             return obj;
         }
 
+        /// <summary>
+        /// Set account settings
+        /// </summary>
+        /// <param name="newsecret">New API secret</param>
+        /// <param name="httpMoCallbackurlCom">An encoded URI to the webhook endpoint endpoint that handles inbound messages.</param>
+        /// <param name="httpDrCallbackurlCom">An encoded URI to the webhook endpoint that handles deliver receipts (DLR).</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns>Updated settings</returns>
         public static Settings SetSettings(string newsecret = null, string httpMoCallbackurlCom = null, string httpDrCallbackurlCom = null, Credentials creds = null)
         {
             var parameters = new Dictionary<string, string>();
@@ -110,11 +129,16 @@ namespace Nexmo.Api
 
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/settings"), parameters, creds);
 
-            // TODO: update secret?
+            // TODO: update secret in config?
 
             return JsonConvert.DeserializeObject<Settings>(response.JsonResponse);
         }
 
+        /// <summary>
+        /// Top-up an account that is configured for auto reload.
+        /// </summary>
+        /// <param name="transaction">The ID associated with your original auto-reload transaction.</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static void TopUp(string transaction, Credentials creds = null)
         {
             ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/top-up"), new Dictionary<string, string>
@@ -126,11 +150,22 @@ namespace Nexmo.Api
             // TODO: return response
         }
 
+        /// <summary>
+        /// Retrieve all the phone numbers associated with your account.
+        /// </summary>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns>All the phone numbers associated with your account.</returns>
         public static NumbersResponse GetNumbers(Credentials creds = null)
         {
             return GetNumbers(new NumbersRequest(), creds);
         }
 
+        /// <summary>
+        /// Retrieve all the phone numbers associated with your account that match the provided filter
+        /// </summary>
+        /// <param name="request">Filter for account numbers list</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static NumbersResponse GetNumbers(NumbersRequest request, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers"), request, creds);

@@ -123,6 +123,12 @@ namespace Nexmo.Api
             public string roaming_network_code { get; set; }
         }
 
+        /// <summary>
+        /// Performs basic semantic checks on given phone number.
+        /// </summary>
+        /// <param name="request">NI request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static NumberInsightBasicResponse RequestBasic(NumberInsightBasicRequest request, Credentials creds = null)
         {
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/number/format/json"), request, creds);
@@ -130,6 +136,12 @@ namespace Nexmo.Api
             return JsonConvert.DeserializeObject<NumberInsightBasicResponse>(response.JsonResponse);
         }
 
+        /// <summary>
+        /// Identifies the phone number type and, for mobile phone numbers, the network it is registered with.
+        /// </summary>
+        /// <param name="request">NI request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static NumberInsightStandardResponse RequestStandard(NumberInsightBasicRequest request, Credentials creds = null)
         {
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/number/lookup/json"), request, creds);
@@ -137,6 +149,12 @@ namespace Nexmo.Api
             return JsonConvert.DeserializeObject<NumberInsightStandardResponse>(response.JsonResponse);
         }
 
+        /// <summary>
+        /// Retrieve validity, roaming, and reachability information about a mobile phone number.
+        /// </summary>
+        /// <param name="request">NI advenced request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static NumberInsightRequestResponse Request(NumberInsightRequest request, Credentials creds = null)
         {
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberInsight), "/ni/json"), new Dictionary<string, string>
@@ -149,6 +167,11 @@ namespace Nexmo.Api
             return JsonConvert.DeserializeObject<NumberInsightRequestResponse>(response.JsonResponse);
         }
 
+        /// <summary>
+        /// Deserializes a NumberInsight response JSON string
+        /// </summary>
+        /// <param name="json">NumberInsight response JSON string</param>
+        /// <returns></returns>
         public static NumberInsightResponse Response(string json)
         {
             return JsonConvert.DeserializeObject<NumberInsightResponse>(json);

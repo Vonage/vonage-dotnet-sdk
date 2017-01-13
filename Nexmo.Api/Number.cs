@@ -81,12 +81,25 @@ namespace Nexmo.Api
             public IEnumerable<SearchResult> numbers { get; set; }
         }
 
+        /// <summary>
+        /// Retrieve the list of virtual numbers available for a specific country.
+        /// </summary>
+        /// <param name="request">Search filter</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static SearchResults Search(SearchRequest request, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/search/"), request, creds);
             return JsonConvert.DeserializeObject<SearchResults>(json);
         }
 
+        /// <summary>
+        /// Rent a specific virtual number.
+        /// </summary>
+        /// <param name="country">ISO 3166-1 alpha-2 country code</param>
+        /// <param name="number">Number to rent</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static ResponseBase Buy(string country, string number, Credentials creds = null)
         {
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/buy"), new Dictionary<string, string>
@@ -99,6 +112,12 @@ namespace Nexmo.Api
             return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }
 
+        /// <summary>
+        /// Change the webhook endpoints associated with a rented virtual number or associate a virtual number with an Application.
+        /// </summary>
+        /// <param name="cmd">Update request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static ResponseBase Update(NumberUpdateCommand cmd, Credentials creds = null)
         {
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/update"), cmd, creds);
@@ -106,6 +125,13 @@ namespace Nexmo.Api
             return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }
 
+        /// <summary>
+        /// Cancel your rental of a specific virtual number.
+        /// </summary>
+        /// <param name="country">ISO 3166-1 alpha-2 country code</param>
+        /// <param name="number">The number to cancel</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static ResponseBase Cancel(string country, string number, Credentials creds = null)
         {
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/cancel"), new Dictionary<string, string>

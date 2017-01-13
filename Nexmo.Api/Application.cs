@@ -91,6 +91,7 @@ namespace Nexmo.Api
         /// Create a new application
         /// </summary>
         /// <param name="request">Application request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         public static ApplicationResponse Create(ApplicationRequest request, Credentials creds = null)
         {
@@ -105,6 +106,7 @@ namespace Nexmo.Api
         /// <param name="PageSize">Set the number of items returned on each call to this endpoint. The default is 10 records.</param>
         /// <param name="PageIndex">Set the offset from the first page. The default value is 0, calls to this endpoint return a page of <page_size>. For example, set page_index to 3 to retrieve items 31 - 40 when page_size is the default value.</param>
         /// <param name="AppId">Optional id of specific application to retrieve</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         public static List<ApplicationResponse> List(int PageSize = 10, int PageIndex = 0, string AppId = "", Credentials creds = null)
         {
@@ -136,6 +138,7 @@ namespace Nexmo.Api
         /// Modify a single application
         /// </summary>
         /// <param name="request">Application request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         public static ApplicationResponse Update(ApplicationRequest request, Credentials creds = null)
         {
@@ -149,13 +152,14 @@ namespace Nexmo.Api
         /// <summary>
         /// Delete a single application
         /// </summary>
-        /// <param name="AppId">The application id to delete</param>
+        /// <param name="appId">The application id to delete</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
-        public static bool Delete(string AppId, Credentials creds = null)
+        public static bool Delete(string appId, Credentials creds = null)
         {
             var sb = ApiRequest.GetQueryStringBuilderFor(new object());
             var response = ApiRequest.DoDeleteRequest(ApiRequest.GetBaseUriFor(typeof(Application),
-                $"/v1/applications/{AppId}?{sb}"), null, creds);
+                $"/v1/applications/{appId}?{sb}"), null, creds);
 
             return response.Status == HttpStatusCode.NoContent;
         }

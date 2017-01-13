@@ -1,5 +1,9 @@
-# 2.2.0 (2016-12-??)
+# 2.2.0 (2017-01-??)
 
+* Expose internal API request methods to allow custom API calls from library consumers as some new Nexmo API endpoints may not be immediately supported.
+* Allow override of request credentials per API call.
+* Optional configuration and request logging.
+* Support signed requests via security key.
 * Optional API request rate limiting.
 
 # 2.1.2 (2016-12-07)

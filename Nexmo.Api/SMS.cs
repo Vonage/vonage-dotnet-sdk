@@ -186,6 +186,12 @@ namespace Nexmo.Api
             public string udh { get; set; }
         }
 
+        /// <summary>
+        /// Send a SMS message.
+        /// </summary>
+        /// <param name="request">The SMS message request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static SMSResponse Send(SMSRequest request, Credentials creds = null)
         {
             if (string.IsNullOrEmpty(request.from))

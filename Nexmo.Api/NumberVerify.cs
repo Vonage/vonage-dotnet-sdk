@@ -26,6 +26,12 @@ namespace Nexmo.Api
             public string error_text { get; set; }
         }
 
+        /// <summary>
+        /// Number Verify: Generate and send a PIN to your user. You use the request_id in the response for the Verify Check.
+        /// </summary>
+        /// <param name="request">Verify request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static VerifyResponse Verify(VerifyRequest request, Credentials creds = null)
         {
             var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request, creds);
@@ -48,6 +54,12 @@ namespace Nexmo.Api
             public string error_text { get; set; }
         }
 
+        /// <summary>
+        /// Number Verify: Confirm that the PIN you received from your user matches the one sent by Nexmo as a result of your Verify Request.
+        /// </summary>
+        /// <param name="request">Check request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static CheckResponse Check(CheckRequest request, Credentials creds = null)
         {
             var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/check/json"), new Dictionary<string, string>
@@ -91,6 +103,12 @@ namespace Nexmo.Api
             public string ip_address { get; set; }
         }
 
+        /// <summary>
+        /// Number Verify: Lookup the status of one or more requests.
+        /// </summary>
+        /// <param name="request">Search request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static SearchResponse Search(SearchRequest request, Credentials creds = null)
         {
             var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/search/json"), new Dictionary<string, string>()
@@ -129,6 +147,12 @@ namespace Nexmo.Api
             public string command { get; set; }
         }
 
+        /// <summary>
+        /// Number Verify: Control the progress of your Verify Requests.
+        /// </summary>
+        /// <param name="request">Control request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static ControlResponse Control(ControlRequest request, Credentials creds = null)
         {
             var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), request, creds);

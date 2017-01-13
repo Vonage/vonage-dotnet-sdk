@@ -9,6 +9,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api.Request
 {
+    /// <summary>
+    /// Responsible for sending all Nexmo API requests that require Application authentication.
+    /// For older forms of authentication, see ApiRequest.
+    /// </summary>
     public static class VersionedApiRequest
     {
         private static StringBuilder GetQueryStringBuilderFor(object parameters)
@@ -97,6 +101,15 @@ namespace Nexmo.Api.Request
             request.Headers.UserAgent.ParseAdd(_userAgent);
         }
 
+        /// <summary>
+        /// Send a request to the versioned Nexmo API.
+        /// Do not include credentials in the parameters object. If you need to override credentials, use the optional Credentials parameter.
+        /// </summary>
+        /// <param name="method">HTTP method (POST, PUT, DELETE, etc)</param>
+        /// <param name="uri">The URI to communicate with</param>
+        /// <param name="payload">Parameters required by the endpoint (do not include credentials)</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static NexmoResponse DoRequest(string method, Uri uri, object payload, Credentials creds = null)
         {
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
@@ -147,6 +160,14 @@ namespace Nexmo.Api.Request
             }
         }
 
+        /// <summary>
+        /// Send a GET request to the versioned Nexmo API.
+        /// Do not include credentials in the parameters object. If you need to override credentials, use the optional Credentials parameter.
+        /// </summary>
+        /// <param name="uri">The URI to GET</param>
+        /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static string DoRequest(Uri uri, object parameters, Credentials creds = null)
         {
             var sb = GetQueryStringBuilderFor(parameters);

@@ -13,6 +13,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api.Request
 {
+    /// <summary>
+    /// Responsible for sending all Nexmo API requests that do not make use of Application authentication.
+    /// For application authentication, see VersionedApiRequest.
+    /// </summary>
     public static class ApiRequest
     {
         private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null)
@@ -95,6 +99,14 @@ namespace Nexmo.Api.Request
             return sb;
         }
 
+        /// <summary>
+        /// Send a GET request to the Nexmo API.
+        /// Do not include credentials in the parameters object. If you need to override credentials, use the optional Credentials parameter.
+        /// </summary>
+        /// <param name="uri">The URI to GET</param>
+        /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static string DoRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
         {
             var sb = BuildQueryString(parameters, creds);
@@ -134,6 +146,15 @@ namespace Nexmo.Api.Request
             }
         }
 
+        /// <summary>
+        /// Send a request to the Nexmo API.
+        /// Do not include credentials in the parameters object. If you need to override credentials, use the optional Credentials parameter.
+        /// </summary>
+        /// <param name="method">HTTP method (POST, PUT, DELETE, etc)</param>
+        /// <param name="uri">The URI to communicate with</param>
+        /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
         {
             var sb = new StringBuilder();

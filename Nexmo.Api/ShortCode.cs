@@ -26,6 +26,12 @@ namespace Nexmo.Api
             public string type { get; set; }
         }
 
+        /// <summary>
+        /// Send a 2FA request.
+        /// </summary>
+        /// <param name="request">2FA request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static SMS.SMSResponse RequestTwoFactorAuth(TwoFactorAuthRequest request, Credentials creds = null)
         {
             if (!request.pin.HasValue)
@@ -37,6 +43,13 @@ namespace Nexmo.Api
             return JsonConvert.DeserializeObject<SMS.SMSResponse>(json);
         }
 
+        /// <summary>
+        /// Send an Event Based Alerts request.
+        /// </summary>
+        /// <param name="request">Event Based Alerts request</param>
+        /// <param name="customValues">Any custom parameters you need for template.</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
         public static SMS.SMSResponse RequestAlert(AlertRequest request, Dictionary<string, string> customValues, Credentials creds = null)
         {
             var sb = ApiRequest.GetQueryStringBuilderFor(request);
