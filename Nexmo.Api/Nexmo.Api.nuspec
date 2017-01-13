@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>2.2.0</version>
+    <version>2.2.0-rc1</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,7 +12,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * Request signing support (https://docs.nexmo.com/messaging/signing-messages)
+      * Expose internal API request methods to allow custom API calls from library consumers as some new Nexmo API endpoints may not be immediately supported.
+      * Allow override of request credentials per API call.
+      * Optional configuration and request logging.
+      * Support signed requests via security key.
+      * Optional API request rate limiting.
     </releaseNotes>
     <copyright>© Nexmo 2017</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
