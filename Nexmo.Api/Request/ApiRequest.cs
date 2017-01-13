@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api.Request
 {
-    internal static class ApiRequest
+    public static class ApiRequest
     {
         private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null)
         {
@@ -72,7 +72,7 @@ namespace Nexmo.Api.Request
             return apiParams;
         }
 
-        public static Uri GetBaseUriFor(Type component, string url = null)
+        internal static Uri GetBaseUriFor(Type component, string url = null)
         {
             Uri baseUri;
             if (typeof(NumberVerify) == component
@@ -88,7 +88,7 @@ namespace Nexmo.Api.Request
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
 
-        public static StringBuilder GetQueryStringBuilderFor(object parameters, Credentials creds = null)
+        internal static StringBuilder GetQueryStringBuilderFor(object parameters, Credentials creds = null)
         {
             var apiParams = GetParameters(parameters);
             var sb = BuildQueryString(apiParams, creds);
@@ -101,14 +101,14 @@ namespace Nexmo.Api.Request
             return DoRequest(new Uri(uri, "?" + sb));
         }
 
-        public static string DoRequest(Uri uri, object parameters, Credentials creds = null)
+        internal static string DoRequest(Uri uri, object parameters, Credentials creds = null)
         {
             var sb = GetQueryStringBuilderFor(parameters, creds);
 
             return DoRequest(new Uri(uri, "?" + sb));
         }
 
-        public static string DoRequest(Uri uri)
+        internal static string DoRequest(Uri uri)
         {
             var req = new HttpRequestMessage
             {
@@ -134,7 +134,7 @@ namespace Nexmo.Api.Request
             }
         }
 
-        private static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
+        public static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
         {
             var sb = new StringBuilder();
             // if parameters is null, assume that key and secret have been taken care of
@@ -185,14 +185,14 @@ namespace Nexmo.Api.Request
             }
         }
 
-        public static NexmoResponse DoPostRequest(Uri uri, object parameters, Credentials creds = null)
+        internal static NexmoResponse DoPostRequest(Uri uri, object parameters, Credentials creds = null)
         {
             var apiParams = GetParameters(parameters);
             return DoPostRequest(uri, apiParams, creds);            
         }
 
-        public static NexmoResponse DoPostRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("POST", uri, parameters, creds);
-        public static NexmoResponse DoPutRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("PUT", uri, parameters, creds);
-        public static NexmoResponse DoDeleteRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("DELETE", uri, parameters, creds);
+        internal static NexmoResponse DoPostRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("POST", uri, parameters, creds);
+        internal static NexmoResponse DoPutRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("PUT", uri, parameters, creds);
+        internal static NexmoResponse DoDeleteRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("DELETE", uri, parameters, creds);
     }
 }

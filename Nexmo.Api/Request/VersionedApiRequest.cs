@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api.Request
 {
-    internal static class VersionedApiRequest
+    public static class VersionedApiRequest
     {
         private static StringBuilder GetQueryStringBuilderFor(object parameters)
         {
@@ -61,7 +61,7 @@ namespace Nexmo.Api.Request
         }
 
         private static string _userAgent;
-        public static void SetUserAgent(ref HttpRequestMessage request)
+        internal static void SetUserAgent(ref HttpRequestMessage request)
         {
             if (string.IsNullOrEmpty(_userAgent))
             {
