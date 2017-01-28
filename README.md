@@ -100,7 +100,7 @@ Example ```logging.json``` contents that would log all requests as well as major
   "LogLevel": {
     "Default": "Debug",
     "Nexmo.Api": "Debug",
-    "Nexmo.Api.Authentication": "Error"
+    "Nexmo.Api.Authentication": "Error",
     "Nexmo.Api.Configuration": "Error"
   }
 }
