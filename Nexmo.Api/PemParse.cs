@@ -54,33 +54,47 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api
 {
     public class PemParse
     {
-        private const string pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
-        private const string pemprivfooter = "-----END RSA PRIVATE KEY-----";
+        private const string pkcs1privheader = "-----BEGIN RSA PRIVATE KEY-----";
+        private const string pkcs1privfooter = "-----END RSA PRIVATE KEY-----";
+
+        private const string pkcs8privheader = "-----BEGIN PRIVATE KEY-----";
+        private const string pkcs8privfooter = "-----END PRIVATE KEY-----";
 
         public static RSA DecodePEMKey(string pemstr)
         {
-            if (!pemstr.StartsWith(pemprivheader) || !pemstr.EndsWith(pemprivfooter)) return null;
+            pemstr = pemstr.Trim();
+
+            var isPkcs1 = pemstr.StartsWith(pkcs1privheader) && pemstr.EndsWith(pkcs1privfooter);
+            var isPkcs8 = pemstr.StartsWith(pkcs8privheader) && pemstr.EndsWith(pkcs8privfooter);
+            if (!(isPkcs1 || isPkcs8))
+            {
+                Configuration.Instance.AuthenticationLogger.LogError("App private key is not in PKCS#1 or PKCS#8 format!");
+                return null;
+            }
+
             var pemprivatekey = DecodeOpenSSLPrivateKey(pemstr);
             if (pemprivatekey != null)
-                return DecodeRSAPrivateKey(pemprivatekey);
+                return DecodeRSAPrivateKey(pemprivatekey, isPkcs8);
+            Configuration.Instance.AuthenticationLogger.LogError("App private key failed decode!");
             return null;
         }
 
         private static byte[] DecodeOpenSSLPrivateKey(string instr)
         {
-            var pemstr = instr.Trim();
+            // note: assuming instr is already trimmed and validated as pkcs1 or pkcs8
             byte[] binkey;
-            if (!pemstr.StartsWith(pemprivheader) || !pemstr.EndsWith(pemprivfooter))
-                return null;
-
-            var sb = new StringBuilder(pemstr);
-            sb.Replace(pemprivheader, ""); //remove headers/footers, if present
-            sb.Replace(pemprivfooter, "");
+            var sb = new StringBuilder(instr);
+            // remove headers/footers, if present
+            sb.Replace(pkcs1privheader, "");
+            sb.Replace(pkcs1privfooter, "");
+            sb.Replace(pkcs8privheader, "");
+            sb.Replace(pkcs8privfooter, "");
 
             var pvkstr = sb.ToString().Trim(); //get string after removing leading/trailing whitespace
 
@@ -95,38 +109,38 @@ namespace Nexmo.Api
                 //if can't b64 decode, it must be an encrypted private key
                 //Console.WriteLine("Not an unencrypted OpenSSL PEM private key");  
             }
+            throw new NotSupportedException("Encrypted key not supported");
 
-            var str = new StringReader(pvkstr);
+            //var str = new StringReader(pvkstr);
 
-            //-------- read PEM encryption info. lines and extract salt -----
-            if (!str.ReadLine().StartsWith("Proc-Type: 4,ENCRYPTED"))
-                return null;
-            var saltline = str.ReadLine();
-            if (!saltline.StartsWith("DEK-Info: DES-EDE3-CBC,"))
-                return null;
-            var saltstr = saltline.Substring(saltline.IndexOf(",") + 1).Trim();
-            var salt = new byte[saltstr.Length/2];
-            for (var i = 0; i < salt.Length; i++)
-                salt[i] = Convert.ToByte(saltstr.Substring(i*2, 2), 16);
-            if (str.ReadLine() != "")
-                return null;
+            ////-------- read PEM encryption info. lines and extract salt -----
+            //if (!str.ReadLine().StartsWith("Proc-Type: 4,ENCRYPTED"))
+            //    return null;
+            //var saltline = str.ReadLine();
+            //if (!saltline.StartsWith("DEK-Info: DES-EDE3-CBC,"))
+            //    return null;
+            //var saltstr = saltline.Substring(saltline.IndexOf(",") + 1).Trim();
+            //var salt = new byte[saltstr.Length/2];
+            //for (var i = 0; i < salt.Length; i++)
+            //    salt[i] = Convert.ToByte(saltstr.Substring(i*2, 2), 16);
+            //if (str.ReadLine() != "")
+            //    return null;
 
-            //------ remaining b64 data is encrypted RSA key ----
-            var encryptedstr = str.ReadToEnd();
+            ////------ remaining b64 data is encrypted RSA key ----
+            //var encryptedstr = str.ReadToEnd();
 
-            try
-            {
-                //should have b64 encrypted RSA key now
-                binkey = Convert.FromBase64String(encryptedstr);
-            }
-            catch (FormatException)
-            {
-                // bad b64 data.
-                return null;
-            }
+            //try
+            //{
+            //    //should have b64 encrypted RSA key now
+            //    binkey = Convert.FromBase64String(encryptedstr);
+            //}
+            //catch (FormatException)
+            //{
+            //    // bad b64 data.
+            //    return null;
+            //}
 
             //------ Get the 3DES 24 byte key using PDK used by OpenSSL ----
-            throw new NotSupportedException("Encrypted key not supported");
             //////////SecureString despswd = GetSecPswd("Enter password to derive 3DES key==>");
             ////////////Console.Write("\nEnter password to derive 3DES key: ");
             ////////////String pswd = Console.ReadLine();
@@ -146,7 +160,7 @@ namespace Nexmo.Api
             //////////}
         }
 
-        public static RSA DecodeRSAPrivateKey(byte[] privkey)
+        public static RSA DecodeRSAPrivateKey(byte[] privkey, bool isPkcs8)
         {
             byte[] MODULUS, E, D, P, Q, DP, DQ, IQ;
 
@@ -165,15 +179,38 @@ namespace Nexmo.Api
                     else if (twobytes == 0x8230)
                         binr.ReadInt16(); //advance 2 bytes
                     else
+                    {
+                        Configuration.Instance.AuthenticationLogger.LogError("RSA decode fail: Expected sequence");
                         return null;
+                    }
 
                     twobytes = binr.ReadUInt16();
                     if (twobytes != 0x0102) //version number
+                    {
+                        Configuration.Instance.AuthenticationLogger.LogError("RSA decode fail: Version number mismatch");
                         return null;
+                    }
                     bt = binr.ReadByte();
                     if (bt != 0x00)
+                    {
+                        Configuration.Instance.AuthenticationLogger.LogError("RSA decode fail: 00 read fail");
                         return null;
+                    }
 
+                    if (isPkcs8)
+                    {
+                        // if pkcs#8, we need to remove the key from the container
+                        bt = binr.ReadByte();
+                        if (bt != 0x30)
+                        {
+                            Configuration.Instance.AuthenticationLogger.LogError("RSA decode fail: PKCS#8 expected sequence");
+                            return null;
+                        }
+                        bt = binr.ReadByte(); // length in octets, should be 0x0d
+                        // skip the container so we can continue with the key
+                        // we also skip 11 bytes because that is the pkcs#1 preamble and we're going to assume it's valid
+                        binr.BaseStream.Seek(bt + 11, SeekOrigin.Current);
+                    }
 
                     //------  all private key components are Integer sequences ----
                     elems = GetIntegerSize(binr);
@@ -255,9 +292,9 @@ namespace Nexmo.Api
                     return RSA;
 #endif
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // TODO: log this!
+                    Configuration.Instance.AuthenticationLogger.LogError($"DecodeRSAPrivateKey fail: {ex.Message}");
                     return null;
                 }
             }

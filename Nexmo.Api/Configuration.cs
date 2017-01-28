@@ -34,6 +34,7 @@ namespace Nexmo.Api
 
             var configLogger = loggerFactory.CreateLogger<Configuration>();
             ApiLogger = loggerFactory.CreateLogger("Nexmo.Api");
+            AuthenticationLogger = loggerFactory.CreateLogger("Nexmo.Api.Authentication");
 
             var builder = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
@@ -81,6 +82,7 @@ namespace Nexmo.Api
         private readonly IServiceProvider _serviceProvider;
 
         internal ILogger ApiLogger;
+        internal ILogger AuthenticationLogger;
 
         // not convinced we want/need to expose this
         //public ILoggerFactory Logger => _serviceProvider.GetService<ILoggerFactory>();

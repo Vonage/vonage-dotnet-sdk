@@ -92,7 +92,7 @@ From 2.2.0 onward, you can request console logging by placing a ```logging.json`
 
 Note that logging Nexmo.Api messages will very likely expose your key and secret to the console as they can be part of the query string.
 
-Example ```logging.json``` contents that would log all requests as well as major configuration errors:
+Example ```logging.json``` contents that would log all requests as well as major configuration and authentication errors:
 
 ```json
 {
@@ -100,6 +100,7 @@ Example ```logging.json``` contents that would log all requests as well as major
   "LogLevel": {
     "Default": "Debug",
     "Nexmo.Api": "Debug",
+    "Nexmo.Api.Authentication": "Error"
     "Nexmo.Api.Configuration": "Error"
   }
 }
