@@ -1,3 +1,7 @@
+# 2.2.0-rc2 (2017-01-12)
+
+* Allow PKCS#8 formatted private keys; auth key parser logging.
+
 # 2.2.0-rc1 (2017-01-12)
 
 * Expose internal API request methods to allow custom API calls from library consumers as some new Nexmo API endpoints may not be immediately supported.
