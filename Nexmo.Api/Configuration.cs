@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Nexmo.Api.ConfigurationExtensions;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api
@@ -42,9 +40,6 @@ namespace Nexmo.Api
                     { "appSettings:Nexmo.Url.Rest", "https://rest.nexmo.com"},
                     { "appSettings:Nexmo.Url.Api", "https://api.nexmo.com"}
                 })
-                .AddConfigFile("web.config", true, configLogger)
-                .AddConfigFile("app.config", true, configLogger)
-                .AddConfigFile($"{System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName)}.config", true, configLogger)
                 .AddJsonFile("settings.json", true, true)
                 .AddJsonFile("appsettings.json", true, true)
             ;

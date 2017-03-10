@@ -1,3 +1,7 @@
+# 3.0.0 (2017-??-??)
+
+* __[BREAKING]__ Remove support for configuration via web.config. Only JSON configuration is supported.
+
 # 2.2.1 (2017-03-21)
 
 * Fixed NuGet dependencies; testing shows they are now being correctly included when performing `install-package`.

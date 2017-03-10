@@ -50,28 +50,10 @@ Configuration:
 }
 ```
 
-* In v2.1.0+, you may also continue to use ```web.config``` for configuration:
-
-```xml
-<appSettings>
-  <add key="Nexmo.UserAgent" value="myApp/1.0" />
-  <add key="Nexmo.Url.Rest" value="https://rest.nexmo.com" />
-  <add key="Nexmo.Url.Api" value="https://api.nexmo.com" />
-  <add key="Nexmo.api_key" value="<YOUR KEY>" />
-  <add key="Nexmo.api_secret" value="<YOUR SECRET>" />
-</appSettings>
-```
-
 * In the event multiple configuration files are found, the order of precedence is as follows:
 
 	* ```appsettings.json``` which overrides
-	* ```settings.json``` which overrides
-	* ```<executing process name>.config``` which overrides
-	* ```app.config``` which overrides
-	* ```web.config```
-
-* As you are able, please move your project to JSON configuration as XML
-configuration will be going away in a future release.
+	* ```settings.json```
 
 ### Configuration Reference
 
@@ -174,7 +156,7 @@ Call.Do(new Call.CallCommand
 ### Additional Examples
 
 * Check out the sample MVC application and tests for more examples.
-Make sure to copy appsettings.json.example/web.config.example to appsettings.json/web.config and enter your key/secret.
+Make sure to copy appsettings.json.example to appsettings.json and enter your key/secret.
 
 API Coverage
 ------------

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>Nexmo.Csharp.Client</id>
     <version>3.0.0</version>
@@ -12,6 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
+      * [BREAKING] Remove support for configuration via web.config. Only JSON configuration is supported.
     </releaseNotes>
     <copyright>© Nexmo 2017</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
