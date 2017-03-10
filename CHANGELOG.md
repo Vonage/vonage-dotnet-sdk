@@ -1,3 +1,7 @@
+# 2.2.0 (2017-03-10)
+
+* Promoted to release, no changes from rc2.
+
 # 2.2.0-rc2 (2017-01-12)
 
 * Allow PKCS#8 formatted private keys; auth key parser logging.
