@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <VersionPrefix>2.2.0</VersionPrefix>
-    <TargetFrameworks>netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.0</TargetFrameworks>
     <AssemblyName>Nexmo.Api</AssemblyName>
     <PackageId>Nexmo.Api</PackageId>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.0</NetStandardImplicitPackageVersion>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -27,8 +27,9 @@
     <PackageReference Include="jose-jwt" Version="2.0.*" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
     <PackageReference Include="System.Diagnostics.Process" Version="4.1.*" />
+    <PackageReference Include="System.Diagnostics.FileVersionInfo" Version="4.1.*" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.OpenSsl" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Cng" Version="4.3.0" />
