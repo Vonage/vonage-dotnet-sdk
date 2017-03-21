@@ -108,6 +108,8 @@ Example ```logging.json``` contents that would log all requests as well as major
 
 Examples
 --------
+We are working on a separate repository for .NET examples. [Check it out here!](https://github.com/nexmo-community/nexmo-dotnet-quickstart)
+
 The following examples show how to:
  * [Send a message](#sending-a-message)
  * [Receive a message](#receiving-a-message)
