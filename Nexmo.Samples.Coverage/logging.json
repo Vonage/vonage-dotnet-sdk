@@ -1,9 +1,0 @@
-﻿{
-  "IncludeScopes": "true",
-  "LogLevel": {
-    "Default": "Debug",
-    "Nexmo.Api": "Information",
-    "Nexmo.Api.Authentication": "Information",
-    "Nexmo.Api.Configuration": "Error"
-  }
-}
