@@ -237,19 +237,6 @@ namespace Nexmo.Api
                     elems = GetIntegerSize(binr);
                     IQ = binr.ReadBytes(elems);
 
-                    //Console.WriteLine("showing components ..");
-                    //if (verbose)
-                    //{
-                    //    showBytes("\nModulus", MODULUS);
-                    //    showBytes("\nExponent", E);
-                    //    showBytes("\nD", D);
-                    //    showBytes("\nP", P);
-                    //    showBytes("\nQ", Q);
-                    //    showBytes("\nDP", DP);
-                    //    showBytes("\nDQ", DQ);
-                    //    showBytes("\nIQ", IQ);
-                    //}
-
                     // ------- create RSACryptoServiceProvider instance and initialize with public key -----
 #if NETSTANDARD1_6
                     RSA RSA;
@@ -262,21 +249,13 @@ namespace Nexmo.Api
                     {
                         RSA = new RSACng();
                     }
-                    var RSAparams = new RSAParameters
-                    {
-                        Modulus = MODULUS,
-                        Exponent = E,
-                        D = D,
-                        P = P,
-                        Q = Q,
-                        DP = DP,
-                        DQ = DQ,
-                        InverseQ = IQ
-                    };
-                    RSA.ImportParameters(RSAparams);
-                    return RSA;
-#else
+#elif NET452
+                    // TODO: throwing "Bad Data" exception even though RSACng is fine
                     var RSA = new RSACryptoServiceProvider();
+#else
+                    // 4.6+ introduced CNG
+                    var RSA = new RSACng();
+#endif
                     var RSAparams = new RSAParameters
                     {
                         Modulus = MODULUS,
@@ -290,11 +269,10 @@ namespace Nexmo.Api
                     };
                     RSA.ImportParameters(RSAparams);
                     return RSA;
-#endif
                 }
                 catch (Exception ex)
                 {
-                    Configuration.Instance.AuthenticationLogger.LogError($"DecodeRSAPrivateKey fail: {ex.Message}");
+                    Configuration.Instance.AuthenticationLogger.LogError($"DecodeRSAPrivateKey fail: {ex.Message}, {ex.InnerException?.Message}");
                     return null;
                 }
             }
