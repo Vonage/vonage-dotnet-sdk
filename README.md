@@ -3,7 +3,7 @@ Nexmo Client Library for C#/.NET
 
 [![](http://img.shields.io/nuget/v/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
 
-You can use this C# client library to add [Nexmo's API](#api-coverage) to your application. To use this, you'll
+You can use this C# client library to integrate [Nexmo's APIs](#api-coverage) to your application. To use this, you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
  * [Installation](#installation)
@@ -26,7 +26,7 @@ To install the C# client library using NuGet:
 
 Alternatively:
 
-* Download or build (see developer instructions) the Nexmo.Api.dll.
+* Download or build (see developer instructions) the `Nexmo.Api.dll`.
 * If you have downloaded a release, ensure you are referencing the required dependencies by
 either including them with your project's NuGet dependencies or manually referencing them.
 * Reference the assembly in your code.
@@ -143,9 +143,9 @@ __NOTE:__ ```[FromUri]``` is deprecated in .NET Core; ```[FromQuery]``` works in
 
 ### Initiating a Call
 
-Use [Nexmo's Call API][doc_voice] to initiate a voice call.
+Use [Nexmo's Voice API][doc_voice] to initiate a voice call.
 
-__NOTE:__ You must have a valid Application ID and key in order to make voice calls! Use ```Nexmo.Api.Application``` to register. See the [Application API][doc_app] documentation for details.
+__NOTE:__ You must have a valid Application ID and private key in order to make voice calls. Use either ```Nexmo.Api.Application``` or Nexmo's Node.js-based [CLI tool](https://github.com/nexmo/nexmo-cli) to register. See the [Application API][doc_app] documentation for details.
 
 ```C#
 using Nexmo.Api.Voice;
