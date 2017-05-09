@@ -69,7 +69,7 @@ namespace Nexmo.Api.Request
         {
             if (string.IsNullOrEmpty(_userAgent))
             {
-#if NETSTANDARD1_6
+// #if NETSTANDARD1_6
                 // TODO: watch the next core release; may have functionality to make this cleaner
                 var runtimeVersion = (System.Runtime.InteropServices.RuntimeInformation.OSDescription + System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
                     .Replace(" ", "")
@@ -78,11 +78,11 @@ namespace Nexmo.Api.Request
                     .Replace(";", "")
                     .Replace("_", "")
                     ;
-#else
-                var runtimeVersion = System.Diagnostics.FileVersionInfo
-                    .GetVersionInfo(typeof(int).Assembly.Location)
-                    .ProductVersion;
-#endif
+// #else
+//                 var runtimeVersion = System.Diagnostics.FileVersionInfo
+//                     .GetVersionInfo(typeof(int).GetTypeInfo().Assembly.Location)
+//                     .ProductVersion;
+// #endif
                 var libraryVersion = typeof(VersionedApiRequest)
                     .GetTypeInfo()
                     .Assembly

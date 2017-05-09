@@ -17,6 +17,9 @@ namespace Nexmo.Api.Voice
             public Endpoint[] to { get; set; }
             public Endpoint from { get; set; }
             public string[] answer_url { get; set; }
+            public string answer_method { get; set; }
+            public string[] event_url { get; set; }
+            public string event_method { get; set; }
         }
 
         public class CallCommandResponse
@@ -180,7 +183,7 @@ namespace Nexmo.Api.Voice
         /// </summary>
         public static CallResponse Get(string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new {}, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new { }, creds);
 
             return JsonConvert.DeserializeObject<CallResponse>(response);
         }
