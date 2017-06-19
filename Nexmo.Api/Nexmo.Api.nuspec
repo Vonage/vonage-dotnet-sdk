@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>2.2.1</version>
+    <version>2.2.2</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * Fixed NuGet dependencies
+      * Updated jose-jwt to 2.3.0 which is reported to address key loading issues.
     </releaseNotes>
     <copyright>© Nexmo 2017</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
@@ -30,7 +30,7 @@
         <dependency id="System.Runtime.Extensions" version="4.1.0" />
         <!-- non-MS -->
         <dependency id="Newtonsoft.Json" version="9.0.1" />
-        <dependency id="jose-jwt" version="2.0.1" />
+        <dependency id="jose-jwt" version="2.3.0" />
       </group>
       <group targetFramework="netstandard1.6">
         <!-- (copied from above as NuGet doesn't cascade deps) -->
@@ -46,7 +46,7 @@
         <dependency id="System.Runtime.Extensions" version="4.1.0" />
         <!-- non-MS -->
         <dependency id="Newtonsoft.Json" version="9.0.1" />
-        <dependency id="jose-jwt" version="2.0.1" />
+        <dependency id="jose-jwt" version="2.3.0" />
         
         <!-- Additional .NET Standard dependencies -->
         <dependency id="System.Diagnostics.Process" version="4.1.0" />

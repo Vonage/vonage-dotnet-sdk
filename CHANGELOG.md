@@ -1,3 +1,7 @@
+# 2.2.2 (2017-06-19)
+
+* Updated jose-jwt to 2.3.0 which is reported to address key loading issues.
+
 # 2.2.1 (2017-03-21)
 
 * Fixed NuGet dependencies; testing shows they are now being correctly included when performing `install-package`.
