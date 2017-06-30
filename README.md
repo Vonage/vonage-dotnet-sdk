@@ -2,6 +2,7 @@ Nexmo Client Library for C#/.NET
 ===================================
 
 [![](http://img.shields.io/nuget/v/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
+[![](http://img.shields.io/nuget/vpre/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
 
 ## THIS IS THE 3.0 RELEASE BRANCH. It is a work in progress. This documentation is currently outdated. Please look at the [3.0 milestones](https://github.com/Nexmo/nexmo-dotnet/milestone/3) for more info.
 
