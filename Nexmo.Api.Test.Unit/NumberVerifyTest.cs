@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Unit
 {
-    [TestFixture]
-    internal class NumberVerifyTest : MockedWebTest
+    [TestClass]
+    public class NumberVerifyTest : MockedWebTest
     {
-        [Test]
+        [TestMethod]
         public void should_send_control()
         {
             SetExpect($"{ApiUrl}/verify/control/json?request_id=B41F2D19-913C-4BB3-B825-624E375D2C31&cmd=cancel&api_key={ApiKey}&api_secret={ApiSecret}&",

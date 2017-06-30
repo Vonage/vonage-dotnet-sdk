@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Unit
 {
-    [TestFixture]
-    internal class ShortCodeTest : MockedWebTest
+    [TestClass]
+    public class ShortCodeTest : MockedWebTest
     {
-        [Test]
+        [TestMethod]
         public void should_initiate_2fa()
         {
             var request = new ShortCode.TwoFactorAuthRequest
@@ -25,7 +25,7 @@ namespace Nexmo.Api.Test.Unit
             Assert.AreEqual("15555551212", response.messages.First().to);
         }
 
-        [Test]
+        [TestMethod]
         public void should_initiate_alert()
         {
             var request = new ShortCode.AlertRequest

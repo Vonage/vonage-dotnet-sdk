@@ -5,21 +5,21 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Unit
 {
-    [SetUpFixture]
-    internal class MockedWebTestSetup
+    [TestClass]
+    public class MockedWebTestSetup
     {
-        [OneTimeSetUp]
-        public void Setup()
+        [AssemblyInitialize]
+        public static void AssemblyInit(TestContext context)
         {
             Configuration.Instance.ClientHandler = new FakeClientHandler();
         }
     }
 
-    internal class MockedWebTest
+    public class MockedWebTest
     {
         protected string ApiUrl = Configuration.Instance.Settings["appSettings:Nexmo.Url.Api"];
         protected string RestUrl = Configuration.Instance.Settings["appSettings:Nexmo.Url.Rest"];
@@ -41,7 +41,7 @@ namespace Nexmo.Api.Test.Unit
         }
     }
 
-    internal class FakeClientHandler : HttpClientHandler
+    public class FakeClientHandler : HttpClientHandler
     {
         internal Stack<string> ExpectedUris { get; } = new Stack<string>();
         internal Stack<string> ExpectedContent { get; } = new Stack<string>();

@@ -1,12 +1,12 @@
 ﻿using System.Net;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Unit
 {
-    [TestFixture]
-    internal class ApplicationTest : MockedWebTest
+    [TestClass]
+    public class ApplicationTest : MockedWebTest
     {
-        [Test]
+        [TestMethod]
         public void should_create_application()
         {
             var appRequest = new ApplicationRequest
@@ -26,7 +26,7 @@ $"name={appRequest.name}&type={appRequest.type}&answer_url=https%3a%2f%2fabcdefg
             Assert.AreEqual("ffffffff-ffff-ffff-ffff-ffffffffffff", result.id);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_list_of_applications()
         {
             SetExpect($"{ApiUrl}/v1/applications?page_size=10&page_index=0&api_key={ApiKey}&api_secret={ApiSecret}&",
@@ -37,7 +37,7 @@ $"name={appRequest.name}&type={appRequest.type}&answer_url=https%3a%2f%2fabcdefg
             Assert.AreEqual(1, results.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_application()
         {
             var appId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -50,7 +50,7 @@ $"name={appRequest.name}&type={appRequest.type}&answer_url=https%3a%2f%2fabcdefg
             Assert.AreEqual(1, results.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void should_update_application()
         {
             var appId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -72,7 +72,7 @@ $"name={appRequest.name}&type={appRequest.type}&answer_url=https%3a%2f%2fabcdefg
             Assert.AreEqual("woocsharptest", result.name);
         }
 
-        [Test]
+        [TestMethod]
         public void should_delete_application()
         {
             var appId = "ffffffff-ffff-ffff-ffff-ffffffffffff";

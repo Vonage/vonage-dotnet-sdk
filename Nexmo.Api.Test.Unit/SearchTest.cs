@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Unit
 {
-    [TestFixture]
-    internal class SearchTest : MockedWebTest
+    [TestClass]
+    public class SearchTest : MockedWebTest
     {
-        [Test]
+        [TestMethod]
         public void should_get_message()
         {
             SetExpect($"{RestUrl}/search/message?id=03000000FFFFFFFF&api_key={ApiKey}&api_secret={ApiSecret}&",
@@ -18,7 +18,7 @@ namespace Nexmo.Api.Test.Unit
             Assert.AreEqual("17775551213", msg.to);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_messages()
         {
             SetExpect($"{RestUrl}/search/messages?date=2015-12-31&to=17775551213&api_key={ApiKey}&api_secret={ApiSecret}&",
@@ -37,7 +37,7 @@ namespace Nexmo.Api.Test.Unit
             Assert.AreEqual("17775551213", msg.to);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_rejections()
         {
             SetExpect($"{RestUrl}/search/rejections?date=2015-12-31&to=17775551213&api_key={ApiKey}&api_secret={ApiSecret}&",

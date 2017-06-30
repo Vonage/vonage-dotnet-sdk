@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Unit
 {
-    [TestFixture]
-    internal class NumberInsightTest : MockedWebTest
+    [TestClass]
+    public class NumberInsightTest : MockedWebTest
     {
-        [Test]
+        [TestMethod]
         public void should_send_basic_ni_request()
         {
             SetExpect($"{ApiUrl}/number/format/json",
@@ -22,7 +22,7 @@ $"number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&");
             Assert.AreEqual("(555) 555-1212", result.national_format_number);
         }
 
-        [Test]
+        [TestMethod]
         public void should_send_standard_ni_request()
         {
             SetExpect($"{ApiUrl}/number/lookup/json",
