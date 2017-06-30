@@ -67,10 +67,12 @@ namespace Nexmo.Api
 
             if (authCapabilities.Count == 0)
             {
-                throw new ArgumentException("You must provide at least one type of authentication via configuration!");
+                configLogger.LogInformation("No authentication found via configuration. Remember to provide your own.");
             }
-
-            configLogger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
+            else
+            {
+                configLogger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
+            }
         }
 
         private HttpClient _client;
@@ -94,10 +96,11 @@ namespace Nexmo.Api
             {
                 var reqPerSec = Instance.Settings["appSettings:Nexmo.Api.RequestsPerSecond"];
                 if (string.IsNullOrEmpty(reqPerSec))
-                    return _client ?? (_client = new HttpClient());
+                    return _client ?? (_client = ClientHandler == null ? new HttpClient(): new HttpClient(ClientHandler));
 
                 var delay = 1 / double.Parse(reqPerSec);
                 var execTimeSpanSemaphore = new TimeSpanSemaphore(1, TimeSpan.FromSeconds(delay));
+                // TODO: this messes up the unit test mock if throttle config is set
                 var handler = ClientHandler != null ? new ThrottlingMessageHandler(execTimeSpanSemaphore, ClientHandler) : new ThrottlingMessageHandler(execTimeSpanSemaphore);
                 return _client ?? (_client = new HttpClient(handler));
             }

@@ -1,6 +1,7 @@
 # 3.0.0 (2017-??-??)
 
-* __[BREAKING]__ Remove support for configuration via web.config. Only JSON configuration is supported.
+* __[BREAKING]__ Remove support for configuration via configuration files.
+* Instance-based methods are available to use.
 
 # 2.2.1 (2017-03-21)
 
