@@ -134,9 +134,28 @@ var results = SMS.Send(new SMS.SMSRequest
 Use [Nexmo's SMS API][doc_sms] to receive a SMS message. Assumes your Nexmo endpoint is configured.
 
 ```C#
-public ActionResult Get([FromUri]SMS.SMSDeliveryReceipt response)
+public ActionResult Get([FromUri]SMS.SMSInbound response)
 {
     return new HttpStatusCodeResult(HttpStatusCode.OK);
+}
+```
+
+### Receiving a Message Delivery Receipt
+
+Use [Nexmo's SMS API][doc_sms] to receive a SMS delivery receipt. Assumes your Nexmo endpoint is configured.
+
+```C#
+public ActionResult DLR([FromUri]SMS.SMSDeliveryReceipt response)
+{
+    Debug.WriteLine("-------------------------------------------------------------------------");
+    Debug.WriteLine("DELIVERY RECEIPT");
+    Debug.WriteLine("Message ID: " + response.messageId);
+    Debug.WriteLine("From: " + response.msisdn);
+    Debug.WriteLine("To: " + response.to);
+    Debug.WriteLine("Status: " + response.status);
+    Debug.WriteLine("-------------------------------------------------------------------------");
+
+    return new HttpStatusCodeResult(200);
 }
 ```
 
@@ -170,6 +189,61 @@ Call.Do(new Call.CallCommand
         "https://nexmo-community.github.io/ncco-examples/first_call_talk.json"
     }
 });
+```
+### Receiving a Call
+
+Use [Nexmo's Voice API][doc_voice] to receive a voice call.
+
+```C#
+using Nexmo.Api.Voice;
+
+public ActionResult GetCall(string id)
+{
+    var call = Call.Get(id);
+	// Do something with call.
+}
+```
+### Sending 2FA Code
+
+Use [Nexmo's Verify API][doc_verify] to send 2FA pin code.
+
+```C#
+
+public ActionResult Start(string to)
+{
+      var start = NumberVerify.Verify(new NumberVerify.VerifyRequest
+	   {
+	       number = to,
+		   brand = "NexmoQS"
+	   });
+	  Session["requestID"] = start.request_id;
+
+      return View();
+}
+```
+### Checking 2FA Code
+
+Use [Nexmo's Verify API][doc_verify] to check 2FA pin code.
+
+```C#
+
+public ActionResult Check(string code)
+{
+    var result = NumberVerify.Check(new NumberVerify.CheckRequest
+	 {
+	     request_id = Session["requestID"].ToString(),
+		 code = code
+	  });
+    if (result.status == "0")
+	 {
+	     ViewBag.Message = "Verification Sucessful";
+	 }
+    else
+     {
+	     ViewBag.Message = result.error_text;
+     }
+    return View();
+}
 ```
 
 ### Additional Examples
