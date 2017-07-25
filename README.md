@@ -114,7 +114,11 @@ We are working on a separate repository for .NET examples. [Check it out here!](
 The following examples show how to:
  * [Send a message](#sending-a-message)
  * [Receive a message](#receiving-a-message)
+ * [Receive a message delivery receipt](#receiving-a-message-delivery-receipt)
  * [Initiate a call](#initiating-a-call)
+ * [Receive a call](#receiving-a-call)
+ * [Send 2FA code](#sending-2fa-code)
+ * [Check 2FA code](#checking-2fa-code)
 
 ### Sending a Message
 
@@ -155,7 +159,7 @@ public ActionResult DLR([FromUri]SMS.SMSDeliveryReceipt response)
     Debug.WriteLine("Status: " + response.status);
     Debug.WriteLine("-------------------------------------------------------------------------");
 
-    return new HttpStatusCodeResult(200);
+    return new HttpStatusCodeResult(HttpStatusCode.OK);
 }
 ```
 
@@ -211,14 +215,14 @@ Use [Nexmo's Verify API][doc_verify] to send 2FA pin code.
 
 public ActionResult Start(string to)
 {
-      var start = NumberVerify.Verify(new NumberVerify.VerifyRequest
-	   {
-	       number = to,
-		   brand = "NexmoQS"
-	   });
-	  Session["requestID"] = start.request_id;
+   var start = NumberVerify.Verify(new NumberVerify.VerifyRequest
+   {
+     number = to,
+	 brand = "NexmoQS"
+   });
+   Session["requestID"] = start.request_id;
 
-      return View();
+   return View();
 }
 ```
 ### Checking 2FA Code
@@ -229,20 +233,21 @@ Use [Nexmo's Verify API][doc_verify] to check 2FA pin code.
 
 public ActionResult Check(string code)
 {
-    var result = NumberVerify.Check(new NumberVerify.CheckRequest
-	 {
-	     request_id = Session["requestID"].ToString(),
-		 code = code
-	  });
-    if (result.status == "0")
-	 {
-	     ViewBag.Message = "Verification Sucessful";
-	 }
-    else
-     {
-	     ViewBag.Message = result.error_text;
-     }
-    return View();
+   var result = NumberVerify.Check(new NumberVerify.CheckRequest
+   {
+       request_id = Session["requestID"].ToString(),
+	   code = code
+   });
+   
+   if (result.status == "0")
+   {
+      ViewBag.Message = "Verification Sucessful";
+   }
+   else
+   {
+	  ViewBag.Message = result.error_text;
+   }
+   return View();
 }
 ```
 
@@ -335,9 +340,10 @@ License
 
 This library is released under the [MIT License][license]
 
-[create_account]: https://docs.nexmo.com/tools/dashboard#setting-up-your-nexmo-account
+[create_account]: https://developer.nexmo.com/account/overview#setting-up-your-nexmo-account
 [signup]: https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
-[doc_sms]: https://docs.nexmo.com/api-ref/sms-api?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
-[doc_voice]: https://docs.nexmo.com/voice/voice-api?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
-[doc_app]: https://docs.nexmo.com/tools/application-api?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+[doc_sms]: https://developer.nexmo.com/api/sms?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+[doc_voice]: https://developer.nexmo.com/voice/voice-api/overview?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+[doc_verify]: https://developer.nexmo.com/verify/overview?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+[doc_app]: https://developer.nexmo.com/concepts/guides/applications?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
 [license]: LICENSE.md
