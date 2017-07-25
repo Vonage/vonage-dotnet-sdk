@@ -204,7 +204,7 @@ using Nexmo.Api.Voice;
 public ActionResult GetCall(string id)
 {
     var call = Call.Get(id);
-	// Do something with call.
+    // Do something with call.
 }
 ```
 ### Sending 2FA Code
@@ -215,14 +215,14 @@ Use [Nexmo's Verify API][doc_verify] to send 2FA pin code.
 
 public ActionResult Start(string to)
 {
-   var start = NumberVerify.Verify(new NumberVerify.VerifyRequest
-   {
-     number = to,
-	 brand = "NexmoQS"
-   });
-   Session["requestID"] = start.request_id;
+    var start = NumberVerify.Verify(new NumberVerify.VerifyRequest
+    {
+        number = to,
+        brand = "NexmoQS"
+    });
+    Session["requestID"] = start.request_id;
 
-   return View();
+    return View();
 }
 ```
 ### Checking 2FA Code
@@ -233,21 +233,21 @@ Use [Nexmo's Verify API][doc_verify] to check 2FA pin code.
 
 public ActionResult Check(string code)
 {
-   var result = NumberVerify.Check(new NumberVerify.CheckRequest
-   {
-       request_id = Session["requestID"].ToString(),
-	   code = code
-   });
+    var result = NumberVerify.Check(new NumberVerify.CheckRequest
+    {
+        request_id = Session["requestID"].ToString(),
+        code = code
+    });
    
-   if (result.status == "0")
-   {
-      ViewBag.Message = "Verification Sucessful";
-   }
-   else
-   {
-	  ViewBag.Message = result.error_text;
-   }
-   return View();
+    if (result.status == "0")
+    {
+        ViewBag.Message = "Verification Sucessful";
+    }
+    else
+    {
+        ViewBag.Message = result.error_text;
+    }
+    return View();
 }
 ```
 
