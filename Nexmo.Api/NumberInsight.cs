@@ -1,15 +1,49 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
+using System.Threading.Tasks;
 
 namespace Nexmo.Api
 {
     public static class NumberInsight
     {
+        public enum CallerType
+        {
+            Unkown,
+            Business, 
+            Consumer
+        }
+
+        public enum PortedStatus
+        {
+            Ported,
+            NotPorted,
+            Unknown,
+            AssumedPorted,
+            AssumedNotPorted
+        }
+
+        public enum NumberValidity
+        {
+            Unkonwn,
+            Valid,
+            NotValid
+        }
+
+        public enum NumberReachability
+        {
+            Unknown,
+            Reachable,
+            Undeliverable,
+            Absent,
+            BadNumber,
+            Blacklisted
+        }
+
         public class NumberInsightBasicRequest
         {
-            public string number { get; set; }
-            public string country { get; set; }
+            public string Number { get; set; }
+            public string Country { get; set; }
         }
 
         public class NumberInsightBasicResponse
@@ -87,6 +121,27 @@ namespace Nexmo.Api
             /// Information about the network number was initially connected to
             /// </summary>
             public CarrierInfo original_carrier { get; set; }
+            public string CallerName { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public CallerType CallerType { get; set; }
+            public PortedStatus PortedStatus { get; set; }
+        }
+
+        public class NumberInsightAdvancedRequest : NumberInsightBasicRequest
+        {
+            public bool Cnam { get; set; }
+            public string IpAddress { get; set; }
+            public string Callback { get; set; }
+        }
+
+        public class NumberInsightAdvancedResponse : NumberInsightStandardResponse
+        {
+            public string LookupOutcomeMessage { get; set; }
+            public int LookupOutcome { get; set; }
+            public NumberValidity NumberValidity { get; set; }
+            public NumberReachability NumberReachability { get; set; }
+            public RoamingInformation RoamingInformation { get; set; }
         }
 
         public class NumberInsightRequest
@@ -147,6 +202,20 @@ namespace Nexmo.Api
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/number/lookup/json"), request, creds);
 
             return JsonConvert.DeserializeObject<NumberInsightStandardResponse>(response.JsonResponse);
+        }
+
+        public static NumberInsightAdvancedResponse RequestAdvanced( NumberInsightAdvancedRequest request, Credentials creds = null)
+        {
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberInsight), "/ni/advanced/json"), request, creds);
+
+            return JsonConvert.DeserializeObject<NumberInsightAdvancedResponse>(response.JsonResponse);
+        }
+
+        public static NumberInsightAdvancedResponse RequestAdvancedAsync(NumberInsightAdvancedRequest request, Credentials creds = null)
+        {
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberInsight), "/ni/advanced/async/json"), request, creds);
+
+            return JsonConvert.DeserializeObject<NumberInsightAdvancedResponse>(response.JsonResponse);
         }
 
         /// <summary>
