@@ -42,7 +42,7 @@ namespace Nexmo.Api
 
         public class NumberInsightBasicRequest
         {
-            public string Number { get; set; }
+            public string number { get; set; }
             public string Country { get; set; }
         }
 
@@ -186,7 +186,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static NumberInsightBasicResponse RequestBasic(NumberInsightBasicRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/number/format/json"), request, creds);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/basic/json"), request, creds);
 
             return JsonConvert.DeserializeObject<NumberInsightBasicResponse>(response.JsonResponse);
         }
@@ -199,24 +199,24 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static NumberInsightStandardResponse RequestStandard(NumberInsightBasicRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/number/lookup/json"), request, creds);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/standard/json"), request, creds);
 
             return JsonConvert.DeserializeObject<NumberInsightStandardResponse>(response.JsonResponse);
         }
 
         public static NumberInsightAdvancedResponse RequestAdvanced( NumberInsightAdvancedRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberInsight), "/ni/advanced/json"), request, creds);
+            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/json"), request, creds);
 
             return JsonConvert.DeserializeObject<NumberInsightAdvancedResponse>(response.JsonResponse);
         }
 
-        public static NumberInsightAdvancedResponse RequestAdvancedAsync(NumberInsightAdvancedRequest request, Credentials creds = null)
-        {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberInsight), "/ni/advanced/async/json"), request, creds);
+        //public static NumberInsightAdvancedResponse RequestAdvancedAsync(NumberInsightAdvancedRequest request, Credentials creds = null)
+        //{
+        //    var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/async/json"), request, creds);
 
-            return JsonConvert.DeserializeObject<NumberInsightAdvancedResponse>(response.JsonResponse);
-        }
+        //    return JsonConvert.DeserializeObject<NumberInsightAdvancedResponse>(response.JsonResponse);
+        //}
 
         /// <summary>
         /// Retrieve validity, roaming, and reachability information about a mobile phone number.
