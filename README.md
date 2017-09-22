@@ -222,9 +222,9 @@ Targeted frameworks:
 
 * 4.5.2
 * 4.6, 4.6.1, 4.6.2
-* .NET Standard 1.6
+* .NET Standard 2.0
 
-Visual Studio 2015 is required (Community should be fine). Update 3 is recommended.
+Visual Studio 2017 is required (Community is fine). v15.3.5 is recommended.
 
 1. Get latest code either by cloning the repository or downloading a snapshot of the source.
 2. Open "Nexmo.Api.sln"

@@ -69,7 +69,7 @@ namespace Nexmo.Api.Request
         {
             if (string.IsNullOrEmpty(_userAgent))
             {
-#if NETSTANDARD1_6
+#if NETSTANDARD2_0
                 // TODO: watch the next core release; may have functionality to make this cleaner
                 var runtimeVersion = (System.Runtime.InteropServices.RuntimeInformation.OSDescription + System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
                     .Replace(" ", "")
