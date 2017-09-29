@@ -37,7 +37,7 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = HttpMethod.Get,
             };
-            SetUserAgent(ref req);
+            SetUserAgent(ref req, creds);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(appId, appKeyPath));
@@ -65,7 +65,7 @@ namespace Nexmo.Api.Request
         }
 
         private static string _userAgent;
-        internal static void SetUserAgent(ref HttpRequestMessage request)
+        internal static void SetUserAgent(ref HttpRequestMessage request, Credentials creds)
         {
             if (string.IsNullOrEmpty(_userAgent))
             {
@@ -91,7 +91,7 @@ namespace Nexmo.Api.Request
 
                 _userAgent = $"nexmo-dotnet/{libraryVersion} dotnet/{runtimeVersion}";
 
-                var appVersion = Configuration.Instance.Settings["appSettings:Nexmo.UserAgent"];
+                var appVersion = creds?.AppUserAgent ?? Configuration.Instance.Settings["appSettings:Nexmo.UserAgent"];
                 if (!string.IsNullOrWhiteSpace(appVersion))
                 {
                     _userAgent += $" {appVersion}";
@@ -120,7 +120,7 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = new HttpMethod(method),
             };
-            SetUserAgent(ref req);
+            SetUserAgent(ref req, creds);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(appId, appKeyPath));

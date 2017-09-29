@@ -18,7 +18,7 @@ namespace Nexmo.Api.Request
             return diff == 0;
         }
 
-        public static bool IsSignatureValid(IEnumerable<KeyValuePair<string, StringValues>> querystring)
+        public static bool IsSignatureValid(IEnumerable<KeyValuePair<string, StringValues>> querystring, string securitySecret = null)
         {
             Action<IDictionary<string, string>, StringBuilder> buildStringFromParams = (param, strings) =>
             {
@@ -50,7 +50,7 @@ namespace Nexmo.Api.Request
             var sb = new StringBuilder();
             buildStringFromParams(sorted, sb);
             var queryToSign = "&" + sb;
-            queryToSign = queryToSign.Remove(queryToSign.Length - 1) + Configuration.Instance.Settings["appSettings:Nexmo.security_secret"].ToUpper();
+            queryToSign = queryToSign.Remove(queryToSign.Length - 1) + (securitySecret?.ToUpper() ?? Configuration.Instance.Settings["appSettings:Nexmo.security_secret"].ToUpper());
             // Generate MD5
             var hashgen = MD5.Create();
             var hash = hashgen.ComputeHash(Encoding.UTF8.GetBytes(queryToSign));
