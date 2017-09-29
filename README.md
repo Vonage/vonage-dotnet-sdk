@@ -4,6 +4,12 @@ Nexmo Client Library for C#/.NET
 [![](http://img.shields.io/nuget/v/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
 [![](http://img.shields.io/nuget/vpre/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
 
+#### If you are looking for VS2017, .NET Standard 2.0, or ASP.NET Core 2 support, please try the latest v3.0.0-pre release.
+#### If you are having trouble with file-based configuration (weird errors, config not found), the v3.0.0-pre release allows for configuration via code and instance methods.
+#### v3.0 is a work in progress and subject to breaking changes. Please look at the [3.0 milestones](https://github.com/Nexmo/nexmo-dotnet/milestone/3) or the [branch](https://github.com/Nexmo/nexmo-dotnet/tree/3.0) for more info.
+
+---
+
 You can use this C# client library to integrate [Nexmo's APIs](#api-coverage) to your application. To use this, you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
