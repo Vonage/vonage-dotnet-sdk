@@ -2,7 +2,7 @@
 
 * __[BREAKING]__ Remove support for configuration via configuration files.
 * Instance-based methods are available to use.
-* Move to .NET Standard 2.0 from 1.6.
+* Support .NET Standard 2.0.
 
 # 2.2.1 (2017-03-21)
 
