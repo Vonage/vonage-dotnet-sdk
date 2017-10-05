@@ -2,47 +2,17 @@
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace Nexmo.Api
 {
     public static class NumberInsight
     {
-        public enum CallerType
-        {
-            Unkown,
-            Business, 
-            Consumer
-        }
-
-        public enum PortedStatus
-        {
-            Ported,
-            NotPorted,
-            Unknown,
-            AssumedPorted,
-            AssumedNotPorted
-        }
-
-        public enum NumberValidity
-        {
-            Unkonwn,
-            Valid,
-            NotValid
-        }
-
-        public enum NumberReachability
-        {
-            Unknown,
-            Reachable,
-            Undeliverable,
-            Absent,
-            BadNumber,
-            Blacklisted
-        }
-
         public class NumberInsightBasicRequest
         {
-            public string number { get; set; }
+            [JsonProperty(PropertyName = "number")]
+            public string Number { get; set; }
+            [JsonProperty(PropertyName = "country")]
             public string Country { get; set; }
         }
 
@@ -51,36 +21,45 @@ namespace Nexmo.Api
             /// <summary>
             /// 	The status code and a description about your request.
             /// </summary>
-            public string status { get; set; }
-            public string status_message { get; set; }
+            [JsonProperty(PropertyName = "status")]
+            public string Status { get; set; }
+            [JsonProperty(PropertyName = "status_message")]
+            public string StatusMessage { get; set; }
             /// <summary>
             /// The unique identifier for your request. This is a alphanumeric string up to 40 characters.
             /// </summary>
-            public string request_id { get; set; }
+            [JsonProperty(PropertyName = "request_id")]
+            public string RequestId { get; set; }
             /// <summary>
             /// The number in your request in International format.
             /// </summary>
-            public string international_format_number { get; set; }
+            [JsonProperty(PropertyName = "international_format_number")]
+            public string InternationalFormatNumber { get; set; }
             /// <summary>
             /// Looked up Number in format used by the country the number belongs to.
             /// </summary>
-            public string national_format_number { get; set; }
+            [JsonProperty(PropertyName = "national_format_number")]
+            public string NationalFormatNumber { get; set; }
             /// <summary>
             /// 	Two character country code for number. This is in ISO 3166-1 alpha-2 format.
             /// </summary>
-            public string country_code { get; set; }
+            [JsonProperty(PropertyName = "country_code")]
+            public string CountryCode { get; set; }
             /// <summary>
             /// Two character country code for number. This is in ISO 3166-1 alpha-3 format.
             /// </summary>
-            public string country_code_iso3 { get; set; }
+            [JsonProperty(PropertyName = "country_code_iso3")]
+            public string CountryCodeIso3 { get; set; }
             /// <summary>
             /// The full name of the country that number is registered in.
             /// </summary>
-            public string country_name { get; set; }
+            [JsonProperty(PropertyName = "country_name")]
+            public string CountryName { get; set; }
             /// <summary>
             /// The numeric prefix for the country that number is registered in.
             /// </summary>
-            public string country_prefix { get; set; }
+            [JsonProperty(PropertyName = "country_prefix")]
+            public string CountryPrefix { get; set; }
         }
 
         public class CarrierInfo
@@ -88,19 +67,23 @@ namespace Nexmo.Api
             /// <summary>
             /// The MCCMNC for the carrier *number* is associated with.Unreal numbers are marked as 'unknown' and the request is rejected altogether if the number is impossible as per E.164 guidelines.
             /// </summary>
-            public string network_code { get; set; }
+            [JsonProperty(PropertyName = "network_code")]
+            public string NetworkCode { get; set; }
             /// <summary>
             /// The full name of the carrier that *number* is associated with.
             /// </summary>
-            public string name { get; set; }
+            [JsonProperty(PropertyName = "name")]
+            public string Name { get; set; }
             /// <summary>
             /// The country that *number* is associated with. This is in ISO 3166-1 alpha-2 format.
             /// </summary>
-            public string country { get; set; }
+            [JsonProperty(PropertyName = "country")]
+            public string Country { get; set; }
             /// <summary>
             /// The type of network that *number* is associated with. For example mobile, landline, virtual, premium, toll-free.
             /// </summary>
-            public string network_type { get; set; }
+            [JsonProperty(PropertyName = "network_type")]
+            public string NetworkType { get; set; }
         }
 
         public class NumberInsightStandardResponse : NumberInsightBasicResponse
@@ -108,39 +91,56 @@ namespace Nexmo.Api
             /// <summary>
             /// The amount in EUR charged to your account.
             /// </summary>
-            public string request_price { get; set; }
+            [JsonProperty(PropertyName = "request_price")]
+            public string RequestPrice { get; set; }
             /// <summary>
             /// Your account balance in EUR after this request.
             /// </summary>
-            public string remaining_balance { get; set; }
+            [JsonProperty(PropertyName = "remaining_balance")]
+            public string RemainingBalance { get; set; }
             /// <summary>
             /// Information about the network number is currently connected to.
             /// </summary>
-            public CarrierInfo current_carrier { get; set; }
+            [JsonProperty(PropertyName = "current_carrier")]
+            public CarrierInfo CurrentCarrier { get; set; }
             /// <summary>
             /// Information about the network number was initially connected to
             /// </summary>
-            public CarrierInfo original_carrier { get; set; }
+            [JsonProperty(PropertyName = "original_carrier")]
+            public CarrierInfo OriginalCarrier { get; set; }
+            [JsonProperty(PropertyName = "caller_name")]
             public string CallerName { get; set; }
+            [JsonProperty(PropertyName = "first_name")]
             public string FirstName { get; set; }
+            [JsonProperty(PropertyName = "last_name")]
             public string LastName { get; set; }
-            public CallerType CallerType { get; set; }
-            public PortedStatus PortedStatus { get; set; }
+            [JsonProperty(PropertyName = "caller_type")]
+            public string CallerType { get; set; }
+            [JsonProperty(PropertyName = "ported")]
+            public string PortedStatus { get; set; }
         }
 
         public class NumberInsightAdvancedRequest : NumberInsightBasicRequest
         {
+            [JsonProperty(PropertyName = "cnam")]
             public bool Cnam { get; set; }
+            [JsonProperty(PropertyName = "ip_address")]
             public string IpAddress { get; set; }
+            [JsonProperty(PropertyName = "callback")]
             public string Callback { get; set; }
         }
 
         public class NumberInsightAdvancedResponse : NumberInsightStandardResponse
         {
+            [JsonProperty(PropertyName = "lookup_outcome_message")]
             public string LookupOutcomeMessage { get; set; }
+            [JsonProperty(PropertyName = "lookup_outcome")]
             public int LookupOutcome { get; set; }
-            public NumberValidity NumberValidity { get; set; }
-            public NumberReachability NumberReachability { get; set; }
+            [JsonProperty(PropertyName = "valid_number")]
+            public string NumberValidity { get; set; }
+            [JsonProperty(PropertyName = "reachable")]
+            public string NumberReachability { get; set; }
+            [JsonProperty(PropertyName = "roaming")]
             public RoamingInformation RoamingInformation { get; set; }
         }
 
@@ -152,30 +152,30 @@ namespace Nexmo.Api
 
         public class NumberInsightRequestResponse
         {
-            public string request_id { get; set; }
-            public string number { get; set; }
-            public string status { get; set; }
-            public string error_text { get; set; }
-            public string remaining_balance { get; set; }
-            public string request_price { get; set; }
+            public string RequestId { get; set; }
+            public string Number { get; set; }
+            public string Status { get; set; }
+            public string ErrorText { get; set; }
+            public string RemainingBalance { get; set; }
+            public string RequestPrice { get; set; }
         }
 
         public class NumberInsightResponse
         {
-            public string request_id { get; set; }
-            public string number { get; set; }
-            public string status { get; set; }
-            public string status_message { get; set; }
-            public string number_type { get; set; }
-            public string carrier_network_code { get; set; }
-            public string carrier_network_name { get; set; }
-            public string carrier_country_code { get; set; }
-            public string valid { get; set; }
-            public string ported { get; set; }
-            public string reachable { get; set; }
-            public string roaming { get; set; }
-            public string roaming_country_code { get; set; }
-            public string roaming_network_code { get; set; }
+            public string RequestId { get; set; }
+            public string Number { get; set; }
+            public string Status { get; set; }
+            public string StatusMessage { get; set; }
+            public string NumberType { get; set; }
+            public string CarrierNetworkCode { get; set; }
+            public string CarrierNetworkName { get; set; }
+            public string CarrierCountryCode { get; set; }
+            public string Valid { get; set; }
+            public string Ported { get; set; }
+            public string Reachable { get; set; }
+            public string Roaming { get; set; }
+            public string RoamingCountryCode { get; set; }
+            public string RoamingNetworkCode { get; set; }
         }
 
         /// <summary>
@@ -228,8 +228,8 @@ namespace Nexmo.Api
         {
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberInsight), "/ni/json"), new Dictionary<string, string>
             {
-                {"number", request.Number},
-                {"callback", request.Callback}
+                {"Number", request.Number},
+                {"Callback", request.Callback}
             },
             creds);
 
