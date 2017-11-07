@@ -327,6 +327,12 @@ Targeted frameworks:
 
 Visual Studio 2015 is required (Community should be fine). Update 3 is recommended.
 
+As VS2015 support for .NET Core has evolved, the user experience has changed. If you would like to compile from source straight from a `git clone`, The solution currently
+targets v1.0.1 ([1.0.0-preview2-003131](https://github.com/dotnet/core/blob/master/release-notes/download-archives/1.0.1-preview2-download.md)) and
+requires that version of the SDK to be present.
+
+Please note that the 3.0 branch has been upgraded to Visual Studio 2017 which is a much smoother dev experience and highly recommended.
+
 1. Get latest code either by cloning the repository or downloading a snapshot of the source.
 2. Open "Nexmo.Api.sln"
 3. Build! NuGet dependencies should be brought down automatically; check your settings if they are not.
