@@ -130,11 +130,11 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// The time the Call started
             /// </summary>
-            public DateTime start_time { get; set; }
+            public DateTime? start_time { get; set; }
             /// <summary>
             /// The time the Call ended
             /// </summary>
-            public DateTime end_time { get; set; }
+            public DateTime? end_time { get; set; }
             /// <summary>
             /// The Mobile Country Code Mobile Network Code (MCCMNC) for the carrier network used to make this Call.
             /// </summary>
