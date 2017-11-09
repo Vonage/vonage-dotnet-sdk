@@ -10,7 +10,7 @@ namespace Nexmo.Api.Test.Integration
         public void should_get_account_balance()
         {
             var balance = Account.GetBalance();
-            Assert.AreEqual(.43d, balance);
+            Assert.AreEqual(.43d, balance.value);
         }
 
         [Test]

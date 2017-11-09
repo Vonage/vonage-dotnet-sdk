@@ -8,7 +8,7 @@ namespace Nexmo.Api.Test.Integration
         [Test]
         public void should_send_basic_ni_request()
         {
-            var result = NumberInsight.RequestBasic(new NumberInsight.NumberInsightBasicRequest
+            var result = NumberInsight.RequestBasic(new NumberInsight.NumberInsightRequest
             {
                 number = Configuration.Instance.Settings["test_number"]
             });
@@ -21,7 +21,7 @@ namespace Nexmo.Api.Test.Integration
         [Test]
         public void should_send_standard_ni_request()
         {
-            var result = NumberInsight.RequestStandard(new NumberInsight.NumberInsightBasicRequest()
+            var result = NumberInsight.RequestStandard(new NumberInsight.NumberInsightRequest
             {
                 number = Configuration.Instance.Settings["test_number"]
             });
