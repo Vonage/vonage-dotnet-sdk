@@ -30,7 +30,7 @@ namespace Nexmo.Api.Voice
         public class DtmfCommand
         {
             /// <summary>
-            /// The array of digits to send to the Call
+            /// The array of digits to send to the call
             /// </summary>
             public string digits { get; set; }
         }

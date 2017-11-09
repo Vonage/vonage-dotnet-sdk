@@ -9,11 +9,33 @@ namespace Nexmo.Api
         public class Balance
         {
             public decimal value { get; set; }
+            public bool autoReload { get; set; }
         }
 
         public class Pricing
         {
+            /// <summary>
+            /// The code for the country you looked up: e.g. GB, US, BR, RU.
+            /// </summary>
             public string country { get; set; }
+            /// <summary>
+            /// The name for the country you looked up: e.g. United Kingdom.
+            /// </summary>
+            public string name { get; set; }
+            /// <summary>
+            /// The numerical dialing prefix code for the country in question (e.g. for the United Kingdom, 44, for the United States 1)
+            /// </summary>
+            public string prefix { get; set; }
+            /// <summary>
+            /// The display name for the country you looked up: e.g. United Kingdom, Belgium, Japan.
+            /// </summary>
+            public string countryDisplayName { get; set; }
+
+            public string mt { get; set; }
+
+            /// <summary>
+            /// An array containing networks.
+            /// </summary>
             public Network[] networks { get; set; }
         }
 
@@ -33,6 +55,10 @@ namespace Nexmo.Api
             public string moCallbackUrl { get; set; }
             [JsonProperty("dr-callback-url")]
             public string drCallbackUrl { get; set; }
+            [JsonProperty("max-outbound-request")]
+            public decimal maxOutboundRequest { get; set; }
+            [JsonProperty("max-inbound-request")]
+            public decimal maxInboundRequest { get; set; }
         }
 
         public class NumbersRequest
@@ -73,11 +99,11 @@ namespace Nexmo.Api
         }
 
         /// <summary>
-        /// Get current account balance
+        /// Get current account balance data
         /// </summary>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// <returns>decimal balance</returns>
-        public static decimal GetBalance(Credentials creds = null)
+        /// <returns>Balance data</returns>
+        public static Balance GetBalance(Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-balance"),
@@ -86,23 +112,30 @@ namespace Nexmo.Api
                 creds);
 
             var obj = JsonConvert.DeserializeObject<Balance>(json);
-            return obj.value;
+            return obj;
         }
 
         /// <summary>
-        /// Get Nexmo pricing for the given country
+        /// Retrieve our outbound pricing for a given country
         /// </summary>
         /// <param name="country">ISO 3166-1 alpha-2 country code</param>
+        /// <param name="type">The type of service you wish to retrieve data about: either sms, sms-transit or voice.</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>Pricing data</returns>
-        public static Pricing GetPricing(string country, Credentials creds = null)
+        public static Pricing GetPricing(string country, string type = null, Credentials creds = null)
         {
+            var parameters = new Dictionary<string, string>
+            {
+                { "country", country }
+            };
+            if (!string.IsNullOrEmpty(type))
+            {
+                parameters.Add("type", type);
+            }
+
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-pricing/outbound/"),
-                new Dictionary<string, string>
-                {
-                    { "country", country }
-                },
+                parameters,
                 creds);
 
             var obj = JsonConvert.DeserializeObject<Pricing>(json);

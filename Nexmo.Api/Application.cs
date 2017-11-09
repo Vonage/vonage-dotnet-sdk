@@ -7,6 +7,9 @@ namespace Nexmo.Api
 {
     public class ApplicationRequest
     {
+        /// <summary>
+        /// Optional. Used when updating an existing application.
+        /// </summary>
         public string id { get; set; }
         /// <summary>
         /// The name of your application. Required.
@@ -26,7 +29,7 @@ namespace Nexmo.Api
         /// </summary>
         public string answer_method { get; set; }
         /// <summary>
-        /// Platform sends event information asynchronously to this URL when status changes. The values sent to this URL are:
+        /// Required. Nexmo sends event information asynchronously to this URL when status changes. The values sent to this URL are:
         ///   started
         ///   ringing
         ///   answered
@@ -39,7 +42,7 @@ namespace Nexmo.Api
         /// </summary>
         public string event_url { get; set; }
         /// <summary>
-        /// The HTTP method used to send event information to event_url.The default value is POST.
+        /// The HTTP method used to send event information to event_url. The default value is POST.
         /// </summary>
         public string event_method { get; set; }
     }
@@ -70,7 +73,17 @@ namespace Nexmo.Api
 
     public class ApplicationResponse
     {
+        /// <summary>
+        /// The name of your application
+        /// </summary>
         public string name { get; set; }
+        /// <summary>
+        /// The Nexmo product or products that you access with this application. Currently only voice is supported.
+        /// </summary>
+        public string type { get; set; }
+        /// <summary>
+        /// The ID allocated to your application by Nexmo.
+        /// </summary>
         public string id { get; set; }
         public KeyPair keys { get; set; }
         public VoiceHooks voice { get; set; }

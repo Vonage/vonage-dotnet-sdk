@@ -7,7 +7,7 @@ namespace Nexmo.Samples.Web.Controllers.Api
     public class NIController : Controller
     {
         [HttpGet()]
-        public void get([FromQuery]NumberInsight.NumberInsightResponse response)
+        public void get([FromQuery]NumberInsight.NumberInsightAdvancedResponse response)
         {
             // TODO: do something with this response
         }

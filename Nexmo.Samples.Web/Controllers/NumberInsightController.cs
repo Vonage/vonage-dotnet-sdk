@@ -11,10 +11,10 @@ namespace Nexmo.Samples.Web.Controllers
         [HttpPost]
         public ActionResult NumberInsight(Actions act)
         {
-            return Json(Nexmo.Api.NumberInsight.Request(new NumberInsight.NumberInsightRequest
+            return Json(Nexmo.Api.NumberInsight.RequestAsync(new NumberInsight.NumberInsightAsyncRequest
             {
-                Number = act.NI.Number,
-                Callback = $"https://{Configuration.Instance.Settings["callback_host"]}/api/NI"
+                number = act.NI.Number,
+                callback = $"https://{Configuration.Instance.Settings["callback_host"]}/api/NI"
             }));
         }
     }
