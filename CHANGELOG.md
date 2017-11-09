@@ -2,11 +2,11 @@
 
 * __[BREAKING]__ `Account.GetBalance` returns (instead of a `decimal`) a `Balance` object that includes your account balance and other properties.
 * __[BREAKING]__ `NumberInsight` calls, request classes, and response classes have changed slightly. The underlying calls to Nexmo's API have been updated as well. Thanks to @RabebOthmani for the PR!
-* API and documentation refresh: Added missing JSON properties, updated summaries from the official docs.
   * CHANGE: NumberInsightBasicResponse RequestBasic(NumberInsightBasicRequest, ...) => NumberInsightBasicResponse RequestBasic(NumberInsightRequest, ...)
   * CHANGE: NumberInsightStandardResponse RequestStandard(NumberInsightBasicRequest, ...) => NumberInsightStandardResponse RequestStandard(NumberInsightRequest, ...)
   * ADD: NumberInsightAdvancedResponse RequestAdvanced(NumberInsightRequest, ...)
   * CHANGE: NumberInsightRequestResponse Request(NumberInsightRequest, ...) => NumberInsightAsyncRequestResponse RequestAsync(NumberInsightAsyncRequest, ...)
+* API and documentation refresh: Added missing JSON properties, updated summaries from the official docs.
 * Support additional call endpoint types.
 * Introduced `Nexmo.Api.EnsureSuccessStatusCode` configuration option. You may instruct the library to throw an exception if a request results in an unsuccessful HTTP status code.
 * Address `ShortCode.RequestAlert` request bug.
