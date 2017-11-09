@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
 using Nexmo.Api;
 using Nexmo.Api.Voice;
 
@@ -25,10 +24,9 @@ namespace Nexmo.Samples.Coverage
 
             /////
 
-            var niResp = NumberInsight.Request(new NumberInsight.NumberInsightRequest
+            var niResp = NumberInsight.RequestBasic(new NumberInsight.NumberInsightRequest
             {
-                Number = Configuration.Instance.Settings["test_number"],
-                Callback = "https://abcdefg.ngrok.io/ni/"
+                number = Configuration.Instance.Settings["test_number"]
             });
             Console.WriteLine("NumberInsight.Request() = {0}", niResp.status);
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "buildOptions": {
     "emitEntryPoint": true
@@ -13,7 +13,7 @@
     "Microsoft.Extensions.Configuration.Abstractions": "1.0.*",
     "Microsoft.Extensions.Configuration.Json": "1.0.*",
     "Microsoft.Extensions.Logging.Abstractions": "1.0.*",
-    "Nexmo.Api": "2.2.0"
+    "Nexmo.Api": "2.3.0"
   },
   "frameworks": {
     "netcoreapp1.0": {
