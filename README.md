@@ -114,6 +114,8 @@ Example ```logging.json``` contents that would log all requests as well as major
 }
 ```
 
+You may specify other types of logging (file, etc.). The ```Nexmo.Samples.Coverage``` project contains an example that logs to a file with the assistance of ```Serilog.Extensions.Logging.File```.
+
 Examples
 --------
 We are working on a separate repository for .NET examples. [Check it out here!](https://github.com/nexmo-community/nexmo-dotnet-quickstart)

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Nexmo.Api;
 using Nexmo.Api.Voice;
 
@@ -9,6 +11,13 @@ namespace Nexmo.Samples.Coverage
     {
         public static void Main(string[] args)
         {
+            // File logging example
+            var loggingConfiguration = new ConfigurationBuilder()
+                .AddJsonFile("logging-file.json", true, true)
+                .Build();
+            var configurationSection = loggingConfiguration.GetSection("Logging");
+            ((LoggerFactory)Configuration.Instance.Logger).AddFile(configurationSection);
+
             ApiRequestCoverageTest();
 
             //RemoveUnusedApplications();
