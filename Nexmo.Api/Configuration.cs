@@ -40,7 +40,8 @@ namespace Nexmo.Api
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     { "appSettings:Nexmo.Url.Rest", "https://rest.nexmo.com"},
-                    { "appSettings:Nexmo.Url.Api", "https://api.nexmo.com"}
+                    { "appSettings:Nexmo.Url.Api", "https://api.nexmo.com"},
+                    { "appSettings:Nexmo.Api.EnsureSuccessStatusCode", "false" }
                 })
                 .AddConfigFile("web.config", true, configLogger)
                 .AddConfigFile("app.config", true, configLogger)
