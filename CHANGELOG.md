@@ -1,3 +1,7 @@
+# 2.3.1 (2017-11-23)
+
+* Set Json serialization DefaultValueHandling to ignore (Voice API defaults no longer required to be explicitly sent)
+
 # 2.3.0 (2017-11-09)
 
 * __[BREAKING]__ `Account.GetBalance` returns (instead of a `decimal`) a `Balance` object that includes your account balance and other properties.
