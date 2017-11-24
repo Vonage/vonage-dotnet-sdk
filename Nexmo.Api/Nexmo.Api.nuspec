@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>2.3.0</version>
+    <version>2.3.1</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,13 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * [BREAKING] `Account.GetBalance` returns (instead of a `decimal`) a `Balance` object that includes your account balance and other properties.
-      * [BREAKING] `NumberInsight` calls, request classes, and response classes have changed slightly. The underlying calls to Nexmo's API have been updated as well. Thanks to @RabebOthmani for the PR!
-      * API and documentation refresh: Added missing JSON properties, updated summaries from the official docs.
-      * Support additional call endpoint types.
-      * Introduced `Nexmo.Api.EnsureSuccessStatusCode` configuration option. You may instruct the library to throw an exception if a request results in an unsuccessful HTTP status code.
-      * Address `ShortCode.RequestAlert` request bug.
-      * Expose the configuration `ILoggerFactory` for use with external logging implementations.
+      * Set Json serialization DefaultValueHandling to ignore
     </releaseNotes>
     <copyright>© Nexmo 2017</copyright>
     <tags>SMS voice telephony phone nexmo</tags>

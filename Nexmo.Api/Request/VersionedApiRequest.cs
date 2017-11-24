@@ -133,7 +133,8 @@ namespace Nexmo.Api.Request
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(appId, appKeyPath));
 
-            var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload));
+            var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload,
+                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 

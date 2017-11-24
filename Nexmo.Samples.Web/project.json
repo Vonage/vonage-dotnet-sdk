@@ -29,7 +29,7 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Nexmo.Api": "2.3.0"
+    "Nexmo.Api": "2.3.*"
   },
   "tools": {
     "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview2-final"

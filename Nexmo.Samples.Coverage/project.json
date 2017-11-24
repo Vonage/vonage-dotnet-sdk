@@ -14,7 +14,7 @@
     "Microsoft.Extensions.Configuration.Json": "1.0.*",
     "Microsoft.Extensions.Logging.Abstractions": "1.0.*",
     "Serilog.Extensions.Logging.File": "1.1.*",
-    "Nexmo.Api": "2.3.0"
+    "Nexmo.Api": "2.3.*"
   },
   "frameworks": {
     "netcoreapp1.0": {
