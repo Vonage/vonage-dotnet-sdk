@@ -14,12 +14,12 @@ $"number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&");
 
             var result = NumberInsight.RequestBasic(new NumberInsight.NumberInsightRequest
             {
-                number = "15555551212"
+                Number = "15555551212"
             });
 
-            Assert.AreEqual("0", result.status);
-            Assert.AreEqual("15555551212", result.international_format_number);
-            Assert.AreEqual("(555) 555-1212", result.national_format_number);
+            Assert.AreEqual("0", result.Status);
+            Assert.AreEqual("15555551212", result.InternationalFormatNumber);
+            Assert.AreEqual("(555) 555-1212", result.NationalFormatNumber);
         }
 
         [TestMethod]
@@ -31,13 +31,13 @@ $"number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&");
 
             var result = NumberInsight.RequestStandard(new NumberInsight.NumberInsightRequest
             {
-                number = "15555551212"
+                Number = "15555551212"
             });
 
-            Assert.AreEqual("0", result.status);
-            Assert.AreEqual("15555551212", result.international_format_number);
-            Assert.AreEqual("(555) 555-1212", result.national_format_number);
-            Assert.AreEqual("Verizon Wireless", result.current_carrier.name);
+            Assert.AreEqual("0", result.Status);
+            Assert.AreEqual("15555551212", result.InternationalFormatNumber);
+            Assert.AreEqual("(555) 555-1212", result.NationalFormatNumber);
+            Assert.AreEqual("Verizon Wireless", result.CurrentCarrier.Name);
         }
     }
 }

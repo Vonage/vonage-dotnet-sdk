@@ -62,21 +62,21 @@ namespace Nexmo.Api.ClientMethods
         {
             var parameters = new Dictionary<string, string>
             {
-                {"number", request.number},
-                {"callback", request.callback}
+                {"number", request.Number},
+                {"callback", request.Callback}
             };
 
-            if (!string.IsNullOrEmpty(request.country))
+            if (!string.IsNullOrEmpty(request.Country))
             {
-                parameters.Add("country", request.country);
+                parameters.Add("country", request.Country);
             }
-            if (!string.IsNullOrEmpty(request.cnam))
+            if (!string.IsNullOrEmpty(request.CallerIDName))
             {
-                parameters.Add("cnam", request.cnam);
+                parameters.Add("cnam", request.CallerIDName);
             }
-            if (!string.IsNullOrEmpty(request.ip))
+            if (!string.IsNullOrEmpty(request.IPAddress))
             {
-                parameters.Add("ip", request.cnam);
+                parameters.Add("ip", request.IPAddress);
             }
 
             var response = ApiRequest.DoPostRequest(
