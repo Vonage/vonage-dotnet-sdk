@@ -249,7 +249,7 @@ namespace Nexmo.Api
             }
             if (!string.IsNullOrEmpty(request.ip))
             {
-                parameters.Add("ip", request.cnam);
+                parameters.Add("ip", request.ip);
             }
 
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/async/json"), parameters, creds);
