@@ -38,7 +38,8 @@ namespace Nexmo.Api
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     { "appSettings:Nexmo.Url.Rest", "https://rest.nexmo.com"},
-                    { "appSettings:Nexmo.Url.Api", "https://api.nexmo.com"}
+                    { "appSettings:Nexmo.Url.Api", "https://api.nexmo.com"},
+                    { "appSettings:Nexmo.Api.EnsureSuccessStatusCode", "false" }
                 })
                 .AddJsonFile("settings.json", true, true)
                 .AddJsonFile("appsettings.json", true, true)
@@ -81,8 +82,7 @@ namespace Nexmo.Api
         internal ILogger ApiLogger;
         internal ILogger AuthenticationLogger;
 
-        // not convinced we want/need to expose this
-        //public ILoggerFactory Logger => _serviceProvider.GetService<ILoggerFactory>();
+        public ILoggerFactory Logger => _serviceProvider.GetService<ILoggerFactory>();
 
         public static Configuration Instance { get; } = new Configuration();
 

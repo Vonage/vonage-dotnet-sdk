@@ -134,8 +134,21 @@ namespace Nexmo.Api.Request
                 Configuration.Instance.ApiLogger.LogDebug($"GET {uri}");
                 var sendTask = Configuration.Instance.Client.SendAsync(req);
                 sendTask.Wait();
+
+                if (!sendTask.Result.IsSuccessStatusCode)
+                {
+                    Configuration.Instance.ApiLogger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+
+                    if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
+                            "true", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        sendTask.Result.EnsureSuccessStatusCode();
+                    }
+                }
+
                 var readTask = sendTask.Result.Content.ReadAsStreamAsync();
                 readTask.Wait();
+
                 string json;
                 using (var sr = new StreamReader(readTask.Result))
                 {
@@ -167,7 +180,7 @@ namespace Nexmo.Api.Request
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
-                Method = new HttpMethod(method),
+                Method = new HttpMethod(method)
             };
             VersionedApiRequest.SetUserAgent(ref req, creds);
             
@@ -184,6 +197,13 @@ namespace Nexmo.Api.Request
                 if (!sendTask.Result.IsSuccessStatusCode)
                 {
                     Configuration.Instance.ApiLogger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+
+                    if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
+                        "true", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        sendTask.Result.EnsureSuccessStatusCode();
+                    }
+
                     return new NexmoResponse
                     {
                         Status = sendTask.Result.StatusCode

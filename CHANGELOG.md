@@ -4,6 +4,28 @@
 * Instance-based methods are available to use.
 * Support .NET Standard 2.0.
 
+# 2.3.1 (2017-11-23)
+
+* Set Json serialization DefaultValueHandling to ignore (Voice API defaults no longer required to be explicitly sent)
+
+# 2.3.0 (2017-11-09)
+
+* __[BREAKING]__ `Account.GetBalance` returns (instead of a `decimal`) a `Balance` object that includes your account balance and other properties.
+* __[BREAKING]__ `NumberInsight` calls, request classes, and response classes have changed slightly. The underlying calls to Nexmo's API have been updated as well. Thanks to @RabebOthmani for the PR!
+  * CHANGE: NumberInsightBasicResponse RequestBasic(NumberInsightBasicRequest, ...) => NumberInsightBasicResponse RequestBasic(NumberInsightRequest, ...)
+  * CHANGE: NumberInsightStandardResponse RequestStandard(NumberInsightBasicRequest, ...) => NumberInsightStandardResponse RequestStandard(NumberInsightRequest, ...)
+  * ADD: NumberInsightAdvancedResponse RequestAdvanced(NumberInsightRequest, ...)
+  * CHANGE: NumberInsightRequestResponse Request(NumberInsightRequest, ...) => NumberInsightAsyncRequestResponse RequestAsync(NumberInsightAsyncRequest, ...)
+* API and documentation refresh: Added missing JSON properties, updated summaries from the official docs.
+* Support additional call endpoint types.
+* Introduced `Nexmo.Api.EnsureSuccessStatusCode` configuration option. You may instruct the library to throw an exception if a request results in an unsuccessful HTTP status code.
+* Address `ShortCode.RequestAlert` request bug.
+* Expose the configuration `ILoggerFactory` for use with external logging implementations.
+
+# 2.2.2 (2017-06-19)
+
+* Updated jose-jwt to 2.3.0 which is reported to address key loading issues.
+
 # 2.2.1 (2017-03-21)
 
 * Fixed NuGet dependencies; testing shows they are now being correctly included when performing `install-package`.

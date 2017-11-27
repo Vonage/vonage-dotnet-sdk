@@ -15,24 +15,24 @@ namespace Nexmo.Api
         public class MessageBase
         {
             /// <summary>
-            /// Your API Key Ex: MyKey
+            /// Your API Key.
             /// </summary>
             [JsonProperty("account-id")]
             public string accountId { get; set; }
             /// <summary>
-            /// Sender id Ex: 1234567891
+            /// The sender ID the message was sent from. Could be a phone number or name.
             /// </summary>
             public string from { get; set; }
             /// <summary>
-            /// Recipient Number Ex: 1234567890
+            /// The phone number the message was sent to.
             /// </summary>
             public string to { get; set; }
             /// <summary>
-            /// Content of the message
+            /// The body of the message
             /// </summary>
             public string body { get; set; }
             /// <summary>
-            /// Date when we have received the message YYYY-MM-DD HH:MM:SS expressed in UTC time Ex: 2011-11-15 14:34:10
+            /// The date and time at UTC+0 when Platform received your request in the following format: YYYY-MM-DD HH:MM:SS.
             /// </summary>
             [JsonProperty("date-received")]
             public string dateReceived { get; set; }
@@ -51,41 +51,46 @@ namespace Nexmo.Api
         public class Message : MessageBase
         {
             /// <summary>
-            /// Type of message MT (Message Terminated / Outbound) or MO (Message Originated / Inbound). Ex: MT
+            /// The message type. MT (mobile terminated or outbound) or MO (mobile originated or inbound)
             /// </summary>
             public string type { get; set; }
             /// <summary>
-            /// ID of the sent message. Ex: 00A0B0C0
+            /// The id of the message you sent.
             /// </summary>
             [JsonProperty("message-id")]
             public string messageId { get; set; }
             /// <summary>
-            /// Optional. Network operator MCCMNC. Ex: 23450
+            /// Optional. The MCCMNC for the carrier who delivered the message.
             /// </summary>
             public string network { get; set; }
 
             // Specific fields for message type MT
 
             /// <summary>
-            /// Price for outbound message in Euro Ex: 0.035
+            /// Price in Euros for a MT message
             /// </summary>
             public string price { get; set; }
             /// <summary>
-            /// Date when we have received the delivery report with a final status YYYY-MM-DD HH:MM:SS expressed in UTC time Ex: 2011-11-15 14:34:40
+            /// The date and time at UTC+0 when Platform received the delivery receipt from the carrier who delivered the MT message. This parameter is in the following format YYYY-MM-DD HH:MM:SS
             /// </summary>
             [JsonProperty("date-closed")]
             public string dateClosed { get; set; }
             /// <summary>
-            /// Overall latency between message submission and final delivery report, this is expressed in milliseconds Ex: 4302
+            /// The overall latency between date-received and date-closed in milliseconds.
             /// </summary>
-            public string latency { get; set; }	
+            public string latency { get; set; }
             /// <summary>
-            /// Final delivery report status Ex: FAILED
+            /// The internal reference you set in the request.
+            /// </summary>
+            [JsonProperty("client-ref")]
+            public string clientRef { get; set; }
+            /// <summary>
+            /// The status of message-id at date-closed.
             /// </summary>
             [JsonProperty("final-status")]
             public string finalStatus { get; set; }
             /// <summary>
-            /// Current status of the message, this is not the final status Ex: BUFFERED
+            /// A code that explains where the message is in the delivery process. If status is not delivered check error-code for more information. If status is accepted ignore the value of error-code
             /// </summary>
             public string status { get; set; }
         }

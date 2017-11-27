@@ -8,21 +8,65 @@ namespace Nexmo.Api
     {
         public class VerifyRequest
         {
+            /// <summary>
+            /// The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. For example, 447700900000.
+            /// </summary>
             public string number { get; set; }
-            public string brand { get; set; }
+            /// <summary>
+            /// If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.
+            /// </summary>
             public string country { get; set; }
+            /// <summary>
+            /// The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. For example: "Your brand PIN is ..".
+            /// </summary>
+            public string brand { get; set; }
+            /// <summary>
+            /// An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.
+            /// </summary>
             public string sender_id { get; set; }
+            /// <summary>
+            /// The length of the PIN. Possible values are 6 or 4 characters. The default value is 4.
+            /// </summary>
             public string code_length { get; set; }
+            /// <summary>
+            /// By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the number. For example, the text message or TTS message for a 33* number is sent in French. Use this parameter to explicitly control the language, accent and gender used for the Verify request. The default language is en-us.
+            /// </summary>
             public string lg { get; set; }
+            /// <summary>
+            /// Restrict verification to a certain network type. Possible values are:
+            ///All (Default)
+            ///Mobile
+            ///Landline
+            ///
+            ///Note: contact support@nexmo.com to enable this feature.
+            /// </summary>
             public string require_type { get; set; }
+            /// <summary>
+            /// The PIN validity time from generation. This is an integer value between 60 and 3600 seconds. The default is 300 seconds. When specified together, pin_expiry must be an integer multiple of next_event_wait. Otherwise, pin_expiry is set to equal next_event_wait. For example:
+            ///pin_expiry = 360 seconds, so next_event_wait = 120 seconds - all three attempts have the same PIN.
+            ///pin_expiry = 240 seconds, so next_event_wait = 120 seconds - 1st and 2nd attempts have the same PIN, third attempt has a different PIN.
+            ///pin_expiry = 120 (or 200 or 400 seconds) - each attempt has a different PIN.
+            /// </summary>
             public string pin_expiry { get; set; }
+            /// <summary>
+            /// An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.
+            /// </summary>
             public string next_event_wait { get; set; }
         }
 
         public class VerifyResponse
         {
+            /// <summary>
+            /// The unique ID of the Verify request you sent. The value of request_id is up to 32 characters long. You use this request_id for the Verify Check.
+            /// </summary>
             public string request_id { get; set; }
+            /// <summary>
+            /// The response code that explains how your request proceeded. (verify_response_codes: somevalue)
+            /// </summary>
             public string status { get; set; }
+            /// <summary>
+            /// If status is not 0, this explains the error encountered.
+            /// </summary>
             public string error_text { get; set; }
         }
 
@@ -41,16 +85,41 @@ namespace Nexmo.Api
 
         public class CheckRequest
         {
+            /// <summary>
+            /// The identifier of the Verify request to check. This is the request_id you received in the Verify Request response.
+            /// </summary>
             public string request_id { get; set; }
+            /// <summary>
+            /// The PIN given by your user.
+            /// </summary>
             public string code { get; set; }
+            /// <summary>
+            /// The IP Address used by your user when they entered the PIN. Nexmo uses this information to identify fraud and spam patterns across our customer base. This ultimately benefits all Nexmo customers.
+            /// </summary>
+            public string ip_address { get; set; }
         }
 
         public class CheckResponse
         {
+            /// <summary>
+            /// The identifier of the SMS message-id.
+            /// </summary>
             public string event_id { get; set; }
+            /// <summary>
+            /// If the value of status is 0, your user entered the correct PIN. If it is not, check the response code.
+            /// </summary>
             public string status { get; set; }
+            /// <summary>
+            /// The price charged for this Verify request.
+            /// </summary>
             public string price { get; set; }
+            /// <summary>
+            /// Currency code.
+            /// </summary>
             public string currency { get; set; }
+            /// <summary>
+            /// If status is not 0, this is brief explanation about the error.
+            /// </summary>
             public string error_text { get; set; }
         }
 
@@ -74,24 +143,75 @@ namespace Nexmo.Api
 
         public class SearchRequest
         {
+            /// <summary>
+            /// The request_id you received in the Verify Request Response.
+            /// </summary>
             public string request_id { get; set; }
+            /// <summary>
+            /// More than one request_id. Each request_id is a new parameter in the Verify Search request.
+            /// </summary>
             public string request_ids { get; set; }
         }
 
         public class SearchResponse
         {
+            /// <summary>
+            /// The request_id you received in the Verify Request Response and used in the Verify Search request.
+            /// </summary>
             public string request_id { get; set; }
+            /// <summary>
+            /// The Account ID the request was for.
+            /// </summary>
             public string account_id { get; set; }
-            public string number { get; set; }
-            public string sender_id { get; set; }
-            public string date_submitted { get; set; }
-            public string date_finalized { get; set; }
-            public string first_event_date { get; set; }
-            public string last_event_date { get; set; }
+            /// <summary>
+            /// The status of the Verify Request. Possible values are:
+            ///IN PROGRESS - still in progress.
+            ///SUCCESS - your user entered the PIN correctly.
+            ///FAILED - user entered the wrong pin more than 3 times.
+            ///EXPIRED - no PIN entered during the pin_expiry time.
+            ///CANCELLED - the request was cancelled using Verify Control
+            ///101 - the request_id you set in the Verify Search request is invalid.
+            /// </summary>
             public string status { get; set; }
+            /// <summary>
+            /// The phone number this Verify Request was made for.
+            /// </summary>
+            public string number { get; set; }
+            /// <summary>
+            /// The price charged for this Verify Request.
+            /// </summary>
             public string price { get; set; }
+            /// <summary>
+            /// The currency code.
+            /// </summary>
             public string currency { get; set; }
+            /// <summary>
+            /// The sender_id you provided in the Verify Request.
+            /// </summary>
+            public string sender_id { get; set; }
+            /// <summary>
+            /// The date and time the Verification Request was submitted. This response parameter is in the following format YYYY-MM-DD HH:MM:SS. For example, 2012-04-05 09:22:57.
+            /// </summary>
+            public string date_submitted { get; set; }
+            /// <summary>
+            /// The date and time the Verification Request was completed. This response parameter is in the following format YYYY-MM-DD HH:MM:SS. For example, 2012-04-05 09:22:57.
+            /// </summary>
+            public string date_finalized { get; set; }
+            /// <summary>
+            /// Time first attempt was made. This response parameter is in the following format YYYY-MM-DD HH:MM:SS. For example, 2012-04-05 09:22:57.
+            /// </summary>
+            public string first_event_date { get; set; }
+            /// <summary>
+            /// Time last attempt was made. This response parameter is in the following format YYYY-MM-DD HH:MM:SS. For example, 2012-04-05 09:22:57.
+            /// </summary>
+            public string last_event_date { get; set; }
+            /// <summary>
+            /// If status is not SUCCESS, this message explains the issue.
+            /// </summary>
             public string error_text { get; set; }
+            /// <summary>
+            /// The list of checks made for this verification and their outcomes.
+            /// </summary>
             public CheckObj[] checks { get; set; }
         }
 

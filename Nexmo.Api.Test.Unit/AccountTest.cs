@@ -9,9 +9,10 @@ namespace Nexmo.Api.Test.Unit
         public void should_get_account_balance()
         {
             SetExpect($"{RestUrl}/account/get-balance?api_key={ApiKey}&api_secret={ApiSecret}&",
-                "{\"value\":0.43}");
+@"{""value"": 3.14159, ""autoReload"": false }");
             var balance = Account.GetBalance();
-            Assert.AreEqual(.43m, balance);
+            Assert.AreEqual(3.14159m, balance.value);
+            Assert.IsFalse(balance.autoReload);
         }
 
         [TestMethod]

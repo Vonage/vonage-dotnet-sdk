@@ -13,11 +13,11 @@ namespace Nexmo.Api.ClientMethods
         }
 
         /// <summary>
-        /// Get current account balance
+        /// Get current account balance data
         /// </summary>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// <returns>decimal balance</returns>
-        public decimal GetBalance(Credentials creds = null)
+        /// <returns>Balance data</returns>
+        public Api.Account.Balance GetBalance(Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Account),
                     "/account/get-balance"),
@@ -26,23 +26,30 @@ namespace Nexmo.Api.ClientMethods
                 creds ?? Credentials);
 
             var obj = JsonConvert.DeserializeObject<Api.Account.Balance>(json);
-            return obj.value;
+            return obj;
         }
 
         /// <summary>
-        /// Get Nexmo pricing for the given country
+        /// Retrieve our outbound pricing for a given country
         /// </summary>
         /// <param name="country">ISO 3166-1 alpha-2 country code</param>
+        /// <param name="type">The type of service you wish to retrieve data about: either sms, sms-transit or voice.</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>Pricing data</returns>
-        public Api.Account.Pricing GetPricing(string country, Credentials creds = null)
+        public Api.Account.Pricing GetPricing(string country, string type = null, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Account),
-                    "/account/get-pricing/outbound/"),
-                new Dictionary<string, string>
-                {
-                    { "country", country }
-                },
+            var parameters = new Dictionary<string, string>
+            {
+                { "country", country }
+            };
+            if (!string.IsNullOrEmpty(type))
+            {
+                parameters.Add("type", type);
+            }
+
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
+                "/account/get-pricing/outbound/"),
+                parameters,
                 creds ?? Credentials);
 
             var obj = JsonConvert.DeserializeObject<Api.Account.Pricing>(json);

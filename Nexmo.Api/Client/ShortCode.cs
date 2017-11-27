@@ -45,7 +45,7 @@ namespace Nexmo.Api.ClientMethods
                 sb.AppendFormat("{0}={1}&", System.Net.WebUtility.UrlEncode(key), System.Net.WebUtility.UrlEncode(customValues[key]));
             }
 
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.ShortCode), "/sc/us/alert/json?" + sb), creds);
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.ShortCode), "/sc/us/alert/json?" + sb), creds ?? Credentials);
             return JsonConvert.DeserializeObject<Api.SMS.SMSResponse>(json);
         }
     }
