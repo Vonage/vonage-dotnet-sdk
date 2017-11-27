@@ -52,7 +52,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static SMS.SMSResponse RequestAlert(AlertRequest request, Dictionary<string, string> customValues, Credentials creds = null)
         {
-            var sb = ApiRequest.GetQueryStringBuilderFor(request);
+            var sb = ApiRequest.GetQueryStringBuilderFor(request, creds);
             foreach (var key in customValues.Keys)
             {
                 sb.AppendFormat("{0}={1}&", System.Net.WebUtility.UrlEncode(key), System.Net.WebUtility.UrlEncode(customValues[key]));

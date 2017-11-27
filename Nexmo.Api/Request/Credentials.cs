@@ -7,5 +7,8 @@
         public string SecuritySecret { get; set; }
         public string ApplicationId { get; set; }
         public string ApplicationKey { get; set; }
+
+        // Optional app useragent value to pass with every request
+        public string AppUserAgent { get; set; }
     }
 }

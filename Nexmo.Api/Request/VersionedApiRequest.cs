@@ -37,7 +37,7 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = HttpMethod.Get,
             };
-            SetUserAgent(ref req);
+            SetUserAgent(ref req, creds);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(appId, appKeyPath));
@@ -49,8 +49,16 @@ namespace Nexmo.Api.Request
                 var sendTask = Configuration.Instance.Client.SendAsync(req);
                 sendTask.Wait();
 
-                //if (!sendTask.Result.IsSuccessStatusCode)
-                //    throw new Exception("Error while retrieving resource.");
+                if (!sendTask.Result.IsSuccessStatusCode)
+                {
+                    Configuration.Instance.ApiLogger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+
+                    if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
+                            "true", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        sendTask.Result.EnsureSuccessStatusCode();
+                    }
+                }
 
                 string json;
                 var readTask = sendTask.Result.Content.ReadAsStreamAsync();
@@ -65,11 +73,11 @@ namespace Nexmo.Api.Request
         }
 
         private static string _userAgent;
-        internal static void SetUserAgent(ref HttpRequestMessage request)
+        internal static void SetUserAgent(ref HttpRequestMessage request, Credentials creds)
         {
             if (string.IsNullOrEmpty(_userAgent))
             {
-#if NETSTANDARD1_6
+#if NETSTANDARD1_6 || NETSTANDARD2_0
                 // TODO: watch the next core release; may have functionality to make this cleaner
                 var runtimeVersion = (System.Runtime.InteropServices.RuntimeInformation.OSDescription + System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
                     .Replace(" ", "")
@@ -91,7 +99,7 @@ namespace Nexmo.Api.Request
 
                 _userAgent = $"nexmo-dotnet/{libraryVersion} dotnet/{runtimeVersion}";
 
-                var appVersion = Configuration.Instance.Settings["appSettings:Nexmo.UserAgent"];
+                var appVersion = creds?.AppUserAgent ?? Configuration.Instance.Settings["appSettings:Nexmo.UserAgent"];
                 if (!string.IsNullOrWhiteSpace(appVersion))
                 {
                     _userAgent += $" {appVersion}";
@@ -120,12 +128,13 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = new HttpMethod(method),
             };
-            SetUserAgent(ref req);
+            SetUserAgent(ref req, creds);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(appId, appKeyPath));
 
-            var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload));
+            var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload,
+                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
@@ -138,6 +147,13 @@ namespace Nexmo.Api.Request
                 if (!sendTask.Result.IsSuccessStatusCode)
                 {
                     Configuration.Instance.ApiLogger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+
+                    if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
+                        "true", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        sendTask.Result.EnsureSuccessStatusCode();
+                    }
+
                     return new NexmoResponse
                     {
                         Status = sendTask.Result.StatusCode

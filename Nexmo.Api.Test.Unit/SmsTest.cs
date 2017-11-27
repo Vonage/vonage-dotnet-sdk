@@ -1,15 +1,16 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Unit
 {
-    [TestFixture]
-    internal class SmsTest : MockedWebTest
+    [TestClass]
+    public class SmsTest : MockedWebTest
     {
-        [Test]
+        [TestMethod]
         public void should_send_sms()
         {
-            SetExpect($"{RestUrl}/sms/json?from=98975&to=17775551212&text=this+is+a+test&api_key={ApiKey}&api_secret={ApiSecret}&",
-"{\"message-count\": \"1\",\"messages\": [{\"to\": \"17775551212\",\"message-id\": \"02000000A3AF32FA\",\"status\": \"0\",\"remaining-balance\": \"7.55560000\",\"message-price\": \"0.00480000\",\"network\": \"310004\"}]}");
+            SetExpect($"{RestUrl}/sms/json",
+"{\"message-count\": \"1\",\"messages\": [{\"to\": \"17775551212\",\"message-id\": \"02000000A3AF32FA\",\"status\": \"0\",\"remaining-balance\": \"7.55560000\",\"message-price\": \"0.00480000\",\"network\": \"310004\"}]}",
+$"from=98975&to=17775551212&text=this+is+a+test&api_key={ApiKey}&api_secret={ApiSecret}&");
 
             var results = SMS.Send(new SMS.SMSRequest
             {

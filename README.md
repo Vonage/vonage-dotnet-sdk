@@ -4,6 +4,8 @@ Nexmo Client Library for C#/.NET
 [![](http://img.shields.io/nuget/v/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
 [![](http://img.shields.io/nuget/vpre/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
 
+## THIS IS THE 3.0 RELEASE BRANCH. It is a work in progress. This documentation is currently outdated. Please look at the [3.0 milestones](https://github.com/Nexmo/nexmo-dotnet/milestone/3) for more info.
+
 You can use this C# client library to integrate [Nexmo's APIs](#api-coverage) to your application. To use this, you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
@@ -51,28 +53,10 @@ Configuration:
 }
 ```
 
-* In v2.1.0+, you may also continue to use ```web.config``` for configuration:
-
-```xml
-<appSettings>
-  <add key="Nexmo.UserAgent" value="myApp/1.0" />
-  <add key="Nexmo.Url.Rest" value="https://rest.nexmo.com" />
-  <add key="Nexmo.Url.Api" value="https://api.nexmo.com" />
-  <add key="Nexmo.api_key" value="<YOUR KEY>" />
-  <add key="Nexmo.api_secret" value="<YOUR SECRET>" />
-</appSettings>
-```
-
 * In the event multiple configuration files are found, the order of precedence is as follows:
 
 	* ```appsettings.json``` which overrides
-	* ```settings.json``` which overrides
-	* ```<executing process name>.config``` which overrides
-	* ```app.config``` which overrides
-	* ```web.config```
-
-* As you are able, please move your project to JSON configuration as XML
-configuration will be going away in a future release.
+	* ```settings.json```
 
 ### Configuration Reference
 
@@ -85,6 +69,7 @@ Nexmo.Application.Key | Path to your application key
 Nexmo.Url.Rest | Optional. Nexmo REST API base URL. Defaults to https://rest.nexmo.com
 Nexmo.Url.Api | Optional. Nexmo API base URL. Defaults to https://api.nexmo.com
 Nexmo.Api.RequestsPerSecond | Optional. Throttle to specified requests per second.
+Nexmo.Api.EnsureSuccessStatusCode | Optional. Defaults to `false`. If `true`, `EnsureSuccessStatusCode` will be called against each response. If the response has a failure HTTP status code, a `HttpRequestException` will be thrown.
 Nexmo.UserAgent | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`
 
 ### Logging
@@ -106,6 +91,8 @@ Example ```logging.json``` contents that would log all requests as well as major
   }
 }
 ```
+
+You may specify other types of logging (file, etc.). The ```Nexmo.Samples.Coverage``` project contains an example that logs to a file with the assistance of ```Serilog.Extensions.Logging.File```.
 
 Examples
 --------
@@ -254,7 +241,7 @@ public ActionResult Check(string code)
 ### Additional Examples
 
 * Check out the sample MVC application and tests for more examples.
-Make sure to copy appsettings.json.example/web.config.example to appsettings.json/web.config and enter your key/secret.
+Make sure to copy appsettings.json.example to appsettings.json and enter your key/secret.
 
 API Coverage
 ------------
@@ -317,9 +304,9 @@ Targeted frameworks:
 
 * 4.5.2
 * 4.6, 4.6.1, 4.6.2
-* .NET Standard 1.6
+* .NET Standard 1.6, 2.0
 
-Visual Studio 2015 is required (Community should be fine). Update 3 is recommended.
+Visual Studio 2017 is required (Community is fine). v15.3.5 is recommended.
 
 1. Get latest code either by cloning the repository or downloading a snapshot of the source.
 2. Open "Nexmo.Api.sln"

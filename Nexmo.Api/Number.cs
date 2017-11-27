@@ -37,31 +37,31 @@ namespace Nexmo.Api
         public class NumberUpdateCommand
         {
             /// <summary>
-            /// Required. Country code. Ex: ES
+            /// Required. The two character country code in ISO 3166-1 alpha-2 format.
             /// </summary>
             public string country { get; set; }
             /// <summary>
-            /// Required. One of your inbound numbers Ex: 34911067000
+            /// Required. An available inbound virtual number. For example, 447700900000.
             /// </summary>
             public string msisdn { get; set; }
             /// <summary>
-            /// Optional. The URL should be active to be taken into account and properly encoded Ex: https%3a%2f%2fmycallback.servername
+            /// Optional. An URL encoded URI to the webhook endpoint endpoint that handles inbound messages. Your webhook endpoint must be active before you make this request, Nexmo makes a GET request to your endpoint and checks that it returns a 200 OK response. Set to empty string to clear.
             /// </summary>
             public string moHttpUrl { get; set; }
             /// <summary>
-            /// Optional. The associated system type for SMPP client only Ex: inbound
+            /// Optional. The associated system type for your SMPP client. For example inbound.
             /// </summary>
             public string moSmppSysType { get; set; }
             /// <summary>
-            /// Optional. The voice callback type for SIP end point (sip), for a telephone number (tel), for VoiceXML end point (vxml)
+            /// Optional. The voice webhook type. Possible values are sip, tel, vxml (VoiceXML) or app
             /// </summary>
             public string voiceCallbackType { get; set; }
             /// <summary>
-            /// Optional. The voice callback value based on the voiceCallbackType
+            /// Required if voiceCallbackType is specified. A URI for your voiceCallbackType or an Application ID
             /// </summary>
             public string voiceCallbackValue { get; set; }
             /// <summary>
-            /// Optional. A URL to which Nexmo will send a request when the call ends to notify your application.
+            /// Optional. Nexmo sends a request to this webhook endpoint when a call ends.
             /// </summary>
             public string voiceStatusCallback { get; set; }
         }

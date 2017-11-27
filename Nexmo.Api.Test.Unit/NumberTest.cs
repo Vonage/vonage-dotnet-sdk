@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Unit
 {
-    [TestFixture]
-    internal class NumberTest : MockedWebTest
+    [TestClass]
+    public class NumberTest : MockedWebTest
     {
-        [Test]
+        [TestMethod]
         public void should_search_numbers()
         {
             SetExpect($"{RestUrl}/number/search/?country=US&api_key={ApiKey}&api_secret={ApiSecret}&",
@@ -21,7 +21,7 @@ namespace Nexmo.Api.Test.Unit
             Assert.AreEqual(5, results.numbers.Count());
         }
 
-        [Test]
+        [TestMethod]
         public void should_buy_number()
         {
             SetExpect($"{RestUrl}/number/buy",
@@ -33,7 +33,7 @@ $"country=US&msisdn=17775551212&api_key={ApiKey}&api_secret={ApiSecret}&");
             Assert.AreEqual("200", result.ErrorCode);
         }
 
-        [Test]
+        [TestMethod]
         public void should_update_number()
         {
             SetExpect($"{RestUrl}/number/update",
@@ -51,7 +51,7 @@ $"country=US&msisdn=17775551212&moHttpUrl=https%3a%2f%2ftest.test.com%2fmo&moSmp
             Assert.AreEqual("200", result.ErrorCode);
         }
 
-        [Test]
+        [TestMethod]
         public void should_cancel_number()
         {
             SetExpect($"{RestUrl}/number/cancel",

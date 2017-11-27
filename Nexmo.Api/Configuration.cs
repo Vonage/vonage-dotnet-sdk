@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Nexmo.Api.ConfigurationExtensions;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api
@@ -40,11 +38,9 @@ namespace Nexmo.Api
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     { "appSettings:Nexmo.Url.Rest", "https://rest.nexmo.com"},
-                    { "appSettings:Nexmo.Url.Api", "https://api.nexmo.com"}
+                    { "appSettings:Nexmo.Url.Api", "https://api.nexmo.com"},
+                    { "appSettings:Nexmo.Api.EnsureSuccessStatusCode", "false" }
                 })
-                .AddConfigFile("web.config", true, configLogger)
-                .AddConfigFile("app.config", true, configLogger)
-                .AddConfigFile($"{System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName)}.config", true, configLogger)
                 .AddJsonFile("settings.json", true, true)
                 .AddJsonFile("appsettings.json", true, true)
             ;
@@ -72,10 +68,12 @@ namespace Nexmo.Api
 
             if (authCapabilities.Count == 0)
             {
-                throw new ArgumentException("You must provide at least one type of authentication via configuration!");
+                configLogger.LogInformation("No authentication found via configuration. Remember to provide your own.");
             }
-
-            configLogger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
+            else
+            {
+                configLogger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
+            }
         }
 
         private HttpClient _client;
@@ -84,8 +82,7 @@ namespace Nexmo.Api
         internal ILogger ApiLogger;
         internal ILogger AuthenticationLogger;
 
-        // not convinced we want/need to expose this
-        //public ILoggerFactory Logger => _serviceProvider.GetService<ILoggerFactory>();
+        public ILoggerFactory Logger => _serviceProvider.GetService<ILoggerFactory>();
 
         public static Configuration Instance { get; } = new Configuration();
 
@@ -99,10 +96,11 @@ namespace Nexmo.Api
             {
                 var reqPerSec = Instance.Settings["appSettings:Nexmo.Api.RequestsPerSecond"];
                 if (string.IsNullOrEmpty(reqPerSec))
-                    return _client ?? (_client = new HttpClient());
+                    return _client ?? (_client = ClientHandler == null ? new HttpClient(): new HttpClient(ClientHandler));
 
                 var delay = 1 / double.Parse(reqPerSec);
                 var execTimeSpanSemaphore = new TimeSpanSemaphore(1, TimeSpan.FromSeconds(delay));
+                // TODO: this messes up the unit test mock if throttle config is set
                 var handler = ClientHandler != null ? new ThrottlingMessageHandler(execTimeSpanSemaphore, ClientHandler) : new ThrottlingMessageHandler(execTimeSpanSemaphore);
                 return _client ?? (_client = new HttpClient(handler));
             }
