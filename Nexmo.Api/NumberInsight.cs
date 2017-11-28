@@ -94,6 +94,14 @@ namespace Nexmo.Api
             public string network_type { get; set; }
         }
 
+        public class Roaming
+        {
+            public string status { get; set; }
+            public string roaming_country_code { get; set; }
+            public string roaming_network_code { get; set; }
+            public string roaming_network_name { get; set; }
+        }
+
         public class NumberInsightStandardResponse : NumberInsightBasicResponse
         {
             /// <summary>
@@ -145,7 +153,10 @@ namespace Nexmo.Api
             /// </summary>
             public string lookup_outcome { get; set; }
             public string lookup_outcome_message { get; set; }
-
+            /// <summary>
+            /// Information about the roaming status for number. Possible values. This is applicable to mobile numbers only.
+            /// </summary>
+            public Roaming roaming { get; set; }
             /// <summary>
             /// Does number exist. Possible values are unknown, valid, not_valid. This is applicable to mobile numbers only.
             /// </summary>
@@ -154,10 +165,6 @@ namespace Nexmo.Api
             /// Can you call number now. Possible values are: unknown, reachable, undeliverable, absent, bad_number, blacklisted. This is applicable to mobile numbers only.
             /// </summary>
             public string reachable { get; set; }
-            /// <summary>
-            /// Information about the roaming status for number. Possible values. This is applicable to mobile numbers only.
-            /// </summary>
-            public string roaming { get; set; }
             /// <summary>
             /// The ip address you specified in the request. This field is blank if you did not specify ip.
             /// </summary>
