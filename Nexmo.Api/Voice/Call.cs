@@ -69,7 +69,7 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// Optional. Platform sends event information asynchronously to this endpoint when status changes. For more information about the values sent, see callback.
             /// </summary>
-            public string event_url { get; set; }
+            public string[] event_url { get; set; }
             /// <summary>
             /// Optional. The HTTP method used to send event information to event_url. The default value is POST.
             /// </summary>
