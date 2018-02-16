@@ -4,7 +4,6 @@ Nexmo Client Library for C#/.NET
 [![](http://img.shields.io/nuget/v/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
 [![](http://img.shields.io/nuget/vpre/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
 
-## THIS IS THE 3.0 RELEASE BRANCH. It is a work in progress. This documentation is currently outdated. Please look at the [3.0 milestones](https://github.com/Nexmo/nexmo-dotnet/milestone/3) for more info.
 
 You can use this C# client library to integrate [Nexmo's APIs](#api-coverage) to your application. To use this, you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
@@ -34,6 +33,14 @@ Alternatively:
 either including them with your project's NuGet dependencies or manually referencing them.
 * Reference the assembly in your code.
 
+Targeted frameworks:
+--------------
+
+* 4.5.2
+* 4.6, 4.6.1, 4.6.2
+* .NET Standard 1.6, 2.0
+* ASP.NET Core 2.0
+
 Configuration:
 --------------
 * Provide the nexmo URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
@@ -57,6 +64,28 @@ Configuration:
 
 	* ```appsettings.json``` which overrides
 	* ```settings.json```
+
+Alternatively:
+* Provide the credentials as part of the API call.
+
+```csharp
+var creds = new Nexmo.Api.Request.Credentials
+            {
+                ApiKey = NEXMO_API_KEY,
+                ApiSecret = NEXMO_API_SECRET,
+                ApplicationId = NEXMO_APPLICATION_ID,
+                ApplicationKey = NEXMO_APPLICATION_KEY
+            };
+```
+
+```csharp
+var results = SMS.Send(new SMS.SMSRequest
+{
+    from = "15555551212",
+    to = "17775551212",
+    text = "this is a test"
+}, creds);
+```
 
 ### Configuration Reference
 
@@ -300,16 +329,10 @@ API Coverage
 Contributing
 ------------
 
-Targeted frameworks:
-
-* 4.5.2
-* 4.6, 4.6.1, 4.6.2
-* .NET Standard 1.6, 2.0
-
 Visual Studio 2017 is required (Community is fine). v15.3.5 is recommended.
 
 1. Get latest code either by cloning the repository or downloading a snapshot of the source.
-2. Open "Nexmo.Api.sln"
+2. Open "Nexmo.Api.sln
 3. Build! NuGet dependencies should be brought down automatically; check your settings if they are not.
 
 Pull requests are welcome!
