@@ -332,7 +332,7 @@ Contributing
 Visual Studio 2017 is required (Community is fine). v15.3.5 is recommended.
 
 1. Get latest code either by cloning the repository or downloading a snapshot of the source.
-2. Open "Nexmo.Api.sln
+2. Open "Nexmo.Api.sln"
 3. Build! NuGet dependencies should be brought down automatically; check your settings if they are not.
 
 Pull requests are welcome!
