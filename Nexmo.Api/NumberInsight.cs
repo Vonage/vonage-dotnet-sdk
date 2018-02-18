@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
@@ -51,7 +51,7 @@ namespace Nexmo.Api
             public string StatusMessage { get; set; }
             [JsonProperty(PropertyName = "error_text")]
             public string ErrorText { get; set; }
-            
+
             /// <summary>
             /// The unique identifier for your request. This is a alphanumeric string up to 40 characters.
             /// </summary>
@@ -191,7 +191,7 @@ namespace Nexmo.Api
             /// Information about the roaming status for number. Possible values. This is applicable to mobile numbers only.
             /// </summary>
             [JsonProperty(PropertyName = "roaming")]
-            public string RoamingInformation { get; set; }
+            public Roaming RoamingInformation { get; set; }
             /// <summary>
             /// The ip address you specified in the request. This field is blank if you did not specify ip.
             /// </summary>
@@ -210,7 +210,15 @@ namespace Nexmo.Api
             public string ip_country { get; set; }
         }
 
-        public class NumberInsightAsyncRequestResponse
+    public class Roaming
+    {
+        public string status { get; set; }
+        public string roaming_country_code { get; set; }
+        public string roaming_network_code { get; set; }
+        public string roaming_network_name { get; set; }
+    }
+
+    public class NumberInsightAsyncRequestResponse
         {
             public string request_id { get; set; }
             public string number { get; set; }
@@ -289,7 +297,7 @@ namespace Nexmo.Api
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/async/json"), parameters, creds);
 
             return JsonConvert.DeserializeObject<NumberInsightAsyncRequestResponse>(response.JsonResponse);
-        }   
+        }
 
         /// <summary>
         /// Deserializes a NumberInsight response JSON string
