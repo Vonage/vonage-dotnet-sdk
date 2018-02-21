@@ -267,7 +267,7 @@ namespace Nexmo.Api
             /// The time at UTC±00:00 when Nexmo started to push this Delivery Receipt to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
             /// </summary>
             [JsonProperty("message-timestamp")]
-            public string message_timestamp { get; set; }
+            public DateTime message_timestamp { get; set; }
             /// <summary>
             /// The client-ref you set in the request.
             /// </summary>
@@ -300,7 +300,7 @@ namespace Nexmo.Api
             /// The time at UTC±00:00  that Nexmo started to push this inbound message to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
             /// </summary>
             [JsonProperty("message-timestamp")]
-            public string message_timestamp { get; set; }
+            public DateTime message_timestamp { get; set; }
             /// <summary>
             /// A unix timestamp representation of message-timestamp.
             /// </summary>
