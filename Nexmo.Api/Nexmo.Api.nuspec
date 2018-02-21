@@ -54,9 +54,9 @@
 
         <!-- Additional .NET Standard dependencies -->
         <dependency id="System.Diagnostics.Process" version="4.1.0" />
-        <dependency id="System.Security.Cryptography.Algorithms" version="4.2.0" />
-        <dependency id="System.Security.Cryptography.OpenSsl" version="4.0.0" />
-        <dependency id="System.Security.Cryptography.Cng" version="4.2.0" />
+        <dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" />
+        <dependency id="System.Security.Cryptography.OpenSsl" version="4.4.0" />
+        <dependency id="System.Security.Cryptography.Cng" version="4.4.0" />
       </group>
       <group targetFramework="netstandard2.0">
         <!-- (copied from above as NuGet doesn't cascade deps) -->
@@ -76,9 +76,9 @@
         
         <!-- Additional .NET Standard dependencies -->
         <dependency id="System.Diagnostics.Process" version="4.1.0" />
-        <dependency id="System.Security.Cryptography.Algorithms" version="4.3.0" />
-        <dependency id="System.Security.Cryptography.OpenSsl" version="4.3.0" />
-        <dependency id="System.Security.Cryptography.Cng" version="4.3.0" />
+        <dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" />
+        <dependency id="System.Security.Cryptography.OpenSsl" version="4.4.0" />
+        <dependency id="System.Security.Cryptography.Cng" version="4.4.0" />
       </group>
     </dependencies>
   </metadata>
