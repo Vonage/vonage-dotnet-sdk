@@ -1,6 +1,7 @@
-# 3.0.0 (2017-??-??)
+# 3.0.0 (2018-02-21)
 
-* __[BREAKING]__ Remove support for configuration via configuration files.
+* __[BREAKING]__ Deprioritize support for configuration via configuration files.
+* __[BREAKING]__ ApplicationKey must now be the actual private key and not a path to the key.
 * Instance-based methods are available to use.
 * Support .NET Standard 2.0.
 

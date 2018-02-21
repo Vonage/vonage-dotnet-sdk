@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>3.0.0-pre3</version>
+    <version>3.0.0</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,7 +12,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * 3.0 prerelease 3
+	    * [BREAKING] Deprioritize support for configuration via configuration files.
+		* [BREAKING] ApplicationKey must now be the actual private key and not a path to the key.
+	    * Instance-based methods are available to use.
+	    * Support .NET Standard 2.0.
+		* Bug fixes!
     </releaseNotes>
     <copyright>© Nexmo 2018</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
