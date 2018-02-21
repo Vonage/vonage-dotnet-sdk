@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Security.Cryptography;
 using Jose;
 
@@ -8,7 +7,7 @@ namespace Nexmo.Api
 {
     internal class Jwt
     {
-        internal static string CreateToken(string appId, string privateKeyFile)
+        internal static string CreateToken(string appId, string privateKey)
         {
             var tokenData = new byte[64];
             var rng = RandomNumberGenerator.Create();
@@ -22,8 +21,7 @@ namespace Nexmo.Api
                 { "jti", jwtTokenId }
             };
 
-            var pemContents = File.ReadAllText(privateKeyFile);
-            var rsa = PemParse.DecodePEMKey(pemContents);
+            var rsa = PemParse.DecodePEMKey(privateKey);
             
             return JWT.Encode(payload, rsa, JwsAlgorithm.RS256);
         }
