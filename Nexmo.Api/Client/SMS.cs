@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Nexmo.Api.Request;
+﻿using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
@@ -19,14 +18,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public Api.SMS.SMSResponse Send(Api.SMS.SMSRequest request, Credentials creds = null)
         {
-            if (string.IsNullOrEmpty(request.from))
-            {
-                request.from = Configuration.Instance.Settings["Nexmo.sender_id"];
-            }
-
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Api.SMS.SMSResponse), "/sms/json"), request, creds ?? Credentials);
-
-            return JsonConvert.DeserializeObject<Api.SMS.SMSResponse>(response.JsonResponse);
+            return Api.SMS.Send(request, creds ?? Credentials);
         }
     }
 }

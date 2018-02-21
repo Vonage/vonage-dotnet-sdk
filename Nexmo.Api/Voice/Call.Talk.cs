@@ -38,9 +38,12 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// PUT /v1/calls/{uuid}/talk - send a synthesized speech message to an active Call
         /// </summary>
-        public static CallCommandResponse BeginTalk(string id, TalkCommand cmd)
+        /// <param name="id">id of call</param>
+        /// <param name="cmd">Command to execute against call</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        public static CallCommandResponse BeginTalk(string id, TalkCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/talk"), cmd);
+            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/talk"), cmd, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }
@@ -48,9 +51,11 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// DELETE /v1/calls/{uuid}/talk - stop sending a synthesized speech message to an active Call
         /// </summary>
-        public static CallCommandResponse EndTalk(string id)
+        /// <param name="id">id of call</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        public static CallCommandResponse EndTalk(string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/talk"), new {});
+            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/talk"), new {}, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }
@@ -58,9 +63,12 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// PUT /v1/calls/{uuid}/dtmf - send Dual-tone multi-frequency(DTMF) tones to an active Call
         /// </summary>
-        public static CallCommandResponse SendDtmf(string id, DtmfCommand cmd)
+        /// <param name="id">id of call</param>
+        /// <param name="cmd">Command to execute against call</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        public static CallCommandResponse SendDtmf(string id, DtmfCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/dtmf"), cmd);
+            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/dtmf"), cmd, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }

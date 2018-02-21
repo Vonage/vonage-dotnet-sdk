@@ -2,6 +2,11 @@
 
 namespace Nexmo.Api
 {
+    /// <summary>
+    /// Note that Client and Credentials are _not_ thread-safe!
+    /// If you need to change credentials in your app frequently, create multiple instances of
+    /// Client and ensure each have their own copy of Credentials.
+    /// </summary>
     public class Client
     {
         private Credentials _credentials;
@@ -24,6 +29,7 @@ namespace Nexmo.Api
         {
             Account = new ClientMethods.Account(Credentials);
             Application = new ClientMethods.Application(Credentials);
+            Call = new ClientMethods.Call(Credentials);
             Number = new ClientMethods.Number(Credentials);
             NumberVerify = new ClientMethods.NumberVerify(Credentials);
             Search = new ClientMethods.Search(Credentials);
@@ -33,6 +39,7 @@ namespace Nexmo.Api
 
         public ClientMethods.Account Account { get; private set; }
         public ClientMethods.Application Application { get; private set; }
+        public ClientMethods.Call Call { get; private set; }
         public ClientMethods.Number Number { get; private set; }
         public ClientMethods.NumberInsight NumberInsight { get; private set; }
         public ClientMethods.NumberVerify NumberVerify { get; private set; }

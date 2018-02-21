@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using Nexmo.Api.Request;
+﻿using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
@@ -19,14 +17,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns>Balance data</returns>
         public Api.Account.Balance GetBalance(Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Account),
-                    "/account/get-balance"),
-                // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
-                new Dictionary<string, string>(),
-                creds ?? Credentials);
-
-            var obj = JsonConvert.DeserializeObject<Api.Account.Balance>(json);
-            return obj;
+            return Api.Account.GetBalance(creds ?? Credentials);
         }
 
         /// <summary>
@@ -38,22 +29,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns>Pricing data</returns>
         public Api.Account.Pricing GetPricing(string country, string type = null, Credentials creds = null)
         {
-            var parameters = new Dictionary<string, string>
-            {
-                { "country", country }
-            };
-            if (!string.IsNullOrEmpty(type))
-            {
-                parameters.Add("type", type);
-            }
-
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
-                "/account/get-pricing/outbound/"),
-                parameters,
-                creds ?? Credentials);
-
-            var obj = JsonConvert.DeserializeObject<Api.Account.Pricing>(json);
-            return obj;
+            return Api.Account.GetPricing(country, type, creds ?? Credentials);
         }
 
         /// <summary>
@@ -66,19 +42,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns>Updated settings</returns>
         public Api.Account.Settings SetSettings(string newsecret = null, string httpMoCallbackurlCom = null, string httpDrCallbackurlCom = null, Credentials creds = null)
         {
-            var parameters = new Dictionary<string, string>();
-            if (null != newsecret)
-                parameters.Add("newSecret", newsecret);
-            if (null != httpMoCallbackurlCom)
-                parameters.Add("moCallBackUrl", httpMoCallbackurlCom);
-            if (null != httpDrCallbackurlCom)
-                parameters.Add("drCallBackUrl", httpDrCallbackurlCom);
-
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Api.Account), "/account/settings"), parameters, creds ?? Credentials);
-
-            // TODO: update secret in config?
-
-            return JsonConvert.DeserializeObject<Api.Account.Settings>(response.JsonResponse);
+            return Api.Account.SetSettings(newsecret, httpMoCallbackurlCom, httpDrCallbackurlCom, creds ?? Credentials);
         }
 
         /// <summary>
@@ -88,13 +52,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public void TopUp(string transaction, Credentials creds = null)
         {
-            ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Account), "/account/top-up"), new Dictionary<string, string>
-                {
-                    {"trx", transaction}
-                },
-                creds ?? Credentials);
-
-            // TODO: return response
+            Api.Account.TopUp(transaction, creds ?? Credentials);
         }
 
         /// <summary>
@@ -115,8 +73,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public Api.Account.NumbersResponse GetNumbers(Api.Account.NumbersRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Account), "/account/numbers"), request, creds ?? Credentials);
-            return JsonConvert.DeserializeObject<Api.Account.NumbersResponse>(json);
+            return Api.Account.GetNumbers(request, creds ?? Credentials);
         }
     }
 }

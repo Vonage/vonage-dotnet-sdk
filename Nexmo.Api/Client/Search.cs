@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using Nexmo.Api.Request;
+﻿using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
@@ -20,12 +18,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public Api.Search.Message GetMessage(string id, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Search), "/search/message"), new Dictionary<string, string>
-                {
-                    {"id", id}
-                },
-                creds ?? Credentials);
-            return JsonConvert.DeserializeObject<Api.Search.Message>(json);
+            return Api.Search.GetMessage(id, creds ?? Credentials);
         }
 
         /// <summary>
@@ -36,8 +29,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public Api.Search.Messages<Api.Search.Message> GetMessages(Api.Search.SearchRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Search), "/search/messages"), request, creds ?? Credentials);
-            return JsonConvert.DeserializeObject<Api.Search.Messages<Api.Search.Message>>(json);
+            return Api.Search.GetMessages(request, creds ?? Credentials);
         }
 
         /// <summary>
@@ -48,8 +40,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public Api.Search.Messages<Api.Search.MessageBase> GetRejections(Api.Search.SearchRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Search), "/search/rejections"), request, creds ?? Credentials);
-            return JsonConvert.DeserializeObject<Api.Search.Messages<Api.Search.MessageBase>>(json);
+            return Api.Search.GetRejections(request, creds ?? Credentials);
         }
     }
 }

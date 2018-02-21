@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net;
-using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
@@ -21,9 +19,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public ApplicationResponse Create(ApplicationRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Api.Application), "/v1/applications"), request, creds ?? Credentials);
-
-            return JsonConvert.DeserializeObject<ApplicationResponse>(response.JsonResponse);
+            return Api.Application.Create(request, creds ?? Credentials);
         }
 
         /// <summary>
@@ -36,28 +32,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public List<ApplicationResponse> List(int PageSize = 10, int PageIndex = 0, string AppId = "", Credentials creds = null)
         {
-            if (!string.IsNullOrEmpty(AppId))
-            {
-                return new List<ApplicationResponse>
-                {
-                    JsonConvert.DeserializeObject<ApplicationResponse>(
-                        ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Application),
-                                $"/v1/applications/{AppId}"),
-                            // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
-                            new Dictionary<string, string>(),
-                            creds ?? Credentials))
-                };
-
-            }
-
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Application), "/v1/applications"), new Dictionary<string, string>
-                {
-                    { "page_size", PageSize.ToString()},
-                    { "page_index", PageIndex.ToString()}
-                },
-                creds ?? Credentials);
-            var response = JsonConvert.DeserializeObject<ApplicationListResponse>(json);
-            return response._embedded.applications;
+            return Api.Application.List(PageSize, PageIndex, AppId, creds ?? Credentials);
         }
 
         /// <summary>
@@ -68,11 +43,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public ApplicationResponse Update(ApplicationRequest request, Credentials creds = null)
         {
-            var sb = ApiRequest.GetQueryStringBuilderFor(request);
-            var response = ApiRequest.DoPutRequest(ApiRequest.GetBaseUriFor(typeof(Api.Application),
-                $"/v1/applications/{request.id}?{sb}"), null, creds ?? Credentials);
-
-            return JsonConvert.DeserializeObject<ApplicationResponse>(response.JsonResponse);
+            return Api.Application.Update(request, creds ?? Credentials);
         }
 
         /// <summary>
@@ -83,11 +54,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public bool Delete(string appId, Credentials creds = null)
         {
-            var sb = ApiRequest.GetQueryStringBuilderFor(new object());
-            var response = ApiRequest.DoDeleteRequest(ApiRequest.GetBaseUriFor(typeof(Api.Application),
-                $"/v1/applications/{appId}?{sb}"), null, creds ?? Credentials);
-
-            return response.Status == HttpStatusCode.NoContent;
+            return Api.Application.Delete(appId, creds ?? Credentials);
         }
     }
 }

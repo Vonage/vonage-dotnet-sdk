@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
@@ -21,13 +19,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public Api.SMS.SMSResponse RequestTwoFactorAuth(Api.ShortCode.TwoFactorAuthRequest request, Credentials creds = null)
         {
-            if (!request.pin.HasValue)
-            {
-                request.pin = new Random().Next(0, 9999);
-            }
-
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.ShortCode), "/sc/us/2fa/json"), request, creds ?? Credentials);
-            return JsonConvert.DeserializeObject<Api.SMS.SMSResponse>(json);
+            return Api.ShortCode.RequestTwoFactorAuth(request, creds ?? Credentials);
         }
 
         /// <summary>
@@ -39,14 +31,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public Api.SMS.SMSResponse RequestAlert(Api.ShortCode.AlertRequest request, Dictionary<string, string> customValues, Credentials creds = null)
         {
-            var sb = ApiRequest.GetQueryStringBuilderFor(request, creds ?? Credentials);
-            foreach (var key in customValues.Keys)
-            {
-                sb.AppendFormat("{0}={1}&", System.Net.WebUtility.UrlEncode(key), System.Net.WebUtility.UrlEncode(customValues[key]));
-            }
-
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.ShortCode), "/sc/us/alert/json?" + sb), creds ?? Credentials);
-            return JsonConvert.DeserializeObject<Api.SMS.SMSResponse>(json);
+            return Api.ShortCode.RequestAlert(request, customValues, creds ?? Credentials);
         }
     }
 }

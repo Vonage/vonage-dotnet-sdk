@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using Nexmo.Api.Request;
+﻿using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
@@ -20,8 +18,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public Api.Number.SearchResults Search(Api.Number.SearchRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Api.Number), "/number/search/"), request, creds ?? Credentials);
-            return JsonConvert.DeserializeObject<Api.Number.SearchResults>(json);
+            return Api.Number.Search(request, creds ?? Credentials);
         }
 
         /// <summary>
@@ -33,14 +30,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public ResponseBase Buy(string country, string number, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Api.Number), "/number/buy"), new Dictionary<string, string>
-                {
-                    {"country", country},
-                    {"msisdn", number}
-                },
-                creds ?? Credentials);
-
-            return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
+            return Api.Number.Buy(country, number, creds ?? Credentials);
         }
 
         /// <summary>
@@ -51,9 +41,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public ResponseBase Update(Api.Number.NumberUpdateCommand cmd, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Api.Number), "/number/update"), cmd, creds ?? Credentials);
-
-            return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
+            return Api.Number.Update(cmd, creds ?? Credentials);
         }
 
         /// <summary>
@@ -65,14 +53,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns></returns>
         public ResponseBase Cancel(string country, string number, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Api.Number), "/number/cancel"), new Dictionary<string, string>
-                {
-                    {"country", country},
-                    {"msisdn", number}
-                },
-                creds ?? Credentials);
-
-            return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
+            return Api.Number.Cancel(country, number, creds ?? Credentials);
         }
     }
 }

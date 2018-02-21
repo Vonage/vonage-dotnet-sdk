@@ -232,6 +232,7 @@ namespace Nexmo.Api.Voice
         /// POST /v1/calls - create an outbound SIP or PSTN Call
         /// </summary>
         /// <param name="cmd"></param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         public static CallResponse Do(CallCommand cmd, Credentials creds = null)
         {
@@ -242,6 +243,8 @@ namespace Nexmo.Api.Voice
 
         /// <summary>
         /// GET /v1/calls - retrieve information about all your Calls
+        /// <param name="filter">Filter to search calls on</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// </summary>
         public static PaginatedResponse<CallList> List(SearchFilter filter, Credentials creds = null)
         {
@@ -260,6 +263,8 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// GET /v1/calls/{uuid} - retrieve information about a single Call
         /// </summary>
+        /// <param name="id">id of call</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Get(string id, Credentials creds = null)
         {
             var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new {}, creds);
@@ -270,6 +275,9 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// PUT /v1/calls/{uuid} - modify an existing Call
         /// </summary>
+        /// <param name="id">id of call</param>
+        /// <param name="cmd">Command to execute against call</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Edit(string id, CallEditCommand cmd, Credentials creds = null)
         {
             var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd, creds);

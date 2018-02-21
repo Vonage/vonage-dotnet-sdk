@@ -20,9 +20,12 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// PUT /v1/calls/{uuid}/stream - stream an audio file to an active Call
         /// </summary>
-        public static CallCommandResponse BeginStream(string id, StreamCommand cmd)
+        /// <param name="id">id of call</param>
+        /// <param name="cmd">Command to execute against call</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        public static CallCommandResponse BeginStream(string id, StreamCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/stream"), cmd);
+            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/stream"), cmd, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }
@@ -30,9 +33,11 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// DELETE /v1/calls/{uuid}/stream - stop streaming an audio file to an active Call
         /// </summary>
-        public static CallCommandResponse EndStream(string id)
+        /// <param name="id">id of call</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        public static CallCommandResponse EndStream(string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/stream"), new {});
+            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/stream"), new {}, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }
