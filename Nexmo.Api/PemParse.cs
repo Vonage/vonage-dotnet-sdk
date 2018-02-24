@@ -237,8 +237,8 @@ namespace Nexmo.Api
                     elems = GetIntegerSize(binr);
                     IQ = binr.ReadBytes(elems);
 
-                    // ------- create RSACryptoServiceProvider instance and initialize with public key -----
-#if NETSTANDARD1_6
+					// ------- create RSACryptoServiceProvider instance and initialize with public key -----
+#if NETSTANDARD1_6 || NETSTANDARD2_0
                     RSA RSA;
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                         RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
