@@ -1,4 +1,4 @@
-# 3.0.0 (2018-02-21)
+# 3.0.0 (2018-02-23)
 
 * __[BREAKING]__ Deprioritize support for configuration via configuration files.
 * __[BREAKING]__ ApplicationKey must now be the actual private key and not a path to the key.
