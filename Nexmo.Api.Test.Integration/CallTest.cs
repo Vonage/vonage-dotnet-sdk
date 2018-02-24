@@ -1,12 +1,12 @@
 ﻿using Nexmo.Api.Voice;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Integration
 {
-    [TestFixture]
+    [TestClass]
     public class CallTest
-    {
-        [Test]
+	{
+        [TestMethod]
         public void should_call()
         {
             var results = Call.Do(new Call.CallCommand
@@ -32,14 +32,14 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual("started", results.status);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_calls()
         {
             var results = Call.List();
             Assert.AreEqual(3, results._embedded.calls.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_specified_call()
         {
             var id = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -47,7 +47,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual(id, results.uuid);
         }
 
-        [Test]
+        [TestMethod]
         public void should_edit_specified_call()
         {
             var id = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -58,7 +58,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual(id, results.uuid);
         }
 
-        [Test]
+        [TestMethod]
         public void should_call_then_stream_then_end_stream()
         {
             var call = Call.Do(new Call.CallCommand
@@ -108,7 +108,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual("Stream stopped", streamCmdResponse.message);
         }
 
-        [Test]
+        [TestMethod]
         public void should_call_then_send_dtmf()
         {
             var callId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -120,7 +120,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual("DTMF sent", dtmfResponse.message);
         }
 
-        [Test]
+        [TestMethod]
         public void should_call_then_send_and_end_talk()
         {
             var callId = "ffffffff-ffff-ffff-ffff-ffffffffffff";

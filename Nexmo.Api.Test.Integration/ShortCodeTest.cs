@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Integration
 {
-    [TestFixture]
+    [TestClass]
     public class ShortCodeTest
     {
-        [Test]
+        [TestMethod]
         public void should_initiate_2fa()
         {
             var response = ShortCode.RequestTwoFactorAuth(new ShortCode.TwoFactorAuthRequest
@@ -17,7 +17,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual("1", response.message_count);
         }
 
-        [Test]
+        [TestMethod]
         public void should_initiate_alert()
         {
             var response = ShortCode.RequestAlert(new ShortCode.AlertRequest

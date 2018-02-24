@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Integration
 {
-    [TestFixture]
+    [TestClass]
     public class NumberVerifyTest
     {
-        [Test]
+        [TestMethod]
         public void should_control_request()
         {
             var result = NumberVerify.Control(new NumberVerify.ControlRequest

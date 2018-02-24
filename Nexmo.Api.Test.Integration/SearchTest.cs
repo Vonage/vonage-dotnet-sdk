@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Integration
 {
-    [TestFixture]
+    [TestClass]
     public class SearchTest
     {
-        [Test]
+        [TestMethod]
         public void should_get_message()
         {
             var msg = Search.GetMessage("03000000FFFFFFFF");
@@ -14,7 +14,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual("2015-12-31 14:08:40", msg.dateReceived);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_messages()
         {
             var msgs = Search.GetMessages(new Search.SearchRequest
@@ -26,7 +26,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual(1, msgs.count);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_rejections()
         {
             var msgs = Search.GetRejections(new Search.SearchRequest

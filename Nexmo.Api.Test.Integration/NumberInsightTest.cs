@@ -1,34 +1,34 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Integration
 {
-    [TestFixture]
+    [TestClass]
     public class NumberInsightTest
     {
-        [Test]
+        [TestMethod]
         public void should_send_basic_ni_request()
         {
             var result = NumberInsight.RequestBasic(new NumberInsight.NumberInsightRequest
             {
-                number = Configuration.Instance.Settings["test_number"]
+                Number = Configuration.Instance.Settings["test_number"]
             });
-            Assert.AreEqual("0", result.status);
-            Assert.AreEqual(Configuration.Instance.Settings["test_number"], result.international_format_number);
-            Assert.AreEqual("(555) 555-1212", result.national_format_number);
+            Assert.AreEqual("0", result.Status);
+            Assert.AreEqual(Configuration.Instance.Settings["test_number"], result.InternationalFormatNumber);
+            Assert.AreEqual("(555) 555-1212", result.NationalFormatNumber);
             
         }
 
-        [Test]
+        [TestMethod]
         public void should_send_standard_ni_request()
         {
             var result = NumberInsight.RequestStandard(new NumberInsight.NumberInsightRequest
             {
-                number = Configuration.Instance.Settings["test_number"]
+                Number = Configuration.Instance.Settings["test_number"]
             });
-            Assert.AreEqual("0", result.status);
-            Assert.AreEqual(Configuration.Instance.Settings["test_number"], result.international_format_number);
-            Assert.AreEqual("(555) 555-1212", result.national_format_number);
-            Assert.AreEqual("Verizon Wireless", result.current_carrier.name);
+            Assert.AreEqual("0", result.Status);
+            Assert.AreEqual(Configuration.Instance.Settings["test_number"], result.InternationalFormatNumber);
+            Assert.AreEqual("(555) 555-1212", result.NationalFormatNumber);
+            Assert.AreEqual("Verizon Wireless", result.CurrentCarrier.Name);
         }
     }
 }

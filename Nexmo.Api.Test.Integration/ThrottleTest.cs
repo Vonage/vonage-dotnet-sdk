@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Integration
 {
-    [TestFixture]
-    public class ThrottleTest
+    [TestClass]
+	public class ThrottleTest
     {
-        [Test]
+        [TestMethod]
         public void should_rate_limit()
         {
             Configuration.Instance.Settings["appSettings:Nexmo.Api.RequestsPerSecond"] = "1";
@@ -17,7 +17,7 @@ namespace Nexmo.Api.Test.Integration
                 Account.GetBalance();
             }
             watch.Stop();
-            Assert.GreaterOrEqual(watch.Elapsed.Seconds, 5);
+            Assert.IsTrue(watch.Elapsed.Seconds >= 5);
         }
     }
 }

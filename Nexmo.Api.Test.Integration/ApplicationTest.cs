@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Integration
 {
-    [TestFixture]
+    [TestClass]
     public class ApplicationTest
-    {
-        [Test]
+	{
+        [TestMethod]
         public void should_create_application()
         {
             var result = Application.Create(new ApplicationRequest
@@ -19,7 +19,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual("csharptest", result.name);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_list_of_applications()
         {
             var result = Application.List();
@@ -27,7 +27,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual("csharptest", result.First().name);
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_application()
         {
             var result = Application.List(AppId: "ffffffff-ffff-ffff-ffff-ffffffffffff");
@@ -35,7 +35,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual("csharptest", result.First().name);
         }
 
-        [Test]
+        [TestMethod]
         public void should_update_application()
         {
             var result = Application.Update(new ApplicationRequest
@@ -49,7 +49,7 @@ namespace Nexmo.Api.Test.Integration
             Assert.AreEqual("woocsharptest", result.name);
         }
 
-        [Test]
+        [TestMethod]
         public void should_delete_application()
         {
             var isDeleted = Application.Delete("ffffffff-ffff-ffff-ffff-ffffffffffff");

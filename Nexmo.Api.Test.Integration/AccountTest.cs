@@ -1,27 +1,27 @@
 ﻿using System.Linq;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Integration
 {
-    [TestFixture]
+    [TestClass]
     public class AccountTest
-    {
-        [Test]
-        public void should_get_account_balance()
+	{
+        [TestMethod]
+		public void should_get_account_balance()
         {
             var balance = Account.GetBalance();
             Assert.AreEqual(.43d, balance.value);
         }
 
-        [Test]
-        public void should_get_pricing()
+        [TestMethod]
+		public void should_get_pricing()
         {
             var pricing = Account.GetPricing("US");
             var verizon = pricing.networks.Single(n => n.code == "310004");
             Assert.AreEqual("Verizon Wireless", verizon.network);
         }
 
-        [Test]
+        [TestMethod]
         public void should_set_settings()
         {
             // TODO: password complexity requirements:
@@ -38,7 +38,7 @@ namespace Nexmo.Api.Test.Integration
             // callback urls are checked for a response
         }
 
-        [Test]
+        [TestMethod]
         public void should_get_numbers()
         {
             var response = Account.GetNumbers();

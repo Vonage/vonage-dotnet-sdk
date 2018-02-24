@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net452;net46;net461;net462;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net452;net46;net461;net462;netcoreapp2.0</TargetFrameworks>
     <AssemblyName>Nexmo.Api.Test.Integration</AssemblyName>
     <PackageId>Nexmo.Api.Test.Integration</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <RuntimeIdentifiers>win7-x64;osx;linux</RuntimeIdentifiers>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.0</NetStandardImplicitPackageVersion>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">2.0.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -19,15 +19,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nexmo.Api\Nexmo.Api.csproj" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.0.2" />
-    <PackageReference Include="NUnit" Version="3.6.1" />
+	<PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+	<PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
@@ -50,8 +44,19 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
     <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

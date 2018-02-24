@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Nexmo.Api.Test.Integration
 {
-    [TestFixture]
+    [TestClass]
     public class SmsTest
     {
-        [Test]
+        [TestMethod]
         public void should_send_sms()
         {
             var results = SMS.Send(new SMS.SMSRequest
