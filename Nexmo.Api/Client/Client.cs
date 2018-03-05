@@ -31,6 +31,7 @@ namespace Nexmo.Api
             Application = new ClientMethods.Application(Credentials);
             Call = new ClientMethods.Call(Credentials);
             Number = new ClientMethods.Number(Credentials);
+            NumberInsight = new ClientMethods.NumberInsight(Credentials);
             NumberVerify = new ClientMethods.NumberVerify(Credentials);
             Search = new ClientMethods.Search(Credentials);
             ShortCode = new ClientMethods.ShortCode(Credentials);
