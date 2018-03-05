@@ -1,3 +1,6 @@
+# 3.0.1 (2018-03-05)
+* Fixed missed NumberInsight instanciation (#90)
+
 # 3.0.0 (2018-02-23)
 
 * __[BREAKING]__ Deprioritize support for configuration via configuration files.
