@@ -28,5 +28,19 @@
         /// (Optional) App useragent value to pass with every request
         /// </summary>
         public string AppUserAgent { get; set; }
+
+        public Credentials (string NEXMO_API_KEY, string NEXMO_API_SECRET)
+        {
+            ApiKey = NEXMO_API_KEY;
+            ApiSecret = NEXMO_API_KEY;
+        }
+
+        public Credentials(string NEXMO_API_KEY, string NEXMO_API_SECRET, string NEXMO_APPLICATION_ID, string NEXMO_APPLICATION_PRIVATE_KEY)
+        {
+            ApiKey = NEXMO_API_KEY;
+            ApiSecret = NEXMO_API_KEY;
+            ApplicationId = NEXMO_APPLICATION_ID;
+            ApplicationKey = NEXMO_APPLICATION_PRIVATE_KEY;
+        }
     }
 }
