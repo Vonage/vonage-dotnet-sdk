@@ -35,12 +35,12 @@
             ApiSecret = NEXMO_API_KEY;
         }
 
-        public Credentials(string NEXMO_API_KEY, string NEXMO_API_SECRET, string NEXMO_APPLICATION_ID, string NEXMO_APPLICATION_PRIVATE_KEY)
+        public Credentials(string NEXMO_API_KEY, string NEXMO_API_SECRET, string NEXMO_APPLICATION_ID, string NEXMO_APPLICATION_PRIVATE_KEY_PATH)
         {
             ApiKey = NEXMO_API_KEY;
             ApiSecret = NEXMO_API_KEY;
             ApplicationId = NEXMO_APPLICATION_ID;
-            ApplicationKey = NEXMO_APPLICATION_PRIVATE_KEY;
+            ApplicationKey = System.IO.File.ReadAllText(NEXMO_APPLICATION_PRIVATE_KEY_PATH);
         }
     }
 }
