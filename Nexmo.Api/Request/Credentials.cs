@@ -29,18 +29,18 @@
         /// </summary>
         public string AppUserAgent { get; set; }
 
-        public Credentials (string NEXMO_API_KEY, string NEXMO_API_SECRET)
+        public Credentials (string nexmoApiKey, string nexmoApiSecret)
         {
-            ApiKey = NEXMO_API_KEY;
-            ApiSecret = NEXMO_API_KEY;
+            ApiKey = nexmoApiKey;
+            ApiSecret = nexmoApiSecret;
         }
 
-        public Credentials(string NEXMO_API_KEY, string NEXMO_API_SECRET, string NEXMO_APPLICATION_ID, string NEXMO_APPLICATION_PRIVATE_KEY)
+        public Credentials(string nexmoApiKey, string nexmoApiSecret, string nexmoApplicationId, string nexmoApplicationPrivateKey)
         {
-            ApiKey = NEXMO_API_KEY;
-            ApiSecret = NEXMO_API_KEY;
-            ApplicationId = NEXMO_APPLICATION_ID;
-            ApplicationKey = NEXMO_APPLICATION_PRIVATE_KEY;
+            ApiKey = nexmoApiKey;
+            ApiSecret = nexmoApiSecret;
+            ApplicationId = nexmoApplicationId;
+            ApplicationKey = nexmoApplicationPrivateKey;
         }
     }
 }
