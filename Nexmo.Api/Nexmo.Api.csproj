@@ -89,4 +89,8 @@
     <PackageReference Include="System.Security.Cryptography.Cng" Version="4.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Stitch\" />
+  </ItemGroup>
+
 </Project>
