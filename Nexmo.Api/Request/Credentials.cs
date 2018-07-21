@@ -29,6 +29,11 @@
         /// </summary>
         public string AppUserAgent { get; set; }
 
+        /// <summary>
+        /// (Optional) sub (Subject) to use when generating a JWT
+        /// </summary>
+        public string JwtSubject { get; set; }
+
         public Credentials (string nexmoApiKey, string nexmoApiSecret)
         {
             ApiKey = nexmoApiKey;
