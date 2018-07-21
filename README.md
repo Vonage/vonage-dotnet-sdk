@@ -103,7 +103,32 @@ Nexmo.UserAgent | Optional. Your app-specific usage identifier in the format of 
 
 ### Logging
 
-From 2.2.0 onward, you can request console logging by placing a ```logging.json``` file alongside your ```appsettings.json``` configuration.
+#### 3.1.x+
+
+The library makes use of [LibLog](https://github.com/damianh/LibLog/wiki) to facilitate logging.
+
+Your application controls how and if logging occurs. Example using [Serilog](https://serilog.net/):
+
+```C#
+using Nexmo.Api.Request;
+using Serilog;
+
+// set up logging at startup
+var log = new LoggerConfiguration()
+  .MinimumLevel.Debug()
+  .WriteTo.ColoredConsole(outputTemplate: "{Timestamp:HH:mm} [{Level}] ({Name:l}) {Message}")
+  .CreateLogger();
+Log.Logger = log;
+
+Log.Logger.Debug("start");
+var client = new Nexmo.Api.Client(new Credentials("example", "password"));
+client.Account.GetBalance();
+Log.Logger.Debug("end");
+```
+
+#### 2.2.0 - 3.0.x
+
+You can request console logging by placing a ```logging.json``` file alongside your ```appsettings.json``` configuration.
 
 Note that logging Nexmo.Api messages will very likely expose your key and secret to the console as they can be part of the query string.
 
