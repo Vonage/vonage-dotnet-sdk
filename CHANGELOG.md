@@ -1,3 +1,7 @@
+# 3.1.0-rc1 (2018-07-21)
+* Switch to LibLog for logging.
+* Stitch support!
+
 # 3.0.1 (2018-03-05)
 * Fixed missed NumberInsight instanciation (#90)
 
