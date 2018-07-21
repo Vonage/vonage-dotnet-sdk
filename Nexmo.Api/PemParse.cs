@@ -54,7 +54,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Extensions.Logging;
+using Nexmo.Api.Logging;
 
 namespace Nexmo.Api
 {
@@ -66,6 +66,8 @@ namespace Nexmo.Api
         private const string pkcs8privheader = "-----BEGIN PRIVATE KEY-----";
         private const string pkcs8privfooter = "-----END PRIVATE KEY-----";
 
+        private static readonly ILog Logger = LogProvider.For<PemParse>();
+
         public static RSA DecodePEMKey(string pemstr)
         {
             pemstr = pemstr.Trim();
@@ -74,14 +76,14 @@ namespace Nexmo.Api
             var isPkcs8 = pemstr.StartsWith(pkcs8privheader) && pemstr.EndsWith(pkcs8privfooter);
             if (!(isPkcs1 || isPkcs8))
             {
-                Configuration.Instance.AuthenticationLogger.LogError("App private key is not in PKCS#1 or PKCS#8 format!");
+                Logger.Error("App private key is not in PKCS#1 or PKCS#8 format!");
                 return null;
             }
 
             var pemprivatekey = DecodeOpenSSLPrivateKey(pemstr);
             if (pemprivatekey != null)
                 return DecodeRSAPrivateKey(pemprivatekey, isPkcs8);
-            Configuration.Instance.AuthenticationLogger.LogError("App private key failed decode!");
+            Logger.Error("App private key failed decode!");
             return null;
         }
 
@@ -180,20 +182,20 @@ namespace Nexmo.Api
                         binr.ReadInt16(); //advance 2 bytes
                     else
                     {
-                        Configuration.Instance.AuthenticationLogger.LogError("RSA decode fail: Expected sequence");
+                        Logger.Error("RSA decode fail: Expected sequence");
                         return null;
                     }
 
                     twobytes = binr.ReadUInt16();
                     if (twobytes != 0x0102) //version number
                     {
-                        Configuration.Instance.AuthenticationLogger.LogError("RSA decode fail: Version number mismatch");
+                        Logger.Error("RSA decode fail: Version number mismatch");
                         return null;
                     }
                     bt = binr.ReadByte();
                     if (bt != 0x00)
                     {
-                        Configuration.Instance.AuthenticationLogger.LogError("RSA decode fail: 00 read fail");
+                        Logger.Error("RSA decode fail: 00 read fail");
                         return null;
                     }
 
@@ -203,7 +205,7 @@ namespace Nexmo.Api
                         bt = binr.ReadByte();
                         if (bt != 0x30)
                         {
-                            Configuration.Instance.AuthenticationLogger.LogError("RSA decode fail: PKCS#8 expected sequence");
+                            Logger.Error("RSA decode fail: PKCS#8 expected sequence");
                             return null;
                         }
                         bt = binr.ReadByte(); // length in octets, should be 0x0d
@@ -272,7 +274,7 @@ namespace Nexmo.Api
                 }
                 catch (Exception ex)
                 {
-                    Configuration.Instance.AuthenticationLogger.LogError($"DecodeRSAPrivateKey fail: {ex.Message}, {ex.InnerException?.Message}");
+                    Logger.Error($"DecodeRSAPrivateKey fail: {ex.Message}, {ex.InnerException?.Message}");
                     return null;
                 }
             }

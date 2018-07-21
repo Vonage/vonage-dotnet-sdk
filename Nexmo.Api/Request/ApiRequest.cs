@@ -9,7 +9,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Security.Cryptography;
-using Microsoft.Extensions.Logging;
+using Nexmo.Api.Logging;
 
 namespace Nexmo.Api.Request
 {
@@ -19,6 +19,8 @@ namespace Nexmo.Api.Request
     /// </summary>
     public static class ApiRequest
     {
+        private static readonly ILog Logger = LogProvider.GetLogger(typeof(ApiRequest), "Nexmo.Api.Request.ApiRequest");
+
         private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null)
         {
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"]).ToUpper();
@@ -129,15 +131,15 @@ namespace Nexmo.Api.Request
             };
             VersionedApiRequest.SetUserAgent(ref req, creds);
 
-            using (Configuration.Instance.ApiLogger.BeginScope("ApiRequest.DoRequest {0}",uri.GetHashCode()))
+            using (LogProvider.OpenMappedContext("ApiRequest.DoRequest",uri.GetHashCode()))
             {
-                Configuration.Instance.ApiLogger.LogDebug($"GET {uri}");
+                Logger.Debug($"GET {uri}");
                 var sendTask = Configuration.Instance.Client.SendAsync(req);
                 sendTask.Wait();
 
                 if (!sendTask.Result.IsSuccessStatusCode)
                 {
-                    Configuration.Instance.ApiLogger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+                    Logger.Error($"FAIL: {sendTask.Result.StatusCode}");
 
                     if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
                             "true", StringComparison.OrdinalIgnoreCase) == 0)
@@ -154,7 +156,7 @@ namespace Nexmo.Api.Request
                 {
                     json = sr.ReadToEnd();
                 }
-                Configuration.Instance.ApiLogger.LogDebug(json);
+                Logger.Debug(json);
                 return json;
             }
         }
@@ -188,15 +190,15 @@ namespace Nexmo.Api.Request
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
-            using (Configuration.Instance.ApiLogger.BeginScope("ApiRequest.DoRequest {0}", uri.GetHashCode()))
+            using (LogProvider.OpenMappedContext("ApiRequest.DoRequest",uri.GetHashCode()))
             {
-                Configuration.Instance.ApiLogger.LogDebug($"{method} {uri} {sb}");
+                Logger.Debug($"{method} {uri} {sb}");
                 var sendTask = Configuration.Instance.Client.SendAsync(req);
                 sendTask.Wait();
 
                 if (!sendTask.Result.IsSuccessStatusCode)
                 {
-                    Configuration.Instance.ApiLogger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+                    Logger.Error($"FAIL: {sendTask.Result.StatusCode}");
 
                     if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
                         "true", StringComparison.OrdinalIgnoreCase) == 0)
@@ -217,7 +219,7 @@ namespace Nexmo.Api.Request
                 {
                     json = sr.ReadToEnd();
                 }
-                Configuration.Instance.ApiLogger.LogDebug(json);
+                Logger.Debug(json);
                 return new NexmoResponse
                 {
                     Status = sendTask.Result.StatusCode,
