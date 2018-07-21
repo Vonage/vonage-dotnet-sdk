@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Nexmo.Api.Logging;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api
@@ -18,22 +17,6 @@ namespace Nexmo.Api
 
         private Configuration()
         {
-            _serviceProvider = new ServiceCollection()
-                .AddLogging()
-                .BuildServiceProvider()
-            ;
-            var loggerFactory = _serviceProvider.GetService<ILoggerFactory>();
-
-            var loggingConfiguration = new ConfigurationBuilder()
-                .AddJsonFile("logging.json", true, true)
-                .Build();
-
-            loggerFactory.AddConsole(loggingConfiguration);
-
-            var configLogger = loggerFactory.CreateLogger<Configuration>();
-            ApiLogger = loggerFactory.CreateLogger("Nexmo.Api");
-            AuthenticationLogger = loggerFactory.CreateLogger("Nexmo.Api.Authentication");
-
             var builder = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -68,21 +51,15 @@ namespace Nexmo.Api
 
             if (authCapabilities.Count == 0)
             {
-                configLogger.LogInformation("No authentication found via configuration. Remember to provide your own.");
+                Logger.Info("No authentication found via configuration. Remember to provide your own.");
             }
             else
             {
-                configLogger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
+                Logger.Info("Available authentication: {0}", string.Join(",", authCapabilities));
             }
         }
 
-        private HttpClient _client;
-        private readonly IServiceProvider _serviceProvider;
-
-        internal ILogger ApiLogger;
-        internal ILogger AuthenticationLogger;
-
-        public ILoggerFactory Logger => _serviceProvider.GetService<ILoggerFactory>();
+        private static readonly ILog Logger = LogProvider.For<Configuration>();
 
         public static Configuration Instance { get; } = new Configuration();
 
@@ -90,6 +67,7 @@ namespace Nexmo.Api
         
         public HttpMessageHandler ClientHandler { get; set; }
 
+        private HttpClient _client;
         public HttpClient Client
         {
             get

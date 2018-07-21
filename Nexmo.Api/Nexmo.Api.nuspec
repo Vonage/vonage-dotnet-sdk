@@ -22,10 +22,6 @@
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.DependencyInjection" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Console" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
 				<!-- non-MS -->
@@ -37,10 +33,6 @@
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.DependencyInjection" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Console" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
 				<!-- non-MS -->
@@ -52,10 +44,6 @@
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.DependencyInjection" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Console" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
 				<!-- non-MS -->
@@ -67,10 +55,6 @@
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.DependencyInjection" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Console" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
 				<!-- non-MS -->
@@ -82,10 +66,6 @@
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.DependencyInjection" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Console" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
 				<!-- non-MS -->
@@ -101,10 +81,6 @@
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.DependencyInjection" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Console" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.3.0" />
 				<dependency id="System.Runtime.Extensions" version="4.1.0" />
 				<!-- non-MS -->
@@ -123,10 +99,6 @@
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.DependencyInjection" version="2.0.0" />
-				<dependency id="Microsoft.Extensions.Logging" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Logging.Console" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.3.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
 				<!-- non-MS -->
