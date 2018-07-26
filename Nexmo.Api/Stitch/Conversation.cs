@@ -2,9 +2,6 @@
 using Nexmo.Api.Request;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nexmo.Api.Stitch
 {
@@ -78,41 +75,41 @@ namespace Nexmo.Api.Stitch
 
         public static ConversationResponse CreateConversation(ConversationRequest request, Credentials creds= null)
         {
-            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(Conversation), "/beta /conversations"), request, creds);
+            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(Conversation), "/beta/conversations"), request, creds);
             return JsonConvert.DeserializeObject<ConversationResponse>(response.JsonResponse);
         }
 
         public static ConversationResponse UpdateConversation(string conversationId,ConversationRequest request, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Conversation), $"/beta /conversations/{conversationId}"), request, creds);
+            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Conversation), $"/beta/conversations/{conversationId}"), request, creds);
             return JsonConvert.DeserializeObject<ConversationResponse>(response.JsonResponse);
         }
 
         public static ConversationResponse DeleteConversation(string conversationId, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Conversation), $"/beta /conversations/{conversationId}"), creds);
+            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Conversation), $"/beta/conversations/{conversationId}"), creds);
             return JsonConvert.DeserializeObject<ConversationResponse>(response.JsonResponse);
         }
 
         public static ConversationResponse GetConversation(string conversationId, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), $"/beta /conversations/{conversationId}"), new { }, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), $"/beta/conversations/{conversationId}"), new { }, creds);
             return JsonConvert.DeserializeObject<ConversationResponse>(response);
         }
 
         public static PaginatedResponse<ConversationList> GetConversationList (SearchFilter searchFilter, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), "/beta /conversations"), searchFilter, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), "/beta/conversations"), searchFilter, creds);
 
             return JsonConvert.DeserializeObject<PaginatedResponse<ConversationList>>(response);
         }
 
-        public static PaginatedResponse<ConversationList> List()
+        public static PaginatedResponse<ConversationList> List(Credentials creds = null)
         {
             return GetConversationList(new SearchFilter
             {
                 page_size = 10
-            });
+            }, creds);
         }
     }
 }

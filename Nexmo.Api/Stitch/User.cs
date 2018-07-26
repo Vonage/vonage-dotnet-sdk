@@ -2,9 +2,6 @@
 using Nexmo.Api.Request;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Nexmo.Api.Stitch.Conversation;
 
 namespace Nexmo.Api.Stitch
@@ -57,46 +54,46 @@ namespace Nexmo.Api.Stitch
 
         public static UserResponse CreateUser(UserRequest request, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(Conversation), "/beta /users"), request, creds);
+            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(Conversation), "/beta/users"), request, creds);
             return JsonConvert.DeserializeObject<UserResponse>(response.JsonResponse);
         }
 
         public static UserResponse UpdateUser(string userId, UserRequest request, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(User), $"/beta /users/{userId}"), request, creds);
+            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(User), $"/beta/users/{userId}"), request, creds);
             return JsonConvert.DeserializeObject<UserResponse>(response.JsonResponse);
         }
 
         public static UserResponse DeleteUser(string userId, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(User), $"/beta /users/{userId}"), creds);
+            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(User), $"/beta/users/{userId}"), creds);
             return JsonConvert.DeserializeObject<UserResponse>(response.JsonResponse);
         }
 
         public static UserResponse GetUser(string userId, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(User), $"/beta /users/{userId}"), new { }, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(User), $"/beta/users/{userId}"), new { }, creds);
             return JsonConvert.DeserializeObject<UserResponse>(response);
         }
 
         public static PaginatedResponse<UsersList> GetUsersList(SearchFilter searchFilter, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(User), "/beta /users"), searchFilter, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(User), "/beta/users"), searchFilter, creds);
 
             return JsonConvert.DeserializeObject<PaginatedResponse<UsersList>>(response);
         }
 
-        public static PaginatedResponse<UsersList> List()
+        public static PaginatedResponse<UsersList> List(Credentials creds = null)
         {
             return GetUsersList(new SearchFilter
             {
                 page_size = 10
-            });
+            }, creds);
         }
 
         public static PaginatedResponse<ConversationList> GetUserConversationsList(string userId, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(User), $"/beta /users/{userId}/conversations"), creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(User), $"/beta/users/{userId}/conversations"), creds);
 
             return JsonConvert.DeserializeObject<PaginatedResponse<ConversationList>>(response);
         }
