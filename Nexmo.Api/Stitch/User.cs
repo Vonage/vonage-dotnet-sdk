@@ -54,7 +54,7 @@ namespace Nexmo.Api.Stitch
 
         public static UserResponse CreateUser(UserRequest request, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(Conversation), "/beta/users"), request, creds);
+            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(User), "/beta/users"), request, creds);
             return JsonConvert.DeserializeObject<UserResponse>(response.JsonResponse);
         }
 

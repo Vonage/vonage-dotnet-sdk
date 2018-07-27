@@ -83,6 +83,9 @@ namespace Nexmo.Api.Request
             Uri baseUri;
             if (typeof(NumberVerify) == component
                 || typeof(Application) == component
+                || typeof(Stitch.Conversation) == component
+                || typeof(Stitch.User) == component
+                || typeof(Stitch.Member) == component
                 || typeof(Voice.Call) == component)
             {
                 baseUri = new Uri(Configuration.Instance.Settings["appSettings:Nexmo.Url.Api"]);

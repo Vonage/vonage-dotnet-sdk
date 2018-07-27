@@ -5,9 +5,9 @@ using Jose;
 
 namespace Nexmo.Api
 {
-    internal class Jwt
+    public class Jwt
     {
-        internal static string CreateToken(string appId, string privateKey, string sub = null)
+        public static string CreateToken(string appId, string privateKey, string sub = null)
         {
             var tokenData = new byte[64];
             var rng = RandomNumberGenerator.Create();
