@@ -66,7 +66,7 @@ namespace Nexmo.Api.Stitch
 
         public static UserResponse DeleteUser(string userId, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(User), $"/beta/users/{userId}"), creds);
+            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(User), $"/beta/users/{userId}"), new { }, creds);
             return JsonConvert.DeserializeObject<UserResponse>(response.JsonResponse);
         }
 
@@ -93,7 +93,7 @@ namespace Nexmo.Api.Stitch
 
         public static PaginatedResponse<ConversationList> GetUserConversationsList(string userId, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(User), $"/beta/users/{userId}/conversations"), creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(User), $"/beta/users/{userId}/conversations"), new { }, creds);
 
             return JsonConvert.DeserializeObject<PaginatedResponse<ConversationList>>(response);
         }

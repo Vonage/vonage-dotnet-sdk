@@ -87,7 +87,7 @@ namespace Nexmo.Api.Stitch
 
         public static ConversationResponse DeleteConversation(string conversationId, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Conversation), $"/beta/conversations/{conversationId}"), creds);
+            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Conversation), $"/beta/conversations/{conversationId}"), new { }, creds);
             return JsonConvert.DeserializeObject<ConversationResponse>(response.JsonResponse);
         }
 
