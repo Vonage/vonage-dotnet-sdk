@@ -1,3 +1,7 @@
+# 3.1.0-rc2 (2018-07-27)
+* Additional Stitch API support.
+* Bugfixes from rc1.
+
 # 3.1.0-rc1 (2018-07-21)
 * Switch to LibLog for logging.
 * Stitch support!

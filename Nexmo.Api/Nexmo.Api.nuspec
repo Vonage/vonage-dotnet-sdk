@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>Nexmo.Csharp.Client</id>
-		<version>3.1.0-rc1</version>
+		<version>3.1.0-rc2</version>
 		<title>Nexmo API Client</title>
 		<authors>Nexmo</authors>
 		<owners>Nexmo</owners>
@@ -11,7 +11,7 @@
 		<iconUrl>https://dashboard.nexmo.com/apple-touch-icon.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>Official C#/.NET wrapper for the Nexmo API</description>
-		<releaseNotes>https://github.com/Nexmo/nexmo-dotnet/releases/tag/v3.1.0-rc1</releaseNotes>
+		<releaseNotes>https://github.com/Nexmo/nexmo-dotnet/releases/tag/v3.1.0-rc2</releaseNotes>
 		<copyright>© Nexmo 2018</copyright>
 		<tags>SMS voice telephony phone nexmo</tags>
 		<dependencies>
