@@ -107,7 +107,7 @@ Nexmo.UserAgent | Optional. Your app-specific usage identifier in the format of 
 
 The library makes use of [LibLog](https://github.com/damianh/LibLog/wiki) to facilitate logging.
 
-Your application controls how and if logging occurs. Example using [Serilog](https://serilog.net/):
+Your application controls if and how logging occurs. Example using [Serilog](https://serilog.net/) and [Serilog.Sinks.Console](https://www.nuget.org/packages/Serilog.Sinks.Console) v3.x:
 
 ```C#
 using Nexmo.Api.Request;
@@ -116,7 +116,7 @@ using Serilog;
 // set up logging at startup
 var log = new LoggerConfiguration()
   .MinimumLevel.Debug()
-  .WriteTo.ColoredConsole(outputTemplate: "{Timestamp:HH:mm} [{Level}] ({Name:l}) {Message}")
+  .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm} [{Level}] ({Name:l}) {Message}")
   .CreateLogger();
 Log.Logger = log;
 
