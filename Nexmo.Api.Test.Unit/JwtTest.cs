@@ -8,7 +8,7 @@ namespace Nexmo.Api.Test.Unit
         [TestMethod]
         public void should_generate_jwt()
         {
-            var tok = Jwt.CreateToken(Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"], Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"]);
+            var tok = Jwt.Generate(Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"], Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"]);
             Assert.IsFalse(string.IsNullOrEmpty(tok));
         }
     }

@@ -42,7 +42,7 @@ namespace Nexmo.Api.Request
             SetUserAgent(ref req, creds);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                Jwt.CreateToken(appId, appKeyPath, creds?.JwtSubject ?? string.Empty));
+                Jwt.Generate(appId, appKeyPath, creds?.JwtSubject ?? string.Empty));
 
             using (LogProvider.OpenMappedContext("VersionedApiRequest.DoRequest",uri.GetHashCode()))
             {
@@ -133,7 +133,7 @@ namespace Nexmo.Api.Request
             SetUserAgent(ref req, creds);
             // attempt bearer token auth
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                Jwt.CreateToken(appId, appKeyPath, creds?.JwtSubject ?? string.Empty));
+                Jwt.Generate(appId, appKeyPath, creds?.JwtSubject ?? string.Empty));
 
             var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload,
                 Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
