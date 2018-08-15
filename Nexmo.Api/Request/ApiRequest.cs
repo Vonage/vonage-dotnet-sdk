@@ -23,7 +23,7 @@ namespace Nexmo.Api.Request
 
         private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null)
         {
-            var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"]).ToUpper();
+            var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"]).ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
             var securitySecret = creds?.SecuritySecret ?? Configuration.Instance.Settings["appSettings:Nexmo.security_secret"];
 
@@ -83,7 +83,8 @@ namespace Nexmo.Api.Request
             Uri baseUri;
             if (typeof(NumberVerify) == component
                 || typeof(Application) == component
-                || typeof(Voice.Call) == component)
+                || typeof(Voice.Call) == component
+                || typeof(Redact) == component)
             {
                 baseUri = new Uri(Configuration.Instance.Settings["appSettings:Nexmo.Url.Api"]);
             }
@@ -228,13 +229,74 @@ namespace Nexmo.Api.Request
             }
         }
 
+        public static NexmoResponse DoRequest(string method, Uri uri, object parameter, Credentials creds = null)
+        {
+            var sb = new StringBuilder();
+            var parameters = new Dictionary<string, string>();
+            sb = BuildQueryString(parameters, creds);
+
+            var requestContent = JsonConvert.SerializeObject(parameter);
+
+            var req = new HttpRequestMessage
+            {
+                RequestUri = new Uri((uri.OriginalString + $"?{sb}").ToLower()),
+                Method = new HttpMethod(method),
+                Content = new StringContent(requestContent, Encoding.ASCII, "application/json"),
+            };
+            VersionedApiRequest.SetUserAgent(ref req, creds);
+
+            using (LogProvider.OpenMappedContext("ApiRequest.DoRequest", uri.GetHashCode()))
+            {
+                Logger.Debug($"{method} {uri} {sb}");
+                var sendTask = Configuration.Instance.Client.SendAsync(req);
+                sendTask.Wait();
+                
+                if (!sendTask.Result.IsSuccessStatusCode)
+                {
+                    
+                    Logger.Error($"FAIL: {sendTask.Result.StatusCode}");
+
+                    if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
+                        "true", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        sendTask.Result.EnsureSuccessStatusCode();
+                    }
+
+                    return new NexmoResponse
+                    {
+                        Status = sendTask.Result.StatusCode
+                    };
+                }
+
+                string jsonResult;
+                var readTask = sendTask.Result.Content.ReadAsStreamAsync();
+                readTask.Wait();
+                using (var sr = new StreamReader(readTask.Result))
+                {
+                    jsonResult = sr.ReadToEnd();
+                }
+                Logger.Debug(jsonResult);
+                return new NexmoResponse
+                {
+                    Status = sendTask.Result.StatusCode,
+                    JsonResponse = jsonResult
+                };
+            }
+        }
+
         internal static NexmoResponse DoPostRequest(Uri uri, object parameters, Credentials creds = null)
         {
             var apiParams = GetParameters(parameters);
             return DoPostRequest(uri, apiParams, creds);            
         }
 
+        internal static NexmoResponse MakePostRequest(Uri uri, object parameters, Credentials creds = null)
+        {
+            return MakeRequest(uri, parameters, creds);
+        }
+
         internal static NexmoResponse DoPostRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("POST", uri, parameters, creds);
+        internal static NexmoResponse MakeRequest(Uri uri, object parameters, Credentials creds = null) => DoRequest("POST", uri, parameters, creds);
         internal static NexmoResponse DoPutRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("PUT", uri, parameters, creds);
         internal static NexmoResponse DoDeleteRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("DELETE", uri, parameters, creds);
     }
