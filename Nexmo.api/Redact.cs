@@ -52,7 +52,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static void RedactTransaction(RedactRequest redactRequest, Credentials creds = null)
         {
-            ApiRequest.MakePostRequest(ApiRequest.GetBaseUriFor(typeof(Redact), "/v1/redact/transaction"), redactRequest, creds);
+            ApiRequest.DoPostRequestWithContent(ApiRequest.GetBaseUriFor(typeof(Redact), "/v1/redact/transaction"), redactRequest, creds);
         }
     }
 }

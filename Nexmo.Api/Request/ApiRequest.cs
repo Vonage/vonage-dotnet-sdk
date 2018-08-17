@@ -229,19 +229,19 @@ namespace Nexmo.Api.Request
             }
         }
 
-        public static NexmoResponse DoRequest(string method, Uri uri, object parameter, Credentials creds = null)
+        public static NexmoResponse DoRequest(string method, Uri uri, object requestBody, Credentials creds = null)
         {
             var sb = new StringBuilder();
             var parameters = new Dictionary<string, string>();
             sb = BuildQueryString(parameters, creds);
 
-            var requestContent = JsonConvert.SerializeObject(parameter);
+            var requestContent = JsonConvert.SerializeObject(requestBody);
 
             var req = new HttpRequestMessage
             {
                 RequestUri = new Uri((uri.OriginalString + $"?{sb}").ToLower()),
                 Method = new HttpMethod(method),
-                Content = new StringContent(requestContent, Encoding.ASCII, "application/json"),
+                Content = new StringContent(requestContent, Encoding.UTF8, "application/json"),
             };
             VersionedApiRequest.SetUserAgent(ref req, creds);
 
@@ -290,13 +290,13 @@ namespace Nexmo.Api.Request
             return DoPostRequest(uri, apiParams, creds);            
         }
 
-        internal static NexmoResponse MakePostRequest(Uri uri, object parameters, Credentials creds = null)
+        internal static NexmoResponse DoPostRequestWithContent(Uri uri, object parameters, Credentials creds = null)
         {
-            return MakeRequest(uri, parameters, creds);
+            return DoRequestWithContent(uri, parameters, creds);
         }
 
         internal static NexmoResponse DoPostRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("POST", uri, parameters, creds);
-        internal static NexmoResponse MakeRequest(Uri uri, object parameters, Credentials creds = null) => DoRequest("POST", uri, parameters, creds);
+        internal static NexmoResponse DoRequestWithContent(Uri uri, object parameters, Credentials creds = null) => DoRequest("POST", uri, parameters, creds);
         internal static NexmoResponse DoPutRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("PUT", uri, parameters, creds);
         internal static NexmoResponse DoDeleteRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequest("DELETE", uri, parameters, creds);
     }
