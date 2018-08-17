@@ -36,6 +36,7 @@ namespace Nexmo.Api
             Search = new ClientMethods.Search(Credentials);
             ShortCode = new ClientMethods.ShortCode(Credentials);
             SMS = new ClientMethods.SMS(Credentials);
+            Redact = new ClientMethods.Redact(Credentials);
         }
 
         public ClientMethods.Account Account { get; private set; }
@@ -47,5 +48,6 @@ namespace Nexmo.Api
         public ClientMethods.Search Search { get; private set; }
         public ClientMethods.ShortCode ShortCode { get; private set; }
         public ClientMethods.SMS SMS { get; private set; }
+        public ClientMethods.Redact Redact { get; private set; }
     }
 }
