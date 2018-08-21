@@ -43,6 +43,29 @@ Targeted frameworks:
 
 Configuration:
 --------------
+
+* Create a Nexmo Client instance and pass in credentials in the constructor
+
+```csharp
+var client = new Client(creds: new Nexmo.Api.Request.Credentials
+                {
+                    ApiKey = "NEXMO-API-KEY",
+                    ApiSecret = "NEXMO-API-SECRET"
+                });
+```
+
+```csharp
+var results = client.SMS.Send(request: new SMS.SMSRequest
+                {
+ 
+                    from = NEXMO_NUMBER,
+                    to = TO_NUMBER,
+                    text = "Hello, I'm an SMS sent to you using Nexmo"
+                });
+```
+
+Alternatively:
+
 * Provide the nexmo URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
 
 ```json
@@ -51,8 +74,8 @@ Configuration:
     "Nexmo.UserAgent": "myApp/1.0",
     "Nexmo.Url.Rest": "https://rest.nexmo.com",
     "Nexmo.Url.Api": "https://api.nexmo.com",
-    "Nexmo.api_key": "<YOUR KEY>",
-    "Nexmo.api_secret": "<YOUR SECRET>",
+    "Nexmo.api_key": "NEXMO-API-KEY",
+    "Nexmo.api_secret": "NEXMO-API-SECRET",
     
     "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
     "Nexmo.Application.Key": "c:\\path\\to\\your\\application\\private.key"
@@ -65,27 +88,6 @@ Configuration:
 	* ```appsettings.json``` which overrides
 	* ```settings.json```
 
-Alternatively:
-* Provide the credentials as part of the API call.
-
-```csharp
-var creds = new Nexmo.Api.Request.Credentials
-            {
-                ApiKey = NEXMO_API_KEY,
-                ApiSecret = NEXMO_API_SECRET,
-                ApplicationId = NEXMO_APPLICATION_ID,
-                ApplicationKey = NEXMO_APPLICATION_KEY
-            };
-```
-
-```csharp
-var results = SMS.Send(new SMS.SMSRequest
-{
-    from = "15555551212",
-    to = "17775551212",
-    text = "this is a test"
-}, creds);
-```
 
 ### Configuration Reference
 
@@ -107,7 +109,7 @@ Nexmo.UserAgent | Optional. Your app-specific usage identifier in the format of 
 
 The library makes use of [LibLog](https://github.com/damianh/LibLog/wiki) to facilitate logging.
 
-Your application controls how and if logging occurs. Example using [Serilog](https://serilog.net/):
+Your application controls if and how logging occurs. Example using [Serilog](https://serilog.net/) and [Serilog.Sinks.Console](https://www.nuget.org/packages/Serilog.Sinks.Console) v3.x:
 
 ```C#
 using Nexmo.Api.Request;
@@ -116,7 +118,7 @@ using Serilog;
 // set up logging at startup
 var log = new LoggerConfiguration()
   .MinimumLevel.Debug()
-  .WriteTo.ColoredConsole(outputTemplate: "{Timestamp:HH:mm} [{Level}] ({Name:l}) {Message}")
+  .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm} [{Level}] ({Name:l}) {Message}")
   .CreateLogger();
 Log.Logger = log;
 
@@ -153,9 +155,11 @@ Examples
 We are working on a separate repository for .NET examples. [Check it out here!](https://github.com/nexmo-community/nexmo-dotnet-quickstart)
 
 The following examples show how to:
+
  * [Send a message](#sending-a-message)
  * [Receive a message](#receiving-a-message)
  * [Receive a message delivery receipt](#receiving-a-message-delivery-receipt)
+ * [Redact a message](#redacting a message)
  * [Initiate a call](#initiating-a-call)
  * [Receive a call](#receiving-a-call)
  * [Send 2FA code](#sending-2fa-code)
@@ -166,10 +170,18 @@ The following examples show how to:
 Use [Nexmo's SMS API][doc_sms] to send a SMS message.
 
 ```C#
-var results = SMS.Send(new SMS.SMSRequest
+var client = new Client(creds: new Nexmo.Api.Request.Credentials
+            {
+                  ApiKey = "NEXMO_API_KEY",
+                  ApiSecret = "NEXMO_API_SECRET"
+            });
+```
+
+```C#
+var results = client.SMS.Send(new SMS.SMSRequest
 {
-    from = "15555551212",
-    to = "17775551212",
+    from = NEXMO_NUMBER,
+    to = TO_NUMBER,
     text = "this is a test"
 });
 ```
@@ -206,6 +218,22 @@ public ActionResult DLR([FromUri]SMS.SMSDeliveryReceipt response)
 
 __NOTE:__ ```[FromUri]``` is deprecated in .NET Core; ```[FromQuery]``` works in this case.
 
+### Redacting a message
+
+Use [Nexmo's Redact API][doc_redact] to redact a SMS message.
+
+```C#
+var client = new Client(creds: new Nexmo.Api.Request.Credentials
+            {
+                  ApiKey = "NEXMO_API_KEY",
+                  ApiSecret = "NEXMO_API_SECRET"
+            });
+```
+
+```C#
+client.Redact.RedactTransaction(new Redact.RedactRequest(MESSAGE_ID, "sms", "outbound"));
+```
+
 ### Initiating a Call
 
 Use [Nexmo's Voice API][doc_voice] to initiate a voice call.
@@ -213,21 +241,31 @@ Use [Nexmo's Voice API][doc_voice] to initiate a voice call.
 __NOTE:__ You must have a valid Application ID and private key in order to make voice calls. Use either ```Nexmo.Api.Application``` or Nexmo's Node.js-based [CLI tool](https://github.com/nexmo/nexmo-cli) to register. See the [Application API][doc_app] documentation for details.
 
 ```C#
+var client = new Client(creds: new Nexmo.Api.Request.Credentials
+            {
+                ApiKey = "NEXMO_API_KEY",
+                ApiSecret = "NEXMO_API_SECRET",
+                ApplicationId = "NEXMO_APPLICATION_ID",
+                ApplicationKey = "NEXMO_APPLICATION_PRIVATE_KEY"
+            }
+```
+
+```C#
 using Nexmo.Api.Voice;
 
-Call.Do(new Call.CallCommand
+client.Call.Do(new Call.CallCommand
 {
     to = new[]
     {
         new Call.Endpoint {
             type = "phone",
-            number = "15555551212"
+            number = TO_NUMBER
         }
     },
     from = new Call.Endpoint
     {
         type = "phone",
-        number = "15557772424"
+        number = NEXMO_NUMBER
     },
     answer_url = new[]
     {
@@ -240,11 +278,21 @@ Call.Do(new Call.CallCommand
 Use [Nexmo's Voice API][doc_voice] to receive a voice call.
 
 ```C#
+var client = new Client(creds: new Nexmo.Api.Request.Credentials
+            {
+                ApiKey = "NEXMO_API_KEY",
+                ApiSecret = "NEXMO_API_SECRET",
+                ApplicationId = "NEXMO_APPLICATION_ID",
+                ApplicationKey = "NEXMO_APPLICATION_PRIVATE_KEY"
+            }
+```
+
+```C#
 using Nexmo.Api.Voice;
 
 public ActionResult GetCall(string id)
 {
-    var call = Call.Get(id);
+    var call = client.Call.Get(id);
     // Do something with call.
 }
 ```
@@ -253,10 +301,18 @@ public ActionResult GetCall(string id)
 Use [Nexmo's Verify API][doc_verify] to send 2FA pin code.
 
 ```C#
+var client = new Client(creds: new Nexmo.Api.Request.Credentials
+            {
+                ApiKey = "NEXMO_API_KEY",
+                ApiSecret = "NEXMO_API_SECRET"
+            }
+```
+
+```C#
 
 public ActionResult Start(string to)
 {
-    var start = NumberVerify.Verify(new NumberVerify.VerifyRequest
+    var start = client.NumberVerify.Verify(new NumberVerify.VerifyRequest
     {
         number = to,
         brand = "NexmoQS"
@@ -271,10 +327,18 @@ public ActionResult Start(string to)
 Use [Nexmo's Verify API][doc_verify] to check 2FA pin code.
 
 ```C#
+var client = new Client(creds: new Nexmo.Api.Request.Credentials
+            {
+                ApiKey = "NEXMO_API_KEY",
+                ApiSecret = "NEXMO_API_SECRET"
+            }
+```
+
+```C#
 
 public ActionResult Check(string code)
 {
-    var result = NumberVerify.Check(new NumberVerify.CheckRequest
+    var result = client.NumberVerify.Check(new NumberVerify.CheckRequest
     {
         request_id = Session["requestID"].ToString(),
         code = code
@@ -381,4 +445,5 @@ This library is released under the [MIT License][license]
 [doc_voice]: https://developer.nexmo.com/voice/voice-api/overview?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
 [doc_verify]: https://developer.nexmo.com/verify/overview?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
 [doc_app]: https://developer.nexmo.com/concepts/guides/applications?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+[doc_redact]: https://developer.nexmo.com/api/redact?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
 [license]: LICENSE.md

@@ -1,3 +1,6 @@
+# 3.1.0 (2018-08-16)
+* Added Redact API implementation. 
+
 # 3.1.0-rc2 (2018-07-27)
 * Additional Stitch API support.
 * Bugfixes from rc1.
