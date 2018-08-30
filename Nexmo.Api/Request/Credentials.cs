@@ -29,6 +29,11 @@
         /// </summary>
         public string AppUserAgent { get; set; }
 
+        public Credentials()
+        {
+
+        }
+
         public Credentials (string nexmoApiKey, string nexmoApiSecret)
         {
             ApiKey = nexmoApiKey;
