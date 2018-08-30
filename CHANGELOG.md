@@ -1,3 +1,6 @@
+# 3.1.1 (2018-08-30)
+* Fixed missed Credentials default constructor. 
+
 # 3.1.0 (2018-08-16)
 * Added Redact API implementation. 
 
