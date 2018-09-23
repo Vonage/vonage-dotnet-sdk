@@ -28,6 +28,7 @@ namespace Nexmo.Api
         private void PropagateCredentials()
         {
             Account = new ClientMethods.Account(Credentials);
+            ApiSecret = new ClientMethods.ApiSecret(Credentials);
             Application = new ClientMethods.Application(Credentials);
             Call = new ClientMethods.Call(Credentials);
             Number = new ClientMethods.Number(Credentials);
@@ -40,6 +41,7 @@ namespace Nexmo.Api
         }
 
         public ClientMethods.Account Account { get; private set; }
+        public ClientMethods.ApiSecret ApiSecret { get; private set; }
         public ClientMethods.Application Application { get; private set; }
         public ClientMethods.Call Call { get; private set; }
         public ClientMethods.Number Number { get; private set; }

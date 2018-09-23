@@ -19,6 +19,13 @@ namespace Nexmo.Api.Request
 
     ////////
     // TODO: Handle HAL better
+
+    public class Response<T> where T : class
+    {
+        public HALLinks _links { get; set; }
+        public T _embedded { get; set; }
+    }
+
     public class Link
     {
         public string href { get; set; }
@@ -31,5 +38,6 @@ namespace Nexmo.Api.Request
         public Link first { get; set; }
         public Link last { get; set; }
     }
+
     ////////
 }
