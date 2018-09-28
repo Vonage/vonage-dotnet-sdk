@@ -34,7 +34,7 @@ namespace Nexmo.Api
         /// </summary>
         /// <param name="apiKey">The API key to manage secrets for</param>
         /// <returns>List of secrets</returns>
-        public static List<Secret> List(string apiKey, Credentials creds = null)
+        public static List<Secret> ListSecrets(string apiKey, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
                     $"/accounts/{apiKey}/secrets"),
@@ -52,7 +52,7 @@ namespace Nexmo.Api
         /// <param name="apiKey">The API key to manage secrets for</param>
         /// <param name="secretId">ID of the API Secret</param>
         /// <returns>The secret</returns>
-        public static Secret Get(string apiKey, string secretId, Credentials creds = null)
+        public static Secret GetSecret(string apiKey, string secretId, Credentials creds = null)
         {
             var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
                     $"/accounts/{apiKey}/secrets/{secretId}"),
@@ -75,7 +75,7 @@ namespace Nexmo.Api
         ///   minimum 1 digit
         /// </param>
         /// <returns>The created secret</returns>
-        public static Secret Create(string apiKey, string newSecret, Credentials creds = null)
+        public static Secret CreateSecret(string apiKey, string newSecret, Credentials creds = null)
         {
             var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(ApiSecret), $"/accounts/{apiKey}/secrets"), new SecretRequest { Secret = newSecret }, creds);
 
@@ -87,7 +87,7 @@ namespace Nexmo.Api
         /// </summary>
         /// <param name="apiKey">The API key to manage secrets for</param>
         /// <param name="secretId">ID of the API Secret</param>
-        public static bool Delete(string apiKey, string secretId, Credentials creds = null)
+        public static bool DeleteSecret(string apiKey, string secretId, Credentials creds = null)
         {
             var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(ApiSecret),
                 $"/accounts/{apiKey}/secrets/{secretId}"), null, creds);

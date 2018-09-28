@@ -19,7 +19,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns>List of secrets</returns>
         public List<Api.ApiSecret.Secret> List(string apiKey, Credentials creds = null)
         {
-            return Api.ApiSecret.List(apiKey, creds ?? Credentials);
+            return Api.ApiSecret.ListSecrets(apiKey, creds ?? Credentials);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns>The secret</returns>
         public Api.ApiSecret.Secret Get(string apiKey, string secretId, Credentials creds = null)
         {
-            return Api.ApiSecret.Get(apiKey, secretId, creds ?? Credentials);
+            return Api.ApiSecret.GetSecret(apiKey, secretId, creds ?? Credentials);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns>The created secret</returns>
         public Api.ApiSecret.Secret Create(string apiKey, string newSecret, Credentials creds = null)
         {
-            return Api.ApiSecret.Create(apiKey, newSecret, creds ?? Credentials);
+            return Api.ApiSecret.CreateSecret(apiKey, newSecret, creds ?? Credentials);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Nexmo.Api.ClientMethods
         /// <returns>True/False on delete success/failure</returns>
         public bool Delete(string apiKey, string secretId, Credentials creds = null)
         {
-            return Api.ApiSecret.Delete(apiKey, secretId, creds ?? Credentials);
+            return Api.ApiSecret.DeleteSecret(apiKey, secretId, creds ?? Credentials);
         }
     }
 }
