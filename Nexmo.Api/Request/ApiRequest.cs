@@ -82,6 +82,7 @@ namespace Nexmo.Api.Request
         {
             Uri baseUri;
             if (typeof(NumberVerify) == component
+                || typeof(ApiSecret) == component
                 || typeof(Application) == component
                 || typeof(Voice.Call) == component
                 || typeof(Redact) == component)
@@ -131,6 +132,15 @@ namespace Nexmo.Api.Request
                 Method = HttpMethod.Get
             };
             VersionedApiRequest.SetUserAgent(ref req, creds);
+
+            // do we need to use basic auth?
+            // TODO / HACK: this is a newer auth method that needs to be incorporated better in the future
+            if (uri.AbsolutePath.StartsWith("/accounts/"))
+            {
+                var authBytes = Encoding.UTF8.GetBytes(creds.ApiKey + ":" + creds.ApiSecret);
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(authBytes));
+            }
 
             using (LogProvider.OpenMappedContext("ApiRequest.DoRequest",uri.GetHashCode()))
             {

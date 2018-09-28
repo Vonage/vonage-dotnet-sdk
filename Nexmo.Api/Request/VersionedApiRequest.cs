@@ -131,9 +131,21 @@ namespace Nexmo.Api.Request
                 Method = new HttpMethod(method),
             };
             SetUserAgent(ref req, creds);
-            // attempt bearer token auth
-            req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                Jwt.CreateToken(appId, appKeyPath));
+
+            // do we need to use basic auth?
+            // TODO / HACK: this is a newer auth method that needs to be incorporated better in the future
+            if (uri.AbsolutePath.StartsWith("/accounts/"))
+            {
+                var authBytes = Encoding.UTF8.GetBytes(creds.ApiKey + ":" + creds.ApiSecret);
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(authBytes));
+            }
+            else
+            {
+                // attempt bearer token auth
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+                    Jwt.CreateToken(appId, appKeyPath));
+            }
 
             var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload,
                 Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
