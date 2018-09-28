@@ -1,3 +1,6 @@
+# 3.2.0 (2018-09-28)
+* Added Secret Management API implementation. 
+
 # 3.1.1 (2018-08-30)
 * Fixed missed Credentials default constructor. 
 
