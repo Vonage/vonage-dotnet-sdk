@@ -159,7 +159,7 @@ The following examples show how to:
  * [Send a message](#sending-a-message)
  * [Receive a message](#receiving-a-message)
  * [Receive a message delivery receipt](#receiving-a-message-delivery-receipt)
- * [Redact a message](#redacting a message)
+ * [Redact a message](#redacting-a-message)
  * [Initiate a call](#initiating-a-call)
  * [Receive a call](#receiving-a-call)
  * [Send 2FA code](#sending-2fa-code)
