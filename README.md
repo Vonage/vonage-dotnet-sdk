@@ -167,7 +167,7 @@ The following examples show how to:
 
 ### Sending a Message
 
-Use [Nexmo's SMS API][doc_sms] to send a SMS message.
+Use [Nexmo's SMS API][doc_sms] to send an SMS message.
 
 ```C#
 var client = new Client(creds: new Nexmo.Api.Request.Credentials
@@ -188,7 +188,7 @@ var results = client.SMS.Send(new SMS.SMSRequest
 
 ### Receiving a Message
 
-Use [Nexmo's SMS API][doc_sms] to receive a SMS message. Assumes your Nexmo endpoint is configured.
+Use [Nexmo's SMS API][doc_sms] to receive an SMS message. Assumes your Nexmo endpoint is configured.
 
 ```C#
 public ActionResult Get([FromUri]SMS.SMSInbound response)
@@ -199,7 +199,7 @@ public ActionResult Get([FromUri]SMS.SMSInbound response)
 
 ### Receiving a Message Delivery Receipt
 
-Use [Nexmo's SMS API][doc_sms] to receive a SMS delivery receipt. Assumes your Nexmo endpoint is configured.
+Use [Nexmo's SMS API][doc_sms] to receive an SMS delivery receipt. Assumes your Nexmo endpoint is configured.
 
 ```C#
 public ActionResult DLR([FromUri]SMS.SMSDeliveryReceipt response)
@@ -420,7 +420,7 @@ Contributing
 
 Visual Studio 2017 is required (Community is fine). v15.5+ is recommended.
 
-1. Get latest code either by cloning the repository or downloading a snapshot of the source.
+1. Get the latest code either by cloning the repository or downloading a snapshot of the source.
 2. Open "Nexmo.Api.sln"
 3. Build! NuGet dependencies should be brought down automatically; check your settings if they are not.
 
