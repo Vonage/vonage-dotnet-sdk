@@ -33,7 +33,7 @@ Alternatively:
 either including them with your project's NuGet dependencies or manually referencing them.
 * Reference the assembly in your code.
 
-Targeted frameworks:
+Targeted Frameworks:
 --------------
 
 * 4.5.2
@@ -132,7 +132,7 @@ Log.Logger.Debug("end");
 
 You can request console logging by placing a ```logging.json``` file alongside your ```appsettings.json``` configuration.
 
-Note that logging Nexmo.Api messages will very likely expose your key and secret to the console as they can be part of the query string.
+Note that logging Nexmo. API messages will very likely expose your key and secret to the console as they can be part of the query string.
 
 Example ```logging.json``` contents that would log all requests as well as major configuration and authentication errors:
 
@@ -218,7 +218,7 @@ public ActionResult DLR([FromUri]SMS.SMSDeliveryReceipt response)
 
 __NOTE:__ ```[FromUri]``` is deprecated in .NET Core; ```[FromQuery]``` works in this case.
 
-### Redacting a message
+### Redacting a Message
 
 Use [Nexmo's Redact API][doc_redact] to redact a SMS message.
 
