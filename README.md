@@ -36,7 +36,6 @@ either including them with your project's NuGet dependencies or manually referen
 Targeted frameworks:
 --------------
 
-* 4.5.2
 * 4.6, 4.6.1, 4.6.2
 * .NET Standard 1.6, 2.0
 * ASP.NET Core 2.0
