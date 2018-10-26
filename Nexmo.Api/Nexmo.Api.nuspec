@@ -19,6 +19,7 @@
 		<dependencies>
 			<group targetFramework="net452">
 				<!-- Default dependencies -->
+				<dependency id="Microsoft.AspNetCore.Mvc.Core" version="1.1.8" />
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
@@ -30,6 +31,7 @@
 			</group>
 			<group targetFramework="net46">
 				<!-- Default dependencies -->
+				<dependency id="Microsoft.AspNetCore.Mvc.Core" version="1.1.8" />
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
@@ -41,6 +43,7 @@
 			</group>
 			<group targetFramework="net461">
 				<!-- Default dependencies -->
+				<dependency id="Microsoft.AspNetCore.Mvc.Core" version="1.1.8" />
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
@@ -52,6 +55,7 @@
 			</group>
 			<group targetFramework="net462">
 				<!-- Default dependencies -->
+				<dependency id="Microsoft.AspNetCore.Mvc.Core" version="1.1.8" />
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
@@ -63,6 +67,7 @@
 			</group>
 			<group targetFramework="net471">
 				<!-- Default dependencies -->
+				<dependency id="Microsoft.AspNetCore.Mvc.Core" version="1.1.8" />
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
@@ -78,6 +83,7 @@
 			<group targetFramework="netstandard1.6">
 				<!-- (copied from above as NuGet doesn't cascade deps) -->
 				<!-- Default dependencies -->
+				<dependency id="Microsoft.AspNetCore.Mvc.Core" version="1.1.8" />
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
@@ -96,6 +102,7 @@
 			<group targetFramework="netstandard2.0">
 				<!-- (copied from above as NuGet doesn't cascade deps) -->
 				<!-- Default dependencies -->
+				<dependency id="Microsoft.AspNetCore.Mvc.Core" version="1.1.8" />
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />

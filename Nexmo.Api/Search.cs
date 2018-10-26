@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -9,7 +10,7 @@ namespace Nexmo.Api
         public class Messages<T> where T : MessageBase
         {
             public int count { get; set; }
-            public List<T> items { get; set; } 
+            public List<T> items { get; set; }
         }
 
         public class MessageBase
@@ -18,6 +19,7 @@ namespace Nexmo.Api
             /// Your API Key.
             /// </summary>
             [JsonProperty("account-id")]
+            [FromQuery(Name = "account-id")]
             public string accountId { get; set; }
             /// <summary>
             /// The sender ID the message was sent from. Could be a phone number or name.
@@ -35,16 +37,19 @@ namespace Nexmo.Api
             /// The date and time at UTC+0 when Platform received your request in the following format: YYYY-MM-DD HH:MM:SS.
             /// </summary>
             [JsonProperty("date-received")]
+            [FromQuery(Name = "date-received")]
             public string dateReceived { get; set; }
             /// <summary>
             /// Optional. Delivery receipt error code Ex: 4
             /// </summary>
             [JsonProperty("error-code")]
+            [FromQuery(Name = "error-code")]
             public string errorCode { get; set; }
             /// <summary>
             /// Optional. Delivery receipt error code label Ex: Call Barred
             /// </summary>
             [JsonProperty("error-code-label")]
+            [FromQuery(Name = "error-code-label")]
             public string errorCodeLabel { get; set; }
         }
 
@@ -58,6 +63,7 @@ namespace Nexmo.Api
             /// The id of the message you sent.
             /// </summary>
             [JsonProperty("message-id")]
+            [FromQuery(Name = "message-id")]
             public string messageId { get; set; }
             /// <summary>
             /// Optional. The MCCMNC for the carrier who delivered the message.
@@ -74,6 +80,7 @@ namespace Nexmo.Api
             /// The date and time at UTC+0 when Platform received the delivery receipt from the carrier who delivered the MT message. This parameter is in the following format YYYY-MM-DD HH:MM:SS
             /// </summary>
             [JsonProperty("date-closed")]
+            [FromQuery(Name = "date-closed")]
             public string dateClosed { get; set; }
             /// <summary>
             /// The overall latency between date-received and date-closed in milliseconds.
@@ -83,11 +90,13 @@ namespace Nexmo.Api
             /// The internal reference you set in the request.
             /// </summary>
             [JsonProperty("client-ref")]
+            [FromQuery(Name = "client-ref")]
             public string clientRef { get; set; }
             /// <summary>
             /// The status of message-id at date-closed.
             /// </summary>
             [JsonProperty("final-status")]
+            [FromQuery(Name = "final-status")]
             public string finalStatus { get; set; }
             /// <summary>
             /// A code that explains where the message is in the delivery process. If status is not delivered check error-code for more information. If status is accepted ignore the value of error-code
@@ -98,7 +107,7 @@ namespace Nexmo.Api
         public class SearchRequest
         {
             // Search by ids
-            
+
             /// <summary>
             /// Required. A list of message ids, up to 10 Ex: ids=00A0B0C0&ids=00A0B0C1&ids=00A0B0C2
             /// </summary>

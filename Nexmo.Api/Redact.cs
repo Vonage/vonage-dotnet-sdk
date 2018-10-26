@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Nexmo.Api.Request;
 using System;
 using System.Collections.Generic;
@@ -16,21 +17,24 @@ namespace Nexmo.Api
             /// The transaction ID to redact
             /// </summary>
             [JsonProperty("id")]
+            [FromQuery(Name = "id")]
             public string Id { get; set; }
             /// <summary>
             /// Product name that the ID provided relates to
             /// Must be one of: sms, voice, number-insight, verify, verify-sdk, message or workflow
             /// </summary>
             [JsonProperty("product")]
+            [FromQuery(Name = "product")]
             public string Product { get; set; }
             /// <summary>
             /// Required if redacting SMS data
             /// Must be one of: inbound or outbound
             /// </summary>
             [JsonProperty("type")]
+            [FromQuery(Name = "type")]
             public string Type { get; set; }
 
-            public RedactRequest (string id, string product)
+            public RedactRequest(string id, string product)
             {
                 Id = id;
                 Product = product;

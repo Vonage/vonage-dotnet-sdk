@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -50,14 +51,19 @@ namespace Nexmo.Api
         public class Settings
         {
             [JsonProperty("api-secret")]
+            [FromQuery(Name = "api-secret")]
             public string apiSecret { get; set; }
             [JsonProperty("mo-callback-url")]
+            [FromQuery(Name = "mo-callback-url")]
             public string moCallbackUrl { get; set; }
             [JsonProperty("dr-callback-url")]
+            [FromQuery(Name = "dr-callback-url")]
             public string drCallbackUrl { get; set; }
             [JsonProperty("max-outbound-request")]
+            [FromQuery(Name = "max-outbound-request")]
             public decimal maxOutboundRequest { get; set; }
             [JsonProperty("max-inbound-request")]
+            [FromQuery(Name = "max-inbound-request")]
             public decimal maxInboundRequest { get; set; }
         }
 
@@ -84,7 +90,7 @@ namespace Nexmo.Api
         public class NumbersResponse
         {
             public int count { get; set; }
-            public List<Number> numbers { get; set; } 
+            public List<Number> numbers { get; set; }
         }
 
         public class Number

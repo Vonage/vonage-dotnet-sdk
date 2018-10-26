@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -40,6 +41,7 @@ namespace Nexmo.Api.Voice
             /// The internet media type for the audio you are streaming.Possible values are: audio/l16; rate=16000
             /// </summary>
             [JsonProperty("content-type")]
+            [FromQuery(Name = "content-type")]
             public string contentType { get; set; }
 
             /// <summary>
@@ -267,7 +269,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Get(string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new {}, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new { }, creds);
 
             return JsonConvert.DeserializeObject<CallResponse>(response);
         }

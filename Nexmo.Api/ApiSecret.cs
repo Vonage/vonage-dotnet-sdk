@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -11,6 +12,7 @@ namespace Nexmo.Api
         public class SecretList
         {
             [JsonProperty("secrets")]
+            [FromQuery(Name = "secrets")]
             public List<Secret> Secrets { get; set; }
         }
 
@@ -18,14 +20,17 @@ namespace Nexmo.Api
         {
             public HALLinks _links { get; set; }
             [JsonProperty("id")]
+            [FromQuery(Name = "id")]
             public string Id { get; set; }
             [JsonProperty("created_at")]
-            public DateTime? CreatedAt { get; set;  }
+            [FromQuery(Name = "created_at")]
+            public DateTime? CreatedAt { get; set; }
         }
 
         public class SecretRequest
         {
             [JsonProperty("secret")]
+            [FromQuery(Name = "secret")]
             public string Secret { get; set; }
         }
 

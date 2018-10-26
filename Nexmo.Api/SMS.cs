@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -126,6 +127,7 @@ namespace Nexmo.Api
             ///Set the callback parameter.
             /// </summary>
             [JsonProperty("status-report-req")]
+            [FromQuery(Name = "status-report-req")]
             public string status_report_req { get; set; }
             /// <summary>
             /// A business card in vCard. You must set the type parameter to vcard.
@@ -147,6 +149,7 @@ namespace Nexmo.Api
             /// Set to: 0 for Flash SMS, 1 - ME-specific, 2 - SIM / USIM specific, 3 - TE-specific See http://en.wikipedia.org/wiki/Data_Coding_Scheme  Note: Flash SMS is not fully support by all handsets and carriers.
             /// </summary>
             [JsonProperty("message-class")]
+            [FromQuery(Name = "message-class")]
             public string message_class { get; set; }
             /// <summary>
             /// Your custom Hex encoded User Data Header (UDH)  . For example, udh=06050415811581.
@@ -156,6 +159,7 @@ namespace Nexmo.Api
             /// 	The value in decimal format for the higher level protocol  to use for this SMS. For example, to send a binary SMS to the SIM Toolkit, this would be protocol-id=127. Ensure that the value of protocol-id is aligned with udh.
             /// </summary>
             [JsonProperty("protocol-id")]
+            [FromQuery(Name = "protocol-id")]
             public string protocol_id { get; set; }
             /// <summary>
             /// Hex encoded binary data. For example, body=0011223344556677.
@@ -177,12 +181,14 @@ namespace Nexmo.Api
             /// If enabled, you can include a 40 character maximum length string for internal reporting/analytics. You will need to email support@nexmo.com to get this functionality enabled on your account.
             /// </summary>
             [JsonProperty("client-ref")]
+            [FromQuery(Name = "client-ref")]
             public string client_ref { get; set; }
         }
 
         public class SMSResponse
         {
             [JsonProperty("message-count")]
+            [FromQuery(Name = "message-count")]
             public string message_count { get; set; }
             public System.Collections.Generic.List<SMSResponseDetail> messages { get; set; }
         }
@@ -197,6 +203,7 @@ namespace Nexmo.Api
             /// The ID of the SMS that was submitted (8 to 16 characters).
             /// </summary>
             [JsonProperty("message-id")]
+            [FromQuery(Name = "message-id")]
             public string message_id { get; set; }
             /// <summary>
             /// The phone number your request was sent to.
@@ -206,16 +213,19 @@ namespace Nexmo.Api
             /// The client-ref you set in your request.
             /// </summary>
             [JsonProperty("client-ref")]
+            [FromQuery(Name = "client-ref")]
             public string client_ref { get; set; }
             /// <summary>
             /// The remaining balance in your account. The value is in EUR.
             /// </summary>
             [JsonProperty("remaining-balance")]
+            [FromQuery(Name = "remaining-balance")]
             public string remaining_balance { get; set; }
             /// <summary>
             /// The price charged for your request. The value is in EUR.
             /// </summary>
             [JsonProperty("message-price")]
+            [FromQuery(Name = "message-price")]
             public string message_price { get; set; }
             /// <summary>
             /// The Mobile Country Code Mobile Network Code (MCCMNC) for the carrier of the recipient.
@@ -225,6 +235,7 @@ namespace Nexmo.Api
             /// If an error occurred, this explains what happened.
             /// </summary>
             [JsonProperty("error-text")]
+            [FromQuery(Name = "error-text")]
             public string error_text { get; set; }
         }
 
@@ -238,6 +249,7 @@ namespace Nexmo.Api
             /// The Mobile Country Code Mobile Network Code (MCCMNC) of the carrier this phone number is registered with.
             /// </summary>
             [JsonProperty("network-code")]
+            [FromQuery(Name = "network-code")]
             public string network_code { get; set; }
             /// <summary>
             /// The Nexmo ID for this message.
@@ -255,6 +267,7 @@ namespace Nexmo.Api
             /// If the status is not accepted, this key will have a value
             /// </summary>
             [JsonProperty("err-code")]
+            [FromQuery(Name = "err-code")]
             public string err_code { get; set; }
             /// <summary>
             /// How much it cost to send this message.
@@ -268,12 +281,14 @@ namespace Nexmo.Api
             /// The time at UTC±00:00 when Nexmo started to push this Delivery Receipt to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
             /// </summary>
             [JsonProperty("message-timestamp")]
+            [FromQuery(Name = "message-timestamp")]
             public DateTime message_timestamp { get; set; }
             /// <summary>
             /// The client-ref you set in the request.
             /// </summary>
             [JsonProperty("client-ref")]
-            public string client_ref { get; set; }            
+            [FromQuery(Name = "client-ref")]
+            public string client_ref { get; set; }
         }
 
         public class SMSInbound
@@ -301,6 +316,7 @@ namespace Nexmo.Api
             /// The time at UTC±00:00  that Nexmo started to push this inbound message to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
             /// </summary>
             [JsonProperty("message-timestamp")]
+            [FromQuery(Name = "message-timestamp")]
             public DateTime message_timestamp { get; set; }
             /// <summary>
             /// A unix timestamp representation of message-timestamp.
@@ -332,16 +348,19 @@ namespace Nexmo.Api
             /// The transaction reference. All parts of this message share this concat-ref.
             /// </summary>
             [JsonProperty("concat-ref")]
+            [FromQuery(Name = "concat-ref")]
             public string concat_ref { get; set; }
             /// <summary>
             /// The number of parts in this concatenated message.
             /// </summary>
             [JsonProperty("concat-total")]
+            [FromQuery(Name = "concat-total")]
             public string concat_total { get; set; }
             /// <summary>
             /// The number of this part in the message. Counting starts at 1.
             /// </summary>
             [JsonProperty("concat-part")]
+            [FromQuery(Name = "concat-part")]
             public string concat_part { get; set; }
 
             // For binary messages

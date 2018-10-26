@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -12,6 +13,7 @@ namespace Nexmo.Api
             public string to { get; set; }
             public int? pin { get; set; }
             [JsonProperty("client-ref")]
+            [FromQuery(Name = "client-ref")]
             public string clientRef { get; set; }
         }
 
@@ -19,8 +21,10 @@ namespace Nexmo.Api
         {
             public string to { get; set; }
             [JsonProperty("status-report-req")]
+            [FromQuery(Name = "status-report-req")]
             public string statusReportReq { get; set; }
             [JsonProperty("client-ref")]
+            [FromQuery(Name = "client-ref")]
             public string clientRef { get; set; }
             public int? template { get; set; }
             public string type { get; set; }
