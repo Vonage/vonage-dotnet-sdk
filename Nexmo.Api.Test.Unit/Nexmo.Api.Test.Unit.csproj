@@ -18,10 +18,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Nexmo.Api\Nexmo.Api.csproj" />
 
     <!--<Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
