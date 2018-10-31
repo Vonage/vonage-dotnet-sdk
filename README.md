@@ -6,7 +6,7 @@ Nexmo Client Library for C#/.NET
 
 
 You can use this C# client library to integrate [Nexmo's APIs](#api-coverage) to your application. To use this, you'll
-need a Nexmo account. Sign up [for free at nexmo.com][signup].
+need a Nexmo account. Sign up for free at [nexmo.com][signup].
 
  * [Installation](#installation)
  * [Configuration](#configuration)
@@ -16,7 +16,7 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
 Installation:
 -------------
-To use the client library you'll need to have [created a Nexmo account][signup].
+To use the client library you'll need to have a created [Nexmo account][signup].
 
 To install the C# client library using NuGet:
 
@@ -220,7 +220,7 @@ __NOTE:__ ```[FromUri]``` is deprecated in .NET Core; ```[FromQuery]``` works in
 
 ### Redacting a message
 
-Use [Nexmo's Redact API][doc_redact] to redact a SMS message.
+Use [Nexmo's Redact API][doc_redact] to redact an SMS message.
 
 ```C#
 var client = new Client(creds: new Nexmo.Api.Request.Credentials
