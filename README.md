@@ -437,9 +437,8 @@ Special thanks to our contributors:
 License
 -------
 
-This library is released under the [MIT License][license]
+This library is released under [the MIT License][license].
 
-[create_account]: https://developer.nexmo.com/account/overview#setting-up-your-nexmo-account
 [signup]: https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
 [doc_sms]: https://developer.nexmo.com/api/sms?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
 [doc_voice]: https://developer.nexmo.com/voice/voice-api/overview?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
