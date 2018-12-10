@@ -41,6 +41,14 @@ namespace Nexmo.Api
             /// </summary>
             public string country { get; set; }
             /// <summary>
+            /// Optional. The messages API webhook type. Must be app.
+            /// </summary>
+            public string messagesCallbackType { get; set; }
+            /// <summary>
+            /// Required if messagesCallbackType is specified. Application ID referencing application with defined URLs.
+            /// </summary>
+            public string messagesCallbackValue { get; set; }
+            /// <summary>
             /// Required. An available inbound virtual number. For example, 447700900000.
             /// </summary>
             public string msisdn { get; set; }
