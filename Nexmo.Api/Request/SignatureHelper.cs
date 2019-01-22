@@ -40,7 +40,7 @@ namespace Nexmo.Api.Request
                 return false;
             }
 
-            var sorted = new SortedDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var sorted = new SortedDictionary<string, string>(StringComparer.Ordinal);
             // Sort the query parameters, removing sig as we go
             foreach (var kvp in querystringList.Where(kv => kv.Key != "sig"))
             {
