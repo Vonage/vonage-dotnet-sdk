@@ -53,7 +53,7 @@ namespace Nexmo.Api.Test.Integration
             var id = "ffffffff-ffff-ffff-ffff-ffffffffffff";
             var results = Call.Edit(id, new Call.CallEditCommand
             {
-                action = "hangup"
+                Action = "hangup"
             });
             Assert.AreEqual(id, results.uuid);
         }
