@@ -111,11 +111,21 @@ namespace Nexmo.Api.Voice
             /// unearmuff Removes the earmuff effect from this call leg.
             /// transfer  Transfers this call leg to another NCCO, as specified by the destination parameter.
             /// </summary>
-            public string action { get; set; }
+            [JsonProperty("action")]
+            public string Action { get; set; }
             /// <summary>
             /// Optional. A JSON object pointing to a replacement NCCO, when action is transfer.
             /// </summary>
-            public string destination { get; set; }
+            [JsonProperty("destination")]
+            public Destination Destination { get; set; }
+        }
+
+        public class Destination
+        {
+            [JsonProperty("type")]
+            public string Type { get; set; }
+            [JsonProperty("url")]
+            public string[] Url { get; set; }
         }
 
         public class SearchFilter
