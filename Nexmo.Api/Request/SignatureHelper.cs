@@ -24,7 +24,7 @@ namespace Nexmo.Api.Request
             {
                 foreach (var kvp in param)
                 {
-                    strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), WebUtility.UrlEncode(kvp.Value));
+                    strings.AppendFormat("{0}={1}&", WebUtility.UrlDecode(kvp.Key), WebUtility.UrlDecode(kvp.Value));
                 }
             };
 
@@ -40,7 +40,7 @@ namespace Nexmo.Api.Request
                 return false;
             }
 
-            var sorted = new SortedDictionary<string, string>();
+            var sorted = new SortedDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             // Sort the query parameters, removing sig as we go
             foreach (var kvp in querystringList.Where(kv => kv.Key != "sig"))
             {
