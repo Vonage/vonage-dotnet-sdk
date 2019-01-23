@@ -31,7 +31,7 @@ namespace Nexmo.Api.Request
             // Compare the local time with the timestamp
             var querystringList = querystring as IList<KeyValuePair<string, StringValues>> ?? querystring.ToList();
             var localTime = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
-            var messageTime = int.Parse(querystringList.Single(kvp => kvp.Key == "timestamp").Value);
+            int.TryParse(querystringList.SingleOrDefault(kvp => kvp.Key == "timestamp").Value, out int messageTime);
             // Message cannot be more than 5 minutes old
             const int maxDelta = 5 * 60;
             var difference = Math.Abs(localTime - messageTime);
