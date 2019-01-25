@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nexmo.Api\Nexmo.Api.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
 
     <!--<Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
     </Reference>
@@ -26,8 +27,8 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions">
     </Reference>-->
     
-    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
