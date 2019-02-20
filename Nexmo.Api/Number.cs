@@ -21,6 +21,11 @@ namespace Nexmo.Api
             /// </summary>
             public string search_pattern { get; set; }
             /// <summary>
+            /// Optional.the type of number to search for. 
+            /// </summary>
+            [JsonProperty("type")]
+            public string Type { get; set; }
+            /// <summary>
             /// Optional. Available features are SMS and VOICE, use a comma-separated values. Ex: SMS,VOICE
             /// </summary>
             public string features { get; set; }
