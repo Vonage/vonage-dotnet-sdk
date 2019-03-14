@@ -142,6 +142,23 @@ namespace Nexmo.Api
             return obj;
         }
 
+        public static Pricing GetPrefixPricing(string prefix, string type, Credentials creds = null)
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "prefix", prefix },
+                { "type", type }
+            }; 
+
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
+                "/account/get-prefix-pricing/outbound/"),
+                parameters,
+                creds);
+
+            var obj = JsonConvert.DeserializeObject<Pricing>(json);
+            return obj;
+        }
+
         /// <summary>
         /// Set account settings
         /// </summary>
