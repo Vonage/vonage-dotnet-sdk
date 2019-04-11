@@ -19,9 +19,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nexmo.Api\Nexmo.Api.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
 
-	<PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
-	<PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+	<PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
+	<PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+	<PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
@@ -51,12 +53,6 @@
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
