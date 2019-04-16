@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Nexmo")]
 [assembly: AssemblyProduct("Nexmo.Api")]
-[assembly: AssemblyCopyright("Copyright 2019")]
+[assembly: AssemblyCopyright("© Nexmo 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
