@@ -31,6 +31,7 @@ namespace Nexmo.Api
             ApiSecret = new ClientMethods.ApiSecret(Credentials);
             Application = new ClientMethods.Application(Credentials);
             Call = new ClientMethods.Call(Credentials);
+            Conversion = new ClientMethods.Conversion(Credentials);
             Number = new ClientMethods.Number(Credentials);
             NumberInsight = new ClientMethods.NumberInsight(Credentials);
             NumberVerify = new ClientMethods.NumberVerify(Credentials);
@@ -44,6 +45,7 @@ namespace Nexmo.Api
         public ClientMethods.ApiSecret ApiSecret { get; private set; }
         public ClientMethods.Application Application { get; private set; }
         public ClientMethods.Call Call { get; private set; }
+        public ClientMethods.Conversion Conversion { get; private set; }
         public ClientMethods.Number Number { get; private set; }
         public ClientMethods.NumberInsight NumberInsight { get; private set; }
         public ClientMethods.NumberVerify NumberVerify { get; private set; }
