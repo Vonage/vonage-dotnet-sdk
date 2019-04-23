@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Nexmo.Api.Helpers;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api.Voice
@@ -53,14 +55,24 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// The single or mixed collection of endpoint types you connected to. Possible values.
             /// </summary>
+            [JsonRequired]
             public Endpoint[] to { get; set; }
             /// <summary>
             /// The endpoint you are calling from. Possible value are the same as to.
             /// </summary>
+            [JsonRequired]
             public Endpoint from { get; set; }
+            /// <summary>
+            /// The Nexmo Call Control Object to use for this call. 
+            /// Required unless answer url is provided.
+            /// </summary>
+            [RequiredIfAttribute("answer_url", null, ErrorMessage = "You must provide an NCCO object or an answer url")]
+            [JsonProperty("ncco")]
+            public JArray Ncco { get; set; }
             /// <summary>
             /// The webhook endpoint where you provide the Nexmo Call Control Object that governs this call. As soon as your user answers a call, Platform requests this NCCO from answer_url. Use answer_method to manage the HTTP method.
             /// </summary>
+            [RequiredIfAttribute("Ncco", null, ErrorMessage = "You must provide an NCCO object or an answer url")]
             public string[] answer_url { get; set; }
             /// <summary>
             /// Optional. The HTTP method used to send event information to answer_url. The default value is GET.

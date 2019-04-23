@@ -1,5 +1,6 @@
 ﻿using Nexmo.Api.Voice;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 
 namespace Nexmo.Api.Test.Integration
 {
@@ -28,6 +29,36 @@ namespace Nexmo.Api.Test.Integration
                 {
                     "https://nexmo-community.github.io/ncco-examples/first_call_talk.json"
                 }
+            });
+            Assert.AreEqual("started", results.status);
+        }
+
+        [TestMethod]
+        public void Should_call_with_NCCO()
+        {
+            dynamic TalkNCCO = new JObject();
+            TalkNCCO.action = "talk";
+            TalkNCCO.text = "This is a text to speech call from Nexmo";
+
+            JArray  nccoObject= new JArray();
+            nccoObject.Add(TalkNCCO);
+
+            var results = Call.Do(new Call.CallCommand
+            {
+                to = new[]
+                {
+                    new Call.Endpoint
+                    {
+                        type = "phone",
+                        number = Configuration.Instance.Settings["test_number"]
+                    }
+                },
+                from = new Call.Endpoint
+                {
+                    type = "phone",
+                    number = Configuration.Instance.Settings["nexmo_number"]
+                },
+                Ncco = nccoObject
             });
             Assert.AreEqual("started", results.status);
         }
