@@ -240,23 +240,20 @@ namespace Nexmo.Api
                     IQ = binr.ReadBytes(elems);
 
 					// ------- create RSACryptoServiceProvider instance and initialize with public key -----
-#if NETSTANDARD1_6 || NETSTANDARD2_0
+#if NET452
+                    // TODO: throwing "Bad Data" exception even though RSACng is fine
+                    var RSA = new RSACryptoServiceProvider();
+#else
                     RSA RSA;
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                         RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
-                        RSA = new RSAOpenSsl();
+                        RSA = new RSACryptoServiceProvider();
                     }
                     else
                     {
                         RSA = new RSACng();
                     }
-#elif NET452
-                    // TODO: throwing "Bad Data" exception even though RSACng is fine
-                    var RSA = new RSACryptoServiceProvider();
-#else
-                    // 4.6+ introduced CNG
-                    var RSA = new RSACng();
 #endif
                     var RSAparams = new RSAParameters
                     {
