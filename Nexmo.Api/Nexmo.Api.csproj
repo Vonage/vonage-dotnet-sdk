@@ -15,11 +15,11 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <Version>3.3.1</Version>
-    <PackageTags>SMS voice telephony phone nexmo</PackageTags>
-    <PackageReleaseNotes>https://github.com/Nexmo/nexmo-dotnet/releases/tag/V3.3.1</PackageReleaseNotes>
-    <PackageLicenseUrl>https://github.com/Nexmo/nexmo-dotnet/blob/master/LICENSE.md</PackageLicenseUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Nexmo/nexmo-dotnet</PackageProjectUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>https://github.com/Nexmo/nexmo-dotnet/releases/tag/v3.3.1</PackageReleaseNotes>
+    <PackageTags>SMS voice telephony phone nexmo</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
