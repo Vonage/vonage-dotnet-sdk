@@ -22,6 +22,13 @@ namespace Nexmo.Api.Test.Integration
         }
 
         [TestMethod]
+        public void should_get_prefix_pricing()
+        {
+            var pricing = Account.GetPrefixPricing("1","sms");
+            Assert.AreEqual("US", pricing.country);
+        }
+
+        [TestMethod]
         public void should_set_settings()
         {
             // TODO: password complexity requirements:

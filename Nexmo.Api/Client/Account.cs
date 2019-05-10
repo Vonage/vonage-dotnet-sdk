@@ -33,6 +33,18 @@ namespace Nexmo.Api.ClientMethods
         }
 
         /// <summary>
+        /// Retrieve our outbound pricing for a given numerical prefix
+        /// </summary>
+        /// <param name="prefix">numerical prefix. Examples: 44,1.</param>
+        /// <param name="type">The type of service you wish to retrieve data about: either sms, sms-transit or voice.</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns>Pricing data</returns>
+        public Api.Account.Pricing GetPrefixPricing(string prefix, string type, Credentials creds = null)
+        {
+            return Api.Account.GetPricing(prefix, type, creds ?? Credentials);
+        }
+
+        /// <summary>
         /// Set account settings
         /// </summary>
         /// <param name="newsecret">New API secret</param>
