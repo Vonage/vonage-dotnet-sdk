@@ -83,7 +83,7 @@ namespace Nexmo.Api.Request
             Uri baseUri;
             if (typeof(NumberVerify) == component
                 || typeof(ApiSecret) == component
-                || typeof(Application) == component
+                || typeof(ApplicationV2) == component
                 || typeof(Voice.Call) == component
                 || typeof(Redact) == component)
             {

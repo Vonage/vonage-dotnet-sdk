@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
@@ -61,10 +62,10 @@ namespace Nexmo.Api
 
     public class VoiceHooks
     {
-        public Webhook[] webhooks { get; set; }
+        public WebHook[] webhooks { get; set; }
     }
 
-    public class Webhook
+    public class WebHook
     {
         public string endpoint { get; set; }
         public string endpoint_type { get; set; }
@@ -98,6 +99,7 @@ namespace Nexmo.Api
     public class ApplicationListResponse : PaginatedResponse<ApplicationList>
     {}
 
+    [Obsolete("This version of the API has been depricated", true)]
     public class Application
     {
         /// <summary>
