@@ -137,7 +137,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Create(AppRequest request, Credentials credentials = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, credentials);
+            var response = VersionedApiRequest.DoRequest("POST",ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, credentials);
 
             return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
         }
@@ -170,7 +170,7 @@ namespace Nexmo.Api
                 return new List<AppResponse>
                 {
                     JsonConvert.DeserializeObject<AppResponse>(
-                        ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+                        VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
                         $"/v2/applications/{AppId}"),
                         // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
                         new Dictionary<string, string>(),
@@ -179,27 +179,27 @@ namespace Nexmo.Api
 
             }
 
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), new Dictionary<string, string>
+            var json = VersionedApiRequest.DoRequest("GET", ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), new Dictionary<string, string>
             {
                 { "page_size", PageSize.ToString()},
                 { "page_index", PageIndex.ToString()}
             },
             credentials);
-            var response = JsonConvert.DeserializeObject<AppListResponse>(json);
+            var response = JsonConvert.DeserializeObject<AppListResponse>(json.JsonResponse);
             return response._embedded.Applications;
         }
 
         /// <summary>
         /// Modify a single application
         /// </summary>
+        /// <param name="appId">Id of the application to be updated</param>
         /// <param name="request">Application request</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
-        public static AppResponse Update(AppRequest request, Credentials credentials = null)
+        public static AppResponse Update(string appId, AppRequest request, Credentials credentials = null)
         {
-            var sb = ApiRequest.GetQueryStringBuilderFor(request);
-            var response = ApiRequest.DoPutRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
-                $"/v2/applications/{request.Id}?{sb}"), null, credentials);
+            var response = VersionedApiRequest.DoRequest("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+                $"/v2/applications/{appId}"), request, credentials);
 
             return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
         }
@@ -212,9 +212,8 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static bool Delete(string appId, Credentials credentials = null)
         {
-            var sb = ApiRequest.GetQueryStringBuilderFor(new object());
-            var response = ApiRequest.DoDeleteRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
-                $"/v2/applications/{appId}?{sb}"), null, credentials);
+            var response = VersionedApiRequest.DoRequest("DELETE",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+                $"/v2/applications/{appId}"), null, credentials);
 
             return response.Status == HttpStatusCode.NoContent;
         }
