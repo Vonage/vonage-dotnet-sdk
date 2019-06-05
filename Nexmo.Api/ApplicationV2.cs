@@ -180,35 +180,55 @@ namespace Nexmo.Api
         /// <summary>
         /// List all of the applications associated with this account
         /// </summary>
-        /// <param name="PageSize">Set the number of items returned on each call to this endpoint. The default is 10 records.</param>
-        /// <param name="PageIndex">Set the offset from the first page. The default value is 0, calls to this endpoint return a page of <page_size>. For example, set page_index to 3 to retrieve items 31 - 40 when page_size is the default value.</param>
+        /// <param name="pageSize">Set the number of items returned on each call to this endpoint. The default is 10 records.</param>
+        /// <param name="page">Set the offset from the first page. The default value is 0, calls to this endpoint return a page of <page_size>. For example, set page_index to 3 to retrieve items 31 - 40 when page_size is the default value.</param>
         /// <param name="AppId">Optional id of specific application to retrieve</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
-        public static List<AppResponse> List(int PageSize = 10, int PageIndex = 0, string AppId = "", Credentials credentials = null)
+        public static List<AppResponse> List(int pageSize = 10, int page = 0,  Credentials credentials = null)
         {
-            if (!string.IsNullOrEmpty(AppId))
+            // This is a dirty hack for the GET requests on Application V2 to work
+            // until the fix on the API level is implemented.
+#if (!NETSTANDARD1_6)
             {
-                return new List<AppResponse>
+                string url = ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications").ToString();
+                string result;
+                var authBytes = Encoding.UTF8.GetBytes(credentials.ApiKey + ":" + credentials.ApiSecret);
+                using (WebClient client = new WebClient())
                 {
-                    JsonConvert.DeserializeObject<AppResponse>(
-                        VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
-                        $"/v2/applications/{AppId}"),
-                        // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
-                        new Dictionary<string, string>(),
-                        credentials))
-                };
+                    client.Headers[HttpRequestHeader.Authorization] = "Basic" + Convert.ToBase64String(authBytes);
+                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                    client.QueryString.Add("page_size", pageSize.ToString());
+                    client.QueryString.Add("page", page.ToString());
 
+                    result = client.DownloadString(url);
+                }
+
+                var response = JsonConvert.DeserializeObject<AppListResponse>(result);
+                return response._embedded.Applications;
             }
 
-            var json = VersionedApiRequest.DoRequest("GET", ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), new Dictionary<string, string>
-            {
-                { "page_size", PageSize.ToString()},
-                { "page_index", PageIndex.ToString()}
-            },
-            credentials);
-            var response = JsonConvert.DeserializeObject<AppListResponse>(json.JsonResponse);
-            return response._embedded.Applications;
+#endif
+
+            return null;
+
+            // Proper solution
+
+            //var searchFilter = new Dictionary<string, string>
+            //{
+            //    { "page_size", pageSize.ToString()},
+            //    { "page", page.ToString()}
+            //};
+
+            //var json = VersionedApiRequest.DoRequest("GET", ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), searchFilter, credentials);
+
+            //var response = JsonConvert.DeserializeObject<AppListResponse>(json.JsonResponse);
+            //return response._embedded.Applications;
+        }
+
+        public static List<AppResponse> List()
+        {
+            return List(10, 0);
         }
 
         /// <summary>
