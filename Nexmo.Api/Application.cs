@@ -62,7 +62,7 @@ namespace Nexmo.Api
 
     public class VoiceHooks
     {
-        public WebHook[] webhooks { get; set; }
+        public WebHook[] webhook { get; set; }
     }
 
     public class WebHook
@@ -99,7 +99,7 @@ namespace Nexmo.Api
     public class ApplicationListResponse : PaginatedResponse<ApplicationList>
     {}
 
-    [Obsolete("This version of the API has been depricated", true)]
+    [Obsolete("This version of the API has been deprecated", true)]
     public class Application
     {
         /// <summary>

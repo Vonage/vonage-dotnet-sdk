@@ -25,7 +25,7 @@ namespace Nexmo.Api
         /// The private and public keys to be used with the Application. 
         /// </summary>
         [JsonProperty("keys")]
-        public Keys Keyes { get; set; }
+        public Keys Keys { get; set; }
         /// <summary>
         /// The Nexmo product or products that you access with this application. Possible values are:
         ///   voice, messages, RTC, VBC
@@ -41,12 +41,12 @@ namespace Nexmo.Api
         /// The public key used to validate the jwt in a https://en.wikipedia.org/wiki/JSON_Web_Token.
         /// </summary>
         [JsonProperty("private_key")]
-        public string Private_key { get; set; }
+        public string PrivateKey { get; set; }
         /// <summary>
         /// The private key you use to generate the JSON Web Token (JWT) that authenticates your requests to Voice API.
         /// </summary>
         [JsonProperty("public_key")]
-        public string Public_key { get; set; }
+        public string PublicKey { get; set; }
     }
 
     public class Capabilities

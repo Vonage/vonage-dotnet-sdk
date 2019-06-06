@@ -4,7 +4,7 @@ using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
-    [Obsolete("This version of the API has been depricated", true)]
+    [Obsolete("This version of the API has been deprecated", true)]
     public class Application
     {
         public Credentials Credentials { get; set; }

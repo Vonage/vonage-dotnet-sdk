@@ -44,8 +44,6 @@ namespace Nexmo.Api
 
         public ClientMethods.Account Account { get; private set; }
         public ClientMethods.ApiSecret ApiSecret { get; private set; }
-        [Obsolete("This version of the API has been depricated", true)]
-        public ClientMethods.Application Application { get; private set; }
         public ClientMethods.ApplicationV2 ApplicationV2 { get; private set; }
         public ClientMethods.Call Call { get; private set; }
         public ClientMethods.Conversion Conversion { get; private set; }
