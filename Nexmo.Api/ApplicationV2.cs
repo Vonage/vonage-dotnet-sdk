@@ -52,13 +52,13 @@ namespace Nexmo.Api
     public class Capabilities
     {
         [JsonProperty("voice")]
-        public VoiceWebhook[] Voice { get; set; }
+        public VoiceWebhook Voice { get; set; }
         [JsonProperty("rtc")]
-        public RtcWebhook[] Rtc { get; set; }
+        public RtcWebhook Rtc { get; set; }
         [JsonProperty("messages")]
-        public MessagesWebhook[] Messages { get; set; }
+        public MessagesWebhook Messages { get; set; }
         [JsonProperty("vbc")]
-        public VbcWebhook[] Vbc { get; set; }
+        public VbcWebhook Vbc { get; set; }
 
     }
 
