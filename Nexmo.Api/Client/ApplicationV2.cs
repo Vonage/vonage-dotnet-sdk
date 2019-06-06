@@ -56,9 +56,9 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">Application request</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
-        public AppResponse Update(string appId, AppRequest request, Credentials credentials = null)
+        public AppResponse Update(AppRequest request, Credentials credentials = null)
         {
-            return Api.ApplicationV2.Update(appId, request, credentials ?? Credentials);
+            return Api.ApplicationV2.Update(request, credentials ?? Credentials);
         }
 
         /// <summary>

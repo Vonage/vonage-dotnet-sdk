@@ -238,10 +238,10 @@ namespace Nexmo.Api
         /// <param name="request">Application request</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
-        public static AppResponse Update(string appId, AppRequest request, Credentials credentials = null)
+        public static AppResponse Update(AppRequest request, Credentials credentials = null)
         {
             var response = VersionedApiRequest.DoRequest("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
-                $"/v2/applications/{appId}"), request, credentials);
+                $"/v2/applications/{request.Id}"), request, credentials);
 
             return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
         }
