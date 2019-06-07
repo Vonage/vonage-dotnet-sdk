@@ -150,31 +150,8 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Get(string appId, Credentials credentials = null)
         {
-            // This is a dirty hack for the GET requests on Application V2 to work
-            // until the fix on the API level is implemented.
-#if (!NETSTANDARD1_6)
-            {
-                string url = ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}").ToString();
-                string result;
-                var authBytes = Encoding.UTF8.GetBytes(credentials.ApiKey + ":" + credentials.ApiSecret);
-                using (WebClient client = new WebClient())
-                {
-                    client.Headers[HttpRequestHeader.Authorization] = "Basic" + Convert.ToBase64String(authBytes);
-                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
-
-                    result = client.DownloadString(url);
-                }
-                return JsonConvert.DeserializeObject<AppResponse>(result);
-            }
-
-#endif
-
-            return null;
-
-            // proper solution
-            //var response = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"),  credentials);
-
-            //return JsonConvert.DeserializeObject<AppResponse>(response);
+            var response = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), credentials);
+            return JsonConvert.DeserializeObject<AppResponse>(response);
         }
        
         /// <summary>
@@ -208,9 +185,9 @@ namespace Nexmo.Api
                 return response._embedded.Applications;
             }
 
-#endif
+ #endif
 
-            return null;
+             return null;
 
             // Proper solution
 
