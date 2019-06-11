@@ -83,7 +83,7 @@ namespace Nexmo.Api.Request
             Uri baseUri;
             if (typeof(NumberVerify) == component
                 || typeof(ApiSecret) == component
-                || typeof(Application) == component
+                || typeof(ApplicationV2) == component
                 || typeof(Voice.Call) == component
                 || typeof(Redact) == component)
             {
@@ -135,7 +135,7 @@ namespace Nexmo.Api.Request
 
             // do we need to use basic auth?
             // TODO / HACK: this is a newer auth method that needs to be incorporated better in the future
-            if (uri.AbsolutePath.StartsWith("/accounts/"))
+            if (uri.AbsolutePath.StartsWith("/accounts/") || uri.AbsolutePath.StartsWith("/v2/applications"))
             {
                 var authBytes = Encoding.UTF8.GetBytes(creds.ApiKey + ":" + creds.ApiSecret);
                 req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",

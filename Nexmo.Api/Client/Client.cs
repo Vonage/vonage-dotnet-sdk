@@ -1,4 +1,5 @@
 ﻿using Nexmo.Api.Request;
+using System;
 
 namespace Nexmo.Api
 {
@@ -29,7 +30,7 @@ namespace Nexmo.Api
         {
             Account = new ClientMethods.Account(Credentials);
             ApiSecret = new ClientMethods.ApiSecret(Credentials);
-            Application = new ClientMethods.Application(Credentials);
+            ApplicationV2 = new ClientMethods.ApplicationV2(Credentials);
             Call = new ClientMethods.Call(Credentials);
             Conversion = new ClientMethods.Conversion(Credentials);
             Number = new ClientMethods.Number(Credentials);
@@ -43,7 +44,7 @@ namespace Nexmo.Api
 
         public ClientMethods.Account Account { get; private set; }
         public ClientMethods.ApiSecret ApiSecret { get; private set; }
-        public ClientMethods.Application Application { get; private set; }
+        public ClientMethods.ApplicationV2 ApplicationV2 { get; private set; }
         public ClientMethods.Call Call { get; private set; }
         public ClientMethods.Conversion Conversion { get; private set; }
         public ClientMethods.Number Number { get; private set; }

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
+    [Obsolete("This version of the API has been deprecated", true)]
     public class Application
     {
         public Credentials Credentials { get; set; }
