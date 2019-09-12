@@ -52,6 +52,15 @@ namespace Nexmo.Api
             /// An integer value between 60 and 900 seconds inclusive that specifies the wait time between attempts to deliver the PIN. Verify calculates the default value based on the average time taken by users to complete verification.
             /// </summary>
             public string next_event_wait { get; set; }
+            /// <summary>
+            /// The workflow ID for selecting verification workflow - choose between 1 and 5 full guide https://developer.nexmo.com/verify/guides/workflows-and-events
+            /// workflow_id = 1, (Default Workflow): SMS -> TTS -> TTS
+            /// workflow_id = 2, SMS -> SMS -> TTS
+            /// workflow_id = 3, TTS -> TTS
+            /// workflow_id = 4, SMS -> SMS
+            /// workflow_id = 5, SMS -> TTS
+            /// </summary>
+            public string workflow_id { get; set; }
         }
 
         public class VerifyResponse
