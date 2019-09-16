@@ -64,24 +64,63 @@ namespace Nexmo.Api
 
     public class VoiceWebhook
     {
-        [JsonProperty("answer_url")]
-        public WebHook AnswerUrl { get; set; }
-        [JsonProperty("event_url")]
-        public WebHook EventUrl { get; set; }
+        public VoiceWebhook(Webhook answerUrl, Webhook eventUrl)
+        {
+            hooks = new webhooks()
+            {
+                AnswerUrl = answerUrl,
+                EventUrl = eventUrl
+            };
+        }
+
+        [JsonProperty("webhooks")]
+        public webhooks hooks { get; private set; }
+
+        public class webhooks
+        {
+            [JsonProperty("answer_url")]
+            public Webhook AnswerUrl { get; set; }
+            [JsonProperty("event_url")]
+            public Webhook EventUrl { get; set; }
+        }
     }
 
     public class RtcWebhook
     {
-        [JsonProperty("event_url")]
-        public WebHook EventUrl { get; set; }
+        public RtcWebhook(Webhook eventUrl)
+        {
+            hooks = new webhooks() { EventUrl = eventUrl };
+        }
+
+        [JsonProperty("webhooks")]
+        public webhooks hooks { get; private set; }
+
+        public class webhooks
+        {
+            [JsonProperty("event_url")]
+            public Webhook EventUrl { get; set; }
+        }
     }
 
+    [JsonObject("webhooks")]
     public class MessagesWebhook
     {
-        [JsonProperty("inbound_url")]
-        public WebHook InboundUrl { get; set; }
-        [JsonProperty("status_url")]
-        public WebHook StatusUrl { get; set; }
+        public MessagesWebhook(Webhook inboundUrl, Webhook statusUrl)
+        {
+            hooks = new webhooks() { InboundUrl = inboundUrl, StatusUrl = statusUrl };
+        }
+
+        [JsonProperty("webhooks")]
+        public webhooks hooks { get; private set; }
+
+        public class webhooks
+        {
+            [JsonProperty("inbound_url")]
+            public Webhook InboundUrl { get; set; }
+            [JsonProperty("status_url")]
+            public Webhook StatusUrl { get; set; }
+        }
+
     }
 
     public class VbcWebhook
@@ -173,7 +212,7 @@ namespace Nexmo.Api
                 var authBytes = Encoding.UTF8.GetBytes(credentials.ApiKey + ":" + credentials.ApiSecret);
                 using (WebClient client = new WebClient())
                 {
-                    client.Headers[HttpRequestHeader.Authorization] = "Basic" + Convert.ToBase64String(authBytes);
+                    client.Headers[HttpRequestHeader.Authorization] = "Basic " + Convert.ToBase64String(authBytes);
                     client.Headers[HttpRequestHeader.ContentType] = "application/json";
                     client.QueryString.Add("page_size", pageSize.ToString());
                     client.QueryString.Add("page", page.ToString());
