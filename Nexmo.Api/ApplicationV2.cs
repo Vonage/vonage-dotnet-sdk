@@ -64,17 +64,17 @@ namespace Nexmo.Api
 
     public class VoiceWebhook
     {
+        [JsonProperty("webhooks")]
+        public webhooks Hooks { get; private set; }
+
         public VoiceWebhook(Webhook answerUrl, Webhook eventUrl)
         {
-            hooks = new webhooks()
+            Hooks = new webhooks()
             {
                 AnswerUrl = answerUrl,
                 EventUrl = eventUrl
             };
         }
-
-        [JsonProperty("webhooks")]
-        public webhooks hooks { get; private set; }
 
         public class webhooks
         {
@@ -87,13 +87,13 @@ namespace Nexmo.Api
 
     public class RtcWebhook
     {
+        [JsonProperty("webhooks")]
+        public webhooks Hooks { get; private set; }
+
         public RtcWebhook(Webhook eventUrl)
         {
-            hooks = new webhooks() { EventUrl = eventUrl };
+            Hooks = new webhooks() { EventUrl = eventUrl };
         }
-
-        [JsonProperty("webhooks")]
-        public webhooks hooks { get; private set; }
 
         public class webhooks
         {
@@ -102,16 +102,15 @@ namespace Nexmo.Api
         }
     }
 
-    [JsonObject("webhooks")]
     public class MessagesWebhook
     {
+        [JsonProperty("webhooks")]
+        public webhooks Hooks { get; private set; }
+
         public MessagesWebhook(Webhook inboundUrl, Webhook statusUrl)
         {
-            hooks = new webhooks() { InboundUrl = inboundUrl, StatusUrl = statusUrl };
+            Hooks = new webhooks() { InboundUrl = inboundUrl, StatusUrl = statusUrl };
         }
-
-        [JsonProperty("webhooks")]
-        public webhooks hooks { get; private set; }
 
         public class webhooks
         {
