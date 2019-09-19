@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Nexmo.Api.Helpers;
@@ -110,6 +112,19 @@ namespace Nexmo.Api.Voice
             /// The unique id for this request.
             /// </summary>
             public string uuid { get; set; }
+        }
+
+        public class CallGetRecordingResponse
+        {
+            /// <summary>
+            /// Response Status of the HTTP Request
+            /// </summary>
+            public HttpStatusCode Status { get; set; }
+
+            /// <summary>
+            /// Stream of bytes containg the recording file's content
+            /// </summary>
+            public byte[] ResultStream { get; set; }
         }
 
         public class CallEditCommand
@@ -305,6 +320,26 @@ namespace Nexmo.Api.Voice
             var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd, creds);
 
             return JsonConvert.DeserializeObject<CallResponse>(response.JsonResponse);
+        }
+
+        public static CallGetRecordingResponse GetRecording(string url, Credentials creds = null)
+        {
+            using (var response = ApiRequest.DoRequestJwt(new Uri(url), creds))
+            {
+                var readTask = response.Content.ReadAsStreamAsync();
+                byte[] bytes;
+                readTask.Wait();
+                using (var ms = new MemoryStream())
+                {
+                    readTask.Result.CopyTo(ms);
+                    bytes = ms.ToArray();
+                }
+                return new CallGetRecordingResponse()
+                {
+                    ResultStream = bytes,
+                    Status = response.StatusCode
+                };
+            }
         }
     }
 }
