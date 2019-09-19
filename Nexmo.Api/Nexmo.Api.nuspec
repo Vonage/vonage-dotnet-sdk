@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>Nexmo.Csharp.Client</id>
-		<version>4.0.2</version>
+		<version>4.1.0</version>
 		<title>Nexmo API Client</title>
 		<authors>Nexmo</authors>
 		<owners>Nexmo</owners>
