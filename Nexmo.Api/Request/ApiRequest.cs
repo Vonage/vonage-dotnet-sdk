@@ -294,6 +294,42 @@ namespace Nexmo.Api.Request
             }
         }
 
+        internal static HttpResponseMessage DoRequestJwt(Uri uri, Credentials creds)
+        {
+            var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
+            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
+
+            var req = new HttpRequestMessage
+            {
+                RequestUri = uri,
+                Method = HttpMethod.Get
+            };
+
+            VersionedApiRequest.SetUserAgent(ref req, creds);
+
+            req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+                Jwt.CreateToken(appId, appKeyPath));
+
+            using (LogProvider.OpenMappedContext("ApiRequest.DoRequestJwt", uri.GetHashCode()))
+            {
+                Logger.Debug($"GET {uri}");
+                var sendTask = Configuration.Instance.Client.SendAsync(req);
+                sendTask.Wait();
+
+                if (!sendTask.Result.IsSuccessStatusCode)
+                {
+                    Logger.Error($"FAIL: {sendTask.Result.StatusCode}");
+
+                    if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
+                            "true", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        sendTask.Result.EnsureSuccessStatusCode();
+                    }
+                }
+                return sendTask.Result;
+            }
+        }
+
         internal static NexmoResponse DoPostRequest(Uri uri, object parameters, Credentials creds = null)
         {
             var apiParams = GetParameters(parameters);
