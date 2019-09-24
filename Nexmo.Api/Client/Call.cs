@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Nexmo.Api.Request;
+using System.IO;
+using System;
 
 namespace Nexmo.Api.ClientMethods
 {
@@ -120,5 +122,15 @@ namespace Nexmo.Api.ClientMethods
             return Voice.Call.SendDtmf(id, cmd, creds ?? Credentials);
         }
         #endregion
+
+        /// <summary>
+        /// Retrieves a Recording
+        /// <param name="recordingUrl">Url where the recording is stored</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// </summary>
+        public Voice.Call.CallGetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
+        {
+            return Voice.Call.GetRecording(recordingUrl, creds ?? Credentials);
+        }
     }
 }

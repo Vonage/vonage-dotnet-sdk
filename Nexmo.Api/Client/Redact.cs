@@ -17,9 +17,9 @@ namespace Nexmo.Api.ClientMethods
             Credentials = creds;
         }
 
-        public void RedactTransaction (RedactRequest redactRequest, Credentials creds = null)
+        public NexmoResponse RedactTransaction (RedactRequest redactRequest, Credentials creds = null)
         {
-            Nexmo.Api.Redact.RedactTransaction(redactRequest, creds ?? Credentials);
+            return Nexmo.Api.Redact.RedactTransaction(redactRequest, creds ?? Credentials);
         }
     }
 }
