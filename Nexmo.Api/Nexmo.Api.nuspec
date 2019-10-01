@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>Nexmo.Csharp.Client</id>
-		<version>4.1.0</version>
+		<version>4.1.1</version>
 		<title>Nexmo API Client</title>
 		<authors>Nexmo</authors>
 		<owners>Nexmo</owners>
@@ -20,7 +20,7 @@
 			<group targetFramework="net452">
 				<!-- Default dependencies -->
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
+				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
@@ -31,7 +31,7 @@
 			<group targetFramework="net46">
 				<!-- Default dependencies -->
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
+				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
@@ -42,7 +42,7 @@
 			<group targetFramework="net461">
 				<!-- Default dependencies -->
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
+				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
@@ -53,7 +53,7 @@
 			<group targetFramework="net462">
 				<!-- Default dependencies -->
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
+				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
@@ -64,7 +64,7 @@
 			<group targetFramework="net471">
 				<!-- Default dependencies -->
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
+				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.0.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
@@ -79,7 +79,7 @@
 				<!-- (copied from above as NuGet doesn't cascade deps) -->
 				<!-- Default dependencies -->
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
+				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.3.0" />
 				<dependency id="System.Runtime.Extensions" version="4.1.0" />
@@ -97,7 +97,7 @@
 				<!-- (copied from above as NuGet doesn't cascade deps) -->
 				<!-- Default dependencies -->
 				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
+				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
 				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
 				<dependency id="System.Net.Http" version="4.3.0" />
 				<dependency id="System.Runtime.Extensions" version="4.3.0" />
