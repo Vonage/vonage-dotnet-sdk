@@ -1,125 +1,116 @@
 <?xml version="1.0"?>
 <package>
-	<metadata>
-		<id>Nexmo.Csharp.Client</id>
-		<version>4.2.0</version>
-		<title>Nexmo API Client</title>
-		<authors>Nexmo</authors>
-		<owners>Nexmo</owners>
-		<licenseUrl>https://github.com/Nexmo/nexmo-dotnet/blob/master/LICENSE.md</licenseUrl>
-		<projectUrl>https://github.com/Nexmo/nexmo-dotnet</projectUrl>
-		<iconUrl>https://dashboard.nexmo.com/apple-touch-icon.png</iconUrl>
-		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Official C#/.NET wrapper for the Nexmo API</description>
-		<releaseNotes>
-			* adding workflow_id to VerifyRequest
-		</releaseNotes>
-		<copyright>© Nexmo 2018</copyright>
-		<tags>SMS voice telephony phone nexmo</tags>
-		<dependencies>
-			<group targetFramework="net452">
-				<!-- Default dependencies -->
-				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="System.Net.Http" version="4.0.0" />
-				<dependency id="System.Runtime.Extensions" version="4.3.0" />
-				<!-- non-MS -->
-				<dependency id="Newtonsoft.Json" version="9.0.1" />
-				<dependency id="jose-jwt" version="2.3.0" />
-			</group>
-			<group targetFramework="net46">
-				<!-- Default dependencies -->
-				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="System.Net.Http" version="4.0.0" />
-				<dependency id="System.Runtime.Extensions" version="4.3.0" />
-				<!-- non-MS -->
-				<dependency id="Newtonsoft.Json" version="9.0.1" />
-				<dependency id="jose-jwt" version="2.3.0" />
-			</group>
-			<group targetFramework="net461">
-				<!-- Default dependencies -->
-				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="System.Net.Http" version="4.0.0" />
-				<dependency id="System.Runtime.Extensions" version="4.3.0" />
-				<!-- non-MS -->
-				<dependency id="Newtonsoft.Json" version="9.0.1" />
-				<dependency id="jose-jwt" version="2.3.0" />
-			</group>
-			<group targetFramework="net462">
-				<!-- Default dependencies -->
-				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="System.Net.Http" version="4.0.0" />
-				<dependency id="System.Runtime.Extensions" version="4.3.0" />
-				<!-- non-MS -->
-				<dependency id="Newtonsoft.Json" version="9.0.1" />
-				<dependency id="jose-jwt" version="2.3.0" />
-			</group>
-			<group targetFramework="net471">
-				<!-- Default dependencies -->
-				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="System.Net.Http" version="4.0.0" />
-				<dependency id="System.Runtime.Extensions" version="4.3.0" />
-				<!-- non-MS -->
-				<dependency id="Newtonsoft.Json" version="9.0.1" />
-				<dependency id="jose-jwt" version="2.3.0" />
-			</group>
+  <metadata>
+    <id>Nexmo.Csharp.Client</id>
+    <version>4.2.0</version>
+    <title>Nexmo API Client</title>
+    <authors>Nexmo</authors>
+    <owners>Nexmo</owners>
+    <licenseUrl>https://github.com/Nexmo/nexmo-dotnet/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/Nexmo/nexmo-dotnet</projectUrl>
+    <iconUrl>https://dashboard.nexmo.com/apple-touch-icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Official C#/.NET wrapper for the Nexmo API</description>
+    <releaseNotes>
+      * Harmonizing dependencies
+    </releaseNotes>
+    <copyright>© Nexmo 2018</copyright>
+    <tags>SMS voice telephony phone nexmo</tags>
+    <dependencies>
+      <group targetFramework="net452">
+        <!-- Default dependencies -->
+        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="System.Collections.Immutable" version="1.2.0"/>
+        <!-- non-MS -->
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="jose-jwt" version="2.3.0" />
+      </group>
+      <group targetFramework="net46">
+        <!-- Default dependencies -->
+        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="System.Collections.Immutable" version="1.2.0"/>
+        <!-- non-MS -->
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="jose-jwt" version="2.3.0" />
+      </group>
+      <group targetFramework="net461">
+        <!-- Default dependencies -->
+        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="System.Collections.Immutable" version="1.2.0"/>
+        <!-- non-MS -->
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="jose-jwt" version="2.3.0" />
+      </group>
+      <group targetFramework="net462">
+        <!-- Default dependencies -->
+        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="Microsoft.AspNetCore.Mvc" version="1.1.8"/>
+        <dependency id="System.Collections.Immutable" version="1.2.0"/>
+        <!-- non-MS -->
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="jose-jwt" version="2.3.0" />
+      </group>
+      <group targetFramework="net471">
+        <!-- Default dependencies -->
+        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="System.Collections.Immutable" version="1.2.0"/>
+        <!-- non-MS -->
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="jose-jwt" version="2.3.0" />
+      </group>
 
 
 
-			<group targetFramework="netstandard1.6">
-				<!-- (copied from above as NuGet doesn't cascade deps) -->
-				<!-- Default dependencies -->
-				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="System.Net.Http" version="4.3.0" />
-				<dependency id="System.Runtime.Extensions" version="4.1.0" />
-				<!-- non-MS -->
-				<dependency id="Newtonsoft.Json" version="9.0.1" />
-				<dependency id="jose-jwt" version="2.3.0" />
+      <group targetFramework="netstandard1.6">
+        <!-- (copied from above as NuGet doesn't cascade deps) -->
+        <!-- Default dependencies -->
+        <dependency id="Microsoft.AspNetCore.Mvc" version="1.1.8"/>
+        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="NETStandard.Library" version="1.6.1" />
+        <dependency id="System.Collections.Immutable" version="1.2.0"/>
+        <!-- non-MS -->
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="jose-jwt" version="2.3.0" />
 
-				<!-- Additional .NET Standard dependencies -->
-				<dependency id="System.Diagnostics.Process" version="4.1.0" />
-				<dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" />
-				<dependency id="System.Security.Cryptography.OpenSsl" version="4.4.0" />
-				<dependency id="System.Security.Cryptography.Cng" version="4.4.0" />
-			</group>
-			<group targetFramework="netstandard2.0">
-				<!-- (copied from above as NuGet doesn't cascade deps) -->
-				<!-- Default dependencies -->
-				<dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.2" />
-				<dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-				<dependency id="System.Net.Http" version="4.3.0" />
-				<dependency id="System.Runtime.Extensions" version="4.3.0" />
-				<!-- non-MS -->
-				<dependency id="Newtonsoft.Json" version="9.0.1" />
-				<dependency id="jose-jwt" version="2.3.0" />
+        <!-- Additional .NET Standard dependencies -->
+        <dependency id="System.Diagnostics.Process" version="4.1.0" />
+        <dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" />
+        <dependency id="System.Security.Cryptography.OpenSsl" version="4.4.0" />
+        <dependency id="System.Security.Cryptography.Cng" version="4.4.0" />
+      </group>
+      <group targetFramework="netstandard2.0">
+        <!-- (copied from above as NuGet doesn't cascade deps) -->
+        <!-- Default dependencies -->
+        <dependency id="Microsoft.AspNetCore.Mvc" version="1.1.8"/>
+        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="NETStandard.Library" version="1.6.1" />
+        <dependency id="System.Collections.Immutable" version="1.2.0"/>
+        <!-- non-MS -->
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="jose-jwt" version="2.3.0" />
 
-				<!-- Additional .NET Standard dependencies -->
-				<dependency id="System.Diagnostics.Process" version="4.1.0" />
-				<dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" />
-				<dependency id="System.Security.Cryptography.OpenSsl" version="4.4.0" />
-				<dependency id="System.Security.Cryptography.Cng" version="4.4.0" />
-			</group>
-		</dependencies>
-	</metadata>
-	<files>
-		<file src="bin\Release\net452\Nexmo.Api.dll" target="lib\net452\Nexmo.Api.dll" />
-		<file src="bin\Release\net46\Nexmo.Api.dll" target="lib\net46\Nexmo.Api.dll" />
-		<file src="bin\Release\net461\Nexmo.Api.dll" target="lib\net461\Nexmo.Api.dll" />
-		<file src="bin\Release\net462\Nexmo.Api.dll" target="lib\net462\Nexmo.Api.dll" />
-		<file src="bin\Release\net471\Nexmo.Api.dll" target="lib\net471\Nexmo.Api.dll" />
-		<file src="bin\Release\netstandard1.6\Nexmo.Api.dll" target="lib\netstandard1.6\Nexmo.Api.dll" />
-		<file src="bin\Release\netstandard2.0\Nexmo.Api.dll" target="lib\netstandard2.0\Nexmo.Api.dll" />
-	</files>
+        <!-- Additional .NET Standard dependencies -->
+        <dependency id="System.Diagnostics.Process" version="4.1.0" />
+        <dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" />
+        <dependency id="System.Security.Cryptography.OpenSsl" version="4.4.0" />
+        <dependency id="System.Security.Cryptography.Cng" version="4.4.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\net452\Nexmo.Api.dll" target="lib\net452\Nexmo.Api.dll" />
+    <file src="bin\Release\net46\Nexmo.Api.dll" target="lib\net46\Nexmo.Api.dll" />
+    <file src="bin\Release\net461\Nexmo.Api.dll" target="lib\net461\Nexmo.Api.dll" />
+    <file src="bin\Release\net462\Nexmo.Api.dll" target="lib\net462\Nexmo.Api.dll" />
+    <file src="bin\Release\net471\Nexmo.Api.dll" target="lib\net471\Nexmo.Api.dll" />
+    <file src="bin\Release\netstandard1.6\Nexmo.Api.dll" target="lib\netstandard1.6\Nexmo.Api.dll" />
+    <file src="bin\Release\netstandard2.0\Nexmo.Api.dll" target="lib\netstandard2.0\Nexmo.Api.dll" />
+  </files>
 </package>

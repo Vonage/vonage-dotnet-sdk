@@ -11,12 +11,11 @@ namespace Nexmo.Api.Voice.Nccos.Endpoints
 
         public enum EndpointType
         {
-            unknown,
-            phone,
-            app,
-            websocket,
-            sip,
-            vbc
+            phone=1,
+            app=2,
+            websocket=3,
+            sip=4,
+            vbc=5
         }
     }
 }

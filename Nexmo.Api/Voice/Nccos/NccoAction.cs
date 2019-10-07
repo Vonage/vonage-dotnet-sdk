@@ -7,14 +7,13 @@ namespace Nexmo.Api.Voice.Nccos
     {
         public enum ActionType
         {
-            unknown,
-            record,
-            conversation,
-            connect,
-            talk,
-            stream,
-            input,
-            notify
+            record=1,
+            conversation=2,
+            connect=3,
+            talk=4,
+            stream=5,
+            input=6,
+            notif=7
         }
 
         [JsonProperty("action", Order = -1)]

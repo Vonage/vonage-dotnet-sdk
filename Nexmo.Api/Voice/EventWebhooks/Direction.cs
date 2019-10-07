@@ -2,7 +2,7 @@
 {
     public enum Direction
     {
-        inbound,
-        outbound
+        inbound = 1,
+        outbound = 2
     }
 }

@@ -7,10 +7,9 @@ namespace Nexmo.Api.Voice.Nccos
     {
         public enum AudioFormat
         {
-            unknown,
-            mp3,
-            wav,
-            ogg
+            mp3=1,
+            wav=2,
+            ogg=3
         }
 
         [JsonProperty("format")]
