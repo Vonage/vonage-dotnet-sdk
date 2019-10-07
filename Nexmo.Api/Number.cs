@@ -37,6 +37,17 @@ namespace Nexmo.Api
             /// Optional. Page size (max 100, default 10). Ex: 25
             /// </summary>
             public string size { get; set; }
+
+            /// <summary>
+            /// Set this optional field to true to restrict your results to numbers associated with an application (any application).
+            /// Set to false to find all numbers not associated with any application. Omit the field to avoid filtering on whether or not the number is assigned to an application.
+            /// </summary>
+            public bool has_application { get; set; }
+
+            /// <summary>
+            /// The application that you want to return the numbers for
+            /// </summary>
+            public string application_id { get; set; }
         }
 
         public class NumberUpdateCommand
