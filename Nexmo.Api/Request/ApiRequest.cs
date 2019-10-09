@@ -1,15 +1,15 @@
+using Newtonsoft.Json;
+using Nexmo.Api.Cryptography;
+using Nexmo.Api.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Security.Cryptography;
-using Nexmo.Api.Logging;
 
 namespace Nexmo.Api.Request
 {
@@ -26,7 +26,7 @@ namespace Nexmo.Api.Request
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"]).ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
             var securitySecret = creds?.SecuritySecret ?? Configuration.Instance.Settings["appSettings:Nexmo.security_secret"];
-            Credentials.SigningMethod method;
+            SmsSignatureGenerator.Method method;
             if (creds?.Method != null)
             {
                 method = creds.Method;
@@ -37,7 +37,7 @@ namespace Nexmo.Api.Request
             }
             else
             {
-                method = Credentials.SigningMethod.md5hash;
+                method = SmsSignatureGenerator.Method.md5hash;
             }
 
             var sb = new StringBuilder();
@@ -59,7 +59,7 @@ namespace Nexmo.Api.Request
             parameters.Add("timestamp", ((int)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds).ToString(CultureInfo.InvariantCulture));
             var sortedParams = new SortedDictionary<string, string>(parameters);
             buildStringFromParams(sortedParams, sb);
-            var signature = Credentials.GenerateSignature(sb.ToString(), securitySecret, method);
+            var signature = SmsSignatureGenerator.GenerateSignature(sb.ToString(), securitySecret, method);
             sb.AppendFormat("sig={0}", signature);
             return sb;
         }
