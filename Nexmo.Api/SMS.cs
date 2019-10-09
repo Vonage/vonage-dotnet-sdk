@@ -354,6 +354,11 @@ namespace Nexmo.Api
             /// The hex encoded User Data Header 
             /// </summary>
             public string udh { get; set; }
+
+            /// <summary>
+            /// Signature if Applicable
+            /// </summary>
+            public string sig { get; set; }
         }
 
         /// <summary>

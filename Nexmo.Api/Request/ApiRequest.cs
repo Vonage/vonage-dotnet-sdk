@@ -41,11 +41,19 @@ namespace Nexmo.Api.Request
             }
 
             var sb = new StringBuilder();
+            var signature_sb = new StringBuilder();
             Action<IDictionary<string, string>, StringBuilder> buildStringFromParams = (param, strings) =>
             {
                 foreach (var kvp in param)
                 {
                     strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), WebUtility.UrlEncode(kvp.Value));
+                }
+            };
+            Action<IDictionary<string, string>, StringBuilder> buildSignatureStringFromParams = (param, strings) =>
+            {
+                foreach (var kvp in param)
+                {
+                    strings.AppendFormat("{0}={1}&", kvp.Key.Replace('=','_').Replace('&','_'), kvp.Value.Replace('=', '_').Replace('&', '_'));
                 }
             };
             parameters.Add("api_key", apiKey);
@@ -59,7 +67,8 @@ namespace Nexmo.Api.Request
             parameters.Add("timestamp", ((int)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds).ToString(CultureInfo.InvariantCulture));
             var sortedParams = new SortedDictionary<string, string>(parameters);
             buildStringFromParams(sortedParams, sb);
-            var signature = SmsSignatureGenerator.GenerateSignature(sb.ToString(), securitySecret, method);
+            buildSignatureStringFromParams(sortedParams, signature_sb);
+            var signature = SmsSignatureGenerator.GenerateSignature(signature_sb.ToString(), securitySecret, method);
             sb.AppendFormat("sig={0}", signature);
             return sb;
         }
