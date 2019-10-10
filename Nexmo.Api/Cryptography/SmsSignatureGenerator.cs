@@ -20,20 +20,18 @@ namespace Nexmo.Api.Cryptography
         }
         public static string GenerateSignature(string query, string securitySecret, Method method)
         {
-            var queryToSign = "&" + query;
-            queryToSign = queryToSign.Remove(queryToSign.Length - 1);
             // security secret provided, sort and sign request
             if (method == Method.md5hash)
             {
-                queryToSign += securitySecret;
+                query += securitySecret;
                 var hashgen = MD5.Create();
-                var hash = hashgen.ComputeHash(Encoding.UTF8.GetBytes(queryToSign));
+                var hash = hashgen.ComputeHash(Encoding.UTF8.GetBytes(query));
                 return ByteArrayToHexHelper.ByteArrayToHex(hash).ToLower();
             }
             else
             {
                 var securityBytes = Encoding.UTF8.GetBytes(securitySecret);
-                var input = Encoding.UTF8.GetBytes(queryToSign);
+                var input = Encoding.UTF8.GetBytes(query);
                 HMAC hmacGen = new HMACMD5(securityBytes);
                 switch (method)
                 {

@@ -68,7 +68,9 @@ namespace Nexmo.Api.Request
             var sortedParams = new SortedDictionary<string, string>(parameters);
             buildStringFromParams(sortedParams, sb);
             buildSignatureStringFromParams(sortedParams, signature_sb);
-            var signature = SmsSignatureGenerator.GenerateSignature(signature_sb.ToString(), securitySecret, method);
+            var queryToSign = "&" + signature_sb.ToString();
+            queryToSign = queryToSign.Remove(queryToSign.Length - 1);
+            var signature = SmsSignatureGenerator.GenerateSignature(queryToSign, securitySecret, method);
             sb.AppendFormat("sig={0}", signature);
             return sb;
         }
