@@ -1,4 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -301,7 +306,7 @@ namespace Nexmo.Api
             /// The time at UTC±00:00  that Nexmo started to push this inbound message to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
             /// </summary>
             [JsonProperty("message-timestamp")]
-            public DateTime message_timestamp { get; set; }
+            public string message_timestamp { get; set; }
             /// <summary>
             /// A unix timestamp representation of message-timestamp.
             /// </summary>
@@ -354,6 +359,42 @@ namespace Nexmo.Api
             /// The hex encoded User Data Header 
             /// </summary>
             public string udh { get; set; }
+
+            /// <summary>
+            /// Signature if Applicable
+            /// </summary>
+            public string sig { get; set; }
+
+            /// <summary>
+            /// converts dictionary into properly formatted signature string
+            /// </summary>
+            /// <param name="query"></param>
+            /// <returns></returns>
+            public static string ConstructSignatureStringFromDictionary(IDictionary<string,string> query)
+            {
+                try
+                {
+                    var sig_sb = new StringBuilder();
+                    var sorted_dict = new SortedDictionary<string, string>(StringComparer.Ordinal);
+                    foreach (var key in query.Keys)
+                    {
+                        sorted_dict.Add(key, query[key].ToString());
+                    }
+                    foreach (var key in sorted_dict.Keys)
+                    {
+                        if (key == "sig")
+                        {
+                            continue;
+                        }
+                        sig_sb.AppendFormat("&{0}={1}", key.Replace('=', '_').Replace('&', '_'), sorted_dict[key].ToString().Replace('=', '_').Replace('&', '_'));
+                    }
+                    return sig_sb.ToString();
+                }
+                catch
+                {
+                    return "";
+                }
+            }
         }
 
         /// <summary>

@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>4.1.1</version>
+    <version>4.1.2</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,7 +12,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * Harmonizing dependencies
+      * Adding SMS Signing and Signing Validation support to SDK
+      * SMS Inbound message_timestamp changed from DateTime to String
+      * SMS Inbound property 'sig' added - only applicable when receiving Signed SMSs
+      * Introducing SMSSignatureGenrator for generating SMS Signatures - also has an Enum Method for signing Method (md5hash, md5, sha1, sha256, sha512)
     </releaseNotes>
     <copyright>© Nexmo 2018</copyright>
     <tags>SMS voice telephony phone nexmo</tags>

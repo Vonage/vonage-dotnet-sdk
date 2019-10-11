@@ -1,15 +1,15 @@
+using Newtonsoft.Json;
+using Nexmo.Api.Cryptography;
+using Nexmo.Api.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Security.Cryptography;
-using Nexmo.Api.Logging;
 
 namespace Nexmo.Api.Request
 {
@@ -26,13 +26,34 @@ namespace Nexmo.Api.Request
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"]).ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
             var securitySecret = creds?.SecuritySecret ?? Configuration.Instance.Settings["appSettings:Nexmo.security_secret"];
+            SmsSignatureGenerator.Method method;
+            if (creds?.Method != null)
+            {
+                method = creds.Method;
+            }
+            else if(Enum.TryParse(Configuration.Instance.Settings["appSettings:Nexmo.signing_method"], out method))
+            {
+                //left blank intentionally
+            }
+            else
+            {
+                method = SmsSignatureGenerator.Method.md5hash;
+            }
 
             var sb = new StringBuilder();
+            var signature_sb = new StringBuilder();
             Action<IDictionary<string, string>, StringBuilder> buildStringFromParams = (param, strings) =>
             {
                 foreach (var kvp in param)
                 {
                     strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), WebUtility.UrlEncode(kvp.Value));
+                }
+            };
+            Action<IDictionary<string, string>, StringBuilder> buildSignatureStringFromParams = (param, strings) =>
+            {
+                foreach (var kvp in param)
+                {
+                    strings.AppendFormat("{0}={1}&", kvp.Key.Replace('=','_').Replace('&','_'), kvp.Value.Replace('=', '_').Replace('&', '_'));
                 }
             };
             parameters.Add("api_key", apiKey);
@@ -43,15 +64,14 @@ namespace Nexmo.Api.Request
                 buildStringFromParams(parameters, sb);
                 return sb;
             }
-            // security secret provided, sort and sign request
             parameters.Add("timestamp", ((int)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds).ToString(CultureInfo.InvariantCulture));
             var sortedParams = new SortedDictionary<string, string>(parameters);
             buildStringFromParams(sortedParams, sb);
-            var queryToSign = "&" + sb;
-            queryToSign = queryToSign.Remove(queryToSign.Length - 1) + securitySecret.ToUpper();
-            var hashgen = MD5.Create();
-            var hash = hashgen.ComputeHash(Encoding.UTF8.GetBytes(queryToSign));
-            sb.AppendFormat("sig={0}", ByteArrayToHexHelper.ByteArrayToHex(hash).ToLower());
+            buildSignatureStringFromParams(sortedParams, signature_sb);
+            var queryToSign = "&" + signature_sb.ToString();
+            queryToSign = queryToSign.Remove(queryToSign.Length - 1);
+            var signature = SmsSignatureGenerator.GenerateSignature(queryToSign, securitySecret, method);
+            sb.AppendFormat("sig={0}", signature);
             return sb;
         }
 
