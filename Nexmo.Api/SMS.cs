@@ -370,7 +370,7 @@ namespace Nexmo.Api
             /// </summary>
             /// <param name="query"></param>
             /// <returns></returns>
-            public static string ConstructSignatureStringFromDictionary(Dictionary<string,string> query)
+            public static string ConstructSignatureStringFromDictionary(IDictionary<string,string> query)
             {
                 try
                 {
