@@ -13,7 +13,7 @@ namespace Nexmo.Api.Voice.Nccos
         public string Text { get; set; }
 
         [JsonProperty("bargeIn")]
-        public bool BargeIn { get; set; }
+        public string BargeIn { get; set; }
 
         [JsonProperty("loop")]
         public string Loop { get; set; }

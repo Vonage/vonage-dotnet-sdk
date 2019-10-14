@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Nexmo.Api.Voice.Nccos
 {
+    [JsonConverter(typeof(NccoConverter))]
     public class Ncco
     {
         public List<NccoAction> Actions { get; set; } = new List<NccoAction>();

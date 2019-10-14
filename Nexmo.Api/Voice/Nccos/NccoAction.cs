@@ -13,7 +13,7 @@ namespace Nexmo.Api.Voice.Nccos
             talk=4,
             stream=5,
             input=6,
-            notif=7
+            notify=7
         }
 
         [JsonProperty("action", Order = -1)]
