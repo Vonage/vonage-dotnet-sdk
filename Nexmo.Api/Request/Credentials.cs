@@ -1,7 +1,14 @@
-﻿namespace Nexmo.Api.Request
+﻿using Nexmo.Api.Cryptography;
+
+namespace Nexmo.Api.Request
 {
     public class Credentials
     {
+
+        /// <summary>
+        /// Method to be used for signing SMS Messages
+        /// </summary>
+        public SmsSignatureGenerator.Method Method { get; set; }
         /// <summary>
         /// Nexmo API Key (from your account dashboard)
         /// </summary>
