@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>4.1.2</version>
+    <version>4.2.0</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,10 +12,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * Adding SMS Signing and Signing Validation support to SDK
-      * SMS Inbound message_timestamp changed from DateTime to String
-      * SMS Inbound property 'sig' added - only applicable when receiving Signed SMSs
-      * Introducing SMSSignatureGenrator for generating SMS Signatures - also has an Enum Method for signing Method (md5hash, md5, sha1, sha256, sha512)
+      * The NCCO component within the CallCommand object can now be a strongly typed Ncco rather than a JArray,
+      for the sake of backwards compatibility Ncco is left as a JArray but there is now an option to set a strongly typed Ncco object NccoObj instead
+      see https://developer.nexmo.com/voice/voice-api/code-snippets/make-an-outbound-call-with-ncco for a sample
+      * Adding type safety for NCCOs and webhook events
+      * Adding application_id and has_application to Numbers API
     </releaseNotes>
     <copyright>© Nexmo 2018</copyright>
     <tags>SMS voice telephony phone nexmo</tags>

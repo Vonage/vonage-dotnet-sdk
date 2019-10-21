@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Nexmo.Api.Helpers;
 using Nexmo.Api.Request;
+using Nexmo.Api.Voice.Nccos;
 
 namespace Nexmo.Api.Voice
 {
@@ -52,6 +53,7 @@ namespace Nexmo.Api.Voice
             public string headers { get; set; }
         }
 
+        [JsonConverter(typeof(CallCommandConverter))]
         public class CallCommand
         {
             /// <summary>
@@ -70,7 +72,13 @@ namespace Nexmo.Api.Voice
             /// </summary>
             [RequiredIfAttribute("answer_url", null, ErrorMessage = "You must provide an NCCO object or an answer url")]
             [JsonProperty("ncco")]
-            public JArray Ncco { get; set; }
+            [Obsolete("this property will soon be deprecated - we recommend you use the strongly typed NccoObj field instead")]
+            public JArray Ncco { get; set; } //TODO on next major release remove this JArray
+
+            /// <summary>
+            /// This will convert to ncco as per the CallCommandConverter - it is preferable to use this over the JArray Ncco
+            /// </summary>
+            public Ncco NccoObj { get; set; }
             /// <summary>
             /// The webhook endpoint where you provide the Nexmo Call Control Object that governs this call. As soon as your user answers a call, Platform requests this NCCO from answer_url. Use answer_method to manage the HTTP method.
             /// </summary>
@@ -143,6 +151,7 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// Optional. A JSON object pointing to a replacement NCCO, when action is transfer.
             /// </summary>
+            [RequiredIf("Action", "transfer", ErrorMessage ="Desitnation required if transfering call")]
             [JsonProperty("destination")]
             public Destination Destination { get; set; }
         }
@@ -150,9 +159,13 @@ namespace Nexmo.Api.Voice
         public class Destination
         {
             [JsonProperty("type")]
-            public string Type { get; set; }
+            public string Type { get; set; } = "ncco";
+
             [JsonProperty("url")]
             public string[] Url { get; set; }
+
+            [JsonProperty("ncco")]
+            public Ncco Ncco { get; set; }
         }
 
         public class SearchFilter
