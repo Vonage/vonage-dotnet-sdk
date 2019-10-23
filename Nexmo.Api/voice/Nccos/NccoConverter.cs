@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Nexmo.Api.Voice.Nccos
@@ -50,7 +51,40 @@ namespace Nexmo.Api.Voice.Nccos
                         }
                     }
                     writer.WritePropertyName(propertyName);
-                    writer.WriteValue(prop.GetValue(action).ToString());
+                    var val = prop.GetValue(action);
+
+                    if (val is string[])
+                    {
+                        writer.WriteStartArray();
+                        foreach (var str in (string[])val)
+                        {
+                            writer.WriteValue(str);
+                        }
+                        writer.WriteEndArray();
+
+                    }
+                    else if (val is IDictionary<string, string>)
+                    {
+                        writer.WriteStartObject();
+                        foreach (var kvp in (IDictionary<string, string>)val)
+                        {
+                            writer.WritePropertyName(kvp.Key);
+                            writer.WriteValue(kvp.Value);
+                        }
+                        writer.WriteEndObject();
+                    }
+                    else if (val is string)
+                    {
+                        writer.WriteValue(val);
+                    }
+                    else if (val is Enum)
+                    {
+                        writer.WriteValue(val.ToString());
+                    }
+                    else
+                    {
+                        serializer.Serialize(writer, val);
+                    }
                 }
                 writer.WriteEndObject();
             }
