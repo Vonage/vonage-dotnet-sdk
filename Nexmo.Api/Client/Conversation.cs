@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Nexmo.Api.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nexmo.Api.Client
+namespace Nexmo.Api
 {
     public class Conversation
     {

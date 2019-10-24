@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>4.2.0</version>
+    <version>4.3.0</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,11 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * The NCCO component within the CallCommand object can now be a strongly typed Ncco rather than a JArray,
-      for the sake of backwards compatibility Ncco is left as a JArray but there is now an option to set a strongly typed Ncco object NccoObj instead
-      see https://developer.nexmo.com/voice/voice-api/code-snippets/make-an-outbound-call-with-ncco for a sample
-      * Adding type safety for NCCOs and webhook events
-      * Adding application_id and has_application to Numbers API
+      Adding conversations API
     </releaseNotes>
     <copyright>© Nexmo 2018</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
