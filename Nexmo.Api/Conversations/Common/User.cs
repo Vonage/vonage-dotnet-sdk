@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Nexmo.Api.Conversations
 {
-    public class CreateUserResponse
+    public class User
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -22,6 +18,14 @@ namespace Nexmo.Api.Conversations
         public string ImageUrl { get; set; }
 
         [JsonProperty("custom_data")]
-        public string CustomData { get; set; }
+        public JObject CustomData { get; set; }
+
+        [JsonProperty("_links")]
+        public SingleRecordLink Links { get; set; }
+
+        public T GetCustomDataAsType<T>()
+        {
+            return JsonConvert.DeserializeObject<T>(CustomData.ToString());
+        }
     }
 }

@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nexmo.Api.Conversations
 {
-    public class Conversation
+    public class Conversation<T> where T: class
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -25,18 +20,9 @@ namespace Nexmo.Api.Conversations
         public ConversationTimestamp Timestamp { get; set; }
 
         [JsonProperty("properties")]
-        public ConversationProperties Properties { get; set; }
+        public Properties Properties { get; set; }
 
-        public class ConversationTimestamp
-        {
-            [JsonProperty("created")]
-            public string Created { get; set; }
-        }
-
-        public class ConversationProperties
-        {
-            [JsonProperty("custom_data")]
-            public string CustomData { get; set; }
-        }
+        [JsonProperty("_links")]
+        public SingleRecordLink Links { get; set; }
     }
 }

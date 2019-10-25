@@ -1,18 +1,13 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nexmo.Api.Conversations
 {
-    public class CreateCustomEventRequest : CreateEventRequestBase
+    public class CreateCustomEventRequest <T> : CreateEventRequestBase where T : class
     {
         [JsonProperty("type")]
         public string Type { get; set; }
 
         [JsonProperty("body")]
-        public object Body { get; set; }        
+        public T Body { get; set; }        
     }
 }

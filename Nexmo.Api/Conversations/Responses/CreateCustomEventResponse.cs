@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Nexmo.Api.Conversations
 {
-    public class CreateCustomEventResponse
+    public class CreateCustomEventResponse <T> where T : class
     {
         [JsonProperty("body")]
-        public Dictionary<string,string> Body { get; set; }
+        public T Body { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }
