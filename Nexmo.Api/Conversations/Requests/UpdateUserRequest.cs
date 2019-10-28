@@ -1,6 +1,6 @@
 ﻿namespace Nexmo.Api.Conversations
 {
-    public class UpdateUserRequest <T> : UserAndConversationRequestBase<T> where T : class
+    public class UpdateUserRequest : UserAndConversationRequestBase
     {
 
     }

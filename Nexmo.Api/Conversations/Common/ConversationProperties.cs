@@ -5,6 +5,15 @@ namespace Nexmo.Api.Conversations
 {
     public class Properties
     {
+        public Properties(object data)
+        {
+            CustomData = JObject.FromObject(data);
+        }
+        public Properties()
+        {
+
+        }
+
         [JsonProperty("custom_data")]
         public JObject CustomData { get; set; }
 
@@ -12,11 +21,5 @@ namespace Nexmo.Api.Conversations
         {
             return JsonConvert.DeserializeObject<T>(CustomData.ToString());
         }
-    }
-
-    public class Properties<T>
-    {
-        [JsonProperty("custom_data")]
-        public T CustomData { get; set; }
     }
 }

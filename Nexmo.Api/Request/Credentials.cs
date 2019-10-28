@@ -9,6 +9,21 @@ namespace Nexmo.Api.Request
         /// Method to be used for signing SMS Messages
         /// </summary>
         public SmsSignatureGenerator.Method Method { get; set; }
+
+        /// <summary>
+        /// Access control list. The Nexmo Client SDK uses this as a permission system for users. Read more about it in the ACL overview
+        /// </summary>
+        public ACLs Acls { get; set; }
+
+        /// <summary>
+        /// The "subject". The subject, in this case, will be the name of the user created and associated with your Nexmo Application 
+        /// </summary>
+        public string Subject { get; set; }
+
+        /// <summary>
+        /// Seconds before a JWT generated with this will expire
+        /// </summary>
+        public uint ExpirationSeconds { get; set; }
         /// <summary>
         /// Nexmo API Key (from your account dashboard)
         /// </summary>

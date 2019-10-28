@@ -2,7 +2,7 @@
 
 namespace Nexmo.Api.Conversations
 {
-    public class Conversation<T> where T: class
+    public class Conversation
     {
         [JsonProperty("id")]
         public string Id { get; set; }
