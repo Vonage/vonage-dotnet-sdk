@@ -20,6 +20,8 @@ namespace Nexmo.Api
         static readonly string USERS_URI = $"{VERSION}/{USERS}";
         static readonly string MEMBERS_URI_FORMAT = CONVERSATIONS_URI +  "/{0}/" + MEMBERS;
         static readonly string EVENTS_URI_FORMAT = CONVERSATIONS_URI + "/{0}/" + EVENTS;
+        static readonly string EVENT_SPECIFIC_URI = EVENTS_URI_FORMAT + "/{1}";
+        static readonly string MEMBER_SPECIFIC_URI = MEMBERS_URI_FORMAT + "/{1}";
         static readonly JsonSerializerSettings settings = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore };
 
         public Conversation()
@@ -98,24 +100,21 @@ namespace Nexmo.Api
 
         public static Member GetMember(string memberId, string conversation_id, Credentials creds = null)
         {
-            var formatting = MEMBERS_URI_FORMAT + "/{1}";
-            var end_of_uri = string.Format(formatting, conversation_id, memberId);
+            var end_of_uri = string.Format(MEMBER_SPECIFIC_URI, conversation_id, memberId);
             var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), end_of_uri), new { }, creds);
             return JsonConvert.DeserializeObject<Member>(response);
         }
 
         public static Member UpdateMember(UpdateMemberRequest request, string memberId, string conversation_id, Credentials creds = null)
         {
-            var formatting = MEMBERS_URI_FORMAT + "/{1}";
-            var end_of_uri = string.Format(formatting, conversation_id, memberId);
+            var end_of_uri = string.Format(MEMBER_SPECIFIC_URI, conversation_id, memberId);
             var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), end_of_uri), request, creds);
             return JsonConvert.DeserializeObject<Member>(response);
         }
 
         public static HttpStatusCode DeleteMember(string memberId, string conversation_id, Credentials creds = null)
         {
-            var formatting = MEMBERS_URI_FORMAT + "/{1}";
-            var end_of_uri = string.Format(formatting, conversation_id, memberId);
+            var end_of_uri = string.Format(MEMBER_SPECIFIC_URI, conversation_id, memberId);
             var response = VersionedApiRequest.DoRequest(DELETE,ApiRequest.GetBaseUriFor(typeof(Conversation), end_of_uri), null, creds);
             return response.Status;
         }
@@ -136,16 +135,14 @@ namespace Nexmo.Api
         
         public static Event GetEvent(string eventId, string conversation_id, Credentials creds = null)
         {
-            var formatting = EVENTS_URI_FORMAT + "{1}";
-            var endOfUrl = string.Format(formatting, conversation_id, eventId);
+            var endOfUrl = string.Format(EVENT_SPECIFIC_URI, conversation_id, eventId);
             var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), endOfUrl), new { }, creds);
             return JsonConvert.DeserializeObject<Event>(response);
         }
 
         public static HttpStatusCode DeleteEvent(string eventId, string conversation_id, Credentials creds = null)
         {
-            var formatting = EVENTS_URI_FORMAT + "{1}";
-            var endOfUrl = string.Format(formatting, conversation_id, eventId);
+            var endOfUrl = string.Format(EVENT_SPECIFIC_URI, conversation_id, eventId);
             var response = VersionedApiRequest.DoRequest(DELETE, ApiRequest.GetBaseUriFor(typeof(Conversation), endOfUrl), null, creds);
             return response.Status;
         }
