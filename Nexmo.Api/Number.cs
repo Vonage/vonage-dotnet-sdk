@@ -6,6 +6,45 @@ namespace Nexmo.Api
 {
     public static class Number
     {
+        public class ListOwnNumbersRequest
+        {
+            /// <summary>
+            /// Optional. A matching pattern. Ex: 888
+            /// </summary>
+            public string pattern { get; set; }
+            /// <summary>
+            /// Optional. Strategy for matching pattern. Expected values: 0 "starts with" (default), 1 "anywhere", 2 "ends with".
+            /// </summary>
+            public string search_pattern { get; set; }
+            /// <summary>
+            /// Optional.the type of number to search for.
+            /// </summary>
+            [JsonProperty("type")]
+            public string Type { get; set; }
+            /// <summary>
+            /// Optional. Available features are SMS and VOICE, use a comma-separated values. Ex: SMS,VOICE
+            /// </summary>
+            public string features { get; set; }
+            /// <summary>
+            /// Optional. Page index (>0, default 1). Ex: 2
+            /// </summary>
+            public string index { get; set; }
+            /// <summary>
+            /// Optional. Page size (max 100, default 10). Ex: 25
+            /// </summary>
+            public string size { get; set; }
+
+            /// <summary>
+            /// Set this optional field to true to restrict your results to numbers associated with an application (any application).
+            /// Set to false to find all numbers not associated with any application. Omit the field to avoid filtering on whether or not the number is assigned to an application.
+            /// </summary>
+            public bool has_application { get; set; }
+
+            /// <summary>
+            /// The application that you want to return the numbers for
+            /// </summary>
+            public string application_id { get; set; }
+        }
         public class SearchRequest
         {
             /// <summary>
@@ -97,6 +136,11 @@ namespace Nexmo.Api
             public IEnumerable<SearchResult> numbers { get; set; }
         }
 
+        public static SearchResults ListOwnNumbers(ListOwnNumbersRequest request, Credentials creds = null)
+        {
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers/"), request, creds);
+            return JsonConvert.DeserializeObject<SearchResults>(json);
+        }
         /// <summary>
         /// Retrieve the list of virtual numbers available for a specific country.
         /// </summary>
