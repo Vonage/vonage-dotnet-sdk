@@ -10,7 +10,7 @@ namespace Nexmo.Api.ClientMethods
             Credentials = creds;
         }
 
-        public Api.Number.SearchResults ListOwnNumbers(Api.Number.ListOwnNumbersRequest request, Credentials creds = null)
+        public Api.Number.SearchResults ListOwnNumbers(Api.Number.SearchRequest request, Credentials creds = null)
         {
             return Api.Number.ListOwnNumbers(request, creds ?? Credentials);
         }
