@@ -55,7 +55,9 @@ namespace Nexmo.Api.Request
             }
             else if(authType == AuthType.Basic)
             {
-                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", $"{apiKey}:{apiSecret}");
+                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(authBytes));
             }
 
 
