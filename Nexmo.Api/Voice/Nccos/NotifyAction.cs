@@ -6,7 +6,7 @@ namespace Nexmo.Api.Voice.Nccos
     public class NotifyAction : NccoAction
     {
         [JsonProperty("payload")]
-        public IDictionary<string,string> Payload { get; set; }
+        public object Payload { get; set; }
 
         [JsonProperty("eventUrl")]
         public string[] EventUrl { get; set; }
