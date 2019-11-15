@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Nexmo.Api.Conversations
 {
@@ -10,6 +11,7 @@ namespace Nexmo.Api.Conversations
         }
 
         [JsonProperty("state")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public MemberState State { get; set; }
 
         [JsonProperty("channel")]

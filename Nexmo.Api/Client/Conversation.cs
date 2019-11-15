@@ -101,12 +101,12 @@ namespace Nexmo.Api.ClientMethods
             return Api.Conversation.ListEvents(request, conversation_id, creds ?? Credentials);
         }
 
-        public Event GetEvent(string eventId, string conversation_id, Credentials creds = null)
+        public Event GetEvent(int eventId, string conversation_id, Credentials creds = null)
         {
             return Api.Conversation.GetEvent(eventId, conversation_id, creds ?? Credentials);
         }
 
-        public HttpStatusCode DeleteEvent(string eventId, string conversation_id, Credentials creds = null)
+        public HttpStatusCode DeleteEvent(int eventId, string conversation_id, Credentials creds = null)
         {
             return Api.Conversation.DeleteEvent(eventId, conversation_id, creds ?? Credentials);
         }
