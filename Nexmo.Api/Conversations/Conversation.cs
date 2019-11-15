@@ -36,13 +36,13 @@ namespace Nexmo.Api
 
         public static CursorBasedListResponse<ConversationList> ListConversations(CursorListParams parameters, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), CONVERSATIONS_URI), parameters, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), CONVERSATIONS_URI), parameters, VersionedApiRequest.AuthType.Bearer, creds);
             return JsonConvert.DeserializeObject<CursorBasedListResponse<ConversationList>>(response);
         }
         
         public static Conversations.Conversation GetConversation(string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), $"{CONVERSATIONS_URI}/{id}"), new { }, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), $"{CONVERSATIONS_URI}/{id}"), new { }, VersionedApiRequest.AuthType.Bearer, creds);
             return JsonConvert.DeserializeObject<Conversations.Conversation>(response);
         }
         public static Conversations.Conversation UpdateConversation(UpdateConversationRequest request, string id, Credentials creds = null)
@@ -64,13 +64,13 @@ namespace Nexmo.Api
 
         public static CursorBasedListResponse<UserList> ListUsers(CursorListParams parameters, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), USERS_URI), parameters, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), USERS_URI), parameters, VersionedApiRequest.AuthType.Bearer, creds);
             return JsonConvert.DeserializeObject<CursorBasedListResponse<UserList>>(response);
         }
 
         public static User GetUser (string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), $"{USERS_URI}/{id}"), new { }, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), $"{USERS_URI}/{id}"), new { }, VersionedApiRequest.AuthType.Bearer, creds);
             return JsonConvert.DeserializeObject<User>(response);
         }
 
@@ -94,14 +94,14 @@ namespace Nexmo.Api
 
         public static CursorBasedListResponse<MemberList> ListMembers(CursorListParams parameters, string conversation_id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), string.Format(MEMBERS_URI_FORMAT, conversation_id)), parameters, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), string.Format(MEMBERS_URI_FORMAT, conversation_id)), parameters, VersionedApiRequest.AuthType.Bearer, creds);
             return JsonConvert.DeserializeObject<CursorBasedListResponse<MemberList>>(response);
         }
 
         public static Member GetMember(string memberId, string conversation_id, Credentials creds = null)
         {
             var end_of_uri = string.Format(MEMBER_SPECIFIC_URI, conversation_id, memberId);
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), end_of_uri), new { }, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), end_of_uri), new { }, VersionedApiRequest.AuthType.Bearer, creds);
             return JsonConvert.DeserializeObject<Member>(response);
         }
 
@@ -129,14 +129,14 @@ namespace Nexmo.Api
         public static CursorBasedListResponse<EventList> ListEvents(EventListParams request, string conversation_id, Credentials creds = null)
         {
             var endOfUrl = string.Format(EVENTS_URI_FORMAT, conversation_id);
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), endOfUrl), request, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), endOfUrl), request, VersionedApiRequest.AuthType.Bearer, creds);
             return JsonConvert.DeserializeObject<CursorBasedListResponse<EventList>>(response);
         }
         
         public static Event GetEvent(int eventId, string conversation_id, Credentials creds = null)
         {
             var endOfUrl = string.Format(EVENT_SPECIFIC_URI, conversation_id, eventId);
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), endOfUrl), new { }, creds);
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Conversation), endOfUrl), new { }, VersionedApiRequest.AuthType.Bearer, creds);
             return JsonConvert.DeserializeObject<Event>(response);
         }
 
