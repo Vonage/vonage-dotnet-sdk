@@ -15,6 +15,11 @@ namespace Nexmo.Api.Request
     /// </summary>
     public static class VersionedApiRequest
     {
+        public enum AuthType
+        {
+            Basic,
+            Bearer
+        }
         private static readonly ILog Logger = LogProvider.GetLogger(typeof(ApiRequest), "Nexmo.Api.Request.ApiRequest");
 
         private static StringBuilder GetQueryStringBuilderFor(object parameters)
@@ -29,10 +34,12 @@ namespace Nexmo.Api.Request
             return sb;
         }
 
-        private static string DoRequest(Uri uri, Credentials creds = null)
+        private static string DoRequest(Uri uri, AuthType authType, Credentials creds = null)
         {
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
             var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
+            var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
+            var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
 
             var req = new HttpRequestMessage
             {
@@ -41,8 +48,18 @@ namespace Nexmo.Api.Request
             };
             SetUserAgent(ref req, creds);
             // attempt bearer token auth
-            req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+            if(authType == AuthType.Bearer)
+            {
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(appId, appKeyPath));
+            }
+            else if(authType == AuthType.Basic)
+            {
+                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(authBytes));
+            }
+
 
             using (LogProvider.OpenMappedContext("VersionedApiRequest.DoRequest",uri.GetHashCode()))
             {
@@ -124,7 +141,8 @@ namespace Nexmo.Api.Request
         {
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
             var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
-
+            var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
+            var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
@@ -136,7 +154,7 @@ namespace Nexmo.Api.Request
             // TODO / HACK: this is a newer auth method that needs to be incorporated better in the future
             if (uri.AbsolutePath.StartsWith("/accounts/") || uri.AbsolutePath.StartsWith("/v2/applications") || uri.AbsolutePath.StartsWith("/v1/redact/transaction"))
             {
-                var authBytes = Encoding.UTF8.GetBytes(creds.ApiKey + ":" + creds.ApiSecret);
+                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
                 req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
                     Convert.ToBase64String(authBytes));
             }
@@ -198,11 +216,11 @@ namespace Nexmo.Api.Request
         /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
-        public static string DoRequest(Uri uri, object parameters, Credentials creds = null)
+        public static string DoRequest(Uri uri, object parameters, AuthType authType, Credentials creds = null)
         {
             var sb = GetQueryStringBuilderFor(parameters);
 
-            return DoRequest(new Uri(uri, "?" + sb), creds);
+            return DoRequest(new Uri(uri, "?" + sb), authType, creds);
         }
     }
 }

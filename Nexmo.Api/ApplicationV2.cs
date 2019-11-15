@@ -135,6 +135,12 @@ namespace Nexmo.Api
         public string HttpMethod { get; set; }
     }
 
+    public class AppListFilter
+    {
+        public int page_size { get; set; }
+        public int page { get; set; }
+    }
+
     public class AppResponse
     {
         /// <summary>
@@ -202,43 +208,9 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static List<AppResponse> List(int pageSize = 10, int page = 0,  Credentials credentials = null)
         {
-            // This is a dirty hack for the GET requests on Application V2 to work
-            // until the fix on the API level is implemented.
-#if (!NETSTANDARD1_6)
-            {
-                string url = ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications").ToString();
-                string result;
-                var authBytes = Encoding.UTF8.GetBytes(credentials.ApiKey + ":" + credentials.ApiSecret);
-                using (WebClient client = new WebClient())
-                {
-                    client.Headers[HttpRequestHeader.Authorization] = "Basic " + Convert.ToBase64String(authBytes);
-                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
-                    client.QueryString.Add("page_size", pageSize.ToString());
-                    client.QueryString.Add("page", page.ToString());
-
-                    result = client.DownloadString(url);
-                }
-
-                var response = JsonConvert.DeserializeObject<AppListResponse>(result);
-                return response._embedded.Applications;
-            }
-
- #endif
-
-             return null;
-
-            // Proper solution
-
-            //var searchFilter = new Dictionary<string, string>
-            //{
-            //    { "page_size", pageSize.ToString()},
-            //    { "page", page.ToString()}
-            //};
-
-            //var json = VersionedApiRequest.DoRequest("GET", ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), searchFilter, credentials);
-
-            //var response = JsonConvert.DeserializeObject<AppListResponse>(json.JsonResponse);
-            //return response._embedded.Applications;
+            var filter = new AppListFilter() { page = page, page_size = pageSize };
+            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), filter, VersionedApiRequest.AuthType.Basic, credentials);
+            return JsonConvert.DeserializeObject<AppListResponse>(response)._embedded.Applications;
         }
 
         public static List<AppResponse> List()

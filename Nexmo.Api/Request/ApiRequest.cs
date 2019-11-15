@@ -23,7 +23,7 @@ namespace Nexmo.Api.Request
 
         private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null)
         {
-            var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"]).ToLower();
+            var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
             var securitySecret = creds?.SecuritySecret ?? Configuration.Instance.Settings["appSettings:Nexmo.security_secret"];
             SmsSignatureGenerator.Method method;
@@ -147,6 +147,8 @@ namespace Nexmo.Api.Request
 
         internal static string DoRequest(Uri uri, Credentials creds)
         {
+            var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
+            var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
@@ -158,7 +160,7 @@ namespace Nexmo.Api.Request
             // TODO / HACK: this is a newer auth method that needs to be incorporated better in the future
             if (uri.AbsolutePath.StartsWith("/accounts/") || uri.AbsolutePath.StartsWith("/v2/applications"))
             {
-                var authBytes = Encoding.UTF8.GetBytes(creds.ApiKey + ":" + creds.ApiSecret);
+                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
                 req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
                     Convert.ToBase64String(authBytes));
             }
