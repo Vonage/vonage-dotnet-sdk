@@ -78,7 +78,7 @@ Alternatively:
     "Nexmo.api_secret": "NEXMO-API-SECRET",
     
     "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
-    "Nexmo.Application.Key": "c:\\path\\to\\your\\application\\private.key"
+    "Nexmo.Application.Key": "NEXMO_APPLICATION_PRIVATE_KEY"
   }
 }
 ```
