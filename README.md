@@ -96,7 +96,7 @@ Key | Description
 Nexmo.api_key | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)
 Nexmo.api_secret | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)
 Nexmo.Application.Id | Your application ID
-Nexmo.Application.Key | Path to your application key
+Nexmo.Application.Key | Your application's private key
 Nexmo.Url.Rest | Optional. Nexmo REST API base URL. Defaults to https://rest.nexmo.com
 Nexmo.Url.Api | Optional. Nexmo API base URL. Defaults to https://api.nexmo.com
 Nexmo.Api.RequestsPerSecond | Optional. Throttle to specified requests per second.
