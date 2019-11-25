@@ -9,5 +9,6 @@ script:
   - ls -l  
   - dotnet restore
   - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0
+  - dotnet --list-sdks
   - ./dotnet-install.sh --channel 2.2
   - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp2.2
