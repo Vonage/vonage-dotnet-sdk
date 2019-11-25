@@ -5,4 +5,4 @@ env: DOTNETCORE=3.0
 solution: Nexmo.Api.sln
 script:
   - dotnet restore
-  - dotnet test Nexmo.Api.Test.Unit\Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0
+  - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0
