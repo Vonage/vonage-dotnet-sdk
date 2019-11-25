@@ -4,11 +4,5 @@ dotnet: 3.0
 env: DOTNETCORE=3.0
 solution: Nexmo.Api.sln
 script:
-  # - curl https://dotnet.microsoft.com/download/dotnet-core/scripts/v1/dotnet-install.sh -o dotnet-install.sh
-  # - chmod 777 dotnet-install.sh
-  # - ls -l  
-  - dotnet restore
-  - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netstandard2.1  
-  # - ./dotnet-install.sh --channel 2.2
-  # - dotnet --list-sdks
-  # - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp2.2
+  - dotnet restore  
+  - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0
