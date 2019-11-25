@@ -4,7 +4,7 @@ dotnet: 3.0
 env: DOTNETCORE=3.0
 solution: Nexmo.Api.sln
 script:
-  - curl -o dotnet-install.sh https://dot.net/v1/dotnet-install.sh
+  - curl https://dotnet.microsoft.com/download/dotnet-core/scripts/v1/dotnet-install.sh -o dotnet-install.sh
   - chmod 777 dotnet-install.sh
   - ls -l
   - ./dotnet-install.sh --channel 2.2
