@@ -1,8 +1,6 @@
 language: csharp
 mono: none
-dotnet: 
-  - 2.1.502
-  - 2.2
+dotnet: 2.1.502  
 solution: Nexmo.Api.sln
 script:
   - dotnet restore
