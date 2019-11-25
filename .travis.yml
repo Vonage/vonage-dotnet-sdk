@@ -5,6 +5,7 @@ env: DOTNETCORE=3.0
 solution: Nexmo.Api.sln
 script:
   - curl -o dotnet-install.sh https://dot.net/v1/dotnet-install.sh
+  - ls -l
   - ./dotnet-install.sh --channel 2.2
   - dotnet restore
   - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0
