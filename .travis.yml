@@ -8,7 +8,7 @@ script:
   - chmod 777 dotnet-install.sh
   - ls -l  
   - dotnet restore
-  - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0
-  - dotnet --list-sdks
+  - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0  
   - ./dotnet-install.sh --channel 2.2
+  - dotnet --list-sdks
   - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp2.2
