@@ -15,3 +15,6 @@ script:
   - ~/.dotnet/dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp2.1
   - sudo apt install libunwind8
   - ~/.dotnet/dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp2.0
+after_script:
+  - make coverage
+  - bash <(curl -s https://codecov.io/bash)
