@@ -1,8 +1,7 @@
 language: csharp
 mono: none
-dotnet: 2.2
+dotnet: 3.0
 env: DOTNETCORE=3.0
 solution: Nexmo.Api.sln
-script:
-  # - dotnet restore  
-  - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp2.2
+script:  
+  - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0
