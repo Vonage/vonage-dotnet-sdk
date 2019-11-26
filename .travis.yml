@@ -4,6 +4,8 @@ dotnet: 3.0
 env: DOTNETCORE=3.0
 solution: Nexmo.Api.sln
 script:  
+  - choco install opencover.portable
+  - choco install codecov
   - dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0
   - curl https://dotnet.microsoft.com/download/dotnet-core/scripts/v1/dotnet-install.sh -o dotnet-install.sh
   - chmod 777 dotnet-install.sh
@@ -16,5 +18,6 @@ script:
   - sudo apt install libunwind8
   - ~/.dotnet/dotnet test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp2.0
 after_script:
-  - make coverage
+  - choco install opencover.portable
+  - OpenCover.Console.exe -register:users -target:"~/.dotnet/dotnet" -targetargs:"test ./Nexmo.Api.Test.Unit/Nexmo.Api.Test.Unit.csproj -f netcoreapp3.0" -output:"./MyProject_coverage.xml"
   - bash <(curl -s https://codecov.io/bash)
