@@ -1,46 +1,62 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace Nexmo.Api.Test.Unit
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Xunit;
+namespace Nexmo.Api.UnitTest
 {
-    [TestClass]
-    public class NumberTest : MockedWebTest
+    public class NumberTest :TestBase
     {
-        [TestMethod]
-        public void should_search_numbers()
+        [Fact]
+        public void SearchNumbers()
         {
-            SetExpect($"{RestUrl}/number/search/?country=US&has_application=False&api_key={ApiKey}&api_secret={ApiSecret}&",
-"{\"count\":177,\"numbers\":[{\"country\":\"US\",\"msisdn\":\"15102694548\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568490\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568491\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568492\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568973\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"}]}");
+            //ARRANGE
+            var expectedUri = $"{RestUrl}/number/search/?country=US&has_application=False&api_key={ApiKey}&api_secret={ApiSecret}&";            
+            var expectedResponseContent = "{\"count\":177,\"numbers\":[{\"country\":\"US\",\"msisdn\":\"15102694548\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568490\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568491\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568492\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568973\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"}]}";
+            Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
-            var results = Number.Search(new Number.SearchRequest
+            //ACT
+            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            var results = client.Number.Search(new Number.SearchRequest()
             {
                 country = "US"
             });
 
-            Assert.AreEqual(177, results.count);
-            Assert.AreEqual(5, results.numbers.Count());
+            //ASSERT
+            Assert.Equal(177, results.count);
+            Assert.Equal(5, results.numbers.Count());
         }
 
-        [TestMethod]
-        public void should_buy_number()
+        [Fact]
+        public void BuyNumber()
         {
-            SetExpect($"{RestUrl}/number/buy",
-"{\"error-code\":\"200\",\"error-code-label\":\"success\"}",
-$"country=US&msisdn=17775551212&api_key={ApiKey}&api_secret={ApiSecret}&");
+            //ARRANGE
+            var expectedUri = $"{RestUrl}/number/buy";
+            var expectedResponse = "{\"error-code\":\"200\",\"error-code-label\":\"success\"}";
+            var expectedRequestContent = $"country=US&msisdn=17775551212&api_key={ApiKey}&api_secret={ApiSecret}&";
 
-            var result = Number.Buy("US", "17775551212");
+            Setup(uri: expectedUri, responseContent: expectedResponse, requestContent: expectedRequestContent);
 
-            Assert.AreEqual("200", result.ErrorCode);
+            //ACT
+            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            var result = client.Number.Buy("US", "17775551212");
+
+            //ASSERT
+            Assert.Equal("200", result.ErrorCode);
         }
 
-        [TestMethod]
-        public void should_update_number()
+        [Fact]
+        public void UpdateNumber()
         {
-            SetExpect($"{RestUrl}/number/update",
-"{\"error-code\":\"200\",\"error-code-label\":\"success\"}",
-$"country=US&msisdn=17775551212&moHttpUrl=https%3a%2f%2ftest.test.com%2fmo&moSmppSysType=inbound&api_key={ApiKey}&api_secret={ApiSecret}&");
+            //ARRANGE
+            var expectedUri = $"{RestUrl}/number/update";
+            var expectedResponse = "{\"error-code\":\"200\",\"error-code-label\":\"success\"}";
+            var expectedRequestContent = $"country=US&msisdn=17775551212&moHttpUrl=https%3a%2f%2ftest.test.com%2fmo&moSmppSysType=inbound&api_key={ApiKey}&api_secret={ApiSecret}&";
+            Setup(uri: expectedUri, responseContent: expectedResponse, requestContent: expectedRequestContent);
 
-            var result = Number.Update(new Number.NumberUpdateCommand
+            //ACT
+            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            var result = client.Number.Update(new Number.NumberUpdateCommand
             {
                 country = "US",
                 msisdn = "17775551212",
@@ -48,19 +64,24 @@ $"country=US&msisdn=17775551212&moHttpUrl=https%3a%2f%2ftest.test.com%2fmo&moSmp
                 moSmppSysType = "inbound"
             });
 
-            Assert.AreEqual("200", result.ErrorCode);
+            //ASSERT
+            Assert.Equal("200", result.ErrorCode);
         }
 
-        [TestMethod]
-        public void should_cancel_number()
+        [Fact]
+        public void CancelNumber()
         {
-            SetExpect($"{RestUrl}/number/cancel",
-"{\"error-code\":\"200\",\"error-code-label\":\"success\"}",
-$"country=US&msisdn=17775551212&api_key={ApiKey}&api_secret={ApiSecret}&");
+            //ARRANGE
+            var expectedUri = $"{RestUrl}/number/cancel";
+            var expectedResponse = "{\"error-code\":\"200\",\"error-code-label\":\"success\"}";
+            var expectedRequestContent = $"country=US&msisdn=17775551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+            Setup(uri: expectedUri, responseContent: expectedResponse, requestContent: expectedRequestContent);
 
-            var result = Number.Cancel("US", "17775551212");
+            //ACT
+            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            var result = client.Number.Cancel("US", "17775551212");
 
-            Assert.AreEqual("200", result.ErrorCode);
+            Assert.Equal("200", result.ErrorCode);
         }
     }
 }
