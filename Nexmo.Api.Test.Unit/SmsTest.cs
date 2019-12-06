@@ -1,9 +1,9 @@
-﻿using System.Web;
-using System;
-using System.Collections.Generic;
-using Xunit;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Nexmo.Api.Cryptography;
+using System.Collections.Generic;
+using System.Web;
+using Xunit;
+
 
 namespace Nexmo.Api.UnitTest
 {
@@ -240,7 +240,6 @@ namespace Nexmo.Api.UnitTest
         [Fact]
         public void TestSendSmsWithSig()
         {
-
         }
     }
 }

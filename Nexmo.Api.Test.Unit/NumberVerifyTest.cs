@@ -57,8 +57,6 @@ namespace Nexmo.Api.UnitTest
             };
             var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
             client.NumberVerify.Verify(request);
-
-
         }
     }
 }
