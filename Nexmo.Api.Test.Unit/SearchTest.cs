@@ -1,59 +1,74 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace Nexmo.Api.Test.Unit
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Xunit;
+namespace Nexmo.Api.UnitTest
 {
-    [TestClass]
-    public class SearchTest : MockedWebTest
+    public class SearchTest : TestBase
     {
-        [TestMethod]
-        public void should_get_message()
+        [Fact]
+        public void GetMessage()
         {
-            SetExpect($"{RestUrl}/search/message?id=03000000FFFFFFFF&api_key={ApiKey}&api_secret={ApiSecret}&",
-"{\"message-id\":\"03000000FFFFFFFF\",\"account-id\":\"deadbeef\",\"network\":\"310004\",\"from\":\"17775551212\",\"to\":\"17775551213\",\"body\":\"web test\",\"price\":\"0.00480000\",\"date-received\":\"2015-12-31 14:08:40\",\"status\":\"ACCEPTD\",\"error-code\":\"1\",\"error-code-label\":\"Unknown\",\"type\":\"MT\"}");
+            //ARRANGE
+            var uri = $"{RestUrl}/search/message?id=03000000FFFFFFFF&api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedResponse = "{\"message-id\":\"03000000FFFFFFFF\",\"account-id\":\"deadbeef\",\"network\":\"310004\",\"from\":\"17775551212\",\"to\":\"17775551213\",\"body\":\"web test\",\"price\":\"0.00480000\",\"date-received\":\"2015-12-31 14:08:40\",\"status\":\"ACCEPTD\",\"error-code\":\"1\",\"error-code-label\":\"Unknown\",\"type\":\"MT\"}";
+            Setup(uri: uri, responseContent: expectedResponse);
 
-            var msg = Search.GetMessage("03000000FFFFFFFF");
+            //ACT
+            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            var msg = client.Search.GetMessage("03000000FFFFFFFF");
 
-            Assert.AreEqual("03000000FFFFFFFF", msg.messageId);
-            Assert.AreEqual("17775551212", msg.from);
-            Assert.AreEqual("17775551213", msg.to);
+            //ASSERT
+            Assert.Equal("03000000FFFFFFFF", msg.messageId);
+            Assert.Equal("17775551212", msg.from);
+            Assert.Equal("17775551213", msg.to);
+
         }
 
-        [TestMethod]
-        public void should_get_messages()
+        [Fact]
+        public void GetMessages()
         {
-            SetExpect($"{RestUrl}/search/messages?date=2015-12-31&to=17775551213&api_key={ApiKey}&api_secret={ApiSecret}&",
-"{\"count\":1,\"items\":[{\"message-id\":\"03000000FFFFFFFF\",\"account-id\":\"deadbeef\",\"network\":\"310004\",\"from\":\"17775551212\",\"to\":\"17775551213\",\"body\":\"web test\",\"price\":\"0.00480000\",\"date-received\":\"2015-12-31 14:08:40\",\"status\":\"ACCEPTD\",\"error-code\":\"1\",\"error-code-label\":\"Unknown\",\"type\":\"MT\"}]}");
+            //ARRANGE
+            var uri = $"{RestUrl}/search/messages?date=2015-12-31&to=17775551213&api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedResponse = "{\"count\":1,\"items\":[{\"message-id\":\"03000000FFFFFFFF\",\"account-id\":\"deadbeef\",\"network\":\"310004\",\"from\":\"17775551212\",\"to\":\"17775551213\",\"body\":\"web test\",\"price\":\"0.00480000\",\"date-received\":\"2015-12-31 14:08:40\",\"status\":\"ACCEPTD\",\"error-code\":\"1\",\"error-code-label\":\"Unknown\",\"type\":\"MT\"}]}";
+            Setup(uri: uri, responseContent: expectedResponse);
 
-            var msgs = Search.GetMessages(new Search.SearchRequest
+            //ACT
+            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            var msgs = client.Search.GetMessages(new Search.SearchRequest
             {
                 date = "2015-12-31",
                 to = "17775551213"
             });
 
-            Assert.AreEqual(1, msgs.count);
+            //ASSERT
+            Assert.Equal(1, msgs.count);
             var msg = msgs.items[0];
-            Assert.AreEqual("03000000FFFFFFFF", msg.messageId);
-            Assert.AreEqual("17775551212", msg.from);
-            Assert.AreEqual("17775551213", msg.to);
+            Assert.Equal("03000000FFFFFFFF", msg.messageId);
+            Assert.Equal("17775551212", msg.from);
+            Assert.Equal("17775551213", msg.to);
         }
 
-        [TestMethod]
-        public void should_get_rejections()
+        [Fact]
+        public void GetRejections()
         {
-            SetExpect($"{RestUrl}/search/rejections?date=2015-12-31&to=17775551213&api_key={ApiKey}&api_secret={ApiSecret}&",
-"{\"count\":1,\"items\":[{\"account-id\":\"deadbeef\",\"from\":\"17775551212\",\"to\":\"17775551213\",\"body\":\"web test\",\"date-received\":\"2015-12-31 14:08:40\",\"error-code\":\"1\",\"error-code-label\":\"Unknown\",\"type\":\"MT\"}]}");
+            //ARRANGE
+            var uri = $"{RestUrl}/search/rejections?date=2015-12-31&to=17775551213&api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedResponse = "{\"count\":1,\"items\":[{\"account-id\":\"deadbeef\",\"from\":\"17775551212\",\"to\":\"17775551213\",\"body\":\"web test\",\"date-received\":\"2015-12-31 14:08:40\",\"error-code\":\"1\",\"error-code-label\":\"Unknown\",\"type\":\"MT\"}]}";
+            Setup(uri: uri, responseContent: expectedResponse);
 
-            var msgs = Search.GetRejections(new Search.SearchRequest
+            //ACT
+            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            var msgs = client.Search.GetRejections(new Search.SearchRequest
             {
                 date = "2015-12-31",
                 to = "17775551213"
             });
-
-            Assert.AreEqual(1, msgs.count);
+            Assert.Single(msgs.items);
             var msg = msgs.items[0];
-            Assert.AreEqual("17775551212", msg.from);
-            Assert.AreEqual("17775551213", msg.to);
-            Assert.AreEqual("web test", msg.body);
+            Assert.Equal("17775551212", msg.from);
+            Assert.Equal("17775551213", msg.to);
+            Assert.Equal("web test", msg.body);
         }
     }
 }

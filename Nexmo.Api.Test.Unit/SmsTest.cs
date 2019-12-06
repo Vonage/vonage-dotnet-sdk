@@ -1,27 +1,31 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Web;
+using Xunit;
 
-namespace Nexmo.Api.Test.Unit
+namespace Nexmo.Api.UnitTest
 {
-    [TestClass]
-    public class SmsTest : MockedWebTest
-    {
-        [TestMethod]
-        public void should_send_sms()
+    public class SMS_test : TestBase
+    {      
+
+        [Fact]
+        public void TestSmsRequest()
         {
-            SetExpect($"{RestUrl}/sms/json",
-"{\"message-count\": \"1\",\"messages\": [{\"to\": \"17775551212\",\"message-id\": \"02000000A3AF32FA\",\"status\": \"0\",\"remaining-balance\": \"7.55560000\",\"message-price\": \"0.00480000\",\"network\": \"310004\"}]}",
-$"from=98975&to=17775551212&text=this+is+a+test&api_key={ApiKey}&api_secret={ApiSecret}&");
 
-            var results = SMS.Send(new SMS.SMSRequest
-            {
-                from = "98975",
-                to = "17775551212",
-                text = "this is a test"
-            });
+            // ARRANGE
+            var restUrl = "https://rest.nexmo.com";
+            var expectedUri = $"{restUrl}/sms/json";            
+            var responseContent = "{\"message-count\": \"1\",\"messages\": [{\"to\": \"17775551212\",\"message-id\": \"02000000A3AF32FA\",\"status\": \"0\",\"remaining-balance\": \"7.55560000\",\"message-price\": \"0.00480000\",\"network\": \"310004\"}]}";
+            var from = "98975";
+            var to = "17775551212";
+            var text = "this is a test";
+            var requestContent = $"from={from}&to={to}&text={HttpUtility.UrlEncode(text)}&api_key={ApiKey}&api_secret={ApiSecret}&";
+            Setup(uri: expectedUri, responseContent: responseContent, requestContent: requestContent);
 
-            Assert.AreEqual("1", results.message_count);
-            Assert.AreEqual("17775551212", results.messages[0].to);
-            Assert.AreEqual("0", results.messages[0].status);
+            // ACT
+            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            var response = client.SMS.Send(new SMS.SMSRequest() { to = to, from = from, text = text });
+
+            //ASSERT
+            Assert.True(response.messages.Count == 1);
         }
     }
 }
