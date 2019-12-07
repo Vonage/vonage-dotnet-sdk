@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using System;
 using System.Collections.Generic;
 using Xunit;
 using Newtonsoft.Json;
@@ -53,7 +54,7 @@ namespace Nexmo.Api.UnitTest
         }
 
         [Fact]
-        public void TestGenerateSignature()
+        public void TestGenerateSignatureMD5()
         {
             var signingKey = "2zzXDyLUAEdT8rTcKqJuOwgPmRYBDAu4jXDi0GmoARevPdOZ1R";
             var expectedSig = "666c2c1a3fe7d621ad10456c4531e702";
@@ -72,7 +73,8 @@ namespace Nexmo.Api.UnitTest
               ""concat-total"": ""3"",
               ""concat-part"": ""2"",
               ""data"": ""abc123"",
-              ""udh"": ""abc123""
+              ""udh"": ""abc123"",
+              ""sig"":""12345""
             }";
             var message = JsonConvert.DeserializeObject<SMS.SMSInbound>(request);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
@@ -80,6 +82,158 @@ namespace Nexmo.Api.UnitTest
             var method = SmsSignatureGenerator.Method.md5hash;
             var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signingKey, method);
             Assert.Equal(testSig, expectedSig);
+        }
+
+        [Fact]
+        public void TestGenerateSignatureMD5HMAC()
+        {
+            var signingKey = "2zzXDyLUAEdT8rTcKqJuOwgPmRYBDAu4jXDi0GmoARevPdOZ1R";
+            var expectedSig = "D96F3D3BC11D36392F95ABB03F382EB2";
+            var request = @"{
+              ""msisdn"": ""447700900001"",
+              ""to"": ""447700900000"",
+              ""messageId"": ""0A0000000123ABCD1"",
+              ""text"": ""Hello world"",
+              ""type"": ""text"",
+              ""keyword"": ""HELLO"",
+              ""message-timestamp"": ""2020-01-01T12:00:00.000+00:00"",
+              ""timestamp"": ""1578787200"",
+              ""nonce"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+              ""concat"": ""true"",
+              ""concat-ref"": ""1"",
+              ""concat-total"": ""3"",
+              ""concat-part"": ""2"",
+              ""data"": ""abc123"",
+              ""udh"": ""abc123"",
+              ""sig"":""12345""
+            }";
+            var message = JsonConvert.DeserializeObject<SMS.SMSInbound>(request);
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
+            var signatureString = SMS.SMSInbound.ConstructSignatureStringFromDictionary(dict);
+            var method = SmsSignatureGenerator.Method.md5;
+            var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signingKey, method);
+            Assert.Equal(testSig, expectedSig);
+        }
+
+        [Fact]
+        public void TestGenerateSignatureSHA1HMAC()
+        {
+            var signingKey = "2zzXDyLUAEdT8rTcKqJuOwgPmRYBDAu4jXDi0GmoARevPdOZ1R";
+            var expectedSig = "8C5FF7362BA6F63FDF74C5C2B35ACBE5BF563477";
+            var request = @"{
+              ""msisdn"": ""447700900001"",
+              ""to"": ""447700900000"",
+              ""messageId"": ""0A0000000123ABCD1"",
+              ""text"": ""Hello world"",
+              ""type"": ""text"",
+              ""keyword"": ""HELLO"",
+              ""message-timestamp"": ""2020-01-01T12:00:00.000+00:00"",
+              ""timestamp"": ""1578787200"",
+              ""nonce"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+              ""concat"": ""true"",
+              ""concat-ref"": ""1"",
+              ""concat-total"": ""3"",
+              ""concat-part"": ""2"",
+              ""data"": ""abc123"",
+              ""udh"": ""abc123"",
+              ""sig"":""12345""
+            }";
+            var message = JsonConvert.DeserializeObject<SMS.SMSInbound>(request);
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
+            var signatureString = SMS.SMSInbound.ConstructSignatureStringFromDictionary(dict);
+            var method = SmsSignatureGenerator.Method.sha1;
+            var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signingKey, method);            
+            Assert.Equal(testSig, expectedSig);
+        }
+
+        [Fact]
+        public void TestGenerateSignatureSHA256HMAC()
+        {
+            var signingKey = "2zzXDyLUAEdT8rTcKqJuOwgPmRYBDAu4jXDi0GmoARevPdOZ1R";
+            var expectedSig = "B5FE66C4FE808C191B27D0AFC56918B5CC1FDC4784B82528C1D0537BA8A57192";
+            var request = @"{
+              ""msisdn"": ""447700900001"",
+              ""to"": ""447700900000"",
+              ""messageId"": ""0A0000000123ABCD1"",
+              ""text"": ""Hello world"",
+              ""type"": ""text"",
+              ""keyword"": ""HELLO"",
+              ""message-timestamp"": ""2020-01-01T12:00:00.000+00:00"",
+              ""timestamp"": ""1578787200"",
+              ""nonce"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+              ""concat"": ""true"",
+              ""concat-ref"": ""1"",
+              ""concat-total"": ""3"",
+              ""concat-part"": ""2"",
+              ""data"": ""abc123"",
+              ""udh"": ""abc123"",
+              ""sig"":""12345""
+            }";
+            var message = JsonConvert.DeserializeObject<SMS.SMSInbound>(request);
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
+            var signatureString = SMS.SMSInbound.ConstructSignatureStringFromDictionary(dict);
+            var method = SmsSignatureGenerator.Method.sha256;
+            var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signingKey, method);
+            
+            Assert.Equal(testSig, expectedSig);
+        }
+
+        [Fact]
+        public void TestGenerateSignatureSHA512HMAC()
+        {
+            var signingKey = "2zzXDyLUAEdT8rTcKqJuOwgPmRYBDAu4jXDi0GmoARevPdOZ1R";
+            var expectedSig = "AB1630493820A5DE881333F3320E2755212D3CF96B5E20158229B19928B380205043230F00F2E5FAE8FD4CEE8F7FD2CEF364C03086A00FF2F3644B05561CC232";
+            var request = @"{
+              ""msisdn"": ""447700900001"",
+              ""to"": ""447700900000"",
+              ""messageId"": ""0A0000000123ABCD1"",
+              ""text"": ""Hello world"",
+              ""type"": ""text"",
+              ""keyword"": ""HELLO"",
+              ""message-timestamp"": ""2020-01-01T12:00:00.000+00:00"",
+              ""timestamp"": ""1578787200"",
+              ""nonce"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+              ""concat"": ""true"",
+              ""concat-ref"": ""1"",
+              ""concat-total"": ""3"",
+              ""concat-part"": ""2"",
+              ""data"": ""abc123"",
+              ""udh"": ""abc123"",
+              ""sig"":""12345""
+            }";
+            var message = JsonConvert.DeserializeObject<SMS.SMSInbound>(request);
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
+            var signatureString = SMS.SMSInbound.ConstructSignatureStringFromDictionary(dict);
+            var method = SmsSignatureGenerator.Method.sha512;
+            var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signingKey, method);            
+            Assert.Equal(testSig, expectedSig);
+        }
+
+        [Fact]
+        public void TestDLRStruct()
+        {
+            var dlrRct = @"{
+              ""msisdn"": ""447700900000"",
+              ""to"": ""AcmeInc"",
+              ""network-code"": ""12345"",
+              ""messageId"": ""0A0000001234567B"",
+              ""price"": ""0.03330000"",
+              ""status"": ""delivered"",
+              ""scts"": ""2001011400"",
+              ""err-code"": ""0"",
+              ""message-timestamp"": ""2020-01-01T12:00:00.000+00:00""
+            }";
+            var castObject = JsonConvert.DeserializeObject<SMS.SMSDeliveryReceipt>(dlrRct);
+            Assert.Equal(castObject.msisdn, "447700900000");
+            Assert.Equal(castObject.to, "AcmeInc");
+            Assert.Equal(castObject.network_code, "12345");
+            Assert.Equal(castObject.messageId, "0A0000001234567B");
+            Assert.Equal(castObject.price, "0.03330000");
+            Assert.Equal(castObject.status, "delivered");
+            Assert.Equal(castObject.scts, "2001011400");
+            Assert.Equal(castObject.err_code, "0");
+            var ci = System.Globalization.CultureInfo.GetCultureInfo("en-us");
+            Assert.Equal(castObject.message_timestamp, System.DateTime.Parse("2020-01-01T12:00:00.000+00:00",ci));
 
         }
     }
