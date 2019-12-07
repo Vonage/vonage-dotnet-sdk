@@ -73,8 +73,12 @@ namespace Nexmo.Api.UnitTest
               ""concat-total"": ""3"",
               ""concat-part"": ""2"",
               ""data"": ""abc123"",
+<<<<<<< HEAD
               ""udh"": ""abc123"",
               ""sig"":""12345""
+=======
+              ""udh"": ""abc123""
+>>>>>>> adding signature and inbound test
             }";
             var message = JsonConvert.DeserializeObject<SMS.SMSInbound>(request);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
@@ -240,6 +244,7 @@ namespace Nexmo.Api.UnitTest
         [Fact]
         public void TestSendSmsWithSig()
         {
+
         }
     }
 }
