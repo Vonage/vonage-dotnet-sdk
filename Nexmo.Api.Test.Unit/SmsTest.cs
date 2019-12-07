@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Nexmo.Api.Cryptography;
+﻿using System.Web;
+using System;
 using System.Collections.Generic;
 using System.Web;
 using Xunit;
@@ -74,11 +76,16 @@ namespace Nexmo.Api.UnitTest
               ""concat-part"": ""2"",
               ""data"": ""abc123"",
 <<<<<<< HEAD
+<<<<<<< HEAD
               ""udh"": ""abc123"",
               ""sig"":""12345""
 =======
               ""udh"": ""abc123""
 >>>>>>> adding signature and inbound test
+=======
+              ""udh"": ""abc123"",
+              ""sig"":""12345""
+>>>>>>> Adding full set of signing tests and dlr test
             }";
             var message = JsonConvert.DeserializeObject<SMS.SMSInbound>(request);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
@@ -244,7 +251,6 @@ namespace Nexmo.Api.UnitTest
         [Fact]
         public void TestSendSmsWithSig()
         {
-
         }
     }
 }
