@@ -28,5 +28,37 @@ namespace Nexmo.Api.UnitTest
             Assert.Equal("0", results.status);
             Assert.Equal("cancel", results.command);
         }
+
+        [Fact]
+        public void SendVerifyRequest()
+        {
+            //ARRANGE
+            var expectedUri = $"{ApiUrl}/verify/json?number=12018675309&country=US&brand=AcmeInc&sender_id=ACME&code_length=6&lg=en-US&pin_expiry=240&next_event_wait=120&workflow_id=4&api_key={ApiKey}&api_secret={ApiSecret}&";
+            
+            var expectedResult = @"{
+              ""request_id"": ""abcdef012345..."",
+              ""status"": ""0""
+              }";
+
+            Setup(uri: expectedUri, responseContent: expectedResult);
+
+            //ACT
+            var request = new NumberVerify.VerifyRequest()
+            {
+                number = "12018675309",
+                brand = "AcmeInc",
+                country = "US",
+                sender_id = "ACME",
+                code_length = "6",
+                lg = "en-US",
+                pin_expiry = "240",
+                next_event_wait = "120",
+                workflow_id = "4"
+            };
+            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            client.NumberVerify.Verify(request);
+
+
+        }
     }
 }

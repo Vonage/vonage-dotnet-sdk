@@ -224,14 +224,14 @@ namespace Nexmo.Api.UnitTest
               ""message-timestamp"": ""2020-01-01T12:00:00.000+00:00""
             }";
             var castObject = JsonConvert.DeserializeObject<SMS.SMSDeliveryReceipt>(dlrRct);
-            Assert.Equal(castObject.msisdn, "447700900000");
-            Assert.Equal(castObject.to, "AcmeInc");
-            Assert.Equal(castObject.network_code, "12345");
-            Assert.Equal(castObject.messageId, "0A0000001234567B");
-            Assert.Equal(castObject.price, "0.03330000");
-            Assert.Equal(castObject.status, "delivered");
-            Assert.Equal(castObject.scts, "2001011400");
-            Assert.Equal(castObject.err_code, "0");
+            Assert.Equal("447700900000", castObject.msisdn);
+            Assert.Equal("AcmeInc", castObject.to);
+            Assert.Equal("12345", castObject.network_code);
+            Assert.Equal("0A0000001234567B", castObject.messageId);
+            Assert.Equal("0.03330000", castObject.price);
+            Assert.Equal("delivered", castObject.status);
+            Assert.Equal("2001011400", castObject.scts);
+            Assert.Equal("0", castObject.err_code);
             var ci = System.Globalization.CultureInfo.GetCultureInfo("en-us");
             Assert.Equal(castObject.message_timestamp, System.DateTime.Parse("2020-01-01T12:00:00.000+00:00",ci));
 
