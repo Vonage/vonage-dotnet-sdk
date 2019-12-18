@@ -6,7 +6,6 @@ namespace Nexmo.Api
 {
     public static class Number
     {
-
         public class SearchRequest
         {
             /// <summary>
