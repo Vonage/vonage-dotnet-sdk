@@ -2,8 +2,7 @@ Nexmo Client Library for C#/.NET
 ===================================
 
 [![](http://img.shields.io/nuget/v/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
-[![](http://img.shields.io/nuget/vpre/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
-
+[![Build status](https://ci.appveyor.com/api/projects/status/qy0rkyi084vgjmir/branch/master?svg=true)](https://ci.appveyor.com/project/slorello89/nexmo-dotnet/branch/master)
 
 You can use this C# client library to integrate [Nexmo's APIs](#api-coverage) to your application. To use this, you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
@@ -78,7 +77,7 @@ Alternatively:
     "Nexmo.api_secret": "NEXMO-API-SECRET",
     
     "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
-    "Nexmo.Application.Key": "c:\\path\\to\\your\\application\\private.key"
+    "Nexmo.Application.Key": "NEXMO_APPLICATION_PRIVATE_KEY"
   }
 }
 ```
@@ -96,7 +95,7 @@ Key | Description
 Nexmo.api_key | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)
 Nexmo.api_secret | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)
 Nexmo.Application.Id | Your application ID
-Nexmo.Application.Key | Path to your application key
+Nexmo.Application.Key | Your application's private key
 Nexmo.Url.Rest | Optional. Nexmo REST API base URL. Defaults to https://rest.nexmo.com
 Nexmo.Url.Api | Optional. Nexmo API base URL. Defaults to https://api.nexmo.com
 Nexmo.Api.RequestsPerSecond | Optional. Throttle to specified requests per second.
@@ -433,6 +432,7 @@ Special thanks to our contributors:
 
 * [jdpearce](https://github.com/jdpearce)
 * [jonferreira](https://github.com/jonferreira)
+* [fauna5](https://github.com/fauna5)
 
 License
 -------

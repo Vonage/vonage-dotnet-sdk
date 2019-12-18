@@ -12,19 +12,17 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * The NCCO component within the CallCommand object can now be a strongly typed Ncco rather than a JArray,
-      for the sake of backwards compatibility Ncco is left as a JArray but there is now an option to set a strongly typed Ncco object NccoObj instead
-      see https://developer.nexmo.com/voice/voice-api/code-snippets/make-an-outbound-call-with-ncco for a sample
-      * Adding type safety for NCCOs and webhook events
-      * Adding application_id and has_application to Numbers API
+      * Fixing NCCO serialization bug
+      * Setting Microsoft.Extensions.Configuration.* to version 1.1.2
     </releaseNotes>
     <copyright>© Nexmo 2018</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
     <dependencies>
       <group targetFramework="net452">
         <!-- Default dependencies -->
-        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.1.2" />
         <dependency id="System.Collections.Immutable" version="1.2.0"/>
         <!-- non-MS -->
         <dependency id="Newtonsoft.Json" version="9.0.1" />
@@ -32,8 +30,9 @@
       </group>
       <group targetFramework="net46">
         <!-- Default dependencies -->
-        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.1.2" />
         <dependency id="System.Collections.Immutable" version="1.2.0"/>
         <!-- non-MS -->
         <dependency id="Newtonsoft.Json" version="9.0.1" />
@@ -41,8 +40,9 @@
       </group>
       <group targetFramework="net461">
         <!-- Default dependencies -->
-        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.1.2" />
         <dependency id="System.Collections.Immutable" version="1.2.0"/>
         <!-- non-MS -->
         <dependency id="Newtonsoft.Json" version="9.0.1" />
@@ -50,9 +50,9 @@
       </group>
       <group targetFramework="net462">
         <!-- Default dependencies -->
-        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
-        <dependency id="Microsoft.AspNetCore.Mvc" version="1.1.8"/>
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.1.2" />
         <dependency id="System.Collections.Immutable" version="1.2.0"/>
         <!-- non-MS -->
         <dependency id="Newtonsoft.Json" version="9.0.1" />
@@ -60,8 +60,9 @@
       </group>
       <group targetFramework="net471">
         <!-- Default dependencies -->
-        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.1.2" />
         <dependency id="System.Collections.Immutable" version="1.2.0"/>
         <!-- non-MS -->
         <dependency id="Newtonsoft.Json" version="9.0.1" />
@@ -74,8 +75,9 @@
         <!-- (copied from above as NuGet doesn't cascade deps) -->
         <!-- Default dependencies -->
         <dependency id="Microsoft.AspNetCore.Mvc" version="1.1.8"/>
-        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.1.2" />
         <dependency id="NETStandard.Library" version="1.6.1" />
         <dependency id="System.Collections.Immutable" version="1.2.0"/>
         <!-- non-MS -->
@@ -92,8 +94,9 @@
         <!-- (copied from above as NuGet doesn't cascade deps) -->
         <!-- Default dependencies -->
         <dependency id="Microsoft.AspNetCore.Mvc" version="1.1.8"/>
-        <dependency id="Microsoft.Extensions.Configuration" version="1.0.2" />
-        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.0.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration" version="1.1.2" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="1.1.2" />
         <dependency id="NETStandard.Library" version="1.6.1" />
         <dependency id="System.Collections.Immutable" version="1.2.0"/>
         <!-- non-MS -->
