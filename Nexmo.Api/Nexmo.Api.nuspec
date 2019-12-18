@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>4.2.1</version>
+    <version>4.2.2</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,8 +12,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * Fixing NCCO serialization bug
-      * Setting Microsoft.Extensions.Configuration.* to version 1.1.2
+      * adding ListOwnNumbers API
+      * Making basic JWT generation public
     </releaseNotes>
     <copyright>© Nexmo 2018</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
