@@ -36,9 +36,10 @@ Targeted frameworks:
 --------------
 
 * 4.5.2
+> NOTE: for 4.5.2 frameworks you will need to enable TLS 1.2 either via [registry](https://docs.microsoft.com/en-us/dotnet/framework/network-programming/tls#for-net-framework-35---452-and-not-wcf) or by setting it globablly - `System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;`
 * 4.6, 4.6.1, 4.6.2
 * .NET Standard 1.6, 2.0
-* ASP.NET Core 2.0
+* .NET Core 2.0, 2.1, 2.2, 3.0, 3.1
 
 Configuration:
 --------------
