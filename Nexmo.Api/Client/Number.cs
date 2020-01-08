@@ -10,6 +10,11 @@ namespace Nexmo.Api.ClientMethods
             Credentials = creds;
         }
 
+        public Api.Number.SearchResults ListOwnNumbers(Api.Number.SearchRequest request, Credentials creds = null)
+        {
+            return Api.Number.ListOwnNumbers(request, creds ?? Credentials);
+        }
+
         /// <summary>
         /// Retrieve the list of virtual numbers available for a specific country.
         /// </summary>

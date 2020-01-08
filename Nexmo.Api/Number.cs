@@ -97,6 +97,11 @@ namespace Nexmo.Api
             public IEnumerable<SearchResult> numbers { get; set; }
         }
 
+        public static SearchResults ListOwnNumbers(SearchRequest request, Credentials creds = null)
+        {
+            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers/"), request, creds);
+            return JsonConvert.DeserializeObject<SearchResults>(json);
+        }
         /// <summary>
         /// Retrieve the list of virtual numbers available for a specific country.
         /// </summary>
