@@ -42,7 +42,7 @@ namespace Nexmo.Api
             /// Set this optional field to true to restrict your results to numbers associated with an application (any application).
             /// Set to false to find all numbers not associated with any application. Omit the field to avoid filtering on whether or not the number is assigned to an application.
             /// </summary>
-            public bool has_application { get; set; }
+            public bool? has_application { get; set; }
 
             /// <summary>
             /// The application that you want to return the numbers for
