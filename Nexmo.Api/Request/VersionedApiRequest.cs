@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Reflection;
 using Nexmo.Api.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api.Request
 {
@@ -15,6 +16,7 @@ namespace Nexmo.Api.Request
     /// </summary>
     public static class VersionedApiRequest
     {
+        private const string LOGGER_CATEGORY = "Nexmo.Api.VersionedApiRequest";
         public enum AuthType
         {
             Basic,
@@ -36,6 +38,7 @@ namespace Nexmo.Api.Request
 
         private static string DoRequest(Uri uri, AuthType authType, Credentials creds = null)
         {
+            var logger = Api.Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
             var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
@@ -63,6 +66,9 @@ namespace Nexmo.Api.Request
 
             using (LogProvider.OpenMappedContext("VersionedApiRequest.DoRequest",uri.GetHashCode()))
             {
+                logger.LogDebug($"GET {uri}");
+
+                //TODO: Remove Deprecated Logger
                 Logger.Debug($"GET {uri}");
 
                 var sendTask = Configuration.Instance.Client.SendAsync(req);
@@ -70,6 +76,9 @@ namespace Nexmo.Api.Request
 
                 if (!sendTask.Result.IsSuccessStatusCode)
                 {
+                    logger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+
+                    //TODO: Remove Deprecated Logger
                     Logger.Error($"FAIL: {sendTask.Result.StatusCode}");
 
                     if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
@@ -86,6 +95,9 @@ namespace Nexmo.Api.Request
                 {
                     json = sr.ReadToEnd();
                 }
+                logger.LogDebug(json);
+
+                //TODO: Remove Deprecated Logger
                 Logger.Debug(json);
                 return json;
             }
@@ -139,6 +151,7 @@ namespace Nexmo.Api.Request
         /// <returns></returns>
         public static NexmoResponse DoRequest(string method, Uri uri, object payload, Credentials creds = null)
         {
+            var logger = Api.Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
             var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
@@ -172,12 +185,18 @@ namespace Nexmo.Api.Request
 
             using (LogProvider.OpenMappedContext("VersionedApiRequest.DoRequest",uri.GetHashCode()))
             {
+                logger.LogDebug($"{method} {uri} {payload}");
+
+                //TODO:Remove Deprecated Logger
                 Logger.Debug($"{method} {uri} {payload}");
                 var sendTask = Configuration.Instance.Client.SendAsync(req);
                 sendTask.Wait();
 
                 if (!sendTask.Result.IsSuccessStatusCode)
                 {
+                    logger.LogError($"FAIL: {sendTask.Result.StatusCode}");
+
+                    //TODO:Remove Deprecated Logger
                     Logger.Error($"FAIL: {sendTask.Result.StatusCode}");
 
                     if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
@@ -199,6 +218,9 @@ namespace Nexmo.Api.Request
                 {
                     json = sr.ReadToEnd();
                 }
+                logger.LogDebug(json);
+
+                //TODO: Remove Deprecated logger
                 Logger.Debug(json);
                 return new NexmoResponse
                 {
