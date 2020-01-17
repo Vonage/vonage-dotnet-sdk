@@ -44,7 +44,9 @@ Targeted frameworks:
 Configuration:
 --------------
 
-* Create a Nexmo Client instance and pass in credentials in the constructor
+To setup the configuration of the Nexmo Client you can do one of the following.
+
+* Create a Nexmo Client instance and pass in credentials in the constructor - this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id)
 
 ```csharp
 var client = new Client(creds: new Nexmo.Api.Request.Credentials
@@ -64,7 +66,7 @@ var results = client.SMS.Send(request: new SMS.SMSRequest
                 });
 ```
 
-Alternatively:
+Or
 
 * Provide the nexmo URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
 
@@ -82,12 +84,19 @@ Alternatively:
   }
 }
 ```
-
-* In the event multiple configuration files are found, the order of precedence is as follows:
+> Note: In the event multiple configuration files are found, the order of precedence is as follows:
 
 	* ```appsettings.json``` which overrides
 	* ```settings.json```
+Or
 
+* Access the Configuration instance and set the appropriate key in your code for example:
+```cshap
+Configuration.Instance.Settings["appSettings:Nexmo.Url.Api"] = "https://www.example.com/api";
+Configuration.Instance.Settings["appSettings:Nexmo.Url.Rest"] = "https://www.example.com/rest";
+```
+
+> NOTE: Private Key is the literal key - not a path to the file containing the key
 
 ### Configuration Reference
 
@@ -97,6 +106,8 @@ Nexmo.api_key | Your API key from the [dashboard](https://dashboard.nexmo.com/se
 Nexmo.api_secret | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)
 Nexmo.Application.Id | Your application ID
 Nexmo.Application.Key | Your application's private key
+Nexmo.security_secret | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages)
+Nexmo.signing_method | Optional. This is the method used for signing SMS messages
 Nexmo.Url.Rest | Optional. Nexmo REST API base URL. Defaults to https://rest.nexmo.com
 Nexmo.Url.Api | Optional. Nexmo API base URL. Defaults to https://api.nexmo.com
 Nexmo.Api.RequestsPerSecond | Optional. Throttle to specified requests per second.
