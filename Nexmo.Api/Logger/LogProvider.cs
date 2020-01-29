@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections.Generic;
 using System;
 namespace Nexmo.Api.Logger
@@ -10,7 +11,7 @@ namespace Nexmo.Api.Logger
 
         public static void SetLogFactory(ILoggerFactory factory)
         {
-            _loggerFactory.Dispose();
+            _loggerFactory?.Dispose();
             _loggerFactory = factory;
             _loggers.Clear();
         }
@@ -19,7 +20,7 @@ namespace Nexmo.Api.Logger
         {
             if (!_loggers.ContainsKey(category))
             {
-                _loggers[category] = _loggerFactory.CreateLogger(category);
+                _loggers[category] = _loggerFactory?.CreateLogger(category)?? NullLogger.Instance;
             }
             return _loggers[category];
         }
