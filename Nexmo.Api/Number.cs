@@ -99,8 +99,7 @@ namespace Nexmo.Api
 
         public static SearchResults ListOwnNumbers(SearchRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers/"), request, creds);
-            return JsonConvert.DeserializeObject<SearchResults>(json);
+            return ApiRequest.DoRequest<SearchResults>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers/"), request, creds);
         }
         /// <summary>
         /// Retrieve the list of virtual numbers available for a specific country.
@@ -110,8 +109,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static SearchResults Search(SearchRequest request, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/search/"), request, creds);
-            return JsonConvert.DeserializeObject<SearchResults>(json);
+            return ApiRequest.DoRequest<SearchResults>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/search/"), request, creds);
         }
 
         /// <summary>

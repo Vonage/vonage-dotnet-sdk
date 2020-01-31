@@ -127,24 +127,22 @@ namespace Nexmo.Api
             {
                 return new List<ApplicationResponse>
                 {
-                    JsonConvert.DeserializeObject<ApplicationResponse>(
-                        ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Application),
-                        $"/v1/applications/{AppId}"),
-                        // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
-                        new Dictionary<string, string>(),
-                        creds))
+                    ApiRequest.DoRequest<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application),
+                    $"/v1/applications/{AppId}"),
+                    // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
+                    new Dictionary<string, string>(),
+                    creds)
                 };
-
             }
 
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"), new Dictionary<string, string>
-            {
-                { "page_size", PageSize.ToString()},
-                { "page_index", PageIndex.ToString()}
-            },
-            creds);
-            var response = JsonConvert.DeserializeObject<ApplicationListResponse>(json);
-            return response._embedded.applications;
+            return ApiRequest.DoRequest<ApplicationListResponse>(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"),
+                new Dictionary<string, string>
+                {
+                    { "page_size", PageSize.ToString()},
+                    { "page_index", PageIndex.ToString()}
+                },
+                creds)
+                ._embedded.applications;
         }
 
         /// <summary>

@@ -87,9 +87,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static VerifyResponse Verify(VerifyRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request, creds);
-
-            return JsonConvert.DeserializeObject<VerifyResponse>(jsonstring);
+            return ApiRequest.DoRequest<VerifyResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request, creds);            
         }
 
         public class CheckRequest
@@ -140,14 +138,13 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static CheckResponse Check(CheckRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/check/json"), new Dictionary<string, string>
-            {
-                {"request_id", request.request_id},
-                {"code", request.code}
-            },
-            creds);
-
-            return JsonConvert.DeserializeObject<CheckResponse>(jsonstring);
+            return ApiRequest.DoRequest<CheckResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/check/json"),
+                new Dictionary<string, string>
+                {
+                    {"request_id", request.request_id},
+                    {"code", request.code}
+                },
+                creds);
         }
 
         public class SearchRequest
@@ -240,14 +237,12 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static SearchResponse Search(SearchRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/search/json"), new Dictionary<string, string>()
+            return ApiRequest.DoRequest<SearchResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/search/json"), new Dictionary<string, string>()
             {
                 {"request_id", request.request_id},
                 {"request_ids", request.request_ids}
             },
             creds);
-
-            return JsonConvert.DeserializeObject<SearchResponse>(jsonstring);
         }
 
         public class ControlRequest
@@ -284,9 +279,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ControlResponse Control(ControlRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), request, creds);
-
-            return JsonConvert.DeserializeObject<ControlResponse>(jsonstring);
+            return ApiRequest.DoRequest<ControlResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), request, creds);
         }
 }
 }

@@ -47,6 +47,7 @@ namespace Nexmo.Api
             public string ranges { get; set; }
         }
 
+        public class Topup { }
         public class Settings
         {
             [JsonProperty("api-secret")]
@@ -105,14 +106,11 @@ namespace Nexmo.Api
         /// <returns>Balance data</returns>
         public static Balance GetBalance(Credentials credentials = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
+            return ApiRequest.DoRequest<Balance>(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-balance"),
                 // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
                 new Dictionary<string, string>(),
                 credentials);
-
-            var obj = JsonConvert.DeserializeObject<Balance>(json);
-            return obj;
         }
 
         /// <summary>
@@ -133,13 +131,10 @@ namespace Nexmo.Api
                 parameters.Add("type", type);
             }
 
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
+            return ApiRequest.DoRequest<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-pricing/outbound/"),
                 parameters,
                 credentials);
-
-            var obj = JsonConvert.DeserializeObject<Pricing>(json);
-            return obj;
         }
 
         public static Pricing GetPrefixPricing(string prefix, string type, Credentials credentials = null)
@@ -150,13 +145,10 @@ namespace Nexmo.Api
                 { "type", type }
             }; 
 
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account),
+            return ApiRequest.DoRequest<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-prefix-pricing/outbound/"),
                 parameters,
                 credentials);
-
-            var obj = JsonConvert.DeserializeObject<Pricing>(json);
-            return obj;
         }
 
         /// <summary>
@@ -187,7 +179,7 @@ namespace Nexmo.Api
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         public static void TopUp(string transaction, Credentials credentials = null)
         {
-            ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/top-up"), new Dictionary<string, string>
+            ApiRequest.DoRequest<Topup>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/top-up"), new Dictionary<string, string>
             {
                 {"trx", transaction}
             },
@@ -214,8 +206,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static NumbersResponse GetNumbers(NumbersRequest request, Credentials credentials = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers"), request, credentials);
-            return JsonConvert.DeserializeObject<NumbersResponse>(json);
+            return ApiRequest.DoRequest<NumbersResponse>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers"), request, credentials);
         }
     }
 }

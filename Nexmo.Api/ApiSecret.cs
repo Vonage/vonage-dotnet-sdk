@@ -36,14 +36,11 @@ namespace Nexmo.Api
         /// <returns>List of secrets</returns>
         public static List<Secret> ListSecrets(string apiKey, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
+            return ApiRequest.DoRequest<Response<SecretList>>(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
                     $"/accounts/{apiKey}/secrets"),
                 // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
                 new Dictionary<string, string>(),
-                creds);
-
-            var response = JsonConvert.DeserializeObject<Response<SecretList>>(json);
-            return response._embedded.Secrets;
+                creds)._embedded.Secrets;
         }
 
         /// <summary>
@@ -54,13 +51,11 @@ namespace Nexmo.Api
         /// <returns>The secret</returns>
         public static Secret GetSecret(string apiKey, string secretId, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
+            return ApiRequest.DoRequest<Secret>(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
                     $"/accounts/{apiKey}/secrets/{secretId}"),
                 // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
                 new Dictionary<string, string>(),
                 creds);
-
-            return JsonConvert.DeserializeObject<Secret>(json);
         }
 
         /// <summary>

@@ -39,8 +39,7 @@ namespace Nexmo.Api
                 request.pin = new Random().Next(0, 9999);
             }
 
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/2fa/json"), request, creds);
-            return JsonConvert.DeserializeObject<SMS.SMSResponse>(json);
+            return ApiRequest.DoRequest<SMS.SMSResponse>(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/2fa/json"), request, creds);
         }
 
         /// <summary>

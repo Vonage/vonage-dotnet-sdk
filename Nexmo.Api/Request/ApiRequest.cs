@@ -132,17 +132,18 @@ namespace Nexmo.Api.Request
         /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
-        public static string DoRequest(Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
+        public static T DoRequest<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
         {
             var sb = BuildQueryString(parameters, creds);
-            return DoRequest(new Uri(uri, "?" + sb), creds);
+            var response = DoRequest(new Uri(uri, "?" + sb), creds);
+            return JsonConvert.DeserializeObject<T>(response);
         }
 
-        internal static string DoRequest(Uri uri, object parameters, Credentials creds = null)
+        internal static T DoRequest<T>(Uri uri, object parameters, Credentials creds = null)
         {
             var sb = GetQueryStringBuilderFor(parameters, creds);
-
-            return DoRequest(new Uri(uri, "?" + sb), creds);
+            var response = DoRequest(new Uri(uri, "?" + sb), creds);
+            return JsonConvert.DeserializeObject<T>(response);
         }
 
         internal static string DoRequest(Uri uri, Credentials creds)
