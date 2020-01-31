@@ -123,14 +123,12 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ResponseBase Buy(string country, string number, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/buy"), new Dictionary<string, string>
+            return ApiRequest.DoPostRequest<ResponseBase>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/buy"), new Dictionary<string, string>
             {
                 {"country", country},
                 {"msisdn", number}
             },
             creds);
-
-            return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }
 
         /// <summary>
@@ -141,9 +139,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ResponseBase Update(NumberUpdateCommand cmd, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/update"), cmd, creds);
-
-            return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
+            return ApiRequest.DoPostRequest<ResponseBase>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/update"), cmd, creds);
         }
 
         /// <summary>
@@ -155,14 +151,12 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ResponseBase Cancel(string country, string number, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Number), "/number/cancel"), new Dictionary<string, string>
+            return ApiRequest.DoPostRequest<ResponseBase>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/cancel"), new Dictionary<string, string>
             {
                 {"country", country},
                 {"msisdn", number}
             },
             creds);
-
-            return JsonConvert.DeserializeObject<ResponseBase>(response.JsonResponse);
         }
     }
 }

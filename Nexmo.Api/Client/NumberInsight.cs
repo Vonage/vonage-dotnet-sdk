@@ -53,15 +53,5 @@ namespace Nexmo.Api.ClientMethods
         {
             return Api.NumberInsight.RequestAsync(request, creds ?? Credentials);
         }
-
-        /// <summary>
-        /// Deserializes a NumberInsight response JSON string
-        /// </summary>
-        /// <param name="json">NumberInsight response JSON string</param>
-        /// <returns></returns>
-        public Api.NumberInsight.NumberInsightAdvancedResponse Response(string json)
-        {
-            return Api.NumberInsight.Response(json);
-        }
     }
 }

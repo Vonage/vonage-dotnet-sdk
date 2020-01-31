@@ -37,7 +37,10 @@ namespace Nexmo.Api
             [JsonProperty("timestamp")]
             public DateTime Timestamp { get; set; }
         }
+        public class ConversionResult
+        {
 
+        }
         /// <summary>
         /// Tells if a message or call was successful.
         /// </summary>
@@ -45,7 +48,7 @@ namespace Nexmo.Api
         /// <param name="creds"></param>
         public static void SubmitConversion (ConversionRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(new Uri($"https://api.nexmo.com/conversions/{ConversionType}"), request, creds);
+            ApiRequest.DoPostRequest<ConversionResult>(new Uri($"https://api.nexmo.com/conversions/{ConversionType}"), request, creds);
         }
     }
 }

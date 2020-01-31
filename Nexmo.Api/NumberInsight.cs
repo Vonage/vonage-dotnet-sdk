@@ -7,6 +7,9 @@ namespace Nexmo.Api
 {
     public static class NumberInsight
     {
+        private const string BASIC = "basic";
+        private const string STANDARD = "standard";
+        private const string ADVANCED = "advanced";
         public class NumberInsightRequest
         {
             /// <summary>
@@ -236,9 +239,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static NumberInsightBasicResponse RequestBasic(NumberInsightRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/basic/json"), request, creds);
-
-            return JsonConvert.DeserializeObject<NumberInsightBasicResponse>(response.JsonResponse);
+            return SendSynchronousInsightRequest<NumberInsightBasicResponse>(request, BASIC, creds);
         }
 
         /// <summary>
@@ -249,9 +250,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static NumberInsightStandardResponse RequestStandard(NumberInsightRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/standard/json"), request, creds);
-
-            return JsonConvert.DeserializeObject<NumberInsightStandardResponse>(response.JsonResponse);
+            return SendSynchronousInsightRequest<NumberInsightStandardResponse>(request, STANDARD, creds);
         }
 
         /// <summary>
@@ -259,12 +258,21 @@ namespace Nexmo.Api
         /// </summary>
         /// <param name="request">NI advenced request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="NumberInishghtRequestException">Thrown when response holds a bad status</exception>
         /// <returns></returns>
         public static NumberInsightAdvancedResponse RequestAdvanced(NumberInsightRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/json"), request, creds);
+            return SendSynchronousInsightRequest<NumberInsightAdvancedResponse>(request, ADVANCED, creds);
+        }
 
-            return JsonConvert.DeserializeObject<NumberInsightAdvancedResponse>(response.JsonResponse);
+        public static T SendSynchronousInsightRequest<T>(NumberInsightRequest request, string level, Credentials creds = null) where T : NumberInsightBasicResponse
+        {
+            var response = ApiRequest.DoPostRequest<T>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), $"/ni/{level}/json"), request, creds);
+            if (response?.Status != "0")
+            {
+                throw new NumberInsightRequestException($"Number Inisght Request failed with status of: {response?.Status} and with an error message of {response?.StatusMessage}");
+            }
+            return response;
         }
 
         /// <summary>
@@ -294,19 +302,12 @@ namespace Nexmo.Api
                 parameters.Add("ip", request.IPAddress);
             }
 
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/async/json"), parameters, creds);
-
-            return JsonConvert.DeserializeObject<NumberInsightAsyncRequestResponse>(response.JsonResponse);
+            return ApiRequest.DoPostRequest<NumberInsightAsyncRequestResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/async/json"), parameters, creds);
         }
 
-        /// <summary>
-        /// Deserializes a NumberInsight response JSON string
-        /// </summary>
-        /// <param name="json">NumberInsight response JSON string</param>
-        /// <returns></returns>
-        public static NumberInsightAdvancedResponse Response(string json)
+        public class NumberInsightRequestException : Exception
         {
-            return JsonConvert.DeserializeObject<NumberInsightAdvancedResponse>(json);
+            public NumberInsightRequestException(string message) : base(message) { }
         }
     }
 }

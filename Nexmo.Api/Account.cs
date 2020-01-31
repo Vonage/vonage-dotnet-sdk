@@ -177,11 +177,7 @@ namespace Nexmo.Api
             if (null != httpDrCallbackurlCom)
                 parameters.Add("drCallBackUrl", httpDrCallbackurlCom);
 
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Account), "/account/settings"), parameters, credentials);
-
-            // TODO: update secret in config?
-
-            return JsonConvert.DeserializeObject<Settings>(response.JsonResponse);
+            return ApiRequest.DoPostRequest<Settings>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/settings"), parameters, credentials);
         }
 
         /// <summary>

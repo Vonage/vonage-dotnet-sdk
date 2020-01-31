@@ -110,9 +110,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ApplicationResponse Create(ApplicationRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"), request, creds);
-
-            return JsonConvert.DeserializeObject<ApplicationResponse>(response.JsonResponse);
+            return ApiRequest.DoPostRequest<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"), request, creds);
         }
 
         /// <summary>
@@ -158,10 +156,8 @@ namespace Nexmo.Api
         public static ApplicationResponse Update(ApplicationRequest request, Credentials creds = null)
         {
             var sb = ApiRequest.GetQueryStringBuilderFor(request);
-            var response = ApiRequest.DoPutRequest(ApiRequest.GetBaseUriFor(typeof(Application),
+            return ApiRequest.DoPutRequest<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application),
                 $"/v1/applications/{request.id}?{sb}"), null, creds);
-
-            return JsonConvert.DeserializeObject<ApplicationResponse>(response.JsonResponse);
         }
 
         /// <summary>
