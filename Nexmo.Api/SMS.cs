@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using System.Net;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -122,7 +120,7 @@ namespace Nexmo.Api
             /// </summary>
             public string type { get; set; }
             /// <summary>
-            /// The SMS body. Messages where type is text (the default) are in UTF-8 with URL encoding. You send "Déjà vu" as a text (type=text) message as long as you encode it as D%C3%A9j%C3%A0+vu. You can see the full UTF-8 character set here  . To test if your message can be URL encoded, use: http://www.url-encode-decode.com/  . If you cannot find the character you want to send in these two references, you should use unicode. For more information, see Encoding.
+            /// The SMS body. Messages where type is text (the default) are in UTF-8 with URL encoding. You send "Dï¿½jï¿½ vu" as a text (type=text) message as long as you encode it as D%C3%A9j%C3%A0+vu. You can see the full UTF-8 character set here  . To test if your message can be URL encoded, use: http://www.url-encode-decode.com/  . If you cannot find the character you want to send in these two references, you should use unicode. For more information, see Encoding.
             /// </summary>
             public string text { get; set; }
             /// <summary>
@@ -270,7 +268,7 @@ namespace Nexmo.Api
             /// </summary>
             public string scts { get; set; }
             /// <summary>
-            /// The time at UTC±00:00 when Nexmo started to push this Delivery Receipt to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
+            /// The time at UTCï¿½00:00 when Nexmo started to push this Delivery Receipt to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
             /// </summary>
             [JsonProperty("message-timestamp")]
             public DateTime message_timestamp { get; set; }
@@ -303,7 +301,7 @@ namespace Nexmo.Api
             /// </summary>
             public string messageId { get; set; }
             /// <summary>
-            /// The time at UTC±00:00  that Nexmo started to push this inbound message to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
+            /// The time at UTCï¿½00:00  that Nexmo started to push this inbound message to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
             /// </summary>
             [JsonProperty("message-timestamp")]
             public string message_timestamp { get; set; }
@@ -400,10 +398,22 @@ namespace Nexmo.Api
         /// <summary>
         /// Send a SMS message.
         /// </summary>
-        /// <param name="request">The SMS message request</param>
-        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// <returns></returns>
+        /// <param name="request">The SMS message request.</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request.</param>
+        /// <returns>The completed SMSResponse or null on error.</returns>
         public static SMSResponse Send(SMSRequest request, Credentials creds = null)
+        {
+            return Send(request, out HttpStatusCode statusCode, creds);
+        }
+
+        /// <summary>
+        /// Send a SMS message.
+        /// </summary>
+        /// <param name="request">The SMS message request.</param>
+        /// <param name="statusCode">The HttpStatusCode returned from the request.</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request.</param>
+        /// <returns>The completed SMSResponse or null on error.</returns>
+        public static SMSResponse Send(SMSRequest request, out HttpStatusCode statusCode, Credentials creds = null)
         {
             if (string.IsNullOrEmpty(request.from))
             {
@@ -411,8 +421,9 @@ namespace Nexmo.Api
             }
 
             var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(SMSResponse), "/sms/json"), request, creds);
+            statusCode = response.Status;
 
-            return JsonConvert.DeserializeObject<SMSResponse>(response.JsonResponse);
+            return response.JsonResponse == null ? null : JsonConvert.DeserializeObject<SMSResponse>(response.JsonResponse);
         }
     }
 }
