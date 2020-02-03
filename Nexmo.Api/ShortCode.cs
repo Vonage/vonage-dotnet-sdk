@@ -40,7 +40,7 @@ namespace Nexmo.Api
             }
             var response = ApiRequest.DoRequest<SMS.SMSResponse>(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/2fa/json"), request, creds);
             SMS.ValidateSmsResponse(response);            
-            return ApiRequest.DoRequest<SMS.SMSResponse>(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/2fa/json"), request, creds);
+            return response;
         }
 
         /// <summary>

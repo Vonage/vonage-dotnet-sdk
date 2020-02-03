@@ -194,7 +194,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Get(string appId, Credentials credentials = null)
         {
-            return ApiRequest.DoRequest<AppResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), credentials);            
+            return ApiRequest.DoRequest<AppResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), ApiRequest.AuthType.Query, credentials);
         }
        
         /// <summary>

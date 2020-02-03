@@ -274,7 +274,7 @@ namespace Nexmo.Api
         /// <exception cref="VerifyResponseException">throws an exception if the status is non-0</exception>
         public static void ValidateVerifyResponse(VerifyResponseBase response)
         {
-            if (string.Equals(response.status,"0"))
+            if (!string.Equals(response.status,"0"))
             {
                 throw new VerifyResponseException($"Error encountered during verify request - API returned a status of: {response.status} with an error text of: {response.error_text}")
                 {
