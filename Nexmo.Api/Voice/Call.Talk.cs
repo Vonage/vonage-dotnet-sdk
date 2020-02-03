@@ -43,7 +43,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallCommandResponse BeginTalk(string id, TalkCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/talk"), cmd, creds);
+            var response = ApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/talk"), cmd, ApiRequest.AuthType.Bearer, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }
@@ -55,7 +55,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallCommandResponse EndTalk(string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/talk"), new {}, creds);
+            var response = ApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/talk"), new {}, ApiRequest.AuthType.Bearer, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }
@@ -68,7 +68,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallCommandResponse SendDtmf(string id, DtmfCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/dtmf"), cmd, creds);
+            var response = ApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/dtmf"), cmd, ApiRequest.AuthType.Bearer, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }

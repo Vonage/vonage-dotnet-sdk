@@ -10,7 +10,6 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Nexmo.Api.Request
 {
@@ -20,7 +19,51 @@ namespace Nexmo.Api.Request
     /// </summary>
     public static class ApiRequest
     {
+        public enum AuthType
+        {
+            Basic,
+            Bearer,
+            Query
+        }
         private static readonly ILog Logger = LogProvider.GetLogger(typeof(ApiRequest), "Nexmo.Api.Request.ApiRequest");
+
+        private static string _userAgent;
+
+        internal static void SetUserAgent(ref HttpRequestMessage request, Credentials creds)
+        {
+            if (string.IsNullOrEmpty(_userAgent))
+            {
+#if NETSTANDARD1_6 || NETSTANDARD2_0
+                // TODO: watch the next core release; may have functionality to make this cleaner
+                var runtimeVersion = (System.Runtime.InteropServices.RuntimeInformation.OSDescription + System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
+                    .Replace(" ", "")
+                    .Replace("/", "")
+                    .Replace(":", "")
+                    .Replace(";", "")
+                    .Replace("_", "")
+                    ;
+#else
+                var runtimeVersion = System.Diagnostics.FileVersionInfo
+                    .GetVersionInfo(typeof(int).Assembly.Location)
+                    .ProductVersion;
+#endif
+                var libraryVersion = typeof(ApiRequest)
+                    .GetTypeInfo()
+                    .Assembly
+                    .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                    .InformationalVersion;
+
+                _userAgent = $"nexmo-dotnet/{libraryVersion} dotnet/{runtimeVersion}";
+
+                var appVersion = creds?.AppUserAgent ?? Configuration.Instance.Settings["appSettings:Nexmo.UserAgent"];
+                if (!string.IsNullOrWhiteSpace(appVersion))
+                {
+                    _userAgent += $" {appVersion}";
+                }
+            }
+
+            request.Headers.UserAgent.ParseAdd(_userAgent);
+        }
 
         private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null)
         {
@@ -117,10 +160,22 @@ namespace Nexmo.Api.Request
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
 
-        internal static StringBuilder GetQueryStringBuilderFor(object parameters, Credentials creds = null)
+        internal static StringBuilder GetQueryStringBuilderFor(object parameters, AuthType type, Credentials creds = null)
         {
             var apiParams = GetParameters(parameters);
-            var sb = BuildQueryString(apiParams, creds);
+            var sb = new StringBuilder();
+            if (type == AuthType.Query)
+            {
+                sb = BuildQueryString(apiParams, creds);
+            }
+            else
+            {
+                foreach (var key in apiParams.Keys)
+                {
+                    sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(apiParams[key]));
+                }
+            }
+            
             return sb;
         }
 
@@ -135,19 +190,34 @@ namespace Nexmo.Api.Request
         public static T DoRequest<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
         {
             var sb = BuildQueryString(parameters, creds);
-            var response = DoRequest(new Uri(uri, "?" + sb), creds);
-            return JsonConvert.DeserializeObject<T>(response);
+            return DoRequest<T>(new Uri(uri, "?" + sb), AuthType.Query, creds);            
         }
 
         internal static T DoRequest<T>(Uri uri, object parameters, Credentials creds = null)
         {
-            var sb = GetQueryStringBuilderFor(parameters, creds);
-            var response = DoRequest(new Uri(uri, "?" + sb), creds);
-            return JsonConvert.DeserializeObject<T>(response);
+            var sb = GetQueryStringBuilderFor(parameters, AuthType.Query, creds);
+            return DoRequest<T>(new Uri(uri, "?" + sb), AuthType.Query, creds);            
         }
 
-        internal static string DoRequest(Uri uri, Credentials creds)
+        /// <summary>
+        /// Send a GET request to the versioned Nexmo API.
+        /// Do not include credentials in the parameters object. If you need to override credentials, use the optional Credentials parameter.
+        /// </summary>
+        /// <param name="uri">The URI to GET</param>
+        /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <returns></returns>
+        public static T DoRequest<T>(Uri uri, object parameters, AuthType authType, Credentials creds = null)
         {
+            var sb = GetQueryStringBuilderFor(parameters, authType);
+
+            return DoRequest<T>(new Uri(uri, "?" + sb), authType, creds);
+        }
+
+        internal static T DoRequest<T>(Uri uri, AuthType authType, Credentials creds)
+        {
+            var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
+            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
             var req = new HttpRequestMessage
@@ -155,18 +225,21 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = HttpMethod.Get
             };
-            VersionedApiRequest.SetUserAgent(ref req, creds);
-
-            // do we need to use basic auth?
-            // TODO / HACK: this is a newer auth method that needs to be incorporated better in the future
-            if (uri.AbsolutePath.StartsWith("/accounts/") || uri.AbsolutePath.StartsWith("/v2/applications"))
+            SetUserAgent(ref req, creds);
+            
+            if (authType == AuthType.Basic)
             {
                 var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
                 req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
                     Convert.ToBase64String(authBytes));
             }
+            else if (authType == AuthType.Bearer)
+            {
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+                    Jwt.CreateToken(appId, appKeyPath));
+            }
             Logger.Debug($"GET {uri}");
-            return SendRequest(req).JsonResponse;
+            return JsonConvert.DeserializeObject<T>(SendRequest(req).JsonResponse);            
         }
 
         /// <summary>
@@ -192,29 +265,11 @@ namespace Nexmo.Api.Request
                 RequestUri = uri,
                 Method = new HttpMethod(method)
             };
-            VersionedApiRequest.SetUserAgent(ref req, creds);
+            SetUserAgent(ref req, creds);
             
             var data = Encoding.ASCII.GetBytes(sb.ToString());
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
-            Logger.Debug($"{method} {uri} {sb}");
-            return SendRequest(req);
-        }
-
-        public static NexmoResponse DoRequest(string method, Uri uri, object requestBody, Credentials creds = null)
-        {
-            var parameters = new Dictionary<string, string>();
-            var sb = BuildQueryString(parameters, creds);
-
-            var requestContent = JsonConvert.SerializeObject(requestBody);
-
-            var req = new HttpRequestMessage
-            {
-                RequestUri = new Uri((uri.OriginalString + $"?{sb}").ToLower()),
-                Method = new HttpMethod(method),
-                Content = new StringContent(requestContent, Encoding.UTF8, "application/json"),
-            };
-            VersionedApiRequest.SetUserAgent(ref req, creds);
             Logger.Debug($"{method} {uri} {sb}");
             return SendRequest(req);
         }
@@ -243,6 +298,53 @@ namespace Nexmo.Api.Request
                 throw new NexmoHttpRequestException(exception.Message) { StatusCode = response.StatusCode, Json = json };
             }
         }
+
+        /// <summary>
+        /// Send a request to the versioned Nexmo API.
+        /// Do not include credentials in the parameters object. If you need to override credentials, use the optional Credentials parameter.
+        /// </summary>
+        /// <param name="method">HTTP method (POST, PUT, DELETE, etc)</param>
+        /// <param name="uri">The URI to communicate with</param>
+        /// <param name="payload">Parameters required by the endpoint (do not include credentials)</param>
+        /// <param name="authType">Authorization type used on the API</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        public static NexmoResponse DoRequest(string method, Uri uri, object payload, AuthType authType, Credentials creds)
+        {
+            var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
+            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
+            var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
+            var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
+            var req = new HttpRequestMessage
+            {
+                RequestUri = uri,
+                Method = new HttpMethod(method),
+            };
+            SetUserAgent(ref req, creds);
+            
+            if (authType == AuthType.Basic)
+            {
+                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(authBytes));
+            }
+            else if (authType == AuthType.Bearer)
+            {
+                // attempt bearer token auth
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+                    Jwt.CreateToken(appId, appKeyPath));
+            }
+            else
+            {
+                throw new ArgumentException("Unkown Auth Type set for function");
+            }
+
+            var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload,
+                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
+            req.Content = new ByteArrayContent(data);
+            req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            return SendRequest(req);
+        }
         internal static HttpResponseMessage DoRequestJwt(Uri uri, Credentials creds)
         {
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
@@ -254,7 +356,7 @@ namespace Nexmo.Api.Request
                 Method = HttpMethod.Get
             };
 
-            VersionedApiRequest.SetUserAgent(ref req, creds);
+            SetUserAgent(ref req, creds);
 
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(appId, appKeyPath));

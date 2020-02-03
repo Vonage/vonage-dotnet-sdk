@@ -153,7 +153,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ApplicationResponse Update(ApplicationRequest request, Credentials creds = null)
         {
-            var sb = ApiRequest.GetQueryStringBuilderFor(request);
+            var sb = ApiRequest.GetQueryStringBuilderFor(request, ApiRequest.AuthType.Query);
             return ApiRequest.DoPutRequest<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application),
                 $"/v1/applications/{request.id}?{sb}"), null, creds);
         }
@@ -166,7 +166,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static bool Delete(string appId, Credentials creds = null)
         {
-            var sb = ApiRequest.GetQueryStringBuilderFor(new object());
+            var sb = ApiRequest.GetQueryStringBuilderFor(new object(), ApiRequest.AuthType.Query);
             var response = ApiRequest.DoDeleteRequest(ApiRequest.GetBaseUriFor(typeof(Application),
                 $"/v1/applications/{appId}?{sb}"), null, creds);
 

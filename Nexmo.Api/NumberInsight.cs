@@ -270,7 +270,7 @@ namespace Nexmo.Api
             var response = ApiRequest.DoPostRequest<T>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), $"/ni/{level}/json"), request, creds);
             if (response?.Status != "0")
             {
-                throw new NumberInsightRequestException($"Number Inisght Request failed with status of: {response?.Status} and with an error message of {response?.StatusMessage}");
+                throw new NumberInsightResponseException($"Number Inisght Request failed with status of: {response?.Status} and with an error message of {response?.StatusMessage}");
             }
             return response;
         }
@@ -305,9 +305,9 @@ namespace Nexmo.Api
             return ApiRequest.DoPostRequest<NumberInsightAsyncRequestResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/async/json"), parameters, creds);
         }
 
-        public class NumberInsightRequestException : Exception
+        public class NumberInsightResponseException : Exception
         {
-            public NumberInsightRequestException(string message) : base(message) { }
+            public NumberInsightResponseException(string message) : base(message) { }
         }
     }
 }

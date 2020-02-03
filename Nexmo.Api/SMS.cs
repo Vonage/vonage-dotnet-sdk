@@ -402,7 +402,7 @@ namespace Nexmo.Api
         /// </summary>
         /// <param name="request">The SMS message request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// <exception cref="SmsRequestException">Thrown when the status of a message is non-zero or response is empty</exception>
+        /// <exception cref="SmsResponseException">Thrown when the status of a message is non-zero or response is empty</exception>
         /// <returns></returns>
         public static SMSResponse Send(SMSRequest request, Credentials creds = null)
         {
@@ -411,20 +411,30 @@ namespace Nexmo.Api
                 request.from = Configuration.Instance.Settings["Nexmo.sender_id"];
             }
             var response = ApiRequest.DoPostRequest<SMSResponse>(ApiRequest.GetBaseUriFor(typeof(SMSResponse), "/sms/json"), request, creds);
+            ValidateSmsResponse(response);
+            return response;
+        }
+
+        /// <summary>
+        /// Validates the SMS Response, throws an exception if status is non-zero
+        /// </summary>
+        /// <exception cref="SMSResponse"
+        /// <param name="response"></param>
+        /// <exception cref="SmsResponseException">thrown if status of SMS response is non-zero</exception>
+        public static void ValidateSmsResponse(SMSResponse response)
+        {
             if (response?.messages == null)
             {
-                throw new SmsRequestException("Unexpected Response from API");
+                throw new SmsResponseException("Unexpected Response from SMS API");
             }
-            if(response?.messages[0].status != "0")
+            if (response?.messages[0].status != "0")
             {
-                throw new SmsRequestException($"SMS Request Failed with status: {response.messages[0].status} and error message: {response.messages[0].error_text}");
+                throw new SmsResponseException($"SMS Request Failed with status: {response.messages[0].status} and error message: {response.messages[0].error_text}");
             }
-            return response;
-
         }
     }
-    public class SmsRequestException : Exception
+    public class SmsResponseException : Exception
     {
-        public SmsRequestException(string message) : base(message) { }
+        public SmsResponseException(string message) : base(message) { }
     }
 }
