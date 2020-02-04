@@ -54,7 +54,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using Nexmo.Api.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api
@@ -66,8 +65,6 @@ namespace Nexmo.Api
 
         private const string pkcs8privheader = "-----BEGIN PRIVATE KEY-----";
         private const string pkcs8privfooter = "-----END PRIVATE KEY-----";
-
-        private static readonly ILog Logger = LogProvider.For<PemParse>();
 
         private const string LOGGER_CATEGORY = "Nexmo.Api.PemParse";
 
@@ -81,9 +78,6 @@ namespace Nexmo.Api
             if (!(isPkcs1 || isPkcs8))
             {
                 logger.LogError("App private key is not in PKCS#1 or PKCS#8 format!");
-
-                //TODO remove deprecated Log on new major version
-                Logger.Error("App private key is not in PKCS#1 or PKCS#8 format!");
                 
                 return null;
             }
@@ -93,8 +87,6 @@ namespace Nexmo.Api
                 return DecodeRSAPrivateKey(pemprivatekey, isPkcs8);
             logger.LogError("App private key failed decode!");
 
-            //TODO remove deprecated Log on new major version
-            Logger.Error("App private key failed decode!");
             return null;
         }
 
@@ -196,8 +188,6 @@ namespace Nexmo.Api
                     {
                         logger.LogError("RSA decode fail: Expected sequence");
 
-                        //TODO: remove deprecated Log on new major version
-                        Logger.Error("RSA decode fail: Expected sequence");
                         return null;
                     }
 
@@ -207,8 +197,6 @@ namespace Nexmo.Api
 
                         logger.LogError("RSA decode fail: Version number mismatch");
 
-                        //TODO: remove deprecated Log on new major version
-                        Logger.Error("RSA decode fail: Version number mismatch");
                         return null;
                     }
                     bt = binr.ReadByte();
@@ -216,8 +204,6 @@ namespace Nexmo.Api
                     {
                         logger.LogError("RSA decode fail: 00 read fail");
 
-                        //TODO: remove deprecated Log on new major version
-                        Logger.Error("RSA decode fail: 00 read fail");
                         return null;
                     }
 
@@ -229,8 +215,6 @@ namespace Nexmo.Api
                         {
                             logger.LogError("RSA decode fail: PKCS#8 expected sequence");
 
-                            //TODO: remove deprecated Log on new major version
-                            Logger.Error("RSA decode fail: PKCS#8 expected sequence");
                             return null;
                         }
                         bt = binr.ReadByte(); // length in octets, should be 0x0d
@@ -298,8 +282,6 @@ namespace Nexmo.Api
                 {
                     logger.LogError($"DecodeRSAPrivateKey fail: {ex.Message}, {ex.InnerException?.Message}");
 
-                    //TODO: remove deprecated Log on new major version
-                    Logger.Error($"DecodeRSAPrivateKey fail: {ex.Message}, {ex.InnerException?.Message}");
                     return null;
                 }
             }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Nexmo.Api.Logging;
 using Nexmo.Api.Request;
 using System;
 using System.Collections.Generic;
@@ -55,18 +54,12 @@ namespace Nexmo.Api
             if (authCapabilities.Count == 0)
             {
                 logger.LogInformation("No authentication found via configuration. Remember to provide your own.");
-                //TODO Remove Depricated Logger call
-                Logger.Info("No authentication found via configuration. Remember to provide your own.");
             }
             else
             {
                 logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
-                //TODO Remove Depricated Logger call
-                Logger.Info("Available authentication: {0}", string.Join(",", authCapabilities));
             }
         }
-
-        private static readonly ILog Logger = Api.Logging.LogProvider.For<Configuration>();
 
         public static Configuration Instance { get; } = new Configuration();
 
