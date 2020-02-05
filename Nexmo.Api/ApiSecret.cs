@@ -36,7 +36,7 @@ namespace Nexmo.Api
         /// <returns>List of secrets</returns>
         public static List<Secret> ListSecrets(string apiKey, Credentials creds = null)
         {
-            return ApiRequest.DoRequest<Response<SecretList>>(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
+            return ApiRequest.DoGetRequest<Response<SecretList>>(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
                     $"/accounts/{apiKey}/secrets"),
                 // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
                 new Dictionary<string, string>(),
@@ -51,7 +51,7 @@ namespace Nexmo.Api
         /// <returns>The secret</returns>
         public static Secret GetSecret(string apiKey, string secretId, Credentials creds = null)
         {
-            return ApiRequest.DoRequest<Secret>(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
+            return ApiRequest.DoGetRequest<Secret>(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
                     $"/accounts/{apiKey}/secrets/{secretId}"),
                 // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
                 new Dictionary<string, string>(),
@@ -72,7 +72,7 @@ namespace Nexmo.Api
         /// <returns>The created secret</returns>
         public static Secret CreateSecret(string apiKey, string newSecret, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(ApiSecret), $"/accounts/{apiKey}/secrets"), new SecretRequest { Secret = newSecret }, ApiRequest.AuthType.Basic, creds);
+            var response = ApiRequest.DoRequestWithJsonContent("POST", ApiRequest.GetBaseUriFor(typeof(ApiSecret), $"/accounts/{apiKey}/secrets"), new SecretRequest { Secret = newSecret }, ApiRequest.AuthType.Basic, creds);
 
             return JsonConvert.DeserializeObject<Secret>(response.JsonResponse);
         }
@@ -84,7 +84,7 @@ namespace Nexmo.Api
         /// <param name="secretId">ID of the API Secret</param>
         public static bool DeleteSecret(string apiKey, string secretId, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(ApiSecret),
+            var response = ApiRequest.DoRequestWithJsonContent("DELETE", ApiRequest.GetBaseUriFor(typeof(ApiSecret),
                 $"/accounts/{apiKey}/secrets/{secretId}"), null, ApiRequest.AuthType.Basic, creds);
 
             return response.Status == HttpStatusCode.NoContent;

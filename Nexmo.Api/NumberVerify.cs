@@ -92,7 +92,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static VerifyResponse Verify(VerifyRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequest<VerifyResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request, creds);
+            var response = ApiRequest.DoGetRequest<VerifyResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request, ApiRequest.AuthType.Query, creds);
             ValidateVerifyResponse(response);
             return response;
         }
@@ -137,7 +137,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static CheckResponse Check(CheckRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequest<CheckResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/check/json"),
+            var response = ApiRequest.DoGetRequest<CheckResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/check/json"),
                 new Dictionary<string, string>
                 {
                     {"request_id", request.request_id},
@@ -224,7 +224,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static SearchResponse Search(SearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoRequest<SearchResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/search/json"), new Dictionary<string, string>()
+            return ApiRequest.DoGetRequest<SearchResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/search/json"), new Dictionary<string, string>()
             {
                 {"request_id", request.request_id},
                 {"request_ids", request.request_ids}
@@ -262,7 +262,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ControlResponse Control(ControlRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequest<ControlResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), request, creds);
+            var response = ApiRequest.DoGetRequest<ControlResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), request, ApiRequest.AuthType.Query, creds);
             ValidateVerifyResponse(response);
             return response;
         }

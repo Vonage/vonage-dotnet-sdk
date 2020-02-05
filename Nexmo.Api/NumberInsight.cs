@@ -302,7 +302,7 @@ namespace Nexmo.Api
                 parameters.Add("ip", request.IPAddress);
             }
 
-            return ApiRequest.DoPostRequest<NumberInsightAsyncRequestResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/async/json"), parameters, creds);
+            return ApiRequest.DoPostRequestWithUrlContent<NumberInsightAsyncRequestResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/async/json"), parameters, creds);
         }
 
         public class NumberInsightResponseException : Exception

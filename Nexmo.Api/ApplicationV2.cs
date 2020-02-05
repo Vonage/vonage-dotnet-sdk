@@ -181,7 +181,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Create(AppRequest request, Credentials credentials = null)
         {
-            var response = ApiRequest.DoRequest("POST",ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, ApiRequest.AuthType.Basic,  credentials);
+            var response = ApiRequest.DoRequestWithJsonContent("POST",ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, ApiRequest.AuthType.Basic,  credentials);
 
             return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
         }
@@ -194,7 +194,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Get(string appId, Credentials credentials = null)
         {
-            return ApiRequest.DoRequest<AppResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), ApiRequest.AuthType.Query, credentials);
+            return ApiRequest.DoGetRequest<AppResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), ApiRequest.AuthType.Query, credentials);
         }
        
         /// <summary>
@@ -208,7 +208,7 @@ namespace Nexmo.Api
         public static List<AppResponse> List(int pageSize = 10, int page = 0,  Credentials credentials = null)
         {
             var filter = new AppListFilter() { page = page, page_size = pageSize };
-            return ApiRequest.DoRequest<AppListResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), filter, ApiRequest.AuthType.Basic, credentials)._embedded.Applications;
+            return ApiRequest.DoGetRequest<AppListResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), filter, ApiRequest.AuthType.Basic, credentials)._embedded.Applications;
             
         }
 
@@ -226,7 +226,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Update(AppRequest request, Credentials credentials = null)
         {
-            var response = ApiRequest.DoRequest("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+            var response = ApiRequest.DoRequestWithJsonContent("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
                 $"/v2/applications/{request.Id}"), request, ApiRequest.AuthType.Basic, credentials);
 
             return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
@@ -240,7 +240,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static bool Delete(string appId, Credentials credentials = null)
         {
-            var response = ApiRequest.DoRequest("DELETE",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+            var response = ApiRequest.DoRequestWithJsonContent("DELETE",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
                 $"/v2/applications/{appId}"), null, ApiRequest.AuthType.Basic, credentials);
 
             return response.Status == HttpStatusCode.NoContent;

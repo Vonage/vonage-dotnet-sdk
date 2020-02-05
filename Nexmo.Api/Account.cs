@@ -106,7 +106,7 @@ namespace Nexmo.Api
         /// <returns>Balance data</returns>
         public static Balance GetBalance(Credentials credentials = null)
         {
-            return ApiRequest.DoRequest<Balance>(ApiRequest.GetBaseUriFor(typeof(Account),
+            return ApiRequest.DoGetRequest<Balance>(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-balance"),
                 // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
                 new Dictionary<string, string>(),
@@ -131,7 +131,7 @@ namespace Nexmo.Api
                 parameters.Add("type", type);
             }
 
-            return ApiRequest.DoRequest<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
+            return ApiRequest.DoGetRequest<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-pricing/outbound/"),
                 parameters,
                 credentials);
@@ -145,7 +145,7 @@ namespace Nexmo.Api
                 { "type", type }
             }; 
 
-            return ApiRequest.DoRequest<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
+            return ApiRequest.DoGetRequest<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-prefix-pricing/outbound/"),
                 parameters,
                 credentials);
@@ -169,7 +169,7 @@ namespace Nexmo.Api
             if (null != httpDrCallbackurlCom)
                 parameters.Add("drCallBackUrl", httpDrCallbackurlCom);
 
-            return ApiRequest.DoPostRequest<Settings>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/settings"), parameters, credentials);
+            return ApiRequest.DoPostRequestWithUrlContent<Settings>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/settings"), parameters, credentials);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Nexmo.Api
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         public static void TopUp(string transaction, Credentials credentials = null)
         {
-            ApiRequest.DoRequest<Topup>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/top-up"), new Dictionary<string, string>
+            ApiRequest.DoGetRequest<Topup>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/top-up"), new Dictionary<string, string>
             {
                 {"trx", transaction}
             },
@@ -206,7 +206,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static NumbersResponse GetNumbers(NumbersRequest request, Credentials credentials = null)
         {
-            return ApiRequest.DoRequest<NumbersResponse>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers"), request, credentials);
+            return ApiRequest.DoGetRequest<NumbersResponse>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers"), request, ApiRequest.AuthType.Query, credentials);
         }
     }
 }

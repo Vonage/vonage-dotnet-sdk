@@ -127,7 +127,7 @@ namespace Nexmo.Api
             {
                 return new List<ApplicationResponse>
                 {
-                    ApiRequest.DoRequest<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application),
+                    ApiRequest.DoGetRequest<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application),
                     $"/v1/applications/{AppId}"),
                     // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
                     new Dictionary<string, string>(),
@@ -135,7 +135,7 @@ namespace Nexmo.Api
                 };
             }
 
-            return ApiRequest.DoRequest<ApplicationListResponse>(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"),
+            return ApiRequest.DoGetRequest<ApplicationListResponse>(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"),
                 new Dictionary<string, string>
                 {
                     { "page_size", PageSize.ToString()},
@@ -154,7 +154,7 @@ namespace Nexmo.Api
         public static ApplicationResponse Update(ApplicationRequest request, Credentials creds = null)
         {
             var sb = ApiRequest.GetQueryStringBuilderFor(request, ApiRequest.AuthType.Query);
-            return ApiRequest.DoPutRequest<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application),
+            return ApiRequest.DoPutRequestWithUrlContent<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application),
                 $"/v1/applications/{request.id}?{sb}"), null, creds);
         }
 
@@ -167,7 +167,7 @@ namespace Nexmo.Api
         public static bool Delete(string appId, Credentials creds = null)
         {
             var sb = ApiRequest.GetQueryStringBuilderFor(new object(), ApiRequest.AuthType.Query);
-            var response = ApiRequest.DoDeleteRequest(ApiRequest.GetBaseUriFor(typeof(Application),
+            var response = ApiRequest.DoDeleteRequestWithUrlContent(ApiRequest.GetBaseUriFor(typeof(Application),
                 $"/v1/applications/{appId}?{sb}"), null, creds);
 
             return response.Status == HttpStatusCode.NoContent;

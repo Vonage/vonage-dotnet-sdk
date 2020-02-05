@@ -286,7 +286,7 @@ namespace Nexmo.Api.Voice
         /// <returns></returns>
         public static CallResponse Do(CallCommand cmd, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), cmd, ApiRequest.AuthType.Bearer, creds);
+            var response = ApiRequest.DoRequestWithJsonContent("POST", ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), cmd, ApiRequest.AuthType.Bearer, creds);
 
             return JsonConvert.DeserializeObject<CallResponse>(response.JsonResponse);
         }
@@ -298,7 +298,7 @@ namespace Nexmo.Api.Voice
         /// </summary>
         public static PaginatedResponse<CallList> List(SearchFilter filter, Credentials creds = null)
         {
-            return ApiRequest.DoRequest<PaginatedResponse<CallList>>(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), filter, ApiRequest.AuthType.Bearer, creds);            
+            return ApiRequest.DoGetRequest<PaginatedResponse<CallList>>(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), filter, ApiRequest.AuthType.Bearer, creds);            
         }
         public static PaginatedResponse<CallList> List()
         {
@@ -315,7 +315,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Get(string id, Credentials creds = null)
         {
-            return ApiRequest.DoRequest<CallResponse>(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new {}, ApiRequest.AuthType.Bearer, creds);            
+            return ApiRequest.DoGetRequest<CallResponse>(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new {}, ApiRequest.AuthType.Bearer, creds);            
         }
 
         /// <summary>
@@ -326,14 +326,14 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Edit(string id, CallEditCommand cmd, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd, ApiRequest.AuthType.Bearer, creds);
+            var response = ApiRequest.DoRequestWithJsonContent("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd, ApiRequest.AuthType.Bearer, creds);
 
             return JsonConvert.DeserializeObject<CallResponse>(response.JsonResponse);
         }
 
         public static CallGetRecordingResponse GetRecording(string url, Credentials creds = null)
         {
-            using (var response = ApiRequest.DoRequestJwt(new Uri(url), creds))
+            using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(url), creds))
             {
                 var readTask = response.Content.ReadAsStreamAsync();
                 byte[] bytes;

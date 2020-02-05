@@ -99,7 +99,7 @@ namespace Nexmo.Api
 
         public static SearchResults ListOwnNumbers(SearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoRequest<SearchResults>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers/"), request, creds);
+            return ApiRequest.DoGetRequest<SearchResults>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers/"), request, ApiRequest.AuthType.Query, creds);
         }
         /// <summary>
         /// Retrieve the list of virtual numbers available for a specific country.
@@ -109,7 +109,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static SearchResults Search(SearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoRequest<SearchResults>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/search/"), request, creds);
+            return ApiRequest.DoGetRequest<SearchResults>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/search/"), request, ApiRequest.AuthType.Query, creds);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ResponseBase Buy(string country, string number, Credentials creds = null)
         {
-            return ApiRequest.DoPostRequest<ResponseBase>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/buy"), new Dictionary<string, string>
+            return ApiRequest.DoPostRequestWithUrlContent<ResponseBase>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/buy"), new Dictionary<string, string>
             {
                 {"country", country},
                 {"msisdn", number}
@@ -149,7 +149,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ResponseBase Cancel(string country, string number, Credentials creds = null)
         {
-            return ApiRequest.DoPostRequest<ResponseBase>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/cancel"), new Dictionary<string, string>
+            return ApiRequest.DoPostRequestWithUrlContent<ResponseBase>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/cancel"), new Dictionary<string, string>
             {
                 {"country", country},
                 {"msisdn", number}
