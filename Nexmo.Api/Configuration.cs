@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Nexmo.Api.Request;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using Microsoft.Extensions.Configuration;
-using Nexmo.Api.Logging;
-using Nexmo.Api.Request;
 
 namespace Nexmo.Api
 {
     public sealed class Configuration
     {
+        const string LOGGER_CATEGORY = "Nexmo.Api.Configuration";
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
         static Configuration()
@@ -17,6 +18,7 @@ namespace Nexmo.Api
 
         private Configuration()
         {
+            var logger = Api.Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var builder = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -51,15 +53,13 @@ namespace Nexmo.Api
 
             if (authCapabilities.Count == 0)
             {
-                Logger.Info("No authentication found via configuration. Remember to provide your own.");
+                logger.LogInformation("No authentication found via configuration. Remember to provide your own.");
             }
             else
             {
-                Logger.Info("Available authentication: {0}", string.Join(",", authCapabilities));
+                logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
             }
         }
-
-        private static readonly ILog Logger = LogProvider.For<Configuration>();
 
         public static Configuration Instance { get; } = new Configuration();
 

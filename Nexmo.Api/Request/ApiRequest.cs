@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using Nexmo.Api.Cryptography;
-using Nexmo.Api.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace Nexmo.Api.Request
 {
@@ -19,13 +19,15 @@ namespace Nexmo.Api.Request
     /// </summary>
     public static class ApiRequest
     {
+
         public enum AuthType
         {
             Basic,
             Bearer,
             Query
         }
-        private static readonly ILog Logger = LogProvider.GetLogger(typeof(ApiRequest), "Nexmo.Api.Request.ApiRequest");
+
+        const string LOGGER_CATEGORY = "Nexmo.Api.Request.ApiRequest";
 
         private static string _userAgent;
 
@@ -216,10 +218,12 @@ namespace Nexmo.Api.Request
 
         internal static T DoRequest<T>(Uri uri, AuthType authType, Credentials creds)
         {
+            var logger = Api.Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
-            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
+            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];            
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
+
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
@@ -238,8 +242,8 @@ namespace Nexmo.Api.Request
                 req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                     Jwt.CreateToken(appId, appKeyPath));
             }
-            Logger.Debug($"GET {uri}");
-            return JsonConvert.DeserializeObject<T>(SendRequest(req).JsonResponse);            
+            logger.LogDebug($"GET {uri}");
+            return JsonConvert.DeserializeObject<T>(SendRequest(req).JsonResponse);
         }
 
         /// <summary>
@@ -253,6 +257,7 @@ namespace Nexmo.Api.Request
         /// <returns></returns>
         public static NexmoResponse DoRequest(string method, Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
         {
+            var logger = Api.Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var sb = new StringBuilder();
             // if parameters is null, assume that key and secret have been taken care of
             if (null != parameters)
@@ -270,11 +275,13 @@ namespace Nexmo.Api.Request
             var data = Encoding.ASCII.GetBytes(sb.ToString());
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
-            Logger.Debug($"{method} {uri} {sb}");
+
+            logger.LogDebug($"{method} {uri} {sb}");
             return SendRequest(req);
         }
         public static NexmoResponse SendRequest(HttpRequestMessage req)
         {
+            var logger = Api.Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var response = Configuration.Instance.Client.SendAsync(req).Result;
             var stream = response.Content.ReadAsStreamAsync().Result;
             string json;
@@ -284,7 +291,7 @@ namespace Nexmo.Api.Request
             }
             try
             {
-                Logger.Debug(json);
+                logger.LogDebug(json);
                 response.EnsureSuccessStatusCode();
                 return new NexmoResponse
                 {
@@ -294,7 +301,7 @@ namespace Nexmo.Api.Request
             }
             catch (HttpRequestException exception)
             {
-                Logger.Error($"FAIL: {response.StatusCode}");
+                logger.LogError($"FAIL: {response.StatusCode}");
                 throw new NexmoHttpRequestException(exception.Message) { StatusCode = response.StatusCode, Json = json };
             }
         }
@@ -314,6 +321,8 @@ namespace Nexmo.Api.Request
             var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
+            var logger = Api.Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
+
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
@@ -347,6 +356,7 @@ namespace Nexmo.Api.Request
         }
         internal static HttpResponseMessage DoRequestJwt(Uri uri, Credentials creds)
         {
+            var logger = Api.Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
             var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
 
@@ -361,24 +371,22 @@ namespace Nexmo.Api.Request
             req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 Jwt.CreateToken(appId, appKeyPath));
 
-            using (LogProvider.OpenMappedContext("ApiRequest.DoRequestJwt", uri.GetHashCode()))
+            logger.LogDebug($"GET {uri}");
+
+            var sendTask = Configuration.Instance.Client.SendAsync(req);
+            sendTask.Wait();
+
+            if (!sendTask.Result.IsSuccessStatusCode)
             {
-                Logger.Debug($"GET {uri}");
-                var sendTask = Configuration.Instance.Client.SendAsync(req);
-                sendTask.Wait();
+                logger.LogError($"FAIL: {sendTask.Result.StatusCode}");
 
-                if (!sendTask.Result.IsSuccessStatusCode)
+                if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
+                        "true", StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    Logger.Error($"FAIL: {sendTask.Result.StatusCode}");
-
-                    if (string.Compare(Configuration.Instance.Settings["appSettings:Nexmo.Api.EnsureSuccessStatusCode"],
-                            "true", StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        sendTask.Result.EnsureSuccessStatusCode();
-                    }
+                    sendTask.Result.EnsureSuccessStatusCode();
                 }
-                return sendTask.Result;
             }
+            return sendTask.Result;
         }
 
         internal static T DoPostRequest<T>(Uri uri, object parameters, Credentials creds = null)
