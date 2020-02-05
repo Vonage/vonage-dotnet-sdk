@@ -73,22 +73,8 @@ namespace Nexmo.Api.UnitTest
               ""concat-total"": ""3"",
               ""concat-part"": ""2"",
               ""data"": ""abc123"",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
               ""udh"": ""abc123"",
               ""sig"":""12345""
-=======
-              ""udh"": ""abc123""
->>>>>>> adding signature and inbound test
-=======
-              ""udh"": ""abc123"",
-              ""sig"":""12345""
->>>>>>> Adding full set of signing tests and dlr test
-=======
-              ""udh"": ""abc123"",
-              ""sig"":""12345""
->>>>>>> 28db3ecf5166c45a149538c39ee678064e115ae1
             }";
             var message = JsonConvert.DeserializeObject<SMS.SMSInbound>(request);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
