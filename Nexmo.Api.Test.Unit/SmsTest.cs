@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using Xunit;
-
-
 namespace Nexmo.Api.UnitTest
 {
     public class SMS_test : TestBase
@@ -77,6 +75,7 @@ namespace Nexmo.Api.UnitTest
               ""data"": ""abc123"",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               ""udh"": ""abc123"",
               ""sig"":""12345""
 =======
@@ -86,6 +85,10 @@ namespace Nexmo.Api.UnitTest
               ""udh"": ""abc123"",
               ""sig"":""12345""
 >>>>>>> Adding full set of signing tests and dlr test
+=======
+              ""udh"": ""abc123"",
+              ""sig"":""12345""
+>>>>>>> 28db3ecf5166c45a149538c39ee678064e115ae1
             }";
             var message = JsonConvert.DeserializeObject<SMS.SMSInbound>(request);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
