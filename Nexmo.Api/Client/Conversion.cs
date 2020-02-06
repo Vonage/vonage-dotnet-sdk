@@ -15,6 +15,12 @@ namespace Nexmo.Api.ClientMethods
             Credentials = creds;
         }
 
+        /// <summary>
+        /// Let's Nexmo know that a 2fa message was received successfully
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="creds"></param>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public void SubmitConversion (Api.Conversion.ConversionRequest request, Credentials creds = null)
         {
             Api.Conversion.SubmitConversion(request, creds);

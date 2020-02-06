@@ -298,7 +298,7 @@ namespace Nexmo.Api.Voice
         /// </summary>
         public static PaginatedResponse<CallList> List(SearchFilter filter, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequest<PaginatedResponse<CallList>>(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), filter, ApiRequest.AuthType.Bearer, creds);            
+            return ApiRequest.DoGetRequestWithUrlContent<PaginatedResponse<CallList>>(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), ApiRequest.AuthType.Bearer, filter, creds);
         }
         public static PaginatedResponse<CallList> List()
         {
@@ -315,7 +315,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Get(string id, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequest<CallResponse>(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new {}, ApiRequest.AuthType.Bearer, creds);            
+            return ApiRequest.DoGetRequestWithUrlContent<CallResponse>(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), ApiRequest.AuthType.Bearer, credentials:creds);
         }
 
         /// <summary>

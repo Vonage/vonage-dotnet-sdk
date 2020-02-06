@@ -185,7 +185,7 @@ namespace Nexmo.Api.Request
         }
 
         /// <summary>
-        /// Creates a query string for the given parameters - if the auth type is zero the credentials are appended to the end of the query string
+        /// Creates a query string for the given parameters - if the auth type is Query the credentials are appended to the end of the query string
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="type"></param>
@@ -193,7 +193,15 @@ namespace Nexmo.Api.Request
         /// <returns></returns>
         internal static StringBuilder GetQueryStringBuilderFor(object parameters, AuthType type, Credentials creds = null)
         {
-            var apiParams = GetParameters(parameters);
+            Dictionary<string, string> apiParams;
+            if(!(parameters is Dictionary<string,string>))
+            {
+                apiParams = GetParameters(parameters);
+            }
+            else
+            {
+                apiParams = (Dictionary<string, string>)parameters;
+            }
             var sb = new StringBuilder();
             if (type == AuthType.Query)
             {
@@ -211,33 +219,20 @@ namespace Nexmo.Api.Request
         }
 
         /// <summary>
-        /// Send a GET request to the Nexmo API.
-        /// Do not include credentials in the parameters object. If you need to override credentials, use the optional Credentials parameter.
-        /// </summary>
-        /// <param name="uri">The URI to GET</param>
-        /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
-        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// <exception cref="NexmoHttpRequestException">Thrown if the API encounters a non-zero result</exception>
-        /// <returns></returns>
-        public static T DoGetRequest<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
-        {
-            var sb = BuildQueryString(parameters, creds);
-            return DoGetRequest<T>(new Uri(uri, "?" + sb), AuthType.Query, creds);
-        }
-
-        /// <summary>
         /// Send a GET request to the versioned Nexmo API.
         /// Do not include credentials in the parameters object. If you need to override credentials, use the optional Credentials parameter.
         /// </summary>
         /// <param name="uri">The URI to GET</param>
         /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
-        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">Thrown if the API encounters a non-zero result</exception>
-        public static T DoGetRequest<T>(Uri uri, object parameters, AuthType authType, Credentials creds = null)
+        public static T DoGetRequestWithUrlContent<T>(Uri uri, AuthType authType, object parameters = null, Credentials credentials = null)
         {
-            var sb = GetQueryStringBuilderFor(parameters, authType, creds);
-
-            return DoGetRequest<T>(new Uri(uri, "?" + sb), authType, creds);
+            if (parameters == null)
+                parameters = new Dictionary<string, string>();
+            var sb = GetQueryStringBuilderFor(parameters, authType, credentials);
+            var requestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
+            return SendGetRequest<T>(requestUri, authType, credentials);
         }
 
         /// <summary>
@@ -248,7 +243,7 @@ namespace Nexmo.Api.Request
         /// <param name="authType"></param>
         /// <param name="creds"></param>
         /// <exception cref="NexmoHttpRequestException">Thrown if the API encounters a non-zero result</exception>
-        public static T DoGetRequest<T>(Uri uri, AuthType authType, Credentials creds)
+        private static T SendGetRequest<T>(Uri uri, AuthType authType, Credentials creds)
         {
             var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
@@ -402,6 +397,7 @@ namespace Nexmo.Api.Request
         /// <param name="uri"></param>
         /// <param name="creds"></param>
         /// <returns>HttpResponseMessage</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static HttpResponseMessage DoGetRequestWithJwt(Uri uri, Credentials creds)
         {
             var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
@@ -444,6 +440,7 @@ namespace Nexmo.Api.Request
         /// <param name="parameters"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoPostRequest<T>(Uri uri, object parameters, Credentials creds = null)
         {
             var apiParams = GetParameters(parameters);
@@ -458,15 +455,35 @@ namespace Nexmo.Api.Request
         /// <param name="parameters"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) 
         {
             var response = DoRequestWithUrlContent("POST", uri, parameters, creds);
             return JsonConvert.DeserializeObject<T>(response.JsonResponse);
         }
+
+        /// <summary>
+        /// Sends an HTTP PUT request with Url Content
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="uri"></param>
+        /// <param name="parameters"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoPutRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) {
             var response = DoRequestWithUrlContent("PUT", uri, parameters, creds);
             return JsonConvert.DeserializeObject<T>(response.JsonResponse);
         }
+
+        /// <summary>
+        /// Sends an HTTP DELETE 
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="parameters"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static NexmoResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequestWithUrlContent("DELETE", uri, parameters, creds);
     }
 }

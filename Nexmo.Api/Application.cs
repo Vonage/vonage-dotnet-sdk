@@ -127,15 +127,16 @@ namespace Nexmo.Api
             {
                 return new List<ApplicationResponse>
                 {
-                    ApiRequest.DoGetRequest<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application),
-                    $"/v1/applications/{AppId}"),
-                    // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
-                    new Dictionary<string, string>(),
-                    creds)
+                    ApiRequest.DoGetRequestWithUrlContent<ApplicationResponse>(
+                        ApiRequest.GetBaseUriFor(typeof(Application),$"/v1/applications/{AppId}"),
+                        ApiRequest.AuthType.Query,
+                        credentials:creds)
                 };
             }
 
-            return ApiRequest.DoGetRequest<ApplicationListResponse>(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"),
+            return ApiRequest.DoGetRequestWithUrlContent<ApplicationListResponse>(
+                ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"),
+                ApiRequest.AuthType.Query,
                 new Dictionary<string, string>
                 {
                     { "page_size", PageSize.ToString()},

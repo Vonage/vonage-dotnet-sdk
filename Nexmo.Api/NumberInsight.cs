@@ -303,11 +303,10 @@ namespace Nexmo.Api
             }
 
             return ApiRequest.DoPostRequestWithUrlContent<NumberInsightAsyncRequestResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/ni/advanced/async/json"), parameters, creds);
-        }
-
-        public class NumberInsightResponseException : Exception
-        {
-            public NumberInsightResponseException(string message) : base(message) { }
-        }
+        }        
+    }
+    public class NumberInsightResponseException : Exception
+    {
+        public NumberInsightResponseException(string message) : base(message) { }
     }
 }

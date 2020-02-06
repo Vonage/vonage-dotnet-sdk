@@ -37,7 +37,7 @@ namespace Nexmo.Api.Test.Unit
                 {"mcount", "xyz123"}
             };
 
-            SetExpect($"{RestUrl}/sc/us/alert/json?to={request.to}&api_key={ApiKey}&api_secret={ApiSecret}&mcount={customValues["mcount"]}&",
+            SetExpect($"{RestUrl}/sc/us/alert/json?to={request.to}&mcount={customValues["mcount"]}&api_key={ApiKey}&api_secret={ApiSecret}&",
 "{\"message-count\":\"1\",\"messages\":[{\"message-id\":\"02000000AE70FFFF\",\"to\":\"15555551212\",\"remaining-balance\":7.546,\"message-price\":0.0048,\"ok\":true,\"status\":\"0\",\"msisdn\":\"15555551212\",\"network\":\"US-FIXED\",\"messageId\":\"02000000AE70FFFF\",\"remainingBalance\":7.546,\"messagePrice\":0.0048}]}");
 
             var response = ShortCode.RequestAlert(request, customValues);

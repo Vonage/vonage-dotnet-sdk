@@ -16,6 +16,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">NI request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        /// <exception cref="NumberInsightResponseException">thrown if response contains non-zero status</exception>
         public Api.NumberInsight.NumberInsightBasicResponse RequestBasic(Api.NumberInsight.NumberInsightRequest request, Credentials creds = null)
         {
             return Api.NumberInsight.RequestBasic(request, creds ?? Credentials);
@@ -27,6 +29,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">NI standard request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        /// <exception cref="NumberInsightResponseException">thrown if response contains non-zero status</exception>
         public Api.NumberInsight.NumberInsightStandardResponse RequestStandard(Api.NumberInsight.NumberInsightRequest request, Credentials creds = null)
         {
             return Api.NumberInsight.RequestStandard(request, creds ?? Credentials);
@@ -38,6 +42,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">NI advenced request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        /// <exception cref="NumberInsightResponseException">thrown if response contains non-zero status</exception>
         public Api.NumberInsight.NumberInsightAdvancedResponse RequestAdvanced(Api.NumberInsight.NumberInsightRequest request, Credentials creds = null)
         {
             return Api.NumberInsight.RequestAdvanced(request, creds ?? Credentials);
@@ -49,6 +55,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">NI advenced request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Api.NumberInsight.NumberInsightAsyncRequestResponse RequestAsync(Api.NumberInsight.NumberInsightAsyncRequest request, Credentials creds = null)
         {
             return Api.NumberInsight.RequestAsync(request, creds ?? Credentials);

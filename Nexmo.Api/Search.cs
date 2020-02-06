@@ -124,11 +124,13 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static Message GetMessage(string id, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequest<Message>(ApiRequest.GetBaseUriFor(typeof(Search), "/search/message"), new Dictionary<string, string>
-            {
-                {"id", id}
-            },
-            creds);
+            return ApiRequest.DoGetRequestWithUrlContent<Message>(ApiRequest.GetBaseUriFor(typeof(Search), "/search/message"),
+                ApiRequest.AuthType.Query,
+                new Dictionary<string, string>
+                    {
+                        {"id", id}
+                    },
+                creds);
         }
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static Messages<Message> GetMessages(SearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequest<Messages<Message>>(ApiRequest.GetBaseUriFor(typeof(Search), "/search/messages"), request, ApiRequest.AuthType.Query, creds);
+            return ApiRequest.DoGetRequestWithUrlContent<Messages<Message>>(ApiRequest.GetBaseUriFor(typeof(Search), "/search/messages"), ApiRequest.AuthType.Query, request, creds);
         }
 
         /// <summary>
@@ -150,7 +152,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static Messages<MessageBase> GetRejections(SearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequest<Messages<MessageBase>>(ApiRequest.GetBaseUriFor(typeof(Search), "/search/rejections"), request, ApiRequest.AuthType.Query, creds);
+            return ApiRequest.DoGetRequestWithUrlContent<Messages<MessageBase>>(ApiRequest.GetBaseUriFor(typeof(Search), "/search/rejections"), ApiRequest.AuthType.Query, request, creds);
         }
     }
 }
