@@ -96,17 +96,19 @@ namespace Nexmo.Api.Request
         {
             if (string.IsNullOrEmpty(_userAgent))
             {
-#if NETSTANDARD1_6 || NETSTANDARD2_0
+#if NETSTANDARD1_6 || NETSTANDARD2_0 || NETSTANDARD2_1
                 // TODO: watch the next core release; may have functionality to make this cleaner
-                var runtimeVersion = (System.Runtime.InteropServices.RuntimeInformation.OSDescription + System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
+                var languageVersion = (System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription)
                     .Replace(" ", "")
                     .Replace("/", "")
                     .Replace(":", "")
                     .Replace(";", "")
                     .Replace("_", "")
+                    .Replace("(", "")
+                    .Replace(")", "")
                     ;
 #else
-                var runtimeVersion = System.Diagnostics.FileVersionInfo
+                var languageVersion = System.Diagnostics.FileVersionInfo
                     .GetVersionInfo(typeof(int).Assembly.Location)
                     .ProductVersion;
 #endif
@@ -116,7 +118,7 @@ namespace Nexmo.Api.Request
                     .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                     .InformationalVersion;
 
-                _userAgent = $"nexmo-dotnet/{libraryVersion} dotnet/{runtimeVersion}";
+                _userAgent = $"nexmo-dotnet/{libraryVersion} dotnet/{languageVersion}";
 
                 var appVersion = creds?.AppUserAgent ?? Configuration.Instance.Settings["appSettings:Nexmo.UserAgent"];
                 if (!string.IsNullOrWhiteSpace(appVersion))
