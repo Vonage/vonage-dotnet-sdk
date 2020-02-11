@@ -9,7 +9,7 @@ namespace Nexmo.Api.Test.Unit
         [TestMethod]
         public void should_search_numbers()
         {
-            SetExpect($"{RestUrl}/number/search/?country=US&has_application=False&api_key={ApiKey}&api_secret={ApiSecret}&",
+            SetExpect($"{RestUrl}/number/search/?country=US&api_key={ApiKey}&api_secret={ApiSecret}&",
 "{\"count\":177,\"numbers\":[{\"country\":\"US\",\"msisdn\":\"15102694548\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568490\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568491\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568492\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"},{\"country\":\"US\",\"msisdn\":\"17088568973\",\"type\":\"mobile-lvn\",\"features\":[\"SMS\",\"VOICE\"],\"cost\":\"0.67\"}]}");
 
             var results = Number.Search(new Number.SearchRequest
