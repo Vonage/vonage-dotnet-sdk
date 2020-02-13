@@ -25,7 +25,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallCommandResponse BeginStream(string id, StreamCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/stream"), cmd, creds);
+            var response = ApiRequest.DoRequestWithJsonContent("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/stream"), cmd, ApiRequest.AuthType.Bearer, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }
@@ -37,7 +37,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallCommandResponse EndStream(string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/stream"), new {}, creds);
+            var response = ApiRequest.DoRequestWithJsonContent("DELETE", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}/stream"), new {}, ApiRequest.AuthType.Bearer, creds);
 
             return JsonConvert.DeserializeObject<CallCommandResponse>(response.JsonResponse);
         }

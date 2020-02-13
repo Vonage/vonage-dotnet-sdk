@@ -17,6 +17,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="apiKey">The API key to manage secrets for</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>List of secrets</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public List<Api.ApiSecret.Secret> List(string apiKey, Credentials creds = null)
         {
             return Api.ApiSecret.ListSecrets(apiKey, creds ?? Credentials);
@@ -29,6 +30,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="secretId">ID of the API Secret</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>The secret</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Api.ApiSecret.Secret Get(string apiKey, string secretId, Credentials creds = null)
         {
             return Api.ApiSecret.GetSecret(apiKey, secretId, creds ?? Credentials);
@@ -47,6 +49,7 @@ namespace Nexmo.Api.ClientMethods
         /// </param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>The created secret</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Api.ApiSecret.Secret Create(string apiKey, string newSecret, Credentials creds = null)
         {
             return Api.ApiSecret.CreateSecret(apiKey, newSecret, creds ?? Credentials);
@@ -59,6 +62,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="secretId">ID of the API Secret</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>True/False on delete success/failure</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public bool Delete(string apiKey, string secretId, Credentials creds = null)
         {
             return Api.ApiSecret.DeleteSecret(apiKey, secretId, creds ?? Credentials);

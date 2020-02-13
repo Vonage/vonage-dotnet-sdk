@@ -36,14 +36,10 @@ namespace Nexmo.Api
         /// <returns>List of secrets</returns>
         public static List<Secret> ListSecrets(string apiKey, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
-                    $"/accounts/{apiKey}/secrets"),
-                // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
-                new Dictionary<string, string>(),
-                creds);
-
-            var response = JsonConvert.DeserializeObject<Response<SecretList>>(json);
-            return response._embedded.Secrets;
+            return ApiRequest.DoGetRequestWithUrlContent<Response<SecretList>>(
+                ApiRequest.GetBaseUriFor(typeof(ApiSecret),$"/accounts/{apiKey}/secrets"),
+                ApiRequest.AuthType.Query,
+                credentials: creds)._embedded.Secrets;
         }
 
         /// <summary>
@@ -54,13 +50,10 @@ namespace Nexmo.Api
         /// <returns>The secret</returns>
         public static Secret GetSecret(string apiKey, string secretId, Credentials creds = null)
         {
-            var json = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApiSecret),
-                    $"/accounts/{apiKey}/secrets/{secretId}"),
-                // TODO: using this method sig allows us to have the api auth injected at the expense of opaque code here
-                new Dictionary<string, string>(),
-                creds);
-
-            return JsonConvert.DeserializeObject<Secret>(json);
+            return ApiRequest.DoGetRequestWithUrlContent<Secret>(
+                ApiRequest.GetBaseUriFor(typeof(ApiSecret),$"/accounts/{apiKey}/secrets/{secretId}"),
+                ApiRequest.AuthType.Query,
+                credentials: creds);
         }
 
         /// <summary>
@@ -77,7 +70,7 @@ namespace Nexmo.Api
         /// <returns>The created secret</returns>
         public static Secret CreateSecret(string apiKey, string newSecret, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(ApiSecret), $"/accounts/{apiKey}/secrets"), new SecretRequest { Secret = newSecret }, creds);
+            var response = ApiRequest.DoRequestWithJsonContent("POST", ApiRequest.GetBaseUriFor(typeof(ApiSecret), $"/accounts/{apiKey}/secrets"), new SecretRequest { Secret = newSecret }, ApiRequest.AuthType.Basic, creds);
 
             return JsonConvert.DeserializeObject<Secret>(response.JsonResponse);
         }
@@ -89,8 +82,8 @@ namespace Nexmo.Api
         /// <param name="secretId">ID of the API Secret</param>
         public static bool DeleteSecret(string apiKey, string secretId, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE", ApiRequest.GetBaseUriFor(typeof(ApiSecret),
-                $"/accounts/{apiKey}/secrets/{secretId}"), null, creds);
+            var response = ApiRequest.DoRequestWithJsonContent("DELETE", ApiRequest.GetBaseUriFor(typeof(ApiSecret),
+                $"/accounts/{apiKey}/secrets/{secretId}"), null, ApiRequest.AuthType.Basic, creds);
 
             return response.Status == HttpStatusCode.NoContent;
         }

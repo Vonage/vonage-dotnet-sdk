@@ -14,7 +14,8 @@ namespace Nexmo.Api.Test.Unit
 
             var results = Number.Search(new Number.SearchRequest
             {
-                country = "US"
+                country = "US",
+                has_application = false
             });
 
             Assert.AreEqual(177, results.count);
