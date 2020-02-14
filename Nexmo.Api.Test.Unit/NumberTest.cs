@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
-namespace Nexmo.Api.UnitTest
+namespace Nexmo.Api.Test.Unit
 {
     public class NumberTest :TestBase
     {

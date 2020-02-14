@@ -21,6 +21,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">Application request</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public AppResponse Create(AppRequest request, Credentials credentials = null)
         {
             return Api.ApplicationV2.Create(request, credentials ?? Credentials);
@@ -32,6 +33,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="appId"></param>
         /// <param name="credentials"></param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public AppResponse Get(string appId, Credentials credentials = null)
         {
             return Api.ApplicationV2.Get(appId, credentials ?? Credentials);
@@ -45,6 +47,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="AppId">Optional id of specific application to retrieve</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public List<AppResponse> List(int pageSize = 10, int page = 0, Credentials credentials = null)
         {
             return Api.ApplicationV2.List(pageSize, page, credentials ?? Credentials);
@@ -56,6 +59,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">Application request</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public AppResponse Update(AppRequest request, Credentials credentials = null)
         {
             return Api.ApplicationV2.Update(request, credentials ?? Credentials);
@@ -67,6 +71,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="appId">The application id to delete</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public bool Delete(string appId, Credentials credentials = null)
         {
             return Api.ApplicationV2.Delete(appId, credentials ?? Credentials);

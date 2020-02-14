@@ -17,6 +17,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">2FA request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        /// <exception cref="SmsResponseException">Throwns if the status received back from an SMS was non-zero</exception>
         public Api.SMS.SMSResponse RequestTwoFactorAuth(Api.ShortCode.TwoFactorAuthRequest request, Credentials creds = null)
         {
             return Api.ShortCode.RequestTwoFactorAuth(request, creds ?? Credentials);
@@ -29,6 +31,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="customValues">Any custom parameters you need for template.</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        /// <exception cref="SmsResponseException">Throwns if the status received back from an SMS was non-zero</exception>
         public Api.SMS.SMSResponse RequestAlert(Api.ShortCode.AlertRequest request, Dictionary<string, string> customValues, Credentials creds = null)
         {
             return Api.ShortCode.RequestAlert(request, customValues, creds ?? Credentials);

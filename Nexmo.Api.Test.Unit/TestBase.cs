@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
 
-namespace Nexmo.Api.UnitTest
+namespace Nexmo.Api.Test.Unit
 {
     public class TestBase
     {

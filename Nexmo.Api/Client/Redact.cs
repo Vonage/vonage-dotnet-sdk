@@ -17,6 +17,13 @@ namespace Nexmo.Api.ClientMethods
             Credentials = creds;
         }
 
+        /// <summary>
+        /// Redact information from a Nexmo transaction
+        /// </summary>
+        /// <param name="redactRequest"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public NexmoResponse RedactTransaction (RedactRequest redactRequest, Credentials creds = null)
         {
             return Nexmo.Api.Redact.RedactTransaction(redactRequest, creds ?? Credentials);

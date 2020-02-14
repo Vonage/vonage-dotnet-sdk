@@ -19,6 +19,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">Application request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public ApplicationResponse Create(ApplicationRequest request, Credentials creds = null)
         {
             return Api.Application.Create(request, creds ?? Credentials);
@@ -32,6 +33,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="AppId">Optional id of specific application to retrieve</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public List<ApplicationResponse> List(int PageSize = 10, int PageIndex = 0, string AppId = "", Credentials creds = null)
         {
             return Api.Application.List(PageSize, PageIndex, AppId, creds ?? Credentials);
@@ -43,6 +45,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">Application request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public ApplicationResponse Update(ApplicationRequest request, Credentials creds = null)
         {
             return Api.Application.Update(request, creds ?? Credentials);
@@ -54,6 +57,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="appId">The application id to delete</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public bool Delete(string appId, Credentials creds = null)
         {
             return Api.Application.Delete(appId, creds ?? Credentials);

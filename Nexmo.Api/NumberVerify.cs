@@ -1,11 +1,24 @@
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using Nexmo.Api.Request;
+using System;
+using System.Collections.Generic;
 
 namespace Nexmo.Api
 {
     public static class NumberVerify
     {
+        public class VerifyResponseBase
+        {
+            /// <summary>
+            /// If status is not 0, this explains the error encountered.
+            /// </summary>
+            public string status { get; set; }
+
+            /// <summary>
+            /// The response code that explains how your request proceeded. (verify_response_codes: somevalue)
+            /// </summary>
+            public string error_text { get; set; }
+        }
+
         public class VerifyRequest
         {
             /// <summary>
@@ -63,20 +76,12 @@ namespace Nexmo.Api
             public string workflow_id { get; set; }
         }
 
-        public class VerifyResponse
+        public class VerifyResponse : VerifyResponseBase
         {
             /// <summary>
             /// The unique ID of the Verify request you sent. The value of request_id is up to 32 characters long. You use this request_id for the Verify Check.
             /// </summary>
             public string request_id { get; set; }
-            /// <summary>
-            /// The response code that explains how your request proceeded. (verify_response_codes: somevalue)
-            /// </summary>
-            public string status { get; set; }
-            /// <summary>
-            /// If status is not 0, this explains the error encountered.
-            /// </summary>
-            public string error_text { get; set; }
         }
 
         /// <summary>
@@ -87,9 +92,9 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static VerifyResponse Verify(VerifyRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), request, creds);
-
-            return JsonConvert.DeserializeObject<VerifyResponse>(jsonstring);
+            var response = ApiRequest.DoGetRequestWithUrlContent<VerifyResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/json"), ApiRequest.AuthType.Query, request, creds);
+            ValidateVerifyResponse(response);
+            return response;
         }
 
         public class CheckRequest
@@ -108,16 +113,12 @@ namespace Nexmo.Api
             public string ip_address { get; set; }
         }
 
-        public class CheckResponse
+        public class CheckResponse : VerifyResponseBase
         {
             /// <summary>
             /// The identifier of the SMS message-id.
             /// </summary>
             public string event_id { get; set; }
-            /// <summary>
-            /// If the value of status is 0, your user entered the correct PIN. If it is not, check the response code.
-            /// </summary>
-            public string status { get; set; }
             /// <summary>
             /// The price charged for this Verify request.
             /// </summary>
@@ -126,10 +127,6 @@ namespace Nexmo.Api
             /// Currency code.
             /// </summary>
             public string currency { get; set; }
-            /// <summary>
-            /// If status is not 0, this is brief explanation about the error.
-            /// </summary>
-            public string error_text { get; set; }
         }
 
         /// <summary>
@@ -140,14 +137,16 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static CheckResponse Check(CheckRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/check/json"), new Dictionary<string, string>
-            {
-                {"request_id", request.request_id},
-                {"code", request.code}
-            },
-            creds);
-
-            return JsonConvert.DeserializeObject<CheckResponse>(jsonstring);
+            var response = ApiRequest.DoGetRequestWithUrlContent<CheckResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/check/json"),
+                ApiRequest.AuthType.Query,
+                new Dictionary<string, string>
+                {
+                    {"request_id", request.request_id},
+                    {"code", request.code}
+                },
+                creds);
+            ValidateVerifyResponse(response);
+            return response;
         }
 
         public class SearchRequest
@@ -162,7 +161,7 @@ namespace Nexmo.Api
             public string request_ids { get; set; }
         }
 
-        public class SearchResponse
+        public class SearchResponse : VerifyResponseBase
         {
             /// <summary>
             /// The request_id you received in the Verify Request Response and used in the Verify Search request.
@@ -172,16 +171,6 @@ namespace Nexmo.Api
             /// The Account ID the request was for.
             /// </summary>
             public string account_id { get; set; }
-            /// <summary>
-            /// The status of the Verify Request. Possible values are:
-            ///IN PROGRESS - still in progress.
-            ///SUCCESS - your user entered the PIN correctly.
-            ///FAILED - user entered the wrong pin more than 3 times.
-            ///EXPIRED - no PIN entered during the pin_expiry time.
-            ///CANCELLED - the request was cancelled using Verify Control
-            ///101 - the request_id you set in the Verify Search request is invalid.
-            /// </summary>
-            public string status { get; set; }
             /// <summary>
             /// The phone number this Verify Request was made for.
             /// </summary>
@@ -215,10 +204,6 @@ namespace Nexmo.Api
             /// </summary>
             public string last_event_date { get; set; }
             /// <summary>
-            /// If status is not SUCCESS, this message explains the issue.
-            /// </summary>
-            public string error_text { get; set; }
-            /// <summary>
             /// The list of checks made for this verification and their outcomes.
             /// </summary>
             public CheckObj[] checks { get; set; }
@@ -240,14 +225,14 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static SearchResponse Search(SearchRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/search/json"), new Dictionary<string, string>()
-            {
-                {"request_id", request.request_id},
-                {"request_ids", request.request_ids}
-            },
-            creds);
-
-            return JsonConvert.DeserializeObject<SearchResponse>(jsonstring);
+            return ApiRequest.DoGetRequestWithUrlContent<SearchResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/search/json"),
+                ApiRequest.AuthType.Query,
+                new Dictionary<string, string>()
+                    {
+                        {"request_id", request.request_id},
+                        {"request_ids", request.request_ids}
+                    },
+                creds);
         }
 
         public class ControlRequest
@@ -264,12 +249,8 @@ namespace Nexmo.Api
             public string cmd { get; set; }
         }
 
-        public class ControlResponse
+        public class ControlResponse : VerifyResponseBase
         {
-            /// <summary>
-            /// The Verify Control Response code) that explains how your request proceeded
-            /// </summary>
-            public string status { get; set; }
             /// <summary>
             /// The cmd you sent in the request.
             /// </summary>
@@ -284,9 +265,32 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ControlResponse Control(ControlRequest request, Credentials creds = null)
         {
-            var jsonstring = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), request, creds);
-
-            return JsonConvert.DeserializeObject<ControlResponse>(jsonstring);
+            var response = ApiRequest.DoGetRequestWithUrlContent<ControlResponse>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), "/verify/control/json"), ApiRequest.AuthType.Query, request, creds);
+            ValidateVerifyResponse(response);
+            return response;
         }
-}
+
+        /// <summary>
+        /// Interrogates the status of Verify Response - throws an exception if the response is non-zero
+        /// </summary>
+        /// <param name="response"></param>
+        /// <exception cref="VerifyResponseException">throws an exception if the status is non-0</exception>
+        public static void ValidateVerifyResponse(VerifyResponseBase response)
+        {
+            if (!string.Equals(response.status,"0"))
+            {
+                throw new VerifyResponseException($"Error encountered during verify request - API returned a status of: {response.status} with an error text of: {response.error_text}")
+                {
+                    ErrorText = response.error_text,
+                    Status = response.status
+                };
+            }
+        }
+    }
+    public class VerifyResponseException : Exception
+    {
+        public VerifyResponseException(string message) : base(message) { }
+        public string Status { get; set; }
+        public string ErrorText { get; set; }
+    }
 }

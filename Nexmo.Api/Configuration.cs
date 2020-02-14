@@ -18,7 +18,7 @@ namespace Nexmo.Api
 
         private Configuration()
         {
-            var logger = Api.Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
+            var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var builder = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {

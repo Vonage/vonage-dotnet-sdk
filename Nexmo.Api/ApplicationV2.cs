@@ -181,7 +181,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Create(AppRequest request, Credentials credentials = null)
         {
-            var response = VersionedApiRequest.DoRequest("POST",ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, credentials);
+            var response = ApiRequest.DoRequestWithJsonContent("POST",ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, ApiRequest.AuthType.Basic,  credentials);
 
             return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
         }
@@ -194,8 +194,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Get(string appId, Credentials credentials = null)
         {
-            var response = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), credentials);
-            return JsonConvert.DeserializeObject<AppResponse>(response);
+            return ApiRequest.DoGetRequestWithUrlContent<AppResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), ApiRequest.AuthType.Basic, credentials:credentials);
         }
        
         /// <summary>
@@ -209,8 +208,8 @@ namespace Nexmo.Api
         public static List<AppResponse> List(int pageSize = 10, int page = 0,  Credentials credentials = null)
         {
             var filter = new AppListFilter() { page = page, page_size = pageSize };
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), filter, VersionedApiRequest.AuthType.Basic, credentials);
-            return JsonConvert.DeserializeObject<AppListResponse>(response)._embedded.Applications;
+            return ApiRequest.DoGetRequestWithUrlContent<AppListResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), ApiRequest.AuthType.Basic, filter, credentials)._embedded.Applications;
+            
         }
 
         public static List<AppResponse> List()
@@ -227,8 +226,8 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Update(AppRequest request, Credentials credentials = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
-                $"/v2/applications/{request.Id}"), request, credentials);
+            var response = ApiRequest.DoRequestWithJsonContent("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+                $"/v2/applications/{request.Id}"), request, ApiRequest.AuthType.Basic, credentials);
 
             return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
         }
@@ -241,8 +240,8 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static bool Delete(string appId, Credentials credentials = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
-                $"/v2/applications/{appId}"), null, credentials);
+            var response = ApiRequest.DoRequestWithJsonContent("DELETE",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+                $"/v2/applications/{appId}"), null, ApiRequest.AuthType.Basic, credentials);
 
             return response.Status == HttpStatusCode.NoContent;
         }

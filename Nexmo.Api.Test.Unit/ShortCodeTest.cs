@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
-namespace Nexmo.Api.UnitTest
+namespace Nexmo.Api.Test.Unit
 {
     public class ShortCodeTest : TestBase
     {
@@ -40,10 +40,10 @@ namespace Nexmo.Api.UnitTest
             {
                 {"mcount", "xyz123"}
             };
-            var uri = $"{RestUrl}/sc/us/alert/json?to={request.to}&api_key={ApiKey}&api_secret={ApiSecret}&mcount={customValues["mcount"]}&";
+            var uri = $"{RestUrl}/sc/us/alert/json?to={request.to}&mcount={customValues["mcount"]}&api_key={ApiKey}&api_secret={ApiSecret}&";
             var ExpectedResponse = "{\"message-count\":\"1\",\"messages\":[{\"message-id\":\"02000000AE70FFFF\",\"to\":\"15555551212\",\"remaining-balance\":7.546,\"message-price\":0.0048,\"ok\":true,\"status\":\"0\",\"msisdn\":\"15555551212\",\"network\":\"US-FIXED\",\"messageId\":\"02000000AE70FFFF\",\"remainingBalance\":7.546,\"messagePrice\":0.0048}]}";
             Setup(uri: uri, responseContent: ExpectedResponse);
-
+            
             //ACT
             var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
             var response = client.ShortCode.RequestAlert(request, customValues);

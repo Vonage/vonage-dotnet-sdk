@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using Xunit;
-namespace Nexmo.Api.UnitTest
+namespace Nexmo.Api.Test.Unit
 {
     public class SMS_test : TestBase
     {      

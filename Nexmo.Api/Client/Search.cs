@@ -16,6 +16,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="id">Nexmo message ID</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Api.Search.Message GetMessage(string id, Credentials creds = null)
         {
             return Api.Search.GetMessage(id, creds ?? Credentials);
@@ -27,6 +28,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">Search request with numbers</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Api.Search.Messages<Api.Search.Message> GetMessages(Api.Search.SearchRequest request, Credentials creds = null)
         {
             return Api.Search.GetMessages(request, creds ?? Credentials);
@@ -38,6 +40,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">Search request with numbers</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Api.Search.Messages<Api.Search.MessageBase> GetRejections(Api.Search.SearchRequest request, Credentials creds = null)
         {
             return Api.Search.GetRejections(request, creds ?? Credentials);

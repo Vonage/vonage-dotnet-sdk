@@ -20,6 +20,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="cmd"></param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Voice.Call.CallResponse Do(Voice.Call.CallCommand cmd, Credentials creds = null)
         {
             return Voice.Call.Do(cmd, creds ?? Credentials);
@@ -30,11 +31,18 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="filter">Filter to search calls on</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// </summary>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public PaginatedResponse<Voice.Call.CallList> List(Voice.Call.SearchFilter filter, Credentials creds = null)
         {
             return Voice.Call.List(filter, creds ?? Credentials);
         }
 
+        /// <summary>
+        /// Lists the first 10 calls
+        /// </summary>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public PaginatedResponse<Voice.Call.CallList> List(Credentials creds = null)
         {
             return Voice.Call.List(new Voice.Call.SearchFilter
@@ -48,6 +56,7 @@ namespace Nexmo.Api.ClientMethods
         /// </summary>
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Voice.Call.CallResponse Get(string id, Credentials creds = null)
         {
             return Voice.Call.Get(id, creds ?? Credentials);
@@ -59,6 +68,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="id">id of call</param>
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Voice.Call.CallResponse Edit(string id, Voice.Call.CallEditCommand cmd, Credentials creds = null)
         {
             return Voice.Call.Edit(id, cmd, creds ?? Credentials);
@@ -72,6 +82,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="id">id of call</param>
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Voice.Call.CallCommandResponse BeginStream(string id, Voice.Call.StreamCommand cmd, Credentials creds = null)
         {
             return Voice.Call.BeginStream(id, cmd, creds ?? Credentials);
@@ -82,6 +93,7 @@ namespace Nexmo.Api.ClientMethods
         /// </summary>
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Voice.Call.CallCommandResponse EndStream(string id, Credentials creds = null)
         {
             return Voice.Call.EndStream(id, creds ?? Credentials);
@@ -96,7 +108,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="id">id of call</param>
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        public  Voice.Call.CallCommandResponse BeginTalk(string id, Voice.Call.TalkCommand cmd, Credentials creds = null)
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        public Voice.Call.CallCommandResponse BeginTalk(string id, Voice.Call.TalkCommand cmd, Credentials creds = null)
         {
             return Voice.Call.BeginTalk(id, cmd, creds ?? Credentials);
         }
@@ -106,6 +119,7 @@ namespace Nexmo.Api.ClientMethods
         /// </summary>
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Voice.Call.CallCommandResponse EndTalk(string id, Credentials creds = null)
         {
             return Voice.Call.EndTalk(id, creds ?? Credentials);
@@ -117,6 +131,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="id">id of call</param>
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Voice.Call.CallCommandResponse SendDtmf(string id, Voice.Call.DtmfCommand cmd, Credentials creds = null)
         {
             return Voice.Call.SendDtmf(id, cmd, creds ?? Credentials);
@@ -124,10 +139,11 @@ namespace Nexmo.Api.ClientMethods
         #endregion
 
         /// <summary>
-        /// Retrieves a Recording
+        /// Retrieves a Recording        
+        /// </summary>
         /// <param name="recordingUrl">Url where the recording is stored</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// </summary>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Voice.Call.CallGetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
         {
             return Voice.Call.GetRecording(recordingUrl, creds ?? Credentials);
