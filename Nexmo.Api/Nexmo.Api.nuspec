@@ -12,8 +12,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * adding ListOwnNumbers API
-      * Making basic JWT generation public
+      * Fixed bug where loop parameter would be truncated if set to 0
+      * Fixed bug that would cause certain User Agent's to throw errors on certain Operating Systems
     </releaseNotes>
     <copyright>© Nexmo 2018</copyright>
     <tags>SMS voice telephony phone nexmo</tags>
