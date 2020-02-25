@@ -181,9 +181,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Create(AppRequest request, Credentials credentials = null)
         {
-            var response = ApiRequest.DoRequestWithJsonContent("POST",ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, ApiRequest.AuthType.Basic,  credentials);
-
-            return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
+            return ApiRequest.DoRequestWithJsonContent<AppResponse>("POST",ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, ApiRequest.AuthType.Basic,  credentials);            
         }
 
         /// <summary>
@@ -226,10 +224,8 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Update(AppRequest request, Credentials credentials = null)
         {
-            var response = ApiRequest.DoRequestWithJsonContent("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+            return ApiRequest.DoRequestWithJsonContent<AppResponse>("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
                 $"/v2/applications/{request.Id}"), request, ApiRequest.AuthType.Basic, credentials);
-
-            return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
         }
 
         /// <summary>
@@ -240,10 +236,9 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static bool Delete(string appId, Credentials credentials = null)
         {
-            var response = ApiRequest.DoRequestWithJsonContent("DELETE",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+            ApiRequest.DoRequestWithJsonContent<object>("DELETE",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
                 $"/v2/applications/{appId}"), null, ApiRequest.AuthType.Basic, credentials);
-
-            return response.Status == HttpStatusCode.NoContent;
+            return true;
         }
     }
 }

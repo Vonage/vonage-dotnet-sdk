@@ -353,7 +353,7 @@ namespace Nexmo.Api.Request
         /// <param name="authType">Authorization type used on the API</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static NexmoResponse DoRequestWithJsonContent(string method, Uri uri, object payload, AuthType authType, Credentials creds)
+        public static T DoRequestWithJsonContent<T>(string method, Uri uri, object payload, AuthType authType, Credentials creds)
         {
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
             var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
@@ -389,7 +389,7 @@ namespace Nexmo.Api.Request
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            return SendHttpRequest(req);
+            return JsonConvert.DeserializeObject<T>(SendHttpRequest(req).JsonResponse);            
         }
 
         /// <summary>

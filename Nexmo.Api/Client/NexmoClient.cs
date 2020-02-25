@@ -8,7 +8,7 @@ namespace Nexmo.Api
     /// If you need to change credentials in your app frequently, create multiple instances of
     /// Client and ensure each have their own copy of Credentials.
     /// </summary>
-    public class Client
+    public class NexmoClient
     {
         private Credentials _credentials;
         public Credentials Credentials
@@ -21,7 +21,7 @@ namespace Nexmo.Api
             }
         }
 
-        public Client(Credentials creds)
+        public NexmoClient(Credentials creds)
         {
             Credentials = creds;
         }
@@ -41,6 +41,8 @@ namespace Nexmo.Api
             SMS = new ClientMethods.SMS(Credentials);
             Redact = new ClientMethods.Redact(Credentials);
         }
+
+        public ClientMethods.VoiceClient VoiceClient { get; set; }
 
         public ClientMethods.Account Account { get; private set; }
         public ClientMethods.ApiSecret ApiSecret { get; private set; }

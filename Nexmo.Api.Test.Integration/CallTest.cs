@@ -1,6 +1,7 @@
 ﻿using Nexmo.Api.Voice;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using Nexmo.Api.Voice.Nccos;
 
 namespace Nexmo.Api.Test.Integration
 {
@@ -16,13 +17,13 @@ namespace Nexmo.Api.Test.Integration
                 {
                     new Call.Endpoint
                     {
-                        type = "phone",
+                        Type = "phone",
                         number = Configuration.Instance.Settings["test_number"]
                     }
                 },
                 from = new Call.Endpoint
                 {
-                    type = "phone",
+                    Type = "phone",
                     number = Configuration.Instance.Settings["nexmo_number"]
                 },
                 answer_url = new[]
@@ -36,29 +37,24 @@ namespace Nexmo.Api.Test.Integration
         [TestMethod]
         public void Should_call_with_NCCO()
         {
-            dynamic TalkNCCO = new JObject();
-            TalkNCCO.action = "talk";
-            TalkNCCO.text = "This is a text to speech call from Nexmo";
-
-            JArray  nccoObject= new JArray();
-            nccoObject.Add(TalkNCCO);
-
+            var talkAction = new TalkAction() { Text = "This is a text to speech call from Nexmo" };
+            var ncco = new Ncco(talkAction);
             var results = Call.Do(new Call.CallCommand
             {
                 to = new[]
                 {
                     new Call.Endpoint
                     {
-                        type = "phone",
+                        Type = "phone",
                         number = Configuration.Instance.Settings["test_number"]
                     }
                 },
                 from = new Call.Endpoint
                 {
-                    type = "phone",
+                    Type = "phone",
                     number = Configuration.Instance.Settings["nexmo_number"]
                 },
-                Ncco = nccoObject
+                Ncco = ncco
             });
             Assert.AreEqual("started", results.status);
         }
@@ -98,13 +94,13 @@ namespace Nexmo.Api.Test.Integration
                 {
                     new Call.Endpoint
                     {
-                        type = "phone",
+                        Type = "phone",
                         number = Configuration.Instance.Settings["test_number"]
                     }
                 },
                 from = new Call.Endpoint
                 {
-                    type = "phone",
+                    Type = "phone",
                     number = Configuration.Instance.Settings["nexmo_number"]
                 },
                 answer_url = new[]
