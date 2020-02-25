@@ -56,7 +56,7 @@ namespace Nexmo.Api.Request
                     .GetVersionInfo(typeof(int).Assembly.Location)
                     .ProductVersion;
 #endif
-                var libraryVersion = typeof(VersionedApiRequest)
+                var libraryVersion = typeof(ApiRequest)
                     .GetTypeInfo()
                     .Assembly
                     .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
