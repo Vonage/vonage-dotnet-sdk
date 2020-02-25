@@ -24,7 +24,8 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// Set to 0 to replay the audio file at stream_url when the stream ends. The default value is 1.
             /// </summary>
-            public int loop { get; set; }
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include, NullValueHandling = NullValueHandling.Ignore)]
+            public int? loop { get; set; }
         }
 
         public class DtmfCommand
