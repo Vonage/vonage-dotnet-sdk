@@ -43,7 +43,6 @@ namespace Nexmo.Api
         }
 
         public ClientMethods.VoiceClient VoiceClient { get; set; }
-
         public ClientMethods.Account Account { get; private set; }
         public ClientMethods.ApiSecret ApiSecret { get; private set; }
         public ClientMethods.ApplicationV2 ApplicationV2 { get; private set; }
