@@ -137,7 +137,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ResponseBase Update(NumberUpdateCommand cmd, Credentials creds = null)
         {
-            return ApiRequest.DoPostRequest<ResponseBase>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/update"), cmd, creds);
+            return ApiRequest.DoPostRequestUrlContentFromObject<ResponseBase>(ApiRequest.GetBaseUriFor(typeof(Number), "/number/update"), cmd, creds);
         }
 
         /// <summary>

@@ -443,7 +443,7 @@ namespace Nexmo.Api.Request
         /// <param name="creds"></param>
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static T DoPostRequest<T>(Uri uri, object parameters, Credentials creds = null)
+        public static T DoPostRequestUrlContentFromObject<T>(Uri uri, object parameters, Credentials creds = null)
         {
             var apiParams = GetParameters(parameters);
             return DoPostRequestWithUrlContent<T>(uri, apiParams, creds);

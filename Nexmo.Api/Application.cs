@@ -110,7 +110,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static ApplicationResponse Create(ApplicationRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoPostRequest<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"), request, creds);
+            return ApiRequest.DoPostRequestUrlContentFromObject<ApplicationResponse>(ApiRequest.GetBaseUriFor(typeof(Application), "/v1/applications"), request, creds);
         }
 
         /// <summary>
