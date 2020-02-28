@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Nexmo.Api.Cryptography;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,12 @@ namespace Nexmo.Api.Request
             Basic,
             Bearer,
             Query
+        }
+
+        public enum UriType
+        {
+            Api,
+            Rest
         }
 
         const string LOGGER_CATEGORY = "Nexmo.Api.Request.ApiRequest";
@@ -182,6 +189,23 @@ namespace Nexmo.Api.Request
             else
             {
                 baseUri = new Uri(Configuration.Instance.Settings["appSettings:Nexmo.Url.Rest"]);
+            }
+            return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
+        }
+
+        public static Uri GetBaseUri(UriType uriType, string url = null)
+        {
+            Uri baseUri;
+            switch (uriType)
+            {
+                case UriType.Api:
+                    baseUri = new Uri(Configuration.Instance.Settings["appSettings:Nexmo.Url.Api"]);
+                    break;
+                case UriType.Rest:
+                    baseUri = new Uri(Configuration.Instance.Settings["appSettings:Nexmo.Url.Rest"]);
+                    break;
+                default:
+                    throw new Exception("Unknown Uri Type Detected");
             }
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }

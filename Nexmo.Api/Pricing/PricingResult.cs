@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Nexmo.Api.Accounts
+namespace Nexmo.Api.Pricing
 {
     public class PricingResult
     {
@@ -14,7 +14,7 @@ namespace Nexmo.Api.Accounts
         /// The code for the country you looked up: e.g. GB, US, BR, RU.
         /// </summary>
         [JsonProperty("countries")]
-        public string Countries { get; set; }
+        public Country[] Countries { get; set; }
         
     }
 }

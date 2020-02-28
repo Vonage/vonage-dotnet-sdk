@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Nexmo.Api.Accounts
+namespace Nexmo.Api.Pricing
 {
     public class Network
     {
