@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
+    [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
     public class ShortCode
     {
         public Credentials Credentials { get; set; }

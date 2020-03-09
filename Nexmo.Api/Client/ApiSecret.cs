@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
+    [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
     public class ApiSecret
     {
         public Credentials Credentials { get; set; }
@@ -18,6 +20,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>List of secrets</returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public List<Api.ApiSecret.Secret> List(string apiKey, Credentials creds = null)
         {
             return Api.ApiSecret.ListSecrets(apiKey, creds ?? Credentials);
@@ -31,6 +34,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>The secret</returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public Api.ApiSecret.Secret Get(string apiKey, string secretId, Credentials creds = null)
         {
             return Api.ApiSecret.GetSecret(apiKey, secretId, creds ?? Credentials);
@@ -50,6 +54,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>The created secret</returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public Api.ApiSecret.Secret Create(string apiKey, string newSecret, Credentials creds = null)
         {
             return Api.ApiSecret.CreateSecret(apiKey, newSecret, creds ?? Credentials);
@@ -63,6 +68,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>True/False on delete success/failure</returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public bool Delete(string apiKey, string secretId, Credentials creds = null)
         {
             return Api.ApiSecret.DeleteSecret(apiKey, secretId, creds ?? Credentials);

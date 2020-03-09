@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nexmo.Api.ClientMethods
 {
+    [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
     public class ApplicationV2
     {
         public Credentials Credentials { get; set; }
@@ -22,6 +23,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public AppResponse Create(AppRequest request, Credentials credentials = null)
         {
             return Api.ApplicationV2.Create(request, credentials ?? Credentials);
@@ -34,6 +36,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="credentials"></param>
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public AppResponse Get(string appId, Credentials credentials = null)
         {
             return Api.ApplicationV2.Get(appId, credentials ?? Credentials);
@@ -48,6 +51,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public List<AppResponse> List(int pageSize = 10, int page = 0, Credentials credentials = null)
         {
             return Api.ApplicationV2.List(pageSize, page, credentials ?? Credentials);
@@ -60,6 +64,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public AppResponse Update(AppRequest request, Credentials credentials = null)
         {
             return Api.ApplicationV2.Update(request, credentials ?? Credentials);
@@ -72,6 +77,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public bool Delete(string appId, Credentials credentials = null)
         {
             return Api.ApplicationV2.Delete(appId, credentials ?? Credentials);

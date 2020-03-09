@@ -54,5 +54,6 @@ namespace Nexmo.Api.Request
             ApplicationId = nexmoApplicationId;
             ApplicationKey = nexmoApplicationPrivateKey;
         }
+
     }
 }
