@@ -1,28 +1,38 @@
-﻿using Nexmo.Api.Request;
-using Nexmo.Api.Voice;
+using System;
+using System.IO;
+using Nexmo.Api.Request;
 
-
-namespace Nexmo.Api.ClientMethods
+namespace Nexmo.Api.Voice
 {
-    public class VoiceClient
+    public class VoiceClient : IVoiceClient
     {
+        public const string POST = "POST";
+        public const string DELETE = "DELETE";
+        public const string PUT = "PUT";
+        public const string CALLS_ENDPOINT = "v1/calls";
         public Credentials Credentials { get; set; }
 
-        public VoiceClient(Credentials creds)
+        public VoiceClient(Credentials credentials)
         {
-            Credentials = creds;
+            Credentials = credentials;
         }
-
+        
         /// <summary>
         /// POST /v1/calls - create an outbound SIP or PSTN Call
         /// </summary>
-        /// <param name="cmd"></param>
+        /// <param name="command"></param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public CallResponse CreateCall(CallCommand command, Credentials creds = null)
         {
-            return Voice.Voice.CreateCall(command, creds ?? Credentials);
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+                POST,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+                command, 
+                ApiRequest.AuthType.Bearer, 
+                creds ?? Credentials
+                );
         }
 
         /// <summary>
@@ -33,7 +43,12 @@ namespace Nexmo.Api.ClientMethods
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public PaginatedResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
         {
-            return Voice.Voice.GetCalls(filter, creds ?? Credentials);
+            return ApiRequest.DoGetRequestWithUrlContent<PaginatedResponse<CallList>>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+                ApiRequest.AuthType.Bearer,
+                filter,
+                creds ?? Credentials
+                );
         }
 
         /// <summary>
@@ -42,9 +57,13 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallResponse Get(string id, Credentials creds = null)
+        public CallResponse GetCall(string id, Credentials creds = null)
         {
-            return Voice.Voice.GetCall(id, creds ?? Credentials);
+            return ApiRequest.DoGetRequestWithUrlContent<CallResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
+                ApiRequest.AuthType.Bearer,
+                credentials:  creds ?? Credentials
+            );
         }
 
         /// <summary>
@@ -54,12 +73,16 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallResponse UpdateCall(string id, CallEditCommand cmd, Credentials creds = null)
+        public CallResponse UpdateCall(string id, CallEditCommand command, Credentials creds = null)
         {
-            return Voice.Voice.UpdateCall(id, cmd, creds ?? Credentials);
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
+                command,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
         }
-
-        #region Stream
 
         /// <summary>
         /// PUT /v1/calls/{uuid}/stream - stream an audio file to an active Call
@@ -68,9 +91,15 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallCommandResponse StartStream(string id, StreamCommand cmd, Credentials creds = null)
+        public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds)
         {
-            return Voice.Voice.StartStream(id, cmd, creds ?? Credentials);
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
+                command,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
         }
 
         /// <summary>
@@ -81,12 +110,15 @@ namespace Nexmo.Api.ClientMethods
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public CallCommandResponse StopStream(string id, Credentials creds = null)
         {
-            return Voice.Voice.StopStream(id, creds ?? Credentials);
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                DELETE,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
+                new { },
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
         }
 
-        #endregion
-
-        #region Talk
         /// <summary>
         /// PUT /v1/calls/{uuid}/talk - send a synthesized speech message to an active Call
         /// </summary>
@@ -96,7 +128,13 @@ namespace Nexmo.Api.ClientMethods
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null)
         {
-            return Voice.Voice.StartTalk(id, cmd, creds ?? Credentials);
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
+                cmd,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
         }
 
         /// <summary>
@@ -107,7 +145,13 @@ namespace Nexmo.Api.ClientMethods
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public CallCommandResponse StopTalk(string id, Credentials creds = null)
         {
-            return Voice.Voice.StopTalk(id, creds ?? Credentials);
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                DELETE,
+                ApiRequest.GetBaseUriFor(typeof(Call), $"{CALLS_ENDPOINT}/{id}/talk"),
+                new { },
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
         }
 
         /// <summary>
@@ -117,21 +161,42 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallCommandResponse SendDtmf(string id, DtmfCommand cmd, Credentials creds = null)
+        public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null)
         {
-            return Voice.Voice.StartDtmf(id, cmd, creds ?? Credentials);
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                PUT, 
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"), 
+                cmd, 
+                ApiRequest.AuthType.Bearer, 
+                creds ?? Credentials
+                );
         }
-        #endregion
 
         /// <summary>
-        /// Retrieves a Recording        
+        /// GET - retrieves the recording from a call based off of the input url
         /// </summary>
-        /// <param name="recordingUrl">Url where the recording is stored</param>
-        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <param name="recordingUrl">Url where the recorded call lives</param>
+        /// <param name="creds">Overridden credentials</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        /// <returns>A response containing a byte array representing the file stream</returns>
         public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
         {
-            return Voice.Voice.GetRecording(recordingUrl, creds ?? Credentials);
+            using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(recordingUrl), creds))
+            {
+                var readTask = response.Content.ReadAsStreamAsync();
+                byte[] bytes;
+                readTask.Wait();
+                using (var ms = new MemoryStream())
+                {
+                    readTask.Result.CopyTo(ms);
+                    bytes = ms.ToArray();
+                }
+                return new GetRecordingResponse()
+                {
+                    ResultStream = bytes,
+                    Status = response.StatusCode
+                };
+            }
         }
     }
 }

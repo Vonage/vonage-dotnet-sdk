@@ -1,18 +1,22 @@
-﻿using Nexmo.Api.Request;
-using System;
+using Nexmo.Api.Accounts;
+using Nexmo.Api.Voice;
+using Nexmo.Api.Applications;
+using Nexmo.Api.Conversions;
+using Nexmo.Api.Numbers;
+using Nexmo.Api.NumberInsights;
+using Nexmo.Api.Verify;
+using Nexmo.Api.ShortCodes;
+using Nexmo.Api.Redaction;
+using Nexmo.Api.Messaging;
+using Nexmo.Api.Request;
 
-namespace Nexmo.Api
+namespace Nexmo.Api.Client
 {
-    /// <summary>
-    /// Note that Client and Credentials are _not_ thread-safe!
-    /// If you need to change credentials in your app frequently, create multiple instances of
-    /// Client and ensure each have their own copy of Credentials.
-    /// </summary>
     public class NexmoClient
     {
         private Credentials _credentials;
-        public Credentials Credentials
-        {
+        
+        public Credentials Credentials {
             get => _credentials;
             set
             {
@@ -20,40 +24,45 @@ namespace Nexmo.Api
                 PropagateCredentials();
             }
         }
-
-        public NexmoClient(Credentials creds)
+        
+        public IAccountClient AccountClient { get; private set; }
+        
+        public IApplicationClient ApplicationClient { get; private set; }
+        
+        public IVoiceClient VoiceClient { get; private set; }
+        
+        public IConversionClient ConversionClient { get; private set; }
+        
+        public INumbersClient NumbersClient { get; private set; }
+        
+        public INumberInsightClient NumberInsightClient { get; private set; }
+        
+        public IVerifyClient VerifyClient { get; private set; }
+        
+        public IShortCodesClient ShortCodesClient { get; private set; }
+        
+        public IRedactClient RedactClient { get; private set; }
+        
+        public ISmsClient SmsClient { get; private set; }
+        
+        public NexmoClient(Credentials credentials)
         {
-            Credentials = creds;
+            Credentials = credentials;
         }
 
         private void PropagateCredentials()
         {
-            Account = new ClientMethods.Account(Credentials);
-            ApiSecret = new ClientMethods.ApiSecret(Credentials);
-            ApplicationV2 = new ClientMethods.ApplicationV2(Credentials);
-            Call = new ClientMethods.Call(Credentials);
-            Conversion = new ClientMethods.Conversion(Credentials);
-            Number = new ClientMethods.Number(Credentials);
-            NumberInsight = new ClientMethods.NumberInsight(Credentials);
-            NumberVerify = new ClientMethods.NumberVerify(Credentials);
-            Search = new ClientMethods.Search(Credentials);
-            ShortCode = new ClientMethods.ShortCode(Credentials);
-            SMS = new ClientMethods.SMS(Credentials);
-            Redact = new ClientMethods.Redact(Credentials);
+            AccountClient = new AccountClient(Credentials);
+            ApplicationClient = new ApplicationClient(Credentials);
+            VoiceClient = new VoiceClient(Credentials);
+            ConversionClient = new ConversionClient(Credentials);
+            NumbersClient = new NumbersClient(Credentials);
+            NumberInsightClient = new NumberInsightClient(Credentials);
+            VerifyClient = new VerifyClient(Credentials);
+            ShortCodesClient = new ShortCodesClient(Credentials);
+            RedactClient = new RedactClient(Credentials);
+            SmsClient = new SmsClient(Credentials);
         }
-
-        public ClientMethods.VoiceClient VoiceClient { get; set; }
-        public ClientMethods.Account Account { get; private set; }
-        public ClientMethods.ApiSecret ApiSecret { get; private set; }
-        public ClientMethods.ApplicationV2 ApplicationV2 { get; private set; }
-        public ClientMethods.Call Call { get; private set; }
-        public ClientMethods.Conversion Conversion { get; private set; }
-        public ClientMethods.Number Number { get; private set; }
-        public ClientMethods.NumberInsight NumberInsight { get; private set; }
-        public ClientMethods.NumberVerify NumberVerify { get; private set; }
-        public ClientMethods.Search Search { get; private set; }
-        public ClientMethods.ShortCode ShortCode { get; private set; }
-        public ClientMethods.SMS SMS { get; private set; }
-        public ClientMethods.Redact Redact { get; private set; }
+        
     }
 }
