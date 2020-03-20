@@ -1,6 +1,7 @@
 ﻿using Nexmo.Api.Voice;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using Nexmo.Api.Voice.Nccos;
 
 namespace Nexmo.Api.Test.Integration
 {
@@ -34,7 +35,7 @@ namespace Nexmo.Api.Test.Integration
         }
 
         [TestMethod]
-        public void Should_call_with_NCCO()
+        public void should_call_with_NCCO()
         {
             dynamic TalkNCCO = new JObject();
             TalkNCCO.action = "talk";
@@ -60,6 +61,35 @@ namespace Nexmo.Api.Test.Integration
                 },
                 Ncco = nccoObject
             });
+            Assert.AreEqual("started", results.status);
+        }
+
+        [TestMethod]
+        public void should_call_with_stream_NCCO()
+        {
+            var nccoObject = new Ncco(new StreamAction()
+            {
+                StreamUrl = new string[] { "https://nexmo-community.github.io/ncco-examples/assets/voice_api_audio_streaming.mp3" }
+            });
+
+            var results = Call.Do(new Call.CallCommand
+            {
+                to = new[]
+                {
+                    new Call.Endpoint
+                    {
+                        type = "phone",
+                        number = Configuration.Instance.Settings["test_number"]
+                    }
+                },
+                from = new Call.Endpoint
+                {
+                    type = "phone",
+                    number = Configuration.Instance.Settings["nexmo_number"]
+                },
+                NccoObj = nccoObject
+            });
+
             Assert.AreEqual("started", results.status);
         }
 
