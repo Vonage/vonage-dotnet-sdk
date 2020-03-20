@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nexmo.Api.Common;
 
 namespace Nexmo.Api.Voice
-{
+{    
     public class CallSearchFilter
     {
         /// <summary>
@@ -25,25 +26,27 @@ namespace Nexmo.Api.Voice
         /// Return the records that occurred after this point in time.
         /// </summary>
         [JsonProperty("date_start")]
+        [JsonConverter(typeof(PageListDateTimeConverter))]
         public DateTime? DateStart { get; set; }
         
         /// <summary>
         /// Return the records that occurred before this point in time.
         /// </summary>
         [JsonProperty("date_end")]
+        [JsonConverter(typeof(PageListDateTimeConverter))]
         public DateTime? DateEnd { get; set; }
         
         /// <summary>
         /// Return this amount of records in the response. The default value is 10.
         /// </summary>
         [JsonProperty("page_size")]
-        public int PageSize { get; set; }
+        public int? PageSize { get; set; }
 
         /// <summary>
         /// Return page_size Calls from this index in the response. That is, if your request returns 300 Calls, set record_index to 5 in order to return Calls 50 to 59. The default value is 0. That is, the first page_size Calls.
         /// </summary>
         [JsonProperty("record_index")]
-        public int RecordIndex { get; set; }
+        public int? RecordIndex { get; set; }
 
         /// <summary>
         /// Return the results in:

@@ -169,7 +169,7 @@ namespace Nexmo.Api
         {
             var sb = ApiRequest.GetQueryStringBuilderFor(new object(), ApiRequest.AuthType.Query);
             var response = ApiRequest.DoDeleteRequestWithUrlContent(ApiRequest.GetBaseUriFor(typeof(Application),
-                $"/v1/applications/{appId}?{sb}"), null, creds);
+                $"/v1/applications/{appId}?{sb}"), null, ApiRequest.AuthType.Basic, creds);
 
             return response.Status == HttpStatusCode.NoContent;
         }

@@ -34,33 +34,45 @@ namespace Nexmo.Api.Numbers
 
         public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<NumberTransactionResponse>(
-                "POST",
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(                
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/buy"),
-                request,
-                ApiRequest.AuthType.Query,
+                request,                
                 creds ?? Credentials
             );
+            ValidateNumbersResponse(response);
+            return response; 
         }
 
         public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<NumberTransactionResponse>(
-                "POST",
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(                
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/cancel"),
-                request,
-                ApiRequest.AuthType.Query,
+                request,                
                 creds ?? Credentials
             );
+            ValidateNumbersResponse(response);
+            return response;
         }
 
         public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/update"),
                 request,
                 creds ?? Credentials
             );
+            ValidateNumbersResponse(response);
+            return response;
+        }
+
+        public static void ValidateNumbersResponse(NumberTransactionResponse response)
+        {
+            const string SUCCESS = "200";
+            if (response.ErrorCode != SUCCESS)
+            {
+                throw new NexmoNumberResponseException
+                    ($"Number Transaction failed with error code:{response.ErrorCode} and label {response.ErrorCodeLabel}");
+            }
         }
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nexmo.Api.Voice
+namespace Nexmo.Api
 {
-    public class CallList
+    public class NexmoException : Exception
     {
-        public List<CallResponse> calls { get; set; }
+        public NexmoException(string message) : base(message) { }
     }
 }

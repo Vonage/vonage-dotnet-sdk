@@ -1,3 +1,4 @@
+using Nexmo.Api.Common;
 using Nexmo.Api.Request;
 
 namespace Nexmo.Api.Voice
@@ -12,14 +13,14 @@ namespace Nexmo.Api.Voice
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         CallResponse CreateCall(CallCommand command, Credentials creds = null);
-        
+
         /// <summary>
         /// GET /v1/calls - retrieve information about all your Calls
         /// <param name="filter">Filter to search calls on</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// </summary>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        PaginatedResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null);
+        PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null);
         
         /// <summary>
         /// GET /v1/calls/{uuid} - retrieve information about a single Call
@@ -36,7 +37,7 @@ namespace Nexmo.Api.Voice
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        CallResponse UpdateCall(string id, CallEditCommand command, Credentials creds = null);
+        bool UpdateCall(string id, CallEditCommand command, Credentials creds = null);
         
         /// <summary>
         /// PUT /v1/calls/{uuid}/stream - stream an audio file to an active Call
@@ -45,7 +46,7 @@ namespace Nexmo.Api.Voice
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds);
+        CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null);
         
         /// <summary>
         /// DELETE /v1/calls/{uuid}/stream - stop streaming an audio file to an active Call

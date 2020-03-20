@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Nexmo.Api.Common
 {
-    public class PaginatedResponse<T> where T : class
+    public class PageResponse<T> where T : class
     {
         [JsonProperty("count")]
         public int Count { get; set; }

@@ -45,7 +45,7 @@ namespace Nexmo.Api.Accounts
             apiKey = apiKey ?? creds.ApiKey;
             apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoGetRequestWithUrlContent<SecretsRequestResult>(
-                ApiRequest.GetBaseUriFor(typeof(AccountClient), $"/accounts/{apiKey}/secrets"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials
             );
@@ -57,7 +57,7 @@ namespace Nexmo.Api.Accounts
             apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoRequestWithJsonContent<Secret>(
                 "POST",
-                ApiRequest.GetBaseUriFor(typeof(AccountClient), $"/accounts/{apiKey}/secrets"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
                 request,
                 ApiRequest.AuthType.Basic,
                 creds: creds ?? Credentials
@@ -69,7 +69,7 @@ namespace Nexmo.Api.Accounts
             apiKey = apiKey ?? creds.ApiKey;
             apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoGetRequestWithUrlContent<Secret>(
-                ApiRequest.GetBaseUriFor(typeof(AccountClient), $"/accounts/{apiKey}/secrets/{secretId}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials
             );
@@ -80,8 +80,9 @@ namespace Nexmo.Api.Accounts
             apiKey = apiKey ?? creds.ApiKey;
             apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             ApiRequest.DoDeleteRequestWithUrlContent(
-                ApiRequest.GetBaseUriFor(typeof(AccountClient), $"/accounts/{apiKey}/secrets/{secretId}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 null,
+                ApiRequest.AuthType.Basic,
                 creds ?? Credentials
             );
             return true;

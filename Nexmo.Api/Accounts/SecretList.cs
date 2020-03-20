@@ -5,6 +5,6 @@ namespace Nexmo.Api.Accounts
     public class SecretList
     {
         [JsonProperty("secrets")]
-        public Secret Secrets { get; set; }
+        public Secret[] Secrets { get; set; }
     }
 }

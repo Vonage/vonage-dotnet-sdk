@@ -55,6 +55,7 @@ namespace Nexmo.Api.Applications
             ApiRequest.DoDeleteRequestWithUrlContent(
                 ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications{id}"),
                 null,
+                ApiRequest.AuthType.Basic,
                 creds ?? Credentials
             );
             return true;

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Nexmo.Api.Voice.Nccos.Endpoints;
 using System;
 
 namespace Nexmo.Api.Voice
@@ -25,13 +24,13 @@ namespace Nexmo.Api.Voice
         ///    dtmfAnswer - Set the digits that are sent to the user as soon as the Call is answered.The* and # digits are respected. You create pauses using p. Each pause is 500ms.
         /// </summary>
         [JsonProperty("to")]
-        public Endpoint To { get; set; }
+        public CallEndpoint To { get; set; }
 
         /// <summary>
         /// The endpoint you called from. Possible values are the same as to 
         /// </summary>
         [JsonProperty("from")]
-        public Endpoint From { get; set; }
+        public CallEndpoint From { get; set; }
 
         /// <summary>
         /// Possible values are outbound or inbound.

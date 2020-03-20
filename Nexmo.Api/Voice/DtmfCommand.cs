@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace Nexmo.Api.Voice
 {
@@ -11,6 +7,7 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// The array of digits to send to the call
         /// </summary>
-        public string digits { get; set; }
+        [JsonProperty("digits")]
+        public string Digits { get; set; }
     }
 }

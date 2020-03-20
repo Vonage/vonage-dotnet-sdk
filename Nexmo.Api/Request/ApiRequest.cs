@@ -148,6 +148,9 @@ namespace Nexmo.Api.Request
         /// <returns></returns>
         internal static Dictionary<string, string> GetParameters(object parameters)
         {
+            var json = JsonConvert.SerializeObject(parameters, 
+                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             var paramType = parameters.GetType().GetTypeInfo();
             var apiParams = new Dictionary<string, string>();
             foreach (var property in paramType.GetProperties())
@@ -296,7 +299,8 @@ namespace Nexmo.Api.Request
                     Jwt.CreateToken(appId, appKeyPath));
             }
             logger.LogDebug($"GET {uri}");
-            return JsonConvert.DeserializeObject<T>(SendHttpRequest(req).JsonResponse);
+            var json = SendHttpRequest(req).JsonResponse;
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         /// <summary>
@@ -309,21 +313,29 @@ namespace Nexmo.Api.Request
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         /// <returns></returns>
-        public static NexmoResponse DoRequestWithUrlContent(string method, Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
+        public static NexmoResponse DoRequestWithUrlContent(string method, Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null)
         {
             var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var sb = new StringBuilder();
-            // if parameters is null, assume that key and secret have been taken care of
+            // if parameters is null, assume that key and secret have been taken care of            
             if (null != parameters)
             {
-                sb = BuildQueryString(parameters, creds);
-            }
+                sb = GetQueryStringBuilderFor(parameters, authType, creds);
+            }            
 
             var req = new HttpRequestMessage
             {
                 RequestUri = uri,
                 Method = new HttpMethod(method)
             };
+            if (authType == AuthType.Basic)
+            {
+                var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
+                var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
+                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
+                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(authBytes));
+            }
             SetUserAgent(ref req, creds);
             
             var data = Encoding.ASCII.GetBytes(sb.ToString());
@@ -363,7 +375,7 @@ namespace Nexmo.Api.Request
             catch (HttpRequestException exception)
             {
                 logger.LogError($"FAIL: {response.StatusCode}");
-                throw new NexmoHttpRequestException(exception.Message) { HttpStatusCode = response.StatusCode, Json = json };
+                throw new NexmoHttpRequestException(exception.Message + " Json from error: " + json) { HttpStatusCode = response.StatusCode, Json = json };
             }
         }
 
@@ -403,17 +415,23 @@ namespace Nexmo.Api.Request
                 req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                     Jwt.CreateToken(appId, appKeyPath));
             }
+            else if (authType == AuthType.Query)
+            {
+                var sb = BuildQueryString(new Dictionary<string, string>(), creds);
+                req.RequestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
+
+            }
             else
             {
                 throw new ArgumentException("Unkown Auth Type set for function");
             }
-
-            var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(payload,
-                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
+            var json = JsonConvert.SerializeObject(payload,
+                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var data = Encoding.ASCII.GetBytes(json);
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-
-            return JsonConvert.DeserializeObject<T>(SendHttpRequest(req).JsonResponse);            
+            var json_response = SendHttpRequest(req).JsonResponse;
+            return JsonConvert.DeserializeObject<T>(json_response);            
         }
 
         /// <summary>
@@ -484,7 +502,7 @@ namespace Nexmo.Api.Request
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) 
         {
-            var response = DoRequestWithUrlContent("POST", uri, parameters, creds);
+            var response = DoRequestWithUrlContent("POST", uri, parameters, creds:creds);
             return JsonConvert.DeserializeObject<T>(response.JsonResponse);
         }
 
@@ -498,7 +516,7 @@ namespace Nexmo.Api.Request
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoPutRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) {
-            var response = DoRequestWithUrlContent("PUT", uri, parameters, creds);
+            var response = DoRequestWithUrlContent("PUT", uri, parameters, creds:creds);
             return JsonConvert.DeserializeObject<T>(response.JsonResponse);
         }
 
@@ -510,6 +528,6 @@ namespace Nexmo.Api.Request
         /// <param name="creds"></param>
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static NexmoResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) => DoRequestWithUrlContent("DELETE", uri, parameters, creds);
+        public static NexmoResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null) => DoRequestWithUrlContent("DELETE", uri, parameters, authType, creds);
     }
 }

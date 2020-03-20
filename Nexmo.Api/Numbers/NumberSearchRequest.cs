@@ -14,7 +14,7 @@ namespace Nexmo.Api.Numbers
         public string Pattern { get; set; }
 
         [JsonProperty("search_pattern")]
-        public string SearchPattern { get; set; }
+        public int? SearchPattern { get; set; }
 
         [JsonProperty("features")]
         public string Features { get; set; }

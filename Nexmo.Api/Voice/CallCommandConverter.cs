@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Reflection;
-
+using System.Linq;
 namespace Nexmo.Api.Voice
 {
     public class CallCommandConverter : JsonConverter
@@ -9,7 +9,7 @@ namespace Nexmo.Api.Voice
         public override bool CanWrite => true;
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(Call.CallCommand);
+            return objectType == typeof(Call.CallCommand) || objectType == typeof(CallCommand);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -21,6 +21,8 @@ namespace Nexmo.Api.Voice
         {
             const string NCCO = "ncco";
             const string NCCO_OBJ = "NccoObj";
+            const string PROPERTY_NAME = "PropertyName";
+            const string NCCO_PASCAL = "Ncco";
             writer.WriteStartObject();
             var nccoUsed = false;
             foreach(var property in value.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
@@ -34,15 +36,16 @@ namespace Nexmo.Api.Voice
                 {
                     if(att.AttributeType.Name == "JsonPropertyAttribute")
                     {
-                        propertyName = att.ConstructorArguments[0].Value.ToString();
+                        //propertyName = att.ConstructorArguments[0].Value.ToString();
+                        propertyName = (string)att.NamedArguments.First(x=>x.MemberName==PROPERTY_NAME).TypedValue.Value;
                         break;
                     }
                 }
-                if ((propertyName == NCCO  || propertyName == NCCO_OBJ) && nccoUsed)
+                if ((propertyName == NCCO  || propertyName == NCCO_OBJ || propertyName == NCCO_PASCAL) && nccoUsed)
                 {
                     continue;
                 }
-                else if(propertyName == NCCO || propertyName == NCCO_OBJ)
+                else if(propertyName == NCCO || propertyName == NCCO_OBJ || propertyName == NCCO_PASCAL)
                 {
                     nccoUsed = true;
                     propertyName = "ncco";
