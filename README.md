@@ -448,6 +448,7 @@ Special thanks to our contributors:
 * [jdpearce](https://github.com/jdpearce)
 * [jonferreira](https://github.com/jonferreira)
 * [fauna5](https://github.com/fauna5)
+* [taylus](https://github.com/taylus)
 
 License
 -------
