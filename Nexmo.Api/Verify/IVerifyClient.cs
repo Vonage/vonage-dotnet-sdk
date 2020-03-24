@@ -10,6 +10,6 @@ namespace Nexmo.Api.Verify
 
         VerifySearchResponse VerifySearch(VerifySearchRequest request, Credentials creds = null);
 
-        VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null);
+        VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null);        
     }
 }

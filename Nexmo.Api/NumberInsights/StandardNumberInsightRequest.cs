@@ -5,6 +5,6 @@ namespace Nexmo.Api.NumberInsights
     public class StandardNumberInsightRequest : BasicNumberInsightRequest
     {
         [JsonProperty("cnam")]
-        public bool LookUpNameOfNumberOwner { get; set; }
+        public bool Cnam { get; set; }
     }
 }

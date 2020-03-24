@@ -1,7 +1,6 @@
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace Nexmo.Api.Redaction
 {
@@ -13,6 +12,24 @@ namespace Nexmo.Api.Redaction
         [EnumMember(Value = "outbound")]
         Outbound
     }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum RedactionProduct
+    {
+        [EnumMember(Value = "sms")]
+        Sms,
+        [EnumMember(Value = "voice")]
+        Voice,
+        [EnumMember(Value = "number-insight")]
+        NumberInsight,
+        [EnumMember(Value = "verify")]
+        Verify,
+        [EnumMember(Value = "verify-sdk")]
+        VerifySdk,
+        [EnumMember(Value = "messages")]
+        Messages
+
+    }
     public class RedactRequest
     {
         
@@ -20,9 +37,9 @@ namespace Nexmo.Api.Redaction
         public string Id { get; set; }
         
         [JsonProperty("product")]
-        public string Product { get; set; }
+        public RedactionProduct? Product { get; set; }
         
         [JsonProperty("type")]
-        public RedactionType Type { get; set; }
+        public RedactionType? Type { get; set; }
     }
 }

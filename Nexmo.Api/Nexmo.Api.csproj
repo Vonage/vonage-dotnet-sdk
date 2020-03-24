@@ -105,8 +105,4 @@
     <PackageReference Include="System.Security.Cryptography.Cng" Version="4.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Web" />
-  </ItemGroup>
-
 </Project>

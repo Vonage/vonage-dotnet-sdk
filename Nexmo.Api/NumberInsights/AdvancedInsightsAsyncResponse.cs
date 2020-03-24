@@ -1,8 +1,13 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Nexmo.Api.NumberInsights
 {
-    public class AsyncInsightsResponse
+    public class AdvancedInsightsAsyncResponse
     {
         [JsonProperty("request_id")]
         public string RequestId { get; set; }
@@ -17,6 +22,6 @@ namespace Nexmo.Api.NumberInsights
         public string RequestPrice { get; set; }
 
         [JsonProperty("status")]
-        public int Status { get; set; }
+        public string Status { get; set; }
     }
 }

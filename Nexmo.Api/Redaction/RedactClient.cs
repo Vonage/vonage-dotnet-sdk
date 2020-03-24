@@ -12,7 +12,7 @@ namespace Nexmo.Api.Redaction
         }
 
 
-        public bool Redact(RedactRequest request, Credentials creds)
+        public bool Redact(RedactRequest request, Credentials creds = null)
         {
             ApiRequest.DoRequestWithJsonContent<object>
             (

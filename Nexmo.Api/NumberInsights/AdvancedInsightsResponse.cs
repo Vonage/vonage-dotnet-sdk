@@ -1,19 +1,20 @@
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Nexmo.Api.NumberInsights
 {
     public class AdvancedInsightsResponse : StandardInsightResponse
     {
-        [JsonProperty("lookup_outcome")]
+        [JsonProperty("lookup_outcome")]        
         public int LookupOutcome { get; set; }
 
-        [JsonProperty("lookup_outcome_message")]
+        [JsonProperty("lookup_outcome_message")]        
         public string LookupOutcomeMessage { get; set; }
 
-        [JsonProperty("valid_number")]
+        [JsonProperty("valid_number")]        
         public string ValidNumber { get; set; }
 
-        [JsonProperty("reachable")]
+        [JsonProperty("reachable")]        
         public string Reachable { get; set; }
     }
 }

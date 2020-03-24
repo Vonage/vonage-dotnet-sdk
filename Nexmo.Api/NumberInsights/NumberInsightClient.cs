@@ -30,7 +30,7 @@ namespace Nexmo.Api.NumberInsights
             );
         }
 
-        public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightSynchronousRequest request,
+        public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
             Credentials creds = null)
         {
             return ApiRequest.DoGetRequestWithUrlContent<AdvancedInsightsResponse>(
@@ -41,9 +41,9 @@ namespace Nexmo.Api.NumberInsights
             );
         }
 
-        public AsyncInsightsResponse GetNumberInsightAsync(AdvancedNumberInsightASynchronousRequest request, Credentials creds = null)
+        public AdvancedInsightsAsyncResponse GetNumberInsightAsync(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<AsyncInsightsResponse>(
+            return ApiRequest.DoGetRequestWithUrlContent<AdvancedInsightsAsyncResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
                 ApiRequest.AuthType.Query,
                 request,

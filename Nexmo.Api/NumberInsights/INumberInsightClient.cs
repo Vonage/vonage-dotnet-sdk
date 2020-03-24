@@ -9,10 +9,10 @@ namespace Nexmo.Api.NumberInsights
         StandardInsightResponse
             GetNumberInsightStandard(StandardNumberInsightRequest request, Credentials creds = null);
 
-        AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightSynchronousRequest request,
+        AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
             Credentials creds = null);
 
-        AsyncInsightsResponse GetNumberInsightAsync(AdvancedNumberInsightASynchronousRequest request,
+        AdvancedInsightsAsyncResponse GetNumberInsightAsync(AdvancedNumberInsightAsynchronousRequest request,
             Credentials creds = null);
     }
 }

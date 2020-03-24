@@ -150,26 +150,7 @@ namespace Nexmo.Api.Request
         {
             var json = JsonConvert.SerializeObject(parameters, 
                 Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            var paramType = parameters.GetType().GetTypeInfo();
-            var apiParams = new Dictionary<string, string>();
-            foreach (var property in paramType.GetProperties())
-            {
-                string jsonPropertyName = null;
-
-                if (property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Any())
-                {
-                    jsonPropertyName =
-                        ((JsonPropertyAttribute)property.GetCustomAttributes(typeof(JsonPropertyAttribute), false).First())
-                            .PropertyName;
-                }
-
-                if (null == paramType.GetProperty(property.Name).GetValue(parameters, null)) continue;
-
-                apiParams.Add(string.IsNullOrEmpty(jsonPropertyName) ? property.Name : jsonPropertyName,
-                    paramType.GetProperty(property.Name).GetValue(parameters, null).ToString());
-            }
-            return apiParams;
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);            
         }
 
         /// <summary>

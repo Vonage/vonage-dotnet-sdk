@@ -4,6 +4,16 @@ namespace Nexmo.Api.Verify
 {
     public class VerifyRequest
     {
+        public enum Workflow
+        {
+            SMS_TTS_TTS=1,
+            SMS_SMS_TTS=1,
+            TTS_TTS=3,
+            SMS_SMS=4,
+            SMS_TTS=5,
+            SMS=6,
+            TTS=7
+        }
         [JsonProperty("number")]
         public string Number { get; set; }
 
@@ -29,6 +39,6 @@ namespace Nexmo.Api.Verify
         public int NextEventWait { get; set; }
 
         [JsonProperty("workflow_id")]
-        public string WorkflowId { get; set; }
+        public Workflow? WorkflowId { get; set; }
     }
 }
