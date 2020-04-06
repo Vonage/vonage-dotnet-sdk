@@ -137,8 +137,8 @@ namespace Nexmo.Api
 
     public class AppListFilter
     {
-        public int page_size { get; set; }
-        public int page { get; set; }
+        public int? page_size { get; set; }
+        public int? page { get; set; }
     }
 
     public class AppResponse
