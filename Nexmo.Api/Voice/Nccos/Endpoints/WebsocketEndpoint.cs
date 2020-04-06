@@ -12,7 +12,7 @@ namespace Nexmo.Api.Voice.Nccos.Endpoints
         public string ContentType { get; set; }
 
         [JsonProperty("headers")]
-        public Dictionary<string,string> Headers { get; set; }
+        public object Headers { get; set; }
 
         public WebsocketEndpoint()
         {
