@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Nexmo.Api.Voice.EventWebhooks;
 
 namespace Nexmo.Api.Voice.AnswerWebhooks
 {
-    public class Answer
+    public class Answer : EventBase
     {
         [JsonProperty("to")]
         public string To { get; set; }

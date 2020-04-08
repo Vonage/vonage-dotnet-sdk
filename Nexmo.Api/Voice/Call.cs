@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Nexmo.Api.Helpers;
 using Nexmo.Api.Request;
 using Nexmo.Api.Voice.Nccos;
 
 namespace Nexmo.Api.Voice
-{
+{    
     public static partial class Call
     {
         public class Endpoint
@@ -17,7 +16,8 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// One of the following: phone, websocket, sip
             /// </summary>
-            public string type { get; set; }
+            [JsonProperty("type")]
+            public string Type { get; set; }
 
             // phone:
 
@@ -66,19 +66,12 @@ namespace Nexmo.Api.Voice
             /// </summary>
             [JsonRequired]
             public Endpoint from { get; set; }
-            /// <summary>
-            /// The Nexmo Call Control Object to use for this call. 
-            /// Required unless answer url is provided.
-            /// </summary>
-            [RequiredIfAttribute("answer_url", null, ErrorMessage = "You must provide an NCCO object or an answer url")]
-            [JsonProperty("ncco")]
-            [Obsolete("this property will soon be deprecated - we recommend you use the strongly typed NccoObj field instead")]
-            public JArray Ncco { get; set; } //TODO on next major release remove this JArray
-
+            
             /// <summary>
             /// This will convert to ncco as per the CallCommandConverter - it is preferable to use this over the JArray Ncco
             /// </summary>
-            public Ncco NccoObj { get; set; }
+            public Ncco Ncco { get; set; }
+
             /// <summary>
             /// The webhook endpoint where you provide the Nexmo Call Control Object that governs this call. As soon as your user answers a call, Platform requests this NCCO from answer_url. Use answer_method to manage the HTTP method.
             /// </summary>
@@ -286,9 +279,7 @@ namespace Nexmo.Api.Voice
         /// <returns></returns>
         public static CallResponse Do(CallCommand cmd, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequestWithJsonContent("POST", ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), cmd, ApiRequest.AuthType.Bearer, creds);
-
-            return JsonConvert.DeserializeObject<CallResponse>(response.JsonResponse);
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>("POST", ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), cmd, ApiRequest.AuthType.Bearer, creds);            
         }
 
         /// <summary>
@@ -326,9 +317,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Edit(string id, CallEditCommand cmd, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequestWithJsonContent("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd, ApiRequest.AuthType.Bearer, creds);
-
-            return JsonConvert.DeserializeObject<CallResponse>(response.JsonResponse);
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd, ApiRequest.AuthType.Bearer, creds);            
         }
 
         public static CallGetRecordingResponse GetRecording(string url, Credentials creds = null)

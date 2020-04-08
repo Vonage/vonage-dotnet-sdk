@@ -267,7 +267,7 @@ namespace Nexmo.Api
 
         public static T SendSynchronousInsightRequest<T>(NumberInsightRequest request, string level, Credentials creds = null) where T : NumberInsightBasicResponse
         {
-            var response = ApiRequest.DoPostRequest<T>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), $"/ni/{level}/json"), request, creds);
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<T>(ApiRequest.GetBaseUriFor(typeof(NumberVerify), $"/ni/{level}/json"), request, creds);
             if (response?.Status != "0")
             {
                 throw new NumberInsightResponseException($"Number Inisght Request failed with status of: {response?.Status} and with an error message of {response?.StatusMessage}");

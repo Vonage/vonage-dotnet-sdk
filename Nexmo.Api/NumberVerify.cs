@@ -25,6 +25,8 @@ namespace Nexmo.Api
             /// The mobile or landline phone number to verify. Unless you are setting country explicitly, this number must be in E.164  format. For example, 447700900000.
             /// </summary>
             public string number { get; set; }
+            public string Number { get; set; }
+
             /// <summary>
             /// If do not set number in international format or you are not sure if number is correctly formatted, set country with the two-character country code. For example, GB, US. Verify works out the international phone number for you.
             /// </summary>
@@ -33,6 +35,8 @@ namespace Nexmo.Api
             /// The name of the company or App you are using Verify for. This 18 character alphanumeric string is used in the body of Verify message. For example: "Your brand PIN is ..".
             /// </summary>
             public string brand { get; set; }
+            public string Brand { get; set; }
+
             /// <summary>
             /// An 11 character alphanumeric string to specify the SenderID for SMS sent by Verify. Depending on the destination of the phone number you are applying, restrictions may apply. By default, sender_id is VERIFY.
             /// </summary>

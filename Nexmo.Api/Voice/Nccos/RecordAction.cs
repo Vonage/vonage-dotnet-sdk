@@ -23,7 +23,7 @@ namespace Nexmo.Api.Voice.Nccos
         public uint Channels { get; set; }
 
         [JsonProperty("endOnSilence")]
-        public string EndOfSilence { get; set; }
+        public string EndOnSilence { get; set; }
 
         [JsonProperty("endOnKey")]
         public string EndOnKey { get; set; }
