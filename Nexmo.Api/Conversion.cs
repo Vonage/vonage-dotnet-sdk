@@ -48,7 +48,7 @@ namespace Nexmo.Api
         /// <param name="creds"></param>
         public static void SubmitConversion (ConversionRequest request, Credentials creds = null)
         {
-            ApiRequest.DoPostRequest<ConversionResult>(new Uri($"https://api.nexmo.com/conversions/{ConversionType}"), request, creds);
+            ApiRequest.DoPostRequestUrlContentFromObject<ConversionResult>(new Uri($"https://api.nexmo.com/conversions/{ConversionType}"), request, creds);
         }
     }
 }

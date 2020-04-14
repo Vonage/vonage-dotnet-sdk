@@ -5,6 +5,7 @@ using System;
 
 namespace Nexmo.Api.ClientMethods
 {
+    [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
     public class Call
     {
         public Credentials Credentials { get; set; }

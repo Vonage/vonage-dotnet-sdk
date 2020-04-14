@@ -70,9 +70,7 @@ namespace Nexmo.Api
         /// <returns>The created secret</returns>
         public static Secret CreateSecret(string apiKey, string newSecret, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequestWithJsonContent("POST", ApiRequest.GetBaseUriFor(typeof(ApiSecret), $"/accounts/{apiKey}/secrets"), new SecretRequest { Secret = newSecret }, ApiRequest.AuthType.Basic, creds);
-
-            return JsonConvert.DeserializeObject<Secret>(response.JsonResponse);
+            return ApiRequest.DoRequestWithJsonContent<Secret>("POST", ApiRequest.GetBaseUriFor(typeof(ApiSecret), $"/accounts/{apiKey}/secrets"), new SecretRequest { Secret = newSecret }, ApiRequest.AuthType.Basic, creds);
         }
 
         /// <summary>
@@ -82,10 +80,9 @@ namespace Nexmo.Api
         /// <param name="secretId">ID of the API Secret</param>
         public static bool DeleteSecret(string apiKey, string secretId, Credentials creds = null)
         {
-            var response = ApiRequest.DoRequestWithJsonContent("DELETE", ApiRequest.GetBaseUriFor(typeof(ApiSecret),
+            ApiRequest.DoRequestWithJsonContent<object>("DELETE", ApiRequest.GetBaseUriFor(typeof(ApiSecret),
                 $"/accounts/{apiKey}/secrets/{secretId}"), null, ApiRequest.AuthType.Basic, creds);
-
-            return response.Status == HttpStatusCode.NoContent;
+            return true;
         }
     }
 }

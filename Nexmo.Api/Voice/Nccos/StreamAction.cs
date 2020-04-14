@@ -5,7 +5,7 @@ namespace Nexmo.Api.Voice.Nccos
     public class StreamAction : NccoAction
     {
         [JsonProperty("streamUrl")]
-        public string StreamUrl { get; set; }
+        public string[] StreamUrl { get; set; }
 
         [JsonProperty("level")]
         public string Level { get; set; }

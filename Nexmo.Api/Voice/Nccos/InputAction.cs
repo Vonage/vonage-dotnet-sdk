@@ -8,7 +8,7 @@ namespace Nexmo.Api.Voice.Nccos
         public string TimeOut { get; set; }
 
         [JsonProperty("maxDigits")]
-        public string MaxDigits { get; set; }
+        public int? MaxDigits { get; set; }
 
         [JsonProperty("submitOnHash")]
         public string SubmitOnHash { get; set; }

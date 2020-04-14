@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Nexmo.Api.Voice.Nccos.Endpoints;
-using System;
 
 
 namespace Nexmo.Api.Voice.Nccos

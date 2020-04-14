@@ -1,13 +1,6 @@
-﻿using Nexmo.Api.Request;
-using System;
-
-namespace Nexmo.Api
+using Nexmo.Api.Request;
+namespace Nexmo.Api.Client
 {
-    /// <summary>
-    /// Note that Client and Credentials are _not_ thread-safe!
-    /// If you need to change credentials in your app frequently, create multiple instances of
-    /// Client and ensure each have their own copy of Credentials.
-    /// </summary>
     public class Client
     {
         private Credentials _credentials;
@@ -41,7 +34,7 @@ namespace Nexmo.Api
             SMS = new ClientMethods.SMS(Credentials);
             Redact = new ClientMethods.Redact(Credentials);
         }
-
+        
         public ClientMethods.Account Account { get; private set; }
         public ClientMethods.ApiSecret ApiSecret { get; private set; }
         public ClientMethods.ApplicationV2 ApplicationV2 { get; private set; }
