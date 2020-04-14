@@ -48,7 +48,7 @@ namespace Nexmo.Api.Test.Unit.Legacy
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/settings";
             var expectedRequestContents = $"newSecret=newSecret1&moCallBackUrl=http%3a%2f%2fmo.callbackurl.com&drCallBackUrl=http%3a%2f%2fdr.callbackurl.com&api_key={ApiKey}&api_secret={ApiSecret}&";
-            var expectedResponseContent = @"{""api-secret"": ""newSecret1"",""mo-callback-url"": ""http://mo.callbackurl.com"",""dr-callback-url"": ""http://dr.callbackurl.com"",}";
+            var expectedResponseContent = @"{""api-secret"": ""newSecret1"",""mo-callback-url"": ""http://mo.callbackurl.com"",""dr-callback-url"": ""http://dr.callbackurl.com"", ""max-outbound-request"":30, ""max-inbound-request"":15}";
             Setup(uri: expectedUri, responseContent: expectedResponseContent, requestContent: expectedRequestContents);
 
             //ACT
@@ -58,6 +58,8 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Assert.Equal("newSecret1", result.apiSecret);
             Assert.Equal("http://mo.callbackurl.com", result.moCallbackUrl);
             Assert.Equal("http://dr.callbackurl.com", result.drCallbackUrl);
+            Assert.Equal(15, result.maxInboundRequest);
+            Assert.Equal(30, result.maxOutboundRequest);
 
         }
 
@@ -91,6 +93,41 @@ namespace Nexmo.Api.Test.Unit.Legacy
 
             Assert.Equal(1, numbers.count);
             Assert.Equal("17775551212", numbers.numbers[0].msisdn);
+        }
+
+        [Fact]
+        public void GetPrefixPricing()
+        {
+            var expectedResponse = @"{
+                  ""count"": ""243"",
+                  ""countries"": [
+                    {
+                      ""countryName"": ""Canada"",
+                      ""countryDisplayName"": ""Canada"",
+                      ""currency"": ""EUR"",
+                      ""defaultPrice"": ""0.00620000"",
+                      ""dialingPrefix"": ""1"",
+                      ""networks"": [
+                        {
+                          ""type"": ""mobile"",
+                          ""price"": ""0.00590000"",
+                          ""currency"": ""EUR"",
+                          ""mcc"": ""302"",
+                          ""mnc"": ""530"",
+                          ""networkCode"": ""302530"",
+                          ""networkName"": ""Keewaytinook Okimakanak""
+                        }
+                      ]
+                    }
+                  ]
+                }";
+            var expectedUri = $"{RestUrl}/account/get-pricing/outbound/?country=CA&type=sms&api_key={ApiKey}&api_secret={ApiSecret}&";
+            Setup(expectedUri, expectedResponse);
+
+            var client = new Client(new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret });
+            var response = client.Account.GetPrefixPricing("CA", "sms");
+
+            Assert.NotNull(response);
         }
     }
 }
