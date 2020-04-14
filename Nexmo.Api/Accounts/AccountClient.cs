@@ -42,7 +42,7 @@ namespace Nexmo.Api.Accounts
 
         public SecretsRequestResult RetrieveApiSecrets(string apiKey = null, Credentials creds = null)
         {
-            apiKey = apiKey ?? creds.ApiKey;
+            apiKey = apiKey ?? (creds?.ApiKey ?? Credentials.ApiKey);
             apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoGetRequestWithUrlContent<SecretsRequestResult>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
@@ -53,7 +53,7 @@ namespace Nexmo.Api.Accounts
 
         public Secret CreateApiSecret(CreateSecretRequest request, string apiKey = null, Credentials creds = null)
         {
-            apiKey = apiKey ?? creds.ApiKey;
+            apiKey = apiKey ?? (creds?.ApiKey ?? Credentials.ApiKey);
             apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoRequestWithJsonContent<Secret>(
                 "POST",
@@ -66,7 +66,7 @@ namespace Nexmo.Api.Accounts
 
         public Secret RetrieveApiSecret(string secretId, string apiKey = null, Credentials creds = null)
         {
-            apiKey = apiKey ?? creds.ApiKey;
+            apiKey = apiKey ?? (creds?.ApiKey ?? Credentials.ApiKey);
             apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoGetRequestWithUrlContent<Secret>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
@@ -77,7 +77,7 @@ namespace Nexmo.Api.Accounts
 
         public bool RevokeApiSecret(string secretId, string apiKey = null, Credentials creds = null)
         {
-            apiKey = apiKey ?? creds.ApiKey;
+            apiKey = apiKey ?? (creds?.ApiKey ?? Credentials.ApiKey);
             apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             ApiRequest.DoDeleteRequestWithUrlContent(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),

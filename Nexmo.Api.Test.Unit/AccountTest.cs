@@ -81,5 +81,162 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("mobile-lvn", numbers.Numbers[0].Type);
             Assert.Equal("VOICE", numbers.Numbers[0].Features.First());
         }
+
+        [Fact]
+        public void RetrieveApiSecretsWithKey()
+        {
+            RetrieveApiSecrets(ApiKey);
+        }
+
+        [Fact]
+        public void RetreiveApiSecretsWithNull()
+        {
+            RetrieveApiSecrets(null);
+        }        
+        
+        public void RetrieveApiSecrets(string apiKey)
+        {
+            //ARRANGE
+            var pathKey = apiKey != null ? apiKey : ApiKey;
+            var expectedResponse = @"{
+                  ""_links"": {
+                    ""self"": {
+                        ""href"": ""abc123""
+                      }
+                  },
+                  ""_embedded"": {
+                    ""secrets"": [
+                      {
+                        ""_links"": {
+                          ""self"": {
+                            ""href"": ""abc123""
+                          }
+                        },
+                        ""id"": ""ad6dc56f-07b5-46e1-a527-85530e625800"",
+                        ""created_at"": ""2017-03-02T16:34:49Z""
+                      }
+                    ]
+                  }
+                }";
+            var expectedUri = $"https://api.nexmo.com/accounts/{pathKey}/secrets";
+            Setup(expectedUri, expectedResponse);
+
+            //ACT
+            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
+            var secrets = client.AccountClient.RetrieveApiSecrets(apiKey);
+
+            //ASSERT
+            Assert.Equal("ad6dc56f-07b5-46e1-a527-85530e625800", secrets.Embedded.Secrets[0].Id);
+            Assert.Equal("2017-03-02T16:34:49Z", secrets.Embedded.Secrets[0].CreatedAt);
+            Assert.Equal("abc123", secrets.Embedded.Secrets[0].Links.Self.Href);
+            Assert.Equal("abc123", secrets.Links.Self.Href);
+        }
+
+        [Fact]
+        public void CreateSecretWithKey()
+        {
+            CreateApiSecret(ApiKey);
+        }
+
+        [Fact]
+        public void CreateSecretWithNullKey()
+        {
+            CreateApiSecret(null);
+        }
+
+        public void CreateApiSecret(string apiKey)
+        {            
+            //ARRANGE
+            var pathKey = apiKey != null ? apiKey : ApiKey;
+            var expectedUri = $"https://api.nexmo.com/accounts/{pathKey}/secrets";
+            var expectedResponse = @"{
+                  ""_links"": {
+                    ""self"": {
+                           ""href"": ""abc123""
+                      }
+                    },
+                  ""id"": ""ad6dc56f-07b5-46e1-a527-85530e625800"",
+                  ""created_at"": ""2017-03-02T16:34:49Z""
+                }";
+            Setup(expectedUri, expectedResponse);
+            
+            //ACT
+            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
+            var secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest { Secret = "password" }, apiKey);
+
+            //ASSERT
+            Assert.Equal("ad6dc56f-07b5-46e1-a527-85530e625800", secret.Id);
+            Assert.Equal("2017-03-02T16:34:49Z", secret.CreatedAt);
+            Assert.Equal("abc123", secret.Links.Self.Href);            
+        }
+
+        [Fact]
+        public void RetrieveSecretWithKey()
+        {
+            RetrieveSecret(ApiKey);
+        }
+
+        [Fact]
+        public void RetrieveSecretWithNull()
+        {
+            RetrieveSecret(null);
+        }
+
+        public void RetrieveSecret(string apiKey)
+        {
+
+            //ARRANGE
+            var pathKey = apiKey != null ? apiKey : ApiKey;
+            var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
+            var expectedUri = $"https://api.nexmo.com/accounts/{pathKey}/secrets/{secretId}";
+            var expectedResponse = @"{
+                  ""_links"": {
+                    ""self"": {
+                           ""href"": ""abc123""
+                      }
+                    },
+                  ""id"": ""ad6dc56f-07b5-46e1-a527-85530e625800"",
+                  ""created_at"": ""2017-03-02T16:34:49Z""
+                }";
+            Setup(expectedUri, expectedResponse);
+
+            //ACT
+            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
+            var secret = client.AccountClient.RetrieveApiSecret(secretId, apiKey);
+
+            //ASSERT
+            Assert.Equal(secretId, secret.Id);
+            Assert.Equal("2017-03-02T16:34:49Z", secret.CreatedAt);
+            Assert.Equal("abc123", secret.Links.Self.Href);
+        }
+
+        [Fact]
+        public void RevokeWithKey()
+        {
+            RevokeSecret(ApiKey);
+        }
+
+        [Fact]
+        public void RevokeWithNull()
+        {
+            RevokeSecret(null);
+        }
+        
+        public void RevokeSecret(string apiKey)
+        {
+            //ARRANGE
+            var pathKey = apiKey != null ? apiKey : ApiKey;
+            var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
+            var expectedUri = $"https://api.nexmo.com/accounts/{pathKey}/secrets/{secretId}";
+            var expectedResponse = @"";
+            Setup(expectedUri, expectedResponse);
+
+            //ACT
+            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
+            var response = client.AccountClient.RevokeApiSecret(secretId, apiKey);
+
+            //ASSERT
+            Assert.True(response);
+        }
     }
 }

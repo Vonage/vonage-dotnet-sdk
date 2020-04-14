@@ -15,8 +15,8 @@ namespace Nexmo.Api.Test.Unit
         const string MOCKED_METHOD = "SendAsync";
         protected string ApiUrl = Configuration.Instance.Settings["appSettings:Nexmo.Url.Api"];
         protected string RestUrl = Configuration.Instance.Settings["appSettings:Nexmo.Url.Rest"];
-        protected string ApiKey = Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
-        protected string ApiSecret = Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
+        protected string ApiKey = Environment.GetEnvironmentVariable("NEXMO_API_KEY")??"testKey";
+        protected string ApiSecret = Environment.GetEnvironmentVariable("NEXMO_API_Secret") ?? "testSecret";
         public void Setup(string uri, string responseContent, string requestContent = null, HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
             typeof(Configuration).GetField("_client", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(Configuration.Instance, null);
