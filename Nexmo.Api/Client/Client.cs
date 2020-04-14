@@ -1,5 +1,5 @@
 using Nexmo.Api.Request;
-namespace Nexmo.Api.Client
+namespace Nexmo.Api
 {
     public class Client
     {

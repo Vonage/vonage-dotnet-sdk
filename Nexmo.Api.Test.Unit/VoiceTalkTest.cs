@@ -1,13 +1,12 @@
 ﻿using Nexmo.Api.Voice;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Newtonsoft.Json;
 
 namespace Nexmo.Api.Test.Unit
-{
-    [TestClass]
+{    
     public class VoiceTalkTest
     {
-        [TestMethod]
+        [Fact]
         public void TestTalkLoopZero()
         {
             //Arrange
@@ -17,10 +16,10 @@ namespace Nexmo.Api.Test.Unit
             var serialized = JsonConvert.SerializeObject(request,
                 Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             //Assert
-            Assert.AreEqual(expected, serialized);
+            Assert.Equal(expected, serialized);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestTalkLoopEmpty()
         {
             //Arrange
@@ -30,7 +29,7 @@ namespace Nexmo.Api.Test.Unit
             var serialized = JsonConvert.SerializeObject(request,
                 Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             //Assert
-            Assert.AreEqual(expected, serialized);
+            Assert.Equal(expected, serialized);
         }
     }
 }

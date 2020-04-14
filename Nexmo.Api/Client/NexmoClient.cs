@@ -10,7 +10,7 @@ using Nexmo.Api.Redaction;
 using Nexmo.Api.Messaging;
 using Nexmo.Api.Request;
 
-namespace Nexmo.Api.Client
+namespace Nexmo.Api
 {
     public class NexmoClient
     {

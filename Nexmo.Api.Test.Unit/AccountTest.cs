@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Nexmo.Api;
 using Xunit;
 
 namespace Nexmo.Api.Test.Unit
