@@ -9,6 +9,7 @@ using Nexmo.Api.ShortCodes;
 using Nexmo.Api.Redaction;
 using Nexmo.Api.Messaging;
 using Nexmo.Api.Request;
+using Nexmo.Api.Pricing;
 
 namespace Nexmo.Api
 {
@@ -44,6 +45,8 @@ namespace Nexmo.Api
         public IRedactClient RedactClient { get; private set; }
         
         public ISmsClient SmsClient { get; private set; }
+
+        public IPricingClient PricingClient { get; private set; }
         
         public NexmoClient(Credentials credentials)
         {
@@ -62,6 +65,7 @@ namespace Nexmo.Api
             ShortCodesClient = new ShortCodesClient(Credentials);
             RedactClient = new RedactClient(Credentials);
             SmsClient = new SmsClient(Credentials);
+            PricingClient = new PricingClient(Credentials);
         }
         
     }

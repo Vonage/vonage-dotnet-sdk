@@ -26,7 +26,9 @@ namespace Nexmo.Api.Test.Unit
                 .Setup<Task<HttpResponseMessage>>(MOCKED_METHOD,
                 ItExpr.Is<HttpRequestMessage>(
                     x => 
-                    string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) && (requestContent == null) || (string.Equals(x.Content.ReadAsStringAsync().Result, requestContent, StringComparison.OrdinalIgnoreCase))),
+                    string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) && 
+                    (requestContent == null) || 
+                    (string.Equals(x.Content.ReadAsStringAsync().Result, requestContent, StringComparison.OrdinalIgnoreCase))),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(new HttpResponseMessage()
                 {

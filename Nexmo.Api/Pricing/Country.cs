@@ -4,6 +4,9 @@ namespace Nexmo.Api.Pricing
 {
     public class Country
     {
+        [JsonProperty("countryCode")]
+        public string CountryCode { get; set; }
+
         [JsonProperty("countryName")]
         public string CountryName { get; set; }
         
