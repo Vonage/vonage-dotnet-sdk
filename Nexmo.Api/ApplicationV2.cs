@@ -210,11 +210,6 @@ namespace Nexmo.Api
             
         }
 
-        public static List<AppResponse> List()
-        {
-            return List(10, 0);
-        }
-
         /// <summary>
         /// Modify a single application
         /// </summary>
