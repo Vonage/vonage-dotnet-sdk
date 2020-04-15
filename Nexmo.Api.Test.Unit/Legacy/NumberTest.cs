@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
-namespace Nexmo.Api.Test.Unit
+namespace Nexmo.Api.Test.Unit.Legacy
 {
     public class NumberTest :TestBase
     {
-        [Fact]
-        public void SearchNumbers()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void SearchNumbers(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/number/search/?country=US&api_key={ApiKey}&api_secret={ApiSecret}&";            
@@ -16,19 +18,33 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var results = client.Number.Search(new Number.SearchRequest()
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Number.SearchResults results;
+            if (passCreds)
             {
-                country = "US"
-            });
+                results = client.Number.Search(new Number.SearchRequest()
+                {
+                    country = "US"
+                }, creds);
+            }
+            else
+            {
+                results = client.Number.Search(new Number.SearchRequest()
+                {
+                    country = "US"
+                });
+            }
 
             //ASSERT
             Assert.Equal(177, results.count);
             Assert.Equal(5, results.numbers.Count());
         }
 
-        [Fact]
-        public void BuyNumber()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void BuyNumber(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/number/buy";
@@ -38,15 +54,26 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponse, requestContent: expectedRequestContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var result = client.Number.Buy("US", "17775551212");
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            ResponseBase result;
+            if (passCreds)
+            {
+                result = client.Number.Buy("US", "17775551212", creds);
+            }
+            else
+            {
+                result = client.Number.Buy("US", "17775551212");
+            }
 
             //ASSERT
             Assert.Equal("200", result.ErrorCode);
         }
 
-        [Fact]
-        public void UpdateNumber()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void UpdateNumber(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/number/update";
@@ -55,21 +82,38 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponse, requestContent: expectedRequestContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var result = client.Number.Update(new Number.NumberUpdateCommand
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            ResponseBase result;
+            if (passCreds)
             {
-                country = "US",
-                msisdn = "17775551212",
-                moHttpUrl = "https://test.test.com/mo",
-                moSmppSysType = "inbound"
-            });
+                result = client.Number.Update(new Number.NumberUpdateCommand
+                {
+                    country = "US",
+                    msisdn = "17775551212",
+                    moHttpUrl = "https://test.test.com/mo",
+                    moSmppSysType = "inbound"
+                }, creds);
+            }
+            else
+            {
+                result = client.Number.Update(new Number.NumberUpdateCommand
+                {
+                    country = "US",
+                    msisdn = "17775551212",
+                    moHttpUrl = "https://test.test.com/mo",
+                    moSmppSysType = "inbound"
+                });
+            }
 
             //ASSERT
             Assert.Equal("200", result.ErrorCode);
         }
 
-        [Fact]
-        public void CancelNumber()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void CancelNumber(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/number/cancel";
@@ -78,8 +122,17 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponse, requestContent: expectedRequestContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var result = client.Number.Cancel("US", "17775551212");
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            ResponseBase result;
+            if (passCreds)
+            {
+                result = client.Number.Cancel("US", "17775551212", creds);
+            }
+            else
+            {
+                result = client.Number.Cancel("US", "17775551212");
+            }
 
             Assert.Equal("200", result.ErrorCode);
         }

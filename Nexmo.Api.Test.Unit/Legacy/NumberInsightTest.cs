@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Nexmo.Api.Test.Unit
+namespace Nexmo.Api.Test.Unit.Legacy
 {
     public class NumberInsightTest : TestBase
     {
-        [Fact]
-        public void SendBasicNiRequest()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void SendBasicNiRequest(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{ApiUrl}/ni/basic/json";
@@ -17,11 +19,23 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, requestContent: expectedRequestContent, responseContent: expectedResponseContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var response = client.NumberInsight.RequestBasic(new NumberInsight.NumberInsightRequest
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            NumberInsight.NumberInsightBasicResponse response;
+            if (passCreds)
             {
-                Number = "15555551212"
-            });
+                response = client.NumberInsight.RequestBasic(new NumberInsight.NumberInsightRequest
+                {
+                    Number = "15555551212"
+                }, creds);
+            }
+            else
+            {
+                response = client.NumberInsight.RequestBasic(new NumberInsight.NumberInsightRequest
+                {
+                    Number = "15555551212"
+                });
+            }
 
             //ASSERT
             Assert.Equal("0", response.Status);
@@ -29,8 +43,10 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("(555) 555-1212", response.NationalFormatNumber);
         }
 
-        [Fact]
-        public void SendStandardNiRequest()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void SendStandardNiRequest(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{ApiUrl}/ni/standard/json";
@@ -40,11 +56,23 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, requestContent: expectedRequestContent, responseContent: expectedResponseContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var result = client.NumberInsight.RequestStandard(new NumberInsight.NumberInsightRequest
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            NumberInsight.NumberInsightStandardResponse result;
+            if(passCreds)
             {
-                Number = "15555551212"
-            });
+                result = client.NumberInsight.RequestStandard(new NumberInsight.NumberInsightRequest
+                {
+                    Number = "15555551212"
+                }, creds);
+            }
+            else
+            {
+                result = client.NumberInsight.RequestStandard(new NumberInsight.NumberInsightRequest
+                {
+                    Number = "15555551212"
+                });
+            }
 
             //ASSERT
             Assert.Equal("0", result.Status);

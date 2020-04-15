@@ -9,8 +9,10 @@ namespace Nexmo.Api.Test.Unit.Legacy
 {
     public class ApiSecret : TestBase
     {
-        [Fact]
-        public void ListSecrets()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ListSecrets(bool passCreds)
         {
             //ARRANGE            
             var expectedResponse = @"{
@@ -37,16 +39,27 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Setup(expectedUri, expectedResponse);
 
             //ACT
-            var client = new Client(new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var secrets = client.ApiSecret.List(ApiKey);
+            var creds = new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            List<Api.ApiSecret.Secret> secrets;
+            if (passCreds)
+            {
+                secrets = client.ApiSecret.List(ApiKey,creds);
+            }
+            else
+            {
+                secrets = client.ApiSecret.List(ApiKey);
+            }
 
             //ASSERT
             Assert.Equal("ad6dc56f-07b5-46e1-a527-85530e625800", secrets[0].Id);            
             Assert.Equal("abc123", secrets[0]._links.self.href);            
         }
 
-        [Fact]
-        public void GetSecret()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetSecret(bool passCreds)
         {
             var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
             var expectedUri = $"https://api.nexmo.com/accounts/{ApiKey}/secrets/{secretId}?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -62,15 +75,27 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Setup(expectedUri, expectedResponse);
 
             //ACT
-            var client = new Client(new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var secret = client.ApiSecret.Get(ApiKey, secretId);
+            var creds = new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Api.ApiSecret.Secret secret;
+            if (passCreds)
+            {
+                secret = client.ApiSecret.Get(ApiKey, secretId,creds);
+            }
+            else
+            {
+                secret = client.ApiSecret.Get(ApiKey, secretId);
+            }
+            
 
             //ASSERT
             Assert.Equal(secretId, secret.Id);
         }
 
-        [Fact]
-        public void CreateSecret()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void CreateSecret(bool passCreds)
         {
             var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
             var expectedUri = $"https://api.nexmo.com/accounts/{ApiKey}/secrets/?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -87,15 +112,25 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Setup(expectedUri, expectedResponse, expectedRequestContent);
 
             //ACT
-            var client = new Client(new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var secret = client.ApiSecret.Create(ApiKey, "8675309");
-
+            var creds = new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Api.ApiSecret.Secret secret;
+            if (passCreds)
+            {
+                secret = client.ApiSecret.Create(ApiKey, "8675309",creds);
+            }
+            else
+            {
+                secret = client.ApiSecret.Create(ApiKey, "8675309");
+            }
             //ASSERT
             Assert.Equal(secretId, secret.Id);
         }
 
-        [Fact]
-        public void DeleteSecret()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DeleteSecret(bool passCreds)
         {
             var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
             var expectedUri = $"https://api.nexmo.com/accounts/{ApiKey}/secrets/{secretId}?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -112,8 +147,18 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Setup(expectedUri, expectedResponse, expectedRequestContent);
 
             //ACT
-            var client = new Client(new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var revoked = client.ApiSecret.Delete(ApiKey, secretId);
+            var creds = new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            bool revoked;
+            if (passCreds)
+            {
+                revoked = client.ApiSecret.Delete(ApiKey, secretId, creds);
+            }
+            else
+            {
+                revoked = client.ApiSecret.Delete(ApiKey, secretId);
+            }
+            
 
             Assert.True(revoked);
         }

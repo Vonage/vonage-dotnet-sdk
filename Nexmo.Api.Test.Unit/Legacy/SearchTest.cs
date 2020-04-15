@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-namespace Nexmo.Api.Test.Unit
+namespace Nexmo.Api.Test.Unit.Legacy
 {
     public class SearchTest : TestBase
     {
-        [Fact]
-        public void GetMessage()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetMessage(bool passCreds)
         {
             //ARRANGE
             var uri = $"{RestUrl}/search/message?id=03000000FFFFFFFF&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -15,8 +17,17 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: uri, responseContent: expectedResponse);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var msg = client.Search.GetMessage("03000000FFFFFFFF");
+            var creds = new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Search.Message msg;
+            if (passCreds)
+            {
+                msg = client.Search.GetMessage("03000000FFFFFFFF", creds);
+            }
+            else
+            {
+                msg = client.Search.GetMessage("03000000FFFFFFFF");
+            }
 
             //ASSERT
             Assert.Equal("03000000FFFFFFFF", msg.messageId);
@@ -25,8 +36,10 @@ namespace Nexmo.Api.Test.Unit
 
         }
 
-        [Fact]
-        public void GetMessages()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetMessages(bool passCreds)
         {
             //ARRANGE
             var uri = $"{RestUrl}/search/messages?date=2015-12-31&to=17775551213&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -34,12 +47,25 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: uri, responseContent: expectedResponse);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var msgs = client.Search.GetMessages(new Search.SearchRequest
+            var creds = new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Search.Messages<Search.Message> msgs;
+            if(passCreds)
             {
-                date = "2015-12-31",
-                to = "17775551213"
-            });
+                msgs = client.Search.GetMessages(new Search.SearchRequest
+                {
+                    date = "2015-12-31",
+                    to = "17775551213"
+                }, creds);
+            }
+            else
+            {
+                msgs = client.Search.GetMessages(new Search.SearchRequest
+                {
+                    date = "2015-12-31",
+                    to = "17775551213"
+                });
+            }
 
             //ASSERT
             Assert.Equal(1, msgs.count);
@@ -49,8 +75,10 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("17775551213", msg.to);
         }
 
-        [Fact]
-        public void GetRejections()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetRejections(bool passCreds)
         {
             //ARRANGE
             var uri = $"{RestUrl}/search/rejections?date=2015-12-31&to=17775551213&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -58,12 +86,25 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: uri, responseContent: expectedResponse);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var msgs = client.Search.GetRejections(new Search.SearchRequest
+            var creds = new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Search.Messages<Search.MessageBase> msgs;
+            if (passCreds)
             {
-                date = "2015-12-31",
-                to = "17775551213"
-            });
+                msgs = client.Search.GetRejections(new Search.SearchRequest
+                {
+                    date = "2015-12-31",
+                    to = "17775551213"
+                }, creds);
+            }
+            else
+            {
+                msgs = client.Search.GetRejections(new Search.SearchRequest
+                {
+                    date = "2015-12-31",
+                    to = "17775551213"
+                });
+            }
             Assert.Single(msgs.items);
             var msg = msgs.items[0];
             Assert.Equal("17775551212", msg.from);

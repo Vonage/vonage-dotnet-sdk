@@ -8,8 +8,10 @@ namespace Nexmo.Api.Test.Unit.Legacy
 {
     public class AccountTest : TestBase
     {
-        [Fact]
-        public void GetAccountBalance()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetAccountBalance(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-balance?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -17,16 +19,28 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var balance = client.Account.GetBalance();
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Account.Balance balance;
+            if (passCreds)
+            {
+                balance = client.Account.GetBalance(creds);
+            }
+            else
+            {
+                balance = client.Account.GetBalance();
+            }
+            
 
             //ASSERT
             Assert.Equal(3.14159m, balance.value);
             Assert.False(balance.autoReload);
         }
 
-        [Fact]
-        public void GetPricing()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetPricing(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-pricing/outbound/?country=US&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -34,16 +48,27 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var pricing = client.Account.GetPricing("US");
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Account.Pricing pricing;
+            if (passCreds)
+            {
+                pricing = client.Account.GetPricing("US",creds:creds);
+            }
+            else
+            {
+                pricing = client.Account.GetPricing("US");
+            }
 
             //ASSERT
             Assert.Equal("US-FIXED", pricing.networks[0].code);
             Assert.Equal("United States of America Landline", pricing.networks[0].network);
         }
 
-        [Fact]
-        public void SetSettings()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void SetSettings(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/settings";
@@ -52,8 +77,19 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Setup(uri: expectedUri, responseContent: expectedResponseContent, requestContent: expectedRequestContents);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var result = client.Account.SetSettings("newSecret1", "http://mo.callbackurl.com", "http://dr.callbackurl.com");
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Account.Settings result;
+
+            if (passCreds)
+            {
+                result = client.Account.SetSettings("newSecret1", "http://mo.callbackurl.com", "http://dr.callbackurl.com",creds);
+            }
+            else
+            {
+                result = client.Account.SetSettings("newSecret1", "http://mo.callbackurl.com", "http://dr.callbackurl.com");
+            }
+            
 
             Assert.Equal("newSecret1", result.apiSecret);
             Assert.Equal("http://mo.callbackurl.com", result.moCallbackUrl);
@@ -63,8 +99,10 @@ namespace Nexmo.Api.Test.Unit.Legacy
 
         }
 
-        [Fact]
-        public void TopUp()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TopUp(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/top-up?trx=00X123456Y7890123Z&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -72,15 +110,26 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            client.Account.TopUp("00X123456Y7890123Z");
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            if (passCreds)
+            {
+                client.Account.TopUp("00X123456Y7890123Z",creds);
+            }
+            else
+            {
+                client.Account.TopUp("00X123456Y7890123Z");
+            }
+            
 
             //ASSERT
             //nothing to assert as nothing is returned
         }
 
-        [Fact]
-        public void GetNumbers()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetNumbers(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/numbers?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -88,15 +137,27 @@ namespace Nexmo.Api.Test.Unit.Legacy
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var numbers = client.Account.GetNumbers();
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Account.NumbersResponse numbers;
+            if (passCreds)
+            {
+                numbers = client.Account.GetNumbers(creds);
+            }
+            else
+            {
+                numbers = client.Account.GetNumbers();
+            }
+            
 
             Assert.Equal(1, numbers.count);
             Assert.Equal("17775551212", numbers.numbers[0].msisdn);
         }
 
-        [Fact]
-        public void GetPrefixPricing()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetPrefixPricing(bool passCreds)
         {
             var expectedResponse = @"{
                   ""count"": ""243"",
@@ -124,8 +185,18 @@ namespace Nexmo.Api.Test.Unit.Legacy
             var expectedUri = $"{RestUrl}/account/get-pricing/outbound/?country=CA&type=sms&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse);
 
-            var client = new Client(new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var response = client.Account.GetPrefixPricing("CA", "sms");
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            Account.Pricing response;
+            if (passCreds)
+            {
+                response = client.Account.GetPrefixPricing("CA", "sms", creds);
+            }
+            else
+            {
+                response = client.Account.GetPrefixPricing("CA", "sms");
+            }
+            
 
             Assert.NotNull(response);
         }

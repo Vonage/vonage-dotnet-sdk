@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Nexmo.Api.Test.Unit
+namespace Nexmo.Api.Test.Unit.Legacy
 {
     public class ApplicationV2Test : TestBase
     {
-        [Fact]
-        public void CreateApplication()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void CreateApplication(bool passCreds)
         {
             //ARRANGE
             var uri = $"{ApiUrl}/v2/applications";
@@ -23,15 +25,26 @@ namespace Nexmo.Api.Test.Unit
                 Name = "AppV2Test"
             };
 
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var result = client.ApplicationV2.Create(appRequest);
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            AppResponse result;
+            if (passCreds)
+            {
+                result = client.ApplicationV2.Create(appRequest, creds);
+            }
+            else
+            {
+                result = client.ApplicationV2.Create(appRequest);
+            }
 
             //ASSERT
             Assert.Equal("ffffffff-ffff-ffff-ffff-ffffffffffff", result.Id);
         }
 
-        [Fact]
-        public void ListApplications()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ListApplications(bool passCreds)
         {
             //ARRANGE
             var uri = $"{ApiUrl}/v2/applications?page_size=10&page=0&";
@@ -91,16 +104,27 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: uri, responseContent: expected);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var results = client.ApplicationV2.List();
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            List<AppResponse> results;
+            if (passCreds)
+            {
+                results = client.ApplicationV2.List(credentials:creds);
+            }
+            else
+            {
+                results = client.ApplicationV2.List();
+            }
 
             //ASSERT
             Assert.Single(results);
             Assert.True(results[0].Id == "78d335fa323d01149c3dd6f0d48968cf");
         }
 
-        [Fact]
-        public void GetApplication()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetApplication(bool passCreds)
         {
 
             //ARRANGE
@@ -110,15 +134,26 @@ namespace Nexmo.Api.Test.Unit
 
             Setup(uri: uri, responseContent: expectedResponse);
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var result = client.ApplicationV2.Get(appId);
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            AppResponse result;
+            if (passCreds)
+            {
+                result = client.ApplicationV2.Get(appId,creds);
+            }
+            else
+            {
+                result = client.ApplicationV2.Get(appId);
+            }
 
             //ASSERT
             Assert.Equal(result.Id, appId);
         }
-        
-        [Fact]
-        public void UpdateApplication()
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void UpdateApplication(bool passCreds)
         {
             //ARRANGE
             var appId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -130,17 +165,28 @@ namespace Nexmo.Api.Test.Unit
             var uri = $"{ApiUrl}/v2/applications/{appId}";
             var expectedResposne = "{  \"id\": \"ffffffff-ffff-ffff-ffff-ffffffffffff\",  \"name\": \"UpdatedAppTest\", \"capabilities\": {\"voice\": {\"webhooks\": {\"answer_url\": {\"address\": \"https://example.com/webhooks/answer\",\"http_method\": \"POST\"},\"fallback_answer_url\": {\"address\": \"https://fallback.example.com/webhooks/answer\",\"http_method\": \"POST\"},\"event_url\": {\"address\": \"https://example.com/webhooks/event\",\"http_method\": \"POST\"}}},\"messages\": {\"webhooks\": {\"inbound_url\": {\"address\": \"https://example.com/webhooks/inbound\",\"http_method\": \"POST\"},\"status_url\": {\"address\": \"https://example.com/webhooks/status\",\"http_method\": \"POST\"}}},\"rtc\": {\"webhooks\": {\"event_url\": {\"address\": \"https://example.com/webhooks/event\",\"http_method\": \"POST\"}}},\"vbc\": {}}}";
             Setup(uri: uri, responseContent: expectedResposne);
-            
+
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var result = client.ApplicationV2.Update(appRequest);
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            AppResponse result;
+            if (passCreds)
+            {
+                result = client.ApplicationV2.Update(appRequest,creds);
+            }
+            else
+            {
+                result = client.ApplicationV2.Update(appRequest);
+            }
 
             //ASSERT
             Assert.Equal("UpdatedAppTest", result.Name);
         }
 
-        [Fact]
-        public void ShouldDeleteApplication()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ShouldDeleteApplication(bool passCreds)
         {
             //ARRANGE
             var appId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -149,8 +195,17 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: uri, responseContent: response, expectedCode: System.Net.HttpStatusCode.NoContent);
 
             //ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var result = client.ApplicationV2.Delete(appId);
+            var creds = new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            bool result;
+            if (passCreds)
+            {
+                result = client.ApplicationV2.Delete(appId, creds);
+            }
+            else
+            {
+                result = client.ApplicationV2.Delete(appId);
+            }
 
             //ASSERT
             Assert.True(result);

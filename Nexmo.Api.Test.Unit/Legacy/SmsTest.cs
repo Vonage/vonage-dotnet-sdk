@@ -8,10 +8,12 @@ using Xunit;
 namespace Nexmo.Api.Test.Unit
 {
     public class SMS_test : TestBase
-    {      
+    {
 
-        [Fact]
-        public void TestSmsRequest()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TestSmsRequest(bool passCreds)
         {
 
             // ARRANGE
@@ -25,15 +27,26 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: responseContent, requestContent: requestContent);
 
             // ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var response = client.SMS.Send(new SMS.SMSRequest() { to = to, from = from, text = text });
+            var creds = new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            SMS.SMSResponse response;
+            if (passCreds)
+            {
+                response = client.SMS.Send(new SMS.SMSRequest() { to = to, from = from, text = text }, creds);
+            }
+            else
+            {
+                response = client.SMS.Send(new SMS.SMSRequest() { to = to, from = from, text = text });
+            }
 
             //ASSERT
             Assert.True(response.messages.Count == 1);
         }
 
-        [Fact]
-        public void TestSmsWithoutFrom()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TestSmsWithoutFrom(bool passCreds)
         {
             // ARRANGE
             var restUrl = "https://rest.nexmo.com";
@@ -46,8 +59,17 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: responseContent, requestContent: requestContent);
 
             // ACT
-            var client = new Client(new Request.Credentials() { ApiKey = ApiKey, ApiSecret = ApiSecret });
-            var response = client.SMS.Send(new SMS.SMSRequest() { to = to, text = text });
+            var creds = new Request.Credentials { ApiKey = ApiKey, ApiSecret = ApiSecret };
+            var client = new Client(creds);
+            SMS.SMSResponse response;
+            if (passCreds)
+            {
+                response = client.SMS.Send(new SMS.SMSRequest() { to = to, text = text }, creds);
+            }
+            else
+            {
+                response = client.SMS.Send(new SMS.SMSRequest() { to = to, text = text });
+            }
 
             //ASSERT
             Assert.True(response.messages.Count == 1);
