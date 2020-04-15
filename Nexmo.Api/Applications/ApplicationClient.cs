@@ -20,9 +20,9 @@ namespace Nexmo.Api.Applications
             );
         }
 
-        public PaginatedResponse<ApplicationList> ListApplications(ListApplicationsRequest request, Credentials creds = null)
+        public ApplicationPage ListApplications(ListApplicationsRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<PaginatedResponse<Api.Applications.ApplicationList>>(
+            return ApiRequest.DoGetRequestWithUrlContent<ApplicationPage>(
                 ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"),
                 ApiRequest.AuthType.Basic,
                 request,
@@ -30,10 +30,10 @@ namespace Nexmo.Api.Applications
             );
         }
 
-        public Application GetApplication(string id, Credentials creds)
+        public Application GetApplication(string id, Credentials creds = null)
         {
             return ApiRequest.DoGetRequestWithUrlContent<Application>(
-                ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications{id}"),
+                ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{id}"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials
             );
@@ -43,17 +43,17 @@ namespace Nexmo.Api.Applications
         {
             return ApiRequest.DoRequestWithJsonContent<Application>(
                 "PUT",
-                ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications{id}"),
+                ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{id}"),
                 request,
                 ApiRequest.AuthType.Basic,
                 creds ?? Credentials
             );
         }
 
-        public bool DeleteApplication(string id, Credentials creds)
+        public bool DeleteApplication(string id, Credentials creds = null)
         {
             ApiRequest.DoDeleteRequestWithUrlContent(
-                ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications{id}"),
+                ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{id}"),
                 null,
                 ApiRequest.AuthType.Basic,
                 creds ?? Credentials

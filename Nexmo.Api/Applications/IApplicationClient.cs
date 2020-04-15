@@ -5,9 +5,9 @@ namespace Nexmo.Api.Applications
     public interface IApplicationClient
     {
         Application CreateApplicaiton(CreateApplicationRequest request, Credentials creds = null);
-        PaginatedResponse<ApplicationList> ListApplications(ListApplicationsRequest request, Credentials creds = null);
-        Application GetApplication(string id, Credentials creds);
+        ApplicationPage ListApplications(ListApplicationsRequest request, Credentials creds = null);
+        Application GetApplication(string id, Credentials creds = null);
         Application UpdateApplication(string id, CreateApplicationRequest request, Credentials creds = null);
-        bool DeleteApplication(string id, Credentials creds);
+        bool DeleteApplication(string id, Credentials creds = null);
     }
 }
