@@ -10,24 +10,36 @@ namespace Nexmo.Api.Test.Unit
 {
     public class AccountTest : TestBase
     {
-        [Fact]
-        public void GetAccountBalance()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetAccountBalance(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-balance?api_key={ApiKey}&api_secret={ApiSecret}&";
             var expectedResponseContent = @"{""value"": 3.14159, ""autoReload"": false }";
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var balance = client.AccountClient.GetAccountBalance();
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            Accounts.Balance balance;
+            if (passCreds) {
+                balance = client.AccountClient.GetAccountBalance(creds);
+            }            
+            else 
+            {
+                balance = client.AccountClient.GetAccountBalance();
+            }
 
             //ASSERT
             Assert.Equal(3.14159m, balance.Value);
             Assert.False(balance.AutoReload);
         }
         
-        [Fact]
-        public void SetSettings()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void SetSettings(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/settings";
@@ -36,8 +48,18 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponseContent, requestContent: expectedRequestContents);
 
             //ACT
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var result = client.AccountClient.ChangeAccountSettings(new Accounts.AccountSettingsRequest { MoCallBackUrl = "https://example.com/webhooks/inbound-sms", DrCallBackUrl = "https://example.com/webhooks/delivery-receipt" });
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            Accounts.AccountSettingsResult result;
+            if (passCreds)
+            {
+                result = client.AccountClient.ChangeAccountSettings(new Accounts.AccountSettingsRequest { MoCallBackUrl = "https://example.com/webhooks/inbound-sms", DrCallBackUrl = "https://example.com/webhooks/delivery-receipt" }, creds);
+            }
+            else
+            {
+                result = client.AccountClient.ChangeAccountSettings(new Accounts.AccountSettingsRequest { MoCallBackUrl = "https://example.com/webhooks/inbound-sms", DrCallBackUrl = "https://example.com/webhooks/delivery-receipt" });
+            }
+            
 
             //ASSERT
             Assert.Equal("https://example.com/webhooks/delivery-receipt", result.DrCallbackurl);
@@ -47,23 +69,36 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal(15, result.MaxOutboundRequest);
         }
 
-        [Fact]
-        public void TopUp()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TopUp(bool passCreds)
         {
             //ARRANGE            
             var expectedUri = $"{RestUrl}/account/top-up?trx=00X123456Y7890123Z&api_key={ApiKey}&api_secret={ApiSecret}&";
             var expectedResponseContent = @"{""response"":""abc123""}";
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             //Act
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var response = client.AccountClient.TopUpAccountBalance(new Accounts.TopUpRequest { Trx = "00X123456Y7890123Z" });
+            var client = new NexmoClient(creds);
+            Accounts.TopUpResult response;
+            if (passCreds)
+            {
+                response = client.AccountClient.TopUpAccountBalance(new Accounts.TopUpRequest { Trx = "00X123456Y7890123Z" },creds);
+            }
+            else
+            {
+                response = client.AccountClient.TopUpAccountBalance(new Accounts.TopUpRequest { Trx = "00X123456Y7890123Z" });
+            }
 
             Assert.Equal("abc123",response.Response);
         }
 
-        [Fact]
-        public void GetNumbers()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetNumbers(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/numbers?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -71,8 +106,16 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //Act
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var numbers = client.NumbersClient.GetOwnedNumbers(new Numbers.NumberSearchRequest());
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            Numbers.NumbersSearchResponse numbers;
+            if (passCreds){
+                numbers = client.NumbersClient.GetOwnedNumbers(new Numbers.NumberSearchRequest(), creds);
+            }
+            else
+            {
+                numbers = client.NumbersClient.GetOwnedNumbers(new Numbers.NumberSearchRequest());
+            }            
 
             //ASSERT
             Assert.Equal(1, numbers.Count);
@@ -81,9 +124,11 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("mobile-lvn", numbers.Numbers[0].Type);
             Assert.Equal("VOICE", numbers.Numbers[0].Features.First());
         }
-        
-        [Fact]
-        public void RetrieveApiSecrets()
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void RetrieveApiSecrets(bool passCreds)
         {
             //ARRANGE            
             var expectedResponse = @"{
@@ -110,8 +155,18 @@ namespace Nexmo.Api.Test.Unit
             Setup(expectedUri, expectedResponse);
 
             //ACT
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var secrets = client.AccountClient.RetrieveApiSecrets(ApiKey);
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            Accounts.SecretsRequestResult secrets;
+            if (passCreds)
+            {
+                secrets = client.AccountClient.RetrieveApiSecrets(ApiKey,creds);
+            }
+            else
+            {
+                secrets = client.AccountClient.RetrieveApiSecrets(ApiKey);
+            }
+            
 
             //ASSERT
             Assert.Equal("ad6dc56f-07b5-46e1-a527-85530e625800", secrets.Embedded.Secrets[0].Id);
@@ -120,8 +175,10 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("abc123", secrets.Links.Self.Href);
         }
 
-        [Fact]
-        public void CreateApiSecret()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void CreateApiSecret(bool passCreds)
         {            
             //ARRANGE            
             var expectedUri = $"https://api.nexmo.com/accounts/{ApiKey}/secrets";
@@ -135,10 +192,20 @@ namespace Nexmo.Api.Test.Unit
                   ""created_at"": ""2017-03-02T16:34:49Z""
                 }";
             Setup(expectedUri, expectedResponse);
-            
+
             //ACT
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest { Secret = "password" }, ApiKey);
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            Accounts.Secret secret;
+            if (passCreds)
+            {
+                secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest { Secret = "password" }, ApiKey, creds);
+            }
+            else
+            {
+                secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest { Secret = "password" }, ApiKey);
+            }
+            
 
             //ASSERT
             Assert.Equal("ad6dc56f-07b5-46e1-a527-85530e625800", secret.Id);
@@ -146,8 +213,10 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("abc123", secret.Links.Self.Href);            
         }
 
-        [Fact]
-        public void RetrieveSecret()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void RetrieveSecret(bool passCreds)
         {
 
             //ARRANGE            
@@ -165,8 +234,19 @@ namespace Nexmo.Api.Test.Unit
             Setup(expectedUri, expectedResponse);
 
             //ACT
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var secret = client.AccountClient.RetrieveApiSecret(secretId, ApiKey);
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+
+            var client = new NexmoClient(creds);
+            Accounts.Secret secret;
+            if (passCreds)
+            {
+                secret = client.AccountClient.RetrieveApiSecret(secretId, ApiKey, creds);
+            }
+            else
+            {
+                secret = client.AccountClient.RetrieveApiSecret(secretId, ApiKey);
+            }
+            
 
             //ASSERT
             Assert.Equal(secretId, secret.Id);
@@ -174,8 +254,10 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("abc123", secret.Links.Self.Href);
         }
 
-        [Fact]        
-        public void RevokeSecret()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void RevokeSecret(bool passCreds)
         {
             //ARRANGE            
             var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
@@ -184,8 +266,18 @@ namespace Nexmo.Api.Test.Unit
             Setup(expectedUri, expectedResponse);
 
             //ACT
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var response = client.AccountClient.RevokeApiSecret(secretId, ApiKey);
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            bool response;
+            if (passCreds)
+            {
+                response = client.AccountClient.RevokeApiSecret(secretId, ApiKey, creds);
+            }
+            else
+            {
+                response = client.AccountClient.RevokeApiSecret(secretId, ApiKey);
+            }
+            
 
             //ASSERT
             Assert.True(response);

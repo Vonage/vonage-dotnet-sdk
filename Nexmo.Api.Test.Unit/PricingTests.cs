@@ -8,8 +8,10 @@ namespace Nexmo.Api.Test.Unit
 {
     public class PricingTests : TestBase
     {
-        [Fact]
-        public void GetPricingForCountry()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void GetPricingForCountry(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?country=CA&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -35,28 +37,40 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var pricing = client.PricingClient.RetrievePricingCountry("sms", new Pricing.PricingCountryRequest { Country = "CA" });
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            Pricing.Country country;
+
+            if (passCreds)
+            {
+                country = client.PricingClient.RetrievePricingCountry("sms", new Pricing.PricingCountryRequest { Country = "CA" }, creds);
+            }
+            else
+            {
+                country = client.PricingClient.RetrievePricingCountry("sms", new Pricing.PricingCountryRequest { Country = "CA" });
+            }
 
             //ASSERT
 
-            Assert.Equal("302530", pricing.Networks[0].NetworkCode);
-            Assert.Equal("Keewaytinook Okimakanak", pricing.Networks[0].NetworkName);
-            Assert.Equal("530", pricing.Networks[0].Mnc);
-            Assert.Equal("302", pricing.Networks[0].Mcc);
-            Assert.Equal("EUR", pricing.Networks[0].Currency);
-            Assert.Equal("0.00590000", pricing.Networks[0].Price);
-            Assert.Equal("mobile", pricing.Networks[0].Type);
-            Assert.Equal("1", pricing.DialingPrefix);
-            Assert.Equal("0.00620000", pricing.DefaultPrice);
-            Assert.Equal("EUR", pricing.Currency);
-            Assert.Equal("Canada", pricing.CountryDisplayName);
-            Assert.Equal("Canada", pricing.CountryName);
-            Assert.Equal("CA", pricing.CountryCode);
+            Assert.Equal("302530", country.Networks[0].NetworkCode);
+            Assert.Equal("Keewaytinook Okimakanak", country.Networks[0].NetworkName);
+            Assert.Equal("530", country.Networks[0].Mnc);
+            Assert.Equal("302", country.Networks[0].Mcc);
+            Assert.Equal("EUR", country.Networks[0].Currency);
+            Assert.Equal("0.00590000", country.Networks[0].Price);
+            Assert.Equal("mobile", country.Networks[0].Type);
+            Assert.Equal("1", country.DialingPrefix);
+            Assert.Equal("0.00620000", country.DefaultPrice);
+            Assert.Equal("EUR", country.Currency);
+            Assert.Equal("Canada", country.CountryDisplayName);
+            Assert.Equal("Canada", country.CountryName);
+            Assert.Equal("CA", country.CountryCode);
         }
 
-        [Fact]
-        public void GetPricingForPrefix()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void GetPricingForPrefix(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-prefix-pricing/outbound/sms?prefix=1&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -86,8 +100,17 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var pricing = client.PricingClient.RetrievePrefixPricing("sms", new Pricing.PricingPrefixRequest { Prefix = "1" });
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            Pricing.PricingResult pricing;
+            if (passCreds)
+            {
+                pricing = client.PricingClient.RetrievePrefixPricing("sms", new Pricing.PricingPrefixRequest { Prefix = "1" }, creds);
+            }
+            else
+            {
+                pricing = client.PricingClient.RetrievePrefixPricing("sms", new Pricing.PricingPrefixRequest { Prefix = "1" });
+            }
 
             //ASSERT
             Assert.Equal("302530", pricing.Countries[0].Networks[0].NetworkCode);
@@ -105,8 +128,10 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("243", pricing.Count);            
         }
 
-        [Fact]
-        public void GetPricingAllCountries()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void GetPricingAllCountries(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -136,8 +161,17 @@ namespace Nexmo.Api.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var pricing = client.PricingClient.RetrievePricingAllCountries("sms");
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            Pricing.PricingResult pricing;
+            if (passCreds)
+            {
+                pricing = client.PricingClient.RetrievePricingAllCountries("sms",creds);
+            }
+            else
+            {
+                pricing = client.PricingClient.RetrievePricingAllCountries("sms");
+            }
 
             //ASSERT
             Assert.Equal("302530", pricing.Countries[0].Networks[0].NetworkCode);
