@@ -48,5 +48,8 @@ namespace Nexmo.Api.Common
         
         [JsonProperty("error-code-label")]
         public string ErrorCodeLabel { get; set; }
+
+        [JsonProperty("final-status")]
+        public string FinalStatus { get; set; }
     }
 }

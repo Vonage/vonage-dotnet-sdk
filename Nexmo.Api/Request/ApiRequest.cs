@@ -112,7 +112,15 @@ namespace Nexmo.Api.Request
             {
                 foreach (var kvp in param)
                 {
-                    strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), WebUtility.UrlEncode(kvp.Value));
+                    //Special Case for ids from MessagesSearch API which needs a sereies of ID's with unescaped &/=
+                    if(kvp.Key == "ids")
+                    {
+                        strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), kvp.Value);
+                    }
+                    else
+                    {
+                        strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), WebUtility.UrlEncode(kvp.Value));
+                    }                    
                 }
             };
             Action<IDictionary<string, string>, StringBuilder> buildSignatureStringFromParams = (param, strings) =>
