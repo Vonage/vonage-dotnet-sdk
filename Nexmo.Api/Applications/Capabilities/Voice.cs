@@ -6,7 +6,7 @@ namespace Nexmo.Api.Applications.Capabilities
     {
         public Voice(IDictionary<Common.Webhook.Type, Common.Webhook> webhooks)
         {
-            this.Webhooks = Webhooks;
+            this.Webhooks = webhooks;
             this.Type = Capability.CapabilityType.Voice;
         }
     }
