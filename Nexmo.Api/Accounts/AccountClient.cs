@@ -40,10 +40,8 @@ namespace Nexmo.Api.Accounts
             );
         }
 
-        public SecretsRequestResult RetrieveApiSecrets(string apiKey = null, Credentials creds = null)
+        public SecretsRequestResult RetrieveApiSecrets(string apiKey, Credentials creds = null)
         {
-            apiKey = apiKey ?? (creds?.ApiKey ?? Credentials.ApiKey);
-            apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoGetRequestWithUrlContent<SecretsRequestResult>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
                 ApiRequest.AuthType.Basic,
@@ -51,10 +49,8 @@ namespace Nexmo.Api.Accounts
             );
         }
 
-        public Secret CreateApiSecret(CreateSecretRequest request, string apiKey = null, Credentials creds = null)
+        public Secret CreateApiSecret(CreateSecretRequest request, string apiKey, Credentials creds = null)
         {
-            apiKey = apiKey ?? (creds?.ApiKey ?? Credentials.ApiKey);
-            apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoRequestWithJsonContent<Secret>(
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
@@ -64,10 +60,8 @@ namespace Nexmo.Api.Accounts
             );
         }
 
-        public Secret RetrieveApiSecret(string secretId, string apiKey = null, Credentials creds = null)
+        public Secret RetrieveApiSecret(string secretId, string apiKey, Credentials creds = null)
         {
-            apiKey = apiKey ?? (creds?.ApiKey ?? Credentials.ApiKey);
-            apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoGetRequestWithUrlContent<Secret>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 ApiRequest.AuthType.Basic,
@@ -75,10 +69,8 @@ namespace Nexmo.Api.Accounts
             );
         }
 
-        public bool RevokeApiSecret(string secretId, string apiKey = null, Credentials creds = null)
+        public bool RevokeApiSecret(string secretId, string apiKey, Credentials creds = null)
         {
-            apiKey = apiKey ?? (creds?.ApiKey ?? Credentials.ApiKey);
-            apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             ApiRequest.DoDeleteRequestWithUrlContent(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 null,
@@ -86,6 +78,6 @@ namespace Nexmo.Api.Accounts
                 creds ?? Credentials
             );
             return true;
-        }
+        }        
     }
 }

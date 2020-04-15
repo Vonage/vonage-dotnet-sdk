@@ -81,23 +81,11 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("mobile-lvn", numbers.Numbers[0].Type);
             Assert.Equal("VOICE", numbers.Numbers[0].Features.First());
         }
-
-        [Fact]
-        public void RetrieveApiSecretsWithKey()
-        {
-            RetrieveApiSecrets(ApiKey);
-        }
-
-        [Fact]
-        public void RetreiveApiSecretsWithNull()
-        {
-            RetrieveApiSecrets(null);
-        }        
         
-        public void RetrieveApiSecrets(string apiKey)
+        [Fact]
+        public void RetrieveApiSecrets()
         {
-            //ARRANGE
-            var pathKey = apiKey != null ? apiKey : ApiKey;
+            //ARRANGE            
             var expectedResponse = @"{
                   ""_links"": {
                     ""self"": {
@@ -118,12 +106,12 @@ namespace Nexmo.Api.Test.Unit
                     ]
                   }
                 }";
-            var expectedUri = $"https://api.nexmo.com/accounts/{pathKey}/secrets";
+            var expectedUri = $"https://api.nexmo.com/accounts/{ApiKey}/secrets";
             Setup(expectedUri, expectedResponse);
 
             //ACT
             var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var secrets = client.AccountClient.RetrieveApiSecrets(apiKey);
+            var secrets = client.AccountClient.RetrieveApiSecrets(ApiKey);
 
             //ASSERT
             Assert.Equal("ad6dc56f-07b5-46e1-a527-85530e625800", secrets.Embedded.Secrets[0].Id);
@@ -133,22 +121,10 @@ namespace Nexmo.Api.Test.Unit
         }
 
         [Fact]
-        public void CreateSecretWithKey()
-        {
-            CreateApiSecret(ApiKey);
-        }
-
-        [Fact]
-        public void CreateSecretWithNullKey()
-        {
-            CreateApiSecret(null);
-        }
-
-        public void CreateApiSecret(string apiKey)
+        public void CreateApiSecret()
         {            
-            //ARRANGE
-            var pathKey = apiKey != null ? apiKey : ApiKey;
-            var expectedUri = $"https://api.nexmo.com/accounts/{pathKey}/secrets";
+            //ARRANGE            
+            var expectedUri = $"https://api.nexmo.com/accounts/{ApiKey}/secrets";
             var expectedResponse = @"{
                   ""_links"": {
                     ""self"": {
@@ -162,7 +138,7 @@ namespace Nexmo.Api.Test.Unit
             
             //ACT
             var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest { Secret = "password" }, apiKey);
+            var secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest { Secret = "password" }, ApiKey);
 
             //ASSERT
             Assert.Equal("ad6dc56f-07b5-46e1-a527-85530e625800", secret.Id);
@@ -171,24 +147,12 @@ namespace Nexmo.Api.Test.Unit
         }
 
         [Fact]
-        public void RetrieveSecretWithKey()
-        {
-            RetrieveSecret(ApiKey);
-        }
-
-        [Fact]
-        public void RetrieveSecretWithNull()
-        {
-            RetrieveSecret(null);
-        }
-
-        public void RetrieveSecret(string apiKey)
+        public void RetrieveSecret()
         {
 
-            //ARRANGE
-            var pathKey = apiKey != null ? apiKey : ApiKey;
+            //ARRANGE            
             var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
-            var expectedUri = $"https://api.nexmo.com/accounts/{pathKey}/secrets/{secretId}";
+            var expectedUri = $"https://api.nexmo.com/accounts/{ApiKey}/secrets/{secretId}";
             var expectedResponse = @"{
                   ""_links"": {
                     ""self"": {
@@ -202,7 +166,7 @@ namespace Nexmo.Api.Test.Unit
 
             //ACT
             var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var secret = client.AccountClient.RetrieveApiSecret(secretId, apiKey);
+            var secret = client.AccountClient.RetrieveApiSecret(secretId, ApiKey);
 
             //ASSERT
             Assert.Equal(secretId, secret.Id);
@@ -210,30 +174,18 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("abc123", secret.Links.Self.Href);
         }
 
-        [Fact]
-        public void RevokeWithKey()
+        [Fact]        
+        public void RevokeSecret()
         {
-            RevokeSecret(ApiKey);
-        }
-
-        [Fact]
-        public void RevokeWithNull()
-        {
-            RevokeSecret(null);
-        }
-        
-        public void RevokeSecret(string apiKey)
-        {
-            //ARRANGE
-            var pathKey = apiKey != null ? apiKey : ApiKey;
+            //ARRANGE            
             var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
-            var expectedUri = $"https://api.nexmo.com/accounts/{pathKey}/secrets/{secretId}";
+            var expectedUri = $"https://api.nexmo.com/accounts/{ApiKey}/secrets/{secretId}";
             var expectedResponse = @"";
             Setup(expectedUri, expectedResponse);
 
             //ACT
             var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var response = client.AccountClient.RevokeApiSecret(secretId, apiKey);
+            var response = client.AccountClient.RevokeApiSecret(secretId, ApiKey);
 
             //ASSERT
             Assert.True(response);
