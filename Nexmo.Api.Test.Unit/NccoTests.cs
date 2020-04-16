@@ -129,7 +129,7 @@ namespace Nexmo.Api.Test.Unit
         [Fact]
         public void TestInput()
         {
-            var expectedJson = @"[{""timeOut"":""3"",""maxDigits"":""4"",""submitOnHash"":""true"",""eventUrl"":[""https://example.com/ivr""],""eventMethod"":""POST"",""action"":""input""}]";
+            var expectedJson = @"[{""timeOut"":""3"",""maxDigits"":4,""submitOnHash"":""true"",""eventUrl"":[""https://example.com/ivr""],""eventMethod"":""POST"",""action"":""input""}]";
             var inputAction = new InputAction
             {
                 TimeOut = "3",
