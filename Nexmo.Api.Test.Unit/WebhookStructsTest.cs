@@ -39,6 +39,7 @@ namespace Nexmo.Api.Test.Unit
         [InlineData("timeout")]
         [InlineData("rejected")]
         [InlineData("failed")]
+        [InlineData("unanswered")]
         public void TestCallStatusEvent(string type)
         {
             var json = @"
@@ -247,6 +248,31 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", errorWebhook.ConversationUuid);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                        DateTimeStyles.AdjustToUniversal), (errorWebhook.TimeStamp));            
+        }
+
+        [Fact]
+        public void TestNotifications()
+        {
+            var json = @"
+                {
+                    ""conversation_uuid"":""CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""payload"":{""bar"":""foo""},
+                    ""timestamp"":""2020-01-01T12:00:00.000Z""
+                }";
+            var notification = JsonConvert.DeserializeObject<Notification<Foo>>(json);
+            Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", notification.ConversationUuid);
+            Assert.Equal("foo", notification.Payload.bar);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                       DateTimeStyles.AdjustToUniversal), (notification.TimeStamp)) ;
+        }
+        public class Foo
+        {
+            public string bar { get; set; }
+        }
+        [Fact]
+        public void TestEmpty()
+        {
+            Assert.Null(EventBase.ParseEvent("{}"));
         }
     }
 }
