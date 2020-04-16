@@ -20,6 +20,8 @@ namespace Nexmo.Api.Voice.EventWebhooks
             var dtmfProperty = data.Property("dtmf");
 
             var recordingUrlProperty = data.Property("recording_url");
+
+            var conversationUuidFromProperty = data.Property("conversation_uuid_from");
             
             var reasonProperty = data.Property("reason");
             var settings = new JsonSerializerSettings
@@ -34,6 +36,10 @@ namespace Nexmo.Api.Voice.EventWebhooks
                 if (status == "started")
                 {
                     return JsonConvert.DeserializeObject<Started>(json, settings);
+                }
+                else if (status == "disconnected")
+                {
+                    return JsonConvert.DeserializeObject<Disconnected>(json, settings);
                 }
                 else if (status == "ringing")
                 {
@@ -80,12 +86,9 @@ namespace Nexmo.Api.Voice.EventWebhooks
                     return JsonConvert.DeserializeObject<Completed>(json, settings);
                 }
             }
-            else if (typePropety != null)
+            else if (conversationUuidFromProperty != null)
             {
-                if (((string)typePropety.Value).ToLower() == "transfer")
-                {
-                    return JsonConvert.DeserializeObject<Transfer>(json, settings);
-                }
+                return JsonConvert.DeserializeObject<Transfer>(json, settings);
             }
             else if (dtmfProperty != null)
             {

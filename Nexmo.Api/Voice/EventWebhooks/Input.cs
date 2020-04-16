@@ -12,6 +12,15 @@ namespace Nexmo.Api.Voice.EventWebhooks
 
         [JsonProperty("conversation_uuid")]
         public string ConversationUuid { get; set; }
-        
+
+        [JsonProperty("from")]
+        public string From { get; set; }
+
+        [JsonProperty("to")]
+        public string To { get; set; }
+
+        [JsonProperty("direction")]
+        public Direction Direction { get; set; }
+
     }
 }
