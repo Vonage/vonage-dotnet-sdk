@@ -83,8 +83,9 @@ namespace Nexmo.Api.Messaging
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
             var signatureString = ConstructSignatureStringFromDictionary(dict);
-            var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signatureSecret, method);
-
+            var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signatureSecret, method).ToString();
+            System.Diagnostics.Debug.WriteLine(testSig);
+            Console.WriteLine(testSig);
             return testSig == Sig;
         }
 

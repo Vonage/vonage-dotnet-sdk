@@ -230,5 +230,30 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("abc123", inboundSms.Data);
             Assert.Equal("abc123", inboundSms.Udh);
         }
+
+        [Fact]
+        public void TestValidateSignature()
+        {
+            var inboundSmsShell = new Messaging.InboundSms
+            {
+                ApiKey = "abcd1234",
+                Msisdn = "447700900001",
+                To = "447700900000",
+                MessageId = "0A0000000123ABCD1",
+                Text = "Hello world",
+                Keyword = "HELLO",
+                MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
+                Timestamp = "1578787200",
+                Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                Concat = "true",
+                ConcatRef = "3",
+            };
+            var TestSigningSecret = "Y6dI3wtDP8myVH5tnDoIaTxEvAJhgDVCczBa1mHniEqsdlnnebg";
+            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(Messaging.InboundSms.ConstructSignatureStringFromDictionary(dict),TestSigningSecret,Cryptography.SmsSignatureGenerator.Method.md5);
+            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5));
+        }
     }
 }
+
