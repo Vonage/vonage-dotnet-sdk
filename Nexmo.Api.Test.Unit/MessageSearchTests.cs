@@ -111,6 +111,7 @@ namespace Nexmo.Api.Test.Unit
                 expectedUri = $"{RestUrl}/search/messages?ids=123456789&ids=987654321&date=2020-01-01&to=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
                 var ids = new string[] { "123456789", "987654321" };
                 request = new MessageSearch.MessagesSearchRequest { Date = "2020-01-01", Ids = ids, To = "447700900000" };
+                Assert.Equal("123456789",request.Ids[0]);
             }
             else
             {

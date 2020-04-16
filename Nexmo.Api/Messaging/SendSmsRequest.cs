@@ -32,11 +32,13 @@ namespace Nexmo.Api.Messaging
         public int? ProtocolId { get; set; }
         [JsonProperty("title")]
         public string Title { get; set; }
+        [JsonProperty("url")]
+        public string Url { get; set; }
         [JsonProperty("validity")]
         public string Validity { get; set; }
         [JsonProperty("client-ref")]
         public string ClientRef { get; set; }
         [JsonProperty("account-ref")]
-        public string AccountRef { get; set; }
+        public string AccountRef { get; set; }        
     }
 }

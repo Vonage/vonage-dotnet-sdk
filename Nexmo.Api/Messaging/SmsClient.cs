@@ -38,7 +38,7 @@ namespace Nexmo.Api.Messaging
             }
             else if (smsResponse.Messages[0].Status != "0")
             {
-                throw new NexmoSmsResponseException($"SMS Request Failed with status: {smsResponse.Messages[0].Status} and error message: {smsResponse.Messages[0].ErrorText}");
+                throw new NexmoSmsResponseException($"SMS Request Failed with status: {smsResponse.Messages[0].Status} and error message: {smsResponse.Messages[0].ErrorText}") { Response = smsResponse};
             }
         }
     }

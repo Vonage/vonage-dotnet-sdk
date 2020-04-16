@@ -16,7 +16,7 @@ namespace Nexmo.Api.Messaging
         [JsonProperty("message-id")]
         public string MessageId { get; set; }
 
-        [JsonProperty("error_text")]
+        [JsonProperty("error-text")]
         public string ErrorText { get; set; }
 
         [JsonProperty("status")]
