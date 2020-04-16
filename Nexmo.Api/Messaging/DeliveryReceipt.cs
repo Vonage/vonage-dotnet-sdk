@@ -40,5 +40,18 @@ namespace Nexmo.Api.Messaging
         [JsonProperty("message-timestamp")]
         [FromQuery(Name = "message-timestamp")]
         public string MessageTimestamp { get; set; }
+
+        [JsonProperty("api-key")]
+        [FromQuery(Name = "api-key")]
+        public string ApiKey { get; set; }
+        [JsonProperty("timestamp")]
+        [FromQuery(Name = "timestamp")]
+        public int Timestamp { get; set; }
+        [JsonProperty("nonce")]
+        [FromQuery(Name = "nonce")]
+        public string Nonce { get; set; }
+        [JsonProperty("sig")]
+        [FromQuery(Name = "sig")]
+        public string Sig { get; set; }
     }
 }
