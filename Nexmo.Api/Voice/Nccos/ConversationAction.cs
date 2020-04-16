@@ -8,7 +8,7 @@ namespace Nexmo.Api.Voice.Nccos
         public string Name { get; set; }
 
         [JsonProperty("musicOnHoldUrl")]
-        public string MusicOnHoldUrl { get; set; }
+        public string[] MusicOnHoldUrl { get; set; }
 
         [JsonProperty("startOnEnter")]
         public string StartOnEnter { get; set; }
@@ -26,10 +26,10 @@ namespace Nexmo.Api.Voice.Nccos
         public string EventMethod { get; set; }
 
         [JsonProperty("canSpeak")]
-        public string CanSpeak { get; set; }
+        public string[] CanSpeak { get; set; }
 
         [JsonProperty("canHear")]
-        public string CanHear { get; set; }
+        public string[] CanHear { get; set; }
 
         public ConversationAction()
         {

@@ -29,6 +29,8 @@ namespace Nexmo.Api.Voice.Nccos
 
         [JsonProperty("eventMethod")]
         public string EventMethod { get; set; }
+        [JsonProperty("ringbackTone")]
+        public string RingbackTone { get; set; }
 
         public ConnectAction()
         {

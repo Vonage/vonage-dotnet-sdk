@@ -18,9 +18,5 @@ namespace Nexmo.Api.Voice.EventWebhooks
 
         [JsonProperty("to")]
         public string To { get; set; }
-
-        [JsonProperty("direction")]
-        public Direction Direction { get; set; }
-
     }
 }
