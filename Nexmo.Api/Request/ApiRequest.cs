@@ -496,20 +496,6 @@ namespace Nexmo.Api.Request
         }
 
         /// <summary>
-        /// Sends an HTTP PUT request with Url Content
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="parameters"></param>
-        /// <param name="creds"></param>
-        /// <returns></returns>
-        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static T DoPutRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) {
-            var response = DoRequestWithUrlContent("PUT", uri, parameters, creds:creds);
-            return JsonConvert.DeserializeObject<T>(response.JsonResponse);
-        }
-
-        /// <summary>
         /// Sends an HTTP DELETE 
         /// </summary>
         /// <param name="uri"></param>
