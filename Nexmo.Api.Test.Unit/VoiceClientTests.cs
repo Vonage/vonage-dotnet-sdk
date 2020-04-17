@@ -301,7 +301,7 @@ namespace Nexmo.Api.Test.Unit
         public void TestStartStream(bool passCreds, bool kitchenSink)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Stream started"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -338,7 +338,7 @@ namespace Nexmo.Api.Test.Unit
             }
             else
             {
-                response = client.VoiceClient.StartStream(uuid, command, creds);
+                response = client.VoiceClient.StartStream(uuid, command);
             }
             Assert.Equal("Stream started", response.Message);
             Assert.Equal(uuid, response.Uuid);
@@ -350,7 +350,7 @@ namespace Nexmo.Api.Test.Unit
         public void StopStream(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Stream stopped"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -368,10 +368,147 @@ namespace Nexmo.Api.Test.Unit
             }
             else
             {
-                response = client.VoiceClient.StopStream(uuid, creds);
+                response = client.VoiceClient.StopStream(uuid);
             }
             Assert.Equal("Stream stopped", response.Message);
             Assert.Equal(uuid, response.Uuid);
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void TestStartTalk(bool passCreds, bool kitchenSink)
+        {
+            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
+            var expectedResponse = @"{
+                  ""message"": ""Talk started"",
+                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
+                }";
+            string expectedRequestContent;
+            TalkCommand command;
+            if (kitchenSink)
+            {
+                expectedRequestContent = @"{""text"":""Hello. How are you today?"",""voice_name"":""salli"",""loop"":0,""level"":""0.4""}";
+                command = new TalkCommand
+                {
+                    Text = "Hello. How are you today?",
+                    Loop = 0,
+                    Level = "0.4",
+                    VoiceName="salli"
+                };
+            }
+            else
+            {
+                expectedRequestContent = @"{""text"":""Hello. How are you today?""}";
+                command = new TalkCommand
+                {
+                    Text = "Hello. How are you today?"
+                };
+            }
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
+
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var client = new NexmoClient(creds);
+
+            CallCommandResponse response;
+            if (passCreds)
+            {
+                response = client.VoiceClient.StartTalk(uuid, command, creds);
+            }
+            else
+            {
+                response = client.VoiceClient.StartTalk(uuid, command);
+            }
+            Assert.Equal("Talk started", response.Message);
+            Assert.Equal(uuid, response.Uuid);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void StopTalk(bool passCreds)
+        {
+            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
+            var expectedResponse = @"{
+                  ""message"": ""Talk stopped"",
+                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
+                }";
+
+            Setup(expectedUri, expectedResponse, "{}");
+
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var client = new NexmoClient(creds);
+
+            CallCommandResponse response;
+            if (passCreds)
+            {
+                response = client.VoiceClient.StopStream(uuid, creds);
+            }
+            else
+            {
+                response = client.VoiceClient.StopStream(uuid);
+            }
+            Assert.Equal("Talk stopped", response.Message);
+            Assert.Equal(uuid, response.Uuid);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void TestStartDtmf(bool passCreds)
+        {
+            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
+            var expectedResponse = @"{
+                  ""message"": ""DTMF sent"",
+                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
+                }";
+            var expectedRequestContent = @"{""digits"":""1234""}";
+            var command = new DtmfCommand { Digits = "1234" };                        
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
+
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var client = new NexmoClient(creds);
+
+            CallCommandResponse response;
+            if (passCreds)
+            {
+                response = client.VoiceClient.StartDtmf(uuid, command, creds);
+            }
+            else
+            {
+                response = client.VoiceClient.StartDtmf(uuid, command);
+            }
+            Assert.Equal("DTMF sent", response.Message);
+            Assert.Equal(uuid, response.Uuid);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void TestGetRecordings(bool passCreds)
+        {
+            var expectedUri = $"{ApiUrl}/v1/calls/63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var expectedResponse = new byte[] { 0,1,2,3,4,5,6,7,8,9};
+            Setup(expectedUri, expectedResponse);
+            var client = new NexmoClient(creds);
+            
+            GetRecordingResponse response;
+            if (passCreds) 
+            {
+                response = client.VoiceClient.GetRecording(expectedUri, creds);
+            }
+            else
+            {
+                response = client.VoiceClient.GetRecording(expectedUri);
+            }
+
+
+            Assert.Equal(expectedResponse, response.ResultStream);
+
         }
     }
 }
