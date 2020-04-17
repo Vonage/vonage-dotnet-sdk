@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace Nexmo.Api.Voice
 {
     public class CallList
     {
-        public List<CallResponse> calls { get; set; }
+        [JsonProperty("calls")]
+        public List<CallRecord> Calls { get; set; }
     }
 }

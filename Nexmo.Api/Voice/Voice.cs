@@ -18,9 +18,9 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static CallResponse CreateCall(CallCommand command, Credentials creds = null)
+        public static Call.CallResponse CreateCall(CallCommand command, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<CallResponse>(POST, ApiRequest.GetBaseUriFor(typeof(Call), CALLS_ENDPOINT), command, ApiRequest.AuthType.Bearer, creds);
+            return ApiRequest.DoRequestWithJsonContent<Call.CallResponse>(POST, ApiRequest.GetBaseUriFor(typeof(Call), CALLS_ENDPOINT), command, ApiRequest.AuthType.Bearer, creds);
         }
 
         /// <summary>
@@ -29,9 +29,9 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// </summary>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static PaginatedResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
+        public static PaginatedResponse<Call.CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<PaginatedResponse<CallList>>(ApiRequest.GetBaseUriFor(typeof(Call), CALLS_ENDPOINT), ApiRequest.AuthType.Bearer, filter, creds);
+            return ApiRequest.DoGetRequestWithUrlContent<PaginatedResponse<Call.CallList>>(ApiRequest.GetBaseUriFor(typeof(Call), CALLS_ENDPOINT), ApiRequest.AuthType.Bearer, filter, creds);
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace Nexmo.Api.Voice
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static CallResponse GetCall(string id, Credentials creds = null)
+        public static Call.CallResponse GetCall(string id, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<CallResponse>(ApiRequest.GetBaseUriFor(typeof(Call), $"{CALLS_ENDPOINT}/{id}"), ApiRequest.AuthType.Bearer, credentials: creds);
+            return ApiRequest.DoGetRequestWithUrlContent<Call.CallResponse>(ApiRequest.GetBaseUriFor(typeof(Call), $"{CALLS_ENDPOINT}/{id}"), ApiRequest.AuthType.Bearer, credentials: creds);
         }
 
         /// <summary>
@@ -52,9 +52,9 @@ namespace Nexmo.Api.Voice
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static CallResponse UpdateCall(string id, CallEditCommand command, Credentials creds = null) 
+        public static Call.CallResponse UpdateCall(string id, CallEditCommand command, Credentials creds = null) 
         {            
-            return ApiRequest.DoRequestWithJsonContent<CallResponse>(PUT, ApiRequest.GetBaseUriFor(typeof(Call), $"{CALLS_ENDPOINT}/{id}"), command, ApiRequest.AuthType.Bearer, creds);
+            return ApiRequest.DoRequestWithJsonContent<Call.CallResponse>(PUT, ApiRequest.GetBaseUriFor(typeof(Call), $"{CALLS_ENDPOINT}/{id}"), command, ApiRequest.AuthType.Bearer, creds);
         }
 
         /// <summary>
