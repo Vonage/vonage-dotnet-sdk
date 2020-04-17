@@ -96,11 +96,11 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// Optional. Set the number of seconds that elapse before Nexmo hangs up after the call state changes to in_progress. The default value is 7200, two hours. This is also the maximum value.
             /// </summary>
-            public decimal length_timer { get; set; }
+            public uint length_timer { get; set; }
             /// <summary>
             /// Optional. Set the number of seconds that elapse before Nexmo hangs up after the call state changes to 'ringing'. The default value is 60, the maximum value is 120.
             /// </summary>
-            public decimal ringing_timer { get; set; }
+            public uint ringing_timer { get; set; }
         }
 
         public class CallCommandResponse
