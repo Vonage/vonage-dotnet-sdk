@@ -117,21 +117,34 @@ namespace Nexmo.Api.Test.Unit
                     ]
                   }
                 }";
-            var expectedUri = $"{ApiUrl}/v1/calls?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&";
+
+            CallSearchFilter filter;
+            string expectedUri;
+            if (kitchenSink)
+            {
+                expectedUri = $"{ApiUrl}/v1/calls?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&";
+                filter = new CallSearchFilter
+                {
+                    ConversationUuid = "CON-f972836a-550f-45fa-956c-12a2ab5b7d22",
+                    DateStart = DateTime.Parse("2016-11-14T07:45:14"),
+                    DateEnd = DateTime.Parse("2016-11-14T07:45:14"),
+                    PageSize = 10,
+                    RecordIndex = 0,
+                    Order = "asc",
+                    Status = "started"
+                };
+            }
+            else
+            {
+                expectedUri = $"{ApiUrl}/v1/calls";
+                filter = new CallSearchFilter();
+            }
+            
             Setup(expectedUri, expectedResponse);
 
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new NexmoClient(creds);
-            var filter = new CallSearchFilter
-            {
-                ConversationUuid = "CON-f972836a-550f-45fa-956c-12a2ab5b7d22",
-                DateStart = DateTime.Parse("2016-11-14T07:45:14"),
-                DateEnd = DateTime.Parse("2016-11-14T07:45:14"),
-                PageSize = 10,
-                RecordIndex = 0,
-                Order = "asc",
-                Status = "started"
-            };
+            
             Common.PageResponse<CallList> callList;
             if (passCreds)
             {
@@ -164,6 +177,201 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                        DateTimeStyles.AdjustToUniversal), (callRecord.EndTime));
 
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void TestGetSpecificCall(bool passCreds)
+        {
+            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedResponse = @"{
+                        ""_links"": {
+                          ""self"": {
+                            ""href"": ""/calls/63f61863-4a51-4f6b-86e1-46edebcf9356""
+                          }
+                        },
+                        ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
+                        ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22"",
+                        ""to"": [
+                          {
+                            ""type"": ""phone"",
+                            ""number"": ""447700900000""
+                          }
+                        ],
+                        ""from"": [
+                          {
+                            ""type"": ""phone"",
+                            ""number"": ""447700900001""
+                          }
+                        ],
+                        ""status"": ""started"",
+                        ""direction"": ""outbound"",
+                        ""rate"": ""0.39"",
+                        ""price"": ""23.40"",
+                        ""duration"": ""60"",
+                        ""start_time"": ""2020-01-01 12:00:00"",
+                        ""end_time"": ""2020-01-01 12:00:00"",
+                        ""network"": ""65512""
+                      }";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
+
+            Setup(expectedUri, expectedResponse);
+
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var client = new NexmoClient(creds);
+
+            CallRecord callRecord;
+            if (passCreds)
+            {
+                callRecord = client.VoiceClient.GetCall(uuid, creds);
+            }
+            else
+            {
+                callRecord = client.VoiceClient.GetCall(uuid);
+            }            
+            
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
+            Assert.Equal("447700900000", callRecord.To[0].Number);
+            Assert.Equal("phone", callRecord.To[0].Type);
+            Assert.Equal("phone", callRecord.From[0].Type);
+            Assert.Equal("447700900001", callRecord.From[0].Number);
+            Assert.Equal("started", callRecord.Status);
+            Assert.Equal("outbound", callRecord.Direction);
+            Assert.Equal("0.39", callRecord.Rate);
+            Assert.Equal("23.40", callRecord.Price);
+            Assert.Equal("60", callRecord.Duration);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                       DateTimeStyles.AdjustToUniversal), (callRecord.StartTime));
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                       DateTimeStyles.AdjustToUniversal), (callRecord.EndTime));
+
+        }
+
+        [Theory]
+        [InlineData(true, true, true)]
+        [InlineData(false, false, true )]
+        [InlineData(false, false, false)]
+        public void TestUpdateCall(bool passCreds, bool inlineNcco, bool testTransfer)
+        {
+            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
+            var expectedResponse = "";
+            string expectedRequestContent;
+            Destination destination;
+            CallEditCommand request;
+            if (testTransfer)
+            {
+                if (inlineNcco)
+                {
+                    expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""ncco"":[{""text"":""hello world"",""action"":""talk""}]}}";
+                    destination = new Destination { Type = "ncco", Ncco = new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "hello world" }) };
+                }
+                else
+                {
+                    expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""url"":[""https://example.com/ncco.json""]}}";
+                    destination = new Destination { Type = "ncco", Url = new[] { "https://example.com/ncco.json" } };
+                }
+                request = new CallEditCommand { Destination = destination, Action = CallEditCommand.ActionType.transfer };
+            }
+            else
+            {
+                expectedRequestContent = @"{""action"":""earmuff""}";
+                request = new CallEditCommand { Action = CallEditCommand.ActionType.earmuff };
+            }
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
+            bool response;
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var client = new NexmoClient(creds);
+            if (passCreds)
+            {
+                response = client.VoiceClient.UpdateCall(uuid, request, creds);
+            }
+            else
+            {
+                response = client.VoiceClient.UpdateCall(uuid, request);
+            }
+            Assert.True(response);
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void TestStartStream(bool passCreds, bool kitchenSink)
+        {
+            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
+            var expectedResponse = @"{
+                  ""message"": ""Stream started"",
+                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
+                }";
+            string expectedRequestContent;
+            StreamCommand command;
+            if (kitchenSink)
+            {
+                expectedRequestContent = @"{""stream_url"":[""https://example.com/waiting.mp3""],""loop"":0,""level"":""0.4""}";
+                command = new StreamCommand
+                {
+                    StreamUrl = new[] { "https://example.com/waiting.mp3" },
+                    Loop = 0,
+                    Level = "0.4"
+                };
+            }
+            else
+            {
+                expectedRequestContent = @"{""stream_url"":[""https://example.com/waiting.mp3""]}";
+                command = new StreamCommand
+                {
+                    StreamUrl = new[] { "https://example.com/waiting.mp3" }
+                };
+            }
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
+
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var client = new NexmoClient(creds);
+
+            CallCommandResponse response;
+            if (passCreds)
+            {
+                response = client.VoiceClient.StartStream(uuid,command, creds);
+            }
+            else
+            {
+                response = client.VoiceClient.StartStream(uuid, command, creds);
+            }
+            Assert.Equal("Stream started", response.Message);
+            Assert.Equal(uuid, response.Uuid);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void StopStream(bool passCreds)
+        {
+            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
+            var expectedResponse = @"{
+                  ""message"": ""Stream stopped"",
+                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
+                }";
+
+            Setup(expectedUri, expectedResponse,"{}");
+
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var client = new NexmoClient(creds);
+
+            CallCommandResponse response;
+            if (passCreds)
+            {
+                response = client.VoiceClient.StopStream(uuid, creds);
+            }
+            else
+            {
+                response = client.VoiceClient.StopStream(uuid, creds);
+            }
+            Assert.Equal("Stream stopped", response.Message);
+            Assert.Equal(uuid, response.Uuid);
         }
     }
 }
