@@ -1,0 +1,2 @@
+ignore:
+  - "Nexmo.Api/Request/TimeSpanSemaphore.cs"
