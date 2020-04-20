@@ -70,8 +70,7 @@ namespace Nexmo.Api.Numbers
             const string SUCCESS = "200";
             if (response.ErrorCode != SUCCESS)
             {
-                throw new NexmoNumberResponseException
-                    ($"Number Transaction failed with error code:{response.ErrorCode} and label {response.ErrorCodeLabel}");
+                throw new NexmoNumberResponseException($"Number Transaction failed with error code:{response.ErrorCode} and label {response.ErrorCodeLabel}"){ Response = response};
             }
         }
     }

@@ -65,11 +65,11 @@ namespace Nexmo.Api.NumberInsights
             {
                 if(response is AdvancedInsightsAsyncResponse asyncResponse)
                 {
-                    throw new NumberInsightResponseException($"Advanced Insights Async response failed with status: {asyncResponse.Status} with error message: {asyncResponse.ErrorText}") { Response = response};
+                    throw new NexmoNumberInsightResponseException($"Advanced Insights Async response failed with status: {asyncResponse.Status} with error message: {asyncResponse.ErrorText}") { Response = response};
                 }
                 else if(response is BasicInsightResponse basicInsightResponse)
                 {                    
-                    throw new NumberInsightResponseException($"Number insight request failed with status: {basicInsightResponse.Status} and error message: {basicInsightResponse.StatusMessage}") { Response=response};
+                    throw new NexmoNumberInsightResponseException($"Number insight request failed with status: {basicInsightResponse.Status} and error message: {basicInsightResponse.StatusMessage}") { Response=response};
                 }
             }
         }

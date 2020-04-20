@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Nexmo.Api.NumberInsights
 {
-    public class NumberInsightResponseException : NexmoException
+    public class NexmoNumberInsightResponseException : NexmoException
     {
-        public NumberInsightResponseException(string message) : base(message) { }
+        public NexmoNumberInsightResponseException(string message) : base(message) { }
 
         public NumberInsightResponseBase Response { get; set; }
     }

@@ -11,6 +11,9 @@ namespace Nexmo.Api.Numbers
         [JsonProperty("msisdn")]
         public string Msisdn { get; set; }
 
+        [JsonProperty("app_id")]
+        public string AppId { get; set; }
+
         [JsonProperty("moHttpUrl")]
         public string MoHttpUrl { get; set; }
 

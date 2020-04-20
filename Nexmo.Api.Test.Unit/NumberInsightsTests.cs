@@ -375,7 +375,7 @@ namespace Nexmo.Api.Test.Unit
                 //ASSERT
                 Assert.True(false, "Auto fail because request returned without throwing exception");
             }
-            catch (NumberInsights.NumberInsightResponseException ex) 
+            catch (NumberInsights.NexmoNumberInsightResponseException ex) 
             {
                 //ASSERT
                 Assert.Equal(4, ex.Response.Status);
@@ -403,7 +403,7 @@ namespace Nexmo.Api.Test.Unit
                 //ASSERT
                 Assert.True(false, "Auto fail because request returned without throwing exception");
             }
-            catch (NumberInsights.NumberInsightResponseException ex)
+            catch (NumberInsights.NexmoNumberInsightResponseException ex)
             {
                 //ASSERT
                 Assert.Equal(4, ex.Response.Status);
