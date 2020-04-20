@@ -12,7 +12,7 @@ namespace Nexmo.Api.Verify
         }
         public VerifyResponse VerifyRequest(VerifyRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<VerifyResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<VerifyResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -22,7 +22,7 @@ namespace Nexmo.Api.Verify
 
         public VerifyCheckResponse VerifyCheck(VerifyCheckRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<VerifyCheckResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<VerifyCheckResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -32,7 +32,7 @@ namespace Nexmo.Api.Verify
 
         public VerifySearchResponse VerifySearch(VerifySearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<VerifySearchResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<VerifySearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -42,7 +42,7 @@ namespace Nexmo.Api.Verify
 
         public VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<VerifyControlResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<VerifyControlResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
                 ApiRequest.AuthType.Query,
                 request,

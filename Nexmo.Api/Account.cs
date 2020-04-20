@@ -106,7 +106,7 @@ namespace Nexmo.Api
         /// <returns>Balance data</returns>
         public static Balance GetBalance(Credentials credentials = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<Balance>(ApiRequest.GetBaseUriFor(typeof(Account),
+            return ApiRequest.DoGetRequestWithQueryParameters<Balance>(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-balance"), ApiRequest.AuthType.Query, credentials: credentials);
         }
 
@@ -128,7 +128,7 @@ namespace Nexmo.Api
                 parameters.Add("type", type);
             }
 
-            return ApiRequest.DoGetRequestWithUrlContent<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
+            return ApiRequest.DoGetRequestWithQueryParameters<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-pricing/outbound/"), 
                 ApiRequest.AuthType.Query,
                 parameters,
@@ -143,7 +143,7 @@ namespace Nexmo.Api
                 { "type", type }
             }; 
 
-            return ApiRequest.DoGetRequestWithUrlContent<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
+            return ApiRequest.DoGetRequestWithQueryParameters<Pricing>(ApiRequest.GetBaseUriFor(typeof(Account),
                 "/account/get-prefix-pricing/outbound/"),
                 ApiRequest.AuthType.Query,
                 parameters,
@@ -178,7 +178,7 @@ namespace Nexmo.Api
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         public static void TopUp(string transaction, Credentials credentials = null)
         {
-            ApiRequest.DoGetRequestWithUrlContent<Topup>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/top-up"),
+            ApiRequest.DoGetRequestWithQueryParameters<Topup>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/top-up"),
                 ApiRequest.AuthType.Query,
                 new Dictionary<string, string>
                     {
@@ -207,7 +207,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static NumbersResponse GetNumbers(NumbersRequest request, Credentials credentials = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<NumbersResponse>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers"), ApiRequest.AuthType.Query, request, credentials);
+            return ApiRequest.DoGetRequestWithQueryParameters<NumbersResponse>(ApiRequest.GetBaseUriFor(typeof(Account), "/account/numbers"), ApiRequest.AuthType.Query, request, credentials);
         }
     }
 }

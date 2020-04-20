@@ -192,7 +192,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Get(string appId, Credentials credentials = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<AppResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), ApiRequest.AuthType.Basic, credentials:credentials);
+            return ApiRequest.DoGetRequestWithQueryParameters<AppResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), ApiRequest.AuthType.Basic, credentials:credentials);
         }
        
         /// <summary>
@@ -206,7 +206,7 @@ namespace Nexmo.Api
         public static List<AppResponse> List(int pageSize = 10, int page = 0,  Credentials credentials = null)
         {
             var filter = new AppListFilter() { page = page, page_size = pageSize };
-            return ApiRequest.DoGetRequestWithUrlContent<AppListResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), ApiRequest.AuthType.Basic, filter, credentials)._embedded.Applications;
+            return ApiRequest.DoGetRequestWithQueryParameters<AppListResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), ApiRequest.AuthType.Basic, filter, credentials)._embedded.Applications;
             
         }
 

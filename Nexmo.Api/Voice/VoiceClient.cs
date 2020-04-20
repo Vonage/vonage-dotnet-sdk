@@ -44,7 +44,7 @@ namespace Nexmo.Api.Voice
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<PageResponse<CallList>>(
+            return ApiRequest.DoGetRequestWithQueryParameters<PageResponse<CallList>>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                 ApiRequest.AuthType.Bearer,
                 filter,
@@ -60,7 +60,7 @@ namespace Nexmo.Api.Voice
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public CallRecord GetCall(string id, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<CallRecord>(
+            return ApiRequest.DoGetRequestWithQueryParameters<CallRecord>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 ApiRequest.AuthType.Bearer,
                 credentials:  creds ?? Credentials

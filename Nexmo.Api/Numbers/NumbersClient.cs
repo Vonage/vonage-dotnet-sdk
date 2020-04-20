@@ -14,7 +14,7 @@ namespace Nexmo.Api.Numbers
         
         public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<NumbersSearchResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"), 
                 ApiRequest.AuthType.Query, 
                 request, 
@@ -24,7 +24,7 @@ namespace Nexmo.Api.Numbers
 
         public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<NumbersSearchResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"), 
                 ApiRequest.AuthType.Query, 
                 request, 

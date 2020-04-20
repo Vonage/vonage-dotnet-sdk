@@ -36,7 +36,7 @@ namespace Nexmo.Api
         /// <returns>List of secrets</returns>
         public static List<Secret> ListSecrets(string apiKey, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<Response<SecretList>>(
+            return ApiRequest.DoGetRequestWithQueryParameters<Response<SecretList>>(
                 ApiRequest.GetBaseUriFor(typeof(ApiSecret),$"/accounts/{apiKey}/secrets"),
                 ApiRequest.AuthType.Query,
                 credentials: creds)._embedded.Secrets;
@@ -50,7 +50,7 @@ namespace Nexmo.Api
         /// <returns>The secret</returns>
         public static Secret GetSecret(string apiKey, string secretId, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<Secret>(
+            return ApiRequest.DoGetRequestWithQueryParameters<Secret>(
                 ApiRequest.GetBaseUriFor(typeof(ApiSecret),$"/accounts/{apiKey}/secrets/{secretId}"),
                 ApiRequest.AuthType.Query,
                 credentials: creds);

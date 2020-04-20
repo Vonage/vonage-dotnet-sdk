@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Nexmo.Api.NumberInsights
 {
-    public class AdvancedInsightsAsyncResponse
+    public class AdvancedInsightsAsyncResponse : NumberInsightResponseBase
     {
-        [JsonProperty("request_id")]
-        public string RequestId { get; set; }
 
         [JsonProperty("number")]
         public string Number { get; set; }
@@ -21,7 +19,7 @@ namespace Nexmo.Api.NumberInsights
         [JsonProperty("request_price")]
         public string RequestPrice { get; set; }
 
-        [JsonProperty("status")]
-        public string Status { get; set; }
+        [JsonProperty("error_text")]
+        public string ErrorText { get; set; }
     }
 }

@@ -12,43 +12,66 @@ namespace Nexmo.Api.NumberInsights
         }
         public BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<BasicInsightResponse>(
+            var response = ApiRequest.DoGetRequestWithQueryParameters<BasicInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
                 ApiRequest.AuthType.Query,
                 request,
                 creds ?? Credentials
             );
+            ValidateNumberInsightResponse(response);
+            return response;
         }
 
         public StandardInsightResponse GetNumberInsightStandard(StandardNumberInsightRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<StandardInsightResponse>(
+            var response = ApiRequest.DoGetRequestWithQueryParameters<StandardInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
                 ApiRequest.AuthType.Query,
                 request,
                 creds ?? Credentials
             );
+            ValidateNumberInsightResponse(response);
+            return response;
         }
 
         public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
             Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<AdvancedInsightsResponse>(
+            var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
                 ApiRequest.AuthType.Query,
                 request,
                 creds ?? Credentials
             );
+            ValidateNumberInsightResponse(response);
+            return response;
         }
 
         public AdvancedInsightsAsyncResponse GetNumberInsightAsync(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<AdvancedInsightsAsyncResponse>(
+            var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsAsyncResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
                 ApiRequest.AuthType.Query,
                 request,
                 creds ?? Credentials
             );
+            ValidateNumberInsightResponse(response);
+            return response;
+        }
+
+        public void ValidateNumberInsightResponse(NumberInsightResponseBase response)
+        {
+            if (response.Status != 0)
+            {
+                if(response is AdvancedInsightsAsyncResponse asyncResponse)
+                {
+                    throw new NumberInsightResponseException($"Advanced Insights Async response failed with status: {asyncResponse.Status} with error message: {asyncResponse.ErrorText}") { Response = response};
+                }
+                else if(response is BasicInsightResponse basicInsightResponse)
+                {                    
+                    throw new NumberInsightResponseException($"Number insight request failed with status: {basicInsightResponse.Status} and error message: {basicInsightResponse.StatusMessage}") { Response=response};
+                }
+            }
         }
     }
 }

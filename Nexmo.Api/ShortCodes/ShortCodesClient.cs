@@ -12,7 +12,7 @@ namespace Nexmo.Api.ShortCodes
         }
         public OptInSearchResponse QueryOptIns(OptInQueryRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<OptInSearchResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<OptInSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/query/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -21,7 +21,7 @@ namespace Nexmo.Api.ShortCodes
 
         public OptInRecord ManageOptIn(OptInManageRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<OptInRecord>(
+            return ApiRequest.DoGetRequestWithQueryParameters<OptInRecord>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/manage/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -30,7 +30,7 @@ namespace Nexmo.Api.ShortCodes
 
         public AlertResponse SendAlert(AlertRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<AlertResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<AlertResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -39,7 +39,7 @@ namespace Nexmo.Api.ShortCodes
 
         public TwoFactorAuthResponse SendTwoFactorAuth(TwoFactorAuthRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<TwoFactorAuthResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<TwoFactorAuthResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/2fa/json"),
                 ApiRequest.AuthType.Query,
                 request,

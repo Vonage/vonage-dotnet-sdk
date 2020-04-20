@@ -13,7 +13,7 @@ namespace Nexmo.Api.Accounts
         
         public Balance GetAccountBalance(Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<Balance>(
+            return ApiRequest.DoGetRequestWithQueryParameters<Balance>(
                 ApiRequest.GetBaseUriFor(typeof(AccountClient),
                 "/account/get-balance"), 
                 ApiRequest.AuthType.Query, 
@@ -22,7 +22,7 @@ namespace Nexmo.Api.Accounts
 
         public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<TopUpResult>(
+            return ApiRequest.DoGetRequestWithQueryParameters<TopUpResult>(
                 ApiRequest.GetBaseUriFor(typeof(AccountClient), "/account/top-up"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -42,7 +42,7 @@ namespace Nexmo.Api.Accounts
 
         public SecretsRequestResult RetrieveApiSecrets(string apiKey, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<SecretsRequestResult>(
+            return ApiRequest.DoGetRequestWithQueryParameters<SecretsRequestResult>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials
@@ -62,7 +62,7 @@ namespace Nexmo.Api.Accounts
 
         public Secret RetrieveApiSecret(string secretId, string apiKey, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<Secret>(
+            return ApiRequest.DoGetRequestWithQueryParameters<Secret>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials

@@ -12,7 +12,7 @@ namespace Nexmo.Api.MessageSearch
         }
         public Message SearchMessage(MessageSearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<Message>(
+            return ApiRequest.DoGetRequestWithQueryParameters<Message>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/search/message"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -22,7 +22,7 @@ namespace Nexmo.Api.MessageSearch
 
         public MessagesSearchResponse SearchMessages(MessagesSearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<MessagesSearchResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<MessagesSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/search/messages"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -32,7 +32,7 @@ namespace Nexmo.Api.MessageSearch
 
         public RejectionSearchResponse SearchRejections(RejectionSearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<RejectionSearchResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<RejectionSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/search/rejections"),
                 ApiRequest.AuthType.Query,
                 request,

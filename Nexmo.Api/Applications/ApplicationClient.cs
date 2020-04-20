@@ -22,7 +22,7 @@ namespace Nexmo.Api.Applications
 
         public ApplicationPage ListApplications(ListApplicationsRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<ApplicationPage>(
+            return ApiRequest.DoGetRequestWithQueryParameters<ApplicationPage>(
                 ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"),
                 ApiRequest.AuthType.Basic,
                 request,
@@ -32,7 +32,7 @@ namespace Nexmo.Api.Applications
 
         public Application GetApplication(string id, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<Application>(
+            return ApiRequest.DoGetRequestWithQueryParameters<Application>(
                 ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{id}"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials

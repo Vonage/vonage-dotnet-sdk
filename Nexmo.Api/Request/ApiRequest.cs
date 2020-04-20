@@ -244,7 +244,7 @@ namespace Nexmo.Api.Request
         /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">Thrown if the API encounters a non-zero result</exception>
-        public static T DoGetRequestWithUrlContent<T>(Uri uri, AuthType authType, object parameters = null, Credentials credentials = null)
+        public static T DoGetRequestWithQueryParameters<T>(Uri uri, AuthType authType, object parameters = null, Credentials credentials = null)
         {
             if (parameters == null)
                 parameters = new Dictionary<string, string>();

@@ -11,7 +11,7 @@ namespace Nexmo.Api.Test.Unit.Legacy
     {
         [Theory]
         [InlineData(true)]
-        [InlineData(true)]
+        [InlineData(false)]
         public void CreateCall(bool passCreds) 
         {
             var expectedUri = "https://api.nexmo.com/v1/calls/";
