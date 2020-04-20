@@ -20,4 +20,4 @@ comment:
   require_changes: no
 
 ignore:
-  - "Nexmo.Api/Request/TimeSpanSemaphore.cs"
+  - "Nexmo.Api/Request/TimeSpanSemaphore.*"
