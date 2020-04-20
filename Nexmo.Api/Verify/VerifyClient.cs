@@ -12,22 +12,24 @@ namespace Nexmo.Api.Verify
         }
         public VerifyResponse VerifyRequest(VerifyRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<VerifyResponse>(
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
-                ApiRequest.AuthType.Query,
                 request,
                 creds ?? Credentials
             );
+            ValidateVerifyResponse(response);
+            return response;
         }
 
         public VerifyCheckResponse VerifyCheck(VerifyCheckRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<VerifyCheckResponse>(
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyCheckResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
-                ApiRequest.AuthType.Query,
                 request,
                 creds ?? Credentials
             );
+            ValidateVerifyResponse(response);
+            return response;
         }
 
         public VerifySearchResponse VerifySearch(VerifySearchRequest request, Credentials creds = null)
@@ -42,12 +44,21 @@ namespace Nexmo.Api.Verify
 
         public VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<VerifyControlResponse>(
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyControlResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
-                ApiRequest.AuthType.Query,
                 request,
                 creds ?? Credentials
             );
+            ValidateVerifyResponse(response);
+            return response;
+        }
+
+        public void ValidateVerifyResponse(VerifyResponseBase response)
+        {
+            if (response.Status != "0")
+            {
+                throw new NexmoVerifyResponseException($"Verify Request Failed with status: {response.Status} and Error Text: {response.ErrorText}") { Response = response };
+            }
         }
     }
 }
