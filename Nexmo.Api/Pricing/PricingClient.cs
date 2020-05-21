@@ -13,7 +13,7 @@ namespace Nexmo.Api.Pricing
         
         public Country RetrievePricingCountry(string type, PricingCountryRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<Country>
+            return ApiRequest.DoGetRequestWithQueryParameters<Country>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
@@ -24,7 +24,7 @@ namespace Nexmo.Api.Pricing
 
         public PricingResult RetrievePricingAllCountries(string type, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<PricingResult>
+            return ApiRequest.DoGetRequestWithQueryParameters<PricingResult>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
@@ -34,7 +34,7 @@ namespace Nexmo.Api.Pricing
 
         public PricingResult RetrievePrefixPricing(string type, PricingPrefixRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<PricingResult>
+            return ApiRequest.DoGetRequestWithQueryParameters<PricingResult>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,

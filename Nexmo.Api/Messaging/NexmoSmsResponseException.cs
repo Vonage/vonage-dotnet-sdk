@@ -9,5 +9,7 @@ namespace Nexmo.Api.Messaging
     public class NexmoSmsResponseException : NexmoException
     {
         public NexmoSmsResponseException(string message) : base(message) { }
+
+        public SendSmsResponse Response { get; set; }
     }
 }

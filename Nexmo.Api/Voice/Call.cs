@@ -96,11 +96,11 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// Optional. Set the number of seconds that elapse before Nexmo hangs up after the call state changes to in_progress. The default value is 7200, two hours. This is also the maximum value.
             /// </summary>
-            public decimal length_timer { get; set; }
+            public uint length_timer { get; set; }
             /// <summary>
             /// Optional. Set the number of seconds that elapse before Nexmo hangs up after the call state changes to 'ringing'. The default value is 60, the maximum value is 120.
             /// </summary>
-            public decimal ringing_timer { get; set; }
+            public uint ringing_timer { get; set; }
         }
 
         public class CallCommandResponse
@@ -289,7 +289,7 @@ namespace Nexmo.Api.Voice
         /// </summary>
         public static PaginatedResponse<CallList> List(SearchFilter filter, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<PaginatedResponse<CallList>>(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), ApiRequest.AuthType.Bearer, filter, creds);
+            return ApiRequest.DoGetRequestWithQueryParameters<PaginatedResponse<CallList>>(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), ApiRequest.AuthType.Bearer, filter, creds);
         }
         public static PaginatedResponse<CallList> List()
         {
@@ -306,7 +306,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Get(string id, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<CallResponse>(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), ApiRequest.AuthType.Bearer, credentials:creds);
+            return ApiRequest.DoGetRequestWithQueryParameters<CallResponse>(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), ApiRequest.AuthType.Bearer, credentials:creds);
         }
 
         /// <summary>

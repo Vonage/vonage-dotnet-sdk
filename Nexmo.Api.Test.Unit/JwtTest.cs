@@ -1,12 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Xunit;
 
 namespace Nexmo.Api.Test.Unit
 {
-    [TestClass]
-    public class JwtTest
+    public class JWTTest
     {
-        [TestMethod]
-        public void should_generate_jwt()
+        [Fact]
+        public void TestJWT()
         {
             var mockAppId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
             var mockRsaPrivateKey = @"-----BEGIN RSA PRIVATE KEY-----
@@ -25,7 +27,7 @@ vhv/5bUctaRKhjhp9pMCQE8BLxzAMlS81dobP3GrCRLdlN/y9R7pu2hyURFFXUw5
 j0hq3fgBZz1QLpLxY3TfkM3oFDVhpGvskzjINLk6hxc=
 -----END RSA PRIVATE KEY-----";
             var tok = Jwt.CreateToken(mockAppId, mockRsaPrivateKey);
-            Assert.IsFalse(string.IsNullOrEmpty(tok));
+            Assert.False(string.IsNullOrEmpty(tok));
         }
     }
 }

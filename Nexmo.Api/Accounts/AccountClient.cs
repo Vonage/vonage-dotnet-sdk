@@ -13,7 +13,7 @@ namespace Nexmo.Api.Accounts
         
         public Balance GetAccountBalance(Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<Balance>(
+            return ApiRequest.DoGetRequestWithQueryParameters<Balance>(
                 ApiRequest.GetBaseUriFor(typeof(AccountClient),
                 "/account/get-balance"), 
                 ApiRequest.AuthType.Query, 
@@ -22,7 +22,7 @@ namespace Nexmo.Api.Accounts
 
         public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<TopUpResult>(
+            return ApiRequest.DoGetRequestWithQueryParameters<TopUpResult>(
                 ApiRequest.GetBaseUriFor(typeof(AccountClient), "/account/top-up"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -40,21 +40,17 @@ namespace Nexmo.Api.Accounts
             );
         }
 
-        public SecretsRequestResult RetrieveApiSecrets(string apiKey = null, Credentials creds = null)
+        public SecretsRequestResult RetrieveApiSecrets(string apiKey, Credentials creds = null)
         {
-            apiKey = apiKey ?? creds.ApiKey;
-            apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
-            return ApiRequest.DoGetRequestWithUrlContent<SecretsRequestResult>(
+            return ApiRequest.DoGetRequestWithQueryParameters<SecretsRequestResult>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
 
-        public Secret CreateApiSecret(CreateSecretRequest request, string apiKey = null, Credentials creds = null)
+        public Secret CreateApiSecret(CreateSecretRequest request, string apiKey, Credentials creds = null)
         {
-            apiKey = apiKey ?? creds.ApiKey;
-            apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             return ApiRequest.DoRequestWithJsonContent<Secret>(
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
@@ -64,21 +60,17 @@ namespace Nexmo.Api.Accounts
             );
         }
 
-        public Secret RetrieveApiSecret(string secretId, string apiKey = null, Credentials creds = null)
+        public Secret RetrieveApiSecret(string secretId, string apiKey, Credentials creds = null)
         {
-            apiKey = apiKey ?? creds.ApiKey;
-            apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
-            return ApiRequest.DoGetRequestWithUrlContent<Secret>(
+            return ApiRequest.DoGetRequestWithQueryParameters<Secret>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
 
-        public bool RevokeApiSecret(string secretId, string apiKey = null, Credentials creds = null)
+        public bool RevokeApiSecret(string secretId, string apiKey, Credentials creds = null)
         {
-            apiKey = apiKey ?? creds.ApiKey;
-            apiKey = apiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"];
             ApiRequest.DoDeleteRequestWithUrlContent(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 null,
@@ -86,6 +78,6 @@ namespace Nexmo.Api.Accounts
                 creds ?? Credentials
             );
             return true;
-        }
+        }        
     }
 }

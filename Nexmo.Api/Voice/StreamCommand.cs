@@ -20,5 +20,10 @@ namespace Nexmo.Api.Voice
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include, NullValueHandling = NullValueHandling.Ignore, PropertyName ="loop")]
         public int? Loop { get; set; }
+
+        /// <summary>
+        /// Set the audio level of the stream in the range -1 >= level <= 1 with a precision of 0.1. The default value is 0.
+        /// </summary>
+        public string Level { get; set; }
     }
 }

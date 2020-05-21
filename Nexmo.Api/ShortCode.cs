@@ -39,7 +39,7 @@ namespace Nexmo.Api
             {
                 request.pin = new Random().Next(0, 9999);
             }
-            var response = ApiRequest.DoGetRequestWithUrlContent<SMS.SMSResponse>(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/2fa/json"), ApiRequest.AuthType.Query, request, creds);
+            var response = ApiRequest.DoGetRequestWithQueryParameters<SMS.SMSResponse>(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/2fa/json"), ApiRequest.AuthType.Query, request, creds);
             SMS.ValidateSmsResponse(response);            
             return response;
         }
@@ -58,7 +58,7 @@ namespace Nexmo.Api
             {
                 parameters.Add(key, customValues[key]);
             }
-            var response = ApiRequest.DoGetRequestWithUrlContent<SMS.SMSResponse>(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/alert/json"), ApiRequest.AuthType.Query, parameters, creds);
+            var response = ApiRequest.DoGetRequestWithQueryParameters<SMS.SMSResponse>(ApiRequest.GetBaseUriFor(typeof(ShortCode), "/sc/us/alert/json"), ApiRequest.AuthType.Query, parameters, creds);
             SMS.ValidateSmsResponse(response);
             return response;
         }

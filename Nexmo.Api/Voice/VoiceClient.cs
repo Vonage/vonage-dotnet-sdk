@@ -44,7 +44,7 @@ namespace Nexmo.Api.Voice
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<PageResponse<CallList>>(
+            return ApiRequest.DoGetRequestWithQueryParameters<PageResponse<CallList>>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                 ApiRequest.AuthType.Bearer,
                 filter,
@@ -58,9 +58,9 @@ namespace Nexmo.Api.Voice
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallResponse GetCall(string id, Credentials creds = null)
+        public CallRecord GetCall(string id, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithUrlContent<CallResponse>(
+            return ApiRequest.DoGetRequestWithQueryParameters<CallRecord>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 ApiRequest.AuthType.Bearer,
                 credentials:  creds ?? Credentials
@@ -76,7 +76,7 @@ namespace Nexmo.Api.Voice
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public bool UpdateCall(string id, CallEditCommand command, Credentials creds = null)
         {
-            ApiRequest.DoRequestWithJsonContent<CallResponse>(
+            ApiRequest.DoRequestWithJsonContent<CallRecord>(
                 PUT,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 command,

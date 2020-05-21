@@ -15,9 +15,9 @@ namespace Nexmo.Api.Numbers
         public string Type { get; set; }
         
         [JsonProperty("features")]
-        public IEnumerable<string> Features { get; set; }
+        public string[] Features { get; set; }
         
         [JsonProperty("cost")]
-        public decimal Cost { get; set; }
+        public string Cost { get; set; }
     }
 }

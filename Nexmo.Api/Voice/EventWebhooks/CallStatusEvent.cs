@@ -3,7 +3,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Nexmo.Api.Voice.EventWebhooks
 {
-    public abstract class CallStatusEvent : Event
+    public class CallStatusEvent : Event
     {
         [JsonProperty("to")]
         public string To { get; set; }

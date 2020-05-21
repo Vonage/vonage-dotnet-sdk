@@ -11,7 +11,7 @@ namespace Nexmo.Api.Common
     {
         public PageListDateTimeConverter()
         {
-            base.DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
+            base.DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ";            
         }
     }
 }

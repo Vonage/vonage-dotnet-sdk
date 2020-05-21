@@ -11,12 +11,20 @@ namespace Nexmo.Api.Voice.Nccos.Endpoints
         public string DtmfAnswer { get; set; }
 
         [JsonProperty("onAnswer")]
-        public string OnAnswer { get; set; }
+        public Answer OnAnswer { get; set; }
 
         public PhoneEndpoint()
         {
             Type = EndpointType.phone;
         }
         
+        public class Answer
+        {
+            [JsonProperty("url")]
+            public string Url { get; set; }
+
+            [JsonProperty("ringbackTone")]
+            public string RingbackTone { get; set; }
+        }
     }
 }

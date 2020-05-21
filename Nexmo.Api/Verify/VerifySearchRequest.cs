@@ -6,8 +6,5 @@ namespace Nexmo.Api.Verify
     {
         [JsonProperty("request_id")]
         public string RequestId { get; set; }
-
-        [JsonProperty("request_ids")]
-        public string[] RequestIds { get; set; }
-    }
+    }    
 }

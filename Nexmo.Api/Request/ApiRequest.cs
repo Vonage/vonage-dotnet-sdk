@@ -112,7 +112,15 @@ namespace Nexmo.Api.Request
             {
                 foreach (var kvp in param)
                 {
-                    strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), WebUtility.UrlEncode(kvp.Value));
+                    //Special Case for ids from MessagesSearch API which needs a sereies of ID's with unescaped &/=
+                    if(kvp.Key == "ids")
+                    {
+                        strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), kvp.Value);
+                    }
+                    else
+                    {
+                        strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key), WebUtility.UrlEncode(kvp.Value));
+                    }                    
                 }
             };
             Action<IDictionary<string, string>, StringBuilder> buildSignatureStringFromParams = (param, strings) =>
@@ -236,7 +244,7 @@ namespace Nexmo.Api.Request
         /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">Thrown if the API encounters a non-zero result</exception>
-        public static T DoGetRequestWithUrlContent<T>(Uri uri, AuthType authType, object parameters = null, Credentials credentials = null)
+        public static T DoGetRequestWithQueryParameters<T>(Uri uri, AuthType authType, object parameters = null, Credentials credentials = null)
         {
             if (parameters == null)
                 parameters = new Dictionary<string, string>();
@@ -484,20 +492,6 @@ namespace Nexmo.Api.Request
         public static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) 
         {
             var response = DoRequestWithUrlContent("POST", uri, parameters, creds:creds);
-            return JsonConvert.DeserializeObject<T>(response.JsonResponse);
-        }
-
-        /// <summary>
-        /// Sends an HTTP PUT request with Url Content
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="parameters"></param>
-        /// <param name="creds"></param>
-        /// <returns></returns>
-        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static T DoPutRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) {
-            var response = DoRequestWithUrlContent("PUT", uri, parameters, creds:creds);
             return JsonConvert.DeserializeObject<T>(response.JsonResponse);
         }
 

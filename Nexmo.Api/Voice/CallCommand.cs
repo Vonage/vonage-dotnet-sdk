@@ -21,7 +21,7 @@ namespace Nexmo.Api.Voice
         /// The endpoint you are calling from. Possible value are the same as to.
         /// </summary>
         [JsonProperty(Required = Required.Always, PropertyName = "from")]
-        public Endpoint From { get; set; }
+        public PhoneEndpoint From { get; set; }
 
         /// <summary>
         /// This will convert to ncco as per the CallCommandConverter - it is preferable to use this over the JArray Ncco
@@ -55,19 +55,19 @@ namespace Nexmo.Api.Voice
         /// <summary>
         /// Optional. Configure the behavior when Nexmo detects that a destination is an answerphone.
         /// </summary>
-        [JsonProperty("MachineDetection")]
+        [JsonProperty("machine_detection")]
         public string MachineDetection { get; set; }
 
         /// <summary>
         /// Optional. Set the number of seconds that elapse before Nexmo hangs up after the call state changes to in_progress. The default value is 7200, two hours. This is also the maximum value.
         /// </summary>
         [JsonProperty("length_timer")]
-        public decimal? LengthTimer { get; set; }
+        public uint? LengthTimer { get; set; }
 
         /// <summary>
         /// Optional. Set the number of seconds that elapse before Nexmo hangs up after the call state changes to 'ringing'. The default value is 60, the maximum value is 120.
         /// </summary>
         [JsonProperty("ringing_timer")]
-        public decimal? RingingTimer { get; set; }
+        public uint? RingingTimer { get; set; }
     }
 }

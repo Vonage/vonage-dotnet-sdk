@@ -32,5 +32,11 @@ namespace Nexmo.Api.Voice
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include, NullValueHandling = NullValueHandling.Ignore, PropertyName ="loop")]
         public int? Loop { get; set; }
+        
+        /// <summary>
+        /// The volume level that the speech is played. This can be any value between -1 to 1 in 0.1 increments, with 0 being the default.
+        /// </summary>
+        [JsonProperty("level")]
+        public string Level { get; set; }
     }
 }

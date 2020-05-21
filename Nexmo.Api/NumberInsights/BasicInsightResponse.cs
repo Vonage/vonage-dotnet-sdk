@@ -2,16 +2,10 @@ using Newtonsoft.Json;
 
 namespace Nexmo.Api.NumberInsights
 {
-    public class BasicInsightResponse
+    public class BasicInsightResponse : NumberInsightResponseBase
     {
-        [JsonProperty("status")]
-        public int Status { get; set; }
-
         [JsonProperty("status_message")]
         public string StatusMessage { get; set; }
-
-        [JsonProperty("request_id")]
-        public string RequestId { get; set; }
 
         [JsonProperty("international_format_number")]
         public string InternationalFormatNumber { get; set; }

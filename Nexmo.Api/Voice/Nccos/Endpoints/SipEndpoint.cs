@@ -9,7 +9,7 @@ namespace Nexmo.Api.Voice.Nccos.Endpoints
         public string Uri { get; set; }
 
         [JsonProperty("headers")]
-        public Dictionary<string,string> Headers { get; set; }
+        public object Headers { get; set; }
 
         public SipEndpoint()
         {

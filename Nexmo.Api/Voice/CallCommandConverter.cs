@@ -36,8 +36,10 @@ namespace Nexmo.Api.Voice
                 {
                     if(att.AttributeType.Name == "JsonPropertyAttribute")
                     {
-                        //propertyName = att.ConstructorArguments[0].Value.ToString();
-                        propertyName = (string)att.NamedArguments.First(x=>x.MemberName==PROPERTY_NAME).TypedValue.Value;
+                        if (att.ConstructorArguments.Count>0)
+                            propertyName = att.ConstructorArguments[0].Value.ToString();
+                        else
+                            propertyName = (string)att.NamedArguments.First(x=>x.MemberName==PROPERTY_NAME).TypedValue.Value;
                         break;
                     }
                 }

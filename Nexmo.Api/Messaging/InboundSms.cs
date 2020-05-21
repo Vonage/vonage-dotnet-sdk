@@ -15,7 +15,7 @@ namespace Nexmo.Api.Messaging
 
         [JsonProperty("msisdn")]
         [FromQuery(Name = "msisdn")]        
-        public string msisdn { get; set; }
+        public string Msisdn { get; set; }
 
         [JsonProperty("to")]
         [FromQuery(Name = "to")]        
@@ -60,6 +60,9 @@ namespace Nexmo.Api.Messaging
         [JsonProperty("concat-total")]
         [FromQuery(Name = "concat-total")]        
         public string ConcatTotal { get; set; }
+        [JsonProperty("concat-part")]
+        [FromQuery(Name = "concat-part")]
+        public string ConcatPart { get; set; }
 
         [JsonProperty("data")]
         [FromQuery(Name = "data")]        
@@ -80,8 +83,9 @@ namespace Nexmo.Api.Messaging
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
             var signatureString = ConstructSignatureStringFromDictionary(dict);
-            var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signatureSecret, method);
-
+            var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signatureSecret, method).ToString();
+            System.Diagnostics.Debug.WriteLine(testSig);
+            Console.WriteLine(testSig);
             return testSig == Sig;
         }
 

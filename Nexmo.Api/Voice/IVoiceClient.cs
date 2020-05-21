@@ -28,7 +28,7 @@ namespace Nexmo.Api.Voice
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        CallResponse GetCall(string id, Credentials creds = null);
+        CallRecord GetCall(string id, Credentials creds = null);
         
         /// <summary>
         /// PUT /v1/calls/{uuid} - modify an existing Call

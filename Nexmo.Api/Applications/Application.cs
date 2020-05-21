@@ -12,6 +12,9 @@ namespace Nexmo.Api.Applications
         public string Name { get; set; }
 
         [JsonProperty("capabilities")]
-        public Capability[] Capabilities { get; set; }
+        public ApplicationCapabilities Capabilities { get; set; }
+
+        [JsonProperty("keys")]
+        public Keys Keys { get; set; }
     }
 }

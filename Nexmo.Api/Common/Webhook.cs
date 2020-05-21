@@ -1,29 +1,27 @@
 using System.ComponentModel;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Nexmo.Api.Common
 {
     public class Webhook
     {
         [JsonProperty("http_method")]
-        public HttpMethod Method { get; set; }
+        public string Method { get; set; }
 
         [JsonProperty("address")]
         public string Address { get; set; }
         
         public enum Type
-        {
-            [Description("answer_url")]
-            Answer=1,
-            [Description("event_url")]
-            Event=2,
-            [Description("inbound_url")]
-            Inbound=3,
-            [Description("status_url")]
-            Status=4,
-            [Description("unknown")]
-            Unknown=5
+        {            
+            answer_url=1,
+            event_url =2,
+            inbound_url =3,
+            status_url =4,
+            fallback_answer_url=5,
+            Unknown=6
         }
         
     }
