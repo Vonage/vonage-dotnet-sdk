@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Nexmo.Api.Cryptography;
 using System;
@@ -10,70 +9,53 @@ namespace Nexmo.Api.Messaging
     public class InboundSms
     {
         [JsonProperty("api-key")]
-        [FromQuery(Name = "api-key")]
         public string ApiKey { get; set; }
 
         [JsonProperty("msisdn")]
-        [FromQuery(Name = "msisdn")]        
         public string Msisdn { get; set; }
 
         [JsonProperty("to")]
-        [FromQuery(Name = "to")]        
         public string To { get; set; }
 
         [JsonProperty("messageId")]
-        [FromQuery(Name = "messageId")]        
         public string MessageId { get; set; }
 
         [JsonProperty("text")]
-        [FromQuery(Name = "text")]        
         public string Text { get; set; }
 
         [JsonProperty("type")]
-        [FromQuery(Name = "type")]        
         public string Type { get; set; }
 
         [JsonProperty("keyword")]
-        [FromQuery(Name = "keyword")]        
         public string Keyword { get; set; }
 
         [JsonProperty("message-timestamp")]
-        [FromQuery(Name = "message-timestamp")]        
         public string MessageTimestamp { get; set; }
 
         [JsonProperty("timestamp")]
-        [FromQuery(Name = "timestamp")]        
         public string Timestamp { get; set; }
 
         [JsonProperty("nonce")]
-        [FromQuery(Name = "nonce")]        
         public string Nonce { get; set; }
 
         [JsonProperty("concat")]
-        [FromQuery(Name = "concat")]        
         public string Concat { get; set; }
 
-        [JsonProperty("concat-ref")]
-        [FromQuery(Name = "concat-ref")]        
+        [JsonProperty("concat-ref")]        
         public string ConcatRef { get; set; }
 
-        [JsonProperty("concat-total")]
-        [FromQuery(Name = "concat-total")]        
+        [JsonProperty("concat-total")]        
         public string ConcatTotal { get; set; }
-        [JsonProperty("concat-part")]
-        [FromQuery(Name = "concat-part")]
+        [JsonProperty("concat-part")]        
         public string ConcatPart { get; set; }
 
-        [JsonProperty("data")]
-        [FromQuery(Name = "data")]        
+        [JsonProperty("data")]        
         public string Data { get; set; }
 
-        [JsonProperty("udh")]
-        [FromQuery(Name = "udh")]        
+        [JsonProperty("udh")]        
         public string Udh { get; set; }
         
-        [JsonProperty("sig")]
-        [FromQuery(Name ="sig")]
+        [JsonProperty("sig")]        
         public string Sig { get; set; }
 
         public bool ValidateSignature(string signatureSecret, SmsSignatureGenerator.Method method)

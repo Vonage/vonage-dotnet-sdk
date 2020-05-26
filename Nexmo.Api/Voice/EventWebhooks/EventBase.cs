@@ -6,6 +6,9 @@ namespace Nexmo.Api.Voice.EventWebhooks
 {
     public class EventBase
     {
+        /// <summary>
+        /// Timestamp (ISO 8601 format)
+        /// </summary>
         [JsonProperty("timestamp")]
         public DateTime TimeStamp { get; set; }
 
