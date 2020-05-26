@@ -146,18 +146,18 @@ namespace Nexmo.Api.Test.Unit
                 response = client.NumberInsightClient.GetNumberInsightStandard(request);
             }
             Assert.Equal("John", response.FirstName);
-            Assert.Equal("consumer", response.CallerType);
+            Assert.Equal(CallerType.consumer, response.CallerType);
             Assert.Equal("Smith", response.LastName);
             Assert.Equal("John Smith", response.CallerName);
             Assert.Equal("Smith", response.CallerIdentity.LastName);
             Assert.Equal("John", response.CallerIdentity.FirstName);
             Assert.Equal("John Smith", response.CallerIdentity.CallerName);
-            Assert.Equal("consumer", response.CallerIdentity.CallerType);
+            Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
             Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
             Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
             Assert.Equal("US", response.Roaming.RoamingCountryCode);
-            Assert.Equal("roaming", response.Roaming.Status);
-            Assert.Equal("not_ported", response.Ported);
+            Assert.Equal(RoamingStatus.roaming, response.Roaming.Status);
+            Assert.Equal(PortedStatus.not_ported, response.Ported);
             Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
             Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
             Assert.Equal("GB", response.OriginalCarrier.Country);
@@ -265,23 +265,23 @@ namespace Nexmo.Api.Test.Unit
             }
 
             //ASSERT
-            Assert.Equal("reachable", response.Reachable);
-            Assert.Equal("valid", response.ValidNumber);
+            Assert.Equal(NumberReachability.reachable, response.Reachable);
+            Assert.Equal(NumberValidity.valid, response.ValidNumber);
             Assert.Equal("Success", response.LookupOutcomeMessage);
             Assert.Equal(0, response.LookupOutcome);
             Assert.Equal("John", response.FirstName);
-            Assert.Equal("consumer", response.CallerType);
+            Assert.Equal(CallerType.consumer, response.CallerType);
             Assert.Equal("Smith", response.LastName);
             Assert.Equal("John Smith", response.CallerName);
             Assert.Equal("Smith", response.CallerIdentity.LastName);
             Assert.Equal("John", response.CallerIdentity.FirstName);
             Assert.Equal("John Smith", response.CallerIdentity.CallerName);
-            Assert.Equal("consumer", response.CallerIdentity.CallerType);
+            Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
             Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
             Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
             Assert.Equal("US", response.Roaming.RoamingCountryCode);
-            Assert.Equal("roaming", response.Roaming.Status);
-            Assert.Equal("not_ported", response.Ported);
+            Assert.Equal(RoamingStatus.roaming, response.Roaming.Status);
+            Assert.Equal(PortedStatus.not_ported, response.Ported);
             Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
             Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
             Assert.Equal("GB", response.OriginalCarrier.Country);
@@ -360,8 +360,7 @@ namespace Nexmo.Api.Test.Unit
         {
             //ARRANGE
             var expectedResponse = @"{
-              ""status"": 4,
-              ""error_text"":""invalid credentials""
+              ""status"": 4
             }";
             var expectedUri = $"{ApiUrl}/ni/advanced/async/json?callback={HttpUtility.UrlEncode("https://example.com/callback")}&ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
             var request = new AdvancedNumberInsightAsynchronousRequest { Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255", Callback = "https://example.com/callback" };
@@ -379,7 +378,6 @@ namespace Nexmo.Api.Test.Unit
             {
                 //ASSERT
                 Assert.Equal(4, ex.Response.Status);
-                Assert.Equal("invalid credentials", ((AdvancedInsightsAsyncResponse)ex.Response).ErrorText);
             }
         }
 

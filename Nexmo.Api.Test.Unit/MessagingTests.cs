@@ -49,7 +49,7 @@ namespace Nexmo.Api.Test.Unit
                 Text = "Hello World!",
                 Title = "welcome",
                 Ttl = 900000,
-                Type = "text",
+                Type = Messaging.SmsType.text,
                 Udh = "06050415811581",
                 Validity = "300000",
                 Vcal = "none",
@@ -181,7 +181,7 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("12345", dlr.NetworkCode);
             Assert.Equal("0A0000001234567B", dlr.MessageId);
             Assert.Equal("0.03330000", dlr.Price);
-            Assert.Equal("delivered", dlr.Status);
+            Assert.Equal(Messaging.DlrStatus.delivered, dlr.Status);
             Assert.Equal("2001011400", dlr.Scts);
             Assert.Equal("0", dlr.ErrorCode);
             Assert.Equal("abcd1234", dlr.ApiKey);
