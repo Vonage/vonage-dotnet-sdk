@@ -3,7 +3,6 @@ using Nexmo.Api.Cryptography;
 ﻿using System.Web;
 using System;
 using System.Collections.Generic;
-using System.Web;
 using Xunit;
 namespace Nexmo.Api.Test.Unit
 {
