@@ -9,25 +9,23 @@ namespace Nexmo.Api.Voice
 {
     public class CallEndpoint
     {
+        /// <summary>
         /// One of the following: phone, websocket, sip
         /// </summary>
         [JsonProperty("type")]
         public string Type { get; set; }
-
-        // phone:
 
         /// <summary>
         /// The phone number to connect to in E.164 format.
         /// </summary>
         [JsonProperty("number")]
         public string Number { get; set; }
+
         /// <summary>
         /// Set the digits that are sent to the user as soon as the Call is answered. The * and # digits are respected. You create pauses using p. Each pause is 500ms.
         /// </summary>
         [JsonProperty("dtmfAnswer")]
-        public string DtmfAnswer { get; set; }
-
-        // websocket/sip:
+        public string DtmfAnswer { get; set; }        
 
         /// <summary>
         /// The URI to the websocket you are streaming to.

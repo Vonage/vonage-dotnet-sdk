@@ -417,7 +417,6 @@ namespace Nexmo.Api
         /// <summary>
         /// Validates the SMS Response, throws an exception if status is non-zero
         /// </summary>
-        /// <exception cref="SMSResponse"
         /// <param name="response"></param>
         /// <exception cref="SmsResponseException">thrown if status of SMS response is non-zero</exception>
         public static void ValidateSmsResponse(SMSResponse response)

@@ -38,7 +38,7 @@ namespace Nexmo.Api.Voice.Nccos
         /// <summary>
         /// Stop recording after n seconds of silence. 
         /// Once the recording is stopped the recording data is sent to event_url. 
-        /// The range of possible values is 3<=endOnSilence<=10.
+        /// The range of possible values is 3&lt;=endOnSilence&lt;=10.
         /// </summary>
         [JsonProperty("endOnSilence")]
         public string EndOnSilence { get; set; }

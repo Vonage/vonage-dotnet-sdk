@@ -199,7 +199,7 @@ namespace Nexmo.Api
         /// List all of the applications associated with this account
         /// </summary>
         /// <param name="pageSize">Set the number of items returned on each call to this endpoint. The default is 10 records.</param>
-        /// <param name="page">Set the offset from the first page. The default value is 0, calls to this endpoint return a page of <page_size>. For example, set page_index to 3 to retrieve items 31 - 40 when page_size is the default value.</param>
+        /// <param name="page">Set the offset from the first page. The default value is 0, calls to this endpoint return a page of page_size. For example, set page_index to 3 to retrieve items 31 - 40 when page_size is the default value.</param>
         /// <param name="AppId">Optional id of specific application to retrieve</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>

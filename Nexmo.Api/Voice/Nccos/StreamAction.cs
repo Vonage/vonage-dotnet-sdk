@@ -12,7 +12,7 @@ namespace Nexmo.Api.Voice.Nccos
         public string[] StreamUrl { get; set; }
 
         /// <summary>
-        /// Set the audio level of the stream in the range -1 >=level<=1 with a precision of 0.1. The default value is 0.
+        /// Set the audio level of the stream in the range -1 &gt;=level&lt;=1 with a precision of 0.1. The default value is 0.
         /// </summary>
         [JsonProperty("level")]
         public string Level { get; set; }
