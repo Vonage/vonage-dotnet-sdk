@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nexmo.Api.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -106,6 +107,7 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("447700900000", response.Messages[0].To);
             Assert.Equal("0A0000000123ABCD1", response.Messages[0].MessageId);
             Assert.Equal("0", response.Messages[0].Status);
+            Assert.Equal(SmsStatusCode.Success, response.Messages[0].StatusCode);
             Assert.Equal("3.14159265", response.Messages[0].RemainingBalance);
             Assert.Equal("12345", response.Messages[0].Network);
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
@@ -135,6 +137,7 @@ namespace Nexmo.Api.Test.Unit
             catch(Messaging.NexmoSmsResponseException nex)
             {
                 Assert.Equal($"SMS Request Failed with status: {nex.Response.Messages[0].Status} and error message: {nex.Response.Messages[0].ErrorText}", nex.Message);
+                Assert.Equal(SmsStatusCode.InvalidCredentials, nex.Response.Messages[0].StatusCode);
             }
         }
 
@@ -173,7 +176,8 @@ namespace Nexmo.Api.Test.Unit
                   ""message-timestamp"": ""2020-01-01T12:00:00.000+00:00"",
                   ""timestamp"": 1582650446,
                   ""nonce"": ""ec11dd3e-1e7f-4db5-9467-82b02cd223b9"",
-                  ""sig"": ""1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C""
+                  ""sig"": ""1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C"",
+                  ""client-ref"": ""steve""
                 }";
             var dlr = JsonConvert.DeserializeObject<Messaging.DeliveryReceipt>(jsonFromNDP);
             Assert.Equal("447700900000", dlr.Msisdn);
@@ -189,6 +193,42 @@ namespace Nexmo.Api.Test.Unit
             Assert.True(1582650446 == dlr.Timestamp);
             Assert.Equal("ec11dd3e-1e7f-4db5-9467-82b02cd223b9", dlr.Nonce);
             Assert.Equal("1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C", dlr.Sig);
+            Assert.Equal("steve", dlr.ClientRef);
+        }
+
+        [Fact]
+        public void TestDlrStructNoStatus()
+        {
+            var jsonFromNDP = @"{
+                  ""msisdn"": ""447700900000"",
+                  ""to"": ""AcmeInc"",
+                  ""network-code"": ""12345"",
+                  ""messageId"": ""0A0000001234567B"",
+                  ""price"": ""0.03330000"",                  
+                  ""scts"": ""2001011400"",
+                  ""err-code"": ""0"",
+                  ""api-key"": ""abcd1234"",
+                  ""message-timestamp"": ""2020-01-01T12:00:00.000+00:00"",
+                  ""timestamp"": 1582650446,
+                  ""nonce"": ""ec11dd3e-1e7f-4db5-9467-82b02cd223b9"",
+                  ""sig"": ""1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C"",
+                  ""client-ref"": ""steve""
+                }";
+            var dlr = JsonConvert.DeserializeObject<Messaging.DeliveryReceipt>(jsonFromNDP);
+            Assert.Equal("447700900000", dlr.Msisdn);
+            Assert.Equal("AcmeInc", dlr.To);
+            Assert.Equal("12345", dlr.NetworkCode);
+            Assert.Equal("0A0000001234567B", dlr.MessageId);
+            Assert.Equal("0.03330000", dlr.Price);
+            Assert.Equal(Messaging.DlrStatus.unknown, dlr.Status);
+            Assert.Equal("2001011400", dlr.Scts);
+            Assert.Equal("0", dlr.ErrorCode);
+            Assert.Equal("abcd1234", dlr.ApiKey);
+            Assert.Equal("2020-01-01T12:00:00.000+00:00", dlr.MessageTimestamp);
+            Assert.True(1582650446 == dlr.Timestamp);
+            Assert.Equal("ec11dd3e-1e7f-4db5-9467-82b02cd223b9", dlr.Nonce);
+            Assert.Equal("1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C", dlr.Sig);
+            Assert.Equal("steve", dlr.ClientRef);
         }
 
         [Fact]
