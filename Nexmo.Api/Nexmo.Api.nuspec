@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>4.3.2</version>
+    <version>4.4.0</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,8 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-* Fixed bug where streamUrl in where the StreamAction was set to a string rather than an array of strings
-* Changed websocket endpoints `headers` type from a string to an object - the string type was injecting escape charecters into the headers object payload.
+* Added ASR Webhook and NCCO to Client
     </releaseNotes>
     <copyright>© Nexmo 2020</copyright>
     <tags>SMS voice telephony phone nexmo</tags>

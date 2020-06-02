@@ -19,6 +19,12 @@ namespace Nexmo.Api.Voice.Nccos
         [JsonProperty("eventMethod")]
         public string EventMethod { get; set; }
 
+        /// <summary>
+        /// Speech recognition settings. Should be specified to enable speech input.
+        /// </summary>
+        [JsonProperty("speech")]
+        public SpeechSettings SpeechSettings { get; set; }
+
         public InputAction()
         {
             Action = ActionType.input;
