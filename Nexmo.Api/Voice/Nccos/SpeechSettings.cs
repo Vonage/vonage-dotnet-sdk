@@ -8,7 +8,7 @@ namespace Nexmo.Api.Voice.Nccos
         /// The unique ID of the Call leg for the user to capture the speech of.
         /// </summary>
         [JsonProperty("uuid")]
-        public string Uuid { get; set; }
+        public string[] Uuid { get; set; }
 
         /// <summary>
         /// Controls how long the system will wait after user stops speaking to decide the input is completed. The default value is 2 (seconds). The range of possible values is between 1 second and 10 seconds.
