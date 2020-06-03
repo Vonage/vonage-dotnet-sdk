@@ -16,6 +16,12 @@ namespace Nexmo.Api.Voice.EventWebhooks
         public string TimeoutReason { get; set; }
 
         /// <summary>
+        /// Error field in case there was a problem during speech recognition - will not be present if nothing went wrong.
+        /// </summary>
+        [JsonProperty("error")]
+        public string Error { get; set; }
+
+        /// <summary>
         /// Array of SpeechRecognitionResults
         /// </summary>
         [JsonProperty("results")]

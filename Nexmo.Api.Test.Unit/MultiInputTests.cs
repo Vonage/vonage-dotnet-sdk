@@ -79,7 +79,7 @@ namespace Nexmo.Api.Test.Unit
                 ]
               },              
               ""dtmf"": {
-                ""digits"": ""1234"",
+                ""digits"": null,
                 ""timed_out"": false
               },
               ""uuid"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
@@ -95,6 +95,31 @@ namespace Nexmo.Api.Test.Unit
             Assert.AreEqual("Sales", serialized.Speech.SpeechResults[0].Text);
             Assert.AreEqual("0.5949854", serialized.Speech.SpeechResults[2].Confidence);
             Assert.AreEqual("Sale", serialized.Speech.SpeechResults[2].Text);
+            Assert.AreEqual(null, serialized.Dtmf.Digits);
+            Assert.AreEqual(false, serialized.Dtmf.TimedOut);
+        }
+
+        [TestMethod]
+        public void TestWebhookSerializationSpeechOveridden()
+        {
+            //ARRANGE
+            var inboundString = @"{
+              ""speech"": {
+                ""error"": ""Speech overridden by DTMF""
+                },
+              ""dtmf"": {
+                ""digits"": ""1234"",
+                ""timed_out"": false
+              },
+              ""uuid"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+              ""conversation_uuid"": ""bbbbbbbb-cccc-dddd-eeee-0123456789ab"",
+              ""timestamp"": ""2020-01-01T14:00:00.000Z""
+            }";
+
+            var serialized = JsonConvert.DeserializeObject<MultiInput>(inboundString);
+
+            Assert.AreEqual("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", serialized.Uuid);
+            Assert.AreEqual("Speech overridden by DTMF", serialized.Speech.Error);
             Assert.AreEqual("1234", serialized.Dtmf.Digits);
             Assert.AreEqual(false, serialized.Dtmf.TimedOut);
         }
