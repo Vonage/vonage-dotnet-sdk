@@ -27,8 +27,6 @@
   
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
-    <DocumentationFile>C:\Users\slore\Documents\projects\nexmo\nexmo-dotnet\Nexmo.Api\Nexmo.Api.xml</DocumentationFile>
-    
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' ">
