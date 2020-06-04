@@ -19,6 +19,8 @@ namespace Nexmo.Api.Voice.EventWebhooks
 
             var dtmfProperty = data.Property("dtmf");
 
+            var speechProperty = data.Property("speech");
+
             var recordingUrlProperty = data.Property("recording_url");
             
             var reasonProperty = data.Property("reason");

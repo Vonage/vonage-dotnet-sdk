@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Nexmo.Api.Voice.Nccos
 {
+    [Obsolete("This is made obsolete by the new MultiInputAction type and the MultiInput event see: https://developer.nexmo.com/voice/voice-api/ncco-reference#input for more details")]
     public class InputAction : NccoAction
     {
         [JsonProperty("timeOut")]
