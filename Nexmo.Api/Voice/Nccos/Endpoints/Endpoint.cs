@@ -5,6 +5,9 @@ namespace Nexmo.Api.Voice.Nccos.Endpoints
 {
     public abstract class Endpoint
     {
+        /// <summary>
+        /// the type of endpoint being connected
+        /// </summary>
         [JsonProperty("type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public EndpointType Type { get; protected set; }

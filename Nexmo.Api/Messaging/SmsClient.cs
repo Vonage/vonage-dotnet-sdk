@@ -16,7 +16,7 @@ namespace Nexmo.Api.Messaging
         /// </summary>
         /// <param name="request">The SMS message request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// <exception cref="NexmSmsResponseException">Thrown when the status of a message is non-zero or response is empty</exception>
+        /// <exception cref="NexmoSmsResponseException">Thrown when the status of a message is non-zero or response is empty</exception>
         /// <returns></returns>
         public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
         {

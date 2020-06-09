@@ -258,7 +258,7 @@ namespace Nexmo.Api
         /// </summary>
         /// <param name="request">NI advenced request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// <exception cref="NumberInishghtRequestException">Thrown when response holds a bad status</exception>
+        /// <exception cref="NumberInsightResponseException">Thrown when response holds a bad status</exception>
         /// <returns></returns>
         public static NumberInsightAdvancedResponse RequestAdvanced(NumberInsightRequest request, Credentials creds = null)
         {

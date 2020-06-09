@@ -34,8 +34,8 @@ namespace Nexmo.Api.Test.Unit
             NumberSearchRequest request;
             if (kitchenSink)
             {
-                expectedUri += $"?country=GB&type=mobile-lvn&pattern=12345&search_pattern=0&features=SMS&size=10&index=1&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberSearchRequest { Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = 0, Features = "SMS", Size = 10, Index = 1 };
+                expectedUri += $"?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&api_key={ApiKey}&api_secret={ApiSecret}&";
+                request = new NumberSearchRequest { Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains, Features = "SMS", Size = 10, Index = 1 };
             }
             else
             {

@@ -98,9 +98,9 @@ namespace Nexmo.Api
         public class SearchRequest
         {
             // Search by ids
-            
+
             /// <summary>
-            /// Required. A list of message ids, up to 10 Ex: ids=00A0B0C0&ids=00A0B0C1&ids=00A0B0C2
+            /// Required. A list of message ids, up to 10 Ex: ids=00A0B0C0&amp;ids=00A0B0C1&amp;ids=00A0B0C2
             /// </summary>
             public string ids { get; set; }
 

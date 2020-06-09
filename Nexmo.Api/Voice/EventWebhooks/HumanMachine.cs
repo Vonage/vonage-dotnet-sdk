@@ -15,6 +15,9 @@ namespace Nexmo.Api.Voice.EventWebhooks
             machine
         }
 
+        /// <summary>
+        /// The unique identifier for this call (Note call_uuid, not uuid as in some other endpoints)
+        /// </summary>
         [JsonProperty("call_uuid")]
         public override string Uuid { get; set; }
 

@@ -383,7 +383,8 @@ namespace Nexmo.Api.Request
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Id"];
             var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Nexmo.Application.Key"];
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Nexmo.api_key"])?.ToLower();
-            var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];            
+            var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Nexmo.api_secret"];
+            var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
 
             var req = new HttpRequestMessage
             {
@@ -416,6 +417,8 @@ namespace Nexmo.Api.Request
             }
             var json = JsonConvert.SerializeObject(payload,
                 Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            logger.LogDebug($"Request URI: {uri}");
+            logger.LogDebug($"JSON Payload: {json}");
             var data = Encoding.ASCII.GetBytes(json);
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
