@@ -50,7 +50,7 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// A JSON object containing any metadata you want.
             /// </summary>
-            public string headers { get; set; }
+            public object headers { get; set; }
         }
 
         [JsonConverter(typeof(CallCommandConverter))]

@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Nexmo.Api.Voice.EventWebhooks
 {
+    [Obsolete("This item has been rendered obsolete due to the new multi-input functionality. Please add dtmf arguments to your input action and use the MultiInput object - see: https://developer.nexmo.com/voice/voice-api/ncco-reference#dtmf-input-settings")]
     public class Input : Event
     {
         /// <summary>

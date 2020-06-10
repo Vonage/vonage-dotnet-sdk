@@ -35,7 +35,7 @@ namespace Nexmo.Api.Test.Integration
         }
 
         [TestMethod]
-        public void Should_call_with_NCCO()
+        public void should_call_with_NCCO()
         {
             var talkAction = new TalkAction() { Text = "This is a text to speech call from Nexmo" };
             var ncco = new Ncco(talkAction);
@@ -56,6 +56,35 @@ namespace Nexmo.Api.Test.Integration
                 },
                 Ncco = ncco
             });
+            Assert.AreEqual("started", results.status);
+        }
+
+        [TestMethod]
+        public void should_call_with_stream_NCCO()
+        {
+            var nccoObject = new Ncco(new StreamAction()
+            {
+                StreamUrl = new string[] { "https://nexmo-community.github.io/ncco-examples/assets/voice_api_audio_streaming.mp3" }
+            });
+
+            var results = Call.Do(new Call.CallCommand
+            {
+                to = new[]
+                {
+                    new Call.Endpoint
+                    {
+                        type = "phone",
+                        number = Configuration.Instance.Settings["test_number"]
+                    }
+                },
+                from = new Call.Endpoint
+                {
+                    type = "phone",
+                    number = Configuration.Instance.Settings["nexmo_number"]
+                },
+                NccoObj = nccoObject
+            });
+
             Assert.AreEqual("started", results.status);
         }
 

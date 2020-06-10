@@ -12,8 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-      * Fixed bug where loop parameter would be truncated if set to 0
-      * Fixed bug that would cause certain User Agent's to throw errors on certain Operating Systems
+https://github.com/Nexmo/nexmo-dotnet/releases/tag/v4.4.0
     </releaseNotes>
     <copyright>© Nexmo 2020</copyright>
     <tags>SMS voice telephony phone nexmo vonage</tags>
