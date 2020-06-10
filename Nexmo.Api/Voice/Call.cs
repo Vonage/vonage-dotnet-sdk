@@ -24,11 +24,13 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// The phone number to connect to in E.164 format.
             /// </summary>
-            public string number { get; set; }
+            [JsonProperty("number")]
+            public string Number { get; set; }
             /// <summary>
             /// Set the digits that are sent to the user as soon as the Call is answered. The * and # digits are respected. You create pauses using p. Each pause is 500ms.
             /// </summary>
-            public string dtmfAnswer { get; set; }
+            [JsonProperty("dtmfAnswer")]
+            public string DtmfAnswer { get; set; }
 
             // websocket/sip:
 
@@ -37,7 +39,8 @@ namespace Nexmo.Api.Voice
             /// OR
             /// The SIP URI to the endpoint you are connecting to in the format sip:rebekka@sip.example.com.
             /// </summary>
-            public string uri { get; set; }
+            [JsonProperty("uri")]
+            public string Uri { get; set; }
 
             // websocket:
 
@@ -45,12 +48,13 @@ namespace Nexmo.Api.Voice
             /// The internet media type for the audio you are streaming.Possible values are: audio/l16; rate=16000
             /// </summary>
             [JsonProperty("content-type")]
-            public string contentType { get; set; }
+            public string ContentType { get; set; }
 
             /// <summary>
             /// A JSON object containing any metadata you want.
             /// </summary>
-            public object headers { get; set; }
+            [JsonProperty("headers")]
+            public object Headers { get; set; }
         }
 
         [JsonConverter(typeof(CallCommandConverter))]

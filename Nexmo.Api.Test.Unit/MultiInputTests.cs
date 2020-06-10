@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +9,10 @@ using Nexmo.Api.Voice.EventWebhooks;
 using Newtonsoft.Json;
 
 namespace Nexmo.Api.Test.Unit
-{
-    [TestClass]
-    public class MultiInputTests
+{    
+    public class MultiInputTests : TestBase
     {
-        [TestMethod]
+        [Fact]
         public void TestSerializeNccoKitchenSink()
         {
             // arrage
@@ -35,9 +34,9 @@ namespace Nexmo.Api.Test.Unit
             var actual = ncco.ToString();
 
             //assert
-             Assert.AreEqual(expected, actual);
+             Assert.Equal(expected, actual);
         }
-        [TestMethod]
+        [Fact]
         public void TestSerializeNccoKitchenEmpty()
         {
             // arrage
@@ -53,10 +52,10 @@ namespace Nexmo.Api.Test.Unit
             var actual = ncco.ToString();
 
             //assert
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestWebhookSerialization()
         {
             //ARRANGE
@@ -89,17 +88,17 @@ namespace Nexmo.Api.Test.Unit
 
             var serialized = JsonConvert.DeserializeObject<MultiInput>(inboundString);
 
-            Assert.AreEqual("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", serialized.Uuid);            
-            Assert.AreEqual("end_on_silence_timeout", serialized.Speech.TimeoutReason);
-            Assert.AreEqual("0.9405097", serialized.Speech.SpeechResults[0].Confidence);
-            Assert.AreEqual("Sales", serialized.Speech.SpeechResults[0].Text);
-            Assert.AreEqual("0.5949854", serialized.Speech.SpeechResults[2].Confidence);
-            Assert.AreEqual("Sale", serialized.Speech.SpeechResults[2].Text);
-            Assert.AreEqual(null, serialized.Dtmf.Digits);
-            Assert.AreEqual(false, serialized.Dtmf.TimedOut);
+            Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", serialized.Uuid);            
+            Assert.Equal("end_on_silence_timeout", serialized.Speech.TimeoutReason);
+            Assert.Equal("0.9405097", serialized.Speech.SpeechResults[0].Confidence);
+            Assert.Equal("Sales", serialized.Speech.SpeechResults[0].Text);
+            Assert.Equal("0.5949854", serialized.Speech.SpeechResults[2].Confidence);
+            Assert.Equal("Sale", serialized.Speech.SpeechResults[2].Text);
+            Assert.Null(serialized.Dtmf.Digits);
+            Assert.False(serialized.Dtmf.TimedOut);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestWebhookSerializationSpeechOveridden()
         {
             //ARRANGE
@@ -118,10 +117,10 @@ namespace Nexmo.Api.Test.Unit
 
             var serialized = JsonConvert.DeserializeObject<MultiInput>(inboundString);
 
-            Assert.AreEqual("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", serialized.Uuid);
-            Assert.AreEqual("Speech overridden by DTMF", serialized.Speech.Error);
-            Assert.AreEqual("1234", serialized.Dtmf.Digits);
-            Assert.AreEqual(false, serialized.Dtmf.TimedOut);
+            Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", serialized.Uuid);
+            Assert.Equal("Speech overridden by DTMF", serialized.Speech.Error);
+            Assert.Equal("1234", serialized.Dtmf.Digits);
+            Assert.False(serialized.Dtmf.TimedOut);
         }
     }
 }

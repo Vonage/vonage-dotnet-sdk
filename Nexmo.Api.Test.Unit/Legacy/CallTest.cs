@@ -29,16 +29,16 @@ namespace Nexmo.Api.Test.Unit.Legacy
                 {
                     new Voice.Call.Endpoint
                     {
-                        number="14155550100",
-                        dtmfAnswer="p*123#",
+                        Number="14155550100",
+                        DtmfAnswer="p*123#",
                         Type="phone"
                     }
                 },
                 from = new Voice.Call.Endpoint
                 {
                     Type = "phone",
-                    number = "14155550100",
-                    dtmfAnswer = "p*123#"
+                    Number = "14155550100",
+                    DtmfAnswer = "p*123#"
                 },
                 Ncco = new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }),
                 answer_url = new[] { "https://example.com/answer" },
