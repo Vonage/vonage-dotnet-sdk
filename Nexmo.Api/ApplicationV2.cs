@@ -67,12 +67,13 @@ namespace Nexmo.Api
         [JsonProperty("webhooks")]
         public webhooks Hooks { get; private set; }
 
-        public VoiceWebhook(Webhook answerUrl, Webhook eventUrl)
+        public VoiceWebhook(Webhook answerUrl, Webhook eventUrl, Webhook fallbackAnswerUrl = null)
         {
             Hooks = new webhooks()
             {
                 AnswerUrl = answerUrl,
-                EventUrl = eventUrl
+                EventUrl = eventUrl,
+                FallbackAnswerUrl = fallbackAnswerUrl,
             };
         }
 
@@ -82,6 +83,8 @@ namespace Nexmo.Api
             public Webhook AnswerUrl { get; set; }
             [JsonProperty("event_url")]
             public Webhook EventUrl { get; set; }
+            [JsonProperty("fallback_answer_url")]
+            public Webhook FallbackAnswerUrl { get; set; }
         }
     }
 

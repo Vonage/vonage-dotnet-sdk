@@ -107,6 +107,89 @@ namespace Nexmo.Api.Test.Unit
         }
 
         [TestMethod]
+        public void ShouldGetApplicationWhenVoiceFallbackAnswerIsDefined()
+        {
+            var appId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+            SetExpect(
+                $"{ApiUrl}/v2/applications/{appId}",
+                @"
+                {
+                  ""id"": ""ffffffff-ffff-ffff-ffff-ffffffffffff"",
+                  ""name"": ""My Application"",
+                  ""capabilities"": {
+                    ""voice"": {
+                      ""webhooks"": {
+                        ""answer_url"": { ""address"": ""https://example.com/webhooks/answer"", ""http_method"": ""POST"" },
+                        ""fallback_answer_url"": { ""address"": ""https://fallback.example.com/webhooks/answer"", ""http_method"": ""POST"" },
+                        ""event_url"": { ""address"": ""https://example.com/webhooks/event"", ""http_method"": ""POST"" }
+                      }
+                    },
+                    ""messages"": {
+                      ""webhooks"": {
+                        ""inbound_url"": { ""address"": ""https://example.com/webhooks/inbound"", ""http_method"": ""POST"" },
+                        ""status_url"": { ""address"": ""https://example.com/webhooks/status"", ""http_method"": ""POST"" }
+                      }
+                    },
+                    ""rtc"": {
+                      ""webhooks"": {
+                        ""event_url"": { ""address"": ""https://example.com/webhooks/event"", ""http_method"": ""POST"" }
+                      }
+                    },
+                    ""vbc"": {
+                    }
+                  }
+                }"
+            );
+
+            var results = ApplicationV2.Get(appId);
+
+            Assert.AreEqual("https://example.com/webhooks/answer",          results.Capabilities.Voice.Hooks.AnswerUrl.Address);
+            Assert.AreEqual("https://example.com/webhooks/event",           results.Capabilities.Voice.Hooks.EventUrl.Address);
+            Assert.AreEqual("https://fallback.example.com/webhooks/answer", results.Capabilities.Voice.Hooks.FallbackAnswerUrl.Address);
+        }
+
+        [TestMethod]
+        public void ShouldGetApplicationWhenVoiceFallbackAnswerIsUndefined()
+        {
+            var appId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+            SetExpect(
+                $"{ApiUrl}/v2/applications/{appId}",
+                @"
+                {
+                  ""id"": ""ffffffff-ffff-ffff-ffff-ffffffffffff"",
+                  ""name"": ""My Application"",
+                  ""capabilities"": {
+                    ""voice"": {
+                      ""webhooks"": {
+                        ""answer_url"": { ""address"": ""https://example.com/webhooks/answer"", ""http_method"": ""POST"" },
+                        ""event_url"": { ""address"": ""https://example.com/webhooks/event"", ""http_method"": ""POST"" }
+                      }
+                    },
+                    ""messages"": {
+                      ""webhooks"": {
+                        ""inbound_url"": { ""address"": ""https://example.com/webhooks/inbound"", ""http_method"": ""POST"" },
+                        ""status_url"": { ""address"": ""https://example.com/webhooks/status"", ""http_method"": ""POST"" }
+                      }
+                    },
+                    ""rtc"": {
+                      ""webhooks"": {
+                        ""event_url"": { ""address"": ""https://example.com/webhooks/event"", ""http_method"": ""POST"" }
+                      }
+                    },
+                    ""vbc"": {
+                    }
+                  }
+                }"
+            );
+
+            var results = ApplicationV2.Get(appId);
+
+            Assert.AreEqual("https://example.com/webhooks/answer",  results.Capabilities.Voice.Hooks.AnswerUrl.Address);
+            Assert.AreEqual("https://example.com/webhooks/event",   results.Capabilities.Voice.Hooks.EventUrl.Address);
+            Assert.AreEqual(null,                                   results.Capabilities.Voice.Hooks.FallbackAnswerUrl);
+        }
+
+        [TestMethod]
         public void ShouldUpdateApplication()
         {
             var appId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
