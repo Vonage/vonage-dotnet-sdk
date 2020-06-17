@@ -114,6 +114,38 @@ namespace Nexmo.Api.Test.Unit
         }
 
         [Fact]
+        public void SendSmsUnicode()
+        {
+            var expectedResponse = @"{
+                  ""message-count"": ""1"",
+                  ""messages"": [
+                    {
+                      ""to"": ""447700900000"",
+                      ""message-id"": ""0A0000000123ABCD1"",
+                      ""status"": ""0"",
+                      ""remaining-balance"": ""3.14159265"",
+                      ""message-price"": ""0.03330000"",
+                      ""network"": ""12345"",
+                      ""account-ref"": ""customer1234""
+                    }
+                  ]
+                }";
+            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("こんにちは世界")}&api_key={ApiKey}&api_secret={ApiSecret}&";
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var client = new NexmoClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
+            var response = client.SmsClient.SendAnSms(new Messaging.SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "こんにちは世界" });
+            Assert.Equal("1", response.MessageCount);
+            Assert.Equal("447700900000", response.Messages[0].To);
+            Assert.Equal("0A0000000123ABCD1", response.Messages[0].MessageId);
+            Assert.Equal("0", response.Messages[0].Status);
+            Assert.Equal(SmsStatusCode.Success, response.Messages[0].StatusCode);
+            Assert.Equal("3.14159265", response.Messages[0].RemainingBalance);
+            Assert.Equal("12345", response.Messages[0].Network);
+            Assert.Equal("customer1234", response.Messages[0].AccountRef);
+        }
+
+        [Fact]
         public void SendSmsBadResponse()
         {
             var expectedResponse = @"{

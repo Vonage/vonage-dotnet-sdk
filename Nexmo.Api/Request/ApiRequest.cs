@@ -419,7 +419,7 @@ namespace Nexmo.Api.Request
                 Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             logger.LogDebug($"Request URI: {uri}");
             logger.LogDebug($"JSON Payload: {json}");
-            var data = Encoding.ASCII.GetBytes(json);
+            var data = Encoding.UTF8.GetBytes(json);
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             var json_response = SendHttpRequest(req).JsonResponse;
