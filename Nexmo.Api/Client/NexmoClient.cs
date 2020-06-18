@@ -10,7 +10,6 @@ using Nexmo.Api.Redaction;
 using Nexmo.Api.Messaging;
 using Nexmo.Api.Request;
 using Nexmo.Api.Pricing;
-using Nexmo.Api.MessageSearch;
 
 namespace Nexmo.Api
 {
@@ -49,8 +48,6 @@ namespace Nexmo.Api
 
         public IPricingClient PricingClient { get; private set; }
 
-        public IMessageSearchClient MessageSearchClient { get; set; }
-
         public NexmoClient(Credentials credentials)
         {
             Credentials = credentials;
@@ -69,7 +66,6 @@ namespace Nexmo.Api
             RedactClient = new RedactClient(Credentials);
             SmsClient = new SmsClient(Credentials);
             PricingClient = new PricingClient(Credentials);
-            MessageSearchClient = new MessageSearchClient(Credentials);
         }
         
     }

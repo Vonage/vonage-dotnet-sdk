@@ -28,8 +28,7 @@ namespace Nexmo.Api
             Conversion = new ClientMethods.Conversion(Credentials);
             Number = new ClientMethods.Number(Credentials);
             NumberInsight = new ClientMethods.NumberInsight(Credentials);
-            NumberVerify = new ClientMethods.NumberVerify(Credentials);
-            Search = new ClientMethods.Search(Credentials);
+            NumberVerify = new ClientMethods.NumberVerify(Credentials);            
             ShortCode = new ClientMethods.ShortCode(Credentials);
             SMS = new ClientMethods.SMS(Credentials);
             Redact = new ClientMethods.Redact(Credentials);
@@ -42,8 +41,7 @@ namespace Nexmo.Api
         public ClientMethods.Conversion Conversion { get; private set; }
         public ClientMethods.Number Number { get; private set; }
         public ClientMethods.NumberInsight NumberInsight { get; private set; }
-        public ClientMethods.NumberVerify NumberVerify { get; private set; }
-        public ClientMethods.Search Search { get; private set; }
+        public ClientMethods.NumberVerify NumberVerify { get; private set; }        
         public ClientMethods.ShortCode ShortCode { get; private set; }
         public ClientMethods.SMS SMS { get; private set; }
         public ClientMethods.Redact Redact { get; private set; }
