@@ -24,13 +24,15 @@ namespace Nexmo.Api.Voice
 
         /// <summary>
         /// Return the records that occurred after this point in time.
+        /// Times must be in UTC, they will not be converted.
         /// </summary>
         [JsonProperty("date_start")]
         [JsonConverter(typeof(PageListDateTimeConverter))]
         public DateTime? DateStart { get; set; }
-        
+
         /// <summary>
         /// Return the records that occurred before this point in time.
+        /// Times must be in UTC, they will not be converted.
         /// </summary>
         [JsonProperty("date_end")]
         [JsonConverter(typeof(PageListDateTimeConverter))]

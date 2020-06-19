@@ -93,18 +93,18 @@ namespace Nexmo.Api.Test.Unit
                         },
                         ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
                         ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22"",
-                        ""to"": [
+                        ""to"":
                           {
                             ""type"": ""phone"",
                             ""number"": ""447700900000""
                           }
-                        ],
-                        ""from"": [
+                        ,
+                        ""from"": 
                           {
                             ""type"": ""phone"",
                             ""number"": ""447700900001""
                           }
-                        ],
+                        ,
                         ""status"": ""started"",
                         ""direction"": ""outbound"",
                         ""rate"": ""0.39"",
@@ -163,10 +163,10 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("/calls/63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Links.Self.Href);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
-            Assert.Equal("447700900000", callRecord.To[0].Number);
-            Assert.Equal("phone", callRecord.To[0].Type);
-            Assert.Equal("phone", callRecord.From[0].Type);
-            Assert.Equal("447700900001", callRecord.From[0].Number);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
             Assert.Equal("started", callRecord.Status);
             Assert.Equal("outbound", callRecord.Direction);
             Assert.Equal("0.39", callRecord.Rate);
@@ -193,18 +193,18 @@ namespace Nexmo.Api.Test.Unit
                         },
                         ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
                         ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22"",
-                        ""to"": [
+                        ""to"":
                           {
                             ""type"": ""phone"",
                             ""number"": ""447700900000""
                           }
-                        ],
-                        ""from"": [
+                        ,
+                        ""from"":
                           {
                             ""type"": ""phone"",
                             ""number"": ""447700900001""
                           }
-                        ],
+                        ,
                         ""status"": ""started"",
                         ""direction"": ""outbound"",
                         ""rate"": ""0.39"",
@@ -233,10 +233,10 @@ namespace Nexmo.Api.Test.Unit
             
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
-            Assert.Equal("447700900000", callRecord.To[0].Number);
-            Assert.Equal("phone", callRecord.To[0].Type);
-            Assert.Equal("phone", callRecord.From[0].Type);
-            Assert.Equal("447700900001", callRecord.From[0].Number);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
             Assert.Equal("started", callRecord.Status);
             Assert.Equal("outbound", callRecord.Direction);
             Assert.Equal("0.39", callRecord.Rate);

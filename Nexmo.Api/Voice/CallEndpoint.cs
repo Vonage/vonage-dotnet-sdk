@@ -47,6 +47,6 @@ namespace Nexmo.Api.Voice
         /// A JSON object containing any metadata you want.
         /// </summary>
         [JsonProperty("headers")]
-        public string Headers { get; set; }
+        public object Headers { get; set; }
     }
 }

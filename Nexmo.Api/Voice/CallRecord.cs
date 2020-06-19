@@ -27,14 +27,14 @@ namespace Nexmo.Api.Voice
         ///    number - the phone number to connect to in E.164 format.
         ///    dtmfAnswer - Set the digits that are sent to the user as soon as the Call is answered.The* and # digits are respected. You create pauses using p. Each pause is 500ms.
         /// </summary>
-        [JsonProperty("to")]
-        public CallEndpoint[] To { get; set; }
+        [JsonProperty("to")]        
+        public CallEndpoint To { get; set; }
 
         /// <summary>
         /// The endpoint you called from. Possible values are the same as to 
         /// </summary>
         [JsonProperty("from")]
-        public CallEndpoint[] From { get; set; }
+        public CallEndpoint From { get; set; }
 
         /// <summary>
         /// Possible values are outbound or inbound.
