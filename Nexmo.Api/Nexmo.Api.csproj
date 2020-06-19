@@ -19,7 +19,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Nexmo/nexmo-dotnet</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Nexmo/nexmo-dotnet/releases/tag/v4.3.0</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Nexmo/nexmo-dotnet/releases/tag/v5.0.0</PackageReleaseNotes>
     <PackageTags>SMS voice telephony phone nexmo</PackageTags>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <NoWarn>1701;1702;1591;1572;1573;0618</NoWarn>
