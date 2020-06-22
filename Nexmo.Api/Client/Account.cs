@@ -1,7 +1,9 @@
-﻿using Nexmo.Api.Request;
+﻿using System;
+using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
+    [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
     public class Account
     {
         public Credentials Credentials { get; set; }
@@ -15,6 +17,8 @@ namespace Nexmo.Api.ClientMethods
         /// </summary>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>Balance data</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public Api.Account.Balance GetBalance(Credentials creds = null)
         {
             return Api.Account.GetBalance(creds ?? Credentials);
@@ -27,6 +31,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="type">The type of service you wish to retrieve data about: either sms, sms-transit or voice.</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>Pricing data</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public Api.Account.Pricing GetPricing(string country, string type = null, Credentials creds = null)
         {
             return Api.Account.GetPricing(country, type, creds ?? Credentials);
@@ -39,6 +45,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="type">The type of service you wish to retrieve data about: either sms, sms-transit or voice.</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>Pricing data</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public Api.Account.Pricing GetPrefixPricing(string prefix, string type, Credentials creds = null)
         {
             return Api.Account.GetPricing(prefix, type, creds ?? Credentials);
@@ -52,6 +60,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="httpDrCallbackurlCom">An encoded URI to the webhook endpoint that handles deliver receipts (DLR).</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>Updated settings</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public Api.Account.Settings SetSettings(string newsecret = null, string httpMoCallbackurlCom = null, string httpDrCallbackurlCom = null, Credentials creds = null)
         {
             return Api.Account.SetSettings(newsecret, httpMoCallbackurlCom, httpDrCallbackurlCom, creds ?? Credentials);
@@ -62,6 +72,8 @@ namespace Nexmo.Api.ClientMethods
         /// </summary>
         /// <param name="transaction">The ID associated with your original auto-reload transaction.</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public void TopUp(string transaction, Credentials creds = null)
         {
             Api.Account.TopUp(transaction, creds ?? Credentials);
@@ -72,6 +84,8 @@ namespace Nexmo.Api.ClientMethods
         /// </summary>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns>All the phone numbers associated with your account.</returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public Api.Account.NumbersResponse GetNumbers(Credentials creds = null)
         {
             return GetNumbers(new Api.Account.NumbersRequest(), creds ?? Credentials);
@@ -83,6 +97,8 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">Filter for account numbers list</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
         public Api.Account.NumbersResponse GetNumbers(Api.Account.NumbersRequest request, Credentials creds = null)
         {
             return Api.Account.GetNumbers(request, creds ?? Credentials);

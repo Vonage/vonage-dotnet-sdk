@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Nexmo.Api.Helpers;
 using Nexmo.Api.Request;
 using Nexmo.Api.Voice.Nccos;
 
 namespace Nexmo.Api.Voice
-{
+{    
     public static partial class Call
     {
         public class Endpoint
@@ -17,6 +16,7 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// One of the following: phone, websocket, sip
             /// </summary>
+            [JsonProperty("type")]
             public string type { get; set; }
 
             // phone:
@@ -24,10 +24,12 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// The phone number to connect to in E.164 format.
             /// </summary>
+            [JsonProperty("number")]
             public string number { get; set; }
             /// <summary>
             /// Set the digits that are sent to the user as soon as the Call is answered. The * and # digits are respected. You create pauses using p. Each pause is 500ms.
             /// </summary>
+            [JsonProperty("dtmfAnswer")]
             public string dtmfAnswer { get; set; }
 
             // websocket/sip:
@@ -37,6 +39,7 @@ namespace Nexmo.Api.Voice
             /// OR
             /// The SIP URI to the endpoint you are connecting to in the format sip:rebekka@sip.example.com.
             /// </summary>
+            [JsonProperty("uri")]
             public string uri { get; set; }
 
             // websocket:
@@ -50,6 +53,7 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// A JSON object containing any metadata you want.
             /// </summary>
+            [JsonProperty("headers")]
             public object headers { get; set; }
         }
 
@@ -66,19 +70,12 @@ namespace Nexmo.Api.Voice
             /// </summary>
             [JsonRequired]
             public Endpoint from { get; set; }
-            /// <summary>
-            /// The Nexmo Call Control Object to use for this call. 
-            /// Required unless answer url is provided.
-            /// </summary>
-            [RequiredIfAttribute("answer_url", null, ErrorMessage = "You must provide an NCCO object or an answer url")]
-            [JsonProperty("ncco")]
-            [Obsolete("this property will soon be deprecated - we recommend you use the strongly typed NccoObj field instead")]
-            public JArray Ncco { get; set; } //TODO on next major release remove this JArray
-
+            
             /// <summary>
             /// This will convert to ncco as per the CallCommandConverter - it is preferable to use this over the JArray Ncco
             /// </summary>
-            public Ncco NccoObj { get; set; }
+            public Ncco Ncco { get; set; }
+
             /// <summary>
             /// The webhook endpoint where you provide the Nexmo Call Control Object that governs this call. As soon as your user answers a call, Platform requests this NCCO from answer_url. Use answer_method to manage the HTTP method.
             /// </summary>
@@ -103,11 +100,11 @@ namespace Nexmo.Api.Voice
             /// <summary>
             /// Optional. Set the number of seconds that elapse before Nexmo hangs up after the call state changes to in_progress. The default value is 7200, two hours. This is also the maximum value.
             /// </summary>
-            public decimal length_timer { get; set; }
+            public uint length_timer { get; set; }
             /// <summary>
             /// Optional. Set the number of seconds that elapse before Nexmo hangs up after the call state changes to 'ringing'. The default value is 60, the maximum value is 120.
             /// </summary>
-            public decimal ringing_timer { get; set; }
+            public uint ringing_timer { get; set; }
         }
 
         public class CallCommandResponse
@@ -286,9 +283,7 @@ namespace Nexmo.Api.Voice
         /// <returns></returns>
         public static CallResponse Do(CallCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("POST", ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), cmd, creds);
-
-            return JsonConvert.DeserializeObject<CallResponse>(response.JsonResponse);
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>("POST", ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), cmd, ApiRequest.AuthType.Bearer, creds);            
         }
 
         /// <summary>
@@ -298,9 +293,7 @@ namespace Nexmo.Api.Voice
         /// </summary>
         public static PaginatedResponse<CallList> List(SearchFilter filter, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), filter, VersionedApiRequest.AuthType.Bearer, creds);
-
-            return JsonConvert.DeserializeObject<PaginatedResponse<CallList>>(response);
+            return ApiRequest.DoGetRequestWithQueryParameters<PaginatedResponse<CallList>>(ApiRequest.GetBaseUriFor(typeof(Call), "/v1/calls"), ApiRequest.AuthType.Bearer, filter, creds);
         }
         public static PaginatedResponse<CallList> List()
         {
@@ -317,9 +310,7 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Get(string id, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), new {}, VersionedApiRequest.AuthType.Bearer, creds);
-
-            return JsonConvert.DeserializeObject<CallResponse>(response);
+            return ApiRequest.DoGetRequestWithQueryParameters<CallResponse>(ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), ApiRequest.AuthType.Bearer, credentials:creds);
         }
 
         /// <summary>
@@ -330,14 +321,12 @@ namespace Nexmo.Api.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         public static CallResponse Edit(string id, CallEditCommand cmd, Credentials creds = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd, creds);
-
-            return JsonConvert.DeserializeObject<CallResponse>(response.JsonResponse);
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>("PUT", ApiRequest.GetBaseUriFor(typeof(Call), $"/v1/calls/{id}"), cmd, ApiRequest.AuthType.Bearer, creds);            
         }
 
         public static CallGetRecordingResponse GetRecording(string url, Credentials creds = null)
         {
-            using (var response = ApiRequest.DoRequestJwt(new Uri(url), creds))
+            using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(url), creds))
             {
                 var readTask = response.Content.ReadAsStreamAsync();
                 byte[] bytes;

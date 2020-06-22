@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Nexmo.Api.Request;
 
@@ -122,7 +121,7 @@ namespace Nexmo.Api
             /// </summary>
             public string type { get; set; }
             /// <summary>
-            /// The SMS body. Messages where type is text (the default) are in UTF-8 with URL encoding. You send "Déjà vu" as a text (type=text) message as long as you encode it as D%C3%A9j%C3%A0+vu. You can see the full UTF-8 character set here  . To test if your message can be URL encoded, use: http://www.url-encode-decode.com/  . If you cannot find the character you want to send in these two references, you should use unicode. For more information, see Encoding.
+            /// The SMS body. Messages where type is text (the default) are in UTF-8 with URL encoding. You send "DÃ©jÃ  vu" as a text (type=text) message as long as you encode it as D%C3%A9j%C3%A0+vu. You can see the full UTF-8 character set here  . To test if your message can be URL encoded, use: http://www.url-encode-decode.com/  . If you cannot find the character you want to send in these two references, you should use unicode. For more information, see Encoding.
             /// </summary>
             public string text { get; set; }
             /// <summary>
@@ -270,7 +269,7 @@ namespace Nexmo.Api
             /// </summary>
             public string scts { get; set; }
             /// <summary>
-            /// The time at UTC±00:00 when Nexmo started to push this Delivery Receipt to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
+            /// The time at UTCÂ±00:00 when Nexmo started to push this Delivery Receipt to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
             /// </summary>
             [JsonProperty("message-timestamp")]
             public DateTime message_timestamp { get; set; }
@@ -278,7 +277,7 @@ namespace Nexmo.Api
             /// The client-ref you set in the request.
             /// </summary>
             [JsonProperty("client-ref")]
-            public string client_ref { get; set; }            
+            public string client_ref { get; set; }
         }
 
         public class SMSInbound
@@ -303,7 +302,7 @@ namespace Nexmo.Api
             /// </summary>
             public string messageId { get; set; }
             /// <summary>
-            /// The time at UTC±00:00  that Nexmo started to push this inbound message to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
+            /// The time at UTCÂ±00:00  that Nexmo started to push this inbound message to your webhook endpoint. The message-timestamp is in the following format YYYY-MM-DD HH:MM:SS. For example, 2020-01-01 12:00:00.
             /// </summary>
             [JsonProperty("message-timestamp")]
             public string message_timestamp { get; set; }
@@ -370,7 +369,7 @@ namespace Nexmo.Api
             /// </summary>
             /// <param name="query"></param>
             /// <returns></returns>
-            public static string ConstructSignatureStringFromDictionary(IDictionary<string,string> query)
+            public static string ConstructSignatureStringFromDictionary(IDictionary<string, string> query)
             {
                 try
                 {
@@ -402,6 +401,7 @@ namespace Nexmo.Api
         /// </summary>
         /// <param name="request">The SMS message request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="SmsResponseException">Thrown when the status of a message is non-zero or response is empty</exception>
         /// <returns></returns>
         public static SMSResponse Send(SMSRequest request, Credentials creds = null)
         {
@@ -409,10 +409,30 @@ namespace Nexmo.Api
             {
                 request.from = Configuration.Instance.Settings["Nexmo.sender_id"];
             }
-
-            var response = ApiRequest.DoPostRequest(ApiRequest.GetBaseUriFor(typeof(SMSResponse), "/sms/json"), request, creds);
-
-            return JsonConvert.DeserializeObject<SMSResponse>(response.JsonResponse);
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<SMSResponse>(ApiRequest.GetBaseUriFor(typeof(SMSResponse), "/sms/json"), request, creds);
+            ValidateSmsResponse(response);
+            return response;
         }
+
+        /// <summary>
+        /// Validates the SMS Response, throws an exception if status is non-zero
+        /// </summary>
+        /// <param name="response"></param>
+        /// <exception cref="SmsResponseException">thrown if status of SMS response is non-zero</exception>
+        public static void ValidateSmsResponse(SMSResponse response)
+        {
+            if (response?.messages == null)
+            {
+                throw new SmsResponseException("Unexpected Response from SMS API");
+            }
+            if (response?.messages[0].status != "0")
+            {
+                throw new SmsResponseException($"SMS Request Failed with status: {response.messages[0].status} and error message: {response.messages[0].error_text}");
+            }
+        }
+    }
+    public class SmsResponseException : Exception
+    {
+        public SmsResponseException(string message) : base(message) { }
     }
 }

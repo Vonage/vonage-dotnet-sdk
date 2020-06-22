@@ -1,7 +1,9 @@
-﻿using Nexmo.Api.Request;
+﻿using System;
+using Nexmo.Api.Request;
 
 namespace Nexmo.Api.ClientMethods
 {
+    [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
     public class Number
     {
         public Credentials Credentials { get; set; }
@@ -10,6 +12,13 @@ namespace Nexmo.Api.ClientMethods
             Credentials = creds;
         }
 
+        /// <summary>
+        /// List Numbers available in your account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Api.Number.SearchResults ListOwnNumbers(Api.Number.SearchRequest request, Credentials creds = null)
         {
             return Api.Number.ListOwnNumbers(request, creds ?? Credentials);
@@ -21,6 +30,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="request">Search filter</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public Api.Number.SearchResults Search(Api.Number.SearchRequest request, Credentials creds = null)
         {
             return Api.Number.Search(request, creds ?? Credentials);
@@ -33,6 +43,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="number">Number to rent</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public ResponseBase Buy(string country, string number, Credentials creds = null)
         {
             return Api.Number.Buy(country, number, creds ?? Credentials);
@@ -44,6 +55,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="cmd">Update request</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public ResponseBase Update(Api.Number.NumberUpdateCommand cmd, Credentials creds = null)
         {
             return Api.Number.Update(cmd, creds ?? Credentials);
@@ -56,6 +68,7 @@ namespace Nexmo.Api.ClientMethods
         /// <param name="number">The number to cancel</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public ResponseBase Cancel(string country, string number, Credentials creds = null)
         {
             return Api.Number.Cancel(country, number, creds ?? Credentials);

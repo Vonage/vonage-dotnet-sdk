@@ -1,13 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using Newtonsoft.Json;
 using Nexmo.Api.Voice.Nccos;
 
 namespace Nexmo.Api.Test.Unit
-{
-    [TestClass]
+{    
     public class StreamActionTest
     {
-        [TestMethod]
+        [Fact]
         public void TestStreamUrl()
         {
             //Arrange
@@ -17,7 +16,7 @@ namespace Nexmo.Api.Test.Unit
             var serialized = JsonConvert.SerializeObject(action, Formatting.None,
                 new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             //Assert
-            Assert.AreEqual(expected, serialized);
+            Assert.Equal(expected, serialized);
         }
     }
 }

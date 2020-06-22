@@ -3,6 +3,7 @@ Nexmo Client Library for C#/.NET
 
 [![](http://img.shields.io/nuget/v/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
 [![Build status](https://ci.appveyor.com/api/projects/status/qy0rkyi084vgjmir/branch/master?svg=true)](https://ci.appveyor.com/project/slorello89/nexmo-dotnet/branch/master)
+[![codecov](https://codecov.io/gh/Nexmo/nexmo-dotnet/branch/master/graph/badge.svg)](https://codecov.io/gh/Nexmo/nexmo-dotnet)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
@@ -16,15 +17,15 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
  * [Coverage](#api-coverage)
  * [Contributing](#contributing)
 
-Installation:
--------------
+## Installation
+
 To use the client library you'll need to have [created a Nexmo account][signup].
 
 To install the C# client library using NuGet:
 
 * Run the following command in the Package Manager Console:
 
-```
+```shell
     Install-Package Nexmo.Csharp.Client
 ```
 
@@ -35,14 +36,13 @@ Alternatively:
 either including them with your project's NuGet dependencies or manually referencing them.
 * Reference the assembly in your code.
 
-Targeted frameworks:
---------------
+## Targeted frameworks
+
 
 * 4.5.2
 > NOTE: for 4.5.2 frameworks you will need to enable TLS 1.2 either via [registry](https://docs.microsoft.com/en-us/dotnet/framework/network-programming/tls#for-net-framework-35---452-and-not-wcf) or by setting it globablly - `System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;`
-* 4.6, 4.6.1, 4.6.2
-* .NET Standard 1.6, 2.0
-* .NET Core 2.0, 2.1, 2.2, 3.0, 3.1
+* 4.6
+* .NET Standard 2.0 - supports everything 4.6.1 and above
 
 Configuration:
 --------------
@@ -52,21 +52,22 @@ To setup the configuration of the Nexmo Client you can do one of the following.
 * Create a Nexmo Client instance and pass in credentials in the constructor - this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id)
 
 ```csharp
-var client = new Client(creds: new Nexmo.Api.Request.Credentials
-                {
-                    ApiKey = "NEXMO-API-KEY",
-                    ApiSecret = "NEXMO-API-SECRET"
-                });
+var credentials = Credentials.FromApiKeyAndSecret(
+    NEXMO_API_KEY,
+    NEXMO_API_SECRET
+    );
+
+var nexmoClient = new NexmoClient(credentials);
 ```
 
 ```csharp
 var results = client.SMS.Send(request: new SMS.SMSRequest
-                {
- 
-                    from = NEXMO_NUMBER,
-                    to = TO_NUMBER,
-                    text = "Hello, I'm an SMS sent to you using Nexmo"
-                });
+var response = nexmoClient.SmsClient.SendAnSms(new Nexmo.Api.Messaging.SendSmsRequest()
+{
+    To = TO_NUMBER,
+    From = NEXMO_BRAND_NAME,
+    Text = "A text message sent using the Nexmo SMS API"
+});
 ```
 
 Or
@@ -80,8 +81,7 @@ Or
     "Nexmo.Url.Rest": "https://rest.nexmo.com",
     "Nexmo.Url.Api": "https://api.nexmo.com",
     "Nexmo.api_key": "NEXMO-API-KEY",
-    "Nexmo.api_secret": "NEXMO-API-SECRET",
-    
+    "Nexmo.api_secret": "NEXMO-API-SECRET",    
     "Nexmo.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
     "Nexmo.Application.Key": "NEXMO_APPLICATION_PRIVATE_KEY"
   }
@@ -114,12 +114,30 @@ Nexmo.signing_method | Optional. This is the method used for signing SMS message
 Nexmo.Url.Rest | Optional. Nexmo REST API base URL. Defaults to https://rest.nexmo.com
 Nexmo.Url.Api | Optional. Nexmo API base URL. Defaults to https://api.nexmo.com
 Nexmo.Api.RequestsPerSecond | Optional. Throttle to specified requests per second.
-Nexmo.Api.EnsureSuccessStatusCode | Optional. Defaults to `false`. If `true`, `EnsureSuccessStatusCode` will be called against each response. If the response has a failure HTTP status code, a `HttpRequestException` will be thrown.
 Nexmo.UserAgent | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`
 
 ### Logging
 
-#### 3.1.x+
+#### v5.0.0 +
+
+The Library uses Microsoft.Extensions.Logging to preform all of it's logging tasks. To configure logging for you app simply create a new `ILoggerFactory` and call the `LogProvider.SetLogFactory()` method to tell the Nexmo library how to log. For example, to log to the console with serilog you can do the following:
+
+```csharp
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Nexmo.Api.Logger;
+using Serilog;
+
+var log = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm} [{Level}]: {Message}\n")
+    .CreateLogger();
+var factory = new LoggerFactory();
+factory.AddSerilog(log);
+LogProvider.SetLogFactory(factory);
+```
+
+#### [3.1.x, 5.0.0)
 
 The library makes use of [LibLog](https://github.com/damianh/LibLog/wiki) to facilitate logging.
 
@@ -183,20 +201,19 @@ The following examples show how to:
 
 Use [Nexmo's SMS API][doc_sms] to send an SMS message.
 
-```C#
-var client = new Client(creds: new Nexmo.Api.Request.Credentials
-            {
-                  ApiKey = "NEXMO_API_KEY",
-                  ApiSecret = "NEXMO_API_SECRET"
-            });
-```
+```csharp
+var credentials = Credentials.FromApiKeyAndSecret(
+    NEXMO_API_KEY,
+    NEXMO_API_SECRET
+    );
 
-```C#
-var results = client.SMS.Send(new SMS.SMSRequest
+var nexmoClient = new NexmoClient(credentials);
+
+var response = nexmoClient.SmsClient.SendAnSms(new Nexmo.Api.Messaging.SendSmsRequest()
 {
-    from = NEXMO_NUMBER,
-    to = TO_NUMBER,
-    text = "this is a test"
+    To = TO_NUMBER,
+    From = NEXMO_BRAND_NAME,
+    Text = "A text message sent using the Nexmo SMS API"
 });
 ```
 
@@ -204,10 +221,12 @@ var results = client.SMS.Send(new SMS.SMSRequest
 
 Use [Nexmo's SMS API][doc_sms] to receive an SMS message. Assumes your Nexmo endpoint is configured.
 
-```C#
-public ActionResult Get([FromUri]SMS.SMSInbound response)
+```csharp
+[HttpPost("webhooks/inbound-sms")]
+public IActionResult InboundSms([FromBody]InboundSms sms)
 {
-    return new HttpStatusCodeResult(HttpStatusCode.OK);
+    Console.WriteLine($"SMS Received with message: {sms.Text}");
+    return NoContent();
 }
 ```
 
@@ -215,37 +234,24 @@ public ActionResult Get([FromUri]SMS.SMSInbound response)
 
 Use [Nexmo's SMS API][doc_sms] to receive an SMS delivery receipt. Assumes your Nexmo endpoint is configured.
 
-```C#
-public ActionResult DLR([FromUri]SMS.SMSDeliveryReceipt response)
+```csharp
+[HttpGet("webhooks/delivery-receipt")]
+public IActionResult DeliveryReceipt([FromQuery]DeliveryReceipt dlr)
 {
-    Debug.WriteLine("-------------------------------------------------------------------------");
-    Debug.WriteLine("DELIVERY RECEIPT");
-    Debug.WriteLine("Message ID: " + response.messageId);
-    Debug.WriteLine("From: " + response.msisdn);
-    Debug.WriteLine("To: " + response.to);
-    Debug.WriteLine("Status: " + response.status);
-    Debug.WriteLine("-------------------------------------------------------------------------");
-
-    return new HttpStatusCodeResult(HttpStatusCode.OK);
+    Console.WriteLine($"Delivery receipt received for messages {dlr.MessageId}");
+    return NoContent();
 }
 ```
-
-__NOTE:__ ```[FromUri]``` is deprecated in .NET Core; ```[FromQuery]``` works in this case.
 
 ### Redacting a message
 
 Use [Nexmo's Redact API][doc_redact] to redact a SMS message.
 
-```C#
-var client = new Client(creds: new Nexmo.Api.Request.Credentials
-            {
-                  ApiKey = "NEXMO_API_KEY",
-                  ApiSecret = "NEXMO_API_SECRET"
-            });
-```
-
-```C#
-client.Redact.RedactTransaction(new Redact.RedactRequest(MESSAGE_ID, "sms", "outbound"));
+```csharp
+var credentials = Credentials.FromApiKeyAndSecret(NEXMO_API_KEY, NEXMO_API_SECRET);
+var client = new NexmoClient(credentials);
+var request = new RedactRequest() { Id = NEXMO_REDACT_ID, Type = NEXMO_REDACT_TYPE, Product = NEXMO_REDACT_PRODUCT };
+var response = client.RedactClient.Redact(request);
 ```
 
 ### Initiating a Call
@@ -254,120 +260,63 @@ Use [Nexmo's Voice API][doc_voice] to initiate a voice call.
 
 __NOTE:__ You must have a valid Application ID and private key in order to make voice calls. Use either ```Nexmo.Api.Application``` or Nexmo's Node.js-based [CLI tool](https://github.com/nexmo/nexmo-cli) to register. See the [Application API][doc_app] documentation for details.
 
-```C#
-var client = new Client(creds: new Nexmo.Api.Request.Credentials
-            {
-                ApiKey = "NEXMO_API_KEY",
-                ApiSecret = "NEXMO_API_SECRET",
-                ApplicationId = "NEXMO_APPLICATION_ID",
-                ApplicationKey = "NEXMO_APPLICATION_PRIVATE_KEY"
-            }
+```csharp
+var creds = Credentials.FromAppIdAndPrivateKeyPath(NEXMO_APPLICATION_ID, NEXMO_PRIVATE_KEY_PATH);
+var client = new NexmoClient(creds);
+
+var command = new CallCommand() { To = new Endpoint[] { toEndpoint }, From = fromEndpoint, AnswerUrl=new[] { ANSWER_URL}};
+var response = client.VoiceClient.CreateCall(command);
 ```
 
-```C#
-using Nexmo.Api.Voice;
-
-client.Call.Do(new Call.CallCommand
-{
-    to = new[]
-    {
-        new Call.Endpoint {
-            type = "phone",
-            number = TO_NUMBER
-        }
-    },
-    from = new Call.Endpoint
-    {
-        type = "phone",
-        number = NEXMO_NUMBER
-    },
-    answer_url = new[]
-    {
-        "https://nexmo-community.github.io/ncco-examples/first_call_talk.json"
-    }
-});
-```
 ### Receiving a Call
 
 Use [Nexmo's Voice API][doc_voice] to receive a voice call.
 
-```C#
-var client = new Client(creds: new Nexmo.Api.Request.Credentials
-            {
-                ApiKey = "NEXMO_API_KEY",
-                ApiSecret = "NEXMO_API_SECRET",
-                ApplicationId = "NEXMO_APPLICATION_ID",
-                ApplicationKey = "NEXMO_APPLICATION_PRIVATE_KEY"
-            }
-```
-
-```C#
-using Nexmo.Api.Voice;
-
-public ActionResult GetCall(string id)
+```csharp
+[HttpGet("webhooks/answer")]
+public string Answer()
 {
-    var call = client.Call.Get(id);
-    // Do something with call.
+    var talkAction = new TalkAction()
+    {
+        Text = $"Thank you for calling from " +
+        $"{string.Join(" ", Request.Query["from"].ToString().ToCharArray())}"
+    };
+    var ncco = new Ncco(talkAction);
+    return ncco.ToString();
 }
 ```
+
+### Get Details About a Call
+
+```csharp
+var credentials = Credentials.FromAppIdAndPrivateKeyPath(NEXMO_APPLICATION_ID, NEXMO_PRIVATE_KEY_PATH);
+var client = new NexmoClient(credentials);
+
+var response = client.VoiceClient.GetCall(UUID);
+```
+
 ### Sending 2FA Code
 
 Use [Nexmo's Verify API][doc_verify] to send 2FA pin code.
 
-```C#
-var client = new Client(creds: new Nexmo.Api.Request.Credentials
-            {
-                ApiKey = "NEXMO_API_KEY",
-                ApiSecret = "NEXMO_API_SECRET"
-            }
+```csharp
+var credentials = Credentials.FromApiKeyAndSecret(NEXMO_API_KEY, NEXMO_API_SECRET);
+var client = new NexmoClient(credentials);
+
+var request = new VerifyRequest() { Brand = BRAND_NAME, Number = RECIPIENT_NUMBER };
+var response = client.VerifyClient.VerifyRequest(request);
 ```
 
-```C#
-
-public ActionResult Start(string to)
-{
-    var start = client.NumberVerify.Verify(new NumberVerify.VerifyRequest
-    {
-        number = to,
-        brand = "NexmoQS"
-    });
-    Session["requestID"] = start.request_id;
-
-    return View();
-}
-```
 ### Checking 2FA Code
 
 Use [Nexmo's Verify API][doc_verify] to check 2FA pin code.
 
 ```C#
-var client = new Client(creds: new Nexmo.Api.Request.Credentials
-            {
-                ApiKey = "NEXMO_API_KEY",
-                ApiSecret = "NEXMO_API_SECRET"
-            }
-```
+var credentials = Credentials.FromApiKeyAndSecret(NEXMO_API_KEY, NEXMO_API_SECRET);
+var client = new NexmoClient(credentials);
 
-```C#
-
-public ActionResult Check(string code)
-{
-    var result = client.NumberVerify.Check(new NumberVerify.CheckRequest
-    {
-        request_id = Session["requestID"].ToString(),
-        code = code
-    });
-   
-    if (result.status == "0")
-    {
-        ViewBag.Message = "Verification Sucessful";
-    }
-    else
-    {
-        ViewBag.Message = result.error_text;
-    }
-    return View();
-}
+var request = new VerifyCheckRequest() { Code = CODE, RequestId = REQUEST_ID };
+var response = client.VerifyClient.VerifyCheck(request);
 ```
 
 ### Additional Examples

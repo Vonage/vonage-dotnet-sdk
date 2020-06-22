@@ -8,6 +8,7 @@ using static Nexmo.Api.Redact;
 
 namespace Nexmo.Api.ClientMethods
 {
+    [Obsolete("This item is rendered obsolete by version 5 - please use the new Interfaces provided by the Nexmo.Api.NexmoClient class")]
     public class Redact
     {
         public Credentials Credentials { get; set; }
@@ -17,7 +18,14 @@ namespace Nexmo.Api.ClientMethods
             Credentials = creds;
         }
 
-        public NexmoResponse RedactTransaction (RedactRequest redactRequest, Credentials creds = null)
+        /// <summary>
+        /// Redact information from a Nexmo transaction
+        /// </summary>
+        /// <param name="redactRequest"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        /// <exception cref="NexmoHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        public bool RedactTransaction (RedactRequest redactRequest, Credentials creds = null)
         {
             return Nexmo.Api.Redact.RedactTransaction(redactRequest, creds ?? Credentials);
         }

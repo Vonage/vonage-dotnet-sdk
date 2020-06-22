@@ -50,9 +50,10 @@ namespace Nexmo.Api
         /// <param name="redactRequest"></param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
-        public static NexmoResponse RedactTransaction(RedactRequest redactRequest, Credentials creds = null)
+        public static bool RedactTransaction(RedactRequest redactRequest, Credentials creds = null)
         {
-            return VersionedApiRequest.DoRequest("POST",ApiRequest.GetBaseUriFor(typeof(Redact), "/v1/redact/transaction"), redactRequest, creds);
+            ApiRequest.DoRequestWithJsonContent<object>("POST",ApiRequest.GetBaseUriFor(typeof(Redact), "/v1/redact/transaction"), redactRequest, ApiRequest.AuthType.Basic, creds);
+            return true;
         }
     }
 }

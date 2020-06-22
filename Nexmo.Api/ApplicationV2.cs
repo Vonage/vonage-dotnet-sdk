@@ -137,8 +137,8 @@ namespace Nexmo.Api
 
     public class AppListFilter
     {
-        public int page_size { get; set; }
-        public int page { get; set; }
+        public int? page_size { get; set; }
+        public int? page { get; set; }
     }
 
     public class AppResponse
@@ -181,9 +181,7 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Create(AppRequest request, Credentials credentials = null)
         {
-            var response = VersionedApiRequest.DoRequest("POST",ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, credentials);
-
-            return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
+            return ApiRequest.DoRequestWithJsonContent<AppResponse>("POST",ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), request, ApiRequest.AuthType.Basic,  credentials);            
         }
 
         /// <summary>
@@ -194,28 +192,22 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Get(string appId, Credentials credentials = null)
         {
-            var response = ApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), credentials);
-            return JsonConvert.DeserializeObject<AppResponse>(response);
+            return ApiRequest.DoGetRequestWithQueryParameters<AppResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), $"/v2/applications/{appId}"), ApiRequest.AuthType.Basic, credentials:credentials);
         }
        
         /// <summary>
         /// List all of the applications associated with this account
         /// </summary>
         /// <param name="pageSize">Set the number of items returned on each call to this endpoint. The default is 10 records.</param>
-        /// <param name="page">Set the offset from the first page. The default value is 0, calls to this endpoint return a page of <page_size>. For example, set page_index to 3 to retrieve items 31 - 40 when page_size is the default value.</param>
+        /// <param name="page">Set the offset from the first page. The default value is 0, calls to this endpoint return a page of page_size. For example, set page_index to 3 to retrieve items 31 - 40 when page_size is the default value.</param>
         /// <param name="AppId">Optional id of specific application to retrieve</param>
         /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         public static List<AppResponse> List(int pageSize = 10, int page = 0,  Credentials credentials = null)
         {
             var filter = new AppListFilter() { page = page, page_size = pageSize };
-            var response = VersionedApiRequest.DoRequest(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), filter, VersionedApiRequest.AuthType.Basic, credentials);
-            return JsonConvert.DeserializeObject<AppListResponse>(response)._embedded.Applications;
-        }
-
-        public static List<AppResponse> List()
-        {
-            return List(10, 0);
+            return ApiRequest.DoGetRequestWithQueryParameters<AppListResponse>(ApiRequest.GetBaseUriFor(typeof(ApplicationV2), "/v2/applications"), ApiRequest.AuthType.Basic, filter, credentials)._embedded.Applications;
+            
         }
 
         /// <summary>
@@ -227,10 +219,8 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static AppResponse Update(AppRequest request, Credentials credentials = null)
         {
-            var response = VersionedApiRequest.DoRequest("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
-                $"/v2/applications/{request.Id}"), request, credentials);
-
-            return JsonConvert.DeserializeObject<AppResponse>(response.JsonResponse);
+            return ApiRequest.DoRequestWithJsonContent<AppResponse>("PUT",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+                $"/v2/applications/{request.Id}"), request, ApiRequest.AuthType.Basic, credentials);
         }
 
         /// <summary>
@@ -241,10 +231,9 @@ namespace Nexmo.Api
         /// <returns></returns>
         public static bool Delete(string appId, Credentials credentials = null)
         {
-            var response = VersionedApiRequest.DoRequest("DELETE",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
-                $"/v2/applications/{appId}"), null, credentials);
-
-            return response.Status == HttpStatusCode.NoContent;
+            ApiRequest.DoRequestWithJsonContent<object>("DELETE",ApiRequest.GetBaseUriFor(typeof(ApplicationV2),
+                $"/v2/applications/{appId}"), null, ApiRequest.AuthType.Basic, credentials);
+            return true;
         }
     }
 }
