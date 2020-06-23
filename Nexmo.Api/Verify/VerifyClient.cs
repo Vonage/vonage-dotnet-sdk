@@ -56,7 +56,7 @@ namespace Nexmo.Api.Verify
         public VerifyResponse VerifyRequestWithPSD2(Psd2Request request, Credentials creds)
         {
             var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/psd2/json"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
                 request,
                 creds ?? Credentials
             );
