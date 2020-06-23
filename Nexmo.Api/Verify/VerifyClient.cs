@@ -53,6 +53,17 @@ namespace Nexmo.Api.Verify
             return response;
         }
 
+        public VerifyResponse VerifyRequestWithPSD2(Psd2Request request, Credentials creds)
+        {
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/psd2/json"),
+                request,
+                creds ?? Credentials
+            );
+            ValidateVerifyResponse(response);
+            return response;
+        }
+
         public void ValidateVerifyResponse(VerifyResponseBase response)
         {
             if (response.Status != "0")
