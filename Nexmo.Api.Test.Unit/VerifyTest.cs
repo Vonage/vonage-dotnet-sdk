@@ -236,7 +236,7 @@ namespace Nexmo.Api.Test.Unit
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
               ""status"": ""0""
             }";
-            var expectedUri = $"{ApiUrl}/psd2/json";
+            var expectedUri = $"{ApiUrl}/verify/psd2/json";
 
             string expectedRequestContent;
             Psd2Request request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
