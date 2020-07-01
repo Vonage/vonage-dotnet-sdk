@@ -25,7 +25,7 @@ namespace Nexmo.Api.Test.Unit
             VerifyRequest request = new VerifyRequest { Number= "447700900000", Brand="Acme Inc"};
             if (kitchenSink)
             {
-                expectedRequestContent = $"number=447700900000&country=GB&brand={HttpUtility.UrlEncode("Acme Inc")}&sender_id=ACME&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&workflow_id=1&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&sender_id=ACME&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={ApiKey}&api_secret={ApiSecret}&";
                 request.Country = "GB";
                 request.SenderId = "ACME";
                 request.CodeLength = 4;
@@ -36,7 +36,7 @@ namespace Nexmo.Api.Test.Unit
             }
             else 
             {
-                expectedRequestContent = $"number=447700900000&brand={HttpUtility.UrlEncode("Acme Inc")}&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&number=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
             }
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
@@ -225,6 +225,51 @@ namespace Nexmo.Api.Test.Unit
                 Assert.Equal("4", ex.Response.Status);
                 Assert.Equal("invalid credentials", ex.Response.ErrorText);
             }            
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void Psd2Verification(bool passCreds, bool kitchenSink)
+        {
+            var expectedResponse = @"{
+              ""request_id"": ""abcdef0123456789abcdef0123456789"",
+              ""status"": ""0""
+            }";
+            var expectedUri = $"{ApiUrl}/verify/psd2/json";
+
+            string expectedRequestContent;
+            Psd2Request request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
+            if (kitchenSink)
+            {
+                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={ApiKey}&api_secret={ApiSecret}&";
+                request.Country = "GB";
+                request.CodeLength = 4;
+                request.Lg = "en-us";
+                request.PinExpiry = 240;
+                request.NextEventWait = 60;
+                request.WorkflowId = Psd2Request.Workflow.SMS_TTS_TTS;
+            }
+            else
+            {
+                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&number=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
+            }
+
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new NexmoClient(creds);
+            VerifyResponse response;
+            if (passCreds)
+            {
+                response = client.VerifyClient.VerifyRequestWithPSD2(request, creds);
+            }
+            else
+            {
+                response = client.VerifyClient.VerifyRequestWithPSD2(request);
+            }
+
+            Assert.Equal("abcdef0123456789abcdef0123456789", response.RequestId);
+            Assert.Equal("0", response.Status);
         }
     }
 }

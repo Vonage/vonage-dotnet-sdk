@@ -34,6 +34,17 @@ namespace Nexmo.Api.Verify
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null);        
+        VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null);
+
+        /// <summary>
+        /// Use Verify request to generate and send a PIN to your user to authorize a payment: 
+        /// 1. Create a request to send a verification code to your user. 
+        /// 2. Check the status field in the response to ensure that your request was successful (zero is success). 
+        /// 3. Use the request_id field in the response for the Verify check.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        VerifyResponse VerifyRequestWithPSD2(Psd2Request request, Credentials creds = null);
     }
 }
