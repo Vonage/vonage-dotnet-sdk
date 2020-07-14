@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Nexmo.Api.Messaging;
+using System.Net;
 
 namespace Nexmo.Api.Utility
 {
@@ -139,7 +140,7 @@ namespace Nexmo.Api.Utility
             foreach (var param in split_parameters)
             {
                 var split = param.Split('=');
-                content_dictonary.Add(split[0], split[1]);
+                content_dictonary.Add(split[0], WebUtility.UrlDecode(split[1]));
             }
             var json = JsonConvert.SerializeObject(content_dictonary);
             return JsonConvert.DeserializeObject<T>(json);

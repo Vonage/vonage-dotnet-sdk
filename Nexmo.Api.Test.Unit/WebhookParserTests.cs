@@ -22,18 +22,18 @@ namespace Nexmo.Api.Test.Unit
             string contentString = "";
             if(contentType == "application/x-www-form-urlencoded; charset=UTF-8")
             {
-                contentString = "foo-bar=foo";
+                contentString = "foo-bar=foo%20bar";
             }
             else
             {
-                contentString = "{\"foo-bar\":\"foo\"}";
+                contentString = "{\"foo-bar\":\"foo bar\"}";
             }
             byte[] contentToBytes = Encoding.UTF8.GetBytes(contentString);
             MemoryStream stream = new MemoryStream(contentToBytes);
             try
             {
                 var output = Utility.WebhookParser.ParseWebhook<Foo>(stream, contentType);
-                Assert.Equal("foo", output.FooBar);
+                Assert.Equal("foo bar", output.FooBar);
             }
             catch (Exception)
             {
@@ -51,11 +51,11 @@ namespace Nexmo.Api.Test.Unit
             string contentString = "";
             if (contentType == "application/x-www-form-urlencoded")
             {
-                contentString = "foo-bar=foo";
+                contentString = "foo-bar=foo%20bar";
             }
             else
             {
-                contentString = "{\"foo-bar\":\"foo\"}";
+                contentString = "{\"foo-bar\":\"foo bar\"}";
             }
             byte[] contentToBytes = Encoding.UTF8.GetBytes(contentString);            
             var request = new HttpRequestMessage();
@@ -64,13 +64,26 @@ namespace Nexmo.Api.Test.Unit
             try
             {
                 var output = Utility.WebhookParser.ParseWebhook<Foo>(request);
-                Assert.Equal("foo", output.FooBar);
+                Assert.Equal("foo bar", output.FooBar);
             }
             catch (Exception)
             {
                 if (contentType != "application/trash")
                     throw;
             }
+        }
+
+        [Fact]
+        public void TestParseHttpRequestContentWithBadlyEscapedUrl()
+        {
+            var contentType = "application/x-www-form-urlencoded";
+            var contentString = "foo-bar=foo bar";
+            byte[] contentToBytes = Encoding.UTF8.GetBytes(contentString);
+            var request = new HttpRequestMessage();
+            request.Content = new ByteArrayContent(contentToBytes);
+            request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+            var output = Utility.WebhookParser.ParseWebhook<Foo>(request);
+            Assert.Equal("foo bar", output.FooBar);
         }
 
         [Fact]
