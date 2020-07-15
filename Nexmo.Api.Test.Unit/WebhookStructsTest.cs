@@ -189,7 +189,7 @@ namespace Nexmo.Api.Test.Unit
         }
 
         [Fact]
-        public void TestInput()
+        public void TestInputOld()
         {
             var json = @"
                 {
@@ -211,7 +211,60 @@ namespace Nexmo.Api.Test.Unit
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.ConversationUuid);                   
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                        DateTimeStyles.AdjustToUniversal), (inputWebhook.TimeStamp));
+        }
 
+        [Fact]
+        public void TestSpeechMultiInputStruct()
+        {
+            var json = @"
+                {
+                    ""from"":""442079460000"",
+                    ""to"":""447700900000"",
+                    ""uuid"":""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""conversation_uuid"":""CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""speech"":{""results"":[{""text"":""hello world"",""confidence"":"".91""}], ""error"":""foo"", ""timeout_reason"":""bar""},
+                    ""timed_out"":""true"",
+                    ""timestamp"":""2020-01-01T12:00:00.000Z""
+                }";
+
+            var inputWebhook = (MultiInput)EventBase.ParseEvent(json);
+
+            Assert.Equal("442079460000", inputWebhook.From);
+            Assert.Equal("447700900000", inputWebhook.To);
+            Assert.Equal("hello world", inputWebhook.Speech.SpeechResults[0].Text);
+            Assert.Equal(".91", inputWebhook.Speech.SpeechResults[0].Confidence);
+            Assert.Equal("foo", inputWebhook.Speech.Error);
+            Assert.Equal("bar", inputWebhook.Speech.TimeoutReason);
+            Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.Uuid);
+            Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.ConversationUuid);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                       DateTimeStyles.AdjustToUniversal), (inputWebhook.TimeStamp));
+        }
+
+        [Fact]
+        public void TestDtmfMultiInputStruct()
+        {
+            var json = @"
+                {
+                    ""from"":""442079460000"",
+                    ""to"":""447700900000"",
+                    ""uuid"":""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""conversation_uuid"":""CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""dtmf"":{""digits"":""42"",""timed_out"":false},
+                    ""timed_out"":""true"",
+                    ""timestamp"":""2020-01-01T12:00:00.000Z""
+                }";
+
+            var inputWebhook = (MultiInput)EventBase.ParseEvent(json);
+
+            Assert.Equal("442079460000", inputWebhook.From);
+            Assert.Equal("447700900000", inputWebhook.To);
+            Assert.Equal("42", inputWebhook.Dtmf.Digits);
+            Assert.False( inputWebhook.Dtmf.TimedOut);
+            Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.Uuid);
+            Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.ConversationUuid);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                       DateTimeStyles.AdjustToUniversal), (inputWebhook.TimeStamp));
         }
 
         [Fact]
