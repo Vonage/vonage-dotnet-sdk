@@ -221,12 +221,55 @@ var response = nexmoClient.SmsClient.SendAnSms(new Nexmo.Api.Messaging.SendSmsRe
 
 Use [Nexmo's SMS API][doc_sms] to receive an SMS message. Assumes your Nexmo endpoint is configured.
 
+The best method for receiving an SMS will vary depending on whether you configure your webhooks to be GET or POST. Will Also Vary between ASP.NET MVC and ASP.NET MVC Core.
+
+#### ASP.NET MVC Core
+
+##### GET
+
+```csharp
+[HttpGet("webhooks/inbound-sms")]
+public async Task<IActionResult> InboundSmsGet()
+{
+    var inbound = Nexmo.Api.Utility.WebhookParser.ParseQuery<InboundSms>(Request.Query);
+    return NoContent();
+}
+```
+
+##### POST
+
 ```csharp
 [HttpPost("webhooks/inbound-sms")]
-public IActionResult InboundSms([FromBody]InboundSms sms)
+public async Task<IActionResult> InboundSms()
 {
-    Console.WriteLine($"SMS Received with message: {sms.Text}");
+    var inbound = await Nexmo.Api.Utility.WebhookParser.ParseWebhookAsync<InboundSms>(Request.Body, Request.ContentType);
     return NoContent();
+}
+```
+
+#### ASP.NET MVC
+
+##### GET
+
+```csharp
+[HttpGet]
+[Route("webhooks/inbound-sms")]
+public async Task<HttpResponseMessage> GetInbound()
+{
+    var inboundSms = WebhookParser.ParseQueryNameValuePairs<InboundSms>(Request.GetQueryNameValuePairs());
+    return new HttpResponseMessage(HttpStatusCode.NoContent);
+}
+```
+
+##### POST
+
+```csharp
+[HttpPost]
+[Route("webhooks/inbound-sms")]
+public async Task<HttpResponseMessage> PostInbound()
+{
+    var inboundSms = WebhookParser.ParseWebhook<InboundSms>(Request);
+    return new HttpResponseMessage(HttpStatusCode.NoContent);
 }
 ```
 
@@ -234,12 +277,55 @@ public IActionResult InboundSms([FromBody]InboundSms sms)
 
 Use [Nexmo's SMS API][doc_sms] to receive an SMS delivery receipt. Assumes your Nexmo endpoint is configured.
 
+The best method for receiving an SMS will vary depending on whether you configure your webhooks to be GET or POST. Will Also Vary between ASP.NET MVC and ASP.NET MVC Core.
+
+#### ASP.NET MVC Core
+
+##### GET
+
 ```csharp
-[HttpGet("webhooks/delivery-receipt")]
-public IActionResult DeliveryReceipt([FromQuery]DeliveryReceipt dlr)
+[HttpGet("webhooks/dlr")]
+public async Task<IActionResult> InboundSmsGet()
 {
-    Console.WriteLine($"Delivery receipt received for messages {dlr.MessageId}");
+    var dlr = Nexmo.Api.Utility.WebhookParser.ParseQuery<DeliveryReceipt>(Request.Query);
     return NoContent();
+}
+```
+
+##### POST
+
+```csharp
+[HttpPost("webhooks/dlr")]
+public async Task<IActionResult> InboundSms()
+{
+    var dlr = await Nexmo.Api.Utility.WebhookParser.ParseWebhookAsync<DeliveryReceipt>(Request.Body, Request.ContentType);
+    return NoContent();
+}
+```
+
+#### ASP.NET MVC
+
+##### GET
+
+```csharp
+[HttpGet]
+[Route("webhooks/dlr")]
+public async Task<HttpResponseMessage> GetInbound()
+{
+    var dlr = WebhookParser.ParseQueryNameValuePairs<DeliveryReceipt>(Request.GetQueryNameValuePairs());
+    return new HttpResponseMessage(HttpStatusCode.NoContent);
+}
+```
+
+##### POST
+
+```csharp
+[HttpPost]
+[Route("webhooks/dlr")]
+public async Task<HttpResponseMessage> PostInbound()
+{
+    var dlr = WebhookParser.ParseWebhook<DeliveryReceipt>(Request);
+    return new HttpResponseMessage(HttpStatusCode.NoContent);
 }
 ```
 
