@@ -95,9 +95,20 @@ namespace Nexmo.Api.Voice.EventWebhooks
             {
                 return JsonConvert.DeserializeObject<Transfer>(json, settings);
             }
+            else if (speechProperty != null)
+            {
+                return JsonConvert.DeserializeObject<MultiInput>(json, settings);
+            }
             else if (dtmfProperty != null)
             {
-                return JsonConvert.DeserializeObject<Input>(json, settings);
+                if (data["dtmf"].Type == JTokenType.String)
+                {
+                    return JsonConvert.DeserializeObject<Input>(json, settings);
+                }
+                else
+                {
+                    return JsonConvert.DeserializeObject<MultiInput>(json, settings);
+                }
             }
             else if (recordingUrlProperty != null)
             {
