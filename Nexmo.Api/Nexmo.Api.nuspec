@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Nexmo.Csharp.Client</id>
-    <version>5.2.0</version>
+    <version>5.2.1</version>
     <title>Nexmo API Client</title>
     <authors>Nexmo</authors>
     <owners>Nexmo</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Nexmo API</description>
     <releaseNotes>
-https://github.com/Nexmo/nexmo-dotnet/releases/tag/v5.2.0
+https://github.com/Nexmo/nexmo-dotnet/releases/tag/v5.2.1
     </releaseNotes>
     <copyright>© Nexmo 2020</copyright>
     <tags>SMS voice telephony phone nexmo vonage</tags>
