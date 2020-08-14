@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Nexmo.Api.Applications;
-using Nexmo.Api.Applications.Capabilities;
+using Vonage.Applications;
+using Vonage.Applications.Capabilities;
 using Xunit;
 
-namespace Nexmo.Api.Test.Unit
+namespace Vonage.Test.Unit
 {
     public class ApplicationTests : TestBase
     {
@@ -96,8 +96,8 @@ namespace Nexmo.Api.Test.Unit
                 PublicKey = PUBLIC_KEY
             };
             var request = new CreateApplicationRequest { Capabilities = capabilities, Keys = keys, Name = "My Application" };
-            var creds = Nexmo.Api.Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new NexmoClient(creds);
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new VonageClient(creds);
             Application response;
             if (passCreds)
             {
@@ -213,7 +213,7 @@ namespace Nexmo.Api.Test.Unit
             };
             var application = new CreateApplicationRequest { Capabilities = capabilities, Keys = keys, Name = "My Application" };
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new NexmoClient(creds);
+            var client = new VonageClient(creds);
             Application response;
             if (passCredentials)
             {
@@ -321,7 +321,7 @@ namespace Nexmo.Api.Test.Unit
 
             //Act
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new NexmoClient(creds);
+            var client = new VonageClient(creds);
             
             
             ApplicationPage applications;
@@ -421,7 +421,7 @@ namespace Nexmo.Api.Test.Unit
             Setup(expectedUri, expectedResponse);
 
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new NexmoClient(creds);
+            var client = new VonageClient(creds);
             Application application;
             if (passCreds)
             {
@@ -464,7 +464,7 @@ namespace Nexmo.Api.Test.Unit
             string expectedResponse = "";
             Setup(uri, expectedResponse);
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new NexmoClient(creds);
+            var client = new VonageClient(creds);
             bool result;
             if(passCreds)
             {
