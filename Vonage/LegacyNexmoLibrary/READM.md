@@ -1,0 +1,1 @@
+﻿These classes are a port over from the legacy Nexmo SDK to allow a seamless upgrade to the newly named Vonage SDK. These classes are to be removed in their entirity in the next major release of the SDK.
