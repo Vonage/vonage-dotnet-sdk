@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Jose;
+using Vonage;
 
 namespace Nexmo.Api
 {
