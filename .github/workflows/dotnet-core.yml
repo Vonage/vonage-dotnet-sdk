@@ -27,7 +27,7 @@ jobs:
     - name: Test
       run: |          
         dotnet test --no-restore
-        echo "workspace = $GITHUB_WORKSPACE"
-        OpenCover.Console.exe -register:users -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test  $GITHUB_WORKSPACE\vonage.sln -f netcoreapp3.0" -output:".\Vonage-Dotnet-coverage.xml"
+        echo "workspace = $Env:GITHUB_WORKSPACE"
+        OpenCover.Console.exe -register:users -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test  $Env:GITHUB_WORKSPACE\vonage.sln -f netcoreapp3.0" -output:".\Vonage-Dotnet-coverage.xml"
         codecov -f "Vonage-Dotnet-coverage.xml"
     # - uses: codecov/codecov-action@v1
