@@ -4,6 +4,7 @@ using Nexmo.Api.Request;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Vonage.Request;
 
 namespace Nexmo.Api
 {
