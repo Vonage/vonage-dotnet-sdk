@@ -29,4 +29,4 @@ jobs:
         dotnet test --no-restore                      
         OpenCover.Console.exe -register:users -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test c:\projects\vonage-dotnet\vonage.sln -f netcoreapp3.0" -output:".\Vonage-Dotnet-coverage.xml"
         codecov -f "Vonage-Dotnet-coverage.xml"
-    - uses: codecov/codecov-action@v1
+    # - uses: codecov/codecov-action@v1
