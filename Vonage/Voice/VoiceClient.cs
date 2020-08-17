@@ -149,7 +149,7 @@ namespace Vonage.Voice
         {
             return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
                 DELETE,
-                ApiRequest.GetBaseUriFor(typeof(Call), $"{CALLS_ENDPOINT}/{id}/talk"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
                 new { },
                 ApiRequest.AuthType.Bearer,
                 creds ?? Credentials

@@ -18,12 +18,12 @@ namespace Vonage.Test.Unit
         public void TestWebhookEndpoint()
         {
             var expected = "{\"type\":\"websocket\",\"uri\":\"wss://www.example.com/ws\",\"content-type\":\"audio/l16;rate=16000\",\"headers\":{\"Bar\":\"bar\"}}";
-            var websocketEndpoint = new Call.Endpoint
+            var websocketEndpoint = new CallEndpoint
             {
-                type = "websocket",
-                uri = "wss://www.example.com/ws",
-                headers = new Foo { Bar = "bar" },
-                contentType = "audio/l16;rate=16000"
+                Type = "websocket",
+                Uri = "wss://www.example.com/ws",
+                Headers = new Foo { Bar = "bar" },
+                ContentType = "audio/l16;rate=16000"
             };
             string json = JsonConvert.SerializeObject(websocketEndpoint,
                 Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });    
