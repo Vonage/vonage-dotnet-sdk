@@ -12,8 +12,7 @@ jobs:
     runs-on: windows-latest
 
     steps:        
-    - uses: actions/checkout@v2    
-    - run: echo "workspace = $Env:GITHUB_WORKSPACE"
+    - uses: actions/checkout@v2        
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -29,5 +28,4 @@ jobs:
       run: |          
         dotnet test --no-restore
         OpenCover.Console.exe -register:users -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test  $Env:GITHUB_WORKSPACE\vonage.sln -f netcoreapp3.0" -output:".\Vonage-Dotnet-coverage.xml"
-        codecov -f "Vonage-Dotnet-coverage.xml"
-    # - uses: codecov/codecov-action@v1
+        codecov -f "Vonage-Dotnet-coverage.xml"    
