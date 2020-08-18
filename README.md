@@ -2,7 +2,7 @@ Vonage Client Library for .NET
 ===================================
 
 [![](http://img.shields.io/nuget/v/Nexmo.Csharp.Client.svg?style=flat-square)](http://www.nuget.org/packages/Nexmo.Csharp.Client)
-[![Build status](https://ci.appveyor.com/api/projects/status/qy0rkyi084vgjmir/branch/master?svg=true)](https://ci.appveyor.com/project/slorello89/nexmo-dotnet/branch/master)
+[!![Build Status](https://github.com/Nexmo/nexmo-dotnet/workflows/.NET%20Core/badge.svg)](https://github.com/Nexmo/nexmo-dotnet/actions?query=workflow%3A%22.NET+Core%22)
 [![codecov](https://codecov.io/gh/Nexmo/nexmo-dotnet/branch/master/graph/badge.svg)](https://codecov.io/gh/Nexmo/nexmo-dotnet)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
