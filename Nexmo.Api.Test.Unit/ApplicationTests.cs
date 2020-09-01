@@ -96,7 +96,7 @@ namespace Nexmo.Api.Test.Unit
                 PublicKey = PUBLIC_KEY
             };
             var request = new CreateApplicationRequest { Capabilities = capabilities, Keys = keys, Name = "My Application" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Nexmo.Api.Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new NexmoClient(creds);
             Application response;
             if (passCreds)
