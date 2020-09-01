@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Vonage</id>
-    <version>5.2.0</version>
+    <version>5.3.0</version>
     <title>Vonage API Client</title>
     <authors>Vonage</authors>
     <owners>Vonage</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Official C#/.NET wrapper for the Vonage API</description>
     <releaseNotes>
-https://github.com/Vonage/vonage-dotnet/releases/tag/v5.2.0
+https://github.com/Vonage/vonage-dotnet/releases/tag/v5.3.0
     </releaseNotes>
     <copyright>© Vonage 2020</copyright>
     <tags>SMS voice telephony phone nexmo vonage</tags>
