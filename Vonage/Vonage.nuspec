@@ -6,7 +6,7 @@
     <title>Vonage API Client</title>
     <authors>Vonage</authors>
     <owners>Vonage</owners>
-    <licenseUrl>https://github.com/Vonage/vonage-dotnet/blob/master/LICENSE.md</licenseUrl>
+    <license>Apache-2.0</license>
     <projectUrl>https://github.com/Vonage/vonage-dotnet</projectUrl>
     <iconUrl>https://dashboard.nexmo.com/apple-touch-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
