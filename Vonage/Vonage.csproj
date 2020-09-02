@@ -15,11 +15,11 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <Version>5.2.0</Version>
+    <Version>5.3.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet/releases/tag/v5.2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet/releases/tag/v5.3.0</PackageReleaseNotes>
     <PackageTags>SMS voice telephony phone Vonage</PackageTags>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <NoWarn>1701;1702;1591;1572;1573;0618</NoWarn>
