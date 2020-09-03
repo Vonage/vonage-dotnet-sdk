@@ -6,6 +6,10 @@ Nexmo Client Library for C#/.NET
 [![codecov](https://codecov.io/gh/Nexmo/nexmo-dotnet/branch/master/graph/badge.svg)](https://codecov.io/gh/Nexmo/nexmo-dotnet)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
+## The SDK Has Moved
+
+This SDK has moved! The `Nexmo.Csharp.Client` NuGet package is now listed as `Vonage` in NuGet. The source code is located at [vonage/vonage-dotnet-sdk](https://github.com/vonage/vonage-dotnet-sdk). We will continue to support this repository and it's NuGet package for 12 months, ending October 2021, with any needed bug or security fixes for the last release of v5.2.0. New features will be released under the `Vonage` NuGet package. To take advantage of those new features, please make sure to switch to the `Vonage` package as soon as possible!
+
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
 
 You can use this C# client library to integrate [Nexmo's APIs](#api-coverage) to your application. To use this, you'll
