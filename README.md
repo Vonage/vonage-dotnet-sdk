@@ -410,59 +410,29 @@ var response = client.VerifyClient.VerifyCheck(request);
 * Check out the sample MVC application and tests for more examples.
 Make sure to copy appsettings.json.example to appsettings.json and enter your key/secret.
 
-API Coverage
-------------
+## Supported APIs
 
-* Account
-    * [X] Balance
-    * [X] Pricing
-    * [X] Settings
-    * [X] Top Up
-    * [X] Numbers
-        * [X] Search
-        * [X] Buy
-        * [X] Cancel
-        * [X] Update
-* Number Insight
-    * [X] Basic
-    * [X] Standard
-    * [X] Advanced
-    * [X] Webhook Notification
-* Verify
-    * [X] Verify
-    * [X] Check
-    * [X] Search
-    * [X] Control
-* Search
-    * [X] Message
-    * [X] Messages
-    * [X] Rejections
-* Messaging
-    * [X] Send
-    * [X] Delivery Receipt
-    * [X] Inbound Messages
-    * [X] Search
-        * [X] Message
-        * [X] Messages
-        * [X] Rejections
-    * US Short Codes
-        * [X] Two-Factor Authentication
-        * [X] Event Based Alerts
-            * [X] Sending Alerts
-            * [X] Campaign Subscription Management
-* Application
-	* [X] Create
-	* [X] List
-	* [X] Update
-	* [X] Delete
-* Call
-    * [X] Outbound
-    * [X] Get
-    * [X] List
-    * [X] Edit
-    * [X] TTS
-    * [X] Stream
-    * [X] DTMF
+The following is a list of Vonage APIs and whether the Vonage .NET SDK provides support for them:
+
+| API   | API Release Status |  Supported?
+|----------|:---------:|:-------------:|
+| Account API | General Availability |✅|
+| Alerts API | General Availability |✅|
+| Application API | General Availability |✅|
+| Audit API | Beta |❌|
+| Conversation API | Beta |❌|
+| Dispatch API | Beta |❌|
+| External Accounts API | Beta |❌|
+| Media API | Beta | ❌|
+| Messages API | Beta |❌|
+| Number Insight API | General Availability |✅|
+| Number Management API | General Availability |✅|
+| Pricing API | General Availability |✅|
+| Redact API | Developer Preview |✅|
+| Reports API | Beta |❌|
+| SMS API | General Availability |✅|
+| Verify API | General Availability |✅|
+| Voice API | General Availability |✅|
 
 Contributing
 ------------
