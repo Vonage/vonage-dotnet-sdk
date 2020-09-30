@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
 
@@ -191,6 +192,122 @@ namespace Vonage.Voice
                 using (var ms = new MemoryStream())
                 {
                     readTask.Result.CopyTo(ms);
+                    bytes = ms.ToArray();
+                }
+                return new GetRecordingResponse()
+                {
+                    ResultStream = bytes,
+                    Status = response.StatusCode
+                };
+            }
+        }
+
+        public async Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null)
+        {
+            return await ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
+                POST,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+                command, 
+                ApiRequest.AuthType.Bearer, 
+                creds ?? Credentials
+                );
+        }
+
+        public async Task<PageResponse<CallList>> GetCallsAsync(CallSearchFilter filter, Credentials creds = null)
+        {
+            return await ApiRequest.DoGetRequestWithQueryParametersAsync<PageResponse<CallList>>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+                ApiRequest.AuthType.Bearer,
+                filter,
+                creds ?? Credentials
+                );
+        }
+
+        public async Task<CallRecord> GetCallAsync(string id, Credentials creds = null)
+        {
+            return await ApiRequest.DoGetRequestWithQueryParametersAsync<CallRecord>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
+                ApiRequest.AuthType.Bearer,
+                credentials:  creds ?? Credentials
+            );
+        }
+
+        public async Task<bool> UpdateCallAsync(string id, CallEditCommand command, Credentials creds = null)
+        {
+            await ApiRequest.DoRequestWithJsonContentAsync<CallRecord>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
+                command,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
+            return true;
+        }
+
+        public async Task<CallCommandResponse> StartStreamAsync(string id, StreamCommand command, Credentials creds = null)
+        {
+            return await ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
+                command,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
+        }
+
+        public async Task<CallCommandResponse> StopStreamAsync(string id, Credentials creds = null)
+        {
+            return await ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+                DELETE,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
+                new { },
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
+        }
+
+        public async Task<CallCommandResponse> StartTalkAsync(string id, TalkCommand cmd, Credentials creds = null)
+        {
+            return await ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
+                cmd,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
+        }
+
+        public async Task<CallCommandResponse> StopTalkAsync(string id, Credentials creds = null)
+        {
+            return await ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+                DELETE,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
+                new { },
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
+        }
+
+        public async Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null)
+        {
+            return await ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+                PUT, 
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"), 
+                cmd, 
+                ApiRequest.AuthType.Bearer, 
+                creds ?? Credentials
+                );
+        }
+
+        public async Task<GetRecordingResponse> GetRecordingAsync(string recordingUrl, Credentials creds = null)
+        {
+            using (var response = await ApiRequest.DoGetRequestWithJwtAsync(new Uri(recordingUrl), creds ?? Credentials))
+            {
+                var stream = await response.Content.ReadAsStreamAsync();
+                byte[] bytes;
+                using (var ms = new MemoryStream())
+                {
+                    stream.CopyTo(ms);
                     bytes = ms.ToArray();
                 }
                 return new GetRecordingResponse()
