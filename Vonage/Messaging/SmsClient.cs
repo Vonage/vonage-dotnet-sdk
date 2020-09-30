@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Messaging
@@ -20,7 +21,19 @@ namespace Vonage.Messaging
         /// <returns></returns>
         public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
         {
-            var result = ApiRequest.DoPostRequestUrlContentFromObject<SendSmsResponse>(
+            return SendAnSmsAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Send a SMS message.
+        /// </summary>
+        /// <param name="request">The SMS message request</param>
+        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+        /// <exception cref="VonageSmsResponseException">Thrown when the status of a message is non-zero or response is empty</exception>
+        /// <returns></returns>
+        public async Task<SendSmsResponse> SendAnSmsAsync(SendSmsRequest request, Credentials creds = null)
+        {
+            var result = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<SendSmsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
                 request,
                 creds ?? Credentials

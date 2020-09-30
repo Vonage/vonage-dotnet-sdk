@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Conversions
@@ -28,6 +29,28 @@ namespace Vonage.Conversions
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
                 request,
                 creds??Credentials
+            );
+            return true;
+        }
+
+        public async Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null)
+        {
+            await ApiRequest.DoPostRequestUrlContentFromObjectAsync<object>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
+                request,
+                creds ?? Credentials
+            );
+            return true;
+        }
+
+        public async Task<bool> VoiceConversionAsync(ConversionRequest request, Credentials creds = null)
+        {
+            await ApiRequest.DoPostRequestUrlContentFromObjectAsync<object>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
+                request,
+                creds ?? Credentials
             );
             return true;
         }

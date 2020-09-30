@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Vonage.Request
 {
@@ -246,11 +247,16 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">Thrown if the API encounters a non-zero result</exception>
         public static T DoGetRequestWithQueryParameters<T>(Uri uri, AuthType authType, object parameters = null, Credentials credentials = null)
         {
+            return DoGetRequestWithQueryParametersAsync<T>(uri, authType, parameters, credentials).Result;
+        }
+
+        public static async Task<T> DoGetRequestWithQueryParametersAsync<T>(Uri uri, AuthType authType, object parameters = null, Credentials credentials = null)
+        {
             if (parameters == null)
                 parameters = new Dictionary<string, string>();
             var sb = GetQueryStringBuilderFor(parameters, authType, credentials);
             var requestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
-            return SendGetRequest<T>(requestUri, authType, credentials);
+            return await SendGetRequestAsync<T>(requestUri, authType, credentials);
         }
 
         /// <summary>
@@ -263,9 +269,14 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">Thrown if the API encounters a non-zero result</exception>
         private static T SendGetRequest<T>(Uri uri, AuthType authType, Credentials creds)
         {
+            return SendGetRequestAsync<T>(uri, authType, creds).Result;
+        }
+
+        private static async Task<T> SendGetRequestAsync<T>(Uri uri, AuthType authType, Credentials creds)
+        {
             var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Vonage.Application.Id"];
-            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Vonage.Application.Key"];            
+            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Vonage.Application.Key"];
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Vonage_secret"];
 
@@ -275,7 +286,7 @@ namespace Vonage.Request
                 Method = HttpMethod.Get
             };
             SetUserAgent(ref req, creds);
-            
+
             if (authType == AuthType.Basic)
             {
                 var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
@@ -288,7 +299,7 @@ namespace Vonage.Request
                     Jwt.CreateToken(appId, appKeyPath));
             }
             logger.LogDebug($"GET {uri}");
-            var json = SendHttpRequest(req).JsonResponse;
+            var json = (await SendHttpRequestAsync(req)).JsonResponse;
             return JsonConvert.DeserializeObject<T>(json);
         }
 
@@ -304,13 +315,18 @@ namespace Vonage.Request
         /// <returns></returns>
         public static VonageResponse DoRequestWithUrlContent(string method, Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null)
         {
+            return DoRequestWithUrlContentAsync(method, uri, parameters, authType, creds).Result;
+        }
+
+        public static async Task<VonageResponse> DoRequestWithUrlContentAsync(string method, Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null)
+        {
             var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
             var sb = new StringBuilder();
             // if parameters is null, assume that key and secret have been taken care of            
             if (null != parameters)
             {
                 sb = GetQueryStringBuilderFor(parameters, authType, creds);
-            }            
+            }
 
             var req = new HttpRequestMessage
             {
@@ -326,13 +342,13 @@ namespace Vonage.Request
                     Convert.ToBase64String(authBytes));
             }
             SetUserAgent(ref req, creds);
-            
+
             var data = Encoding.ASCII.GetBytes(sb.ToString());
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
             logger.LogDebug($"{method} {uri} {sb}");
-            return SendHttpRequest(req);
+            return await SendHttpRequestAsync(req);
         }
 
         /// <summary>
@@ -343,13 +359,18 @@ namespace Vonage.Request
         /// <returns></returns>
         public static VonageResponse SendHttpRequest(HttpRequestMessage req)
         {
+            return SendHttpRequestAsync(req).Result;
+        }
+
+        public static async Task<VonageResponse> SendHttpRequestAsync(HttpRequestMessage req)
+        {
             var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
-            var response = Configuration.Instance.Client.SendAsync(req).Result;
-            var stream = response.Content.ReadAsStreamAsync().Result;
+            var response = await Configuration.Instance.Client.SendAsync(req);
+            var stream = await response.Content.ReadAsStreamAsync();
             string json;
             using (var sr = new StreamReader(stream))
             {
-                json = sr.ReadToEnd();
+                json = await sr.ReadToEndAsync();
             }
             try
             {
@@ -380,6 +401,11 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoRequestWithJsonContent<T>(string method, Uri uri, object payload, AuthType authType, Credentials creds)
         {
+            return DoRequestWithJsonContentAsync<T>(method, uri, payload, authType, creds).Result;
+        }
+
+        public static async Task <T> DoRequestWithJsonContentAsync<T>(string method, Uri uri, object payload, AuthType authType, Credentials creds)
+        {
             var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Vonage.Application.Id"];
             var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Vonage.Application.Key"];
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
@@ -392,7 +418,7 @@ namespace Vonage.Request
                 Method = new HttpMethod(method),
             };
             SetUserAgent(ref req, creds);
-            
+
             if (authType == AuthType.Basic)
             {
                 var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
@@ -422,8 +448,8 @@ namespace Vonage.Request
             var data = Encoding.UTF8.GetBytes(json);
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-            var json_response = SendHttpRequest(req).JsonResponse;
-            return JsonConvert.DeserializeObject<T>(json_response);            
+            var json_response = (await SendHttpRequestAsync(req)).JsonResponse;
+            return JsonConvert.DeserializeObject<T>(json_response);
         }
 
         /// <summary>
@@ -468,6 +494,40 @@ namespace Vonage.Request
             
         }
 
+        public static async Task<HttpResponseMessage> DoGetRequestWithJwtAsync(Uri uri, Credentials creds)
+        {
+            var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
+            var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Vonage.Application.Id"];
+            var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.Settings["appSettings:Vonage.Application.Key"];
+
+            var req = new HttpRequestMessage
+            {
+                RequestUri = uri,
+                Method = HttpMethod.Get
+            };
+
+            SetUserAgent(ref req, creds);
+
+            req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+                Jwt.CreateToken(appId, appKeyPath));
+
+            logger.LogDebug($"GET {uri}");
+
+            var result = await Configuration.Instance.Client.SendAsync(req);
+
+            try
+            {
+                result.EnsureSuccessStatusCode();
+                return result;
+            }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError($"FAIL: {result.StatusCode}");
+                throw new VonageHttpRequestException(ex.Message, ex) { HttpStatusCode = result.StatusCode };
+            }
+
+        }
+
         /// <summary>
         /// Sends a Post request to the specified endpoint with the given parameters
         /// </summary>
@@ -479,8 +539,13 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoPostRequestUrlContentFromObject<T>(Uri uri, object parameters, Credentials creds = null)
         {
+            return DoPostRequestUrlContentFromObjectAsync<T>(uri, parameters, creds).Result;            
+        }
+
+        public static async Task<T> DoPostRequestUrlContentFromObjectAsync<T>(Uri uri, object parameters, Credentials creds = null)
+        {
             var apiParams = GetParameters(parameters);
-            return DoPostRequestWithUrlContent<T>(uri, apiParams, creds);
+            return await DoPostRequestWithUrlContentAsync<T>(uri, apiParams, creds);
         }
 
         /// <summary>
@@ -494,7 +559,11 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) 
         {
-            var response = DoRequestWithUrlContent("POST", uri, parameters, creds:creds);
+            return DoPostRequestWithUrlContentAsync<T>(uri, parameters, creds).Result;            
+        }
+        public static async Task<T> DoPostRequestWithUrlContentAsync<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
+        {
+            var response = await DoRequestWithUrlContentAsync("POST", uri, parameters, creds: creds);
             return JsonConvert.DeserializeObject<T>(response.JsonResponse);
         }
 
@@ -506,6 +575,8 @@ namespace Vonage.Request
         /// <param name="creds"></param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static VonageResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null) => DoRequestWithUrlContent("DELETE", uri, parameters, authType, creds);
+        public static async Task<VonageResponse> DoDeleteRequestWithUrlContentAsync(Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null) => await DoRequestWithUrlContentAsync("DELETE", uri, parameters, authType, creds);
+
+        public static VonageResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null) => DoDeleteRequestWithUrlContentAsync(uri, parameters, authType, creds).Result;
     }
 }

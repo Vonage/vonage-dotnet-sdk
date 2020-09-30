@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Numbers
@@ -13,12 +14,28 @@ namespace Vonage.Numbers
         NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null);
 
         /// <summary>
+        /// Retrieve all the inbound numbers associated with your Vonage account.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        Task<NumbersSearchResponse> GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null);
+
+        /// <summary>
         /// Retrieve inbound numbers that are available for the specified country.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
         NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null);
+
+        /// <summary>
+        /// Retrieve inbound numbers that are available for the specified country.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        Task<NumbersSearchResponse> GetAvailableNumbersAsync(NumberSearchRequest request, Credentials creds = null);
 
         /// <summary>
         /// Request to purchase a specific inbound number.
@@ -29,6 +46,14 @@ namespace Vonage.Numbers
         NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null);
 
         /// <summary>
+        /// Request to purchase a specific inbound number.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        Task<NumberTransactionResponse> BuyANumberAsync(NumberTransactionRequest request, Credentials creds = null);
+
+        /// <summary>
         /// Cancel your subscription for a specific inbound number.
         /// </summary>
         /// <param name="request"></param>
@@ -37,11 +62,27 @@ namespace Vonage.Numbers
         NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null);
 
         /// <summary>
+        /// Cancel your subscription for a specific inbound number.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        Task<NumberTransactionResponse> CancelANumberAsync(NumberTransactionRequest request, Credentials creds = null);
+
+        /// <summary>
         /// Change the behaviour of a number that you own.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
         NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null);
+
+        /// <summary>
+        /// Change the behaviour of a number that you own.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        Task<NumberTransactionResponse> UpdateANumberAsync(UpdateNumberRequest request, Credentials creds = null);
     }
 }

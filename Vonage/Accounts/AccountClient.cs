@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Accounts
@@ -13,26 +14,61 @@ namespace Vonage.Accounts
         
         public Balance GetAccountBalance(Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<Balance>(
-                ApiRequest.GetBaseUriFor(typeof(AccountClient),
-                "/account/get-balance"), 
-                ApiRequest.AuthType.Query, 
-                credentials: creds ?? Credentials);
+            return GetAccountBalanceAsync(creds).GetAwaiter().GetResult();
         }
 
         public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<TopUpResult>(
-                ApiRequest.GetBaseUriFor(typeof(AccountClient), "/account/top-up"),
-                ApiRequest.AuthType.Query,
-                request,
-                credentials:creds ?? Credentials
-            );
+            return TopUpAccountBalanceAsync(request, creds).GetAwaiter().GetResult();
         }
 
         public AccountSettingsResult ChangeAccountSettings(AccountSettingsRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoPostRequestUrlContentFromObject<AccountSettingsResult>
+            return ChangeAccountSettingsAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public SecretsRequestResult RetrieveApiSecrets(string apiKey, Credentials creds = null)
+        {
+            return RetrieveApiSecretsAsync(apiKey, creds).GetAwaiter().GetResult();
+        }
+
+        public Secret CreateApiSecret(CreateSecretRequest request, string apiKey, Credentials creds = null)
+        {
+            return CreateApiSecretAsync(request, apiKey, creds).GetAwaiter().GetResult();
+        }
+
+        public Secret RetrieveApiSecret(string secretId, string apiKey, Credentials creds = null)
+        {
+            return RetrieveApiSecretAsync(secretId, apiKey, creds).GetAwaiter().GetResult();
+        }
+
+        public bool RevokeApiSecret(string secretId, string apiKey, Credentials creds = null)
+        {
+            return RevokeApiSecretAsync(secretId, apiKey, creds).GetAwaiter().GetResult();
+        }
+
+        public async Task<Balance> GetAccountBalanceAsync(Credentials creds = null)
+        {
+            return await ApiRequest.DoGetRequestWithQueryParametersAsync<Balance>(
+                ApiRequest.GetBaseUriFor(typeof(AccountClient),
+                "/account/get-balance"),
+                ApiRequest.AuthType.Query,
+                credentials: creds ?? Credentials);
+        }
+
+        public async Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null)
+        {
+            return await ApiRequest.DoGetRequestWithQueryParametersAsync<TopUpResult>(
+                ApiRequest.GetBaseUriFor(typeof(AccountClient), "/account/top-up"),
+                ApiRequest.AuthType.Query,
+                request,
+                credentials: creds ?? Credentials
+            );
+        }
+
+        public async Task<AccountSettingsResult> ChangeAccountSettingsAsync(AccountSettingsRequest request, Credentials creds = null)
+        {
+            return await ApiRequest.DoPostRequestUrlContentFromObjectAsync<AccountSettingsResult>
             (
                 ApiRequest.GetBaseUriFor(typeof(AccountClient), "/account/settings"),
                 request,
@@ -40,18 +76,18 @@ namespace Vonage.Accounts
             );
         }
 
-        public SecretsRequestResult RetrieveApiSecrets(string apiKey, Credentials creds = null)
+        public async Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey = null, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<SecretsRequestResult>(
+            return await ApiRequest.DoGetRequestWithQueryParametersAsync<SecretsRequestResult>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
 
-        public Secret CreateApiSecret(CreateSecretRequest request, string apiKey, Credentials creds = null)
+        public async Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey = null, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<Secret>(
+            return await ApiRequest.DoRequestWithJsonContentAsync<Secret>(
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
                 request,
@@ -60,24 +96,24 @@ namespace Vonage.Accounts
             );
         }
 
-        public Secret RetrieveApiSecret(string secretId, string apiKey, Credentials creds = null)
+        public async Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<Secret>(
+            return await ApiRequest.DoGetRequestWithQueryParametersAsync<Secret>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
 
-        public bool RevokeApiSecret(string secretId, string apiKey, Credentials creds = null)
+        public async Task<bool> RevokeApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null)
         {
-            ApiRequest.DoDeleteRequestWithUrlContent(
+            await ApiRequest.DoDeleteRequestWithUrlContentAsync(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 null,
                 ApiRequest.AuthType.Basic,
                 creds ?? Credentials
             );
             return true;
-        }        
+        }
     }
 }
