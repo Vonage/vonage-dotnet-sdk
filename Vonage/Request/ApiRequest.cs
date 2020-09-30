@@ -247,7 +247,7 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">Thrown if the API encounters a non-zero result</exception>
         public static T DoGetRequestWithQueryParameters<T>(Uri uri, AuthType authType, object parameters = null, Credentials credentials = null)
         {
-            return DoGetRequestWithQueryParametersAsync<T>(uri, authType, parameters, credentials).Result;
+            return DoGetRequestWithQueryParametersAsync<T>(uri, authType, parameters, credentials).GetAwaiter().GetResult();
         }
 
         public static async Task<T> DoGetRequestWithQueryParametersAsync<T>(Uri uri, AuthType authType, object parameters = null, Credentials credentials = null)
@@ -269,7 +269,7 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">Thrown if the API encounters a non-zero result</exception>
         private static T SendGetRequest<T>(Uri uri, AuthType authType, Credentials creds)
         {
-            return SendGetRequestAsync<T>(uri, authType, creds).Result;
+            return SendGetRequestAsync<T>(uri, authType, creds).GetAwaiter().GetResult();
         }
 
         private static async Task<T> SendGetRequestAsync<T>(Uri uri, AuthType authType, Credentials creds)
@@ -315,7 +315,7 @@ namespace Vonage.Request
         /// <returns></returns>
         public static VonageResponse DoRequestWithUrlContent(string method, Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null)
         {
-            return DoRequestWithUrlContentAsync(method, uri, parameters, authType, creds).Result;
+            return DoRequestWithUrlContentAsync(method, uri, parameters, authType, creds).GetAwaiter().GetResult();
         }
 
         public static async Task<VonageResponse> DoRequestWithUrlContentAsync(string method, Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null)
@@ -359,7 +359,7 @@ namespace Vonage.Request
         /// <returns></returns>
         public static VonageResponse SendHttpRequest(HttpRequestMessage req)
         {
-            return SendHttpRequestAsync(req).Result;
+            return SendHttpRequestAsync(req).GetAwaiter().GetResult();
         }
 
         public static async Task<VonageResponse> SendHttpRequestAsync(HttpRequestMessage req)
@@ -401,7 +401,7 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoRequestWithJsonContent<T>(string method, Uri uri, object payload, AuthType authType, Credentials creds)
         {
-            return DoRequestWithJsonContentAsync<T>(method, uri, payload, authType, creds).Result;
+            return DoRequestWithJsonContentAsync<T>(method, uri, payload, authType, creds).GetAwaiter().GetResult();
         }
 
         public static async Task <T> DoRequestWithJsonContentAsync<T>(string method, Uri uri, object payload, AuthType authType, Credentials creds)
@@ -479,7 +479,7 @@ namespace Vonage.Request
 
             logger.LogDebug($"GET {uri}");
 
-            var result = Configuration.Instance.Client.SendAsync(req).Result;
+            var result = Configuration.Instance.Client.SendAsync(req).GetAwaiter().GetResult();
 
             try
             {
@@ -539,7 +539,7 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoPostRequestUrlContentFromObject<T>(Uri uri, object parameters, Credentials creds = null)
         {
-            return DoPostRequestUrlContentFromObjectAsync<T>(uri, parameters, creds).Result;            
+            return DoPostRequestUrlContentFromObjectAsync<T>(uri, parameters, creds).GetAwaiter().GetResult();            
         }
 
         public static async Task<T> DoPostRequestUrlContentFromObjectAsync<T>(Uri uri, object parameters, Credentials creds = null)
@@ -559,7 +559,7 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null) 
         {
-            return DoPostRequestWithUrlContentAsync<T>(uri, parameters, creds).Result;            
+            return DoPostRequestWithUrlContentAsync<T>(uri, parameters, creds).GetAwaiter().GetResult();            
         }
         public static async Task<T> DoPostRequestWithUrlContentAsync<T>(Uri uri, Dictionary<string, string> parameters, Credentials creds = null)
         {
@@ -577,6 +577,6 @@ namespace Vonage.Request
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static async Task<VonageResponse> DoDeleteRequestWithUrlContentAsync(Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null) => await DoRequestWithUrlContentAsync("DELETE", uri, parameters, authType, creds);
 
-        public static VonageResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null) => DoDeleteRequestWithUrlContentAsync(uri, parameters, authType, creds).Result;
+        public static VonageResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null) => DoDeleteRequestWithUrlContentAsync(uri, parameters, authType, creds).GetAwaiter().GetResult();
     }
 }
