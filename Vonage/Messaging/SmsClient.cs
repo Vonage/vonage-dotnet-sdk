@@ -41,5 +41,10 @@ namespace Vonage.Messaging
                 throw new VonageSmsResponseException($"SMS Request Failed with status: {smsResponse.Messages[0].Status} and error message: {smsResponse.Messages[0].ErrorText}") { Response = smsResponse};
             }
         }
+
+        SendSmsResponse ISmsClient.SendAsSms(string to, string from, string text, SmsType smsType, Credentials credentials)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -11,5 +11,7 @@ namespace Vonage.Messaging
         /// <param name="creds"></param>
         /// <returns></returns>
         SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null);
+
+        SendSmsResponse SendAsSms(string to, string from, string text, SmsType smsType = SmsType.text, Credentials credentials = null);
     }
 }
