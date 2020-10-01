@@ -44,7 +44,12 @@ namespace Vonage.Messaging
 
         SendSmsResponse ISmsClient.SendAsSms(string to, string from, string text, SmsType smsType, Credentials credentials)
         {
-            throw new System.NotImplementedException();
+            var result = ApiRequest.DoPostRequestUrlContentFromObject<SendSmsResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "sms/json"),
+                credentials ?? Credentials
+            );
+
+            return result;
         }
     }
 }
