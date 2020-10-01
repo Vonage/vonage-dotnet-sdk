@@ -11,9 +11,10 @@ namespace Vonage.Test.Unit
     public class NumbersTests : TestBase
     {
         [Theory]
-        [InlineData(true,true)]
-        [InlineData(false,false)]
-        public void TestSearchNumbers(bool passCreds, bool kitchenSink)
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
+        [InlineData(false, false, false)]
+        public async void TestSearchNumbers(bool passCreds, bool kitchenSink, bool testAsync)
         {
             var expetedResponse = @"{
               ""count"": 1234,
@@ -47,9 +48,16 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
 
             NumbersSearchResponse response;
-            if (passCreds)
+            if (testAsync)
             {
-                response = client.NumbersClient.GetAvailableNumbers(request, creds);
+                if (passCreds)
+                {
+                    response = await client.NumbersClient.GetAvailableNumbersAsync(request, creds);
+                }
+                else
+                {
+                    response = await client.NumbersClient.GetAvailableNumbersAsync(request);
+                } 
             }
             else
             {
@@ -67,9 +75,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(true,true)]
-        [InlineData(false,false)]
-        public void TestBuyNumber(bool passCreds, bool kitchenSink)
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
+        [InlineData(false, false, false)]
+        public async void TestBuyNumber(bool passCreds, bool kitchenSink, bool testAsync)
         {
             var expectedResponse = @"{
               ""error-code"": ""200"",
@@ -95,9 +104,16 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             NumberTransactionResponse response;
-            if (passCreds)
+            if (testAsync)
             {
-                response = client.NumbersClient.BuyANumber(request, creds);
+                if (passCreds)
+                {
+                    response = await client.NumbersClient.BuyANumberAsync(request, creds);
+                }
+                else
+                {
+                    response = await client.NumbersClient.BuyANumberAsync(request);
+                } 
             }
             else
             {
@@ -109,9 +125,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public void TestCancelNumber(bool passCreds, bool kitchenSink)
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
+        [InlineData(false, false, false)]
+        public async void TestCancelNumber(bool passCreds, bool kitchenSink, bool testAsync)
         {
             var expectedResponse = @"{
               ""error-code"": ""200"",
@@ -137,9 +154,16 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             NumberTransactionResponse response;
-            if (passCreds)
+            if (testAsync)
             {
-                response = client.NumbersClient.CancelANumber(request, creds);
+                if (passCreds)
+                {
+                    response = await client.NumbersClient.CancelANumberAsync(request, creds);
+                }
+                else
+                {
+                    response = await client.NumbersClient.CancelANumberAsync(request);
+                } 
             }
             else
             {
@@ -151,9 +175,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(true,true)]
-        [InlineData(false,false)]
-        public void TestUpdateNumber(bool passCreds, bool kitchenSink)
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
+        [InlineData(false, false, false)]
+        public async void TestUpdateNumber(bool passCreds, bool kitchenSink, bool testAsync)
         {
             var expectedResponse = @"{
               ""error-code"": ""200"",
@@ -191,9 +216,16 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             NumberTransactionResponse response;
-            if (passCreds)
+            if (testAsync)
             {
-                response = client.NumbersClient.UpdateANumber(request, creds);
+                if (passCreds)
+                {
+                    response = await client.NumbersClient.UpdateANumberAsync(request, creds);
+                }
+                else
+                {
+                    response = await client.NumbersClient.UpdateANumberAsync(request);
+                } 
             }
             else
             {

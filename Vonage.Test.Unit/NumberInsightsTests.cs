@@ -12,9 +12,10 @@ namespace Vonage.Test.Unit
     public class NumberInsightsTests : TestBase
     {
         [Theory]
-        [InlineData(true,true)]
-        [InlineData(false,false)]
-        public void TestBasicNIRequest(bool passCreds, bool kitchenSink)
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
+        [InlineData(false, false, false)]
+        public async void TestBasicNIRequest(bool passCreds, bool kitchenSink, bool testAsync)
         {
             //ARRANGE
             var expectedUri = $"{ApiUrl}/ni/basic/json";            
@@ -45,9 +46,16 @@ namespace Vonage.Test.Unit
             BasicInsightResponse response;
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
-            if (passCreds)
+            if (testAsync)
             {
-                response = client.NumberInsightClient.GetNumberInsightBasic(request, creds);
+                if (passCreds)
+                {
+                    response = await client.NumberInsightClient.GetNumberInsightBasicAsync(request, creds);
+                }
+                else
+                {
+                    response = await client.NumberInsightClient.GetNumberInsightBasicAsync(request);
+                } 
             }
             else
             {
@@ -67,9 +75,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public void TestStandardNIRequest(bool passCreds, bool kitchenSink)
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
+        [InlineData(false, false, false)]
+        public async void TestStandardNIRequest(bool passCreds, bool kitchenSink, bool testAsync)
         {
             //ARRANGE
             var expectedResponse = @"{
@@ -137,9 +146,16 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             StandardInsightResponse response;
-            if (passCreds)
+            if (testAsync)
             {
-                response = client.NumberInsightClient.GetNumberInsightStandard(request, creds);
+                if (passCreds)
+                {
+                    response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request, creds);
+                }
+                else
+                {
+                    response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request);
+                } 
             }
             else
             {
@@ -181,9 +197,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public void TestAdvancedNIRequestSync(bool passCreds, bool kitchenSink)
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
+        [InlineData(false, false, false)]
+        public async void TestAdvancedNIRequestSync(bool passCreds, bool kitchenSink, bool testAsync)
         {//ARRANGE
             var expectedResponse = @"{
               ""status"": 0,
@@ -238,7 +255,7 @@ namespace Vonage.Test.Unit
             if (kitchenSink)
             {
                 expectedUri += $"?ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new AdvancedNumberInsightRequest { Cnam = true, Country = "GB", Number = "15555551212" , Ip="123.0.0.255"};
+                request = new AdvancedNumberInsightRequest { Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255" };
             }
             else
             {
@@ -255,9 +272,16 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsResponse response;
-            if (passCreds)
+            if (testAsync)
             {
-                response = client.NumberInsightClient.GetNumberInsightAdvanced(request, creds);
+                if (passCreds)
+                {
+                    response = await client.NumberInsightClient.AsyncGetNumberInsightAdvanced(request, creds);
+                }
+                else
+                {
+                    response = await client.NumberInsightClient.AsyncGetNumberInsightAdvanced(request);
+                }
             }
             else
             {
@@ -305,9 +329,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public void TestAdvancedAsync(bool passCreds, bool kitchenSink)
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
+        [InlineData(false, false, false)]
+        public async void TestAdvancedAsync(bool passCreds, bool kitchenSink, bool testAsync)
         {
             var expectedResponse = @"{
               ""request_id"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
@@ -338,9 +363,16 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsAsyncResponse response;
-            if (passCreds)
+            if (testAsync)
             {
-                response = client.NumberInsightClient.GetNumberInsightAsync(request, creds);
+                if (passCreds)
+                {
+                    response = await client.NumberInsightClient.AsyncGetNumberInsightAsync(request, creds);
+                }
+                else
+                {
+                    response = await client.NumberInsightClient.AsyncGetNumberInsightAsync(request);
+                } 
             }
             else
             {

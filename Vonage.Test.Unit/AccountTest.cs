@@ -11,9 +11,10 @@ namespace Vonage.Test.Unit
     public class AccountTest : TestBase
     {
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void GetAccountBalance(bool passCreds)
+        [InlineData(false, false)]
+        [InlineData(true, true)]
+        [InlineData(false, true)]
+        public async void GetAccountBalanceAsync(bool passCreds, bool asyncTest)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-balance?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -23,10 +24,18 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Accounts.Balance balance;
-            if (passCreds) {
-                balance = client.AccountClient.GetAccountBalance(creds);
-            }            
-            else 
+            if (asyncTest)
+            {
+                if (passCreds)
+                {
+                    balance = await client.AccountClient.GetAccountBalanceAsync(creds);
+                }
+                else
+                {
+                    balance = await client.AccountClient.GetAccountBalanceAsync();
+                }
+            }
+            else
             {
                 balance = client.AccountClient.GetAccountBalance();
             }
@@ -35,11 +44,12 @@ namespace Vonage.Test.Unit
             Assert.Equal(3.14159m, balance.Value);
             Assert.False(balance.AutoReload);
         }
-        
+
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void SetSettings(bool passCreds)
+        [InlineData(false, false)]
+        [InlineData(true, true)]
+        [InlineData(false, true)]
+        public async void SetSettings(bool passCreds, bool asyncTest)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/settings";
@@ -51,15 +61,21 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Accounts.AccountSettingsResult result;
-            if (passCreds)
+            if (asyncTest)
             {
-                result = client.AccountClient.ChangeAccountSettings(new Accounts.AccountSettingsRequest { MoCallBackUrl = "https://example.com/webhooks/inbound-sms", DrCallBackUrl = "https://example.com/webhooks/delivery-receipt" }, creds);
+                if (passCreds)
+                {
+                    result = await client.AccountClient.ChangeAccountSettingsAsync(new Accounts.AccountSettingsRequest { MoCallBackUrl = "https://example.com/webhooks/inbound-sms", DrCallBackUrl = "https://example.com/webhooks/delivery-receipt" }, creds);
+                }
+                else
+                {
+                    result = await client.AccountClient.ChangeAccountSettingsAsync(new Accounts.AccountSettingsRequest { MoCallBackUrl = "https://example.com/webhooks/inbound-sms", DrCallBackUrl = "https://example.com/webhooks/delivery-receipt" });
+                }
             }
             else
             {
                 result = client.AccountClient.ChangeAccountSettings(new Accounts.AccountSettingsRequest { MoCallBackUrl = "https://example.com/webhooks/inbound-sms", DrCallBackUrl = "https://example.com/webhooks/delivery-receipt" });
             }
-            
 
             //ASSERT
             Assert.Equal("https://example.com/webhooks/delivery-receipt", result.DrCallbackurl);
@@ -70,9 +86,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void TopUp(bool passCreds)
+        [InlineData(false, false)]
+        [InlineData(true, true)]
+        [InlineData(false, true)]
+        public async void TopUp(bool passCreds, bool asyncTest)
         {
             //ARRANGE            
             var expectedUri = $"{RestUrl}/account/top-up?trx=00X123456Y7890123Z&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -83,22 +100,29 @@ namespace Vonage.Test.Unit
             //Act
             var client = new VonageClient(creds);
             Accounts.TopUpResult response;
-            if (passCreds)
+            if (asyncTest) 
             {
-                response = client.AccountClient.TopUpAccountBalance(new Accounts.TopUpRequest { Trx = "00X123456Y7890123Z" },creds);
+                if (passCreds)
+                {
+                    response = await client.AccountClient.TopUpAccountBalanceAsync(new Accounts.TopUpRequest { Trx = "00X123456Y7890123Z" }, creds);
+                }
+                else
+                {
+                    response = await client.AccountClient.TopUpAccountBalanceAsync(new Accounts.TopUpRequest { Trx = "00X123456Y7890123Z" });
+                }
             }
             else
             {
                 response = client.AccountClient.TopUpAccountBalance(new Accounts.TopUpRequest { Trx = "00X123456Y7890123Z" });
             }
-
             Assert.Equal("abc123",response.Response);
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void GetNumbers(bool passCreds)
+        [InlineData(false, false)]
+        [InlineData(true, true)]
+        [InlineData(false, true)]
+        public async void GetNumbers(bool passCreds, bool asyncTest)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/numbers?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -109,13 +133,21 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Numbers.NumbersSearchResponse numbers;
-            if (passCreds){
-                numbers = client.NumbersClient.GetOwnedNumbers(new Numbers.NumberSearchRequest(), creds);
+            if (asyncTest)
+            {
+                if (passCreds)
+                {
+                    numbers = await client.NumbersClient.GetOwnedNumbersAsync(new Numbers.NumberSearchRequest(), creds);
+                }
+                else
+                {
+                    numbers = await client.NumbersClient.GetOwnedNumbersAsync(new Numbers.NumberSearchRequest());
+                } 
             }
             else
             {
                 numbers = client.NumbersClient.GetOwnedNumbers(new Numbers.NumberSearchRequest());
-            }            
+            }
 
             //ASSERT
             Assert.Equal(1, numbers.Count);
@@ -126,9 +158,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void RetrieveApiSecrets(bool passCreds)
+        [InlineData(false, false)]
+        [InlineData(true, true)]
+        [InlineData(false, true)]
+        public async void RetrieveApiSecrets(bool passCreds, bool asyncTest)
         {
             //ARRANGE            
             var expectedResponse = @"{
@@ -158,9 +191,16 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Accounts.SecretsRequestResult secrets;
-            if (passCreds)
+            if (asyncTest)
             {
-                secrets = client.AccountClient.RetrieveApiSecrets(ApiKey,creds);
+                if (passCreds)
+                {
+                    secrets = await client.AccountClient.RetrieveApiSecretsAsync(ApiKey, creds);
+                }
+                else
+                {
+                    secrets = await client.AccountClient.RetrieveApiSecretsAsync(ApiKey);
+                } 
             }
             else
             {
@@ -176,9 +216,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void CreateApiSecret(bool passCreds)
+        [InlineData(false, false)]
+        [InlineData(true, true)]
+        [InlineData(false, true)]
+        public async void CreateApiSecret(bool passCreds, bool asyncTest)
         {            
             //ARRANGE            
             var expectedUri = $"https://api.nexmo.com/accounts/{ApiKey}/secrets";
@@ -197,13 +238,20 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Accounts.Secret secret;
-            if (passCreds)
+            if (asyncTest)
             {
-                secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest { Secret = "password" }, ApiKey, creds);
+                if (passCreds)
+                {
+                    secret = await client.AccountClient.CreateApiSecretAsync(new Accounts.CreateSecretRequest { Secret = "password" }, ApiKey, creds);
+                }
+                else
+                {
+                    secret = await client.AccountClient.CreateApiSecretAsync(new Accounts.CreateSecretRequest { Secret = "password" }, ApiKey);
+                } 
             }
             else
             {
-                secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest { Secret = "password" }, ApiKey);
+                secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest { Secret = "password" }, ApiKey, creds);
             }
             
 
@@ -214,9 +262,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void RetrieveSecret(bool passCreds)
+        [InlineData(false, false)]
+        [InlineData(true, true)]
+        [InlineData(false, true)]
+        public async void RetrieveSecret(bool passCreds, bool asyncTest)
         {
 
             //ARRANGE            
@@ -238,9 +287,16 @@ namespace Vonage.Test.Unit
 
             var client = new VonageClient(creds);
             Accounts.Secret secret;
-            if (passCreds)
+            if (asyncTest)
             {
-                secret = client.AccountClient.RetrieveApiSecret(secretId, ApiKey, creds);
+                if (passCreds)
+                {
+                    secret = await client.AccountClient.RetrieveApiSecretAsync(secretId, ApiKey, creds);
+                }
+                else
+                {
+                    secret = await client.AccountClient.RetrieveApiSecretAsync(secretId, ApiKey);
+                } 
             }
             else
             {
@@ -255,9 +311,10 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void RevokeSecret(bool passCreds)
+        [InlineData(false, false)]
+        [InlineData(true, true)]
+        [InlineData(false, true)]
+        public async void RevokeSecret(bool passCreds, bool asyncTest)
         {
             //ARRANGE            
             var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
@@ -269,15 +326,21 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             bool response;
-            if (passCreds)
+            if (asyncTest)
             {
-                response = client.AccountClient.RevokeApiSecret(secretId, ApiKey, creds);
+                if (passCreds)
+                {
+                    response = await client.AccountClient.RevokeApiSecretAsync(secretId, ApiKey, creds);
+                }
+                else
+                {
+                    response = await client.AccountClient.RevokeApiSecretAsync(secretId, ApiKey);
+                } 
             }
             else
             {
                 response = client.AccountClient.RevokeApiSecret(secretId, ApiKey);
             }
-            
 
             //ASSERT
             Assert.True(response);
