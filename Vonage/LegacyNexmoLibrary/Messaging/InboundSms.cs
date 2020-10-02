@@ -79,9 +79,12 @@ namespace Nexmo.Api.Messaging
             {
                 var sig_sb = new StringBuilder();
                 var sorted_dict = new SortedDictionary<string, string>(StringComparer.Ordinal);
-                foreach (var key in query.Keys)
+                if (query != null)
                 {
-                    sorted_dict.Add(key, query[key].ToString());
+                    foreach (var key in query.Keys)
+                    {
+                        sorted_dict.Add(key, query[key].ToString());
+                    }
                 }
                 foreach (var key in sorted_dict.Keys)
                 {
