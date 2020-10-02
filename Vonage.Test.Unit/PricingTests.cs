@@ -9,10 +9,9 @@ namespace Vonage.Test.Unit
     public class PricingTests : TestBase
     {
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void GetPricingForCountry(bool passCreds, bool testAsync)
+        [InlineData(true)]
+        [InlineData(false)]
+        public void GetPricingForCountry(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?country=CA&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -42,16 +41,9 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
             Pricing.Country country;
 
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    country = await client.PricingClient.RetrievePricingCountryAsync("sms", new Pricing.PricingCountryRequest { Country = "CA" }, creds);
-                }
-                else
-                {
-                    country = await client.PricingClient.RetrievePricingCountryAsync("sms", new Pricing.PricingCountryRequest { Country = "CA" });
-                } 
+                country = client.PricingClient.RetrievePricingCountry("sms", new Pricing.PricingCountryRequest { Country = "CA" }, creds);
             }
             else
             {
@@ -76,10 +68,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void GetPricingForPrefix(bool passCreds, bool testAsync)
+        [InlineData(true)]
+        [InlineData(false)]
+        public void GetPricingForPrefix(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-prefix-pricing/outbound/sms?prefix=1&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -112,16 +103,9 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    pricing = await client.PricingClient.RetrievePrefixPricingAsync("sms", new Pricing.PricingPrefixRequest { Prefix = "1" }, creds);
-                }
-                else
-                {
-                    pricing = await client.PricingClient.RetrievePrefixPricingAsync("sms", new Pricing.PricingPrefixRequest { Prefix = "1" });
-                } 
+                pricing = client.PricingClient.RetrievePrefixPricing("sms", new Pricing.PricingPrefixRequest { Prefix = "1" }, creds);
             }
             else
             {
@@ -145,10 +129,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void GetPricingAllCountries(bool passCreds, bool testAsync)
+        [InlineData(true)]
+        [InlineData(false)]
+        public void GetPricingAllCountries(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -181,16 +164,9 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    pricing = await client.PricingClient.RetrievePricingAllCountriesAsync("sms", creds);
-                }
-                else
-                {
-                    pricing = await client.PricingClient.RetrievePricingAllCountriesAsync("sms");
-                } 
+                pricing = client.PricingClient.RetrievePricingAllCountries("sms",creds);
             }
             else
             {

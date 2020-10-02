@@ -13,10 +13,9 @@ namespace Vonage.Test.Unit
     public class MessagingTests : TestBase
     {
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void KitcenSinkSendSms(bool passCreds, bool testAsync)
+        [InlineData(false)]
+        [InlineData(true)]
+        public void KitcenSinkSendSms(bool passCreds)
         {
             var expectedResponse = @"{
                   ""message-count"": ""1"",
@@ -64,18 +63,12 @@ namespace Vonage.Test.Unit
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(creds);
             Messaging.SendSmsResponse response;
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    response = await client.SmsClient.SendAnSmsAsync(request, creds);
-                }
-                else
-                {
-                    response = await client.SmsClient.SendAnSmsAsync(request);
-                } 
+                response = client.SmsClient.SendAnSms(request, creds);
             }
-            else {
+            else
+            {
                 response = client.SmsClient.SendAnSms(request);
             }
 

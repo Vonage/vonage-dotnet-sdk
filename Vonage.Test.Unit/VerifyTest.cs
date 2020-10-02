@@ -11,10 +11,9 @@ namespace Vonage.Test.Unit
     public class VerifyTest : TestBase
     {
         [Theory]
-        [InlineData(false, false, true)]
-        [InlineData(true, true, true)]
-        [InlineData(false, false, false)]
-        public async void RequestVerification(bool passCreds, bool kitchenSink, bool testAsync)
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void RequestVerification(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -43,16 +42,9 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    response = await client.VerifyClient.VerifyRequestAsync(request, creds);
-                }
-                else
-                {
-                    response = await client.VerifyClient.VerifyRequestAsync(request);
-                } 
+                response = client.VerifyClient.VerifyRequest(request, creds);
             }
             else
             {
@@ -64,10 +56,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false, true)]
-        [InlineData(true, true, true)]
-        [InlineData(false, false, false)]
-        public async void TestCheckVerification(bool passCreds, bool kitchenSink, bool testAsync)
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void TestCheckVerification(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -94,16 +85,9 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyCheckResponse response;
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    response = await client.VerifyClient.VerifyCheckAsync(request, creds);
-                }
-                else
-                {
-                    response = await client.VerifyClient.VerifyCheckAsync(request);
-                } 
+                response = client.VerifyClient.VerifyCheck(request, creds);
             }
             else
             {
@@ -118,10 +102,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void TestVerifySearch(bool passCreds, bool testAsync)
+        [InlineData(false)]
+        [InlineData(true)]
+        public void TestVerifySearch(bool passCreds)
         {
             var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -157,16 +140,9 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifySearchResponse response;
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    response = await client.VerifyClient.VerifySearchAsync(request, creds);
-                }
-                else
-                {
-                    response = await client.VerifyClient.VerifySearchAsync(request);
-                } 
+                response = client.VerifyClient.VerifySearch(request, creds);
             }
             else
             {
@@ -195,10 +171,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void TestControlVerify(bool passCreds, bool testAsync)
+        [InlineData(true)]
+        [InlineData(false)]
+        public void TestControlVerify(bool passCreds)
         {
             var expectedResponse = @"{
               ""status"": ""0"",
@@ -213,18 +188,11 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyControlResponse response;
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    response = await client.VerifyClient.VerifyControlAsync(request, creds);
-                }
-                else
-                {
-                    response = await client.VerifyClient.VerifyControlAsync(request, creds);
-                }
+                response = client.VerifyClient.VerifyControl(request, creds);
             }
-            else 
+            else
             {
                 response = client.VerifyClient.VerifyControl(request, creds);
             }
@@ -260,10 +228,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false, true)]
-        [InlineData(true, true, true)]
-        [InlineData(false, false, false)]
-        public async void Psd2Verification(bool passCreds, bool kitchenSink, bool testAsync)
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void Psd2Verification(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -292,16 +259,9 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    response = await client.VerifyClient.VerifyRequestWithPSD2Async(request, creds);
-                }
-                else
-                {
-                    response = await client.VerifyClient.VerifyRequestWithPSD2Async(request);
-                } 
+                response = client.VerifyClient.VerifyRequestWithPSD2(request, creds);
             }
             else
             {

@@ -15,10 +15,9 @@ namespace Vonage.Test.Unit
         private const string PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwxyBT5FqzibSYK0vB+Gr\\nP+YlyYqsx4lvAmotTwmObZEhTWNAdU0p9hrnNXWX1Gy5O0NDIue40SUhYhJT5r4x\\nugbpNA/1KJauB8VQjetKr9bu697yskz2+EuKa2D9e6N2EMY6PD1tJWmeMmddM1tW\\n2DAXuYo7/xsDWIIA6egCTzyShNvzlKo5081t41xVVsPjsWN887Xp1KYfE0IMGV2j\\n8Nwdtw/MQfP/7Qz7i9VXb7bgx0LEg84dWsnz8u3VZ3IQHlydzPX/2iw7e4pc+k27\\nOU1SkmPn/2JtfFFS2LJpcO/FmdSyNnyHezNPyzNRLVbE0sJJ1tEhxi9GZc1I+Oc4\\ndwIDAQAB\\n-----END PUBLIC KEY-----\\n";
         private const string PRIVATE_KEY = @"-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFA\nASCBKcwggSjAgEAAoIBAQDEPpvi+3\nRH1efQ\\nkveWzZDrNNoEXmBw61w+O\n0u/N36tJnN5XnYecU64yHzu2ByEr0\n7iIvYbavFnADwl\\nHMTJwqDQakpa3\n8/SFRnTDq3zronvNZ6nOp7S6K7pcZ\nrw/CvrL6hXT1x7cGBZ4jPx\\nqhjqY\nuJPgZD7OVB69oYOV92vIIJ7JLYwqb\n-----END PRIVATE KEY-----\n";
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void CreateApplication(bool passCreds, bool asyncTest)
+        [InlineData(false)]
+        [InlineData(true)]
+        public void CreateApplication(bool passCreds)
         {
             //ARRANGE
             var uri = $"{ApiUrl}/v2/applications";
@@ -100,16 +99,9 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Application response;
-            if (asyncTest)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    response = await client.ApplicationClient.CreateApplicaitonAsync(request);
-                }
-                else
-                {
-                    response = await client.ApplicationClient.CreateApplicaitonAsync(request, creds);
-                } 
+                response = client.ApplicationClient.CreateApplicaiton(request);
             }
             else
             {
@@ -140,10 +132,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void UpdateApplication(bool passCredentials, bool asyncTest)
+        [InlineData(false)]
+        [InlineData(true)]
+        public void UpdateApplication(bool passCredentials)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{ApiUrl}/v2/applications/{id}";
@@ -224,20 +215,13 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Application response;
-            if (asyncTest)
+            if (passCredentials)
             {
-                if (passCredentials)
-                {
-                    response = await client.ApplicationClient.UpdateApplicationAsync(id, application);
-                }
-                else
-                {
-                    response = await client.ApplicationClient.UpdateApplicationAsync(id, application, creds);
-                } 
+                response = client.ApplicationClient.UpdateApplication(id, application);
             }
             else
             {
-                response = client.ApplicationClient.UpdateApplication(id, application);
+                response = client.ApplicationClient.UpdateApplication(id, application,creds);
             }
             
 
@@ -264,10 +248,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false, true)]
-        [InlineData(true, true, true)]
-        [InlineData(false, false, false)]
-        public void ListApplications(bool passCreds, bool passParameters, bool testAsync)
+        [InlineData(false, false)]
+        [InlineData(true, true)]
+        public void ListApplications(bool passCreds, bool passParameters)
         {
             var expectedResult = @"{
                   ""page_size"": 10,
@@ -381,10 +364,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void GetApplication(bool passCreds, bool testAsync)
+        [InlineData(false)]
+        [InlineData(true)]
+        public void GetApplication(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{ApiUrl}/v2/applications/{id}";
@@ -441,20 +423,13 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Application application;
-            if (testAsync)
+            if (passCreds)
             {
-                if (passCreds)
-                {
-                    application = await client.ApplicationClient.GetApplicationAsync(id, creds);
-                }
-                else
-                {
-                    application = await client.ApplicationClient.GetApplicationAsync(id);
-                } 
+                application = client.ApplicationClient.GetApplication(id, creds);
             }
             else
-            {
-                application = client.ApplicationClient.GetApplication(id);
+            { 
+                application = client.ApplicationClient.GetApplication(id); 
             }
 
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
@@ -480,10 +455,9 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(false, false)]
-        [InlineData(true, true)]
-        [InlineData(false, true)]
-        public async void DeleteApplication(bool passCreds, bool testAsync)
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DeleteApplication(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{ApiUrl}/v2/applications/{id}";
@@ -492,16 +466,9 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             bool result;
-            if (testAsync)
+            if(passCreds)
             {
-                if (passCreds)
-                {
-                    result = await client.ApplicationClient.DeleteApplicationAsync(id, creds);
-                }
-                else
-                {
-                    result = await client.ApplicationClient.DeleteApplicationAsync(id);
-                } 
+                result = client.ApplicationClient.DeleteApplication(id, creds);
             }
             else
             {
