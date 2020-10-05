@@ -434,6 +434,11 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Verify API | General Availability |✅|
 | Voice API | General Availability |✅|
 
+## FAQ
+
+Q: Does the .NET SDK Support the async pattern?
+A: The .NET SDK does not support the async pattern at this time.
+
 Contributing
 ------------
 
