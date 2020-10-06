@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.NumberInsights
@@ -10,7 +11,7 @@ namespace Vonage.NumberInsights
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null);
+        Task<BasicInsightResponse> GetNumberInsightBasicAsync(BasicNumberInsightRequest request, Credentials creds = null);
 
         /// <summary>
         /// Provides standard number insight information about a number.
@@ -18,8 +19,8 @@ namespace Vonage.NumberInsights
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        StandardInsightResponse
-            GetNumberInsightStandard(StandardNumberInsightRequest request, Credentials creds = null);
+        Task<StandardInsightResponse>
+            GetNumberInsightStandardAsync(StandardNumberInsightRequest request, Credentials creds = null);
 
         /// <summary>
         /// Provides advanced number insight information about a number synchronously, in the same way that the basic and standard endpoints do.
@@ -28,7 +29,7 @@ namespace Vonage.NumberInsights
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
+        Task<AdvancedInsightsResponse> GetNumberInsightAdvancedAsync(AdvancedNumberInsightRequest request,
             Credentials creds = null);
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace Vonage.NumberInsights
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        AdvancedInsightsAsyncResponse GetNumberInsightAsync(AdvancedNumberInsightAsynchronousRequest request,
+        Task<AdvancedInsightsAsyncResponse> GetNumberInsightAsyncAsync(AdvancedNumberInsightAsynchronousRequest request,
             Credentials creds = null);
     }
 }

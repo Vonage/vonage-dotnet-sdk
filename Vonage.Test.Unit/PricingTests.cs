@@ -11,7 +11,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void GetPricingForCountry(bool passCreds)
+        public async Task GetPricingForCountry(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?country=CA&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -43,11 +43,11 @@ namespace Vonage.Test.Unit
 
             if (passCreds)
             {
-                country = client.PricingClient.RetrievePricingCountry("sms", new Pricing.PricingCountryRequest { Country = "CA" }, creds);
+                country = await client.PricingClient.RetrievePricingCountryAsync("sms", new Pricing.PricingCountryRequest { Country = "CA" }, creds);
             }
             else
             {
-                country = client.PricingClient.RetrievePricingCountry("sms", new Pricing.PricingCountryRequest { Country = "CA" });
+                country = await client.PricingClient.RetrievePricingCountryAsync("sms", new Pricing.PricingCountryRequest { Country = "CA" });
             }
 
             //ASSERT
@@ -70,7 +70,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void GetPricingForPrefix(bool passCreds)
+        public async Task GetPricingForPrefix(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-prefix-pricing/outbound/sms?prefix=1&api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -105,11 +105,11 @@ namespace Vonage.Test.Unit
             Pricing.PricingResult pricing;
             if (passCreds)
             {
-                pricing = client.PricingClient.RetrievePrefixPricing("sms", new Pricing.PricingPrefixRequest { Prefix = "1" }, creds);
+                pricing = await client.PricingClient.RetrievePrefixPricingAsync("sms", new Pricing.PricingPrefixRequest { Prefix = "1" }, creds);
             }
             else
             {
-                pricing = client.PricingClient.RetrievePrefixPricing("sms", new Pricing.PricingPrefixRequest { Prefix = "1" });
+                pricing = await client.PricingClient.RetrievePrefixPricingAsync("sms", new Pricing.PricingPrefixRequest { Prefix = "1" });
             }
 
             //ASSERT
@@ -131,7 +131,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void GetPricingAllCountries(bool passCreds)
+        public async Task GetPricingAllCountries(bool passCreds)
         {
             //ARRANGE
             var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?api_key={ApiKey}&api_secret={ApiSecret}&";
@@ -166,11 +166,11 @@ namespace Vonage.Test.Unit
             Pricing.PricingResult pricing;
             if (passCreds)
             {
-                pricing = client.PricingClient.RetrievePricingAllCountries("sms",creds);
+                pricing = await client.PricingClient.RetrievePricingAllCountriesAsync("sms",creds);
             }
             else
             {
-                pricing = client.PricingClient.RetrievePricingAllCountries("sms");
+                pricing = await client.PricingClient.RetrievePricingAllCountriesAsync("sms");
             }
 
             //ASSERT

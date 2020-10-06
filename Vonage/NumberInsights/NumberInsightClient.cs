@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.NumberInsights
@@ -10,9 +11,9 @@ namespace Vonage.NumberInsights
         {
             Credentials = creds;
         }
-        public BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null)
+        public async Task<BasicInsightResponse> GetNumberInsightBasicAsync(BasicNumberInsightRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoGetRequestWithQueryParameters<BasicInsightResponse>(
+            var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<BasicInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -22,9 +23,9 @@ namespace Vonage.NumberInsights
             return response;
         }
 
-        public StandardInsightResponse GetNumberInsightStandard(StandardNumberInsightRequest request, Credentials creds = null)
+        public async Task<StandardInsightResponse> GetNumberInsightStandardAsync(StandardNumberInsightRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoGetRequestWithQueryParameters<StandardInsightResponse>(
+            var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<StandardInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -34,10 +35,10 @@ namespace Vonage.NumberInsights
             return response;
         }
 
-        public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
+        public async Task<AdvancedInsightsResponse> GetNumberInsightAdvancedAsync(AdvancedNumberInsightRequest request,
             Credentials creds = null)
         {
-            var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsResponse>(
+            var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<AdvancedInsightsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -47,9 +48,9 @@ namespace Vonage.NumberInsights
             return response;
         }
 
-        public AdvancedInsightsAsyncResponse GetNumberInsightAsync(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
+        public async Task<AdvancedInsightsAsyncResponse> GetNumberInsightAsyncAsync(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsAsyncResponse>(
+            var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<AdvancedInsightsAsyncResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
                 ApiRequest.AuthType.Query,
                 request,

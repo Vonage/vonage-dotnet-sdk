@@ -12,7 +12,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void SmsConversion(bool passCreds)
+        public async Task SmsConversion(bool passCreds)
         {
             var expectedUri = $"${ApiUrl}/conversions/sms";
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
@@ -24,11 +24,11 @@ namespace Vonage.Test.Unit
             bool response;
             if (passCreds)
             {
-                response = client.ConversionClient.SmsConversion(request, creds);
+                response = await client.ConversionClient.SmsConversionAsync(request, creds);
             }
             else
             {
-                response = client.ConversionClient.SmsConversion(request);
+                response = await client.ConversionClient.SmsConversionAsync(request);
             }
             Assert.True(response);
         }
@@ -36,7 +36,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void VoiceConversion(bool passCreds)
+        public async Task VoiceConversion(bool passCreds)
         {
             var expectedUri = $"${ApiUrl}/conversions/sms";
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
@@ -48,11 +48,11 @@ namespace Vonage.Test.Unit
             bool response;
             if (passCreds)
             {
-                response = client.ConversionClient.VoiceConversion(request, creds);
+                response = await client.ConversionClient.VoiceConversionAsync(request, creds);
             }
             else
             {
-                response = client.ConversionClient.VoiceConversion(request);
+                response = await client.ConversionClient.VoiceConversionAsync(request);
             }
             Assert.True(response);
         }

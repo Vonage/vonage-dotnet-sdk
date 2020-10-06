@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Redaction
@@ -12,9 +13,9 @@ namespace Vonage.Redaction
         }
 
 
-        public bool Redact(RedactRequest request, Credentials creds = null)
+        public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
         {
-            ApiRequest.DoRequestWithJsonContent<object>
+            await ApiRequest.DoRequestWithJsonContentAsync<object>
             (
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api,"/v1/redact/transaction"),

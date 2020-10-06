@@ -13,7 +13,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public void RequestVerification(bool passCreds, bool kitchenSink)
+        public async Task RequestVerification(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -44,11 +44,11 @@ namespace Vonage.Test.Unit
             VerifyResponse response;
             if (passCreds)
             {
-                response = client.VerifyClient.VerifyRequest(request, creds);
+                response = await client.VerifyClient.VerifyRequestAsync(request, creds);
             }
             else
             {
-                response = client.VerifyClient.VerifyRequest(request);
+                response = await client.VerifyClient.VerifyRequestAsync(request);
             }
 
             Assert.Equal("abcdef0123456789abcdef0123456789", response.RequestId);
@@ -58,7 +58,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public void TestCheckVerification(bool passCreds, bool kitchenSink)
+        public async Task TestCheckVerification(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -87,11 +87,11 @@ namespace Vonage.Test.Unit
             VerifyCheckResponse response;
             if (passCreds)
             {
-                response = client.VerifyClient.VerifyCheck(request, creds);
+                response = await client.VerifyClient.VerifyCheckAsync(request, creds);
             }
             else
             {
-                response = client.VerifyClient.VerifyCheck(request);
+                response = await client.VerifyClient.VerifyCheckAsync(request);
             }
             Assert.Equal("0.10000000", response.Price);
             Assert.Equal("0.03330000", response.EstimatedPriceMessagesSent);
@@ -104,7 +104,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void TestVerifySearch(bool passCreds)
+        public async Task TestVerifySearch(bool passCreds)
         {
             var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -142,11 +142,11 @@ namespace Vonage.Test.Unit
             VerifySearchResponse response;
             if (passCreds)
             {
-                response = client.VerifyClient.VerifySearch(request, creds);
+                response = await client.VerifyClient.VerifySearchAsync(request, creds);
             }
             else
             {
-                response = client.VerifyClient.VerifySearch(request);
+                response = await client.VerifyClient.VerifySearchAsync(request);
             }
 
             var req = response;
@@ -173,7 +173,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void TestControlVerify(bool passCreds)
+        public async Task TestControlVerify(bool passCreds)
         {
             var expectedResponse = @"{
               ""status"": ""0"",
@@ -190,18 +190,18 @@ namespace Vonage.Test.Unit
             VerifyControlResponse response;
             if (passCreds)
             {
-                response = client.VerifyClient.VerifyControl(request, creds);
+                response = await client.VerifyClient.VerifyControlAsync(request, creds);
             }
             else
             {
-                response = client.VerifyClient.VerifyControl(request, creds);
+                response = await client.VerifyClient.VerifyControlAsync(request, creds);
             }
             Assert.Equal("0", response.Status);
             Assert.Equal("cancel", response.Command);
         }
 
         [Fact]
-        public void TestControlVerifyInvalidCredentials()
+        public async Task TestControlVerifyInvalidCredentials()
         {
             var expectedResponse = @"{
               ""status"": ""4"",
@@ -217,7 +217,7 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
             try
             {
-                var response = client.VerifyClient.VerifyControl(request, creds);
+                var response = await client.VerifyClient.VerifyControlAsync(request, creds);
                 Assert.True(false, "Automatically failing because exception wasn't thrown");
             }            
             catch(VonageVerifyResponseException ex)
@@ -230,7 +230,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public void Psd2Verification(bool passCreds, bool kitchenSink)
+        public async Task Psd2Verification(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -261,11 +261,11 @@ namespace Vonage.Test.Unit
             VerifyResponse response;
             if (passCreds)
             {
-                response = client.VerifyClient.VerifyRequestWithPSD2(request, creds);
+                response = await client.VerifyClient.VerifyRequestWithPSD2Async(request, creds);
             }
             else
             {
-                response = client.VerifyClient.VerifyRequestWithPSD2(request);
+                response = await client.VerifyClient.VerifyRequestWithPSD2Async(request);
             }
 
             Assert.Equal("abcdef0123456789abcdef0123456789", response.RequestId);

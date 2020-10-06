@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Messaging
@@ -10,6 +11,6 @@ namespace Vonage.Messaging
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null);
+        Task<SendSmsResponse> SendAnSmsAsync(SendSmsRequest request, Credentials creds = null);
     }
 }

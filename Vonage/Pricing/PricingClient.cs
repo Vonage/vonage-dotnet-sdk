@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Pricing
@@ -11,9 +12,9 @@ namespace Vonage.Pricing
         
         public Credentials Credentials { get; set; }
         
-        public Country RetrievePricingCountry(string type, PricingCountryRequest request, Credentials creds = null)
+        public Task<Country> RetrievePricingCountryAsync(string type, PricingCountryRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<Country>
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<Country>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
@@ -22,9 +23,9 @@ namespace Vonage.Pricing
             );
         }
 
-        public PricingResult RetrievePricingAllCountries(string type, Credentials creds = null)
+        public Task<PricingResult> RetrievePricingAllCountriesAsync(string type, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<PricingResult>
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<PricingResult>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
@@ -32,9 +33,9 @@ namespace Vonage.Pricing
             );
         }
 
-        public PricingResult RetrievePrefixPricing(string type, PricingPrefixRequest request, Credentials creds = null)
+        public Task<PricingResult> RetrievePrefixPricingAsync(string type, PricingPrefixRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<PricingResult>
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<PricingResult>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,

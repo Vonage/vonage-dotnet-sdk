@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Accounts
@@ -9,7 +10,7 @@ namespace Vonage.Accounts
         /// </summary>
         /// <param name="creds"></param>
         /// <returns></returns>
-        Balance GetAccountBalance(Credentials creds = null);
+        Task<Balance> GetAccountBalanceAsync(Credentials creds = null);
 
         /// <summary>
         /// You can top up your account using this API when you have enabled auto-reload in the dashboard. 
@@ -21,7 +22,7 @@ namespace Vonage.Accounts
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null);
+        Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null);
 
         /// <summary>
         /// Update the default callback URLs (where the webhooks are sent to) associated with your account: 
@@ -31,7 +32,7 @@ namespace Vonage.Accounts
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        AccountSettingsResult ChangeAccountSettings(AccountSettingsRequest request, Credentials creds = null);
+        Task<AccountSettingsResult> ChangeAccountSettingsAsync(AccountSettingsRequest request, Credentials creds = null);
 
         /// <summary>
         /// Many of Vonage's APIs are accessed using an API key and secret. It is recommended that you change or "rotate" 
@@ -42,7 +43,7 @@ namespace Vonage.Accounts
         /// <param name="apiKey"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        SecretsRequestResult RetrieveApiSecrets(string apiKey=null, Credentials creds = null);
+        Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey=null, Credentials creds = null);
 
         /// <summary>
         /// Createse an API Secret
@@ -51,7 +52,7 @@ namespace Vonage.Accounts
         /// <param name="apiKey">The Api Key to create a secret for</param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        Secret CreateApiSecret(CreateSecretRequest request, string apiKey=null, Credentials creds = null);
+        Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey=null, Credentials creds = null);
 
         /// <summary>
         /// retrieves info about an api secret at the given id
@@ -60,7 +61,7 @@ namespace Vonage.Accounts
         /// <param name="apiKey">Api Key the secret is for</param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        Secret RetrieveApiSecret(string secretId, string apiKey=null, Credentials creds = null);
+        Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey=null, Credentials creds = null);
 
         /// <summary>
         /// Deletes an Api Secret
@@ -69,6 +70,6 @@ namespace Vonage.Accounts
         /// <param name="apiKey">the api key the secret is for</param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        bool RevokeApiSecret(string secretId, string apiKey=null, Credentials creds = null);
+        Task<bool> RevokeApiSecretAsync(string secretId, string apiKey=null, Credentials creds = null);
     }
 }

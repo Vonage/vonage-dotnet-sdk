@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true,true)]
         [InlineData(false,false)]
-        public void TestBasicNIRequest(bool passCreds, bool kitchenSink)
+        public async Task TestBasicNIRequest(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
             var expectedUri = $"{ApiUrl}/ni/basic/json";            
@@ -47,11 +47,11 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
             if (passCreds)
             {
-                response = client.NumberInsightClient.GetNumberInsightBasic(request, creds);
+                response = await client.NumberInsightClient.GetNumberInsightBasicAsync(request, creds);
             }
             else
             {
-                response = client.NumberInsightClient.GetNumberInsightBasic(request);
+                response = await client.NumberInsightClient.GetNumberInsightBasicAsync(request);
             }
 
             //ASSERT
@@ -69,7 +69,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public void TestStandardNIRequest(bool passCreds, bool kitchenSink)
+        public async Task TestStandardNIRequest(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
             var expectedResponse = @"{
@@ -139,11 +139,11 @@ namespace Vonage.Test.Unit
             StandardInsightResponse response;
             if (passCreds)
             {
-                response = client.NumberInsightClient.GetNumberInsightStandard(request, creds);
+                response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request, creds);
             }
             else
             {
-                response = client.NumberInsightClient.GetNumberInsightStandard(request);
+                response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request);
             }
             Assert.Equal("John", response.FirstName);
             Assert.Equal(CallerType.consumer, response.CallerType);
@@ -183,7 +183,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public void TestAdvancedNIRequestSync(bool passCreds, bool kitchenSink)
+        public async Task TestAdvancedNIRequestSync(bool passCreds, bool kitchenSink)
         {//ARRANGE
             var expectedResponse = @"{
               ""status"": 0,
@@ -257,11 +257,11 @@ namespace Vonage.Test.Unit
             AdvancedInsightsResponse response;
             if (passCreds)
             {
-                response = client.NumberInsightClient.GetNumberInsightAdvanced(request, creds);
+                response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request, creds);
             }
             else
             {
-                response = client.NumberInsightClient.GetNumberInsightAdvanced(request);
+                response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
             }
 
             //ASSERT
@@ -307,7 +307,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public void TestAdvancedAsync(bool passCreds, bool kitchenSink)
+        public async Task TestAdvancedAsync(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""request_id"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
@@ -340,11 +340,11 @@ namespace Vonage.Test.Unit
             AdvancedInsightsAsyncResponse response;
             if (passCreds)
             {
-                response = client.NumberInsightClient.GetNumberInsightAsync(request, creds);
+                response = await client.NumberInsightClient.GetNumberInsightAsyncAsync(request, creds);
             }
             else
             {
-                response = client.NumberInsightClient.GetNumberInsightAsync(request);
+                response = await client.NumberInsightClient.GetNumberInsightAsyncAsync(request);
             }
 
             //ASSERT
@@ -356,7 +356,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestFailedAsyncRequest()
+        public async Task TestFailedAsyncRequest()
         {
             //ARRANGE
             var expectedResponse = @"{
@@ -370,7 +370,7 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
             try
             {
-                client.NumberInsightClient.GetNumberInsightAsync(request);
+                await client.NumberInsightClient.GetNumberInsightAsyncAsync(request);
                 //ASSERT
                 Assert.True(false, "Auto fail because request returned without throwing exception");
             }
@@ -382,7 +382,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestFailedAdvancedRequest()
+        public async Task TestFailedAdvancedRequest()
         {
             //ARRANGE
             var expectedResponse = @"{
@@ -397,7 +397,7 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
             try
             {
-                client.NumberInsightClient.GetNumberInsightAdvanced(request);
+                await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
                 //ASSERT
                 Assert.True(false, "Auto fail because request returned without throwing exception");
             }

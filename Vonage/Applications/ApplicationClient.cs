@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Applications
@@ -9,9 +10,9 @@ namespace Vonage.Applications
         {
             Credentials = creds;
         }
-        public Application CreateApplicaiton(CreateApplicationRequest request, Credentials creds = null)
+        public Task<Application> CreateApplicaitonAsync(CreateApplicationRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<Application>(
+            return ApiRequest.DoRequestWithJsonContentAsync<Application>(
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
                 request,
@@ -20,9 +21,9 @@ namespace Vonage.Applications
             );
         }
 
-        public ApplicationPage ListApplications(ListApplicationsRequest request, Credentials creds = null)
+        public Task<ApplicationPage> ListApplicationsAsync(ListApplicationsRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<ApplicationPage>(
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<ApplicationPage>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
                 ApiRequest.AuthType.Basic,
                 request,
@@ -30,18 +31,18 @@ namespace Vonage.Applications
             );
         }
 
-        public Application GetApplication(string id, Credentials creds = null)
+        public Task<Application> GetApplicationAsync(string id, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<Application>(
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<Application>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 ApiRequest.AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
 
-        public Application UpdateApplication(string id, CreateApplicationRequest request, Credentials creds = null)
+        public Task<Application> UpdateApplicationAsync(string id, CreateApplicationRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<Application>(
+            return ApiRequest.DoRequestWithJsonContentAsync<Application>(
                 "PUT",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 request,
@@ -50,9 +51,9 @@ namespace Vonage.Applications
             );
         }
 
-        public bool DeleteApplication(string id, Credentials creds = null)
+        public async Task<bool> DeleteApplicationAsync(string id, Credentials creds = null)
         {
-            ApiRequest.DoDeleteRequestWithUrlContent(
+            await ApiRequest.DoDeleteRequestWithUrlContentAsync(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 null,
                 ApiRequest.AuthType.Basic,

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Conversions
@@ -11,7 +12,7 @@ namespace Vonage.Conversions
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        bool SmsConversion(ConversionRequest request, Credentials creds = null);
+        Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null);
         /// <summary>
         /// Send a Conversion API request with information about the Call or Text-To-Speech identified by message-id. 
         /// Vonage uses your conversion data and internal information about message-id to help improve our routing of messages in the future.
@@ -19,6 +20,6 @@ namespace Vonage.Conversions
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        bool VoiceConversion(ConversionRequest request, Credentials creds = null);
+        Task<bool> VoiceConversionAsync(ConversionRequest request, Credentials creds = null);
     }
 }

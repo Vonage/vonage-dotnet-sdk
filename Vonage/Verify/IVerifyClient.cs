@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Verify
@@ -10,7 +11,7 @@ namespace Vonage.Verify
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        VerifyResponse VerifyRequest(VerifyRequest request, Credentials creds = null);
+        Task<VerifyResponse> VerifyRequestAsync(VerifyRequest request, Credentials creds = null);
 
         /// <summary>
         /// Use Verify check to confirm that the PIN you received from your user matches the one sent by Vonage in your Verify request
@@ -18,7 +19,7 @@ namespace Vonage.Verify
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        VerifyCheckResponse VerifyCheck(VerifyCheckRequest request, Credentials creds = null);
+        Task<VerifyCheckResponse> VerifyCheckAsync(VerifyCheckRequest request, Credentials creds = null);
 
         /// <summary>
         /// Use Verify search to check the status of past or current verification requests
@@ -26,7 +27,7 @@ namespace Vonage.Verify
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        VerifySearchResponse VerifySearch(VerifySearchRequest request, Credentials creds = null);
+        Task<VerifySearchResponse> VerifySearchAsync(VerifySearchRequest request, Credentials creds = null);
 
         /// <summary>
         /// Control the progress of your Verify requests. To cancel an existing Verify request, or to trigger the next verification event
@@ -34,7 +35,7 @@ namespace Vonage.Verify
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null);
+        Task<VerifyControlResponse> VerifyControlAsync(VerifyControlRequest request, Credentials creds = null);
 
         /// <summary>
         /// Use Verify request to generate and send a PIN to your user to authorize a payment: 
@@ -45,6 +46,6 @@ namespace Vonage.Verify
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        VerifyResponse VerifyRequestWithPSD2(Psd2Request request, Credentials creds = null);
+        Task<VerifyResponse> VerifyRequestWithPSD2Async(Psd2Request request, Credentials creds = null);
     }
 }

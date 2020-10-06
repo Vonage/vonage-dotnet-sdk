@@ -1,3 +1,4 @@
+
 Vonage Client Library for .NET
 ===================================
 
@@ -209,7 +210,7 @@ var credentials = Credentials.FromApiKeyAndSecret(
 
 var vonageClient = new VonageClient(credentials);
 
-var response = vonageClient.SmsClient.SendAnSms(new Vonage.Messaging.SendSmsRequest()
+var response = await vonageClient.SmsClient.SendAnSmsAsync(new Vonage.Messaging.SendSmsRequest()
 {
     To = TO_NUMBER,
     From = VONAGE_BRAND_NAME,
@@ -337,7 +338,7 @@ Use [Vonage's Redact API][doc_redact] to redact a SMS message.
 var credentials = Credentials.FromApiKeyAndSecret(VONAGE_API_KEY, VONAGE_API_SECRET);
 var client = new VonageClient(credentials);
 var request = new RedactRequest() { Id = VONAGE_REDACT_ID, Type = VONAGE_REDACT_TYPE, Product = VONAGE_REDACT_PRODUCT };
-var response = client.RedactClient.Redact(request);
+var response = await client.RedactClient.RedactAsync(request);
 ```
 
 ### Initiating a Call
@@ -351,7 +352,7 @@ var creds = Credentials.FromAppIdAndPrivateKeyPath(VONAGE_APPLICATION_ID, VONAGE
 var client = new VonageClient(creds);
 
 var command = new CallCommand() { To = new Endpoint[] { toEndpoint }, From = fromEndpoint, AnswerUrl=new[] { ANSWER_URL}};
-var response = client.VoiceClient.CreateCall(command);
+var response = await client.VoiceClient.CreateCallAsync(command);
 ```
 
 ### Receiving a Call
@@ -378,7 +379,7 @@ public string Answer()
 var credentials = Credentials.FromAppIdAndPrivateKeyPath(VONAGE_APPLICATION_ID, VONAGE_PRIVATE_KEY_PATH);
 var client = new VonageClient(credentials);
 
-var response = client.VoiceClient.GetCall(UUID);
+var response = await client.VoiceClient.GetCallAsync(UUID);
 ```
 
 ### Sending 2FA Code
@@ -390,7 +391,7 @@ var credentials = Credentials.FromApiKeyAndSecret(VONAGE_API_KEY, VONAGE_API_SEC
 var client = new VonageClient(credentials);
 
 var request = new VerifyRequest() { Brand = BRAND_NAME, Number = RECIPIENT_NUMBER };
-var response = client.VerifyClient.VerifyRequest(request);
+var response = await client.VerifyClient.VerifyRequestAsync(request);
 ```
 
 ### Checking 2FA Code
@@ -402,7 +403,7 @@ var credentials = Credentials.FromApiKeyAndSecret(VONAGE_API_KEY, VONAGE_API_SEC
 var client = new VonageClient(credentials);
 
 var request = new VerifyCheckRequest() { Code = CODE, RequestId = REQUEST_ID };
-var response = client.VerifyClient.VerifyCheck(request);
+var response = await client.VerifyClient.VerifyCheckAsync(request);
 ```
 
 ### Additional Examples
@@ -437,7 +438,7 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 ## FAQ
 
 Q: Does the .NET SDK Support the async pattern?
-A: The .NET SDK does not support the async pattern at this time.
+A: Yes
 
 Contributing
 ------------

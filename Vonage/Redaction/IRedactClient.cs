@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Redaction
@@ -10,6 +11,6 @@ namespace Vonage.Redaction
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        bool Redact(RedactRequest request, Credentials creds = null);
+        Task<bool> RedactAsync(RedactRequest request, Credentials creds = null);
     }
 }
