@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using Vonage.Voice;
-using System.Web;
 using System.Globalization;
+using System.Web;
+using Vonage.Voice;
+using Xunit;
 
 namespace Vonage.Test.Unit
 {
@@ -389,13 +385,15 @@ namespace Vonage.Test.Unit
             TalkCommand command;
             if (kitchenSink)
             {
-                expectedRequestContent = @"{""text"":""Hello. How are you today?"",""voice_name"":""salli"",""loop"":0,""level"":""0.4""}";
+                expectedRequestContent = @"{""text"":""Hello. How are you today?"",""voice_name"":""salli"",""loop"":0,""level"":""0.4"",""language"":""en-US"",""style"":1}";
                 command = new TalkCommand
                 {
                     Text = "Hello. How are you today?",
                     Loop = 0,
                     Level = "0.4",
-                    VoiceName="salli"
+                    VoiceName="salli",
+                    Language="en-US",
+                    Style=1
                 };
             }
             else

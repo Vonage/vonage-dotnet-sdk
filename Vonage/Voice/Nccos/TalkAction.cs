@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Vonage.Voice.Nccos
 {
@@ -48,7 +44,20 @@ namespace Vonage.Voice.Nccos
         /// American accent (en-US). Possible values are listed in the Text-To-Speech guide.
         /// </summary>
         [JsonProperty("voiceName")]
+        [Obsolete("This parameter has been made obsolete by the language and style fields. Please see https://developer.nexmo.com/voice/voice-api/guides/text-to-speech#locale for more details")]
         public string VoiceName { get; set; }
+
+        /// <summary>
+        /// The language (<see href="https://tools.ietf.org/html/bcp47">BCP-47</see>format) for the message you are sending. Default: en-US. Possible values are listed in the <see href="https://developer.nexmo.com/voice/voice-api/guides/text-to-speech#supported-languages">Text-To-Speech guide</see>.
+        /// </summary>
+        [JsonProperty("language")]
+        public string Language { get; set; }
+
+        /// <summary>
+        /// The vocal style (vocal range, tessitura and timbre). Default: 0. Possible values are listed in the <see href="https://developer.nexmo.com/voice/voice-api/guides/text-to-speech#supported-languages">Text-To-Speech guide</see>.
+        /// </summary>
+        [JsonProperty("style")]
+        public int? Style { get; set; }
 
         public TalkAction()
         {

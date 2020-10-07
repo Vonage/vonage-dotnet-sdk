@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Vonage.Voice.Nccos;
 using Vonage.Voice.Nccos.Endpoints;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Vonage.Test.Unit
@@ -86,14 +81,16 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestTalk()
         {
-            var expectedJson = @"[{""text"":""Hello World"",""bargeIn"":""true"",""loop"":""2"",""level"":""0"",""voiceName"":""kimberly"",""action"":""talk""}]";
+            var expectedJson = @"[{""text"":""Hello World"",""bargeIn"":""true"",""loop"":""2"",""level"":""0"",""voiceName"":""kimberly"",""language"":""en-US"",""style"":0,""action"":""talk""}]";
             var talkAction = new TalkAction
             {
                 Text = "Hello World",
                 BargeIn = "true",
                 Loop = "2",
                 Level = "0",
-                VoiceName = "kimberly"
+                VoiceName = "kimberly",
+                Language="en-US",
+                Style = 0
             };
             var ncco = new Ncco(talkAction);
             Assert.Equal(expectedJson, ncco.ToString());
