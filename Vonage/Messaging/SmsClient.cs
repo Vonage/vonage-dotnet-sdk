@@ -31,6 +31,11 @@ namespace Vonage.Messaging
             return result;
         }
 
+        public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
+        {
+            return SendAnSmsAsync(request, creds).GetAwaiter().GetResult();
+        }
+
         private static void ValidSmsResponse(SendSmsResponse smsResponse)
         {
             if(smsResponse?.Messages == null)

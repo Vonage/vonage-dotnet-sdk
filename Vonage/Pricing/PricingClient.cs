@@ -43,5 +43,20 @@ namespace Vonage.Pricing
                 creds ?? Credentials
             );
         }
+
+        public Country RetrievePricingCountry(string type, PricingCountryRequest request, Credentials creds = null)
+        {
+            return RetrievePricingCountryAsync(type, request, creds).GetAwaiter().GetResult();
+        }
+
+        public PricingResult RetrievePricingAllCountries(string type, Credentials creds = null)
+        {
+            return RetrievePricingAllCountriesAsync(type, creds).GetAwaiter().GetResult();
+        }
+
+        public PricingResult RetrievePrefixPricing(string type, PricingPrefixRequest request, Credentials creds = null)
+        {
+            return RetrievePrefixPricingAsync(type, request, creds).GetAwaiter().GetResult();
+        }
     }
 }

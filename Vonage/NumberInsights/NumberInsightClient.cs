@@ -74,5 +74,25 @@ namespace Vonage.NumberInsights
                 }
             }
         }
+
+        public BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null)
+        {
+            return GetNumberInsightBasicAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public StandardInsightResponse GetNumberInsightStandard(StandardNumberInsightRequest request, Credentials creds = null)
+        {
+            return GetNumberInsightStandardAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request, Credentials creds = null)
+        {
+            return GetNumberInsightAdvancedAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public AdvancedInsightsAsyncResponse GetNumberInsightAsync(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
+        {
+            return GetNumberInsightAsyncAsync(request, creds).GetAwaiter().GetResult();
+        }
     }
 }

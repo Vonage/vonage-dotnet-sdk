@@ -61,5 +61,30 @@ namespace Vonage.Applications
             );
             return true;
         }
+
+        public Application CreateApplicaiton(CreateApplicationRequest request, Credentials creds = null)
+        {
+            return CreateApplicaitonAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public ApplicationPage ListApplications(ListApplicationsRequest request, Credentials creds = null)
+        {
+            return ListApplicationsAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public Application GetApplication(string id, Credentials creds = null)
+        {
+            return GetApplicationAsync(id, creds).GetAwaiter().GetResult();
+        }
+
+        public Application UpdateApplication(string id, CreateApplicationRequest request, Credentials creds = null)
+        {
+            return UpdateApplicationAsync(id, request, creds).GetAwaiter().GetResult();
+        }
+
+        public bool DeleteApplication(string id, Credentials creds = null)
+        {
+            return DeleteApplicationAsync(id, creds).GetAwaiter().GetResult();
+        }
     }
 }

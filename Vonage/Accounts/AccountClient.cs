@@ -79,6 +79,41 @@ namespace Vonage.Accounts
                 creds ?? Credentials
             );
             return true;
-        }        
+        }
+
+        public Balance GetAccountBalance(Credentials creds = null)
+        {
+            return GetAccountBalanceAsync(creds).GetAwaiter().GetResult();
+        }
+
+        public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null)
+        {
+            return TopUpAccountBalanceAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public AccountSettingsResult ChangeAccountSettings(AccountSettingsRequest request, Credentials creds = null)
+        {
+            return ChangeAccountSettingsAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public SecretsRequestResult RetrieveApiSecrets(string apiKey = null, Credentials creds = null)
+        {
+            return RetrieveApiSecretsAsync(apiKey, creds).GetAwaiter().GetResult();
+        }
+
+        public Secret CreateApiSecret(CreateSecretRequest request, string apiKey = null, Credentials creds = null)
+        {
+            return CreateApiSecretAsync(request, apiKey, creds).GetAwaiter().GetResult();
+        }
+
+        public Secret RetrieveApiSecret(string secretId, string apiKey = null, Credentials creds = null)
+        {
+            return RetrieveApiSecretAsync(secretId, apiKey, creds).GetAwaiter().GetResult();
+        }
+
+        public bool RevokeApiSecret(string secretId, string apiKey = null, Credentials creds = null)
+        {
+            return RevokeApiSecretAsync(secretId, apiKey, creds).GetAwaiter().GetResult();
+        }
     }
 }

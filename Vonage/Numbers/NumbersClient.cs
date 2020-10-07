@@ -74,5 +74,30 @@ namespace Vonage.Numbers
                 throw new VonageNumberResponseException($"Number Transaction failed with error code:{response.ErrorCode} and label {response.ErrorCodeLabel}"){ Response = response};
             }
         }
+
+        public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null)
+        {
+            return GetOwnedNumbersAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null)
+        {
+            return GetAvailableNumbersAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
+        {
+            return BuyANumberAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
+        {
+            return CancelANumberAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
+        {
+            return UpdateANumberAsync(request, creds).GetAwaiter().GetResult();
+        }
     }
 }

@@ -32,5 +32,15 @@ namespace Vonage.Conversions
             );
             return true;
         }
+
+        public bool SmsConversion(ConversionRequest request, Credentials creds = null)
+        {
+            return SmsConversionAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public bool VoiceConversion(ConversionRequest request, Credentials creds = null)
+        {
+            return VoiceConversionAsync(request, creds).GetAwaiter().GetResult();
+        }
     }
 }

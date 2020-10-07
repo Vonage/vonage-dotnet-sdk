@@ -65,6 +65,31 @@ namespace Vonage.Verify
             return response;
         }
 
+        public VerifyResponse VerifyRequest(VerifyRequest request, Credentials creds = null)
+        {
+            return VerifyRequestAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public VerifyCheckResponse VerifyCheck(VerifyCheckRequest request, Credentials creds = null)
+        {
+            return VerifyCheckAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public VerifySearchResponse VerifySearch(VerifySearchRequest request, Credentials creds = null)
+        {
+            return VerifySearchAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null)
+        {
+            return VerifyControlAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public VerifyResponse VerifyRequestWithPSD2(Psd2Request request, Credentials creds = null)
+        {
+            return VerifyRequestWithPSD2Async(request, creds).GetAwaiter().GetResult();
+        }
+
         public void ValidateVerifyResponse(VerifyResponseBase response)
         {
             if (response.Status != "0")

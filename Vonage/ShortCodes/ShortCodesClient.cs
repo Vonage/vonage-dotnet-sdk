@@ -46,5 +46,25 @@ namespace Vonage.ShortCodes
                 request,
                 creds ?? Credentials);
         }
+
+        public OptInSearchResponse QueryOptIns(OptInQueryRequest request, Credentials creds = null)
+        {
+            return QueryOptInsAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public OptInRecord ManageOptIn(OptInManageRequest request, Credentials creds = null)
+        {
+            return ManageOptInAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public AlertResponse SendAlert(AlertRequest request, Credentials creds = null)
+        {
+            return SendAlertAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public TwoFactorAuthResponse SendTwoFactorAuth(TwoFactorAuthRequest request, Credentials creds = null)
+        {
+            return SendTwoFactorAuthAsync(request, creds).GetAwaiter().GetResult();
+        }
     }
 }

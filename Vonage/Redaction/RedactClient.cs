@@ -25,5 +25,10 @@ namespace Vonage.Redaction
             );
             return true;
         }
+
+        public bool Redact(RedactRequest request, Credentials creds = null)
+        {
+            return RedactAsync(request, creds).GetAwaiter().GetResult();
+        }
     }
 }

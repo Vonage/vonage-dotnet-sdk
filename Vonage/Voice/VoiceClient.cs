@@ -201,5 +201,55 @@ namespace Vonage.Voice
                 };
             }
         }
+
+        public CallResponse CreateCall(CallCommand command, Credentials creds = null)
+        {
+            return CreateCallAsync(command, creds).GetAwaiter().GetResult();
+        }
+
+        public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
+        {
+            return GetCallsAsync(filter, creds).GetAwaiter().GetResult();
+        }
+
+        public CallRecord GetCall(string id, Credentials creds = null)
+        {
+            return GetCallAsync(id, creds).GetAwaiter().GetResult();
+        }
+
+        public bool UpdateCall(string id, CallEditCommand command, Credentials creds = null)
+        {
+            return UpdateCallAsync(id, command, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null)
+        {
+            return StartStreamAsync(id, command, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StopStream(string id, Credentials creds = null)
+        {
+            return StopStreamAsync(id, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null)
+        {
+            return StartTalkAsync(id, cmd, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StopTalk(string id, Credentials creds = null)
+        {
+            return StopTalkAsync(id, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null)
+        {
+            return StartDtmfAsync(id, cmd, creds).GetAwaiter().GetResult();
+        }
+
+        public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
+        {
+            return GetRecordingAsync(recordingUrl, creds).GetAwaiter().GetResult();
+        }
     }
 }
