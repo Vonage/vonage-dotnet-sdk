@@ -13,7 +13,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true,true)]
         [InlineData(false,false)]
-        public async Task TestSearchNumbers(bool passCreds, bool kitchenSink)
+        public void TestSearchNumbers(bool passCreds, bool kitchenSink)
         {
             var expetedResponse = @"{
               ""count"": 1234,
@@ -49,11 +49,11 @@ namespace Vonage.Test.Unit
             NumbersSearchResponse response;
             if (passCreds)
             {
-                response = await client.NumbersClient.GetAvailableNumbersAsync(request, creds);
+                response = client.NumbersClient.GetAvailableNumbers(request, creds);
             }
             else
             {
-                response = await client.NumbersClient.GetAvailableNumbersAsync(request);
+                response = client.NumbersClient.GetAvailableNumbers(request);
             }
 
             var number = response.Numbers[0];
@@ -69,7 +69,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true,true)]
         [InlineData(false,false)]
-        public async Task TestBuyNumber(bool passCreds, bool kitchenSink)
+        public void TestBuyNumber(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""error-code"": ""200"",
@@ -97,11 +97,11 @@ namespace Vonage.Test.Unit
             NumberTransactionResponse response;
             if (passCreds)
             {
-                response = await client.NumbersClient.BuyANumberAsync(request, creds);
+                response = client.NumbersClient.BuyANumber(request, creds);
             }
             else
             {
-                response = await client.NumbersClient.BuyANumberAsync(request);
+                response = client.NumbersClient.BuyANumber(request);
             }
             
             Assert.Equal("200",response.ErrorCode);
@@ -111,7 +111,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public async Task TestCancelNumber(bool passCreds, bool kitchenSink)
+        public void TestCancelNumber(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""error-code"": ""200"",
@@ -139,11 +139,11 @@ namespace Vonage.Test.Unit
             NumberTransactionResponse response;
             if (passCreds)
             {
-                response = await client.NumbersClient.CancelANumberAsync(request, creds);
+                response = client.NumbersClient.CancelANumber(request, creds);
             }
             else
             {
-                response = await client.NumbersClient.CancelANumberAsync(request);
+                response = client.NumbersClient.CancelANumber(request);
             }
 
             Assert.Equal("200", response.ErrorCode);
@@ -153,7 +153,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true,true)]
         [InlineData(false,false)]
-        public async Task TestUpdateNumber(bool passCreds, bool kitchenSink)
+        public void TestUpdateNumber(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""error-code"": ""200"",
@@ -193,11 +193,11 @@ namespace Vonage.Test.Unit
             NumberTransactionResponse response;
             if (passCreds)
             {
-                response = await client.NumbersClient.UpdateANumberAsync(request, creds);
+                response = client.NumbersClient.UpdateANumber(request, creds);
             }
             else
             {
-                response = await client.NumbersClient.UpdateANumberAsync(request);
+                response = client.NumbersClient.UpdateANumber(request);
             }
 
             Assert.Equal("200", response.ErrorCode);
@@ -205,7 +205,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async Task TestFailedPurchase()
+        public void TestFailedPurchase()
         {
             var expectedResponse = @"{
               ""error-code"": ""401"",
@@ -219,7 +219,7 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
             try
             {
-                await client.NumbersClient.BuyANumberAsync(request);
+                client.NumbersClient.BuyANumber(request);
                 Assert.True(false, "Failin because exception was not thrown");
             }
             catch (VonageNumberResponseException ex)

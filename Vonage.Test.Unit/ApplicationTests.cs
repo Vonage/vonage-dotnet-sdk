@@ -17,7 +17,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public async Task CreateApplication(bool passCreds)
+        public void CreateApplication(bool passCreds)
         {
             //ARRANGE
             var uri = $"{ApiUrl}/v2/applications";
@@ -101,11 +101,11 @@ namespace Vonage.Test.Unit
             Application response;
             if (passCreds)
             {
-                response = await client.ApplicationClient.CreateApplicaitonAsync(request);
+                response = client.ApplicationClient.CreateApplicaiton(request);
             }
             else
             {
-                response = await client.ApplicationClient.CreateApplicaitonAsync(request, creds);
+                response = client.ApplicationClient.CreateApplicaiton(request, creds);
             }
             
 
@@ -134,7 +134,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public async Task UpdateApplication(bool passCredentials)
+        public void UpdateApplication(bool passCredentials)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{ApiUrl}/v2/applications/{id}";
@@ -217,11 +217,11 @@ namespace Vonage.Test.Unit
             Application response;
             if (passCredentials)
             {
-                response = await client.ApplicationClient.UpdateApplicationAsync(id, application);
+                response = client.ApplicationClient.UpdateApplication(id, application);
             }
             else
             {
-                response = await client.ApplicationClient.UpdateApplicationAsync(id, application,creds);
+                response = client.ApplicationClient.UpdateApplication(id, application,creds);
             }
             
 
@@ -250,7 +250,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false, false)]
         [InlineData(true, true)]
-        public async Task ListApplications(bool passCreds, bool passParameters)
+        public void ListApplications(bool passCreds, bool passParameters)
         {
             var expectedResult = @"{
                   ""page_size"": 10,
@@ -327,11 +327,11 @@ namespace Vonage.Test.Unit
             ApplicationPage applications;
             if (passCreds)
             {
-                applications = await client.ApplicationClient.ListApplicationsAsync(request,creds);
+                applications = client.ApplicationClient.ListApplications(request,creds);
             }
             else
             {
-                applications = await client.ApplicationClient.ListApplicationsAsync(request);
+                applications = client.ApplicationClient.ListApplications(request);
             }
 
             Application application = applications.Embedded.Applications[0];
@@ -366,7 +366,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public async Task GetApplication(bool passCreds)
+        public void GetApplication(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{ApiUrl}/v2/applications/{id}";
@@ -425,11 +425,11 @@ namespace Vonage.Test.Unit
             Application application;
             if (passCreds)
             {
-                application = await client.ApplicationClient.GetApplicationAsync(id, creds);
+                application = client.ApplicationClient.GetApplication(id, creds);
             }
             else
             { 
-                application = await client.ApplicationClient.GetApplicationAsync(id); 
+                application = client.ApplicationClient.GetApplication(id); 
             }
 
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
@@ -457,7 +457,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public async Task DeleteApplication(bool passCreds)
+        public void DeleteApplication(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{ApiUrl}/v2/applications/{id}";
@@ -468,11 +468,11 @@ namespace Vonage.Test.Unit
             bool result;
             if(passCreds)
             {
-                result = await client.ApplicationClient.DeleteApplicationAsync(id, creds);
+                result = client.ApplicationClient.DeleteApplication(id, creds);
             }
             else
             {
-                result = await client.ApplicationClient.DeleteApplicationAsync(id);
+                result = client.ApplicationClient.DeleteApplication(id);
             }
             Assert.True(result);
         }
