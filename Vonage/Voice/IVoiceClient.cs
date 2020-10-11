@@ -101,7 +101,7 @@ namespace Vonage.Voice
         /// <param name="ncco"></param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        CallResponse CreateCall(PhoneEndpoint toNumber, PhoneEndpoint fromNumber , Ncco ncco);
+        CallResponse CreateCall(string toNumber, string fromNumber , Ncco ncco);
 
 
         /// <summary>
@@ -112,6 +112,6 @@ namespace Vonage.Voice
         /// <param name="ncco"></param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        CallResponse CreateCall(Endpoint toEndPoint, PhoneEndpoint fromNumber, Ncco ncco);
+        CallResponse CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco);
     }
 }
