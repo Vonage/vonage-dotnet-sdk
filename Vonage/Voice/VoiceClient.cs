@@ -1,3 +1,5 @@
+using Nexmo.Api.Voice.Nccos;
+using Nexmo.Api.Voice.Nccos.Endpoints;
 using System;
 using System.IO;
 using Vonage.Common;
@@ -199,6 +201,16 @@ namespace Vonage.Voice
                     Status = response.StatusCode
                 };
             }
+        }
+
+        CallResponse IVoiceClient.CreateCall(string toNumber, string fromNumber, Ncco ncco)
+        {
+            throw new NotImplementedException();
+        }
+
+        CallResponse IVoiceClient.CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
+        {
+            throw new NotImplementedException();
         }
     }
 }
