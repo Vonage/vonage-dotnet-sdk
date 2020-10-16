@@ -564,7 +564,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithStringParameters()
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls/";
+            var expectedUri = "https://api.nexmo.com/v2/calls/";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -589,7 +589,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallv2()
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls/";
+            var expectedUri = "https://api.nexmo.com/v2/calls/";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",

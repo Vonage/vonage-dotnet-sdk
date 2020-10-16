@@ -204,6 +204,13 @@ namespace Vonage.Voice
             }
         }
 
+        /// <summary>
+        /// POST /v2/calls - create an outbound SIP or PSTN Call
+        /// </summary>
+        /// <param name="toNumber"></param>
+        /// <param name="fromNumber"></param>
+        /// <param name="ncco"></param>
+        /// <returns></returns>
         CallResponse IVoiceClient.CreateCall(string toNumber, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
         {
             var command = new Voice.CallCommand
@@ -219,7 +226,7 @@ namespace Vonage.Voice
                 {
                     Number = fromNumber
                 },
-                Ncco = ncco,
+                Ncco = ncco
             };
 
             return ApiRequest.DoRequestWithJsonContent<CallResponse>(
@@ -231,6 +238,13 @@ namespace Vonage.Voice
                );
         }
 
+        /// <summary>
+        /// POST /v2/calls - create an outbound SIP or PSTN Call
+        /// </summary>
+        /// <param name="toEndPoint"></param>
+        /// <param name="fromNumber"></param>
+        /// <param name="ncco"></param>
+        /// <returns></returns>
         CallResponse IVoiceClient.CreateCall(PhoneEndpoint toEndPoint, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
         {
             var command = new Voice.CallCommand
@@ -246,7 +260,7 @@ namespace Vonage.Voice
                 {
                     Number = fromNumber
                 },
-                Ncco = ncco,
+                Ncco = ncco
             };
 
             return ApiRequest.DoRequestWithJsonContent<CallResponse>(
