@@ -13,6 +13,7 @@ namespace Vonage.Voice
         public const string DELETE = "DELETE";
         public const string PUT = "PUT";
         public const string CALLS_ENDPOINT = "v1/calls";
+        public const string CALLS_ENDPOINT_LATEST = "v2/calls";
         public Credentials Credentials { get; set; }
 
         public VoiceClient(Credentials credentials = null)
@@ -203,14 +204,58 @@ namespace Vonage.Voice
             }
         }
 
-        CallResponse IVoiceClient.CreateCall(string toNumber, string fromNumber, Ncco ncco)
+        CallResponse IVoiceClient.CreateCall(string toNumber, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
         {
-            throw new NotImplementedException();
+            var command = new Voice.CallCommand
+            {
+                To = new[]
+             {
+                    new Voice.Nccos.Endpoints.PhoneEndpoint
+                    {
+                        Number=toNumber
+                    }
+                },
+                From = new Voice.Nccos.Endpoints.PhoneEndpoint
+                {
+                    Number = fromNumber
+                },
+                Ncco = ncco,
+            };
+
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+               POST,
+               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT_LATEST),
+               command,
+               ApiRequest.AuthType.Bearer,
+               Credentials
+               );
         }
 
-        CallResponse IVoiceClient.CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
+        CallResponse IVoiceClient.CreateCall(PhoneEndpoint toEndPoint, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
         {
-            throw new NotImplementedException();
+            var command = new Voice.CallCommand
+            {
+                To = new[]
+              {
+                    new Voice.Nccos.Endpoints.PhoneEndpoint
+                    {
+                        Number= toEndPoint.ToString()
+                    }
+                },
+                From = new Voice.Nccos.Endpoints.PhoneEndpoint
+                {
+                    Number = fromNumber
+                },
+                Ncco = ncco,
+            };
+
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+               POST,
+               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT_LATEST),
+               command,
+               ApiRequest.AuthType.Bearer,
+               Credentials
+               );
         }
     }
 }
