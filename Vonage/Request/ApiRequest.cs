@@ -350,7 +350,7 @@ namespace Vonage.Request
             string json;
             using (var sr = new StreamReader(stream))
             {
-                json = sr.ReadToEnd();
+                json = await sr.ReadToEndAsync();
             }
             try
             {
