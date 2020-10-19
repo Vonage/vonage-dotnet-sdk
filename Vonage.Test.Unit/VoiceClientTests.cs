@@ -576,14 +576,14 @@ namespace Vonage.Test.Unit
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
-            CallResponse response;
+            Task<CallResponse> response;
             response = client.VoiceClient.CreateCall("14155550100", "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
 
 
-            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
-            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
-            Assert.Equal("outbound", response.Direction);
-            Assert.Equal("started", response.Status);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.GetAwaiter().GetResult().Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.GetAwaiter().GetResult().ConversationUuid);
+            Assert.Equal("outbound", response.GetAwaiter().GetResult().Direction);
+            Assert.Equal("started", response.GetAwaiter().GetResult().Status);
         }
 
         [Fact]
@@ -601,16 +601,16 @@ namespace Vonage.Test.Unit
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
-            CallResponse response;
+            Task<CallResponse> response;
             var toEndpoint = new Nexmo.Api.Voice.Nccos.Endpoints.PhoneEndpoint() { Number = "14155550100" };
             response = client.VoiceClient.CreateCall(
                 toEndpoint, "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
 
 
-            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
-            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
-            Assert.Equal("outbound", response.Direction);
-            Assert.Equal("started", response.Status);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.GetAwaiter().GetResult().Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.GetAwaiter().GetResult().ConversationUuid);
+            Assert.Equal("outbound", response.GetAwaiter().GetResult().Direction);
+            Assert.Equal("started", response.GetAwaiter().GetResult().Status);
         }
     }
 }

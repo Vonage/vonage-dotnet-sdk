@@ -2,6 +2,7 @@ using Nexmo.Api.Voice.Nccos;
 using Nexmo.Api.Voice.Nccos.Endpoints;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
 
@@ -28,9 +29,9 @@ namespace Vonage.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallResponse CreateCall(CallCommand command, Credentials creds = null)
+        public Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+            return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
                 POST,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                 command,
@@ -45,9 +46,9 @@ namespace Vonage.Voice
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// </summary>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
+        public Task<PageResponse<CallList>> GetCallsAsync(CallSearchFilter filter, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<PageResponse<CallList>>(
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<PageResponse<CallList>>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                 ApiRequest.AuthType.Bearer,
                 filter,
@@ -61,9 +62,9 @@ namespace Vonage.Voice
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallRecord GetCall(string id, Credentials creds = null)
+        public Task<CallRecord> GetCallAsync(string id, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<CallRecord>(
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<CallRecord>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 ApiRequest.AuthType.Bearer,
                 credentials: creds ?? Credentials
@@ -77,9 +78,9 @@ namespace Vonage.Voice
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public bool UpdateCall(string id, CallEditCommand command, Credentials creds = null)
+        public async Task<bool> UpdateCallAsync(string id, CallEditCommand command, Credentials creds = null)
         {
-            ApiRequest.DoRequestWithJsonContent<CallRecord>(
+            await ApiRequest.DoRequestWithJsonContentAsync<CallRecord>(
                 PUT,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 command,
@@ -96,9 +97,9 @@ namespace Vonage.Voice
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null)
+        public Task<CallCommandResponse> StartStreamAsync(string id, StreamCommand command, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+            return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
                 PUT,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
                 command,
@@ -113,9 +114,9 @@ namespace Vonage.Voice
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallCommandResponse StopStream(string id, Credentials creds = null)
+        public Task<CallCommandResponse> StopStreamAsync(string id, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+            return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
                 DELETE,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
                 new { },
@@ -131,9 +132,9 @@ namespace Vonage.Voice
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null)
+        public Task<CallCommandResponse> StartTalkAsync(string id, TalkCommand cmd, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+            return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
                 PUT,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
                 cmd,
@@ -148,9 +149,9 @@ namespace Vonage.Voice
         /// <param name="id">id of call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallCommandResponse StopTalk(string id, Credentials creds = null)
+        public Task<CallCommandResponse> StopTalkAsync(string id, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+            return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
                 DELETE,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
                 new { },
@@ -166,9 +167,9 @@ namespace Vonage.Voice
         /// <param name="cmd">Command to execute against call</param>
         /// <param name="creds">(Optional) Overridden credentials for only this request</param>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null)
+        public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+            return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
                 PUT,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
                 cmd,
@@ -184,9 +185,9 @@ namespace Vonage.Voice
         /// <param name="creds">Overridden credentials</param>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         /// <returns>A response containing a byte array representing the file stream</returns>
-        public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
+        public async Task<GetRecordingResponse> GetRecordingAsync(string recordingUrl, Credentials creds = null)
         {
-            using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(recordingUrl), creds ?? Credentials))
+            using (var response = await ApiRequest.DoGetRequestWithJwtAsync(new Uri(recordingUrl), creds ?? Credentials))
             {
                 var readTask = response.Content.ReadAsStreamAsync();
                 byte[] bytes;
@@ -204,6 +205,56 @@ namespace Vonage.Voice
             }
         }
 
+        public CallResponse CreateCall(CallCommand command, Credentials creds = null)
+        {
+            return CreateCallAsync(command, creds).GetAwaiter().GetResult();
+        }
+
+        public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
+        {
+            return GetCallsAsync(filter, creds).GetAwaiter().GetResult();
+        }
+
+        public CallRecord GetCall(string id, Credentials creds = null)
+        {
+            return GetCallAsync(id, creds).GetAwaiter().GetResult();
+        }
+
+        public bool UpdateCall(string id, CallEditCommand command, Credentials creds = null)
+        {
+            return UpdateCallAsync(id, command, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null)
+        {
+            return StartStreamAsync(id, command, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StopStream(string id, Credentials creds = null)
+        {
+            return StopStreamAsync(id, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null)
+        {
+            return StartTalkAsync(id, cmd, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StopTalk(string id, Credentials creds = null)
+        {
+            return StopTalkAsync(id, creds).GetAwaiter().GetResult();
+        }
+
+        public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null)
+        {
+            return StartDtmfAsync(id, cmd, creds).GetAwaiter().GetResult();
+        }
+
+        public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
+        {
+            return GetRecordingAsync(recordingUrl, creds).GetAwaiter().GetResult();
+        }
+
         /// <summary>
         /// POST /v2/calls - create an outbound SIP or PSTN Call
         /// </summary>
@@ -211,7 +262,7 @@ namespace Vonage.Voice
         /// <param name="fromNumber"></param>
         /// <param name="ncco"></param>
         /// <returns></returns>
-        CallResponse IVoiceClient.CreateCall(string toNumber, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
+        public Task<CallResponse> CreateCall(string toNumber, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
         {
             var command = new Voice.CallCommand
             {
@@ -229,7 +280,7 @@ namespace Vonage.Voice
                 Ncco = ncco
             };
 
-            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+            return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
                POST,
                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT_LATEST),
                command,
@@ -245,7 +296,7 @@ namespace Vonage.Voice
         /// <param name="fromNumber"></param>
         /// <param name="ncco"></param>
         /// <returns></returns>
-        CallResponse IVoiceClient.CreateCall(PhoneEndpoint toEndPoint, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
+        public Task<CallResponse> CreateCall(PhoneEndpoint toEndPoint, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
         {
             var command = new Voice.CallCommand
             {
@@ -263,7 +314,7 @@ namespace Vonage.Voice
                 Ncco = ncco
             };
 
-            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+            return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
                POST,
                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT_LATEST),
                command,

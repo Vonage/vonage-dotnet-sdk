@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Numbers
@@ -12,9 +13,9 @@ namespace Vonage.Numbers
         
         public Credentials Credentials { get; set; }
         
-        public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null)
+        public Task<NumbersSearchResponse> GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"), 
                 ApiRequest.AuthType.Query, 
                 request, 
@@ -22,9 +23,9 @@ namespace Vonage.Numbers
                 );
         }
 
-        public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null)
+        public Task<NumbersSearchResponse> GetAvailableNumbersAsync(NumberSearchRequest request, Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"), 
                 ApiRequest.AuthType.Query, 
                 request, 
@@ -32,9 +33,9 @@ namespace Vonage.Numbers
             );
         }
 
-        public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
+        public async Task<NumberTransactionResponse> BuyANumberAsync(NumberTransactionRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(                
+            var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(                
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/buy"),
                 request,                
                 creds ?? Credentials
@@ -43,9 +44,9 @@ namespace Vonage.Numbers
             return response; 
         }
 
-        public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
+        public async Task<NumberTransactionResponse> CancelANumberAsync(NumberTransactionRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(                
+            var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(                
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/cancel"),
                 request,                
                 creds ?? Credentials
@@ -54,9 +55,9 @@ namespace Vonage.Numbers
             return response;
         }
 
-        public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
+        public async Task<NumberTransactionResponse> UpdateANumberAsync(UpdateNumberRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
+            var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/update"),
                 request,
                 creds ?? Credentials
@@ -72,6 +73,31 @@ namespace Vonage.Numbers
             {
                 throw new VonageNumberResponseException($"Number Transaction failed with error code:{response.ErrorCode} and label {response.ErrorCodeLabel}"){ Response = response};
             }
+        }
+
+        public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null)
+        {
+            return GetOwnedNumbersAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null)
+        {
+            return GetAvailableNumbersAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
+        {
+            return BuyANumberAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
+        {
+            return CancelANumberAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
+        {
+            return UpdateANumberAsync(request, creds).GetAwaiter().GetResult();
         }
     }
 }
