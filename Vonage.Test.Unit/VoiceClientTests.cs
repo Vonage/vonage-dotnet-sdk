@@ -587,7 +587,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void CreateCallv2()
+        public void CreateCallWithEndpointAndNcco()
         {
             var expectedUri = "https://api.nexmo.com/v2/calls/";
             var expectedResponse = @"{

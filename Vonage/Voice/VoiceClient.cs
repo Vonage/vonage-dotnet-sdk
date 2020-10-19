@@ -20,7 +20,7 @@ namespace Vonage.Voice
         {
             Credentials = credentials;
         }
-        
+
         /// <summary>
         /// POST /v1/calls - create an outbound SIP or PSTN Call
         /// </summary>
@@ -33,8 +33,8 @@ namespace Vonage.Voice
             return ApiRequest.DoRequestWithJsonContent<CallResponse>(
                 POST,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
-                command, 
-                ApiRequest.AuthType.Bearer, 
+                command,
+                ApiRequest.AuthType.Bearer,
                 creds ?? Credentials
                 );
         }
@@ -66,7 +66,7 @@ namespace Vonage.Voice
             return ApiRequest.DoGetRequestWithQueryParameters<CallRecord>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 ApiRequest.AuthType.Bearer,
-                credentials:  creds ?? Credentials
+                credentials: creds ?? Credentials
             );
         }
 
@@ -169,10 +169,10 @@ namespace Vonage.Voice
         public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null)
         {
             return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
-                PUT, 
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"), 
-                cmd, 
-                ApiRequest.AuthType.Bearer, 
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
+                cmd,
+                ApiRequest.AuthType.Bearer,
                 creds ?? Credentials
                 );
         }
@@ -216,7 +216,7 @@ namespace Vonage.Voice
             var command = new Voice.CallCommand
             {
                 To = new[]
-             {
+                {
                     new Voice.Nccos.Endpoints.PhoneEndpoint
                     {
                         Number=toNumber
@@ -250,7 +250,7 @@ namespace Vonage.Voice
             var command = new Voice.CallCommand
             {
                 To = new[]
-              {
+                {
                     new Voice.Nccos.Endpoints.PhoneEndpoint
                     {
                         Number= toEndPoint.ToString()
