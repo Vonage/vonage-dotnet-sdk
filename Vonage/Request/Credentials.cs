@@ -1,6 +1,8 @@
 ﻿using Vonage.Cryptography;
 using System.IO;
 using System.ComponentModel.Composition;
+using System;
+using Vonage.Utility;
 
 namespace Vonage.Request
 {    
@@ -91,7 +93,16 @@ namespace Vonage.Request
             using (var reader = File.OpenText(privateKeyPath))
             {
                 var privateKey = reader.ReadToEnd();
-                return new Credentials(){ApplicationId = appId, ApplicationKey = privateKey};
+                if (privateKey.HasLineBreaks())
+                {
+                    var modifiedKey = privateKey.RemoveCRLFFromString();
+                    return new Credentials() { ApplicationId = appId, ApplicationKey = modifiedKey };
+                }
+                else
+                {
+                    return new Credentials() { ApplicationId = appId, ApplicationKey = privateKey };
+                }
+                
             }
         }
         
@@ -107,5 +118,7 @@ namespace Vonage.Request
         {
             return new Credentials(){ApiKey = apiKey, SecuritySecret = signatureSecret, Method = method};
         }
+
+       
     }
 }
