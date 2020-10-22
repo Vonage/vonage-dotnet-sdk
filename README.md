@@ -27,12 +27,12 @@ To install the C# client library using NuGet:
 * Run the following command in the Package Manager Console:
 
 ```shell
-    Install-Package Vonage.Dotnet.Client
+    Install-Package Vonage
 ```
 
 Alternatively:
 
-* Download or build (see developer instructions) the `Vonage.Dotnet.Client.dll`.
+* Download or build (see developer instructions) the `Vonage.dll`.
 * If you have downloaded a release, ensure you are referencing the required dependencies by
 either including them with your project's NuGet dependencies or manually referencing them.
 * Reference the assembly in your code.
