@@ -577,7 +577,7 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
             Task<CallResponse> response;
-            response = client.VoiceClient.CreateCall("14155550100", "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
+            response = client.VoiceClient.CreateCallAsync("14155550100", "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
 
 
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.GetAwaiter().GetResult().Uuid);
@@ -603,8 +603,8 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
             Task<CallResponse> response;
             var toEndpoint = new Nexmo.Api.Voice.Nccos.Endpoints.PhoneEndpoint() { Number = "14155550100" };
-            response = client.VoiceClient.CreateCall(
-                toEndpoint, "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
+            response = client.VoiceClient.CreateCallAsync(
+                toEndpoint.ToString(), "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
 
 
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.GetAwaiter().GetResult().Uuid);

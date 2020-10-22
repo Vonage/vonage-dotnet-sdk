@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Vonage.Voice.Nccos;
-using Nexmo.Api.Voice.Nccos.Endpoints;
+using Vonage.Voice.Nccos.Endpoints;
 using Vonage.Common;
 using Vonage.Request;
 
@@ -188,7 +188,7 @@ namespace Vonage.Voice
         /// <param name="ncco"></param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        Task<CallResponse> CreateCall(string toNumber, string fromNumber, Nccos.Ncco ncco);
+        Task<CallResponse> CreateCallAsync(string toNumber, string fromNumber, Nccos.Ncco ncco);
 
         /// <summary>
         ///  POST /v1/calls - create an outbound without PSTN Call
@@ -198,8 +198,26 @@ namespace Vonage.Voice
         /// <param name="ncco"></param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        Task<CallResponse> CreateCall(Endpoint toEndPoint, string fromNumber, Nccos.Ncco ncco);
+        Task<CallResponse> CreateCallAsync(Endpoint toEndPoint, string fromNumber, Nccos.Ncco ncco);
 
-  
+        /// <summary>
+        /// POST /v1/calls - create an outbound PSTN Call
+        /// </summary>
+        /// <param name="toNumber"></param>
+        /// <param name="fromNumber"></param>
+        /// <param name="ncco"></param>
+        /// <returns></returns>
+        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        CallResponse CreateCall(string toNumber, string fromNumber, Nccos.Ncco ncco);
+
+        /// <summary>
+        ///  POST /v1/calls - create an outbound without PSTN Call
+        /// </summary>
+        /// <param name="toEndPoint"></param>
+        /// <param name="fromNumber"></param>
+        /// <param name="ncco"></param>
+        /// <returns></returns>
+        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        CallResponse CreateCall(Endpoint toEndPoint, string fromNumber, Nccos.Ncco ncco);
     }
 }

@@ -1,5 +1,5 @@
 using Vonage.Voice.Nccos;
-using Nexmo.Api.Voice.Nccos.Endpoints;
+using Vonage.Voice.Nccos.Endpoints;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -14,13 +14,13 @@ namespace Vonage.Voice
         public const string DELETE = "DELETE";
         public const string PUT = "PUT";
         public const string CALLS_ENDPOINT = "v1/calls";
-        public const string CALLS_ENDPOINT_LATEST = "v1/calls";
         public Credentials Credentials { get; set; }
 
         public VoiceClient(Credentials credentials = null)
         {
             Credentials = credentials;
         }
+
         /// <summary>
         /// POST /v1/calls - create an outbound SIP or PSTN Call
         /// </summary>
@@ -255,13 +255,13 @@ namespace Vonage.Voice
         }
 
         /// <summary>
-        /// POST /v2/calls - create an outbound SIP or PSTN Call
+        /// POST /v1/calls - create an outbound SIP or PSTN Call
         /// </summary>
         /// <param name="toNumber"></param>
         /// <param name="fromNumber"></param>
         /// <param name="ncco"></param>
         /// <returns></returns>
-        public Task<CallResponse> CreateCall(string toNumber, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
+        public Task<CallResponse> CreateCallAsync(string toNumber, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
         {
             var command = new Voice.CallCommand
             {
@@ -281,7 +281,7 @@ namespace Vonage.Voice
 
             return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
                POST,
-               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT_LATEST),
+               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                command,
                ApiRequest.AuthType.Bearer,
                Credentials
@@ -289,13 +289,13 @@ namespace Vonage.Voice
         }
 
         /// <summary>
-        /// POST /v2/calls - create an outbound SIP or PSTN Call
+        /// POST /v1/calls - create an outbound SIP or PSTN Call
         /// </summary>
         /// <param name="toEndPoint"></param>
         /// <param name="fromNumber"></param>
         /// <param name="ncco"></param>
         /// <returns></returns>
-        public Task<CallResponse> CreateCall(Endpoint toEndPoint, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
+        public Task<CallResponse> CreateCallAsync(Endpoint toEndPoint, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
         {
             var command = new Voice.CallCommand
             {
@@ -315,11 +315,65 @@ namespace Vonage.Voice
 
             return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
                POST,
-               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT_LATEST),
+               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                command,
                ApiRequest.AuthType.Bearer,
                Credentials
                );
+        }
+
+        CallResponse IVoiceClient.CreateCall(string toNumber, string fromNumber, Ncco ncco)
+        {
+            var command = new Voice.CallCommand
+            {
+                To = new[]
+              {
+                    new Voice.Nccos.Endpoints.PhoneEndpoint
+                    {
+                        Number=toNumber
+                    }
+                },
+                From = new Voice.Nccos.Endpoints.PhoneEndpoint
+                {
+                    Number = fromNumber
+                },
+                Ncco = ncco
+            };
+
+            return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
+               POST,
+               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+               command,
+               ApiRequest.AuthType.Bearer,
+               Credentials
+               ).GetAwaiter().GetResult();
+        }
+
+        CallResponse IVoiceClient.CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
+        {
+            var command = new Voice.CallCommand
+            {
+                To = new[]
+               {
+                    new Voice.Nccos.Endpoints.PhoneEndpoint
+                    {
+                        Number= toEndPoint.ToString()
+                    }
+                },
+                From = new Voice.Nccos.Endpoints.PhoneEndpoint
+                {
+                    Number = fromNumber
+                },
+                Ncco = ncco
+            };
+
+            return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
+               POST,
+               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+               command,
+               ApiRequest.AuthType.Bearer,
+               Credentials
+               ).GetAwaiter().GetResult();
         }
     }
 }
