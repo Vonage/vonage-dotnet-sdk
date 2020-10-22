@@ -1,4 +1,4 @@
-using Nexmo.Api.Voice.Nccos;
+using Vonage.Voice.Nccos;
 using Nexmo.Api.Voice.Nccos.Endpoints;
 using System;
 using System.IO;
@@ -14,14 +14,13 @@ namespace Vonage.Voice
         public const string DELETE = "DELETE";
         public const string PUT = "PUT";
         public const string CALLS_ENDPOINT = "v1/calls";
-        public const string CALLS_ENDPOINT_LATEST = "v2/calls";
+        public const string CALLS_ENDPOINT_LATEST = "v1/calls";
         public Credentials Credentials { get; set; }
 
         public VoiceClient(Credentials credentials = null)
         {
             Credentials = credentials;
         }
-
         /// <summary>
         /// POST /v1/calls - create an outbound SIP or PSTN Call
         /// </summary>
@@ -296,7 +295,7 @@ namespace Vonage.Voice
         /// <param name="fromNumber"></param>
         /// <param name="ncco"></param>
         /// <returns></returns>
-        public Task<CallResponse> CreateCall(PhoneEndpoint toEndPoint, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
+        public Task<CallResponse> CreateCall(Endpoint toEndPoint, string fromNumber, Vonage.Voice.Nccos.Ncco ncco)
         {
             var command = new Voice.CallCommand
             {

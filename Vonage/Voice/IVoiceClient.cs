@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Nexmo.Api.Voice.Nccos;
+using Vonage.Voice.Nccos;
 using Nexmo.Api.Voice.Nccos.Endpoints;
 using Vonage.Common;
 using Vonage.Request;
@@ -181,7 +181,7 @@ namespace Vonage.Voice
         GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null);
 
         /// <summary>
-        /// POST /v2/calls - create an outbound PSTN Call
+        /// POST /v1/calls - create an outbound PSTN Call
         /// </summary>
         /// <param name="toNumber"></param>
         /// <param name="fromNumber"></param>
@@ -190,16 +190,15 @@ namespace Vonage.Voice
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         Task<CallResponse> CreateCall(string toNumber, string fromNumber, Nccos.Ncco ncco);
 
-
         /// <summary>
-        ///  POST /v2/calls - create an outbound without PSTN Call
+        ///  POST /v1/calls - create an outbound without PSTN Call
         /// </summary>
         /// <param name="toEndPoint"></param>
         /// <param name="fromNumber"></param>
         /// <param name="ncco"></param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        Task<CallResponse> CreateCall(PhoneEndpoint toEndPoint, string fromNumber, Nccos.Ncco ncco);
+        Task<CallResponse> CreateCall(Endpoint toEndPoint, string fromNumber, Nccos.Ncco ncco);
 
   
     }
