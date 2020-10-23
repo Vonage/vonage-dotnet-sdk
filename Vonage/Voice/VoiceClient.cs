@@ -324,56 +324,12 @@ namespace Vonage.Voice
 
         CallResponse IVoiceClient.CreateCall(string toNumber, string fromNumber, Ncco ncco)
         {
-            var command = new Voice.CallCommand
-            {
-                To = new[]
-              {
-                    new Voice.Nccos.Endpoints.PhoneEndpoint
-                    {
-                        Number=toNumber
-                    }
-                },
-                From = new Voice.Nccos.Endpoints.PhoneEndpoint
-                {
-                    Number = fromNumber
-                },
-                Ncco = ncco
-            };
-
-            return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
-               POST,
-               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
-               command,
-               ApiRequest.AuthType.Bearer,
-               Credentials
-               ).GetAwaiter().GetResult();
+           return CreateCallAsync(toNumber,fromNumber,ncco).GetAwaiter().GetResult();
         }
 
         CallResponse IVoiceClient.CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
         {
-            var command = new Voice.CallCommand
-            {
-                To = new[]
-               {
-                    new Voice.Nccos.Endpoints.PhoneEndpoint
-                    {
-                        Number= toEndPoint.ToString()
-                    }
-                },
-                From = new Voice.Nccos.Endpoints.PhoneEndpoint
-                {
-                    Number = fromNumber
-                },
-                Ncco = ncco
-            };
-
-            return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
-               POST,
-               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
-               command,
-               ApiRequest.AuthType.Bearer,
-               Credentials
-               ).GetAwaiter().GetResult();
+           return CreateCallAsync(toEndPoint,fromNumber,ncco).GetAwaiter().GetResult();
         }
     }
 }
