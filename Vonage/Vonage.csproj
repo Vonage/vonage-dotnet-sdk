@@ -59,6 +59,14 @@
     <None Remove="LegacyNexmoLibrary\Legacy\**" />
   </ItemGroup>  
   <ItemGroup>
+    <None Remove="Key\Private.key" />
+  </ItemGroup>  
+  <ItemGroup>
+    <Content Include="Key\Private.key">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>  
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
   </ItemGroup>

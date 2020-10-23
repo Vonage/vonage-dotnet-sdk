@@ -52,7 +52,7 @@ namespace Nexmo.Api.Test.Unit
                 LengthTimer=1,
                 RingingTimer=1,
             };
-            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var creds = Request.Credentials.FromAppIdAndPrivateKeyPath(AppId, PrivateKeyPath);
             var client = new NexmoClient(creds);
             CallResponse response;
             if (passCreds)

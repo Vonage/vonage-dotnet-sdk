@@ -32,6 +32,7 @@ X6zk7S0ljKtt2jny2+00VsBerQJBAJGC1Mg5Oydo5NwD6BiROrPxGo2bpTbu/fhrT8ebHkTz2epl
 U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
 37sJ5QsW+sJyoNde3xH8vdXhzU7eT82D6X/scw9RZz+/6rCJ4p0=
 -----END RSA PRIVATE KEY-----";
+        protected string PrivateKeyPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Key", "Private.key");
         public void Setup(string uri, string responseContent, string requestContent = null, HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
             typeof(Configuration).GetField("_client", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(Configuration.Instance, null);

@@ -1,5 +1,7 @@
 ﻿using Nexmo.Api.Cryptography;
 using System.IO;
+using Vonage.Utility;
+
 namespace Nexmo.Api.Request
 {
     [System.Obsolete("The Nexmo.Api.Request.Credentials class is obsolete. " +
@@ -91,7 +93,15 @@ namespace Nexmo.Api.Request
             using (var reader = File.OpenText(privateKeyPath))
             {
                 var privateKey = reader.ReadToEnd();
-                return new Credentials(){ApplicationId = appId, ApplicationKey = privateKey};
+                if (privateKey.HasLineBreaks())
+                {
+                    var modifiedKey = privateKey.RemoveCRLFFromString();
+                    return new Credentials() { ApplicationId = appId, ApplicationKey = modifiedKey };
+                }
+                else
+                {
+                    return new Credentials() { ApplicationId = appId, ApplicationKey = privateKey };
+                }
             }
         }
         
