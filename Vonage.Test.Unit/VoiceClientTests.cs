@@ -602,7 +602,7 @@ namespace Vonage.Test.Unit
             Task<CallResponse> response;
             var toEndpoint = new PhoneEndpoint() { Number = "14155550100" };
             response = client.VoiceClient.CreateCallAsync(
-                toEndpoint.ToString(), "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
+                toEndpoint, "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
 
 
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.GetAwaiter().GetResult().Uuid);
