@@ -301,10 +301,7 @@ namespace Vonage.Voice
             {
                 To = new[]
                 {
-                    new Voice.Nccos.Endpoints.PhoneEndpoint
-                    {
-                        Number= toEndPoint.ToString()
-                    }
+                   toEndPoint
                 },
                 From = new Voice.Nccos.Endpoints.PhoneEndpoint
                 {

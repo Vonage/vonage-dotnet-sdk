@@ -564,15 +564,14 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithStringParameters()
         {
-            var expectedUri = "https://api.nexmo.com/v2/calls/";
+            var expectedUri = $"{ApiUrl}/v1/calls/";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""}],""from"":{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}],""answer_url"":[""https://example.com/answer""],""answer_method"":""GET"",""event_url"":[""https://example.com/event""],""event_method"":""POST"",""machine_detection"":""continue"",""length_timer"":1,""ringing_timer"":1}";
-
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
@@ -589,20 +588,19 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithEndpointAndNcco()
         {
-            var expectedUri = "https://api.nexmo.com/v2/calls/";
+            var expectedUri = $"{ApiUrl}/v1/calls/";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""}],""from"":{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}],""answer_url"":[""https://example.com/answer""],""answer_method"":""GET"",""event_url"":[""https://example.com/event""],""event_method"":""POST"",""machine_detection"":""continue"",""length_timer"":1,""ringing_timer"":1}";
-
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
             Task<CallResponse> response;
-            var toEndpoint = new Nexmo.Api.Voice.Nccos.Endpoints.PhoneEndpoint() { Number = "14155550100" };
+            var toEndpoint = new PhoneEndpoint() { Number = "14155550100" };
             response = client.VoiceClient.CreateCallAsync(
                 toEndpoint.ToString(), "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
 
