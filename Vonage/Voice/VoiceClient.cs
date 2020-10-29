@@ -319,12 +319,12 @@ namespace Vonage.Voice
                );
         }
 
-        public CallResponse IVoiceClient.CreateCall(string toNumber, string fromNumber, Ncco ncco)
+        public CallResponse CreateCall(string toNumber, string fromNumber, Ncco ncco)
         {
            return CreateCallAsync(toNumber,fromNumber,ncco).GetAwaiter().GetResult();
         }
 
-        public CallResponse IVoiceClient.CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
+        public CallResponse CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
         {
            return CreateCallAsync(toEndPoint,fromNumber,ncco).GetAwaiter().GetResult();
         }
