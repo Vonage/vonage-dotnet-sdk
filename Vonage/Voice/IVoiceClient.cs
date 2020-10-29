@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Vonage.Voice.Nccos;
+using Vonage.Voice.Nccos.Endpoints;
 using Vonage.Common;
 using Vonage.Request;
 
@@ -177,5 +179,45 @@ namespace Vonage.Voice
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         /// <returns>A response containing a byte array representing the file stream</returns>
         GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null);
+
+        /// <summary>
+        /// POST /v1/calls - create an outbound PSTN Call
+        /// </summary>
+        /// <param name="toNumber"></param>
+        /// <param name="fromNumber"></param>
+        /// <param name="ncco"></param>
+        /// <returns></returns>
+        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        Task<CallResponse> CreateCallAsync(string toNumber, string fromNumber, Nccos.Ncco ncco);
+
+        /// <summary>
+        ///  POST /v1/calls - create an outbound without PSTN Call
+        /// </summary>
+        /// <param name="toEndPoint"></param>
+        /// <param name="fromNumber"></param>
+        /// <param name="ncco"></param>
+        /// <returns></returns>
+        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        Task<CallResponse> CreateCallAsync(Endpoint toEndPoint, string fromNumber, Nccos.Ncco ncco);
+
+        /// <summary>
+        /// POST /v1/calls - create an outbound PSTN Call
+        /// </summary>
+        /// <param name="toNumber"></param>
+        /// <param name="fromNumber"></param>
+        /// <param name="ncco"></param>
+        /// <returns></returns>
+        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        CallResponse CreateCall(string toNumber, string fromNumber, Nccos.Ncco ncco);
+
+        /// <summary>
+        ///  POST /v1/calls - create an outbound without PSTN Call
+        /// </summary>
+        /// <param name="toEndPoint"></param>
+        /// <param name="fromNumber"></param>
+        /// <param name="ncco"></param>
+        /// <returns></returns>
+        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+        CallResponse CreateCall(Endpoint toEndPoint, string fromNumber, Nccos.Ncco ncco);
     }
 }
