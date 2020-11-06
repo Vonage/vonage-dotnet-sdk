@@ -460,6 +460,11 @@ Special thanks to our contributors:
 * [jonferreira](https://github.com/jonferreira)
 * [fauna5](https://github.com/fauna5)
 * [taylus](https://github.com/taylus)
+* [smikis](https://github.com/smikis)
+* [gagandeepp](https://github.com/gagandeepp)
+* [kzuri](https://github.com/kzuri)
+* [Parikshit-Hood](https://github.com/Parikshit-Hooda)
+* [onpoc](https://github.com/onpoc)
 
 License
 -------
