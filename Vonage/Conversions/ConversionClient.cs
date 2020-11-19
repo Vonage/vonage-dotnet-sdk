@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Conversions
@@ -10,9 +11,9 @@ namespace Vonage.Conversions
         {
             Credentials = creds;
         }
-        public bool SmsConversion(ConversionRequest request, Credentials creds = null)
+        public async Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null)
         {
-            ApiRequest.DoPostRequestUrlContentFromObject<object>
+            await ApiRequest.DoPostRequestUrlContentFromObjectAsync<object>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
                 request,
@@ -21,15 +22,25 @@ namespace Vonage.Conversions
             return true;
         }
 
-        public bool VoiceConversion(ConversionRequest request, Credentials creds = null)
+        public async Task<bool> VoiceConversionAsync(ConversionRequest request, Credentials creds = null)
         {
-            ApiRequest.DoPostRequestUrlContentFromObject<object>
+            await ApiRequest.DoPostRequestUrlContentFromObjectAsync<object>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
                 request,
                 creds??Credentials
             );
             return true;
+        }
+
+        public bool SmsConversion(ConversionRequest request, Credentials creds = null)
+        {
+            return SmsConversionAsync(request, creds).GetAwaiter().GetResult();
+        }
+
+        public bool VoiceConversion(ConversionRequest request, Credentials creds = null)
+        {
+            return VoiceConversionAsync(request, creds).GetAwaiter().GetResult();
         }
     }
 }
