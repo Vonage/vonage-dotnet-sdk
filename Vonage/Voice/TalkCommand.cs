@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vonage.Voice
 {
@@ -25,6 +21,7 @@ namespace Vonage.Voice
         /// Possible values for voice_name are listed at https://docs.nexmo.com/voice/voice-api/api-reference#talk_put
         /// </summary>
         [JsonProperty("voice_name")]
+        [Obsolete("This parameter has been made obsolete by the language and style fields. Please see https://developer.nexmo.com/voice/voice-api/guides/text-to-speech#locale for more details")]
         public string VoiceName { get; set; }
 
         /// <summary>
@@ -38,5 +35,17 @@ namespace Vonage.Voice
         /// </summary>
         [JsonProperty("level")]
         public string Level { get; set; }
+
+        /// <summary>
+        /// The language (<see href="https://tools.ietf.org/html/bcp47">BCP-47</see>format) for the message you are sending. Default: en-US. Possible values are listed in the <see href="https://developer.nexmo.com/voice/voice-api/guides/text-to-speech#supported-languages">Text-To-Speech guide</see>.
+        /// </summary>
+        [JsonProperty("language")]
+        public string Language { get; set; }
+
+        /// <summary>
+        /// The vocal style (vocal range, tessitura and timbre). Default: 0. Possible values are listed in the <see href="https://developer.nexmo.com/voice/voice-api/guides/text-to-speech#supported-languages">Text-To-Speech guide</see>.
+        /// </summary>
+        [JsonProperty("style")]
+        public int? Style { get; set; }
     }
 }
