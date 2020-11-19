@@ -4,6 +4,7 @@ using System.Web;
 using Vonage.Voice;
 using Xunit;
 using Vonage.Voice.Nccos.Endpoints;
+using System.Threading.Tasks;
 
 namespace Vonage.Test.Unit
 {
