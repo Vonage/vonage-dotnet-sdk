@@ -38,12 +38,12 @@ namespace Vonage.Messaging
 
         public Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.text, Credentials creds = null)
         {
-            return SendAnSmsAsync(new Messaging.SendSmsRequest { From = from, To = to, Text = text }, creds);
+            return SendAnSmsAsync(new Messaging.SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
         }
 
         public SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.text, Credentials creds = null)
         {
-            return SendAnSms(new Messaging.SendSmsRequest { From = from, To = to, Text = text }, creds);
+            return SendAnSms(new Messaging.SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
         }
 
         private static void ValidSmsResponse(SendSmsResponse smsResponse)
