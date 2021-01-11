@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Xunit;
+using Newtonsoft.Json.Serialization;
 
 namespace Vonage.Test.Unit
 {
@@ -325,6 +326,43 @@ namespace Vonage.Test.Unit
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(Messaging.InboundSms.ConstructSignatureStringFromDictionary(dict),TestSigningSecret,Cryptography.SmsSignatureGenerator.Method.md5);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5));
+        }
+
+        [Fact]
+        public void TestDlrStructCamelCaseIgnore()
+        {
+            var jsonFromNDP = @"{
+                  ""msisdn"": ""447700900000"",
+                  ""to"": ""AcmeInc"",
+                  ""network-code"": ""12345"",
+                  ""messageId"": ""0A0000001234567B"",
+                  ""price"": ""0.03330000"",
+                  ""status"": ""delivered"",
+                  ""scts"": ""2001011400"",
+                  ""err-code"": ""0"",
+                  ""api-key"": ""abcd1234"",
+                  ""message-timestamp"": ""2020-01-01T12:00:00.000+00:00"",
+                  ""timestamp"": 1582650446,
+                  ""nonce"": ""ec11dd3e-1e7f-4db5-9467-82b02cd223b9"",
+                  ""sig"": ""1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C"",
+                  ""client-ref"": ""steve""
+                }";
+            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            var dlr = JsonConvert.DeserializeObject<Messaging.DeliveryReceipt>(jsonFromNDP, settings);
+            Assert.Equal("447700900000", dlr.Msisdn);
+            Assert.Equal("AcmeInc", dlr.To);
+            Assert.Equal("12345", dlr.NetworkCode);
+            Assert.Equal("0A0000001234567B", dlr.MessageId);
+            Assert.Equal("0.03330000", dlr.Price);
+            Assert.Equal(Messaging.DlrStatus.delivered, dlr.Status);
+            Assert.Equal("2001011400", dlr.Scts);
+            Assert.Equal("0", dlr.ErrorCode);
+            Assert.Equal("abcd1234", dlr.ApiKey);
+            Assert.Equal("2020-01-01T12:00:00.000+00:00", dlr.MessageTimestamp);
+            Assert.True(1582650446 == dlr.Timestamp);
+            Assert.Equal("ec11dd3e-1e7f-4db5-9467-82b02cd223b9", dlr.Nonce);
+            Assert.Equal("1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C", dlr.Sig);
+            Assert.Equal("steve", dlr.ClientRef);
         }
     }
 }
