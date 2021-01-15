@@ -1,0 +1,23 @@
+name: Nuget Release
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.release.target_commitish }}      
+      - name: Release Nuget
+        uses: nexmo/github-actions/nuget-release@master
+        env:
+          PROJECT_FILE : Vonage/NugetActionTest.csproj          
+          BRANCH: master
+          ORGANIZATION: Vonage
+          REPO: vonage-dotnet-sdk
+          TAG: ${{ github.event.release.tag_name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          GITHUB_USER_NAME: NexmoDev
+          GITHUB_EMAIL: 44278943+NexmoDev@users.noreply.github.com
