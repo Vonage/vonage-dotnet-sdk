@@ -1,5 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionPrefix>3.0.0</VersionPrefix>
     <TargetFrameworks>netstandard2.0;net452;net46</TargetFrameworks>
@@ -15,52 +15,49 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <Version>5.5.0</Version>
+    <Version>5.6.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseExpression/>
     <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet/releases/tag/v5.5.0</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.1</PackageReleaseNotes>
     <PackageTags>SMS voice telephony phone Vonage</PackageTags>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <NoWarn>1701;1702;1591;1572;1573;0618</NoWarn>
   </PropertyGroup>
-  
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
   </PropertyGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' ">
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
-    <PackageReference Include="jose-jwt" Version="2.3.*" />
-    <PackageReference Include="System.Collections.Immutable" Version="1.2.*" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />    
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-  </ItemGroup>  
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
-    <PackageReference Include="jose-jwt" Version="2.3.*" />
-    <PackageReference Include="System.Collections.Immutable" Version="1.2.*" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Diagnostics.Process" Version="4.1.*" />    
-    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-    <PackageReference Include="System.Security.Cryptography.OpenSsl" Version="4.4.0" />
-    <PackageReference Include="System.Security.Cryptography.Cng" Version="4.4.0" />
-  </ItemGroup>  
-  <ItemGroup>
-    <Compile Remove="LegacyNexmoLibrary\Legacy\**" />
-    <EmbeddedResource Remove="LegacyNexmoLibrary\Legacy\**" />
-    <None Remove="LegacyNexmoLibrary\Legacy\**" />
-  </ItemGroup>  
-  <ItemGroup>
-    <PackageReference Include="System.ComponentModel" Version="4.3.0" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2"/>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2"/>
+    <PackageReference Include="jose-jwt" Version="2.3.*"/>
+    <PackageReference Include="System.Collections.Immutable" Version="1.2.*"/>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1"/>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0"/>
+    <PackageReference Include="System.Net.Http" Version="4.3.4"/>
   </ItemGroup>
-
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2"/>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2"/>
+    <PackageReference Include="jose-jwt" Version="2.3.*"/>
+    <PackageReference Include="System.Collections.Immutable" Version="1.2.*"/>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1"/>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0"/>
+    <PackageReference Include="System.Net.Http" Version="4.3.4"/>
+    <PackageReference Include="System.Diagnostics.Process" Version="4.1.*"/>
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1"/>
+    <PackageReference Include="System.Security.Cryptography.OpenSsl" Version="4.4.0"/>
+    <PackageReference Include="System.Security.Cryptography.Cng" Version="4.4.0"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="LegacyNexmoLibrary\Legacy\**"/>
+    <EmbeddedResource Remove="LegacyNexmoLibrary\Legacy\**"/>
+    <None Remove="LegacyNexmoLibrary\Legacy\**"/>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel" Version="4.3.0"/>
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0"/>
+  </ItemGroup>
 </Project>
