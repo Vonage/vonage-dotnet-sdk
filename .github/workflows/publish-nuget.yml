@@ -21,3 +21,4 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
           GITHUB_USER_NAME: NexmoDev
           GITHUB_EMAIL: 44278943+NexmoDev@users.noreply.github.com
+          OUTPUT_PATH: Vonage/bin/Release
