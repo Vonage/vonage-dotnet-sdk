@@ -12,7 +12,7 @@ jobs:
       - name: Release Nuget
         uses: nexmo/github-actions/nuget-release@master
         env:
-          PROJECT_FILE : Vonage/NugetActionTest.csproj          
+          PROJECT_FILE : Vonage/Vonage.csproj          
           BRANCH: master
           ORGANIZATION: Vonage
           REPO: vonage-dotnet-sdk
