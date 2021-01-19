@@ -45,6 +45,7 @@ namespace Vonage.Messaging
         /// <summary>
         /// A code that explains where the message is in the delivery process.
         /// </summary>
+        [JsonIgnore]
         public DlrStatus Status
         {
             get
