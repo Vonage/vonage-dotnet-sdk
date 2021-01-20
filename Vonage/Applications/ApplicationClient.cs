@@ -64,27 +64,54 @@ namespace Vonage.Applications
 
         public Application CreateApplicaiton(CreateApplicationRequest request, Credentials creds = null)
         {
-            return CreateApplicaitonAsync(request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoRequestWithJsonContent<Application>(
+                "POST",
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
+                request,
+                ApiRequest.AuthType.Basic,
+                creds ?? Credentials
+            );
         }
 
         public ApplicationPage ListApplications(ListApplicationsRequest request, Credentials creds = null)
         {
-            return ListApplicationsAsync(request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<ApplicationPage>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
+                ApiRequest.AuthType.Basic,
+                request,
+                creds ?? Credentials
+            );
         }
 
         public Application GetApplication(string id, Credentials creds = null)
         {
-            return GetApplicationAsync(id, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<Application>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
+                ApiRequest.AuthType.Basic,
+                credentials: creds ?? Credentials
+            );
         }
 
         public Application UpdateApplication(string id, CreateApplicationRequest request, Credentials creds = null)
         {
-            return UpdateApplicationAsync(id, request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoRequestWithJsonContent<Application>(
+                "PUT",
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
+                request,
+                ApiRequest.AuthType.Basic,
+                creds ?? Credentials
+            );
         }
 
         public bool DeleteApplication(string id, Credentials creds = null)
         {
-            return DeleteApplicationAsync(id, creds).GetAwaiter().GetResult();
+            ApiRequest.DoDeleteRequestWithUrlContent(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
+                null,
+                ApiRequest.AuthType.Basic,
+                creds ?? Credentials
+            );
+            return true;
         }
     }
 }

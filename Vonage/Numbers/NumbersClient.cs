@@ -77,27 +77,55 @@ namespace Vonage.Numbers
 
         public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null)
         {
-            return GetOwnedNumbersAsync(request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials
+                );
         }
 
         public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null)
         {
-            return GetAvailableNumbersAsync(request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials
+            );
         }
 
         public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
         {
-            return BuyANumberAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/buy"),
+                request,
+                creds ?? Credentials
+            );
+            ValidateNumbersResponse(response);
+            return response;
         }
 
         public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
         {
-            return CancelANumberAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/cancel"),
+                request,
+                creds ?? Credentials
+            );
+            ValidateNumbersResponse(response);
+            return response;
         }
 
         public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
         {
-            return UpdateANumberAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/update"),
+                request,
+                creds ?? Credentials
+            );
+            ValidateNumbersResponse(response);
+            return response;
         }
     }
 }

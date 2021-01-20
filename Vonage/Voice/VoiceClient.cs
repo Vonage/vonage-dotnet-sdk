@@ -206,52 +206,119 @@ namespace Vonage.Voice
 
         public CallResponse CreateCall(CallCommand command, Credentials creds = null)
         {
-            return CreateCallAsync(command, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+                POST,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+                command,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+                );
         }
 
         public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
         {
-            return GetCallsAsync(filter, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<PageResponse<CallList>>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+                ApiRequest.AuthType.Bearer,
+                filter,
+                creds ?? Credentials
+                );
         }
 
         public CallRecord GetCall(string id, Credentials creds = null)
         {
-            return GetCallAsync(id, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<CallRecord>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
+                ApiRequest.AuthType.Bearer,
+                credentials: creds ?? Credentials
+            );
         }
 
         public bool UpdateCall(string id, CallEditCommand command, Credentials creds = null)
         {
-            return UpdateCallAsync(id, command, creds).GetAwaiter().GetResult();
+            ApiRequest.DoRequestWithJsonContent<CallRecord>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
+                command,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
+            return true;
         }
 
         public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null)
         {
-            return StartStreamAsync(id, command, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
+                command,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
         }
 
         public CallCommandResponse StopStream(string id, Credentials creds = null)
         {
-            return StopStreamAsync(id, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                DELETE,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
+                new { },
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
         }
 
         public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null)
         {
-            return StartTalkAsync(id, cmd, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
+                cmd,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
         }
 
         public CallCommandResponse StopTalk(string id, Credentials creds = null)
         {
-            return StopTalkAsync(id, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                DELETE,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
+                new { },
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+            );
         }
 
         public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null)
         {
-            return StartDtmfAsync(id, cmd, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+                PUT,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
+                cmd,
+                ApiRequest.AuthType.Bearer,
+                creds ?? Credentials
+                );
         }
 
         public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
         {
-            return GetRecordingAsync(recordingUrl, creds).GetAwaiter().GetResult();
+            using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(recordingUrl), creds ?? Credentials))
+            {
+                var readTask = response.Content.ReadAsStreamAsync();
+                byte[] bytes;
+                readTask.Wait();
+                using (var ms = new MemoryStream())
+                {
+                    readTask.Result.CopyTo(ms);
+                    bytes = ms.ToArray();
+                }
+                return new GetRecordingResponse()
+                {
+                    ResultStream = bytes,
+                    Status = response.StatusCode
+                };
+            }
         }
 
         /// <summary>
@@ -321,12 +388,53 @@ namespace Vonage.Voice
 
         public CallResponse CreateCall(string toNumber, string fromNumber, Ncco ncco)
         {
-           return CreateCallAsync(toNumber,fromNumber,ncco).GetAwaiter().GetResult();
+            var command = new Voice.CallCommand
+            {
+                To = new[]
+                 {
+                    new PhoneEndpoint
+                    {
+                        Number=toNumber
+                    }
+                },
+                From = new PhoneEndpoint
+                {
+                    Number = fromNumber
+                },
+                Ncco = ncco
+            };
+
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+               POST,
+               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+               command,
+               ApiRequest.AuthType.Bearer,
+               Credentials
+               );
         }
 
         public CallResponse CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
         {
-           return CreateCallAsync(toEndPoint,fromNumber,ncco).GetAwaiter().GetResult();
+            var command = new CallCommand
+            {
+                To = new[]
+                 {
+                   toEndPoint
+                },
+                From = new PhoneEndpoint
+                {
+                    Number = fromNumber
+                },
+                Ncco = ncco
+            };
+
+            return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+               POST,
+               ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
+               command,
+               ApiRequest.AuthType.Bearer,
+               Credentials
+               );
         }
     }
 }

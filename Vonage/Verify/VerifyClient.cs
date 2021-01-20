@@ -67,27 +67,56 @@ namespace Vonage.Verify
 
         public VerifyResponse VerifyRequest(VerifyRequest request, Credentials creds = null)
         {
-            return VerifyRequestAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
+                request,
+                creds ?? Credentials
+            );
+            ValidateVerifyResponse(response);
+            return response;
         }
 
         public VerifyCheckResponse VerifyCheck(VerifyCheckRequest request, Credentials creds = null)
         {
-            return VerifyCheckAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyCheckResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
+                request,
+                creds ?? Credentials
+            );
+            ValidateVerifyResponse(response);
+            return response;
         }
 
         public VerifySearchResponse VerifySearch(VerifySearchRequest request, Credentials creds = null)
         {
-            return VerifySearchAsync(request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<VerifySearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials
+            );
         }
 
         public VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null)
         {
-            return VerifyControlAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyControlResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
+                request,
+                creds ?? Credentials
+            );
+            ValidateVerifyResponse(response);
+            return response;
         }
 
         public VerifyResponse VerifyRequestWithPSD2(Psd2Request request, Credentials creds = null)
         {
-            return VerifyRequestWithPSD2Async(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
+                request,
+                creds ?? Credentials
+            );
+            ValidateVerifyResponse(response);
+            return response;
         }
 
         public void ValidateVerifyResponse(VerifyResponseBase response)

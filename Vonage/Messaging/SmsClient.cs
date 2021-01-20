@@ -33,7 +33,14 @@ namespace Vonage.Messaging
 
         public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
         {
-            return SendAnSmsAsync(request, creds).GetAwaiter().GetResult();
+            var result = ApiRequest.DoPostRequestUrlContentFromObject<SendSmsResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
+                request,
+                creds ?? Credentials
+            );
+
+            ValidSmsResponse(result);
+            return result;
         }
 
         public Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.text, Credentials creds = null)
