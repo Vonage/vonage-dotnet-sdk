@@ -49,22 +49,38 @@ namespace Vonage.ShortCodes
 
         public OptInSearchResponse QueryOptIns(OptInQueryRequest request, Credentials creds = null)
         {
-            return QueryOptInsAsync(request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<OptInSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/query/json"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials);
         }
 
         public OptInRecord ManageOptIn(OptInManageRequest request, Credentials creds = null)
         {
-            return ManageOptInAsync(request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<OptInRecord>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/manage/json"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials);
         }
 
         public AlertResponse SendAlert(AlertRequest request, Credentials creds = null)
         {
-            return SendAlertAsync(request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<AlertResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/json"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials);
         }
 
         public TwoFactorAuthResponse SendTwoFactorAuth(TwoFactorAuthRequest request, Credentials creds = null)
         {
-            return SendTwoFactorAuthAsync(request, creds).GetAwaiter().GetResult();
+            return ApiRequest.DoGetRequestWithQueryParameters<TwoFactorAuthResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/2fa/json"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials);
         }
     }
 }

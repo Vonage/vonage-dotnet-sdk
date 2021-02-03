@@ -77,22 +77,50 @@ namespace Vonage.NumberInsights
 
         public BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null)
         {
-            return GetNumberInsightBasicAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoGetRequestWithQueryParameters<BasicInsightResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials
+            );
+            ValidateNumberInsightResponse(response);
+            return response;
         }
 
         public StandardInsightResponse GetNumberInsightStandard(StandardNumberInsightRequest request, Credentials creds = null)
         {
-            return GetNumberInsightStandardAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoGetRequestWithQueryParameters<StandardInsightResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials
+            );
+            ValidateNumberInsightResponse(response);
+            return response;
         }
 
         public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request, Credentials creds = null)
         {
-            return GetNumberInsightAdvancedAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials
+            );
+            ValidateNumberInsightResponse(response);
+            return response;
         }
 
         public AdvancedInsightsAsyncResponse GetNumberInsightAsync(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
         {
-            return GetNumberInsightAsyncAsync(request, creds).GetAwaiter().GetResult();
+            var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsAsyncResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? Credentials
+            );
+            ValidateNumberInsightResponse(response);
+            return response;
         }
     }
 }

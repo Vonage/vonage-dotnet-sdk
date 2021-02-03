@@ -28,7 +28,15 @@ namespace Vonage.Redaction
 
         public bool Redact(RedactRequest request, Credentials creds = null)
         {
-            return RedactAsync(request, creds).GetAwaiter().GetResult();
+            ApiRequest.DoRequestWithJsonContent<object>
+            (
+                "POST",
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
+                request,
+                ApiRequest.AuthType.Basic,
+                creds ?? Credentials
+            );
+            return true;
         }
     }
 }

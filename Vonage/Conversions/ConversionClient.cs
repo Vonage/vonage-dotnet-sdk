@@ -35,12 +35,24 @@ namespace Vonage.Conversions
 
         public bool SmsConversion(ConversionRequest request, Credentials creds = null)
         {
-            return SmsConversionAsync(request, creds).GetAwaiter().GetResult();
+            ApiRequest.DoPostRequestUrlContentFromObject<object>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
+                request,
+                creds ?? Credentials
+            );
+            return true;
         }
 
         public bool VoiceConversion(ConversionRequest request, Credentials creds = null)
         {
-            return VoiceConversionAsync(request, creds).GetAwaiter().GetResult();
+            ApiRequest.DoPostRequestUrlContentFromObject<object>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
+                request,
+                creds ?? Credentials
+            );
+            return true;
         }
     }
 }
