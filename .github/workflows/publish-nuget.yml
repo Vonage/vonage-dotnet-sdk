@@ -10,7 +10,7 @@ jobs:
         with:
           ref: ${{ github.event.release.target_commitish }}      
       - name: Release Nuget
-        uses: nexmo/github-actions/nuget-release@master
+        uses: nexmo/github-actions/nuget-release@main
         env:
           PROJECT_FILE : Vonage/Vonage.csproj          
           BRANCH: master
