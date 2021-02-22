@@ -35,7 +35,7 @@ namespace Nexmo.Api.Voice.Nccos
         /// will be added to the last channel in file. split conversation must also be enabled
         /// </summary>
         [JsonProperty("channels")]
-        public uint Channels { get; set; }
+        public uint? Channels { get; set; }
 
         /// <summary>
         /// Stop recording after n seconds of silence. 

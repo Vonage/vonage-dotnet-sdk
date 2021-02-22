@@ -34,6 +34,15 @@ namespace Nexmo.Api.Test.Unit
         }
 
         [Fact]
+        public void TestRecordMinimalist()
+        {
+            var expectedJson = @"[{""action"":""record""}]";
+            var recordAction = new RecordAction();
+            var ncco = new Ncco(recordAction);
+            Assert.Equal(expectedJson, ncco.ToString());
+        }
+
+        [Fact]
         public void TestConversation()
         {
             var expectedJson = @"[{""name"":""nexmo-conference-standard"",""musicOnHoldUrl"":[""https://example.com/music.mp3""],""startOnEnter"":""true"",""endOnExit"":""false"",""record"":""true"",""canSpeak"":[""6a4d6af0-55a6-4667-be90-8614e4c8e83c""],""canHear"":[""6a4d6af0-55a6-4667-be90-8614e4c8e83c""],""action"":""conversation""}]";
