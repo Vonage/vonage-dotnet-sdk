@@ -35,5 +35,11 @@ namespace Vonage.Voice.EventWebhooks
         [JsonProperty("direction")]
         [JsonConverter(typeof(StringEnumConverter))]
         public Direction Direction { get; set; }
+
+        /// <summary>
+        /// Extra detail for the status webhook - only present in some instances
+        /// </summary>
+        [JsonProperty("detail")]
+        public string Detail { get; set; }
     }
 }
