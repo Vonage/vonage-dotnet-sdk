@@ -36,7 +36,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}" +
                 $"&ttl=900000&status-report-req=true&callback={HttpUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
                 $"&type=text&vcard=none&vcal=none&body=638265253311&udh=06050415811581&protocol-id=127&title=welcome&url={HttpUtility.UrlEncode("https://example.com")}" +
-                $"&validity=300000&client-ref=my-personal-reference&account-ref=customer1234&api_key={ApiKey}&api_secret={ApiSecret}&";
+                $"&validity=300000&client-ref=my-personal-reference&account-ref=customer1234&entity-id=testEntity&content-id=testcontent&api_key={ApiKey}&api_secret={ApiSecret}&";
             var request = new Messaging.SendSmsRequest
             {
                 AccountRef = "customer1234",
@@ -56,7 +56,9 @@ namespace Vonage.Test.Unit
                 Validity = "300000",
                 Vcal = "none",
                 Vcard = "none",
-                Url = "https://example.com"
+                Url = "https://example.com",
+                ContentId ="testcontent",
+                EntityId="testEntity"
                 
 
             };
