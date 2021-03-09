@@ -123,6 +123,20 @@ namespace Vonage.Messaging
         /// To use this feature, please email support@nexmo.com
         /// </summary>
         [JsonProperty("account-ref")]
-        public string AccountRef { get; set; }        
+        public string AccountRef { get; set; }
+
+        /// <summary>
+        /// A string parameter that satisfies regulatory requirements when sending an SMS to specific countries.
+        /// For more information please refer to the <see href="https://help.nexmo.com/hc/en-us/articles/115011781468">Country-Specific Outbound SMS Features</see>
+        /// </summary>
+        [JsonProperty("entity-id")]
+        public string EntityId { get; set; }
+
+        /// <summary>
+        /// A string parameter that satisfies regulatory requirements when sending an SMS to specific countries.
+        /// For more information please refer to the <see href="https://help.nexmo.com/hc/en-us/articles/115011781468">Country-Specific Outbound SMS Features</see>
+        /// </summary>
+        [JsonProperty("content-id")]
+        public string ContentId { get; set; }
     }
 }
