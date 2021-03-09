@@ -59,11 +59,68 @@ namespace Vonage.Test.Unit
             Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", callStatusWebhook.Uuid);
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", callStatusWebhook.ConversationUuid);
             Assert.Equal(type, callStatusWebhook.Status);
+            Assert.Equal(DetailedStatus.no_detail, callStatusWebhook.Detail);
+            Assert.Null(callStatusWebhook.DetailString);
             Assert.Equal(Direction.outbound, callStatusWebhook.Direction);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                        DateTimeStyles.AdjustToUniversal), (callStatusWebhook.TimeStamp));
         }
-        
+
+        [Fact]
+        public void TestCallStatusEventWithDetail()
+        {
+            var json = @"
+                {
+                    ""from"":""442079460000"", 
+                    ""to"":""447700900000"", 
+                    ""uuid"":""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""conversation_uuid"":""CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""status"":""rejected"",
+                    ""direction"":""outbound"",
+                    ""timestamp"":""2020-01-01T12:00:00.000Z"",
+                    ""detail"":""restricted""
+                }";
+            var callStatusWebhook = (CallStatusEvent)EventBase.ParseEvent(json);
+
+            Assert.Equal("442079460000", callStatusWebhook.From);
+            Assert.Equal("447700900000", callStatusWebhook.To);
+            Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", callStatusWebhook.Uuid);
+            Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", callStatusWebhook.ConversationUuid);
+            Assert.Equal("rejected", callStatusWebhook.Status);
+            Assert.Equal(DetailedStatus.restricted, callStatusWebhook.Detail);
+            Assert.Equal(Direction.outbound, callStatusWebhook.Direction);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                       DateTimeStyles.AdjustToUniversal), (callStatusWebhook.TimeStamp));
+        }
+
+        [Fact]
+        public void TestCallbackStatusEventWithUnenumeratedDetail()
+        {
+            var json = @"
+                {
+                    ""from"":""442079460000"", 
+                    ""to"":""447700900000"", 
+                    ""uuid"":""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""conversation_uuid"":""CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""status"":""rejected"",
+                    ""direction"":""outbound"",
+                    ""timestamp"":""2020-01-01T12:00:00.000Z"",
+                    ""detail"":""as-yet-unknown-detail""
+                }";
+            var callStatusWebhook = (CallStatusEvent)EventBase.ParseEvent(json);
+
+            Assert.Equal("442079460000", callStatusWebhook.From);
+            Assert.Equal("447700900000", callStatusWebhook.To);
+            Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", callStatusWebhook.Uuid);
+            Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", callStatusWebhook.ConversationUuid);
+            Assert.Equal("rejected", callStatusWebhook.Status);
+            Assert.Equal(DetailedStatus.unmapped_detail, callStatusWebhook.Detail);
+            Assert.Equal("as-yet-unknown-detail", callStatusWebhook.DetailString);
+            Assert.Equal(Direction.outbound, callStatusWebhook.Direction);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                       DateTimeStyles.AdjustToUniversal), (callStatusWebhook.TimeStamp));
+        }
+
         [Theory]
         [InlineData("human")]
         [InlineData("machine")]

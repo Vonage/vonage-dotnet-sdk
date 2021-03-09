@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 
 namespace Vonage.Voice.EventWebhooks
 {
@@ -35,5 +36,31 @@ namespace Vonage.Voice.EventWebhooks
         [JsonProperty("direction")]
         [JsonConverter(typeof(StringEnumConverter))]
         public Direction Direction { get; set; }
+
+        /// <summary>
+        /// Extra detail for the status webhook - only present in some instances
+        /// </summary>
+        [JsonIgnore]
+        public DetailedStatus Detail { 
+            get
+            {
+                DetailedStatus detail;
+                if (string.IsNullOrEmpty(DetailString))
+                {
+                    return DetailedStatus.no_detail;
+                }                
+                if (Enum.TryParse(DetailString, out detail))
+                {
+                    return detail;
+                }
+                else
+                {
+                    return DetailedStatus.unmapped_detail;
+                }
+            }
+        }
+
+        [JsonProperty("detail")]
+        public string DetailString { get; set; }
     }
 }
