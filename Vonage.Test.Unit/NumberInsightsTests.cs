@@ -238,6 +238,218 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
+        public void TestStandardNIRequestWithoutRoaming(bool passCreds, bool kitchenSink)
+        {
+            //ARRANGE
+            var expectedResponse = @"{
+              ""status"": 0,
+              ""status_message"": ""Success"",
+              ""request_id"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+              ""international_format_number"": ""447700900000"",
+              ""national_format_number"": ""07700 900000"",
+              ""country_code"": ""GB"",
+              ""country_code_iso3"": ""GBR"",
+              ""country_name"": ""United Kingdom"",
+              ""country_prefix"": ""44"",
+              ""request_price"": ""0.04000000"",
+              ""refund_price"": ""0.01500000"",
+              ""remaining_balance"": ""1.23456789"",
+              ""current_carrier"": {
+                ""network_code"": ""12345"",
+                ""name"": ""Acme Inc"",
+                ""country"": ""GB"",
+                ""network_type"": ""mobile""
+              },
+              ""original_carrier"": {
+                ""network_code"": ""12345"",
+                ""name"": ""Acme Inc"",
+                ""country"": ""GB"",
+                ""network_type"": ""mobile""
+              },
+              ""ported"": ""not_ported"",
+              ""roaming"": ""unknown"",
+              ""caller_identity"": {
+                            ""caller_type"": ""consumer"",
+                ""caller_name"": ""John Smith"",
+                ""first_name"": ""John"",
+                ""last_name"": ""Smith""
+              },
+              ""caller_name"": ""John Smith"",
+              ""last_name"": ""Smith"",
+              ""first_name"": ""John"",
+              ""caller_type"": ""consumer""
+            }";
+            var expectedUri = $"{ApiUrl}/ni/standard/json";
+            StandardNumberInsightRequest request;
+            if (kitchenSink)
+            {
+                expectedUri+= $"?cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                request = new StandardNumberInsightRequest { Cnam = true, Country = "GB", Number = "15555551212" };
+            }
+            else
+            {
+                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                request = new StandardNumberInsightRequest
+                {
+                    Number = "15555551212"
+                };
+            }
+
+            Setup(expectedUri, expectedResponse);
+
+            //ACT
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new VonageClient(creds);
+            StandardInsightResponse response;
+            if (passCreds)
+            {
+                response = client.NumberInsightClient.GetNumberInsightStandard(request, creds);
+            }
+            else
+            {
+                response = client.NumberInsightClient.GetNumberInsightStandard(request);
+            }
+            Assert.Equal("John", response.FirstName);
+            Assert.Equal(CallerType.consumer, response.CallerType);
+            Assert.Equal("Smith", response.LastName);
+            Assert.Equal("John Smith", response.CallerName);
+            Assert.Equal("Smith", response.CallerIdentity.LastName);
+            Assert.Equal("John", response.CallerIdentity.FirstName);
+            Assert.Equal("John Smith", response.CallerIdentity.CallerName);
+            Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
+            Assert.Equal(RoamingStatus.unknown, response.Roaming.Status);
+            Assert.Equal(PortedStatus.not_ported, response.Ported);
+            Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
+            Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
+            Assert.Equal("GB", response.OriginalCarrier.Country);
+            Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
+            Assert.Equal(0, response.Status);
+            Assert.Equal("Success", response.StatusMessage);
+            Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", response.RequestId);
+            Assert.Equal("447700900000", response.InternationalFormatNumber);
+            Assert.Equal("07700 900000", response.NationalFormatNumber);
+            Assert.Equal("GB", response.CountryCode);
+            Assert.Equal("GBR", response.CountryCodeIso3);
+            Assert.Equal("United Kingdom", response.CountryName);
+            Assert.Equal("44", response.CountryPrefix);
+            Assert.Equal("0.04000000", response.RequestPrice);
+            Assert.Equal("0.01500000", response.RefundPrice);
+            Assert.Equal("1.23456789", response.RemainingBalance);
+            Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
+            Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
+            Assert.Equal("GB", response.CurrentCarrier.Country);
+            Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void TestStandardNIRequestWithNullCarrier(bool passCreds, bool kitchenSink)
+        {
+            //ARRANGE
+            var expectedResponse = @"{
+              ""status"": 0,
+              ""status_message"": ""Success"",
+              ""request_id"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+              ""international_format_number"": ""447700900000"",
+              ""national_format_number"": ""07700 900000"",
+              ""country_code"": ""GB"",
+              ""country_code_iso3"": ""GBR"",
+              ""country_name"": ""United Kingdom"",
+              ""country_prefix"": ""44"",
+              ""request_price"": ""0.04000000"",
+              ""refund_price"": ""0.01500000"",
+              ""remaining_balance"": ""1.23456789"",
+              ""current_carrier"": {
+                ""network_code"": null,
+                ""name"": null,
+                ""country"": null,
+                ""network_type"": null
+              },
+              ""original_carrier"": {
+                ""network_code"": ""12345"",
+                ""name"": ""Acme Inc"",
+                ""country"": ""GB"",
+                ""network_type"": ""mobile""
+              },
+              ""ported"": ""not_ported"",
+              ""roaming"": ""unknown"",
+              ""caller_identity"": {
+                            ""caller_type"": ""consumer"",
+                ""caller_name"": ""John Smith"",
+                ""first_name"": ""John"",
+                ""last_name"": ""Smith""
+              },
+              ""caller_name"": ""John Smith"",
+              ""last_name"": ""Smith"",
+              ""first_name"": ""John"",
+              ""caller_type"": ""consumer""
+            }";
+            var expectedUri = $"{ApiUrl}/ni/standard/json";
+            StandardNumberInsightRequest request;
+            if (kitchenSink)
+            {
+                expectedUri+= $"?cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                request = new StandardNumberInsightRequest { Cnam = true, Country = "GB", Number = "15555551212" };
+            }
+            else
+            {
+                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                request = new StandardNumberInsightRequest
+                {
+                    Number = "15555551212"
+                };
+            }
+
+            Setup(expectedUri, expectedResponse);
+
+            //ACT
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new VonageClient(creds);
+            StandardInsightResponse response;
+            if (passCreds)
+            {
+                response = client.NumberInsightClient.GetNumberInsightStandard(request, creds);
+            }
+            else
+            {
+                response = client.NumberInsightClient.GetNumberInsightStandard(request);
+            }
+            Assert.Equal("John", response.FirstName);
+            Assert.Equal(CallerType.consumer, response.CallerType);
+            Assert.Equal("Smith", response.LastName);
+            Assert.Equal("John Smith", response.CallerName);
+            Assert.Equal("Smith", response.CallerIdentity.LastName);
+            Assert.Equal("John", response.CallerIdentity.FirstName);
+            Assert.Equal("John Smith", response.CallerIdentity.CallerName);
+            Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
+            Assert.Equal(RoamingStatus.unknown, response.Roaming.Status);
+            Assert.Equal(PortedStatus.not_ported, response.Ported);
+            Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
+            Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
+            Assert.Equal("GB", response.OriginalCarrier.Country);
+            Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
+            Assert.Equal(0, response.Status);
+            Assert.Equal("Success", response.StatusMessage);
+            Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", response.RequestId);
+            Assert.Equal("447700900000", response.InternationalFormatNumber);
+            Assert.Equal("07700 900000", response.NationalFormatNumber);
+            Assert.Equal("GB", response.CountryCode);
+            Assert.Equal("GBR", response.CountryCodeIso3);
+            Assert.Equal("United Kingdom", response.CountryName);
+            Assert.Equal("44", response.CountryPrefix);
+            Assert.Equal("0.04000000", response.RequestPrice);
+            Assert.Equal("0.01500000", response.RefundPrice);
+            Assert.Equal("1.23456789", response.RemainingBalance);
+            Assert.Null(response.CurrentCarrier.NetworkCode);
+            Assert.Null(response.CurrentCarrier.Name);
+            Assert.Null(response.CurrentCarrier.Country);
+            Assert.Null(response.CurrentCarrier.NetworkType);
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
         public async void TestStandardNIRequestAsync(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
@@ -575,6 +787,122 @@ namespace Vonage.Test.Unit
             Assert.Equal("US", response.Roaming.RoamingCountryCode);
             Assert.Equal(RoamingStatus.roaming, response.Roaming.Status);
             Assert.Equal(PortedStatus.not_ported, response.Ported);
+            Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
+            Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
+            Assert.Equal("GB", response.OriginalCarrier.Country);
+            Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
+            Assert.Equal(0, response.Status);
+            Assert.Equal("Success", response.StatusMessage);
+            Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", response.RequestId);
+            Assert.Equal("447700900000", response.InternationalFormatNumber);
+            Assert.Equal("07700 900000", response.NationalFormatNumber);
+            Assert.Equal("GB", response.CountryCode);
+            Assert.Equal("GBR", response.CountryCodeIso3);
+            Assert.Equal("United Kingdom", response.CountryName);
+            Assert.Equal("44", response.CountryPrefix);
+            Assert.Equal("0.04000000", response.RequestPrice);
+            Assert.Equal("0.01500000", response.RefundPrice);
+            Assert.Equal("1.23456789", response.RemainingBalance);
+            Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
+            Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
+            Assert.Equal("GB", response.CurrentCarrier.Country);
+            Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void TestAdvancedNIRequestSyncWithNullableValues(bool passCreds, bool kitchenSink)
+        {//ARRANGE
+            var expectedResponse = @"{
+              ""status"": 0,
+              ""status_message"": ""Success"",
+              ""request_id"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+              ""international_format_number"": ""447700900000"",
+              ""national_format_number"": ""07700 900000"",
+              ""country_code"": ""GB"",
+              ""country_code_iso3"": ""GBR"",
+              ""country_name"": ""United Kingdom"",
+              ""country_prefix"": ""44"",
+              ""request_price"": ""0.04000000"",
+              ""refund_price"": ""0.01500000"",
+              ""remaining_balance"": ""1.23456789"",
+              ""current_carrier"": {
+                ""network_code"": ""12345"",
+                ""name"": ""Acme Inc"",
+                ""country"": ""GB"",
+                ""network_type"": ""mobile""
+              },
+              ""original_carrier"": {
+                ""network_code"": ""12345"",
+                ""name"": ""Acme Inc"",
+                ""country"": ""GB"",
+                ""network_type"": ""mobile""
+              },
+              ""ported"": null,
+              ""roaming"": null,
+              ""caller_identity"": {
+                            ""caller_type"": ""consumer"",
+                ""caller_name"": ""John Smith"",
+                ""first_name"": ""John"",
+                ""last_name"": ""Smith""
+              },
+              ""caller_name"": ""John Smith"",
+              ""last_name"": ""Smith"",
+              ""first_name"": ""John"",
+              ""caller_type"": ""consumer"",
+              ""lookup_outcome"": 0,
+              ""lookup_outcome_message"": ""Success"",
+              ""valid_number"": ""valid"",
+              ""reachable"": null
+            }";
+
+            var expectedUri = $"{ApiUrl}/ni/advanced/json";
+            AdvancedNumberInsightRequest request;
+            if (kitchenSink)
+            {
+                expectedUri += $"?ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                request = new AdvancedNumberInsightRequest { Cnam = true, Country = "GB", Number = "15555551212" , Ip="123.0.0.255"};
+            }
+            else
+            {
+                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                request = new AdvancedNumberInsightRequest
+                {
+                    Number = "15555551212"
+                };
+            }
+
+            Setup(expectedUri, expectedResponse);
+
+            //ACT
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new VonageClient(creds);
+            AdvancedInsightsResponse response;
+            if (passCreds)
+            {
+                response = client.NumberInsightClient.GetNumberInsightAdvanced(request, creds);
+            }
+            else
+            {
+                response = client.NumberInsightClient.GetNumberInsightAdvanced(request);
+            }
+
+            //ASSERT
+            Assert.Null(response.Reachable);
+            Assert.Equal(NumberValidity.valid, response.ValidNumber);
+            Assert.Equal("Success", response.LookupOutcomeMessage);
+            Assert.Equal(0, response.LookupOutcome);
+            Assert.Equal("John", response.FirstName);
+            Assert.Equal(CallerType.consumer, response.CallerType);
+            Assert.Equal("Smith", response.LastName);
+            Assert.Equal("John Smith", response.CallerName);
+            Assert.Equal("Smith", response.CallerIdentity.LastName);
+            Assert.Equal("John", response.CallerIdentity.FirstName);
+            Assert.Equal("John Smith", response.CallerIdentity.CallerName);
+            Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
+            Assert.Null(response.Roaming);
+            Assert.Null(response.Ported);
             Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
             Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
             Assert.Equal("GB", response.OriginalCarrier.Country);
