@@ -44,12 +44,13 @@ namespace Vonage.NumberInsights
         /// </summary>
         [JsonProperty("ported")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public PortedStatus Ported { get; set; }
+        public PortedStatus? Ported { get; set; }
 
         /// <summary>
         /// Information about the roaming status for number. This is applicable to mobile numbers only.
         /// </summary>
         [JsonProperty("roaming")]
+        [JsonConverter(typeof(StringOrObjectConverter<string>))]
         public Roaming Roaming { get; set; }
 
         /// <summary>
