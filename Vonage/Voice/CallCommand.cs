@@ -69,5 +69,12 @@ namespace Vonage.Voice
         /// </summary>
         [JsonProperty("ringing_timer")]
         public uint? RingingTimer { get; set; }
+
+
+        /// <summary>
+        /// Set to <code>true</code> to use random phone number as the <code>from</code>. This number will be selected from the list of nubmers assigned to the current application. <code>RandomFromNumber = true  </code> cannot be used together with <code>From</code>
+        /// </summary>
+        [JsonProperty("random_from_number")]
+        public bool? RandomFromNumber { get; set; }
     }
 }
