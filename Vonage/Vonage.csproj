@@ -27,6 +27,11 @@
 	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>
+	<RepositoryUrl>https://github.com/Vonage/vonage-dotnet-sdk.git</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageIcon>VonageLogo_Symbol_Black.png</PackageIcon>
+	<PublishRepositoryUrl>true</PublishRepositoryUrl>
+	<PackageIconUrl />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
@@ -62,8 +67,13 @@
     <Compile Remove="LegacyNexmoLibrary\Legacy\**" />
     <EmbeddedResource Remove="LegacyNexmoLibrary\Legacy\**" />
     <None Remove="LegacyNexmoLibrary\Legacy\**" />
+    <None Include="VonageLogo_Symbol_Black.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>    
   </ItemGroup>
-  <ItemGroup>    
+  <ItemGroup>
+	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
   </ItemGroup>
