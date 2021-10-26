@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <VersionPrefix>3.0.0</VersionPrefix>
+    <VersionPrefix>5.0.0</VersionPrefix>
     <TargetFrameworks>netstandard2.0;net452;net46</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Vonage</AssemblyName>
@@ -15,11 +15,11 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <Version>5.9.0</Version>
+    <Version>5.9.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression />
     <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.0</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.1</PackageReleaseNotes>
     <PackageTags>SMS voice telephony phone Vonage</PackageTags>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <NoWarn>1701;1702;1591;1572;1573;0618</NoWarn>
