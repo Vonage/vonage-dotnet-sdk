@@ -5,7 +5,6 @@
     <TargetFrameworks>netstandard2.0;net452;net46</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Vonage</AssemblyName>
-    <PackageId>Vonage</PackageId>
     <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard2.0' ">2.0.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -45,11 +44,14 @@
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 	<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'!='ReleaseSigned'">
+	<PackageId>Vonage</PackageId>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='ReleaseSigned'">
+	<PackageId>Vonage.Signed</PackageId>
 	<SignAssembly>true</SignAssembly>
 	<AssemblyOriginatorKeyFile>../vonage.snk</AssemblyOriginatorKeyFile>
-	<DelaySign>false</DelaySign>
-	<PackageId>Vonage.Signed</PackageId>
+	<DelaySign>false</DelaySign>	
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' ">
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
