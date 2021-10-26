@@ -27,7 +27,7 @@
     <ProjectReference Include="..\Vonage\Vonage.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.0' And '$(TargetFramework)' != 'netcoreapp3.1' ">
     <Reference Include="System.Web" />
   </ItemGroup>
 
