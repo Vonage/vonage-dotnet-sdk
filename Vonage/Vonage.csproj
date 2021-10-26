@@ -32,6 +32,8 @@
 	<PackageIcon>VonageLogo_Symbol_Black.png</PackageIcon>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>
 	<PackageIconUrl />
+	<Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.
+	</Description>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
