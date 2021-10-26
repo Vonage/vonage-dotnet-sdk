@@ -22,3 +22,17 @@ jobs:
           GITHUB_USER_NAME: NexmoDev
           GITHUB_EMAIL: 44278943+NexmoDev@users.noreply.github.com
           OUTPUT_PATH: Vonage/bin/Release
+      - name: Release Nuget
+        uses: nexmo/github-actions/nuget-release@main
+        env:
+          PROJECT_FILE : Vonage/Vonage.csproj          
+          BRANCH: 5.x
+          ORGANIZATION: Vonage
+          REPO: vonage-dotnet-sdk
+          TAG: ${{ github.event.release.tag_name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          GITHUB_USER_NAME: NexmoDev
+          GITHUB_EMAIL: 44278943+NexmoDev@users.noreply.github.com
+          OUTPUT_PATH: Vonage/bin/ReleaseSigned
+          CONFIGURATION: ReleaseSigned

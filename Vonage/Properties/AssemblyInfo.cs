@@ -18,8 +18,11 @@ using System.Runtime.InteropServices;
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
-
+#if(RELEASESIGNED)
+[assembly: InternalsVisibleTo("Vonage.Test.Unit, PublicKey=dc6dad05b9ecb75a")]
+#else
 [assembly: InternalsVisibleTo("Vonage.Test.Unit")]
+#endif
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("91ab32fe-85ff-4f90-87e9-aad072b21577")]
