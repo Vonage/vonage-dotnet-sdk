@@ -465,7 +465,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public async void Psd2VerificationAsync(bool passCreds, bool kitchenSink)
+        public void Psd2VerificationAsync(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
