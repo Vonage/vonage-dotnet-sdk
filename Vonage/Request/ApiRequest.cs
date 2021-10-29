@@ -584,35 +584,36 @@ namespace Vonage.Request
             };
             SetUserAgent(ref req, creds);
 
-            if (authType == AuthType.Basic)
+            switch (authType)
             {
-                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
-                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
-                    Convert.ToBase64String(authBytes));
-            }
-            else if (authType == AuthType.Bearer)
-            {
-                // attempt bearer token auth
-                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                    Jwt.CreateToken(appId, appKeyPath));
-            }
-            else if (authType == AuthType.Query)
-            {
-                var sb = BuildQueryString(new Dictionary<string, string>(), creds);
-                req.RequestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
+                case AuthType.Basic:                    
+                    var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
+                    req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+                        Convert.ToBase64String(authBytes));
+                    break;
 
+                case AuthType.Bearer:
+                    req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+                    Jwt.CreateToken(appId, appKeyPath));
+                    break;
+
+                case AuthType.Query:
+                    var sb = BuildQueryString(new Dictionary<string, string>(), creds);
+                    req.RequestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
+                    break;
+
+                default:
+                    throw new ArgumentException("Unkown Auth Type set for function");
             }
-            else
-            {
-                throw new ArgumentException("Unkown Auth Type set for function");
-            }
-            var json = JsonConvert.SerializeObject(payload,
-                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+
+            var json = JsonConvert.SerializeObject(payload, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             logger.LogDebug($"Request URI: {uri}");
             logger.LogDebug($"JSON Payload: {json}");
+
             var data = Encoding.UTF8.GetBytes(json);
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            
             var json_response = SendHttpRequest(req).JsonResponse;
             return JsonConvert.DeserializeObject<T>(json_response);
         }
