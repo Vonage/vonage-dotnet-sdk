@@ -377,7 +377,11 @@ namespace Vonage.Test.Unit
             //ASSERT
             Assert.Equal("ad6dc56f-07b5-46e1-a527-85530e625800", secret.Id);
             Assert.Equal("2017-03-02T16:34:49Z", secret.CreatedAt);
-            Assert.Equal("abc123", secret.Links.Self.Href);            
+            Assert.Equal("abc123", secret.Links.Self.Href);
+            Assert.Null(secret.Links.Next);
+            Assert.Null(secret.Links.Prev);
+            Assert.Null(secret.Links.First);
+            Assert.Null(secret.Links.Last);
         }
 
         [Theory]
