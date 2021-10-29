@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using Jose;
 
 namespace Vonage
-{
+{    
     public class Jwt
     {
         public static string CreateToken(string appId, string privateKey)
