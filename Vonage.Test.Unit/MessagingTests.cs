@@ -57,9 +57,9 @@ namespace Vonage.Test.Unit
                 Vcal = "none",
                 Vcard = "none",
                 Url = "https://example.com",
-                ContentId ="testcontent",
-                EntityId="testEntity"
-                
+                ContentId = "testcontent",
+                EntityId = "testEntity"
+
 
             };
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
@@ -84,7 +84,7 @@ namespace Vonage.Test.Unit
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
         }
 
-        [Fact]        
+        [Fact]
         public void SendSmsTypicalUsage()
         {
             var expectedResponse = @"{
@@ -233,7 +233,7 @@ namespace Vonage.Test.Unit
                 var response = client.SmsClient.SendAnSms(new Messaging.SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "Hello World!" });
                 Assert.True(false);
             }
-            catch(Messaging.VonageSmsResponseException nex)
+            catch (Messaging.VonageSmsResponseException nex)
             {
                 Assert.Equal($"SMS Request Failed with status: {nex.Response.Messages[0].Status} and error message: {nex.Response.Messages[0].ErrorText}", nex.Message);
                 Assert.Equal(SmsStatusCode.InvalidCredentials, nex.Response.Messages[0].StatusCode);
@@ -371,9 +371,9 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestValidateSignature()
+        public void TestValidateSignatureMd5()
         {
-            var inboundSmsShell = new Messaging.InboundSms
+            var inboundSmsShell = new InboundSms
             {
                 ApiKey = "abcd1234",
                 Msisdn = "447700900001",
@@ -390,9 +390,106 @@ namespace Vonage.Test.Unit
             var TestSigningSecret = "Y6dI3wtDP8myVH5tnDoIaTxEvAJhgDVCczBa1mHniEqsdlnnebg";
             var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(Messaging.InboundSms.ConstructSignatureStringFromDictionary(dict),TestSigningSecret,Cryptography.SmsSignatureGenerator.Method.md5);
+            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5));
         }
+
+        [Fact]
+        public void TestValidateSignatureMd5Hash()
+        {
+            var inboundSmsShell = new InboundSms
+            {
+                ApiKey = "abcd1234",
+                Msisdn = "447700900001",
+                To = "447700900000",
+                MessageId = "0A0000000123ABCD1",
+                Text = "Hello world",
+                Keyword = "HELLO",
+                MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
+                Timestamp = "1578787200",
+                Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                Concat = "true",
+                ConcatRef = "3",
+            };
+            var TestSigningSecret = "17c6ecf583ef7da515bcfc655426970c";
+            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5hash);
+            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5hash));
+        }
+
+        [Fact]
+        public void TestValidateSignatureSha1()
+        {
+            var inboundSmsShell = new InboundSms
+            {
+                ApiKey = "abcd1234",
+                Msisdn = "447700900001",
+                To = "447700900000",
+                MessageId = "0A0000000123ABCD1",
+                Text = "Hello world",
+                Keyword = "HELLO",
+                MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
+                Timestamp = "1578787200",
+                Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                Concat = "true",
+                ConcatRef = "3",
+            };
+            var TestSigningSecret = "B462F6EF6C0D161EEA214C5D37FC0E1D31C0BC08";
+            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha1);
+            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha1));
+        }
+
+        [Fact]
+        public void TestValidateSignatureSha256()
+        {
+            var inboundSmsShell = new InboundSms
+            {
+                ApiKey = "abcd1234",
+                Msisdn = "447700900001",
+                To = "447700900000",
+                MessageId = "0A0000000123ABCD1",
+                Text = "Hello world",
+                Keyword = "HELLO",
+                MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
+                Timestamp = "1578787200",
+                Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                Concat = "true",
+                ConcatRef = "3",
+            };
+            var TestSigningSecret = "D1EA9F0A89C2C62DD89FFE9585E8CD27163DA47458D353EC7084376BADA72817";
+            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha256);
+            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha256));
+        }
+
+        [Fact]
+        public void TestValidateSignatureSha512()
+        {
+            var inboundSmsShell = new InboundSms
+            {
+                ApiKey = "abcd1234",
+                Msisdn = "447700900001",
+                To = "447700900000",
+                MessageId = "0A0000000123ABCD1",
+                Text = "Hello world",
+                Keyword = "HELLO",
+                MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
+                Timestamp = "1578787200",
+                Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                Concat = "true",
+                ConcatRef = "3",
+            };
+            var TestSigningSecret = "A8E2BB164A894DB7BC7807D7E5A09003B3F25F185D5202F2616EA8D285AD5E8248D50827091B302D07FC967125108339B155938DA45B27C79E45A83CD4914B7C";
+            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha512);
+            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha512));
+        }
+
 
         [Fact]
         public void TestDlrStructCamelCaseIgnore()
