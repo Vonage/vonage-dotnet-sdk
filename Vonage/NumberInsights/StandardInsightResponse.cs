@@ -50,7 +50,7 @@ namespace Vonage.NumberInsights
         /// Information about the roaming status for number. This is applicable to mobile numbers only.
         /// </summary>
         [JsonProperty("roaming")]
-        [JsonConverter(typeof(StringOrObjectConverter<string>))]
+        [JsonConverter(typeof(NumberRoamingConverter))]
         public Roaming Roaming { get; set; }
 
         /// <summary>

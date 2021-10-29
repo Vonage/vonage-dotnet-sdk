@@ -1,0 +1,11 @@
+{
+  "status": 0,
+  "status_message": "Success",
+  "request_id": "ca4f82b6-73aa-43fe-8c52-874fd9ffffff",
+  "international_format_number": "15555551212",
+  "national_format_number": "(555) 555-1212",
+  "country_code": "US",
+  "country_code_iso3": "USA",
+  "country_name": "United States of America",
+  "country_prefix": "1"
+}
