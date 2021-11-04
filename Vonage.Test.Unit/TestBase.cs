@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Text;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq;
@@ -32,9 +32,31 @@ X6zk7S0ljKtt2jny2+00VsBerQJBAJGC1Mg5Oydo5NwD6BiROrPxGo2bpTbu/fhrT8ebHkTz2epl
 U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
 37sJ5QsW+sJyoNde3xH8vdXhzU7eT82D6X/scw9RZz+/6rCJ4p0=
 -----END RSA PRIVATE KEY-----";
+
+
+#if NETCOREAPP2_0_OR_GREATER
+        private static readonly Assembly ThisAssembly = typeof(TestBase).GetTypeInfo().Assembly;
+#else
+        private static readonly Assembly ThisAssembly = typeof(TestBase).Assembly;
+#endif
+
+        private static readonly string TestAssemblyName = ThisAssembly.GetName().Name;
+
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = ThisAssembly.CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
+
+
         public void Setup(string uri, string responseContent, string requestContent = null, HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
-            typeof(Configuration).GetField("_client", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(Configuration.Instance, null);
+            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(Configuration.Instance, null);
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler
                 .Protected()
@@ -51,8 +73,7 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
                     Content = new StringContent(responseContent)
                 })
                 .Verifiable();
-            Configuration.Instance.ClientHandler = mockHandler.Object;
-            
+            Configuration.Instance.ClientHandler = mockHandler.Object;            
         }
 
         public void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
@@ -74,6 +95,20 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
                 .Verifiable();
             Configuration.Instance.ClientHandler = mockHandler.Object;
 
+        }
+
+        protected string GetExpectedJson([CallerMemberName] string name = null)
+        {
+            var type = GetType().Name;
+            var projectFolder = GetType().Namespace.Substring(TestAssemblyName.Length);
+            var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type , name + ".json");
+
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException("file not found at " + path);
+            }
+
+            return File.ReadAllText(path);
         }
     }
 }

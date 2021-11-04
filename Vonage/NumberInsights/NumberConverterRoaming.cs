@@ -4,11 +4,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Vonage.NumberInsights
 {
-    class StringOrObjectConverter<T> : JsonConverter
+    internal class NumberRoamingConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(Roaming));
+            return objectType == typeof(Roaming);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -26,9 +26,9 @@ namespace Vonage.NumberInsights
 
                     return new Roaming {
                         Status = status,
-                        RoamingCountryCode = obj["roaming_country_code"].ToString(),
-                        RoamingNetworkCode = obj["roaming_network_code"].ToString(),
-                        RoamingNetworkName = obj["roaming_network_name"].ToString()
+                        RoamingCountryCode = obj["roaming_country_code"]?.ToString(),
+                        RoamingNetworkCode = obj["roaming_network_code"]?.ToString(),
+                        RoamingNetworkName = obj["roaming_network_name"]?.ToString()
                     };
                 }
 
