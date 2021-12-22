@@ -74,7 +74,6 @@ var vonageClient = new VonageClient(credentials);
 ```
 
 ```csharp
-var results = client.SMS.Send(request: new SMS.SMSRequest
 var response = vonageClient.SmsClient.SendAnSms(new Vonage.Messaging.SendSmsRequest()
 {
     To = TO_NUMBER,
