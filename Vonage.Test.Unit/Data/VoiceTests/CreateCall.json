@@ -1,0 +1,31 @@
+{
+  "to": [
+    {
+      "number": "14155550100",
+      "dtmfAnswer": "p*123#",
+      "type": "phone"
+    }
+  ],
+  "from": {
+    "number": "14155550100",
+    "dtmfAnswer": "p*123#",
+    "type": "phone"
+  },
+  "ncco": [
+    {
+      "text": "Hello World",
+      "action": "talk"
+    }
+  ],
+  "answer_url": [
+    "https://example.com/answer"
+  ],
+  "answer_method": "GET",
+  "event_url": [
+    "https://example.com/event"
+  ],
+  "event_method": "POST",
+  "machine_detection": "continue",
+  "length_timer": 1,
+  "ringing_timer": 1
+}

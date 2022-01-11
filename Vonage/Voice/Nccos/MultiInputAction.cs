@@ -23,6 +23,8 @@ namespace Vonage.Voice.Nccos
         [JsonProperty("dtmf", DefaultValueHandling = DefaultValueHandling.Include)]
         public DtmfSettings Dtmf { get; set; }
 
+
+
         /// <summary>
         /// Speech recognition settings. Should be specified to enable speech input.
         /// </summary>

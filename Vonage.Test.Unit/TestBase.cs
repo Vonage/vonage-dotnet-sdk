@@ -4,10 +4,13 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Vonage.Test.Unit
 {
@@ -62,9 +65,9 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(MOCKED_METHOD,
                 ItExpr.Is<HttpRequestMessage>(
-                    x => 
-                    string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) && 
-                    (requestContent == null) || 
+                    x =>
+                    string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) &&
+                    (requestContent == null) ||
                     (string.Equals(x.Content.ReadAsStringAsync().Result, requestContent, StringComparison.OrdinalIgnoreCase))),
                 ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(new HttpResponseMessage()
@@ -73,7 +76,7 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
                     Content = new StringContent(responseContent)
                 })
                 .Verifiable();
-            Configuration.Instance.ClientHandler = mockHandler.Object;            
+            Configuration.Instance.ClientHandler = mockHandler.Object;
         }
 
         public void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
@@ -97,6 +100,7 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
 
         }
 
+
         protected string GetExpectedJson([CallerMemberName] string name = null)
         {
             var type = GetType().Name;
@@ -105,10 +109,12 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
 
             if (!File.Exists(path))
             {
-                throw new FileNotFoundException("file not found at " + path);
+                throw new FileNotFoundException($"File not found at {path}.");
             }
 
-            return File.ReadAllText(path);
+            var jsonContent = File.ReadAllText(path);
+            jsonContent = Regex.Replace(jsonContent, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
+            return jsonContent;
         }
     }
 }
