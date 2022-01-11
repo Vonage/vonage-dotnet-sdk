@@ -924,10 +924,8 @@ namespace Vonage.Test.Unit
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
             var expectedResponse = "";
-            string expectedRequestContent;
-            CallEditCommand request;
-            expectedRequestContent = @"{""action"":""earmuff""}";
-            request = new CallEditCommand { Action = CallEditCommand.ActionType.Earmuff };
+            var expectedRequestContent = @"{""action"":""earmuff""}";
+            var request = new CallEditCommand { Action = CallEditCommand.ActionType.earmuff };
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             bool response;
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
