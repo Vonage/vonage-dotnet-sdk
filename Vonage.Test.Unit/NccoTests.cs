@@ -24,7 +24,7 @@ namespace Vonage.Test.Unit
                 EventMethod = "POST"
             };
 
-            var ncco = new Ncco(recordAction);
+            var ncco = new Voice.Nccos.Ncco(recordAction);
             Assert.Equal(expectedJson, ncco.ToString());
         }
 
@@ -33,7 +33,7 @@ namespace Vonage.Test.Unit
         {
             var expectedJson = @"[{""action"":""record""}]";
             var recordAction = new RecordAction();
-            var ncco = new Ncco(recordAction);
+            var ncco = new Voice.Nccos.Ncco(recordAction);
             Assert.Equal(expectedJson, ncco.ToString());
         }
 
@@ -51,7 +51,7 @@ namespace Vonage.Test.Unit
                 CanSpeak = new[] { "6a4d6af0-55a6-4667-be90-8614e4c8e83c" },
                 CanHear = new[] { "6a4d6af0-55a6-4667-be90-8614e4c8e83c" }
             };
-            var ncco = new Ncco(conversationAction);
+            var ncco = new Voice.Nccos.Ncco(conversationAction);
             Assert.Equal(expectedJson, ncco.ToString());
         }
 
@@ -83,7 +83,7 @@ namespace Vonage.Test.Unit
                 RingbackTone = "http://example.com/ringbackTone.wav",
                 EventMethod = "POST"
             };
-            var ncco = new Ncco(connectAction);
+            var ncco = new Voice.Nccos.Ncco(connectAction);
             Assert.Equal(expectedJson, ncco.ToString());
         }
 
@@ -101,7 +101,7 @@ namespace Vonage.Test.Unit
                 Language="en-US",
                 Style = 0
             };
-            var ncco = new Ncco(talkAction);
+            var ncco = new Voice.Nccos.Ncco(talkAction);
             Assert.Equal(expectedJson, ncco.ToString());
         }
         
@@ -113,7 +113,7 @@ namespace Vonage.Test.Unit
             {
                 Text = "Hello World"
             };
-            var ncco = new Ncco(talkAction);
+            var ncco = new Voice.Nccos.Ncco(talkAction);
             Assert.Equal(expectedJson, ncco.ToString());
         }
 
@@ -128,7 +128,7 @@ namespace Vonage.Test.Unit
                 Loop = "2",
                 Level = "0",                
             };
-            var ncco = new Ncco(talkAction);
+            var ncco = new Voice.Nccos.Ncco(talkAction);
             Assert.Equal(expectedJson, ncco.ToString());
         }
 
@@ -144,7 +144,7 @@ namespace Vonage.Test.Unit
                 EventUrl = new[] { "https://example.com/ivr" },
                 EventMethod = "POST"
             };
-            var ncco = new Ncco(inputAction);
+            var ncco = new Voice.Nccos.Ncco(inputAction);
             Assert.Equal(expectedJson, ncco.ToString());
         }
 
@@ -161,7 +161,7 @@ namespace Vonage.Test.Unit
                 },
                 EventUrl = new[] { "https://example.com/webhooks/events" }
             };
-            var ncco = new Ncco(notifyAction);
+            var ncco = new Voice.Nccos.Ncco(notifyAction);
             Assert.Equal(expectedJson, ncco.ToString());
         }
 

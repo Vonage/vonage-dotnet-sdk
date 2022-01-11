@@ -1,0 +1,24 @@
+[
+  {
+    "dtmf": {
+      "timeOut": 3,
+      "maxDigits": 1,
+      "submitOnHash": true
+    },
+    "type": [ "dtmf", "speech" ],
+    "speech": {
+      "uuid": [
+        "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+      ],
+      "endOnSilence": 1,
+      "language": "en-US",
+      "context": [
+        "dog",
+        "cat"
+      ],
+      "startTimeout": 5,
+      "maxDuration": 30
+    },
+    "action": "input"
+  }
+]

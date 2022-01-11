@@ -36,6 +36,7 @@ namespace Nexmo.Api.Test.Unit
             //assert
              Assert.Equal(expected, actual);
         }
+
         [Fact]
         public void TestSerializeNccoKitchenEmpty()
         {
