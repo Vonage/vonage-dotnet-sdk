@@ -53,9 +53,9 @@ namespace Vonage.Test.Unit
 
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
-            
+
             CallResponse response;
-            
+
             if (passCreds)
             {
                 response = client.VoiceClient.CreateCall(request, creds);
@@ -295,49 +295,69 @@ namespace Vonage.Test.Unit
 
         }
 
-        [Theory]
-        [InlineData(true, true, true)]
-        [InlineData(false, false, true)]
-        [InlineData(false, false, false)]
-        public void TestUpdateCall(bool passCreds, bool inlineNcco, bool testTransfer)
+        [Fact]
+        public void TestUpdateCallWithInlineNcco()
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
             var expectedResponse = "";
-            string expectedRequestContent;
-            Destination destination;
-            CallEditCommand request;
-            if (testTransfer)
-            {
-                if (inlineNcco)
-                {
-                    expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""ncco"":[{""text"":""hello world"",""action"":""talk""}]}}";
-                    destination = new Destination { Type = "ncco", Ncco = new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "hello world" }) };
-                }
-                else
-                {
-                    expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""url"":[""https://example.com/ncco.json""]}}";
-                    destination = new Destination { Type = "ncco", Url = new[] { "https://example.com/ncco.json" } };
-                }
-                request = new CallEditCommand { Destination = destination, Action = CallEditCommand.ActionType.transfer };
-            }
-            else
-            {
-                expectedRequestContent = @"{""action"":""earmuff""}";
-                request = new CallEditCommand { Action = CallEditCommand.ActionType.earmuff };
-            }
+            var expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""ncco"":[{""text"":""hello world"",""action"":""talk""}]}}";
+            var destination = new Destination { Type = "ncco", Ncco = new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "hello world" }) };
+            var request = new CallEditCommand { Destination = destination, Action = CallEditCommand.ActionType.transfer };
+            
             Setup(expectedUri, expectedResponse, expectedRequestContent);
-            bool response;
+
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
-            if (passCreds)
-            {
-                response = client.VoiceClient.UpdateCall(uuid, request, creds);
-            }
-            else
-            {
-                response = client.VoiceClient.UpdateCall(uuid, request);
-            }
+
+            var response = client.VoiceClient.UpdateCall(uuid, request);
+
+            Assert.True(response);
+        }
+
+        [Fact]
+        public void TestUpdateCallWithCredentials()
+        {
+            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
+            var expectedResponse = "";
+
+            var expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""url"":[""https://example.com/ncco.json""]}}";
+            var destination = new Destination { Type = "ncco", Url = new[] { "https://example.com/ncco.json" } };
+
+            var request = new CallEditCommand { Destination = destination, Action = CallEditCommand.ActionType.transfer };
+
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var client = new VonageClient(creds);
+
+            var response = client.VoiceClient.UpdateCall(uuid, request, creds);
+
+            Assert.True(response);
+        }
+
+        [Theory]
+        [InlineData(CallEditCommand.ActionType.hangup)]
+        [InlineData(CallEditCommand.ActionType.mute)]
+        [InlineData(CallEditCommand.ActionType.unmute)]
+        [InlineData(CallEditCommand.ActionType.earmuff)]
+        [InlineData(CallEditCommand.ActionType.unearmuff)]
+        [InlineData(CallEditCommand.ActionType.transfer)]
+        public void UpdateCallWithActionsType(CallEditCommand.ActionType actionType)
+        {
+            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
+            var expectedActionType = actionType.ToString().ToLower();
+            var expectedRequestContent = @"{""action"":""" + expectedActionType + @""",""destination"":{""type"":""ncco"",""url"":[""https://example.com/ncco.json""]}}";
+            var destination = new Destination { Type = "ncco", Url = new[] { "https://example.com/ncco.json" } };
+            var request = new CallEditCommand { Destination = destination, Action = actionType };
+
+            Setup(expectedUri, string.Empty, expectedRequestContent);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            var client = new VonageClient(creds);
+
+            var response = client.VoiceClient.UpdateCall(uuid, request);
+
             Assert.True(response);
         }
 
@@ -441,9 +461,9 @@ namespace Vonage.Test.Unit
                     Text = "Hello. How are you today?",
                     Loop = 0,
                     Level = "0.4",
-                    VoiceName="salli",
-                    Language="en-US",
-                    Style=1
+                    VoiceName = "salli",
+                    Language = "en-US",
+                    Style = 1
                 };
             }
             else
@@ -898,16 +918,16 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        
+
         public async void TestUpdateCallAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
             var expectedResponse = "";
-            string expectedRequestContent;            
+            string expectedRequestContent;
             CallEditCommand request;
             expectedRequestContent = @"{""action"":""earmuff""}";
-            request = new CallEditCommand { Action = CallEditCommand.ActionType.earmuff };
+            request = new CallEditCommand { Action = CallEditCommand.ActionType.Earmuff };
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             bool response;
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
