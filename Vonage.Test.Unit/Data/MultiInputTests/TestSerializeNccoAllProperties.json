@@ -5,6 +5,7 @@
       "maxDigits": 1,
       "submitOnHash": true
     },
+    "type": [ "dtmf", "speech" ],
     "speech": {
       "uuid": [
         "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"

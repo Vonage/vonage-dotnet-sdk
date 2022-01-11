@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Vonage.Voice.Nccos
 {
@@ -23,7 +25,12 @@ namespace Vonage.Voice.Nccos
         [JsonProperty("dtmf", DefaultValueHandling = DefaultValueHandling.Include)]
         public DtmfSettings Dtmf { get; set; }
 
-
+        /// <summary>
+        /// Acceptable input type. Can be set as [ "dtmf" ] for DTMF input only, [ "speech" ] for ASR only, or [ "dtmf", "speech" ] for both.
+        /// Is required.
+        /// </summary>
+        [JsonProperty("type", ItemConverterType = typeof(StringEnumConverter))]
+        public IEnumerable<NccoInputType> Type { get; set; }
 
         /// <summary>
         /// Speech recognition settings. Should be specified to enable speech input.
@@ -34,7 +41,7 @@ namespace Vonage.Voice.Nccos
         public MultiInputAction()
         {
             Dtmf = new DtmfSettings();
-            this.Action = ActionType.input;
+            Action = ActionType.input;
         }
     }
 }

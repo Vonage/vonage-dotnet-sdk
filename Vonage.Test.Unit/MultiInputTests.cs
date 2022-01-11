@@ -17,12 +17,21 @@ namespace Vonage.Test.Unit
                 Uuid = new[] { "aaaaaaaa-bbbb-cccc-dddd-0123456789ab" },
                 EndOnSilence = 1,
                 Language = "en-US",
-                Context = new [] { "dog", "cat" },
+                Context = new[] { "dog", "cat" },
                 StartTimeout = 5,
                 MaxDuration = 30
             };
             var dtmfSettings = new DtmfSettings { MaxDigits = 1, TimeOut = 3, SubmitOnHash = true };
-            var inputAction = new MultiInputAction { Speech = settings, Dtmf = dtmfSettings };
+            var inputAction = new MultiInputAction
+            {
+                Speech = settings,
+                Dtmf = dtmfSettings,
+                Type = new[]
+                {
+                    NccoInputType.DTMF,
+                    NccoInputType.Speech
+                }
+            };
 
             //act
             var ncco = new Ncco(inputAction);
