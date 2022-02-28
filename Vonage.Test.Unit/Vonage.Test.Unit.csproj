@@ -100,4 +100,8 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Request\" />
+	</ItemGroup>
+
 </Project>
