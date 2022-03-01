@@ -17,9 +17,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.401'
-    - name: setup-msbuild
-      uses: microsoft/setup-msbuild@v1.1
-
     - name: Clean
       run: dotnet clean Vonage.sln --configuration Release && dotnet nuget locals all --clear
     - name: Install dependencies
