@@ -38,6 +38,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="Data\MessagingTests\SendSmsAsyncBadResponse.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsBadResponse.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsAsyncWithAllPropertiesSet.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsWithAllPropertiesSet.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsWrongCredentialsThrowsException.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsTypicalUsageSimplifiedAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Data\MultiInputTests\TestWebhookSerializationSpeechOveridden.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>

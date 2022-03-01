@@ -9,8 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Vonage.Test.Unit
 {
@@ -59,18 +57,19 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
 
         public void Setup(string uri, string responseContent, string requestContent = null, HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
-            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(Configuration.Instance, null);
+            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(Configuration.Instance, null);
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(MOCKED_METHOD,
-                ItExpr.Is<HttpRequestMessage>(
-                    x =>
-                    string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) &&
-                    (requestContent == null) ||
-                    (string.Equals(x.Content.ReadAsStringAsync().Result, requestContent, StringComparison.OrdinalIgnoreCase))),
-                ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage()
+                    ItExpr.Is<HttpRequestMessage>(
+                        x =>
+                        string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) &&
+                        requestContent == null ||
+                        string.Equals(x.Content.ReadAsStringAsync().Result, requestContent, StringComparison.OrdinalIgnoreCase)),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = expectedCode,
                     Content = new StringContent(responseContent)
@@ -81,16 +80,16 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
 
         public void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
-            typeof(Configuration).GetField("_client", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(Configuration.Instance, null);
+            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(Configuration.Instance, null);
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(MOCKED_METHOD,
-                ItExpr.Is<HttpRequestMessage>(
-                    x =>
-                    string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase)),
-                ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage()
+                    ItExpr.Is<HttpRequestMessage>(
+                        x =>
+                        string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase)),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = expectedCode,
                     Content = new StreamContent(new MemoryStream(responseContent))

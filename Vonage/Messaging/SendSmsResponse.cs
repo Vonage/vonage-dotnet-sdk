@@ -1,4 +1,3 @@
-using Vonage.Common;
 using Newtonsoft.Json;
 namespace Vonage.Messaging
 {
