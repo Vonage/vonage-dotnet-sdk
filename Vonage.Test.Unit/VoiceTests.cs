@@ -681,7 +681,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async void CreateCallAsync(bool passCreds)
+        public async Task CreateCallAsync(bool passCreds)
         {
             var expectedUri = "https://api.nexmo.com/v1/calls/";
             var expectedResponse = @"{
@@ -738,7 +738,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public async void TestListCallsAsync(bool passCreds, bool kitchenSink)
+        public async Task TestListCallsAsync(bool passCreds, bool kitchenSink)
         {
             var expectedResponse = @"{
                   ""count"": 100,
@@ -848,7 +848,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async void TestGetSpecificCallAsync(bool passCreds)
+        public async Task TestGetSpecificCallAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedResponse = @"{
@@ -919,7 +919,7 @@ namespace Vonage.Test.Unit
         [InlineData(true)]
         [InlineData(false)]
 
-        public async void TestUpdateCallAsync(bool passCreds)
+        public async Task TestUpdateCallAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
@@ -944,7 +944,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async void TestStartStreamAsync(bool passCreds)
+        public async Task TestStartStreamAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/stream";
@@ -980,7 +980,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async void StopStreamAsync(bool passCreds)
+        public async Task StopStreamAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/stream";
@@ -1010,7 +1010,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async void TestStartTalkAsync(bool passCreds)
+        public async Task TestStartTalkAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
@@ -1046,7 +1046,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async void StopTalkAsync(bool passCreds)
+        public async Task StopTalkAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
@@ -1076,7 +1076,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async void TestStartDtmfAsync(bool passCreds)
+        public async Task TestStartDtmfAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
@@ -1107,7 +1107,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async void TestGetRecordingsAsync(bool passCreds)
+        public async Task TestGetRecordingsAsync(bool passCreds)
         {
             var expectedUri = $"{ApiUrl}/v1/calls/63f61863-4a51-4f6b-86e1-46edebcf9356";
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
@@ -1131,7 +1131,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async void CreateCallWithStringParametersAsync()
+        public async Task CreateCallWithStringParametersAsync()
         {
             var expectedUri = $"{ApiUrl}/v1/calls/";
             var expectedResponse = @"{
@@ -1155,7 +1155,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async void CreateCallWithEndpointAndNccoAsync()
+        public async Task CreateCallWithEndpointAndNccoAsync()
         {
             var expectedUri = $"{ApiUrl}/v1/calls/";
             var expectedResponse = @"{
@@ -1168,16 +1168,64 @@ namespace Vonage.Test.Unit
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
-            CallResponse response;
-            var toEndpoint = new PhoneEndpoint() { Number = "14155550100" };
-            response = await client.VoiceClient.CreateCallAsync(
+            var toEndpoint = new PhoneEndpoint { Number = "14155550100" };
+            var response = await client.VoiceClient.CreateCallAsync(
                 toEndpoint, "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
-
 
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
             Assert.Equal("outbound", response.Direction);
             Assert.Equal("started", response.Status);
+        }
+
+        [Fact]
+        public async Task CreateCallAsyncWithWrongCredsThrowsAuthException()
+        {
+            var expectedUri = $"{ApiUrl}/v1/calls/";
+            var expectedResponse = @"{
+              ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
+              ""status"": ""started"",
+              ""direction"": ""outbound"",
+              ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
+            }";
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
+           
+            Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new VonageClient(creds);
+            var toEndpoint = new PhoneEndpoint { Number = "14155550100" };
+
+            var exception = await Assert.ThrowsAsync<VonageAuthenticationException>(async () => await client.VoiceClient.CreateCallAsync(
+                toEndpoint, "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction {Text = "Hello World"})));
+            
+            Assert.NotNull(exception);
+            Assert.Equal("AppId or Private Key Path missing.", exception.Message);
+        }
+
+        [Fact]
+        public void CreateCallWithWrongCredsThrowsAuthException()
+        {
+            var expectedUri = $"{ApiUrl}/v1/calls/";
+            var expectedResponse = @"{
+              ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
+              ""status"": ""started"",
+              ""direction"": ""outbound"",
+              ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
+            }";
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
+
+            Setup(expectedUri, expectedResponse, expectedRequesetContent);
+
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new VonageClient(creds);
+            var toEndpoint = new PhoneEndpoint { Number = "14155550100" };
+
+            var exception = Assert.Throws<VonageAuthenticationException>(() => client.VoiceClient.CreateCall(
+                toEndpoint, "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" })));
+
+            Assert.NotNull(exception);
+            Assert.Equal("AppId or Private Key Path missing.", exception.Message);
         }
     }
 }

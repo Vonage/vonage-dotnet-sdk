@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Vonage.Messaging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Xunit;
@@ -16,28 +13,16 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void KitcenSinkSendSms(bool passCreds)
+        public void SendSmsWithAllPropertiesSet(bool passCreds)
         {
-            var expectedResponse = @"{
-                  ""message-count"": ""1"",
-                  ""messages"": [
-                    {
-                      ""to"": ""447700900000"",
-                      ""message-id"": ""0A0000000123ABCD1"",
-                      ""status"": ""0"",
-                      ""remaining-balance"": ""3.14159265"",
-                      ""message-price"": ""0.03330000"",
-                      ""network"": ""12345"",
-                      ""account-ref"": ""customer1234""
-                    }
-                  ]
-                }";
+            var expectedResponse = GetExpectedJson();
             var expectedUri = $"{RestUrl}/sms/json?";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}" +
                 $"&ttl=900000&status-report-req=true&callback={HttpUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
                 $"&type=text&vcard=none&vcal=none&body=638265253311&udh=06050415811581&protocol-id=127&title=welcome&url={HttpUtility.UrlEncode("https://example.com")}" +
                 $"&validity=300000&client-ref=my-personal-reference&account-ref=customer1234&entity-id=testEntity&content-id=testcontent&api_key={ApiKey}&api_secret={ApiSecret}&";
-            var request = new Messaging.SendSmsRequest
+
+            var request = new SendSmsRequest
             {
                 AccountRef = "customer1234",
                 Body = "638265253311",
@@ -57,23 +42,17 @@ namespace Vonage.Test.Unit
                 Vcal = "none",
                 Vcard = "none",
                 Url = "https://example.com",
-                ContentId ="testcontent",
-                EntityId="testEntity"
-                
-
+                ContentId = "testcontent",
+                EntityId = "testEntity"
             };
+
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(creds);
-            Messaging.SendSmsResponse response;
-            if (passCreds)
-            {
-                response = client.SmsClient.SendAnSms(request, creds);
-            }
-            else
-            {
-                response = client.SmsClient.SendAnSms(request);
-            }
+
+            var response = passCreds
+                ? client.SmsClient.SendAnSms(request, creds)
+                : client.SmsClient.SendAnSms(request);
 
             Assert.Equal("1", response.MessageCount);
             Assert.Equal("447700900000", response.Messages[0].To);
@@ -84,7 +63,60 @@ namespace Vonage.Test.Unit
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
         }
 
-        [Fact]        
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task SendSmsAsyncWithAllPropertiesSet(bool passCreds)
+        {
+            var expectedResponse = GetExpectedJson();
+            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}" +
+                $"&ttl=900000&status-report-req=true&callback={HttpUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
+                $"&type=text&vcard=none&vcal=none&body=638265253311&udh=06050415811581&protocol-id=127&title=welcome&url={HttpUtility.UrlEncode("https://example.com")}" +
+                $"&validity=300000&client-ref=my-personal-reference&account-ref=customer1234&entity-id=testEntity&content-id=testcontent&api_key={ApiKey}&api_secret={ApiSecret}&";
+
+            var request = new SendSmsRequest
+            {
+                AccountRef = "customer1234",
+                Body = "638265253311",
+                Callback = "https://example.com/sms-dlr",
+                ClientRef = "my-personal-reference",
+                From = "AcmeInc",
+                To = "447700900000",
+                MessageClass = 0,
+                ProtocolId = 127,
+                StatusReportReq = true,
+                Text = "Hello World!",
+                Title = "welcome",
+                Ttl = 900000,
+                Type = SmsType.text,
+                Udh = "06050415811581",
+                Validity = "300000",
+                Vcal = "none",
+                Vcard = "none",
+                Url = "https://example.com",
+                ContentId = "testcontent",
+                EntityId = "testEntity"
+            };
+
+            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var client = new VonageClient(creds);
+
+            var response = passCreds
+                ? await client.SmsClient.SendAnSmsAsync(request, creds)
+                : await client.SmsClient.SendAnSmsAsync(request);
+
+            Assert.Equal("1", response.MessageCount);
+            Assert.Equal("447700900000", response.Messages[0].To);
+            Assert.Equal("0A0000000123ABCD1", response.Messages[0].MessageId);
+            Assert.Equal("0", response.Messages[0].Status);
+            Assert.Equal("3.14159265", response.Messages[0].RemainingBalance);
+            Assert.Equal("12345", response.Messages[0].Network);
+            Assert.Equal("customer1234", response.Messages[0].AccountRef);
+        }
+
+        [Fact]
         public void SendSmsTypicalUsage()
         {
             var expectedResponse = @"{
@@ -149,22 +181,9 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async void SendSmsTypicalUsageSimplifiedAsync()
+        public async Task SendSmsTypicalUsageSimplifiedAsync()
         {
-            var expectedResponse = @"{
-                  ""message-count"": ""1"",
-                  ""messages"": [
-                    {
-                      ""to"": ""447700900000"",
-                      ""message-id"": ""0A0000000123ABCD1"",
-                      ""status"": ""0"",
-                      ""remaining-balance"": ""3.14159265"",
-                      ""message-price"": ""0.03330000"",
-                      ""network"": ""12345"",
-                      ""account-ref"": ""customer1234""
-                    }
-                  ]
-                }";
+            var expectedResponse = GetExpectedJson();
             var expectedUri = $"{RestUrl}/sms/json?";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&type=text&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
@@ -215,29 +234,35 @@ namespace Vonage.Test.Unit
         [Fact]
         public void SendSmsBadResponse()
         {
-            var expectedResponse = @"{
-                  ""message-count"": ""1"",
-                  ""messages"": [
-                    {                      
-                      ""status"": ""4"",
-                      ""error-text"":""invalid credentials""
-                    }
-                  ]
-                }";
+            var expectedResponse = GetExpectedJson();
             var expectedUri = $"{RestUrl}/sms/json?";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            try
-            {
-                var response = client.SmsClient.SendAnSms(new Messaging.SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "Hello World!" });
-                Assert.True(false);
-            }
-            catch(Messaging.VonageSmsResponseException nex)
-            {
-                Assert.Equal($"SMS Request Failed with status: {nex.Response.Messages[0].Status} and error message: {nex.Response.Messages[0].ErrorText}", nex.Message);
-                Assert.Equal(SmsStatusCode.InvalidCredentials, nex.Response.Messages[0].StatusCode);
-            }
+
+            var exception = Assert.Throws<VonageSmsResponseException>(() =>
+                client.SmsClient.SendAnSms(new SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "Hello World!" }));
+
+            Assert.NotNull(exception);
+            Assert.Equal($"SMS Request Failed with status: {exception.Response.Messages[0].Status} and error message: {exception.Response.Messages[0].ErrorText}", exception.Message);
+            Assert.Equal(SmsStatusCode.InvalidCredentials, exception.Response.Messages[0].StatusCode);
+        }
+
+        [Fact]
+        public async Task SendSmsAsyncBadResponse()
+        {
+            var expectedResponse = GetExpectedJson();
+            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
+
+            var exception = await Assert.ThrowsAsync<VonageSmsResponseException>(async () =>
+                await client.SmsClient.SendAnSmsAsync(new SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "Hello World!" }));
+
+            Assert.NotNull(exception);
+            Assert.Equal($"SMS Request Failed with status: {exception.Response.Messages[0].Status} and error message: {exception.Response.Messages[0].ErrorText}", exception.Message);
+            Assert.Equal(SmsStatusCode.InvalidCredentials, exception.Response.Messages[0].StatusCode);
         }
 
         [Fact]
@@ -246,17 +271,15 @@ namespace Vonage.Test.Unit
             var expectedResponse = @"";
             var expectedUri = $"{RestUrl}/sms/json?";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
+
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            try
-            {
-                var response = client.SmsClient.SendAnSms(new Messaging.SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "Hello World!" });
-                Assert.True(false);
-            }
-            catch (Messaging.VonageSmsResponseException nex)
-            {
-                Assert.Equal($"Encountered an Empty SMS response", nex.Message);
-            }
+
+            var exception = Assert.Throws<VonageSmsResponseException>(() =>
+                client.SmsClient.SendAnSms(new SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "Hello World!" }));
+
+            Assert.NotNull(exception);
+            Assert.Equal($"Encountered an Empty SMS response", exception.Message);
         }
 
         [Fact]
@@ -390,7 +413,7 @@ namespace Vonage.Test.Unit
             var TestSigningSecret = "Y6dI3wtDP8myVH5tnDoIaTxEvAJhgDVCczBa1mHniEqsdlnnebg";
             var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(Messaging.InboundSms.ConstructSignatureStringFromDictionary(dict),TestSigningSecret,Cryptography.SmsSignatureGenerator.Method.md5);
+            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(Messaging.InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5));
         }
 
