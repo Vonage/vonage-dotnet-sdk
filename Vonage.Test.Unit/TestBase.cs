@@ -112,20 +112,6 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
         {
             var type = GetType().Name;
             var projectFolder = GetType().Namespace.Substring(TestAssemblyName.Length);
-            var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, name + ".json");
-
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException("file not found at " + path);
-            }
-
-        }
-
-
-        protected string GetExpectedJson([CallerMemberName] string name = null)
-        {
-            var type = GetType().Name;
-            var projectFolder = GetType().Namespace.Substring(TestAssemblyName.Length);
             var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type , name + ".json");
 
             if (!File.Exists(path))

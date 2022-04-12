@@ -98,9 +98,6 @@
 	  <None Update="Data\VoiceTests\CreateCall.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Update="Data\RedactTests\RedactReturns429.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
