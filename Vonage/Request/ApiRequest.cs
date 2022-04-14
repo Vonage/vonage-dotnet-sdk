@@ -600,42 +600,44 @@ namespace Vonage.Request
             };
             SetUserAgent(ref req, creds);
 
-            if (authType == AuthType.Basic)
+            switch (authType)
             {
-                if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
-                    throw new VonageAuthenticationException("API Key or API Secret missing.");
+                case AuthType.Basic:                    
+                    if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
+                        throw new VonageAuthenticationException("API Key or API Secret missing.");
+                
+                    var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
+                    req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+                        Convert.ToBase64String(authBytes));
+                    break;
 
-                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
-                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
-                    Convert.ToBase64String(authBytes));
-            }
-            else if (authType == AuthType.Bearer)
-            {
-                if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath))
-                    throw new VonageAuthenticationException("AppId or Private Key Path missing.");
+                case AuthType.Bearer:
+                    if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath))
+                        throw new VonageAuthenticationException("AppId or Private Key Path missing.");
+                    
+                    // attempt bearer token auth
+                    req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+                        Jwt.CreateToken(appId, appKeyPath));
+                    break;                    
 
-                // attempt bearer token auth
-                req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                    Jwt.CreateToken(appId, appKeyPath));
-            }
-            else if (authType == AuthType.Query)
-            {
-                var sb = BuildQueryString(new Dictionary<string, string>(), creds);
-                req.RequestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
+                case AuthType.Query:
+                    var sb = BuildQueryString(new Dictionary<string, string>(), creds);
+                    req.RequestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
+                    break;
 
-            }
-            else
-            {
-                throw new ArgumentException("Unkown Auth Type set for function");
+                default:
+                    throw new ArgumentException("Unkown Auth Type set for function");
             }
 
-            var json = JsonConvert.SerializeObject(payload,
-                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(payload, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+
             logger.LogDebug($"Request URI: {uri}");
             logger.LogDebug($"JSON Payload: {json}");
+
             var data = Encoding.UTF8.GetBytes(json);
             req.Content = new ByteArrayContent(data);
             req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            
             var json_response = SendHttpRequest(req).JsonResponse;
             return JsonConvert.DeserializeObject<T>(json_response);
         }

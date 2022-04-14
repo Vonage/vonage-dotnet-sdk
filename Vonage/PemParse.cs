@@ -50,6 +50,7 @@ THE SOFTWARE.
 //**************************************************************************************
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -58,7 +59,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Vonage
 {
-    public class PemParse
+    [ExcludeFromCodeCoverage]
+    internal class PemParse
     {
         private const string pkcs1privheader = "-----BEGIN RSA PRIVATE KEY-----";
         private const string pkcs1privfooter = "-----END RSA PRIVATE KEY-----";

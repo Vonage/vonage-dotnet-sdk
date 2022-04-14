@@ -11,6 +11,7 @@ namespace Vonage.ShortCodes
         {
             Credentials = credentials;
         }
+
         public Task<OptInSearchResponse> QueryOptInsAsync(OptInQueryRequest request, Credentials creds = null)
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<OptInSearchResponse>(

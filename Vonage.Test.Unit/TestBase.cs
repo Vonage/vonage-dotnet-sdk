@@ -17,9 +17,9 @@ namespace Vonage.Test.Unit
         const string MOCKED_METHOD = "SendAsync";
         protected string ApiUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Api"];
         protected string RestUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"];
-        protected string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY")??"testKey";
+        protected string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testKey";
         protected string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
-        protected string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID")?? "afed99d2-ae38-487c-bb5a-fe2518febd44";
+        protected string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID") ?? "afed99d2-ae38-487c-bb5a-fe2518febd44";
         protected string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ?? @"-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUp
 wmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ5
@@ -80,25 +80,32 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
 
         public void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
-            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(Configuration.Instance, null);
-            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            Setup(uri, new StreamContent(new MemoryStream(responseContent)), expectedCode);
+        }
+
+
+        private void Setup(string uri, HttpContent httpContent, HttpStatusCode expectedCode, string requestContent = null)
+        {
+            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(Configuration.Instance, null);
+            Mock<HttpMessageHandler> mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+          
             mockHandler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(MOCKED_METHOD,
                     ItExpr.Is<HttpRequestMessage>(
-                        x =>
-                        string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase)),
+                        x => string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) && (requestContent == null) ||
+                        string.Equals(x.Content.ReadAsStringAsync().Result, requestContent, StringComparison.OrdinalIgnoreCase)
+                    ),
                     ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
+                .ReturnsAsync(new HttpResponseMessage()
                 {
                     StatusCode = expectedCode,
-                    Content = new StreamContent(new MemoryStream(responseContent))
+                    Content = httpContent
                 })
                 .Verifiable();
+
             Configuration.Instance.ClientHandler = mockHandler.Object;
-
         }
-
 
         protected string GetExpectedJson([CallerMemberName] string name = null)
         {
