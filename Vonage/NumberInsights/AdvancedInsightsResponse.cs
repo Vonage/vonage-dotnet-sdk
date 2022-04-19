@@ -35,5 +35,11 @@ namespace Vonage.NumberInsights
         [JsonProperty("reachable")]
         [JsonConverter(typeof(StringEnumConverter))]
         public NumberReachability? Reachable { get; set; }
+
+        /// <summary>
+        /// Real time data about the number
+        /// </summary>
+        [JsonProperty("real_time_data")]
+        public RealTimeData RealTimeData { get; set; }
     }
 }
