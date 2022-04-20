@@ -67,7 +67,6 @@ namespace Vonage.Messaging
             var signatureString = ConstructSignatureStringFromDictionary(dict);
             var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signatureSecret, method).ToString();
             System.Diagnostics.Debug.WriteLine(testSig);
-            Console.WriteLine(testSig);
             return testSig == Sig;
         }
 
