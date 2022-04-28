@@ -1,13 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 using Vonage.Voice;
 using Vonage.Voice.Nccos.Endpoints;
 using Newtonsoft.Json;
+using Vonage.Serialization;
 
 namespace Vonage.Test.Unit
 {    
@@ -25,8 +20,7 @@ namespace Vonage.Test.Unit
                 Headers = new Foo { Bar = "bar" },
                 ContentType = "audio/l16;rate=16000"
             };
-            string json = JsonConvert.SerializeObject(websocketEndpoint,
-                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });    
+            string json = JsonConvert.SerializeObject(websocketEndpoint, VonageSerialization.SerializerSettings);    
             Assert.Equal(expected, json);
         }
 
@@ -40,8 +34,7 @@ namespace Vonage.Test.Unit
                 Headers = new Foo { Bar = "bar" },
                 ContentType = "audio/l16;rate=16000"
             };
-            string json = JsonConvert.SerializeObject(websocketEndpoint,
-                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            string json = JsonConvert.SerializeObject(websocketEndpoint, VonageSerialization.SerializerSettings);
             Assert.Equal(expected, json);
         }
 

@@ -1,5 +1,6 @@
 ﻿using Xunit;
 using Newtonsoft.Json;
+using Vonage.Serialization;
 using Vonage.Voice.Nccos;
 
 namespace Vonage.Test.Unit
@@ -11,10 +12,9 @@ namespace Vonage.Test.Unit
         {
             //Arrange
             var expected = "{\"streamUrl\":[\"https://www.example.com/waiting.mp3\"],\"action\":\"stream\"}";
-            var action = new StreamAction() { StreamUrl = new string[] { "https://www.example.com/waiting.mp3" } };
+            var action = new StreamAction() { StreamUrl = new [] { "https://www.example.com/waiting.mp3" } };
             //Act
-            var serialized = JsonConvert.SerializeObject(action, Formatting.None,
-                new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var serialized = JsonConvert.SerializeObject(action, VonageSerialization.SerializerSettings);
             //Assert
             Assert.Equal(expected, serialized);
         }

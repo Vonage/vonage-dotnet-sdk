@@ -1,8 +1,5 @@
-using System.ComponentModel;
-using System.Net.Http;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Vonage.Common
 {
@@ -15,14 +12,25 @@ namespace Vonage.Common
         public string Address { get; set; }
         
         public enum Type
-        {            
-            answer_url=1,
-            event_url =2,
-            inbound_url =3,
-            status_url =4,
-            fallback_answer_url=5,
-            Unknown=6
+        {
+            [EnumMember(Value = "answer_url")]
+            answer_url = 1,
+
+            [EnumMember(Value = "event_url")]
+            event_url = 2,
+
+            [EnumMember(Value = "inbound_url")]
+            inbound_url = 3,
+
+            [EnumMember(Value = "status_url")]
+            status_url = 4,
+
+            [EnumMember(Value = "fallback_answer_url")]
+            fallback_answer_url = 5,
+
+            [EnumMember(Value = "Unknown")]
+            Unknown = 6
         }
-        
+
     }
 }

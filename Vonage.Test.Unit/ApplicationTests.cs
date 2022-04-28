@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Vonage.Applications;
 using Vonage.Applications.Capabilities;
+using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit
 {
     public class ApplicationTests : TestBase
     {
-        private const string PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwxyBT5FqzibSYK0vB+Gr\\nP+YlyYqsx4lvAmotTwmObZEhTWNAdU0p9hrnNXWX1Gy5O0NDIue40SUhYhJT5r4x\\nugbpNA/1KJauB8VQjetKr9bu697yskz2+EuKa2D9e6N2EMY6PD1tJWmeMmddM1tW\\n2DAXuYo7/xsDWIIA6egCTzyShNvzlKo5081t41xVVsPjsWN887Xp1KYfE0IMGV2j\\n8Nwdtw/MQfP/7Qz7i9VXb7bgx0LEg84dWsnz8u3VZ3IQHlydzPX/2iw7e4pc+k27\\nOU1SkmPn/2JtfFFS2LJpcO/FmdSyNnyHezNPyzNRLVbE0sJJ1tEhxi9GZc1I+Oc4\\ndwIDAQAB\\n-----END PUBLIC KEY-----\\n";
+        private const string PublicKey = "-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwxyBT5FqzibSYK0vB+Gr\\nP+YlyYqsx4lvAmotTwmObZEhTWNAdU0p9hrnNXWX1Gy5O0NDIue40SUhYhJT5r4x\\nugbpNA/1KJauB8VQjetKr9bu697yskz2+EuKa2D9e6N2EMY6PD1tJWmeMmddM1tW\\n2DAXuYo7/xsDWIIA6egCTzyShNvzlKo5081t41xVVsPjsWN887Xp1KYfE0IMGV2j\\n8Nwdtw/MQfP/7Qz7i9VXb7bgx0LEg84dWsnz8u3VZ3IQHlydzPX/2iw7e4pc+k27\\nOU1SkmPn/2JtfFFS2LJpcO/FmdSyNnyHezNPyzNRLVbE0sJJ1tEhxi9GZc1I+Oc4\\ndwIDAQAB\\n-----END PUBLIC KEY-----\\n";
         private const string PRIVATE_KEY = @"-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFA\nASCBKcwggSjAgEAAoIBAQDEPpvi+3\nRH1efQ\\nkveWzZDrNNoEXmBw61w+O\n0u/N36tJnN5XnYecU64yHzu2ByEr0\n7iIvYbavFnADwl\\nHMTJwqDQakpa3\n8/SFRnTDq3zronvNZ6nOp7S6K7pcZ\nrw/CvrL6hXT1x7cGBZ4jPx\\nqhjqY\nuJPgZD7OVB69oYOV92vIIJ7JLYwqb\n-----END PRIVATE KEY-----\n";
+        
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -87,18 +85,19 @@ namespace Vonage.Test.Unit
             voiceWebhooks.Add(Common.Webhook.Type.event_url, new Common.Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
             voiceWebhooks.Add(Common.Webhook.Type.fallback_answer_url, new Common.Webhook { Address = "https://fallback.example.com/webhooks/answer", Method = "GET" });
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            var json = JsonConvert.SerializeObject(voiceCapability);
+            var json = JsonConvert.SerializeObject(voiceCapability, VonageSerialization.SerializerSettings);
             var vbcCapability = new Vbc();
 
             var capabilities = new ApplicationCapabilities { Messages=messagesCapability, Rtc=rtcCapability, Voice=voiceCapability, Vbc=vbcCapability };            
-            var keys = new Applications.Keys
+            var keys = new Keys
             {
-                PublicKey = PUBLIC_KEY
+                PublicKey = PublicKey
             };
             var request = new CreateApplicationRequest { Capabilities = capabilities, Keys = keys, Name = "My Application" };
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Application response;
+
             if (passCreds)
             {
                 response = client.ApplicationClient.CreateApplicaiton(request);
@@ -210,7 +209,7 @@ namespace Vonage.Test.Unit
             var capabilities = new ApplicationCapabilities { Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability };
             var keys = new Applications.Keys
             {
-                PublicKey = PUBLIC_KEY
+                PublicKey = PublicKey
             };
             var request = new CreateApplicationRequest { Capabilities = capabilities, Keys = keys, Name = "My Application" };
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
@@ -326,7 +325,7 @@ namespace Vonage.Test.Unit
             var capabilities = new ApplicationCapabilities { Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability };
             var keys = new Applications.Keys
             {
-                PublicKey = PUBLIC_KEY
+                PublicKey = PublicKey
             };
             var application = new CreateApplicationRequest { Capabilities = capabilities, Keys = keys, Name = "My Application" };
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
@@ -442,7 +441,7 @@ namespace Vonage.Test.Unit
             var capabilities = new ApplicationCapabilities { Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability };
             var keys = new Applications.Keys
             {
-                PublicKey = PUBLIC_KEY
+                PublicKey = PublicKey
             };
             var application = new CreateApplicationRequest { Capabilities = capabilities, Keys = keys, Name = "My Application" };
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);

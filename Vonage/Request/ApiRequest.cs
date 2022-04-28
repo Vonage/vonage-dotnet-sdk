@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Vonage.Serialization;
 
 namespace Vonage.Request
 {
@@ -155,8 +156,7 @@ namespace Vonage.Request
         /// <returns></returns>
         internal static Dictionary<string, string> GetParameters(object parameters)
         {
-            var json = JsonConvert.SerializeObject(parameters, 
-                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(parameters, VonageSerialization.SerializerSettings);
             return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);            
         }
 
@@ -552,8 +552,7 @@ namespace Vonage.Request
             {
                 throw new ArgumentException("Unkown Auth Type set for function");
             }
-            var json = JsonConvert.SerializeObject(payload,
-                Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(payload, VonageSerialization.SerializerSettings);
             logger.LogDebug($"Request URI: {uri}");
             logger.LogDebug($"JSON Payload: {json}");
             var data = Encoding.UTF8.GetBytes(json);
@@ -617,7 +616,7 @@ namespace Vonage.Request
                     throw new ArgumentException("Unkown Auth Type set for function");
             }
 
-            var json = JsonConvert.SerializeObject(payload, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(payload, VonageSerialization.SerializerSettings);
 
             logger.LogDebug($"Request URI: {uri}");
             logger.LogDebug($"JSON Payload: {json}");
