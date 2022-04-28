@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Vonage.Request;
 
@@ -15,8 +14,7 @@ namespace Vonage.Accounts
         public Task<Balance> GetAccountBalanceAsync(Credentials creds = null)
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<Balance>(
-                ApiRequest.GetBaseUriFor(typeof(AccountClient),
-                "/account/get-balance"), 
+                ApiRequest.GetBaseUriFor("/account/get-balance"), 
                 ApiRequest.AuthType.Query, 
                 credentials: creds ?? Credentials);
         }
@@ -24,7 +22,7 @@ namespace Vonage.Accounts
         public Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null)
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<TopUpResult>(
-                ApiRequest.GetBaseUriFor(typeof(AccountClient), "/account/top-up"),
+                ApiRequest.GetBaseUriFor("/account/top-up"),
                 ApiRequest.AuthType.Query,
                 request,
                 credentials:creds ?? Credentials
@@ -35,7 +33,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoPostRequestUrlContentFromObjectAsync<AccountSettingsResult>
             (
-                ApiRequest.GetBaseUriFor(typeof(AccountClient), "/account/settings"),
+                ApiRequest.GetBaseUriFor("/account/settings"),
                 request,
                 creds ?? Credentials
             );
@@ -84,8 +82,7 @@ namespace Vonage.Accounts
         public Balance GetAccountBalance(Credentials creds = null)
         {
             return ApiRequest.DoGetRequestWithQueryParameters<Balance>(
-                ApiRequest.GetBaseUriFor(typeof(AccountClient),
-                "/account/get-balance"),
+                ApiRequest.GetBaseUriFor("/account/get-balance"),
                 ApiRequest.AuthType.Query,
                 credentials: creds ?? Credentials);
         }
@@ -93,7 +90,7 @@ namespace Vonage.Accounts
         public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null)
         {
             return ApiRequest.DoGetRequestWithQueryParameters<TopUpResult>(
-                ApiRequest.GetBaseUriFor(typeof(AccountClient), "/account/top-up"),
+                ApiRequest.GetBaseUriFor("/account/top-up"),
                 ApiRequest.AuthType.Query,
                 request,
                 credentials: creds ?? Credentials
@@ -104,7 +101,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoPostRequestUrlContentFromObject<AccountSettingsResult>
             (
-                ApiRequest.GetBaseUriFor(typeof(AccountClient), "/account/settings"),
+                ApiRequest.GetBaseUriFor("/account/settings"),
                 request,
                 creds ?? Credentials
             );

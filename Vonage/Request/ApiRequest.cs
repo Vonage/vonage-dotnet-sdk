@@ -166,21 +166,9 @@ namespace Vonage.Request
         /// <param name="component"></param>
         /// <param name="url"></param>
         /// <returns></returns>
-        internal static Uri GetBaseUriFor(Type component, string url = null)
+        internal static Uri GetBaseUriFor(string url = null)
         {
-            Uri baseUri;
-            if (typeof(Nexmo.Api.NumberVerify) == component
-                || typeof(Nexmo.Api.ApiSecret) == component
-                || typeof(Nexmo.Api.ApplicationV2) == component
-                || typeof(Nexmo.Api.Voice.Call) == component
-                || typeof(Nexmo.Api.Redact) == component)
-            {
-                baseUri = new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Api"]);
-            }
-            else
-            {
-                baseUri = new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"]);
-            }
+            Uri baseUri  = new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"]);
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
 
