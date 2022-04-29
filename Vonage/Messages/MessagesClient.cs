@@ -16,9 +16,8 @@ namespace Vonage.Messages
         public async Task<MessagesResponse> SendAsync(MessageRequestBase message)
         {
             var uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/messages");
-
-            //TODO: Work out which auth type to use
-            var result = await ApiRequest.DoRequestWithJsonContentAsync<MessagesResponse>("POST", uri, message, ApiRequest.AuthType.Basic, _credentials);
+            
+            var result = await ApiRequest.DoRequestWithJsonContentAsync<MessagesResponse>("POST", uri, message, ApiRequest.AuthType.Bearer, _credentials);
 
             return result;
         }
