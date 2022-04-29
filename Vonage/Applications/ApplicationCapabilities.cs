@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Vonage.Applications.Capabilities;
 namespace Vonage.Applications
 {
@@ -31,6 +26,6 @@ namespace Vonage.Applications
         /// Messages and Dispatch application webhook config
         /// </summary>
         [JsonProperty("messages")]
-        public Messages Messages { get; set; }
+        public Capabilities.Messages Messages { get; set; }
     }
 }

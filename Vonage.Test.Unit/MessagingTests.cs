@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using Xunit;
-using Newtonsoft.Json.Serialization;
 using Vonage.Serialization;
 
 namespace Vonage.Test.Unit

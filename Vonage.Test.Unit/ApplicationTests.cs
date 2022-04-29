@@ -74,7 +74,7 @@ namespace Vonage.Test.Unit
             var messagesWebhooks = new Dictionary<Common.Webhook.Type, Common.Webhook>();
             messagesWebhooks.Add(Common.Webhook.Type.inbound_url , new Common.Webhook { Address = "https://example.com/webhooks/inbound", Method="POST"});
             messagesWebhooks.Add(Common.Webhook.Type.status_url , new Common.Webhook { Address = "https://example.com/webhooks/status", Method="POST" });
-            var messagesCapability = new Messages(messagesWebhooks);
+            var messagesCapability = new Applications.Capabilities.Messages(messagesWebhooks);
 
             var rtcWebhooks = new Dictionary<Common.Webhook.Type, Common.Webhook>();
             rtcWebhooks.Add(Common.Webhook.Type.event_url, new Common.Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
@@ -192,7 +192,7 @@ namespace Vonage.Test.Unit
             var messagesWebhooks = new Dictionary<Common.Webhook.Type, Common.Webhook>();
             messagesWebhooks.Add(Common.Webhook.Type.inbound_url, new Common.Webhook { Address = "https://example.com/webhooks/inbound", Method = "POST" });
             messagesWebhooks.Add(Common.Webhook.Type.status_url, new Common.Webhook { Address = "https://example.com/webhooks/status", Method = "POST" });
-            var messagesCapability = new Messages(messagesWebhooks);
+            var messagesCapability = new Applications.Capabilities.Messages(messagesWebhooks);
 
             var rtcWebhooks = new Dictionary<Common.Webhook.Type, Common.Webhook>();
             rtcWebhooks.Add(Common.Webhook.Type.event_url, new Common.Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
@@ -308,7 +308,7 @@ namespace Vonage.Test.Unit
             var messagesWebhooks = new Dictionary<Common.Webhook.Type, Common.Webhook>();
             messagesWebhooks.Add(Common.Webhook.Type.inbound_url, new Common.Webhook { Address = "https://example.com/webhooks/inbound", Method = "POST" });
             messagesWebhooks.Add(Common.Webhook.Type.status_url, new Common.Webhook { Address = "https://example.com/webhooks/status", Method = "POST" });
-            var messagesCapability = new Messages(messagesWebhooks);
+            var messagesCapability = new Applications.Capabilities.Messages(messagesWebhooks);
 
             var rtcWebhooks = new Dictionary<Common.Webhook.Type, Common.Webhook>();
             rtcWebhooks.Add(Common.Webhook.Type.event_url, new Common.Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
@@ -424,7 +424,7 @@ namespace Vonage.Test.Unit
             var messagesWebhooks = new Dictionary<Common.Webhook.Type, Common.Webhook>();
             messagesWebhooks.Add(Common.Webhook.Type.inbound_url, new Common.Webhook { Address = "https://example.com/webhooks/inbound", Method = "POST" });
             messagesWebhooks.Add(Common.Webhook.Type.status_url, new Common.Webhook { Address = "https://example.com/webhooks/status", Method = "POST" });
-            var messagesCapability = new Messages(messagesWebhooks);
+            var messagesCapability = new Applications.Capabilities.Messages(messagesWebhooks);
 
             var rtcWebhooks = new Dictionary<Common.Webhook.Type, Common.Webhook>();
             rtcWebhooks.Add(Common.Webhook.Type.event_url, new Common.Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });

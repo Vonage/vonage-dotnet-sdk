@@ -1,0 +1,10 @@
+{
+  "channel": "whatsapp",
+  "message_type": "audio",
+  "audio": {
+    "url": "https://test.com/voice.mp3"
+  },
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg"
+}

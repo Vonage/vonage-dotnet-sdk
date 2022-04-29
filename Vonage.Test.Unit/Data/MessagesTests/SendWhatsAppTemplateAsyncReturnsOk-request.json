@@ -1,0 +1,15 @@
+{
+  "channel": "whatsapp",
+  "message_type": "template",
+  "template": {
+    "name": "Amazing template",
+    "parameters": [ "Tim", "Bob" ]
+  },
+  "whatsapp": {
+    "policy": "deterministic",
+    "locale": "en-GB"
+  },
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg"
+}

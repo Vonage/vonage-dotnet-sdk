@@ -2,6 +2,7 @@ using Vonage.Accounts;
 using Vonage.Voice;
 using Vonage.Applications;
 using Vonage.Conversions;
+using Vonage.Messages;
 using Vonage.Numbers;
 using Vonage.NumberInsights;
 using Vonage.Verify;
@@ -48,6 +49,8 @@ namespace Vonage
 
         public IPricingClient PricingClient { get; private set; }
 
+        public IMessagesClient MessagesClient { get; private set; }
+
         public VonageClient(Credentials credentials)
         {
             Credentials = credentials;
@@ -66,6 +69,7 @@ namespace Vonage
             RedactClient = new RedactClient(Credentials);
             SmsClient = new SmsClient(Credentials);
             PricingClient = new PricingClient(Credentials);
+            MessagesClient = new MessagesClient(Credentials);
         }
         
     }

@@ -6,27 +6,31 @@ namespace Vonage.Request
 {    
     public class Credentials
     {
-
         /// <summary>
         /// Method to be used for signing SMS Messages
         /// </summary>
         public SmsSignatureGenerator.Method Method { get; set; }
+        
         /// <summary>
         /// Vonage API Key (from your account dashboard)
         /// </summary>
         public string ApiKey { get; set; }
+        
         /// <summary>
         /// Vonage API Secret (from your account dashboard)
         /// </summary>
         public string ApiSecret { get; set; }
+        
         /// <summary>
         /// Signature Secret (from API settings section of your account settings)
         /// </summary>
         public string SecuritySecret { get; set; }
+       
         /// <summary>
         /// Application ID (GUID)
         /// </summary>
         public string ApplicationId { get; set; }
+       
         /// <summary>
         /// Application private key contents
         /// This is the actual key file contents and NOT a path to the key file!
@@ -59,7 +63,7 @@ namespace Vonage.Request
 
         public static Credentials FromApiKeyAndSecret(string apiKey, string apiSecret)
         {
-            return new Credentials(){ApiKey = apiKey, ApiSecret = apiSecret};
+            return new Credentials {ApiKey = apiKey, ApiSecret = apiSecret};
         }
 
         /// <summary>
@@ -70,7 +74,7 @@ namespace Vonage.Request
         /// <returns></returns>
         public static Credentials FromAppIdAndPrivateKey(string appId, string privateKey)
         {
-            return new Credentials(){ApplicationId = appId, ApplicationKey = privateKey};
+            return new Credentials {ApplicationId = appId, ApplicationKey = privateKey};
         }
 
         /// <summary>
@@ -91,7 +95,7 @@ namespace Vonage.Request
             using (var reader = File.OpenText(privateKeyPath))
             {
                 var privateKey = reader.ReadToEnd();
-                return new Credentials(){ApplicationId = appId, ApplicationKey = privateKey};
+                return new Credentials {ApplicationId = appId, ApplicationKey = privateKey};
             }
         }
         
@@ -105,7 +109,7 @@ namespace Vonage.Request
         public static Credentials FromApiKeySignatureSecretAndMethod(string apiKey, string signatureSecret,
             SmsSignatureGenerator.Method method)
         {
-            return new Credentials(){ApiKey = apiKey, SecuritySecret = signatureSecret, Method = method};
+            return new Credentials {ApiKey = apiKey, SecuritySecret = signatureSecret, Method = method};
         }
     }
 }
