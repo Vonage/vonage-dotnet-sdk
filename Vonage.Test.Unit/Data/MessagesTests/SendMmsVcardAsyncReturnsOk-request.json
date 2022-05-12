@@ -1,6 +1,6 @@
 {
   "vcard": {
-    "url": "https://test.com/card.vcf"
+    "url": "https://test.com/contact.vcf"
   },
   "channel": "mms",
   "message_type": "vcard",

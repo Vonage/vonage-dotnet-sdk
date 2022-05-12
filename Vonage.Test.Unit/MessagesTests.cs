@@ -111,7 +111,7 @@ namespace Vonage.Test.Unit
                 From = "015417543010",
                 Vcard = new Attachment
                 {
-                    Url = "https://test.com/card.vcf"
+                    Url = "https://test.com/contact.vcf"
                 },
                 ClientRef = "abcdefg"
             };
