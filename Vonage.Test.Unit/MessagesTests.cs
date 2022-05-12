@@ -166,7 +166,7 @@ namespace Vonage.Test.Unit
                 From = "015417543010",
                 Video = new CaptionedAttachment
                 {
-                    Url = "https://test.com/image.mp4",
+                    Url = "https://test.com/video.mp4",
                     Caption = "A video of me"
                 },
                 ClientRef = "abcdefg"
