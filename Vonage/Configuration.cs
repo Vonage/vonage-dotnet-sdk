@@ -9,7 +9,8 @@ namespace Vonage
 {
     public sealed class Configuration
     {
-        const string LOGGER_CATEGORY = "Vonage.Configuration";
+        private const string LoggerCategory = "Vonage.Configuration";
+        
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
         static Configuration()
@@ -18,7 +19,7 @@ namespace Vonage
 
         private Configuration()
         {
-            var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
+            var logger = Logger.LogProvider.GetLogger(LoggerCategory);
             var builder = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {

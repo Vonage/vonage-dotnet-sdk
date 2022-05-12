@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net452;net46;net462;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;net47;net471;net472;net48;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+		<TargetFrameworks>net462;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;net47;net471;net472;net48;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
 		<NoWarn>1701;1702;0618</NoWarn>
 		<IsPackable>false</IsPackable>
 		<Configurations>Debug;Release;ReleaseSigned</Configurations>
@@ -22,6 +22,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Request\**" />
+	  <EmbeddedResource Remove="Request\**" />
+	  <None Remove="Request\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
 		<PackageReference Include="Moq" Version="4.13.1" />
 		<PackageReference Include="xunit" Version="2.4.0" />
@@ -38,6 +44,84 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="Data\MessagesTests\SendWhatsAppFileAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppTemplateAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppCustomAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppVideoAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppFileAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppTemplateAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppCustomAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppVideoAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppAudioAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppAudioAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppImageAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppImageAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppTextAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppTextAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsVideoAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsAudioAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsVideoAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsAudioAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsVcardAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsVcardAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsInvalidCredentials-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsImageAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsInvalidCredentials-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsImageAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Data\MessagingTests\SendSmsAsyncBadResponse.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
@@ -257,10 +341,6 @@
 	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
 	    <Version>5.0.0</Version>
 	  </PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Request\" />
 	</ItemGroup>
 
 </Project>

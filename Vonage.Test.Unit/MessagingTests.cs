@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using Xunit;
-using Newtonsoft.Json.Serialization;
+using Vonage.Serialization;
 
 namespace Vonage.Test.Unit
 {
@@ -411,7 +411,7 @@ namespace Vonage.Test.Unit
                 ConcatRef = "3",
             };
             var TestSigningSecret = "Y6dI3wtDP8myVH5tnDoIaTxEvAJhgDVCczBa1mHniEqsdlnnebg";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(Messaging.InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5);
@@ -437,7 +437,7 @@ namespace Vonage.Test.Unit
                 ConcatRef = "3",
             };
             var TestSigningSecret = "17c6ecf583ef7da515bcfc655426970c";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5hash);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5hash));
@@ -461,7 +461,7 @@ namespace Vonage.Test.Unit
                 ConcatRef = "3",
             };
             var TestSigningSecret = "B462F6EF6C0D161EEA214C5D37FC0E1D31C0BC08";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha1);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha1));
@@ -485,7 +485,7 @@ namespace Vonage.Test.Unit
                 ConcatRef = "3",
             };
             var TestSigningSecret = "D1EA9F0A89C2C62DD89FFE9585E8CD27163DA47458D353EC7084376BADA72817";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha256);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha256));
@@ -509,7 +509,7 @@ namespace Vonage.Test.Unit
                 ConcatRef = "3",
             };
             var TestSigningSecret = "A8E2BB164A894DB7BC7807D7E5A09003B3F25F185D5202F2616EA8D285AD5E8248D50827091B302D07FC967125108339B155938DA45B27C79E45A83CD4914B7C";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha512);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha512));
@@ -535,14 +535,14 @@ namespace Vonage.Test.Unit
                   ""sig"": ""1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C"",
                   ""client-ref"": ""steve""
                 }";
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var dlr = JsonConvert.DeserializeObject<Messaging.DeliveryReceipt>(jsonFromNDP, settings);
+
+            var dlr = JsonConvert.DeserializeObject<DeliveryReceipt>(jsonFromNDP, VonageSerialization.SerializerSettings);
             Assert.Equal("447700900000", dlr.Msisdn);
             Assert.Equal("AcmeInc", dlr.To);
             Assert.Equal("12345", dlr.NetworkCode);
             Assert.Equal("0A0000001234567B", dlr.MessageId);
             Assert.Equal("0.03330000", dlr.Price);
-            Assert.Equal(Messaging.DlrStatus.delivered, dlr.Status);
+            Assert.Equal(DlrStatus.delivered, dlr.Status);
             Assert.Equal("2001011400", dlr.Scts);
             Assert.Equal("0", dlr.ErrorCode);
             Assert.Equal("abcd1234", dlr.ApiKey);

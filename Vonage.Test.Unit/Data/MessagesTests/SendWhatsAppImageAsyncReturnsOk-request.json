@@ -1,0 +1,11 @@
+{
+  "channel": "whatsapp",
+  "message_type": "image",
+  "image": {
+    "url": "https://test.com/image.png",
+    "caption": "Testing image caption"
+  },
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg"
+}

@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit
 {
     public class TestBase
     {
-        const string MOCKED_METHOD = "SendAsync";
+        private const string MockedMethod = "SendAsync";
         protected string ApiUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Api"];
         protected string RestUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"];
         protected string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testKey";
@@ -61,7 +61,7 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>(MOCKED_METHOD,
+                .Setup<Task<HttpResponseMessage>>(MockedMethod,
                     ItExpr.Is<HttpRequestMessage>(
                         x =>
                         string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) &&
@@ -91,7 +91,7 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
           
             mockHandler
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>(MOCKED_METHOD,
+                .Setup<Task<HttpResponseMessage>>(MockedMethod,
                     ItExpr.Is<HttpRequestMessage>(
                         x => string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) && (requestContent == null) ||
                         string.Equals(x.Content.ReadAsStringAsync().Result, requestContent, StringComparison.OrdinalIgnoreCase)
@@ -107,6 +107,7 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
             Configuration.Instance.ClientHandler = mockHandler.Object;
         }
 
+        [Obsolete("Use GetResponseJson")]
         protected string GetExpectedJson([CallerMemberName] string name = null)
         {
             var type = GetType().Name;
@@ -121,6 +122,50 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
             var jsonContent = File.ReadAllText(path);
             jsonContent = Regex.Replace(jsonContent, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
             return jsonContent;
+        }
+
+        protected string GetResponseJson([CallerMemberName] string name = null)
+        {
+            string type = GetType().Name;
+            string ns = GetType().Namespace;
+            if (ns != null)
+            {
+                var projectFolder = ns.Substring(TestAssemblyName.Length);
+                var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, $"{name}-response.json");
+
+                if (!File.Exists(path))
+                {
+                    throw new FileNotFoundException($"File not found at {path}.");
+                }
+
+                var jsonContent = File.ReadAllText(path);
+                jsonContent = Regex.Replace(jsonContent, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
+                return jsonContent;
+            }
+
+            return string.Empty;
+        }
+
+        protected string GetRequestJson([CallerMemberName] string name = null)
+        {
+            string type = GetType().Name;
+            string ns = GetType().Namespace;
+            if (ns != null)
+            {
+                var projectFolder = ns.Substring(TestAssemblyName.Length);
+                var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, $"{name}-request.json");
+
+                if (!File.Exists(path))
+                {
+                    throw new FileNotFoundException($"File not found at {path}.");
+                }
+
+                var jsonContent = File.ReadAllText(path);
+                jsonContent = Regex.Replace(jsonContent, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
+                return jsonContent;
+            }
+
+            return string.Empty;
         }
     }
 }

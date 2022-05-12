@@ -49,16 +49,20 @@ If you would prefer to run directly from source:
 </ItemGroup>
 ```
 
+## Upgrading 5.x > 6.x
+
+Changes in version 6.x
+
+* Enum values are now caplitalised in alignment with accepted coding practices
+* All classes in the Nexmo namespace that were marked as deprecated in 5.x are now removed
+* 
+
 ## Targeted frameworks
 
+* .NET Framework 4.6.2
+* .NET Standard 2.0
 
-* 4.5.2
-> NOTE: for 4.5.2 frameworks you will need to enable TLS 1.2 either via [registry](https://docs.microsoft.com/en-us/dotnet/framework/network-programming/tls#for-net-framework-35---452-and-not-wcf) or by setting it globally - `System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;`
-* 4.6
-* .NET Standard 2.0 - supports everything 4.6.1 and above
-
-Configuration:
---------------
+## Configuration
 
 To setup the configuration of the Vonage Client you can do one of the following.
 
