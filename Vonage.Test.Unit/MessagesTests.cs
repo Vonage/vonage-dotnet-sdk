@@ -29,8 +29,8 @@ namespace Vonage.Test.Unit
                 Text = "This is a test",
                 ClientRef = "abcdefg"
             };
-
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -55,11 +55,13 @@ namespace Vonage.Test.Unit
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest, HttpStatusCode.Unauthorized);
             var client = new VonageClient(creds);
 
-            var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(async () => await client.MessagesClient.SendAsync(request));
+            var exception =
+                await Assert.ThrowsAsync<VonageHttpRequestException>(async () =>
+                    await client.MessagesClient.SendAsync(request));
 
             Assert.NotNull(exception);
             Assert.Equal(expectedResponse, exception.Json);
@@ -86,7 +88,7 @@ namespace Vonage.Test.Unit
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -109,12 +111,12 @@ namespace Vonage.Test.Unit
                 From = "015417543010",
                 Vcard = new Attachment
                 {
-                    Url = "https://test.com/image.png"
+                    Url = "https://test.com/card.vcf"
                 },
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -143,7 +145,7 @@ namespace Vonage.Test.Unit
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -172,7 +174,7 @@ namespace Vonage.Test.Unit
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -199,7 +201,7 @@ namespace Vonage.Test.Unit
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -228,7 +230,7 @@ namespace Vonage.Test.Unit
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -256,7 +258,7 @@ namespace Vonage.Test.Unit
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -285,7 +287,7 @@ namespace Vonage.Test.Unit
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -314,7 +316,7 @@ namespace Vonage.Test.Unit
                 ClientRef = "abcdefg"
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -338,10 +340,11 @@ namespace Vonage.Test.Unit
                 Template = new MessageTemplate
                 {
                     Name = "Amazing template",
-                    Parameters = new List<string>
+                    Parameters = new List<object>
                     {
-                        "Tim",
-                        "Bob"
+                        new {@default = "Vonage Verification"},
+                        new {@default = "64873"},
+                        new {@default = "10"}
                     }
                 },
                 ClientRef = "abcdefg",
@@ -352,7 +355,7 @@ namespace Vonage.Test.Unit
                 }
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 
@@ -385,7 +388,7 @@ namespace Vonage.Test.Unit
                 }
             };
 
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
 

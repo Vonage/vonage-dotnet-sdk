@@ -15,6 +15,6 @@ namespace Vonage.Messages.WhatsApp
         /// The parameters are an array of strings. The first value being {{1}} in the template.
         /// </summary>
         [JsonProperty("parameters")]
-        public List<string> Parameters { get; set; }
+        public List<object> Parameters { get; set; }
     }
 }

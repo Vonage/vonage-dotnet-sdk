@@ -3,7 +3,17 @@
   "message_type": "template",
   "template": {
     "name": "Amazing template",
-    "parameters": [ "Tim", "Bob" ]
+    "parameters":[
+      {
+        "default":"Vonage Verification"
+      },
+      {
+        "default":"64873"
+      },
+      {
+        "default":"10"
+      }
+    ]
   },
   "whatsapp": {
     "policy": "deterministic",
