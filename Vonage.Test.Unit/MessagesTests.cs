@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Messages;
+using Vonage.Messages.Messenger;
 using Vonage.Messages.Mms;
 using Vonage.Messages.Sms;
 using Vonage.Messages.WhatsApp;
@@ -391,6 +392,145 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             Setup(expectedUri, expectedResponse, expectedRequest);
             var client = new VonageClient(creds);
+
+            var response = await client.MessagesClient.SendAsync(request);
+
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        }
+        
+        // Messenger
+        
+        [Fact]
+        public async Task SendMessengerTextAsyncReturnsOk()
+        {
+            string expectedUri = $"{ApiUrl}/v1/messages";
+            string expectedResponse = GetResponseJson();
+            string expectedRequest = GetRequestJson();
+
+            var request = new MessengerTextRequest()
+            {
+                To = "441234567890",
+                From = "015417543010",
+                Text = "Hello mum",
+                ClientRef = "abcdefg"
+            };
+
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            Setup(expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(creds);
+
+            var response = await client.MessagesClient.SendAsync(request);
+
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        }
+        
+        [Fact]
+        public async Task SendMessengerImageAsyncReturnsOk()
+        {
+            string expectedUri = $"{ApiUrl}/v1/messages";
+            string expectedResponse = GetResponseJson();
+            string expectedRequest = GetRequestJson();
+
+            var request = new MessengerImageRequest
+            {
+                To = "441234567890",
+                From = "015417543010",
+                Image = new Attachment
+                {
+                    Url = "https://test.com/image.png"
+                },
+                ClientRef = "abcdefg"
+            };
+
+            var credentials = Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            Setup(expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(credentials);
+
+            var response = await client.MessagesClient.SendAsync(request);
+
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        }
+        
+        [Fact]
+        public async Task SendMessengerAudioAsyncReturnsOk()
+        {
+            string expectedUri = $"{ApiUrl}/v1/messages";
+            string expectedResponse = GetResponseJson();
+            string expectedRequest = GetRequestJson();
+
+            var request = new MessengerAudioRequest
+            {
+                To = "441234567890",
+                From = "015417543010",
+                Audio = new Attachment
+                {
+                    Url = "https://test.com/voice.mp3"
+                },
+                ClientRef = "abcdefg"
+            };
+
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            Setup(expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(creds);
+
+            var response = await client.MessagesClient.SendAsync(request);
+
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        }
+        
+        [Fact]
+        public async Task SendMessengerVideoAsyncReturnsOk()
+        {
+            string expectedUri = $"{ApiUrl}/v1/messages";
+            string expectedResponse = GetResponseJson();
+            string expectedRequest = GetRequestJson();
+
+            var request = new MessengerVideoRequest
+            {
+                To = "441234567890",
+                From = "015417543010",
+                Video = new Attachment
+                {
+                    Url = "https://test.com/me.mp4",
+                },
+                ClientRef = "abcdefg"
+            };
+
+            var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            Setup(expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(creds);
+
+            var response = await client.MessagesClient.SendAsync(request);
+
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        }
+        
+        [Fact]
+        public async Task SendMessengerFileAsyncReturnsOk()
+        {
+            string expectedUri = $"{ApiUrl}/v1/messages";
+            string expectedResponse = GetResponseJson();
+            string expectedRequest = GetRequestJson();
+
+            var request = new MessengerFileRequest
+            {
+                To = "441234567890",
+                From = "015417543010",
+                File = new Attachment
+                {
+                    Url = "https://test.com/me.txt"
+                },
+                ClientRef = "abcdefg"
+            };
+
+            var credentials = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
+            Setup(expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(credentials);
 
             var response = await client.MessagesClient.SendAsync(request);
 

@@ -1,0 +1,10 @@
+{
+  "channel": "Messenger",
+  "message_type": "file",
+  "file": {
+    "url": "https://test.com/me.txt"
+  },
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg"
+}

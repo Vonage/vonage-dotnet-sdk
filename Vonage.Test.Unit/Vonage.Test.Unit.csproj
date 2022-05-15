@@ -25,6 +25,36 @@
 	  <Compile Remove="Request\**" />
 	  <EmbeddedResource Remove="Request\**" />
 	  <None Remove="Request\**" />
+	  <None Update="Data\MessagesTests\SendMessengerTextAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerTextAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerImageAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerImageAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerAudioAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerAudioAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerVideoAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerVideoAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerFileAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerFileAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
