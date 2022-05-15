@@ -55,6 +55,18 @@
 	  <None Update="Data\MessagesTests\SendMessengerFileAsyncReturnsOk-response.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	  <None Update="Data\MessagesTests\SendViberTextAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendViberTextAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendViberImageAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendViberImageAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
