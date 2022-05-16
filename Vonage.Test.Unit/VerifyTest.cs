@@ -68,7 +68,7 @@ namespace Vonage.Test.Unit
               ""currency"": ""EUR"",
               ""estimated_price_messages_sent"": ""0.03330000""
             }";
-            var expectedUri = $"{ApiUrl}/verify/json";
+            var expectedUri = $"{ApiUrl}/verify/check/json";
 
             string expectedRequestContent;
             VerifyCheckRequest request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
@@ -330,7 +330,7 @@ namespace Vonage.Test.Unit
               ""currency"": ""EUR"",
               ""estimated_price_messages_sent"": ""0.03330000""
             }";
-            var expectedUri = $"{ApiUrl}/verify/json";
+            var expectedUri = $"{ApiUrl}/verify/check/json";
 
             string expectedRequestContent;
             VerifyCheckRequest request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
