@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
+using Xunit;
 
 namespace Vonage.Test.Unit
 {
@@ -43,7 +44,7 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
 
         private static readonly string TestAssemblyName = ThisAssembly.GetName().Name;
 
-        public static string AssemblyDirectory
+        private static string AssemblyDirectory
         {
             get
             {
@@ -55,55 +56,42 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
         }
 
 
-        public void Setup(string uri, string responseContent, string requestContent = null, HttpStatusCode expectedCode = HttpStatusCode.OK)
+        protected void Setup(string uri, string responseContent, string requestContent = null, HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
-            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(Configuration.Instance, null);
-            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            mockHandler
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(MockedMethod,
-                    ItExpr.Is<HttpRequestMessage>(
-                        x =>
-                        string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) &&
-                        requestContent == null ||
-                        string.Equals(x.Content.ReadAsStringAsync().Result, requestContent, StringComparison.OrdinalIgnoreCase)),
-                    ItExpr.IsAny<CancellationToken>()
-                )
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = expectedCode,
-                    Content = new StringContent(responseContent)
-                })
-                .Verifiable();
-            Configuration.Instance.ClientHandler = mockHandler.Object;
+            Setup(uri, new StringContent(responseContent), expectedCode, requestContent);
         }
 
-        public void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
+        protected void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
             Setup(uri, new StreamContent(new MemoryStream(responseContent)), expectedCode);
         }
 
-
         private void Setup(string uri, HttpContent httpContent, HttpStatusCode expectedCode, string requestContent = null)
         {
-            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(Configuration.Instance, null);
+            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(Configuration.Instance, null);
             Mock<HttpMessageHandler> mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
           
             mockHandler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(MockedMethod,
-                    ItExpr.Is<HttpRequestMessage>(
-                        x => string.Equals(x.RequestUri.AbsoluteUri, uri, StringComparison.OrdinalIgnoreCase) && (requestContent == null) ||
-                        string.Equals(x.Content.ReadAsStringAsync().Result, requestContent, StringComparison.OrdinalIgnoreCase)
-                    ),
+                    ItExpr.IsAny<HttpRequestMessage>(),
                     ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage()
+                .Callback<HttpRequestMessage, CancellationToken>((actualHttpRequestMessage, cancellationToken) =>
+                {
+                    Assert.Equal(uri, actualHttpRequestMessage.RequestUri.AbsoluteUri, StringComparer.OrdinalIgnoreCase);
+                    if (requestContent == null)
+                        return;
+                    
+                    var actualContent = actualHttpRequestMessage.Content.ReadAsStringAsync().Result;
+                    Assert.Equal(requestContent, actualContent, StringComparer.OrdinalIgnoreCase);
+                })
+                .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = expectedCode,
                     Content = httpContent
                 })
                 .Verifiable();
-
+            
             Configuration.Instance.ClientHandler = mockHandler.Object;
         }
 

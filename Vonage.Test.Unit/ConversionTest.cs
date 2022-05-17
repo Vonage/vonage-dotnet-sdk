@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit
         [InlineData(true)]
         public void SmsConversion(bool passCreds)
         {
-            var expectedUri = $"${ApiUrl}/conversions/sms";
+            var expectedUri = $"{ApiUrl}/conversions/sms";
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
             var expectedResponse = "";
             Setup(expectedUri, expectedResponse, expectedContent);
@@ -38,7 +38,7 @@ namespace Vonage.Test.Unit
         [InlineData(true)]
         public void VoiceConversion(bool passCreds)
         {
-            var expectedUri = $"${ApiUrl}/conversions/sms";
+            var expectedUri = $"{ApiUrl}/conversions/voice";
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
             var expectedResponse = "";
             Setup(expectedUri, expectedResponse, expectedContent);
@@ -62,7 +62,7 @@ namespace Vonage.Test.Unit
         [InlineData(true)]
         public async void SmsConversionAsync(bool passCreds)
         {
-            var expectedUri = $"${ApiUrl}/conversions/sms";
+            var expectedUri = $"{ApiUrl}/conversions/sms";
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
             var expectedResponse = "";
             Setup(expectedUri, expectedResponse, expectedContent);
@@ -86,7 +86,7 @@ namespace Vonage.Test.Unit
         [InlineData(true)]
         public async void VoiceConversionAsync(bool passCreds)
         {
-            var expectedUri = $"${ApiUrl}/conversions/sms";
+            var expectedUri = $"{ApiUrl}/conversions/voice";
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
             var expectedResponse = "";
             Setup(expectedUri, expectedResponse, expectedContent);
