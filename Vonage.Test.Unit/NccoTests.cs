@@ -26,7 +26,7 @@ namespace Vonage.Test.Unit
                 EndOnSilence = "3",
                 EndOnKey = "#",
                 TimeOut = "60",
-                BeepStart = "true",
+                BeepStart = true,
                 EventUrl = new[] {"https://example.com/record", "https://test.com/record"},
                 EventMethod = "POST"
             };
@@ -54,9 +54,28 @@ namespace Vonage.Test.Unit
             {
                 Name = "vonage-conference-standard",
                 MusicOnHoldUrl = new[] {"https://example.com/music.mp3"},
-                StartOnEnter = "true",
-                EndOnExit = "false",
-                Record = "true",
+                StartOnEnter = false,
+                EndOnExit = false,
+                Record = false,
+                CanSpeak = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"},
+                CanHear = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"}
+            };
+            var ncco = new Ncco(conversationAction);
+            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            Assert.Equal(expectedJson, actualJson);
+        }
+        
+        [Fact]
+        public void TestConversationAllTrue()
+        {
+            var expectedJson = GetRequestJson();
+            var conversationAction = new ConversationAction
+            {
+                Name = "vonage-conference-standard",
+                MusicOnHoldUrl = new[] {"https://example.com/music.mp3"},
+                StartOnEnter = true,
+                EndOnExit = true,
+                Record = true,
                 CanSpeak = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"},
                 CanHear = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"}
             };
@@ -105,7 +124,7 @@ namespace Vonage.Test.Unit
             var talkAction = new TalkAction
             {
                 Text = "Hello World",
-                BargeIn = "true",
+                BargeIn = true,
                 Loop = "2",
                 Level = "0",
                 VoiceName = "kimberly",
@@ -137,7 +156,7 @@ namespace Vonage.Test.Unit
             var talkAction = new StreamAction
             {
                 StreamUrl = new[] {"https://acme.com/streams/music.mp3"},
-                BargeIn = "true",
+                BargeIn = true,
                 Loop = "2",
                 Level = "0",
             };

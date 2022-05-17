@@ -103,6 +103,9 @@
 	  <None Update="Data\NccoTests\TestVbcEndpoint-request.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	  <None Update="Data\NccoTests\TestConversationAllTrue-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>

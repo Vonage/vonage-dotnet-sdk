@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Vonage.Serialization;
 
 namespace Vonage.Voice.Nccos
 {
@@ -66,7 +67,8 @@ namespace Vonage.Voice.Nccos
         /// Set to true to play a beep when a recording starts
         /// </summary>
         [JsonProperty("beepStart")]
-        public string BeepStart { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool BeepStart { get; set; }
 
         /// <summary>
         /// The URL to the webhook endpoint that is called asynchronously when a recording is finished. 

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Vonage.Serialization;
 
 namespace Vonage.Voice.Nccos
 {
@@ -26,7 +27,8 @@ namespace Vonage.Voice.Nccos
         /// joins conversation name. Set to false for attendees in a moderated conversation.
         /// </summary>
         [JsonProperty("startOnEnter")]
-        public string StartOnEnter { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool StartOnEnter { get; set; }
 
         /// <summary>
         /// Specifies whether a moderated conversation ends when the moderator hangs up. 
@@ -36,7 +38,8 @@ namespace Vonage.Voice.Nccos
         /// moderator hangs up.
         /// </summary>
         [JsonProperty("endOnExit")]
-        public string EndOnExit { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool EndOnExit { get; set; }
 
         /// <summary>
         /// Set to true to record this conversation. For standard conversations, 
@@ -48,7 +51,8 @@ namespace Vonage.Voice.Nccos
         /// See the recording guide for more details
         /// </summary>
         [JsonProperty("record")]
-        public string Record { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool Record { get; set; }
        
         /// <summary>
         /// Url to receive webhooks at for the conversation

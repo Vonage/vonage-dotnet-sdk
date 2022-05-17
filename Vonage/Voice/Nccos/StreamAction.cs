@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Vonage.Serialization;
 
 namespace Vonage.Voice.Nccos
 {
@@ -28,7 +29,8 @@ namespace Vonage.Voice.Nccos
         /// until an input action is encountered
         /// </summary>
         [JsonProperty("bargeIn")]
-        public string BargeIn { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool BargeIn { get; set; }
 
         /// <summary>
         /// The number of times audio is repeated before the Call is closed. The default value is 1. Set to 0 to loop infinitely.

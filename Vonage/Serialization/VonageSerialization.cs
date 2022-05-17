@@ -14,7 +14,7 @@ namespace Vonage.Serialization
                     Formatting = Formatting.None,
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
-                
+
                 return settings;
             }
         }
