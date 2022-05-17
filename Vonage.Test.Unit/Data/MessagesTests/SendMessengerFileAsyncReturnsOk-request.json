@@ -1,5 +1,5 @@
 {
-  "channel": "Messenger",
+  "channel": "messenger",
   "message_type": "file",
   "file": {
     "url": "https://test.com/me.txt"
