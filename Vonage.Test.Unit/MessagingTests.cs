@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit
         public void SendSmsWithAllPropertiesSet(bool passCreds)
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}" +
                 $"&ttl=900000&status-report-req=true&callback={HttpUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
                 $"&type=text&vcard=none&vcal=none&body=638265253311&udh=06050415811581&protocol-id=127&title=welcome&url={HttpUtility.UrlEncode("https://example.com")}" +
@@ -69,7 +69,7 @@ namespace Vonage.Test.Unit
         public async Task SendSmsAsyncWithAllPropertiesSet(bool passCreds)
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}" +
                 $"&ttl=900000&status-report-req=true&callback={HttpUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
                 $"&type=text&vcard=none&vcal=none&body=638265253311&udh=06050415811581&protocol-id=127&title=welcome&url={HttpUtility.UrlEncode("https://example.com")}" +
@@ -133,7 +133,7 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -165,7 +165,7 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&type=text&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -184,7 +184,7 @@ namespace Vonage.Test.Unit
         public async Task SendSmsTypicalUsageSimplifiedAsync()
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&type=text&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -216,7 +216,7 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("こんにちは世界")}&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -235,7 +235,7 @@ namespace Vonage.Test.Unit
         public void SendSmsBadResponse()
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -252,7 +252,7 @@ namespace Vonage.Test.Unit
         public async Task SendSmsAsyncBadResponse()
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -269,7 +269,7 @@ namespace Vonage.Test.Unit
         public void NullMessagesResponse()
         {
             var expectedResponse = @"";
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
 
             Setup(expectedUri, expectedResponse, expectedRequestContent);
