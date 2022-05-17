@@ -6,6 +6,8 @@ namespace Vonage.Voice.Nccos
 {
     public class MultiInputAction : NccoAction
     {
+        public override ActionType Action => ActionType.Input;
+
         /// <summary>
         /// Vonage sends the digits pressed by the callee to this URL 1) after timeOut pause in activity or when # is pressed for DTMF or 2) after user stops speaking or 30 seconds of speech for speech input.
         /// </summary>
@@ -29,7 +31,7 @@ namespace Vonage.Voice.Nccos
         /// Acceptable input type. Can be set as [ "dtmf" ] for DTMF input only, [ "speech" ] for ASR only, or [ "dtmf", "speech" ] for both.
         /// Is required.
         /// </summary>
-        [JsonProperty("type", ItemConverterType = typeof(StringEnumConverter))]
+        [JsonProperty("type")]
         public IEnumerable<NccoInputType> Type { get; set; }
 
         /// <summary>
@@ -41,7 +43,6 @@ namespace Vonage.Voice.Nccos
         public MultiInputAction()
         {
             Dtmf = new DtmfSettings();
-            Action = ActionType.input;
         }
     }
 }

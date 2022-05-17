@@ -4,6 +4,8 @@ namespace Vonage.Voice.Nccos
 {
     public class StreamAction : NccoAction
     {
+        public override ActionType Action => ActionType.Stream;
+
         /// <summary>
         /// An array containing a single URL to an mp3 or wav (16-bit) audio file 
         /// to stream to the Call or Conversation.
@@ -33,10 +35,5 @@ namespace Vonage.Voice.Nccos
         /// </summary>
         [JsonProperty("loop")]
         public string Loop { get; set; }
-
-        public StreamAction()
-        {
-            Action = ActionType.stream;
-        }
     }
 }

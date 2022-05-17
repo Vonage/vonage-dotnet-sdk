@@ -1,0 +1,12 @@
+[
+  {
+    "action": "talk",
+    "text": "Hello World",
+    "bargeIn": "true",
+    "loop": "2",
+    "level": "0",
+    "voiceName": "kimberly",
+    "language": "en-US",
+    "style": 0
+  }
+]

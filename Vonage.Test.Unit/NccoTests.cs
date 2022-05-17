@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using Vonage.Voice.Nccos;
 using Vonage.Voice.Nccos.Endpoints;
 using Xunit;
@@ -7,70 +8,79 @@ namespace Vonage.Test.Unit
 {
     public class NccoTests : TestBase
     {
-        [Fact]
-        public void TestRecord()
+        [Theory]
+        [InlineData(RecordAction.AudioFormat.Mp3)]
+        [InlineData(RecordAction.AudioFormat.Wav)]
+        [InlineData(RecordAction.AudioFormat.Ogg)]
+        public void TestRecord(RecordAction.AudioFormat audioFormat)
         {
-            var expectedJson = @"[{""format"":""mp3"",""split"":""conversation"",""channels"":2,""endOnSilence"":""3"",""endOnKey"":""#"",""timeOut"":""60"",""beepStart"":""true"",""eventUrl"":[""https://example.com/record""],""eventMethod"":""POST"",""action"":""record""}]";
+            var parameters = new Dictionary<string, string>();
+            parameters.Add("format", JsonConvert.SerializeObject(audioFormat, Serialization.VonageSerialization.SerializerSettings));
+            var expectedJson = GetRequestJson(parameters);
+
             var recordAction = new RecordAction
             {
-                Format = RecordAction.AudioFormat.mp3,
+                Format = audioFormat,
                 Split = "conversation",
                 Channels = 2,
                 EndOnSilence = "3",
                 EndOnKey = "#",
                 TimeOut = "60",
                 BeepStart = "true",
-                EventUrl = new[] { "https://example.com/record" },
+                EventUrl = new[] {"https://example.com/record", "https://test.com/record"},
                 EventMethod = "POST"
             };
 
-            var ncco = new Voice.Nccos.Ncco(recordAction);
-            Assert.Equal(expectedJson, ncco.ToString());
+            var ncco = new Ncco(recordAction);
+            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            Assert.Equal(expectedJson, actualJson);
         }
 
         [Fact]
         public void TestRecordMinimalist()
         {
-            var expectedJson = @"[{""action"":""record""}]";
+            var expectedJson = GetRequestJson();
             var recordAction = new RecordAction();
-            var ncco = new Voice.Nccos.Ncco(recordAction);
-            Assert.Equal(expectedJson, ncco.ToString());
+            var ncco = new Ncco(recordAction);
+            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            Assert.Equal(expectedJson, actualJson);
         }
 
         [Fact]
         public void TestConversation()
         {
-            var expectedJson = @"[{""name"":""vonage-conference-standard"",""musicOnHoldUrl"":[""https://example.com/music.mp3""],""startOnEnter"":""true"",""endOnExit"":""false"",""record"":""true"",""canSpeak"":[""6a4d6af0-55a6-4667-be90-8614e4c8e83c""],""canHear"":[""6a4d6af0-55a6-4667-be90-8614e4c8e83c""],""action"":""conversation""}]";
+            var expectedJson = GetRequestJson();
             var conversationAction = new ConversationAction
             {
                 Name = "vonage-conference-standard",
-                MusicOnHoldUrl = new[] { "https://example.com/music.mp3" },
+                MusicOnHoldUrl = new[] {"https://example.com/music.mp3"},
                 StartOnEnter = "true",
                 EndOnExit = "false",
                 Record = "true",
-                CanSpeak = new[] { "6a4d6af0-55a6-4667-be90-8614e4c8e83c" },
-                CanHear = new[] { "6a4d6af0-55a6-4667-be90-8614e4c8e83c" }
+                CanSpeak = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"},
+                CanHear = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"}
             };
-            var ncco = new Voice.Nccos.Ncco(conversationAction);
-            Assert.Equal(expectedJson, ncco.ToString());
+            var ncco = new Ncco(conversationAction);
+            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            Assert.Equal(expectedJson, actualJson);
         }
 
         [Fact]
         public void TestConnect()
         {
-            var expectedJson = @"[{""endpoint"":[{""number"":""447700900001"",""dtmfAnswer"":""2p02p"",""onAnswer"":{""url"":""https://example.com/answer"",""ringbackTone"":""http://example.com/ringbackTone.wav""},""type"":""phone""}],""from"":""447700900000"",""eventType"":""synchronous"",""timeout"":""60"",""limit"":""7200"",""machineDetection"":""continue"",""eventUrl"":[""https://exampe.com/webhooks/events""],""eventMethod"":""POST"",""ringbackTone"":""http://example.com/ringbackTone.wav"",""action"":""connect""}]";
+            var expectedJson = GetRequestJson();
             var connectAction = new ConnectAction
             {
-                Endpoint = new[]
+                Endpoint = new Endpoint[]
                 {
                     new PhoneEndpoint
                     {
-                        Number="447700900001",
-                        DtmfAnswer="2p02p",
-                        OnAnswer=new PhoneEndpoint.Answer
+                        Number = "447700900001",
+                        DtmfAnswer = "2p02p",
+                        OnAnswer = new PhoneEndpoint.Answer
                         {
-                            Url="https://example.com/answer",
-                            RingbackTone="http://example.com/ringbackTone.wav"
+                            Url = "https://example.com/answer",
+                            RingbackTone = "http://example.com/ringbackTone.wav"
                         }
                     }
                 },
@@ -79,18 +89,19 @@ namespace Vonage.Test.Unit
                 Timeout = "60",
                 Limit = "7200",
                 MachineDetection = "continue",
-                EventUrl = new[] { "https://exampe.com/webhooks/events" },
+                EventUrl = new[] {"https://exampe.com/webhooks/events"},
                 RingbackTone = "http://example.com/ringbackTone.wav",
                 EventMethod = "POST"
             };
-            var ncco = new Voice.Nccos.Ncco(connectAction);
-            Assert.Equal(expectedJson, ncco.ToString());
+            var ncco = new Ncco(connectAction);
+            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            Assert.Equal(expectedJson, actualJson);
         }
 
         [Fact]
         public void TestTalk()
         {
-            var expectedJson = @"[{""text"":""Hello World"",""bargeIn"":""true"",""loop"":""2"",""level"":""0"",""voiceName"":""kimberly"",""language"":""en-US"",""style"":0,""action"":""talk""}]";
+            var expectedJson = GetRequestJson();
             var talkAction = new TalkAction
             {
                 Text = "Hello World",
@@ -98,125 +109,115 @@ namespace Vonage.Test.Unit
                 Loop = "2",
                 Level = "0",
                 VoiceName = "kimberly",
-                Language="en-US",
+                Language = "en-US",
                 Style = 0
             };
-            var ncco = new Voice.Nccos.Ncco(talkAction);
-            Assert.Equal(expectedJson, ncco.ToString());
+            var ncco = new Ncco(talkAction);
+            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            Assert.Equal(expectedJson, actualJson);
         }
-        
+
         [Fact]
         public void TestTalkBareBones()
         {
-            var expectedJson = @"[{""text"":""Hello World"",""action"":""talk""}]";
+            var expectedJson = GetRequestJson();
             var talkAction = new TalkAction
             {
                 Text = "Hello World"
             };
-            var ncco = new Voice.Nccos.Ncco(talkAction);
-            Assert.Equal(expectedJson, ncco.ToString());
+            var ncco = new Ncco(talkAction);
+            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            Assert.Equal(expectedJson, actualJson);
         }
 
         [Fact]
         public void TestStream()
         {
-            var expectedJson = @"[{""streamUrl"":[""https://acme.com/streams/music.mp3""],""level"":""0"",""bargeIn"":""true"",""loop"":""2"",""action"":""stream""}]";
+            var expectedJson = GetRequestJson();
             var talkAction = new StreamAction
             {
-                StreamUrl = new[] { "https://acme.com/streams/music.mp3"},
+                StreamUrl = new[] {"https://acme.com/streams/music.mp3"},
                 BargeIn = "true",
                 Loop = "2",
-                Level = "0",                
+                Level = "0",
             };
-            var ncco = new Voice.Nccos.Ncco(talkAction);
-            Assert.Equal(expectedJson, ncco.ToString());
-        }
-
-        [Fact]
-        public void TestInput()
-        {
-            var expectedJson = @"[{""timeOut"":""3"",""maxDigits"":4,""submitOnHash"":""true"",""eventUrl"":[""https://example.com/ivr""],""eventMethod"":""POST"",""action"":""input""}]";
-            var inputAction = new InputAction
-            {
-                TimeOut = "3",
-                MaxDigits = 4,
-                SubmitOnHash = "true",
-                EventUrl = new[] { "https://example.com/ivr" },
-                EventMethod = "POST"
-            };
-            var ncco = new Voice.Nccos.Ncco(inputAction);
-            Assert.Equal(expectedJson, ncco.ToString());
+            var ncco = new Ncco(talkAction);
+            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            Assert.Equal(expectedJson, actualJson);
         }
 
         [Fact]
         public void TestNotify()
         {
-            var expectedJson = @"[{""payload"":{""Bar"":""foo""},""eventUrl"":[""https://example.com/webhooks/events""],""eventMethod"":""POST"",""action"":""notify""}]";
+            var expectedJson = GetRequestJson();
             var notifyAction = new NotifyAction
             {
                 EventMethod = "POST",
-                Payload = new Foo
+                Payload = new TestClass
                 {
                     Bar = "foo"
                 },
-                EventUrl = new[] { "https://example.com/webhooks/events" }
+                EventUrl = new[] {"https://example.com/webhooks/events"}
             };
-            var ncco = new Voice.Nccos.Ncco(notifyAction);
-            Assert.Equal(expectedJson, ncco.ToString());
+            var ncco = new Ncco(notifyAction);
+            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            Assert.Equal(expectedJson, actualJson);
         }
 
         [Fact]
         public void TestWebsocketEndpoint()
         {
-            var expectedJson = @"{""uri"":""wss://example.com/ws"",""content-type"":""audio/l16;rate=16000"",""headers"":{""Bar"":""foo""},""type"":""websocket""}";
+            var expectedJson = GetRequestJson();
             var endpoint = new WebsocketEndpoint
             {
                 Uri = "wss://example.com/ws",
                 ContentType = "audio/l16;rate=16000",
-                Headers = new Foo { Bar = "foo" }
+                Headers = new TestClass {Bar = "foo"}
             };
-            Assert.Equal(expectedJson, JsonConvert.SerializeObject(endpoint));
+            Assert.Equal(expectedJson,
+                JsonConvert.SerializeObject(endpoint, Serialization.VonageSerialization.SerializerSettings));
         }
 
         [Fact]
         public void TestAppEndpoint()
         {
-            var expectedJson = @"{""user"":""steve"",""type"":""app""}";
+            var expectedJson = GetRequestJson();
             var endpoint = new AppEndpoint
             {
-                User= "steve"
+                User = "steve"
             };
-            Assert.Equal(expectedJson, JsonConvert.SerializeObject(endpoint));
+            Assert.Equal(expectedJson,
+                JsonConvert.SerializeObject(endpoint, Serialization.VonageSerialization.SerializerSettings));
         }
 
         [Fact]
         public void TestSipEndpoint()
         {
-            var expectedJson = @"{""uri"":""sip:rebekka@sip.example.com"",""headers"":{""Bar"":""foo""},""type"":""sip""}";
+            var expectedJson = GetRequestJson();
             var endpoint = new SipEndpoint
             {
                 Uri = "sip:rebekka@sip.example.com",
-                Headers = new Foo { Bar="foo"}
+                Headers = new TestClass {Bar = "foo"}
             };
-            Assert.Equal(expectedJson, JsonConvert.SerializeObject(endpoint));
+            Assert.Equal(expectedJson,
+                JsonConvert.SerializeObject(endpoint, Serialization.VonageSerialization.SerializerSettings));
         }
 
         [Fact]
         public void TestVbcEndpoint()
         {
-            var expectedJson = @"{""extension"":""4567"",""type"":""vbc""}";
+            var expectedJson = GetRequestJson();
             var endpoint = new VbcEndpoint
             {
                 Extension = "4567"
             };
-            Assert.Equal(expectedJson, JsonConvert.SerializeObject(endpoint));
-
+            Assert.Equal(expectedJson,
+                JsonConvert.SerializeObject(endpoint, Serialization.VonageSerialization.SerializerSettings));
         }
-        public class Foo
+
+        private class TestClass
         {
             public string Bar { get; set; }
         }
-
-        
     }
 }

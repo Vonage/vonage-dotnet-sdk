@@ -4,6 +4,8 @@ namespace Vonage.Voice.Nccos
 {
     public class ConversationAction : NccoAction
     {
+        public override ActionType Action => ActionType.Conversation;
+
         /// <summary>
         /// The name of the Conversation room. Names are namespaced to the application level.
         /// </summary>
@@ -75,10 +77,5 @@ namespace Vonage.Voice.Nccos
         /// </summary>
         [JsonProperty("canHear")]
         public string[] CanHear { get; set; }
-
-        public ConversationAction()
-        {
-            Action = ActionType.conversation;
-        }
     }
 }

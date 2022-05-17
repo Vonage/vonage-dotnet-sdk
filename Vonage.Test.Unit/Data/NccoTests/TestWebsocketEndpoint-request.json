@@ -1,0 +1,8 @@
+{
+  "uri": "wss://example.com/ws",
+  "content-type": "audio/l16;rate=16000",
+  "headers": {
+    "Bar": "foo"
+  },
+  "type": "websocket"
+}

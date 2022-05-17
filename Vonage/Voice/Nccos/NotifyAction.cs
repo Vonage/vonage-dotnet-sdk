@@ -5,6 +5,8 @@ namespace Vonage.Voice.Nccos
 {
     public class NotifyAction : NccoAction
     {
+        public override ActionType Action => ActionType.Notify;
+
         /// <summary>
         /// The JSON object body to send to your event URL
         /// </summary>
@@ -22,10 +24,5 @@ namespace Vonage.Voice.Nccos
         /// </summary>
         [JsonProperty("eventMethod")]
         public string EventMethod { get; set; }
-
-        public NotifyAction()
-        {
-            Action = ActionType.notify;
-        }
     }
 }

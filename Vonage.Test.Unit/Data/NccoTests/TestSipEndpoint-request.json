@@ -1,0 +1,7 @@
+{
+  "uri": "sip:rebekka@sip.example.com",
+  "headers": {
+    "Bar": "foo"
+  },
+  "type": "sip"
+}

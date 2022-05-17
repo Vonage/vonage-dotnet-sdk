@@ -5,6 +5,8 @@ namespace Vonage.Voice.Nccos
 {
     public class TalkAction : NccoAction
     {
+        public override ActionType Action => ActionType.Talk;
+
         /// <summary>
         /// A string of up to 1,500 characters (excluding SSML tags) containing the message to be 
         /// synthesized in the Call or Conversation. A single comma in text adds a short pause to the 
@@ -58,10 +60,5 @@ namespace Vonage.Voice.Nccos
         /// </summary>
         [JsonProperty("style")]
         public int? Style { get; set; }
-
-        public TalkAction()
-        {
-            Action = ActionType.talk;
-        }
     }
 }

@@ -301,7 +301,7 @@ namespace Vonage.Test.Unit
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
             var expectedResponse = "";
-            var expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""ncco"":[{""text"":""hello world"",""action"":""talk""}]}}";
+            var expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}}";
             var destination = new Destination { Type = "ncco", Ncco = new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "hello world" }) };
             var request = new CallEditCommand { Destination = destination, Action = CallEditCommand.ActionType.transfer };
             
@@ -589,7 +589,7 @@ namespace Vonage.Test.Unit
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""}],""from"":{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""},""ncco"":[{""text"":""בדיקה בדיקה בדיקה"",""action"":""talk""}],""answer_url"":[""https://example.com/answer""],""answer_method"":""GET"",""event_url"":[""https://example.com/event""],""event_method"":""POST"",""machine_detection"":""continue"",""length_timer"":1,""ringing_timer"":1}";
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""}],""from"":{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""בדיקה בדיקה בדיקה""}],""answer_url"":[""https://example.com/answer""],""answer_method"":""GET"",""event_url"":[""https://example.com/event""],""event_method"":""POST"",""machine_detection"":""continue"",""length_timer"":1,""ringing_timer"":1}";
 
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
 
@@ -638,7 +638,7 @@ namespace Vonage.Test.Unit
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
@@ -662,7 +662,7 @@ namespace Vonage.Test.Unit
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequestContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
+            var expectedRequestContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
@@ -1139,7 +1139,7 @@ namespace Vonage.Test.Unit
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
@@ -1163,7 +1163,7 @@ namespace Vonage.Test.Unit
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequestContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
+            var expectedRequestContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);

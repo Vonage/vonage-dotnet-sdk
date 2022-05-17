@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Vonage.Voice.Nccos.Endpoints;
 
-
 namespace Vonage.Voice.Nccos
 {
     public class ConnectAction : NccoAction
     {
+        public override ActionType Action => ActionType.Connect;
+
         /// <summary>
         /// Connect to a single endpoint.
         /// </summary>
@@ -72,11 +73,5 @@ namespace Vonage.Voice.Nccos
         /// </summary>
         [JsonProperty("ringbackTone")]
         public string RingbackTone { get; set; }
-
-        public ConnectAction()
-        {
-            Action = ActionType.connect;
-        }
-
     }
 }

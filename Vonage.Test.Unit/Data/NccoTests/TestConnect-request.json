@@ -1,0 +1,26 @@
+[
+  {
+    "action": "connect",
+    "endpoint": [
+      {
+        "number": "447700900001",
+        "dtmfAnswer": "2p02p",
+        "onAnswer": {
+          "url": "https://example.com/answer",
+          "ringbackTone": "http://example.com/ringbackTone.wav"
+        },
+        "type": "phone"
+      }
+    ],
+    "from": "447700900000",
+    "eventType": "synchronous",
+    "timeout": "60",
+    "limit": "7200",
+    "machineDetection": "continue",
+    "eventUrl": [
+      "https://exampe.com/webhooks/events"
+    ],
+    "eventMethod": "POST",
+    "ringbackTone": "http://example.com/ringbackTone.wav"
+  }
+]

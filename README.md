@@ -55,7 +55,7 @@ Changes in version 6.x
 
 * Enum values are now caplitalised in alignment with accepted coding practices
 * All classes in the Nexmo namespace that were marked as deprecated in 5.x are now removed
-* 
+* Ncco now inherits from List, it no longer has the `Actions` property, to add an action use `ncco.Add(action);`
 
 ## Targeted frameworks
 

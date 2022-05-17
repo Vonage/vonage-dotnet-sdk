@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -15,10 +16,11 @@ namespace Vonage.Test.Unit
 {
     public class TestBase
     {
+        private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
         private const string MockedMethod = "SendAsync";
         protected string ApiUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Api"];
         protected string RestUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"];
-        protected string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testKey";
+        protected string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
         protected string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
         protected string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID") ?? "afed99d2-ae38-487c-bb5a-fe2518febd44";
         protected string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ?? @"-----BEGIN RSA PRIVATE KEY-----
@@ -154,6 +156,13 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
             }
 
             return string.Empty;
+        }
+        
+        protected string GetRequestJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null)
+        {
+            var response = GetRequestJson(name);
+            response = TokenReplacementRegEx.Replace(response, match => parameters[match.Groups[1].Value]);
+            return response;
         }
     }
 }
