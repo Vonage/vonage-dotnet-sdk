@@ -1,5 +1,6 @@
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Vonage.Common
 {
@@ -11,22 +12,23 @@ namespace Vonage.Common
         [JsonProperty("address")]
         public string Address { get; set; }
         
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum Type
         {
             [EnumMember(Value = "answer_url")]
-            answer_url = 1,
+            AnswerUrl = 1,
 
             [EnumMember(Value = "event_url")]
-            event_url = 2,
+            EventUrl = 2,
 
             [EnumMember(Value = "inbound_url")]
-            inbound_url = 3,
+            InboundUrl = 3,
 
             [EnumMember(Value = "status_url")]
-            status_url = 4,
+            StatusUrl = 4,
 
             [EnumMember(Value = "fallback_answer_url")]
-            fallback_answer_url = 5,
+            FallbackAnswerUrl = 5,
 
             [EnumMember(Value = "Unknown")]
             Unknown = 6

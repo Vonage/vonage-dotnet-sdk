@@ -53,9 +53,10 @@ If you would prefer to run directly from source:
 
 Changes in version 6.x
 
-* Enum values are now caplitalised in alignment with accepted coding practices
-* All classes in the Nexmo namespace that were marked as deprecated in 5.x are now removed
+* Enum values are now caplitalised in alignment with accepted coding practices and are Pascal Case
+* All classes that were marked as deprecated in 5.x are now removed
 * Ncco now inherits from List, it no longer has the `Actions` property, to add an action use `ncco.Add(action);`
+* Strings with values "true" or "false" are now represented as `bool` in code
 
 ## Targeted frameworks
 
