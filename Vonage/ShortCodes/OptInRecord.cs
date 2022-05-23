@@ -8,13 +8,13 @@ namespace Vonage.ShortCodes
         public string Msisdn { get; set; }
 
         [JsonProperty("opt-in")]
-        public string OptIn { get; set; }
+        public bool OptIn { get; set; }
 
         [JsonProperty("opt-in-date")]
         public string OptInDate { get; set; }
 
         [JsonProperty("opt-out")]
-        public string OptOut { get; set; }
+        public bool OptOut { get; set; }
 
         [JsonProperty("opt-out-date")]
         public string OptOutDate { get; set; }

@@ -1,0 +1,12 @@
+[
+  {
+    "action": "notify",
+    "payload": {
+      "Bar": "foo"
+    },
+    "eventUrl": [
+      "https://example.com/webhooks/events"
+    ],
+    "eventMethod": "POST"
+  }
+]

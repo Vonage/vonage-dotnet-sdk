@@ -18,13 +18,13 @@ namespace Vonage.Test.Unit
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
             var expectedResponse = "";
             Setup(expectedUri, expectedResponse, expectedContent);
-            var request = new Conversions.ConversionRequest { Delivered = "true", MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
+            var request = new Conversions.ConversionRequest { Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
+            var credentials = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var client = new VonageClient(credentials);
             bool response;
             if (passCreds)
             {
-                response = client.ConversionClient.SmsConversion(request, creds);
+                response = client.ConversionClient.SmsConversion(request, credentials);
             }
             else
             {
@@ -42,7 +42,7 @@ namespace Vonage.Test.Unit
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
             var expectedResponse = "";
             Setup(expectedUri, expectedResponse, expectedContent);
-            var request = new Conversions.ConversionRequest { Delivered = "true", MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
+            var request = new Conversions.ConversionRequest { Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             bool response;
@@ -66,7 +66,7 @@ namespace Vonage.Test.Unit
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
             var expectedResponse = "";
             Setup(expectedUri, expectedResponse, expectedContent);
-            var request = new Conversions.ConversionRequest { Delivered = "true", MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
+            var request = new Conversions.ConversionRequest { Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             bool response;
@@ -90,7 +90,7 @@ namespace Vonage.Test.Unit
             var expectedContent = "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&";
             var expectedResponse = "";
             Setup(expectedUri, expectedResponse, expectedContent);
-            var request = new Conversions.ConversionRequest { Delivered = "true", MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
+            var request = new Conversions.ConversionRequest { Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             bool response;

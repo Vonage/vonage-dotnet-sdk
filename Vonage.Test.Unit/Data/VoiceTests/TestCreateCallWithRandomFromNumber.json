@@ -8,8 +8,8 @@
   ],
   "ncco": [
     {
-      "text": "Hello World",
-      "action": "talk"
+      "action": "talk",
+      "text": "Hello World"
     }
   ],
   "answer_url": [

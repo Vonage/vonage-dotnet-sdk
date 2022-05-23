@@ -40,7 +40,8 @@ namespace Vonage.Messaging
         public string Nonce { get; set; }
 
         [JsonProperty("concat")]
-        public string Concat { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool Concat { get; set; }
 
         [JsonProperty("concat-ref")]        
         public string ConcatRef { get; set; }

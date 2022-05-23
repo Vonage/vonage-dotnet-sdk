@@ -1,9 +1,12 @@
 ﻿using Newtonsoft.Json;
+using Vonage.Serialization;
 
 namespace Vonage.Voice.Nccos
 {
     public class StreamAction : NccoAction
     {
+        public override ActionType Action => ActionType.Stream;
+
         /// <summary>
         /// An array containing a single URL to an mp3 or wav (16-bit) audio file 
         /// to stream to the Call or Conversation.
@@ -26,17 +29,13 @@ namespace Vonage.Voice.Nccos
         /// until an input action is encountered
         /// </summary>
         [JsonProperty("bargeIn")]
-        public string BargeIn { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool BargeIn { get; set; }
 
         /// <summary>
         /// The number of times audio is repeated before the Call is closed. The default value is 1. Set to 0 to loop infinitely.
         /// </summary>
         [JsonProperty("loop")]
         public string Loop { get; set; }
-
-        public StreamAction()
-        {
-            Action = ActionType.stream;
-        }
     }
 }

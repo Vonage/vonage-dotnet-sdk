@@ -1,5 +1,6 @@
 [
   {
+    "action": "input",
     "dtmf": {
       "timeOut": 3,
       "maxDigits": 1,
@@ -18,7 +19,6 @@
       ],
       "startTimeout": 5,
       "maxDuration": 30
-    },
-    "action": "input"
+    }
   }
 ]
