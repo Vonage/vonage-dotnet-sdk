@@ -26,7 +26,7 @@ namespace Vonage.Serialization
 
             foreach (var x in jObject)
             {
-                Webhook.Type key = ToEnum<Webhook.Type>(x.Key);
+                Webhook.Type key = x.Key.ToEnum<Webhook.Type>();
                 Webhook value = (Webhook) x.Value.ToObject(typeof(Webhook));
                 result.Add(key, value);
             }
@@ -95,20 +95,6 @@ namespace Vonage.Serialization
             return keyType != null;
         }
 
-        private T ToEnum<T>(string str)
-            where T : Enum
-        {
-            var enumType = typeof(T);
-            foreach (var name in Enum.GetNames(enumType))
-            {
-                var enumMemberAttribute =
-                    ((EnumMemberAttribute[]) enumType.GetField(name)
-                        .GetCustomAttributes(typeof(EnumMemberAttribute), true)).Single();
-                if (enumMemberAttribute.Value == str) return (T) Enum.Parse(enumType, name);
-            }
-
-            //throw exception or whatever handling you want or
-            return default;
-        }
+        
     }
 }

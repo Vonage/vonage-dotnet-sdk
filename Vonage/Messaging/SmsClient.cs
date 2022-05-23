@@ -43,12 +43,12 @@ namespace Vonage.Messaging
             return result;
         }
 
-        public Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.text, Credentials creds = null)
+        public Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.Text, Credentials creds = null)
         {
             return SendAnSmsAsync(new SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
         }
 
-        public SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.text, Credentials creds = null)
+        public SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.Text, Credentials creds = null)
         {
             return SendAnSms(new SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
         }

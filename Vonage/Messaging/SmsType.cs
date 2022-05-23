@@ -1,16 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Runtime.Serialization;
 
 namespace Vonage.Messaging
 {
     public enum SmsType
     {
-        text = 1,
-        binary = 2,
-        wappush = 3,
-        unicode = 4,
-        vcal = 5,
-        vcar = 6
+        [EnumMember(Value = "text")]
+        Text = 1,
+        
+        [EnumMember(Value = "binary")]
+        Binary = 2,
+        
+        [EnumMember(Value = "wappush")]
+        Wappush = 3,
+        
+        [EnumMember(Value = "unicode")]
+        Unicode = 4,
+        
+        [EnumMember(Value = "vcal")]
+        VCal = 5,
+        
+        [EnumMember(Value = "vcar")]
+        VCar = 6
     }
 }
