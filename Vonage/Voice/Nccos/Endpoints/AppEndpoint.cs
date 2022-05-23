@@ -12,7 +12,7 @@ namespace Vonage.Voice.Nccos.Endpoints
 
         public AppEndpoint()
         {
-            Type = EndpointType.app;
+            Type = EndpointType.App;
         }
     }
 }

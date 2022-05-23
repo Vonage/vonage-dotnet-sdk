@@ -32,7 +32,7 @@ namespace Vonage.Voice.Nccos.Endpoints
 
         public PhoneEndpoint()
         {
-            Type = EndpointType.phone;
+            Type = EndpointType.Phone;
         }
         
         public class Answer
