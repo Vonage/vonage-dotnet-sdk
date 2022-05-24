@@ -1,15 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Runtime.Serialization;
 
 namespace Vonage.NumberInsights
 {
     public enum PortedStatus
     {
-        unknown,
-        ported,
-        not_ported,
-        assumed_not_ported,
-        assumed_ported
+        [EnumMember(Value = "unknown")]
+        Unknown,
+        
+        [EnumMember(Value = "ported")]
+        Ported,
+        
+        [EnumMember(Value = "not_ported")]
+        NotPorted,
+        
+        [EnumMember(Value = "assumed_not_ported")]
+        AssumedNotPorted,
+        
+        [EnumMember(Value = "assumed_ported")]
+        AssumedPorted
     }
 }

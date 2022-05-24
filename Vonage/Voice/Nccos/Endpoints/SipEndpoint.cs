@@ -20,7 +20,7 @@ namespace Vonage.Voice.Nccos.Endpoints
 
         public SipEndpoint()
         {
-            Type = EndpointType.sip;
+            Type = EndpointType.Sip;
         }
     }
 }

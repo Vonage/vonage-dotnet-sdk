@@ -162,8 +162,8 @@ namespace Vonage.Test.Unit
             Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
             Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
             Assert.Equal("US", response.Roaming.RoamingCountryCode);
-            Assert.Equal(RoamingStatus.roaming, response.Roaming.Status);
-            Assert.Equal(PortedStatus.not_ported, response.Ported);
+            Assert.Equal(RoamingStatus.Roaming, response.Roaming.Status);
+            Assert.Equal(PortedStatus.NotPorted, response.Ported);
             Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
             Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
             Assert.Equal("GB", response.OriginalCarrier.Country);
@@ -231,8 +231,8 @@ namespace Vonage.Test.Unit
             Assert.Equal("John", response.CallerIdentity.FirstName);
             Assert.Equal("John Smith", response.CallerIdentity.CallerName);
             Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
-            Assert.Equal(RoamingStatus.unknown, response.Roaming.Status);
-            Assert.Equal(PortedStatus.not_ported, response.Ported);
+            Assert.Equal(RoamingStatus.Unknown, response.Roaming.Status);
+            Assert.Equal(PortedStatus.NotPorted, response.Ported);
             Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
             Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
             Assert.Equal("GB", response.OriginalCarrier.Country);
@@ -337,8 +337,8 @@ namespace Vonage.Test.Unit
             Assert.Equal("John", response.CallerIdentity.FirstName);
             Assert.Equal("John Smith", response.CallerIdentity.CallerName);
             Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
-            Assert.Equal(RoamingStatus.unknown, response.Roaming.Status);
-            Assert.Equal(PortedStatus.not_ported, response.Ported);
+            Assert.Equal(RoamingStatus.Unknown, response.Roaming.Status);
+            Assert.Equal(PortedStatus.NotPorted, response.Ported);
             Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
             Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
             Assert.Equal("GB", response.OriginalCarrier.Country);
@@ -409,8 +409,8 @@ namespace Vonage.Test.Unit
             Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
             Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
             Assert.Equal("US", response.Roaming.RoamingCountryCode);
-            Assert.Equal(RoamingStatus.roaming, response.Roaming.Status);
-            Assert.Equal(PortedStatus.not_ported, response.Ported);
+            Assert.Equal(RoamingStatus.Roaming, response.Roaming.Status);
+            Assert.Equal(PortedStatus.NotPorted, response.Ported);
             Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
             Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
             Assert.Equal("GB", response.OriginalCarrier.Country);
@@ -473,7 +473,7 @@ namespace Vonage.Test.Unit
             }
 
             //ASSERT
-            Assert.Equal(NumberReachability.reachable, response.Reachable);
+            Assert.Equal(NumberReachability.Reachable, response.Reachable);
             Assert.Equal(NumberValidity.valid, response.ValidNumber);
             Assert.Equal("Success", response.LookupOutcomeMessage);
             Assert.Equal(0, response.LookupOutcome);
@@ -488,8 +488,8 @@ namespace Vonage.Test.Unit
             Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
             Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
             Assert.Equal("US", response.Roaming.RoamingCountryCode);
-            Assert.Equal(RoamingStatus.roaming, response.Roaming.Status);
-            Assert.Equal(PortedStatus.not_ported, response.Ported);
+            Assert.Equal(RoamingStatus.Roaming, response.Roaming.Status);
+            Assert.Equal(PortedStatus.NotPorted, response.Ported);
             Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
             Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
             Assert.Equal("GB", response.OriginalCarrier.Country);
@@ -552,7 +552,7 @@ namespace Vonage.Test.Unit
             }
 
             //ASSERT
-            Assert.Equal(NumberReachability.reachable, response.Reachable);
+            Assert.Equal(NumberReachability.Reachable, response.Reachable);
             Assert.Equal(NumberValidity.valid, response.ValidNumber);
             Assert.Equal("Success", response.LookupOutcomeMessage);
             Assert.Equal(0, response.LookupOutcome);
@@ -567,8 +567,8 @@ namespace Vonage.Test.Unit
             Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
             Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
             Assert.Equal("US", response.Roaming.RoamingCountryCode);
-            Assert.Equal(RoamingStatus.roaming, response.Roaming.Status);
-            Assert.Equal(PortedStatus.not_ported, response.Ported);
+            Assert.Equal(RoamingStatus.Roaming, response.Roaming.Status);
+            Assert.Equal(PortedStatus.NotPorted, response.Ported);
             Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
             Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
             Assert.Equal("GB", response.OriginalCarrier.Country);
@@ -855,9 +855,9 @@ namespace Vonage.Test.Unit
             Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
 
             Assert.Equal(NumberValidity.valid, response.ValidNumber);
-            Assert.Equal(NumberReachability.reachable, response.Reachable);
-            Assert.Equal(PortedStatus.not_ported, response.Ported);
-            Assert.Equal(RoamingStatus.not_roaming, response.Roaming.Status);
+            Assert.Equal(NumberReachability.Reachable, response.Reachable);
+            Assert.Equal(PortedStatus.NotPorted, response.Ported);
+            Assert.Equal(RoamingStatus.NotRoaming, response.Roaming.Status);
 
             Assert.Null(response.Roaming.RoamingNetworkName);
             Assert.Null(response.Roaming.RoamingCountryCode);

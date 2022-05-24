@@ -25,7 +25,7 @@ namespace Vonage.Voice.Nccos.Endpoints
 
         public WebsocketEndpoint()
         {
-            Type = EndpointType.websocket;
+            Type = EndpointType.Websocket;
         }
     }
 }
