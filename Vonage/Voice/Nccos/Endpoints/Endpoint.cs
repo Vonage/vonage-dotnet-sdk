@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Vonage.Voice.Nccos.Endpoints
@@ -12,13 +13,19 @@ namespace Vonage.Voice.Nccos.Endpoints
         [JsonConverter(typeof(StringEnumConverter))]
         public EndpointType Type { get; protected set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum EndpointType
         {
-            phone=1,
-            app=2,
-            websocket=3,
-            sip=4,
-            vbc=5
+            [EnumMember(Value="phone")]
+            Phone=1,
+            [EnumMember(Value="app")]
+            App=2,
+            [EnumMember(Value="websocket")]
+            Websocket=3,
+            [EnumMember(Value="sip")]
+            Sip=4,
+            [EnumMember(Value="vbc")]
+            Vbc=5
         }
     }
 }

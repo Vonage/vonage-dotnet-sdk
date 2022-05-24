@@ -15,7 +15,7 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public void CreateCall(bool passCreds)
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls/";
+            var expectedUri = "https://api.nexmo.com/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -74,7 +74,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestCreateCallWithRandomFromNumber()
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls/";
+            var expectedUri = "https://api.nexmo.com/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -301,7 +301,7 @@ namespace Vonage.Test.Unit
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
             var expectedUri = $"{ApiUrl}/v1/calls/{uuid}";
             var expectedResponse = "";
-            var expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""ncco"":[{""text"":""hello world"",""action"":""talk""}]}}";
+            var expectedRequestContent = @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}}";
             var destination = new Destination { Type = "ncco", Ncco = new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "hello world" }) };
             var request = new CallEditCommand { Destination = destination, Action = CallEditCommand.ActionType.transfer };
             
@@ -498,7 +498,7 @@ namespace Vonage.Test.Unit
         public void StopTalk(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Talk stopped"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -528,7 +528,7 @@ namespace Vonage.Test.Unit
         public void TestStartDtmf(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/dtmf";
             var expectedResponse = @"{
                   ""message"": ""DTMF sent"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -558,7 +558,7 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public void TestGetRecordings(bool passCreds)
         {
-            var expectedUri = $"{ApiUrl}/v1/calls/63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls63f61863-4a51-4f6b-86e1-46edebcf9356";
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var expectedResponse = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             Setup(expectedUri, expectedResponse);
@@ -582,14 +582,14 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithUnicodeCharecters()
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls/";
+            var expectedUri = "https://api.nexmo.com/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""}],""from"":{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""},""ncco"":[{""text"":""בדיקה בדיקה בדיקה"",""action"":""talk""}],""answer_url"":[""https://example.com/answer""],""answer_method"":""GET"",""event_url"":[""https://example.com/event""],""event_method"":""POST"",""machine_detection"":""continue"",""length_timer"":1,""ringing_timer"":1}";
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""}],""from"":{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""בדיקה בדיקה בדיקה""}],""answer_url"":[""https://example.com/answer""],""answer_method"":""GET"",""event_url"":[""https://example.com/event""],""event_method"":""POST"",""machine_detection"":""continue"",""length_timer"":1,""ringing_timer"":1}";
 
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
 
@@ -631,14 +631,14 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithStringParameters()
         {
-            var expectedUri = $"{ApiUrl}/v1/calls/";
+            var expectedUri = $"{ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
@@ -655,20 +655,19 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithEndpointAndNcco()
         {
-            var expectedUri = $"{ApiUrl}/v1/calls/";
+            var expectedUri = $"{ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
-            Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            var expectedRequestContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
-            CallResponse response;
             var toEndpoint = new PhoneEndpoint() { Number = "14155550100" };
-            response = client.VoiceClient.CreateCall(
+            var response = client.VoiceClient.CreateCall(
                 toEndpoint, "14155550100", new Voice.Nccos.Ncco(new Voice.Nccos.TalkAction { Text = "Hello World" }));
 
 
@@ -683,7 +682,7 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public async Task CreateCallAsync(bool passCreds)
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls/";
+            var expectedUri = "https://api.nexmo.com/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -1049,7 +1048,7 @@ namespace Vonage.Test.Unit
         public async Task StopTalkAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Talk stopped"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -1079,7 +1078,7 @@ namespace Vonage.Test.Unit
         public async Task TestStartDtmfAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/talk";
+            var expectedUri = $"{ApiUrl}/v1/calls/{uuid}/dtmf";
             var expectedResponse = @"{
                   ""message"": ""DTMF sent"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -1109,7 +1108,7 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public async Task TestGetRecordingsAsync(bool passCreds)
         {
-            var expectedUri = $"{ApiUrl}/v1/calls/63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{ApiUrl}/v1/calls63f61863-4a51-4f6b-86e1-46edebcf9356";
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var expectedResponse = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             Setup(expectedUri, expectedResponse);
@@ -1133,14 +1132,14 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task CreateCallWithStringParametersAsync()
         {
-            var expectedUri = $"{ApiUrl}/v1/calls/";
+            var expectedUri = $"{ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
+            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
             Setup(expectedUri, expectedResponse, expectedRequesetContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
@@ -1157,15 +1156,15 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task CreateCallWithEndpointAndNccoAsync()
         {
-            var expectedUri = $"{ApiUrl}/v1/calls/";
+            var expectedUri = $"{ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
               ""direction"": ""outbound"",
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
-            var expectedRequesetContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
-            Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            var expectedRequestContent = @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Request.Credentials.FromAppIdAndPrivateKey(AppId, PrivateKey);
             var client = new VonageClient(creds);
             var toEndpoint = new PhoneEndpoint { Number = "14155550100" };
@@ -1181,7 +1180,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task CreateCallAsyncWithWrongCredsThrowsAuthException()
         {
-            var expectedUri = $"{ApiUrl}/v1/calls/";
+            var expectedUri = $"{ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -1206,7 +1205,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithWrongCredsThrowsAuthException()
         {
-            var expectedUri = $"{ApiUrl}/v1/calls/";
+            var expectedUri = $"{ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",

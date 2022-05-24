@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using Xunit;
-using Newtonsoft.Json.Serialization;
+using Vonage.Serialization;
 
 namespace Vonage.Test.Unit
 {
@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit
         public void SendSmsWithAllPropertiesSet(bool passCreds)
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}" +
                 $"&ttl=900000&status-report-req=true&callback={HttpUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
                 $"&type=text&vcard=none&vcal=none&body=638265253311&udh=06050415811581&protocol-id=127&title=welcome&url={HttpUtility.UrlEncode("https://example.com")}" +
@@ -36,7 +36,7 @@ namespace Vonage.Test.Unit
                 Text = "Hello World!",
                 Title = "welcome",
                 Ttl = 900000,
-                Type = Messaging.SmsType.text,
+                Type = SmsType.Text,
                 Udh = "06050415811581",
                 Validity = "300000",
                 Vcal = "none",
@@ -69,7 +69,7 @@ namespace Vonage.Test.Unit
         public async Task SendSmsAsyncWithAllPropertiesSet(bool passCreds)
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}" +
                 $"&ttl=900000&status-report-req=true&callback={HttpUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
                 $"&type=text&vcard=none&vcal=none&body=638265253311&udh=06050415811581&protocol-id=127&title=welcome&url={HttpUtility.UrlEncode("https://example.com")}" +
@@ -89,7 +89,7 @@ namespace Vonage.Test.Unit
                 Text = "Hello World!",
                 Title = "welcome",
                 Ttl = 900000,
-                Type = SmsType.text,
+                Type = SmsType.Text,
                 Udh = "06050415811581",
                 Validity = "300000",
                 Vcal = "none",
@@ -133,11 +133,11 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var response = client.SmsClient.SendAnSms(new Messaging.SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "Hello World!" });
+            var response = client.SmsClient.SendAnSms(new SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "Hello World!" });
             Assert.Equal("1", response.MessageCount);
             Assert.Equal("447700900000", response.Messages[0].To);
             Assert.Equal("0A0000000123ABCD1", response.Messages[0].MessageId);
@@ -165,7 +165,7 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&type=text&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -184,7 +184,7 @@ namespace Vonage.Test.Unit
         public async Task SendSmsTypicalUsageSimplifiedAsync()
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&type=text&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -216,11 +216,11 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("こんにちは世界")}&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
-            var response = client.SmsClient.SendAnSms(new Messaging.SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "こんにちは世界" });
+            var response = client.SmsClient.SendAnSms(new SendSmsRequest { From = "AcmeInc", To = "447700900000", Text = "こんにちは世界" });
             Assert.Equal("1", response.MessageCount);
             Assert.Equal("447700900000", response.Messages[0].To);
             Assert.Equal("0A0000000123ABCD1", response.Messages[0].MessageId);
@@ -235,7 +235,7 @@ namespace Vonage.Test.Unit
         public void SendSmsBadResponse()
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -252,7 +252,7 @@ namespace Vonage.Test.Unit
         public async Task SendSmsAsyncBadResponse()
         {
             var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse, expectedRequestContent);
             var client = new VonageClient(Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret));
@@ -269,7 +269,7 @@ namespace Vonage.Test.Unit
         public void NullMessagesResponse()
         {
             var expectedResponse = @"";
-            var expectedUri = $"{RestUrl}/sms/json?";
+            var expectedUri = $"{RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={ApiKey}&api_secret={ApiSecret}&";
 
             Setup(expectedUri, expectedResponse, expectedRequestContent);
@@ -301,13 +301,13 @@ namespace Vonage.Test.Unit
                   ""sig"": ""1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C"",
                   ""client-ref"": ""steve""
                 }";
-            var dlr = JsonConvert.DeserializeObject<Messaging.DeliveryReceipt>(jsonFromNDP);
+            var dlr = JsonConvert.DeserializeObject<DeliveryReceipt>(jsonFromNDP);
             Assert.Equal("447700900000", dlr.Msisdn);
             Assert.Equal("AcmeInc", dlr.To);
             Assert.Equal("12345", dlr.NetworkCode);
             Assert.Equal("0A0000001234567B", dlr.MessageId);
             Assert.Equal("0.03330000", dlr.Price);
-            Assert.Equal(Messaging.DlrStatus.delivered, dlr.Status);
+            Assert.Equal(DlrStatus.delivered, dlr.Status);
             Assert.Equal("2001011400", dlr.Scts);
             Assert.Equal("0", dlr.ErrorCode);
             Assert.Equal("abcd1234", dlr.ApiKey);
@@ -336,13 +336,13 @@ namespace Vonage.Test.Unit
                   ""sig"": ""1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C"",
                   ""client-ref"": ""steve""
                 }";
-            var dlr = JsonConvert.DeserializeObject<Messaging.DeliveryReceipt>(jsonFromNDP);
+            var dlr = JsonConvert.DeserializeObject<DeliveryReceipt>(jsonFromNDP);
             Assert.Equal("447700900000", dlr.Msisdn);
             Assert.Equal("AcmeInc", dlr.To);
             Assert.Equal("12345", dlr.NetworkCode);
             Assert.Equal("0A0000001234567B", dlr.MessageId);
             Assert.Equal("0.03330000", dlr.Price);
-            Assert.Equal(Messaging.DlrStatus.unknown, dlr.Status);
+            Assert.Equal(DlrStatus.unknown, dlr.Status);
             Assert.Equal("2001011400", dlr.Scts);
             Assert.Equal("0", dlr.ErrorCode);
             Assert.Equal("abcd1234", dlr.ApiKey);
@@ -374,7 +374,7 @@ namespace Vonage.Test.Unit
                   ""data"": ""abc123"",
                   ""udh"": ""abc123""
                 }";
-            var inboundSms = JsonConvert.DeserializeObject<Messaging.InboundSms>(jsonFromNdp);
+            var inboundSms = JsonConvert.DeserializeObject<InboundSms>(jsonFromNdp);
             Assert.Equal("abcd1234", inboundSms.ApiKey);
             Assert.Equal("447700900001", inboundSms.Msisdn);
             Assert.Equal("447700900000", inboundSms.To);
@@ -385,7 +385,7 @@ namespace Vonage.Test.Unit
             Assert.Equal("2020-01-01T12:00:00.000+00:00", inboundSms.MessageTimestamp);
             Assert.Equal("1578787200", inboundSms.Timestamp);
             Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inboundSms.Nonce);
-            Assert.Equal("true", inboundSms.Concat);
+            Assert.True(inboundSms.Concat);
             Assert.Equal("1", inboundSms.ConcatRef);
             Assert.Equal("3", inboundSms.ConcatTotal);
             Assert.Equal("2", inboundSms.ConcatPart);
@@ -407,14 +407,14 @@ namespace Vonage.Test.Unit
                 MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
                 Timestamp = "1578787200",
                 Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                Concat = "true",
+                Concat = true,
                 ConcatRef = "3",
             };
             var TestSigningSecret = "Y6dI3wtDP8myVH5tnDoIaTxEvAJhgDVCczBa1mHniEqsdlnnebg";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
-            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(Messaging.InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5);
+            inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5);
 
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5));
         }
@@ -433,11 +433,11 @@ namespace Vonage.Test.Unit
                 MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
                 Timestamp = "1578787200",
                 Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                Concat = "true",
+                Concat = true,
                 ConcatRef = "3",
             };
             var TestSigningSecret = "17c6ecf583ef7da515bcfc655426970c";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5hash);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.md5hash));
@@ -457,11 +457,11 @@ namespace Vonage.Test.Unit
                 MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
                 Timestamp = "1578787200",
                 Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                Concat = "true",
+                Concat = true,
                 ConcatRef = "3",
             };
             var TestSigningSecret = "B462F6EF6C0D161EEA214C5D37FC0E1D31C0BC08";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha1);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha1));
@@ -481,11 +481,11 @@ namespace Vonage.Test.Unit
                 MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
                 Timestamp = "1578787200",
                 Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                Concat = "true",
+                Concat = true,
                 ConcatRef = "3",
             };
             var TestSigningSecret = "D1EA9F0A89C2C62DD89FFE9585E8CD27163DA47458D353EC7084376BADA72817";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha256);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha256));
@@ -505,11 +505,11 @@ namespace Vonage.Test.Unit
                 MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
                 Timestamp = "1578787200",
                 Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                Concat = "true",
+                Concat = true,
                 ConcatRef = "3",
             };
             var TestSigningSecret = "A8E2BB164A894DB7BC7807D7E5A09003B3F25F185D5202F2616EA8D285AD5E8248D50827091B302D07FC967125108339B155938DA45B27C79E45A83CD4914B7C";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = Cryptography.SmsSignatureGenerator.GenerateSignature(InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha512);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, Cryptography.SmsSignatureGenerator.Method.sha512));
@@ -535,14 +535,14 @@ namespace Vonage.Test.Unit
                   ""sig"": ""1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C"",
                   ""client-ref"": ""steve""
                 }";
-            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            var dlr = JsonConvert.DeserializeObject<Messaging.DeliveryReceipt>(jsonFromNDP, settings);
+
+            var dlr = JsonConvert.DeserializeObject<DeliveryReceipt>(jsonFromNDP, VonageSerialization.SerializerSettings);
             Assert.Equal("447700900000", dlr.Msisdn);
             Assert.Equal("AcmeInc", dlr.To);
             Assert.Equal("12345", dlr.NetworkCode);
             Assert.Equal("0A0000001234567B", dlr.MessageId);
             Assert.Equal("0.03330000", dlr.Price);
-            Assert.Equal(Messaging.DlrStatus.delivered, dlr.Status);
+            Assert.Equal(DlrStatus.delivered, dlr.Status);
             Assert.Equal("2001011400", dlr.Scts);
             Assert.Equal("0", dlr.ErrorCode);
             Assert.Equal("abcd1234", dlr.ApiKey);

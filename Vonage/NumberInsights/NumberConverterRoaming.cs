@@ -6,6 +6,8 @@ namespace Vonage.NumberInsights
 {
     internal class NumberRoamingConverter : JsonConverter
     {
+        public override bool CanWrite => false;
+
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(Roaming);
@@ -13,17 +15,13 @@ namespace Vonage.NumberInsights
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (reader.Path.ToString() == "roaming" && reader.Value == null)
+            if (reader.Path == "roaming" && reader.Value == null)
             {
                 if (reader.TokenType == JsonToken.StartObject) {
                     var obj = JObject.Load(reader);
 
-                    RoamingStatus status;
-                    if(!Enum.TryParse(obj["status"].ToString(), out status))
-                    {
-                        status = RoamingStatus.unknown;
-                    }
-
+                    RoamingStatus status = obj["status"].ToString().ToEnum<RoamingStatus>();
+                    
                     return new Roaming {
                         Status = status,
                         RoamingCountryCode = obj["roaming_country_code"]?.ToString(),
@@ -35,18 +33,16 @@ namespace Vonage.NumberInsights
                 return null;
             }
 
-            if (reader.Path.ToString() == "roaming" && reader.Value.ToString() == RoamingStatus.unknown.ToString())
+            if (reader.Path == "roaming" && reader.Value.ToString() == "unknown")
             {
                 return new Roaming
                 {
-                    Status = RoamingStatus.unknown
+                    Status = RoamingStatus.Unknown
                 };
             }
 
             throw new FormatException("Invalid Number Insights Roaming data detected");
         }
-
-        public override bool CanWrite => base.CanWrite;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

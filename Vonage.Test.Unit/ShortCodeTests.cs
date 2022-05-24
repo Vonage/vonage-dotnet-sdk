@@ -128,9 +128,9 @@ namespace Vonage.Test.Unit
 
             //ASSERT
             Assert.Equal("15559301529", response.Msisdn);
-            Assert.Equal("true", response.OptIn);
+            Assert.True(response.OptIn);
             Assert.Equal("2014-08-21 17:34:47", response.OptInDate);
-            Assert.Equal("false", response.OptOut);
+            Assert.False(response.OptOut);
         }
 
         [Theory]
@@ -157,9 +157,9 @@ namespace Vonage.Test.Unit
 
             //ASSERT
             Assert.Equal("15559301529", response.Msisdn);
-            Assert.Equal("true", response.OptIn);
+            Assert.True(response.OptIn);
             Assert.Equal("2014-08-21 17:34:47", response.OptInDate);
-            Assert.Equal("false", response.OptOut);
+            Assert.False(response.OptOut);
         }
 
         [Theory]

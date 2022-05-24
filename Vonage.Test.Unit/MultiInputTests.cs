@@ -35,7 +35,7 @@ namespace Vonage.Test.Unit
 
             //act
             var ncco = new Ncco(inputAction);
-            var actual = ncco.ToString();
+            var actual = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
 
             //assert
             Assert.Equal(expected, actual);
@@ -54,7 +54,7 @@ namespace Vonage.Test.Unit
 
             //act
             var ncco = new Ncco(inputAction);
-            var actual = ncco.ToString();
+            var actual = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
 
             //assert
             Assert.Equal(expected, actual);

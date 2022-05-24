@@ -1,0 +1,8 @@
+{
+  "channel": "viber_service",
+  "message_type": "text",
+  "text": "Hello mum",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg"
+}

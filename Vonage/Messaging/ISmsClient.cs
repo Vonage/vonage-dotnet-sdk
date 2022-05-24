@@ -30,7 +30,7 @@ namespace Vonage.Messaging
         /// <param name="type">The format of the message body.</param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.text, Credentials creds = null);
+        Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.Text, Credentials creds = null);
 
         /// <summary>
         /// Send an outbound SMS from your Vonage account
@@ -41,6 +41,6 @@ namespace Vonage.Messaging
         /// <param name="type">The format of the message body.</param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.text, Credentials creds = null);
+        SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.Text, Credentials creds = null);
     }
 }

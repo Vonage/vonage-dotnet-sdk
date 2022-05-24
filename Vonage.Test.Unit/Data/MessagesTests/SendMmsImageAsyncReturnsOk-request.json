@@ -1,0 +1,10 @@
+{
+  "image": {
+    "url": "https://test.com/image.png"
+  },
+  "channel": "mms",
+  "message_type": "image",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg"
+}

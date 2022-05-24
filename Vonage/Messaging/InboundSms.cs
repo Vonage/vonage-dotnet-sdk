@@ -3,6 +3,7 @@ using Vonage.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Vonage.Serialization;
 
 namespace Vonage.Messaging
 {
@@ -39,7 +40,8 @@ namespace Vonage.Messaging
         public string Nonce { get; set; }
 
         [JsonProperty("concat")]
-        public string Concat { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool Concat { get; set; }
 
         [JsonProperty("concat-ref")]        
         public string ConcatRef { get; set; }
@@ -61,7 +63,7 @@ namespace Vonage.Messaging
         public bool ValidateSignature(string signatureSecret, SmsSignatureGenerator.Method method)
         {
             //use json representation to create a useable dictionary
-            var json = JsonConvert.SerializeObject(this, Formatting.None, new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            var json = JsonConvert.SerializeObject(this, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
             var signatureString = ConstructSignatureStringFromDictionary(dict);

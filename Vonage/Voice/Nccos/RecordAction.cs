@@ -1,24 +1,30 @@
-﻿using Newtonsoft.Json;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Vonage.Serialization;
 
 namespace Vonage.Voice.Nccos
 {
     public class RecordAction : NccoAction
     {
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum AudioFormat
         {
-            mp3=1,
-            wav=2,
-            ogg=3
+            [EnumMember(Value = "mp3")] Mp3 = 1,
+
+            [EnumMember(Value = "wav")] Wav = 2,
+
+            [EnumMember(Value = "ogg")] Ogg = 3
         }
 
+        public override ActionType Action => ActionType.Record;
+        
         /// <summary>
         /// Record the Call in a specific format.
         /// The default value is mp3, or wav when recording more than 2 channels.
         /// </summary>
         [JsonProperty("format")]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public AudioFormat Format { get; set; }
+        public AudioFormat? Format { get; set; }
 
         /// <summary>
         /// Record the sent and received audio in separate channels of a stereo 
@@ -61,7 +67,8 @@ namespace Vonage.Voice.Nccos
         /// Set to true to play a beep when a recording starts
         /// </summary>
         [JsonProperty("beepStart")]
-        public string BeepStart { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool BeepStart { get; set; }
 
         /// <summary>
         /// The URL to the webhook endpoint that is called asynchronously when a recording is finished. 
@@ -76,11 +83,6 @@ namespace Vonage.Voice.Nccos
         /// </summary>
         [JsonProperty("eventMethod")]
         public string EventMethod { get; set; }
-
-        public RecordAction()
-        {
-            Action = ActionType.record;
-
-        }
+        
     }
 }

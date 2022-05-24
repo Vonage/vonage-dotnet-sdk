@@ -1,0 +1,15 @@
+[
+  {
+    "action": "conversation",
+    "name": "vonage-conference-standard",
+    "musicOnHoldUrl": [
+      "https://example.com/music.mp3"
+    ],
+    "canSpeak": [
+      "6a4d6af0-55a6-4667-be90-8614e4c8e83c"
+    ],
+    "canHear": [
+      "6a4d6af0-55a6-4667-be90-8614e4c8e83c"
+    ]
+  }
+]

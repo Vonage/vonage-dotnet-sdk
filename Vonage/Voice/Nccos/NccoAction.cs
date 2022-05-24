@@ -1,34 +1,29 @@
-﻿using Newtonsoft.Json;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Vonage.Voice.Nccos
 {
     public abstract class NccoAction
     {
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum ActionType
         {
-            record=1,
-            conversation=2,
-            connect=3,
-            talk=4,
-            stream=5,
-            input=6,
-            notify=7
+            [EnumMember(Value = "record")] Record = 1,
+
+            [EnumMember(Value = "conversation")] Conversation = 2,
+
+            [EnumMember(Value = "connect")] Connect = 3,
+
+            [EnumMember(Value = "talk")] Talk = 4,
+
+            [EnumMember(Value = "stream")] Stream = 5,
+
+            [EnumMember(Value = "input")] Input = 6,
+
+            [EnumMember(Value = "notify")] Notify = 7
         }
 
-        [JsonProperty("action", Order = -1)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public ActionType Action { get; protected set; }
-
-        public override string ToString()
-        {
-            var JsonSerializerSettings = new JsonSerializerSettings()
-                {
-                    DefaultValueHandling = DefaultValueHandling.Ignore,
-                    NullValueHandling = NullValueHandling.Ignore
-
-                };
-            return JsonConvert.SerializeObject(this, JsonSerializerSettings);
-        }
+        [JsonProperty("action")] public abstract ActionType Action { get; }
     }
 }

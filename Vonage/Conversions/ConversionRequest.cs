@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Vonage.Serialization;
 
 namespace Vonage.Conversions
 {
@@ -15,7 +16,8 @@ namespace Vonage.Conversions
         /// Set to true if your user replied to the message you sent. Otherwise, set to false. Note: for curl, use 0 and 1.
         /// </summary>
         [JsonProperty("delivered")]
-        public string Delivered { get; set; }
+        [JsonConverter(typeof(StringBoolConverter))]
+        public bool Delivered { get; set; }
 
         /// <summary>
         /// When the user completed your call-to-action (e.g. visited your website, installed your app) 

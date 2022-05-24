@@ -12,7 +12,7 @@ namespace Vonage.Voice.Nccos.Endpoints
 
         public VbcEndpoint()
         {
-            Type = EndpointType.vbc;
+            Type = EndpointType.Vbc;
         }
     }
 }
