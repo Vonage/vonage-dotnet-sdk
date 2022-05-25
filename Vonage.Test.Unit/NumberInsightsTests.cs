@@ -694,14 +694,14 @@ namespace Vonage.Test.Unit
             //ACT
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
-            AdvancedInsightsAsyncResponse response;
+            AdvancedInsightsAsynchronousResponse response;
             if (passCreds)
             {
-                response = client.NumberInsightClient.GetNumberInsightAsync(request, creds);
+                response = client.NumberInsightClient.GetNumberInsightAsynchronous(request, creds);
             }
             else
             {
-                response = client.NumberInsightClient.GetNumberInsightAsync(request);
+                response = client.NumberInsightClient.GetNumberInsightAsynchronous(request);
             }
 
             //ASSERT
@@ -739,14 +739,14 @@ namespace Vonage.Test.Unit
             //ACT
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
-            AdvancedInsightsAsyncResponse response;
+            AdvancedInsightsAsynchronousResponse response;
             if (passCreds)
             {
-                response = await client.NumberInsightClient.GetNumberInsightAsyncAsync(request, creds);
+                response = await client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request, creds);
             }
             else
             {
-                response = await client.NumberInsightClient.GetNumberInsightAsyncAsync(request);
+                response = await client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request);
             }
 
             //ASSERT
@@ -770,7 +770,7 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
             try
             {
-                client.NumberInsightClient.GetNumberInsightAsync(request);
+                client.NumberInsightClient.GetNumberInsightAsynchronous(request);
                 //ASSERT
                 Assert.True(false, "Auto fail because request returned without throwing exception");
             }

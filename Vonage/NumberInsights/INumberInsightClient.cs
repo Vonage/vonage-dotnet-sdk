@@ -19,8 +19,7 @@ namespace Vonage.NumberInsights
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        Task<StandardInsightResponse>
-            GetNumberInsightStandardAsync(StandardNumberInsightRequest request, Credentials creds = null);
+        Task<StandardInsightResponse> GetNumberInsightStandardAsync(StandardNumberInsightRequest request, Credentials creds = null);
 
         /// <summary>
         /// Provides advanced number insight information about a number synchronously, in the same way that the basic and standard endpoints do.
@@ -39,7 +38,7 @@ namespace Vonage.NumberInsights
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        Task<AdvancedInsightsAsyncResponse> GetNumberInsightAsyncAsync(AdvancedNumberInsightAsynchronousRequest request,
+        Task<AdvancedInsightsAsynchronousResponse> GetNumberInsightAsynchronousAsync(AdvancedNumberInsightAsynchronousRequest request,
             Credentials creds = null);
 
         /// <summary>
@@ -56,8 +55,7 @@ namespace Vonage.NumberInsights
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        StandardInsightResponse
-            GetNumberInsightStandard(StandardNumberInsightRequest request, Credentials creds = null);
+        StandardInsightResponse GetNumberInsightStandard(StandardNumberInsightRequest request, Credentials creds = null);
 
         /// <summary>
         /// Provides advanced number insight information about a number synchronously, in the same way that the basic and standard endpoints do.
@@ -66,8 +64,7 @@ namespace Vonage.NumberInsights
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
-            Credentials creds = null);
+        AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request, Credentials creds = null);
 
         /// <summary>
         /// Provides advanced number insight number information asynchronously using the URL specified in the callback parameter. 
@@ -76,7 +73,6 @@ namespace Vonage.NumberInsights
         /// <param name="request"></param>
         /// <param name="creds"></param>
         /// <returns></returns>
-        AdvancedInsightsAsyncResponse GetNumberInsightAsync(AdvancedNumberInsightAsynchronousRequest request,
-            Credentials creds = null);
+        AdvancedInsightsAsynchronousResponse GetNumberInsightAsynchronous(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null);
     }
 }
