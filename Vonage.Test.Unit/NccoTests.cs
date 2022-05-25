@@ -32,7 +32,7 @@ namespace Vonage.Test.Unit
             };
 
             var ncco = new Ncco(recordAction);
-            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            var actualJson = ncco.ToString();
             Assert.Equal(expectedJson, actualJson);
         }
 
@@ -42,7 +42,7 @@ namespace Vonage.Test.Unit
             var expectedJson = GetRequestJson();
             var recordAction = new RecordAction();
             var ncco = new Ncco(recordAction);
-            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            var actualJson = ncco.ToString();
             Assert.Equal(expectedJson, actualJson);
         }
 
@@ -61,7 +61,7 @@ namespace Vonage.Test.Unit
                 CanHear = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"}
             };
             var ncco = new Ncco(conversationAction);
-            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            var actualJson = ncco.ToString();
             Assert.Equal(expectedJson, actualJson);
         }
         
@@ -80,7 +80,7 @@ namespace Vonage.Test.Unit
                 CanHear = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"}
             };
             var ncco = new Ncco(conversationAction);
-            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            var actualJson = ncco.ToString();
             Assert.Equal(expectedJson, actualJson);
         }
 
@@ -113,7 +113,7 @@ namespace Vonage.Test.Unit
                 EventMethod = "POST"
             };
             var ncco = new Ncco(connectAction);
-            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            var actualJson = ncco.ToString();
             Assert.Equal(expectedJson, actualJson);
         }
 
@@ -132,7 +132,7 @@ namespace Vonage.Test.Unit
                 Style = 0
             };
             var ncco = new Ncco(talkAction);
-            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            var actualJson = ncco.ToString();
             Assert.Equal(expectedJson, actualJson);
         }
 
@@ -145,7 +145,7 @@ namespace Vonage.Test.Unit
                 Text = "Hello World"
             };
             var ncco = new Ncco(talkAction);
-            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            var actualJson = ncco.ToString();
             Assert.Equal(expectedJson, actualJson);
         }
 
@@ -161,7 +161,7 @@ namespace Vonage.Test.Unit
                 Level = "0",
             };
             var ncco = new Ncco(talkAction);
-            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            var actualJson = ncco.ToString();
             Assert.Equal(expectedJson, actualJson);
         }
 
@@ -179,7 +179,7 @@ namespace Vonage.Test.Unit
                 EventUrl = new[] {"https://example.com/webhooks/events"}
             };
             var ncco = new Ncco(notifyAction);
-            var actualJson = JsonConvert.SerializeObject(ncco, Serialization.VonageSerialization.SerializerSettings);
+            var actualJson = ncco.ToString();
             Assert.Equal(expectedJson, actualJson);
         }
 

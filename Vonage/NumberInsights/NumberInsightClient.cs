@@ -35,8 +35,7 @@ namespace Vonage.NumberInsights
             return response;
         }
 
-        public async Task<AdvancedInsightsResponse> GetNumberInsightAdvancedAsync(AdvancedNumberInsightRequest request,
-            Credentials creds = null)
+        public async Task<AdvancedInsightsResponse> GetNumberInsightAdvancedAsync(AdvancedNumberInsightRequest request, Credentials creds = null)
         {
             var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<AdvancedInsightsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
@@ -48,9 +47,9 @@ namespace Vonage.NumberInsights
             return response;
         }
 
-        public async Task<AdvancedInsightsAsyncResponse> GetNumberInsightAsyncAsync(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
+        public async Task<AdvancedInsightsAsynchronousResponse> GetNumberInsightAsynchronousAsync(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
         {
-            var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<AdvancedInsightsAsyncResponse>(
+            var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<AdvancedInsightsAsynchronousResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -58,21 +57,6 @@ namespace Vonage.NumberInsights
             );
             ValidateNumberInsightResponse(response);
             return response;
-        }
-
-        public void ValidateNumberInsightResponse(NumberInsightResponseBase response)
-        {
-            if (response.Status != 0)
-            {
-                if(response is AdvancedInsightsAsyncResponse asyncResponse)
-                {
-                    throw new VonageNumberInsightResponseException($"Advanced Insights Async response failed with status: {asyncResponse.Status}") { Response = response};
-                }
-                else if(response is BasicInsightResponse basicInsightResponse)
-                {                    
-                    throw new VonageNumberInsightResponseException($"Number insight request failed with status: {basicInsightResponse.Status} and error message: {basicInsightResponse.StatusMessage}") { Response=response};
-                }
-            }
         }
 
         public BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null)
@@ -111,9 +95,9 @@ namespace Vonage.NumberInsights
             return response;
         }
 
-        public AdvancedInsightsAsyncResponse GetNumberInsightAsync(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
+        public AdvancedInsightsAsynchronousResponse GetNumberInsightAsynchronous(AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
         {
-            var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsAsyncResponse>(
+            var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsAsynchronousResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
                 ApiRequest.AuthType.Query,
                 request,
@@ -121,6 +105,20 @@ namespace Vonage.NumberInsights
             );
             ValidateNumberInsightResponse(response);
             return response;
+        }
+
+        public void ValidateNumberInsightResponse(NumberInsightResponseBase response)
+        {
+            if (response.Status != 0)
+            {
+                switch (response)
+                {
+                    case AdvancedInsightsAsynchronousResponse asyncResponse:
+                        throw new VonageNumberInsightResponseException($"Advanced Insights Async response failed with status: {asyncResponse.Status}") { Response = response};
+                    case BasicInsightResponse basicInsightResponse:
+                        throw new VonageNumberInsightResponseException($"Number insight request failed with status: {basicInsightResponse.Status} and error message: {basicInsightResponse.StatusMessage}") { Response=response};
+                }
+            }
         }
     }
 }

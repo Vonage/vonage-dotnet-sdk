@@ -2,9 +2,9 @@
 
 namespace Vonage.Serialization
 {
-    internal class VonageSerialization
+    public class VonageSerialization
     {
-        internal static JsonSerializerSettings SerializerSettings
+        public static JsonSerializerSettings SerializerSettings
         {
             get
             {
