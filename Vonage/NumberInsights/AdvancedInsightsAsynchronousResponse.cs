@@ -2,7 +2,7 @@
 
 namespace Vonage.NumberInsights
 {
-    public class AdvancedInsightsAsyncResponse : NumberInsightResponseBase
+    public class AdvancedInsightsAsynchronousResponse : NumberInsightResponseBase
     {
         /// <summary>
         /// The number in your request
