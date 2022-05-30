@@ -137,6 +137,13 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
             return string.Empty;
         }
 
+        protected string GetResponseJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null)
+        {
+            var response = GetResponseJson(name);
+            response = TokenReplacementRegEx.Replace(response, match => parameters[match.Groups[1].Value]);
+            return response;
+        }
+
         protected string GetRequestJson([CallerMemberName] string name = null)
         {
             string type = GetType().Name;

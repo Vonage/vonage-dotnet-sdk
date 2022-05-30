@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Vonage.Serialization;
 
 namespace Vonage.NumberInsights
 {
@@ -9,5 +10,8 @@ namespace Vonage.NumberInsights
         /// </summary>
         [JsonProperty("ip")]
         public string Ip { get; set; }
+        
+        [JsonProperty("real_time_data")]
+        public bool RealTimeData { get; set; }
     }
 }

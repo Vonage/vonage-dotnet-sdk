@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Vonage.Serialization;
 
 namespace Vonage.NumberInsights
 {
@@ -8,6 +9,7 @@ namespace Vonage.NumberInsights
         /// Whether the end-user's phone number is active within an operator's network.
         /// </summary>
         [JsonProperty("active_status")]
+        [JsonConverter(typeof(StringBoolConverter))]
         public bool ActiveStatus { get; set; }
 
         /// <summary>

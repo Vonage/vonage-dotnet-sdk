@@ -112,6 +112,9 @@
 	  <None Update="Data\ApplicationTests\CreateApplication-request.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	  <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncRealTimeData-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
