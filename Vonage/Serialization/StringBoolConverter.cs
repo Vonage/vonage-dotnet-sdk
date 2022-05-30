@@ -12,8 +12,8 @@ namespace Vonage.Serialization
                 writer.WriteNull();
                 return;
             }
-            
-            if(bool.TryParse(value.ToString(), out var boolValue))
+
+            if (bool.TryParse(value.ToString(), out var boolValue))
             {
                 writer.WriteValue(boolValue ? "true" : "false");
             }
@@ -22,7 +22,17 @@ namespace Vonage.Serialization
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
-            return serializer.Deserialize<bool>(reader);
+            switch (reader.Value)
+            {
+                case "active":
+                case "true":
+                    return true;
+                case "inactive":
+                case "false":
+                    return false;
+                default:
+                    return serializer.Deserialize<bool>(reader);
+            }
         }
 
         public override bool CanConvert(Type objectType)

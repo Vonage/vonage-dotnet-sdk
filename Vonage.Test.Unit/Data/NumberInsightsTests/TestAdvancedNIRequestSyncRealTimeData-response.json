@@ -45,7 +45,7 @@
   "valid_number": "valid",
   "reachable": "reachable",
   "real_time_data" : {
-    "active_status": true,
+    "active_status": "$active_status$",
     "handset_status" : "on"
   }
 }
