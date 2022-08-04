@@ -441,7 +441,7 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Dispatch API | Beta |❌|
 | External Accounts API | Beta |❌|
 | Media API | Beta | ❌|
-| Messages API | Beta |❌|
+| Messages API | General Availability |✅|
 | Number Insight API | General Availability |✅|
 | Number Management API | General Availability |✅|
 | Pricing API | General Availability |✅|
