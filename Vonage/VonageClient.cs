@@ -57,8 +57,8 @@ namespace Vonage
 
         public VonageClient(Credentials credentials, IDictionary<string, int?> timeoutCollection = null)
         {
-            Credentials = credentials;
             TimeoutCollection = timeoutCollection ?? new Dictionary<string, int?>();
+            Credentials = credentials;
         }
 
         private void PropagateCredentials()
