@@ -6,10 +6,12 @@ namespace Vonage.Conversions
     public class ConversionClient : IConversionClient
     {
         public Credentials Credentials { get; set; }
+        public int? Timeout { get; private set; }
 
-        public ConversionClient(Credentials creds = null)
+        public ConversionClient(Credentials creds = null, int? timeout = null)
         {
             Credentials = creds;
+            Timeout = timeout;
         }
         public async Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null)
         {
@@ -17,7 +19,8 @@ namespace Vonage.Conversions
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
                 request,
-                creds??Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }
@@ -28,7 +31,8 @@ namespace Vonage.Conversions
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
                 request,
-                creds??Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }
@@ -39,7 +43,8 @@ namespace Vonage.Conversions
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }
@@ -50,7 +55,8 @@ namespace Vonage.Conversions
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }

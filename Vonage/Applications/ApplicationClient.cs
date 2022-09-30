@@ -6,9 +6,11 @@ namespace Vonage.Applications
     public class ApplicationClient : IApplicationClient
     {
         public Credentials Credentials { get; set; }
-        public ApplicationClient(Credentials creds = null)
+        public int? Timeout { get; private set; }
+        public ApplicationClient(Credentials creds = null, int? timeout = null)
         {
             Credentials = creds;
+            Timeout = timeout;
         }
         public Task<Application> CreateApplicaitonAsync(CreateApplicationRequest request, Credentials creds = null)
         {
@@ -17,7 +19,8 @@ namespace Vonage.Applications
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
                 request,
                 ApiRequest.AuthType.Basic,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -27,7 +30,8 @@ namespace Vonage.Applications
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
                 ApiRequest.AuthType.Basic,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -36,7 +40,8 @@ namespace Vonage.Applications
             return ApiRequest.DoGetRequestWithQueryParametersAsync<Application>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 ApiRequest.AuthType.Basic,
-                credentials: creds ?? Credentials
+                credentials: creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -47,7 +52,8 @@ namespace Vonage.Applications
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 request,
                 ApiRequest.AuthType.Basic,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -57,7 +63,8 @@ namespace Vonage.Applications
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 null,
                 ApiRequest.AuthType.Basic,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }
@@ -69,7 +76,8 @@ namespace Vonage.Applications
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
                 request,
                 ApiRequest.AuthType.Basic,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -79,7 +87,8 @@ namespace Vonage.Applications
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
                 ApiRequest.AuthType.Basic,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -88,7 +97,8 @@ namespace Vonage.Applications
             return ApiRequest.DoGetRequestWithQueryParameters<Application>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 ApiRequest.AuthType.Basic,
-                credentials: creds ?? Credentials
+                credentials: creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -99,7 +109,8 @@ namespace Vonage.Applications
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 request,
                 ApiRequest.AuthType.Basic,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -109,7 +120,8 @@ namespace Vonage.Applications
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 null,
                 ApiRequest.AuthType.Basic,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }

@@ -6,17 +6,20 @@ namespace Vonage.Verify
     public class VerifyClient : IVerifyClient
     {
         public Credentials Credentials { get; set; }
+        public int? Timeout { get; private set; }
 
-        public VerifyClient(Credentials creds = null)
+        public VerifyClient(Credentials creds = null, int? timeout = null)
         {
             Credentials = creds;
+            Timeout = timeout;
         }
         public async Task<VerifyResponse> VerifyRequestAsync(VerifyRequest request, Credentials creds = null)
         {
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<VerifyResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateVerifyResponse(response);
             return response;
@@ -27,7 +30,8 @@ namespace Vonage.Verify
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<VerifyCheckResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateVerifyResponse(response);
             return response;
@@ -39,7 +43,8 @@ namespace Vonage.Verify
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
                 ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -48,7 +53,8 @@ namespace Vonage.Verify
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<VerifyControlResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateVerifyResponse(response);
             return response;
@@ -59,7 +65,8 @@ namespace Vonage.Verify
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<VerifyResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateVerifyResponse(response);
             return response;
@@ -70,7 +77,8 @@ namespace Vonage.Verify
             var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateVerifyResponse(response);
             return response;
@@ -81,7 +89,8 @@ namespace Vonage.Verify
             var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyCheckResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateVerifyResponse(response);
             return response;
@@ -93,7 +102,8 @@ namespace Vonage.Verify
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
                 ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -102,7 +112,8 @@ namespace Vonage.Verify
             var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyControlResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateVerifyResponse(response);
             return response;
@@ -113,7 +124,8 @@ namespace Vonage.Verify
             var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateVerifyResponse(response);
             return response;

@@ -15,10 +15,12 @@ namespace Vonage.Voice
         public const string PUT = "PUT";
         public const string CALLS_ENDPOINT = "v1/calls";
         public Credentials Credentials { get; set; }
+        public int? Timeout { get; private set; }
 
-        public VoiceClient(Credentials credentials = null)
+        public VoiceClient(Credentials credentials = null, int? timeout = null)
         {
             Credentials = credentials;
+            Timeout = timeout;
         }
 
         /// <summary>
@@ -35,7 +37,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                 command,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
                 );
         }
 
@@ -51,7 +54,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                 ApiRequest.AuthType.Bearer,
                 filter,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
                 );
         }
 
@@ -66,7 +70,8 @@ namespace Vonage.Voice
             return ApiRequest.DoGetRequestWithQueryParametersAsync<CallRecord>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 ApiRequest.AuthType.Bearer,
-                credentials: creds ?? Credentials
+                credentials: creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -84,7 +89,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 command,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }
@@ -103,7 +109,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
                 command,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -120,7 +127,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
                 new { },
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -138,7 +146,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
                 cmd,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -155,7 +164,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
                 new { },
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -173,7 +183,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
                 cmd,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
                 );
         }
 
@@ -211,7 +222,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                 command,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
                 );
         }
 
@@ -221,7 +233,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                 ApiRequest.AuthType.Bearer,
                 filter,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
                 );
         }
 
@@ -230,7 +243,8 @@ namespace Vonage.Voice
             return ApiRequest.DoGetRequestWithQueryParameters<CallRecord>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 ApiRequest.AuthType.Bearer,
-                credentials: creds ?? Credentials
+                credentials: creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -241,7 +255,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
                 command,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }
@@ -253,7 +268,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
                 command,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -264,7 +280,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
                 new { },
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -275,7 +292,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
                 cmd,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -286,7 +304,8 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
                 new { },
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -297,13 +316,14 @@ namespace Vonage.Voice
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
                 cmd,
                 ApiRequest.AuthType.Bearer,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
                 );
         }
 
         public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
         {
-            using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(recordingUrl), creds ?? Credentials))
+            using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(recordingUrl), creds ?? Credentials, timeout: Timeout))
             {
                 var readTask = response.Content.ReadAsStreamAsync();
                 byte[] bytes;
@@ -351,7 +371,8 @@ namespace Vonage.Voice
                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                command,
                ApiRequest.AuthType.Bearer,
-               Credentials
+               Credentials,
+               timeout: Timeout
                );
         }
 
@@ -382,7 +403,8 @@ namespace Vonage.Voice
                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                command,
                ApiRequest.AuthType.Bearer,
-               Credentials
+               Credentials,
+               timeout: Timeout
                );
         }
 
@@ -409,7 +431,8 @@ namespace Vonage.Voice
                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                command,
                ApiRequest.AuthType.Bearer,
-               Credentials
+               Credentials,
+               timeout: Timeout
                );
         }
 
@@ -433,7 +456,8 @@ namespace Vonage.Voice
                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
                command,
                ApiRequest.AuthType.Bearer,
-               Credentials
+               Credentials,
+               timeout: Timeout
                );
         }
     }

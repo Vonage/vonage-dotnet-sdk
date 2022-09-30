@@ -5,13 +5,15 @@ namespace Vonage.Pricing
 {
     public class PricingClient : IPricingClient
     {
-        public PricingClient(Credentials creds = null)
+        public PricingClient(Credentials creds = null, int? timeout = null)
         {
             Credentials = creds;
+            Timeout = timeout;
         }
         
         public Credentials Credentials { get; set; }
-        
+        public int? Timeout { get; private set; }
+
         public Task<Country> RetrievePricingCountryAsync(string type, PricingCountryRequest request, Credentials creds = null)
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<Country>
@@ -19,7 +21,8 @@ namespace Vonage.Pricing
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -29,7 +32,8 @@ namespace Vonage.Pricing
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
-                credentials: creds ?? Credentials
+                credentials: creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -40,7 +44,8 @@ namespace Vonage.Pricing
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -51,7 +56,8 @@ namespace Vonage.Pricing
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -61,7 +67,8 @@ namespace Vonage.Pricing
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
-                credentials: creds ?? Credentials
+                credentials: creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -72,7 +79,8 @@ namespace Vonage.Pricing
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
                 ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
     }

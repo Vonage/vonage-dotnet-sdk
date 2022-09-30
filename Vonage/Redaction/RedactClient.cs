@@ -6,10 +6,12 @@ namespace Vonage.Redaction
     public class RedactClient : IRedactClient
     {
         public Credentials Credentials { get; set; }
+        public int? Timeout { get; private set; }
 
-        public RedactClient(Credentials creds = null)
+        public RedactClient(Credentials creds = null, int? timeout = null)
         {
             Credentials = creds;
+            Timeout = timeout;
         }
 
 
@@ -18,10 +20,11 @@ namespace Vonage.Redaction
             await ApiRequest.DoRequestWithJsonContentAsync<object>
             (
                 "POST",
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api,"/v1/redact/transaction"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
                 request,
                 ApiRequest.AuthType.Basic,
-                creds??Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }
@@ -34,7 +37,8 @@ namespace Vonage.Redaction
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
                 request,
                 ApiRequest.AuthType.Basic,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             return true;
         }

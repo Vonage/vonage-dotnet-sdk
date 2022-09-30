@@ -6,20 +6,23 @@ namespace Vonage.Numbers
 {
     public class NumbersClient : INumbersClient
     {
-        public NumbersClient(Credentials creds = null)
+        public NumbersClient(Credentials creds = null, int? timeout = null)
         {
             Credentials = creds;
+            Timeout = timeout;
         }
         
         public Credentials Credentials { get; set; }
-        
+        public int? Timeout { get; private set; }
+
         public Task<NumbersSearchResponse> GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null)
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"), 
                 ApiRequest.AuthType.Query, 
                 request, 
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
                 );
         }
 
@@ -29,7 +32,8 @@ namespace Vonage.Numbers
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"), 
                 ApiRequest.AuthType.Query, 
                 request, 
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -38,7 +42,8 @@ namespace Vonage.Numbers
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(                
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/buy"),
                 request,                
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateNumbersResponse(response);
             return response; 
@@ -49,7 +54,8 @@ namespace Vonage.Numbers
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(                
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/cancel"),
                 request,                
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateNumbersResponse(response);
             return response;
@@ -60,7 +66,8 @@ namespace Vonage.Numbers
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/update"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateNumbersResponse(response);
             return response;
@@ -81,7 +88,8 @@ namespace Vonage.Numbers
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
                 ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
                 );
         }
 
@@ -91,7 +99,8 @@ namespace Vonage.Numbers
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
                 ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
         }
 
@@ -100,7 +109,8 @@ namespace Vonage.Numbers
             var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/buy"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateNumbersResponse(response);
             return response;
@@ -111,7 +121,8 @@ namespace Vonage.Numbers
             var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/cancel"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateNumbersResponse(response);
             return response;
@@ -122,7 +133,8 @@ namespace Vonage.Numbers
             var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/update"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                timeout: Timeout
             );
             ValidateNumbersResponse(response);
             return response;

@@ -6,10 +6,12 @@ namespace Vonage.Messaging
     public class SmsClient : ISmsClient
     {
         public Credentials Credentials { get; set; }
+        public int? Timeout { get; private set; }
 
-        public SmsClient(Credentials creds = null)
+        public SmsClient(Credentials creds = null, int? timeout = null)
         {
             Credentials = creds;
+            Timeout = timeout;
         }
 
         /// <summary>
@@ -24,7 +26,8 @@ namespace Vonage.Messaging
             var result = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<SendSmsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                Timeout
             );
 
             ValidSmsResponse(result);
@@ -36,7 +39,8 @@ namespace Vonage.Messaging
             var result = ApiRequest.DoPostRequestUrlContentFromObject<SendSmsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                Timeout
             );
 
             ValidSmsResponse(result);
@@ -55,14 +59,14 @@ namespace Vonage.Messaging
 
         private static void ValidSmsResponse(SendSmsResponse smsResponse)
         {
-            if(smsResponse?.Messages == null)
+            if (smsResponse?.Messages == null)
             {
                 throw new VonageSmsResponseException("Encountered an Empty SMS response");
             }
-            
+
             if (smsResponse.Messages[0].Status != "0")
             {
-                throw new VonageSmsResponseException($"SMS Request Failed with status: {smsResponse.Messages[0].Status} and error message: {smsResponse.Messages[0].ErrorText}") { Response = smsResponse};
+                throw new VonageSmsResponseException($"SMS Request Failed with status: {smsResponse.Messages[0].Status} and error message: {smsResponse.Messages[0].ErrorText}") { Response = smsResponse };
             }
         }
     }
