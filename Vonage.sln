@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\dotnet-core.yml = .github\workflows\dotnet-core.yml
 		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
+		.github\workflows\mutation-testing.yml = .github\workflows\mutation-testing.yml
 	EndProjectSection
 EndProject
 Global
