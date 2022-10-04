@@ -1,0 +1,22 @@
+name: Mutation testing
+on: workflow_dispatch
+jobs:
+  mutation:
+    name: Run mutation analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.401'
+      - name: Install Stryker
+        run: dotnet tool install -g dotnet-stryker
+      - name: Run mutation testing
+        run: |
+          cd Vonage.Test.Unit
+          dotnet stryker
+      - uses: actions/upload-artifact@v3
+        with:
+          name: mutation-report
+          path: Vonage.Test.Unit/StrykerOutput/**/reports/mutation-report.html     
