@@ -51,12 +51,12 @@ namespace Vonage.Accounts
         /// the current subaccount balance
         /// </summary>
         [JsonProperty("balance")]
-        public double Balance { get; set; } 
+        public double? Balance { get; set; } 
         
         /// <summary>
         /// the credit limit of the subaccount
         /// </summary>
         [JsonProperty("credit_limit")]
-        public double CreditLimit { get; set; } 
+        public double? CreditLimit { get; set; } 
     }
 }
