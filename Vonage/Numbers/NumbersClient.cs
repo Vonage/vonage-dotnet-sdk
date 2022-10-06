@@ -138,5 +138,16 @@ namespace Vonage.Numbers
             
             return response;
         }
+        
+        public Task<NumberTransferResponse> TransferANumberAsync(NumberTransferRequest request, string apiKey, Credentials creds = null)
+        {
+            var response = ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransferResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                request,
+                creds ?? Credentials
+            );
+            
+            return response;
+        }
     }
 }
