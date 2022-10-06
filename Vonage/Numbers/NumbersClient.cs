@@ -130,24 +130,24 @@ namespace Vonage.Numbers
         
         public NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransferResponse>(
+            return ApiRequest.DoRequestWithJsonContent<NumberTransferResponse>(
+                "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
                 request,
-                creds ?? Credentials
+                ApiRequest.AuthType.Basic,
+                creds: creds ?? Credentials
             );
-            
-            return response;
         }
         
         public Task<NumberTransferResponse> TransferANumberAsync(NumberTransferRequest request, string apiKey, Credentials creds = null)
         {
-            var response = ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransferResponse>(
+            return ApiRequest.DoRequestWithJsonContentAsync<NumberTransferResponse>(
+                "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
                 request,
-                creds ?? Credentials
+                ApiRequest.AuthType.Basic,
+                creds: creds ?? Credentials
             );
-            
-            return response;
         }
     }
 }
