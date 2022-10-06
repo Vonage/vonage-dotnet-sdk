@@ -30,7 +30,7 @@ namespace Vonage.Accounts
         public string PrimaryAccountApiKey { get; set; }
         
         /// <summary>
-        /// the primary API Key
+        /// whether the subaccount should use the account balance of the primary account
         /// </summary>
         [JsonProperty("use_primary_account_balance")]
         public bool UsePrimaryAccountBalance { get; set; }
