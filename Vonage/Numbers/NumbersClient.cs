@@ -127,5 +127,16 @@ namespace Vonage.Numbers
             ValidateNumbersResponse(response);
             return response;
         }
+        
+        public NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey, Credentials creds = null)
+        {
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransferResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                request,
+                creds ?? Credentials
+            );
+            
+            return response;
+        }
     }
 }
