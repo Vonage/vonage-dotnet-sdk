@@ -25,7 +25,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '3.1.7'
+          dotnet-version: '6.0.403'
       - name: Clean
         run: dotnet clean Vonage.sln --configuration Release && dotnet nuget locals all --clear
       - name: Restore NuGets
