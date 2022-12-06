@@ -28,6 +28,8 @@ jobs:
           dotnet-version: '6.0.403'
       - name: Clean
         run: dotnet clean Vonage.sln --configuration Release && dotnet nuget locals all --clear
+      - name: Restore NuGets
+        run: dotnet restore
       - name: Begin SonarScanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
