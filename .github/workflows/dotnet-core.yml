@@ -38,7 +38,7 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Test
-        run: dotnet-coverage collect 'dotnet test --no-build' -f xml  -o 'coverage.xml'
+        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build' -f xml  -o 'coverage.xml'
       - name: End SonarScanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
