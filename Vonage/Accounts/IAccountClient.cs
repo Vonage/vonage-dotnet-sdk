@@ -71,6 +71,42 @@ namespace Vonage.Accounts
         /// <param name="creds"></param>
         /// <returns></returns>
         Task<bool> RevokeApiSecretAsync(string secretId, string apiKey=null, Credentials creds = null);
+        
+        /// <summary>
+        /// Create a new sub account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="apiKey"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        Task<SubAccount> CreateSubAccountAsync(CreateSubAccountRequest request, string apiKey = null, Credentials creds = null);
+
+        /// <summary>
+        /// Retrieve a sub account
+        /// </summary>
+        /// <param name="subAccountKey"></param>
+        /// <param name="apiKey"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        Task<SubAccount> RetrieveSubAccountAsync(string subAccountKey, string apiKey = null, Credentials creds = null);
+
+        /// <summary>
+        /// Create a new sub account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="apiKey"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        SubAccount CreateSubAccount(CreateSubAccountRequest request, string apiKey = null, Credentials creds = null);
+        
+        /// <summary>
+        /// Retrieve a sub account
+        /// </summary>
+        /// <param name="subAccountKey"></param>
+        /// <param name="apiKey"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        SubAccount RetrieveSubAccount(string subAccountKey, string apiKey = null, Credentials creds = null);
 
         /// <summary>
         /// Retrieve the current balance of your Vonage API account

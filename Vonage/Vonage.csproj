@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -14,7 +14,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <Version>6.0.2-rc</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression/>
+    <PackageLicenseExpression />
     <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.2-rc</PackageReleaseNotes>
     <PackageTags>SMS voice telephony phone Vonage</PackageTags>
@@ -29,7 +29,7 @@
     <RepositoryUrl>https://github.com/Vonage/vonage-dotnet-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>VonageLogo_Symbol_Black.png</PackageIcon>
-    <PackageIconUrl/>
+    <PackageIconUrl />
     <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.
 	</Description>
     <LangVersion>10</LangVersion>
@@ -80,7 +80,7 @@
   <ItemGroup>
     <None Include="VonageLogo_Symbol_Black.png">
       <Pack>True</Pack>
-      <PackagePath/>
+      <PackagePath />
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -127,5 +127,27 @@ namespace Vonage.Numbers
             ValidateNumbersResponse(response);
             return response;
         }
+        
+        public NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey, Credentials creds = null)
+        {
+            return ApiRequest.DoRequestWithJsonContent<NumberTransferResponse>(
+                "POST",
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                request,
+                ApiRequest.AuthType.Basic,
+                creds: creds ?? Credentials
+            );
+        }
+        
+        public Task<NumberTransferResponse> TransferANumberAsync(NumberTransferRequest request, string apiKey, Credentials creds = null)
+        {
+            return ApiRequest.DoRequestWithJsonContentAsync<NumberTransferResponse>(
+                "POST",
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                request,
+                ApiRequest.AuthType.Basic,
+                creds: creds ?? Credentials
+            );
+        }
     }
 }
