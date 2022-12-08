@@ -38,14 +38,14 @@ public class ResultTest
     [Fact]
     public void Match_ShouldReturnFailureOperation_GivenValueIsFailure() =>
         CreateFailure()
-            .Match(Increment, _ => GetZero())
+            .Match(value => value.ToString(), failure => failure.Error)
             .Should()
-            .Be(0);
+            .Be("Some error");
 
     [Fact]
     public void Match_ShouldReturnSuccessOperation_GivenValueIsSuccess() =>
         CreateSuccess(5)
-            .Match(Increment, _ => GetZero())
+            .Match(Increment, _ => 0)
             .Should()
             .Be(6);
 
@@ -54,6 +54,4 @@ public class ResultTest
     private static Result<int> CreateFailure() => Result<int>.FromFailure(new ResultFailure("Some error"));
 
     private static int Increment(int value) => value + 1;
-
-    private static int GetZero() => 0;
 }
