@@ -8,7 +8,8 @@ namespace Vonage.Video.Beta.Common;
 /// <typeparam name="TA">Bound value type.</typeparam>
 public readonly struct Maybe<TA>
 {
-    private readonly TA? value = default;
+    public const string NullValueMessage = "Value cannot be null.";
+    private readonly TA value = default;
 
     /// <summary>
     ///     Construct a Maybe in a None state.
@@ -23,7 +24,7 @@ public readonly struct Maybe<TA>
     /// <returns>Maybe containing Some value.</returns>
     /// <exception cref="InvalidOperationException">Given value is null.</exception>
     public static Maybe<TB> Some<TB>(TB value) => value is null
-        ? throw new InvalidOperationException("Value cannot be null.")
+        ? throw new InvalidOperationException(NullValueMessage)
         : new Maybe<TB>(value);
 
     /// <summary>
@@ -60,7 +61,7 @@ public readonly struct Maybe<TA>
     /// <param name="map">Projection function.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Mapped functor.</returns>
-    public Maybe<TB> Map<TB>(Func<TA, TB> map) => !this.IsSome ? Maybe<TB>.None : Some(map(this.value!));
+    public Maybe<TB> Map<TB>(Func<TA, TB> map) => !this.IsSome ? Maybe<TB>.None : Some(map(this.value));
 
     /// <summary>
     ///     Match the two states of the Maybe and return a non-null TB.
@@ -69,5 +70,5 @@ public readonly struct Maybe<TA>
     /// <param name="none">None match operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>A non-null TB.</returns>
-    public TB Match<TB>(Func<TA, TB> some, Func<TB> none) => !this.IsSome ? none() : some(this.value!);
+    public TB Match<TB>(Func<TA, TB> some, Func<TB> none) => !this.IsSome ? none() : some(this.value);
 }

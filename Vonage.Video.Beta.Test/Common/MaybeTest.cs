@@ -16,7 +16,7 @@ public class MaybeTest
     [Fact]
     public void Some_ShouldReturnSome()
     {
-        var maybe = Maybe<int>.Some(10);
+        var maybe = CreateSome(10);
         maybe.IsNone.Should().BeFalse();
         maybe.IsSome.Should().BeTrue();
     }
@@ -24,28 +24,28 @@ public class MaybeTest
     [Fact]
     public void Map_ShouldReturnNone_GivenValueIsNone() =>
         Maybe<int>.None
-            .Map(value => value.ToString())
+            .Map(MapToString)
             .Should()
             .Be(Maybe<string>.None);
 
     [Fact]
     public void Map_ShouldReturnSome_GivenValueIsSome() =>
-        Maybe<int>.Some(10)
-            .Map(value => value.ToString())
+        CreateSome(10)
+            .Map(MapToString)
             .Should()
-            .Be(Maybe<string>.Some("10"));
+            .Be(CreateSome("10"));
 
     [Fact]
     public void Match_ShouldReturnNoneOperation_GivenValueIsNone() =>
         Maybe<int>.None
-            .Match(value => value.ToString(), () => "Some value")
+            .Match(MapToString, GetStaticString)
             .Should()
             .Be("Some value");
 
     [Fact]
     public void Match_ShouldReturnSomeOperation_GivenValueIsSome() =>
-        Maybe<int>.Some(10)
-            .Match(value => value.ToString(), () => "Some value")
+        CreateSome(10)
+            .Match(MapToString, GetStaticString)
             .Should()
             .Be("10");
 
@@ -53,6 +53,12 @@ public class MaybeTest
     public void Some_ShouldThrowException_GivenValueIsNone()
     {
         Action act = () => Maybe<int?>.Some<int?>(null);
-        act.Should().Throw<InvalidOperationException>().WithMessage("Value cannot be null.");
+        act.Should().Throw<InvalidOperationException>().WithMessage(Maybe<int>.NullValueMessage);
     }
+
+    private static Maybe<T> CreateSome<T>(T value) => Maybe<T>.Some(value);
+
+    private static string GetStaticString() => "Some value";
+
+    private static string MapToString(int value) => value.ToString();
 }
