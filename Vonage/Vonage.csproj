@@ -57,7 +57,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0"/>
-    <PackageReference Include="jose-jwt" Version="4.0.1"/>
+    <PackageReference Include="jose-jwt" Version="4.1.0"/>
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0"/>
@@ -67,7 +67,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0"/>
-    <PackageReference Include="jose-jwt" Version="4.0.1"/>
+    <PackageReference Include="jose-jwt" Version="4.1.0"/>
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0"/>
