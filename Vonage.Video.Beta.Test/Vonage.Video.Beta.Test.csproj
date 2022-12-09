@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
-
         <IsPackable>false</IsPackable>
+        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
