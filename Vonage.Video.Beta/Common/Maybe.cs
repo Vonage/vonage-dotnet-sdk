@@ -46,12 +46,12 @@ public readonly struct Maybe<TA>
     }
 
     /// <summary>
-    ///     Indicates if the Maybe is in None state.
+    ///     Indicates if in None state.
     /// </summary>
     public bool IsNone => !this.IsSome;
 
     /// <summary>
-    ///     Indicates if the Maybe is in Some state.
+    ///     Indicates if in Some state.
     /// </summary>
     public bool IsSome { get; }
 
@@ -72,5 +72,51 @@ public readonly struct Maybe<TA>
     /// <returns>A non-null TB.</returns>
     public TB Match<TB>(Func<TA, TB> some, Func<TB> none) => !this.IsSome ? none() : some(this.value);
 
+    /// <summary>
+    ///     Invokes the action if Option is in the Some state, otherwise nothing happens.
+    /// </summary>
+    /// <param name="some">Action to invoke</param>
+    /// <returns>Unit.</returns>
+    public Unit IfSome(Action<TA> some)
+    {
+        if (this.IsSome)
+        {
+            some(this.value);
+        }
+
+        return Unit.Default;
+    }
+
+    /// <summary>
+    ///     Monadic bind operation.
+    /// </summary>
+    /// <param name="bind">Bind operation.</param>
+    /// <typeparam name="TB">Return type.</typeparam>
+    /// <returns>Bound functor.</returns>
     public Maybe<TB> Bind<TB>(Func<TA, Maybe<TB>> bind) => !this.IsSome ? Maybe<TB>.None : bind(this.value);
+
+    /// <inheritdoc />
+    public override bool Equals(object obj) => obj is Maybe<TA> maybe && this.Equals(maybe);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => this.IsSome ? this.value.GetHashCode() : 0;
+
+    /// <summary>
+    ///     Verifies of both Maybes are either None or Some with the same values.
+    /// </summary>
+    /// <param name="other">Other maybe to be compared with.</param>
+    /// <returns>Whether both Maybes are equal.</returns>
+    public bool Equals(Maybe<TA> other)
+    {
+        var bothAreNone = this.IsNone && other.IsNone;
+        var bothAreSome = this.IsSome && other.IsSome;
+        return bothAreNone || (bothAreSome && this.value.Equals(other.value));
+    }
+
+    /// <summary>
+    ///     Implicit operator from TA to Maybe of TA.
+    /// </summary>
+    /// <param name="value">Value to be converted.</param>
+    /// <returns>None if the value is null, Some otherwise.</returns>
+    public static implicit operator Maybe<TA>(TA value) => value is null ? None : Some(value);
 }

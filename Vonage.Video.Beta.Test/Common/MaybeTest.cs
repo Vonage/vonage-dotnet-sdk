@@ -25,45 +25,43 @@ namespace Vonage.Video.Beta.Test.Common
 
         [Fact]
         public void Map_ShouldReturnNone_GivenValueIsNone() =>
-            Maybe<int>.None
-                .Map(MapToString)
-                .Should()
-                .Be(Maybe<string>.None);
+            Maybe<int>.None.Should().BeNone();
 
         [Fact]
         public void Map_ShouldReturnSome_GivenValueIsSome() =>
-            CreateSome(10)
-                .Map(MapToString)
-                .Should()
-                .Be(CreateSome("10"));
+            CreateSome(10).Map(MapToString).Should().Be("10");
 
         [Fact]
         public void Bind_ShouldReturnNone_GivenValueIsNone() =>
-            Maybe<int>.None
-                .Bind(BindToString)
-                .Should()
-                .Be(Maybe<string>.None);
+            Maybe<int>.None.Bind(BindToString).Should().BeNone();
+
+        [Fact]
+        public void IfSome_ShouldNotBeExecuted_GivenValueIsNone()
+        {
+            var test = 10;
+            Maybe<int>.None.IfSome(value => test += value);
+            test.Should().Be(10);
+        }
+
+        [Fact]
+        public void IfSome_ShouldBeExecuted_GivenValueIsSome()
+        {
+            var test = 10;
+            CreateSome(10).IfSome(value => test += value);
+            test.Should().Be(20);
+        }
 
         [Fact]
         public void Bind_ShouldReturnSome_GivenValueIsSome() =>
-            CreateSome(10)
-                .Bind(BindToString)
-                .Should()
-                .Be(CreateSome("10"));
+            CreateSome(10).Bind(BindToString).Should().Be("10");
 
         [Fact]
         public void Match_ShouldReturnNoneOperation_GivenValueIsNone() =>
-            Maybe<int>.None
-                .Match(MapToString, GetStaticString)
-                .Should()
-                .Be("Some value");
+            Maybe<int>.None.Match(MapToString, GetStaticString).Should().Be("Some value");
 
         [Fact]
         public void Match_ShouldReturnSomeOperation_GivenValueIsSome() =>
-            CreateSome(10)
-                .Match(MapToString, GetStaticString)
-                .Should()
-                .Be("10");
+            CreateSome(10).Match(MapToString, GetStaticString).Should().Be("10");
 
         [Fact]
         public void Some_ShouldThrowException_GivenValueIsNone()

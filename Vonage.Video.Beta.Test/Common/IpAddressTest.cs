@@ -7,14 +7,12 @@ namespace Vonage.Video.Beta.Test.Common
     public class IpAddressTest
     {
         [Fact]
-        public void Parse_ShouldReturnSome_GivenAddressIsEmpty()
-        {
+        public void Parse_ShouldReturnSome_GivenAddressIsEmpty() =>
             IpAddress
                 .Parse(string.Empty)
                 .Map(address => address.Address)
                 .Should()
                 .Be(Result<string>.FromSuccess(string.Empty));
-        }
 
         [Fact]
         public void Parse_ShouldReturnSome_GivenAddressIsLocalhost() =>
