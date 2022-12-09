@@ -11,7 +11,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Video"/>
+        <Folder Include="Video\Archives"/>
+        <Folder Include="Video\Moderation"/>
+        <Folder Include="Video\Signaling"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Vonage\Vonage.csproj"/>
     </ItemGroup>
 
 </Project>
