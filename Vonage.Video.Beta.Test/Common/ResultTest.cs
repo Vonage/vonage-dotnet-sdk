@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Test.Extensions;
 using Xunit;
 
 namespace Vonage.Video.Beta.Test.Common
@@ -27,28 +28,28 @@ namespace Vonage.Video.Beta.Test.Common
             CreateFailure()
                 .Map(Increment)
                 .Should()
-                .Be(CreateFailure());
+                .Be(CreateResultFailure());
 
         [Fact]
         public void Map_ShouldReturnSuccess_GivenValueIsSuccess() =>
             CreateSuccess(5)
                 .Map(Increment)
                 .Should()
-                .Be(CreateSuccess(6));
+                .Be(6);
 
         [Fact]
         public void Bind_ShouldReturnFailure_GivenValueIsFailure() =>
             CreateFailure()
                 .Bind(IncrementBind)
                 .Should()
-                .Be(CreateFailure());
+                .Be(CreateResultFailure());
 
         [Fact]
         public void Bind_ShouldReturnSuccess_GivenValueIsSuccess() =>
             CreateSuccess(5)
                 .Bind(IncrementBind)
                 .Should()
-                .Be(CreateSuccess(6));
+                .Be(6);
 
         [Fact]
         public void Match_ShouldReturnFailureOperation_GivenValueIsFailure() =>
@@ -64,10 +65,42 @@ namespace Vonage.Video.Beta.Test.Common
                 .Should()
                 .Be(6);
 
+        [Fact]
+        public void GetHashCode_ShouldReturnValue_GivenFailure()
+        {
+            const int value = 35;
+            CreateSuccess(value).GetHashCode().Should().Be(value.GetHashCode());
+        }
+
+        [Fact]
+        public void GetHashCode_ShouldReturnValue_GivenSuccess()
+        {
+            var failure = CreateResultFailure();
+            Result<int>.FromFailure(failure).GetHashCode().Should().Be(failure.GetHashCode());
+        }
+
+        [Fact]
+        public void ImplicitOperator_ShouldConvertToFailure_GivenValueIsFailure()
+        {
+            var value = CreateResultFailure();
+            Result<int> result = value;
+            result.Should().Be(value);
+        }
+
+        [Fact]
+        public void ImplicitOperator_ShouldConvertToSuccess_GivenValueIsSuccess()
+        {
+            const int value = 55;
+            Result<int> result = value;
+            result.Should().Be(value);
+        }
+
         private static Result<int> CreateSuccess(int value) => Result<int>.FromSuccess(value);
 
         private static Result<int> CreateFailure() =>
-            Result<int>.FromFailure(ResultFailure.FromErrorMessage("Some error"));
+            Result<int>.FromFailure(CreateResultFailure());
+
+        private static ResultFailure CreateResultFailure() => ResultFailure.FromErrorMessage("Some error");
 
         private static int Increment(int value) => value + 1;
 

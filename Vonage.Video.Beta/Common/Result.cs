@@ -121,4 +121,11 @@ public readonly struct Result<T>
     /// <param name="value">Value to be converted.</param>
     /// <returns>Success.</returns>
     public static implicit operator Result<T>(T value) => FromSuccess(value);
+
+    /// <summary>
+    ///     Implicit operator from TA to Result of TA.
+    /// </summary>
+    /// <param name="value">Value to be converted.</param>
+    /// <returns>Failure.</returns>
+    public static implicit operator Result<T>(ResultFailure value) => FromFailure(value);
 }

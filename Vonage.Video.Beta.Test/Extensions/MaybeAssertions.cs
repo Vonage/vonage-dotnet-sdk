@@ -4,13 +4,8 @@ using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Vonage.Video.Beta.Common;
 
-namespace Vonage.Video.Beta.Test.Common
+namespace Vonage.Video.Beta.Test.Extensions
 {
-    public static class FluentAssertionExtensions
-    {
-        public static MaybeAssertions<T> Should<T>(this Maybe<T> instance) => new MaybeAssertions<T>(instance);
-    }
-
     public class MaybeAssertions<T> : ReferenceTypeAssertions<Maybe<T>, MaybeAssertions<T>>
     {
         public MaybeAssertions(Maybe<T> subject) : base(subject)
@@ -52,7 +47,7 @@ namespace Vonage.Video.Beta.Test.Common
                 .ForCondition(subject => subject.IsSome)
                 .FailWith("but found to be None.")
                 .Then
-                .ForCondition(subject => subject.Equals(expected))
+                .ForCondition(subject => subject.Equals(Maybe<T>.Some(expected)))
                 .FailWith("but found Some {0}.", this.Subject);
             return new AndConstraint<MaybeAssertions<T>>(this);
         }

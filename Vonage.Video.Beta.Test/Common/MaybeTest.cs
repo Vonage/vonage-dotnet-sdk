@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Test.Extensions;
 using Xunit;
 
 namespace Vonage.Video.Beta.Test.Common
@@ -68,6 +69,49 @@ namespace Vonage.Video.Beta.Test.Common
         {
             Action act = () => Maybe<int?>.Some<int?>(null);
             act.Should().Throw<InvalidOperationException>().WithMessage(Maybe<int>.NullValueMessage);
+        }
+
+        [Fact]
+        public void Equals_ShouldReturnTrue_GivenBothAreNone() =>
+            Maybe<int>.None.Equals(Maybe<int>.None).Should().BeTrue();
+
+        [Fact]
+        public void Equals_ShouldReturnTrue_GivenBothAreSomeWithSameValue() =>
+            CreateSome(10).Equals(CreateSome(10)).Should().BeTrue();
+
+        [Fact]
+        public void Equals_ShouldReturnFalse_GivenOneIsNoneAndOtherIsSome() =>
+            CreateSome(10).Equals(Maybe<int>.None).Should().BeFalse();
+
+        [Fact]
+        public void Equals_ShouldReturnFalse_GivenBothAreSomeWithDifferentValue() =>
+            CreateSome(5).Equals(CreateSome(10)).Should().BeFalse();
+
+        [Fact]
+        public void ImplicitOperator_ShouldConvertToNone_GivenValueIsNull()
+        {
+            string value = null;
+            Maybe<string> maybe = value;
+            maybe.Should().BeNone();
+        }
+
+        [Fact]
+        public void ImplicitOperator_ShouldConvertToSome_GivenValueIsSome()
+        {
+            const string value = "hello world";
+            Maybe<string> maybe = value;
+            maybe.Should().BeSome(some => some.Should().Be(value));
+        }
+
+        [Fact]
+        public void GetHashCode_ShouldReturnZero_GivenNone() =>
+            Maybe<string>.None.GetHashCode().Should().Be(0);
+
+        [Fact]
+        public void GetHashCode_ShouldReturnValue_GivenSome()
+        {
+            const int value = 35;
+            CreateSome(value).GetHashCode().Should().Be(value.GetHashCode());
         }
 
         private static Maybe<T> CreateSome<T>(T value) => Maybe<T>.Some(value);

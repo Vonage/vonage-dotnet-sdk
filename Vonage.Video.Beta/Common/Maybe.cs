@@ -106,7 +106,7 @@ public readonly struct Maybe<TA>
     /// </summary>
     /// <param name="other">Other maybe to be compared with.</param>
     /// <returns>Whether both Maybes are equal.</returns>
-    public bool Equals(Maybe<TA> other)
+    private bool Equals(Maybe<TA> other)
     {
         var bothAreNone = this.IsNone && other.IsNone;
         var bothAreSome = this.IsSome && other.IsSome;
