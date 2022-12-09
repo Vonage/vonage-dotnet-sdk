@@ -48,4 +48,7 @@ public readonly struct Result<T>
 
     public TB Match<TB>(Func<T, TB> successOperation, Func<ResultFailure, TB> failureOperation) =>
         this.IsFailure ? failureOperation(this.failure) : successOperation(this.success);
+
+    public Result<TB> Bind<TB>(Func<T, Result<TB>> bind) =>
+        this.IsFailure ? Result<TB>.FromFailure(this.failure) : bind(this.success);
 }

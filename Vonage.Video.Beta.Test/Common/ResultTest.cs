@@ -37,6 +37,20 @@ namespace Vonage.Video.Beta.Test.Common
                 .Be(CreateSuccess(6));
 
         [Fact]
+        public void Bind_ShouldReturnFailure_GivenValueIsFailure() =>
+            CreateFailure()
+                .Bind(IncrementBind)
+                .Should()
+                .Be(CreateFailure());
+
+        [Fact]
+        public void Bind_ShouldReturnSuccess_GivenValueIsSuccess() =>
+            CreateSuccess(5)
+                .Bind(IncrementBind)
+                .Should()
+                .Be(CreateSuccess(6));
+
+        [Fact]
         public void Match_ShouldReturnFailureOperation_GivenValueIsFailure() =>
             CreateFailure()
                 .Match(value => value.ToString(), failure => failure.Error)
@@ -55,5 +69,7 @@ namespace Vonage.Video.Beta.Test.Common
         private static Result<int> CreateFailure() => Result<int>.FromFailure(new ResultFailure("Some error"));
 
         private static int Increment(int value) => value + 1;
+
+        private static Result<int> IncrementBind(int value) => Result<int>.FromSuccess(value + 1);
     }
 }
