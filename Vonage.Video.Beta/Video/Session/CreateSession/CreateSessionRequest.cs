@@ -20,8 +20,7 @@ public struct CreateSessionRequest
         Parse(IpAddress ipAddress, MediaMode mediaMode, ArchiveMode archiveMode) =>
         AreMediaAndArchiveCompatible(mediaMode, archiveMode)
             ? Result<CreateSessionRequest>.FromSuccess(new CreateSessionRequest(ipAddress, mediaMode, archiveMode))
-            : Result<CreateSessionRequest>.FromFailure(
-                new ResultFailure(IncompatibleMediaAndArchive));
+            : Result<CreateSessionRequest>.FromFailure(ResultFailure.FromErrorMessage(IncompatibleMediaAndArchive));
 
     private static bool AreMediaAndArchiveCompatible(MediaMode mediaMode, ArchiveMode archiveMode) =>
         archiveMode == ArchiveMode.Manual || mediaMode == MediaMode.Routed;

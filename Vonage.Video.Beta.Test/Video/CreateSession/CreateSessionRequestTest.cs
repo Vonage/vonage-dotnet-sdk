@@ -14,7 +14,7 @@ namespace Vonage.Video.Beta.Test.Video.CreateSession
                 .Parse(IpAddress.Empty, MediaMode.Relayed, ArchiveMode.Always)
                 .Should()
                 .Be(Result<CreateSessionRequest>.FromFailure(
-                    new ResultFailure(CreateSessionRequest.IncompatibleMediaAndArchive)));
+                    ResultFailure.FromErrorMessage(CreateSessionRequest.IncompatibleMediaAndArchive)));
 
         [Fact]
         public void Parse_ShouldReturnSuccess() =>
@@ -31,7 +31,7 @@ namespace Vonage.Video.Beta.Test.Video.CreateSession
                 .Parse(string.Empty, MediaMode.Relayed, ArchiveMode.Always)
                 .Should()
                 .Be(Result<CreateSessionRequest>.FromFailure(
-                    new ResultFailure(CreateSessionRequest.IncompatibleMediaAndArchive)));
+                    ResultFailure.FromErrorMessage(CreateSessionRequest.IncompatibleMediaAndArchive)));
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenLocationCannotBeParsed_WithStringConstructor() =>
@@ -39,7 +39,7 @@ namespace Vonage.Video.Beta.Test.Video.CreateSession
                 .Parse("1.2.3.4.5", MediaMode.Relayed, ArchiveMode.Always)
                 .Should()
                 .Be(Result<CreateSessionRequest>.FromFailure(
-                    new ResultFailure("Unable to parse location '1.2.3.4.5'.")));
+                    ResultFailure.FromErrorMessage("Unable to parse location '1.2.3.4.5'.")));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_WithStringConstructor() =>

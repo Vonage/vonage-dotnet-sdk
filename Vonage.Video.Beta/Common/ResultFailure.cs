@@ -4,5 +4,7 @@ public struct ResultFailure
 {
     public string Error { get; }
 
-    public ResultFailure(string error) => this.Error = error;
+    private ResultFailure(string error) => this.Error = error;
+
+    public static ResultFailure FromErrorMessage(string error) => new(error);
 }

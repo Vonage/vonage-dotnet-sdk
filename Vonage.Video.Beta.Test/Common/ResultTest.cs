@@ -66,7 +66,8 @@ namespace Vonage.Video.Beta.Test.Common
 
         private static Result<int> CreateSuccess(int value) => Result<int>.FromSuccess(value);
 
-        private static Result<int> CreateFailure() => Result<int>.FromFailure(new ResultFailure("Some error"));
+        private static Result<int> CreateFailure() =>
+            Result<int>.FromFailure(ResultFailure.FromErrorMessage("Some error"));
 
         private static int Increment(int value) => value + 1;
 

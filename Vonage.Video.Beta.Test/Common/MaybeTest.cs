@@ -38,6 +38,20 @@ namespace Vonage.Video.Beta.Test.Common
                 .Be(CreateSome("10"));
 
         [Fact]
+        public void Bind_ShouldReturnNone_GivenValueIsNone() =>
+            Maybe<int>.None
+                .Bind(BindToString)
+                .Should()
+                .Be(Maybe<string>.None);
+
+        [Fact]
+        public void Bind_ShouldReturnSome_GivenValueIsSome() =>
+            CreateSome(10)
+                .Bind(BindToString)
+                .Should()
+                .Be(CreateSome("10"));
+
+        [Fact]
         public void Match_ShouldReturnNoneOperation_GivenValueIsNone() =>
             Maybe<int>.None
                 .Match(MapToString, GetStaticString)
@@ -63,5 +77,7 @@ namespace Vonage.Video.Beta.Test.Common
         private static string GetStaticString() => "Some value";
 
         private static string MapToString(int value) => value.ToString();
+
+        private static Maybe<string> BindToString(int value) => Maybe<string>.Some(value.ToString());
     }
 }

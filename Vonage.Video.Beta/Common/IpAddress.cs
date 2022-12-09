@@ -16,7 +16,7 @@ public struct IpAddress
         || IsLocalhost(location)
         || CanBeParsed(location)
             ? Result<IpAddress>.FromSuccess(new IpAddress(location))
-            : Result<IpAddress>.FromFailure(new ResultFailure($"Unable to parse location '{location}'."));
+            : Result<IpAddress>.FromFailure(ResultFailure.FromErrorMessage($"Unable to parse location '{location}'."));
 
     private static bool IsLocalhost(string location) => location == Localhost.Address;
 

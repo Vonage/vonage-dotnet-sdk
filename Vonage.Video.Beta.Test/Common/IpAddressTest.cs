@@ -29,7 +29,8 @@ namespace Vonage.Video.Beta.Test.Common
             IpAddress
                 .Parse("0.0.1.2.3.45.5")
                 .Should()
-                .Be(Result<IpAddress>.FromFailure(new ResultFailure("Unable to parse location '0.0.1.2.3.45.5'.")));
+                .Be(Result<IpAddress>.FromFailure(
+                    ResultFailure.FromErrorMessage("Unable to parse location '0.0.1.2.3.45.5'.")));
 
         [Fact]
         public void Parse_ShouldReturnSome_GivenAddressCanBeParsed() =>

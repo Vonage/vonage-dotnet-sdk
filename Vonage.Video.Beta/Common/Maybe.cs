@@ -71,4 +71,6 @@ public readonly struct Maybe<TA>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>A non-null TB.</returns>
     public TB Match<TB>(Func<TA, TB> some, Func<TB> none) => !this.IsSome ? none() : some(this.value);
+
+    public Maybe<TB> Bind<TB>(Func<TA, Maybe<TB>> bind) => !this.IsSome ? Maybe<TB>.None : bind(this.value);
 }
