@@ -129,6 +129,10 @@ public readonly struct Result<T>
     /// <returns>Failure.</returns>
     public static implicit operator Result<T>(ResultFailure value) => FromFailure(value);
 
+    /// <summary>
+    ///     Invokes the action if Result is in the Failure state, otherwise nothing happens.
+    /// </summary>
+    /// <param name="action">Action to invoke.</param>
     public void IfFailure(Action<ResultFailure> action)
     {
         if (this.IsFailure)
@@ -137,6 +141,10 @@ public readonly struct Result<T>
         }
     }
 
+    /// <summary>
+    ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
+    /// </summary>
+    /// <param name="action">Action to invoke.</param>
     public void IfSuccess(Action<T> action)
     {
         if (this.IsSuccess)
