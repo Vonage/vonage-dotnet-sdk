@@ -109,8 +109,7 @@ public readonly struct Maybe<TA>
     private bool Equals(Maybe<TA> other)
     {
         var bothAreNone = this.IsNone && other.IsNone;
-        var bothAreSome = this.IsSome && other.IsSome;
-        return bothAreNone || (bothAreSome && this.value.Equals(other.value));
+        return bothAreNone || this.value.Equals(other.value);
     }
 
     /// <summary>

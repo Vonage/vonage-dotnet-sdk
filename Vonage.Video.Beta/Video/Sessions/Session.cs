@@ -1,10 +1,6 @@
-﻿using Vonage.Video.Beta.Video.Session.CreateSession;
+﻿using Vonage.Video.Beta.Video.Sessions.CreateSession;
 
-namespace Vonage.Video.Beta.Video.Session;
-
-public record Session
-{
-}
+namespace Vonage.Video.Beta.Video.Sessions;
 
 /// <summary>
 ///     Defines values for the mediaMode parameter of the <see cref="CreateSessionRequest.Parse" /> method of the

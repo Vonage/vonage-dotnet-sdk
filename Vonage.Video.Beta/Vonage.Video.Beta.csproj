@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="LanguageExt.Core" Version="4.4.0"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <Folder Include="Video\Archives"/>
         <Folder Include="Video\Moderation"/>
         <Folder Include="Video\Signaling"/>

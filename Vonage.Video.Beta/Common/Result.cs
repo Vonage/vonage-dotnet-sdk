@@ -108,13 +108,7 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="other">Other Result to be compared with.</param>
     /// <returns>Whether both Results are equal.</returns>
-    private bool Equals(Result<T> other)
-    {
-        var bothAreFailure = this.IsFailure && other.IsFailure;
-        var bothAreSuccess = this.IsSuccess && other.IsSuccess;
-        return (bothAreFailure && this.failure.Equals(other.failure)) ||
-               (bothAreSuccess && this.success.Equals(other.success));
-    }
+    private bool Equals(Result<T> other) => this.failure.Equals(other.failure) && this.success.Equals(other.success);
 
     /// <summary>
     ///     Implicit operator from TA to Result of TA.

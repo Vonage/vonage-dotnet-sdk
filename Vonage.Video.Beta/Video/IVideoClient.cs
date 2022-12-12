@@ -1,5 +1,5 @@
 ﻿using Vonage.Request;
-using Vonage.Video.Beta.Video.Session;
+using Vonage.Video.Beta.Video.Sessions;
 
 namespace Vonage.Video.Beta.Video;
 

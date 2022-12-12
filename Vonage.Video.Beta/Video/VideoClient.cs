@@ -1,16 +1,18 @@
-﻿using Vonage.Request;
-using Vonage.Video.Beta.Video.Session;
+﻿using System;
+using System.Net.Http;
+using Vonage.Request;
+using Vonage.Video.Beta.Video.Sessions;
 
 namespace Vonage.Video.Beta.Video;
 
 public class VideoClient : IVideoClient
 {
+    public const string ApiUrl = "https://video.api.vonage.com";
     private Credentials credentials;
 
     public VideoClient(Credentials credentials)
     {
         this.Credentials = credentials;
-        this.InitializeClients();
     }
 
     public Credentials Credentials
@@ -26,6 +28,13 @@ public class VideoClient : IVideoClient
 
     public ISessionClient SessionClient { get; private set; }
 
-    private void InitializeClients() =>
-        this.SessionClient = new SessionClient(this.credentials);
+    private void InitializeClients()
+    {
+        var client = new HttpClient(new HttpClientHandler())
+        {
+            BaseAddress = new Uri(ApiUrl),
+        };
+        client.DefaultRequestHeaders.Add("Accept", "application/json");
+        this.SessionClient = new SessionClient(this.credentials, client, new Jwt());
+    }
 }

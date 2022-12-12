@@ -9,6 +9,9 @@ namespace Vonage.Video.Beta.Test.Common
     public class MaybeTest
     {
         [Fact]
+        public void Constructor_ShouldReturnNone() => new Maybe<int>().Should().BeNone();
+
+        [Fact]
         public void None_ShouldReturnNone()
         {
             var maybe = Maybe<int>.None;
@@ -82,6 +85,10 @@ namespace Vonage.Video.Beta.Test.Common
         [Fact]
         public void Equals_ShouldReturnFalse_GivenOneIsNoneAndOtherIsSome() =>
             CreateSome(10).Equals(Maybe<int>.None).Should().BeFalse();
+
+        [Fact]
+        public void Equals_ShouldReturnFalse_GivenOneIsSomeAndOtherIsNone() =>
+            Maybe<int>.None.Equals(CreateSome(10)).Should().BeFalse();
 
         [Fact]
         public void Equals_ShouldReturnFalse_GivenBothAreSomeWithDifferentValue() =>

@@ -10,6 +10,8 @@
         <PackageReference Include="AutoFixture" Version="4.17.0"/>
         <PackageReference Include="FluentAssertions" Version="6.8.0"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0"/>
+        <PackageReference Include="Moq" Version="4.18.3"/>
+        <PackageReference Include="WireMock.Net" Version="1.5.13"/>
         <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +25,13 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Vonage.Video.Beta\Vonage.Video.Beta.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="key.txt"/>
+        <Content Include="key.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>

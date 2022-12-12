@@ -156,6 +156,26 @@ namespace Vonage.Video.Beta.Test.Common
             test.Should().Be(20);
         }
 
+        [Fact]
+        public void Equals_ShouldReturnTrue_GivenBothAreNone() =>
+            Maybe<int>.None.Equals(Maybe<int>.None).Should().BeTrue();
+
+        [Fact]
+        public void Equals_ShouldReturnTrue_GivenBothAreSuccessWithSameValue() =>
+            CreateSuccess(10).Equals(CreateSuccess(10)).Should().BeTrue();
+
+        [Fact]
+        public void Equals_ShouldReturnFalse_GivenOneIsFailureAndOtherIsSuccess() =>
+            CreateSuccess(10).Equals(CreateFailure()).Should().BeFalse();
+
+        [Fact]
+        public void Equals_ShouldReturnFalse_GivenOneIsSuccessAndOtherIsFailure() =>
+            CreateFailure().Equals(CreateSuccess(10)).Should().BeFalse();
+
+        [Fact]
+        public void Equals_ShouldReturnFalse_GivenBothAreSuccessWithDifferentValue() =>
+            CreateSuccess(5).Equals(CreateSuccess(10)).Should().BeFalse();
+
         private static Result<int> CreateSuccess(int value) => Result<int>.FromSuccess(value);
 
         private static Result<int> CreateFailure() =>
