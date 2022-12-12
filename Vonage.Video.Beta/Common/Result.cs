@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Vonage.Video.Beta.Common;
 
@@ -152,4 +153,24 @@ public readonly struct Result<T>
             action(this.success);
         }
     }
+
+    /// <summary>
+    ///     Projects from one value to another.
+    /// </summary>
+    /// <param name="map">Asynchronous projection function.</param>
+    /// <typeparam name="TB">Resulting functor value type.</typeparam>
+    /// <returns>Asynchronous mapped functor.</returns>
+    public async Task<Result<TB>> MapAsync<TB>(Func<T, Task<TB>> map) =>
+        this.IsFailure
+            ? Result<TB>.FromFailure(this.failure)
+            : Result<TB>.FromSuccess(await map(this.success));
+
+    /// <summary>
+    ///     Monadic bind operation.
+    /// </summary>
+    /// <param name="bind">Asynchronous bind operation.</param>
+    /// <typeparam name="TB">Return type.</typeparam>
+    /// <returns>Asynchronous bound functor.</returns>
+    public async Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind) =>
+        this.IsFailure ? Result<TB>.FromFailure(this.failure) : await bind(this.success);
 }

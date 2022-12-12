@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Threading.Tasks;
+using FluentAssertions;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Test.Extensions;
 using Xunit;
@@ -31,11 +32,25 @@ namespace Vonage.Video.Beta.Test.Common
                 .Be(CreateResultFailure());
 
         [Fact]
+        public async Task MapAsync_ShouldReturnFailure_GivenValueIsFailure() =>
+            (await CreateFailure()
+                .MapAsync(IncrementAsync))
+            .Should()
+            .Be(CreateResultFailure());
+
+        [Fact]
         public void Map_ShouldReturnSuccess_GivenValueIsSuccess() =>
             CreateSuccess(5)
                 .Map(Increment)
                 .Should()
                 .Be(6);
+
+        [Fact]
+        public async Task MapAsync_ShouldReturnSuccess_GivenValueIsSuccess() =>
+            (await CreateSuccess(5)
+                .MapAsync(IncrementAsync))
+            .Should()
+            .Be(6);
 
         [Fact]
         public void Bind_ShouldReturnFailure_GivenValueIsFailure() =>
@@ -45,11 +60,25 @@ namespace Vonage.Video.Beta.Test.Common
                 .Be(CreateResultFailure());
 
         [Fact]
+        public async Task BindAsync_ShouldReturnFailure_GivenValueIsFailure() =>
+            (await CreateFailure()
+                .BindAsync(IncrementBindAsync))
+            .Should()
+            .Be(CreateResultFailure());
+
+        [Fact]
         public void Bind_ShouldReturnSuccess_GivenValueIsSuccess() =>
             CreateSuccess(5)
                 .Bind(IncrementBind)
                 .Should()
                 .Be(6);
+
+        [Fact]
+        public async Task BindAsync_ShouldReturnSuccess_GivenValueIsSuccess() =>
+            (await CreateSuccess(5)
+                .BindAsync(IncrementBindAsync))
+            .Should()
+            .Be(6);
 
         [Fact]
         public void Match_ShouldReturnFailureOperation_GivenValueIsFailure() =>
@@ -136,6 +165,11 @@ namespace Vonage.Video.Beta.Test.Common
 
         private static int Increment(int value) => value + 1;
 
+        private static Task<int> IncrementAsync(int value) => Task.FromResult(value + 1);
+
         private static Result<int> IncrementBind(int value) => Result<int>.FromSuccess(value + 1);
+
+        private static Task<Result<int>> IncrementBindAsync(int value) =>
+            Task.FromResult(Result<int>.FromSuccess(value + 1));
     }
 }

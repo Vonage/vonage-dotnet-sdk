@@ -4,7 +4,7 @@ using Vonage.Video.Beta.Video.Session;
 using Vonage.Video.Beta.Video.Session.CreateSession;
 using Xunit;
 
-namespace Vonage.Video.Beta.Test.Video.CreateSession
+namespace Vonage.Video.Beta.Test.Video.Session.CreateSession
 {
     public class CreateSessionRequestTest
     {
