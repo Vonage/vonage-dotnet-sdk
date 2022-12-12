@@ -95,6 +95,38 @@ namespace Vonage.Video.Beta.Test.Common
             result.Should().Be(value);
         }
 
+        [Fact]
+        public void IfFailure_ShouldBeExecuted_GivenValueIsFailure()
+        {
+            var test = 10;
+            CreateFailure().IfFailure(_ => test = 0);
+            test.Should().Be(0);
+        }
+
+        [Fact]
+        public void IfFailure_ShouldNotBeExecuted_GivenValueIsSuccess()
+        {
+            var test = 10;
+            CreateSuccess(50).IfFailure(_ => test = 0);
+            test.Should().Be(10);
+        }
+
+        [Fact]
+        public void IfSuccess_ShouldNotBeExecuted_GivenValueIsFailure()
+        {
+            var test = 10;
+            CreateFailure().IfSuccess(_ => test = 0);
+            test.Should().Be(10);
+        }
+
+        [Fact]
+        public void IfSuccess_ShouldBeExecuted_GivenValueIsSuccess()
+        {
+            var test = 10;
+            CreateSuccess(10).IfSuccess(value => test += value);
+            test.Should().Be(20);
+        }
+
         private static Result<int> CreateSuccess(int value) => Result<int>.FromSuccess(value);
 
         private static Result<int> CreateFailure() =>

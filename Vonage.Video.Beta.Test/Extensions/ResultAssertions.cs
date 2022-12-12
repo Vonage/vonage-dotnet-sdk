@@ -23,8 +23,7 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsFailure)
                 .FailWith("but found to be Success.");
-
-            //this.Subject.IfFailure
+            this.Subject.IfFailure(action);
             return new AndConstraint<ResultAssertions<T>>(this);
         }
 
@@ -37,8 +36,7 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsSuccess)
                 .FailWith("but found to be Failure.");
-
-            //this.Subject.IfSuccess
+            this.Subject.IfSuccess(action);
             return new AndConstraint<ResultAssertions<T>>(this);
         }
 

@@ -128,4 +128,20 @@ public readonly struct Result<T>
     /// <param name="value">Value to be converted.</param>
     /// <returns>Failure.</returns>
     public static implicit operator Result<T>(ResultFailure value) => FromFailure(value);
+
+    public void IfFailure(Action<ResultFailure> action)
+    {
+        if (this.IsFailure)
+        {
+            action(this.failure);
+        }
+    }
+
+    public void IfSuccess(Action<T> action)
+    {
+        if (this.IsSuccess)
+        {
+            action(this.success);
+        }
+    }
 }

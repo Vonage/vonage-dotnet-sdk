@@ -90,8 +90,7 @@ namespace Vonage.Video.Beta.Test.Common
         [Fact]
         public void ImplicitOperator_ShouldConvertToNone_GivenValueIsNull()
         {
-            string value = null;
-            Maybe<string> maybe = value;
+            Maybe<string> maybe = null;
             maybe.Should().BeNone();
         }
 
