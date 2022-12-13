@@ -2,6 +2,7 @@
 using Vonage.Request;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
+using Vonage.Video.Beta.Video.Sessions.GetStream;
 
 namespace Vonage.Video.Beta.Video.Sessions;
 
@@ -21,4 +22,14 @@ public interface ISessionClient
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request);
+
+    /// <summary>
+    ///     Retrieves a stream.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state with the stream if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
+    Task<Result<GetStreamResponse>> GetStreamAsync(GetStreamRequest request);
 }
