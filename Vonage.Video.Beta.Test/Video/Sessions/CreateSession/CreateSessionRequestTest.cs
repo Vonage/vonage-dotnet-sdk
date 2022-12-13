@@ -60,5 +60,13 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                 .Map(request => request.GetUrlEncoded())
                 .Should()
                 .Be(expected);
+
+        [Fact]
+        public void Default_ShouldReturnRequest()
+        {
+            CreateSessionRequest.Default.Location.Should().Be(IpAddress.Empty);
+            CreateSessionRequest.Default.MediaMode.Should().Be(MediaMode.Relayed);
+            CreateSessionRequest.Default.ArchiveMode.Should().Be(ArchiveMode.Manual);
+        }
     }
 }

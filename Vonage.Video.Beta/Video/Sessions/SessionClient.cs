@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -28,20 +29,36 @@ public class SessionClient : ISessionClient
 
     public async Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request)
     {
-        var token = this.tokenGenerator.GenerateToken(this.Credentials.ApplicationId, this.Credentials.ApplicationKey);
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, CreateSessionRequest.CreateSessionEndpoint);
-        httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content =
-            new StringContent(request.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
+        var httpRequest = this.BuildRequestMessage(request);
         var response = await this.client.SendAsync(httpRequest);
         var responseContent = await response.Content.ReadAsStringAsync();
-        return this.jsonSerializer
-            .DeserializeObject<CreateSessionResponse[]>(responseContent)
-            .Bind(GetFirstSessionIfAvailable);
+        return !response.IsSuccessStatusCode
+            ? GetFailureFromErrorStatusCode(response.StatusCode, responseContent)
+            : this.jsonSerializer
+                .DeserializeObject<CreateSessionResponse[]>(responseContent)
+                .Bind(GetFirstSessionIfAvailable);
     }
+
+    private static Result<CreateSessionResponse> GetFailureFromErrorStatusCode(HttpStatusCode statusCode,
+        string responseContent) =>
+        Result<CreateSessionResponse>.FromFailure(
+            ResultFailure.FromErrorMessage((int) statusCode + " - " + responseContent));
+
+    private HttpRequestMessage BuildRequestMessage(CreateSessionRequest request)
+    {
+        var httpRequest = new HttpRequestMessage(HttpMethod.Post, CreateSessionRequest.CreateSessionEndpoint);
+        httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.GenerateToken());
+        httpRequest.Content =
+            new StringContent(request.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
+        return httpRequest;
+    }
+
+    private string GenerateToken() =>
+        this.tokenGenerator.GenerateToken(this.Credentials.ApplicationId, this.Credentials.ApplicationKey);
 
     private static Result<CreateSessionResponse> GetFirstSessionIfAvailable(CreateSessionResponse[] sessions) =>
         sessions.Any()
             ? sessions.First()
-            : Result<CreateSessionResponse>.FromFailure(ResultFailure.FromErrorMessage(""));
+            : Result<CreateSessionResponse>.FromFailure(
+                ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
 }

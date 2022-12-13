@@ -24,6 +24,8 @@ public struct CreateSessionRequest
 
     public IpAddress Location { get; }
 
+    public static CreateSessionRequest Default => new(IpAddress.Empty, MediaMode.Relayed, ArchiveMode.Manual);
+
     public static Result<CreateSessionRequest> Parse(string location, MediaMode mediaMode, ArchiveMode archiveMode) =>
         IpAddress
             .Parse(location)
@@ -38,7 +40,7 @@ public struct CreateSessionRequest
     private static bool AreMediaAndArchiveCompatible(MediaMode mediaMode, ArchiveMode archiveMode) =>
         archiveMode == ArchiveMode.Manual || mediaMode == MediaMode.Routed;
 
-    public string GetUrlEncoded()
+    public readonly string GetUrlEncoded()
     {
         var builder = new StringBuilder();
         builder.Append("location=");
