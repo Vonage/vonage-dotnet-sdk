@@ -18,31 +18,30 @@ using WireMock.ResponseBuilders;
 using WireMock.Server;
 using Xunit;
 
-namespace Vonage.Video.Beta.Test.Video.Sessions
+namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
 {
-    public class SessionClientTest : IDisposable
+    public class CreateSessionTest : IDisposable
     {
         private readonly SessionClient client;
-        private readonly Credentials credentials;
         private readonly Fixture fixture;
         private readonly CreateSessionRequest request = CreateSessionRequest.Default;
         private readonly WireMockServer server;
         private readonly CreateSessionResponse session;
         private readonly string token;
 
-        public SessionClientTest()
+        public CreateSessionTest()
         {
             this.server = WireMockServer.Start(VideoClient.ApiUrl);
             this.fixture = new Fixture();
             this.token = this.fixture.Create<string>();
             this.session = this.fixture.Create<CreateSessionResponse>();
-            this.credentials = this.fixture.Create<Credentials>();
+            var credentials = this.fixture.Create<Credentials>();
             var tokenGenerator = new Mock<ITokenGenerator>();
             tokenGenerator
                 .Setup(generator =>
-                    generator.GenerateToken(this.credentials.ApplicationId, this.credentials.ApplicationKey))
+                    generator.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey))
                 .Returns(this.token);
-            this.client = new SessionClient(this.credentials, this.server.CreateClient(), tokenGenerator.Object);
+            this.client = new SessionClient(credentials, this.server.CreateClient(), tokenGenerator.Object);
         }
 
         public void Dispose()
@@ -53,7 +52,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions
         }
 
         [Fact]
-        public async Task CreateSessionAsync_ShouldReturnSuccess_GivenSessionIsCreated()
+        public async Task ShouldReturnSuccess_GivenSessionIsCreated()
         {
             var expectedResponse = JsonConvert.SerializeObject(new[] {this.session});
             this.server
@@ -69,7 +68,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions
         }
 
         [Fact]
-        public async Task CreateSessionAsync_ShouldReturnSuccess_GivenMultipleSessionsAreCreated()
+        public async Task ShouldReturnSuccess_GivenMultipleSessionsAreCreated()
         {
             var expectedResponse = JsonConvert.SerializeObject(new[]
             {
@@ -89,7 +88,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions
         }
 
         [Fact]
-        public async Task CreateSessionAsync_ShouldReturnFailure_GivenResponseContainsNoSession()
+        public async Task ShouldReturnFailure_GivenResponseContainsNoSession()
         {
             var expectedResponse = JsonConvert.SerializeObject(Array.Empty<CreateSessionResponse>());
             this.server
@@ -104,7 +103,20 @@ namespace Vonage.Video.Beta.Test.Video.Sessions
             result.Should().Be(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
         }
 
-        private async Task ShouldReturnFailureGivenStatusCodeIsFailure(HttpStatusCode statusCode)
+        private static Arbitrary<HttpStatusCode> GetInvalidStatusCodes() => Arb.From<HttpStatusCode>()
+            .MapFilter(_ => _, code => (int) code >= 400 && (int) code < 600);
+
+        [Property]
+        public Property ShouldReturnFailure_GivenStatusCodeIsFailure() =>
+            Prop.ForAll(
+                GetInvalidStatusCodes(),
+                statusCode => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode).Wait());
+
+        private static IRequestBuilder BuildRequestWithAuthenticationHeader(string token) =>
+            WireMock.RequestBuilders.Request.Create()
+                .WithHeader("Authorization", $"Bearer {token}");
+
+        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode statusCode)
         {
             const string expectedResponse = "Some reason session wasn't created.";
             this.server
@@ -118,18 +130,5 @@ namespace Vonage.Video.Beta.Test.Video.Sessions
             var result = await this.client.CreateSessionAsync(this.request);
             result.Should().Be(ResultFailure.FromErrorMessage($"{(int) statusCode} - {expectedResponse}"));
         }
-
-        private static Arbitrary<HttpStatusCode> GetInvalidStatusCodes() => Arb.From<HttpStatusCode>()
-            .MapFilter(_ => _, code => (int) code >= 400 && (int) code < 600);
-
-        [Property]
-        private Property CreateSessionAsync_ShouldReturnFailure_GivenStatusCodeIsFailure() =>
-            Prop.ForAll(
-                GetInvalidStatusCodes(),
-                statusCode => this.ShouldReturnFailureGivenStatusCodeIsFailure(statusCode).Wait());
-
-        private static IRequestBuilder BuildRequestWithAuthenticationHeader(string token) =>
-            WireMock.RequestBuilders.Request.Create()
-                .WithHeader("Authorization", $"Bearer {token}");
     }
 }

@@ -4,10 +4,19 @@ using Vonage.Video.Beta.Common;
 
 namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
 
-public struct CreateSessionRequest
+/// <summary>
+///     Represents a request for creating a session.
+/// </summary>
+public readonly struct CreateSessionRequest
 {
+    /// <summary>
+    ///     The endpoint for creating a session.
+    /// </summary>
     public const string CreateSessionEndpoint = "/session/create";
 
+    /// <summary>
+    ///     Indicates media mode and archive mode are incompatible.
+    /// </summary>
     public const string IncompatibleMediaAndArchive =
         "A session with always archive mode must also have the routed media mode.";
 
@@ -18,19 +27,44 @@ public struct CreateSessionRequest
         this.ArchiveMode = archiveMode;
     }
 
+    /// <summary>
+    ///     Defines how archiving is configured for the session.
+    /// </summary>
     public ArchiveMode ArchiveMode { get; }
 
+    /// <summary>
+    ///     Defines how media will be transmitted on the session.
+    /// </summary>
     public MediaMode MediaMode { get; }
 
+    /// <summary>
+    ///     The ip address.
+    /// </summary>
     public IpAddress Location { get; }
 
+    /// <summary>
+    ///     Creates a default request with empty ip address, relayed media mode and manual archive mode.
+    /// </summary>
     public static CreateSessionRequest Default => new(IpAddress.Empty, MediaMode.Relayed, ArchiveMode.Manual);
 
+    /// <summary>
+    ///     Parses the provided input.
+    /// </summary>
+    /// <param name="location">The ip address.</param>
+    /// <param name="mediaMode">The media mode.</param>
+    /// <param name="archiveMode">The archive mode.</param>
+    /// <returns>Success if the parsing operation succeeded, Failure if it failed.</returns>
     public static Result<CreateSessionRequest> Parse(string location, MediaMode mediaMode, ArchiveMode archiveMode) =>
         IpAddress
             .Parse(location)
             .Bind(ipAddress => Parse(ipAddress, mediaMode, archiveMode));
 
+    /// <summary>
+    /// </summary>
+    /// <param name="ipAddress"></param>
+    /// <param name="mediaMode"></param>
+    /// <param name="archiveMode"></param>
+    /// <returns></returns>
     public static Result<CreateSessionRequest>
         Parse(IpAddress ipAddress, MediaMode mediaMode, ArchiveMode archiveMode) =>
         AreMediaAndArchiveCompatible(mediaMode, archiveMode)
@@ -40,7 +74,10 @@ public struct CreateSessionRequest
     private static bool AreMediaAndArchiveCompatible(MediaMode mediaMode, ArchiveMode archiveMode) =>
         archiveMode == ArchiveMode.Manual || mediaMode == MediaMode.Routed;
 
-    public readonly string GetUrlEncoded()
+    /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    public string GetUrlEncoded()
     {
         var builder = new StringBuilder();
         builder.Append("location=");

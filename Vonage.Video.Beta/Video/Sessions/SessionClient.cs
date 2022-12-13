@@ -11,12 +11,19 @@ using Vonage.Voice;
 
 namespace Vonage.Video.Beta.Video.Sessions;
 
+/// <inheritdoc />
 public class SessionClient : ISessionClient
 {
     private readonly HttpClient client;
     private readonly JsonSerializer jsonSerializer;
     private readonly ITokenGenerator tokenGenerator;
 
+    /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="credentials">Credentials to be used for further connections.</param>
+    /// <param name="httpClient">Http Client to used for further connections.</param>
+    /// <param name="tokenGenerator">Generator for authentication tokens.</param>
     public SessionClient(Credentials credentials, HttpClient httpClient, ITokenGenerator tokenGenerator)
     {
         this.Credentials = credentials;
@@ -25,8 +32,10 @@ public class SessionClient : ISessionClient
         this.tokenGenerator = tokenGenerator;
     }
 
+    /// <inheritdoc />
     public Credentials Credentials { get; set; }
 
+    /// <inheritdoc />
     public async Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request)
     {
         var httpRequest = this.BuildRequestMessage(request);
