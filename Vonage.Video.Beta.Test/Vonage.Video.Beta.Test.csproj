@@ -31,9 +31,6 @@
 
     <ItemGroup>
         <None Remove="key.txt"/>
-        <Content Include="key.txt">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
     </ItemGroup>
 
 </Project>
