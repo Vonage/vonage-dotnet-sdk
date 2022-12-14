@@ -12,7 +12,6 @@ using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Voice;
-using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 
@@ -56,14 +55,10 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             GC.SuppressFinalize(this);
         }
 
-        private static IRequestBuilder BuildRequestWithAuthenticationHeader(string token) =>
-            WireMock.RequestBuilders.Request.Create()
-                .WithHeader("Authorization", $"Bearer {token}");
-
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
             Prop.ForAll(
-                GetInvalidStatusCodes(),
+                FsCheckExtensions.GetInvalidStatusCodes(),
                 Arb.From<string>(),
                 (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
 
@@ -73,7 +68,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             var errorResponse = new ErrorResponse {Code = ((int) code).ToString(), Message = message};
             var expectedBody = this.jsonSerializer.SerializeObject(errorResponse);
             this.server
-                .Given(BuildRequestWithAuthenticationHeader(this.token)
+                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
                     .WithPath(path)
                     .UsingGet())
                 .RespondWith(Response.Create()
@@ -82,8 +77,5 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().Be(HttpFailure.From(code, message));
         }
-
-        private static Arbitrary<HttpStatusCode> GetInvalidStatusCodes() => Arb.From<HttpStatusCode>()
-            .MapFilter(_ => _, code => (int) code >= 400 && (int) code < 600);
     }
 }

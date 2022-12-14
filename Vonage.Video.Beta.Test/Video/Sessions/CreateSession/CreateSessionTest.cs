@@ -12,7 +12,6 @@ using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Vonage.Voice;
-using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 using Xunit;
@@ -55,7 +54,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         {
             var expectedResponse = JsonConvert.SerializeObject(new[] {this.session});
             this.server
-                .Given(BuildRequestWithAuthenticationHeader(this.token)
+                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
                     .WithPath(CreateSessionRequest.CreateSessionEndpoint)
                     .WithBody(this.request.GetUrlEncoded())
                     .UsingPost())
@@ -75,7 +74,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                 this.fixture.Create<CreateSessionResponse>(),
             });
             this.server
-                .Given(BuildRequestWithAuthenticationHeader(this.token)
+                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
                     .WithPath(CreateSessionRequest.CreateSessionEndpoint)
                     .WithBody(this.request.GetUrlEncoded())
                     .UsingPost())
@@ -91,7 +90,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         {
             var expectedResponse = JsonConvert.SerializeObject(Array.Empty<CreateSessionResponse>());
             this.server
-                .Given(BuildRequestWithAuthenticationHeader(this.token)
+                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
                     .WithPath(CreateSessionRequest.CreateSessionEndpoint)
                     .WithBody(this.request.GetUrlEncoded())
                     .UsingPost())
@@ -102,24 +101,17 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
             result.Should().Be(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
         }
 
-        private static Arbitrary<HttpStatusCode> GetInvalidStatusCodes() => Arb.From<HttpStatusCode>()
-            .MapFilter(_ => _, code => (int) code >= 400 && (int) code < 600);
-
         [Property]
         public Property ShouldReturnFailure_GivenStatusCodeIsFailure() =>
             Prop.ForAll(
-                GetInvalidStatusCodes(),
+                FsCheckExtensions.GetInvalidStatusCodes(),
                 statusCode => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode).Wait());
-
-        private static IRequestBuilder BuildRequestWithAuthenticationHeader(string token) =>
-            WireMock.RequestBuilders.Request.Create()
-                .WithHeader("Authorization", $"Bearer {token}");
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode statusCode)
         {
             const string expectedResponse = "Some reason session wasn't created.";
             this.server
-                .Given(BuildRequestWithAuthenticationHeader(this.token)
+                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
                     .WithPath(CreateSessionRequest.CreateSessionEndpoint)
                     .WithBody(this.request.GetUrlEncoded())
                     .UsingPost())
