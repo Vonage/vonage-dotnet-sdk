@@ -9,7 +9,6 @@ using Vonage.Request;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
-using Vonage.Video.Beta.Video;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Voice;
@@ -33,7 +32,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
 
         public GetStreamTest()
         {
-            this.server = WireMockServer.Start(VideoClient.ApiUrl);
+            this.server = WireMockServer.Start();
             this.jsonSerializer = new JsonSerializer();
             this.fixture = new Fixture();
             this.applicationId = this.fixture.Create<string>();

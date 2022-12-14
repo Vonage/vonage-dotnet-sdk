@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using Vonage.Request;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
-using Vonage.Video.Beta.Video;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Vonage.Voice;
@@ -31,7 +30,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
 
         public CreateSessionTest()
         {
-            this.server = WireMockServer.Start(VideoClient.ApiUrl);
+            this.server = WireMockServer.Start();
             this.fixture = new Fixture();
             this.token = this.fixture.Create<string>();
             this.session = this.fixture.Create<CreateSessionResponse>();
