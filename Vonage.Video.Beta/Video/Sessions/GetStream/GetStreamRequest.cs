@@ -1,4 +1,5 @@
 ﻿using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Failures;
 
 namespace Vonage.Video.Beta.Video.Sessions.GetStream;
 

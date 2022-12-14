@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vonage.Request;
 using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Voice;
@@ -56,8 +57,7 @@ public class SessionClient : ISessionClient
 
     private static Result<CreateSessionResponse> GetFailureFromErrorStatusCode(HttpStatusCode statusCode,
         string responseContent) =>
-        Result<CreateSessionResponse>.FromFailure(
-            ResultFailure.FromErrorMessage((int) statusCode + " - " + responseContent));
+        Result<CreateSessionResponse>.FromFailure(HttpFailure.From(statusCode, responseContent));
 
     private HttpRequestMessage BuildRequestMessage(CreateSessionRequest request)
     {

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;

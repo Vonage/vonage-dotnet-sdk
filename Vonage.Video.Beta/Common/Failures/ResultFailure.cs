@@ -1,4 +1,4 @@
-﻿namespace Vonage.Video.Beta.Common;
+﻿namespace Vonage.Video.Beta.Common.Failures;
 
 /// <inheritdoc />
 public readonly struct ResultFailure : IResultFailure

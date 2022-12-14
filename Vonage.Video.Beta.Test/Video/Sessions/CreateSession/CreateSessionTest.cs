@@ -7,7 +7,7 @@ using FsCheck.Xunit;
 using Moq;
 using Newtonsoft.Json;
 using Vonage.Request;
-using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video;
 using Vonage.Video.Beta.Video.Sessions;
@@ -128,7 +128,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                     .WithStatusCode(statusCode)
                     .WithBody(expectedResponse));
             var result = await this.client.CreateSessionAsync(this.request);
-            result.Should().Be(ResultFailure.FromErrorMessage($"{(int) statusCode} - {expectedResponse}"));
+            result.Should().Be(HttpFailure.From(statusCode, expectedResponse));
         }
     }
 }

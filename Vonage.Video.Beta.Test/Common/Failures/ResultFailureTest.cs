@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Failures;
 using Xunit;
 
-namespace Vonage.Video.Beta.Test.Common
+namespace Vonage.Video.Beta.Test.Common.Failures
 {
     public class ResultFailureTest
     {
