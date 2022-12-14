@@ -1,16 +1,10 @@
 ﻿namespace Vonage.Video.Beta.Common;
 
-/// <summary>
-///     Represents a Failure with an error message.
-/// </summary>
-public readonly struct ResultFailure
+/// <inheritdoc />
+public readonly struct ResultFailure : IResultFailure
 {
-    /// <summary>
-    ///     The error message.
-    /// </summary>
-    public string Error { get; }
-
-    private ResultFailure(string error) => this.Error = error;
+    private readonly string error;
+    private ResultFailure(string error) => this.error = error;
 
     /// <summary>
     ///     Create a failure from an error message.
@@ -18,4 +12,7 @@ public readonly struct ResultFailure
     /// <param name="error">The error message.</param>
     /// <returns>The failure.</returns>
     public static ResultFailure FromErrorMessage(string error) => new(error);
+
+    /// <inheritdoc />
+    public string GetFailureMessage() => this.error;
 }

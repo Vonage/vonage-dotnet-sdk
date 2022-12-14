@@ -8,6 +8,6 @@ namespace Vonage.Video.Beta.Test.Common
     {
         [Fact]
         public void FromError_ShouldReturnFailure() =>
-            ResultFailure.FromErrorMessage("Some error.").Error.Should().Be("Some error.");
+            ResultFailure.FromErrorMessage("Some error.").GetFailureMessage().Should().Be("Some error.");
     }
 }

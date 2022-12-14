@@ -23,7 +23,8 @@ namespace Vonage.Video.Beta.Test.Common
             this.serializer
                 .DeserializeObject<DummyObject>(value)
                 .Should()
-                .BeFailure(f => f.Error.Should().Be($"Unable to deserialize '{value}' into 'DummyObject'."));
+                .BeFailure(failure =>
+                    failure.GetFailureMessage().Should().Be($"Unable to deserialize '{value}' into 'DummyObject'."));
 
         [Theory]
         [InlineData("{}", 0, null)]
