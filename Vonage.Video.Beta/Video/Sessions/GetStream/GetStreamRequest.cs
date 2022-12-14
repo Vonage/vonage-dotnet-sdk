@@ -60,4 +60,10 @@ public readonly struct GetStreamRequest
     ///     The stream Id.
     /// </summary>
     public string StreamId { get; }
+
+    /// <summary>
+    ///     Retrieves the endpoint's path.
+    /// </summary>
+    /// <returns>The endpoint's path.</returns>
+    public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/stream/{this.StreamId}";
 }

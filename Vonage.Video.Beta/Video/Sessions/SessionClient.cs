@@ -52,8 +52,28 @@ public class SessionClient : ISessionClient
     }
 
     /// <inheritdoc />
-    public Task<Result<GetStreamResponse>> GetStreamAsync(GetStreamRequest request) =>
+    public async Task<Result<GetStreamResponse>> GetStreamAsync(GetStreamRequest request)
+    {
+        var httpRequest = this.BuildRequestMessage(request);
+        var response = await this.client.SendAsync(httpRequest);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorResponse = this.jsonSerializer.DeserializeObject<ErrorResponse>(responseContent);
+            return errorResponse
+                .Map(err => HttpFailure.From(response.StatusCode, err.Message))
+                .Bind(e => Result<GetStreamResponse>.FromFailure(e));
+        }
+
         throw new NotImplementedException();
+    }
+
+    private HttpRequestMessage BuildRequestMessage(GetStreamRequest request)
+    {
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, request.GetEndpointPath());
+        httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.GenerateToken());
+        return httpRequest;
+    }
 
     private static Result<CreateSessionResponse> GetFailureFromErrorStatusCode(HttpStatusCode statusCode,
         string responseContent) =>

@@ -59,5 +59,12 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
                     request.SessionId.Should().Be(this.sessionId);
                     request.StreamId.Should().Be(this.streamId);
                 });
+
+        [Fact]
+        public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+            GetStreamRequest.Parse(this.applicationId, this.sessionId, this.streamId)
+                .Map(request => request.GetEndpointPath())
+                .Should()
+                .Be($"/project/{this.applicationId}/session/{this.sessionId}/stream/{this.streamId}");
     }
 }
