@@ -132,5 +132,23 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
                 response.LayoutClassList.Should().BeEquivalentTo(expectedResponse.LayoutClassList);
             });
         }
+
+        [Fact]
+        public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
+        {
+            var body = this.fixture.Create<string>();
+            var path = this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
+            this.server
+                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
+                    .WithPath(path)
+                    .UsingGet())
+                .RespondWith(Response.Create()
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithBody(body));
+            var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
+            result.Should()
+                .Be(ResultFailure.FromErrorMessage(
+                    $"Unable to deserialize '{body}' into '{nameof(GetStreamResponse)}'."));
+        }
     }
 }
