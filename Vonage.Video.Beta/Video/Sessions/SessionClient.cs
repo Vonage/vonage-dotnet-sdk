@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -57,15 +56,14 @@ public class SessionClient : ISessionClient
         var httpRequest = this.BuildRequestMessage(request);
         var response = await this.client.SendAsync(httpRequest);
         var responseContent = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode)
-        {
-            var errorResponse = this.jsonSerializer.DeserializeObject<ErrorResponse>(responseContent);
-            return errorResponse
-                .Map(err => HttpFailure.From(response.StatusCode, err.Message))
-                .Bind(e => Result<GetStreamResponse>.FromFailure(e));
-        }
-
-        throw new NotImplementedException();
+        return !response.IsSuccessStatusCode
+            ? this.jsonSerializer
+                .DeserializeObject<ErrorResponse>(responseContent)
+                .Map(parsedError => HttpFailure.From(response.StatusCode, parsedError.Message))
+                .Bind(failure => Result<GetStreamResponse>.FromFailure(failure))
+            : this.jsonSerializer
+                .DeserializeObject<GetStreamResponse>(responseContent)
+                .Match(_ => _, Result<GetStreamResponse>.FromFailure);
     }
 
     private HttpRequestMessage BuildRequestMessage(GetStreamRequest request)

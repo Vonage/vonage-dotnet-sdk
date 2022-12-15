@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
+using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
 using Moq;
@@ -14,6 +16,7 @@ using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Voice;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
+using Xunit;
 
 namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
 {
@@ -76,6 +79,58 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
                     .WithBody(expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().Be(HttpFailure.From(code, message));
+        }
+
+        [Property]
+        public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
+            Prop.ForAll(
+                FsCheckExtensions.GetInvalidStatusCodes(),
+                Arb.From<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value)),
+                (statusCode, jsonError) =>
+                    this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
+
+        private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
+        {
+            var path = this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
+            this.server
+                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
+                    .WithPath(path)
+                    .UsingGet())
+                .RespondWith(Response.Create()
+                    .WithStatusCode((int) code)
+                    .WithBody(jsonError));
+            var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
+            result.Should()
+                .Be(ResultFailure.FromErrorMessage(
+                    $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'."));
+        }
+
+        [Fact]
+        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
+        {
+            var path = this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
+            var expectedResponse = new GetStreamResponse
+            {
+                Id = this.fixture.Create<string>(),
+                Name = this.fixture.Create<string>(),
+                VideoType = this.fixture.Create<string>(),
+                LayoutClassList = this.fixture.CreateMany<string>().ToArray(),
+            };
+            this.server
+                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
+                    .WithPath(path)
+                    .UsingGet())
+                .RespondWith(Response.Create()
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithBody(this.jsonSerializer.SerializeObject(expectedResponse)));
+            var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
+            result.Should().BeSuccess(response =>
+            {
+                response.Id.Should().Be(expectedResponse.Id);
+                response.Name.Should().Be(expectedResponse.Name);
+                response.VideoType.Should().Be(expectedResponse.VideoType);
+                response.LayoutClassList.Should().BeEquivalentTo(expectedResponse.LayoutClassList);
+            });
         }
     }
 }
