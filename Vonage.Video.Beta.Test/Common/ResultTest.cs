@@ -30,56 +30,56 @@ namespace Vonage.Video.Beta.Test.Common
             CreateFailure()
                 .Map(Increment)
                 .Should()
-                .Be(CreateResultFailure());
+                .BeFailure(CreateResultFailure());
 
         [Fact]
         public async Task MapAsync_ShouldReturnFailure_GivenValueIsFailure() =>
             (await CreateFailure()
                 .MapAsync(IncrementAsync))
             .Should()
-            .Be(CreateResultFailure());
+            .BeFailure(CreateResultFailure());
 
         [Fact]
         public void Map_ShouldReturnSuccess_GivenValueIsSuccess() =>
             CreateSuccess(5)
                 .Map(Increment)
                 .Should()
-                .Be(6);
+                .BeSuccess(6);
 
         [Fact]
         public async Task MapAsync_ShouldReturnSuccess_GivenValueIsSuccess() =>
             (await CreateSuccess(5)
                 .MapAsync(IncrementAsync))
             .Should()
-            .Be(6);
+            .BeSuccess(6);
 
         [Fact]
         public void Bind_ShouldReturnFailure_GivenValueIsFailure() =>
             CreateFailure()
                 .Bind(IncrementBind)
                 .Should()
-                .Be(CreateResultFailure());
+                .BeFailure(CreateResultFailure());
 
         [Fact]
         public async Task BindAsync_ShouldReturnFailure_GivenValueIsFailure() =>
             (await CreateFailure()
                 .BindAsync(IncrementBindAsync))
             .Should()
-            .Be(CreateResultFailure());
+            .BeFailure(CreateResultFailure());
 
         [Fact]
         public void Bind_ShouldReturnSuccess_GivenValueIsSuccess() =>
             CreateSuccess(5)
                 .Bind(IncrementBind)
                 .Should()
-                .Be(6);
+                .BeSuccess(6);
 
         [Fact]
         public async Task BindAsync_ShouldReturnSuccess_GivenValueIsSuccess() =>
             (await CreateSuccess(5)
                 .BindAsync(IncrementBindAsync))
             .Should()
-            .Be(6);
+            .BeSuccess(6);
 
         [Fact]
         public void Match_ShouldReturnFailureOperation_GivenValueIsFailure() =>
@@ -114,7 +114,7 @@ namespace Vonage.Video.Beta.Test.Common
         {
             const int value = 55;
             Result<int> result = value;
-            result.Should().Be(value);
+            result.Should().BeSuccess(value);
         }
 
         [Fact]

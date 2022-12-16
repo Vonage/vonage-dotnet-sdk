@@ -14,7 +14,7 @@ namespace Vonage.Video.Beta.Test.Common
                 .Parse(string.Empty)
                 .Map(address => address.Address)
                 .Should()
-                .Be(string.Empty);
+                .BeSuccess(string.Empty);
 
         [Fact]
         public void Parse_ShouldReturnSome_GivenAddressIsLocalhost() =>
@@ -22,14 +22,14 @@ namespace Vonage.Video.Beta.Test.Common
                 .Parse("localhost")
                 .Map(address => address.Address)
                 .Should()
-                .Be("localhost");
+                .BeSuccess("localhost");
 
         [Fact]
         public void Parse_ShouldReturnNone_GivenAddressCannotBeParsed() =>
             IpAddress
                 .Parse("0.0.1.2.3.45.5")
                 .Should()
-                .Be(ResultFailure.FromErrorMessage("Unable to parse location '0.0.1.2.3.45.5'."));
+                .BeFailure(ResultFailure.FromErrorMessage("Unable to parse location '0.0.1.2.3.45.5'."));
 
         [Fact]
         public void Parse_ShouldReturnSome_GivenAddressCanBeParsed() =>
@@ -37,7 +37,7 @@ namespace Vonage.Video.Beta.Test.Common
                 .Parse("192.168.1.26")
                 .Map(address => address.Address)
                 .Should()
-                .Be("192.168.1.26");
+                .BeSuccess("192.168.1.26");
 
         [Fact]
         public void Empty_ShouldReturnEmptyAddress() =>

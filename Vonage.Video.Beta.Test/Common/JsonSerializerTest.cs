@@ -34,7 +34,7 @@ namespace Vonage.Video.Beta.Test.Common
             this.serializer
                 .DeserializeObject<DummyObject>(value)
                 .Should()
-                .Be(new DummyObject {Id = expectedId, Name = expectedName});
+                .BeSuccess(new DummyObject {Id = expectedId, Name = expectedName});
 
         private struct DummyObject
         {

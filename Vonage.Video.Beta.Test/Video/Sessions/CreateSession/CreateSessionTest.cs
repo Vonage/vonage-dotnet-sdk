@@ -62,7 +62,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                     .WithStatusCode(200)
                     .WithBody(expectedResponse));
             var result = await this.client.CreateSessionAsync(this.request);
-            result.Should().Be(this.session);
+            result.Should().BeSuccess(this.session);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                     .WithStatusCode(200)
                     .WithBody(expectedResponse));
             var result = await this.client.CreateSessionAsync(this.request);
-            result.Should().Be(this.session);
+            result.Should().BeSuccess(this.session);
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                     .WithStatusCode(200)
                     .WithBody(expectedResponse));
             var result = await this.client.CreateSessionAsync(this.request);
-            result.Should().Be(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
+            result.Should().BeFailure(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
         }
 
         [Property]
@@ -119,7 +119,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                     .WithStatusCode(statusCode)
                     .WithBody(expectedResponse));
             var result = await this.client.CreateSessionAsync(this.request);
-            result.Should().Be(HttpFailure.From(statusCode, expectedResponse));
+            result.Should().BeFailure(HttpFailure.From(statusCode, expectedResponse));
         }
     }
 }

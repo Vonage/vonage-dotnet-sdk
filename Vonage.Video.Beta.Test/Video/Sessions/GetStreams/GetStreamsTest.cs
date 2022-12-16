@@ -70,7 +70,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
                 .Given(this.CreateGetStreamsRequest())
                 .RespondWith(CreateGetStreamsResponse(code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamsAsync(requestValue));
-            result.Should().Be(HttpFailure.From(code, message));
+            result.Should().BeFailure(HttpFailure.From(code, message));
         }
 
         private string GetPathFromRequest() =>
@@ -92,7 +92,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
                 .RespondWith(CreateGetStreamsResponse(code,
                     jsonError));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamsAsync(requestValue));
-            result.Should().Be(ResultFailure.FromErrorMessage(expectedFailureMessage));
+            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
         [Fact]
@@ -123,7 +123,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
                 .Given(this.CreateGetStreamsRequest())
                 .RespondWith(CreateGetStreamsResponse(HttpStatusCode.OK, body));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamsAsync(requestValue));
-            result.Should().Be(ResultFailure.FromErrorMessage(expectedFailureMessage));
+            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
         private static IResponseBuilder CreateGetStreamsResponse(HttpStatusCode code, string body) =>

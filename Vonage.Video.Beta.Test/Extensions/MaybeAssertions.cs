@@ -38,7 +38,7 @@ namespace Vonage.Video.Beta.Test.Extensions
             return new AndConstraint<MaybeAssertions<T>>(this);
         }
 
-        public AndConstraint<MaybeAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<MaybeAssertions<T>> BeSome(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)

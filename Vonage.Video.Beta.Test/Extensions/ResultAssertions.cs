@@ -40,7 +40,8 @@ namespace Vonage.Video.Beta.Test.Extensions
             return new AndConstraint<ResultAssertions<T>>(this);
         }
 
-        public AndConstraint<ResultAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<ResultAssertions<T>> BeSuccess(T expected, string because = "",
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -54,7 +55,7 @@ namespace Vonage.Video.Beta.Test.Extensions
             return new AndConstraint<ResultAssertions<T>>(this);
         }
 
-        public AndConstraint<ResultAssertions<T>> Be(IResultFailure expected, string because = "",
+        public AndConstraint<ResultAssertions<T>> BeFailure(IResultFailure expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion

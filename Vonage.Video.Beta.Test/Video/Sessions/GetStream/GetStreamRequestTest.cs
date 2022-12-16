@@ -28,7 +28,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
             GetStreamRequest.Parse(value, this.sessionId, this.streamId)
                 .Should()
-                .Be(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
 
         [Theory]
         [InlineData("")]
@@ -37,7 +37,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
             GetStreamRequest.Parse(this.applicationId, value, this.streamId)
                 .Should()
-                .Be(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 
         [Theory]
         [InlineData("")]
@@ -46,7 +46,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         public void Parse_ShouldReturnFailure_GivenStreamIdIsNullOrWhitespace(string value) =>
             GetStreamRequest.Parse(this.applicationId, this.sessionId, value)
                 .Should()
-                .Be(ResultFailure.FromErrorMessage("StreamId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("StreamId cannot be null or whitespace."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>
@@ -64,6 +64,6 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             GetStreamRequest.Parse(this.applicationId, this.sessionId, this.streamId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .Be($"/project/{this.applicationId}/session/{this.sessionId}/stream/{this.streamId}");
+                .BeSuccess($"/project/{this.applicationId}/session/{this.sessionId}/stream/{this.streamId}");
     }
 }
