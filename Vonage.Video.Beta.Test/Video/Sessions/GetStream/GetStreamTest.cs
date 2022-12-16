@@ -68,8 +68,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             var expectedBody = this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
             this.server
                 .Given(this.CreateGetStreamRequest())
-                .RespondWith(CreateGetStreamResponse(code,
-                    expectedBody));
+                .RespondWith(CreateGetStreamResponse(code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().Be(HttpFailure.From(code, message));
         }
@@ -87,14 +86,13 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
 
         private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
         {
+            var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
             this.server
                 .Given(this.CreateGetStreamRequest())
                 .RespondWith(CreateGetStreamResponse(code,
                     jsonError));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
-            result.Should()
-                .Be(ResultFailure.FromErrorMessage(
-                    $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'."));
+            result.Should().Be(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
         [Fact]
@@ -116,26 +114,21 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         }
 
         private IRequestBuilder CreateGetStreamRequest() =>
-            WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
-                .WithPath(this.path)
-                .UsingGet();
+            WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token).WithPath(this.path).UsingGet();
 
         [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
         {
             var body = this.fixture.Create<string>();
+            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(GetStreamResponse)}'.";
             this.server
                 .Given(this.CreateGetStreamRequest())
                 .RespondWith(CreateGetStreamResponse(HttpStatusCode.OK, body));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
-            result.Should()
-                .Be(ResultFailure.FromErrorMessage(
-                    $"Unable to deserialize '{body}' into '{nameof(GetStreamResponse)}'."));
+            result.Should().Be(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
         private static IResponseBuilder CreateGetStreamResponse(HttpStatusCode code, string body) =>
-            Response.Create()
-                .WithStatusCode(code)
-                .WithBody(body);
+            Response.Create().WithStatusCode(code).WithBody(body);
     }
 }
