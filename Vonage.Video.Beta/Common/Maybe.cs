@@ -118,4 +118,11 @@ public readonly struct Maybe<TA>
     /// <param name="value">Value to be converted.</param>
     /// <returns>None if the value is null, Some otherwise.</returns>
     public static implicit operator Maybe<TA>(TA value) => value is null ? None : Some(value);
+
+    /// <summary>
+    ///     Retrieves the Maybe's value. This method is unsafe and will throw an exception if in None state.
+    /// </summary>
+    /// <returns>The value if in Some state.</returns>
+    /// <exception cref="UnsafeValueException">When in None state.</exception>
+    public TA GetUnsafe() => this.Match(_ => _, () => throw new UnsafeValueException("State is none."));
 }
