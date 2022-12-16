@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,6 +10,7 @@ using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
+using Vonage.Video.Beta.Video.Sessions.GetStreams;
 using Vonage.Voice;
 
 namespace Vonage.Video.Beta.Video.Sessions;
@@ -65,6 +67,10 @@ public class SessionClient : ISessionClient
                 .DeserializeObject<GetStreamResponse>(responseContent)
                 .Match(_ => _, Result<GetStreamResponse>.FromFailure);
     }
+
+    /// <inheritdoc />
+    public Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request) =>
+        throw new NotImplementedException();
 
     private HttpRequestMessage BuildRequestMessage(GetStreamRequest request)
     {

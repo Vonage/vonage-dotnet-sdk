@@ -3,6 +3,7 @@ using Vonage.Request;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
+using Vonage.Video.Beta.Video.Sessions.GetStreams;
 
 namespace Vonage.Video.Beta.Video.Sessions;
 
@@ -32,4 +33,11 @@ public interface ISessionClient
     ///     failed.
     /// </returns>
     Task<Result<GetStreamResponse>> GetStreamAsync(GetStreamRequest request);
+
+    /// <summary>
+    ///     Retrieves information on all Vonage Video streams in a session.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A success state with streams if the operation succeeded. A failure state with the error message if it failed.</returns>
+    Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request);
 }
