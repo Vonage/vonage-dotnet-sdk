@@ -6,15 +6,15 @@ using Vonage.Video.Beta.Common;
 
 namespace Vonage.Video.Beta.Test.Extensions
 {
-    public class MaybeAssertions<T> : ReferenceTypeAssertions<Maybe<T>, MaybeAssertions<T>>
+    public class MaybeAssertionExtensions<T> : ReferenceTypeAssertions<Maybe<T>, MaybeAssertionExtensions<T>>
     {
-        public MaybeAssertions(Maybe<T> subject) : base(subject)
+        public MaybeAssertionExtensions(Maybe<T> subject) : base(subject)
         {
         }
 
         protected override string Identifier => "maybe";
 
-        public AndConstraint<MaybeAssertions<T>> BeNone(string because = "", params object[] becauseArgs)
+        public AndConstraint<MaybeAssertionExtensions<T>> BeNone(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -22,10 +22,10 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsNone)
                 .FailWith("but found to be Some.");
-            return new AndConstraint<MaybeAssertions<T>>(this);
+            return new AndConstraint<MaybeAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<MaybeAssertions<T>> BeSome(Action<T> action, string because = "",
+        public AndConstraint<MaybeAssertionExtensions<T>> BeSome(Action<T> action, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -35,10 +35,11 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .ForCondition(subject => subject.IsSome)
                 .FailWith("but found to be None.");
             this.Subject.IfSome(action);
-            return new AndConstraint<MaybeAssertions<T>>(this);
+            return new AndConstraint<MaybeAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<MaybeAssertions<T>> BeSome(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<MaybeAssertionExtensions<T>> BeSome(T expected, string because = "",
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -49,7 +50,7 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .Then
                 .ForCondition(subject => subject.Equals(Maybe<T>.Some(expected)))
                 .FailWith("but found Some {0}.", this.Subject);
-            return new AndConstraint<MaybeAssertions<T>>(this);
+            return new AndConstraint<MaybeAssertionExtensions<T>>(this);
         }
     }
 }
