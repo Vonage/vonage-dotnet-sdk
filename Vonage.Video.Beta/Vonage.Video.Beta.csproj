@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>10</LangVersion>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="Video\Archives"/>
+        <Folder Include="Video\Moderation"/>
+        <Folder Include="Video\Signaling"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Vonage\Vonage.csproj"/>
+    </ItemGroup>
+
+</Project>
