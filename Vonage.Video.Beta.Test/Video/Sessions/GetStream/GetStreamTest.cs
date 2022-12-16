@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -14,6 +13,7 @@ using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Voice;
+using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 using Xunit;
@@ -22,14 +22,12 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
 {
     public class GetStreamTest : IDisposable
     {
-        private readonly string applicationId;
         private readonly SessionClient client;
         private readonly Fixture fixture;
         private readonly JsonSerializer jsonSerializer;
+        private readonly string path;
         private readonly Result<GetStreamRequest> request;
         private readonly WireMockServer server;
-        private readonly string sessionId;
-        private readonly string streamId;
         private readonly string token;
 
         public GetStreamTest()
@@ -37,11 +35,11 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             this.server = WireMockServer.Start();
             this.jsonSerializer = new JsonSerializer();
             this.fixture = new Fixture();
-            this.applicationId = this.fixture.Create<string>();
-            this.sessionId = this.fixture.Create<string>();
-            this.streamId = this.fixture.Create<string>();
+            this.fixture.Create<string>();
             this.token = this.fixture.Create<string>();
-            this.request = GetStreamRequest.Parse(this.applicationId, this.sessionId, this.streamId);
+            this.request = GetStreamRequest.Parse(this.fixture.Create<string>(), this.fixture.Create<string>(),
+                this.fixture.Create<string>());
+            this.path = this.GetPathFromRequest();
             var credentials = this.fixture.Create<Credentials>();
             var tokenGenerator = new Mock<ITokenGenerator>();
             tokenGenerator
@@ -67,19 +65,17 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
         {
-            var path = this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
-            var errorResponse = new ErrorResponse {Code = ((int) code).ToString(), Message = message};
-            var expectedBody = this.jsonSerializer.SerializeObject(errorResponse);
+            var expectedBody = this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
             this.server
-                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
-                    .WithPath(path)
-                    .UsingGet())
-                .RespondWith(Response.Create()
-                    .WithStatusCode((int) code)
-                    .WithBody(expectedBody));
+                .Given(this.CreateGetStreamRequest())
+                .RespondWith(CreateGetStreamResponse(code,
+                    expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().Be(HttpFailure.From(code, message));
         }
+
+        private string GetPathFromRequest() =>
+            this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -91,14 +87,10 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
 
         private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
         {
-            var path = this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
             this.server
-                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
-                    .WithPath(path)
-                    .UsingGet())
-                .RespondWith(Response.Create()
-                    .WithStatusCode((int) code)
-                    .WithBody(jsonError));
+                .Given(this.CreateGetStreamRequest())
+                .RespondWith(CreateGetStreamResponse(code,
+                    jsonError));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should()
                 .Be(ResultFailure.FromErrorMessage(
@@ -108,21 +100,11 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
-            var path = this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
-            var expectedResponse = new GetStreamResponse
-            {
-                Id = this.fixture.Create<string>(),
-                Name = this.fixture.Create<string>(),
-                VideoType = this.fixture.Create<string>(),
-                LayoutClassList = this.fixture.CreateMany<string>().ToArray(),
-            };
+            var expectedResponse = this.fixture.Create<GetStreamResponse>();
             this.server
-                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
-                    .WithPath(path)
-                    .UsingGet())
-                .RespondWith(Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.jsonSerializer.SerializeObject(expectedResponse)));
+                .Given(this.CreateGetStreamRequest())
+                .RespondWith(CreateGetStreamResponse(HttpStatusCode.OK,
+                    this.jsonSerializer.SerializeObject(expectedResponse)));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().BeSuccess(response =>
             {
@@ -133,22 +115,27 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             });
         }
 
+        private IRequestBuilder CreateGetStreamRequest() =>
+            WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
+                .WithPath(this.path)
+                .UsingGet();
+
         [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
         {
             var body = this.fixture.Create<string>();
-            var path = this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
             this.server
-                .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
-                    .WithPath(path)
-                    .UsingGet())
-                .RespondWith(Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(body));
+                .Given(this.CreateGetStreamRequest())
+                .RespondWith(CreateGetStreamResponse(HttpStatusCode.OK, body));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should()
                 .Be(ResultFailure.FromErrorMessage(
                     $"Unable to deserialize '{body}' into '{nameof(GetStreamResponse)}'."));
         }
+
+        private static IResponseBuilder CreateGetStreamResponse(HttpStatusCode code, string body) =>
+            Response.Create()
+                .WithStatusCode(code)
+                .WithBody(body);
     }
 }
