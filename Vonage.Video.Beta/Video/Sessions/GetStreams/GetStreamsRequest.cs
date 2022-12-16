@@ -3,6 +3,9 @@ using Vonage.Video.Beta.Common.Failures;
 
 namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
 
+/// <summary>
+///     Represents a request to retrieve streams.
+/// </summary>
 public readonly struct GetStreamsRequest
 {
     private GetStreamsRequest(string applicationId, string sessionId)

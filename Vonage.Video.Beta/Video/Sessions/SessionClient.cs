@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -69,8 +68,27 @@ public class SessionClient : ISessionClient
     }
 
     /// <inheritdoc />
-    public Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request) =>
-        throw new NotImplementedException();
+    public async Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request)
+    {
+        var httpRequest = this.BuildRequestMessage(request);
+        var response = await this.client.SendAsync(httpRequest);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return !response.IsSuccessStatusCode
+            ? this.jsonSerializer
+                .DeserializeObject<ErrorResponse>(responseContent)
+                .Map(parsedError => HttpFailure.From(response.StatusCode, parsedError.Message))
+                .Bind(failure => Result<GetStreamsResponse>.FromFailure(failure))
+            : this.jsonSerializer
+                .DeserializeObject<GetStreamsResponse>(responseContent)
+                .Match(_ => _, Result<GetStreamsResponse>.FromFailure);
+    }
+
+    private HttpRequestMessage BuildRequestMessage(GetStreamsRequest request)
+    {
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, request.GetEndpointPath());
+        httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.GenerateToken());
+        return httpRequest;
+    }
 
     private HttpRequestMessage BuildRequestMessage(GetStreamRequest request)
     {
