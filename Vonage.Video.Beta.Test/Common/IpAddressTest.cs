@@ -46,7 +46,7 @@ namespace Vonage.Video.Beta.Test.Common
                 .Be(string.Empty);
 
         [Fact]
-        public void Empty_ShouldReturnLocalhostAddress() =>
+        public void Localhost_ShouldReturnLocalhostAddress() =>
             IpAddress.Localhost
                 .Address
                 .Should()
