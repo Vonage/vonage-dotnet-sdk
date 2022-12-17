@@ -120,6 +120,17 @@ namespace Vonage.Video.Beta.Test.Common
             CreateSome(value).GetHashCode().Should().Be(value.GetHashCode());
         }
 
+        [Fact]
+        public void GetUnsafe_ShouldReturnValue_GivenSome() =>
+            CreateSome(10).GetUnsafe().Should().Be(10);
+
+        [Fact]
+        public void GetUnsafe_ShouldThrowException_GivenNone()
+        {
+            Action act = () => Maybe<string>.None.GetUnsafe();
+            act.Should().Throw<UnsafeValueException>().WithMessage("State is None.");
+        }
+
         private static Maybe<T> CreateSome<T>(T value) => Maybe<T>.Some(value);
 
         private static string GetStaticString() => "Some value";
