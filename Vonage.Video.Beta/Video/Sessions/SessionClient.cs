@@ -73,14 +73,19 @@ public class SessionClient : ISessionClient
         var httpRequest = this.BuildRequestMessage(request);
         var response = await this.client.SendAsync(httpRequest);
         var responseContent = await response.Content.ReadAsStringAsync();
-        return !response.IsSuccessStatusCode
-            ? this.jsonSerializer
-                .DeserializeObject<ErrorResponse>(responseContent)
-                .Map(parsedError => HttpFailure.From(response.StatusCode, parsedError.Message))
-                .Bind(failure => Result<GetStreamsResponse>.FromFailure(failure))
-            : this.jsonSerializer
-                .DeserializeObject<GetStreamsResponse>(responseContent)
-                .Match(_ => _, Result<GetStreamsResponse>.FromFailure);
+        if (!response.IsSuccessStatusCode)
+        {
+            return string.IsNullOrWhiteSpace(responseContent)
+                ? Result<GetStreamsResponse>.FromFailure(HttpFailure.From(response.StatusCode))
+                : this.jsonSerializer
+                    .DeserializeObject<ErrorResponse>(responseContent)
+                    .Map(parsedError => HttpFailure.From(response.StatusCode, parsedError.Message))
+                    .Bind(failure => Result<GetStreamsResponse>.FromFailure(failure));
+        }
+
+        return this.jsonSerializer
+            .DeserializeObject<GetStreamsResponse>(responseContent)
+            .Match(_ => _, Result<GetStreamsResponse>.FromFailure);
     }
 
     private HttpRequestMessage BuildRequestMessage(GetStreamsRequest request)

@@ -18,7 +18,9 @@ public readonly struct HttpFailure : IResultFailure
     }
 
     /// <inheritdoc />
-    public string GetFailureMessage() => $"{(int) this.code} - {this.message}.";
+    public string GetFailureMessage() => string.IsNullOrWhiteSpace(this.message)
+        ? $"{(int) this.code}."
+        : $"{(int) this.code} - {this.message}.";
 
     /// <summary>
     ///     Creates a HttpFailure.
@@ -27,4 +29,11 @@ public readonly struct HttpFailure : IResultFailure
     /// <param name="message">The message.</param>
     /// <returns>The failure.</returns>
     public static HttpFailure From(HttpStatusCode code, string message) => new(code, message);
+
+    /// <summary>
+    ///     Creates a HttpFailure.
+    /// </summary>
+    /// <param name="code">The status code.</param>
+    /// <returns>The failure.</returns>
+    public static HttpFailure From(HttpStatusCode code) => From(code, string.Empty);
 }
