@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
@@ -168,6 +169,28 @@ namespace Vonage.Video.Beta.Test.Common
         [Fact]
         public void Equals_ShouldReturnFalse_GivenBothAreSuccessWithDifferentValue() =>
             CreateSuccess(5).Equals(CreateSuccess(10)).Should().BeFalse();
+
+        [Fact]
+        public void GetFailureUnsafe_ShouldReturnFailure_GivenFailure() =>
+            CreateFailure().GetFailureUnsafe().Should().Be(CreateResultFailure());
+
+        [Fact]
+        public void GetFailureUnsafe_ShouldThrowException_GivenSuccess()
+        {
+            Action act = () => CreateSuccess(5).GetFailureUnsafe();
+            act.Should().Throw<UnsafeValueException>().WithMessage("State is Success.");
+        }
+
+        [Fact]
+        public void GetSuccessUnsafe_ShouldThrowException_GivenFailure()
+        {
+            Action act = () => CreateFailure().GetSuccessUnsafe();
+            act.Should().Throw<UnsafeValueException>().WithMessage("State is Failure.");
+        }
+
+        [Fact]
+        public void GetSuccessUnsafe_ShouldReturn_GivenSuccess() =>
+            CreateSuccess(5).GetSuccessUnsafe().Should().Be(5);
 
         private static Result<int> CreateSuccess(int value) => Result<int>.FromSuccess(value);
 

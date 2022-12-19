@@ -171,4 +171,19 @@ public readonly struct Result<T>
     /// <returns>Asynchronous bound functor.</returns>
     public async Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind) =>
         this.IsFailure ? Result<TB>.FromFailure(this.failure) : await bind(this.success);
+
+    /// <summary>
+    ///     Retrieves the Failure value. This method is unsafe and will throw an exception if in Success state.
+    /// </summary>
+    /// <returns>The Failure value when in Failure state.</returns>
+    /// <exception cref="UnsafeValueException">When in Success state.</exception>
+    public IResultFailure GetFailureUnsafe() =>
+        this.Match(_ => throw new UnsafeValueException("State is Success."), _ => _);
+
+    /// <summary>
+    ///     Retrieves the Success value. This method is unsafe and will throw an exception if in Failure state.
+    /// </summary>
+    /// <returns>The Success value if in Success state.</returns>
+    /// <exception cref="UnsafeValueException">When in Failure state.</exception>
+    public T GetSuccessUnsafe() => this.Match(_ => _, _ => throw new UnsafeValueException("State is Failure."));
 }
