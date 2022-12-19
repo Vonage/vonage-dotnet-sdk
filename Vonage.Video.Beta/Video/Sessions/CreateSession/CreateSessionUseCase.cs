@@ -49,7 +49,8 @@ public class CreateSessionUseCase : ICreateSessionUseCase
     private HttpRequestMessage BuildRequestMessage(CreateSessionRequest request)
     {
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, CreateSessionRequest.CreateSessionEndpoint);
-        httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.GenerateToken());
+        httpRequest.Headers.Authorization =
+            new AuthenticationHeaderValue("Bearer", this.tokenGenerator.GenerateToken(this.credentials));
         httpRequest.Content =
             new StringContent(request.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
         return httpRequest;
@@ -64,7 +65,4 @@ public class CreateSessionUseCase : ICreateSessionUseCase
             ? sessions.First()
             : Result<CreateSessionResponse>.FromFailure(
                 ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
-
-    private string GenerateToken() =>
-        this.tokenGenerator.GenerateToken(this.credentials.ApplicationId, this.credentials.ApplicationKey);
 }

@@ -55,10 +55,8 @@ public class GetStreamsUseCase : IGetStreamsUseCase
     private HttpRequestMessage BuildRequestMessage(GetStreamsRequest request)
     {
         var httpRequest = new HttpRequestMessage(HttpMethod.Get, request.GetEndpointPath());
-        httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.GenerateToken());
+        httpRequest.Headers.Authorization =
+            new AuthenticationHeaderValue("Bearer", this.tokenGenerator.GenerateToken(this.credentials));
         return httpRequest;
     }
-
-    private string GenerateToken() =>
-        this.tokenGenerator.GenerateToken(this.credentials.ApplicationId, this.credentials.ApplicationKey);
 }
