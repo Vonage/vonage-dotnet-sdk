@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Vonage.Video.Beta.Common.Failures;
 
 namespace Vonage.Video.Beta.Common;
 

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Xunit;
 
@@ -46,7 +47,7 @@ namespace Vonage.Video.Beta.Test.Common
                 .Be(string.Empty);
 
         [Fact]
-        public void Localhost_ShouldReturnLocalhostAddress() =>
+        public void Empty_ShouldReturnLocalhostAddress() =>
             IpAddress.Localhost
                 .Address
                 .Should()

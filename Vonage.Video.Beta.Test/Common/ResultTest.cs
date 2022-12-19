@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Xunit;
 
@@ -84,7 +85,7 @@ namespace Vonage.Video.Beta.Test.Common
         [Fact]
         public void Match_ShouldReturnFailureOperation_GivenValueIsFailure() =>
             CreateFailure()
-                .Match(value => value.ToString(), failure => failure.Error)
+                .Match(value => value.ToString(), failure => failure.GetFailureMessage())
                 .Should()
                 .Be("Some error");
 
@@ -107,14 +108,6 @@ namespace Vonage.Video.Beta.Test.Common
         {
             var failure = CreateResultFailure();
             Result<int>.FromFailure(failure).GetHashCode().Should().Be(failure.GetHashCode());
-        }
-
-        [Fact]
-        public void ImplicitOperator_ShouldConvertToFailure_GivenValueIsFailure()
-        {
-            var value = CreateResultFailure();
-            Result<int> result = value;
-            result.Should().Be(value);
         }
 
         [Fact]

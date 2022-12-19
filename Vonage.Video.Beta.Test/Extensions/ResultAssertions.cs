@@ -14,7 +14,7 @@ namespace Vonage.Video.Beta.Test.Extensions
 
         protected override string Identifier => "result";
 
-        public AndConstraint<ResultAssertions<T>> BeFailure(Action<ResultFailure> action, string because = "",
+        public AndConstraint<ResultAssertions<T>> BeFailure(Action<IResultFailure> action, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -54,7 +54,7 @@ namespace Vonage.Video.Beta.Test.Extensions
             return new AndConstraint<ResultAssertions<T>>(this);
         }
 
-        public AndConstraint<ResultAssertions<T>> Be(ResultFailure expected, string because = "",
+        public AndConstraint<ResultAssertions<T>> Be(IResultFailure expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion

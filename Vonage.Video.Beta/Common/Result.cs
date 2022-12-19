@@ -9,7 +9,7 @@ namespace Vonage.Video.Beta.Common;
 /// <typeparam name="T">Bound value type.</typeparam>
 public readonly struct Result<T>
 {
-    private readonly ResultFailure failure;
+    private readonly IResultFailure failure;
     private readonly ResultState state;
     private readonly T success;
 
@@ -28,7 +28,7 @@ public readonly struct Result<T>
     ///     Constructor for a Failure.
     /// </summary>
     /// <param name="failure">Failure value.</param>
-    private Result(ResultFailure failure)
+    private Result(IResultFailure failure)
     {
         this.state = ResultState.Failure;
         this.success = default;
@@ -50,7 +50,7 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="failure">Failure value.</param>
     /// <returns>Failure Result.</returns>
-    public static Result<T> FromFailure(ResultFailure failure) => new(failure);
+    public static Result<T> FromFailure(IResultFailure failure) => new(failure);
 
     /// <summary>
     ///     Construct Result from Success.
@@ -85,7 +85,7 @@ public readonly struct Result<T>
     /// <param name="failureOperation">Failure match operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>A non-null TB.</returns>
-    public TB Match<TB>(Func<T, TB> successOperation, Func<ResultFailure, TB> failureOperation) =>
+    public TB Match<TB>(Func<T, TB> successOperation, Func<IResultFailure, TB> failureOperation) =>
         this.IsFailure ? failureOperation(this.failure) : successOperation(this.success);
 
     /// <summary>
@@ -104,11 +104,22 @@ public readonly struct Result<T>
     public override int GetHashCode() => this.IsSuccess ? this.success.GetHashCode() : this.failure.GetHashCode();
 
     /// <summary>
-    ///     Verifies of both Results are either Failure or Success with the same values.
+    ///     Verifies if both Results are either Failure or Success with the same values.
     /// </summary>
     /// <param name="other">Other Result to be compared with.</param>
     /// <returns>Whether both Results are equal.</returns>
-    private bool Equals(Result<T> other) => this.failure.Equals(other.failure) && this.success.Equals(other.success);
+    private bool Equals(Result<T> other) => this.EqualsFailure(other) && this.success.Equals(other.success);
+
+    /// <summary>
+    ///     Verifies if both failures are equal.
+    /// </summary>
+    /// <param name="other">Other Result to be compared with.</param>
+    /// <returns>Whether both failures are equal.</returns>
+    /// <remarks>Using IResultFailure for the Failure value makes it nullable. Comparing both cases is now mandatory.</remarks>
+    private bool EqualsFailure(Result<T> other) =>
+        this.IsFailure && other.IsFailure
+            ? this.failure.Equals(other.failure)
+            : this.failure == other.failure;
 
     /// <summary>
     ///     Implicit operator from TA to Result of TA.
@@ -118,17 +129,10 @@ public readonly struct Result<T>
     public static implicit operator Result<T>(T value) => FromSuccess(value);
 
     /// <summary>
-    ///     Implicit operator from TA to Result of TA.
-    /// </summary>
-    /// <param name="value">Value to be converted.</param>
-    /// <returns>Failure.</returns>
-    public static implicit operator Result<T>(ResultFailure value) => FromFailure(value);
-
-    /// <summary>
     ///     Invokes the action if Result is in the Failure state, otherwise nothing happens.
     /// </summary>
     /// <param name="action">Action to invoke.</param>
-    public void IfFailure(Action<ResultFailure> action)
+    public void IfFailure(Action<IResultFailure> action)
     {
         if (this.IsFailure)
         {
@@ -173,7 +177,7 @@ public readonly struct Result<T>
     /// </summary>
     /// <returns>The Failure value when in Failure state.</returns>
     /// <exception cref="UnsafeValueException">When in Success state.</exception>
-    public ResultFailure GetFailureUnsafe() =>
+    public IResultFailure GetFailureUnsafe() =>
         this.Match(_ => throw new UnsafeValueException("State is Success."), _ => _);
 
     /// <summary>
