@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Vonage.Request;
 using Vonage.Video.Beta.Common;
@@ -36,7 +34,7 @@ public class CreateSessionUseCase : ICreateSessionUseCase
     /// <inheritdoc />
     public async Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request)
     {
-        var httpRequest = this.BuildRequestMessage(request);
+        var httpRequest = request.BuildRequestMessage(this.tokenGenerator.GenerateToken(this.credentials));
         var response = await this.client.SendAsync(httpRequest);
         var responseContent = await response.Content.ReadAsStringAsync();
         return !response.IsSuccessStatusCode
@@ -44,16 +42,6 @@ public class CreateSessionUseCase : ICreateSessionUseCase
             : this.jsonSerializer
                 .DeserializeObject<CreateSessionResponse[]>(responseContent)
                 .Bind(GetFirstSessionIfAvailable);
-    }
-
-    private HttpRequestMessage BuildRequestMessage(CreateSessionRequest request)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, CreateSessionRequest.CreateSessionEndpoint);
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", this.tokenGenerator.GenerateToken(this.credentials));
-        httpRequest.Content =
-            new StringContent(request.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
-        return httpRequest;
     }
 
     private static Result<CreateSessionResponse> GetFailureFromErrorStatusCode(HttpStatusCode statusCode,

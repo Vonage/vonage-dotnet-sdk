@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Vonage.Request;
 using Vonage.Video.Beta.Common;
@@ -34,7 +33,7 @@ public class GetStreamsUseCase : IGetStreamsUseCase
     /// <inheritdoc />
     public async Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request)
     {
-        var httpRequest = this.BuildRequestMessage(request);
+        var httpRequest = request.BuildRequestMessage(this.tokenGenerator.GenerateToken(this.credentials));
         var response = await this.client.SendAsync(httpRequest);
         var responseContent = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
@@ -50,13 +49,5 @@ public class GetStreamsUseCase : IGetStreamsUseCase
         return this.jsonSerializer
             .DeserializeObject<GetStreamsResponse>(responseContent)
             .Match(_ => _, Result<GetStreamsResponse>.FromFailure);
-    }
-
-    private HttpRequestMessage BuildRequestMessage(GetStreamsRequest request)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, request.GetEndpointPath());
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", this.tokenGenerator.GenerateToken(this.credentials));
-        return httpRequest;
     }
 }

@@ -43,8 +43,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             var credentials = this.fixture.Create<Credentials>();
             var tokenGenerator = new Mock<ITokenGenerator>();
             tokenGenerator
-                .Setup(generator =>
-                    generator.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey))
+                .Setup(generator => generator.GenerateToken(credentials))
                 .Returns(this.token);
             this.client = new SessionClient(credentials, this.server.CreateClient(), tokenGenerator.Object);
         }
