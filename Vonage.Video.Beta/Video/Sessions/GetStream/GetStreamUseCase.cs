@@ -8,6 +8,7 @@ using Vonage.Voice;
 
 namespace Vonage.Video.Beta.Video.Sessions.GetStream;
 
+/// <inheritdoc />
 public class GetStreamUseCase : IGetStreamUseCase
 {
     private readonly HttpClient client;

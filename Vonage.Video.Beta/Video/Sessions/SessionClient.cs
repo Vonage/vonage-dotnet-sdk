@@ -31,7 +31,7 @@ public class SessionClient : ISessionClient
     }
 
     /// <inheritdoc />
-    public Credentials Credentials { get; set; }
+    public Credentials Credentials { get; }
 
     /// <inheritdoc />
     public Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request) =>

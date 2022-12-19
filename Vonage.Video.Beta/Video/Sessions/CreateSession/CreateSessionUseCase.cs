@@ -11,6 +11,7 @@ using Vonage.Voice;
 
 namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
 
+/// <inheritdoc />
 public class CreateSessionUseCase : ICreateSessionUseCase
 {
     private readonly HttpClient client;
