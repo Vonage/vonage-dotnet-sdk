@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vonage.Video.Beta", "Vonage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vonage.Video.Beta.Test", "Vonage.Video.Beta.Test\Vonage.Video.Beta.Test.csproj", "{0141EA41-433A-4D48-8C1C-43E7D5D0697B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRun", "TestRun\TestRun.csproj", "{A73890A9-C79F-418D-B304-93E019759806}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,24 @@ Global
 		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Release461|Any CPU.Build.0 = Debug|Any CPU
 		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.ReleaseSigned|Any CPU.ActiveCfg = Debug|Any CPU
 		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.ReleaseSigned|Any CPU.Build.0 = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.net452|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.net452|Any CPU.Build.0 = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.net46|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.net46|Any CPU.Build.0 = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.net461|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.net461|Any CPU.Build.0 = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Release452|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Release452|Any CPU.Build.0 = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Release46|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Release46|Any CPU.Build.0 = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Release461|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.Release461|Any CPU.Build.0 = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.ReleaseSigned|Any CPU.ActiveCfg = Debug|Any CPU
+		{A73890A9-C79F-418D-B304-93E019759806}.ReleaseSigned|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

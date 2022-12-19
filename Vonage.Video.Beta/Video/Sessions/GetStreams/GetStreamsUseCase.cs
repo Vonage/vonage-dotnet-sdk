@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Vonage.Request;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
-using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Voice;
 
 namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
