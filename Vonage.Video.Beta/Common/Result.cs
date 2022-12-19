@@ -177,7 +177,7 @@ public readonly struct Result<T>
     /// </summary>
     /// <returns>The Failure value when in Failure state.</returns>
     /// <exception cref="UnsafeValueException">When in Success state.</exception>
-    public ResultFailure GetFailureUnsafe() =>
+    public IResultFailure GetFailureUnsafe() =>
         this.Match(_ => throw new UnsafeValueException("State is Success."), _ => _);
 
     /// <summary>
