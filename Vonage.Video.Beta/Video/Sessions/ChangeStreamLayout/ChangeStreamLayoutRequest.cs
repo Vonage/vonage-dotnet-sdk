@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 
@@ -66,6 +69,27 @@ public readonly struct ChangeStreamLayoutRequest
         this.ApplicationId = applicationId;
         this.SessionId = sessionId;
         this.Items = items;
+    }
+
+    /// <summary>
+    ///     Retrieves the endpoint's path.
+    /// </summary>
+    /// <returns>The endpoint's path.</returns>
+    public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/stream";
+
+    /// <summary>
+    ///     Creates a Http request for changing a stream's layout.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <returns>The Http request.</returns>
+    public HttpRequestMessage BuildRequestMessage(string token)
+    {
+        var httpRequest = new HttpRequestMessage(HttpMethod.Put, this.GetEndpointPath());
+        httpRequest.Headers.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+        httpRequest.Content = new StringContent(new JsonSerializer().SerializeObject(new {this.Items}), Encoding.UTF8,
+            "application/json");
+        return httpRequest;
     }
 
     /// <summary>

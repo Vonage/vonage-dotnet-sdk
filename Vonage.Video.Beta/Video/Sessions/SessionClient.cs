@@ -2,6 +2,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
 using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Video.Beta.Video.Sessions.GetStreams;
@@ -12,6 +13,7 @@ namespace Vonage.Video.Beta.Video.Sessions;
 /// <inheritdoc />
 public class SessionClient : ISessionClient
 {
+    private readonly ChangeStreamLayoutUseCase changeStreamLayoutUseCase;
     private readonly CreateSessionUseCase createSessionUseCase;
     private readonly GetStreamsUseCase getStreamsUseCase;
     private readonly GetStreamUseCase getStreamUseCase;
@@ -28,6 +30,7 @@ public class SessionClient : ISessionClient
         this.createSessionUseCase = new CreateSessionUseCase(this.Credentials, httpClient, tokenGenerator);
         this.getStreamUseCase = new GetStreamUseCase(this.Credentials, httpClient, tokenGenerator);
         this.getStreamsUseCase = new GetStreamsUseCase(this.Credentials, httpClient, tokenGenerator);
+        this.changeStreamLayoutUseCase = new ChangeStreamLayoutUseCase(this.Credentials, httpClient, tokenGenerator);
     }
 
     /// <inheritdoc />
@@ -44,4 +47,8 @@ public class SessionClient : ISessionClient
     /// <inheritdoc />
     public Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request) =>
         this.getStreamsUseCase.GetStreamsAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> ChangeStreamLayoutAsync(ChangeStreamLayoutRequest request) =>
+        this.changeStreamLayoutUseCase.ChangeStreamLayoutAsync(request);
 }

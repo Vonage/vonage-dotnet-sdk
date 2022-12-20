@@ -56,5 +56,12 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                     request.SessionId.Should().Be(this.sessionId);
                     request.Items.Should().BeEquivalentTo(this.items);
                 });
+
+        [Fact]
+        public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+            ChangeStreamLayoutRequest.Parse(this.applicationId, this.sessionId, this.items)
+                .Map(request => request.GetEndpointPath())
+                .Should()
+                .BeSuccess($"/project/{this.applicationId}/session/{this.sessionId}/stream");
     }
 }

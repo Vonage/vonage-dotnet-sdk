@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
+﻿namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
 
 /// <summary>
 ///     Represents a response for the GetStreamsRequest.
@@ -21,13 +19,11 @@ public struct GetStreamsResponse
     /// <summary>
     ///     Number of items in the response.
     /// </summary>
-    [JsonProperty("count")]
     public int Count { get; set; }
 
     /// <summary>
     ///     Stream layouts for requested session IDs.
     /// </summary>
-    [JsonProperty("items")]
     public Stream[] Items { get; set; }
 
     /// <summary>
@@ -56,7 +52,6 @@ public struct GetStreamsResponse
         /// <remarks>
         ///     This struct should be read-only. The setter is mandatory for deserialization.
         /// </remarks>
-        [JsonProperty("id")]
         public string Id { get; set; }
 
         /// <summary>
@@ -66,7 +61,6 @@ public struct GetStreamsResponse
         /// <remarks>
         ///     This struct should be read-only. The setter is mandatory for deserialization.
         /// </remarks>
-        [JsonProperty("videoType")]
         public string VideoType { get; set; }
 
         /// <summary>
@@ -75,7 +69,6 @@ public struct GetStreamsResponse
         /// <remarks>
         ///     This struct should be read-only. The setter is mandatory for deserialization.
         /// </remarks>
-        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
@@ -84,7 +77,6 @@ public struct GetStreamsResponse
         /// <remarks>
         ///     This struct should be read-only. The setter is mandatory for deserialization.
         /// </remarks>
-        [JsonProperty("layoutClassList")]
         public string[] LayoutClassList { get; set; }
     }
 }

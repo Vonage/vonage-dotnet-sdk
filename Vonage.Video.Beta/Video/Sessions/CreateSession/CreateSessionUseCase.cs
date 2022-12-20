@@ -18,7 +18,7 @@ public class CreateSessionUseCase : ICreateSessionUseCase
     private readonly ITokenGenerator tokenGenerator;
 
     /// <summary>
-    ///     Creates a new client.
+    ///   Creates a new instance of use case.
     /// </summary>
     /// <param name="credentials">Credentials to be used for further connections.</param>
     /// <param name="httpClient">Http Client to used for further connections.</param>
