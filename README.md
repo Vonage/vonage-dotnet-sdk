@@ -4,7 +4,7 @@ Vonage Client Library for .NET
 
 [![](http://img.shields.io/nuget/v/Vonage.svg?style=flat-square)](https://www.nuget.org/packages/Vonage/)
 [![Build Status](https://github.com/Vonage/vonage-dotnet/workflows/.NET%20Core/badge.svg)](https://github.com/Nexmo/nexmo-dotnet/actions?query=workflow%3A%22.NET+Core%22)
-[![codecov](https://codecov.io/gh/Vonage/vonage-dotnet-sdk/branch/5.x/graph/badge.svg)](https://codecov.io/gh/Vonage/vonage-dotnet-sdk)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Vonage_vonage-dotnet-sdk&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Vonage_vonage-dotnet-sdk)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
