@@ -9,6 +9,8 @@ namespace Vonage.Video.Beta.Video.Signaling;
 /// <inheritdoc />
 public class SignalingClient : ISignalingClient
 {
+    private readonly SendSignalsUseCase sendSignalsUseCase;
+
     /// <summary>
     ///     Creates a new client.
     /// </summary>
@@ -16,7 +18,10 @@ public class SignalingClient : ISignalingClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
+        this.sendSignalsUseCase = new SendSignalsUseCase(httpClient, tokenGeneration);
     }
 
-    public Task<Result<Unit>> SendSignalsAsync(SendSignalsRequest request) => throw new NotImplementedException();
+    /// <inheritdoc />
+    public Task<Result<Unit>> SendSignalsAsync(SendSignalsRequest request) =>
+        this.sendSignalsUseCase.SendSignalsAsync(request);
 }

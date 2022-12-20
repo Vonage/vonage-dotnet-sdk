@@ -1,4 +1,7 @@
-﻿using Vonage.Video.Beta.Common;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 
 namespace Vonage.Video.Beta.Video.Signaling.SendSignals;
@@ -61,5 +64,15 @@ public readonly struct SendSignalsRequest
 
         public string Type { get; }
         public string Data { get; }
+    }
+
+    public HttpRequestMessage BuildRequestMessage(string token)
+    {
+        var httpRequest = new HttpRequestMessage(HttpMethod.Put, this.GetEndpointPath());
+        httpRequest.Headers.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+        httpRequest.Content = new StringContent(new JsonSerializer().SerializeObject(this.Content), Encoding.UTF8,
+            "application/json");
+        return httpRequest;
     }
 }
