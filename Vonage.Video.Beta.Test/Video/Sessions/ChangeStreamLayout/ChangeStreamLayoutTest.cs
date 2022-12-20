@@ -3,14 +3,11 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
-using Moq;
-using Vonage.Request;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
-using Vonage.Voice;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
@@ -32,17 +29,11 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
             this.server = WireMockServer.Start();
             this.jsonSerializer = new JsonSerializer();
             var fixture = new Fixture();
-            fixture.Create<string>();
             this.token = fixture.Create<string>();
             this.request = ChangeStreamLayoutRequest.Parse(fixture.Create<string>(), fixture.Create<string>(),
                 fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>());
             this.path = this.GetPathFromRequest();
-            var credentials = fixture.Create<Credentials>();
-            var tokenGenerator = new Mock<ITokenGenerator>();
-            tokenGenerator
-                .Setup(generator => generator.GenerateToken(credentials))
-                .Returns(this.token);
-            this.client = new SessionClient(credentials, this.server.CreateClient(), tokenGenerator.Object);
+            this.client = new SessionClient(this.server.CreateClient(), () => this.token);
         }
 
         private string GetPathFromRequest() =>

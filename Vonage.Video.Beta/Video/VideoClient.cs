@@ -38,7 +38,7 @@ public class VideoClient : IVideoClient
     private void InitializeClients()
     {
         var client = InitializeHttpClient();
-        this.SessionClient = new SessionClient(this.credentials, client, new Jwt());
+        this.SessionClient = new SessionClient(client, () => new Jwt().GenerateToken(this.Credentials));
     }
 
     private static HttpClient InitializeHttpClient()

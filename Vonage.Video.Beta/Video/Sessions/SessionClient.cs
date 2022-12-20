@@ -1,12 +1,11 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Vonage.Request;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Video.Beta.Video.Sessions.GetStreams;
-using Vonage.Voice;
 
 namespace Vonage.Video.Beta.Video.Sessions;
 
@@ -19,22 +18,17 @@ public class SessionClient : ISessionClient
     private readonly GetStreamUseCase getStreamUseCase;
 
     /// <summary>
-    ///     Creates a new client.
+    ///  Creates a new client.
     /// </summary>
-    /// <param name="credentials">Credentials to be used for further connections.</param>
     /// <param name="httpClient">Http Client to used for further connections.</param>
-    /// <param name="tokenGenerator">Generator for authentication tokens.</param>
-    public SessionClient(Credentials credentials, HttpClient httpClient, ITokenGenerator tokenGenerator)
+    /// <param name="tokenGeneration">Function used for generating a token.</param>
+    public SessionClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.Credentials = credentials;
-        this.createSessionUseCase = new CreateSessionUseCase(this.Credentials, httpClient, tokenGenerator);
-        this.getStreamUseCase = new GetStreamUseCase(this.Credentials, httpClient, tokenGenerator);
-        this.getStreamsUseCase = new GetStreamsUseCase(this.Credentials, httpClient, tokenGenerator);
-        this.changeStreamLayoutUseCase = new ChangeStreamLayoutUseCase(this.Credentials, httpClient, tokenGenerator);
+        this.createSessionUseCase = new CreateSessionUseCase(httpClient, tokenGeneration);
+        this.getStreamUseCase = new GetStreamUseCase(httpClient, tokenGeneration);
+        this.getStreamsUseCase = new GetStreamsUseCase(httpClient, tokenGeneration);
+        this.changeStreamLayoutUseCase = new ChangeStreamLayoutUseCase(httpClient, tokenGeneration);
     }
-
-    /// <inheritdoc />
-    public Credentials Credentials { get; }
 
     /// <inheritdoc />
     public Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request) =>

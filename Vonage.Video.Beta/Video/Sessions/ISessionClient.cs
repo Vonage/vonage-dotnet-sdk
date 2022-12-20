@@ -1,5 +1,4 @@
-﻿using Vonage.Request;
-using Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
+﻿using Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Video.Beta.Video.Sessions.GetStreams;
@@ -15,8 +14,4 @@ public interface ISessionClient :
     IGetStreamsUseCase,
     IChangeStreamLayoutUseCase
 {
-    /// <summary>
-    ///     The credentials that will be used for further connections.
-    /// </summary>
-    Credentials Credentials { get; }
 }

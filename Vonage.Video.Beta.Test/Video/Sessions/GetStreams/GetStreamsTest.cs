@@ -5,15 +5,11 @@ using AutoFixture;
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
-using Moq;
-using Vonage.Request;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
-using Vonage.Video.Beta.Video.Sessions.GetStream;
 using Vonage.Video.Beta.Video.Sessions.GetStreams;
-using Vonage.Voice;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
@@ -40,12 +36,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
             this.token = this.fixture.Create<string>();
             this.request = GetStreamsRequest.Parse(this.fixture.Create<string>(), this.fixture.Create<string>());
             this.path = this.GetPathFromRequest();
-            var credentials = this.fixture.Create<Credentials>();
-            var tokenGenerator = new Mock<ITokenGenerator>();
-            tokenGenerator
-                .Setup(generator => generator.GenerateToken(credentials))
-                .Returns(this.token);
-            this.client = new SessionClient(credentials, this.server.CreateClient(), tokenGenerator.Object);
+            this.client = new SessionClient(this.server.CreateClient(), () => this.token);
         }
 
         public void Dispose()
