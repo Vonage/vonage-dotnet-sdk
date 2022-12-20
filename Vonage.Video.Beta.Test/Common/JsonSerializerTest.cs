@@ -7,6 +7,7 @@ namespace Vonage.Video.Beta.Test.Common
 {
     public class JsonSerializerTest
     {
+        private const string DummyString = @"{""id"":10,""name"":""Hello World""}";
         private readonly JsonSerializer serializer;
 
         public JsonSerializerTest() => this.serializer = new JsonSerializer();
@@ -14,7 +15,7 @@ namespace Vonage.Video.Beta.Test.Common
         [Fact]
         public void SerializeObject_ShouldReturnSerializedString() => this.serializer
             .SerializeObject(new DummyObject {Id = 10, Name = "Hello World"}).Should()
-            .Be(@"{""Id"":10,""Name"":""Hello World""}");
+            .Be(DummyString);
 
         [Theory]
         [InlineData("Something")]
@@ -28,7 +29,7 @@ namespace Vonage.Video.Beta.Test.Common
 
         [Theory]
         [InlineData("{}", 0, null)]
-        [InlineData(@"{""Id"":10,""Name"":""Hello World""}", 10, "Hello World")]
+        [InlineData(DummyString, 10, "Hello World")]
         public void DeserializeObject_ShouldReturnSuccess_GivenDeserializationSucceeded(string value, int expectedId,
             string expectedName) =>
             this.serializer
