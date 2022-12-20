@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
+﻿namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
 
 /// <summary>
 ///     Represents the response when a session has been created.
@@ -24,6 +22,5 @@ public struct CreateSessionResponse
     /// <remarks>
     ///     This struct should be read-only. The setter is mandatory for deserialization.
     /// </remarks>
-    [JsonProperty("session_id")]
     public string SessionId { get; set; }
 }

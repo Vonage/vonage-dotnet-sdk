@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Web;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
@@ -92,4 +94,19 @@ public readonly struct CreateSessionRequest
 
     private static string GetMediaPreference(MediaMode mediaMode) =>
         mediaMode == MediaMode.Relayed ? "enabled" : "disabled";
+
+    /// <summary>
+    ///     Creates a Http request for creating a session.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <returns>The Http request.</returns>
+    public HttpRequestMessage BuildRequestMessage(string token)
+    {
+        var httpRequest = new HttpRequestMessage(HttpMethod.Post, CreateSessionEndpoint);
+        httpRequest.Headers.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+        httpRequest.Content =
+            new StringContent(this.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
+        return httpRequest;
+    }
 }

@@ -39,30 +39,25 @@ namespace Vonage.Video.Beta.Test.Video
         {
             var credentials = this.fixture.Create<Credentials>();
             var client = new VideoClient(credentials);
-            client.SessionClient.Credentials.Should().Be(credentials);
+            client.SessionClient.Should().NotBeNull();
         }
 
         [Fact]
         public void Credentials_ShouldOverrideSessionClient()
         {
-            var credentials = this.fixture.Create<Credentials>();
-            var client = new VideoClient(this.fixture.Create<Credentials>())
-            {
-                Credentials = credentials,
-            };
-            client.SessionClient.Credentials.Should().Be(credentials);
+            var client = new VideoClient(this.fixture.Create<Credentials>());
+            var sessionClient = client.SessionClient;
+            client.Credentials = this.fixture.Create<Credentials>();
+            client.SessionClient.Should().NotBe(sessionClient);
         }
 
         [Fact]
         public void Credentials_ShouldNotUpdateCredentials_GivenCredentialsAreNull()
         {
-            var credentials = this.fixture.Create<Credentials>();
-            var client = new VideoClient(credentials)
-            {
-                Credentials = null,
-            };
-            client.Credentials.Should().Be(credentials);
-            client.SessionClient.Credentials.Should().Be(credentials);
+            var client = new VideoClient(this.fixture.Create<Credentials>());
+            var sessionClient = client.SessionClient;
+            client.Credentials = null;
+            client.SessionClient.Should().Be(sessionClient);
         }
     }
 }

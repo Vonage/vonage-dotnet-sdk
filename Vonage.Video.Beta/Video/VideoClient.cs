@@ -8,7 +8,7 @@ namespace Vonage.Video.Beta.Video;
 /// <inheritdoc />
 public class VideoClient : IVideoClient
 {
-    public const string ApiUrl = "https://video.api.vonage.com";
+    private const string ApiUrl = "https://video.api.vonage.com";
     private Credentials credentials;
 
     /// <summary>
@@ -37,11 +37,17 @@ public class VideoClient : IVideoClient
 
     private void InitializeClients()
     {
+        var client = InitializeHttpClient();
+        this.SessionClient = new SessionClient(client, () => new Jwt().GenerateToken(this.Credentials));
+    }
+
+    private static HttpClient InitializeHttpClient()
+    {
         var client = new HttpClient(new HttpClientHandler())
         {
             BaseAddress = new Uri(ApiUrl),
         };
         client.DefaultRequestHeaders.Add("Accept", "application/json");
-        this.SessionClient = new SessionClient(this.credentials, client, new Jwt());
+        return client;
     }
 }

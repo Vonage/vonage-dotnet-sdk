@@ -1,24 +1,25 @@
-﻿using AutoFixture;
+﻿using System.Collections.Generic;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
-using Vonage.Video.Beta.Video.Sessions.GetStream;
+using Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 using Xunit;
 
-namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
+namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
 {
-    public class GetStreamRequestTest
+    public class ChangeStreamLayoutRequestTest
     {
         private readonly string applicationId;
+        private readonly IEnumerable<ChangeStreamLayoutRequest.LayoutItem> items;
         private readonly string sessionId;
-        private readonly string streamId;
 
-        public GetStreamRequestTest()
+        public ChangeStreamLayoutRequestTest()
         {
             var fixture = new Fixture();
             this.applicationId = fixture.Create<string>();
             this.sessionId = fixture.Create<string>();
-            this.streamId = fixture.Create<string>();
+            this.items = fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>();
         }
 
         [Theory]
@@ -26,7 +27,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         [InlineData(" ")]
         [InlineData(null)]
         public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            GetStreamRequest.Parse(value, this.sessionId, this.streamId)
+            ChangeStreamLayoutRequest.Parse(value, this.sessionId, this.items)
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
 
@@ -35,35 +36,32 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         [InlineData(" ")]
         [InlineData(null)]
         public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
-            GetStreamRequest.Parse(this.applicationId, value, this.streamId)
+            ChangeStreamLayoutRequest.Parse(this.applicationId, value, this.items)
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenStreamIdIsNullOrWhitespace(string value) =>
-            GetStreamRequest.Parse(this.applicationId, this.sessionId, value)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenItemsIsNull() =>
+            ChangeStreamLayoutRequest.Parse(this.applicationId, this.sessionId, null)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("StreamId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("Items cannot be null."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>
-            GetStreamRequest.Parse(this.applicationId, this.sessionId, this.streamId)
+            ChangeStreamLayoutRequest.Parse(this.applicationId, this.sessionId, this.items)
                 .Should()
                 .BeSuccess(request =>
                 {
                     request.ApplicationId.Should().Be(this.applicationId);
                     request.SessionId.Should().Be(this.sessionId);
-                    request.StreamId.Should().Be(this.streamId);
+                    request.Items.Should().BeEquivalentTo(this.items);
                 });
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            GetStreamRequest.Parse(this.applicationId, this.sessionId, this.streamId)
+            ChangeStreamLayoutRequest.Parse(this.applicationId, this.sessionId, this.items)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/project/{this.applicationId}/session/{this.sessionId}/stream/{this.streamId}");
+                .BeSuccess($"/project/{this.applicationId}/session/{this.sessionId}/stream");
     }
 }

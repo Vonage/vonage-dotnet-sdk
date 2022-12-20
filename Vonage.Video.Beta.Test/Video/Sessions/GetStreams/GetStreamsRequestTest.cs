@@ -26,7 +26,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
         public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
             GetStreamsRequest.Parse(value, this.sessionId)
                 .Should()
-                .Be(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
 
         [Theory]
         [InlineData("")]
@@ -35,7 +35,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
         public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
             GetStreamsRequest.Parse(this.applicationId, value)
                 .Should()
-                .Be(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>
@@ -52,6 +52,6 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
             GetStreamsRequest.Parse(this.applicationId, this.sessionId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .Be($"/project/{this.applicationId}/session/{this.sessionId}/stream");
+                .BeSuccess($"/project/{this.applicationId}/session/{this.sessionId}/stream");
     }
 }

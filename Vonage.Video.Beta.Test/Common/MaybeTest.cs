@@ -33,7 +33,7 @@ namespace Vonage.Video.Beta.Test.Common
 
         [Fact]
         public void Map_ShouldReturnSome_GivenValueIsSome() =>
-            CreateSome(10).Map(MapToString).Should().Be("10");
+            CreateSome(10).Map(MapToString).Should().BeSome("10");
 
         [Fact]
         public void Bind_ShouldReturnNone_GivenValueIsNone() =>
@@ -57,7 +57,7 @@ namespace Vonage.Video.Beta.Test.Common
 
         [Fact]
         public void Bind_ShouldReturnSome_GivenValueIsSome() =>
-            CreateSome(10).Bind(BindToString).Should().Be("10");
+            CreateSome(10).Bind(BindToString).Should().BeSome("10");
 
         [Fact]
         public void Match_ShouldReturnNoneOperation_GivenValueIsNone() =>

@@ -6,15 +6,15 @@ using Vonage.Video.Beta.Common;
 
 namespace Vonage.Video.Beta.Test.Extensions
 {
-    public class ResultAssertions<T> : ReferenceTypeAssertions<Result<T>, ResultAssertions<T>>
+    public class ResultAssertionExtension<T> : ReferenceTypeAssertions<Result<T>, ResultAssertionExtension<T>>
     {
-        public ResultAssertions(Result<T> subject) : base(subject)
+        public ResultAssertionExtension(Result<T> subject) : base(subject)
         {
         }
 
         protected override string Identifier => "result";
 
-        public AndConstraint<ResultAssertions<T>> BeFailure(Action<IResultFailure> action, string because = "",
+        public AndConstraint<ResultAssertionExtension<T>> BeFailure(Action<IResultFailure> action, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -24,10 +24,10 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .ForCondition(subject => subject.IsFailure)
                 .FailWith("but found to be Success.");
             this.Subject.IfFailure(action);
-            return new AndConstraint<ResultAssertions<T>>(this);
+            return new AndConstraint<ResultAssertionExtension<T>>(this);
         }
 
-        public AndConstraint<ResultAssertions<T>> BeSuccess(Action<T> action, string because = "",
+        public AndConstraint<ResultAssertionExtension<T>> BeSuccess(Action<T> action, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -37,10 +37,11 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .ForCondition(subject => subject.IsSuccess)
                 .FailWith("but found to be Failure.");
             this.Subject.IfSuccess(action);
-            return new AndConstraint<ResultAssertions<T>>(this);
+            return new AndConstraint<ResultAssertionExtension<T>>(this);
         }
 
-        public AndConstraint<ResultAssertions<T>> Be(T expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<ResultAssertionExtension<T>> BeSuccess(T expected, string because = "",
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -51,10 +52,10 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .Then
                 .ForCondition(subject => subject.Equals(Result<T>.FromSuccess(expected)))
                 .FailWith("but found Success {0}.", this.Subject);
-            return new AndConstraint<ResultAssertions<T>>(this);
+            return new AndConstraint<ResultAssertionExtension<T>>(this);
         }
 
-        public AndConstraint<ResultAssertions<T>> Be(IResultFailure expected, string because = "",
+        public AndConstraint<ResultAssertionExtension<T>> BeFailure(IResultFailure expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -66,7 +67,7 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .Then
                 .ForCondition(subject => subject.Equals(Result<T>.FromFailure(expected)))
                 .FailWith("but found Success {0}.", this.Subject);
-            return new AndConstraint<ResultAssertions<T>>(this);
+            return new AndConstraint<ResultAssertionExtension<T>>(this);
         }
     }
 }

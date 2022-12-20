@@ -1,4 +1,4 @@
-﻿namespace Vonage.Video.Beta.Video.Sessions.GetStream;
+﻿namespace Vonage.Video.Beta.Video.Sessions;
 
 /// <summary>
 ///     Represents an error api response.

@@ -1,4 +1,6 @@
-﻿using Vonage.Video.Beta.Common;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 
 namespace Vonage.Video.Beta.Video.Sessions.GetStream;
@@ -66,4 +68,17 @@ public readonly struct GetStreamRequest
     /// </summary>
     /// <returns>The endpoint's path.</returns>
     public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/stream/{this.StreamId}";
+
+    /// <summary>
+    ///     Creates a Http request for retrieving a stream.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <returns>The Http request.</returns>
+    public HttpRequestMessage BuildRequestMessage(string token)
+    {
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, this.GetEndpointPath());
+        httpRequest.Headers.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+        return httpRequest;
+    }
 }

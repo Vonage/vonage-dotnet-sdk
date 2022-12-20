@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Jose;
+using Vonage.Request;
 using Vonage.Voice;
 
 namespace Vonage
 {
     public class Jwt : ITokenGenerator
     {
+        /// <inheritdoc />
         public string GenerateToken(string applicationId, string privateKey) => CreateToken(applicationId, privateKey);
+
+        /// <inheritdoc />
+        public string GenerateToken(Credentials credentials) =>
+            this.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey);
 
         public static string CreateToken(string appId, string privateKey)
         {

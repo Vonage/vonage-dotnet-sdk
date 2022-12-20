@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Vonage.Request;
 using Xunit;
 
 namespace Vonage.Test.Unit
@@ -31,7 +32,12 @@ j0hq3fgBZz1QLpLxY3TfkM3oFDVhpGvskzjINLk6hxc=
         }
 
         [Fact]
-        public void GenerateToken_ShouldGenerateToken() =>
+        public void GenerateToken_ShouldGenerateToken_GivenIdAndKeyAreProvided() =>
             new Jwt().GenerateToken(ApplicationId, PrivateKey).Should().NotBeEmpty();
+
+        [Fact]
+        public void GenerateToken_ShouldGenerateToken_GivenCredentialsAreProvided() =>
+            new Jwt().GenerateToken(Credentials.FromAppIdAndPrivateKey(ApplicationId, PrivateKey)).Should()
+                .NotBeEmpty();
     }
 }
