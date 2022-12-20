@@ -9,7 +9,6 @@
     <ItemGroup>
         <Folder Include="Video\Archives"/>
         <Folder Include="Video\Moderation"/>
-        <Folder Include="Video\Signaling"/>
     </ItemGroup>
 
     <ItemGroup>
