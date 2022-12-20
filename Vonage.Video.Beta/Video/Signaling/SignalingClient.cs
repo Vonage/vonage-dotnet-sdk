@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading.Tasks;
+using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Video.Signaling.SendSignals;
 
 namespace Vonage.Video.Beta.Video.Signaling;
 
@@ -14,4 +17,6 @@ public class SignalingClient : ISignalingClient
     public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
     }
+
+    public Task<Result<Unit>> SendSignalsAsync(SendSignalsRequest request) => throw new NotImplementedException();
 }
