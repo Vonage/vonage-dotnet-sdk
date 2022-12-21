@@ -69,5 +69,11 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
             CreateSessionRequest.Default.MediaMode.Should().Be(MediaMode.Relayed);
             CreateSessionRequest.Default.ArchiveMode.Should().Be(ArchiveMode.Manual);
         }
+
+        [Fact]
+        public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+            CreateSessionRequest.Default.GetEndpointPath()
+                .Should()
+                .Be("/session/create");
     }
 }
