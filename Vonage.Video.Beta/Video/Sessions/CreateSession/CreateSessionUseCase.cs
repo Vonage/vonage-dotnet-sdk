@@ -10,24 +10,24 @@ namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
 public class CreateSessionUseCase : ICreateSessionUseCase
 {
     private readonly Func<string> generateToken;
-    private readonly CustomClient customClient;
+    private readonly VideoHttpClient videoHttpClient;
 
     /// <summary>
     ///     Creates a new instance of use case.
     /// </summary>
     /// <param name="client">Custom Http Client to used for further connections.</param>
     /// <param name="generateToken">Function used for generating a token.</param>
-    public CreateSessionUseCase(CustomClient client, Func<string> generateToken)
+    public CreateSessionUseCase(VideoHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
-        this.customClient = client;
+        this.videoHttpClient = client;
     }
 
     /// <inheritdoc />
     public async Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request)
     {
         var result =
-            await this.customClient.SendWithResponseAsync<CreateSessionResponse[]>(request, this.generateToken());
+            await this.videoHttpClient.SendWithResponseAsync<CreateSessionResponse[]>(request, this.generateToken());
         return result.Bind(GetFirstSessionIfAvailable);
     }
 

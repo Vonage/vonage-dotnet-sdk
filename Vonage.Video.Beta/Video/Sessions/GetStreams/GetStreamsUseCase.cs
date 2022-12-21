@@ -8,20 +8,20 @@ namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
 public class GetStreamsUseCase : IGetStreamsUseCase
 {
     private readonly Func<string> generateToken;
-    private readonly CustomClient customClient;
+    private readonly VideoHttpClient videoHttpClient;
 
     /// <summary>
     ///     Creates a new instance of use case.
     /// </summary>
     /// <param name="client">Custom Http Client to used for further connections.</param>
     /// <param name="generateToken">Function used for generating a token.</param>
-    public GetStreamsUseCase(CustomClient client, Func<string> generateToken)
+    public GetStreamsUseCase(VideoHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
-        this.customClient = client;
+        this.videoHttpClient = client;
     }
 
     /// <inheritdoc />
     public Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request) =>
-        this.customClient.SendWithResponseAsync<GetStreamsResponse>(request, this.generateToken());
+        this.videoHttpClient.SendWithResponseAsync<GetStreamsResponse>(request, this.generateToken());
 }

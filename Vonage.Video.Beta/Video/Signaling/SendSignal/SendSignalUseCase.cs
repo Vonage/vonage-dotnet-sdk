@@ -8,20 +8,20 @@ namespace Vonage.Video.Beta.Video.Signaling.SendSignal;
 public class SendSignalUseCase : ISendSignalUseCase
 {
     private readonly Func<string> generateToken;
-    private readonly CustomClient customClient;
+    private readonly VideoHttpClient videoHttpClient;
 
     /// <summary>
     ///     Creates a new instance of use case.
     /// </summary>
     /// <param name="client">Custom Http Client to used for further connections.</param>
     /// <param name="generateToken">Function used for generating a token.</param>
-    public SendSignalUseCase(CustomClient client, Func<string> generateToken)
+    public SendSignalUseCase(VideoHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
-        this.customClient = client;
+        this.videoHttpClient = client;
     }
 
     /// <inheritdoc />
     public Task<Result<Unit>> SendSignalAsync(SendSignalRequest request) =>
-        this.customClient.SendAsync(request, this.generateToken());
+        this.videoHttpClient.SendAsync(request, this.generateToken());
 }

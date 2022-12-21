@@ -8,20 +8,20 @@ namespace Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 public class ChangeStreamLayoutUseCase : IChangeStreamLayoutUseCase
 {
     private readonly Func<string> generateToken;
-    private readonly CustomClient customClient;
+    private readonly VideoHttpClient videoHttpClient;
 
     /// <summary>
     ///     Creates a new instance of use case.
     /// </summary>
     /// <param name="client">Custom Http Client to used for further connections.</param>
     /// <param name="generateToken">Function used for generating a token.</param>
-    public ChangeStreamLayoutUseCase(CustomClient client, Func<string> generateToken)
+    public ChangeStreamLayoutUseCase(VideoHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
-        this.customClient = client;
+        this.videoHttpClient = client;
     }
 
     /// <inheritdoc />
     public Task<Result<Unit>> ChangeStreamLayoutAsync(ChangeStreamLayoutRequest request) =>
-        this.customClient.SendAsync(request, this.generateToken());
+        this.videoHttpClient.SendAsync(request, this.generateToken());
 }

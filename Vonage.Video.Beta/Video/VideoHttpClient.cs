@@ -7,21 +7,29 @@ using Vonage.Video.Beta.Video.Sessions;
 namespace Vonage.Video.Beta.Video;
 
 /// <summary>
+///     Represents a custom http client for Vonage's APIs.
 /// </summary>
-public class CustomClient
+public class VideoHttpClient
 {
     private readonly HttpClient client;
     private readonly JsonSerializer jsonSerializer;
 
     /// <summary>
+    ///     Creates a custom Http Client.
     /// </summary>
-    /// <param name="httpClient"></param>
-    public CustomClient(HttpClient httpClient)
+    /// <param name="httpClient">The http client.</param>
+    public VideoHttpClient(HttpClient httpClient)
     {
         this.client = httpClient;
         this.jsonSerializer = new JsonSerializer();
     }
 
+    /// <summary>
+    ///     Sends a HttpRequest and parses the response.
+    /// </summary>
+    /// <param name="request">The request to send.</param>
+    /// <param name="token">The token to use for authentication.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<T>> SendWithResponseAsync<T>(IVideoRequest request, string token)
     {
         var response = await this.client.SendAsync(request.BuildRequestMessage(token));
@@ -34,10 +42,11 @@ public class CustomClient
     }
 
     /// <summary>
+    ///     Sends a HttpRequest.
     /// </summary>
-    /// <param name="request"></param>
-    /// <param name="token"></param>
-    /// <returns></returns>
+    /// <param name="request">The request to send.</param>
+    /// <param name="token">The token to use for authentication.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<Unit>> SendAsync(IVideoRequest request, string token)
     {
         var response = await this.client.SendAsync(request.BuildRequestMessage(token));
