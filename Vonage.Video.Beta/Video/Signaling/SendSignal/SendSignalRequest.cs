@@ -4,19 +4,20 @@ using System.Text;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 
-namespace Vonage.Video.Beta.Video.Signaling.SendSignals;
+namespace Vonage.Video.Beta.Video.Signaling.SendSignal;
 
 /// <summary>
-///     Represents a request to send a signal to all participants.
+///     Represents a request to send a signal to specific participant.
 /// </summary>
-public readonly struct SendSignalsRequest
+public readonly struct SendSignalRequest
 {
     private const string CannotBeNullOrWhitespace = "cannot be null or whitespace.";
 
-    private SendSignalsRequest(string applicationId, string sessionId, SignalContent content)
+    private SendSignalRequest(string applicationId, string sessionId, string connectionId, SignalContent content)
     {
         this.ApplicationId = applicationId;
         this.SessionId = sessionId;
+        this.ConnectionId = connectionId;
         this.Content = content;
     }
 
@@ -31,22 +32,30 @@ public readonly struct SendSignalsRequest
     public string SessionId { get; }
 
     /// <summary>
+    ///     The specific publisher connection Id.
+    /// </summary>
+    public string ConnectionId { get; }
+
+    /// <summary>
     ///     The signal content.
     /// </summary>
     public SignalContent Content { get; }
 
     /// <summary>
-    ///     Parses the input into a SendSignalsRequest.
+    ///     Parses the input into a SendSignalRequest.
     /// </summary>
     /// <param name="applicationId">The Vonage application UUID.</param>
     /// <param name="sessionId">The Video session Id.</param>
+    /// <param name="connectionId">The specific publisher connection Id.</param>
     /// <param name="content"> The signal content.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<SendSignalsRequest> Parse(string applicationId, string sessionId, SignalContent content) =>
-        Result<SendSignalsRequest>
-            .FromSuccess(new SendSignalsRequest(applicationId, sessionId, content))
+    public static Result<SendSignalRequest> Parse(string applicationId, string sessionId, string connectionId,
+        SignalContent content) =>
+        Result<SendSignalRequest>
+            .FromSuccess(new SendSignalRequest(applicationId, sessionId, connectionId, content))
             .Bind(VerifyApplicationId)
             .Bind(VerifySessionId)
+            .Bind(VerifyConnectionId)
             .Bind(VerifyContentType)
             .Bind(VerifyContentData);
 
@@ -54,7 +63,8 @@ public readonly struct SendSignalsRequest
     ///     Retrieves the endpoint's path.
     /// </summary>
     /// <returns>The endpoint's path.</returns>
-    public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/signal";
+    public string GetEndpointPath() =>
+        $"/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}/signal";
 
     /// <summary>
     ///     Creates a Http request for retrieving a stream.
@@ -71,22 +81,25 @@ public readonly struct SendSignalsRequest
         return httpRequest;
     }
 
-    private static Result<SendSignalsRequest> VerifyApplicationId(SendSignalsRequest request) =>
+    private static Result<SendSignalRequest> VerifyApplicationId(SendSignalRequest request) =>
         VerifyNotEmptyValue(request, request.ApplicationId, nameof(ApplicationId));
 
-    private static Result<SendSignalsRequest>
-        VerifyNotEmptyValue(SendSignalsRequest request, string value, string name) =>
+    private static Result<SendSignalRequest>
+        VerifyNotEmptyValue(SendSignalRequest request, string value, string name) =>
         string.IsNullOrWhiteSpace(value)
-            ? Result<SendSignalsRequest>.FromFailure(
+            ? Result<SendSignalRequest>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {CannotBeNullOrWhitespace}"))
             : request;
 
-    private static Result<SendSignalsRequest> VerifySessionId(SendSignalsRequest request) =>
+    private static Result<SendSignalRequest> VerifySessionId(SendSignalRequest request) =>
         VerifyNotEmptyValue(request, request.SessionId, nameof(SessionId));
 
-    private static Result<SendSignalsRequest> VerifyContentType(SendSignalsRequest request) =>
+    private static Result<SendSignalRequest> VerifyConnectionId(SendSignalRequest request) =>
+        VerifyNotEmptyValue(request, request.ConnectionId, nameof(ConnectionId));
+
+    private static Result<SendSignalRequest> VerifyContentType(SendSignalRequest request) =>
         VerifyNotEmptyValue(request, request.Content.Type, nameof(SignalContent.Type));
 
-    private static Result<SendSignalsRequest> VerifyContentData(SendSignalsRequest request) =>
+    private static Result<SendSignalRequest> VerifyContentData(SendSignalRequest request) =>
         VerifyNotEmptyValue(request, request.Content.Data, nameof(SignalContent.Data));
 }

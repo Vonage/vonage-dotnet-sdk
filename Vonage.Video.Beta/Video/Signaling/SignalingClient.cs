@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Video.Signaling.SendSignal;
 using Vonage.Video.Beta.Video.Signaling.SendSignals;
 
 namespace Vonage.Video.Beta.Video.Signaling;
@@ -10,6 +11,7 @@ namespace Vonage.Video.Beta.Video.Signaling;
 public class SignalingClient : ISignalingClient
 {
     private readonly SendSignalsUseCase sendSignalsUseCase;
+    private readonly SendSignalUseCase sendSignalUseCase;
 
     /// <summary>
     ///     Creates a new client.
@@ -18,10 +20,15 @@ public class SignalingClient : ISignalingClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
+        this.sendSignalUseCase = new SendSignalUseCase(httpClient, tokenGeneration);
         this.sendSignalsUseCase = new SendSignalsUseCase(httpClient, tokenGeneration);
     }
 
     /// <inheritdoc />
     public Task<Result<Unit>> SendSignalsAsync(SendSignalsRequest request) =>
         this.sendSignalsUseCase.SendSignalsAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> SendSignalAsync(SendSignalRequest request) =>
+        this.sendSignalUseCase.SendSignalAsync(request);
 }

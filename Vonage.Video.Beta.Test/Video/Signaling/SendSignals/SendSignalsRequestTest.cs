@@ -2,15 +2,16 @@
 using FluentAssertions;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
+using Vonage.Video.Beta.Video.Signaling;
 using Vonage.Video.Beta.Video.Signaling.SendSignals;
 using Xunit;
 
-namespace Vonage.Video.Beta.Test.Video.Signaling
+namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
 {
     public class SendSignalsRequestTest
     {
         private readonly string applicationId;
-        private readonly SendSignalsRequest.SignalContent content;
+        private readonly SignalContent content;
         private readonly Fixture fixture;
         private readonly string sessionId;
 
@@ -19,7 +20,7 @@ namespace Vonage.Video.Beta.Test.Video.Signaling
             this.fixture = new Fixture();
             this.applicationId = this.fixture.Create<string>();
             this.sessionId = this.fixture.Create<string>();
-            this.content = this.fixture.Create<SendSignalsRequest.SignalContent>();
+            this.content = this.fixture.Create<SignalContent>();
         }
 
         [Theory]
@@ -46,7 +47,7 @@ namespace Vonage.Video.Beta.Test.Video.Signaling
         [InlineData(null)]
         public void Parse_ShouldReturnFailure_GivenContentTypeIsNull(string value) =>
             SendSignalsRequest.Parse(this.applicationId, this.sessionId,
-                    new SendSignalsRequest.SignalContent(value, this.fixture.Create<string>()))
+                    new SignalContent(value, this.fixture.Create<string>()))
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Type cannot be null or whitespace."));
 
@@ -56,7 +57,7 @@ namespace Vonage.Video.Beta.Test.Video.Signaling
         [InlineData(null)]
         public void Parse_ShouldReturnFailure_GivenContentDataIsNull(string value) =>
             SendSignalsRequest.Parse(this.applicationId, this.sessionId,
-                    new SendSignalsRequest.SignalContent(this.fixture.Create<string>(), value))
+                    new SignalContent(this.fixture.Create<string>(), value))
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Data cannot be null or whitespace."));
 
