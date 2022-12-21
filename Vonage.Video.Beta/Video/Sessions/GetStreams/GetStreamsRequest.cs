@@ -8,15 +8,25 @@ namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
 /// <summary>
 ///     Represents a request to retrieve streams.
 /// </summary>
-public readonly struct GetStreamsRequest
+public readonly struct GetStreamsRequest : IVideoRequest
 {
+    private const string CannotBeNullOrWhitespace = "cannot be null or whitespace.";
+
     private GetStreamsRequest(string applicationId, string sessionId)
     {
         this.ApplicationId = applicationId;
         this.SessionId = sessionId;
     }
 
-    private const string CannotBeNullOrWhitespace = "cannot be null or whitespace.";
+    /// <summary>
+    ///     The application Id.
+    /// </summary>
+    public string ApplicationId { get; }
+
+    /// <summary>
+    ///     The session Id.
+    /// </summary>
+    public string SessionId { get; }
 
     /// <summary>
     ///     Parses the input into a GetStreamRequest.
@@ -30,6 +40,18 @@ public readonly struct GetStreamsRequest
             .Bind(VerifyApplicationId)
             .Bind(VerifySessionId);
 
+    /// <inheritdoc />
+    public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/stream";
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage(string token)
+    {
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, this.GetEndpointPath());
+        httpRequest.Headers.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+        return httpRequest;
+    }
+
     private static Result<GetStreamsRequest> VerifyApplicationId(GetStreamsRequest request) =>
         VerifyNotEmptyValue(request, request.ApplicationId, nameof(ApplicationId));
 
@@ -42,33 +64,4 @@ public readonly struct GetStreamsRequest
 
     private static Result<GetStreamsRequest> VerifySessionId(GetStreamsRequest request) =>
         VerifyNotEmptyValue(request, request.SessionId, nameof(SessionId));
-
-    /// <summary>
-    ///     The application Id.
-    /// </summary>
-    public string ApplicationId { get; }
-
-    /// <summary>
-    ///     The session Id.
-    /// </summary>
-    public string SessionId { get; }
-
-    /// <summary>
-    ///     Retrieves the endpoint's path.
-    /// </summary>
-    /// <returns>The endpoint's path.</returns>
-    public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/stream";
-
-    /// <summary>
-    ///     Creates a Http request for retrieving streams.
-    /// </summary>
-    /// <param name="token">The token.</param>
-    /// <returns>The Http request.</returns>
-    public HttpRequestMessage BuildRequestMessage(string token)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, this.GetEndpointPath());
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-        return httpRequest;
-    }
 }

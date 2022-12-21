@@ -8,45 +8,16 @@ namespace Vonage.Video.Beta.Video.Sessions.GetStream;
 /// <summary>
 ///     Represents a request to retrieve a stream.
 /// </summary>
-public readonly struct GetStreamRequest
+public readonly struct GetStreamRequest : IVideoRequest
 {
+    private const string CannotBeNullOrWhitespace = "cannot be null or whitespace.";
+
     private GetStreamRequest(string applicationId, string sessionId, string streamId)
     {
         this.ApplicationId = applicationId;
         this.SessionId = sessionId;
         this.StreamId = streamId;
     }
-
-    private const string CannotBeNullOrWhitespace = "cannot be null or whitespace.";
-
-    /// <summary>
-    ///     Parses the input into a GetStreamRequest.
-    /// </summary>
-    /// <param name="applicationId">The application Id.</param>
-    /// <param name="sessionId">The session Id.</param>
-    /// <param name="streamId">The stream Id.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<GetStreamRequest> Parse(string applicationId, string sessionId, string streamId) =>
-        Result<GetStreamRequest>
-            .FromSuccess(new GetStreamRequest(applicationId, sessionId, streamId))
-            .Bind(VerifyApplicationId)
-            .Bind(VerifyStreamId)
-            .Bind(VerifySessionId);
-
-    private static Result<GetStreamRequest> VerifyApplicationId(GetStreamRequest request) =>
-        VerifyNotEmptyValue(request, request.ApplicationId, nameof(ApplicationId));
-
-    private static Result<GetStreamRequest> VerifyNotEmptyValue(GetStreamRequest request, string value, string name) =>
-        string.IsNullOrWhiteSpace(value)
-            ? Result<GetStreamRequest>.FromFailure(
-                ResultFailure.FromErrorMessage($"{name} {CannotBeNullOrWhitespace}"))
-            : request;
-
-    private static Result<GetStreamRequest> VerifySessionId(GetStreamRequest request) =>
-        VerifyNotEmptyValue(request, request.SessionId, nameof(SessionId));
-
-    private static Result<GetStreamRequest> VerifyStreamId(GetStreamRequest request) =>
-        VerifyNotEmptyValue(request, request.StreamId, nameof(StreamId));
 
     /// <summary>
     ///     The application Id.
@@ -64,16 +35,23 @@ public readonly struct GetStreamRequest
     public string StreamId { get; }
 
     /// <summary>
-    ///     Retrieves the endpoint's path.
+    ///     Parses the input into a GetStreamRequest.
     /// </summary>
-    /// <returns>The endpoint's path.</returns>
+    /// <param name="applicationId">The application Id.</param>
+    /// <param name="sessionId">The session Id.</param>
+    /// <param name="streamId">The stream Id.</param>
+    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
+    public static Result<GetStreamRequest> Parse(string applicationId, string sessionId, string streamId) =>
+        Result<GetStreamRequest>
+            .FromSuccess(new GetStreamRequest(applicationId, sessionId, streamId))
+            .Bind(VerifyApplicationId)
+            .Bind(VerifyStreamId)
+            .Bind(VerifySessionId);
+
+    /// <inheritdoc />
     public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/stream/{this.StreamId}";
 
-    /// <summary>
-    ///     Creates a Http request for retrieving a stream.
-    /// </summary>
-    /// <param name="token">The token.</param>
-    /// <returns>The Http request.</returns>
+    /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token)
     {
         var httpRequest = new HttpRequestMessage(HttpMethod.Get, this.GetEndpointPath());
@@ -81,4 +59,19 @@ public readonly struct GetStreamRequest
             new AuthenticationHeaderValue("Bearer", token);
         return httpRequest;
     }
+
+    private static Result<GetStreamRequest> VerifyApplicationId(GetStreamRequest request) =>
+        VerifyNotEmptyValue(request, request.ApplicationId, nameof(ApplicationId));
+
+    private static Result<GetStreamRequest> VerifyNotEmptyValue(GetStreamRequest request, string value, string name) =>
+        string.IsNullOrWhiteSpace(value)
+            ? Result<GetStreamRequest>.FromFailure(
+                ResultFailure.FromErrorMessage($"{name} {CannotBeNullOrWhitespace}"))
+            : request;
+
+    private static Result<GetStreamRequest> VerifySessionId(GetStreamRequest request) =>
+        VerifyNotEmptyValue(request, request.SessionId, nameof(SessionId));
+
+    private static Result<GetStreamRequest> VerifyStreamId(GetStreamRequest request) =>
+        VerifyNotEmptyValue(request, request.StreamId, nameof(StreamId));
 }

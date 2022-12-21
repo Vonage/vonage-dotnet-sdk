@@ -9,7 +9,7 @@ namespace Vonage.Video.Beta.Video.Signaling.SendSignals;
 /// <summary>
 ///     Represents a request to send a signal to all participants.
 /// </summary>
-public readonly struct SendSignalsRequest
+public readonly struct SendSignalsRequest : IVideoRequest
 {
     private const string CannotBeNullOrWhitespace = "cannot be null or whitespace.";
 
