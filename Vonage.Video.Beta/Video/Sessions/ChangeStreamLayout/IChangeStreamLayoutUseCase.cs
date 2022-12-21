@@ -3,6 +3,9 @@ using Vonage.Video.Beta.Common;
 
 namespace Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 
+/// <summary>
+///     Represents a use case for changing a stream layout.
+/// </summary>
 public interface IChangeStreamLayoutUseCase
 {
     /// <summary>

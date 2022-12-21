@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Vonage.Video.Beta.Common;
 
-namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
+namespace Vonage.Video.Beta.Video.Signaling.SendSignal;
 
 /// <inheritdoc />
-public class GetStreamsUseCase : IGetStreamsUseCase
+public class SendSignalUseCase : ISendSignalUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;
@@ -15,13 +15,13 @@ public class GetStreamsUseCase : IGetStreamsUseCase
     /// </summary>
     /// <param name="client">Custom Http Client to used for further connections.</param>
     /// <param name="generateToken">Function used for generating a token.</param>
-    public GetStreamsUseCase(VideoHttpClient client, Func<string> generateToken)
+    public SendSignalUseCase(VideoHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
         this.videoHttpClient = client;
     }
 
     /// <inheritdoc />
-    public Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request) =>
-        this.videoHttpClient.SendWithResponseAsync<GetStreamsResponse>(request, this.generateToken());
+    public Task<Result<Unit>> SendSignalAsync(SendSignalRequest request) =>
+        this.videoHttpClient.SendAsync(request, this.generateToken());
 }

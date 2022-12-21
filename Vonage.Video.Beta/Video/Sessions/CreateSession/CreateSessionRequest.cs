@@ -10,7 +10,7 @@ namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
 /// <summary>
 ///     Represents a request for creating a session.
 /// </summary>
-public readonly struct CreateSessionRequest
+public readonly struct CreateSessionRequest : IVideoRequest
 {
     /// <summary>
     ///     The endpoint for creating a session.
@@ -74,9 +74,6 @@ public readonly struct CreateSessionRequest
             ? Result<CreateSessionRequest>.FromSuccess(new CreateSessionRequest(ipAddress, mediaMode, archiveMode))
             : Result<CreateSessionRequest>.FromFailure(ResultFailure.FromErrorMessage(IncompatibleMediaAndArchive));
 
-    private static bool AreMediaAndArchiveCompatible(MediaMode mediaMode, ArchiveMode archiveMode) =>
-        archiveMode == ArchiveMode.Manual || mediaMode == MediaMode.Routed;
-
     /// <summary>
     /// </summary>
     /// <returns></returns>
@@ -92,14 +89,7 @@ public readonly struct CreateSessionRequest
         return builder.ToString();
     }
 
-    private static string GetMediaPreference(MediaMode mediaMode) =>
-        mediaMode == MediaMode.Relayed ? "enabled" : "disabled";
-
-    /// <summary>
-    ///     Creates a Http request for creating a session.
-    /// </summary>
-    /// <param name="token">The token.</param>
-    /// <returns>The Http request.</returns>
+    /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token)
     {
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, CreateSessionEndpoint);
@@ -109,4 +99,13 @@ public readonly struct CreateSessionRequest
             new StringContent(this.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
         return httpRequest;
     }
+
+    /// <inheritdoc />
+    public string GetEndpointPath() => "/session/create";
+
+    private static bool AreMediaAndArchiveCompatible(MediaMode mediaMode, ArchiveMode archiveMode) =>
+        archiveMode == ArchiveMode.Manual || mediaMode == MediaMode.Routed;
+
+    private static string GetMediaPreference(MediaMode mediaMode) =>
+        mediaMode == MediaMode.Relayed ? "enabled" : "disabled";
 }

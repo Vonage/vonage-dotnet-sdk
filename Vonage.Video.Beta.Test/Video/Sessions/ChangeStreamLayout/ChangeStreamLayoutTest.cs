@@ -36,26 +36,12 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
             this.client = new SessionClient(this.server.CreateClient(), () => this.token);
         }
 
-        private string GetPathFromRequest() =>
-            this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
-
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
                 Arb.From<string>(),
                 (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
-
-        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
-        {
-            var expectedBody = this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
-            this.server
-                .Given(this.CreateChangeStreamLayoutRequest())
-                .RespondWith(CreateChangeStreamLayoutResponse(code, expectedBody));
-            var result =
-                await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
-            result.Should().BeFailure(HttpFailure.From(code, message));
-        }
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -64,6 +50,33 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                 Arb.From<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value)),
                 (statusCode, jsonError) =>
                     this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
+
+        [Fact]
+        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
+        {
+            this.server
+                .Given(this.CreateChangeStreamLayoutRequest())
+                .RespondWith(CreateChangeStreamLayoutResponse(HttpStatusCode.OK));
+            var result =
+                await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
+            result.Should().BeSuccess(Unit.Default);
+        }
+
+        private string GetPathFromRequest() =>
+            this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
+
+        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
+        {
+            var expectedBody = message is null
+                ? null
+                : this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
+            this.server
+                .Given(this.CreateChangeStreamLayoutRequest())
+                .RespondWith(CreateChangeStreamLayoutResponse(code, expectedBody));
+            var result =
+                await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
+            result.Should().BeFailure(HttpFailure.From(code, message ?? string.Empty));
+        }
 
         private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
         {
@@ -77,17 +90,6 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
-        [Fact]
-        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
-        {
-            this.server
-                .Given(this.CreateChangeStreamLayoutRequest())
-                .RespondWith(CreateChangeStreamLayoutResponse(HttpStatusCode.OK));
-            var result =
-                await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
-            result.Should().BeSuccess(Unit.Default);
-        }
-
         private IRequestBuilder CreateChangeStreamLayoutRequest()
         {
             var serializedItems =
@@ -99,7 +101,9 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
         }
 
         private static IResponseBuilder CreateChangeStreamLayoutResponse(HttpStatusCode code, string body) =>
-            CreateChangeStreamLayoutResponse(code).WithBody(body);
+            body is null
+                ? CreateChangeStreamLayoutResponse(code)
+                : CreateChangeStreamLayoutResponse(code).WithBody(body);
 
         private static IResponseBuilder CreateChangeStreamLayoutResponse(HttpStatusCode code) =>
             Response.Create().WithStatusCode(code);

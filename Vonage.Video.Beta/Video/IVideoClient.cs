@@ -1,5 +1,6 @@
 ﻿using Vonage.Request;
 using Vonage.Video.Beta.Video.Sessions;
+using Vonage.Video.Beta.Video.Signaling;
 
 namespace Vonage.Video.Beta.Video;
 
@@ -17,4 +18,9 @@ public interface IVideoClient
     ///     Client for managing sessions.
     /// </summary>
     ISessionClient SessionClient { get; }
+
+    /// <summary>
+    ///     Client for sending signals to participants.
+    /// </summary>
+    ISignalingClient SignalingClient { get; }
 }

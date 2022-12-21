@@ -1,46 +1,27 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Video.Beta.Common;
-using Vonage.Video.Beta.Common.Failures;
 
 namespace Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 
 /// <inheritdoc />
 public class ChangeStreamLayoutUseCase : IChangeStreamLayoutUseCase
 {
-    private readonly HttpClient client;
     private readonly Func<string> generateToken;
-    private readonly JsonSerializer jsonSerializer;
+    private readonly VideoHttpClient videoHttpClient;
 
     /// <summary>
     ///     Creates a new instance of use case.
     /// </summary>
-    /// <param name="httpClient">Http Client to used for further connections.</param>
+    /// <param name="client">Custom Http Client to used for further connections.</param>
     /// <param name="generateToken">Function used for generating a token.</param>
-    public ChangeStreamLayoutUseCase(HttpClient httpClient, Func<string> generateToken)
+    public ChangeStreamLayoutUseCase(VideoHttpClient client, Func<string> generateToken)
     {
-        this.client = httpClient;
         this.generateToken = generateToken;
-        this.jsonSerializer = new JsonSerializer();
+        this.videoHttpClient = client;
     }
 
     /// <inheritdoc />
-    public async Task<Result<Unit>> ChangeStreamLayoutAsync(ChangeStreamLayoutRequest request)
-    {
-        var httpRequest = request.BuildRequestMessage(this.generateToken());
-        var response = await this.client.SendAsync(httpRequest);
-        var responseContent = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode)
-        {
-            return string.IsNullOrWhiteSpace(responseContent)
-                ? Result<Unit>.FromFailure(HttpFailure.From(response.StatusCode))
-                : this.jsonSerializer
-                    .DeserializeObject<ErrorResponse>(responseContent)
-                    .Map(parsedError => HttpFailure.From(response.StatusCode, parsedError.Message))
-                    .Bind(failure => Result<Unit>.FromFailure(failure));
-        }
-
-        return Result<Unit>.FromSuccess(Unit.Default);
-    }
+    public Task<Result<Unit>> ChangeStreamLayoutAsync(ChangeStreamLayoutRequest request) =>
+        this.videoHttpClient.SendAsync(request, this.generateToken());
 }
