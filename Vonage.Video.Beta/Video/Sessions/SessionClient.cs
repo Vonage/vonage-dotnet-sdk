@@ -24,10 +24,10 @@ public class SessionClient : ISessionClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public SessionClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.createSessionUseCase = new CreateSessionUseCase(httpClient, tokenGeneration);
-        this.getStreamUseCase = new GetStreamUseCase(httpClient, tokenGeneration);
-        this.getStreamsUseCase = new GetStreamsUseCase(httpClient, tokenGeneration);
-        this.changeStreamLayoutUseCase = new ChangeStreamLayoutUseCase(httpClient, tokenGeneration);
+        this.createSessionUseCase = new CreateSessionUseCase(new CustomClient(httpClient), tokenGeneration);
+        this.getStreamUseCase = new GetStreamUseCase(new CustomClient(httpClient), tokenGeneration);
+        this.getStreamsUseCase = new GetStreamsUseCase(new CustomClient(httpClient), tokenGeneration);
+        this.changeStreamLayoutUseCase = new ChangeStreamLayoutUseCase(new CustomClient(httpClient), tokenGeneration);
     }
 
     /// <inheritdoc />

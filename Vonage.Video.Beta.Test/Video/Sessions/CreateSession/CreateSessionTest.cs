@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
-using Newtonsoft.Json;
+using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
@@ -19,6 +19,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
     {
         private readonly SessionClient client;
         private readonly Fixture fixture;
+        private readonly JsonSerializer jsonSerializer;
         private readonly CreateSessionRequest request = CreateSessionRequest.Default;
         private readonly WireMockServer server;
         private readonly CreateSessionResponse session;
@@ -27,6 +28,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         public CreateSessionTest()
         {
             this.server = WireMockServer.Start();
+            this.jsonSerializer = new JsonSerializer();
             this.fixture = new Fixture();
             this.token = this.fixture.Create<string>();
             this.session = this.fixture.Create<CreateSessionResponse>();
@@ -43,7 +45,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         [Fact]
         public async Task ShouldReturnSuccess_GivenSessionIsCreated()
         {
-            var expectedResponse = JsonConvert.SerializeObject(new[] {this.session});
+            var expectedResponse = this.jsonSerializer.SerializeObject(new[] {this.session});
             this.server
                 .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
                     .WithPath(CreateSessionRequest.CreateSessionEndpoint)
@@ -59,7 +61,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         [Fact]
         public async Task ShouldReturnSuccess_GivenMultipleSessionsAreCreated()
         {
-            var expectedResponse = JsonConvert.SerializeObject(new[]
+            var expectedResponse = this.jsonSerializer.SerializeObject(new[]
             {
                 this.session, this.fixture.Create<CreateSessionResponse>(),
                 this.fixture.Create<CreateSessionResponse>(),
@@ -79,7 +81,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         [Fact]
         public async Task ShouldReturnFailure_GivenResponseContainsNoSession()
         {
-            var expectedResponse = JsonConvert.SerializeObject(Array.Empty<CreateSessionResponse>());
+            var expectedResponse = this.jsonSerializer.SerializeObject(Array.Empty<CreateSessionResponse>());
             this.server
                 .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
                     .WithPath(CreateSessionRequest.CreateSessionEndpoint)
@@ -96,21 +98,22 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         public Property ShouldReturnFailure_GivenStatusCodeIsFailure() =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
-                statusCode => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode).Wait());
+                Arb.From<string>(),
+                (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
 
-        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode statusCode)
+        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
         {
-            const string expectedResponse = "Some reason session wasn't created.";
+            var expectedBody = this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
             this.server
                 .Given(WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token)
                     .WithPath(CreateSessionRequest.CreateSessionEndpoint)
                     .WithBody(this.request.GetUrlEncoded())
                     .UsingPost())
                 .RespondWith(Response.Create()
-                    .WithStatusCode(statusCode)
-                    .WithBody(expectedResponse));
+                    .WithStatusCode(code)
+                    .WithBody(expectedBody));
             var result = await this.client.CreateSessionAsync(this.request);
-            result.Should().BeFailure(HttpFailure.From(statusCode, expectedResponse));
+            result.Should().BeFailure(HttpFailure.From(code, message));
         }
     }
 }

@@ -22,6 +22,21 @@ public class CustomClient
         this.jsonSerializer = new JsonSerializer();
     }
 
+    public async Task<Result<T>> SendWithResponseAsync<T>(IVideoRequest request, string token)
+    {
+        var httpRequest = request.BuildRequestMessage(token);
+        var response = await this.client.SendAsync(httpRequest);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        return !response.IsSuccessStatusCode
+            ? this.jsonSerializer
+                .DeserializeObject<ErrorResponse>(responseContent)
+                .Map(parsedError => HttpFailure.From(response.StatusCode, parsedError.Message))
+                .Bind(failure => Result<T>.FromFailure(failure))
+            : this.jsonSerializer
+                .DeserializeObject<T>(responseContent)
+                .Match(_ => _, Result<T>.FromFailure);
+    }
+
     /// <summary>
     /// </summary>
     /// <param name="request"></param>

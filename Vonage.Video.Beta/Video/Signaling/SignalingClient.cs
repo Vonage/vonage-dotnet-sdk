@@ -20,8 +20,8 @@ public class SignalingClient : ISignalingClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.sendSignalUseCase = new SendSignalUseCase(httpClient, tokenGeneration);
-        this.sendSignalsUseCase = new SendSignalsUseCase(httpClient, tokenGeneration);
+        this.sendSignalUseCase = new SendSignalUseCase(new CustomClient(httpClient), tokenGeneration);
+        this.sendSignalsUseCase = new SendSignalsUseCase(new CustomClient(httpClient), tokenGeneration);
     }
 
     /// <inheritdoc />
