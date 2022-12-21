@@ -24,14 +24,10 @@ public class CustomClient
 
     public async Task<Result<T>> SendWithResponseAsync<T>(IVideoRequest request, string token)
     {
-        var httpRequest = request.BuildRequestMessage(token);
-        var response = await this.client.SendAsync(httpRequest);
+        var response = await this.client.SendAsync(request.BuildRequestMessage(token));
         var responseContent = await response.Content.ReadAsStringAsync();
         return !response.IsSuccessStatusCode
-            ? this.jsonSerializer
-                .DeserializeObject<ErrorResponse>(responseContent)
-                .Map(parsedError => HttpFailure.From(response.StatusCode, parsedError.Message))
-                .Bind(failure => Result<T>.FromFailure(failure))
+            ? await this.CreateFailureResponse<T>(response)
             : this.jsonSerializer
                 .DeserializeObject<T>(responseContent)
                 .Match(_ => _, Result<T>.FromFailure);
@@ -45,25 +41,27 @@ public class CustomClient
     public async Task<Result<Unit>> SendAsync(IVideoRequest request, string token)
     {
         var response = await this.client.SendAsync(request.BuildRequestMessage(token));
-        return !response.IsSuccessStatusCode ? await this.CreateFailureResponse(response) : CreateSuccessResponse();
+        return !response.IsSuccessStatusCode
+            ? await this.CreateFailureResponse<Unit>(response)
+            : CreateSuccessResponse();
     }
 
-    private async Task<Result<Unit>> CreateFailureResponse(HttpResponseMessage response)
+    private async Task<Result<T>> CreateFailureResponse<T>(HttpResponseMessage response)
     {
         var responseContent = await response.Content.ReadAsStringAsync();
         return string.IsNullOrWhiteSpace(responseContent)
-            ? CreateFailureResponseWithoutContent(response)
-            : this.CreateFailureResponseWithContent(responseContent, response);
+            ? CreateFailureResponseWithoutContent<T>(response)
+            : this.CreateFailureResponseWithContent<T>(responseContent, response);
     }
 
-    private Result<Unit> CreateFailureResponseWithContent(string responseContent, HttpResponseMessage response) =>
+    private Result<T> CreateFailureResponseWithContent<T>(string responseContent, HttpResponseMessage response) =>
         this.jsonSerializer
             .DeserializeObject<ErrorResponse>(responseContent)
             .Map(parsedError => HttpFailure.From(response.StatusCode, parsedError.Message))
-            .Bind(failure => Result<Unit>.FromFailure(failure));
+            .Bind(failure => Result<T>.FromFailure(failure));
 
-    private static Result<Unit> CreateFailureResponseWithoutContent(HttpResponseMessage response) =>
-        Result<Unit>.FromFailure(HttpFailure.From(response.StatusCode));
+    private static Result<T> CreateFailureResponseWithoutContent<T>(HttpResponseMessage response) =>
+        Result<T>.FromFailure(HttpFailure.From(response.StatusCode));
 
     private static Result<Unit> CreateSuccessResponse() => Result<Unit>.FromSuccess(Unit.Default);
 }

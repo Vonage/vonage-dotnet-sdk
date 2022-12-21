@@ -66,10 +66,12 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
         {
-            var expectedBody = this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
+            var expectedBody = message is null
+                ? null
+                : this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
             this.server.Given(this.CreateRequest()).RespondWith(CreateResponse(code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.SendSignalsAsync(requestValue));
-            result.Should().BeFailure(HttpFailure.From(code, message));
+            result.Should().BeFailure(HttpFailure.From(code, message ?? string.Empty));
         }
 
         private IRequestBuilder CreateRequest()
@@ -92,7 +94,7 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
         }
 
         private static IResponseBuilder CreateResponse(HttpStatusCode code, string body) =>
-            CreateResponse(code).WithBody(body);
+            body is null ? CreateResponse(code) : CreateResponse(code).WithBody(body);
 
         private static IResponseBuilder CreateResponse(HttpStatusCode code) =>
             Response.Create().WithStatusCode(code);
