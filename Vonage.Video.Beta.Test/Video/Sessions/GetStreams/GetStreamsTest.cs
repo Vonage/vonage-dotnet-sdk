@@ -85,7 +85,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
                     .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet())
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamsAsync(requestValue));
-            result.Should().BeFailure(HttpFailure.From(error.Code, error.Message ?? string.Empty));
+            result.Should().BeFailure(error.ToHttpFailure());
         }
 
         private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)

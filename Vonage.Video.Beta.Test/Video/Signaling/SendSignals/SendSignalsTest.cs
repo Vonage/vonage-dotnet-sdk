@@ -67,7 +67,7 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
             this.helper.Server.Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.SendSignalsAsync(requestValue));
-            result.Should().BeFailure(HttpFailure.From(error.Code, error.Message ?? string.Empty));
+            result.Should().BeFailure(error.ToHttpFailure());
         }
 
         private IRequestBuilder CreateRequest()

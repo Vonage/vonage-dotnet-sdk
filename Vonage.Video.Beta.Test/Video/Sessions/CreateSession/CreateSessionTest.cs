@@ -78,7 +78,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                 .Given(WireMockExtensions.CreateRequest(this.helper.Token, this.request.GetEndpointPath()))
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.client.CreateSessionAsync(this.request);
-            result.Should().BeFailure(HttpFailure.From(error.Code, error.Message ?? string.Empty));
+            result.Should().BeFailure(error.ToHttpFailure());
         }
     }
 }

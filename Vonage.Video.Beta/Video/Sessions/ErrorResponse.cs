@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Vonage.Video.Beta.Common.Failures;
 
 namespace Vonage.Video.Beta.Video.Sessions;
 
@@ -27,4 +28,10 @@ public struct ErrorResponse
         this.Code = code;
         this.Message = message;
     }
+
+    /// <summary>
+    ///     Converts to HttpFailure.
+    /// </summary>
+    /// <returns>The failure.</returns>
+    public HttpFailure ToHttpFailure() => HttpFailure.From(this.Code, this.Message ?? string.Empty);
 }
