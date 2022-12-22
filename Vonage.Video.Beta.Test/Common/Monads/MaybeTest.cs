@@ -1,10 +1,10 @@
 ﻿using System;
 using FluentAssertions;
-using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Xunit;
 
-namespace Vonage.Video.Beta.Test.Common
+namespace Vonage.Video.Beta.Test.Common.Monads
 {
     public class MaybeTest
     {

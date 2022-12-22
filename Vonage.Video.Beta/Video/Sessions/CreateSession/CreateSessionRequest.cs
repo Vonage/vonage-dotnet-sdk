@@ -4,6 +4,7 @@ using System.Text;
 using System.Web;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
+using Vonage.Video.Beta.Common.Monads;
 
 namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
 
@@ -15,7 +16,7 @@ public readonly struct CreateSessionRequest : IVideoRequest
     /// <summary>
     ///     The endpoint for creating a session.
     /// </summary>
-    public const string CreateSessionEndpoint = "/session/create";
+    private const string CreateSessionEndpoint = "/session/create";
 
     /// <summary>
     ///     Indicates media mode and archive mode are incompatible.

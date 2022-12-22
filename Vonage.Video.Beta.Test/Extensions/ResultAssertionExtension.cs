@@ -2,7 +2,8 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
-using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Failures;
+using Vonage.Video.Beta.Common.Monads;
 
 namespace Vonage.Video.Beta.Test.Extensions
 {
@@ -11,8 +12,6 @@ namespace Vonage.Video.Beta.Test.Extensions
         public ResultAssertionExtension(Result<T> subject) : base(subject)
         {
         }
-
-        protected override string Identifier => "result";
 
         public AndConstraint<ResultAssertionExtension<T>> BeFailure(Action<IResultFailure> action, string because = "",
             params object[] becauseArgs)
@@ -69,5 +68,7 @@ namespace Vonage.Video.Beta.Test.Extensions
                 .FailWith("but found Success {0}.", this.Subject);
             return new AndConstraint<ResultAssertionExtension<T>>(this);
         }
+
+        protected override string Identifier => "result";
     }
 }

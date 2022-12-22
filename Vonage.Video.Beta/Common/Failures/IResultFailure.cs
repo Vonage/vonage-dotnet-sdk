@@ -1,4 +1,4 @@
-﻿namespace Vonage.Video.Beta.Common;
+﻿namespace Vonage.Video.Beta.Common.Failures;
 
 /// <summary>
 ///     Represents a Failure with an error message.

@@ -3,6 +3,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
+using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Common.Validation;
 
 namespace Vonage.Video.Beta.Video.Signaling.SendSignals;
 
@@ -82,11 +84,11 @@ public readonly struct SendSignalsRequest : IVideoRequest
             : request;
 
     private static Result<SendSignalsRequest> VerifySessionId(SendSignalsRequest request) =>
-        VerifyNotEmptyValue(request, request.SessionId, nameof(SessionId));
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 
     private static Result<SendSignalsRequest> VerifyContentType(SendSignalsRequest request) =>
-        VerifyNotEmptyValue(request, request.Content.Type, nameof(SignalContent.Type));
+        InputValidation.VerifyNotEmpty(request, request.Content.Type, nameof(SignalContent.Type));
 
     private static Result<SendSignalsRequest> VerifyContentData(SendSignalsRequest request) =>
-        VerifyNotEmptyValue(request, request.Content.Data, nameof(SignalContent.Data));
+        InputValidation.VerifyNotEmpty(request, request.Content.Data, nameof(SignalContent.Data));
 }

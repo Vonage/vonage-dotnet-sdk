@@ -3,6 +3,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
+using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Common.Validation;
 
 namespace Vonage.Video.Beta.Video.Signaling.SendSignal;
 
@@ -92,14 +94,14 @@ public readonly struct SendSignalRequest : IVideoRequest
             : request;
 
     private static Result<SendSignalRequest> VerifySessionId(SendSignalRequest request) =>
-        VerifyNotEmptyValue(request, request.SessionId, nameof(SessionId));
-
-    private static Result<SendSignalRequest> VerifyConnectionId(SendSignalRequest request) =>
-        VerifyNotEmptyValue(request, request.ConnectionId, nameof(ConnectionId));
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 
     private static Result<SendSignalRequest> VerifyContentType(SendSignalRequest request) =>
-        VerifyNotEmptyValue(request, request.Content.Type, nameof(SignalContent.Type));
+        InputValidation.VerifyNotEmpty(request, request.Content.Type, nameof(SignalContent.Type));
 
     private static Result<SendSignalRequest> VerifyContentData(SendSignalRequest request) =>
-        VerifyNotEmptyValue(request, request.Content.Data, nameof(SignalContent.Data));
+        InputValidation.VerifyNotEmpty(request, request.Content.Data, nameof(SignalContent.Data));
+
+    private static Result<SendSignalRequest> VerifyConnectionId(SendSignalRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(ConnectionId));
 }

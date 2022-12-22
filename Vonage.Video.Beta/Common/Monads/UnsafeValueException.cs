@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vonage.Video.Beta.Common
+namespace Vonage.Video.Beta.Common.Monads
 {
     /// <summary>
     ///     Represents errors that occur during unsafe value retrieval.

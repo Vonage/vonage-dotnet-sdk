@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vonage.Video.Beta.Common;
+namespace Vonage.Video.Beta.Common.Monads;
 
 /// <summary>
 ///     Discriminated union type. Can be in one of two states: Some, or None.
@@ -10,30 +10,6 @@ public readonly struct Maybe<TA>
 {
     public const string NullValueMessage = "Value cannot be null.";
     private readonly TA value = default;
-
-    /// <summary>
-    ///     Construct a Maybe in a None state.
-    /// </summary>
-    public static readonly Maybe<TA> None = new();
-
-    /// <summary>
-    ///     Construct a Maybe in a Some state.
-    /// </summary>
-    /// <param name="value">Value to bind, must be non-null.</param>
-    /// <typeparam name="TB">Bound value type.</typeparam>
-    /// <returns>Maybe containing Some value.</returns>
-    /// <exception cref="InvalidOperationException">Given value is null.</exception>
-    public static Maybe<TB> Some<TB>(TB value) => value is null
-        ? throw new InvalidOperationException(NullValueMessage)
-        : new Maybe<TB>(value);
-
-    /// <summary>
-    ///     Constructor for a None.
-    /// </summary>
-    public Maybe()
-    {
-        this.IsSome = false;
-    }
 
     /// <summary>
     ///     Constructor for a Some.
@@ -54,6 +30,25 @@ public readonly struct Maybe<TA>
     ///     Indicates if in Some state.
     /// </summary>
     public bool IsSome { get; }
+
+    /// <summary>
+    ///     Constructor for a None.
+    /// </summary>
+    public Maybe()
+    {
+        this.IsSome = false;
+    }
+
+    /// <summary>
+    ///     Construct a Maybe in a Some state.
+    /// </summary>
+    /// <param name="value">Value to bind, must be non-null.</param>
+    /// <typeparam name="TB">Bound value type.</typeparam>
+    /// <returns>Maybe containing Some value.</returns>
+    /// <exception cref="InvalidOperationException">Given value is null.</exception>
+    public static Maybe<TB> Some<TB>(TB value) => value is null
+        ? throw new InvalidOperationException(NullValueMessage)
+        : new Maybe<TB>(value);
 
     /// <summary>
     ///     Projects from one value to another.
@@ -102,17 +97,6 @@ public readonly struct Maybe<TA>
     public override int GetHashCode() => this.IsSome ? this.value.GetHashCode() : 0;
 
     /// <summary>
-    ///     Verifies of both Maybes are either None or Some with the same values.
-    /// </summary>
-    /// <param name="other">Other maybe to be compared with.</param>
-    /// <returns>Whether both Maybes are equal.</returns>
-    private bool Equals(Maybe<TA> other)
-    {
-        var bothAreNone = this.IsNone && other.IsNone;
-        return bothAreNone || this.value.Equals(other.value);
-    }
-
-    /// <summary>
     ///     Implicit operator from TA to Maybe of TA.
     /// </summary>
     /// <param name="value">Value to be converted.</param>
@@ -125,4 +109,20 @@ public readonly struct Maybe<TA>
     /// <returns>The value if in Some state.</returns>
     /// <exception cref="UnsafeValueException">When in None state.</exception>
     public TA GetUnsafe() => this.Match(_ => _, () => throw new UnsafeValueException("State is none."));
+
+    /// <summary>
+    ///     Verifies of both Maybes are either None or Some with the same values.
+    /// </summary>
+    /// <param name="other">Other maybe to be compared with.</param>
+    /// <returns>Whether both Maybes are equal.</returns>
+    private bool Equals(Maybe<TA> other)
+    {
+        var bothAreNone = this.IsNone && other.IsNone;
+        return bothAreNone || this.value.Equals(other.value);
+    }
+
+    /// <summary>
+    ///     Construct a Maybe in a None state.
+    /// </summary>
+    public static readonly Maybe<TA> None = new();
 }

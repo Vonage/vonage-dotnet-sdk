@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Vonage.Video.Beta.Video.Sessions.GetStream;

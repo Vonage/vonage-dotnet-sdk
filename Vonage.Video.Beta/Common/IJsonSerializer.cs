@@ -1,4 +1,6 @@
-﻿namespace Vonage.Video.Beta.Common;
+﻿using Vonage.Video.Beta.Common.Monads;
+
+namespace Vonage.Video.Beta.Common;
 
 /// <summary>
 ///     Provides serialization features to/from JSON.
