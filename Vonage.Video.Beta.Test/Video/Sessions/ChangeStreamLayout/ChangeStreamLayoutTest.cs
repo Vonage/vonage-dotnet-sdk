@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
+using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Video.Beta.Common;
@@ -22,24 +23,22 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
         public ChangeStreamLayoutTest()
         {
             this.helper = new UseCaseHelper();
-            this.request = ChangeStreamLayoutRequest.Parse(this.helper.Fixture.Create<string>(),
-                this.helper.Fixture.Create<string>(),
-                this.helper.Fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>());
             this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.request = BuildRequest(this.helper.Fixture);
         }
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
-                Arb.From<string>(),
+                FsCheckExtensions.GetAny<string>(),
                 (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
-                Arb.From<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value)),
+                FsCheckExtensions.GetNonEmptyStrings(),
                 (statusCode, jsonError) =>
                     this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
 
@@ -53,6 +52,12 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                 await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
             result.Should().BeSuccess(Unit.Default);
         }
+
+        private static Result<ChangeStreamLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            ChangeStreamLayoutRequest.Parse(
+                fixture.Create<string>(),
+                fixture.Create<string>(),
+                fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>());
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
         {

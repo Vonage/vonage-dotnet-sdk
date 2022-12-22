@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
+using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Video.Beta.Common;
@@ -23,25 +24,22 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
         public SendSignalTest()
         {
             this.helper = new UseCaseHelper();
-            this.request = SendSignalRequest.Parse(this.helper.Fixture.Create<string>(),
-                this.helper.Fixture.Create<string>(),
-                this.helper.Fixture.Create<string>(),
-                this.helper.Fixture.Create<SignalContent>());
             this.client = new SignalingClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.request = BuildRequest(this.helper.Fixture);
         }
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
-                Arb.From<string>(),
+                FsCheckExtensions.GetAny<string>(),
                 (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
-                Arb.From<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value)),
+                FsCheckExtensions.GetNonEmptyStrings(),
                 (statusCode, jsonError) =>
                     this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
 
@@ -55,6 +53,13 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
                 await this.request.BindAsync(requestValue => this.client.SendSignalAsync(requestValue));
             result.Should().BeSuccess(Unit.Default);
         }
+
+        private static Result<SendSignalRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            SendSignalRequest.Parse(
+                fixture.Create<string>(),
+                fixture.Create<string>(),
+                fixture.Create<string>(),
+                fixture.Create<SignalContent>());
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
         {

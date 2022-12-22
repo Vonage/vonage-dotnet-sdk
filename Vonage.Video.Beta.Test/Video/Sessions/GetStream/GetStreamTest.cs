@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
+using AutoFixture.Kernel;
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
@@ -22,24 +23,22 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         public GetStreamTest()
         {
             this.helper = new UseCaseHelper();
-            this.request = GetStreamRequest.Parse(this.helper.Fixture.Create<string>(),
-                this.helper.Fixture.Create<string>(),
-                this.helper.Fixture.Create<string>());
             this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.request = BuildRequest(this.helper.Fixture);
         }
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
-                Arb.From<string>(),
+                FsCheckExtensions.GetAny<string>(),
                 (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
-                Arb.From<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value)),
+                FsCheckExtensions.GetNonEmptyStrings(),
                 (statusCode, jsonError) =>
                     this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
 
@@ -74,6 +73,11 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
+
+        private static Result<GetStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            GetStreamRequest.Parse(fixture.Create<string>(),
+                fixture.Create<string>(),
+                fixture.Create<string>());
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
         {

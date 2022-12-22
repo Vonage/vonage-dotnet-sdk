@@ -22,8 +22,8 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         public CreateSessionTest()
         {
             this.helper = new UseCaseHelper();
-            this.session = this.helper.Fixture.Create<CreateSessionResponse>();
             this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.session = this.helper.Fixture.Create<CreateSessionResponse>();
         }
 
         [Fact]
@@ -67,7 +67,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         public Property ShouldReturnFailure_GivenStatusCodeIsFailure() =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
-                Arb.From<string>(),
+                FsCheckExtensions.GetAny<string>(),
                 (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
