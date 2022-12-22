@@ -10,8 +10,6 @@ using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.GetStream;
-using WireMock.RequestBuilders;
-using WireMock.ResponseBuilders;
 using WireMock.Server;
 using Xunit;
 
@@ -67,8 +65,8 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         {
             var expectedResponse = this.fixture.Create<GetStreamResponse>();
             this.server
-                .Given(this.CreateGetStreamRequest())
-                .RespondWith(CreateGetStreamResponse(HttpStatusCode.OK,
+                .Given(WireMockExtensions.CreateRequest(this.token, this.path).UsingGet())
+                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK,
                     this.jsonSerializer.SerializeObject(expectedResponse)));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().BeSuccess(response =>
@@ -86,8 +84,8 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             var body = this.fixture.Create<string>();
             var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(GetStreamResponse)}'.";
             this.server
-                .Given(this.CreateGetStreamRequest())
-                .RespondWith(CreateGetStreamResponse(HttpStatusCode.OK, body));
+                .Given(WireMockExtensions.CreateRequest(this.token, this.path).UsingGet())
+                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, body));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
@@ -98,8 +96,8 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
                 ? null
                 : this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
             this.server
-                .Given(this.CreateGetStreamRequest())
-                .RespondWith(CreateGetStreamResponse(code, expectedBody));
+                .Given(WireMockExtensions.CreateRequest(this.token, this.path).UsingGet())
+                .RespondWith(WireMockExtensions.CreateResponse(code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().BeFailure(HttpFailure.From(code, message ?? string.Empty));
         }
@@ -111,20 +109,10 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         {
             var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
             this.server
-                .Given(this.CreateGetStreamRequest())
-                .RespondWith(CreateGetStreamResponse(code,
-                    jsonError));
+                .Given(WireMockExtensions.CreateRequest(this.token, this.path).UsingGet())
+                .RespondWith(WireMockExtensions.CreateResponse(code, jsonError));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
-
-        private IRequestBuilder CreateGetStreamRequest() =>
-            WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token).WithPath(this.path).UsingGet();
-
-        private static IResponseBuilder CreateGetStreamResponse(HttpStatusCode code, string body) =>
-            body is null ? CreateGetStreamResponse(code) : CreateGetStreamResponse(code).WithBody(body);
-
-        private static IResponseBuilder CreateGetStreamResponse(HttpStatusCode code) =>
-            Response.Create().WithStatusCode(code);
     }
 }

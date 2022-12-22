@@ -9,7 +9,6 @@ using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 using WireMock.RequestBuilders;
-using WireMock.ResponseBuilders;
 using WireMock.Server;
 using Xunit;
 
@@ -56,7 +55,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
         {
             this.server
                 .Given(this.CreateChangeStreamLayoutRequest())
-                .RespondWith(CreateChangeStreamLayoutResponse(HttpStatusCode.OK));
+                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK));
             var result =
                 await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
             result.Should().BeSuccess(Unit.Default);
@@ -72,7 +71,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                 : this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
             this.server
                 .Given(this.CreateChangeStreamLayoutRequest())
-                .RespondWith(CreateChangeStreamLayoutResponse(code, expectedBody));
+                .RespondWith(WireMockExtensions.CreateResponse(code, expectedBody));
             var result =
                 await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
             result.Should().BeFailure(HttpFailure.From(code, message ?? string.Empty));
@@ -83,7 +82,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
             var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
             this.server
                 .Given(this.CreateChangeStreamLayoutRequest())
-                .RespondWith(CreateChangeStreamLayoutResponse(code,
+                .RespondWith(WireMockExtensions.CreateResponse(code,
                     jsonError));
             var result =
                 await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
@@ -96,16 +95,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                 this.request
                     .Map(value => this.jsonSerializer.SerializeObject(new {value.Items}))
                     .Match(_ => _, _ => string.Empty);
-            return WireMockExtensions.BuildRequestWithAuthenticationHeader(this.token).WithPath(this.path)
-                .WithBody(serializedItems).UsingPut();
+            return WireMockExtensions.CreateRequest(this.token, this.path, serializedItems).UsingPut();
         }
-
-        private static IResponseBuilder CreateChangeStreamLayoutResponse(HttpStatusCode code, string body) =>
-            body is null
-                ? CreateChangeStreamLayoutResponse(code)
-                : CreateChangeStreamLayoutResponse(code).WithBody(body);
-
-        private static IResponseBuilder CreateChangeStreamLayoutResponse(HttpStatusCode code) =>
-            Response.Create().WithStatusCode(code);
     }
 }
