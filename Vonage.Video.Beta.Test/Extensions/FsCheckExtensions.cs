@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using FsCheck;
+using Vonage.Video.Beta.Video.Sessions;
 
 namespace Vonage.Video.Beta.Test.Extensions
 {
@@ -28,5 +29,14 @@ namespace Vonage.Video.Beta.Test.Extensions
         /// <typeparam name="T">Type of the value.</typeparam>
         /// <returns>An Arbitrary.</returns>
         public static Arbitrary<T> GetAny<T>() => Arb.From<T>();
+
+        /// <summary>
+        ///     Retrieves a generator that produces error responses with invalid status codes.
+        /// </summary>
+        /// <returns>An Arbitrary of ErrorResponse.</returns>
+        public static Arbitrary<ErrorResponse> GetErrorResponses() =>
+            Arb.From(from message in GetAny<string>().Generator
+                from code in GetInvalidStatusCodes().Generator
+                select new ErrorResponse(code, message));
     }
 }

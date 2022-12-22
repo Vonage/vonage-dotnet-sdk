@@ -31,9 +31,8 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
             Prop.ForAll(
-                FsCheckExtensions.GetInvalidStatusCodes(),
-                FsCheckExtensions.GetAny<string>(),
-                (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
+                FsCheckExtensions.GetErrorResponses(),
+                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -61,15 +60,15 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
                 fixture.Create<string>(),
                 fixture.Create<SignalContent>());
 
-        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
+        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
-            var expectedBody = message is null
+            var expectedBody = error.Message is null
                 ? null
-                : this.helper.Serializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
+                : this.helper.Serializer.SerializeObject(error);
             this.helper.Server.Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(code, expectedBody));
+                .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.SendSignalAsync(requestValue));
-            result.Should().BeFailure(HttpFailure.From(code, message ?? string.Empty));
+            result.Should().BeFailure(HttpFailure.From(error.Code, error.Message ?? string.Empty));
         }
 
         private IRequestBuilder CreateRequest()

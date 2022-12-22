@@ -66,20 +66,19 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         [Property]
         public Property ShouldReturnFailure_GivenStatusCodeIsFailure() =>
             Prop.ForAll(
-                FsCheckExtensions.GetInvalidStatusCodes(),
-                FsCheckExtensions.GetAny<string>(),
-                (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
+                FsCheckExtensions.GetErrorResponses(),
+                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
-        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
+        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
-            var expectedBody = message is null
+            var expectedBody = error.Message is null
                 ? null
-                : this.helper.Serializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
+                : this.helper.Serializer.SerializeObject(error);
             this.helper.Server
                 .Given(WireMockExtensions.CreateRequest(this.helper.Token, this.request.GetEndpointPath()))
-                .RespondWith(WireMockExtensions.CreateResponse(code, expectedBody));
+                .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.client.CreateSessionAsync(this.request);
-            result.Should().BeFailure(HttpFailure.From(code, message ?? string.Empty));
+            result.Should().BeFailure(HttpFailure.From(error.Code, error.Message ?? string.Empty));
         }
     }
 }

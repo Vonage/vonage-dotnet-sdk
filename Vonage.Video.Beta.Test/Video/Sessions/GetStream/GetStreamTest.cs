@@ -30,9 +30,8 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
             Prop.ForAll(
-                FsCheckExtensions.GetInvalidStatusCodes(),
-                FsCheckExtensions.GetAny<string>(),
-                (statusCode, message) => this.VerifyReturnsFailureGivenStatusCodeIsFailure(statusCode, message).Wait());
+                FsCheckExtensions.GetErrorResponses(),
+                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -79,17 +78,17 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
                 fixture.Create<string>(),
                 fixture.Create<string>());
 
-        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
+        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
-            var expectedBody = message is null
+            var expectedBody = error.Message is null
                 ? null
-                : this.helper.Serializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
+                : this.helper.Serializer.SerializeObject(error);
             this.helper.Server
                 .Given(WireMockExtensions
                     .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet())
-                .RespondWith(WireMockExtensions.CreateResponse(code, expectedBody));
+                .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
-            result.Should().BeFailure(HttpFailure.From(code, message ?? string.Empty));
+            result.Should().BeFailure(HttpFailure.From(error.Code, error.Message ?? string.Empty));
         }
 
         private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
