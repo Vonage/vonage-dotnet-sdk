@@ -3,8 +3,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Video.Beta.Common;
-using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Common.Validation;
 
 namespace Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 
@@ -68,23 +68,13 @@ public readonly struct ChangeStreamLayoutRequest : IVideoRequest
     }
 
     private static Result<ChangeStreamLayoutRequest> VerifyApplicationId(ChangeStreamLayoutRequest request) =>
-        VerifyNotEmptyValue(request, request.ApplicationId, nameof(ApplicationId));
-
-    private static Result<ChangeStreamLayoutRequest>
-        VerifyNotEmptyValue(ChangeStreamLayoutRequest request, string value, string name) =>
-        string.IsNullOrWhiteSpace(value)
-            ? Result<ChangeStreamLayoutRequest>.FromFailure(
-                ResultFailure.FromErrorMessage($"{name} {CannotBeNullOrWhitespace}"))
-            : request;
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
 
     private static Result<ChangeStreamLayoutRequest> VerifySessionId(ChangeStreamLayoutRequest request) =>
-        VerifyNotEmptyValue(request, request.SessionId, nameof(SessionId));
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 
     private static Result<ChangeStreamLayoutRequest> VerifyItems(ChangeStreamLayoutRequest request) =>
-        request.Items is null
-            ? Result<ChangeStreamLayoutRequest>.FromFailure(
-                ResultFailure.FromErrorMessage($"{nameof(Items)} {CannotBeNull}"))
-            : request;
+        InputValidation.VerifyItems(request, request.Items, nameof(Items));
 
     /// <summary>
     ///     Represents a request to change a stream with layout classes.

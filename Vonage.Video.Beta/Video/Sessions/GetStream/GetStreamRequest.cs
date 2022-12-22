@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
-using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Common.Validation;
 
 namespace Vonage.Video.Beta.Video.Sessions.GetStream;
 
@@ -61,17 +61,11 @@ public readonly struct GetStreamRequest : IVideoRequest
     }
 
     private static Result<GetStreamRequest> VerifyApplicationId(GetStreamRequest request) =>
-        VerifyNotEmptyValue(request, request.ApplicationId, nameof(ApplicationId));
-
-    private static Result<GetStreamRequest> VerifyNotEmptyValue(GetStreamRequest request, string value, string name) =>
-        string.IsNullOrWhiteSpace(value)
-            ? Result<GetStreamRequest>.FromFailure(
-                ResultFailure.FromErrorMessage($"{name} {CannotBeNullOrWhitespace}"))
-            : request;
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
 
     private static Result<GetStreamRequest> VerifySessionId(GetStreamRequest request) =>
-        VerifyNotEmptyValue(request, request.SessionId, nameof(SessionId));
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 
     private static Result<GetStreamRequest> VerifyStreamId(GetStreamRequest request) =>
-        VerifyNotEmptyValue(request, request.StreamId, nameof(StreamId));
+        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(StreamId));
 }

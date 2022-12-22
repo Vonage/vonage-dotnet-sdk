@@ -16,7 +16,7 @@ public readonly struct CreateSessionRequest : IVideoRequest
     /// <summary>
     ///     The endpoint for creating a session.
     /// </summary>
-    public const string CreateSessionEndpoint = "/session/create";
+    private const string CreateSessionEndpoint = "/session/create";
 
     /// <summary>
     ///     Indicates media mode and archive mode are incompatible.
