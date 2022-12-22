@@ -27,5 +27,13 @@ namespace Vonage.Video.Beta.Test.Common.Identifiers
             StringIdentifier.Parse(this.value)
                 .Should()
                 .BeSuccess(request => request.Value.Should().Be(this.value));
+
+        [Fact]
+        public void ImplicitOperator_ShouldExtractValueFromIdentifier()
+        {
+            var identifier = StringIdentifier.Parse(this.value).GetSuccessUnsafe();
+            string implicitValue = identifier;
+            implicitValue.Should().Be(this.value);
+        }
     }
 }
