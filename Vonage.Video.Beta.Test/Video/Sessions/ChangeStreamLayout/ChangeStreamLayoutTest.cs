@@ -9,7 +9,6 @@ using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 using WireMock.RequestBuilders;
-using WireMock.Server;
 using Xunit;
 
 namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
@@ -17,22 +16,16 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
     public class ChangeStreamLayoutTest
     {
         private readonly SessionClient client;
-        private readonly JsonSerializer jsonSerializer;
-        private readonly string path;
         private readonly Result<ChangeStreamLayoutRequest> request;
-        private readonly WireMockServer server;
-        private readonly string token;
+        private readonly UseCaseHelper helper;
 
         public ChangeStreamLayoutTest()
         {
-            this.server = WireMockServer.Start();
-            this.jsonSerializer = new JsonSerializer();
-            var fixture = new Fixture();
-            this.token = fixture.Create<string>();
-            this.request = ChangeStreamLayoutRequest.Parse(fixture.Create<string>(), fixture.Create<string>(),
-                fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>());
-            this.path = this.GetPathFromRequest();
-            this.client = new SessionClient(this.server.CreateClient(), () => this.token);
+            this.helper = new UseCaseHelper();
+            this.request = ChangeStreamLayoutRequest.Parse(this.helper.Fixture.Create<string>(),
+                this.helper.Fixture.Create<string>(),
+                this.helper.Fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>());
+            this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
         }
 
         [Property]
@@ -53,7 +46,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
-            this.server
+            this.helper.Server
                 .Given(this.CreateChangeStreamLayoutRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK));
             var result =
@@ -68,8 +61,8 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
         {
             var expectedBody = message is null
                 ? null
-                : this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
-            this.server
+                : this.helper.Serializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
+            this.helper.Server
                 .Given(this.CreateChangeStreamLayoutRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(code, expectedBody));
             var result =
@@ -80,7 +73,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
         private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
         {
             var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
-            this.server
+            this.helper.Server
                 .Given(this.CreateChangeStreamLayoutRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(code,
                     jsonError));
@@ -93,9 +86,11 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
         {
             var serializedItems =
                 this.request
-                    .Map(value => this.jsonSerializer.SerializeObject(new {value.Items}))
+                    .Map(value => this.helper.Serializer.SerializeObject(new {value.Items}))
                     .Match(_ => _, _ => string.Empty);
-            return WireMockExtensions.CreateRequest(this.token, this.path, serializedItems).UsingPut();
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPut();
         }
     }
 }

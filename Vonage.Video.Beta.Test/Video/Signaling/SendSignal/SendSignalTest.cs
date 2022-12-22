@@ -10,7 +10,6 @@ using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Signaling;
 using Vonage.Video.Beta.Video.Signaling.SendSignal;
 using WireMock.RequestBuilders;
-using WireMock.Server;
 using Xunit;
 
 namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
@@ -18,23 +17,17 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
     public class SendSignalTest
     {
         private readonly SignalingClient client;
-        private readonly JsonSerializer jsonSerializer;
-        private readonly string path;
         private readonly Result<SendSignalRequest> request;
-        private readonly WireMockServer server;
-        private readonly string token;
+        private readonly UseCaseHelper helper;
 
         public SendSignalTest()
         {
-            this.server = WireMockServer.Start();
-            this.jsonSerializer = new JsonSerializer();
-            var fixture = new Fixture();
-            this.token = fixture.Create<string>();
-            this.request = SendSignalRequest.Parse(fixture.Create<string>(), fixture.Create<string>(),
-                fixture.Create<string>(),
-                fixture.Create<SignalContent>());
-            this.path = this.request.Match(value => value.GetEndpointPath(), _ => string.Empty);
-            this.client = new SignalingClient(this.server.CreateClient(), () => this.token);
+            this.helper = new UseCaseHelper();
+            this.request = SendSignalRequest.Parse(this.helper.Fixture.Create<string>(),
+                this.helper.Fixture.Create<string>(),
+                this.helper.Fixture.Create<string>(),
+                this.helper.Fixture.Create<SignalContent>());
+            this.client = new SignalingClient(this.helper.Server.CreateClient(), () => this.helper.Token);
         }
 
         [Property]
@@ -55,7 +48,7 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
-            this.server
+            this.helper.Server
                 .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK));
             var result =
@@ -67,8 +60,9 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
         {
             var expectedBody = message is null
                 ? null
-                : this.jsonSerializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
-            this.server.Given(this.CreateRequest()).RespondWith(WireMockExtensions.CreateResponse(code, expectedBody));
+                : this.helper.Serializer.SerializeObject(new ErrorResponse(((int) code).ToString(), message));
+            this.helper.Server.Given(this.CreateRequest())
+                .RespondWith(WireMockExtensions.CreateResponse(code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.SendSignalAsync(requestValue));
             result.Should().BeFailure(HttpFailure.From(code, message ?? string.Empty));
         }
@@ -77,15 +71,18 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
         {
             var serializedItems =
                 this.request
-                    .Map(value => this.jsonSerializer.SerializeObject(value.Content))
+                    .Map(value => this.helper.Serializer.SerializeObject(value.Content))
                     .Match(_ => _, _ => string.Empty);
-            return WireMockExtensions.CreateRequest(this.token, this.path, serializedItems).UsingPost();
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPost();
         }
 
         private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
         {
             var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
-            this.server.Given(this.CreateRequest()).RespondWith(WireMockExtensions.CreateResponse(code, jsonError));
+            this.helper.Server.Given(this.CreateRequest())
+                .RespondWith(WireMockExtensions.CreateResponse(code, jsonError));
             var result =
                 await this.request.BindAsync(requestValue => this.client.SendSignalAsync(requestValue));
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
