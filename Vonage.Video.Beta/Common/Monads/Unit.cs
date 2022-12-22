@@ -1,4 +1,4 @@
-﻿namespace Vonage.Video.Beta.Common;
+﻿namespace Vonage.Video.Beta.Common.Monads;
 
 /// <summary>
 ///     A unit type is a type that allows only one value (and thus can hold no information)

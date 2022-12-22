@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Video.Beta.Common;
+using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Video;
 using WireMock.Server;
 

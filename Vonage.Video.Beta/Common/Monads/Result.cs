@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Vonage.Video.Beta.Common.Failures;
 
-namespace Vonage.Video.Beta.Common;
+namespace Vonage.Video.Beta.Common.Monads;
 
 /// <summary>
 ///     Represents the result of an operation. Can be in one of two states: Success, or Failure.
@@ -60,15 +61,6 @@ public readonly struct Result<T>
     public static Result<T> FromSuccess(T value) => new(value);
 
     /// <summary>
-    ///     Enum representing the state of Result.
-    /// </summary>
-    private enum ResultState
-    {
-        Success,
-        Failure,
-    }
-
-    /// <summary>
     ///     Projects from one value to another.
     /// </summary>
     /// <param name="map">Projection function.</param>
@@ -102,24 +94,6 @@ public readonly struct Result<T>
 
     /// <inheritdoc />
     public override int GetHashCode() => this.IsSuccess ? this.success.GetHashCode() : this.failure.GetHashCode();
-
-    /// <summary>
-    ///     Verifies if both Results are either Failure or Success with the same values.
-    /// </summary>
-    /// <param name="other">Other Result to be compared with.</param>
-    /// <returns>Whether both Results are equal.</returns>
-    private bool Equals(Result<T> other) => this.EqualsFailure(other) && this.success.Equals(other.success);
-
-    /// <summary>
-    ///     Verifies if both failures are equal.
-    /// </summary>
-    /// <param name="other">Other Result to be compared with.</param>
-    /// <returns>Whether both failures are equal.</returns>
-    /// <remarks>Using IResultFailure for the Failure value makes it nullable. Comparing both cases is now mandatory.</remarks>
-    private bool EqualsFailure(Result<T> other) =>
-        this.IsFailure && other.IsFailure
-            ? this.failure.Equals(other.failure)
-            : this.failure == other.failure;
 
     /// <summary>
     ///     Implicit operator from TA to Result of TA.
@@ -186,4 +160,41 @@ public readonly struct Result<T>
     /// <returns>The Success value if in Success state.</returns>
     /// <exception cref="UnsafeValueException">When in Failure state.</exception>
     public T GetSuccessUnsafe() => this.Match(_ => _, _ => throw new UnsafeValueException("State is Failure."));
+
+    /// <summary>
+    ///     Verifies if both Results are either Failure or Success with the same values.
+    /// </summary>
+    /// <param name="other">Other Result to be compared with.</param>
+    /// <returns>Whether both Results are equal.</returns>
+    private bool Equals(Result<T> other) => this.EqualsFailure(other) && this.EqualsSuccess(other);
+
+    /// <summary>
+    ///     Verifies if both failures are equal.
+    /// </summary>
+    /// <param name="other">Other Result to be compared with.</param>
+    /// <returns>Whether both failures are equal.</returns>
+    /// <remarks>Using IResultFailure for the Failure value makes it nullable. Comparing both cases is now mandatory.</remarks>
+    private bool EqualsFailure(Result<T> other) =>
+        this.IsFailure
+            ? this.failure.Equals(other.failure)
+            : other.IsSuccess;
+
+    /// <summary>
+    ///     Verifies if both successes are equal.
+    /// </summary>
+    /// <param name="other">Other Result to be compared with.</param>
+    /// <returns>Whether both successes are equal.</returns>
+    private bool EqualsSuccess(Result<T> other) =>
+        this.IsSuccess
+            ? this.success.Equals(other.success)
+            : other.IsFailure;
+
+    /// <summary>
+    ///     Enum representing the state of Result.
+    /// </summary>
+    private enum ResultState
+    {
+        Success,
+        Failure,
+    }
 }

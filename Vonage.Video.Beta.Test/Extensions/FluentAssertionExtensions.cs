@@ -1,4 +1,4 @@
-﻿using Vonage.Video.Beta.Common;
+﻿using Vonage.Video.Beta.Common.Monads;
 
 namespace Vonage.Video.Beta.Test.Extensions
 {

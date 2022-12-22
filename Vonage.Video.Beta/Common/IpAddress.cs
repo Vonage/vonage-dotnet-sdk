@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Vonage.Video.Beta.Common.Failures;
+using Vonage.Video.Beta.Common.Monads;
 
 namespace Vonage.Video.Beta.Common;
 
@@ -21,6 +22,16 @@ public readonly struct IpAddress
     public string Address { get; }
 
     /// <summary>
+    ///     Returns the Localhost address.
+    /// </summary>
+    public static IpAddress Localhost => new("localhost");
+
+    /// <summary>
+    ///     Returns an empty address.
+    /// </summary>
+    public static IpAddress Empty => new(string.Empty);
+
+    /// <summary>
     ///     Parses the provided ip address.
     /// </summary>
     /// <param name="location">The ip address.</param>
@@ -38,14 +49,4 @@ public readonly struct IpAddress
     private static bool IsEmpty(string location) => location == Empty.Address;
 
     private static bool CanBeParsed(string location) => IPAddress.TryParse(location, out _);
-
-    /// <summary>
-    ///     Returns the Localhost address.
-    /// </summary>
-    public static IpAddress Localhost => new("localhost");
-
-    /// <summary>
-    ///     Returns an empty address.
-    /// </summary>
-    public static IpAddress Empty => new(string.Empty);
 }
