@@ -31,8 +31,15 @@ public class StringIdentifier : ValueObject<string>
             ? Result<StringIdentifier>.FromFailure(CreateFailure())
             : new StringIdentifier(value);
 
+    /// <summary>
+    ///     Extracts the value from the identifier.
+    /// </summary>
+    /// <param name="identifier">The identifier.</param>
+    /// <returns>The value.</returns>
+    public static implicit operator string(StringIdentifier identifier) => identifier.Value;
+
     private static IResultFailure CreateFailure() =>
-        ResultFailure.FromErrorMessage("Value cannot be null or whitespace.");
+        ResultFailure.FromErrorMessage(CannotBeNullOrWhitespace);
 
     /// <inheritdoc />
     protected override IEnumerable<object> GetEqualityComponents() => new[] {this.Value};
