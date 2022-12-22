@@ -88,9 +88,6 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             result.Should().BeFailure(HttpFailure.From(code, message ?? string.Empty));
         }
 
-        private string GetPathFromRequest() =>
-            this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
-
         private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
         {
             var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";

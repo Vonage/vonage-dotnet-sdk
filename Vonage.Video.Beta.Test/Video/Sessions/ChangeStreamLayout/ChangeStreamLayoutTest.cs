@@ -54,9 +54,6 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
             result.Should().BeSuccess(Unit.Default);
         }
 
-        private string GetPathFromRequest() =>
-            this.request.Match(value => value.GetEndpointPath(), failure => string.Empty);
-
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(HttpStatusCode code, string message)
         {
             var expectedBody = message is null
