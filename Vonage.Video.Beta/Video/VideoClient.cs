@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Request;
+using Vonage.Video.Beta.Video.Archives;
 using Vonage.Video.Beta.Video.Moderation;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Signaling;
@@ -34,6 +35,9 @@ public class VideoClient : IVideoClient
     /// <inheritdoc />
     public ModerationClient ModerationClient { get; private set; }
 
+    /// <inheritdoc />
+    public ArchiveClient ArchiveClient { get; private set; }
+
     /// <summary>
     ///     Creates a new client.
     /// </summary>
@@ -49,6 +53,7 @@ public class VideoClient : IVideoClient
         this.SessionClient = new SessionClient(client, () => new Jwt().GenerateToken(this.Credentials));
         this.SignalingClient = new SignalingClient(client, () => new Jwt().GenerateToken(this.Credentials));
         this.ModerationClient = new ModerationClient(client, () => new Jwt().GenerateToken(this.Credentials));
+        this.ArchiveClient = new ArchiveClient(client, () => new Jwt().GenerateToken(this.Credentials));
     }
 
     private static HttpClient InitializeHttpClient()
