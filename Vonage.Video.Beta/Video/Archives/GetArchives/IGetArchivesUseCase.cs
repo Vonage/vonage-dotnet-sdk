@@ -12,5 +12,5 @@ public interface IGetArchivesUseCase
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A success state with archives if the operation succeeded. A failure state with the error message if it failed.</returns>
-    Task<Result<GetArchivesResponse>> GetStreamsAsync(GetArchivesRequest request);
+    Task<Result<GetArchivesResponse>> GetArchivesAsync(GetArchivesRequest request);
 }

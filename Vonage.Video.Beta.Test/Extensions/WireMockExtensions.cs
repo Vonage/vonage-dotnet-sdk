@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 
@@ -42,8 +44,25 @@ namespace Vonage.Video.Beta.Test.Extensions
         /// <param name="token">The authentication token.</param>
         /// <param name="path">The endpoint path.</param>
         /// <returns>The request.</returns>
-        public static IRequestBuilder CreateRequest(string token, string path) =>
-            BuildRequestWithAuthenticationHeader(token).WithPath(path);
+        public static IRequestBuilder CreateRequest(string token, string path)
+        {
+            var builder = BuildRequestWithAuthenticationHeader(token);
+            if (!ContainsQueryParameters(path))
+            {
+                return builder.WithPath(path);
+            }
+
+            var pathSeparation = path.Split('?');
+            var newPath = pathSeparation[0];
+            pathSeparation[1].Split('&')
+                .Select(parameter => parameter.Split('='))
+                .Select(parameters => new KeyValuePair<string, string>(parameters[0], parameters[1]))
+                .ToList()
+                .ForEach(parameter => builder = builder.WithParam(parameter.Key, parameter.Value));
+            return builder.WithPath(newPath);
+        }
+
+        private static bool ContainsQueryParameters(string path) => path.Contains("?");
 
         private static IRequestBuilder BuildRequestWithAuthenticationHeader(string token) =>
             WireMock.RequestBuilders.Request
