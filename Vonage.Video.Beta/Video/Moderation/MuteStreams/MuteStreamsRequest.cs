@@ -10,7 +10,7 @@ namespace Vonage.Video.Beta.Video.Moderation.MuteStreams;
 /// <summary>
 ///     Represents a request to mute streams.
 /// </summary>
-public class MuteStreamsRequest : IVideoRequest
+public readonly struct MuteStreamsRequest : IVideoRequest
 {
     private MuteStreamsRequest(string applicationId, string sessionId, MuteStreamsConfiguration configuration)
     {

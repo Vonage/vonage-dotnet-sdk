@@ -3,7 +3,7 @@
 /// <summary>
 ///     Represents the response when streams have been muted.
 /// </summary>
-public class MuteStreamsResponse
+public struct MuteStreamsResponse
 {
     /// <summary>
     ///     The Vonage application ID.

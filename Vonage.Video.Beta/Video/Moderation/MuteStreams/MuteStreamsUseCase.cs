@@ -7,7 +7,21 @@ namespace Vonage.Video.Beta.Video.Moderation.MuteStreams;
 /// <inheritdoc />
 public class MuteStreamsUseCase : IMuteStreamsUseCase
 {
+    private readonly Func<string> generateToken;
+    private readonly VideoHttpClient videoHttpClient;
+
+    /// <summary>
+    ///     Creates a new instance of use case.
+    /// </summary>
+    /// <param name="client">Custom Http Client to used for further connections.</param>
+    /// <param name="generateToken">Function used for generating a token.</param>
+    public MuteStreamsUseCase(VideoHttpClient client, Func<string> generateToken)
+    {
+        this.generateToken = generateToken;
+        this.videoHttpClient = client;
+    }
+
     /// <inheritdoc />
-    public Task<Result<MuteStreamsResponse>> MuteStreamSAsync(MuteStreamsRequest request) =>
-        throw new NotImplementedException();
+    public Task<Result<MuteStreamsResponse>> MuteStreamsAsync(MuteStreamsRequest request) =>
+        this.videoHttpClient.SendWithResponseAsync<MuteStreamsResponse>(request, this.generateToken());
 }
