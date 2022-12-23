@@ -4,6 +4,7 @@ using Vonage.Video.Beta.Common.Monads;
 namespace Vonage.Video.Beta.Video.Archives.GetArchives;
 
 /// <summary>
+/// Represents the use case for retrieving archives.
 /// </summary>
 public interface IGetArchivesUseCase
 {

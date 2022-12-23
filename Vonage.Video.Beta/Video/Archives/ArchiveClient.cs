@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Video.Archives.GetArchive;
 using Vonage.Video.Beta.Video.Archives.GetArchives;
 
 namespace Vonage.Video.Beta.Video.Archives;
@@ -10,6 +11,7 @@ namespace Vonage.Video.Beta.Video.Archives;
 public class ArchiveClient : IArchiveClient
 {
     private readonly GetArchivesUseCase getArchivesUseCase;
+    private readonly GetArchiveUseCase getArchiveUseCase;
 
     /// <summary>
     ///     Creates a new client.
@@ -19,9 +21,14 @@ public class ArchiveClient : IArchiveClient
     public ArchiveClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
         this.getArchivesUseCase = new GetArchivesUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+        this.getArchiveUseCase = new GetArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
     }
 
     /// <inheritdoc />
     public Task<Result<GetArchivesResponse>> GetArchivesAsync(GetArchivesRequest request) =>
         this.getArchivesUseCase.GetArchivesAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetArchiveResponse>> GetArchiveAsync(GetArchiveRequest request) =>
+        this.getArchiveUseCase.GetArchiveAsync(request);
 }
