@@ -29,6 +29,6 @@ public class ArchiveClient : IArchiveClient
         this.getArchivesUseCase.GetArchivesAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<GetArchiveResponse>> GetArchiveAsync(GetArchiveRequest request) =>
+    public Task<Result<Archive>> GetArchiveAsync(GetArchiveRequest request) =>
         this.getArchiveUseCase.GetArchiveAsync(request);
 }

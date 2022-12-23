@@ -1,9 +1,9 @@
-﻿namespace Vonage.Video.Beta.Video.Archives.GetArchive;
+﻿namespace Vonage.Video.Beta.Video.Archives;
 
 /// <summary>
-///     Represent a response for getting an archive.
+///     Represents an archive.
 /// </summary>
-public struct GetArchiveResponse
+public struct Archive
 {
     /// <summary>
     ///     The timestamp for when the archive started recording, expressed in milliseconds since the Unix epoch (January 1,
@@ -109,7 +109,7 @@ public struct GetArchiveResponse
     public Stream[] Streams { get; set; }
 
     /// <summary>
-    ///     Creates a response.
+    ///     Creates an archive.
     /// </summary>
     /// <param name="createdAt">
     ///     The timestamp for when the archive started recording, expressed in milliseconds since the Unix
@@ -159,7 +159,7 @@ public struct GetArchiveResponse
     ///     The download URL is obfuscated, and the file is only available from the URL for 10 minutes.
     /// </param>
     /// <param name="streams">The collection of streams.</param>
-    public GetArchiveResponse(int createdAt, int duration, bool hasAudio, bool hasVideo, string id, string name,
+    public Archive(int createdAt, int duration, bool hasAudio, bool hasVideo, string id, string name,
         string applicationId, string reason, string resolution, string sessionId, int size, string status,
         string streamMode, string url, Stream[] streams)
     {

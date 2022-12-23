@@ -44,7 +44,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.GetArchive
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
-            var expectedResponse = this.helper.Fixture.Create<GetArchiveResponse>();
+            var expectedResponse = this.helper.Fixture.Create<Archive>();
             this.helper.Server
                 .Given(WireMockExtensions
                     .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet())
@@ -64,7 +64,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.GetArchive
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
         {
             var body = this.helper.Fixture.Create<string>();
-            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(GetArchiveResponse)}'.";
+            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(Archive)}'.";
             this.helper.Server
                 .Given(WireMockExtensions
                     .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet())

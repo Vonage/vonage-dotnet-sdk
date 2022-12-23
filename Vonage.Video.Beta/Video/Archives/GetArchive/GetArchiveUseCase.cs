@@ -22,6 +22,6 @@ public class GetArchiveUseCase : IGetArchiveUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<GetArchiveResponse>> GetArchiveAsync(GetArchiveRequest request) =>
-        this.videoHttpClient.SendWithResponseAsync<GetArchiveResponse>(request, this.generateToken());
+    public Task<Result<Archive>> GetArchiveAsync(GetArchiveRequest request) =>
+        this.videoHttpClient.SendWithResponseAsync<Archive>(request, this.generateToken());
 }

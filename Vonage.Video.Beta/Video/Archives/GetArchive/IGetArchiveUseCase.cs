@@ -16,5 +16,5 @@ public interface IGetArchiveUseCase
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
-    Task<Result<GetArchiveResponse>> GetArchiveAsync(GetArchiveRequest request);
+    Task<Result<Archive>> GetArchiveAsync(GetArchiveRequest request);
 }
