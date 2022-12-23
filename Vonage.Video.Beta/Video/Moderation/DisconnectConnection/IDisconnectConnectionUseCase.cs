@@ -9,7 +9,7 @@ namespace Vonage.Video.Beta.Video.Moderation.DisconnectConnection;
 public interface IDisconnectConnectionUseCase
 {
     /// <summary>
-    ///     Disconnects a connection.
+    ///    Forces a client to disconnect from a session
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>

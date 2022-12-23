@@ -18,26 +18,26 @@ public readonly struct DisconnectConnectionRequest : IVideoRequest
     }
 
     /// <summary>
-    ///     The application Id.
+    ///     The Vonage Application UUID.
     /// </summary>
     public string ApplicationId { get; }
 
     /// <summary>
-    ///     The session Id.
+    ///     The Video session Id.
     /// </summary>
     public string SessionId { get; }
 
     /// <summary>
-    ///     The connection Id.
+    ///     The specific publisher connection Id.
     /// </summary>
     public string ConnectionId { get; }
 
     /// <summary>
     ///     Parses the input into a DisconnectConnectionRequest.
     /// </summary>
-    /// <param name="applicationId">The application Id.</param>
-    /// <param name="sessionId">The session Id.</param>
-    /// <param name="connectionId">The connection Id.</param>
+    /// <param name="applicationId">   The Vonage Application UUID.</param>
+    /// <param name="sessionId">  The Video session Id.</param>
+    /// <param name="connectionId"> The specific publisher connection Id.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
     public static Result<DisconnectConnectionRequest>
         Parse(string applicationId, string sessionId, string connectionId) =>
