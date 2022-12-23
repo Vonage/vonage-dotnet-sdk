@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using FsCheck;
-using Vonage.Video.Beta.Video.Sessions;
+using Vonage.Video.Beta.Common;
 
 namespace Vonage.Video.Beta.Test.Extensions
 {

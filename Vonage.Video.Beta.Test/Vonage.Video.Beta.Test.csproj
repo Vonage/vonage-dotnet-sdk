@@ -33,4 +33,9 @@
         <None Remove="key.txt"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Video\Moderation\MuteStream"/>
+        <Folder Include="Video\Moderation\MuteStreams"/>
+    </ItemGroup>
+
 </Project>
