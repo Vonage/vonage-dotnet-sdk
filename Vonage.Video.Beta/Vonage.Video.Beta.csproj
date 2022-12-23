@@ -57,7 +57,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Video\Archives"/>
+        <Folder Include="Video\Archives\ChangeLayout"/>
+        <Folder Include="Video\Archives\ChangeStreams"/>
+        <Folder Include="Video\Archives\CreateArchive"/>
+        <Folder Include="Video\Archives\DeleteArchive"/>
+        <Folder Include="Video\Archives\GetArchive"/>
+        <Folder Include="Video\Archives\StopArchive"/>
     </ItemGroup>
 
     <ItemGroup>
