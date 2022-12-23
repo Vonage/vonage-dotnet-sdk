@@ -71,7 +71,7 @@ public readonly struct ChangeStreamLayoutRequest : IVideoRequest
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 
     private static Result<ChangeStreamLayoutRequest> VerifyItems(ChangeStreamLayoutRequest request) =>
-        InputValidation.VerifyItems(request, request.Items, nameof(Items));
+        InputValidation.VerifyNotNull(request, request.Items, nameof(Items));
 
     /// <summary>
     ///     Represents a request to change a stream with layout classes.

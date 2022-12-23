@@ -6,6 +6,7 @@ using Vonage.Video.Beta.Video;
 namespace Vonage.Video.Beta.Common.Validation;
 
 /// <summary>
+/// Static methods to facilitate input validation.
 /// </summary>
 public static class InputValidation
 {
@@ -13,12 +14,13 @@ public static class InputValidation
     private const string StringCannotBeNullOrWhitespace = "cannot be null or whitespace.";
 
     /// <summary>
+    /// Verifies if not null or empty.
     /// </summary>
-    /// <param name="request"></param>
-    /// <param name="value"></param>
-    /// <param name="name"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
+    /// <param name="request">The request.</param>
+    /// <param name="value">The string.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="T">The request type.</typeparam>
+    /// <returns>Success or Failure.</returns>
     public static Result<T> VerifyNotEmpty<T>(T request, string value, string name) where T : IVideoRequest =>
         string.IsNullOrWhiteSpace(value)
             ? Result<T>.FromFailure(
@@ -26,14 +28,15 @@ public static class InputValidation
             : request;
 
     /// <summary>
+    /// Verifies if not null.
     /// </summary>
-    /// <param name="request"></param>
-    /// <param name="value"></param>
-    /// <param name="name"></param>
-    /// <typeparam name="TA"></typeparam>
-    /// <typeparam name="TB"></typeparam>
-    /// <returns></returns>
-    public static Result<TA> VerifyItems<TA, TB>(TA request, IEnumerable<TB> value, string name) =>
+    /// <param name="request">The request.</param>
+    /// <param name="value">The collection.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="TA">The request type.</typeparam>
+    /// <typeparam name="TB">The list content type.</typeparam>
+    /// <returns>Success or Failure.</returns>
+    public static Result<TA> VerifyNotNull<TA, TB>(TA request, IEnumerable<TB> value, string name) =>
         value is null
             ? Result<TA>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {CollectionCannotBeNull}"))

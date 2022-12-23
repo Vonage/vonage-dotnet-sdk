@@ -9,7 +9,7 @@ namespace Vonage.Video.Beta.Video.Moderation.MuteStream;
 public interface IMuteStreamUseCase
 {
     /// <summary>
-    ///     Disconnects a connection.
+    ///     Mutes a stream.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success with the stream information if the operation succeeds, Failure it if fails.</returns>
