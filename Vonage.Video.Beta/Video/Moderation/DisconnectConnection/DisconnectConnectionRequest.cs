@@ -33,7 +33,7 @@ public readonly struct DisconnectConnectionRequest : IVideoRequest
     public string ConnectionId { get; }
 
     /// <summary>
-    ///     Parses the input into a GetStreamRequest.
+    ///     Parses the input into a DisconnectConnectionRequest.
     /// </summary>
     /// <param name="applicationId">The application Id.</param>
     /// <param name="sessionId">The session Id.</param>

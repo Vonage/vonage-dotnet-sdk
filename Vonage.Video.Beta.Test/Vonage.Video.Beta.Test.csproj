@@ -34,7 +34,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Video\Moderation\MuteStream"/>
         <Folder Include="Video\Moderation\MuteStreams"/>
     </ItemGroup>
 

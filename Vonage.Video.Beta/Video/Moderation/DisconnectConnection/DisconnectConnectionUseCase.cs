@@ -7,21 +7,21 @@ namespace Vonage.Video.Beta.Video.Moderation.DisconnectConnection;
 /// <inheritdoc />
 public class DisconnectConnectionUseCase : IDisconnectConnectionUseCase
 {
-    private readonly VideoHttpClient client;
+    private readonly VideoHttpClient videoHttpClient;
     private readonly Func<string> generateToken;
 
     /// <summary>
     ///     Creates a new instance of use case.
     /// </summary>
-    /// <param name="client">Custom Http Client to used for further connections.</param>
+    /// <param name="videoHttpClient">Custom Http Client to used for further connections.</param>
     /// <param name="generateToken">Function used for generating a token.</param>
-    public DisconnectConnectionUseCase(VideoHttpClient client, Func<string> generateToken)
+    public DisconnectConnectionUseCase(VideoHttpClient videoHttpClient, Func<string> generateToken)
     {
-        this.client = client;
+        this.videoHttpClient = videoHttpClient;
         this.generateToken = generateToken;
     }
 
     /// <inheritdoc />
     public Task<Result<Unit>> DisconnectConnectionAsync(DisconnectConnectionRequest request) =>
-        this.client.SendAsync(request, this.generateToken());
+        this.videoHttpClient.SendAsync(request, this.generateToken());
 }

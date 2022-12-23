@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Video.Moderation.DisconnectConnection;
+using Vonage.Video.Beta.Video.Moderation.MuteStream;
 
 namespace Vonage.Video.Beta.Video.Moderation;
 
@@ -10,6 +11,7 @@ namespace Vonage.Video.Beta.Video.Moderation;
 public class ModerationClient : IModerationClient
 {
     private readonly DisconnectConnectionUseCase disconnectConnectionUseCase;
+    private readonly MuteStreamUseCase muteStreamUseCase;
 
     /// <summary>
     ///     Creates a new client.
@@ -20,9 +22,14 @@ public class ModerationClient : IModerationClient
     {
         this.disconnectConnectionUseCase =
             new DisconnectConnectionUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+        this.muteStreamUseCase = new MuteStreamUseCase(new VideoHttpClient(httpClient), tokenGeneration);
     }
 
     /// <inheritdoc />
     public Task<Result<Unit>> DisconnectConnectionAsync(DisconnectConnectionRequest request) =>
         this.disconnectConnectionUseCase.DisconnectConnectionAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<MuteStreamResponse>> MuteStreamAsync(MuteStreamRequest request) =>
+        this.muteStreamUseCase.MuteStreamAsync(request);
 }

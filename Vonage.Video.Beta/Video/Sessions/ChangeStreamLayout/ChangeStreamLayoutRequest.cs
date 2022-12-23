@@ -13,9 +13,6 @@ namespace Vonage.Video.Beta.Video.Sessions.ChangeStreamLayout;
 /// </summary>
 public readonly struct ChangeStreamLayoutRequest : IVideoRequest
 {
-    private const string CannotBeNull = "cannot be null.";
-    private const string CannotBeNullOrWhitespace = "cannot be null or whitespace.";
-
     private ChangeStreamLayoutRequest(string applicationId, string sessionId, IEnumerable<LayoutItem> items)
     {
         this.ApplicationId = applicationId;
