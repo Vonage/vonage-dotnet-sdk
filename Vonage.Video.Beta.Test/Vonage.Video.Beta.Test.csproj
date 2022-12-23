@@ -36,7 +36,6 @@
     <ItemGroup>
         <Folder Include="Video\Archives\ChangeLayout"/>
         <Folder Include="Video\Archives\ChangeStreams"/>
-        <Folder Include="Video\Archives\DeleteArchive"/>
         <Folder Include="Video\Archives\StopArchive"/>
     </ItemGroup>
 

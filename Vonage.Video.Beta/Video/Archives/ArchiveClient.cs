@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Video.Archives.CreateArchive;
+using Vonage.Video.Beta.Video.Archives.DeleteArchive;
 using Vonage.Video.Beta.Video.Archives.GetArchive;
 using Vonage.Video.Beta.Video.Archives.GetArchives;
 
@@ -14,6 +15,7 @@ public class ArchiveClient : IArchiveClient
     private readonly GetArchivesUseCase getArchivesUseCase;
     private readonly GetArchiveUseCase getArchiveUseCase;
     private readonly CreateArchiveUseCase createArchiveUseCase;
+    private readonly DeleteArchiveUseCase deleteArchiveUseCase;
 
     /// <summary>
     ///     Creates a new client.
@@ -25,6 +27,7 @@ public class ArchiveClient : IArchiveClient
         this.getArchivesUseCase = new GetArchivesUseCase(new VideoHttpClient(httpClient), tokenGeneration);
         this.getArchiveUseCase = new GetArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
         this.createArchiveUseCase = new CreateArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+        this.deleteArchiveUseCase = new DeleteArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
     }
 
     /// <inheritdoc />
@@ -38,4 +41,8 @@ public class ArchiveClient : IArchiveClient
     /// <inheritdoc />
     public Task<Result<Archive>> CreateArchiveAsync(CreateArchiveRequest request) =>
         this.createArchiveUseCase.CreateArchiveAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> DeleteArchiveAsync(DeleteArchiveRequest request) =>
+        this.deleteArchiveUseCase.DeleteArchiveAsync(request);
 }
