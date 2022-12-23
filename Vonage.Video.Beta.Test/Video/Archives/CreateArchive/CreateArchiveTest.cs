@@ -70,7 +70,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
         }
 
         private static Result<CreateArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            CreateArchiveRequest.Parse(fixture.Create<string>());
+            CreateArchiveRequest.Parse(fixture.Create<string>(), fixture.Create<string>());
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
