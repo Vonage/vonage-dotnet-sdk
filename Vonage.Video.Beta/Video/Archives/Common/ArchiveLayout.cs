@@ -36,7 +36,7 @@ public struct ArchiveLayout
     ///     Set the screenshareType property to the layout type to use when there is a screen-sharing
     ///     stream in the session.
     /// </param>
-    public ArchiveLayout(LayoutType type, string stylesheet, LayoutType screenshareType)
+    public ArchiveLayout(LayoutType type, string stylesheet, LayoutType? screenshareType)
     {
         this.Type = type;
         this.Stylesheet = stylesheet;

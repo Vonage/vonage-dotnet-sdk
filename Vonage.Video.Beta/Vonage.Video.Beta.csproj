@@ -57,10 +57,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Video\Archives\ChangeStreams"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Vonage\Vonage.csproj"/>
     </ItemGroup>
 

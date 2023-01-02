@@ -2,11 +2,13 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Video.Archives.AddStream;
 using Vonage.Video.Beta.Video.Archives.ChangeLayout;
 using Vonage.Video.Beta.Video.Archives.CreateArchive;
 using Vonage.Video.Beta.Video.Archives.DeleteArchive;
 using Vonage.Video.Beta.Video.Archives.GetArchive;
 using Vonage.Video.Beta.Video.Archives.GetArchives;
+using Vonage.Video.Beta.Video.Archives.RemoveStream;
 using Vonage.Video.Beta.Video.Archives.StopArchive;
 
 namespace Vonage.Video.Beta.Video.Archives;
@@ -20,6 +22,8 @@ public class ArchiveClient : IArchiveClient
     private readonly DeleteArchiveUseCase deleteArchiveUseCase;
     private readonly StopArchiveUseCase stopArchiveUseCase;
     private readonly ChangeLayoutUseCase changeLayoutUseCase;
+    private readonly AddStreamUseCase addStreamUseCase;
+    private readonly RemoveStreamUseCase removeStreamUseCase;
 
     /// <summary>
     ///     Creates a new client.
@@ -35,6 +39,8 @@ public class ArchiveClient : IArchiveClient
         this.stopArchiveUseCase = new StopArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
         this.changeLayoutUseCase =
             new ChangeLayoutUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+        this.addStreamUseCase = new AddStreamUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+        this.removeStreamUseCase = new RemoveStreamUseCase(new VideoHttpClient(httpClient), tokenGeneration);
     }
 
     /// <inheritdoc />
@@ -60,4 +66,12 @@ public class ArchiveClient : IArchiveClient
     /// <inheritdoc />
     public Task<Result<Unit>> ChangeLayoutAsync(ChangeLayoutRequest request) =>
         this.changeLayoutUseCase.ChangeLayoutAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> AddStreamAsync(AddStreamRequest request) =>
+        this.addStreamUseCase.AddStreamAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> RemoveStreamAsync(RemoveStreamRequest request) =>
+        this.removeStreamUseCase.RemoveStreamAsync(request);
 }

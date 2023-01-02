@@ -34,7 +34,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Video\Archives\ChangeStreams"/>
         <Folder Include="Video\Archives\Common"/>
     </ItemGroup>
 
