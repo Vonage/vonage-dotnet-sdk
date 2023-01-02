@@ -9,6 +9,7 @@ using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
+using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
@@ -32,7 +33,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         {
             var expectedResponse = this.helper.Serializer.SerializeObject(new[] {this.session});
             this.helper.Server
-                .Given(WireMockExtensions.CreateRequest(this.helper.Token, this.request.GetEndpointPath()))
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
             var result = await this.client.CreateSessionAsync(this.request);
             result.Should().BeSuccess(this.session);
@@ -47,7 +48,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                 this.helper.Fixture.Create<CreateSessionResponse>(),
             });
             this.helper.Server
-                .Given(WireMockExtensions.CreateRequest(this.helper.Token, this.request.GetEndpointPath()))
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
             var result = await this.client.CreateSessionAsync(this.request);
             result.Should().BeSuccess(this.session);
@@ -58,7 +59,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         {
             var expectedResponse = this.helper.Serializer.SerializeObject(Array.Empty<CreateSessionResponse>());
             this.helper.Server
-                .Given(WireMockExtensions.CreateRequest(this.helper.Token, this.request.GetEndpointPath()))
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
             var result = await this.client.CreateSessionAsync(this.request);
             result.Should().BeFailure(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
@@ -76,10 +77,15 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                 ? null
                 : this.helper.Serializer.SerializeObject(error);
             this.helper.Server
-                .Given(WireMockExtensions.CreateRequest(this.helper.Token, this.request.GetEndpointPath()))
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.client.CreateSessionAsync(this.request);
             result.Should().BeFailure(error.ToHttpFailure());
         }
+
+        private IRequestBuilder CreateRequest() =>
+            WireMockExtensions
+                .CreateRequest(this.helper.Token, this.request.GetEndpointPath(), this.request.GetUrlEncoded())
+                .UsingPost();
     }
 }

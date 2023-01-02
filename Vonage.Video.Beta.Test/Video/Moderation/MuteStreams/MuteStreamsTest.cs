@@ -73,7 +73,8 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
                     .Map(value => this.helper.Serializer.SerializeObject(value.Configuration))
                     .Match(_ => _, _ => string.Empty);
             return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingPost();
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPost();
         }
 
         private static Result<MuteStreamsRequest> BuildRequest(ISpecimenBuilder fixture) =>
