@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Test.Extensions;
+using Vonage.Video.Beta.Video.Archives.Common;
 using Xunit;
 
 namespace Vonage.Video.Beta.Test.Common
@@ -37,6 +38,30 @@ namespace Vonage.Video.Beta.Test.Common
                 .DeserializeObject<DummyObject>(value)
                 .Should()
                 .BeSuccess(new DummyObject {Id = expectedId, Name = expectedName, Code = expectedCode});
+
+        [Theory]
+        [InlineData(LayoutType.Custom, "\"custom\"")]
+        [InlineData(LayoutType.Pip, "\"pip\"")]
+        [InlineData(LayoutType.BestFit, "\"bestFit\"")]
+        [InlineData(LayoutType.HorizontalPresentation, "\"horizontalPresentation\"")]
+        [InlineData(LayoutType.VerticalPresentation, "\"verticalPresentation\"")]
+        public void SerializeObject_ShouldUseLayoutTypeConverter(LayoutType type, string expected) => this
+            .serializer
+            .SerializeObject(type)
+            .Should()
+            .Be(expected);
+
+        [Theory]
+        [InlineData("\"custom\"", LayoutType.Custom)]
+        [InlineData("\"pip\"", LayoutType.Pip)]
+        [InlineData("\"bestFit\"", LayoutType.BestFit)]
+        [InlineData("\"horizontalPresentation\"", LayoutType.HorizontalPresentation)]
+        [InlineData("\"verticalPresentation\"", LayoutType.VerticalPresentation)]
+        public void DeserializeObject_ShouldUseLayoutTypeConverter(string input, LayoutType expected) => this
+            .serializer
+            .DeserializeObject<LayoutType>(input)
+            .Should()
+            .BeSuccess(expected);
 
         private struct DummyObject
         {

@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
+using Vonage.Video.Beta.Video.Archives.Common;
 using Vonage.Video.Beta.Video.Archives.CreateArchive;
 using Xunit;
 
@@ -52,7 +53,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     request.OutputMode.Should().Be("composed");
                     request.Resolution.Should().Be("640x480");
                     request.StreamMode.Should().Be("auto");
-                    request.Layout.Should().Be(default(CreateArchiveRequest.ArchiveLayout));
+                    request.Layout.Should().Be(default(ArchiveLayout));
                 });
 
         [Fact]
@@ -66,7 +67,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     "individual",
                     "1920x1080",
                     "manual",
-                    new CreateArchiveRequest.ArchiveLayout("custom", "some css", "pip"))
+                    new ArchiveLayout(LayoutType.Custom, "some css", LayoutType.Custom))
                 .Should()
                 .BeSuccess(request =>
                 {
@@ -78,7 +79,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     request.OutputMode.Should().Be("individual");
                     request.Resolution.Should().Be("1920x1080");
                     request.StreamMode.Should().Be("manual");
-                    request.Layout.Should().Be(new CreateArchiveRequest.ArchiveLayout("custom", "some css", "pip"));
+                    request.Layout.Should().Be(new ArchiveLayout(LayoutType.Custom, "some css", LayoutType.Custom));
                 });
 
         [Fact]

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.Json.Serialization;
 using Vonage.Video.Beta.Common.Failures;
 
 namespace Vonage.Video.Beta.Common;
@@ -23,6 +24,7 @@ public readonly struct ErrorResponse
     /// </summary>
     /// <param name="code">The response code.</param>
     /// <param name="message">The response message.</param>
+    [JsonConstructor]
     public ErrorResponse(HttpStatusCode code, string message)
     {
         this.Code = code;

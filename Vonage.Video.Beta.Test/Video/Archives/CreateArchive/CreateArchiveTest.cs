@@ -10,6 +10,7 @@ using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Archives;
+using Vonage.Video.Beta.Video.Archives.Common;
 using Vonage.Video.Beta.Video.Archives.CreateArchive;
 using WireMock.RequestBuilders;
 using Xunit;
@@ -70,7 +71,16 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
         }
 
         private static Result<CreateArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            CreateArchiveRequest.Parse(fixture.Create<string>(), fixture.Create<string>());
+            CreateArchiveRequest.Parse(
+                fixture.Create<string>(),
+                fixture.Create<string>(),
+                fixture.Create<bool>(),
+                fixture.Create<bool>(),
+                fixture.Create<string>(),
+                fixture.Create<string>(),
+                fixture.Create<string>(),
+                fixture.Create<string>(),
+                fixture.Create<ArchiveLayout>());
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
@@ -94,8 +104,15 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingPost();
+        private IRequestBuilder CreateRequest()
+        {
+            var serializedItems =
+                this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(value))
+                    .Match(_ => _, _ => string.Empty);
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPost();
+        }
     }
 }

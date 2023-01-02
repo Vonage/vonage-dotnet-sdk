@@ -1,7 +1,11 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json.Serialization;
+using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Common.Validation;
+using Vonage.Video.Beta.Video.Archives.Common;
 
 namespace Vonage.Video.Beta.Video.Archives.CreateArchive;
 
@@ -11,6 +15,31 @@ namespace Vonage.Video.Beta.Video.Archives.CreateArchive;
 public readonly struct CreateArchiveRequest : IVideoRequest
 {
     /// <summary>
+    /// </summary>
+    /// <param name="layout"></param>
+    /// <param name="applicationId"></param>
+    /// <param name="sessionId"></param>
+    /// <param name="hasAudio"></param>
+    /// <param name="hasVideo"></param>
+    /// <param name="name"></param>
+    /// <param name="outputMode"></param>
+    /// <param name="resolution"></param>
+    /// <param name="streamMode"></param>
+    private CreateArchiveRequest(ArchiveLayout layout, string applicationId, string sessionId, bool hasAudio,
+        bool hasVideo, string name, string outputMode, string resolution, string streamMode)
+    {
+        this.Layout = layout;
+        this.ApplicationId = applicationId;
+        this.SessionId = sessionId;
+        this.HasAudio = hasAudio;
+        this.HasVideo = hasVideo;
+        this.Name = name;
+        this.OutputMode = outputMode;
+        this.Resolution = resolution;
+        this.StreamMode = streamMode;
+    }
+
+    /// <summary>
     ///     Represents the archive's layout.
     /// </summary>
     public ArchiveLayout Layout { get; }
@@ -18,6 +47,7 @@ public readonly struct CreateArchiveRequest : IVideoRequest
     /// <summary>
     ///     The Vonage Application UUID.
     /// </summary>
+    [JsonIgnore]
     public string ApplicationId { get; }
 
     /// <summary>
@@ -67,31 +97,6 @@ public readonly struct CreateArchiveRequest : IVideoRequest
     public string StreamMode { get; }
 
     /// <summary>
-    /// </summary>
-    /// <param name="layout"></param>
-    /// <param name="applicationId"></param>
-    /// <param name="sessionId"></param>
-    /// <param name="hasAudio"></param>
-    /// <param name="hasVideo"></param>
-    /// <param name="name"></param>
-    /// <param name="outputMode"></param>
-    /// <param name="resolution"></param>
-    /// <param name="streamMode"></param>
-    public CreateArchiveRequest(ArchiveLayout layout, string applicationId, string sessionId, bool hasAudio,
-        bool hasVideo, string name, string outputMode, string resolution, string streamMode)
-    {
-        this.Layout = layout;
-        this.ApplicationId = applicationId;
-        this.SessionId = sessionId;
-        this.HasAudio = hasAudio;
-        this.HasVideo = hasVideo;
-        this.Name = name;
-        this.OutputMode = outputMode;
-        this.Resolution = resolution;
-        this.StreamMode = streamMode;
-    }
-
-    /// <summary>
     ///     Parses the input into a CreateArchiveRequest.
     /// </summary>
     /// <param name="applicationId">The Vonage Application UUID.</param>
@@ -128,8 +133,8 @@ public readonly struct CreateArchiveRequest : IVideoRequest
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
     public static Result<CreateArchiveRequest> Parse(
         string applicationId,
-        string sessionId, bool
-            hasAudio = true,
+        string sessionId,
+        bool hasAudio = true,
         bool hasVideo = true,
         string name = "",
         string outputMode = "composed",
@@ -151,6 +156,8 @@ public readonly struct CreateArchiveRequest : IVideoRequest
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, this.GetEndpointPath());
         httpRequest.Headers.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
+        httpRequest.Content = new StringContent(new JsonSerializer().SerializeObject(this), Encoding.UTF8,
+            "application/json");
         return httpRequest;
     }
 
@@ -159,51 +166,4 @@ public readonly struct CreateArchiveRequest : IVideoRequest
 
     private static Result<CreateArchiveRequest> VerifySessionId(CreateArchiveRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
-
-    /// <summary>
-    ///     Represents the archive's layout.
-    /// </summary>
-    public struct ArchiveLayout
-    {
-        /// <summary>
-        ///     Specify this to assign the initial layout type for the archive. This applies only to composed archives. This object
-        ///     has three properties: type, stylesheet, and screenshareType, which are each strings. Valid values for the layout
-        ///     property are "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation), "pip"
-        ///     (picture-in-picture), and "verticalPresentation" (vertical presentation)). If you specify a "custom" layout type,
-        ///     set the stylesheet property of the layout object to the stylesheet. (For other layout types, do not set a
-        ///     stylesheet property.) Set the screenshareType property to the layout type to use when there is a screen-sharing
-        ///     stream in the session. (This property is optional.) Note if you set the screenshareType property, you must set the
-        ///     type property to "bestFit" and leave the stylesheet property unset. If you do not specify an initial layout type,
-        ///     the archive uses the best fit layout type.
-        /// </summary>
-        public string Type { get; }
-
-        /// <summary>
-        ///     Used for the custom layout to define the visual layout
-        /// </summary>
-        public string Stylesheet { get; }
-
-        /// <summary>
-        ///     Set the screenshareType property to the layout type to use when there is a screen-sharing stream in the session.
-        ///     (This property is optional.) Note if you set the screenshareType property, you must set the type property to
-        ///     "bestFit" and leave the stylesheet property unset.
-        /// </summary>
-        public string ScreenshareTypeType { get; }
-
-        /// <summary>
-        ///     Creates an archive layout.
-        /// </summary>
-        /// <param name="type"> Specify this to assign the initial layout type for the archive</param>
-        /// <param name="stylesheet">  Used for the custom layout to define the visual layout</param>
-        /// <param name="screenshareType">
-        ///     Set the screenshareType property to the layout type to use when there is a screen-sharing
-        ///     stream in the session.
-        /// </param>
-        public ArchiveLayout(string type, string stylesheet, string screenshareType)
-        {
-            this.Type = type;
-            this.Stylesheet = stylesheet;
-            this.ScreenshareTypeType = screenshareType;
-        }
-    }
 }

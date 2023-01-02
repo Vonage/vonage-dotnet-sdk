@@ -66,9 +66,15 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
+        private IRequestBuilder CreateRequest()
+        {
+            var serializedItems =
+                this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(value.Configuration))
+                    .Match(_ => _, _ => string.Empty);
+            return WireMockExtensions
                 .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingPost();
+        }
 
         private static Result<MuteStreamsRequest> BuildRequest(ISpecimenBuilder fixture) =>
             MuteStreamsRequest.Parse(fixture.Create<string>(),

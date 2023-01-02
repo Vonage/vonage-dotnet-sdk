@@ -1,4 +1,5 @@
-﻿using Vonage.Video.Beta.Video.Archives.CreateArchive;
+﻿using Vonage.Video.Beta.Video.Archives.ChangeLayout;
+using Vonage.Video.Beta.Video.Archives.CreateArchive;
 using Vonage.Video.Beta.Video.Archives.DeleteArchive;
 using Vonage.Video.Beta.Video.Archives.GetArchive;
 using Vonage.Video.Beta.Video.Archives.GetArchives;
@@ -13,6 +14,7 @@ public interface IArchiveClient :
     IGetArchiveUseCase,
     ICreateArchiveUseCase,
     IDeleteArchiveUseCase,
-    IStopArchiveUseCase
+    IStopArchiveUseCase,
+    IChangeLayoutUseCase
 {
 }

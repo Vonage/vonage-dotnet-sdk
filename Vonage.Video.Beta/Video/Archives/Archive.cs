@@ -1,4 +1,6 @@
-﻿namespace Vonage.Video.Beta.Video.Archives;
+﻿using System.Text.Json.Serialization;
+
+namespace Vonage.Video.Beta.Video.Archives;
 
 /// <summary>
 ///     Represents an archive.
@@ -9,46 +11,46 @@ public struct Archive
     ///     The timestamp for when the archive started recording, expressed in milliseconds since the Unix epoch (January 1,
     ///     1970, 00:00:00 UTC).
     /// </summary>
-    public int CreatedAt { get; set; }
+    public int CreatedAt { get; }
 
     /// <summary>
     ///     The duration of the archive in seconds. For archives that have are being recorded (with the status property set to
     ///     "started"), this value is set to 0.
     /// </summary>
-    public int Duration { get; set; }
+    public int Duration { get; }
 
     /// <summary>
     ///     Whether the archive will record audio (true, the default) or not (false). If you set both hasAudio and hasVideo to
     ///     false, the call to this method results in an error.
     /// </summary>
-    public bool HasAudio { get; set; }
+    public bool HasAudio { get; }
 
     /// <summary>
     ///     Whether the archive will record video (true, the default) or not (false). If you set both hasAudio and hasVideo to
     ///     false, the call to this method results in an error.
     /// </summary>
-    public bool HasVideo { get; set; }
+    public bool HasVideo { get; }
 
     /// <summary>
     ///     The unique archive ID.
     /// </summary>
-    public string Id { get; set; }
+    public string Id { get; }
 
     /// <summary>
     ///     The name of the archive (for your own identification).
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; }
 
     /// <summary>
     ///     Your Vonage application ID.
     /// </summary>
-    public string ApplicationId { get; set; }
+    public string ApplicationId { get; }
 
     /// <summary>
     ///     For archives with the status "stopped", this can be set to "maximum duration exceeded", "maximum idle time
     ///     exceeded", "session ended", "user initiated". For archives with the status "failed", this can be set to "failure".
     /// </summary>
-    public string Reason { get; set; }
+    public string Reason { get; }
 
     /// <summary>
     ///     The resolution of the archive, either "640x480" (SD landscape, the default), "1280x720" (HD landscape), "1920x1080"
@@ -57,17 +59,17 @@ public struct Archive
     ///     portrait aspect ratio). This property only applies to composed archives. If you set this property and set the
     ///     outputMode property to "individual", the call to the REST method results in an error.
     /// </summary>
-    public string Resolution { get; set; }
+    public string Resolution { get; }
 
     /// <summary>
     ///     The session ID of the Vonage Video session you are working with.
     /// </summary>
-    public string SessionId { get; set; }
+    public string SessionId { get; }
 
     /// <summary>
     ///     The size of the archive file. For archives that have not been generated, this value is set to 0.
     /// </summary>
-    public int Size { get; set; }
+    public int Size { get; }
 
     /// <summary>
     ///     The status of the archive:
@@ -85,7 +87,7 @@ public struct Archive
     ///     "stopped" — The archive stopped recording.
     ///     "uploaded" — The archive is available for download from the S3 bucket you specified in your Video API account.
     /// </summary>
-    public string Status { get; set; }
+    public string Status { get; }
 
     /// <summary>
     ///     Whether streams included in the archive are selected automatically ("auto", the default) or manually ("manual").
@@ -94,19 +96,19 @@ public struct Archive
     ///     You can specify whether a stream's audio, video, or both are included in the archive. In composed archives, in both
     ///     automatic and manual modes, the archive composer includes streams based on stream prioritization rules.
     /// </summary>
-    public string StreamMode { get; set; }
+    public string StreamMode { get; }
 
     /// <summary>
     ///     The download URL of the available archive file. This is only set for an archive with the status set to "available";
     ///     for other archives, (including archives with the status "uploaded") this property is set to null. The download URL
     ///     is obfuscated, and the file is only available from the URL for 10 minutes.
     /// </summary>
-    public string Url { get; set; }
+    public string Url { get; }
 
     /// <summary>
     ///     The collection of streams.
     /// </summary>
-    public Stream[] Streams { get; set; }
+    public Stream[] Streams { get; }
 
     /// <summary>
     ///     Creates an archive.
@@ -159,6 +161,7 @@ public struct Archive
     ///     The download URL is obfuscated, and the file is only available from the URL for 10 minutes.
     /// </param>
     /// <param name="streams">The collection of streams.</param>
+    [JsonConstructor]
     public Archive(int createdAt, int duration, bool hasAudio, bool hasVideo, string id, string name,
         string applicationId, string reason, string resolution, string sessionId, int size, string status,
         string streamMode, string url, Stream[] streams)
@@ -188,19 +191,19 @@ public struct Archive
         /// <summary>
         ///     The stream ID of the stream included in the archive.
         /// </summary>
-        public string StreamId { get; set; }
+        public string StreamId { get; }
 
         /// <summary>
         ///     Whether the archive will record audio (true, the default) or not (false). If you set both hasAudio and hasVideo to
         ///     false, the call to this method results in an error.
         /// </summary>
-        public bool HasAudio { get; set; }
+        public bool HasAudio { get; }
 
         /// <summary>
         ///     Whether the archive will record video (true, the default) or not (false). If you set both hasAudio and hasVideo to
         ///     false, the call to this method results in an error.
         /// </summary>
-        public bool HasVideo { get; set; }
+        public bool HasVideo { get; }
 
         /// <summary>
         ///     Creates a stream.
@@ -214,6 +217,7 @@ public struct Archive
         ///     Whether the archive will record video (true, the default) or not (false). If you set both
         ///     hasAudio and hasVideo to false, the call to this method results in an error.
         /// </param>
+        [JsonConstructor]
         public Stream(string streamId, bool hasAudio, bool hasVideo)
         {
             this.StreamId = streamId;

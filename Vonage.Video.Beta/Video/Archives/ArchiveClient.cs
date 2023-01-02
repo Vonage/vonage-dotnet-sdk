@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Video.Archives.ChangeLayout;
 using Vonage.Video.Beta.Video.Archives.CreateArchive;
 using Vonage.Video.Beta.Video.Archives.DeleteArchive;
 using Vonage.Video.Beta.Video.Archives.GetArchive;
@@ -18,6 +19,7 @@ public class ArchiveClient : IArchiveClient
     private readonly CreateArchiveUseCase createArchiveUseCase;
     private readonly DeleteArchiveUseCase deleteArchiveUseCase;
     private readonly StopArchiveUseCase stopArchiveUseCase;
+    private readonly ChangeLayoutUseCase changeLayoutUseCase;
 
     /// <summary>
     ///     Creates a new client.
@@ -31,6 +33,8 @@ public class ArchiveClient : IArchiveClient
         this.createArchiveUseCase = new CreateArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
         this.deleteArchiveUseCase = new DeleteArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
         this.stopArchiveUseCase = new StopArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+        this.changeLayoutUseCase =
+            new ChangeLayoutUseCase(new VideoHttpClient(httpClient), tokenGeneration);
     }
 
     /// <inheritdoc />
@@ -52,4 +56,8 @@ public class ArchiveClient : IArchiveClient
     /// <inheritdoc />
     public Task<Result<Archive>> StopArchiveAsync(StopArchiveRequest request) =>
         this.stopArchiveUseCase.StopArchiveAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> ChangeLayoutAsync(ChangeLayoutRequest request) =>
+        this.changeLayoutUseCase.ChangeLayoutAsync(request);
 }
