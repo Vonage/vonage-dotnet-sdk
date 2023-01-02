@@ -33,8 +33,4 @@
         <None Remove="key.txt"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Video\Archives\Common"/>
-    </ItemGroup>
-
 </Project>

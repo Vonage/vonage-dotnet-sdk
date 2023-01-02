@@ -33,7 +33,7 @@ public class CreateSessionUseCase : ICreateSessionUseCase
 
     private static Result<CreateSessionResponse> GetFirstSessionIfAvailable(CreateSessionResponse[] sessions) =>
         sessions.Any()
-            ? sessions.First()
+            ? sessions[0]
             : Result<CreateSessionResponse>.FromFailure(
                 ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
 }
