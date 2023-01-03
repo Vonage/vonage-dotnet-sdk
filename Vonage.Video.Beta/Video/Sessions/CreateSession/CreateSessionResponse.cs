@@ -15,6 +15,7 @@ public struct CreateSessionResponse
     /// <summary>
     ///     Gets or sets the session Id.
     /// </summary>
+    [JsonPropertyName("session_id")]
     public string SessionId { get; }
 
     /// <summary>
