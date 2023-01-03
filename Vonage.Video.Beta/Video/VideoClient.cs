@@ -33,10 +33,10 @@ public class VideoClient : IVideoClient
     public ISignalingClient SignalingClient { get; private set; }
 
     /// <inheritdoc />
-    public ModerationClient ModerationClient { get; private set; }
+    public IModerationClient ModerationClient { get; private set; }
 
     /// <inheritdoc />
-    public ArchiveClient ArchiveClient { get; private set; }
+    public IArchiveClient ArchiveClient { get; private set; }
 
     /// <summary>
     ///     Creates a new client.
@@ -50,10 +50,11 @@ public class VideoClient : IVideoClient
     private void InitializeClients()
     {
         var client = InitializeHttpClient();
-        this.SessionClient = new SessionClient(client, () => new Jwt().GenerateToken(this.Credentials));
-        this.SignalingClient = new SignalingClient(client, () => new Jwt().GenerateToken(this.Credentials));
-        this.ModerationClient = new ModerationClient(client, () => new Jwt().GenerateToken(this.Credentials));
-        this.ArchiveClient = new ArchiveClient(client, () => new Jwt().GenerateToken(this.Credentials));
+        string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
+        this.SessionClient = new SessionClient(client, GenerateToken);
+        this.SignalingClient = new SignalingClient(client, GenerateToken);
+        this.ModerationClient = new ModerationClient(client, GenerateToken);
+        this.ArchiveClient = new ArchiveClient(client, GenerateToken);
     }
 
     private static HttpClient InitializeHttpClient()

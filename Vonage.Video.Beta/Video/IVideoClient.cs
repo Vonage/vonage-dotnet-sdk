@@ -29,10 +29,10 @@ public interface IVideoClient
     /// <summary>
     ///     Client for moderating connections.
     /// </summary>
-    ModerationClient ModerationClient { get; }
+    IModerationClient ModerationClient { get; }
 
     /// <summary>
     ///     Client for archiving.
     /// </summary>
-    ArchiveClient ArchiveClient { get; }
+    IArchiveClient ArchiveClient { get; }
 }
