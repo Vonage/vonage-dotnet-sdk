@@ -74,6 +74,14 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure()
+        {
+            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
+            var result = await this.client.GetStreamAsync(Result<GetStreamRequest>.FromFailure(expectedFailure));
+            result.Should().BeFailure(expectedFailure);
+        }
+
         private static Result<GetStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
             GetStreamRequest.Parse(fixture.Create<string>(),
                 fixture.Create<string>(),

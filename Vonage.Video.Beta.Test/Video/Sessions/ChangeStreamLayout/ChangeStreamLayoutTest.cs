@@ -53,6 +53,16 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
             result.Should().BeSuccess(Unit.Default);
         }
 
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure()
+        {
+            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
+            var result =
+                await this.client.ChangeStreamLayoutAsync(
+                    Result<ChangeStreamLayoutRequest>.FromFailure(expectedFailure));
+            result.Should().BeFailure(expectedFailure);
+        }
+
         private static Result<ChangeStreamLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
             ChangeStreamLayoutRequest.Parse(
                 fixture.Create<string>(),

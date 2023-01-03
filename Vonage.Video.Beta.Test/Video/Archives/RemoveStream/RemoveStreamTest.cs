@@ -53,6 +53,14 @@ namespace Vonage.Video.Beta.Test.Video.Archives.RemoveStream
             result.Should().BeSuccess(Unit.Default);
         }
 
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure()
+        {
+            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
+            var result = await this.client.RemoveStreamAsync(Result<RemoveStreamRequest>.FromFailure(expectedFailure));
+            result.Should().BeFailure(expectedFailure);
+        }
+
         private static Result<RemoveStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
             RemoveStreamRequest.Parse(fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
 

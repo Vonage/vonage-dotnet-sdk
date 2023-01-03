@@ -6,6 +6,7 @@ using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
+using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
@@ -70,6 +71,15 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
             Prop.ForAll(
                 FsCheckExtensions.GetErrorResponses(),
                 error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
+
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure()
+        {
+            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
+            var result =
+                await this.client.CreateSessionAsync(Result<CreateSessionRequest>.FromFailure(expectedFailure));
+            result.Should().BeFailure(expectedFailure);
+        }
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {

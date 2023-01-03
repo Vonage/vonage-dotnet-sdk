@@ -70,6 +70,14 @@ namespace Vonage.Video.Beta.Test.Video.Archives.GetArchives
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure()
+        {
+            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
+            var result = await this.client.GetArchivesAsync(Result<GetArchivesRequest>.FromFailure(expectedFailure));
+            result.Should().BeFailure(expectedFailure);
+        }
+
         private static Result<GetArchivesRequest> BuildRequest(ISpecimenBuilder fixture) =>
             GetArchivesRequest.Parse(fixture.Create<string>());
 

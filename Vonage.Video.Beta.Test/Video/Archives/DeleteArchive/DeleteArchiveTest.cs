@@ -53,6 +53,15 @@ namespace Vonage.Video.Beta.Test.Video.Archives.DeleteArchive
             result.Should().BeSuccess(Unit.Default);
         }
 
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure()
+        {
+            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
+            var result =
+                await this.client.DeleteArchiveAsync(Result<DeleteArchiveRequest>.FromFailure(expectedFailure));
+            result.Should().BeFailure(expectedFailure);
+        }
+
         private static Result<DeleteArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
             DeleteArchiveRequest.Parse(fixture.Create<string>(), fixture.Create<string>());
 
