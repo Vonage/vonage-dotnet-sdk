@@ -33,4 +33,15 @@
         <None Remove="key.txt"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <None Remove="Video\Sessions\CreateSession\Data\ShouldDeserialize-response.json"/>
+        <Content Include="Video\Sessions\CreateSession\Data\ShouldDeserialize-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sessions\CreateSession\Data\ShouldDeserialize_GivenEmptyArray-response.json"/>
+        <Content Include="Video\Sessions\CreateSession\Data\ShouldDeserialize_GivenEmptyArray-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
 </Project>
