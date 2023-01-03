@@ -15,7 +15,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         }
 
         [Fact]
-        public void ShouldDeserialize()
+        public void ShouldDeserialize200()
         {
             const string expectedId =
                 "2_MX5hOThlMTJjYS1mM2U1LTRkZjgtYmM2Ni1mZDRiNWYzMGI5ZTl-fjE2NzI3MzY4NzgxNjJ-bi9OeFVLbkNaVjBUUnpVSmxjbURqQ3J4flB-fg";
@@ -27,7 +27,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         }
 
         [Fact]
-        public void ShouldDeserialize_GivenEmptyArray()
+        public void ShouldDeserialize200_GivenEmptyArray()
         {
             var response =
                 this.helper.Serializer.DeserializeObject<CreateSessionResponse[]>(this.helper.GetResponseJson());
