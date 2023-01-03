@@ -54,16 +54,28 @@
         <Content Include="Common\Failures\Data\ShouldDeserializeError408-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Common\Failures\Data\ShouldDeserialize413-response.json"/>
         <Content Include="Common\Failures\Data\ShouldDeserializeError413-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Video\Moderation\MuteStream\Data\ShouldDeserialize200-response.json"/>
         <Content Include="Video\Moderation\MuteStream\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Video\Moderation\MuteStreams\Data\ShouldDeserialize200-response.json"/>
         <Content Include="Video\Moderation\MuteStreams\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Common\Failures\Data\ShouldDeserializeError409-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Archives\GetArchives\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Archives\GetArchive\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Archives\CreateArchive\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Archives\StopArchive\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
