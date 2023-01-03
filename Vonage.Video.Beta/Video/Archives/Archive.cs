@@ -11,7 +11,7 @@ public struct Archive
     ///     The timestamp for when the archive started recording, expressed in milliseconds since the Unix epoch (January 1,
     ///     1970, 00:00:00 UTC).
     /// </summary>
-    public int CreatedAt { get; }
+    public long CreatedAt { get; }
 
     /// <summary>
     ///     The duration of the archive in seconds. For archives that have are being recorded (with the status property set to
@@ -162,7 +162,7 @@ public struct Archive
     /// </param>
     /// <param name="streams">The collection of streams.</param>
     [JsonConstructor]
-    public Archive(int createdAt, int duration, bool hasAudio, bool hasVideo, string id, string name,
+    public Archive(long createdAt, int duration, bool hasAudio, bool hasVideo, string id, string name,
         string applicationId, string reason, string resolution, string sessionId, int size, string status,
         string streamMode, string url, Stream[] streams)
     {
