@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Request;
+using Vonage.Video.Beta.Video.Moderation;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Signaling;
 
@@ -11,15 +12,6 @@ public class VideoClient : IVideoClient
 {
     private const string ApiUrl = "https://video.api.vonage.com";
     private Credentials credentials;
-
-    /// <summary>
-    ///     Creates a new client.
-    /// </summary>
-    /// <param name="credentials">Credentials to be used for further clients.</param>
-    public VideoClient(Credentials credentials)
-    {
-        this.Credentials = credentials;
-    }
 
     /// <inheritdoc />
     public Credentials Credentials
@@ -39,11 +31,24 @@ public class VideoClient : IVideoClient
     /// <inheritdoc />
     public ISignalingClient SignalingClient { get; private set; }
 
+    /// <inheritdoc />
+    public ModerationClient ModerationClient { get; private set; }
+
+    /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="credentials">Credentials to be used for further clients.</param>
+    public VideoClient(Credentials credentials)
+    {
+        this.Credentials = credentials;
+    }
+
     private void InitializeClients()
     {
         var client = InitializeHttpClient();
         this.SessionClient = new SessionClient(client, () => new Jwt().GenerateToken(this.Credentials));
         this.SignalingClient = new SignalingClient(client, () => new Jwt().GenerateToken(this.Credentials));
+        this.ModerationClient = new ModerationClient(client, () => new Jwt().GenerateToken(this.Credentials));
     }
 
     private static HttpClient InitializeHttpClient()

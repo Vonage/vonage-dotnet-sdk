@@ -10,8 +10,6 @@ namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
 /// </summary>
 public readonly struct GetStreamsRequest : IVideoRequest
 {
-    private const string CannotBeNullOrWhitespace = "cannot be null or whitespace.";
-
     private GetStreamsRequest(string applicationId, string sessionId)
     {
         this.ApplicationId = applicationId;

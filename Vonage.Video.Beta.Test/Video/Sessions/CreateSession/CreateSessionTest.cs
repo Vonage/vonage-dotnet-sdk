@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;

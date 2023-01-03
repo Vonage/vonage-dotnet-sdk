@@ -2,29 +2,29 @@
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
-using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
-using Vonage.Video.Beta.Video.Sessions;
-using Vonage.Video.Beta.Video.Sessions.GetStream;
+using Vonage.Video.Beta.Video.Moderation;
+using Vonage.Video.Beta.Video.Moderation.MuteStream;
+using WireMock.RequestBuilders;
 using Xunit;
 
-namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
+namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStream
 {
-    public class GetStreamTest
+    public class MuteStreamTest
     {
-        private readonly SessionClient client;
-        private readonly Result<GetStreamRequest> request;
+        private readonly ModerationClient client;
+        private readonly Result<MuteStreamRequest> request;
         private readonly UseCaseHelper helper;
 
-        public GetStreamTest()
+        public MuteStreamTest()
         {
             this.helper = new UseCaseHelper();
-            this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new ModerationClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }
 
@@ -45,37 +45,33 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
-            var expectedResponse = this.helper.Fixture.Create<GetStreamResponse>();
+            var expectedResponse = this.helper.Fixture.Create<MuteStreamResponse>();
             this.helper.Server
-                .Given(WireMockExtensions
-                    .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet())
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK,
                     this.helper.Serializer.SerializeObject(expectedResponse)));
-            var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
-            result.Should().BeSuccess(response =>
-            {
-                response.Id.Should().Be(expectedResponse.Id);
-                response.Name.Should().Be(expectedResponse.Name);
-                response.VideoType.Should().Be(expectedResponse.VideoType);
-                response.LayoutClassList.Should().BeEquivalentTo(expectedResponse.LayoutClassList);
-            });
+            var result = await this.request.BindAsync(requestValue => this.client.MuteStreamAsync(requestValue));
+            result.Should().BeSuccess(expectedResponse);
         }
 
         [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
         {
             var body = this.helper.Fixture.Create<string>();
-            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(GetStreamResponse)}'.";
+            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(MuteStreamResponse)}'.";
             this.helper.Server
-                .Given(WireMockExtensions
-                    .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet())
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, body));
-            var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
+            var result = await this.request.BindAsync(requestValue => this.client.MuteStreamAsync(requestValue));
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
-        private static Result<GetStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetStreamRequest.Parse(fixture.Create<string>(),
+        private IRequestBuilder CreateRequest() =>
+            WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingPost();
+
+        private static Result<MuteStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            MuteStreamRequest.Parse(fixture.Create<string>(),
                 fixture.Create<string>(),
                 fixture.Create<string>());
 
@@ -85,10 +81,9 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
                 ? null
                 : this.helper.Serializer.SerializeObject(error);
             this.helper.Server
-                .Given(WireMockExtensions
-                    .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet())
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
-            var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
+            var result = await this.request.BindAsync(requestValue => this.client.MuteStreamAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
         }
 
@@ -96,10 +91,9 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStream
         {
             var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
             this.helper.Server
-                .Given(WireMockExtensions
-                    .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet())
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(code, jsonError));
-            var result = await this.request.BindAsync(requestValue => this.client.GetStreamAsync(requestValue));
+            var result = await this.request.BindAsync(requestValue => this.client.MuteStreamAsync(requestValue));
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
     }

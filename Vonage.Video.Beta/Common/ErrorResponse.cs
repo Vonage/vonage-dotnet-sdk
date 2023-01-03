@@ -1,12 +1,12 @@
 ﻿using System.Net;
 using Vonage.Video.Beta.Common.Failures;
 
-namespace Vonage.Video.Beta.Video.Sessions;
+namespace Vonage.Video.Beta.Common;
 
 /// <summary>
 ///     Represents an error api response.
 /// </summary>
-public struct ErrorResponse
+public readonly struct ErrorResponse
 {
     /// <summary>
     ///     The response code.

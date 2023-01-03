@@ -8,23 +8,23 @@ using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
-using Vonage.Video.Beta.Video.Signaling;
-using Vonage.Video.Beta.Video.Signaling.SendSignal;
+using Vonage.Video.Beta.Video.Moderation;
+using Vonage.Video.Beta.Video.Moderation.DisconnectConnection;
 using WireMock.RequestBuilders;
 using Xunit;
 
-namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
+namespace Vonage.Video.Beta.Test.Video.Moderation.DisconnectConnection
 {
-    public class SendSignalTest
+    public class DisconnectConnectionTest
     {
-        private readonly SignalingClient client;
-        private readonly Result<SendSignalRequest> request;
+        private readonly ModerationClient client;
+        private readonly Result<DisconnectConnectionRequest> request;
         private readonly UseCaseHelper helper;
 
-        public SendSignalTest()
+        public DisconnectConnectionTest()
         {
             this.helper = new UseCaseHelper();
-            this.client = new SignalingClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new ModerationClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }
 
@@ -49,47 +49,42 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
                 .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK));
             var result =
-                await this.request.BindAsync(requestValue => this.client.SendSignalAsync(requestValue));
+                await this.request.BindAsync(requestValue => this.client.DisconnectConnectionAsync(requestValue));
             result.Should().BeSuccess(Unit.Default);
         }
 
-        private static Result<SendSignalRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            SendSignalRequest.Parse(
-                fixture.Create<string>(),
-                fixture.Create<string>(),
-                fixture.Create<string>(),
-                fixture.Create<SignalContent>());
+        private static Result<DisconnectConnectionRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            DisconnectConnectionRequest.Parse(fixture.Create<string>(), fixture.Create<string>(),
+                fixture.Create<string>());
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
             var expectedBody = error.Message is null
                 ? null
                 : this.helper.Serializer.SerializeObject(error);
-            this.helper.Server.Given(this.CreateRequest())
+            this.helper.Server
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
-            var result = await this.request.BindAsync(requestValue => this.client.SendSignalAsync(requestValue));
+            var result =
+                await this.request.BindAsync(requestValue => this.client.DisconnectConnectionAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
-        }
-
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(value.Content))
-                    .Match(_ => _, _ => string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPost();
         }
 
         private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
         {
             var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
-            this.helper.Server.Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(code, jsonError));
+            this.helper.Server
+                .Given(this.CreateRequest())
+                .RespondWith(WireMockExtensions.CreateResponse(code,
+                    jsonError));
             var result =
-                await this.request.BindAsync(requestValue => this.client.SendSignalAsync(requestValue));
+                await this.request.BindAsync(requestValue => this.client.DisconnectConnectionAsync(requestValue));
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
+
+        private IRequestBuilder CreateRequest() =>
+            WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request))
+                .UsingDelete();
     }
 }

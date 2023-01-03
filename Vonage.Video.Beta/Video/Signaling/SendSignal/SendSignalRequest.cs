@@ -2,7 +2,6 @@
 using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Video.Beta.Common;
-using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Common.Validation;
 
@@ -13,8 +12,6 @@ namespace Vonage.Video.Beta.Video.Signaling.SendSignal;
 /// </summary>
 public readonly struct SendSignalRequest : IVideoRequest
 {
-    private const string CannotBeNullOrWhitespace = "cannot be null or whitespace.";
-
     private SendSignalRequest(string applicationId, string sessionId, string connectionId, SignalContent content)
     {
         this.ApplicationId = applicationId;
@@ -84,14 +81,7 @@ public readonly struct SendSignalRequest : IVideoRequest
     }
 
     private static Result<SendSignalRequest> VerifyApplicationId(SendSignalRequest request) =>
-        VerifyNotEmptyValue(request, request.ApplicationId, nameof(ApplicationId));
-
-    private static Result<SendSignalRequest>
-        VerifyNotEmptyValue(SendSignalRequest request, string value, string name) =>
-        string.IsNullOrWhiteSpace(value)
-            ? Result<SendSignalRequest>.FromFailure(
-                ResultFailure.FromErrorMessage($"{name} {CannotBeNullOrWhitespace}"))
-            : request;
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
 
     private static Result<SendSignalRequest> VerifySessionId(SendSignalRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
