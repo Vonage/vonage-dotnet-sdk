@@ -30,41 +30,28 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="key.txt"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="Video\Sessions\CreateSession\Data\ShouldDeserialize-response.json"/>
-        <None Remove="Video\Sessions\CreateSession\Data\ShouldDeserialize_GivenEmptyArray-response.json"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="Video\Sessions\GetStream\Data\ShouldDeserialize200.json"/>
         <Content Include="Video\Sessions\GetStream\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Video\Sessions\GetStream\Data\ShouldDeserialize400.json"/>
-        <Content Include="Video\Sessions\GetStream\Data\ShouldDeserialize400-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Video\Sessions\GetStream\Data\ShouldDeserialize403.json"/>
-        <Content Include="Video\Sessions\GetStream\Data\ShouldDeserialize403-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Video\Sessions\GetStream\Data\ShouldDeserialize404.json"/>
-        <Content Include="Video\Sessions\GetStream\Data\ShouldDeserialize404-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Video\Sessions\GetStream\Data\ShouldDeserialize408.json"/>
-        <Content Include="Video\Sessions\GetStream\Data\ShouldDeserialize408-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Video\Sessions\CreateSession\Data\ShouldDeserialize200-response.json"/>
         <Content Include="Video\Sessions\CreateSession\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Video\Sessions\CreateSession\Data\ShouldDeserialize200_GivenEmptyArray-response.json"/>
         <Content Include="Video\Sessions\CreateSession\Data\ShouldDeserialize200_GivenEmptyArray-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Sessions\GetStreams\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Common\Failures\Data\ShouldDeserialize400-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Common\Failures\Data\ShouldDeserialize403-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Common\Failures\Data\ShouldDeserialize404-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Common\Failures\Data\ShouldDeserialize408-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions;
+using Vonage.Video.Beta.Test.Common;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
 using Xunit;
 

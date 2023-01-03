@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Vonage.Video.Beta.Common;
 
-namespace Vonage.Video.Beta.Test.Video
+namespace Vonage.Video.Beta.Test.Common
 {
     public class SerializationTestHelper
     {
