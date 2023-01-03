@@ -59,6 +59,14 @@
         <Content Include="Video\Sessions\GetStream\Data\ShouldDeserialize408-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="Video\Sessions\CreateSession\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Video\Sessions\CreateSession\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sessions\CreateSession\Data\ShouldDeserialize200_GivenEmptyArray-response.json"/>
+        <Content Include="Video\Sessions\CreateSession\Data\ShouldDeserialize200_GivenEmptyArray-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
