@@ -31,7 +31,7 @@ public struct MuteStreamsResponse
     /// <summary>
     ///     The time at which the project was created (a UNIX timestamp, in milliseconds).
     /// </summary>
-    public int CreatedAt { get; }
+    public long CreatedAt { get; }
 
     /// <summary>
     ///     Creates a response.
@@ -48,7 +48,7 @@ public struct MuteStreamsResponse
     /// </param>
     /// <param name="createdAt">   The time at which the project was created (a UNIX timestamp, in milliseconds).</param>
     [JsonConstructor]
-    public MuteStreamsResponse(string applicationId, string status, string name, string environment, int createdAt)
+    public MuteStreamsResponse(string applicationId, string status, string name, string environment, long createdAt)
     {
         this.ApplicationId = applicationId;
         this.Status = status;

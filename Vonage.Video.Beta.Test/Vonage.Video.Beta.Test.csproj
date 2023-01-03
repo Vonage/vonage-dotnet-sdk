@@ -58,6 +58,14 @@
         <Content Include="Common\Failures\Data\ShouldDeserializeError413-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="Video\Moderation\MuteStream\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Video\Moderation\MuteStream\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Moderation\MuteStreams\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Video\Moderation\MuteStreams\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
