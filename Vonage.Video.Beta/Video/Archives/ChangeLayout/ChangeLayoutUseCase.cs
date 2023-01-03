@@ -22,6 +22,6 @@ public class ChangeLayoutUseCase : IChangeLayoutUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<Unit>> ChangeLayoutAsync(ChangeLayoutRequest request) =>
+    public Task<Result<Unit>> ChangeLayoutAsync(Result<ChangeLayoutRequest> request) =>
         this.videoHttpClient.SendAsync(request, this.generateToken());
 }

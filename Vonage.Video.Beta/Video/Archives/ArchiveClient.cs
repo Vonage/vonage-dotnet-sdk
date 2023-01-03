@@ -44,34 +44,34 @@ public class ArchiveClient : IArchiveClient
     }
 
     /// <inheritdoc />
-    public Task<Result<GetArchivesResponse>> GetArchivesAsync(GetArchivesRequest request) =>
+    public Task<Result<GetArchivesResponse>> GetArchivesAsync(Result<GetArchivesRequest> request) =>
         this.getArchivesUseCase.GetArchivesAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<Archive>> GetArchiveAsync(GetArchiveRequest request) =>
+    public Task<Result<Archive>> GetArchiveAsync(Result<GetArchiveRequest> request) =>
         this.getArchiveUseCase.GetArchiveAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<Archive>> CreateArchiveAsync(CreateArchiveRequest request) =>
+    public Task<Result<Archive>> CreateArchiveAsync(Result<CreateArchiveRequest> request) =>
         this.createArchiveUseCase.CreateArchiveAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<Unit>> DeleteArchiveAsync(DeleteArchiveRequest request) =>
+    public Task<Result<Unit>> DeleteArchiveAsync(Result<DeleteArchiveRequest> request) =>
         this.deleteArchiveUseCase.DeleteArchiveAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<Archive>> StopArchiveAsync(StopArchiveRequest request) =>
+    public Task<Result<Archive>> StopArchiveAsync(Result<StopArchiveRequest> request) =>
         this.stopArchiveUseCase.StopArchiveAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<Unit>> ChangeLayoutAsync(ChangeLayoutRequest request) =>
+    public Task<Result<Unit>> ChangeLayoutAsync(Result<ChangeLayoutRequest> request) =>
         this.changeLayoutUseCase.ChangeLayoutAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<Unit>> AddStreamAsync(AddStreamRequest request) =>
+    public Task<Result<Unit>> AddStreamAsync(Result<AddStreamRequest> request) =>
         this.addStreamUseCase.AddStreamAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<Unit>> RemoveStreamAsync(RemoveStreamRequest request) =>
+    public Task<Result<Unit>> RemoveStreamAsync(Result<RemoveStreamRequest> request) =>
         this.removeStreamUseCase.RemoveStreamAsync(request);
 }

@@ -22,6 +22,6 @@ public class AddStreamUseCase : IAddStreamUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<Unit>> AddStreamAsync(AddStreamRequest request) =>
+    public Task<Result<Unit>> AddStreamAsync(Result<AddStreamRequest> request) =>
         this.videoHttpClient.SendAsync(request, this.generateToken());
 }

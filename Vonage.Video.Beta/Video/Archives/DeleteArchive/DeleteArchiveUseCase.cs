@@ -22,6 +22,6 @@ public class DeleteArchiveUseCase : IDeleteArchiveUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<Unit>> DeleteArchiveAsync(DeleteArchiveRequest request) =>
+    public Task<Result<Unit>> DeleteArchiveAsync(Result<DeleteArchiveRequest> request) =>
         this.videoHttpClient.SendAsync(request, this.generateToken());
 }

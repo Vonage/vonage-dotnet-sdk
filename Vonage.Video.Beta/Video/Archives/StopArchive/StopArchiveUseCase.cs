@@ -22,6 +22,6 @@ public class StopArchiveUseCase : IStopArchiveUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<Archive>> StopArchiveAsync(StopArchiveRequest request) =>
-        this.videoHttpClient.SendWithResponseAsync<Archive>(request, this.generateToken());
+    public Task<Result<Archive>> StopArchiveAsync(Result<StopArchiveRequest> request) =>
+        this.videoHttpClient.SendWithResponseAsync<Archive, StopArchiveRequest>(request, this.generateToken());
 }

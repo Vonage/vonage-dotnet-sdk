@@ -16,5 +16,5 @@ public interface IGetStreamUseCase
     ///     A success state with the stream if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
-    Task<Result<GetStreamResponse>> GetStreamAsync(GetStreamRequest request);
+    Task<Result<GetStreamResponse>> GetStreamAsync(Result<GetStreamRequest> request);
 }

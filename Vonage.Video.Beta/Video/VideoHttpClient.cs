@@ -32,10 +32,11 @@ public class VideoHttpClient
     /// <param name="request">The request to send.</param>
     /// <param name="token">The token to use for authentication.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    public async Task<Result<T>> SendWithResponseAsync<T>(IVideoRequest request, string token)
+    public async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request,
+        string token) where TRequest : IVideoRequest
     {
-        var response = await this.SendRequestAsync(request, token);
-        return await MatchResponse(response, this.ParseFailure<T>, this.ParseSuccess<T>);
+        var response = await this.SendRequestAsync(request.GetSuccessUnsafe(), token);
+        return await MatchResponse(response, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>);
     }
 
     /// <summary>
@@ -44,9 +45,9 @@ public class VideoHttpClient
     /// <param name="request">The request to send.</param>
     /// <param name="token">The token to use for authentication.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    public async Task<Result<Unit>> SendAsync(IVideoRequest request, string token)
+    public async Task<Result<Unit>> SendAsync<T>(Result<T> request, string token) where T : IVideoRequest
     {
-        var response = await this.SendRequestAsync(request, token);
+        var response = await this.SendRequestAsync(request.GetSuccessUnsafe(), token);
         return await MatchResponse(response, this.ParseFailure<Unit>, CreateSuccessResult);
     }
 

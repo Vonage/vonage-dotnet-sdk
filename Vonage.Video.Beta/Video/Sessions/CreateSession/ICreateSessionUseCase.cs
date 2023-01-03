@@ -13,5 +13,5 @@ public interface ICreateSessionUseCase
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request);
+    Task<Result<CreateSessionResponse>> CreateSessionAsync(Result<CreateSessionRequest> request);
 }

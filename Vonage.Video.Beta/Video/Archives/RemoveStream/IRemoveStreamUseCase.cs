@@ -16,5 +16,5 @@ public interface IRemoveStreamUseCase
     ///     A success state if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
-    Task<Result<Unit>> RemoveStreamAsync(RemoveStreamRequest request);
+    Task<Result<Unit>> RemoveStreamAsync(Result<RemoveStreamRequest> request);
 }

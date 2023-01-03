@@ -16,5 +16,5 @@ public interface ICreateArchiveUseCase
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
-    Task<Result<Archive>> CreateArchiveAsync(CreateArchiveRequest request);
+    Task<Result<Archive>> CreateArchiveAsync(Result<CreateArchiveRequest> request);
 }

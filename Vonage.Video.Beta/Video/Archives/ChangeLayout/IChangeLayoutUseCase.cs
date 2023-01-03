@@ -16,5 +16,5 @@ public interface IChangeLayoutUseCase
     ///     A success state if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
-    Task<Result<Unit>> ChangeLayoutAsync(ChangeLayoutRequest request);
+    Task<Result<Unit>> ChangeLayoutAsync(Result<ChangeLayoutRequest> request);
 }

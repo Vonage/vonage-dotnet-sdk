@@ -22,6 +22,6 @@ public class RemoveStreamUseCase : IRemoveStreamUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<Unit>> RemoveStreamAsync(RemoveStreamRequest request) =>
+    public Task<Result<Unit>> RemoveStreamAsync(Result<RemoveStreamRequest> request) =>
         this.videoHttpClient.SendAsync(request, this.generateToken());
 }

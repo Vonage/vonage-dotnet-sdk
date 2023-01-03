@@ -16,5 +16,5 @@ public interface IDeleteArchiveUseCase
     ///     A success state if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
-    Task<Result<Unit>> DeleteArchiveAsync(DeleteArchiveRequest request);
+    Task<Result<Unit>> DeleteArchiveAsync(Result<DeleteArchiveRequest> request);
 }

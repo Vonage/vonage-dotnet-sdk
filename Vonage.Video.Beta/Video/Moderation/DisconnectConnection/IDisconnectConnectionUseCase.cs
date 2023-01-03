@@ -13,5 +13,5 @@ public interface IDisconnectConnectionUseCase
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    Task<Result<Unit>> DisconnectConnectionAsync(DisconnectConnectionRequest request);
+    Task<Result<Unit>> DisconnectConnectionAsync(Result<DisconnectConnectionRequest> request);
 }

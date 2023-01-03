@@ -22,6 +22,6 @@ public class DisconnectConnectionUseCase : IDisconnectConnectionUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<Unit>> DisconnectConnectionAsync(DisconnectConnectionRequest request) =>
+    public Task<Result<Unit>> DisconnectConnectionAsync(Result<DisconnectConnectionRequest> request) =>
         this.videoHttpClient.SendAsync(request, this.generateToken());
 }

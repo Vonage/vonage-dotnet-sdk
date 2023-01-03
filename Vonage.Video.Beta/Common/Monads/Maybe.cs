@@ -8,7 +8,11 @@ namespace Vonage.Video.Beta.Common.Monads;
 /// <typeparam name="TA">Bound value type.</typeparam>
 public readonly struct Maybe<TA>
 {
+    /// <summary>
+    ///     Message indicating Value cannot be null.
+    /// </summary>
     public const string NullValueMessage = "Value cannot be null.";
+
     private readonly TA value = default;
 
     /// <summary>

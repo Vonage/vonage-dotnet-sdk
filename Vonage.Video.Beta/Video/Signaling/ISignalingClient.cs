@@ -4,7 +4,7 @@ using Vonage.Video.Beta.Video.Signaling.SendSignals;
 namespace Vonage.Video.Beta.Video.Signaling;
 
 /// <summary>
-///     Exposes features for sending & receiving signals.
+///     Exposes features for sending and receiving signals.
 /// </summary>
 public interface ISignalingClient :
     ISendSignalUseCase,

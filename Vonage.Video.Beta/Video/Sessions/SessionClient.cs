@@ -32,18 +32,18 @@ public class SessionClient : ISessionClient
     }
 
     /// <inheritdoc />
-    public Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request) =>
+    public Task<Result<CreateSessionResponse>> CreateSessionAsync(Result<CreateSessionRequest> request) =>
         this.createSessionUseCase.CreateSessionAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<GetStreamResponse>> GetStreamAsync(GetStreamRequest request) =>
+    public Task<Result<GetStreamResponse>> GetStreamAsync(Result<GetStreamRequest> request) =>
         this.getStreamUseCase.GetStreamAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request) =>
+    public Task<Result<GetStreamsResponse>> GetStreamsAsync(Result<GetStreamsRequest> request) =>
         this.getStreamsUseCase.GetStreamsAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<Unit>> ChangeStreamLayoutAsync(ChangeStreamLayoutRequest request) =>
+    public Task<Result<Unit>> ChangeStreamLayoutAsync(Result<ChangeStreamLayoutRequest> request) =>
         this.changeStreamLayoutUseCase.ChangeStreamLayoutAsync(request);
 }
