@@ -18,13 +18,16 @@ namespace Vonage.Video.Beta.Test.Common
             this.Serializer = new JsonSerializer();
         }
 
-        public string GetResponseJson([CallerMemberName] string name = null)
-        {
-            var filePath = string.Concat(this.GetUseCaseFolder(), GetRelativeFilePath(name));
-            return File.Exists(filePath)
+        public string GetResponseJson([CallerMemberName] string name = null) =>
+            ReadFile(string.Concat(this.GetUseCaseFolder(), GetRelativeFilePath(name)));
+
+        public string GetResponseJsonForStatusCode(string statusCode, [CallerMemberName] string name = null) =>
+            ReadFile(string.Concat(this.GetUseCaseFolder(), GetRelativeFilePath(name, statusCode)));
+
+        private static string ReadFile(string filePath) =>
+            File.Exists(filePath)
                 ? CleanJsonContent(File.ReadAllText(filePath))
                 : string.Empty;
-        }
 
         private static string CleanJsonContent(string filePath) =>
             Regex.Replace(filePath, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
@@ -35,5 +38,8 @@ namespace Vonage.Video.Beta.Test.Common
                 .Replace('.', '/');
 
         private static string GetRelativeFilePath(string caller) => $"/Data/{caller}-response.json";
+
+        private static string GetRelativeFilePath(string caller, string statusCode) =>
+            $"/Data/{caller}{statusCode}-response.json";
     }
 }

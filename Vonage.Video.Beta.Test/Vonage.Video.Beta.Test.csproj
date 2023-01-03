@@ -42,16 +42,20 @@
         <Content Include="Video\Sessions\GetStreams\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Common\Failures\Data\ShouldDeserialize400-response.json">
+        <Content Include="Common\Failures\Data\ShouldDeserializeError400-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Common\Failures\Data\ShouldDeserialize403-response.json">
+        <Content Include="Common\Failures\Data\ShouldDeserializeError403-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Common\Failures\Data\ShouldDeserialize404-response.json">
+        <Content Include="Common\Failures\Data\ShouldDeserializeError404-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Common\Failures\Data\ShouldDeserialize408-response.json">
+        <Content Include="Common\Failures\Data\ShouldDeserializeError408-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Common\Failures\Data\ShouldDeserialize413-response.json"/>
+        <Content Include="Common\Failures\Data\ShouldDeserializeError413-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

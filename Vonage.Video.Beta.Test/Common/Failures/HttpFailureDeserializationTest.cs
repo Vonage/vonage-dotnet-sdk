@@ -12,34 +12,18 @@ namespace Vonage.Video.Beta.Test.Common.Failures
         public HttpFailureDeserializationTest() =>
             this.helper = new SerializationTestHelper(typeof(HttpFailureDeserializationTest).Namespace);
 
-        [Fact]
-        public void ShouldDeserialize400() =>
+        [Theory]
+        [InlineData("400", HttpStatusCode.BadRequest,
+            "Invalid request. This response may indicate that data in your request data is invalid JSON. Or it may indicate that you do not pass in a session ID or you passed in an invalid stream ID.")]
+        [InlineData("403", HttpStatusCode.Forbidden, "You passed in an invalid Vonage JWT token.")]
+        [InlineData("404", HttpStatusCode.NotFound, "The session exists but has not had any streams added to it yet.")]
+        [InlineData("408", HttpStatusCode.RequestTimeout, "You passed in an invalid stream ID.")]
+        [InlineData("413", HttpStatusCode.RequestEntityTooLarge,
+            "The type string exceeds the maximum length (128 bytes), or the data string exceeds the maximum size (8 kB).")]
+        public void ShouldDeserializeError(string code, HttpStatusCode statusCode, string message) =>
             this.helper.Serializer
-                .DeserializeObject<HttpFailure>(this.helper.GetResponseJson())
+                .DeserializeObject<HttpFailure>(this.helper.GetResponseJsonForStatusCode(code))
                 .Should()
-                .BeSuccess(HttpFailure.From(HttpStatusCode.BadRequest,
-                    "Invalid request. This response may indicate that data in your request data is invalid JSON. Or it may indicate that you do not pass in a session ID or you passed in an invalid stream ID."));
-
-        [Fact]
-        public void ShouldDeserialize403() =>
-            this.helper.Serializer
-                .DeserializeObject<HttpFailure>(this.helper.GetResponseJson())
-                .Should()
-                .BeSuccess(HttpFailure.From(HttpStatusCode.Forbidden, "You passed in an invalid Vonage JWT token."));
-
-        [Fact]
-        public void ShouldDeserialize404() =>
-            this.helper.Serializer
-                .DeserializeObject<HttpFailure>(this.helper.GetResponseJson())
-                .Should()
-                .BeSuccess(HttpFailure.From(HttpStatusCode.NotFound,
-                    "The session exists but has not had any streams added to it yet."));
-
-        [Fact]
-        public void ShouldDeserialize408() =>
-            this.helper.Serializer
-                .DeserializeObject<HttpFailure>(this.helper.GetResponseJson())
-                .Should()
-                .BeSuccess(HttpFailure.From(HttpStatusCode.RequestTimeout, "You passed in an invalid stream ID."));
+                .BeSuccess(HttpFailure.From(statusCode, message));
     }
 }
