@@ -35,8 +35,9 @@ public class VideoHttpClient
     public async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request,
         string token) where TRequest : IVideoRequest
     {
-        var response = await this.SendRequestAsync(request.GetSuccessUnsafe(), token);
-        return await MatchResponse(response, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>);
+        var resultResponse = await request.MapAsync(value => this.SendRequestAsync(value, token));
+        return await resultResponse.BindAsync(value =>
+            MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
     }
 
     /// <summary>
@@ -47,8 +48,9 @@ public class VideoHttpClient
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<Unit>> SendAsync<T>(Result<T> request, string token) where T : IVideoRequest
     {
-        var response = await this.SendRequestAsync(request.GetSuccessUnsafe(), token);
-        return await MatchResponse(response, this.ParseFailure<Unit>, CreateSuccessResult);
+        var resultResponse = await request.MapAsync(value => this.SendRequestAsync(value, token));
+        return await resultResponse.BindAsync(value =>
+            MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
     }
 
     private Task<HttpResponseMessage> SendRequestAsync(IVideoRequest request, string token) =>
