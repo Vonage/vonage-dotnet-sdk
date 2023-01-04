@@ -29,6 +29,19 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
             this.session = this.helper.Fixture.Create<CreateSessionResponse>();
         }
 
+        [Property]
+        public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
+            Prop.ForAll(
+                FsCheckExtensions.GetInvalidStatusCodes(),
+                FsCheckExtensions.GetNonEmptyStrings(),
+                (statusCode, jsonError) =>
+                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
+                            this.CreateRequest(),
+                            WireMockExtensions.CreateResponse(statusCode, jsonError),
+                            jsonError,
+                            () => this.client.CreateSessionAsync(this.request))
+                        .Wait());
+
         [Fact]
         public async Task ShouldReturnSuccess_GivenSessionIsCreated()
         {
