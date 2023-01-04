@@ -40,13 +40,18 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                 FsCheckExtensions.GetInvalidStatusCodes(),
                 FsCheckExtensions.GetNonEmptyStrings(),
                 (statusCode, jsonError) =>
-                    this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
+                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
+                            this.CreateRequest(),
+                            WireMockExtensions.CreateResponse(statusCode, jsonError),
+                            jsonError,
+                            () => this.client.ChangeStreamLayoutAsync(this.request))
+                        .Wait());
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
             this.helper.Server
-                .Given(this.CreateChangeStreamLayoutRequest())
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK));
             var result =
                 await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
@@ -75,26 +80,14 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                 ? null
                 : this.helper.Serializer.SerializeObject(error);
             this.helper.Server
-                .Given(this.CreateChangeStreamLayoutRequest())
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result =
                 await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
         }
 
-        private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
-        {
-            var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
-            this.helper.Server
-                .Given(this.CreateChangeStreamLayoutRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(code,
-                    jsonError));
-            var result =
-                await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
-        }
-
-        private IRequestBuilder CreateChangeStreamLayoutRequest()
+        private IRequestBuilder CreateRequest()
         {
             var serializedItems =
                 this.request
