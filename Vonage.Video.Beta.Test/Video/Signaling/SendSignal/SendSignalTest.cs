@@ -5,7 +5,6 @@ using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Video.Beta.Common;
-using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Signaling;
@@ -59,12 +58,9 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result = await this.client.SendSignalAsync(Result<SendSignalRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<SendSignalRequest, Unit>(this.client
+                .SendSignalAsync);
 
         private static Result<SendSignalRequest> BuildRequest(ISpecimenBuilder fixture) =>
             SendSignalRequest.Parse(
