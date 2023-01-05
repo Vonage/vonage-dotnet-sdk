@@ -75,12 +75,9 @@ namespace Vonage.Video.Beta.Test.Video.Archives.StopArchive
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result = await this.client.StopArchiveAsync(Result<StopArchiveRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<StopArchiveRequest, Archive>(this.client
+                .StopArchiveAsync);
 
         private static Result<StopArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
             StopArchiveRequest.Parse(fixture.Create<string>(), fixture.Create<string>());

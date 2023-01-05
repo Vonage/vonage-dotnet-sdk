@@ -77,12 +77,10 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result = await this.client.GetStreamsAsync(Result<GetStreamsRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetStreamsRequest, GetStreamsResponse>(this
+                .client
+                .GetStreamsAsync);
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

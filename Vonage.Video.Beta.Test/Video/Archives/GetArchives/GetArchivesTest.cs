@@ -75,12 +75,10 @@ namespace Vonage.Video.Beta.Test.Video.Archives.GetArchives
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result = await this.client.GetArchivesAsync(Result<GetArchivesRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetArchivesRequest, GetArchivesResponse>(this
+                .client
+                .GetArchivesAsync);
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

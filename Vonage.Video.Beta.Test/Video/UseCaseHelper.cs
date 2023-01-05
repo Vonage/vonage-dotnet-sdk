@@ -74,5 +74,13 @@ namespace Vonage.Video.Beta.Test.Video
                 .BeFailure(ResultFailure.FromErrorMessage(
                     $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'."));
         }
+
+        public async Task VerifyReturnsFailureGivenRequestIsFailure<TRequest, TResponse>(
+            Func<Result<TRequest>, Task<Result<TResponse>>> operation)
+        {
+            var expectedFailure = ResultFailure.FromErrorMessage(this.Fixture.Create<string>());
+            var result = await operation(Result<TRequest>.FromFailure(expectedFailure));
+            result.Should().BeFailure(expectedFailure);
+        }
     }
 }

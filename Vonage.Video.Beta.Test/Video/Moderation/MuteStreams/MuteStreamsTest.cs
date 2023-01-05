@@ -72,12 +72,10 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result = await this.client.MuteStreamsAsync(Result<MuteStreamsRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<MuteStreamsRequest, MuteStreamsResponse>(this
+                .client
+                .MuteStreamsAsync);
 
         private IRequestBuilder CreateRequest()
         {
