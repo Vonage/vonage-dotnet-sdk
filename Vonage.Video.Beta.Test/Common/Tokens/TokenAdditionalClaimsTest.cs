@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using EnumsNET;
 using FluentAssertions;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Tokens;
@@ -50,6 +51,18 @@ namespace Vonage.Video.Beta.Test.Common.Tokens
                     request.SessionId.Should().Be(this.sessionId);
                     request.Role.Should().Be(this.role);
                     request.Scope.Should().Be(this.scope);
+                });
+
+        [Fact]
+        public void ToDataDictionary_ShouldReturnDictionaryWithValues() =>
+            TokenAdditionalClaims.Parse(this.sessionId, this.scope, this.role)
+                .Map(claims => claims.ToDataDictionary())
+                .Should()
+                .BeSuccess(request =>
+                {
+                    request["session_id"].Should().Be(this.sessionId);
+                    request["role"].Should().Be(this.role.AsString(EnumFormat.Description));
+                    request["scope"].Should().Be(this.scope);
                 });
     }
 }

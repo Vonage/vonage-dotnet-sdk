@@ -1,4 +1,6 @@
-﻿using Vonage.Video.Beta.Common.Monads;
+﻿using System.Collections.Generic;
+using EnumsNET;
+using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Common.Validation;
 
 namespace Vonage.Video.Beta.Common.Tokens;
@@ -59,6 +61,17 @@ public readonly struct TokenAdditionalClaims
         => Result<TokenAdditionalClaims>
             .FromSuccess(new TokenAdditionalClaims(scope, sessionId, role))
             .Bind(VerifySessionId);
+
+    /// <summary>
+    ///     Converts claims to a dictionary.
+    /// </summary>
+    /// <returns>The claims dictionary.</returns>
+    public Dictionary<string, object> ToDataDictionary() => new()
+    {
+        {"role", this.Role.AsString(EnumFormat.Description)},
+        {"session_id", this.SessionId},
+        {"scope", this.Scope},
+    };
 
     private static Result<TokenAdditionalClaims> VerifySessionId(TokenAdditionalClaims request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
