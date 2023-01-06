@@ -56,6 +56,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.ChangeLayout
             ChangeLayoutRequest.Parse(this.applicationId, this.archiveId, this.layout)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/project/{this.applicationId}/archive/{this.archiveId}/layout");
+                .BeSuccess($"/v2/project/{this.applicationId}/archive/{this.archiveId}/layout");
     }
 }

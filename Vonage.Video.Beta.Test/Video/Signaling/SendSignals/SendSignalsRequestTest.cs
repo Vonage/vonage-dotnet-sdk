@@ -77,6 +77,6 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
             SendSignalsRequest.Parse(this.applicationId, this.sessionId, this.content)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/project/{this.applicationId}/session/{this.sessionId}/signal");
+                .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/signal");
     }
 }

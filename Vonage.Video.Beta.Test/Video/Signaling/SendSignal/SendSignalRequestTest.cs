@@ -90,6 +90,6 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
-                    $"/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}/signal");
+                    $"/v2/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}/signal");
     }
 }
