@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using Vonage.Request;
+using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Common.Tokens;
+using Vonage.Video.Beta.Test.Extensions;
 using Xunit;
 
 namespace Vonage.Video.Beta.Test.Common.Tokens
@@ -26,9 +28,31 @@ j0hq3fgBZz1QLpLxY3TfkM3oFDVhpGvskzjINLk6hxc=
 -----END RSA PRIVATE KEY-----";
 
         [Fact]
-        public void GenerateToken_ShouldGenerateToken_GivenCredentialsAreProvided() =>
-            new VideoTokenGenerator().GenerateToken(Credentials.FromAppIdAndPrivateKey(ApplicationId, PrivateKey))
+        public void GenerateToken_ShouldReturnSuccess_GivenCredentialsAreProvided() =>
+            CreateClaims()
+                .Bind(claims => new VideoTokenGenerator().GenerateToken(GetCredentials(), claims))
                 .Should()
-                .NotBeEmpty();
+                .BeSuccess(token =>
+                {
+                    token.SessionId.Should().Be("sessionValue");
+                    token.Token.Should().NotBeEmpty();
+                });
+
+        [Fact]
+        public void GenerateToken_ShouldReturnFailure_GivenTokenGenerationFails() =>
+            CreateClaims()
+                .Bind(claims =>
+                    new VideoTokenGenerator().GenerateToken(Credentials.FromAppIdAndPrivateKey("123", "random"),
+                        claims))
+                .Should()
+                .BeFailure(failure =>
+                    failure.GetFailureMessage().Should()
+                        .Be("RsaUsingSha alg expects key to be of RSA type or Jwk type with kty='RSA'"));
+
+        private static Result<TokenAdditionalClaims> CreateClaims() =>
+            TokenAdditionalClaims
+                .Parse("sessionValue");
+
+        private static Credentials GetCredentials() => Credentials.FromAppIdAndPrivateKey(ApplicationId, PrivateKey);
     }
 }
