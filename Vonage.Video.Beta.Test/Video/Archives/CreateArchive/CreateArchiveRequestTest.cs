@@ -87,6 +87,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
             CreateArchiveRequest.Parse(this.applicationId, this.sessionId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/project/{this.applicationId}/archive");
+                .BeSuccess($"/v2/project/{this.applicationId}/archive");
     }
 }
