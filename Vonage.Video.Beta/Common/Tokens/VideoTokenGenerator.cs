@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Vonage.Request;
+﻿using Vonage.Request;
 
 namespace Vonage.Video.Beta.Common.Tokens;
 
@@ -7,6 +6,6 @@ namespace Vonage.Video.Beta.Common.Tokens;
 public class VideoTokenGenerator : Jwt, IVideoTokenGenerator
 {
     /// <inheritdoc />
-    public string GenerateToken(Credentials credentials, Dictionary<string, object> claims) =>
-        CreateTokenWithClaims(credentials.ApplicationId, credentials.ApplicationKey, claims);
+    public string GenerateToken(Credentials credentials, TokenAdditionalClaims claims) =>
+        CreateTokenWithClaims(credentials.ApplicationId, credentials.ApplicationKey, claims.ToDataDictionary());
 }

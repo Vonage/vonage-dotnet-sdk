@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Vonage.Request;
+﻿using Vonage.Request;
 
 namespace Vonage.Video.Beta.Common.Tokens;
 
@@ -14,5 +13,5 @@ public interface IVideoTokenGenerator
     /// <param name="credentials">The application credentials.</param>
     /// <param name="claims">Additional claims for the token.</param>
     /// <returns>The token.</returns>
-    string GenerateToken(Credentials credentials, Dictionary<string, object> claims);
+    string GenerateToken(Credentials credentials, TokenAdditionalClaims claims);
 }
