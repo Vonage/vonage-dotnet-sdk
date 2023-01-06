@@ -78,6 +78,10 @@
         <Content Include="Video\Archives\StopArchive\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="Key.txt"/>
+        <Content Include="Key.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
