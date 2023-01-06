@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
-using Vonage.Video.Beta.Video;
 
 namespace Vonage.Video.Beta.Common.Validation;
 
@@ -23,7 +22,7 @@ public static class InputValidation
     /// <param name="name">The display name.</param>
     /// <typeparam name="T">The request type.</typeparam>
     /// <returns>Success or Failure.</returns>
-    public static Result<T> VerifyNotEmpty<T>(T request, string value, string name) where T : IVideoRequest =>
+    public static Result<T> VerifyNotEmpty<T>(T request, string value, string name) =>
         string.IsNullOrWhiteSpace(value)
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {StringCannotBeNullOrWhitespace}"))
@@ -52,7 +51,7 @@ public static class InputValidation
     /// <param name="name">The display name.</param>
     /// <typeparam name="T">The request type.</typeparam>
     /// <returns>Success or Failure.</returns>
-    public static Result<T> VerifyNotNegative<T>(T request, int value, string name) where T : IVideoRequest =>
+    public static Result<T> VerifyNotNegative<T>(T request, int value, string name) =>
         value < 0
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {IntCannotBeNegative}"))
@@ -67,8 +66,7 @@ public static class InputValidation
     /// <param name="name">The display name.</param>
     /// <typeparam name="T">The request type.</typeparam>
     /// <returns>Success or Failure.</returns>
-    public static Result<T> VerifyLowerOrEqualThan<T>(T request, int value, int maxValue, string name)
-        where T : IVideoRequest =>
+    public static Result<T> VerifyLowerOrEqualThan<T>(T request, int value, int maxValue, string name) =>
         value > maxValue
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage(
