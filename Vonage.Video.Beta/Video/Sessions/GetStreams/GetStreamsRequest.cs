@@ -39,7 +39,7 @@ public readonly struct GetStreamsRequest : IVideoRequest
             .Bind(VerifySessionId);
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/stream";
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream";
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token)

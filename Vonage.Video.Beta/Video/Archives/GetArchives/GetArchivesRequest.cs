@@ -86,7 +86,7 @@ public readonly struct GetArchivesRequest : IVideoRequest
     /// <inheritdoc />
     public string GetEndpointPath()
     {
-        var path = $"/project/{this.ApplicationId}/archive?offset={this.Offset}&count={this.Count}";
+        var path = $"/v2/project/{this.ApplicationId}/archive?offset={this.Offset}&count={this.Count}";
         return string.IsNullOrWhiteSpace(this.SessionId) switch
         {
             false => string.Concat(path, $"&sessionId={this.SessionId}"),

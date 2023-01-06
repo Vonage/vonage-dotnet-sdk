@@ -48,7 +48,7 @@ public readonly struct MuteStreamRequest : IVideoRequest
 
     /// <inheritdoc />
     public string GetEndpointPath() =>
-        $"/project/{this.ApplicationId}/session/{this.SessionId}/stream/{this.StreamId}/mute";
+        $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream/{this.StreamId}/mute";
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token)

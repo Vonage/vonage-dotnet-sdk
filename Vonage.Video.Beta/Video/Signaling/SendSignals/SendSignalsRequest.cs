@@ -53,7 +53,7 @@ public readonly struct SendSignalsRequest : IVideoRequest
     ///     Retrieves the endpoint's path.
     /// </summary>
     /// <returns>The endpoint's path.</returns>
-    public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/signal";
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/signal";
 
     /// <summary>
     ///     Creates a Http request for retrieving a stream.
