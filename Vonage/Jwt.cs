@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using Jose;
 using Vonage.Request;
@@ -7,6 +8,7 @@ using Vonage.Voice;
 
 namespace Vonage
 {
+    /// <inheritdoc />
     public class Jwt : ITokenGenerator
     {
         /// <inheritdoc />
@@ -16,7 +18,11 @@ namespace Vonage
         public string GenerateToken(Credentials credentials) =>
             this.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey);
 
-        public static string CreateToken(string appId, string privateKey)
+        public static string CreateToken(string appId, string privateKey) =>
+            CreateTokenWithClaims(appId, privateKey);
+
+        protected static string CreateTokenWithClaims(string appId, string privateKey,
+            Dictionary<string, object> claims = null)
         {
             var tokenData = new byte[64];
             var rng = RandomNumberGenerator.Create();
@@ -28,6 +34,7 @@ namespace Vonage
                 {"application_id", appId},
                 {"jti", jwtTokenId},
             };
+            claims?.ToList().ForEach(claim => payload.Add(claim.Key, claim.Value));
             var rsa = PemParse.DecodePEMKey(privateKey);
             return JWT.Encode(payload, rsa, JwsAlgorithm.RS256);
         }
