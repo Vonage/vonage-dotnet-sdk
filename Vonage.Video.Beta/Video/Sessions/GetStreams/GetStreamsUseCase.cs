@@ -22,6 +22,7 @@ public class GetStreamsUseCase : IGetStreamsUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request) =>
-        this.videoHttpClient.SendWithResponseAsync<GetStreamsResponse>(request, this.generateToken());
+    public Task<Result<GetStreamsResponse>> GetStreamsAsync(Result<GetStreamsRequest> request) =>
+        this.videoHttpClient.SendWithResponseAsync<GetStreamsResponse, GetStreamsRequest>(request,
+            this.generateToken());
 }

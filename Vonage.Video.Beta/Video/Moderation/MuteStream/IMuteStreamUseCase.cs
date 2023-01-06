@@ -13,5 +13,5 @@ public interface IMuteStreamUseCase
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success with the stream information if the operation succeeds, Failure it if fails.</returns>
-    Task<Result<MuteStreamResponse>> MuteStreamAsync(MuteStreamRequest request);
+    Task<Result<MuteStreamResponse>> MuteStreamAsync(Result<MuteStreamRequest> request);
 }

@@ -1,4 +1,6 @@
-﻿namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
+﻿using System.Text.Json.Serialization;
+
+namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
 
 /// <summary>
 ///     Represents the response when a session has been created.
@@ -11,16 +13,15 @@ public struct CreateSessionResponse
     public const string NoSessionCreated = "No session was created.";
 
     /// <summary>
+    ///     Gets or sets the session Id.
+    /// </summary>
+    [JsonPropertyName("session_id")]
+    public string SessionId { get; }
+
+    /// <summary>
     ///     Creates a new response.
     /// </summary>
     /// <param name="sessionId">The created session Id.</param>
+    [JsonConstructor]
     public CreateSessionResponse(string sessionId) => this.SessionId = sessionId;
-
-    /// <summary>
-    ///     Gets or sets the session Id.
-    /// </summary>
-    /// <remarks>
-    ///     This struct should be read-only. The setter is mandatory for deserialization.
-    /// </remarks>
-    public string SessionId { get; set; }
 }

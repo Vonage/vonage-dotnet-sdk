@@ -53,6 +53,16 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.DisconnectConnection
             result.Should().BeSuccess(Unit.Default);
         }
 
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure()
+        {
+            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
+            var result =
+                await this.client.DisconnectConnectionAsync(
+                    Result<DisconnectConnectionRequest>.FromFailure(expectedFailure));
+            result.Should().BeFailure(expectedFailure);
+        }
+
         private static Result<DisconnectConnectionRequest> BuildRequest(ISpecimenBuilder fixture) =>
             DisconnectConnectionRequest.Parse(fixture.Create<string>(), fixture.Create<string>(),
                 fixture.Create<string>());

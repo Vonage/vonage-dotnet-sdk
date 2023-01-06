@@ -22,6 +22,6 @@ public class SendSignalsUseCase : ISendSignalsUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<Unit>> SendSignalsAsync(SendSignalsRequest request) =>
+    public Task<Result<Unit>> SendSignalsAsync(Result<SendSignalsRequest> request) =>
         this.videoHttpClient.SendAsync(request, this.generateToken());
 }

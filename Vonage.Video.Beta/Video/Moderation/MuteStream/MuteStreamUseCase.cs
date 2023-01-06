@@ -22,6 +22,7 @@ public class MuteStreamUseCase : IMuteStreamUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<MuteStreamResponse>> MuteStreamAsync(MuteStreamRequest request) =>
-        this.videoHttpClient.SendWithResponseAsync<MuteStreamResponse>(request, this.generateToken());
+    public Task<Result<MuteStreamResponse>> MuteStreamAsync(Result<MuteStreamRequest> request) =>
+        this.videoHttpClient.SendWithResponseAsync<MuteStreamResponse, MuteStreamRequest>(request,
+            this.generateToken());
 }

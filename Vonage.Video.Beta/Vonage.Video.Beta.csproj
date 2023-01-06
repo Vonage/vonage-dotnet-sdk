@@ -57,10 +57,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Video\Archives"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Vonage\Vonage.csproj"/>
     </ItemGroup>
 
@@ -69,6 +65,10 @@
             <Pack>True</Pack>
             <PackagePath/>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Enums.NET" Version="4.0.1"/>
     </ItemGroup>
 
 </Project>

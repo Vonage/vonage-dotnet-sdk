@@ -53,6 +53,14 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
             result.Should().BeSuccess(Unit.Default);
         }
 
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure()
+        {
+            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
+            var result = await this.client.SendSignalAsync(Result<SendSignalRequest>.FromFailure(expectedFailure));
+            result.Should().BeFailure(expectedFailure);
+        }
+
         private static Result<SendSignalRequest> BuildRequest(ISpecimenBuilder fixture) =>
             SendSignalRequest.Parse(
                 fixture.Create<string>(),

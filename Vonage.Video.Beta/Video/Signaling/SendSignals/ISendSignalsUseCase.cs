@@ -13,5 +13,5 @@ public interface ISendSignalsUseCase
     /// </summary>
     /// <param name="request">The signal request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    Task<Result<Unit>> SendSignalsAsync(SendSignalsRequest request);
+    Task<Result<Unit>> SendSignalsAsync(Result<SendSignalsRequest> request);
 }

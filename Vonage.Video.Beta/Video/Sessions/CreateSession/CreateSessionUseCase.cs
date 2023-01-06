@@ -24,16 +24,17 @@ public class CreateSessionUseCase : ICreateSessionUseCase
     }
 
     /// <inheritdoc />
-    public async Task<Result<CreateSessionResponse>> CreateSessionAsync(CreateSessionRequest request)
+    public async Task<Result<CreateSessionResponse>> CreateSessionAsync(Result<CreateSessionRequest> request)
     {
         var result =
-            await this.videoHttpClient.SendWithResponseAsync<CreateSessionResponse[]>(request, this.generateToken());
+            await this.videoHttpClient.SendWithResponseAsync<CreateSessionResponse[], CreateSessionRequest>(request,
+                this.generateToken());
         return result.Bind(GetFirstSessionIfAvailable);
     }
 
     private static Result<CreateSessionResponse> GetFirstSessionIfAvailable(CreateSessionResponse[] sessions) =>
         sessions.Any()
-            ? sessions.First()
+            ? sessions[0]
             : Result<CreateSessionResponse>.FromFailure(
                 ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
 }

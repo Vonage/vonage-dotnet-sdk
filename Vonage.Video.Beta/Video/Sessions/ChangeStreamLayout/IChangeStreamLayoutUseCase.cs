@@ -13,5 +13,5 @@ public interface IChangeStreamLayoutUseCase
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    Task<Result<Unit>> ChangeStreamLayoutAsync(ChangeStreamLayoutRequest request);
+    Task<Result<Unit>> ChangeStreamLayoutAsync(Result<ChangeStreamLayoutRequest> request);
 }

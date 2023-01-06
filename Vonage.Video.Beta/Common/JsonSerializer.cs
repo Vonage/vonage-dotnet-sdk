@@ -1,8 +1,8 @@
 ﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Video.Archives.Common;
 
 namespace Vonage.Video.Beta.Common;
 
@@ -11,22 +11,28 @@ namespace Vonage.Video.Beta.Common;
 /// </summary>
 public class JsonSerializer : IJsonSerializer
 {
-    private readonly JsonSerializerSettings settings;
+    private readonly JsonSerializerOptions settings;
 
+    /// <summary>
+    /// </summary>
     public JsonSerializer()
     {
-        this.settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
+        this.settings = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+        this.settings.Converters.Add(new LayoutTypeConverter());
     }
 
     /// <inheritdoc />
-    public string SerializeObject<T>(T value) => JsonConvert.SerializeObject(value, this.settings);
+    public string SerializeObject<T>(T value) => System.Text.Json.JsonSerializer.Serialize(value, this.settings);
 
     /// <inheritdoc />
     public Result<T> DeserializeObject<T>(string serializedValue)
     {
         try
         {
-            var serializedObject = JsonConvert.DeserializeObject<T>(serializedValue);
+            var serializedObject = System.Text.Json.JsonSerializer.Deserialize<T>(serializedValue, this.settings);
             return Result<T>.FromSuccess(serializedObject);
         }
         catch (Exception)

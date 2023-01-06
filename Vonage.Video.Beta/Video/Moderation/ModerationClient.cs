@@ -29,14 +29,14 @@ public class ModerationClient : IModerationClient
     }
 
     /// <inheritdoc />
-    public Task<Result<Unit>> DisconnectConnectionAsync(DisconnectConnectionRequest request) =>
+    public Task<Result<Unit>> DisconnectConnectionAsync(Result<DisconnectConnectionRequest> request) =>
         this.disconnectConnectionUseCase.DisconnectConnectionAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<MuteStreamResponse>> MuteStreamAsync(MuteStreamRequest request) =>
+    public Task<Result<MuteStreamResponse>> MuteStreamAsync(Result<MuteStreamRequest> request) =>
         this.muteStreamUseCase.MuteStreamAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<MuteStreamsResponse>> MuteStreamsAsync(MuteStreamsRequest request) =>
+    public Task<Result<MuteStreamsResponse>> MuteStreamsAsync(Result<MuteStreamsRequest> request) =>
         this.muteStreamsUseCase.MuteStreamsAsync(request);
 }

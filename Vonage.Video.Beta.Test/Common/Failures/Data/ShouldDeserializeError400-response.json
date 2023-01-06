@@ -1,0 +1,4 @@
+{
+  "code": 400,
+  "message": "Invalid request. This response may indicate that data in your request data is invalid JSON. Or it may indicate that you do not pass in a session ID or you passed in an invalid stream ID."
+}

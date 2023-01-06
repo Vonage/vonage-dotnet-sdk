@@ -25,10 +25,10 @@ public class SignalingClient : ISignalingClient
     }
 
     /// <inheritdoc />
-    public Task<Result<Unit>> SendSignalsAsync(SendSignalsRequest request) =>
+    public Task<Result<Unit>> SendSignalsAsync(Result<SendSignalsRequest> request) =>
         this.sendSignalsUseCase.SendSignalsAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<Unit>> SendSignalAsync(SendSignalRequest request) =>
+    public Task<Result<Unit>> SendSignalAsync(Result<SendSignalRequest> request) =>
         this.sendSignalUseCase.SendSignalAsync(request);
 }

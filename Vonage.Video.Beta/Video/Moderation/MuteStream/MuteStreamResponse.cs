@@ -1,4 +1,6 @@
-﻿namespace Vonage.Video.Beta.Video.Moderation.MuteStream;
+﻿using System.Text.Json.Serialization;
+
+namespace Vonage.Video.Beta.Video.Moderation.MuteStream;
 
 /// <summary>
 ///     Represents the response when a stream has been muted.
@@ -8,28 +10,28 @@ public struct MuteStreamResponse
     /// <summary>
     ///     The Vonage application ID.
     /// </summary>
-    public string ApplicationId { get; set; }
+    public string ApplicationId { get; }
 
     /// <summary>
     ///     Whether the project is active ("ACTIVE") or suspended ("SUSPENDED").
     /// </summary>
-    public string Status { get; set; }
+    public string Status { get; }
 
     /// <summary>
     ///     The name, if you specified one when creating the project; or an empty string if you did not specify a name.
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; }
 
     /// <summary>
     ///     This is set to "standard" or "enterprise", and it refers to the environment a project is running on. Enterprise
     ///     package partners have access to the enterprise environment.
     /// </summary>
-    public string Environment { get; set; }
+    public string Environment { get; }
 
     /// <summary>
     ///     The time at which the project was created (a UNIX timestamp, in milliseconds).
     /// </summary>
-    public int CreatedAt { get; set; }
+    public long CreatedAt { get; }
 
     /// <summary>
     ///     Creates a response.
@@ -45,7 +47,8 @@ public struct MuteStreamResponse
     ///     running on. Enterprise package partners have access to the enterprise environment.
     /// </param>
     /// <param name="createdAt">   The time at which the project was created (a UNIX timestamp, in milliseconds).</param>
-    public MuteStreamResponse(string applicationId, string status, string name, string environment, int createdAt)
+    [JsonConstructor]
+    public MuteStreamResponse(string applicationId, string status, string name, string environment, long createdAt)
     {
         this.ApplicationId = applicationId;
         this.Status = status;

@@ -13,5 +13,5 @@ public interface IGetStreamsUseCase
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A success state with streams if the operation succeeded. A failure state with the error message if it failed.</returns>
-    Task<Result<GetStreamsResponse>> GetStreamsAsync(GetStreamsRequest request);
+    Task<Result<GetStreamsResponse>> GetStreamsAsync(Result<GetStreamsRequest> request);
 }

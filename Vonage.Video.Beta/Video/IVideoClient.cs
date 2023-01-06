@@ -1,4 +1,5 @@
 ﻿using Vonage.Request;
+using Vonage.Video.Beta.Video.Archives;
 using Vonage.Video.Beta.Video.Moderation;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Signaling;
@@ -28,5 +29,10 @@ public interface IVideoClient
     /// <summary>
     ///     Client for moderating connections.
     /// </summary>
-    ModerationClient ModerationClient { get; }
+    IModerationClient ModerationClient { get; }
+
+    /// <summary>
+    ///     Client for archiving.
+    /// </summary>
+    IArchiveClient ArchiveClient { get; }
 }

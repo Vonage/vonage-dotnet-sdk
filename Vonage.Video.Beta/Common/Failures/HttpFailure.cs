@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.Json.Serialization;
 
 namespace Vonage.Video.Beta.Common.Failures;
 
@@ -7,20 +8,34 @@ namespace Vonage.Video.Beta.Common.Failures;
 /// </summary>
 public readonly struct HttpFailure : IResultFailure
 {
-    private readonly string message;
+    /// <summary>
+    ///     The failure message.
+    /// </summary>
+    /// <remarks>Mandatory for deserialization.</remarks>
+    public string Message { get; }
 
-    private readonly HttpStatusCode code;
+    /// <summary>
+    ///     The status code.
+    /// </summary>
+    /// <remarks>Mandatory for deserialization.</remarks>
+    public HttpStatusCode Code { get; }
 
-    private HttpFailure(HttpStatusCode code, string message)
+    /// <summary>
+    ///     Create a HttpFailure.
+    /// </summary>
+    /// <param name="code"> The status code.</param>
+    /// <param name="message"> The failure message.</param>
+    [JsonConstructor]
+    public HttpFailure(HttpStatusCode code, string message)
     {
-        this.code = code;
-        this.message = message;
+        this.Code = code;
+        this.Message = message;
     }
 
     /// <inheritdoc />
-    public string GetFailureMessage() => string.IsNullOrWhiteSpace(this.message)
-        ? $"{(int) this.code}."
-        : $"{(int) this.code} - {this.message}.";
+    public string GetFailureMessage() => string.IsNullOrWhiteSpace(this.Message)
+        ? $"{(int) this.Code}."
+        : $"{(int) this.Code} - {this.Message}.";
 
     /// <summary>
     ///     Creates a HttpFailure.

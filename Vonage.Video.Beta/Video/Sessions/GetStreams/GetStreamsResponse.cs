@@ -1,4 +1,6 @@
-﻿namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
+﻿using System.Text.Json.Serialization;
+
+namespace Vonage.Video.Beta.Video.Sessions.GetStreams;
 
 /// <summary>
 ///     Represents a response for the GetStreamsRequest.
@@ -6,10 +8,21 @@
 public struct GetStreamsResponse
 {
     /// <summary>
+    ///     Number of items in the response.
+    /// </summary>
+    public int Count { get; }
+
+    /// <summary>
+    ///     Stream layouts for requested session IDs.
+    /// </summary>
+    public Stream[] Items { get; }
+
+    /// <summary>
     ///     Creates a response.
     /// </summary>
     /// <param name="count">The number of elements.</param>
     /// <param name="items">The streams.</param>
+    [JsonConstructor]
     public GetStreamsResponse(int count, Stream[] items)
     {
         this.Count = count;
@@ -17,42 +30,17 @@ public struct GetStreamsResponse
     }
 
     /// <summary>
-    ///     Number of items in the response.
-    /// </summary>
-    public int Count { get; set; }
-
-    /// <summary>
-    ///     Stream layouts for requested session IDs.
-    /// </summary>
-    public Stream[] Items { get; set; }
-
-    /// <summary>
     ///     Represents a stream.
     /// </summary>
     public struct Stream
     {
-        /// <summary>
-        ///     Creates a stream.
-        /// </summary>
-        /// <param name="id">The stream ID.</param>
-        /// <param name="videoType">The video type.</param>
-        /// <param name="name"></param>
-        /// <param name="layoutClassList"></param>
-        public Stream(string id, string videoType, string name, string[] layoutClassList)
-        {
-            this.Id = id;
-            this.VideoType = videoType;
-            this.Name = name;
-            this.LayoutClassList = layoutClassList;
-        }
-
         /// <summary>
         ///     The stream Id.
         /// </summary>
         /// <remarks>
         ///     This struct should be read-only. The setter is mandatory for deserialization.
         /// </remarks>
-        public string Id { get; set; }
+        public string Id { get; }
 
         /// <summary>
         ///     Set to "camera", "screen", or "custom". A "screen" video uses screen sharing on the publisher as the video source;
@@ -61,7 +49,7 @@ public struct GetStreamsResponse
         /// <remarks>
         ///     This struct should be read-only. The setter is mandatory for deserialization.
         /// </remarks>
-        public string VideoType { get; set; }
+        public string VideoType { get; }
 
         /// <summary>
         ///     The stream name (if one was set when the client published the stream).
@@ -69,7 +57,7 @@ public struct GetStreamsResponse
         /// <remarks>
         ///     This struct should be read-only. The setter is mandatory for deserialization.
         /// </remarks>
-        public string Name { get; set; }
+        public string Name { get; }
 
         /// <summary>
         ///     An array of the layout classes for the stream.
@@ -77,6 +65,22 @@ public struct GetStreamsResponse
         /// <remarks>
         ///     This struct should be read-only. The setter is mandatory for deserialization.
         /// </remarks>
-        public string[] LayoutClassList { get; set; }
+        public string[] LayoutClassList { get; }
+
+        /// <summary>
+        ///     Creates a stream.
+        /// </summary>
+        /// <param name="id">The stream ID.</param>
+        /// <param name="videoType">The video type.</param>
+        /// <param name="name"></param>
+        /// <param name="layoutClassList"></param>
+        [JsonConstructor]
+        public Stream(string id, string videoType, string name, string[] layoutClassList)
+        {
+            this.Id = id;
+            this.VideoType = videoType;
+            this.Name = name;
+            this.LayoutClassList = layoutClassList;
+        }
     }
 }

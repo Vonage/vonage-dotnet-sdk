@@ -22,6 +22,6 @@ public class ChangeStreamLayoutUseCase : IChangeStreamLayoutUseCase
     }
 
     /// <inheritdoc />
-    public Task<Result<Unit>> ChangeStreamLayoutAsync(ChangeStreamLayoutRequest request) =>
+    public Task<Result<Unit>> ChangeStreamLayoutAsync(Result<ChangeStreamLayoutRequest> request) =>
         this.videoHttpClient.SendAsync(request, this.generateToken());
 }

@@ -1,0 +1,4 @@
+{
+  "code": 404,
+  "message": "The session exists but has not had any streams added to it yet."
+}
