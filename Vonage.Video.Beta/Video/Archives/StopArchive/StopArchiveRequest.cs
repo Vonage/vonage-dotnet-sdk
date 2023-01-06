@@ -39,7 +39,7 @@ public readonly struct StopArchiveRequest : IVideoRequest
             .Bind(VerifyArchiveId);
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/project/{this.ApplicationId}/archive/{this.ArchiveId}/stop";
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/stop";
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token)

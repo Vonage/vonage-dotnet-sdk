@@ -70,7 +70,7 @@ public readonly struct AddStreamRequest : IVideoRequest
             .Bind(VerifyStreamId);
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/project/{this.ApplicationId}/archive/{this.ArchiveId}/streams";
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/streams";
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token)

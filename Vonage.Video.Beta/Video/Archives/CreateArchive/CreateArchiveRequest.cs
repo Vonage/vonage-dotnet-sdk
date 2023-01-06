@@ -148,7 +148,7 @@ public readonly struct CreateArchiveRequest : IVideoRequest
             .Bind(VerifySessionId);
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/project/{this.ApplicationId}/archive";
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive";
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token)
