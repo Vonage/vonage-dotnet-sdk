@@ -51,7 +51,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     request.HasVideo.Should().BeTrue();
                     request.Name.Should().BeEmpty();
                     request.OutputMode.Should().Be("composed");
-                    request.Resolution.Should().Be("640x480");
+                    request.Resolution.Should().Be(RenderResolution.StandardDefinitionLandscape);
                     request.StreamMode.Should().Be("auto");
                     request.Layout.Should().Be(default(ArchiveLayout));
                 });
@@ -65,7 +65,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     false,
                     "name",
                     "individual",
-                    "1920x1080",
+                    RenderResolution.FullHighDefinitionLandscape,
                     "manual",
                     new ArchiveLayout(LayoutType.Custom, "some css", LayoutType.Custom))
                 .Should()
@@ -77,7 +77,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     request.HasVideo.Should().BeFalse();
                     request.Name.Should().Be("name");
                     request.OutputMode.Should().Be("individual");
-                    request.Resolution.Should().Be("1920x1080");
+                    request.Resolution.Should().Be(RenderResolution.FullHighDefinitionLandscape);
                     request.StreamMode.Should().Be("manual");
                     request.Layout.Should().Be(new ArchiveLayout(LayoutType.Custom, "some css", LayoutType.Custom));
                 });

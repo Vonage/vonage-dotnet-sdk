@@ -26,7 +26,7 @@ public readonly struct CreateArchiveRequest : IVideoRequest
     /// <param name="resolution"></param>
     /// <param name="streamMode"></param>
     private CreateArchiveRequest(ArchiveLayout layout, string applicationId, string sessionId, bool hasAudio,
-        bool hasVideo, string name, string outputMode, string resolution, string streamMode)
+        bool hasVideo, string name, string outputMode, RenderResolution resolution, string streamMode)
     {
         this.Layout = layout;
         this.ApplicationId = applicationId;
@@ -85,7 +85,7 @@ public readonly struct CreateArchiveRequest : IVideoRequest
     ///     portrait aspect ratio). This property only applies to composed archives. If you set this property and set the
     ///     outputMode property to "individual", the call to the REST method results in an error.
     /// </summary>
-    public string Resolution { get; }
+    public RenderResolution Resolution { get; }
 
     /// <summary>
     ///     Whether streams included in the archive are selected automatically ("auto", the default) or manually ("manual").
@@ -138,7 +138,7 @@ public readonly struct CreateArchiveRequest : IVideoRequest
         bool hasVideo = true,
         string name = "",
         string outputMode = "composed",
-        string resolution = "640x480",
+        RenderResolution resolution = RenderResolution.StandardDefinitionLandscape,
         string streamMode = "auto",
         ArchiveLayout layout = default) =>
         Result<CreateArchiveRequest>

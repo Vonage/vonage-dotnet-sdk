@@ -88,7 +88,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                 fixture.Create<bool>(),
                 fixture.Create<string>(),
                 fixture.Create<string>(),
-                fixture.Create<string>(),
+                fixture.Create<RenderResolution>(),
                 fixture.Create<string>(),
                 fixture.Create<ArchiveLayout>());
 

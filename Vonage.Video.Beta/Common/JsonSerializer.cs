@@ -22,6 +22,7 @@ public class JsonSerializer : IJsonSerializer
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         };
         this.settings.Converters.Add(new LayoutTypeConverter());
+        this.settings.Converters.Add(new RenderResolutionConverter());
     }
 
     /// <inheritdoc />
