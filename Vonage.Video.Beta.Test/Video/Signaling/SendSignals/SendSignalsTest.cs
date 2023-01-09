@@ -8,6 +8,7 @@ using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Signaling;
+using Vonage.Video.Beta.Video.Signaling.Common;
 using Vonage.Video.Beta.Video.Signaling.SendSignals;
 using WireMock.RequestBuilders;
 using Xunit;

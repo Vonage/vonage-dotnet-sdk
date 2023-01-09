@@ -6,7 +6,7 @@ using Vonage.Video.Beta.Video.Archives.Common;
 namespace Vonage.Video.Beta.Video.Archives.GetArchive;
 
 /// <inheritdoc />
-public class GetArchiveUseCase : IGetArchiveUseCase
+internal class GetArchiveUseCase : IGetArchiveUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;

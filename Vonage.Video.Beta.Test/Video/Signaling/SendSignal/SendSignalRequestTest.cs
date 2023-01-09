@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
-using Vonage.Video.Beta.Video.Signaling;
+using Vonage.Video.Beta.Video.Signaling.Common;
 using Vonage.Video.Beta.Video.Signaling.SendSignal;
 using Xunit;
 

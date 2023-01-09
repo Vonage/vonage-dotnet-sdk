@@ -5,7 +5,7 @@ using Vonage.Video.Beta.Common.Monads;
 namespace Vonage.Video.Beta.Video.Archives.ChangeLayout;
 
 /// <inheritdoc />
-public class ChangeLayoutUseCase : IChangeLayoutUseCase
+internal class ChangeLayoutUseCase : IChangeLayoutUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;

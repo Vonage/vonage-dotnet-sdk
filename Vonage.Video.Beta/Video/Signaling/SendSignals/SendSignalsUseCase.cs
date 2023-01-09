@@ -5,7 +5,7 @@ using Vonage.Video.Beta.Common.Monads;
 namespace Vonage.Video.Beta.Video.Signaling.SendSignals;
 
 /// <inheritdoc />
-public class SendSignalsUseCase : ISendSignalsUseCase
+internal class SendSignalsUseCase : ISendSignalsUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;

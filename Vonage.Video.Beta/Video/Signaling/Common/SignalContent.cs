@@ -1,4 +1,4 @@
-﻿namespace Vonage.Video.Beta.Video.Signaling;
+﻿namespace Vonage.Video.Beta.Video.Signaling.Common;
 
 /// <summary>
 ///     Represents a signal to be sent.

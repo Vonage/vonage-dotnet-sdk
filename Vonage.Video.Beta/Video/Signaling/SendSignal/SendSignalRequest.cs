@@ -4,6 +4,7 @@ using System.Text;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Common.Validation;
+using Vonage.Video.Beta.Video.Signaling.Common;
 
 namespace Vonage.Video.Beta.Video.Signaling.SendSignal;
 

@@ -7,7 +7,7 @@ using Vonage.Video.Beta.Common.Monads;
 namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
 
 /// <inheritdoc />
-public class CreateSessionUseCase : ICreateSessionUseCase
+internal class CreateSessionUseCase : ICreateSessionUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;

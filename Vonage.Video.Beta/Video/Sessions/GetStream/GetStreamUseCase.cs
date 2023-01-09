@@ -5,7 +5,7 @@ using Vonage.Video.Beta.Common.Monads;
 namespace Vonage.Video.Beta.Video.Sessions.GetStream;
 
 /// <inheritdoc />
-public class GetStreamUseCase : IGetStreamUseCase
+internal class GetStreamUseCase : IGetStreamUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;

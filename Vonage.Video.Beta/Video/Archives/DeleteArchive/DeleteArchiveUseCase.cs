@@ -5,7 +5,7 @@ using Vonage.Video.Beta.Common.Monads;
 namespace Vonage.Video.Beta.Video.Archives.DeleteArchive;
 
 /// <inheritdoc />
-public class DeleteArchiveUseCase : IDeleteArchiveUseCase
+internal class DeleteArchiveUseCase : IDeleteArchiveUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;

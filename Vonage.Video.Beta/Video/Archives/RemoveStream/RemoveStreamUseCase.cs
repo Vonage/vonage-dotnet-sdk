@@ -5,7 +5,7 @@ using Vonage.Video.Beta.Common.Monads;
 namespace Vonage.Video.Beta.Video.Archives.RemoveStream;
 
 /// <inheritdoc />
-public class RemoveStreamUseCase : IRemoveStreamUseCase
+internal class RemoveStreamUseCase : IRemoveStreamUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;

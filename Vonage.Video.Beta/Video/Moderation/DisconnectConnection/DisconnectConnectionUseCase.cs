@@ -5,7 +5,7 @@ using Vonage.Video.Beta.Common.Monads;
 namespace Vonage.Video.Beta.Video.Moderation.DisconnectConnection;
 
 /// <inheritdoc />
-public class DisconnectConnectionUseCase : IDisconnectConnectionUseCase
+internal class DisconnectConnectionUseCase : IDisconnectConnectionUseCase
 {
     private readonly VideoHttpClient videoHttpClient;
     private readonly Func<string> generateToken;

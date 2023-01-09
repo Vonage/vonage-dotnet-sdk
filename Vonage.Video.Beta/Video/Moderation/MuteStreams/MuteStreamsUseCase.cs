@@ -5,7 +5,7 @@ using Vonage.Video.Beta.Common.Monads;
 namespace Vonage.Video.Beta.Video.Moderation.MuteStreams;
 
 /// <inheritdoc />
-public class MuteStreamsUseCase : IMuteStreamsUseCase
+internal class MuteStreamsUseCase : IMuteStreamsUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;
