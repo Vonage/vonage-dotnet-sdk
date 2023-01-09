@@ -19,20 +19,20 @@ public interface IVideoClient
     /// <summary>
     ///     Client for managing sessions.
     /// </summary>
-    ISessionClient SessionClient { get; }
+    SessionClient SessionClient { get; }
 
     /// <summary>
     ///     Client for sending signals to participants.
     /// </summary>
-    ISignalingClient SignalingClient { get; }
+    SignalingClient SignalingClient { get; }
 
     /// <summary>
     ///     Client for moderating connections.
     /// </summary>
-    IModerationClient ModerationClient { get; }
+    ModerationClient ModerationClient { get; }
 
     /// <summary>
     ///     Client for archiving.
     /// </summary>
-    IArchiveClient ArchiveClient { get; }
+    ArchiveClient ArchiveClient { get; }
 }

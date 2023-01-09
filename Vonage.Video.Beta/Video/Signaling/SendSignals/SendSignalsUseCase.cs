@@ -4,24 +4,17 @@ using Vonage.Video.Beta.Common.Monads;
 
 namespace Vonage.Video.Beta.Video.Signaling.SendSignals;
 
-/// <inheritdoc />
-internal class SendSignalsUseCase : ISendSignalsUseCase
+internal class SendSignalsUseCase
 {
     private readonly Func<string> generateToken;
     private readonly VideoHttpClient videoHttpClient;
 
-    /// <summary>
-    ///     Creates a new instance of use case.
-    /// </summary>
-    /// <param name="client">Custom Http Client to used for further connections.</param>
-    /// <param name="generateToken">Function used for generating a token.</param>
-    public SendSignalsUseCase(VideoHttpClient client, Func<string> generateToken)
+    internal SendSignalsUseCase(VideoHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
         this.videoHttpClient = client;
     }
 
-    /// <inheritdoc />
-    public Task<Result<Unit>> SendSignalsAsync(Result<SendSignalsRequest> request) =>
+    internal Task<Result<Unit>> SendSignalsAsync(Result<SendSignalsRequest> request) =>
         this.videoHttpClient.SendAsync(request, this.generateToken());
 }

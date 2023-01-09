@@ -9,8 +9,10 @@ using Vonage.Video.Beta.Video.Sessions.GetStreams;
 
 namespace Vonage.Video.Beta.Video.Sessions;
 
-/// <inheritdoc />
-public class SessionClient : ISessionClient
+/// <summary>
+///     Represents a client exposing session features.
+/// </summary>
+public class SessionClient
 {
     private readonly ChangeStreamLayoutUseCase changeStreamLayoutUseCase;
     private readonly CreateSessionUseCase createSessionUseCase;
@@ -31,19 +33,38 @@ public class SessionClient : ISessionClient
             new ChangeStreamLayoutUseCase(new VideoHttpClient(httpClient), tokenGeneration);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Creates a new session.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<CreateSessionResponse>> CreateSessionAsync(Result<CreateSessionRequest> request) =>
         this.createSessionUseCase.CreateSessionAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Retrieves a stream.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state with the stream if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
     public Task<Result<GetStreamResponse>> GetStreamAsync(Result<GetStreamRequest> request) =>
         this.getStreamUseCase.GetStreamAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Retrieves information on all Vonage Video streams in a session.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A success state with streams if the operation succeeded. A failure state with the error message if it failed.</returns>
     public Task<Result<GetStreamsResponse>> GetStreamsAsync(Result<GetStreamsRequest> request) =>
         this.getStreamsUseCase.GetStreamsAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Changes how the stream is displayed in the layout of a composed Vonage Video archive.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> ChangeStreamLayoutAsync(Result<ChangeStreamLayoutRequest> request) =>
         this.changeStreamLayoutUseCase.ChangeStreamLayoutAsync(request);
 }

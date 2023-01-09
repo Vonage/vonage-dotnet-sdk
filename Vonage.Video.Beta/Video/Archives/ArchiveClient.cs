@@ -14,8 +14,10 @@ using Vonage.Video.Beta.Video.Archives.StopArchive;
 
 namespace Vonage.Video.Beta.Video.Archives;
 
-/// <inheritdoc />
-public class ArchiveClient : IArchiveClient
+/// <summary>
+///     Represents a client exposing archiving features.
+/// </summary>
+public class ArchiveClient
 {
     private readonly GetArchivesUseCase getArchivesUseCase;
     private readonly GetArchiveUseCase getArchiveUseCase;
@@ -44,35 +46,88 @@ public class ArchiveClient : IArchiveClient
         this.removeStreamUseCase = new RemoveStreamUseCase(new VideoHttpClient(httpClient), tokenGeneration);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Retrieves all archives from an application.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A success state with archives if the operation succeeded. A failure state with the error message if it failed.</returns>
     public Task<Result<GetArchivesResponse>> GetArchivesAsync(Result<GetArchivesRequest> request) =>
         this.getArchivesUseCase.GetArchivesAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Return the archive information of a specific archive.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
     public Task<Result<Archive>> GetArchiveAsync(Result<GetArchiveRequest> request) =>
         this.getArchiveUseCase.GetArchiveAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Creates a new archive.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
     public Task<Result<Archive>> CreateArchiveAsync(Result<CreateArchiveRequest> request) =>
         this.createArchiveUseCase.CreateArchiveAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Deletes the specified archive.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
     public Task<Result<Unit>> DeleteArchiveAsync(Result<DeleteArchiveRequest> request) =>
         this.deleteArchiveUseCase.DeleteArchiveAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Stops an archive.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
     public Task<Result<Archive>> StopArchiveAsync(Result<StopArchiveRequest> request) =>
         this.stopArchiveUseCase.StopArchiveAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Changes the layout type of a composed archive while it is being recorded.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
     public Task<Result<Unit>> ChangeLayoutAsync(Result<ChangeLayoutRequest> request) =>
         this.changeLayoutUseCase.ChangeLayoutAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Adds the stream included in a composed archive that was started with the streamMode set to "manual".
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
     public Task<Result<Unit>> AddStreamAsync(Result<AddStreamRequest> request) =>
         this.addStreamUseCase.AddStreamAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Removes the stream included in a composed archive that was started with the streamMode set to "manual".
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
     public Task<Result<Unit>> RemoveStreamAsync(Result<RemoveStreamRequest> request) =>
         this.removeStreamUseCase.RemoveStreamAsync(request);
 }
