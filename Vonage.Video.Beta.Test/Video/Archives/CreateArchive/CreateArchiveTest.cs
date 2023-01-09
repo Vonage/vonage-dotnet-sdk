@@ -87,9 +87,9 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                 fixture.Create<bool>(),
                 fixture.Create<bool>(),
                 fixture.Create<string>(),
-                fixture.Create<string>(),
+                fixture.Create<OutputMode>(),
                 fixture.Create<RenderResolution>(),
-                fixture.Create<string>(),
+                fixture.Create<StreamMode>(),
                 fixture.Create<ArchiveLayout>());
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)

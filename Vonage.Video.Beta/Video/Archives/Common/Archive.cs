@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
-using Vonage.Video.Beta.Video.Archives.Common;
 
-namespace Vonage.Video.Beta.Video.Archives;
+namespace Vonage.Video.Beta.Video.Archives.Common;
 
 /// <summary>
 ///     Represents an archive.

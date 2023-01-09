@@ -26,7 +26,7 @@ public readonly struct CreateArchiveRequest : IVideoRequest
     /// <param name="resolution"></param>
     /// <param name="streamMode"></param>
     private CreateArchiveRequest(ArchiveLayout layout, string applicationId, string sessionId, bool hasAudio,
-        bool hasVideo, string name, string outputMode, RenderResolution resolution, string streamMode)
+        bool hasVideo, string name, OutputMode outputMode, RenderResolution resolution, StreamMode streamMode)
     {
         this.Layout = layout;
         this.ApplicationId = applicationId;
@@ -76,7 +76,7 @@ public readonly struct CreateArchiveRequest : IVideoRequest
     ///     Whether all streams in the archive are recorded to a single file ("composed", the default) or to individual files
     ///     ("individual").
     /// </summary>
-    public string OutputMode { get; }
+    public OutputMode OutputMode { get; }
 
     /// <summary>
     ///     The resolution of the archive, either "640x480" (SD landscape, the default), "1280x720" (HD landscape), "1920x1080"
@@ -94,7 +94,7 @@ public readonly struct CreateArchiveRequest : IVideoRequest
     ///     You can specify whether a stream's audio, video, or both are included in the archive. In composed archives, in both
     ///     automatic and manual modes, the archive composer includes streams based on stream prioritization rules.
     /// </summary>
-    public string StreamMode { get; }
+    public StreamMode StreamMode { get; }
 
     /// <summary>
     ///     Parses the input into a CreateArchiveRequest.
@@ -137,9 +137,9 @@ public readonly struct CreateArchiveRequest : IVideoRequest
         bool hasAudio = true,
         bool hasVideo = true,
         string name = "",
-        string outputMode = "composed",
+        OutputMode outputMode = OutputMode.Composed,
         RenderResolution resolution = RenderResolution.StandardDefinitionLandscape,
-        string streamMode = "auto",
+        StreamMode streamMode = StreamMode.Auto,
         ArchiveLayout layout = default) =>
         Result<CreateArchiveRequest>
             .FromSuccess(new CreateArchiveRequest(layout, applicationId, sessionId, hasAudio, hasVideo, name,

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Video.Archives.AddStream;
 using Vonage.Video.Beta.Video.Archives.ChangeLayout;
+using Vonage.Video.Beta.Video.Archives.Common;
 using Vonage.Video.Beta.Video.Archives.CreateArchive;
 using Vonage.Video.Beta.Video.Archives.DeleteArchive;
 using Vonage.Video.Beta.Video.Archives.GetArchive;

@@ -10,6 +10,7 @@ using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Archives;
+using Vonage.Video.Beta.Video.Archives.Common;
 using Vonage.Video.Beta.Video.Archives.StopArchive;
 using WireMock.RequestBuilders;
 using Xunit;

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Video.Archives.Common;
 
 namespace Vonage.Video.Beta.Video.Archives.CreateArchive;
 

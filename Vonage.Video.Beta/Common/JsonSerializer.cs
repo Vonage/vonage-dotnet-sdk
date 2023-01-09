@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Common.Serialization;
 using Vonage.Video.Beta.Video.Archives.Common;
 
 namespace Vonage.Video.Beta.Common;
@@ -21,8 +22,10 @@ public class JsonSerializer : IJsonSerializer
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         };
-        this.settings.Converters.Add(new LayoutTypeConverter());
-        this.settings.Converters.Add(new RenderResolutionConverter());
+        this.settings.Converters.Add(new EnumDescriptionJsonConverter<LayoutType>());
+        this.settings.Converters.Add(new EnumDescriptionJsonConverter<RenderResolution>());
+        this.settings.Converters.Add(new EnumDescriptionJsonConverter<OutputMode>());
+        this.settings.Converters.Add(new EnumDescriptionJsonConverter<StreamMode>());
     }
 
     /// <inheritdoc />
