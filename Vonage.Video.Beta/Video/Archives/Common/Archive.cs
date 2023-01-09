@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Vonage.Video.Beta.Video.Archives;
+namespace Vonage.Video.Beta.Video.Archives.Common;
 
 /// <summary>
 ///     Represents an archive.
@@ -59,7 +59,7 @@ public struct Archive
     ///     portrait aspect ratio). This property only applies to composed archives. If you set this property and set the
     ///     outputMode property to "individual", the call to the REST method results in an error.
     /// </summary>
-    public string Resolution { get; }
+    public RenderResolution Resolution { get; }
 
     /// <summary>
     ///     The session ID of the Vonage Video session you are working with.
@@ -163,7 +163,7 @@ public struct Archive
     /// <param name="streams">The collection of streams.</param>
     [JsonConstructor]
     public Archive(long createdAt, int duration, bool hasAudio, bool hasVideo, string id, string name,
-        string applicationId, string reason, string resolution, string sessionId, int size, string status,
+        string applicationId, string reason, RenderResolution resolution, string sessionId, int size, string status,
         string streamMode, string url, Stream[] streams)
     {
         this.CreatedAt = createdAt;

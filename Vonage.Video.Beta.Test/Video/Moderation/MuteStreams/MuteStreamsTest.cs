@@ -40,7 +40,12 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
                 FsCheckExtensions.GetInvalidStatusCodes(),
                 FsCheckExtensions.GetNonEmptyStrings(),
                 (statusCode, jsonError) =>
-                    this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
+                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
+                            this.CreateRequest(),
+                            WireMockExtensions.CreateResponse(statusCode, jsonError),
+                            jsonError,
+                            () => this.client.MuteStreamsAsync(this.request))
+                        .Wait());
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
@@ -67,12 +72,10 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result = await this.client.MuteStreamsAsync(Result<MuteStreamsRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<MuteStreamsRequest, MuteStreamsResponse>(this
+                .client
+                .MuteStreamsAsync);
 
         private IRequestBuilder CreateRequest()
         {
@@ -100,16 +103,6 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.MuteStreamsAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
-        }
-
-        private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
-        {
-            var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(code, jsonError));
-            var result = await this.request.BindAsync(requestValue => this.client.MuteStreamsAsync(requestValue));
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
     }
 }

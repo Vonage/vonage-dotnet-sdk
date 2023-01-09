@@ -11,7 +11,7 @@ namespace Vonage.Video.Beta.Video;
 /// <summary>
 ///     Represents a custom http client for Vonage's APIs.
 /// </summary>
-public class VideoHttpClient
+internal class VideoHttpClient
 {
     private readonly HttpClient client;
     private readonly JsonSerializer jsonSerializer;
@@ -20,37 +20,10 @@ public class VideoHttpClient
     ///     Creates a custom Http Client.
     /// </summary>
     /// <param name="httpClient">The http client.</param>
-    public VideoHttpClient(HttpClient httpClient)
+    internal VideoHttpClient(HttpClient httpClient)
     {
         this.client = httpClient;
         this.jsonSerializer = new JsonSerializer();
-    }
-
-    /// <summary>
-    ///     Sends a HttpRequest and parses the response.
-    /// </summary>
-    /// <param name="request">The request to send.</param>
-    /// <param name="token">The token to use for authentication.</param>
-    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    public async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request,
-        string token) where TRequest : IVideoRequest
-    {
-        var resultResponse = await request.MapAsync(value => this.SendRequestAsync(value, token));
-        return await resultResponse.BindAsync(value =>
-            MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
-    }
-
-    /// <summary>
-    ///     Sends a HttpRequest.
-    /// </summary>
-    /// <param name="request">The request to send.</param>
-    /// <param name="token">The token to use for authentication.</param>
-    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    public async Task<Result<Unit>> SendAsync<T>(Result<T> request, string token) where T : IVideoRequest
-    {
-        var resultResponse = await request.MapAsync(value => this.SendRequestAsync(value, token));
-        return await resultResponse.BindAsync(value =>
-            MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
     }
 
     private Task<HttpResponseMessage> SendRequestAsync(IVideoRequest request, string token) =>
@@ -89,4 +62,31 @@ public class VideoHttpClient
 
     private static Task<Result<Unit>> CreateSuccessResult(HttpResponseMessage response) =>
         Task.FromResult(Result<Unit>.FromSuccess(Unit.Default));
+
+    /// <summary>
+    ///     Sends a HttpRequest and parses the response.
+    /// </summary>
+    /// <param name="request">The request to send.</param>
+    /// <param name="token">The token to use for authentication.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    internal async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request,
+        string token) where TRequest : IVideoRequest
+    {
+        var resultResponse = await request.MapAsync(value => this.SendRequestAsync(value, token));
+        return await resultResponse.BindAsync(value =>
+            MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
+    }
+
+    /// <summary>
+    ///     Sends a HttpRequest.
+    /// </summary>
+    /// <param name="request">The request to send.</param>
+    /// <param name="token">The token to use for authentication.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    internal async Task<Result<Unit>> SendAsync<T>(Result<T> request, string token) where T : IVideoRequest
+    {
+        var resultResponse = await request.MapAsync(value => this.SendRequestAsync(value, token));
+        return await resultResponse.BindAsync(value =>
+            MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
+    }
 }

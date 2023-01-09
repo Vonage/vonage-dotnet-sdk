@@ -5,6 +5,7 @@ using System.Web;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
+using Vonage.Video.Beta.Video.Sessions.Common;
 
 namespace Vonage.Video.Beta.Video.Sessions.CreateSession;
 
@@ -32,17 +33,17 @@ public readonly struct CreateSessionRequest : IVideoRequest
     }
 
     /// <summary>
-    ///     Defines how archiving is configured for the session.
+    ///     Set to always to have the session archived automatically. With the archiveModeset to manual (the default), you can archive the session by calling the REST /archive POST method. If you set the archiveMode to always, you must also set the p2p.preference parameter to disabled (the default).
     /// </summary>
     public ArchiveMode ArchiveMode { get; }
 
     /// <summary>
-    ///     Defines how media will be transmitted on the session.
+    ///     Indicates how streams are sent.
     /// </summary>
     public MediaMode MediaMode { get; }
 
     /// <summary>
-    ///     The ip address.
+    ///     The IP address that the Vonage Video APi will use to situate the session in its global network. If no location hint is passed in (which is recommended), the session uses a media server based on the location of the first client connecting to the session. Pass a location hint in only if you know the general geographic region (and a representative IP address) and you think the first client connecting may not be in that region. Specify an IP address that is representative of the geographical location for the session.
     /// </summary>
     public IpAddress Location { get; }
 
@@ -54,9 +55,9 @@ public readonly struct CreateSessionRequest : IVideoRequest
     /// <summary>
     ///     Parses the provided input.
     /// </summary>
-    /// <param name="location">The ip address.</param>
-    /// <param name="mediaMode">The media mode.</param>
-    /// <param name="archiveMode">The archive mode.</param>
+    /// <param name="location">The IP address that the Vonage Video APi will use to situate the session in its global network. If no location hint is passed in (which is recommended), the session uses a media server based on the location of the first client connecting to the session. Pass a location hint in only if you know the general geographic region (and a representative IP address) and you think the first client connecting may not be in that region. Specify an IP address that is representative of the geographical location for the session.</param>
+    /// <param name="mediaMode">Indicates how streams are sent.</param>
+    /// <param name="archiveMode">Set to always to have the session archived automatically. With the archiveModeset to manual (the default), you can archive the session by calling the REST /archive POST method. If you set the archiveMode to always, you must also set the p2p.preference parameter to disabled (the default).</param>
     /// <returns>Success if the parsing operation succeeded, Failure if it failed.</returns>
     public static Result<CreateSessionRequest> Parse(string location, MediaMode mediaMode, ArchiveMode archiveMode) =>
         IpAddress

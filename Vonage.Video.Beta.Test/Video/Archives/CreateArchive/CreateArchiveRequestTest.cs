@@ -50,9 +50,9 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     request.HasAudio.Should().BeTrue();
                     request.HasVideo.Should().BeTrue();
                     request.Name.Should().BeEmpty();
-                    request.OutputMode.Should().Be("composed");
-                    request.Resolution.Should().Be("640x480");
-                    request.StreamMode.Should().Be("auto");
+                    request.OutputMode.Should().Be(OutputMode.Composed);
+                    request.Resolution.Should().Be(RenderResolution.StandardDefinitionLandscape);
+                    request.StreamMode.Should().Be(StreamMode.Auto);
                     request.Layout.Should().Be(default(ArchiveLayout));
                 });
 
@@ -64,9 +64,9 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     false,
                     false,
                     "name",
-                    "individual",
-                    "1920x1080",
-                    "manual",
+                    OutputMode.Individual,
+                    RenderResolution.FullHighDefinitionLandscape,
+                    StreamMode.Manual,
                     new ArchiveLayout(LayoutType.Custom, "some css", LayoutType.Custom))
                 .Should()
                 .BeSuccess(request =>
@@ -76,9 +76,9 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     request.HasAudio.Should().BeFalse();
                     request.HasVideo.Should().BeFalse();
                     request.Name.Should().Be("name");
-                    request.OutputMode.Should().Be("individual");
-                    request.Resolution.Should().Be("1920x1080");
-                    request.StreamMode.Should().Be("manual");
+                    request.OutputMode.Should().Be(OutputMode.Individual);
+                    request.Resolution.Should().Be(RenderResolution.FullHighDefinitionLandscape);
+                    request.StreamMode.Should().Be(StreamMode.Manual);
                     request.Layout.Should().Be(new ArchiveLayout(LayoutType.Custom, "some css", LayoutType.Custom));
                 });
 
@@ -87,6 +87,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
             CreateArchiveRequest.Parse(this.applicationId, this.sessionId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/project/{this.applicationId}/archive");
+                .BeSuccess($"/v2/project/{this.applicationId}/archive");
     }
 }

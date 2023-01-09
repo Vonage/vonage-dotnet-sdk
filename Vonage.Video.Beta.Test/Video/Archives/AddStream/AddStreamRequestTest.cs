@@ -79,6 +79,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.AddStream
             AddStreamRequest.Parse(this.applicationId, this.archiveId, this.streamId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/project/{this.applicationId}/archive/{this.archiveId}/streams");
+                .BeSuccess($"/v2/project/{this.applicationId}/archive/{this.archiveId}/streams");
     }
 }

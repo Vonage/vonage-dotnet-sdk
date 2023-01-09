@@ -2,6 +2,7 @@
 using Vonage.Video.Beta.Test.Common;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Archives;
+using Vonage.Video.Beta.Video.Archives.Common;
 using Xunit;
 
 namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
@@ -28,7 +29,7 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     success.HasVideo.Should().BeTrue();
                     success.ApplicationId.Should().Be("78d335fa-323d-0114-9c3d-d6f0d48968cf");
                     success.Reason.Should().Be("random");
-                    success.Resolution.Should().Be("abc123");
+                    success.Resolution.Should().Be(RenderResolution.FullHighDefinitionLandscape);
                     success.SessionId.Should().Be("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN");
                     success.Size.Should().Be(247748791);
                     success.Status.Should().Be("available");

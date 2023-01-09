@@ -54,7 +54,7 @@ public readonly struct MuteStreamsRequest : IVideoRequest
     /// </summary>
     /// <returns>The endpoint's path.</returns>
     public string GetEndpointPath() =>
-        $"/project/{this.ApplicationId}/session/{this.SessionId}/mute";
+        $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/mute";
 
     /// <summary>
     ///     Creates a Http request for retrieving a stream.

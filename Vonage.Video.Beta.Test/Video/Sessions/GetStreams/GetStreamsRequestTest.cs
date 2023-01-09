@@ -52,6 +52,6 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.GetStreams
             GetStreamsRequest.Parse(this.applicationId, this.sessionId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/project/{this.applicationId}/session/{this.sessionId}/stream");
+                .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/stream");
     }
 }

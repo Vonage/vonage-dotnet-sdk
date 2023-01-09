@@ -8,8 +8,10 @@ using Vonage.Video.Beta.Video.Moderation.MuteStreams;
 
 namespace Vonage.Video.Beta.Video.Moderation;
 
-/// <inheritdoc />
-public class ModerationClient : IModerationClient
+/// <summary>
+///     Represents a client exposing moderation features.
+/// </summary>
+public class ModerationClient
 {
     private readonly DisconnectConnectionUseCase disconnectConnectionUseCase;
     private readonly MuteStreamUseCase muteStreamUseCase;
@@ -28,15 +30,28 @@ public class ModerationClient : IModerationClient
         this.muteStreamsUseCase = new MuteStreamsUseCase(new VideoHttpClient(httpClient), tokenGeneration);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Forces a client to disconnect from a session
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> DisconnectConnectionAsync(Result<DisconnectConnectionRequest> request) =>
         this.disconnectConnectionUseCase.DisconnectConnectionAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Mutes a specific publisher stream
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success with the stream information if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<MuteStreamResponse>> MuteStreamAsync(Result<MuteStreamRequest> request) =>
         this.muteStreamUseCase.MuteStreamAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Forces all streams (except for an optional list of streams) in a session to mute published audio. You can also use
+    ///     this method to disable the force mute state of a session.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success with the stream information if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<MuteStreamsResponse>> MuteStreamsAsync(Result<MuteStreamsRequest> request) =>
         this.muteStreamsUseCase.MuteStreamsAsync(request);
 }

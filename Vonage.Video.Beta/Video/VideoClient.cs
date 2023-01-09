@@ -27,16 +27,16 @@ public class VideoClient : IVideoClient
     }
 
     /// <inheritdoc />
-    public ISessionClient SessionClient { get; private set; }
+    public SessionClient SessionClient { get; private set; }
 
     /// <inheritdoc />
-    public ISignalingClient SignalingClient { get; private set; }
+    public SignalingClient SignalingClient { get; private set; }
 
     /// <inheritdoc />
-    public IModerationClient ModerationClient { get; private set; }
+    public ModerationClient ModerationClient { get; private set; }
 
     /// <inheritdoc />
-    public IArchiveClient ArchiveClient { get; private set; }
+    public ArchiveClient ArchiveClient { get; private set; }
 
     /// <summary>
     ///     Creates a new client.

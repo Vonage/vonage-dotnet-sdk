@@ -7,8 +7,10 @@ using Vonage.Video.Beta.Video.Signaling.SendSignals;
 
 namespace Vonage.Video.Beta.Video.Signaling;
 
-/// <inheritdoc />
-public class SignalingClient : ISignalingClient
+/// <summary>
+///     Represents a client exposing signaling features.
+/// </summary>
+public class SignalingClient
 {
     private readonly SendSignalsUseCase sendSignalsUseCase;
     private readonly SendSignalUseCase sendSignalUseCase;
@@ -24,11 +26,19 @@ public class SignalingClient : ISignalingClient
         this.sendSignalsUseCase = new SendSignalsUseCase(new VideoHttpClient(httpClient), tokenGeneration);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Sends signals to all participants in an active Vonage Video session.
+    /// </summary>
+    /// <param name="request">The signal request.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> SendSignalsAsync(Result<SendSignalsRequest> request) =>
         this.sendSignalsUseCase.SendSignalsAsync(request);
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     Sends signals to a single participant in an active Vonage Video session.
+    /// </summary>
+    /// <param name="request">The signal request.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> SendSignalAsync(Result<SendSignalRequest> request) =>
         this.sendSignalUseCase.SendSignalAsync(request);
 }

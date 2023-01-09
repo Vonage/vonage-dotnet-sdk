@@ -1,4 +1,4 @@
-﻿namespace Vonage.Video.Beta.Video.Sessions;
+﻿namespace Vonage.Video.Beta.Video.Sessions.Common;
 
 /// <summary>
 ///     Defines values for a session's Archive mode.
@@ -6,8 +6,7 @@
 public enum ArchiveMode
 {
     /// <summary>
-    ///     The session is not archived automatically. To archive the session, you can call the
-    ///     <see cref="ToBeDefined" /> method.
+    ///     The session is not archived automatically.
     /// </summary>
     Manual,
 

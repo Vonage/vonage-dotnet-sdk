@@ -52,6 +52,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.StopArchive
             StopArchiveRequest.Parse(this.applicationId, this.archiveId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/project/{this.applicationId}/archive/{this.archiveId}/stop");
+                .BeSuccess($"/v2/project/{this.applicationId}/archive/{this.archiveId}/stop");
     }
 }

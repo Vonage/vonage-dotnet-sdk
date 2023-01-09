@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Test.Extensions;
-using Vonage.Video.Beta.Video.Signaling;
+using Vonage.Video.Beta.Video.Signaling.Common;
 using Vonage.Video.Beta.Video.Signaling.SendSignal;
 using Xunit;
 
@@ -90,6 +90,6 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignal
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
-                    $"/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}/signal");
+                    $"/v2/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}/signal");
     }
 }

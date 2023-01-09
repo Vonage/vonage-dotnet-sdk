@@ -66,6 +66,6 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
-                    $"/project/{this.applicationId}/session/{this.sessionId}/mute");
+                    $"/v2/project/{this.applicationId}/session/{this.sessionId}/mute");
     }
 }

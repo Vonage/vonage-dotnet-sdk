@@ -5,10 +5,10 @@ using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Video.Beta.Common;
-using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Signaling;
+using Vonage.Video.Beta.Video.Signaling.Common;
 using Vonage.Video.Beta.Video.Signaling.SendSignals;
 using WireMock.RequestBuilders;
 using Xunit;
@@ -40,8 +40,13 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
                 FsCheckExtensions.GetNonEmptyStrings(),
-                (statusCode, invalidJson) =>
-                    this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, invalidJson).Wait());
+                (statusCode, jsonError) =>
+                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
+                            this.CreateRequest(),
+                            WireMockExtensions.CreateResponse(statusCode, jsonError),
+                            jsonError,
+                            () => this.client.SendSignalsAsync(this.request))
+                        .Wait());
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
@@ -55,12 +60,9 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result = await this.client.SendSignalsAsync(Result<SendSignalsRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<SendSignalsRequest, Unit>(this.client
+                .SendSignalsAsync);
 
         private static Result<SendSignalsRequest> BuildRequest(ISpecimenBuilder fixture) =>
             SendSignalsRequest.Parse(fixture.Create<string>(),
@@ -87,16 +89,6 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
             return WireMockExtensions
                 .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
                 .UsingPost();
-        }
-
-        private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string invalidJson)
-        {
-            var expectedFailureMessage = $"Unable to deserialize '{invalidJson}' into '{nameof(ErrorResponse)}'.";
-            this.helper.Server.Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(code, invalidJson));
-            var result =
-                await this.request.BindAsync(requestValue => this.client.SendSignalsAsync(requestValue));
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
     }
 }

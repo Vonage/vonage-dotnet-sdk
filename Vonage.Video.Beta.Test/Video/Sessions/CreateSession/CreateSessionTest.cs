@@ -6,7 +6,6 @@ using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Failures;
-using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
 using Vonage.Video.Beta.Video.Sessions.CreateSession;
@@ -28,6 +27,19 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
             this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.session = this.helper.Fixture.Create<CreateSessionResponse>();
         }
+
+        [Property]
+        public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
+            Prop.ForAll(
+                FsCheckExtensions.GetInvalidStatusCodes(),
+                FsCheckExtensions.GetNonEmptyStrings(),
+                (statusCode, jsonError) =>
+                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
+                            this.CreateRequest(),
+                            WireMockExtensions.CreateResponse(statusCode, jsonError),
+                            jsonError,
+                            () => this.client.CreateSessionAsync(this.request))
+                        .Wait());
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenSessionIsCreated()
@@ -73,13 +85,10 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                 error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result =
-                await this.client.CreateSessionAsync(Result<CreateSessionRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<CreateSessionRequest, CreateSessionResponse>(
+                this.client
+                    .CreateSessionAsync);
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {

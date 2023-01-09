@@ -64,6 +64,6 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.DisconnectConnection
             DisconnectConnectionRequest.Parse(this.applicationId, this.sessionId, this.connectionId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}");
+                .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}");
     }
 }

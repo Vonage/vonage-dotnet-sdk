@@ -69,13 +69,13 @@ namespace Vonage.Video.Beta.Test.Video.Archives.GetArchives
 
         [Theory]
         [InlineData("appId", GetArchivesRequest.DefaultOffset, GetArchivesRequest.DefaultCount, null,
-            "/project/appId/archive?offset=0&count=50")]
+            "/v2/project/appId/archive?offset=0&count=50")]
         [InlineData("appId", GetArchivesRequest.DefaultOffset, GetArchivesRequest.DefaultCount, "",
-            "/project/appId/archive?offset=0&count=50")]
+            "/v2/project/appId/archive?offset=0&count=50")]
         [InlineData("appId", GetArchivesRequest.DefaultOffset, GetArchivesRequest.DefaultCount, " ",
-            "/project/appId/archive?offset=0&count=50")]
+            "/v2/project/appId/archive?offset=0&count=50")]
         [InlineData("appId2", 50, 800, "sessionId",
-            "/project/appId2/archive?offset=50&count=800&sessionId=sessionId")]
+            "/v2/project/appId2/archive?offset=50&count=800&sessionId=sessionId")]
         public void GetEndpointPath_ShouldReturnApiEndpoint(string applicationId, int offset, int count,
             string sessionId, string expected) =>
             GetArchivesRequest.Parse(applicationId, offset, count, sessionId)

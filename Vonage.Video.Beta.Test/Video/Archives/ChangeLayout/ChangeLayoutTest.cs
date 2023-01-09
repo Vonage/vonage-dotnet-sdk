@@ -5,7 +5,6 @@ using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Video.Beta.Common;
-using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Archives;
@@ -41,7 +40,12 @@ namespace Vonage.Video.Beta.Test.Video.Archives.ChangeLayout
                 FsCheckExtensions.GetInvalidStatusCodes(),
                 FsCheckExtensions.GetNonEmptyStrings(),
                 (statusCode, jsonError) =>
-                    this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
+                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
+                            this.CreateRequest(),
+                            WireMockExtensions.CreateResponse(statusCode, jsonError),
+                            jsonError,
+                            () => this.client.ChangeLayoutAsync(this.request))
+                        .Wait());
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
@@ -55,12 +59,9 @@ namespace Vonage.Video.Beta.Test.Video.Archives.ChangeLayout
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result = await this.client.ChangeLayoutAsync(Result<ChangeLayoutRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<ChangeLayoutRequest, Unit>(this.client
+                .ChangeLayoutAsync);
 
         private static Result<ChangeLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
             ChangeLayoutRequest.Parse(fixture.Create<string>(), fixture.Create<string>(),
@@ -81,15 +82,5 @@ namespace Vonage.Video.Beta.Test.Video.Archives.ChangeLayout
             WireMockExtensions
                 .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request))
                 .UsingPut();
-
-        private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
-        {
-            var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
-            this.helper.Server.Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(code, jsonError));
-            var result =
-                await this.request.BindAsync(requestValue => this.client.ChangeLayoutAsync(requestValue));
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
-        }
     }
 }

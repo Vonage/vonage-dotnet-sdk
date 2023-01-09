@@ -4,6 +4,7 @@ using System.Text;
 using Vonage.Video.Beta.Common;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Common.Validation;
+using Vonage.Video.Beta.Video.Signaling.Common;
 
 namespace Vonage.Video.Beta.Video.Signaling.SendSignals;
 
@@ -53,7 +54,7 @@ public readonly struct SendSignalsRequest : IVideoRequest
     ///     Retrieves the endpoint's path.
     /// </summary>
     /// <returns>The endpoint's path.</returns>
-    public string GetEndpointPath() => $"/project/{this.ApplicationId}/session/{this.SessionId}/signal";
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/signal";
 
     /// <summary>
     ///     Creates a Http request for retrieving a stream.

@@ -5,7 +5,6 @@ using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Video.Beta.Common;
-using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Sessions;
@@ -40,13 +39,18 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                 FsCheckExtensions.GetInvalidStatusCodes(),
                 FsCheckExtensions.GetNonEmptyStrings(),
                 (statusCode, jsonError) =>
-                    this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
+                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
+                            this.CreateRequest(),
+                            WireMockExtensions.CreateResponse(statusCode, jsonError),
+                            jsonError,
+                            () => this.client.ChangeStreamLayoutAsync(this.request))
+                        .Wait());
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
             this.helper.Server
-                .Given(this.CreateChangeStreamLayoutRequest())
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK));
             var result =
                 await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
@@ -54,14 +58,9 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result =
-                await this.client.ChangeStreamLayoutAsync(
-                    Result<ChangeStreamLayoutRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<ChangeStreamLayoutRequest, Unit>(this.client
+                .ChangeStreamLayoutAsync);
 
         private static Result<ChangeStreamLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
             ChangeStreamLayoutRequest.Parse(
@@ -75,26 +74,14 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                 ? null
                 : this.helper.Serializer.SerializeObject(error);
             this.helper.Server
-                .Given(this.CreateChangeStreamLayoutRequest())
+                .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result =
                 await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
         }
 
-        private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
-        {
-            var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
-            this.helper.Server
-                .Given(this.CreateChangeStreamLayoutRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(code,
-                    jsonError));
-            var result =
-                await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
-        }
-
-        private IRequestBuilder CreateChangeStreamLayoutRequest()
+        private IRequestBuilder CreateRequest()
         {
             var serializedItems =
                 this.request

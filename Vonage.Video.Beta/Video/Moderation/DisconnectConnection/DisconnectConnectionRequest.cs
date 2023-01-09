@@ -49,7 +49,7 @@ public readonly struct DisconnectConnectionRequest : IVideoRequest
 
     /// <inheritdoc />
     public string GetEndpointPath() =>
-        $"/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}";
+        $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}";
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token)

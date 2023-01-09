@@ -10,6 +10,7 @@ using Vonage.Video.Beta.Common.Failures;
 using Vonage.Video.Beta.Common.Monads;
 using Vonage.Video.Beta.Test.Extensions;
 using Vonage.Video.Beta.Video.Archives;
+using Vonage.Video.Beta.Video.Archives.Common;
 using Vonage.Video.Beta.Video.Archives.StopArchive;
 using WireMock.RequestBuilders;
 using Xunit;
@@ -41,7 +42,12 @@ namespace Vonage.Video.Beta.Test.Video.Archives.StopArchive
                 FsCheckExtensions.GetInvalidStatusCodes(),
                 FsCheckExtensions.GetNonEmptyStrings(),
                 (statusCode, jsonError) =>
-                    this.VerifyReturnsFailureGivenErrorCannotBeParsed(statusCode, jsonError).Wait());
+                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
+                            this.CreateRequest(),
+                            WireMockExtensions.CreateResponse(statusCode, jsonError),
+                            jsonError,
+                            () => this.client.StopArchiveAsync(this.request))
+                        .Wait());
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
@@ -70,12 +76,9 @@ namespace Vonage.Video.Beta.Test.Video.Archives.StopArchive
         }
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure()
-        {
-            var expectedFailure = ResultFailure.FromErrorMessage(this.helper.Fixture.Create<string>());
-            var result = await this.client.StopArchiveAsync(Result<StopArchiveRequest>.FromFailure(expectedFailure));
-            result.Should().BeFailure(expectedFailure);
-        }
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<StopArchiveRequest, Archive>(this.client
+                .StopArchiveAsync);
 
         private static Result<StopArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
             StopArchiveRequest.Parse(fixture.Create<string>(), fixture.Create<string>());
@@ -90,16 +93,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.StopArchive
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.StopArchiveAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
-        }
-
-        private async Task VerifyReturnsFailureGivenErrorCannotBeParsed(HttpStatusCode code, string jsonError)
-        {
-            var expectedFailureMessage = $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'.";
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(code, jsonError));
-            var result = await this.request.BindAsync(requestValue => this.client.StopArchiveAsync(requestValue));
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
         private IRequestBuilder CreateRequest() =>

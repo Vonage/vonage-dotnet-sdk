@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Vonage.Video.Beta.Video.Archives.Common;
 
 namespace Vonage.Video.Beta.Video.Archives.GetArchives;
 
