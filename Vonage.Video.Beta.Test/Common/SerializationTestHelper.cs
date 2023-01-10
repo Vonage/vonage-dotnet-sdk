@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using Vonage.Video.Beta.Common;
 
 namespace Vonage.Video.Beta.Test.Common
@@ -26,11 +25,8 @@ namespace Vonage.Video.Beta.Test.Common
 
         private static string ReadFile(string filePath) =>
             File.Exists(filePath)
-                ? CleanJsonContent(File.ReadAllText(filePath))
+                ? File.ReadAllText(filePath)
                 : string.Empty;
-
-        private static string CleanJsonContent(string filePath) =>
-            Regex.Replace(filePath, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
 
         private string GetUseCaseFolder() =>
             this.callerNamespace
