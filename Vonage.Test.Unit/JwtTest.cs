@@ -1,14 +1,14 @@
-﻿using Xunit;
+﻿using FluentAssertions;
+using Vonage.Request;
+using Xunit;
 
 namespace Vonage.Test.Unit
 {
-    public class JWTTest
+    public class JwtTest
     {
-        [Fact]
-        public void TestJWT()
-        {
-            var mockAppId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-            var mockRsaPrivateKey = @"-----BEGIN RSA PRIVATE KEY-----
+        private const string ApplicationId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+
+        private const string PrivateKey = @"-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQCRgWt83vGoI2vx+BIu1R39nLDvGLEvC8R4drrIvsiJkAvIlVZt
 PlbeoifYJGDQwtlAR3a8i+B3/AP5tZEoWw+z+VWLX50aRjzHyTn22ih8OeGDoiBw
 N3ysCTfQ/x8sDER6uSn8ElxfB9AEZTcRA+4rCRbmj+YLV/Nm+qSNoOIM4wIDAQAB
@@ -23,8 +23,21 @@ TELCzNvNTU6sq24wW4VmpXF1TgObVPMTEgfV3iYF7/69Td4ojWH1xkGYd9Sv9xOg
 vhv/5bUctaRKhjhp9pMCQE8BLxzAMlS81dobP3GrCRLdlN/y9R7pu2hyURFFXUw5
 j0hq3fgBZz1QLpLxY3TfkM3oFDVhpGvskzjINLk6hxc=
 -----END RSA PRIVATE KEY-----";
-            var tok = Jwt.CreateToken(mockAppId, mockRsaPrivateKey);
-            Assert.False(string.IsNullOrEmpty(tok));
+
+        [Fact]
+        public void TestJwt()
+        {
+            var token = Jwt.CreateToken(ApplicationId, PrivateKey);
+            Assert.False(string.IsNullOrEmpty(token));
         }
+
+        [Fact]
+        public void GenerateToken_ShouldGenerateToken_GivenIdAndKeyAreProvided() =>
+            new Jwt().GenerateToken(ApplicationId, PrivateKey).Should().NotBeEmpty();
+
+        [Fact]
+        public void GenerateToken_ShouldGenerateToken_GivenCredentialsAreProvided() =>
+            new Jwt().GenerateToken(Credentials.FromAppIdAndPrivateKey(ApplicationId, PrivateKey)).Should()
+                .NotBeEmpty();
     }
 }

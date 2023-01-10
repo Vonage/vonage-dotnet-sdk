@@ -146,5 +146,45 @@ namespace Vonage.Accounts
             );
             return true;
         }
+        
+        public SubAccount CreateSubAccount(CreateSubAccountRequest request, string apiKey = null, Credentials creds = null)
+        {
+            return ApiRequest.DoRequestWithJsonContent<SubAccount>(
+                "POST",
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
+                request,
+                ApiRequest.AuthType.Basic,
+                creds: creds ?? Credentials
+            );
+        }
+        
+        public Task<SubAccount> CreateSubAccountAsync(CreateSubAccountRequest request, string apiKey = null, Credentials creds = null)
+        {
+            return ApiRequest.DoRequestWithJsonContentAsync<SubAccount>(
+                "POST",
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
+                request,
+                ApiRequest.AuthType.Basic,
+                creds: creds ?? Credentials
+            );
+        }
+        
+        public SubAccount RetrieveSubAccount(string subAccountKey, string apiKey = null, Credentials creds = null)
+        {
+            return ApiRequest.DoGetRequestWithQueryParameters<SubAccount>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
+                ApiRequest.AuthType.Basic,
+                credentials: creds ?? Credentials
+            );
+        }
+        
+        public Task<SubAccount> RetrieveSubAccountAsync(string subAccountKey, string apiKey = null, Credentials creds = null)
+        {
+            return ApiRequest.DoGetRequestWithQueryParametersAsync<SubAccount>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
+                ApiRequest.AuthType.Basic,
+                credentials: creds ?? Credentials
+            );
+        }
     }
 }

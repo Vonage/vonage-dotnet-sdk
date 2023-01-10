@@ -44,6 +44,15 @@ namespace Vonage.Numbers
         /// <param name="creds"></param>
         /// <returns></returns>
         Task<NumberTransactionResponse> UpdateANumberAsync(UpdateNumberRequest request, Credentials creds = null);
+        
+        /// <summary>
+        /// Transfer a number that you own to a subaccount.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="apiKey"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        Task<NumberTransferResponse> TransferANumberAsync(NumberTransferRequest request, string apiKey, Credentials creds = null);
 
         /// <summary>
         /// Retrieve all the inbound numbers associated with your Vonage account.
@@ -84,5 +93,14 @@ namespace Vonage.Numbers
         /// <param name="creds"></param>
         /// <returns></returns>
         NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null);
+        
+        /// <summary>
+        /// Transfer a number that you own to a subaccount.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="apiKey"></param>
+        /// <param name="creds"></param>
+        /// <returns></returns>
+        NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey, Credentials creds = null);
     }
 }
