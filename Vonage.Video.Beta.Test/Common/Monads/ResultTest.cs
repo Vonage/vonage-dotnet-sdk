@@ -192,6 +192,60 @@ namespace Vonage.Video.Beta.Test.Common.Monads
         public void GetSuccessUnsafe_ShouldReturn_GivenSuccess() =>
             CreateSuccess(5).GetSuccessUnsafe().Should().Be(5);
 
+        [Fact]
+        public async Task MapAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
+            (await CreateSuccess(5)
+                .MapAsync(IncrementAsync)
+                .MapAsync(IncrementAsync)
+                .MapAsync(IncrementAsync)
+                .MapAsync(IncrementAsync)
+                .MapAsync(IncrementAsync))
+            .Should().BeSuccess(10);
+
+        [Fact]
+        public async Task MapAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
+            (await CreateFailure()
+                .MapAsync(IncrementAsync)
+                .MapAsync(IncrementAsync)
+                .MapAsync(IncrementAsync)
+                .MapAsync(IncrementAsync)
+                .MapAsync(IncrementAsync))
+            .Should()
+            .BeFailure(CreateResultFailure());
+
+        [Fact]
+        public async Task BindAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
+            (await CreateFailure()
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync))
+            .Should()
+            .BeFailure(CreateResultFailure());
+
+        [Fact]
+        public async Task BindAsync_ShouldReturnFailure_GivenValueBecomesFailure() =>
+            (await CreateSuccess(5)
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(value => Task.FromResult(CreateFailure()))
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync))
+            .Should()
+            .BeFailure(CreateResultFailure());
+
+        [Fact]
+        public async Task BindAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
+            (await CreateSuccess(5)
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync)
+                .BindAsync(IncrementBindAsync))
+            .Should()
+            .BeSuccess(10);
+
         private static Result<int> CreateSuccess(int value) => Result<int>.FromSuccess(value);
 
         private static Result<int> CreateFailure() =>
