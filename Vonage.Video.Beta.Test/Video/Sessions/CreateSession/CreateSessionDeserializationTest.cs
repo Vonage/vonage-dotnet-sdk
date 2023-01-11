@@ -22,7 +22,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
                 "2_MX5hOThlMTJjYS1mM2U1LTRkZjgtYmM2Ni1mZDRiNWYzMGI5ZTl-fjE2NzI3MzY4NzgxNjJ-bi9OeFVLbkNaVjBUUnpVSmxjbURqQ3J4flB-fg";
             var response =
                 this.helper.Serializer.DeserializeObject<CreateSessionResponse[]>(this.helper.GetResponseJson());
-            var content = response.Match(_ => _, _ => throw new InvalidOperationException());
+            var content = response.IfFailure(_ => throw new InvalidOperationException());
             content.Length.Should().Be(1);
             content[0].SessionId.Should().Be(expectedId);
         }
@@ -32,7 +32,7 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.CreateSession
         {
             var response =
                 this.helper.Serializer.DeserializeObject<CreateSessionResponse[]>(this.helper.GetResponseJson());
-            response.Match(_ => _, _ => throw new InvalidOperationException()).Should().BeEmpty();
+            response.IfFailure(_ => throw new InvalidOperationException()).Should().BeEmpty();
         }
     }
 }
