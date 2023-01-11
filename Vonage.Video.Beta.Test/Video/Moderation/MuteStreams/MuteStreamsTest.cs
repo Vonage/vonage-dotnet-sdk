@@ -18,8 +18,8 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
     public class MuteStreamsTest
     {
         private readonly ModerationClient client;
-        private readonly Result<MuteStreamsRequest> request;
         private readonly UseCaseHelper helper;
+        private readonly Result<MuteStreamsRequest> request;
 
         public MuteStreamsTest()
         {
@@ -27,12 +27,6 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
             this.client = new ModerationClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }
-
-        [Property]
-        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetErrorResponses(),
-                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -48,18 +42,6 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
                         .Wait());
 
         [Fact]
-        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
-        {
-            var expectedResponse = this.helper.Fixture.Create<MuteStreamsResponse>();
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK,
-                    this.helper.Serializer.SerializeObject(expectedResponse)));
-            var result = await this.request.BindAsync(requestValue => this.client.MuteStreamsAsync(requestValue));
-            result.Should().BeSuccess(expectedResponse);
-        }
-
-        [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
         {
             var body = this.helper.Fixture.Create<string>();
@@ -71,27 +53,45 @@ namespace Vonage.Video.Beta.Test.Video.Moderation.MuteStreams
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
+        [Property]
+        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
+            Prop.ForAll(
+                FsCheckExtensions.GetErrorResponses(),
+                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
+
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper.VerifyReturnsFailureGivenRequestIsFailure<MuteStreamsRequest, MuteStreamsResponse>(this
                 .client
                 .MuteStreamsAsync);
 
-        private IRequestBuilder CreateRequest()
+        [Fact]
+        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(value.Configuration))
-                    .Match(_ => _, _ => string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPost();
+            var expectedResponse = this.helper.Fixture.Create<MuteStreamsResponse>();
+            this.helper.Server
+                .Given(this.CreateRequest())
+                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK,
+                    this.helper.Serializer.SerializeObject(expectedResponse)));
+            var result = await this.request.BindAsync(requestValue => this.client.MuteStreamsAsync(requestValue));
+            result.Should().BeSuccess(expectedResponse);
         }
 
         private static Result<MuteStreamsRequest> BuildRequest(ISpecimenBuilder fixture) =>
             MuteStreamsRequest.Parse(fixture.Create<string>(),
                 fixture.Create<string>(),
                 fixture.Create<MuteStreamsRequest.MuteStreamsConfiguration>());
+
+        private IRequestBuilder CreateRequest()
+        {
+            var serializedItems =
+                this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(value.Configuration))
+                    .IfFailure(string.Empty);
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPost();
+        }
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {

@@ -19,8 +19,8 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
     public class SendSignalsTest
     {
         private readonly SignalingClient client;
-        private readonly Result<SendSignalsRequest> request;
         private readonly UseCaseHelper helper;
+        private readonly Result<SendSignalsRequest> request;
 
         public SendSignalsTest()
         {
@@ -28,12 +28,6 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
             this.client = new SignalingClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }
-
-        [Property]
-        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetErrorResponses(),
-                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -48,6 +42,17 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
                             () => this.client.SendSignalsAsync(this.request))
                         .Wait());
 
+        [Property]
+        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
+            Prop.ForAll(
+                FsCheckExtensions.GetErrorResponses(),
+                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
+
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<SendSignalsRequest, Unit>(this.client
+                .SendSignalsAsync);
+
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
@@ -59,15 +64,21 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
             result.Should().BeSuccess(Unit.Default);
         }
 
-        [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<SendSignalsRequest, Unit>(this.client
-                .SendSignalsAsync);
-
         private static Result<SendSignalsRequest> BuildRequest(ISpecimenBuilder fixture) =>
             SendSignalsRequest.Parse(fixture.Create<string>(),
                 fixture.Create<string>(),
                 fixture.Create<SignalContent>());
+
+        private IRequestBuilder CreateRequest()
+        {
+            var serializedItems =
+                this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(value.Content))
+                    .IfFailure(string.Empty);
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPost();
+        }
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
@@ -78,17 +89,6 @@ namespace Vonage.Video.Beta.Test.Video.Signaling.SendSignals
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.SendSignalsAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
-        }
-
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(value.Content))
-                    .Match(_ => _, _ => string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPost();
         }
     }
 }

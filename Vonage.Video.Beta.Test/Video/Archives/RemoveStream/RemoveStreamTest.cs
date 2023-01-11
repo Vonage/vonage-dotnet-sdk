@@ -17,8 +17,8 @@ namespace Vonage.Video.Beta.Test.Video.Archives.RemoveStream
     public class RemoveStreamTest
     {
         private readonly ArchiveClient client;
-        private readonly Result<RemoveStreamRequest> request;
         private readonly UseCaseHelper helper;
+        private readonly Result<RemoveStreamRequest> request;
 
         public RemoveStreamTest()
         {
@@ -26,12 +26,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.RemoveStream
             this.client = new ArchiveClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }
-
-        [Property]
-        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetErrorResponses(),
-                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -46,6 +40,17 @@ namespace Vonage.Video.Beta.Test.Video.Archives.RemoveStream
                             () => this.client.RemoveStreamAsync(this.request))
                         .Wait());
 
+        [Property]
+        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
+            Prop.ForAll(
+                FsCheckExtensions.GetErrorResponses(),
+                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
+
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<RemoveStreamRequest, Unit>(this.client
+                .RemoveStreamAsync);
+
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
@@ -57,13 +62,19 @@ namespace Vonage.Video.Beta.Test.Video.Archives.RemoveStream
             result.Should().BeSuccess(Unit.Default);
         }
 
-        [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<RemoveStreamRequest, Unit>(this.client
-                .RemoveStreamAsync);
-
         private static Result<RemoveStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
             RemoveStreamRequest.Parse(fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
+
+        private IRequestBuilder CreateRequest()
+        {
+            var serializedItems =
+                this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(new {RemoveStream = value.StreamId}))
+                    .IfFailure(string.Empty);
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPatch();
+        }
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
@@ -74,17 +85,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.RemoveStream
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.RemoveStreamAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
-        }
-
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(new {RemoveStream = value.StreamId}))
-                    .Match(_ => _, _ => string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPatch();
         }
     }
 }

@@ -20,8 +20,8 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
     public class CreateArchiveTest
     {
         private readonly ArchiveClient client;
-        private readonly Result<CreateArchiveRequest> request;
         private readonly UseCaseHelper helper;
+        private readonly Result<CreateArchiveRequest> request;
 
         public CreateArchiveTest()
         {
@@ -29,12 +29,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
             this.client = new ArchiveClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }
-
-        [Property]
-        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetErrorResponses(),
-                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -50,6 +44,29 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                         .Wait());
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
+        {
+            var body = this.helper.Fixture.Create<string>();
+            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(Archive)}'.";
+            this.helper.Server
+                .Given(this.CreateRequest())
+                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, body));
+            var result = await this.request.BindAsync(requestValue => this.client.CreateArchiveAsync(requestValue));
+            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
+        }
+
+        [Property]
+        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
+            Prop.ForAll(
+                FsCheckExtensions.GetErrorResponses(),
+                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
+
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<CreateArchiveRequest, Archive>(this.client
+                .CreateArchiveAsync);
+
+        [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
             var expectedResponse = this.helper.Fixture.Create<Archive>();
@@ -63,23 +80,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                     .Be(this.helper.Serializer.SerializeObject(expectedResponse)));
         }
 
-        [Fact]
-        public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
-        {
-            var body = this.helper.Fixture.Create<string>();
-            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(Archive)}'.";
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, body));
-            var result = await this.request.BindAsync(requestValue => this.client.CreateArchiveAsync(requestValue));
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
-        }
-
-        [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<CreateArchiveRequest, Archive>(this.client
-                .CreateArchiveAsync);
-
         private static Result<CreateArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
             CreateArchiveRequest.Parse(
                 fixture.Create<string>(),
@@ -92,6 +92,17 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                 fixture.Create<StreamMode>(),
                 fixture.Create<ArchiveLayout>());
 
+        private IRequestBuilder CreateRequest()
+        {
+            var serializedItems =
+                this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(value))
+                    .IfFailure(string.Empty);
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPost();
+        }
+
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
             var expectedBody = error.Message is null
@@ -102,17 +113,6 @@ namespace Vonage.Video.Beta.Test.Video.Archives.CreateArchive
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
             var result = await this.request.BindAsync(requestValue => this.client.CreateArchiveAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
-        }
-
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(value))
-                    .Match(_ => _, _ => string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPost();
         }
     }
 }
