@@ -17,8 +17,8 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
     public class ChangeStreamLayoutTest
     {
         private readonly SessionClient client;
-        private readonly Result<ChangeStreamLayoutRequest> request;
         private readonly UseCaseHelper helper;
+        private readonly Result<ChangeStreamLayoutRequest> request;
 
         public ChangeStreamLayoutTest()
         {
@@ -26,12 +26,6 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
             this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }
-
-        [Property]
-        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetErrorResponses(),
-                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -46,6 +40,17 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
                             () => this.client.ChangeStreamLayoutAsync(this.request))
                         .Wait());
 
+        [Property]
+        public Property ShouldReturnFailure_GivenApiResponseIsError() =>
+            Prop.ForAll(
+                FsCheckExtensions.GetErrorResponses(),
+                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
+
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<ChangeStreamLayoutRequest, Unit>(this.client
+                .ChangeStreamLayoutAsync);
+
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
@@ -57,16 +62,22 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
             result.Should().BeSuccess(Unit.Default);
         }
 
-        [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<ChangeStreamLayoutRequest, Unit>(this.client
-                .ChangeStreamLayoutAsync);
-
         private static Result<ChangeStreamLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
             ChangeStreamLayoutRequest.Parse(
                 fixture.Create<string>(),
                 fixture.Create<string>(),
                 fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>());
+
+        private IRequestBuilder CreateRequest()
+        {
+            var serializedItems =
+                this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(new {value.Items}))
+                    .IfFailure(string.Empty);
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPut();
+        }
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
@@ -79,17 +90,6 @@ namespace Vonage.Video.Beta.Test.Video.Sessions.ChangeStreamLayout
             var result =
                 await this.request.BindAsync(requestValue => this.client.ChangeStreamLayoutAsync(requestValue));
             result.Should().BeFailure(error.ToHttpFailure());
-        }
-
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(new {value.Items}))
-                    .Match(_ => _, _ => string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPut();
         }
     }
 }

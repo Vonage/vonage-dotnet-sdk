@@ -10,10 +10,6 @@ namespace Vonage.Video.Beta.Common.Monads;
 /// <typeparam name="T">Bound value type.</typeparam>
 public readonly struct Result<T>
 {
-    private readonly IResultFailure failure;
-    private readonly ResultState state;
-    private readonly T success;
-
     /// <summary>
     ///     Constructor for a Success.
     /// </summary>
@@ -36,6 +32,10 @@ public readonly struct Result<T>
         this.failure = failure;
     }
 
+    private readonly IResultFailure failure;
+    private readonly ResultState state;
+    private readonly T success;
+
     /// <summary>
     ///     Indicates if in Failure state.
     /// </summary>
@@ -45,6 +45,27 @@ public readonly struct Result<T>
     ///     Indicates if in Success state.
     /// </summary>
     public bool IsSuccess => this.state == ResultState.Success;
+
+    /// <summary>
+    ///     Monadic bind operation.
+    /// </summary>
+    /// <param name="bind">Bind operation.</param>
+    /// <typeparam name="TB">Return type.</typeparam>
+    /// <returns>Bound functor.</returns>
+    public Result<TB> Bind<TB>(Func<T, Result<TB>> bind) =>
+        this.IsFailure ? Result<TB>.FromFailure(this.failure) : bind(this.success);
+
+    /// <summary>
+    ///     Monadic bind operation.
+    /// </summary>
+    /// <param name="bind">Asynchronous bind operation.</param>
+    /// <typeparam name="TB">Return type.</typeparam>
+    /// <returns>Asynchronous bound functor.</returns>
+    public async Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind) =>
+        this.IsFailure ? Result<TB>.FromFailure(this.failure) : await bind(this.success);
+
+    /// <inheritdoc />
+    public override bool Equals(object obj) => obj is Result<T> result && this.Equals(result);
 
     /// <summary>
     ///     Construct Result from Failure.
@@ -61,46 +82,22 @@ public readonly struct Result<T>
     public static Result<T> FromSuccess(T value) => new(value);
 
     /// <summary>
-    ///     Projects from one value to another.
+    ///     Retrieves the Failure value. This method is unsafe and will throw an exception if in Success state.
     /// </summary>
-    /// <param name="map">Projection function.</param>
-    /// <typeparam name="TB">Resulting functor value type.</typeparam>
-    /// <returns>Mapped functor.</returns>
-    public Result<TB> Map<TB>(Func<T, TB> map) => this.IsFailure
-        ? Result<TB>.FromFailure(this.failure)
-        : Result<TB>.FromSuccess(map(this.success));
-
-    /// <summary>
-    ///     Match the two states of the Result and return a non-null TB.
-    /// </summary>
-    /// <param name="successOperation">Success match operation.</param>
-    /// <param name="failureOperation">Failure match operation.</param>
-    /// <typeparam name="TB">Return type.</typeparam>
-    /// <returns>A non-null TB.</returns>
-    public TB Match<TB>(Func<T, TB> successOperation, Func<IResultFailure, TB> failureOperation) =>
-        this.IsFailure ? failureOperation(this.failure) : successOperation(this.success);
-
-    /// <summary>
-    ///     Monadic bind operation.
-    /// </summary>
-    /// <param name="bind">Bind operation.</param>
-    /// <typeparam name="TB">Return type.</typeparam>
-    /// <returns>Bound functor.</returns>
-    public Result<TB> Bind<TB>(Func<T, Result<TB>> bind) =>
-        this.IsFailure ? Result<TB>.FromFailure(this.failure) : bind(this.success);
-
-    /// <inheritdoc />
-    public override bool Equals(object obj) => obj is Result<T> result && this.Equals(result);
+    /// <returns>The Failure value when in Failure state.</returns>
+    /// <exception cref="UnsafeValueException">When in Success state.</exception>
+    public IResultFailure GetFailureUnsafe() =>
+        this.Match(_ => throw new UnsafeValueException("State is Success."), _ => _);
 
     /// <inheritdoc />
     public override int GetHashCode() => this.IsSuccess ? this.success.GetHashCode() : this.failure.GetHashCode();
 
     /// <summary>
-    ///     Implicit operator from TA to Result of TA.
+    ///     Retrieves the Success value. This method is unsafe and will throw an exception if in Failure state.
     /// </summary>
-    /// <param name="value">Value to be converted.</param>
-    /// <returns>Success.</returns>
-    public static implicit operator Result<T>(T value) => FromSuccess(value);
+    /// <returns>The Success value if in Success state.</returns>
+    /// <exception cref="UnsafeValueException">When in Failure state.</exception>
+    public T GetSuccessUnsafe() => this.Match(_ => _, _ => throw new UnsafeValueException("State is Failure."));
 
     /// <summary>
     ///     Invokes the action if Result is in the Failure state, otherwise nothing happens.
@@ -113,6 +110,20 @@ public readonly struct Result<T>
             action(this.failure);
         }
     }
+
+    /// <summary>
+    ///     Returns the invocation result if the Result is in the Failure state, the success value otherwise.
+    /// </summary>
+    /// <param name="operation">Operation to invoke if the Result is in the Failure state.</param>
+    /// <returns>The invocation result if the Result is in the Failure state, the success value otherwise.</returns>
+    public T IfFailure(Func<IResultFailure, T> operation) => this.IsFailure ? operation(this.failure) : this.success;
+
+    /// <summary>
+    ///     Returns the default value if the Result is in the Failure state, the success value otherwise.
+    /// </summary>
+    /// <param name="defaultValue">Value to return if in the Failure state.</param>
+    /// <returns>The default value if the Result is in the Failure state, the success value otherwise.</returns>
+    public T IfFailure(T defaultValue) => this.IsFailure ? defaultValue : this.success;
 
     /// <summary>
     ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
@@ -129,6 +140,16 @@ public readonly struct Result<T>
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
+    /// <param name="map">Projection function.</param>
+    /// <typeparam name="TB">Resulting functor value type.</typeparam>
+    /// <returns>Mapped functor.</returns>
+    public Result<TB> Map<TB>(Func<T, TB> map) => this.IsFailure
+        ? Result<TB>.FromFailure(this.failure)
+        : Result<TB>.FromSuccess(map(this.success));
+
+    /// <summary>
+    ///     Projects from one value to another.
+    /// </summary>
     /// <param name="map">Asynchronous projection function.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Asynchronous mapped functor.</returns>
@@ -138,28 +159,21 @@ public readonly struct Result<T>
             : Result<TB>.FromSuccess(await map(this.success));
 
     /// <summary>
-    ///     Monadic bind operation.
+    ///     Match the two states of the Result and return a non-null TB.
     /// </summary>
-    /// <param name="bind">Asynchronous bind operation.</param>
+    /// <param name="successOperation">Success match operation.</param>
+    /// <param name="failureOperation">Failure match operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
-    /// <returns>Asynchronous bound functor.</returns>
-    public async Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind) =>
-        this.IsFailure ? Result<TB>.FromFailure(this.failure) : await bind(this.success);
+    /// <returns>A non-null TB.</returns>
+    public TB Match<TB>(Func<T, TB> successOperation, Func<IResultFailure, TB> failureOperation) =>
+        this.IsFailure ? failureOperation(this.failure) : successOperation(this.success);
 
     /// <summary>
-    ///     Retrieves the Failure value. This method is unsafe and will throw an exception if in Success state.
+    ///     Implicit operator from TA to Result of TA.
     /// </summary>
-    /// <returns>The Failure value when in Failure state.</returns>
-    /// <exception cref="UnsafeValueException">When in Success state.</exception>
-    public IResultFailure GetFailureUnsafe() =>
-        this.Match(_ => throw new UnsafeValueException("State is Success."), _ => _);
-
-    /// <summary>
-    ///     Retrieves the Success value. This method is unsafe and will throw an exception if in Failure state.
-    /// </summary>
-    /// <returns>The Success value if in Success state.</returns>
-    /// <exception cref="UnsafeValueException">When in Failure state.</exception>
-    public T GetSuccessUnsafe() => this.Match(_ => _, _ => throw new UnsafeValueException("State is Failure."));
+    /// <param name="value">Value to be converted.</param>
+    /// <returns>Success.</returns>
+    public static implicit operator Result<T>(T value) => FromSuccess(value);
 
     /// <summary>
     ///     Verifies if both Results are either Failure or Success with the same values.
