@@ -1,4 +1,4 @@
-name: Vonage.Video.Beta NuGet Release
+name: Vonage.Server NuGet Release
 on:
   release:
     types: [ published ]
@@ -12,7 +12,7 @@ jobs:
       - name: Release Nuget
         uses: nexmo/github-actions/nuget-release@main
         env:
-          PROJECT_FILE: Vonage.Video.Beta/Vonage.Video.Beta.csproj
+          PROJECT_FILE: Vonage.Server/Vonage.Server.csproj
           BRANCH: 0.x
           ORGANIZATION: Vonage
           REPO: vonage-dotnet-sdk
@@ -25,7 +25,7 @@ jobs:
       - name: Release Nuget
         uses: nexmo/github-actions/nuget-release@main
         env:
-          PROJECT_FILE: Vonage.Video.Beta/Vonage.Video.Beta.csproj
+          PROJECT_FILE: Vonage.Server/Vonage.Server.csproj
           BRANCH: 0.x
           ORGANIZATION: Vonage
           REPO: vonage-dotnet-sdk
