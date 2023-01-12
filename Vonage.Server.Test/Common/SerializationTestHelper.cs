@@ -7,7 +7,7 @@ namespace Vonage.Server.Test.Common
 {
     public class SerializationTestHelper
     {
-        private const string ExcludeNamespace = "Vonage.ServerServer.Test.";
+        private const string ExcludeNamespace = "Vonage.Server.Test.";
         private readonly string callerNamespace;
 
         public JsonSerializer Serializer { get; }

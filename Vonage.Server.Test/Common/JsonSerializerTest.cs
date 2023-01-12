@@ -9,7 +9,7 @@ namespace Vonage.Server.Test.Common
 {
     public class JsonSerializerTest
     {
-        private const string DummyString = @"{""id"":10,""name"":""Hello World"",""code"":200}";
+        private const string DummyString = @"{""code"":200,""id"":10,""name"":""Hello World""}";
         private readonly JsonSerializer serializer;
 
         public JsonSerializerTest() => this.serializer = new JsonSerializer();
