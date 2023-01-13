@@ -49,9 +49,6 @@
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)'!='ReleaseSigned'">
-        <PackageId>Vonage.Server.Beta</PackageId>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='ReleaseSigned'">
         <PackageId>Vonage.Server.Signed</PackageId>
         <SignAssembly>true</SignAssembly>
