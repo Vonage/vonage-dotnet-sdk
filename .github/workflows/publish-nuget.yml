@@ -1,17 +1,20 @@
 name: Nuget Release
-on: workflow_dispatch
+on:
+  release:
+    types: [ published ]
 jobs:
-  build:
+  coreSDK:
     runs-on: ubuntu-latest
+    if: contains(github.event.release.target_commitish, 'release/core/')
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.release.target_commitish }}      
+          ref: ${{ github.event.release.target_commitish }}
       - name: Release Nuget
         uses: nexmo/github-actions/nuget-release@main
         env:
           PROJECT_FILE: Vonage/Vonage.csproj
-          BRANCH: main
+          BRANCH: ${{ github.event.release.target_commitish }}
           ORGANIZATION: Vonage
           REPO: vonage-dotnet-sdk
           TAG: ${{ github.event.release.tag_name }}
@@ -20,11 +23,11 @@ jobs:
           GITHUB_USER_NAME: NexmoDev
           GITHUB_EMAIL: 44278943+NexmoDev@users.noreply.github.com
           OUTPUT_PATH: Vonage/bin/Release
-      - name: Release Nuget
+      - name: Release Nuget Signed
         uses: nexmo/github-actions/nuget-release@main
         env:
           PROJECT_FILE: Vonage/Vonage.csproj
-          BRANCH: main
+          BRANCH: ${{ github.event.release.target_commitish }}
           ORGANIZATION: Vonage
           REPO: vonage-dotnet-sdk
           TAG: ${{ github.event.release.tag_name }}
@@ -33,4 +36,38 @@ jobs:
           GITHUB_USER_NAME: NexmoDev
           GITHUB_EMAIL: 44278943+NexmoDev@users.noreply.github.com
           OUTPUT_PATH: Vonage/bin/ReleaseSigned
+          CONFIGURATION: ReleaseSigned
+  videoSDK:
+    runs-on: ubuntu-latest
+    if: contains(github.event.release.target_commitish, 'release/video/')
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.release.target_commitish }}
+      - name: Release Nuget
+        uses: nexmo/github-actions/nuget-release@main
+        env:
+          PROJECT_FILE: Vonage.Server/Vonage.Server.csproj
+          BRANCH: ${{ github.event.release.target_commitish }}
+          ORGANIZATION: Vonage
+          REPO: vonage-dotnet-sdk
+          TAG: ${{ github.event.release.tag_name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          GITHUB_USER_NAME: NexmoDev
+          GITHUB_EMAIL: 44278943+NexmoDev@users.noreply.github.com
+          OUTPUT_PATH: Vonage.Video.Beta/bin/ReleaseSigned
+      - name: Release Nuget Signed
+        uses: nexmo/github-actions/nuget-release@main
+        env:
+          PROJECT_FILE: Vonage.Server/Vonage.Server.csproj
+          BRANCH: ${{ github.event.release.target_commitish }}
+          ORGANIZATION: Vonage
+          REPO: vonage-dotnet-sdk
+          TAG: ${{ github.event.release.tag_name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          GITHUB_USER_NAME: NexmoDev
+          GITHUB_EMAIL: 44278943+NexmoDev@users.noreply.github.com
+          OUTPUT_PATH: Vonage.Video.Beta/bin/ReleaseSigned
           CONFIGURATION: ReleaseSigned
