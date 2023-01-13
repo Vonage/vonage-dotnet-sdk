@@ -1,7 +1,5 @@
 name: Nuget Release
-on:
-  release:
-    types: [published]
+on: workflow_dispatch
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,8 +10,8 @@ jobs:
       - name: Release Nuget
         uses: nexmo/github-actions/nuget-release@main
         env:
-          PROJECT_FILE : Vonage/Vonage.csproj          
-          BRANCH: 5.x
+          PROJECT_FILE: Vonage/Vonage.csproj
+          BRANCH: main
           ORGANIZATION: Vonage
           REPO: vonage-dotnet-sdk
           TAG: ${{ github.event.release.tag_name }}
@@ -25,8 +23,8 @@ jobs:
       - name: Release Nuget
         uses: nexmo/github-actions/nuget-release@main
         env:
-          PROJECT_FILE : Vonage/Vonage.csproj          
-          BRANCH: 5.x
+          PROJECT_FILE: Vonage/Vonage.csproj
+          BRANCH: main
           ORGANIZATION: Vonage
           REPO: vonage-dotnet-sdk
           TAG: ${{ github.event.release.tag_name }}
