@@ -1,4 +1,0 @@
-{
-  "code": 413,
-  "message": "The type string exceeds the maximum length (128 bytes), or the data string exceeds the maximum size (8 kB)."
-}
