@@ -18,9 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\dotnet-core.yml = .github\workflows\dotnet-core.yml
 		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
-		.github\workflows\release.yml = .github\workflows\release.yml
 		.github\workflows\mutation-testing.yml = .github\workflows\mutation-testing.yml
-		.github\workflows\publish-nuget-beta.yml = .github\workflows\publish-nuget-beta.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vonage.Server", "Vonage.Server\Vonage.Server.csproj", "{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}"
