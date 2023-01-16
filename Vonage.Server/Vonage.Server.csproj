@@ -34,7 +34,6 @@
         <AssemblyName>Vonage.Server</AssemblyName>
         <RootNamespace>Vonage.Server</RootNamespace>
         <Product>Vonage.Server</Product>
-        <AssemblyVersion></AssemblyVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
