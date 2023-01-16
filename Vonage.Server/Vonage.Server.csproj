@@ -28,13 +28,13 @@
         <PackageIconUrl/>
         <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.
         </Description>
-        <Version>8.0.0-beta</Version>
+        <Version>.0.0-beta</Version>
         <Authors>Vonage</Authors>
         <PackageTags>Video Vonage</PackageTags>
         <AssemblyName>Vonage.Server</AssemblyName>
         <RootNamespace>Vonage.Server</RootNamespace>
         <Product>Vonage.Server</Product>
-        <AssemblyVersion>8.0.0</AssemblyVersion>
+        <AssemblyVersion></AssemblyVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
