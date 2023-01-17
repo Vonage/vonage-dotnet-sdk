@@ -5,6 +5,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>10</LangVersion>
         <Nullable>disable</Nullable>
+        <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
         <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
         <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
         <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -16,6 +17,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseExpression/>
         <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
+        <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0-beta</PackageReleaseNotes>
         <Configurations>Debug;Release;ReleaseSigned</Configurations>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -34,26 +36,19 @@
         <AssemblyName>Vonage.Server</AssemblyName>
         <RootNamespace>Vonage.Server</RootNamespace>
         <Product>Vonage.Server</Product>
+        <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
     </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <DocumentationFile>bin\Debug\Vonage.Server.xml</DocumentationFile>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DocumentationFile>bin\Release\Vonage.Server.xml</DocumentationFile>
-    </PropertyGroup>
-
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
-
+    <PropertyGroup Condition="'$(Configuration)'!='ReleaseSigned'">
+        <PackageId>Vonage.Server</PackageId>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='ReleaseSigned'">
         <PackageId>Vonage.Server.Signed</PackageId>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>../vonage.snk</AssemblyOriginatorKeyFile>
         <DelaySign>false</DelaySign>
-        <DocumentationFile>bin\ReleaseSigned\Vonage.Server.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
