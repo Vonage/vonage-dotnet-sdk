@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
-using Vonage.Server.Test.Common;
-using Vonage.Server.Test.Extensions;
+using Vonage.Common.Test;
+using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives.Common;
 using Vonage.Server.Video.Archives.GetArchives;
 using Xunit;
@@ -12,7 +13,8 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
         private readonly SerializationTestHelper helper;
 
         public GetArchivesDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(GetArchivesDeserializationTest).Namespace);
+            this.helper = new SerializationTestHelper(typeof(GetArchivesDeserializationTest).Namespace,
+                JsonSerializerBuilder.Build());
 
         [Fact]
         public void ShouldDeserialize200() =>

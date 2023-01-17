@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
-using Vonage.Server.Test.Common;
-using Vonage.Server.Test.Extensions;
+using Vonage.Common.Test;
+using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Moderation.MuteStreams;
 using Xunit;
 
@@ -12,7 +13,8 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
 
         public MuteStreamsDeserializationTest()
         {
-            this.helper = new SerializationTestHelper(typeof(MuteStreamsDeserializationTest).Namespace);
+            this.helper = new SerializationTestHelper(typeof(MuteStreamsDeserializationTest).Namespace,
+                JsonSerializerBuilder.Build());
         }
 
         [Fact]

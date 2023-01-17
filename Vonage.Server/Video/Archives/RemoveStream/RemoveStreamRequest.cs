@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using Vonage.Server.Common;
-using Vonage.Server.Common.Monads;
-using Vonage.Server.Common.Validation;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Archives.RemoveStream;
 
@@ -41,7 +41,7 @@ public readonly struct RemoveStreamRequest : IVideoRequest
         httpRequest.Headers.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
         httpRequest.Content = new StringContent(
-            new JsonSerializer().SerializeObject(new {RemoveStream = this.StreamId}), Encoding.UTF8,
+            JsonSerializerBuilder.Build().SerializeObject(new {RemoveStream = this.StreamId}), Encoding.UTF8,
             "application/json");
         return httpRequest;
     }

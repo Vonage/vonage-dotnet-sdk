@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using Vonage.Server.Common;
-using Vonage.Server.Common.Monads;
-using Vonage.Server.Common.Validation;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Archives.AddStream;
 
@@ -53,7 +53,8 @@ public readonly struct AddStreamRequest : IVideoRequest
         httpRequest.Headers.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
         httpRequest.Content = new StringContent(
-            new JsonSerializer().SerializeObject(new {AddStream = this.StreamId, this.HasAudio, this.HasVideo}),
+            JsonSerializerBuilder.Build()
+                .SerializeObject(new {AddStream = this.StreamId, this.HasAudio, this.HasVideo}),
             Encoding.UTF8,
             "application/json");
         return httpRequest;
