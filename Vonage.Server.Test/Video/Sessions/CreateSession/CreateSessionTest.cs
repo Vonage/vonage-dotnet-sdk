@@ -7,6 +7,7 @@ using FsCheck.Xunit;
 using Vonage.Common;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Sessions.CreateSession;
 using WireMock.RequestBuilders;
@@ -23,7 +24,7 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
 
         public CreateSessionTest()
         {
-            this.helper = new UseCaseHelper();
+            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
             this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.session = this.helper.Fixture.Create<CreateSessionResponse>();
         }

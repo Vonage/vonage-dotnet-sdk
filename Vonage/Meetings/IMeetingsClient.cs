@@ -9,5 +9,10 @@ namespace Vonage.Meetings;
 /// </summary>
 public interface IMeetingsClient
 {
-    Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(Result<GetAvailableRoomsRequest> request);
+    /// <summary>
+    ///     Retrieves all available rooms.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>The list of available rooms.</returns>
+    Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request);
 }

@@ -9,4 +9,10 @@ public struct Link
     ///     Hypertext Reference.
     /// </summary>
     public string Href { get; set; }
+
+    /// <summary>
+    ///     Constructor.
+    /// </summary>
+    /// <param name="href"> Hypertext Reference.</param>
+    public Link(string href) => this.Href = href;
 }

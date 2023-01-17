@@ -1,12 +1,30 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Meetings.Common;
 using Vonage.Meetings.GetAvailableRooms;
 
 namespace Vonage.Meetings;
 
+/// <inheritdoc />
 public class MeetingsClient : IMeetingsClient
 {
-    public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(Result<GetAvailableRoomsRequest> request) =>
-        throw new NotImplementedException();
+    private readonly GetAvailableRoomsUseCase getAvailableRoomsUseCase;
+
+    /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="httpClient">Http Client to used for further connections.</param>
+    /// <param name="tokenGeneration">Function used for generating a token.</param>
+    public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration)
+    {
+        var vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build());
+        this.getAvailableRoomsUseCase = new GetAvailableRoomsUseCase(vonageClient, tokenGeneration);
+    }
+
+    /// <inheritdoc />
+    public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>
+        this.getAvailableRoomsUseCase.GetAvailableRoomsAsync(request);
 }

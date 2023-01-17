@@ -1,4 +1,4 @@
-﻿namespace Vonage.Common;
+﻿namespace Vonage.Common.Client;
 
 /// <summary>
 ///     Represents a request to be sent to Vonage's APIs.

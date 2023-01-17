@@ -8,6 +8,7 @@ using Vonage.Common;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Moderation;
 using Vonage.Server.Video.Moderation.MuteStreams;
 using WireMock.RequestBuilders;
@@ -23,7 +24,7 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
 
         public MuteStreamsTest()
         {
-            this.helper = new UseCaseHelper();
+            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
             this.client = new ModerationClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }

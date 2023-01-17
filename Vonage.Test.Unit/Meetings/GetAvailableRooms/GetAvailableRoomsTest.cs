@@ -7,27 +7,26 @@ using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common;
 using Vonage.Common.Failures;
-using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Serialization;
-using Vonage.Server.Video.Archives;
-using Vonage.Server.Video.Archives.Common;
-using Vonage.Server.Video.Archives.CreateArchive;
+using Vonage.Meetings;
+using Vonage.Meetings.Common;
+using Vonage.Meetings.GetAvailableRooms;
+using Vonage.Server.Test.Video;
 using WireMock.RequestBuilders;
 using Xunit;
 
-namespace Vonage.Server.Test.Video.Archives.CreateArchive
+namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
 {
-    public class CreateArchiveTest
+    public class GetAvailableRoomsTest
     {
-        private readonly ArchiveClient client;
+        private readonly MeetingsClient client;
         private readonly UseCaseHelper helper;
-        private readonly Result<CreateArchiveRequest> request;
+        private readonly GetAvailableRoomsRequest request;
 
-        public CreateArchiveTest()
+        public GetAvailableRoomsTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new ArchiveClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }
 
@@ -41,18 +40,18 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
                             this.CreateRequest(),
                             WireMockExtensions.CreateResponse(statusCode, jsonError),
                             jsonError,
-                            () => this.client.CreateArchiveAsync(this.request))
+                            () => this.client.GetAvailableRoomsAsync(this.request))
                         .Wait());
 
         [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
         {
             var body = this.helper.Fixture.Create<string>();
-            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(Archive)}'.";
+            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(GetAvailableRoomsResponse)}'.";
             this.helper.Server
                 .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, body));
-            var result = await this.request.BindAsync(requestValue => this.client.CreateArchiveAsync(requestValue));
+            var result = await this.client.GetAvailableRoomsAsync(this.request);
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
@@ -63,46 +62,27 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
                 error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<CreateArchiveRequest, Archive>(this.client
-                .CreateArchiveAsync);
-
-        [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
-            var expectedResponse = this.helper.Fixture.Create<Archive>();
+            var expectedResponse = this.helper.Fixture.Create<GetAvailableRoomsResponse>();
             this.helper.Server
                 .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK,
                     this.helper.Serializer.SerializeObject(expectedResponse)));
-            var result = await this.request.BindAsync(requestValue => this.client.CreateArchiveAsync(requestValue));
+            var result = await this.client.GetAvailableRoomsAsync(this.request);
             result.Should().BeSuccess(response =>
+            {
                 this.helper.Serializer.SerializeObject(response).Should()
-                    .Be(this.helper.Serializer.SerializeObject(expectedResponse)));
+                    .Be(this.helper.Serializer.SerializeObject(expectedResponse));
+            });
         }
 
-        private static Result<CreateArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            CreateArchiveRequest.Parse(
-                fixture.Create<string>(),
-                fixture.Create<string>(),
-                fixture.Create<bool>(),
-                fixture.Create<bool>(),
-                fixture.Create<string>(),
-                fixture.Create<OutputMode>(),
-                fixture.Create<RenderResolution>(),
-                fixture.Create<StreamMode>(),
-                fixture.Create<ArchiveLayout>());
+        private static GetAvailableRoomsRequest BuildRequest(ISpecimenBuilder fixture) =>
+            GetAvailableRoomsRequest.Build(fixture.Create<string>(), fixture.Create<string>());
 
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(value))
-                    .IfFailure(string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPost();
-        }
+        private IRequestBuilder CreateRequest() =>
+            WireMockExtensions
+                .CreateRequest(this.helper.Token, this.request.GetEndpointPath()).UsingGet();
 
         private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
         {
@@ -112,7 +92,7 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
             this.helper.Server
                 .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
-            var result = await this.request.BindAsync(requestValue => this.client.CreateArchiveAsync(requestValue));
+            var result = await this.client.GetAvailableRoomsAsync(this.request);
             result.Should().BeFailure(error.ToHttpFailure());
         }
     }

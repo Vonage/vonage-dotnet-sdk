@@ -54,9 +54,9 @@ namespace Vonage.Server.Test.Video
         {
             var client = new VideoClient(this.fixture.Create<Credentials>());
             var sessionClient = client.SessionClient;
-            var signalingClient = client.SessionClient;
-            var moderationClient = client.SessionClient;
-            var archiveClient = client.SessionClient;
+            var signalingClient = client.SignalingClient;
+            var moderationClient = client.ModerationClient;
+            var archiveClient = client.ArchiveClient;
             client.Credentials = this.fixture.Create<Credentials>();
             client.SessionClient.Should().NotBe(sessionClient);
             client.SignalingClient.Should().NotBe(signalingClient);
