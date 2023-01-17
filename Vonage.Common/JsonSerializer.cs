@@ -22,9 +22,22 @@ public class JsonSerializer : IJsonSerializer
 
     /// <summary>
     /// </summary>
+    public JsonSerializer(JsonNamingPolicy namingPolicy) : this() =>
+        this.settings.PropertyNamingPolicy = namingPolicy;
+
+    /// <summary>
+    /// </summary>
     /// <param name="converters"></param>
     public JsonSerializer(IEnumerable<JsonConverter> converters)
         : this() =>
+        converters.ToList().ForEach(converter => this.settings.Converters.Add(converter));
+
+    /// <summary>
+    /// </summary>
+    /// <param name="converters"></param>
+    /// <param name="namingPolicy"></param>
+    public JsonSerializer(IEnumerable<JsonConverter> converters, JsonNamingPolicy namingPolicy)
+        : this(namingPolicy) =>
         converters.ToList().ForEach(converter => this.settings.Converters.Add(converter));
 
     /// <inheritdoc />

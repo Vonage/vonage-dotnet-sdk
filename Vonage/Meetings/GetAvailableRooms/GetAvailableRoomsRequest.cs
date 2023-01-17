@@ -1,10 +1,18 @@
-﻿namespace Vonage.Meetings.GetAvailableRooms;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using Microsoft.AspNetCore.WebUtilities;
+using Vonage.Common;
+
+namespace Vonage.Meetings.GetAvailableRooms;
 
 /// <summary>
 ///     Represents a request to retrieve all available rooms.
 /// </summary>
-public readonly struct GetAvailableRoomsRequest
+public readonly struct GetAvailableRoomsRequest : IVonageRequest
 {
+    private const string DefaultEndpoint = "/beta/meetings/rooms";
+
     /// <summary>
     ///     Constructor.
     /// </summary>
@@ -39,4 +47,26 @@ public readonly struct GetAvailableRoomsRequest
     /// <param name="endId">The ID to end returning events at (excluding end_id itself).</param>
     /// <returns>The request</returns>
     public static GetAvailableRoomsRequest Build(string startId, string endId) => new(startId, endId);
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage(string token) => throw new NotImplementedException();
+
+    /// <inheritdoc />
+    public string GetEndpointPath() => QueryHelpers.AddQueryString(DefaultEndpoint, this.GetQueryStringParameters());
+
+    private Dictionary<string, string> GetQueryStringParameters()
+    {
+        var parameters = new Dictionary<string, string>();
+        if (!string.IsNullOrWhiteSpace(this.StartId))
+        {
+            parameters.Add("start_id", this.StartId);
+        }
+
+        if (!string.IsNullOrWhiteSpace(this.EndId))
+        {
+            parameters.Add("end_id", this.EndId);
+        }
+
+        return parameters;
+    }
 }

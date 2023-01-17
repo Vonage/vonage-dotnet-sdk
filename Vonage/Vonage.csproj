@@ -84,9 +84,11 @@
         </None>
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
         <PackageReference Include="System.ComponentModel" Version="4.3.0"/>
         <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0"/>
+        <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj"/>

@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Enums.NET" Version="4.0.1"/>
-        <PackageReference Include="System.Text.Json" Version="7.0.1"/>
+        <PackageReference Include="System.Text.Json" Version="7.0.0"/>
     </ItemGroup>
 
 </Project>
