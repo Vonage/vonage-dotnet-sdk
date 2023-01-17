@@ -19,7 +19,7 @@
     <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.2-rc</PackageReleaseNotes>
     <PackageTags>SMS voice telephony phone Vonage</PackageTags>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
-    <NoWarn>1701;1702;1591;1572;1573;0618</NoWarn>
+    <NoWarn>701;1702;1572</NoWarn>
     <Configurations>Debug;Release;ReleaseSigned</Configurations>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -87,5 +87,8 @@
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
         <PackageReference Include="System.ComponentModel" Version="4.3.0"/>
         <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj"/>
     </ItemGroup>
 </Project>
