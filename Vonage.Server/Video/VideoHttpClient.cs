@@ -2,9 +2,10 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Vonage.Server.Common;
-using Vonage.Server.Common.Failures;
-using Vonage.Server.Common.Monads;
+using Vonage.Common;
+using Vonage.Common.Failures;
+using Vonage.Common.Monads;
+using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video;
 
@@ -23,7 +24,7 @@ internal class VideoHttpClient
     internal VideoHttpClient(HttpClient httpClient)
     {
         this.client = httpClient;
-        this.jsonSerializer = new JsonSerializer();
+        this.jsonSerializer = JsonSerializerBuilder.Build();
     }
 
     private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent) =>

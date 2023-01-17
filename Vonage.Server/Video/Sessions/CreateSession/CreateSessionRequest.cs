@@ -2,9 +2,8 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
-using Vonage.Server.Common;
-using Vonage.Server.Common.Failures;
-using Vonage.Server.Common.Monads;
+using Vonage.Common.Failures;
+using Vonage.Common.Monads;
 using Vonage.Server.Video.Sessions.Common;
 
 namespace Vonage.Server.Video.Sessions.CreateSession;

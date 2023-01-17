@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using Vonage.Server.Common;
-using Vonage.Server.Common.Monads;
-using Vonage.Server.Common.Validation;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Moderation.MuteStreams;
 
@@ -44,7 +44,8 @@ public readonly struct MuteStreamsRequest : IVideoRequest
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, this.GetEndpointPath());
         httpRequest.Headers.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content = new StringContent(new JsonSerializer().SerializeObject(this.Configuration), Encoding.UTF8,
+        httpRequest.Content = new StringContent(JsonSerializerBuilder.Build().SerializeObject(this.Configuration),
+            Encoding.UTF8,
             "application/json");
         return httpRequest;
     }

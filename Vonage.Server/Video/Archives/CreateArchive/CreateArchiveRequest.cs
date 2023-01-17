@@ -2,9 +2,9 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
-using Vonage.Server.Common;
-using Vonage.Server.Common.Monads;
-using Vonage.Server.Common.Validation;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives.Common;
 
 namespace Vonage.Server.Video.Archives.CreateArchive;
@@ -102,7 +102,7 @@ public readonly struct CreateArchiveRequest : IVideoRequest
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, this.GetEndpointPath());
         httpRequest.Headers.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content = new StringContent(new JsonSerializer().SerializeObject(this), Encoding.UTF8,
+        httpRequest.Content = new StringContent(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8,
             "application/json");
         return httpRequest;
     }

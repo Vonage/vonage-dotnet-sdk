@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
-using Vonage.Server.Test.Common;
+using Vonage.Common.Test;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Sessions.CreateSession;
 using Xunit;
 
@@ -12,7 +13,8 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
 
         public CreateSessionDeserializationTest()
         {
-            this.helper = new SerializationTestHelper(typeof(CreateSessionDeserializationTest).Namespace);
+            this.helper = new SerializationTestHelper(typeof(CreateSessionDeserializationTest).Namespace,
+                JsonSerializerBuilder.Build());
         }
 
         [Fact]

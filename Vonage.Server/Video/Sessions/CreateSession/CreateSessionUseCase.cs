@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Vonage.Server.Common.Failures;
-using Vonage.Server.Common.Monads;
+using Vonage.Common.Failures;
+using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Sessions.CreateSession;
 

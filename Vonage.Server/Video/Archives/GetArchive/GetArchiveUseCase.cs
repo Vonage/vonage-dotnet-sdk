@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Vonage.Server.Common.Monads;
+using Vonage.Common.Monads;
 using Vonage.Server.Video.Archives.Common;
 
 namespace Vonage.Server.Video.Archives.GetArchive;

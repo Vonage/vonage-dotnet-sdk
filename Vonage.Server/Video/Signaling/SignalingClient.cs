@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Vonage.Server.Common.Monads;
+using Vonage.Common.Monads;
 using Vonage.Server.Video.Signaling.SendSignal;
 using Vonage.Server.Video.Signaling.SendSignals;
 

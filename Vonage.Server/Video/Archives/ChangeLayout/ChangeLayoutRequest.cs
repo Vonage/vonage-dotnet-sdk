@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using Vonage.Server.Common;
-using Vonage.Server.Common.Monads;
-using Vonage.Server.Common.Validation;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives.Common;
 
 namespace Vonage.Server.Video.Archives.ChangeLayout;
@@ -41,7 +41,8 @@ public readonly struct ChangeLayoutRequest : IVideoRequest
         var httpRequest = new HttpRequestMessage(HttpMethod.Put, this.GetEndpointPath());
         httpRequest.Headers.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content = new StringContent(new JsonSerializer().SerializeObject(new {this.Layout}), Encoding.UTF8,
+        httpRequest.Content = new StringContent(JsonSerializerBuilder.Build().SerializeObject(new {this.Layout}),
+            Encoding.UTF8,
             "application/json");
         return httpRequest;
     }

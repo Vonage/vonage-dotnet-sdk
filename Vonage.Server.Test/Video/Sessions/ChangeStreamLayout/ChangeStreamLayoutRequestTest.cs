@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Server.Common.Failures;
-using Vonage.Server.Test.Extensions;
+using Vonage.Common.Failures;
+using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Sessions.ChangeStreamLayout;
 using Xunit;
 

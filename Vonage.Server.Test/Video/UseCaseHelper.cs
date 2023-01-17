@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoFixture;
-using Vonage.Server.Common;
-using Vonage.Server.Common.Failures;
-using Vonage.Server.Common.Monads;
-using Vonage.Server.Test.Extensions;
+using Vonage.Common;
+using Vonage.Common.Failures;
+using Vonage.Common.Monads;
+using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video;
 using WireMock.Matchers.Request;
 using WireMock.ResponseProviders;
@@ -30,7 +31,7 @@ namespace Vonage.Server.Test.Video
         public UseCaseHelper()
         {
             this.Server = WireMockServer.Start();
-            this.Serializer = new JsonSerializer();
+            this.Serializer = JsonSerializerBuilder.Build();
             this.Fixture = new Fixture();
             this.Token = this.Fixture.Create<string>();
         }

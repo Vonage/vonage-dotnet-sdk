@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
-using Vonage.Server.Test.Common;
-using Vonage.Server.Test.Extensions;
+using Vonage.Common.Test;
+using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Sessions.GetStream;
 using Xunit;
 
@@ -11,7 +12,8 @@ namespace Vonage.Server.Test.Video.Sessions.GetStream
         private readonly SerializationTestHelper helper;
 
         public GetStreamDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(GetStreamDeserializationTest).Namespace);
+            this.helper = new SerializationTestHelper(typeof(GetStreamDeserializationTest).Namespace,
+                JsonSerializerBuilder.Build());
 
         [Fact]
         public void ShouldDeserialize200() =>
