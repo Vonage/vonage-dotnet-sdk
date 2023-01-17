@@ -60,8 +60,17 @@ Changes in version 6.x
 
 ## Targeted frameworks
 
+* netstandard2.0
+
+## Tested frameworks
+
 * .NET Framework 4.6.2
-* .NET Standard 2.0
+* .NET Framework 4.7.0
+* .NET Framework 4.7.1
+* .NET Framework 4.7.2
+* .NET Framework 4.8.0
+* .NET 6.0
+* .NET 6.0-Windows
 
 ## Configuration
 
@@ -431,25 +440,26 @@ Make sure to copy appsettings.json.example to appsettings.json and enter your ke
 
 The following is a list of Vonage APIs and whether the Vonage .NET SDK provides support for them:
 
-| API   | API Release Status |  Supported?
-|----------|:---------:|:-------------:|
-| Account API | General Availability |✅|
-| Alerts API | General Availability |✅|
-| Application API | General Availability |✅|
-| Audit API | Beta |❌|
-| Conversation API | Beta |❌|
-| Dispatch API | Beta |❌|
-| External Accounts API | Beta |❌|
-| Media API | Beta | ❌|
-| Messages API | General Availability |✅|
-| Number Insight API | General Availability |✅|
-| Number Management API | General Availability |✅|
-| Pricing API | General Availability |✅|
-| Redact API | Developer Preview |✅|
-| Reports API | Beta |❌|
-| SMS API | General Availability |✅|
-| Verify API | General Availability |✅|
-| Voice API | General Availability |✅|
+| API                   |  API Release Status  | Supported? 
+|-----------------------|:--------------------:|:----------:|
+| Account API           | General Availability |     ✅      |
+| Alerts API            | General Availability |     ✅      |
+| Application API       | General Availability |     ✅      |
+| Audit API             |         Beta         |     ❌      |
+| Conversation API      |         Beta         |     ❌      |
+| Dispatch API          |         Beta         |     ❌      |
+| External Accounts API |         Beta         |     ❌      |
+| Media API             |         Beta         |     ❌      |
+| Messages API          | General Availability |     ✅      |
+| Number Insight API    | General Availability |     ✅      |
+| Number Management API | General Availability |     ✅      |
+| Pricing API           | General Availability |     ✅      |
+| Redact API            |  Developer Preview   |     ✅      |
+| Reports API           |         Beta         |     ❌      |
+| SMS API               | General Availability |     ✅      |
+| Verify API            | General Availability |     ✅      |
+| Video API             |         Beta         |     ❌      |
+| Voice API             | General Availability |     ✅      |
 
 ## FAQ
 
@@ -459,11 +469,20 @@ A: Yes
 Contributing
 ------------
 
-Visual Studio 2017 is required (Community is fine). v15.5+ is recommended.
+Pick your preferred IDE:
+
+- Visual Studio (Community is fine)
+- Visual Studio Code
+- Jetbrains Rider
+
+Keep in mind the SDK is built on `netstandard2.0` and tested against several framework versions (v4.6.2 & upper, and
+.Net6.0).
+Therefore, they should be installed on your machine to guarantee compatibility with all supported framework versions.
 
 1. Get the latest code either by cloning the repository or downloading a snapshot of the source.
 2. Open "Vonage.sln"
 3. Build! NuGet dependencies should be brought down automatically; check your settings if they are not.
+4. Tests! Run all the tests to verify everything's fine.
 
 Pull requests are welcome!
 
