@@ -1,4 +1,7 @@
-﻿using Vonage.Common;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Vonage.Common;
+using Vonage.Common.Serialization;
 using Yoh.Text.Json.NamingPolicies;
 
 namespace Vonage.Meetings.Common;
@@ -12,5 +15,11 @@ public static class JsonSerializerBuilder
     ///     Build a serializer.
     /// </summary>
     /// <returns>A serializer.</returns>
-    public static JsonSerializer Build() => new(JsonNamingPolicies.SnakeCaseLower);
+    public static JsonSerializer Build() => new(new List<JsonConverter>
+        {
+            new EnumDescriptionJsonConverter<RoomType>(),
+            new EnumDescriptionJsonConverter<RoomApprovalLevel>(),
+            new EnumDescriptionJsonConverter<RoomMicrophoneState>(),
+        },
+        JsonNamingPolicies.SnakeCaseLower);
 }

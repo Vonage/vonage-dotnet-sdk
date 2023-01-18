@@ -7,7 +7,7 @@
         "id": "abc123",
         "display_name": "abc123",
         "metadata": "abc123",
-        "type": "abc123",
+        "type": "instant",
         "recording_options": {
           "auto_record": false,
           "record_only_owner": false
@@ -18,7 +18,7 @@
         "created_at": "abc123",
         "expires_at": "abc123",
         "expire_after_use": false,
-        "join_approval_level": "abc123",
+        "join_approval_level": "none",
         "initial_join_options": {
           "microphone_state": "default"
         },

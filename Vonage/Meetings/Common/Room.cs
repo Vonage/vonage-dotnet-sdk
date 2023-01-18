@@ -51,7 +51,7 @@ public struct Room
     ///     join the meeting only after the host joined. When set to "explicit_approval" the participants will join the waiting
     ///     room and the host will deny/approve them.
     /// </summary>
-    public string JoinApprovalLevel { get; set; }
+    public RoomApprovalLevel JoinApprovalLevel { get; set; }
 
     /// <summary>
     /// </summary>
@@ -79,7 +79,7 @@ public struct Room
 
     /// <summary>
     /// </summary>
-    public string Type { get; set; }
+    public RoomType Type { get; set; }
 
     /// <summary>
     ///     Constructor.
@@ -109,8 +109,9 @@ public struct Room
     /// <param name="type"></param>
     public Room(Features availableFeatures, Callback callbackUrls, string createdAt, string displayName,
         bool expiresAfterUse, string expiresAt, string id, JoinOptions initialJoinOptions, bool isAvailable,
-        string joinApprovalLevel, RoomLinks links, string meetingCode, string metadata, RecordingOptions recording,
-        string themeId, string type)
+        RoomApprovalLevel joinApprovalLevel, RoomLinks links, string meetingCode, string metadata,
+        RecordingOptions recording,
+        string themeId, RoomType type)
     {
         this.AvailableFeatures = availableFeatures;
         this.CallbackUrls = callbackUrls;
@@ -166,13 +167,13 @@ public struct Room
         /// <summary>
         ///     Set the default microphone option for users in the pre-join screen of this room.
         /// </summary>
-        public string MicrophoneState { get; set; }
+        public RoomMicrophoneState MicrophoneState { get; set; }
 
         /// <summary>
         ///     Constructor.
         /// </summary>
         /// <param name="microphoneState"> Set the default microphone option for users in the pre-join screen of this room.</param>
-        public JoinOptions(string microphoneState) => this.MicrophoneState = microphoneState;
+        public JoinOptions(RoomMicrophoneState microphoneState) => this.MicrophoneState = microphoneState;
     }
 
     /// <summary>

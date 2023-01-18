@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Meetings.Common;
 using Vonage.Meetings.GetAvailableRooms;
 using Xunit;
-using Yoh.Text.Json.NamingPolicies;
 
 namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
 {
@@ -13,7 +13,7 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
 
         public GetAvailableRoomsDeserializationTest() =>
             this.helper = new SerializationTestHelper(typeof(GetAvailableRoomsDeserializationTest).Namespace,
-                JsonNamingPolicies.SnakeCaseLower);
+                JsonSerializerBuilder.Build());
 
         [Fact]
         public void ShouldDeserialize200() =>
@@ -42,7 +42,7 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
                     success.Embedded.Rooms[0].Metadata.Should().Be("abc123");
                     success.Embedded.Rooms[0].Recording.AutoRecord.Should().BeFalse();
                     success.Embedded.Rooms[0].Recording.RecordOnlyOwner.Should().BeFalse();
-                    success.Embedded.Rooms[0].Type.Should().Be("abc123");
+                    success.Embedded.Rooms[0].Type.Should().Be(RoomType.Instant);
                     success.Embedded.Rooms[0].CreatedAt.Should().Be("abc123");
                     success.Embedded.Rooms[0].DisplayName.Should().Be("abc123");
                     success.Embedded.Rooms[0].ExpiresAt.Should().Be("abc123");
@@ -50,8 +50,9 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
                     success.Embedded.Rooms[0].MeetingCode.Should().Be("123456789");
                     success.Embedded.Rooms[0].ThemeId.Should().Be("abc123");
                     success.Embedded.Rooms[0].ExpiresAfterUse.Should().BeFalse();
-                    success.Embedded.Rooms[0].InitialJoinOptions.MicrophoneState.Should().Be("default");
-                    success.Embedded.Rooms[0].JoinApprovalLevel.Should().Be("abc123");
+                    success.Embedded.Rooms[0].InitialJoinOptions.MicrophoneState.Should()
+                        .Be(RoomMicrophoneState.Default);
+                    success.Embedded.Rooms[0].JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
                     success.Embedded.Rooms[0].Links.GuestUrl.Href.Should().Be("https://meetings.vonage.com/123456789");
                     success.Embedded.Rooms[0].Links.HostUrl.Href.Should()
                         .Be("https://meetings.vonage.com/123456789?participant_token=xyz");
