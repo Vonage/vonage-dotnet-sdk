@@ -383,11 +383,15 @@
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
+	<ItemGroup>
 		<None Remove="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+		<Content Include="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\GetRoom\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>
