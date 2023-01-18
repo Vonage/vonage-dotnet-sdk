@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -15,7 +15,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression/>
+      <PackageLicenseExpression/>
     <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.1-beta</PackageReleaseNotes>
     <Configurations>Debug;Release;ReleaseSigned</Configurations>
@@ -27,7 +27,7 @@
     <RepositoryUrl>https://github.com/Vonage/vonage-dotnet-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>VonageLogo_Symbol_Black.png</PackageIcon>
-    <PackageIconUrl/>
+      <PackageIconUrl/>
     <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.
         </Description>
     <Version>7.0.1-beta</Version>
@@ -41,26 +41,26 @@
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'!='ReleaseSigned'">
-    <PackageId>Vonage.Server</PackageId>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='ReleaseSigned'">
-    <PackageId>Vonage.Server.Signed</PackageId>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>../vonage.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj"/>
-    <ProjectReference Include="..\Vonage\Vonage.csproj"/>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="VonageLogo_Symbol_Black.png">
-      <Pack>True</Pack>
-      <PackagePath/>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Enums.NET" Version="4.0.1"/>
-  </ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)'!='ReleaseSigned'">
+        <PackageId>Vonage.Server</PackageId>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='ReleaseSigned'">
+        <PackageId>Vonage.Server.Signed</PackageId>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>../vonage.snk</AssemblyOriginatorKeyFile>
+        <DelaySign>false</DelaySign>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj"/>
+        <ProjectReference Include="..\Vonage\Vonage.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="VonageLogo_Symbol_Black.png">
+            <Pack>True</Pack>
+            <PackagePath/>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Enums.NET" Version="4.0.1"/>
+    </ItemGroup>
 </Project>

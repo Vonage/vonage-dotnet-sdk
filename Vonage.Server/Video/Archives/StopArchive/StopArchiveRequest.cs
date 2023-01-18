@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -8,7 +9,7 @@ namespace Vonage.Server.Video.Archives.StopArchive;
 /// <summary>
 ///     Represents a request to stop an archive.
 /// </summary>
-public readonly struct StopArchiveRequest : IVideoRequest
+public readonly struct StopArchiveRequest : IVonageRequest
 {
     private StopArchiveRequest(string applicationId, string archiveId)
     {

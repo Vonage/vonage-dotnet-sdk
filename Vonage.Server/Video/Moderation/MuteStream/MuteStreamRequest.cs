@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -8,7 +9,7 @@ namespace Vonage.Server.Video.Moderation.MuteStream;
 /// <summary>
 ///     Represents a request to mute a stream.
 /// </summary>
-public readonly struct MuteStreamRequest : IVideoRequest
+public readonly struct MuteStreamRequest : IVonageRequest
 {
     private MuteStreamRequest(string applicationId, string sessionId, string streamId)
     {

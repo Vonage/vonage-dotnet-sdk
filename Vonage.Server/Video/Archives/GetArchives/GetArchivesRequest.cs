@@ -1,12 +1,13 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.GetArchives;
 
 /// <inheritdoc />
-public readonly struct GetArchivesRequest : IVideoRequest
+public readonly struct GetArchivesRequest : IVonageRequest
 {
     /// <summary>
     ///     The default number of archives returned is 50.

@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -11,7 +12,7 @@ namespace Vonage.Server.Video.Archives.ChangeLayout;
 /// <summary>
 ///     Represents a request to change the layout of an archive.
 /// </summary>
-public readonly struct ChangeLayoutRequest : IVideoRequest
+public readonly struct ChangeLayoutRequest : IVonageRequest
 {
     private ChangeLayoutRequest(string applicationId, string archiveId, ArchiveLayout layout)
     {

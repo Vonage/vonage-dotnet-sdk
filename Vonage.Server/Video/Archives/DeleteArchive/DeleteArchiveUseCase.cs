@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Archives.DeleteArchive;
@@ -7,14 +8,14 @@ namespace Vonage.Server.Video.Archives.DeleteArchive;
 internal class DeleteArchiveUseCase
 {
     private readonly Func<string> generateToken;
-    private readonly VideoHttpClient videoHttpClient;
+    private readonly VonageHttpClient VonageHttpClient;
 
-    internal DeleteArchiveUseCase(VideoHttpClient client, Func<string> generateToken)
+    internal DeleteArchiveUseCase(VonageHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
-        this.videoHttpClient = client;
+        this.VonageHttpClient = client;
     }
 
     internal Task<Result<Unit>> DeleteArchiveAsync(Result<DeleteArchiveRequest> request) =>
-        this.videoHttpClient.SendAsync(request, this.generateToken());
+        this.VonageHttpClient.SendAsync(request, this.generateToken());
 }

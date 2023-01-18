@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -12,7 +13,7 @@ namespace Vonage.Server.Video.Archives.CreateArchive;
 /// <summary>
 ///     Represents a request to creating an archive.
 /// </summary>
-public readonly struct CreateArchiveRequest : IVideoRequest
+public readonly struct CreateArchiveRequest : IVonageRequest
 {
     /// <summary>
     /// </summary>

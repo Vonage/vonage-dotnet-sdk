@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -8,7 +9,7 @@ namespace Vonage.Server.Video.Moderation.DisconnectConnection;
 /// <summary>
 ///     Represents a request to disconnect a connection.
 /// </summary>
-public readonly struct DisconnectConnectionRequest : IVideoRequest
+public readonly struct DisconnectConnectionRequest : IVonageRequest
 {
     private DisconnectConnectionRequest(string applicationId, string sessionId, string connectionId)
     {

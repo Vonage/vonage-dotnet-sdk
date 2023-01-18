@@ -1,7 +1,9 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Sessions.ChangeStreamLayout;
 using Vonage.Server.Video.Sessions.CreateSession;
 using Vonage.Server.Video.Sessions.GetStream;
@@ -26,11 +28,15 @@ public class SessionClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public SessionClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.createSessionUseCase = new CreateSessionUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.getStreamUseCase = new GetStreamUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.getStreamsUseCase = new GetStreamsUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+        this.createSessionUseCase =
+            new CreateSessionUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
+        this.getStreamUseCase = new GetStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
+            tokenGeneration);
+        this.getStreamsUseCase = new GetStreamsUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
+            tokenGeneration);
         this.changeStreamLayoutUseCase =
-            new ChangeStreamLayoutUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+            new ChangeStreamLayoutUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
+                tokenGeneration);
     }
 
     /// <summary>

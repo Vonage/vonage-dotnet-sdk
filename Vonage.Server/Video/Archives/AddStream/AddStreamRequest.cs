@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -10,7 +11,7 @@ namespace Vonage.Server.Video.Archives.AddStream;
 /// <summary>
 ///     Represents a request to add a stream to an archive.
 /// </summary>
-public readonly struct AddStreamRequest : IVideoRequest
+public readonly struct AddStreamRequest : IVonageRequest
 {
     private AddStreamRequest(string applicationId, string archiveId, string streamId, bool hasAudio, bool hasVideo)
     {

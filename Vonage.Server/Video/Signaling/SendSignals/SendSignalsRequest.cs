@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -11,7 +12,7 @@ namespace Vonage.Server.Video.Signaling.SendSignals;
 /// <summary>
 ///     Represents a request to send a signal to all participants.
 /// </summary>
-public readonly struct SendSignalsRequest : IVideoRequest
+public readonly struct SendSignalsRequest : IVonageRequest
 {
     private SendSignalsRequest(string applicationId, string sessionId, SignalContent content)
     {

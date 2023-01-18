@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -8,7 +9,7 @@ namespace Vonage.Server.Video.Sessions.GetStream;
 /// <summary>
 ///     Represents a request to retrieve a stream.
 /// </summary>
-public readonly struct GetStreamRequest : IVideoRequest
+public readonly struct GetStreamRequest : IVonageRequest
 {
     private GetStreamRequest(string applicationId, string sessionId, string streamId)
     {

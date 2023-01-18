@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -8,7 +9,7 @@ namespace Vonage.Server.Video.Archives.GetArchive;
 /// <summary>
 ///     Represents a request to retrieve an archive.
 /// </summary>
-public readonly struct GetArchiveRequest : IVideoRequest
+public readonly struct GetArchiveRequest : IVonageRequest
 {
     private GetArchiveRequest(string applicationId, string archiveId)
     {

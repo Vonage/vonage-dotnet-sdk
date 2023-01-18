@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Server.Video.Archives.Common;
 
@@ -8,14 +9,14 @@ namespace Vonage.Server.Video.Archives.GetArchive;
 internal class GetArchiveUseCase
 {
     private readonly Func<string> generateToken;
-    private readonly VideoHttpClient videoHttpClient;
+    private readonly VonageHttpClient VonageHttpClient;
 
-    internal GetArchiveUseCase(VideoHttpClient client, Func<string> generateToken)
+    internal GetArchiveUseCase(VonageHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
-        this.videoHttpClient = client;
+        this.VonageHttpClient = client;
     }
 
     internal Task<Result<Archive>> GetArchiveAsync(Result<GetArchiveRequest> request) =>
-        this.videoHttpClient.SendWithResponseAsync<Archive, GetArchiveRequest>(request, this.generateToken());
+        this.VonageHttpClient.SendWithResponseAsync<Archive, GetArchiveRequest>(request, this.generateToken());
 }

@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -11,7 +12,7 @@ namespace Vonage.Server.Video.Sessions.ChangeStreamLayout;
 /// <summary>
 ///     Represents a request to change a stream layout.
 /// </summary>
-public readonly struct ChangeStreamLayoutRequest : IVideoRequest
+public readonly struct ChangeStreamLayoutRequest : IVonageRequest
 {
     private ChangeStreamLayoutRequest(string applicationId, string sessionId, IEnumerable<LayoutItem> items)
     {
