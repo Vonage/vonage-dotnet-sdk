@@ -20,16 +20,10 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void Constructor_ShouldAssignCredentials()
-        {
-            this.client.Credentials.Should().Be(this.credentials);
-        }
+        public void Constructor_ShouldAssignCredentials() => this.client.Credentials.Should().Be(this.credentials);
 
         [Fact]
-        public void Constructor_ShouldInitializeClients()
-        {
-            this.client.MeetingsClient.Should().NotBeNull();
-        }
+        public void Constructor_ShouldInitializeClients() => this.client.MeetingsClient.Should().NotBeNull();
 
         [Fact]
         public void Credentials_ShouldOverrideClients_GivenCredentialsAreProvided()
@@ -51,7 +45,7 @@ namespace Vonage.Test.Unit
         public void Credentials_ShouldThrowArgumentNullException_GivenCredentialsAreNull()
         {
             Action act = () => this.client.Credentials = null;
-            act.Should().Throw<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>().WithParameterName(nameof(this.client.Credentials));
         }
     }
 }

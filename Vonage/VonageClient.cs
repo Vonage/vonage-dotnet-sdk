@@ -35,12 +35,13 @@ namespace Vonage
         ///     Gets or sets credentials for this client.
         /// </summary>
         /// <remarks>Setting the value from this property will initialize all clients instances.</remarks>
+        /// <exception cref="ArgumentNullException">When the value is null.</exception>
         public Credentials Credentials
         {
             get => this.credentials;
             set
             {
-                this.credentials = value;
+                this.credentials = value ?? throw new ArgumentNullException(nameof(this.Credentials));
                 this.PropagateCredentials();
             }
         }
