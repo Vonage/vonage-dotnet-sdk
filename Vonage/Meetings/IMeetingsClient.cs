@@ -2,6 +2,7 @@
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.GetAvailableRooms;
+using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRoom;
 
 namespace Vonage.Meetings;
@@ -17,6 +18,13 @@ public interface IMeetingsClient
     /// <param name="request">The request.</param>
     /// <returns>The list of available rooms.</returns>
     Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request);
+
+    /// <summary>
+    ///     Retrieves a recording details.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>recording.</returns>
+    Task<Result<Recording>> GetRecordingAsync(Result<GetRecordingRequest> request);
 
     /// <summary>
     ///     Retrieves a room details.

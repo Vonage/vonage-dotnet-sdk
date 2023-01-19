@@ -5,6 +5,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.GetAvailableRooms;
+using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRoom;
 
 namespace Vonage.Meetings;
@@ -13,6 +14,7 @@ namespace Vonage.Meetings;
 public class MeetingsClient : IMeetingsClient
 {
     private readonly GetAvailableRoomsUseCase getAvailableRoomsUseCase;
+    private readonly GetRecordingUseCase getRecordingUseCase;
     private readonly GetRoomUseCase getRoomUseCase;
 
     /// <summary>
@@ -25,11 +27,16 @@ public class MeetingsClient : IMeetingsClient
         var vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build());
         this.getAvailableRoomsUseCase = new GetAvailableRoomsUseCase(vonageClient, tokenGeneration);
         this.getRoomUseCase = new GetRoomUseCase(vonageClient, tokenGeneration);
+        this.getRecordingUseCase = new GetRecordingUseCase(vonageClient, tokenGeneration);
     }
 
     /// <inheritdoc />
     public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>
         this.getAvailableRoomsUseCase.GetAvailableRoomsAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Recording>> GetRecordingAsync(Result<GetRecordingRequest> request) =>
+        this.getRecordingUseCase.GetRecordingAsync(request);
 
     /// <inheritdoc />
     public Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request) =>

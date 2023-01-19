@@ -7,7 +7,7 @@ using Yoh.Text.Json.NamingPolicies;
 namespace Vonage.Meetings.Common;
 
 /// <summary>
-///     Builder for Video serializer.
+///     Builder for Meetings serializer.
 /// </summary>
 public static class JsonSerializerBuilder
 {
@@ -20,6 +20,7 @@ public static class JsonSerializerBuilder
             new EnumDescriptionJsonConverter<RoomType>(),
             new EnumDescriptionJsonConverter<RoomApprovalLevel>(),
             new EnumDescriptionJsonConverter<RoomMicrophoneState>(),
+            new EnumDescriptionJsonConverter<RecordingStatus>(),
         },
         JsonNamingPolicies.SnakeCaseLower);
 }
