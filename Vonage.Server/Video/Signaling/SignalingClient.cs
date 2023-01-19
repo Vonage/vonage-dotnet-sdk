@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Signaling.SendSignal;
 using Vonage.Server.Video.Signaling.SendSignals;
 
@@ -22,8 +24,10 @@ public class SignalingClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.sendSignalUseCase = new SendSignalUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.sendSignalsUseCase = new SendSignalsUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+        this.sendSignalUseCase = new SendSignalUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
+            tokenGeneration);
+        this.sendSignalsUseCase =
+            new SendSignalsUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
     }
 
     /// <summary>

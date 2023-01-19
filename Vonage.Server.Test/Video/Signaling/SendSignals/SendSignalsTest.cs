@@ -7,6 +7,7 @@ using FsCheck.Xunit;
 using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Signaling;
 using Vonage.Server.Video.Signaling.Common;
 using Vonage.Server.Video.Signaling.SendSignals;
@@ -24,7 +25,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
 
         public SendSignalsTest()
         {
-            this.helper = new UseCaseHelper();
+            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
             this.client = new SignalingClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }

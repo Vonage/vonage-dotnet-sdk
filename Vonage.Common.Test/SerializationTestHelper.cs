@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Vonage.Common.Test
@@ -7,6 +8,7 @@ namespace Vonage.Common.Test
     {
         private const string ExcludeCommonNamespace = "Vonage.Common.Test.";
         private const string ExcludeServerNamespace = "Vonage.Server.Test.";
+        private const string ExcludeVonageNamespace = "Vonage.Test.Unit.";
         private readonly string callerNamespace;
 
         public JsonSerializer Serializer { get; }
@@ -15,6 +17,12 @@ namespace Vonage.Common.Test
         {
             this.callerNamespace = callerNamespace;
             this.Serializer = new JsonSerializer();
+        }
+
+        public SerializationTestHelper(string callerNamespace, JsonNamingPolicy namingPolicy)
+        {
+            this.callerNamespace = callerNamespace;
+            this.Serializer = new JsonSerializer(namingPolicy);
         }
 
         public SerializationTestHelper(string callerNamespace, JsonSerializer customSerializer)
@@ -41,6 +49,7 @@ namespace Vonage.Common.Test
             this.callerNamespace
                 .Replace(ExcludeCommonNamespace, string.Empty)
                 .Replace(ExcludeServerNamespace, string.Empty)
+                .Replace(ExcludeVonageNamespace, string.Empty)
                 .Replace('.', '/');
 
         private static string ReadFile(string filePath) =>

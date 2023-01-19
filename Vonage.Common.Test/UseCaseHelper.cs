@@ -1,12 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoFixture;
+﻿using AutoFixture;
 using Vonage.Common;
+using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Serialization;
-using Vonage.Server.Video;
 using WireMock.Matchers.Request;
 using WireMock.ResponseProviders;
 using WireMock.Server;
@@ -31,9 +28,19 @@ namespace Vonage.Server.Test.Video
         public UseCaseHelper()
         {
             this.Server = WireMockServer.Start();
-            this.Serializer = JsonSerializerBuilder.Build();
+            this.Serializer = new JsonSerializer();
             this.Fixture = new Fixture();
             this.Token = this.Fixture.Create<string>();
+        }
+
+        /// <summary>
+        ///     Creates the helper and initialize dependencies.
+        /// </summary>
+        /// <param name="serializer">A specific serializer.</param>
+        public UseCaseHelper(JsonSerializer serializer)
+            : this()
+        {
+            this.Serializer = serializer;
         }
 
         /// <inheritdoc />
@@ -51,7 +58,7 @@ namespace Vonage.Server.Test.Video
         /// <param name="request">The request.</param>
         /// <typeparam name="T">The type of the request.</typeparam>
         /// <returns>The path.</returns>
-        public static string GetPathFromRequest<T>(Result<T> request) where T : IVideoRequest =>
+        public static string GetPathFromRequest<T>(Result<T> request) where T : IVonageRequest =>
             request.Match(value => value.GetEndpointPath(), failure => string.Empty);
 
         /// <summary>

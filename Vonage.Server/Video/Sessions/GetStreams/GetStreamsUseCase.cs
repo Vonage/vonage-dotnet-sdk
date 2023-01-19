@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Sessions.GetStreams;
@@ -7,15 +8,15 @@ namespace Vonage.Server.Video.Sessions.GetStreams;
 internal class GetStreamsUseCase
 {
     private readonly Func<string> generateToken;
-    private readonly VideoHttpClient videoHttpClient;
+    private readonly VonageHttpClient VonageHttpClient;
 
-    internal GetStreamsUseCase(VideoHttpClient client, Func<string> generateToken)
+    internal GetStreamsUseCase(VonageHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
-        this.videoHttpClient = client;
+        this.VonageHttpClient = client;
     }
 
     internal Task<Result<GetStreamsResponse>> GetStreamsAsync(Result<GetStreamsRequest> request) =>
-        this.videoHttpClient.SendWithResponseAsync<GetStreamsResponse, GetStreamsRequest>(request,
+        this.VonageHttpClient.SendWithResponseAsync<GetStreamsResponse, GetStreamsRequest>(request,
             this.generateToken());
 }

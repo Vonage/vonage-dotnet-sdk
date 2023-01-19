@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Vonage.Common;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace Vonage.Serialization
 {
@@ -23,7 +23,6 @@ namespace Vonage.Serialization
         {
             var result = new Dictionary<Webhook.Type, Webhook>();
             var jObject = JObject.Load(reader);
-
             foreach (var x in jObject)
             {
                 Webhook.Type key = x.Key.ToEnum<Webhook.Type>();
@@ -47,7 +46,6 @@ namespace Vonage.Serialization
             if (value is not IDictionary dictionary || !TryGetEnumType(value.GetType(), out Type enumType))
                 throw new InvalidOperationException(
                     $"Can't parse value type '{value.GetType().FullName}' as a supported dictionary type."); // shouldn't be possible since we check in CanConvert
-
             Type enumValueType = Enum.GetUnderlyingType(enumType);
 
             // serialize
@@ -91,10 +89,7 @@ namespace Vonage.Serialization
             keyType = objectType.GetGenericArguments().First();
             if (!keyType.IsEnum)
                 keyType = null;
-
             return keyType != null;
         }
-
-        
     }
 }

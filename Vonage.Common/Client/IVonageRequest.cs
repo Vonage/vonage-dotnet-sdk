@@ -1,11 +1,9 @@
-﻿using System.Net.Http;
-
-namespace Vonage.Server.Video;
+﻿namespace Vonage.Common.Client;
 
 /// <summary>
-///     Represents a request for Video features.
+///     Represents a request to be sent to Vonage's APIs.
 /// </summary>
-public interface IVideoRequest
+public interface IVonageRequest
 {
     /// <summary>
     ///     Converts the request to a HttpRequest.

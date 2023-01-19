@@ -7,6 +7,7 @@ using FsCheck.Xunit;
 using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.AddStream;
 using WireMock.RequestBuilders;
@@ -22,7 +23,7 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
 
         public AddStreamTest()
         {
-            this.helper = new UseCaseHelper();
+            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
             this.client = new ArchiveClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }

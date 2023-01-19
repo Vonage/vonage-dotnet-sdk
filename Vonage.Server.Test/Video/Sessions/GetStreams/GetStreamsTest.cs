@@ -9,6 +9,7 @@ using Vonage.Common;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Sessions.GetStreams;
 using WireMock.RequestBuilders;
@@ -24,7 +25,7 @@ namespace Vonage.Server.Test.Video.Sessions.GetStreams
 
         public GetStreamsTest()
         {
-            this.helper = new UseCaseHelper();
+            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
             this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
             this.request = BuildRequest(this.helper.Fixture);
         }

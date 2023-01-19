@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
@@ -9,12 +10,12 @@ namespace Vonage.Server.Video.Sessions.CreateSession;
 internal class CreateSessionUseCase
 {
     private readonly Func<string> generateToken;
-    private readonly VideoHttpClient videoHttpClient;
+    private readonly VonageHttpClient VonageHttpClient;
 
-    internal CreateSessionUseCase(VideoHttpClient client, Func<string> generateToken)
+    internal CreateSessionUseCase(VonageHttpClient client, Func<string> generateToken)
     {
         this.generateToken = generateToken;
-        this.videoHttpClient = client;
+        this.VonageHttpClient = client;
     }
 
     private static Result<CreateSessionResponse> GetFirstSessionIfAvailable(CreateSessionResponse[] sessions) =>
@@ -26,7 +27,7 @@ internal class CreateSessionUseCase
     internal async Task<Result<CreateSessionResponse>> CreateSessionAsync(Result<CreateSessionRequest> request)
     {
         var result =
-            await this.videoHttpClient.SendWithResponseAsync<CreateSessionResponse[], CreateSessionRequest>(request,
+            await this.VonageHttpClient.SendWithResponseAsync<CreateSessionResponse[], CreateSessionRequest>(request,
                 this.generateToken());
         return result.Bind(GetFirstSessionIfAvailable);
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Messages
@@ -10,15 +9,14 @@ namespace Vonage.Messages
 
         public MessagesClient(Credentials credentials)
         {
-            _credentials = credentials ?? throw new ArgumentNullException(nameof(credentials));
+            _credentials = credentials;
         }
 
         public async Task<MessagesResponse> SendAsync(MessageRequestBase message)
         {
             var uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/messages");
-            
-            var result = await ApiRequest.DoRequestWithJsonContentAsync<MessagesResponse>("POST", uri, message, ApiRequest.AuthType.Bearer, _credentials);
-
+            var result = await ApiRequest.DoRequestWithJsonContentAsync<MessagesResponse>("POST", uri, message,
+                ApiRequest.AuthType.Bearer, _credentials);
             return result;
         }
     }

@@ -1,76 +1,110 @@
+using System;
+using System.Net.Http;
 using Vonage.Accounts;
-using Vonage.Voice;
 using Vonage.Applications;
 using Vonage.Conversions;
+using Vonage.Meetings;
 using Vonage.Messages;
-using Vonage.Numbers;
-using Vonage.NumberInsights;
-using Vonage.Verify;
-using Vonage.ShortCodes;
-using Vonage.Redaction;
 using Vonage.Messaging;
-using Vonage.Request;
+using Vonage.NumberInsights;
+using Vonage.Numbers;
 using Vonage.Pricing;
+using Vonage.Redaction;
+using Vonage.Request;
+using Vonage.ShortCodes;
+using Vonage.Verify;
+using Vonage.Voice;
 
 namespace Vonage
 {
+    /// <summary>
+    ///     Represents a client to use all features from Vonage's APIs.
+    /// </summary>
     public class VonageClient
     {
-        private Credentials _credentials;
-        
-        public Credentials Credentials {
-            get => _credentials;
+        private const string MeetingsApiUrl = "https://api-eu.vonage.com";
+        private Credentials credentials;
+
+        public IAccountClient AccountClient { get; private set; }
+
+        public IApplicationClient ApplicationClient { get; private set; }
+
+        public IConversionClient ConversionClient { get; private set; }
+
+        /// <summary>
+        ///     Gets or sets credentials for this client.
+        /// </summary>
+        /// <remarks>Setting the value from this property will initialize all clients instances.</remarks>
+        /// <exception cref="ArgumentNullException">When the value is null.</exception>
+        public Credentials Credentials
+        {
+            get => this.credentials;
             set
             {
-                _credentials = value;
-                PropagateCredentials();
+                this.credentials = value ?? throw new ArgumentNullException(nameof(this.Credentials));
+                this.PropagateCredentials();
             }
         }
-        
-        public IAccountClient AccountClient { get; private set; }
-        
-        public IApplicationClient ApplicationClient { get; private set; }
-        
-        public IVoiceClient VoiceClient { get; private set; }
-        
-        public IConversionClient ConversionClient { get; private set; }
-        
-        public INumbersClient NumbersClient { get; private set; }
-        
-        public INumberInsightClient NumberInsightClient { get; private set; }
-        
-        public IVerifyClient VerifyClient { get; private set; }
-        
-        public IShortCodesClient ShortCodesClient { get; private set; }
-        
-        public IRedactClient RedactClient { get; private set; }
-        
-        public ISmsClient SmsClient { get; private set; }
 
-        public IPricingClient PricingClient { get; private set; }
+        /// <summary>
+        ///     Exposes Meetings features.
+        /// </summary>
+        public IMeetingsClient MeetingsClient { get; private set; }
 
         public IMessagesClient MessagesClient { get; private set; }
 
+        public INumberInsightClient NumberInsightClient { get; private set; }
+
+        public INumbersClient NumbersClient { get; private set; }
+
+        public IPricingClient PricingClient { get; private set; }
+
+        public IRedactClient RedactClient { get; private set; }
+
+        public IShortCodesClient ShortCodesClient { get; private set; }
+
+        public ISmsClient SmsClient { get; private set; }
+
+        public IVerifyClient VerifyClient { get; private set; }
+
+        public IVoiceClient VoiceClient { get; private set; }
+
+        /// <summary>
+        ///     Constructor for VonageClient.
+        /// </summary>
+        /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
         public VonageClient(Credentials credentials)
         {
-            Credentials = credentials;
+            this.Credentials = credentials;
+        }
+
+        private static HttpClient InitializeHttpClient()
+        {
+            var client = new HttpClient(new HttpClientHandler())
+            {
+                BaseAddress = new Uri(MeetingsApiUrl),
+            };
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            return client;
         }
 
         private void PropagateCredentials()
         {
-            AccountClient = new AccountClient(Credentials);
-            ApplicationClient = new ApplicationClient(Credentials);
-            VoiceClient = new VoiceClient(Credentials);
-            ConversionClient = new ConversionClient(Credentials);
-            NumbersClient = new NumbersClient(Credentials);
-            NumberInsightClient = new NumberInsightClient(Credentials);
-            VerifyClient = new VerifyClient(Credentials);
-            ShortCodesClient = new ShortCodesClient(Credentials);
-            RedactClient = new RedactClient(Credentials);
-            SmsClient = new SmsClient(Credentials);
-            PricingClient = new PricingClient(Credentials);
-            MessagesClient = new MessagesClient(Credentials);
+            this.AccountClient = new AccountClient(this.Credentials);
+            this.ApplicationClient = new ApplicationClient(this.Credentials);
+            this.VoiceClient = new VoiceClient(this.Credentials);
+            this.ConversionClient = new ConversionClient(this.Credentials);
+            this.NumbersClient = new NumbersClient(this.Credentials);
+            this.NumberInsightClient = new NumberInsightClient(this.Credentials);
+            this.VerifyClient = new VerifyClient(this.Credentials);
+            this.ShortCodesClient = new ShortCodesClient(this.Credentials);
+            this.RedactClient = new RedactClient(this.Credentials);
+            this.SmsClient = new SmsClient(this.Credentials);
+            this.PricingClient = new PricingClient(this.Credentials);
+            this.MessagesClient = new MessagesClient(this.Credentials);
+            var client = InitializeHttpClient();
+            string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
+            this.MeetingsClient = new MeetingsClient(client, GenerateToken);
         }
-        
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives.AddStream;
 using Vonage.Server.Video.Archives.ChangeLayout;
 using Vonage.Server.Video.Archives.Common;
@@ -35,15 +37,22 @@ public class ArchiveClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public ArchiveClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.getArchivesUseCase = new GetArchivesUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.getArchiveUseCase = new GetArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.createArchiveUseCase = new CreateArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.deleteArchiveUseCase = new DeleteArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.stopArchiveUseCase = new StopArchiveUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+        this.getArchivesUseCase =
+            new GetArchivesUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
+        this.getArchiveUseCase = new GetArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
+            tokenGeneration);
+        this.createArchiveUseCase =
+            new CreateArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
+        this.deleteArchiveUseCase =
+            new DeleteArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
+        this.stopArchiveUseCase =
+            new StopArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
         this.changeLayoutUseCase =
-            new ChangeLayoutUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.addStreamUseCase = new AddStreamUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.removeStreamUseCase = new RemoveStreamUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+            new ChangeLayoutUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
+        this.addStreamUseCase = new AddStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
+            tokenGeneration);
+        this.removeStreamUseCase =
+            new RemoveStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
     }
 
     /// <summary>

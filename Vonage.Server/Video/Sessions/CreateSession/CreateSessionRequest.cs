@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
+using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Server.Video.Sessions.Common;
@@ -11,7 +12,7 @@ namespace Vonage.Server.Video.Sessions.CreateSession;
 /// <summary>
 ///     Represents a request for creating a session.
 /// </summary>
-public readonly struct CreateSessionRequest : IVideoRequest
+public readonly struct CreateSessionRequest : IVonageRequest
 {
     /// <summary>
     ///     The endpoint for creating a session.

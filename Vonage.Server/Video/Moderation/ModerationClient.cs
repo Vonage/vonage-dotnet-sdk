@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Moderation.DisconnectConnection;
 using Vonage.Server.Video.Moderation.MuteStream;
 using Vonage.Server.Video.Moderation.MuteStreams;
@@ -25,9 +27,12 @@ public class ModerationClient
     public ModerationClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
         this.disconnectConnectionUseCase =
-            new DisconnectConnectionUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.muteStreamUseCase = new MuteStreamUseCase(new VideoHttpClient(httpClient), tokenGeneration);
-        this.muteStreamsUseCase = new MuteStreamsUseCase(new VideoHttpClient(httpClient), tokenGeneration);
+            new DisconnectConnectionUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
+                tokenGeneration);
+        this.muteStreamUseCase = new MuteStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
+            tokenGeneration);
+        this.muteStreamsUseCase =
+            new MuteStreamsUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
     }
 
     /// <summary>

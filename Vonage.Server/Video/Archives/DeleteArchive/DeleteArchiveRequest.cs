@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -8,7 +9,7 @@ namespace Vonage.Server.Video.Archives.DeleteArchive;
 /// <summary>
 ///     Represents a request to delete an archive.
 /// </summary>
-public readonly struct DeleteArchiveRequest : IVideoRequest
+public readonly struct DeleteArchiveRequest : IVonageRequest
 {
     private DeleteArchiveRequest(string applicationId, string archiveId)
     {

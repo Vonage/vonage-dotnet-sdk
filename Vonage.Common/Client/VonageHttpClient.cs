@@ -1,31 +1,51 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Vonage.Common;
+﻿using System.Net;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
-using Vonage.Server.Serialization;
 
-namespace Vonage.Server.Video;
+namespace Vonage.Common.Client;
 
 /// <summary>
 ///     Represents a custom http client for Vonage's APIs.
 /// </summary>
-internal class VideoHttpClient
+public class VonageHttpClient
 {
     private readonly HttpClient client;
-    private readonly JsonSerializer jsonSerializer;
+    private readonly IJsonSerializer jsonSerializer;
 
     /// <summary>
-    ///     Creates a custom Http Client.
+    ///     Creates a custom Http Client for Vonage purposes.
     /// </summary>
     /// <param name="httpClient">The http client.</param>
-    internal VideoHttpClient(HttpClient httpClient)
+    /// <param name="serializer">The serializer.</param>
+    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer)
     {
         this.client = httpClient;
-        this.jsonSerializer = JsonSerializerBuilder.Build();
+        this.jsonSerializer = serializer;
     }
+
+    /// <summary>
+    ///     Sends a HttpRequest.
+    /// </summary>
+    /// <param name="request">The request to send.</param>
+    /// <param name="token">The token to use for authentication.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    public async Task<Result<Unit>> SendAsync<T>(Result<T> request, string token) where T : IVonageRequest =>
+        await request
+            .MapAsync(value => this.SendRequestAsync(value, token))
+            .BindAsync(value =>
+                MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
+
+    /// <summary>
+    ///     Sends a HttpRequest and parses the response.
+    /// </summary>
+    /// <param name="request">The request to send.</param>
+    /// <param name="token">The token to use for authentication.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    public async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request,
+        string token) where TRequest : IVonageRequest =>
+        await request
+            .MapAsync(value => this.SendRequestAsync(value, token))
+            .BindAsync(value => MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
 
     private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent) =>
         this.jsonSerializer
@@ -61,30 +81,6 @@ internal class VideoHttpClient
             .Match(Result<T>.FromSuccess, Result<T>.FromFailure);
     }
 
-    private Task<HttpResponseMessage> SendRequestAsync(IVideoRequest request, string token) =>
+    private Task<HttpResponseMessage> SendRequestAsync(IVonageRequest request, string token) =>
         this.client.SendAsync(request.BuildRequestMessage(token));
-
-    /// <summary>
-    ///     Sends a HttpRequest and parses the response.
-    /// </summary>
-    /// <param name="request">The request to send.</param>
-    /// <param name="token">The token to use for authentication.</param>
-    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    internal async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request,
-        string token) where TRequest : IVideoRequest =>
-        await request
-            .MapAsync(value => this.SendRequestAsync(value, token))
-            .BindAsync(value => MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
-
-    /// <summary>
-    ///     Sends a HttpRequest.
-    /// </summary>
-    /// <param name="request">The request to send.</param>
-    /// <param name="token">The token to use for authentication.</param>
-    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    internal async Task<Result<Unit>> SendAsync<T>(Result<T> request, string token) where T : IVideoRequest =>
-        await request
-            .MapAsync(value => this.SendRequestAsync(value, token))
-            .BindAsync(value =>
-                MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
 }

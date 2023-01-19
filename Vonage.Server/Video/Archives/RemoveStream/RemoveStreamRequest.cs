@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -10,7 +11,7 @@ namespace Vonage.Server.Video.Archives.RemoveStream;
 /// <summary>
 ///     Represents a request to remove a stream from an archive.
 /// </summary>
-public readonly struct RemoveStreamRequest : IVideoRequest
+public readonly struct RemoveStreamRequest : IVonageRequest
 {
     private RemoveStreamRequest(string applicationId, string archiveId, string streamId)
     {
