@@ -13,9 +13,9 @@ public enum RoomMicrophoneState
 
     /// <summary>
     /// </summary>
-    [Description("true")] True,
+    [Description("on")] On,
 
     /// <summary>
     /// </summary>
-    [Description("false")] False,
+    [Description("off")] Off,
 }
