@@ -7,6 +7,7 @@ using Vonage.Common.Validation;
 namespace Vonage.Meetings.GetRecording;
 
 /// <summary>
+///  Represents a request to retrieve a recording details.
 /// </summary>
 public readonly struct GetRecordingRequest : IVonageRequest
 {

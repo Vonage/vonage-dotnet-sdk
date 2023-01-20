@@ -396,6 +396,10 @@
         <Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>

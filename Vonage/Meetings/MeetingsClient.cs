@@ -6,6 +6,7 @@ using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.GetAvailableRooms;
 using Vonage.Meetings.GetRecording;
+using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
 
 namespace Vonage.Meetings;
@@ -14,6 +15,7 @@ namespace Vonage.Meetings;
 public class MeetingsClient : IMeetingsClient
 {
     private readonly GetAvailableRoomsUseCase getAvailableRoomsUseCase;
+    private readonly GetRecordingsUseCase getRecordingsUseCase;
     private readonly GetRecordingUseCase getRecordingUseCase;
     private readonly GetRoomUseCase getRoomUseCase;
 
@@ -28,6 +30,7 @@ public class MeetingsClient : IMeetingsClient
         this.getAvailableRoomsUseCase = new GetAvailableRoomsUseCase(vonageClient, tokenGeneration);
         this.getRoomUseCase = new GetRoomUseCase(vonageClient, tokenGeneration);
         this.getRecordingUseCase = new GetRecordingUseCase(vonageClient, tokenGeneration);
+        this.getRecordingsUseCase = new GetRecordingsUseCase(vonageClient, tokenGeneration);
     }
 
     /// <inheritdoc />
@@ -37,6 +40,10 @@ public class MeetingsClient : IMeetingsClient
     /// <inheritdoc />
     public Task<Result<Recording>> GetRecordingAsync(Result<GetRecordingRequest> request) =>
         this.getRecordingUseCase.GetRecordingAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetRecordingsResponse>> GetRecordingsAsync(Result<GetRecordingsRequest> request) =>
+        this.getRecordingsUseCase.GetRecordingsAsync(request);
 
     /// <inheritdoc />
     public Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request) =>

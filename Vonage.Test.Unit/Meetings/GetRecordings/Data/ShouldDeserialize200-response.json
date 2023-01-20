@@ -1,0 +1,18 @@
+﻿{
+  "_embedded": {
+    "recordings": [
+      {
+        "id": "abc123",
+        "session_id": "2_MX40NjMwODczMn5-MTU3NTgyODEwNzQ2MH5OZDJrVmdBRUNDbG5MUzNqNXgya20yQ1Z-fg",
+        "started_at": "abc123",
+        "ended_at": "abc123",
+        "status": "started",
+        "_links": {
+          "url": {
+            "href": "abc123"
+          }
+        }
+      }
+    ]
+  }
+}
