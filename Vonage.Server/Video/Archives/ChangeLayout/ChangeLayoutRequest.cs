@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -37,16 +36,12 @@ public readonly struct ChangeLayoutRequest : IVonageRequest
     public ArchiveLayout Layout { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Put, this.GetEndpointPath());
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content = new StringContent(JsonSerializerBuilder.Build().SerializeObject(new {this.Layout}),
-            Encoding.UTF8,
-            "application/json");
-        return httpRequest;
-    }
+    public HttpRequestMessage BuildRequestMessage(string token) =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Put, this.GetEndpointPath())
+            .WithAuthorizationToken(token)
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/layout";
@@ -63,6 +58,11 @@ public readonly struct ChangeLayoutRequest : IVonageRequest
             .FromSuccess(new ChangeLayoutRequest(applicationId, archiveId, layout))
             .Bind(VerifyApplicationId)
             .Bind(VerifyArchiveId);
+
+    private StringContent GetRequestContent() =>
+        new(JsonSerializerBuilder.Build().SerializeObject(new {this.Layout}),
+            Encoding.UTF8,
+            "application/json");
 
     private static Result<ChangeLayoutRequest> VerifyApplicationId(ChangeLayoutRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));

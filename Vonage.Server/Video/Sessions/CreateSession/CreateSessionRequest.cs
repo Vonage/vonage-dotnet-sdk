@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
 using Vonage.Common.Client;
@@ -53,15 +52,12 @@ public readonly struct CreateSessionRequest : IVonageRequest
     public MediaMode MediaMode { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, CreateSessionEndpoint);
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content =
-            new StringContent(this.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
-        return httpRequest;
-    }
+    public HttpRequestMessage BuildRequestMessage(string token) =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .WithAuthorizationToken(token)
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     /// <inheritdoc />
     public string GetEndpointPath() => "/session/create";
@@ -110,4 +106,7 @@ public readonly struct CreateSessionRequest : IVonageRequest
 
     private static string GetMediaPreference(MediaMode mediaMode) =>
         mediaMode == MediaMode.Relayed ? "enabled" : "disabled";
+
+    private StringContent GetRequestContent() =>
+        new(this.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
 }

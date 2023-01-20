@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -36,16 +35,12 @@ public readonly struct RemoveStreamRequest : IVonageRequest
     public string StreamId { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token)
-    {
-        var httpRequest = new HttpRequestMessage(new HttpMethod("PATCH"), this.GetEndpointPath());
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content = new StringContent(
-            JsonSerializerBuilder.Build().SerializeObject(new {RemoveStream = this.StreamId}), Encoding.UTF8,
-            "application/json");
-        return httpRequest;
-    }
+    public HttpRequestMessage BuildRequestMessage(string token) =>
+        VonageRequestBuilder
+            .Initialize(new HttpMethod("PATCH"), this.GetEndpointPath())
+            .WithAuthorizationToken(token)
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/streams";
@@ -63,6 +58,11 @@ public readonly struct RemoveStreamRequest : IVonageRequest
             .Bind(VerifyApplicationId)
             .Bind(VerifyArchiveId)
             .Bind(VerifyStreamId);
+
+    private StringContent GetRequestContent() =>
+        new(
+            JsonSerializerBuilder.Build().SerializeObject(new {RemoveStream = this.StreamId}), Encoding.UTF8,
+            "application/json");
 
     private static Result<RemoveStreamRequest> VerifyApplicationId(RemoveStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));

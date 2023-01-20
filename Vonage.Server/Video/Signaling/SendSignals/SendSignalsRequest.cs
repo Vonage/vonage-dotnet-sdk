@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -41,16 +40,12 @@ public readonly struct SendSignalsRequest : IVonageRequest
     /// </summary>
     /// <param name="token">The token.</param>
     /// <returns>The Http request.</returns>
-    public HttpRequestMessage BuildRequestMessage(string token)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, this.GetEndpointPath());
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content = new StringContent(JsonSerializerBuilder.Build().SerializeObject(this.Content),
-            Encoding.UTF8,
-            "application/json");
-        return httpRequest;
-    }
+    public HttpRequestMessage BuildRequestMessage(string token) =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .WithAuthorizationToken(token)
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     /// <summary>
     ///     Retrieves the endpoint's path.
@@ -72,6 +67,11 @@ public readonly struct SendSignalsRequest : IVonageRequest
             .Bind(VerifySessionId)
             .Bind(VerifyContentType)
             .Bind(VerifyContentData);
+
+    private StringContent GetRequestContent() =>
+        new(JsonSerializerBuilder.Build().SerializeObject(this.Content),
+            Encoding.UTF8,
+            "application/json");
 
     private static Result<SendSignalsRequest> VerifyApplicationId(SendSignalsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));

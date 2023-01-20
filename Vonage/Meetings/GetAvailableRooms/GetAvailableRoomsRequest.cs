@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common.Client;
 
@@ -49,13 +48,11 @@ public readonly struct GetAvailableRoomsRequest : IVonageRequest
     public static GetAvailableRoomsRequest Build(string startId, string endId) => new(startId, endId);
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, this.GetEndpointPath());
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-        return httpRequest;
-    }
+    public HttpRequestMessage BuildRequestMessage(string token) =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Get, this.GetEndpointPath())
+            .WithAuthorizationToken(token)
+            .Build();
 
     /// <inheritdoc />
     public string GetEndpointPath() => QueryHelpers.AddQueryString(DefaultEndpoint, this.GetQueryStringParameters());
