@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
@@ -98,15 +97,12 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     public StreamMode StreamMode { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, this.GetEndpointPath());
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content = new StringContent(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8,
-            "application/json");
-        return httpRequest;
-    }
+    public HttpRequestMessage BuildRequestMessage(string token) =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .WithAuthorizationToken(token)
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive";
@@ -161,6 +157,9 @@ public readonly struct CreateArchiveRequest : IVonageRequest
                 outputMode, resolution, streamMode))
             .Bind(VerifyApplicationId)
             .Bind(VerifySessionId);
+
+    private StringContent GetRequestContent() =>
+        new(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8, "application/json");
 
     private static Result<CreateArchiveRequest> VerifyApplicationId(CreateArchiveRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));

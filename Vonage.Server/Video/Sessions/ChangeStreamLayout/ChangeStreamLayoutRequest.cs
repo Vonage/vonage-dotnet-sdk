@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -37,16 +36,12 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest
     public string SessionId { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Put, this.GetEndpointPath());
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-        httpRequest.Content = new StringContent(JsonSerializerBuilder.Build().SerializeObject(new {this.Items}),
-            Encoding.UTF8,
-            "application/json");
-        return httpRequest;
-    }
+    public HttpRequestMessage BuildRequestMessage(string token) =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Put, this.GetEndpointPath())
+            .WithAuthorizationToken(token)
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream";
@@ -65,6 +60,11 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest
             .Bind(VerifyApplicationId)
             .Bind(VerifySessionId)
             .Bind(VerifyItems);
+
+    private StringContent GetRequestContent() =>
+        new(JsonSerializerBuilder.Build().SerializeObject(new {this.Items}),
+            Encoding.UTF8,
+            "application/json");
 
     private static Result<ChangeStreamLayoutRequest> VerifyApplicationId(ChangeStreamLayoutRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
