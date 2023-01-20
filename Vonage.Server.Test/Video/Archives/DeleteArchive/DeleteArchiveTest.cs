@@ -6,6 +6,7 @@ using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common;
 using Vonage.Common.Monads;
+using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives;
@@ -18,8 +19,8 @@ namespace Vonage.Server.Test.Video.Archives.DeleteArchive
     public class DeleteArchiveTest
     {
         private readonly ArchiveClient client;
-        private readonly UseCaseHelper helper;
         private readonly Result<DeleteArchiveRequest> request;
+        private readonly UseCaseHelper helper;
 
         public DeleteArchiveTest()
         {
@@ -30,16 +31,9 @@ namespace Vonage.Server.Test.Video.Archives.DeleteArchive
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetInvalidStatusCodes(),
-                FsCheckExtensions.GetNonEmptyStrings(),
-                (statusCode, jsonError) =>
-                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
-                            this.CreateRequest(),
-                            WireMockExtensions.CreateResponse(statusCode, jsonError),
-                            jsonError,
-                            () => this.client.DeleteArchiveAsync(this.request))
-                        .Wait());
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
+                this.CreateRequest(),
+                () => this.client.DeleteArchiveAsync(this.request));
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>

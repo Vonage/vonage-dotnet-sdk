@@ -1,14 +1,13 @@
 ﻿using AutoFixture;
-using Vonage.Common;
+using FsCheck;
 using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
 using WireMock.Matchers.Request;
-using WireMock.ResponseProviders;
 using WireMock.Server;
 
-namespace Vonage.Server.Test.Video
+namespace Vonage.Common.Test
 {
     /// <summary>
     ///     Helper for use cases.
@@ -62,25 +61,52 @@ namespace Vonage.Server.Test.Video
             request.Match(value => value.GetEndpointPath(), failure => string.Empty);
 
         /// <summary>
-        ///     Verifies the call returns a failure given the error cannot be parsed.
+        ///     Retrieves the property validating the operation returns failure given the api returns an error.
         /// </summary>
         /// <param name="requestBuilder">Request builder for WireMock.</param>
-        /// <param name="responseBuilder">Response builder for WireMock.</param>
-        /// <param name="jsonError">The invalid json response.</param>
         /// <param name="operation">The call operation.</param>
         /// <typeparam name="T">The type of the response.</typeparam>
-        public async Task VerifyReturnsFailureGivenErrorCannotBeParsed<T>(
+        /// <returns>The property.</returns>
+        public Property VerifyReturnsFailureGivenApiResponseIsError<T>(
             IRequestMatcher requestBuilder,
-            IResponseProvider responseBuilder,
-            string jsonError,
-            Func<Task<Result<T>>> operation)
-        {
-            this.Server.Given(requestBuilder).RespondWith(responseBuilder);
-            var result = await operation();
-            result.Should()
-                .BeFailure(ResultFailure.FromErrorMessage(
-                    $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'."));
-        }
+            Func<Task<Result<T>>> operation) =>
+            Prop.ForAll(
+                FsCheckExtensions.GetErrorResponses(),
+                error =>
+                {
+                    var expectedBody = error.Message is null
+                        ? null
+                        : this.Serializer.SerializeObject(error);
+                    this.Server
+                        .Given(requestBuilder)
+                        .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
+                    operation().Result.Should().BeFailure(error.ToHttpFailure());
+                });
+
+        /// <summary>
+        ///     Retrieves the property validating the operation returns failure given the error cannot be parsed.
+        /// </summary>
+        /// <param name="requestBuilder">Request builder for WireMock.</param>
+        /// <param name="operation">The call operation.</param>
+        /// <typeparam name="T">The type of the response.</typeparam>
+        /// <returns>The property.</returns>
+        public Property VerifyReturnsFailureGivenErrorCannotBeParsed<T>(
+            IRequestMatcher requestBuilder,
+            Func<Task<Result<T>>> operation) =>
+            Prop.ForAll(
+                FsCheckExtensions.GetInvalidStatusCodes(),
+                FsCheckExtensions.GetNonEmptyStrings(),
+                (statusCode, jsonError) =>
+                {
+                    this.Server
+                        .Given(requestBuilder)
+                        .RespondWith(WireMockExtensions.CreateResponse(statusCode, jsonError));
+                    operation()
+                        .Result
+                        .Should()
+                        .BeFailure(ResultFailure.FromErrorMessage(
+                            $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'."));
+                });
 
         public async Task VerifyReturnsFailureGivenRequestIsFailure<TRequest, TResponse>(
             Func<Result<TRequest>, Task<Result<TResponse>>> operation)

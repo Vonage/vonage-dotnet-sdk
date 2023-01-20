@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common;
 using Vonage.Common.Failures;
+using Vonage.Common.Monads;
+using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Sessions;
@@ -17,10 +18,14 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
 {
     public class CreateSessionTest
     {
-        private readonly SessionClient client;
-        private readonly UseCaseHelper helper;
         private readonly CreateSessionRequest request = CreateSessionRequest.Default;
         private readonly CreateSessionResponse session;
+
+        private Func<Task<Result<CreateSessionResponse>>> Operation =>
+            () => this.client.CreateSessionAsync(this.request);
+
+        private readonly SessionClient client;
+        private readonly UseCaseHelper helper;
 
         public CreateSessionTest()
         {
@@ -31,16 +36,7 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetInvalidStatusCodes(),
-                FsCheckExtensions.GetNonEmptyStrings(),
-                (statusCode, jsonError) =>
-                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
-                            this.CreateRequest(),
-                            WireMockExtensions.CreateResponse(statusCode, jsonError),
-                            jsonError,
-                            () => this.client.CreateSessionAsync(this.request))
-                        .Wait());
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
@@ -55,15 +51,13 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
             this.helper.Server
                 .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
-            var result = await this.client.CreateSessionAsync(this.request);
+            var result = await this.Operation();
             result.Should().BeFailure(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
         }
 
         [Property]
         public Property ShouldReturnFailure_GivenStatusCodeIsFailure() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetErrorResponses(),
-                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
+            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenMultipleSessionsAreCreated()
@@ -76,7 +70,7 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
             this.helper.Server
                 .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
-            var result = await this.client.CreateSessionAsync(this.request);
+            var result = await this.Operation();
             result.Should().BeSuccess(this.session);
         }
 
@@ -95,17 +89,5 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
             WireMockExtensions
                 .CreateRequest(this.helper.Token, this.request.GetEndpointPath(), this.request.GetUrlEncoded())
                 .UsingPost();
-
-        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
-        {
-            var expectedBody = error.Message is null
-                ? null
-                : this.helper.Serializer.SerializeObject(error);
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
-            var result = await this.client.CreateSessionAsync(this.request);
-            result.Should().BeFailure(error.ToHttpFailure());
-        }
     }
 }

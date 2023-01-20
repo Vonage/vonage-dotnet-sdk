@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
@@ -8,6 +9,7 @@ using FsCheck.Xunit;
 using Vonage.Common;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
+using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives;
@@ -21,8 +23,11 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
     public class CreateArchiveTest
     {
         private readonly ArchiveClient client;
-        private readonly UseCaseHelper helper;
+
+        private Func<Task<Result<Archive>>> Operation => () => this.client.CreateArchiveAsync(this.request);
+
         private readonly Result<CreateArchiveRequest> request;
+        private readonly UseCaseHelper helper;
 
         public CreateArchiveTest()
         {
@@ -33,16 +38,7 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetInvalidStatusCodes(),
-                FsCheckExtensions.GetNonEmptyStrings(),
-                (statusCode, jsonError) =>
-                    this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
-                            this.CreateRequest(),
-                            WireMockExtensions.CreateResponse(statusCode, jsonError),
-                            jsonError,
-                            () => this.client.CreateArchiveAsync(this.request))
-                        .Wait());
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
