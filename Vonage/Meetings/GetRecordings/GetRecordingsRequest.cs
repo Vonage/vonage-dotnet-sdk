@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -19,13 +18,11 @@ public readonly struct GetRecordingsRequest : IVonageRequest
     public string SessionId { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token)
-    {
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, this.GetEndpointPath());
-        httpRequest.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-        return httpRequest;
-    }
+    public HttpRequestMessage BuildRequestMessage(string token) =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Get, this.GetEndpointPath())
+            .WithAuthorizationToken(token)
+            .Build();
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/beta/meetings/sessions/{this.SessionId}/recordings";
