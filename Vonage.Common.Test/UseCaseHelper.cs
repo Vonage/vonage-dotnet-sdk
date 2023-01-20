@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Net;
+using AutoFixture;
 using FsCheck;
 using Vonage.Common.Client;
 using Vonage.Common.Failures;
@@ -61,15 +62,33 @@ namespace Vonage.Common.Test
             request.Match(value => value.GetEndpointPath(), failure => string.Empty);
 
         /// <summary>
+        ///     Verifies the operation returns failure given the api response cannot be parsed.
+        /// </summary>
+        /// <param name="requestBuilder">Request builder for WireMock.</param>
+        /// <param name="operation">The call operation.</param>
+        /// <typeparam name="TResponse">The type of the response.</typeparam>
+        public async Task VerifyReturnsFailureGivenApiResponseCannotBeParsed<TResponse>(IRequestMatcher requestBuilder,
+            Func<Task<Result<TResponse>>> operation)
+        {
+            var body = this.Fixture.Create<string>();
+            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{typeof(TResponse).Name}'.";
+            this.Server
+                .Given(requestBuilder)
+                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, body));
+            var result = await operation();
+            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
+        }
+
+        /// <summary>
         ///     Retrieves the property validating the operation returns failure given the api returns an error.
         /// </summary>
         /// <param name="requestBuilder">Request builder for WireMock.</param>
         /// <param name="operation">The call operation.</param>
-        /// <typeparam name="T">The type of the response.</typeparam>
+        /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <returns>The property.</returns>
-        public Property VerifyReturnsFailureGivenApiResponseIsError<T>(
+        public Property VerifyReturnsFailureGivenApiResponseIsError<TResponse>(
             IRequestMatcher requestBuilder,
-            Func<Task<Result<T>>> operation) =>
+            Func<Task<Result<TResponse>>> operation) =>
             Prop.ForAll(
                 FsCheckExtensions.GetErrorResponses(),
                 error =>
@@ -88,11 +107,11 @@ namespace Vonage.Common.Test
         /// </summary>
         /// <param name="requestBuilder">Request builder for WireMock.</param>
         /// <param name="operation">The call operation.</param>
-        /// <typeparam name="T">The type of the response.</typeparam>
+        /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <returns>The property.</returns>
-        public Property VerifyReturnsFailureGivenErrorCannotBeParsed<T>(
+        public Property VerifyReturnsFailureGivenErrorCannotBeParsed<TResponse>(
             IRequestMatcher requestBuilder,
-            Func<Task<Result<T>>> operation) =>
+            Func<Task<Result<TResponse>>> operation) =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
                 FsCheckExtensions.GetNonEmptyStrings(),
@@ -108,6 +127,12 @@ namespace Vonage.Common.Test
                             $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'."));
                 });
 
+        /// <summary>
+        ///     Verifies the operation returns failure given the request is failure.
+        /// </summary>
+        /// <param name="operation">The call operation.</param>
+        /// <typeparam name="TRequest">The type of the request.</typeparam>
+        /// <typeparam name="TResponse">The type of the response.</typeparam>
         public async Task VerifyReturnsFailureGivenRequestIsFailure<TRequest, TResponse>(
             Func<Result<TRequest>, Task<Result<TResponse>>> operation)
         {

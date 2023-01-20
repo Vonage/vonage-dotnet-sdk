@@ -6,7 +6,6 @@ using AutoFixture.Kernel;
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -39,16 +38,8 @@ namespace Vonage.Server.Test.Video.Archives.StopArchive
             this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
 
         [Fact]
-        public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
-        {
-            var body = this.helper.Fixture.Create<string>();
-            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{nameof(Archive)}'.";
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, body));
-            var result = await this.Operation();
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
-        }
+        public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed() =>
+            await this.helper.VerifyReturnsFailureGivenApiResponseCannotBeParsed(this.CreateRequest(), this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>

@@ -1,10 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -19,6 +19,8 @@ namespace Vonage.Server.Test.Video.Archives.DeleteArchive
     public class DeleteArchiveTest
     {
         private readonly ArchiveClient client;
+
+        private Func<Task<Result<Unit>>> Operation => () => this.client.DeleteArchiveAsync(this.request);
         private readonly Result<DeleteArchiveRequest> request;
         private readonly UseCaseHelper helper;
 
@@ -31,15 +33,11 @@ namespace Vonage.Server.Test.Video.Archives.DeleteArchive
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(
-                this.CreateRequest(),
-                () => this.client.DeleteArchiveAsync(this.request));
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            Prop.ForAll(
-                FsCheckExtensions.GetErrorResponses(),
-                error => this.VerifyReturnsFailureGivenStatusCodeIsFailure(error).Wait());
+            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
@@ -64,16 +62,5 @@ namespace Vonage.Server.Test.Video.Archives.DeleteArchive
             WireMockExtensions
                 .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request))
                 .UsingDelete();
-
-        private async Task VerifyReturnsFailureGivenStatusCodeIsFailure(ErrorResponse error)
-        {
-            var expectedBody = error.Message is null
-                ? null
-                : this.helper.Serializer.SerializeObject(error);
-            this.helper.Server.Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(error.Code, expectedBody));
-            var result = await this.request.BindAsync(requestValue => this.client.DeleteArchiveAsync(requestValue));
-            result.Should().BeFailure(error.ToHttpFailure());
-        }
     }
 }
