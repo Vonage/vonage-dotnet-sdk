@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using AutoFixture;
+using FluentAssertions;
 using FsCheck;
 using Vonage.Common.Client;
 using Vonage.Common.Failures;
@@ -60,6 +61,28 @@ namespace Vonage.Common.Test
         /// <returns>The path.</returns>
         public static string GetPathFromRequest<T>(Result<T> request) where T : IVonageRequest =>
             request.Match(value => value.GetEndpointPath(), failure => string.Empty);
+
+        /// <summary>
+        ///     Verifies the operation returns the expected value given the response is success.
+        /// </summary>
+        /// <param name="requestBuilder">Request builder for WireMock.</param>
+        /// <param name="operation">The call operation.</param>
+        /// <typeparam name="TResponse">The type of the response.</typeparam>
+        public async Task VerifyReturnsExpectedValueGivenApiResponseIsSuccess<TResponse>(IRequestMatcher requestBuilder,
+            Func<Task<Result<TResponse>>> operation)
+        {
+            var expectedResponse = this.Fixture.Create<TResponse>();
+            this.Server
+                .Given(requestBuilder)
+                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK,
+                    this.Serializer.SerializeObject(expectedResponse)));
+            var result = await operation();
+            result.Should().BeSuccess(response =>
+            {
+                this.Serializer.SerializeObject(response).Should()
+                    .Be(this.Serializer.SerializeObject(expectedResponse));
+            });
+        }
 
         /// <summary>
         ///     Verifies the operation returns failure given the api response cannot be parsed.
@@ -139,6 +162,21 @@ namespace Vonage.Common.Test
             var expectedFailure = ResultFailure.FromErrorMessage(this.Fixture.Create<string>());
             var result = await operation(Result<TRequest>.FromFailure(expectedFailure));
             result.Should().BeFailure(expectedFailure);
+        }
+
+        /// <summary>
+        ///     Verifies the operation returns the default unit value given the response is success.
+        /// </summary>
+        /// <param name="requestBuilder">Request builder for WireMock.</param>
+        /// <param name="operation">The call operation.</param>
+        public async Task VerifyReturnsUnitGivenApiResponseIsSuccess(IRequestMatcher requestBuilder,
+            Func<Task<Result<Unit>>> operation)
+        {
+            this.Server
+                .Given(requestBuilder)
+                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK));
+            var result = await operation();
+            result.Should().BeSuccess(Unit.Default);
         }
     }
 }

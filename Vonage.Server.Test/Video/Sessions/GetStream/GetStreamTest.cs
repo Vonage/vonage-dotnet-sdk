@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
-using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common.Monads;
@@ -49,22 +47,8 @@ namespace Vonage.Server.Test.Video.Sessions.GetStream
                 .GetStreamAsync);
 
         [Fact]
-        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
-        {
-            var expectedResponse = this.helper.Fixture.Create<GetStreamResponse>();
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK,
-                    this.helper.Serializer.SerializeObject(expectedResponse)));
-            var result = await this.Operation();
-            result.Should().BeSuccess(response =>
-            {
-                response.Id.Should().Be(expectedResponse.Id);
-                response.Name.Should().Be(expectedResponse.Name);
-                response.VideoType.Should().Be(expectedResponse.VideoType);
-                response.LayoutClassList.Should().BeEquivalentTo(expectedResponse.LayoutClassList);
-            });
-        }
+        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
+            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<GetStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
             GetStreamRequest.Parse(fixture.Create<string>(),

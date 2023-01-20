@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
@@ -46,14 +45,8 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
                 .SendSignalsAsync);
 
         [Fact]
-        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
-        {
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK));
-            var result = await this.Operation();
-            result.Should().BeSuccess(Unit.Default);
-        }
+        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
+            await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<SendSignalsRequest> BuildRequest(ISpecimenBuilder fixture) =>
             SendSignalsRequest.Parse(fixture.Create<string>(),
