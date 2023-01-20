@@ -385,21 +385,25 @@
 
     <ItemGroup>
 		<None Remove="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+		<Content Include="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 		<None Remove="Meetings\GetRoom\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+		<Content Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 		<None Remove="Meetings\GetRecording\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+		<Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 		<None Remove="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+		<Content Include="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\GetDialNumbers\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetDialNumbers\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>

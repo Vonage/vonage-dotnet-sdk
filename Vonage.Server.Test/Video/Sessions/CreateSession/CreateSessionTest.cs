@@ -81,7 +81,7 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
             this.helper.Server
                 .Given(this.CreateRequest())
                 .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
-            var result = await this.client.CreateSessionAsync(this.request);
+            var result = await this.Operation();
             result.Should().BeSuccess(this.session);
         }
 
