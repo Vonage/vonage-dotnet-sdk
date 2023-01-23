@@ -7,21 +7,21 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings;
 using Vonage.Meetings.Common;
-using Vonage.Meetings.GetDialNumbers;
+using Vonage.Meetings.GetApplicationThemes;
 using WireMock.RequestBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetDialNumbers
+namespace Vonage.Test.Unit.Meetings.GetApplicationThemes
 {
-    public class GetDialNumbersTest
+    public class GetApplicationThemesTest
     {
-        private Func<Task<Result<GetDialNumbersResponse[]>>> Operation =>
-            () => this.client.GetDialNumbersAsync();
+        private Func<Task<Result<Theme[]>>> Operation =>
+            () => this.client.GetApplicationThemesAsync();
 
         private readonly MeetingsClient client;
         private readonly UseCaseHelper helper;
 
-        public GetDialNumbersTest()
+        public GetApplicationThemesTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
             this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token);
@@ -41,7 +41,7 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions
-                .CreateRequest(this.helper.Token, GetDialNumbersRequest.Default.GetEndpointPath())
+                .CreateRequest(this.helper.Token, GetApplicationThemesRequest.Default.GetEndpointPath())
                 .UsingGet();
     }
 }

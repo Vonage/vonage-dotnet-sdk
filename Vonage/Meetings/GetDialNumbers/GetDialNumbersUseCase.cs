@@ -16,7 +16,8 @@ internal class GetDialNumbersUseCase
         this.httpClient = client;
     }
 
-    internal async Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync(GetDialNumbersRequest request) =>
-        await this.httpClient.SendWithResponseAsync<GetDialNumbersResponse[], GetDialNumbersRequest>(request,
+    internal async Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync() =>
+        await this.httpClient.SendWithResponseAsync<GetDialNumbersResponse[], GetDialNumbersRequest>(
+            GetDialNumbersRequest.Default,
             this.generateToken());
 }

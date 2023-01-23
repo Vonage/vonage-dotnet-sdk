@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Serialization;
+using Vonage.Meetings.GetApplicationThemes;
 using Yoh.Text.Json.NamingPolicies;
 
 namespace Vonage.Meetings.Common;
@@ -21,6 +22,7 @@ public static class JsonSerializerBuilder
             new EnumDescriptionJsonConverter<RoomApprovalLevel>(),
             new EnumDescriptionJsonConverter<RoomMicrophoneState>(),
             new EnumDescriptionJsonConverter<RecordingStatus>(),
+            new EnumDescriptionJsonConverter<ThemeDomain>(),
         },
         JsonNamingPolicies.SnakeCaseLower);
 }

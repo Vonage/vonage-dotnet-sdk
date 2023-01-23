@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
+using Vonage.Meetings.GetApplicationThemes;
 using Vonage.Meetings.GetAvailableRooms;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
@@ -15,6 +16,7 @@ namespace Vonage.Meetings;
 /// <inheritdoc />
 public class MeetingsClient : IMeetingsClient
 {
+    private readonly GetApplicationThemesUseCase getApplicationThemesUseCase;
     private readonly GetAvailableRoomsUseCase getAvailableRoomsUseCase;
     private readonly GetDialNumbersUseCase getDialNumbersUseCase;
     private readonly GetRecordingsUseCase getRecordingsUseCase;
@@ -34,15 +36,20 @@ public class MeetingsClient : IMeetingsClient
         this.getRecordingUseCase = new GetRecordingUseCase(vonageClient, tokenGeneration);
         this.getRecordingsUseCase = new GetRecordingsUseCase(vonageClient, tokenGeneration);
         this.getDialNumbersUseCase = new GetDialNumbersUseCase(vonageClient, tokenGeneration);
+        this.getApplicationThemesUseCase = new GetApplicationThemesUseCase(vonageClient, tokenGeneration);
     }
+
+    /// <inheritdoc />
+    public Task<Result<Theme[]>> GetApplicationThemesAsync() =>
+        this.getApplicationThemesUseCase.GetApplicationThemesAsync();
 
     /// <inheritdoc />
     public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>
         this.getAvailableRoomsUseCase.GetAvailableRoomsAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync(GetDialNumbersRequest request) =>
-        this.getDialNumbersUseCase.GetDialNumbersAsync(request);
+    public Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync() =>
+        this.getDialNumbersUseCase.GetDialNumbersAsync();
 
     /// <inheritdoc />
     public Task<Result<Recording>> GetRecordingAsync(Result<GetRecordingRequest> request) =>

@@ -404,6 +404,10 @@
 		<Content Include="Meetings\GetDialNumbers\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<None Remove="Meetings\GetApplicationThemes\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetApplicationThemes\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

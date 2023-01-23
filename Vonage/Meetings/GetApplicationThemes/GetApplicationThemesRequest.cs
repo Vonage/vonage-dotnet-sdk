@@ -1,17 +1,17 @@
 ﻿using System.Net.Http;
 using Vonage.Common.Client;
 
-namespace Vonage.Meetings.GetDialNumbers;
+namespace Vonage.Meetings.GetApplicationThemes;
 
 /// <summary>
-///     Represents a request to retrieve dial-in numbers.
+///     Represents a request to retrieve application themes.
 /// </summary>
-public readonly struct GetDialNumbersRequest : IVonageRequest
+public struct GetApplicationThemesRequest : IVonageRequest
 {
     /// <summary>
     ///     The default request.
     /// </summary>
-    public static GetDialNumbersRequest Default => new();
+    public static GetApplicationThemesRequest Default => new();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token) =>
@@ -21,5 +21,5 @@ public readonly struct GetDialNumbersRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/beta/meetings/dial-in-numbers";
+    public string GetEndpointPath() => "/beta/meetings/themes";
 }

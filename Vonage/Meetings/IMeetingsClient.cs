@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
+using Vonage.Meetings.GetApplicationThemes;
 using Vonage.Meetings.GetAvailableRooms;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
@@ -15,6 +16,12 @@ namespace Vonage.Meetings;
 public interface IMeetingsClient
 {
     /// <summary>
+    ///     Retrieves all application themes.
+    /// </summary>
+    /// <returns>The themes.</returns>
+    Task<Result<Theme[]>> GetApplicationThemesAsync();
+
+    /// <summary>
     ///     Retrieves all available rooms.
     /// </summary>
     /// <param name="request">The request.</param>
@@ -24,9 +31,8 @@ public interface IMeetingsClient
     /// <summary>
     ///     Retrieves numbers that can be used to dial into a meeting.
     /// </summary>
-    /// <param name="request">The request.</param>
     /// <returns>The numbers.</returns>
-    Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync(GetDialNumbersRequest request);
+    Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync();
 
     /// <summary>
     ///     Retrieves a recording details.
