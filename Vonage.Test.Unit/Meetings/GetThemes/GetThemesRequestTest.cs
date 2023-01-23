@@ -1,14 +1,14 @@
 ﻿using FluentAssertions;
-using Vonage.Meetings.GetApplicationThemes;
+using Vonage.Meetings.GetThemes;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetApplicationThemes
+namespace Vonage.Test.Unit.Meetings.GetThemes
 {
-    public class GetApplicationThemesRequestTest
+    public class GetThemesRequestTest
     {
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            new GetApplicationThemesRequest()
+            new GetThemesRequest()
                 .GetEndpointPath()
                 .Should()
                 .Be("/beta/meetings/themes");

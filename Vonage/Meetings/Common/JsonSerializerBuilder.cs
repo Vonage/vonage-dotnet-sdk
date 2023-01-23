@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Serialization;
-using Vonage.Meetings.GetApplicationThemes;
+using Vonage.Meetings.GetThemes;
 using Yoh.Text.Json.NamingPolicies;
 
 namespace Vonage.Meetings.Common;

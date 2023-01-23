@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
-using Vonage.Meetings.GetApplicationThemes;
 using Vonage.Meetings.GetAvailableRooms;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
+using Vonage.Meetings.GetThemes;
 
 namespace Vonage.Meetings;
 
@@ -15,12 +15,6 @@ namespace Vonage.Meetings;
 /// </summary>
 public interface IMeetingsClient
 {
-    /// <summary>
-    ///     Retrieves all application themes.
-    /// </summary>
-    /// <returns>The themes.</returns>
-    Task<Result<Theme[]>> GetApplicationThemesAsync();
-
     /// <summary>
     ///     Retrieves all available rooms.
     /// </summary>
@@ -54,4 +48,10 @@ public interface IMeetingsClient
     /// <param name="request">The request.</param>
     /// <returns>The room.</returns>
     Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request);
+
+    /// <summary>
+    ///     Retrieves all themes.
+    /// </summary>
+    /// <returns>The themes.</returns>
+    Task<Result<Theme[]>> GetThemesAsync();
 }

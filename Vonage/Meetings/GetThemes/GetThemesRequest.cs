@@ -1,17 +1,17 @@
 ﻿using System.Net.Http;
 using Vonage.Common.Client;
 
-namespace Vonage.Meetings.GetApplicationThemes;
+namespace Vonage.Meetings.GetThemes;
 
 /// <summary>
-///     Represents a request to retrieve application themes.
+///     Represents a request to retrieve all themes.
 /// </summary>
-public struct GetApplicationThemesRequest : IVonageRequest
+public struct GetThemesRequest : IVonageRequest
 {
     /// <summary>
     ///     The default request.
     /// </summary>
-    public static GetApplicationThemesRequest Default => new();
+    public static GetThemesRequest Default => new();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token) =>

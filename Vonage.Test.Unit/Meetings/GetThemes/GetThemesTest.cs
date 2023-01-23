@@ -7,21 +7,21 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings;
 using Vonage.Meetings.Common;
-using Vonage.Meetings.GetApplicationThemes;
+using Vonage.Meetings.GetThemes;
 using WireMock.RequestBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetApplicationThemes
+namespace Vonage.Test.Unit.Meetings.GetThemes
 {
-    public class GetApplicationThemesTest
+    public class GetThemesTest
     {
         private Func<Task<Result<Theme[]>>> Operation =>
-            () => this.client.GetApplicationThemesAsync();
+            () => this.client.GetThemesAsync();
 
         private readonly MeetingsClient client;
         private readonly UseCaseHelper helper;
 
-        public GetApplicationThemesTest()
+        public GetThemesTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
             this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token);
@@ -41,7 +41,7 @@ namespace Vonage.Test.Unit.Meetings.GetApplicationThemes
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions
-                .CreateRequest(this.helper.Token, GetApplicationThemesRequest.Default.GetEndpointPath())
+                .CreateRequest(this.helper.Token, GetThemesRequest.Default.GetEndpointPath())
                 .UsingGet();
     }
 }

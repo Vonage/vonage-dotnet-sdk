@@ -2,17 +2,17 @@
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
-using Vonage.Meetings.GetApplicationThemes;
+using Vonage.Meetings.GetThemes;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetApplicationThemes
+namespace Vonage.Test.Unit.Meetings.GetThemes
 {
-    public class GetApplicationThemesDeserializationTest
+    public class GetThemesDeserializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public GetApplicationThemesDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(GetApplicationThemesDeserializationTest).Namespace,
+        public GetThemesDeserializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(GetThemesDeserializationTest).Namespace,
                 JsonSerializerBuilder.Build());
 
         [Fact]

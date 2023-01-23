@@ -4,24 +4,24 @@ using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
-using Vonage.Meetings.GetApplicationThemes;
 using Vonage.Meetings.GetAvailableRooms;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
+using Vonage.Meetings.GetThemes;
 
 namespace Vonage.Meetings;
 
 /// <inheritdoc />
 public class MeetingsClient : IMeetingsClient
 {
-    private readonly GetApplicationThemesUseCase getApplicationThemesUseCase;
     private readonly GetAvailableRoomsUseCase getAvailableRoomsUseCase;
     private readonly GetDialNumbersUseCase getDialNumbersUseCase;
     private readonly GetRecordingsUseCase getRecordingsUseCase;
     private readonly GetRecordingUseCase getRecordingUseCase;
     private readonly GetRoomUseCase getRoomUseCase;
+    private readonly GetThemesUseCase getThemesUseCase;
 
     /// <summary>
     ///     Creates a new client.
@@ -36,12 +36,8 @@ public class MeetingsClient : IMeetingsClient
         this.getRecordingUseCase = new GetRecordingUseCase(vonageClient, tokenGeneration);
         this.getRecordingsUseCase = new GetRecordingsUseCase(vonageClient, tokenGeneration);
         this.getDialNumbersUseCase = new GetDialNumbersUseCase(vonageClient, tokenGeneration);
-        this.getApplicationThemesUseCase = new GetApplicationThemesUseCase(vonageClient, tokenGeneration);
+        this.getThemesUseCase = new GetThemesUseCase(vonageClient, tokenGeneration);
     }
-
-    /// <inheritdoc />
-    public Task<Result<Theme[]>> GetApplicationThemesAsync() =>
-        this.getApplicationThemesUseCase.GetApplicationThemesAsync();
 
     /// <inheritdoc />
     public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>
@@ -62,4 +58,8 @@ public class MeetingsClient : IMeetingsClient
     /// <inheritdoc />
     public Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request) =>
         this.getRoomUseCase.GetRoomAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Theme[]>> GetThemesAsync() =>
+        this.getThemesUseCase.GetThemesAsync();
 }
