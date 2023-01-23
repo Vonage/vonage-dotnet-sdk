@@ -1,4 +1,4 @@
-﻿namespace Vonage.Meetings.GetThemes;
+﻿namespace Vonage.Meetings.Common;
 
 /// <summary>
 /// </summary>

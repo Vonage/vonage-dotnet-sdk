@@ -9,6 +9,7 @@ using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
+using Vonage.Meetings.GetTheme;
 using Vonage.Meetings.GetThemes;
 
 namespace Vonage.Meetings;
@@ -22,6 +23,7 @@ public class MeetingsClient : IMeetingsClient
     private readonly GetRecordingUseCase getRecordingUseCase;
     private readonly GetRoomUseCase getRoomUseCase;
     private readonly GetThemesUseCase getThemesUseCase;
+    private readonly GetThemeUseCase getThemeUseCase;
 
     /// <summary>
     ///     Creates a new client.
@@ -36,6 +38,7 @@ public class MeetingsClient : IMeetingsClient
         this.getRecordingUseCase = new GetRecordingUseCase(vonageClient, tokenGeneration);
         this.getRecordingsUseCase = new GetRecordingsUseCase(vonageClient, tokenGeneration);
         this.getDialNumbersUseCase = new GetDialNumbersUseCase(vonageClient, tokenGeneration);
+        this.getThemeUseCase = new GetThemeUseCase(vonageClient, tokenGeneration);
         this.getThemesUseCase = new GetThemesUseCase(vonageClient, tokenGeneration);
     }
 
@@ -58,6 +61,10 @@ public class MeetingsClient : IMeetingsClient
     /// <inheritdoc />
     public Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request) =>
         this.getRoomUseCase.GetRoomAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Theme>> GetThemeAsync(Result<GetThemeRequest> request) =>
+        this.getThemeUseCase.GetThemeAsync(request);
 
     /// <inheritdoc />
     public Task<Result<Theme[]>> GetThemesAsync() =>

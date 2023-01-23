@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.GetThemes;
 
