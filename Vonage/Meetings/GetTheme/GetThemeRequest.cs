@@ -5,6 +5,9 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Meetings.GetTheme;
 
+/// <summary>
+///     Represents a request for retrieving a theme.
+/// </summary>
 public readonly struct GetThemeRequest : IVonageRequest
 {
     private GetThemeRequest(string themeId) => this.ThemeId = themeId;
