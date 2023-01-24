@@ -243,6 +243,11 @@ public struct Room
             this.IsRecordingAvailable = isRecordingAvailable;
             this.IsWhiteboardAvailable = isWhiteboardAvailable;
         }
+
+        /// <summary>
+        ///     The default value.
+        /// </summary>
+        public static Features Default = new(true, true, true);
     }
 
     /// <summary>
