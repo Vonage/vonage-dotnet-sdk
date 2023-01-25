@@ -1,29 +1,62 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
-using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.CreateRoom;
 
+/// <summary>
+///     Represents a request to create a room.
+/// </summary>
 public readonly struct CreateRoomRequest : IVonageRequest
 {
+    /// <summary>
+    /// </summary>
     public Room.Features AvailableFeatures { get; }
-    public Room.Callback CallbackUrls { get; }
 
+    /// <summary>
+    /// </summary>
+    public Room.Callback? CallbackUrls { get; }
+
+    /// <summary>
+    /// </summary>
     public string DisplayName { get; }
-    public bool ExpiresAfterUse { get; }
-    public string ExpiresAt { get; }
-    public Room.JoinOptions InitialJoinOptions { get; }
-    public RoomApprovalLevel JoinApprovalLevel { get; }
-    public string Metadata { get; }
-    public Room.RecordingOptions RecordingOptions { get; }
-    public string ThemeId { get; }
-    public RoomType Type { get; }
 
-    internal CreateRoomRequest(string displayName, string metadata, RoomType type, string expiresAt,
+    /// <summary>
+    /// </summary>
+    public bool ExpiresAfterUse { get; }
+
+    /// <summary>
+    /// </summary>
+    public string ExpiresAt { get; }
+
+    /// <summary>
+    /// </summary>
+    public Room.JoinOptions InitialJoinOptions { get; }
+
+    /// <summary>
+    /// </summary>
+    public RoomApprovalLevel JoinApprovalLevel { get; }
+
+    /// <summary>
+    /// </summary>
+    public string Metadata { get; }
+
+    /// <summary>
+    /// </summary>
+    public Room.RecordingOptions? RecordingOptions { get; }
+
+    /// <summary>
+    /// </summary>
+    public string ThemeId { get; }
+
+    /// <summary>
+    /// </summary>
+    public RoomType? Type { get; }
+
+    internal CreateRoomRequest(string displayName, string metadata, RoomType? type, string expiresAt,
         bool expiresAfterUse, string themeId, RoomApprovalLevel joinApprovalLevel,
-        Room.RecordingOptions recordingOptions, Room.JoinOptions initialJoinOptions, Room.Callback callbackUrls,
+        Room.RecordingOptions? recordingOptions, Room.JoinOptions initialJoinOptions, Room.Callback? callbackUrls,
         Room.Features availableFeatures)
     {
         this.DisplayName = displayName;
@@ -39,23 +72,9 @@ public readonly struct CreateRoomRequest : IVonageRequest
         this.AvailableFeatures = availableFeatures;
     }
 
+    /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage(string token) => throw new NotImplementedException();
 
+    /// <inheritdoc />
     public string GetEndpointPath() => throw new NotImplementedException();
-
-    public static Result<CreateRoomRequest> Parse(
-        string displayName,
-        string metadata,
-        RoomType type,
-        string expiresAt,
-        bool expiresAfterUse,
-        string themeId,
-        RoomApprovalLevel joinApprovalLevel,
-        Room.RecordingOptions recordingOptions,
-        Room.JoinOptions initialJoinOptions,
-        Room.Callback callbackUrls,
-        Room.Features availableFeatures)
-    {
-        throw new NotImplementedException();
-    }
 }

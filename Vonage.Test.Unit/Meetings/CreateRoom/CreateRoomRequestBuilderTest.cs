@@ -11,35 +11,53 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
 {
     public class CreateRoomRequestBuilderTest
     {
+        private readonly Room.Callback callback;
+        private readonly Room.Features features;
+        private readonly Room.JoinOptions joinOptions;
+        private readonly Room.RecordingOptions recordingOptions;
+        private readonly RoomApprovalLevel approvalLevel;
+        private readonly RoomType roomType;
         private readonly string displayName;
+        private readonly string metadata;
+        private readonly string expiresAt;
+        private readonly string themeId;
 
         public CreateRoomRequestBuilderTest()
         {
             var fixture = new Fixture();
             this.displayName = fixture.Create<string>();
+            this.metadata = fixture.Create<string>();
+            this.roomType = fixture.Create<RoomType>();
+            this.expiresAt = fixture.Create<string>();
+            this.approvalLevel = fixture.Create<RoomApprovalLevel>();
+            this.recordingOptions = fixture.Create<Room.RecordingOptions>();
+            this.joinOptions = fixture.Create<Room.JoinOptions>();
+            this.features = fixture.Create<Room.Features>();
+            this.callback = fixture.Create<Room.Callback>();
+            this.themeId = fixture.Create<string>();
         }
 
         [Fact]
-        public void Build_ShouldHaveDefaultAvailableFeature_GivenFeaturesWereNotProvided() =>
+        public void Build_ShouldHaveDefaultValues() =>
             CreateRoomRequestBuilder
                 .Build(this.displayName)
                 .Create()
                 .Should()
                 .BeSuccess(success =>
                 {
+                    success.Metadata.Should().BeNull();
+                    success.Type.Should().BeNull();
+                    success.ExpiresAt.Should().BeNull();
+                    success.JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
+                    success.RecordingOptions.Should().BeNull();
+                    success.ExpiresAfterUse.Should().BeFalse();
+                    success.ThemeId.Should().BeNull();
+                    success.CallbackUrls.Should().BeNull();
                     success.AvailableFeatures.IsChatAvailable.Should().BeTrue();
                     success.AvailableFeatures.IsRecordingAvailable.Should().BeTrue();
                     success.AvailableFeatures.IsWhiteboardAvailable.Should().BeTrue();
+                    success.InitialJoinOptions.MicrophoneState.Should().Be(RoomMicrophoneState.Default);
                 });
-
-        [Fact]
-        public void Build_ShouldHaveDefaultMicrophoneState_GivenMicrophoneStateWasNotProvided() =>
-            CreateRoomRequestBuilder
-                .Build(this.displayName)
-                .Create()
-                .Should()
-                .BeSuccess(success =>
-                    success.InitialJoinOptions.MicrophoneState.Should().Be(RoomMicrophoneState.Default));
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenDisplayNameExceeds200Length() =>
@@ -68,5 +86,36 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Metadata cannot be higher than 500."));
+
+        [Fact]
+        public void Build_ShouldReturnSuccess_() =>
+            CreateRoomRequestBuilder
+                .Build(this.displayName)
+                .WithMetadata(this.metadata)
+                .WithRoomType(this.roomType)
+                .WithExpiresAt(this.expiresAt)
+                .ExpiresAfterUse()
+                .WithThemeId(this.themeId)
+                .WithApprovalLevel(this.approvalLevel)
+                .WithRecordingOptions(this.recordingOptions)
+                .WithInitialJoinOptions(this.joinOptions)
+                .WithFeatures(this.features)
+                .WithCallback(this.callback)
+                .Create()
+                .Should()
+                .BeSuccess(success =>
+                {
+                    success.DisplayName.Should().Be(this.displayName);
+                    success.Metadata.Should().Be(this.metadata);
+                    success.Type.Should().Be(this.roomType);
+                    success.ExpiresAt.Should().Be(this.expiresAt);
+                    success.ExpiresAfterUse.Should().BeTrue();
+                    success.ThemeId.Should().Be(this.themeId);
+                    success.JoinApprovalLevel.Should().Be(this.approvalLevel);
+                    success.RecordingOptions.Should().Be(this.recordingOptions);
+                    success.InitialJoinOptions.Should().Be(this.joinOptions);
+                    success.AvailableFeatures.Should().Be(this.features);
+                    success.CallbackUrls.Should().Be(this.callback);
+                });
     }
 }
