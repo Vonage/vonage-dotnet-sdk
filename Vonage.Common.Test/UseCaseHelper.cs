@@ -31,6 +31,7 @@ namespace Vonage.Common.Test
             this.Server = WireMockServer.Start();
             this.Serializer = new JsonSerializer();
             this.Fixture = new Fixture();
+            this.Fixture.Customize(new SupportMutableValueTypesCustomization());
             this.Token = this.Fixture.Create<string>();
         }
 
