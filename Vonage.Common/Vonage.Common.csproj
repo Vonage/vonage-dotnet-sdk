@@ -9,6 +9,10 @@
 
     <ItemGroup>
         <PackageReference Include="Enums.NET" Version="4.0.1"/>
+        <PackageReference Include="PolySharp" Version="1.12.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="System.Text.Json" Version="7.0.0"/>
     </ItemGroup>
 

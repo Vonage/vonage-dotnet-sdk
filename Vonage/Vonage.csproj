@@ -32,7 +32,7 @@
     <PackageIconUrl />
     <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.
 	</Description>
-    <LangVersion>10</LangVersion>
+    <LangVersion>latest</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
@@ -86,6 +86,10 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+        <PackageReference Include="PolySharp" Version="1.12.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="System.ComponentModel" Version="4.3.0"/>
         <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0"/>
         <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
