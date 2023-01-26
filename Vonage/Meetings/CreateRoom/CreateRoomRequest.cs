@@ -1,5 +1,5 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
+using System.Text;
 using Vonage.Common.Client;
 using Vonage.Meetings.Common;
 
@@ -73,8 +73,18 @@ public readonly struct CreateRoomRequest : IVonageRequest
     }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) => throw new NotImplementedException();
+    public HttpRequestMessage BuildRequestMessage(string token) =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .WithAuthorizationToken(token)
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => throw new NotImplementedException();
+    public string GetEndpointPath() => "/beta/meetings/rooms";
+
+    private StringContent GetRequestContent() =>
+        new(JsonSerializerBuilder.Build().SerializeObject(this),
+            Encoding.UTF8,
+            "application/json");
 }
