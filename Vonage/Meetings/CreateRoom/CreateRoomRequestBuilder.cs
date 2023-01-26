@@ -13,8 +13,11 @@ public class CreateRoomRequestBuilder
     private const int MetadataMaxLength = 500;
     private bool expiresAfterUse;
     private Room.Callback? callback;
-    private Room.Features features = new(true, true, true);
-    private Room.JoinOptions joinOptions = new(RoomMicrophoneState.Default);
+
+    private Room.Features features = new()
+        {IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true};
+
+    private Room.JoinOptions joinOptions = new() {MicrophoneState = RoomMicrophoneState.Default};
     private Room.RecordingOptions? recordingOptions;
     private RoomApprovalLevel approvalLevel = RoomApprovalLevel.None;
     private RoomType? roomType;

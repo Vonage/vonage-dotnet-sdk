@@ -25,6 +25,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         public CreateRoomRequestBuilderTest()
         {
             var fixture = new Fixture();
+            fixture.Customize(new SupportMutableValueTypesCustomization());
             this.displayName = fixture.Create<string>();
             this.metadata = fixture.Create<string>();
             this.roomType = fixture.Create<RoomType>();
