@@ -383,13 +383,51 @@
         </PackageReference>
     </ItemGroup>
 
-	<ItemGroup>
-		<None Remove="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json"/>
+    <ItemGroup>
 		<Content Include="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<None Remove="Meetings\GetRoom\Data\ShouldDeserialize200-response.json"/>
 		<Content Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+<<<<<<< HEAD
+		<None Remove="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json">
+=======
+		<None Remove="Meetings\GetRecording\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetDialNumbers\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetThemes\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\GetTheme\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetTheme\Data\ShouldDeserialize200-response.json">
+>>>>>>> main
+    <ItemGroup>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\GetRecording\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetDialNumbers\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetThemes\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\GetTheme\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetTheme\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 		<None Remove="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json"/>
