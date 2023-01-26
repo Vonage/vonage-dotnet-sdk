@@ -5,6 +5,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.CreateRoom;
+using Vonage.Meetings.DeleteRecording;
 using Vonage.Meetings.GetAvailableRooms;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
@@ -19,6 +20,7 @@ namespace Vonage.Meetings;
 public class MeetingsClient : IMeetingsClient
 {
     private readonly CreateRoomUseCase createRoomUseCase;
+    private readonly DeleteRecordingUseCase deleteRecordingUseCase;
     private readonly GetAvailableRoomsUseCase getAvailableRoomsUseCase;
     private readonly GetDialNumbersUseCase getDialNumbersUseCase;
     private readonly GetRecordingsUseCase getRecordingsUseCase;
@@ -43,11 +45,16 @@ public class MeetingsClient : IMeetingsClient
         this.getDialNumbersUseCase = new GetDialNumbersUseCase(vonageClient, tokenGeneration);
         this.getThemeUseCase = new GetThemeUseCase(vonageClient, tokenGeneration);
         this.getThemesUseCase = new GetThemesUseCase(vonageClient, tokenGeneration);
+        this.deleteRecordingUseCase = new DeleteRecordingUseCase(vonageClient, tokenGeneration);
     }
 
     /// <inheritdoc />
     public Task<Result<Room>> CreateRoomAsync(Result<CreateRoomRequest> request) =>
         this.createRoomUseCase.CreateRoomAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> DeleteRecordingAsync(Result<DeleteRecordingRequest> request) =>
+        this.deleteRecordingUseCase.DeleteRecordingAsync(request);
 
     /// <inheritdoc />
     public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>
