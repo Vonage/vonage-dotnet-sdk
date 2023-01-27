@@ -34,7 +34,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: dotnet-sonarscanner begin /k:"Vonage_vonage-dotnet-sdk" /o:"vonage" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
       - name: Build
-        run: dotnet build --configuration Release -f net6.0
+        run: dotnet build --configuration Release -f netstandard2.0
       - name: Test
         run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net6.0' -f xml  -o 'coverage.xml'
       - name: End SonarScanner
