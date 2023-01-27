@@ -21,7 +21,7 @@ internal class CreateSessionUseCase
     internal async Task<Result<CreateSessionResponse>> CreateSessionAsync(Result<CreateSessionRequest> request)
     {
         var result =
-            await this.vonageHttpClient.SendWithResponseAsync<CreateSessionResponse[], CreateSessionRequest>(request);
+            await this.vonageHttpClient.SendWithResponseAsync<CreateSessionRequest, CreateSessionResponse[]>(request);
         return result.Bind(GetFirstSessionIfAvailable);
     }
 }

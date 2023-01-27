@@ -42,7 +42,7 @@ public class VonageHttpClient
     /// </summary>
     /// <param name="request">The request to send.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    public async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request)
+    public async Task<Result<TResponse>> SendWithResponseAsync<TRequest, TResponse>(Result<TRequest> request)
         where TRequest : IVonageRequest =>
         await request
             .Map(this.BuildHttpRequestMessage)
