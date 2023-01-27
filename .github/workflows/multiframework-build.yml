@@ -1,0 +1,19 @@
+name: Multi-framework Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Setup .NET 6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.403'
+      - uses: actions/checkout@v2
+      - name: Build
+        run: dotnet build --configuration Release
+      - name: Test
+        run: dotnet test  --configuration Release --no-build -f net6.0
