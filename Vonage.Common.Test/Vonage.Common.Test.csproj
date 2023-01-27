@@ -8,7 +8,7 @@
 
         <LangVersion>latest</LangVersion>
 
-        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows;netstandard2.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
