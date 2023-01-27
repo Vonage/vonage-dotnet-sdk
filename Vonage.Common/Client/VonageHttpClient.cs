@@ -18,17 +18,6 @@ public class VonageHttpClient
     /// </summary>
     /// <param name="httpClient">The http client.</param>
     /// <param name="serializer">The serializer.</param>
-    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer)
-    {
-        this.client = httpClient;
-        this.jsonSerializer = serializer;
-    }
-
-    /// <summary>
-    ///     Creates a custom Http Client for Vonage purposes.
-    /// </summary>
-    /// <param name="httpClient">The http client.</param>
-    /// <param name="serializer">The serializer.</param>
     /// <param name="tokenGeneration">The token generation operation.</param>
     public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer, Func<string> tokenGeneration)
     {
@@ -41,11 +30,10 @@ public class VonageHttpClient
     ///     Sends a HttpRequest.
     /// </summary>
     /// <param name="request">The request to send.</param>
-    /// <param name="token">The token to use for authentication.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    public async Task<Result<Unit>> SendAsync<T>(Result<T> request, string token) where T : IVonageRequest =>
+    public async Task<Result<Unit>> SendAsync<T>(Result<T> request) where T : IVonageRequest =>
         await request
-            .Map(value => value.BuildRequestMessage().WithAuthorization(token))
+            .Map(this.BuildHttpRequestMessage)
             .MapAsync(value => this.client.SendAsync(value))
             .BindAsync(value => MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
 
@@ -53,14 +41,16 @@ public class VonageHttpClient
     ///     Sends a HttpRequest and parses the response.
     /// </summary>
     /// <param name="request">The request to send.</param>
-    /// <param name="token">The token to use for authentication.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    public async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request,
-        string token) where TRequest : IVonageRequest =>
+    public async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request)
+        where TRequest : IVonageRequest =>
         await request
-            .Map(value => value.BuildRequestMessage().WithAuthorization(token))
+            .Map(this.BuildHttpRequestMessage)
             .MapAsync(value => this.client.SendAsync(value))
             .BindAsync(value => MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
+
+    private HttpRequestMessage BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
+        value.BuildRequestMessage().WithAuthorization(this.tokenGeneration());
 
     private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent) =>
         this.jsonSerializer

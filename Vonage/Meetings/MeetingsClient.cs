@@ -32,14 +32,14 @@ public class MeetingsClient : IMeetingsClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        var vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build());
-        this.getAvailableRoomsUseCase = new GetAvailableRoomsUseCase(vonageClient, tokenGeneration);
-        this.getRoomUseCase = new GetRoomUseCase(vonageClient, tokenGeneration);
-        this.getRecordingUseCase = new GetRecordingUseCase(vonageClient, tokenGeneration);
-        this.getRecordingsUseCase = new GetRecordingsUseCase(vonageClient, tokenGeneration);
-        this.getDialNumbersUseCase = new GetDialNumbersUseCase(vonageClient, tokenGeneration);
-        this.getThemeUseCase = new GetThemeUseCase(vonageClient, tokenGeneration);
-        this.getThemesUseCase = new GetThemesUseCase(vonageClient, tokenGeneration);
+        var vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
+        this.getAvailableRoomsUseCase = new GetAvailableRoomsUseCase(vonageClient);
+        this.getRoomUseCase = new GetRoomUseCase(vonageClient);
+        this.getRecordingUseCase = new GetRecordingUseCase(vonageClient);
+        this.getRecordingsUseCase = new GetRecordingsUseCase(vonageClient);
+        this.getDialNumbersUseCase = new GetDialNumbersUseCase(vonageClient);
+        this.getThemeUseCase = new GetThemeUseCase(vonageClient);
+        this.getThemesUseCase = new GetThemesUseCase(vonageClient);
     }
 
     /// <inheritdoc />

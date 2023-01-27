@@ -29,10 +29,10 @@ public class SessionClient
     public SessionClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
         var client = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
-        this.createSessionUseCase = new CreateSessionUseCase(client, tokenGeneration);
-        this.getStreamUseCase = new GetStreamUseCase(client, tokenGeneration);
-        this.getStreamsUseCase = new GetStreamsUseCase(client, tokenGeneration);
-        this.changeStreamLayoutUseCase = new ChangeStreamLayoutUseCase(client, tokenGeneration);
+        this.createSessionUseCase = new CreateSessionUseCase(client);
+        this.getStreamUseCase = new GetStreamUseCase(client);
+        this.getStreamsUseCase = new GetStreamsUseCase(client);
+        this.changeStreamLayoutUseCase = new ChangeStreamLayoutUseCase(client);
     }
 
     /// <summary>

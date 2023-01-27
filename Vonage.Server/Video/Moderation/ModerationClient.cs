@@ -27,9 +27,9 @@ public class ModerationClient
     public ModerationClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
         var client = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
-        this.disconnectConnectionUseCase = new DisconnectConnectionUseCase(client, tokenGeneration);
-        this.muteStreamUseCase = new MuteStreamUseCase(client, tokenGeneration);
-        this.muteStreamsUseCase = new MuteStreamsUseCase(client, tokenGeneration);
+        this.disconnectConnectionUseCase = new DisconnectConnectionUseCase(client);
+        this.muteStreamUseCase = new MuteStreamUseCase(client);
+        this.muteStreamsUseCase = new MuteStreamsUseCase(client);
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
@@ -7,15 +6,10 @@ namespace Vonage.Server.Video.Signaling.SendSignals;
 
 internal class SendSignalsUseCase
 {
-    private readonly Func<string> generateToken;
-    private readonly VonageHttpClient VonageHttpClient;
+    private readonly VonageHttpClient vonageHttpClient;
 
-    internal SendSignalsUseCase(VonageHttpClient client, Func<string> generateToken)
-    {
-        this.generateToken = generateToken;
-        this.VonageHttpClient = client;
-    }
+    internal SendSignalsUseCase(VonageHttpClient client) => this.vonageHttpClient = client;
 
     internal Task<Result<Unit>> SendSignalsAsync(Result<SendSignalsRequest> request) =>
-        this.VonageHttpClient.SendAsync(request, this.generateToken());
+        this.vonageHttpClient.SendAsync(request);
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
@@ -7,15 +6,10 @@ namespace Vonage.Server.Video.Archives.ChangeLayout;
 
 internal class ChangeLayoutUseCase
 {
-    private readonly Func<string> generateToken;
-    private readonly VonageHttpClient VonageHttpClient;
+    private readonly VonageHttpClient vonageHttpClient;
 
-    internal ChangeLayoutUseCase(VonageHttpClient client, Func<string> generateToken)
-    {
-        this.generateToken = generateToken;
-        this.VonageHttpClient = client;
-    }
+    internal ChangeLayoutUseCase(VonageHttpClient client) => this.vonageHttpClient = client;
 
     internal Task<Result<Unit>> ChangeLayoutAsync(Result<ChangeLayoutRequest> request) =>
-        this.VonageHttpClient.SendAsync(request, this.generateToken());
+        this.vonageHttpClient.SendAsync(request);
 }

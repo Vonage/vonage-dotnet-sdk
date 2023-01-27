@@ -25,8 +25,8 @@ public class SignalingClient
     public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
         var client = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
-        this.sendSignalUseCase = new SendSignalUseCase(client, tokenGeneration);
-        this.sendSignalsUseCase = new SendSignalsUseCase(client, tokenGeneration);
+        this.sendSignalUseCase = new SendSignalUseCase(client);
+        this.sendSignalsUseCase = new SendSignalsUseCase(client);
     }
 
     /// <summary>

@@ -38,14 +38,14 @@ public class ArchiveClient
     public ArchiveClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
         var client = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
-        this.getArchivesUseCase = new GetArchivesUseCase(client, tokenGeneration);
-        this.getArchiveUseCase = new GetArchiveUseCase(client, tokenGeneration);
-        this.createArchiveUseCase = new CreateArchiveUseCase(client, tokenGeneration);
-        this.deleteArchiveUseCase = new DeleteArchiveUseCase(client, tokenGeneration);
-        this.stopArchiveUseCase = new StopArchiveUseCase(client, tokenGeneration);
-        this.changeLayoutUseCase = new ChangeLayoutUseCase(client, tokenGeneration);
-        this.addStreamUseCase = new AddStreamUseCase(client, tokenGeneration);
-        this.removeStreamUseCase = new RemoveStreamUseCase(client, tokenGeneration);
+        this.getArchivesUseCase = new GetArchivesUseCase(client);
+        this.getArchiveUseCase = new GetArchiveUseCase(client);
+        this.createArchiveUseCase = new CreateArchiveUseCase(client);
+        this.deleteArchiveUseCase = new DeleteArchiveUseCase(client);
+        this.stopArchiveUseCase = new StopArchiveUseCase(client);
+        this.changeLayoutUseCase = new ChangeLayoutUseCase(client);
+        this.addStreamUseCase = new AddStreamUseCase(client);
+        this.removeStreamUseCase = new RemoveStreamUseCase(client);
     }
 
     /// <summary>
