@@ -36,10 +36,9 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest
     public string SessionId { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Put, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .WithContent(this.GetRequestContent())
             .Build();
 

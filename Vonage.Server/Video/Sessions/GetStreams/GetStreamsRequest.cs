@@ -27,10 +27,9 @@ public readonly struct GetStreamsRequest : IVonageRequest
     public string SessionId { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Get, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .Build();
 
     /// <inheritdoc />

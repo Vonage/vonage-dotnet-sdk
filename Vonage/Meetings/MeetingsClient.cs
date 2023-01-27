@@ -17,56 +17,42 @@ namespace Vonage.Meetings;
 /// <inheritdoc />
 public class MeetingsClient : IMeetingsClient
 {
-    private readonly GetAvailableRoomsUseCase getAvailableRoomsUseCase;
-    private readonly GetDialNumbersUseCase getDialNumbersUseCase;
-    private readonly GetRecordingsUseCase getRecordingsUseCase;
-    private readonly GetRecordingUseCase getRecordingUseCase;
-    private readonly GetRoomUseCase getRoomUseCase;
-    private readonly GetThemesUseCase getThemesUseCase;
-    private readonly GetThemeUseCase getThemeUseCase;
+    private readonly VonageHttpClient vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="httpClient">Http Client to used for further connections.</param>
     /// <param name="tokenGeneration">Function used for generating a token.</param>
-    public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration)
-    {
-        var vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build());
-        this.getAvailableRoomsUseCase = new GetAvailableRoomsUseCase(vonageClient, tokenGeneration);
-        this.getRoomUseCase = new GetRoomUseCase(vonageClient, tokenGeneration);
-        this.getRecordingUseCase = new GetRecordingUseCase(vonageClient, tokenGeneration);
-        this.getRecordingsUseCase = new GetRecordingsUseCase(vonageClient, tokenGeneration);
-        this.getDialNumbersUseCase = new GetDialNumbersUseCase(vonageClient, tokenGeneration);
-        this.getThemeUseCase = new GetThemeUseCase(vonageClient, tokenGeneration);
-        this.getThemesUseCase = new GetThemesUseCase(vonageClient, tokenGeneration);
-    }
+    public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration) => this.vonageClient =
+        new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
 
     /// <inheritdoc />
     public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>
-        this.getAvailableRoomsUseCase.GetAvailableRoomsAsync(request);
+        this.vonageClient.SendWithResponseAsync<GetAvailableRoomsRequest, GetAvailableRoomsResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync() =>
-        this.getDialNumbersUseCase.GetDialNumbersAsync();
+        this.vonageClient.SendWithResponseAsync<GetDialNumbersRequest, GetDialNumbersResponse[]>(GetDialNumbersRequest
+            .Default);
 
     /// <inheritdoc />
     public Task<Result<Recording>> GetRecordingAsync(Result<GetRecordingRequest> request) =>
-        this.getRecordingUseCase.GetRecordingAsync(request);
+        this.vonageClient.SendWithResponseAsync<GetRecordingRequest, Recording>(request);
 
     /// <inheritdoc />
     public Task<Result<GetRecordingsResponse>> GetRecordingsAsync(Result<GetRecordingsRequest> request) =>
-        this.getRecordingsUseCase.GetRecordingsAsync(request);
+        this.vonageClient.SendWithResponseAsync<GetRecordingsRequest, GetRecordingsResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request) =>
-        this.getRoomUseCase.GetRoomAsync(request);
+        this.vonageClient.SendWithResponseAsync<GetRoomRequest, Room>(request);
 
     /// <inheritdoc />
     public Task<Result<Theme>> GetThemeAsync(Result<GetThemeRequest> request) =>
-        this.getThemeUseCase.GetThemeAsync(request);
+        this.vonageClient.SendWithResponseAsync<GetThemeRequest, Theme>(request);
 
     /// <inheritdoc />
     public Task<Result<Theme[]>> GetThemesAsync() =>
-        this.getThemesUseCase.GetThemesAsync();
+        this.vonageClient.SendWithResponseAsync<GetThemesRequest, Theme[]>(GetThemesRequest.Default);
 }

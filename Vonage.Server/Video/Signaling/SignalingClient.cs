@@ -14,21 +14,15 @@ namespace Vonage.Server.Video.Signaling;
 /// </summary>
 public class SignalingClient
 {
-    private readonly SendSignalsUseCase sendSignalsUseCase;
-    private readonly SendSignalUseCase sendSignalUseCase;
+    private readonly VonageHttpClient vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="httpClient">Http Client to used for further connections.</param>
     /// <param name="tokenGeneration">Function used for generating a token.</param>
-    public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration)
-    {
-        this.sendSignalUseCase = new SendSignalUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.sendSignalsUseCase =
-            new SendSignalsUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-    }
+    public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration) =>
+        this.vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
 
     /// <summary>
     ///     Sends signals to a single participant in an active Vonage Video session.
@@ -36,7 +30,7 @@ public class SignalingClient
     /// <param name="request">The signal request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> SendSignalAsync(Result<SendSignalRequest> request) =>
-        this.sendSignalUseCase.SendSignalAsync(request);
+        this.vonageClient.SendAsync(request);
 
     /// <summary>
     ///     Sends signals to all participants in an active Vonage Video session.
@@ -44,5 +38,5 @@ public class SignalingClient
     /// <param name="request">The signal request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> SendSignalsAsync(Result<SendSignalsRequest> request) =>
-        this.sendSignalsUseCase.SendSignalsAsync(request);
+        this.vonageClient.SendAsync(request);
 }

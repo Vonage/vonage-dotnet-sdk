@@ -21,39 +21,15 @@ namespace Vonage.Server.Video.Archives;
 /// </summary>
 public class ArchiveClient
 {
-    private readonly AddStreamUseCase addStreamUseCase;
-    private readonly ChangeLayoutUseCase changeLayoutUseCase;
-    private readonly CreateArchiveUseCase createArchiveUseCase;
-    private readonly DeleteArchiveUseCase deleteArchiveUseCase;
-    private readonly GetArchivesUseCase getArchivesUseCase;
-    private readonly GetArchiveUseCase getArchiveUseCase;
-    private readonly RemoveStreamUseCase removeStreamUseCase;
-    private readonly StopArchiveUseCase stopArchiveUseCase;
+    private readonly VonageHttpClient vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="httpClient">Http Client to used for further connections.</param>
     /// <param name="tokenGeneration">Function used for generating a token.</param>
-    public ArchiveClient(HttpClient httpClient, Func<string> tokenGeneration)
-    {
-        this.getArchivesUseCase =
-            new GetArchivesUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.getArchiveUseCase = new GetArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.createArchiveUseCase =
-            new CreateArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.deleteArchiveUseCase =
-            new DeleteArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.stopArchiveUseCase =
-            new StopArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.changeLayoutUseCase =
-            new ChangeLayoutUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.addStreamUseCase = new AddStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.removeStreamUseCase =
-            new RemoveStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-    }
+    public ArchiveClient(HttpClient httpClient, Func<string> tokenGeneration) => this.vonageClient =
+        new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
 
     /// <summary>
     ///     Adds the stream included in a composed archive that was started with the streamMode set to "manual".
@@ -64,7 +40,7 @@ public class ArchiveClient
     ///     failed.
     /// </returns>
     public Task<Result<Unit>> AddStreamAsync(Result<AddStreamRequest> request) =>
-        this.addStreamUseCase.AddStreamAsync(request);
+        this.vonageClient.SendAsync(request);
 
     /// <summary>
     ///     Changes the layout type of a composed archive while it is being recorded.
@@ -75,7 +51,7 @@ public class ArchiveClient
     ///     failed.
     /// </returns>
     public Task<Result<Unit>> ChangeLayoutAsync(Result<ChangeLayoutRequest> request) =>
-        this.changeLayoutUseCase.ChangeLayoutAsync(request);
+        this.vonageClient.SendAsync(request);
 
     /// <summary>
     ///     Creates a new archive.
@@ -86,7 +62,7 @@ public class ArchiveClient
     ///     failed.
     /// </returns>
     public Task<Result<Archive>> CreateArchiveAsync(Result<CreateArchiveRequest> request) =>
-        this.createArchiveUseCase.CreateArchiveAsync(request);
+        this.vonageClient.SendWithResponseAsync<CreateArchiveRequest, Archive>(request);
 
     /// <summary>
     ///     Deletes the specified archive.
@@ -97,7 +73,7 @@ public class ArchiveClient
     ///     failed.
     /// </returns>
     public Task<Result<Unit>> DeleteArchiveAsync(Result<DeleteArchiveRequest> request) =>
-        this.deleteArchiveUseCase.DeleteArchiveAsync(request);
+        this.vonageClient.SendAsync(request);
 
     /// <summary>
     ///     Return the archive information of a specific archive.
@@ -108,7 +84,7 @@ public class ArchiveClient
     ///     failed.
     /// </returns>
     public Task<Result<Archive>> GetArchiveAsync(Result<GetArchiveRequest> request) =>
-        this.getArchiveUseCase.GetArchiveAsync(request);
+        this.vonageClient.SendWithResponseAsync<GetArchiveRequest, Archive>(request);
 
     /// <summary>
     ///     Retrieves all archives from an application.
@@ -116,7 +92,7 @@ public class ArchiveClient
     /// <param name="request">The request.</param>
     /// <returns>A success state with archives if the operation succeeded. A failure state with the error message if it failed.</returns>
     public Task<Result<GetArchivesResponse>> GetArchivesAsync(Result<GetArchivesRequest> request) =>
-        this.getArchivesUseCase.GetArchivesAsync(request);
+        this.vonageClient.SendWithResponseAsync<GetArchivesRequest, GetArchivesResponse>(request);
 
     /// <summary>
     ///     Removes the stream included in a composed archive that was started with the streamMode set to "manual".
@@ -127,7 +103,7 @@ public class ArchiveClient
     ///     failed.
     /// </returns>
     public Task<Result<Unit>> RemoveStreamAsync(Result<RemoveStreamRequest> request) =>
-        this.removeStreamUseCase.RemoveStreamAsync(request);
+        this.vonageClient.SendAsync(request);
 
     /// <summary>
     ///     Stops an archive.
@@ -138,5 +114,5 @@ public class ArchiveClient
     ///     failed.
     /// </returns>
     public Task<Result<Archive>> StopArchiveAsync(Result<StopArchiveRequest> request) =>
-        this.stopArchiveUseCase.StopArchiveAsync(request);
+        this.vonageClient.SendWithResponseAsync<StopArchiveRequest, Archive>(request);
 }

@@ -27,10 +27,9 @@ public readonly struct StopArchiveRequest : IVonageRequest
     public string ArchiveId { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .Build();
 
     /// <inheritdoc />

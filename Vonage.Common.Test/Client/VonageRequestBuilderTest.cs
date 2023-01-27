@@ -7,7 +7,6 @@ namespace Vonage.Common.Test.Client;
 public class VonageRequestBuilderTest
 {
     private readonly HttpMethod method;
-    private readonly string token;
     private readonly string stringContent;
     private readonly Uri endpointUri;
 
@@ -16,23 +15,9 @@ public class VonageRequestBuilderTest
         var fixture = new Fixture();
         this.method = fixture.Create<HttpMethod>();
         this.endpointUri = fixture.Create<Uri>();
-        this.token = fixture.Create<string>();
+        fixture.Create<string>();
         this.stringContent = fixture.Create<string>();
     }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData(null)]
-    public void Build_ShouldNotUpdateAuthorizationHeader_GivenTokenIsNullOrWhitespace(string invalidToken) =>
-        VonageRequestBuilder
-            .Initialize(this.method, this.endpointUri.AbsoluteUri)
-            .WithAuthorizationToken(invalidToken)
-            .Build()
-            .Headers
-            .Authorization
-            .Should()
-            .BeNull();
 
     [Fact]
     public void Build_ShouldReturnRequestNotUpdateContent_GivenContentIsNull() =>
@@ -43,17 +28,6 @@ public class VonageRequestBuilderTest
             .Content
             .Should()
             .BeNull();
-
-    [Fact]
-    public void Build_ShouldReturnRequestWithAuthorizationHeader_GivenTokenIsProvided()
-    {
-        var request = VonageRequestBuilder
-            .Initialize(this.method, this.endpointUri.AbsoluteUri)
-            .WithAuthorizationToken(this.token)
-            .Build();
-        request.Headers.Authorization.Scheme.Should().Be("Bearer");
-        request.Headers.Authorization.Parameter.Should().Be(this.token);
-    }
 
     [Fact]
     public async Task Build_ShouldReturnRequestWithContent_GivenContentIsProvided()

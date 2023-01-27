@@ -15,25 +15,15 @@ namespace Vonage.Server.Video.Moderation;
 /// </summary>
 public class ModerationClient
 {
-    private readonly DisconnectConnectionUseCase disconnectConnectionUseCase;
-    private readonly MuteStreamsUseCase muteStreamsUseCase;
-    private readonly MuteStreamUseCase muteStreamUseCase;
+    private readonly VonageHttpClient vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="httpClient">Http Client to used for further connections.</param>
     /// <param name="tokenGeneration">Function used for generating a token.</param>
-    public ModerationClient(HttpClient httpClient, Func<string> tokenGeneration)
-    {
-        this.disconnectConnectionUseCase =
-            new DisconnectConnectionUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-                tokenGeneration);
-        this.muteStreamUseCase = new MuteStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.muteStreamsUseCase =
-            new MuteStreamsUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-    }
+    public ModerationClient(HttpClient httpClient, Func<string> tokenGeneration) => this.vonageClient =
+        new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
 
     /// <summary>
     ///     Forces a client to disconnect from a session
@@ -41,7 +31,7 @@ public class ModerationClient
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> DisconnectConnectionAsync(Result<DisconnectConnectionRequest> request) =>
-        this.disconnectConnectionUseCase.DisconnectConnectionAsync(request);
+        this.vonageClient.SendAsync(request);
 
     /// <summary>
     ///     Mutes a specific publisher stream
@@ -49,7 +39,7 @@ public class ModerationClient
     /// <param name="request">The request.</param>
     /// <returns>Success with the stream information if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<MuteStreamResponse>> MuteStreamAsync(Result<MuteStreamRequest> request) =>
-        this.muteStreamUseCase.MuteStreamAsync(request);
+        this.vonageClient.SendWithResponseAsync<MuteStreamRequest, MuteStreamResponse>(request);
 
     /// <summary>
     ///     Forces all streams (except for an optional list of streams) in a session to mute published audio. You can also use
@@ -58,5 +48,5 @@ public class ModerationClient
     /// <param name="request">The request.</param>
     /// <returns>Success with the stream information if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<MuteStreamsResponse>> MuteStreamsAsync(Result<MuteStreamsRequest> request) =>
-        this.muteStreamsUseCase.MuteStreamsAsync(request);
+        this.vonageClient.SendWithResponseAsync<MuteStreamsRequest, MuteStreamsResponse>(request);
 }
