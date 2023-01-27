@@ -24,10 +24,9 @@ public class SignalingClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.sendSignalUseCase = new SendSignalUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.sendSignalsUseCase =
-            new SendSignalsUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
+        var client = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
+        this.sendSignalUseCase = new SendSignalUseCase(client, tokenGeneration);
+        this.sendSignalsUseCase = new SendSignalsUseCase(client, tokenGeneration);
     }
 
     /// <summary>

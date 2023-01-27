@@ -26,13 +26,10 @@ public class ModerationClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public ModerationClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.disconnectConnectionUseCase =
-            new DisconnectConnectionUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-                tokenGeneration);
-        this.muteStreamUseCase = new MuteStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.muteStreamsUseCase =
-            new MuteStreamsUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
+        var client = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
+        this.disconnectConnectionUseCase = new DisconnectConnectionUseCase(client, tokenGeneration);
+        this.muteStreamUseCase = new MuteStreamUseCase(client, tokenGeneration);
+        this.muteStreamsUseCase = new MuteStreamsUseCase(client, tokenGeneration);
     }
 
     /// <summary>

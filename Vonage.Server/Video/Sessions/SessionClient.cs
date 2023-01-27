@@ -28,15 +28,11 @@ public class SessionClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public SessionClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.createSessionUseCase =
-            new CreateSessionUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.getStreamUseCase = new GetStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.getStreamsUseCase = new GetStreamsUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.changeStreamLayoutUseCase =
-            new ChangeStreamLayoutUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-                tokenGeneration);
+        var client = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
+        this.createSessionUseCase = new CreateSessionUseCase(client, tokenGeneration);
+        this.getStreamUseCase = new GetStreamUseCase(client, tokenGeneration);
+        this.getStreamsUseCase = new GetStreamsUseCase(client, tokenGeneration);
+        this.changeStreamLayoutUseCase = new ChangeStreamLayoutUseCase(client, tokenGeneration);
     }
 
     /// <summary>

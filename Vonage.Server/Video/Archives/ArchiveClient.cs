@@ -37,22 +37,15 @@ public class ArchiveClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     public ArchiveClient(HttpClient httpClient, Func<string> tokenGeneration)
     {
-        this.getArchivesUseCase =
-            new GetArchivesUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.getArchiveUseCase = new GetArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.createArchiveUseCase =
-            new CreateArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.deleteArchiveUseCase =
-            new DeleteArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.stopArchiveUseCase =
-            new StopArchiveUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.changeLayoutUseCase =
-            new ChangeLayoutUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.addStreamUseCase = new AddStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.removeStreamUseCase =
-            new RemoveStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
+        var client = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
+        this.getArchivesUseCase = new GetArchivesUseCase(client, tokenGeneration);
+        this.getArchiveUseCase = new GetArchiveUseCase(client, tokenGeneration);
+        this.createArchiveUseCase = new CreateArchiveUseCase(client, tokenGeneration);
+        this.deleteArchiveUseCase = new DeleteArchiveUseCase(client, tokenGeneration);
+        this.stopArchiveUseCase = new StopArchiveUseCase(client, tokenGeneration);
+        this.changeLayoutUseCase = new ChangeLayoutUseCase(client, tokenGeneration);
+        this.addStreamUseCase = new AddStreamUseCase(client, tokenGeneration);
+        this.removeStreamUseCase = new RemoveStreamUseCase(client, tokenGeneration);
     }
 
     /// <summary>

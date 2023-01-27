@@ -48,10 +48,9 @@ public readonly struct GetAvailableRoomsRequest : IVonageRequest
     public static GetAvailableRoomsRequest Build(string startId, string endId) => new(startId, endId);
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Get, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .Build();
 
     /// <inheritdoc />

@@ -36,10 +36,9 @@ public readonly struct ChangeLayoutRequest : IVonageRequest
     public ArchiveLayout Layout { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Put, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .WithContent(this.GetRequestContent())
             .Build();
 

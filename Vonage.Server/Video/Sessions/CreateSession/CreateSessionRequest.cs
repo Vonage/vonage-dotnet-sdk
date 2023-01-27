@@ -52,10 +52,9 @@ public readonly struct CreateSessionRequest : IVonageRequest
     public MediaMode MediaMode { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .WithContent(this.GetRequestContent())
             .Build();
 

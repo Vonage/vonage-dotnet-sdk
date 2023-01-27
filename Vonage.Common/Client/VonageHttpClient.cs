@@ -9,6 +9,7 @@ namespace Vonage.Common.Client;
 /// </summary>
 public class VonageHttpClient
 {
+    private readonly Func<string> tokenGeneration;
     private readonly HttpClient client;
     private readonly IJsonSerializer jsonSerializer;
 
@@ -24,6 +25,19 @@ public class VonageHttpClient
     }
 
     /// <summary>
+    ///     Creates a custom Http Client for Vonage purposes.
+    /// </summary>
+    /// <param name="httpClient">The http client.</param>
+    /// <param name="serializer">The serializer.</param>
+    /// <param name="tokenGeneration">The token generation operation.</param>
+    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer, Func<string> tokenGeneration)
+    {
+        this.client = httpClient;
+        this.jsonSerializer = serializer;
+        this.tokenGeneration = tokenGeneration;
+    }
+
+    /// <summary>
     ///     Sends a HttpRequest.
     /// </summary>
     /// <param name="request">The request to send.</param>
@@ -31,9 +45,9 @@ public class VonageHttpClient
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<Unit>> SendAsync<T>(Result<T> request, string token) where T : IVonageRequest =>
         await request
-            .MapAsync(value => this.SendRequestAsync(value, token))
-            .BindAsync(value =>
-                MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
+            .Map(value => value.BuildRequestMessage().WithAuthorization(token))
+            .MapAsync(value => this.client.SendAsync(value))
+            .BindAsync(value => MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
 
     /// <summary>
     ///     Sends a HttpRequest and parses the response.
@@ -44,7 +58,8 @@ public class VonageHttpClient
     public async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request,
         string token) where TRequest : IVonageRequest =>
         await request
-            .MapAsync(value => this.SendRequestAsync(value, token))
+            .Map(value => value.BuildRequestMessage().WithAuthorization(token))
+            .MapAsync(value => this.client.SendAsync(value))
             .BindAsync(value => MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
 
     private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent) =>
@@ -80,7 +95,4 @@ public class VonageHttpClient
             .DeserializeObject<T>(responseContent)
             .Match(Result<T>.FromSuccess, Result<T>.FromFailure);
     }
-
-    private Task<HttpResponseMessage> SendRequestAsync(IVonageRequest request, string token) =>
-        this.client.SendAsync(request.BuildRequestMessage(token));
 }

@@ -34,22 +34,14 @@ public readonly struct MuteStreamsRequest : IVonageRequest
     /// </summary>
     public string SessionId { get; }
 
-    /// <summary>
-    ///     Creates a Http request for retrieving a stream.
-    /// </summary>
-    /// <param name="token">The token.</param>
-    /// <returns>The Http request.</returns>
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .WithContent(this.GetRequestContent())
             .Build();
 
-    /// <summary>
-    ///     Retrieves the endpoint's path.
-    /// </summary>
-    /// <returns>The endpoint's path.</returns>
+    /// <inheritdoc />
     public string GetEndpointPath() =>
         $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/mute";
 
