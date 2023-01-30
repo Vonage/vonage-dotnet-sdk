@@ -30,7 +30,8 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
         public CreateSessionTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token,
+                this.helper.Fixture.Create<string>());
             this.session = this.helper.Fixture.Create<CreateSessionResponse>();
         }
 

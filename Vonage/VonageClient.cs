@@ -104,7 +104,7 @@ namespace Vonage
             this.MessagesClient = new MessagesClient(this.Credentials);
             var client = InitializeHttpClient();
             string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
-            this.MeetingsClient = new MeetingsClient(client, GenerateToken);
+            this.MeetingsClient = new MeetingsClient(client, GenerateToken, this.Credentials.GetUserAgent());
         }
     }
 }

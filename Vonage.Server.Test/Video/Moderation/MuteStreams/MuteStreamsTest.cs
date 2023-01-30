@@ -25,7 +25,8 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
         public MuteStreamsTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new ModerationClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new ModerationClient(this.helper.Server.CreateClient(), () => this.helper.Token,
+                this.helper.Fixture.Create<string>());
             this.request = BuildRequest(this.helper.Fixture);
         }
 

@@ -1,4 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
@@ -12,6 +17,7 @@ public class VonageHttpClient
     private readonly Func<string> tokenGeneration;
     private readonly HttpClient client;
     private readonly IJsonSerializer jsonSerializer;
+    private readonly string userAgent;
 
     /// <summary>
     ///     Creates a custom Http Client for Vonage purposes.
@@ -19,11 +25,14 @@ public class VonageHttpClient
     /// <param name="httpClient">The http client.</param>
     /// <param name="serializer">The serializer.</param>
     /// <param name="tokenGeneration">The token generation operation.</param>
-    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer, Func<string> tokenGeneration)
+    /// <param name="userAgent">The user agent.</param>
+    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer, Func<string> tokenGeneration,
+        string userAgent)
     {
         this.client = httpClient;
         this.jsonSerializer = serializer;
         this.tokenGeneration = tokenGeneration;
+        this.userAgent = GetFormattedUserAgent(userAgent);
     }
 
     /// <summary>
@@ -50,7 +59,9 @@ public class VonageHttpClient
             .BindAsync(value => MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
 
     private HttpRequestMessage BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
-        value.BuildRequestMessage().WithAuthorization(this.tokenGeneration());
+        value.BuildRequestMessage()
+            .WithAuthorization(this.tokenGeneration())
+            .WithUserAgent(this.userAgent);
 
     private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent) =>
         this.jsonSerializer
@@ -63,6 +74,30 @@ public class VonageHttpClient
 
     private static Task<Result<Unit>> CreateSuccessResult(HttpResponseMessage response) =>
         Task.FromResult(Result<Unit>.FromSuccess(Unit.Default));
+
+    private static string GetFormattedUserAgent(string userAgent)
+    {
+#if NETSTANDARD1_6 || NETSTANDARD2_0 || NETSTANDARD2_1
+        var languageVersion = RuntimeInformation.FrameworkDescription
+            .Replace(" ", string.Empty)
+            .Replace("/", string.Empty)
+            .Replace(":", string.Empty)
+            .Replace(";", string.Empty)
+            .Replace("_", string.Empty)
+            .Replace("(", string.Empty)
+            .Replace(")", string.Empty);
+#else
+        var languageVersion = System.Diagnostics.FileVersionInfo
+            .GetVersionInfo(typeof(int).Assembly.Location)
+            .ProductVersion;
+#endif
+        var libraryVersion = typeof(VonageHttpClient)
+            .GetTypeInfo()
+            .Assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            .InformationalVersion;
+        return $"vonage-dotnet/{libraryVersion} dotnet/{languageVersion} {userAgent}".Trim();
+    }
 
     private static Task<Result<T>> MatchResponse<T>(
         HttpResponseMessage response,
