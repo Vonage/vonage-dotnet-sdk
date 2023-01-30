@@ -27,8 +27,9 @@ public class SessionClient
     /// <param name="userAgent">The user agent.</param>
     public SessionClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent)
     {
-        this.vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration, userAgent);
-        this.createSessionUseCase = new CreateSessionUseCase(vonageClient);
+        this.vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
+            new HttpClientOptions(tokenGeneration, userAgent));
+        this.createSessionUseCase = new CreateSessionUseCase(this.vonageClient);
     }
 
     /// <summary>

@@ -23,7 +23,8 @@ public class SignalingClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     /// <param name="userAgent">The user agent.</param>
     public SignalingClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) =>
-        this.vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration, userAgent);
+        this.vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
+            new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
     ///     Sends signals to a single participant in an active Vonage Video session.

@@ -26,7 +26,8 @@ public class MeetingsClient : IMeetingsClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     /// <param name="userAgent">The user agent.</param>
     public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) => this.vonageClient =
-        new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration, userAgent);
+        new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
+            new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <inheritdoc />
     public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>

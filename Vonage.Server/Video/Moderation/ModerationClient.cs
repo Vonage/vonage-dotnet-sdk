@@ -25,7 +25,8 @@ public class ModerationClient
     /// <param name="userAgent">The user agent.</param>
     public ModerationClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) =>
         this.vonageClient =
-            new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration, userAgent);
+            new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
+                new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
     ///     Forces a client to disconnect from a session

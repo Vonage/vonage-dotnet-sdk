@@ -14,8 +14,8 @@ namespace Vonage.Common.Client;
 /// </summary>
 public class VonageHttpClient
 {
-    private readonly Func<string> tokenGeneration;
     private readonly HttpClient client;
+    private readonly HttpClientOptions options;
     private readonly IJsonSerializer jsonSerializer;
     private readonly string userAgent;
 
@@ -24,15 +24,13 @@ public class VonageHttpClient
     /// </summary>
     /// <param name="httpClient">The http client.</param>
     /// <param name="serializer">The serializer.</param>
-    /// <param name="tokenGeneration">The token generation operation.</param>
-    /// <param name="userAgent">The user agent.</param>
-    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer, Func<string> tokenGeneration,
-        string userAgent)
+    /// <param name="options">The options.</param>
+    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer, HttpClientOptions options)
     {
         this.client = httpClient;
         this.jsonSerializer = serializer;
-        this.tokenGeneration = tokenGeneration;
-        this.userAgent = GetFormattedUserAgent(userAgent);
+        this.options = options;
+        this.userAgent = GetFormattedUserAgent(this.options.UserAgent);
     }
 
     /// <summary>
@@ -60,7 +58,7 @@ public class VonageHttpClient
 
     private HttpRequestMessage BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
         value.BuildRequestMessage()
-            .WithAuthorization(this.tokenGeneration())
+            .WithAuthorization(this.options.TokenGeneration())
             .WithUserAgent(this.userAgent);
 
     private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent) =>
