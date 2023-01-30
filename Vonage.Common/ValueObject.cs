@@ -1,4 +1,7 @@
-﻿namespace Vonage.Common;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Vonage.Common;
 
 /// <summary>
 ///     Represents a ValueObject with value equality comparison.

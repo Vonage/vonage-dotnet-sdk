@@ -97,10 +97,9 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     public StreamMode StreamMode { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .WithContent(this.GetRequestContent())
             .Build();
 

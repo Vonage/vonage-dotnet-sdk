@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net.Http;
 using Vonage.Common.Monads;
 
 namespace Vonage.Common.Client;
@@ -9,7 +9,6 @@ namespace Vonage.Common.Client;
 public class VonageRequestBuilder
 {
     private readonly HttpRequestMessage request;
-    private Maybe<AuthenticationHeaderValue> authenticationHeader = Maybe<AuthenticationHeaderValue>.None;
     private Maybe<HttpContent> requestContent = Maybe<HttpContent>.None;
 
     private VonageRequestBuilder(HttpMethod httpMethod, string endpointUri)
@@ -19,22 +18,11 @@ public class VonageRequestBuilder
 
     public HttpRequestMessage Build()
     {
-        this.authenticationHeader.IfSome(header => this.request.Headers.Authorization = header);
         this.requestContent.IfSome(content => this.request.Content = content);
         return this.request;
     }
 
     public static VonageRequestBuilder Initialize(HttpMethod method, string endpointUri) => new(method, endpointUri);
-
-    public VonageRequestBuilder WithAuthorizationToken(string token)
-    {
-        if (!string.IsNullOrWhiteSpace(token))
-        {
-            this.authenticationHeader = new AuthenticationHeaderValue("Bearer", token);
-        }
-
-        return this;
-    }
 
     public VonageRequestBuilder WithContent(HttpContent content)
     {

@@ -1,4 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
@@ -10,42 +15,51 @@ namespace Vonage.Common.Client;
 public class VonageHttpClient
 {
     private readonly HttpClient client;
+    private readonly HttpClientOptions options;
     private readonly IJsonSerializer jsonSerializer;
+    private readonly string userAgent;
 
     /// <summary>
     ///     Creates a custom Http Client for Vonage purposes.
     /// </summary>
     /// <param name="httpClient">The http client.</param>
     /// <param name="serializer">The serializer.</param>
-    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer)
+    /// <param name="options">The options.</param>
+    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer, HttpClientOptions options)
     {
         this.client = httpClient;
         this.jsonSerializer = serializer;
+        this.options = options;
+        this.userAgent = GetFormattedUserAgent(this.options.UserAgent);
     }
 
     /// <summary>
     ///     Sends a HttpRequest.
     /// </summary>
     /// <param name="request">The request to send.</param>
-    /// <param name="token">The token to use for authentication.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    public async Task<Result<Unit>> SendAsync<T>(Result<T> request, string token) where T : IVonageRequest =>
+    public async Task<Result<Unit>> SendAsync<T>(Result<T> request) where T : IVonageRequest =>
         await request
-            .MapAsync(value => this.SendRequestAsync(value, token))
-            .BindAsync(value =>
-                MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
+            .Map(this.BuildHttpRequestMessage)
+            .MapAsync(value => this.client.SendAsync(value))
+            .BindAsync(value => MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
 
     /// <summary>
     ///     Sends a HttpRequest and parses the response.
     /// </summary>
     /// <param name="request">The request to send.</param>
-    /// <param name="token">The token to use for authentication.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
-    public async Task<Result<TResponse>> SendWithResponseAsync<TResponse, TRequest>(Result<TRequest> request,
-        string token) where TRequest : IVonageRequest =>
+    public async Task<Result<TResponse>> SendWithResponseAsync<TRequest, TResponse>(Result<TRequest> request)
+        where TRequest : IVonageRequest =>
         await request
-            .MapAsync(value => this.SendRequestAsync(value, token))
+            .Map(this.BuildHttpRequestMessage)
+            .MapAsync(value => this.client.SendAsync(value))
             .BindAsync(value => MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
+
+    private HttpRequestMessage BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
+        value.BuildRequestMessage()
+            .WithAuthorization(this.options.TokenGeneration())
+            .WithUserAgent(this.userAgent);
 
     private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent) =>
         this.jsonSerializer
@@ -58,6 +72,30 @@ public class VonageHttpClient
 
     private static Task<Result<Unit>> CreateSuccessResult(HttpResponseMessage response) =>
         Task.FromResult(Result<Unit>.FromSuccess(Unit.Default));
+
+    private static string GetFormattedUserAgent(string userAgent)
+    {
+#if NETSTANDARD1_6 || NETSTANDARD2_0 || NETSTANDARD2_1
+        var languageVersion = RuntimeInformation.FrameworkDescription
+            .Replace(" ", string.Empty)
+            .Replace("/", string.Empty)
+            .Replace(":", string.Empty)
+            .Replace(";", string.Empty)
+            .Replace("_", string.Empty)
+            .Replace("(", string.Empty)
+            .Replace(")", string.Empty);
+#else
+        var languageVersion = System.Diagnostics.FileVersionInfo
+            .GetVersionInfo(typeof(int).Assembly.Location)
+            .ProductVersion;
+#endif
+        var libraryVersion = typeof(VonageHttpClient)
+            .GetTypeInfo()
+            .Assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            .InformationalVersion;
+        return $"vonage-dotnet/{libraryVersion} dotnet/{languageVersion} {userAgent}".Trim();
+    }
 
     private static Task<Result<T>> MatchResponse<T>(
         HttpResponseMessage response,
@@ -80,7 +118,4 @@ public class VonageHttpClient
             .DeserializeObject<T>(responseContent)
             .Match(Result<T>.FromSuccess, Result<T>.FromFailure);
     }
-
-    private Task<HttpResponseMessage> SendRequestAsync(IVonageRequest request, string token) =>
-        this.client.SendAsync(request.BuildRequestMessage(token));
 }

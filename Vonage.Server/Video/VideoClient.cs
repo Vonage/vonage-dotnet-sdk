@@ -51,10 +51,10 @@ public class VideoClient : IVideoClient
     {
         var client = InitializeHttpClient();
         string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
-        this.SessionClient = new SessionClient(client, GenerateToken);
-        this.SignalingClient = new SignalingClient(client, GenerateToken);
-        this.ModerationClient = new ModerationClient(client, GenerateToken);
-        this.ArchiveClient = new ArchiveClient(client, GenerateToken);
+        this.SessionClient = new SessionClient(client, GenerateToken, this.Credentials.GetUserAgent());
+        this.SignalingClient = new SignalingClient(client, GenerateToken, this.Credentials.GetUserAgent());
+        this.ModerationClient = new ModerationClient(client, GenerateToken, this.Credentials.GetUserAgent());
+        this.ArchiveClient = new ArchiveClient(client, GenerateToken, this.Credentials.GetUserAgent());
     }
 
     private static HttpClient InitializeHttpClient()

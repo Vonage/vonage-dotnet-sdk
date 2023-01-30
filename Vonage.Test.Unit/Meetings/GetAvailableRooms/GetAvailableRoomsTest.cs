@@ -27,7 +27,8 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
         public GetAvailableRoomsTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
+                this.helper.Fixture.Create<string>());
             this.request = BuildRequest(this.helper.Fixture);
         }
 

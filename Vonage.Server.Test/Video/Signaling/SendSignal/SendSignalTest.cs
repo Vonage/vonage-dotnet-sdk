@@ -26,7 +26,8 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignal
         public SendSignalTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new SignalingClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new SignalingClient(this.helper.Server.CreateClient(), () => this.helper.Token,
+                this.helper.Fixture.Create<string>());
             this.request = BuildRequest(this.helper.Fixture);
         }
 

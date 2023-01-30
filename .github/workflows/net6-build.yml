@@ -1,10 +1,10 @@
-name: .NET Core
+name: NET6.0 Build
 
 on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main, dev ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -18,11 +18,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.403'
-      - name: Setup .NET 3.1
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.401'
-
       - name: Install SonarScanner
         run: |
           dotnet tool update --global dotnet-sonarscanner
@@ -30,22 +25,18 @@ jobs:
         id: install-coverlet
         run: |
           dotnet tool install --global dotnet-coverage
-
       - uses: actions/checkout@v2
       - name: Clean
         run: dotnet clean Vonage.sln --configuration Release && dotnet nuget locals all --clear
-      - name: Restore NuGets
-        run: dotnet restore
-        
       - name: Begin SonarScanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: dotnet-sonarscanner begin /k:"Vonage_vonage-dotnet-sdk" /o:"vonage" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release
       - name: Test
-        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build' -f xml  -o 'coverage.xml'
+        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net6.0' -f xml  -o 'coverage.xml'
       - name: End SonarScanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

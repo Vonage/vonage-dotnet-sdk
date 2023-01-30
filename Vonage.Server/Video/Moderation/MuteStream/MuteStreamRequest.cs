@@ -33,10 +33,9 @@ public readonly struct MuteStreamRequest : IVonageRequest
     public string StreamId { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .Build();
 
     /// <inheritdoc />

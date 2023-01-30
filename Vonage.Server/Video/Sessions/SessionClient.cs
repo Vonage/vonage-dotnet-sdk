@@ -16,27 +16,20 @@ namespace Vonage.Server.Video.Sessions;
 /// </summary>
 public class SessionClient
 {
-    private readonly ChangeStreamLayoutUseCase changeStreamLayoutUseCase;
     private readonly CreateSessionUseCase createSessionUseCase;
-    private readonly GetStreamsUseCase getStreamsUseCase;
-    private readonly GetStreamUseCase getStreamUseCase;
+    private readonly VonageHttpClient vonageClient;
 
     /// <summary>
     ///  Creates a new client.
     /// </summary>
     /// <param name="httpClient">Http Client to used for further connections.</param>
     /// <param name="tokenGeneration">Function used for generating a token.</param>
-    public SessionClient(HttpClient httpClient, Func<string> tokenGeneration)
+    /// <param name="userAgent">The user agent.</param>
+    public SessionClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent)
     {
-        this.createSessionUseCase =
-            new CreateSessionUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()), tokenGeneration);
-        this.getStreamUseCase = new GetStreamUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.getStreamsUseCase = new GetStreamsUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-            tokenGeneration);
-        this.changeStreamLayoutUseCase =
-            new ChangeStreamLayoutUseCase(new VonageHttpClient(httpClient, JsonSerializerBuilder.Build()),
-                tokenGeneration);
+        this.vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
+            new HttpClientOptions(tokenGeneration, userAgent));
+        this.createSessionUseCase = new CreateSessionUseCase(this.vonageClient);
     }
 
     /// <summary>
@@ -45,7 +38,7 @@ public class SessionClient
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> ChangeStreamLayoutAsync(Result<ChangeStreamLayoutRequest> request) =>
-        this.changeStreamLayoutUseCase.ChangeStreamLayoutAsync(request);
+        this.vonageClient.SendAsync(request);
 
     /// <summary>
     ///     Creates a new session.
@@ -64,7 +57,7 @@ public class SessionClient
     ///     failed.
     /// </returns>
     public Task<Result<GetStreamResponse>> GetStreamAsync(Result<GetStreamRequest> request) =>
-        this.getStreamUseCase.GetStreamAsync(request);
+        this.vonageClient.SendWithResponseAsync<GetStreamRequest, GetStreamResponse>(request);
 
     /// <summary>
     ///     Retrieves information on all Vonage Video streams in a session.
@@ -72,5 +65,5 @@ public class SessionClient
     /// <param name="request">The request.</param>
     /// <returns>A success state with streams if the operation succeeded. A failure state with the error message if it failed.</returns>
     public Task<Result<GetStreamsResponse>> GetStreamsAsync(Result<GetStreamsRequest> request) =>
-        this.getStreamsUseCase.GetStreamsAsync(request);
+        this.vonageClient.SendWithResponseAsync<GetStreamsRequest, GetStreamsResponse>(request);
 }

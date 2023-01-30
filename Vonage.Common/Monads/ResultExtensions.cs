@@ -1,4 +1,7 @@
-﻿namespace Vonage.Common.Monads;
+﻿using System;
+using System.Threading.Tasks;
+
+namespace Vonage.Common.Monads;
 
 /// <summary>
 ///     Extensions for Result.

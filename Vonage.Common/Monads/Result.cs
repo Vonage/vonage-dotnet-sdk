@@ -1,4 +1,6 @@
-﻿using Vonage.Common.Failures;
+﻿using System;
+using System.Threading.Tasks;
+using Vonage.Common.Failures;
 
 namespace Vonage.Common.Monads;
 
@@ -8,6 +10,10 @@ namespace Vonage.Common.Monads;
 /// <typeparam name="T">Bound value type.</typeparam>
 public readonly struct Result<T>
 {
+    private readonly IResultFailure failure;
+    private readonly ResultState state;
+    private readonly T success;
+
     /// <summary>
     ///     Constructor for a Success.
     /// </summary>
@@ -29,10 +35,6 @@ public readonly struct Result<T>
         this.success = default;
         this.failure = failure;
     }
-
-    private readonly IResultFailure failure;
-    private readonly ResultState state;
-    private readonly T success;
 
     /// <summary>
     ///     Indicates if in Failure state.

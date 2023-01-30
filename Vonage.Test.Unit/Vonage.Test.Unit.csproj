@@ -1,369 +1,369 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows</TargetFrameworks>
-        <NoWarn>1701;1702;0618</NoWarn>
-        <IsPackable>false</IsPackable>
-        <Configurations>Debug;Release;ReleaseSigned</Configurations>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows;netstandard2.0</TargetFrameworks>
+		<NoWarn>1701;1702;0618</NoWarn>
+		<IsPackable>false</IsPackable>
+		<Configurations>Debug;Release;ReleaseSigned</Configurations>
+	</PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseSigned|netstandard2.0|AnyCPU'">
-        <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>../vonage.snk</AssemblyOriginatorKeyFile>
-        <DelaySign>false</DelaySign>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseSigned|netstandard2.0|AnyCPU'">
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>../vonage.snk</AssemblyOriginatorKeyFile>
+		<DelaySign>false</DelaySign>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <Compile Remove="Request\**"/>
-        <EmbeddedResource Remove="Request\**"/>
-        <None Remove="Request\**"/>
-        <None Update="Data\MessagesTests\SendMessengerTextAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMessengerTextAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMessengerImageAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMessengerImageAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMessengerAudioAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMessengerAudioAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMessengerVideoAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMessengerVideoAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMessengerFileAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMessengerFileAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendViberTextAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendViberTextAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendViberImageAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendViberImageAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestRecord-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestRecordMinimalist-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestConversation-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestConnect-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestTalk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestTalkBareBones-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestStream-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestNotify-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestWebsocketEndpoint-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestAppEndpoint-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestSipEndpoint-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestVbcEndpoint-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NccoTests\TestConversationAllTrue-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ApplicationTests\CreateApplication-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ApplicationTests\CreateApplication-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncRealTimeData-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="Request\**" />
+	  <EmbeddedResource Remove="Request\**" />
+	  <None Remove="Request\**" />
+	  <None Update="Data\MessagesTests\SendMessengerTextAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerTextAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerImageAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerImageAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerAudioAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerAudioAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerVideoAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerVideoAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerFileAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMessengerFileAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendViberTextAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendViberTextAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendViberImageAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendViberImageAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestRecord-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestRecordMinimalist-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestConversation-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestConnect-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestTalk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestTalkBareBones-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestStream-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestNotify-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestWebsocketEndpoint-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestAppEndpoint-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestSipEndpoint-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestVbcEndpoint-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NccoTests\TestConversationAllTrue-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ApplicationTests\CreateApplication-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ApplicationTests\CreateApplication-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncRealTimeData-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="4.17.0"/>
-        <PackageReference Include="FluentAssertions" Version="6.9.0"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1"/>
-        <PackageReference Include="Moq" Version="4.18.4"/>
-        <PackageReference Include="xunit" Version="2.4.2"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="coverlet.collector" Version="3.2.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoFixture" Version="4.17.0"/>
+		<PackageReference Include="FluentAssertions" Version="6.9.0"/>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1"/>
+		<PackageReference Include="Moq" Version="4.18.4"/>
+		<PackageReference Include="xunit" Version="2.4.2"/>
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="coverlet.collector" Version="3.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
-        <ProjectReference Include="..\Vonage\Vonage.csproj"/>
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
+		<ProjectReference Include="..\Vonage\Vonage.csproj" />
+	</ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.0' And '$(TargetFramework)' != 'netcoreapp3.1' ">
-        <Reference Include="System.Web"/>
-    </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.0' And '$(TargetFramework)' != 'netcoreapp3.1' ">
+		<Reference Include="System.Web" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <None Update="Data\MessagesTests\SendWhatsAppFileAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppTemplateAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppCustomAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppVideoAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppFileAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppTemplateAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppCustomAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppVideoAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppAudioAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppAudioAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppImageAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppImageAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppTextAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendWhatsAppTextAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMmsVideoAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMmsAudioAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMmsVideoAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMmsAudioAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMmsVcardAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMmsVcardAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendSmsAsyncReturnsInvalidCredentials-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMmsImageAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendSmsAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendSmsAsyncReturnsInvalidCredentials-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendMmsImageAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagesTests\SendSmsAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagingTests\SendSmsAsyncBadResponse.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagingTests\SendSmsBadResponse.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagingTests\SendSmsAsyncWithAllPropertiesSet.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagingTests\SendSmsWithAllPropertiesSet.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagingTests\SendSmsWrongCredentialsThrowsException.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MessagingTests\SendSmsTypicalUsageSimplifiedAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MultiInputTests\TestWebhookSerializationSpeechOveridden.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MultiInputTests\TestWebhookSerialization.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MultiInputTests\TestSerializeNccoAllPropertiesEmpty.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\MultiInputTests\TestSerializeNccoAllProperties.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedAsyncAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestFailedAdvancedRequest.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncWithNullableValues.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestFailedAsyncRequest.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequestAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequestWithoutRoaming.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequest.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestBasicNIRequestAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestBasicNIRequest.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\AdvancedNIRequestSyncWithNotRoamingStatus.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\VoiceTests\TestCreateCallWithRandomFromNumber.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\VoiceTests\CreateCallAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\VoiceTests\CreateCall.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\RedactTests\RedactReturns429.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\RedactTests\RedactReturns422.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\RedactTests\RedactReturns404.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\RedactTests\RedactReturns403.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\RedactTests\RedactReturns401.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\RedactTests\RedactAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\RedactTests\Redact.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\SendTwoFactorAuthAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\SendTwoFactorAuth.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\QueryOptInsAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\QueryOptIns.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\ManageOptInAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\ManageOptIn.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\SendAlertAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\SendAlert.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
+	<ItemGroup>
+	  <None Update="Data\MessagesTests\SendWhatsAppFileAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppTemplateAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppCustomAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppVideoAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppFileAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppTemplateAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppCustomAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppVideoAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppAudioAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppAudioAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppImageAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppImageAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppTextAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendWhatsAppTextAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsVideoAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsAudioAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsVideoAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsAudioAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsVcardAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsVcardAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsInvalidCredentials-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsImageAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsOk-request.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsInvalidCredentials-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendMmsImageAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsOk-response.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsAsyncBadResponse.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsBadResponse.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsAsyncWithAllPropertiesSet.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsWithAllPropertiesSet.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsWrongCredentialsThrowsException.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MessagingTests\SendSmsTypicalUsageSimplifiedAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MultiInputTests\TestWebhookSerializationSpeechOveridden.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MultiInputTests\TestWebhookSerialization.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MultiInputTests\TestSerializeNccoAllPropertiesEmpty.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\MultiInputTests\TestSerializeNccoAllProperties.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestAdvancedAsyncAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestFailedAdvancedRequest.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncWithNullableValues.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestAdvancedAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestFailedAsyncRequest.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestStandardNIRequestAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestStandardNIRequestWithoutRoaming.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestStandardNIRequest.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestBasicNIRequestAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\TestBasicNIRequest.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\NumberInsightsTests\AdvancedNIRequestSyncWithNotRoamingStatus.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\VoiceTests\TestCreateCallWithRandomFromNumber.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\VoiceTests\CreateCallAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\VoiceTests\CreateCall.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\RedactTests\RedactReturns429.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\RedactTests\RedactReturns422.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\RedactTests\RedactReturns404.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\RedactTests\RedactReturns403.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\RedactTests\RedactReturns401.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\RedactTests\RedactAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\RedactTests\Redact.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ShortCodeTests\SendTwoFactorAuthAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ShortCodeTests\SendTwoFactorAuth.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ShortCodeTests\QueryOptInsAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ShortCodeTests\QueryOptIns.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ShortCodeTests\ManageOptInAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ShortCodeTests\ManageOptIn.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ShortCodeTests\SendAlertAsync.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\ShortCodeTests\SendAlert.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
-        <PackageReference Include="Microsoft.Extensions.Logging">
-            <Version>7.0.0</Version>
-        </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
-            <Version>7.0.0</Version>
-        </PackageReference>
-    </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+	  <PackageReference Include="Microsoft.Extensions.Logging">
+		  <Version>7.0.0</Version>
+	  </PackageReference>
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
+		  <Version>7.0.0</Version>
+	  </PackageReference>
+	</ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-        <PackageReference Include="Microsoft.Extensions.Logging">
-            <Version>7.0.0</Version>
-        </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
-            <Version>7.0.0</Version>
-        </PackageReference>
-    </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+	  <PackageReference Include="Microsoft.Extensions.Logging">
+		  <Version>7.0.0</Version>
+	  </PackageReference>
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
+		  <Version>7.0.0</Version>
+	  </PackageReference>
+	</ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
-        <PackageReference Include="Microsoft.Extensions.Logging">
-            <Version>7.0.0</Version>
-        </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
-            <Version>7.0.0</Version>
-        </PackageReference>
-    </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
+	  <PackageReference Include="Microsoft.Extensions.Logging">
+		  <Version>7.0.0</Version>
+	  </PackageReference>
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
+		  <Version>7.0.0</Version>
+	  </PackageReference>
+	</ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
         <PackageReference Include="Microsoft.Extensions.Logging">
@@ -384,48 +384,29 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetDialNumbers\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetThemes\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetTheme\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetDialNumbers\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetThemes\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\GetTheme\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+		<Content Include="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\GetRecording\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetDialNumbers\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Meetings\GetThemes\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\GetTheme\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetTheme\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>
