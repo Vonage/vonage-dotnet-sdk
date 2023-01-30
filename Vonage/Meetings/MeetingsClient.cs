@@ -20,8 +20,6 @@ namespace Vonage.Meetings;
 public class MeetingsClient : IMeetingsClient
 {
     private readonly VonageHttpClient vonageClient;
-    private readonly CreateRoomUseCase createRoomUseCase;
-    private readonly DeleteRecordingUseCase deleteRecordingUseCase;
 
     /// <summary>
     ///     Creates a new client.
@@ -32,6 +30,14 @@ public class MeetingsClient : IMeetingsClient
     public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) => this.vonageClient =
         new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
             new HttpClientOptions(tokenGeneration, userAgent));
+
+    /// <inheritdoc />
+    public Task<Result<Room>> CreateRoomAsync(Result<CreateRoomRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<CreateRoomRequest, Room>(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> DeleteRecordingAsync(Result<DeleteRecordingRequest> request) =>
+        this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
     public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>
@@ -61,12 +67,4 @@ public class MeetingsClient : IMeetingsClient
     /// <inheritdoc />
     public Task<Result<Theme[]>> GetThemesAsync() =>
         this.vonageClient.SendWithResponseAsync<GetThemesRequest, Theme[]>(GetThemesRequest.Default);
-    
-    /// <inheritdoc />
-    public Task<Result<Room>> CreateRoomAsync(Result<CreateRoomRequest> request) =>
-        this.createRoomUseCase.CreateRoomAsync(request);
-
-    /// <inheritdoc />
-    public Task<Result<Unit>> DeleteRecordingAsync(Result<DeleteRecordingRequest> request) =>
-        this.deleteRecordingUseCase.DeleteRecordingAsync(request);
 }

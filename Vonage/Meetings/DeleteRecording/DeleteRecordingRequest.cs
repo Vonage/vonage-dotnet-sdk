@@ -21,10 +21,9 @@ public class DeleteRecordingRequest : IVonageRequest
     public string RecordingId { get; }
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage(string token) =>
+    public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Delete, this.GetEndpointPath())
-            .WithAuthorizationToken(token)
             .Build();
 
     /// <inheritdoc />
