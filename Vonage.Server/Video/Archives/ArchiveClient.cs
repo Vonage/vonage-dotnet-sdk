@@ -28,8 +28,10 @@ public class ArchiveClient
     /// </summary>
     /// <param name="httpClient">Http Client to used for further connections.</param>
     /// <param name="tokenGeneration">Function used for generating a token.</param>
-    public ArchiveClient(HttpClient httpClient, Func<string> tokenGeneration) => this.vonageClient =
-        new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
+    /// <param name="userAgent">The user agent.</param>
+    public ArchiveClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) => this.vonageClient =
+        new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
+            new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
     ///     Adds the stream included in a composed archive that was started with the streamMode set to "manual".

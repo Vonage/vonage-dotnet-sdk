@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common.Monads;
@@ -24,7 +25,8 @@ namespace Vonage.Test.Unit.Meetings.GetThemes
         public GetThemesTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
+                this.helper.Fixture.Create<string>());
         }
 
         [Property]

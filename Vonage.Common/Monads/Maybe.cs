@@ -1,4 +1,6 @@
-﻿namespace Vonage.Common.Monads;
+﻿using System;
+
+namespace Vonage.Common.Monads;
 
 /// <summary>
 ///     Discriminated union type. Can be in one of two states: Some, or None.
@@ -11,6 +13,8 @@ public readonly struct Maybe<TA>
     /// </summary>
     public const string NullValueMessage = "Value cannot be null.";
 
+    private readonly TA value = default;
+
     /// <summary>
     ///     Constructor for a Some.
     /// </summary>
@@ -20,8 +24,6 @@ public readonly struct Maybe<TA>
         this.value = value;
         this.IsSome = true;
     }
-
-    private readonly TA value = default;
 
     /// <summary>
     ///     Indicates if in None state.

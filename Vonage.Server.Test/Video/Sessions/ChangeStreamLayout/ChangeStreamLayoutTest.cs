@@ -25,7 +25,8 @@ namespace Vonage.Server.Test.Video.Sessions.ChangeStreamLayout
         public ChangeStreamLayoutTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token,
+                this.helper.Fixture.Create<string>());
             this.request = BuildRequest(this.helper.Fixture);
         }
 

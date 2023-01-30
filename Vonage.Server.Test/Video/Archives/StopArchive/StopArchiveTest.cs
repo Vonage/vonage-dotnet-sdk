@@ -27,7 +27,8 @@ namespace Vonage.Server.Test.Video.Archives.StopArchive
         public StopArchiveTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new ArchiveClient(this.helper.Server.CreateClient(), () => this.helper.Token);
+            this.client = new ArchiveClient(this.helper.Server.CreateClient(), () => this.helper.Token,
+                this.helper.Fixture.Create<string>());
             this.request = BuildRequest(this.helper.Fixture);
         }
 

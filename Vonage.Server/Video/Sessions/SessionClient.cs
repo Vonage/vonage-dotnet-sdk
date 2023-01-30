@@ -24,10 +24,12 @@ public class SessionClient
     /// </summary>
     /// <param name="httpClient">Http Client to used for further connections.</param>
     /// <param name="tokenGeneration">Function used for generating a token.</param>
-    public SessionClient(HttpClient httpClient, Func<string> tokenGeneration)
+    /// <param name="userAgent">The user agent.</param>
+    public SessionClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent)
     {
-        this.vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(), tokenGeneration);
-        this.createSessionUseCase = new CreateSessionUseCase(vonageClient);
+        this.vonageClient = new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
+            new HttpClientOptions(tokenGeneration, userAgent));
+        this.createSessionUseCase = new CreateSessionUseCase(this.vonageClient);
     }
 
     /// <summary>

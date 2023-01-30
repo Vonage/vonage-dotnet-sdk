@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Failures;
+﻿using System.Collections.Generic;
+using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
 namespace Vonage.Common.Validation;

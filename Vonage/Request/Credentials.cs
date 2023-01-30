@@ -1,36 +1,25 @@
-﻿using Vonage.Cryptography;
-using System.IO;
-using System.ComponentModel.Composition;
+﻿using System.IO;
+using Vonage.Cryptography;
 
 namespace Vonage.Request
-{    
+{
     public class Credentials
     {
-        /// <summary>
-        /// Method to be used for signing SMS Messages
-        /// </summary>
-        public SmsSignatureGenerator.Method Method { get; set; }
-        
         /// <summary>
         /// Vonage API Key (from your account dashboard)
         /// </summary>
         public string ApiKey { get; set; }
-        
+
         /// <summary>
         /// Vonage API Secret (from your account dashboard)
         /// </summary>
         public string ApiSecret { get; set; }
-        
-        /// <summary>
-        /// Signature Secret (from API settings section of your account settings)
-        /// </summary>
-        public string SecuritySecret { get; set; }
-       
+
         /// <summary>
         /// Application ID (GUID)
         /// </summary>
         public string ApplicationId { get; set; }
-       
+
         /// <summary>
         /// Application private key contents
         /// This is the actual key file contents and NOT a path to the key file!
@@ -42,18 +31,28 @@ namespace Vonage.Request
         /// </summary>
         public string AppUserAgent { get; set; }
 
+        /// <summary>
+        /// Method to be used for signing SMS Messages
+        /// </summary>
+        public SmsSignatureGenerator.Method Method { get; set; }
+
+        /// <summary>
+        /// Signature Secret (from API settings section of your account settings)
+        /// </summary>
+        public string SecuritySecret { get; set; }
+
         public Credentials()
         {
-
         }
 
-        public Credentials (string vonageApiKey, string vonageApiSecret)
+        public Credentials(string vonageApiKey, string vonageApiSecret)
         {
             ApiKey = vonageApiKey;
             ApiSecret = vonageApiSecret;
         }
 
-        public Credentials(string vonageApiKey, string vonageApiSecret, string vonageApplicationId, string vonageApplicationPrivateKey)
+        public Credentials(string vonageApiKey, string vonageApiSecret, string vonageApplicationId,
+            string vonageApplicationPrivateKey)
         {
             ApiKey = vonageApiKey;
             ApiSecret = vonageApiSecret;
@@ -64,6 +63,19 @@ namespace Vonage.Request
         public static Credentials FromApiKeyAndSecret(string apiKey, string apiSecret)
         {
             return new Credentials {ApiKey = apiKey, ApiSecret = apiSecret};
+        }
+
+        /// <summary>
+        /// Builds Credentials from 
+        /// </summary>
+        /// <param name="apiKey"></param>
+        /// <param name="signatureSecret"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public static Credentials FromApiKeySignatureSecretAndMethod(string apiKey, string signatureSecret,
+            SmsSignatureGenerator.Method method)
+        {
+            return new Credentials {ApiKey = apiKey, SecuritySecret = signatureSecret, Method = method};
         }
 
         /// <summary>
@@ -98,18 +110,12 @@ namespace Vonage.Request
                 return new Credentials {ApplicationId = appId, ApplicationKey = privateKey};
             }
         }
-        
+
         /// <summary>
-        /// Builds Credentials from 
+        ///     Returns the user agent from credentials if not null, from configuration otherwise.
         /// </summary>
-        /// <param name="apiKey"></param>
-        /// <param name="signatureSecret"></param>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        public static Credentials FromApiKeySignatureSecretAndMethod(string apiKey, string signatureSecret,
-            SmsSignatureGenerator.Method method)
-        {
-            return new Credentials {ApiKey = apiKey, SecuritySecret = signatureSecret, Method = method};
-        }
+        /// <returns>The user agent.</returns>
+        public string GetUserAgent() =>
+            this.AppUserAgent ?? Configuration.Instance.Settings["appSettings:Vonage.UserAgent"];
     }
 }
