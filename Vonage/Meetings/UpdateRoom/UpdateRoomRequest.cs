@@ -68,7 +68,7 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     public string GetEndpointPath() => $"/beta/meetings/rooms/{this.RoomId}";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.Build().SerializeObject(this),
+        new(JsonSerializerBuilder.Build().SerializeObject(new {UpdateDetails = this}),
             Encoding.UTF8,
             "application/json");
 }

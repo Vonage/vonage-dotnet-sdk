@@ -9,6 +9,7 @@ using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
 using Vonage.Meetings.GetTheme;
+using Vonage.Meetings.UpdateRoom;
 
 namespace Vonage.Meetings;
 
@@ -77,4 +78,11 @@ public interface IMeetingsClient
     /// </summary>
     /// <returns>The themes.</returns>
     Task<Result<Theme[]>> GetThemesAsync();
+
+    /// <summary>
+    ///     Updates a room.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>The room.</returns>
+    Task<Result<Room>> UpdateRoomAsync(Result<UpdateRoomRequest> request);
 }
