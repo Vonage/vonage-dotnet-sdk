@@ -9,22 +9,22 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings;
 using Vonage.Meetings.Common;
-using Vonage.Meetings.DeleteRecording;
+using Vonage.Meetings.DeleteTheme;
 using WireMock.RequestBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.DeleteRecording
+namespace Vonage.Test.Unit.Meetings.DeleteTheme
 {
-    public class DeleteRecordingTest
+    public class DeleteThemeTest
     {
         private Func<Task<Result<Common.Monads.Unit>>> Operation =>
-            () => this.client.DeleteRecordingAsync(this.request);
+            () => this.client.DeleteThemeAsync(this.request);
 
         private readonly MeetingsClient client;
-        private readonly Result<DeleteRecordingRequest> request;
+        private readonly Result<DeleteThemeRequest> request;
         private readonly UseCaseHelper helper;
 
-        public DeleteRecordingTest()
+        public DeleteThemeTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
             this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
@@ -42,16 +42,16 @@ namespace Vonage.Test.Unit.Meetings.DeleteRecording
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<DeleteRecordingRequest, Common.Monads.Unit>(this
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<DeleteThemeRequest, Common.Monads.Unit>(this
                 .client
-                .DeleteRecordingAsync);
+                .DeleteThemeAsync);
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
-        private static Result<DeleteRecordingRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            DeleteRecordingRequest.Parse(fixture.Create<string>());
+        private static Result<DeleteThemeRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            DeleteThemeRequest.Parse(fixture.Create<string>(), fixture.Create<bool>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions
