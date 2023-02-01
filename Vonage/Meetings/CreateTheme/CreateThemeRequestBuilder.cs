@@ -10,8 +10,8 @@ namespace Vonage.Meetings.CreateTheme;
 public class CreateThemeRequestBuilder : IRequestBuilder<CreateThemeRequest>
 {
     private readonly Color mainColor;
-    private Maybe<string> themeName;
-    private Maybe<Uri> shortCompanyUrl;
+    private Maybe<string> themeName = Maybe<string>.None;
+    private Maybe<Uri> shortCompanyUrl = Maybe<Uri>.None;
     private readonly string brandText;
 
     private CreateThemeRequestBuilder(string brandText, Color mainColor)

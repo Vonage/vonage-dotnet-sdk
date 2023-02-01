@@ -427,10 +427,13 @@
 		<Content Include="Meetings\CreateTheme\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<None Remove="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Meetings\GetRooms"/>
 		<Folder Include="Meetings\UpdateApplication"/>
 		<Folder Include="Meetings\UpdateTheme"/>
 	</ItemGroup>

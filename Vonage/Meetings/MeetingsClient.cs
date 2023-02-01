@@ -13,6 +13,7 @@ using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
+using Vonage.Meetings.GetRoomsByTheme;
 using Vonage.Meetings.GetTheme;
 using Vonage.Meetings.GetThemes;
 using Vonage.Meetings.UpdateRoom;
@@ -66,6 +67,10 @@ public class MeetingsClient : IMeetingsClient
     /// <inheritdoc />
     public Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetRoomRequest, Room>(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetRoomsByThemeResponse>> GetRoomsByThemeAsync(Result<GetRoomsByThemeRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetRoomsByThemeRequest, GetRoomsByThemeResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<Theme>> GetThemeAsync(Result<GetThemeRequest> request) =>

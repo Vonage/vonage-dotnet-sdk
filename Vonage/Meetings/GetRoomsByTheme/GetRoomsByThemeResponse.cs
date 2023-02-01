@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 using Vonage.Meetings.Common;
 
-namespace Vonage.Meetings.GetAvailableRooms;
+namespace Vonage.Meetings.GetRoomsByTheme;
 
 /// <summary>
 /// </summary>
-public struct GetAvailableRoomsResponse
+public struct GetRoomsByThemeResponse
 {
     /// <summary>
     /// </summary>
@@ -21,9 +21,4 @@ public struct GetAvailableRoomsResponse
     ///     The number of results returned on this page.
     /// </summary>
     public int PageSize { get; set; }
-
-    /// <summary>
-    ///     The overall number of available rooms.
-    /// </summary>
-    public int TotalItems { get; set; }
 }
