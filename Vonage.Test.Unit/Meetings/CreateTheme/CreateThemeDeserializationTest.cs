@@ -7,14 +7,14 @@ using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetTheme
+namespace Vonage.Test.Unit.Meetings.CreateTheme
 {
-    public class GetThemeDeserializationTest
+    public class CreateThemeDeserializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public GetThemeDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(GetThemeDeserializationTest).Namespace,
+        public CreateThemeDeserializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(CreateThemeDeserializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]

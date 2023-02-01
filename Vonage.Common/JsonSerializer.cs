@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
+using Vonage.Common.Serialization;
+using Yoh.Text.Json.NamingPolicies;
 
 namespace Vonage.Common;
 
@@ -17,11 +20,15 @@ public class JsonSerializer : IJsonSerializer
 
     /// <summary>
     /// </summary>
-    public JsonSerializer() =>
+    public JsonSerializer()
+    {
         this.settings = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         };
+        this.settings.Converters.Add(new ColorJsonConverter());
+    }
 
     /// <summary>
     /// </summary>
@@ -42,6 +49,12 @@ public class JsonSerializer : IJsonSerializer
     public JsonSerializer(IEnumerable<JsonConverter> converters, JsonNamingPolicy namingPolicy)
         : this(namingPolicy) =>
         converters.ToList().ForEach(converter => this.settings.Converters.Add(converter));
+
+    /// <summary>
+    ///     Builds a serializer with SnakeCase naming policy.
+    /// </summary>
+    /// <returns>The serializer.</returns>
+    public static JsonSerializer BuildWithSnakeCase() => new(JsonNamingPolicies.SnakeCaseLower);
 
     /// <inheritdoc />
     public Result<T> DeserializeObject<T>(string serializedValue)

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
@@ -13,7 +14,7 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
 
         public GetAvailableRoomsDeserializationTest() =>
             this.helper = new SerializationTestHelper(typeof(GetAvailableRoomsDeserializationTest).Namespace,
-                JsonSerializerBuilder.Build());
+                JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>

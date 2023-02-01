@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Vonage.Common.Serialization;
 
 namespace Vonage.Meetings.Common;
 
@@ -51,6 +52,7 @@ public struct Room
     ///     join the meeting only after the host joined. When set to "explicit_approval" the participants will join the waiting
     ///     room and the host will deny/approve them.
     /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomApprovalLevel>))]
     public RoomApprovalLevel JoinApprovalLevel { get; set; }
 
     /// <summary>
@@ -79,6 +81,7 @@ public struct Room
 
     /// <summary>
     /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomType>))]
     public RoomType Type { get; set; }
 
     /// <summary>
@@ -103,6 +106,7 @@ public struct Room
         /// <summary>
         ///     Set the default microphone option for users in the pre-join screen of this room.
         /// </summary>
+        [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomMicrophoneState>))]
         public RoomMicrophoneState MicrophoneState { get; set; }
     }
 

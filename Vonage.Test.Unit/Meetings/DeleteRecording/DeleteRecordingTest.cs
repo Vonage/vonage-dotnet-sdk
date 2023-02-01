@@ -4,11 +4,11 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings;
-using Vonage.Meetings.Common;
 using Vonage.Meetings.DeleteRecording;
 using WireMock.RequestBuilders;
 using Xunit;
@@ -26,7 +26,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteRecording
 
         public DeleteRecordingTest()
         {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
+            this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
             this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
                 this.helper.Fixture.Create<string>());
             this.request = BuildRequest(this.helper.Fixture);

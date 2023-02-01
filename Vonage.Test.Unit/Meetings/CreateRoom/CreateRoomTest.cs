@@ -4,6 +4,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -25,7 +26,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
 
         public CreateRoomTest()
         {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
+            this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
             this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
                 this.helper.Fixture.Create<string>());
             this.request = BuildRequest(this.helper.Fixture);

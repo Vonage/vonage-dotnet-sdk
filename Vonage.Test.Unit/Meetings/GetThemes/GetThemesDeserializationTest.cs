@@ -1,8 +1,10 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Drawing;
+using FluentAssertions;
+using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
-using Vonage.Meetings.GetThemes;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetThemes
@@ -13,7 +15,7 @@ namespace Vonage.Test.Unit.Meetings.GetThemes
 
         public GetThemesDeserializationTest() =>
             this.helper = new SerializationTestHelper(typeof(GetThemesDeserializationTest).Namespace,
-                JsonSerializerBuilder.Build());
+                JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>
@@ -29,13 +31,13 @@ namespace Vonage.Test.Unit.Meetings.GetThemes
                     success[0].ApplicationId.Should().Be("abc123");
                     success[0].ThemeId.Should().Be("abc123");
                     success[0].BrandImageColored.Should().Be("abc123");
-                    success[0].BrandImageColoredUrl.Should().Be("abc123");
+                    success[0].BrandImageColoredUrl.Should().Be(new Uri("https://example.com"));
                     success[0].BrandImageWhite.Should().Be("abc123");
-                    success[0].BrandImageWhiteUrl.Should().Be("abc123");
+                    success[0].BrandImageWhiteUrl.Should().Be(new Uri("https://example.com"));
                     success[0].BrandedFavicon.Should().Be("abc123");
-                    success[0].BrandedFaviconUrl.Should().Be("abc123");
-                    success[0].MainColor.Should().Be("#12f64e");
-                    success[0].ShortCompanyUrl.Should().Be("short-url");
+                    success[0].BrandedFaviconUrl.Should().Be(new Uri("https://example.com"));
+                    success[0].MainColor.Should().Be(Color.FromName("#FF00FF"));
+                    success[0].ShortCompanyUrl.Should().Be(new Uri("https://example.com"));
                     success[0].BrandText.Should().Be("Brand");
                 });
     }

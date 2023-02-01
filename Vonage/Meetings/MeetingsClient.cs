@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
@@ -30,7 +31,7 @@ public class MeetingsClient : IMeetingsClient
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     /// <param name="userAgent">The user agent.</param>
     public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) => this.vonageClient =
-        new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
+        new VonageHttpClient(httpClient, JsonSerializer.BuildWithSnakeCase(),
             new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <inheritdoc />

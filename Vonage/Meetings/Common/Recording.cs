@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Vonage.Common.Serialization;
 
 namespace Vonage.Meetings.Common;
 
@@ -29,6 +30,7 @@ public struct Recording
 
     /// <summary>
     /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<RecordingStatus>))]
     public RecordingStatus Status { get; set; }
 
     /// <summary>

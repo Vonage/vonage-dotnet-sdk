@@ -2,17 +2,17 @@
   {
     "theme_id": "abc123",
     "theme_name": "Theme1",
-    "domain": "vbc",
+    "domain": "VBC",
     "account_id": "abc123",
     "application_id": "abc123",
-    "main_color": "#12f64e",
-    "short_company_url": "short-url",
+    "main_color": "#FF00FF",
+    "short_company_url": "https://example.com",
     "brand_text": "Brand",
     "brand_image_colored": "abc123",
     "brand_image_white": "abc123",
     "branded_favicon": "abc123",
-    "brand_image_colored_url": "abc123",
-    "brand_image_white_url": "abc123",
-    "branded_favicon_url": "abc123"
+    "brand_image_colored_url": "https://example.com",
+    "brand_image_white_url": "https://example.com",
+    "branded_favicon_url": "https://example.com"
   }
 ]

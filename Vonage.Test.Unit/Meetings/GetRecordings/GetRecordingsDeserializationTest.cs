@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
@@ -13,7 +14,7 @@ namespace Vonage.Test.Unit.Meetings.GetRecordings
 
         public GetRecordingsDeserializationTest() =>
             this.helper = new SerializationTestHelper(typeof(GetRecordingsDeserializationTest).Namespace,
-                JsonSerializerBuilder.Build());
+                JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>

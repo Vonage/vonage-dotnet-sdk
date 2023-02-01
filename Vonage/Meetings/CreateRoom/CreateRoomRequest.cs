@@ -1,6 +1,9 @@
 ﻿using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization;
+using Vonage.Common;
 using Vonage.Common.Client;
+using Vonage.Common.Serialization;
 using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.CreateRoom;
@@ -36,6 +39,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomApprovalLevel>))]
     public RoomApprovalLevel JoinApprovalLevel { get; }
 
     /// <summary>
@@ -52,6 +56,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomType>))]
     public RoomType? Type { get; }
 
     internal CreateRoomRequest(string displayName, string metadata, RoomType? type, string expiresAt,
@@ -83,7 +88,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
     public string GetEndpointPath() => "/beta/meetings/rooms";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.Build().SerializeObject(this),
+        new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
             Encoding.UTF8,
             "application/json");
 }

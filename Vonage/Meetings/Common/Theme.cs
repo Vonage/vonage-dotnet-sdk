@@ -1,4 +1,9 @@
-﻿namespace Vonage.Meetings.Common;
+﻿using System;
+using System.Drawing;
+using System.Text.Json.Serialization;
+using Vonage.Common.Serialization;
+
+namespace Vonage.Meetings.Common;
 
 /// <summary>
 /// </summary>
@@ -18,7 +23,7 @@ public struct Theme
 
     /// <summary>
     /// </summary>
-    public string BrandedFaviconUrl { get; set; }
+    public Uri BrandedFaviconUrl { get; set; }
 
     /// <summary>
     /// </summary>
@@ -26,7 +31,7 @@ public struct Theme
 
     /// <summary>
     /// </summary>
-    public string BrandImageColoredUrl { get; set; }
+    public Uri BrandImageColoredUrl { get; set; }
 
     /// <summary>
     /// </summary>
@@ -34,7 +39,7 @@ public struct Theme
 
     /// <summary>
     /// </summary>
-    public string BrandImageWhiteUrl { get; set; }
+    public Uri BrandImageWhiteUrl { get; set; }
 
     /// <summary>
     /// </summary>
@@ -42,15 +47,16 @@ public struct Theme
 
     /// <summary>
     /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<ThemeDomain>))]
     public ThemeDomain Domain { get; set; }
 
     /// <summary>
     /// </summary>
-    public string MainColor { get; set; }
+    public Color MainColor { get; set; }
 
     /// <summary>
     /// </summary>
-    public string ShortCompanyUrl { get; set; }
+    public Uri ShortCompanyUrl { get; set; }
 
     /// <summary>
     /// </summary>

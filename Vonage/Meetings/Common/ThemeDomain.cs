@@ -8,9 +8,9 @@ public enum ThemeDomain
 {
     /// <summary>
     /// </summary>
-    [Description("vcp")] VCP,
+    [Description("VCP")] VCP,
 
     /// <summary>
     /// </summary>
-    [Description("vbc")] VBC,
+    [Description("VBC")] VBC,
 }

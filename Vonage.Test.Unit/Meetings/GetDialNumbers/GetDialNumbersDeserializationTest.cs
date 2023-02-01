@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
+using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.Meetings.Common;
 using Vonage.Meetings.GetDialNumbers;
 using Xunit;
 
@@ -13,7 +13,7 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
 
         public GetDialNumbersDeserializationTest() =>
             this.helper = new SerializationTestHelper(typeof(GetDialNumbersDeserializationTest).Namespace,
-                JsonSerializerBuilder.Build());
+                JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>
