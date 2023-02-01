@@ -431,10 +431,17 @@
 		<Content Include="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<None Remove="Meetings\UpdateApplication\Data\ShouldSerialize-request.json"/>
+		<Content Include="Meetings\UpdateApplication\Data\ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Meetings\UpdateApplication"/>
 		<Folder Include="Meetings\UpdateTheme"/>
 	</ItemGroup>
 

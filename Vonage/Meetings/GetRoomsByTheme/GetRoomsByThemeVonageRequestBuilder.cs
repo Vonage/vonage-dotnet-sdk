@@ -5,20 +5,20 @@ using Vonage.Common.Validation;
 namespace Vonage.Meetings.GetRoomsByTheme;
 
 /// <inheritdoc />
-public class GetRoomsByThemeRequestBuilder : IRequestBuilder<GetRoomsByThemeRequest>
+public class GetRoomsByThemeVonageRequestBuilder : IVonageRequestBuilder<GetRoomsByThemeRequest>
 {
     private Maybe<string> startId = Maybe<string>.None;
     private Maybe<string> endId = Maybe<string>.None;
     private readonly string themeId;
 
-    private GetRoomsByThemeRequestBuilder(string themeId) => this.themeId = themeId;
+    private GetRoomsByThemeVonageRequestBuilder(string themeId) => this.themeId = themeId;
 
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
     /// <param name="brandText"></param>
     /// <returns>The builder.</returns>
-    public static GetRoomsByThemeRequestBuilder Build(string brandText) => new(brandText);
+    public static GetRoomsByThemeVonageRequestBuilder Build(string brandText) => new(brandText);
 
     /// <inheritdoc />
     public Result<GetRoomsByThemeRequest> Create() =>
@@ -34,7 +34,7 @@ public class GetRoomsByThemeRequestBuilder : IRequestBuilder<GetRoomsByThemeRequ
     /// </summary>
     /// <param name="value">The end id.</param>
     /// <returns>The builder.</returns>
-    public GetRoomsByThemeRequestBuilder WithEndId(string value)
+    public GetRoomsByThemeVonageRequestBuilder WithEndId(string value)
     {
         this.endId = value;
         return this;
@@ -45,7 +45,7 @@ public class GetRoomsByThemeRequestBuilder : IRequestBuilder<GetRoomsByThemeRequ
     /// </summary>
     /// <param name="value">The start id.</param>
     /// <returns>The builder.</returns>
-    public GetRoomsByThemeRequestBuilder WithStartId(string value)
+    public GetRoomsByThemeVonageRequestBuilder WithStartId(string value)
     {
         this.startId = value;
         return this;

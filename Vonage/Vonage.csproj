@@ -98,7 +98,6 @@
         <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Meetings\UpdateApplication"/>
         <Folder Include="Meetings\UpdateTheme"/>
     </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@ using Vonage.Meetings.GetRoom;
 using Vonage.Meetings.GetRoomsByTheme;
 using Vonage.Meetings.GetTheme;
 using Vonage.Meetings.GetThemes;
+using Vonage.Meetings.UpdateApplication;
 using Vonage.Meetings.UpdateRoom;
 
 namespace Vonage.Meetings;
@@ -79,6 +80,10 @@ public class MeetingsClient : IMeetingsClient
     /// <inheritdoc />
     public Task<Result<Theme[]>> GetThemesAsync() =>
         this.vonageClient.SendWithResponseAsync<GetThemesRequest, Theme[]>(GetThemesRequest.Default);
+
+    /// <inheritdoc />
+    public Task<Result<UpdateApplicationResponse>> UpdateApplicationAsync(Result<UpdateApplicationRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<UpdateApplicationRequest, UpdateApplicationResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<Room>> UpdateRoomAsync(Result<UpdateRoomRequest> request) =>

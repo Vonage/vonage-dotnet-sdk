@@ -9,23 +9,23 @@ using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings;
-using Vonage.Meetings.GetRoomsByTheme;
+using Vonage.Meetings.UpdateApplication;
 using WireMock.RequestBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
+namespace Vonage.Test.Unit.Meetings.UpdateApplication
 {
-    public class GetRoomsByThemeTest
+    public class UpdateApplicationTest
     {
-        private Func<Task<Result<GetRoomsByThemeResponse>>> Operation =>
-            () => this.client.GetRoomsByThemeAsync(this.request);
+        private Func<Task<Result<UpdateApplicationResponse>>> Operation =>
+            () => this.client.UpdateApplicationAsync(this.request);
 
         private readonly MeetingsClient client;
 
-        private readonly Result<GetRoomsByThemeRequest> request;
+        private readonly Result<UpdateApplicationRequest> request;
         private readonly UseCaseHelper helper;
 
-        public GetRoomsByThemeTest()
+        public UpdateApplicationTest()
         {
             this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
             this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
@@ -46,14 +46,28 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
             this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper
+                .VerifyReturnsFailureGivenRequestIsFailure<UpdateApplicationRequest, UpdateApplicationResponse>(this
+                    .client
+                    .UpdateApplicationAsync);
+
+        [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
-        private static Result<GetRoomsByThemeRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetRoomsByThemeVonageRequestBuilder.Build(fixture.Create<string>()).Create();
+        private static Result<UpdateApplicationRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            UpdateApplicationRequest.Parse(fixture.Create<string>());
 
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet();
+        private IRequestBuilder CreateRequest()
+        {
+            var serializedItems =
+                this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(new {UpdateDetails = value}))
+                    .IfFailure(string.Empty);
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPatch();
+        }
     }
 }

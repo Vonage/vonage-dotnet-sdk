@@ -28,7 +28,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
 
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
-            CreateThemeRequestBuilder
+            CreateThemeVonageRequestBuilder
                 .Build(this.brandText, this.mainColor)
                 .Create()
                 .Should()
@@ -45,7 +45,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
         [InlineData(" ")]
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenBrandTextIsNullOrWhitespace(string invalidBrandText) =>
-            CreateThemeRequestBuilder
+            CreateThemeVonageRequestBuilder
                 .Build(invalidBrandText, this.mainColor)
                 .Create()
                 .Should()
@@ -53,7 +53,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
 
         [Fact]
         public void Build_ShouldReturnSuccess() =>
-            CreateThemeRequestBuilder
+            CreateThemeVonageRequestBuilder
                 .Build(this.brandText, this.mainColor)
                 .WithName(this.themeName)
                 .WithShortCompanyUrl(this.shortCompanyUrl)

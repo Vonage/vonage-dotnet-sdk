@@ -7,14 +7,14 @@ using Vonage.Common.Validation;
 namespace Vonage.Meetings.CreateTheme;
 
 /// <inheritdoc />
-public class CreateThemeRequestBuilder : IRequestBuilder<CreateThemeRequest>
+public class CreateThemeVonageRequestBuilder : IVonageRequestBuilder<CreateThemeRequest>
 {
     private readonly Color mainColor;
     private Maybe<string> themeName = Maybe<string>.None;
     private Maybe<Uri> shortCompanyUrl = Maybe<Uri>.None;
     private readonly string brandText;
 
-    private CreateThemeRequestBuilder(string brandText, Color mainColor)
+    private CreateThemeVonageRequestBuilder(string brandText, Color mainColor)
     {
         this.brandText = brandText;
         this.mainColor = mainColor;
@@ -26,7 +26,7 @@ public class CreateThemeRequestBuilder : IRequestBuilder<CreateThemeRequest>
     /// <param name="brandText"></param>
     /// <param name="mainColor"></param>
     /// <returns>The builder.</returns>
-    public static CreateThemeRequestBuilder Build(string brandText, Color mainColor) => new(brandText, mainColor);
+    public static CreateThemeVonageRequestBuilder Build(string brandText, Color mainColor) => new(brandText, mainColor);
 
     /// <inheritdoc />
     public Result<CreateThemeRequest> Create() =>
@@ -43,7 +43,7 @@ public class CreateThemeRequestBuilder : IRequestBuilder<CreateThemeRequest>
     /// </summary>
     /// <param name="value">The theme name.</param>
     /// <returns>The builder.</returns>
-    public CreateThemeRequestBuilder WithName(string value)
+    public CreateThemeVonageRequestBuilder WithName(string value)
     {
         this.themeName = value;
         return this;
@@ -54,7 +54,7 @@ public class CreateThemeRequestBuilder : IRequestBuilder<CreateThemeRequest>
     /// </summary>
     /// <param name="value">The company Url.</param>
     /// <returns>The builder.</returns>
-    public CreateThemeRequestBuilder WithShortCompanyUrl(Uri value)
+    public CreateThemeVonageRequestBuilder WithShortCompanyUrl(Uri value)
     {
         this.shortCompanyUrl = value;
         return this;

@@ -23,7 +23,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
 
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
-            GetRoomsByThemeRequestBuilder
+            GetRoomsByThemeVonageRequestBuilder
                 .Build(this.themeId)
                 .Create()
                 .Should()
@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
         [InlineData(" ")]
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenThemeIdIsNullOrWhitespace(string invalidThemeId) =>
-            GetRoomsByThemeRequestBuilder
+            GetRoomsByThemeVonageRequestBuilder
                 .Build(invalidThemeId)
                 .Create()
                 .Should()
@@ -47,7 +47,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
 
         [Fact]
         public void Build_ShouldReturnSuccess() =>
-            GetRoomsByThemeRequestBuilder
+            GetRoomsByThemeVonageRequestBuilder
                 .Build(this.themeId)
                 .WithStartId(this.startId)
                 .WithEndId(this.endId)

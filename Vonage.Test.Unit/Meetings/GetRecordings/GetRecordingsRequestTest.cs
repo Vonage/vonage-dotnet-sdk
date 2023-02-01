@@ -28,7 +28,7 @@ namespace Vonage.Test.Unit.Meetings.GetRecordings
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace(string value) =>
+        public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
             GetRecordingsRequest.Parse(value)
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));

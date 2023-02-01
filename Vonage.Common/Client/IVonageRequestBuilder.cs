@@ -6,7 +6,7 @@ namespace Vonage.Common.Client;
 ///     Represents a builder for the underlying request type.
 /// </summary>
 /// <typeparam name="T">The request type.</typeparam>
-public interface IRequestBuilder<T> where T : IVonageRequest
+public interface IVonageRequestBuilder<T> where T : IVonageRequest
 {
     /// <summary>
     ///     Creates a request.

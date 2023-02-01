@@ -11,6 +11,7 @@ using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
 using Vonage.Meetings.GetRoomsByTheme;
 using Vonage.Meetings.GetTheme;
+using Vonage.Meetings.UpdateApplication;
 using Vonage.Meetings.UpdateRoom;
 
 namespace Vonage.Meetings;
@@ -94,6 +95,13 @@ public interface IMeetingsClient
     /// </summary>
     /// <returns>The themes.</returns>
     Task<Result<Theme[]>> GetThemesAsync();
+
+    /// <summary>
+    ///     Updates an application.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>The application.</returns>
+    Task<Result<UpdateApplicationResponse>> UpdateApplicationAsync(Result<UpdateApplicationRequest> request);
 
     /// <summary>
     ///     Updates a room.
