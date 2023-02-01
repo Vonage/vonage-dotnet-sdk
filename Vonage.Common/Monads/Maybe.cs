@@ -119,11 +119,15 @@ public readonly struct Maybe<TA>
     /// </summary>
     /// <param name="other">Other maybe to be compared with.</param>
     /// <returns>Whether both Maybes are equal.</returns>
-    private bool Equals(Maybe<TA> other)
-    {
-        var bothAreNone = this.IsNone && other.IsNone;
-        return bothAreNone || this.value.Equals(other.value);
-    }
+    private bool Equals(Maybe<TA> other) => this.EqualsNone(other) && this.EqualsSome(other);
+
+    private bool EqualsNone(Maybe<TA> other) =>
+        this.IsNone ? other.IsNone : other.IsSome;
+
+    private bool EqualsSome(Maybe<TA> other) =>
+        this.IsSome
+            ? this.value.Equals(other.value)
+            : other.IsNone;
 
     /// <summary>
     ///     Construct a Maybe in a None state.

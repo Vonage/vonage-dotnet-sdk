@@ -10,47 +10,60 @@ namespace Vonage.Common.Test.Monads
         public void Bind_ShouldReturnNone_GivenValueIsNone() =>
             Maybe<int>.None.Bind(BindToString).Should().BeNone();
 
-        [Fact]
-        public void Bind_ShouldReturnSome_GivenValueIsSome() =>
-            CreateSome(10).Bind(BindToString).Should().BeSome("10");
+        [Theory]
+        [InlineData(10, "10")]
+        [InlineData("10", "10")]
+        [InlineData(true, "True")]
+        public void Bind_ShouldReturnSome_GivenValueIsSome<T>(T value, string expected) =>
+            CreateSome(value).Bind(BindToString).Should().BeSome(expected);
 
         [Fact]
         public void Constructor_ShouldReturnNone() => new Maybe<int>().Should().BeNone();
 
-        [Fact]
-        public void Equals_ShouldReturnFalse_GivenBothAreSomeWithDifferentValue() =>
-            CreateSome(5).Equals(CreateSome(10)).Should().BeFalse();
+        [Theory]
+        [InlineData(10, 5)]
+        [InlineData("10", "010")]
+        [InlineData(true, false)]
+        public void Equals_ShouldReturnFalse_GivenBothAreSomeWithDifferentValue<T>(T first, T second) =>
+            CreateSome(first).Equals(CreateSome(second)).Should().BeFalse();
 
-        [Fact]
-        public void Equals_ShouldReturnFalse_GivenOneIsNoneAndOtherIsSome() =>
-            CreateSome(10).Equals(Maybe<int>.None).Should().BeFalse();
+        [Theory]
+        [InlineData(10)]
+        [InlineData("eee")]
+        public void Equals_ShouldReturnFalse_GivenOneIsNoneAndOtherIsSome<T>(T value) =>
+            CreateSome(value).Equals(Maybe<T>.None).Should().BeFalse();
 
-        [Fact]
-        public void Equals_ShouldReturnFalse_GivenOneIsSomeAndOtherIsNone() =>
-            Maybe<int>.None.Equals(CreateSome(10)).Should().BeFalse();
+        [Theory]
+        [InlineData(10)]
+        [InlineData("eee")]
+        public void Equals_ShouldReturnFalse_GivenOneIsSomeAndOtherIsNone<T>(T value) =>
+            Maybe<T>.None.Equals(CreateSome(value)).Should().BeFalse();
 
         [Fact]
         public void Equals_ShouldReturnTrue_GivenBothAreNone() =>
             Maybe<int>.None.Equals(Maybe<int>.None).Should().BeTrue();
 
-        [Fact]
-        public void Equals_ShouldReturnTrue_GivenBothAreSomeWithSameValue() =>
-            CreateSome(10).Equals(CreateSome(10)).Should().BeTrue();
+        [Theory]
+        [InlineData(10)]
+        [InlineData("eee")]
+        public void Equals_ShouldReturnTrue_GivenBothAreSomeWithSameValue<T>(T value) =>
+            CreateSome(value).Equals(CreateSome(value)).Should().BeTrue();
 
-        [Fact]
-        public void GetHashCode_ShouldReturnValue_GivenSome()
-        {
-            const int value = 35;
+        [Theory]
+        [InlineData(10)]
+        [InlineData("eee")]
+        public void GetHashCode_ShouldReturnValue_GivenSome<T>(T value) =>
             CreateSome(value).GetHashCode().Should().Be(value.GetHashCode());
-        }
 
         [Fact]
         public void GetHashCode_ShouldReturnZero_GivenNone() =>
             Maybe<string>.None.GetHashCode().Should().Be(0);
 
-        [Fact]
-        public void GetUnsafe_ShouldReturnValue_GivenSome() =>
-            CreateSome(10).GetUnsafe().Should().Be(10);
+        [Theory]
+        [InlineData(10)]
+        [InlineData("eee")]
+        public void GetUnsafe_ShouldReturnValue_GivenSome<T>(T value) =>
+            CreateSome(value).GetUnsafe().Should().Be(value);
 
         [Fact]
         public void GetUnsafe_ShouldThrowException_GivenNone()
@@ -82,11 +95,12 @@ namespace Vonage.Common.Test.Monads
             maybe.Should().BeNone();
         }
 
-        [Fact]
-        public void ImplicitOperator_ShouldConvertToSome_GivenValueIsSome()
+        [Theory]
+        [InlineData(10)]
+        [InlineData("eee")]
+        public void ImplicitOperator_ShouldConvertToSome_GivenValueIsSome<T>(T value)
         {
-            const string value = "hello world";
-            Maybe<string> maybe = value;
+            Maybe<T> maybe = value;
             maybe.Should().BeSome(some => some.Should().Be(value));
         }
 
@@ -94,9 +108,12 @@ namespace Vonage.Common.Test.Monads
         public void Map_ShouldReturnNone_GivenValueIsNone() =>
             Maybe<int>.None.Should().BeNone();
 
-        [Fact]
-        public void Map_ShouldReturnSome_GivenValueIsSome() =>
-            CreateSome(10).Map(MapToString).Should().BeSome("10");
+        [Theory]
+        [InlineData(10, "10")]
+        [InlineData("10", "10")]
+        [InlineData(true, "True")]
+        public void Map_ShouldReturnSome_GivenValueIsSome<T>(T value, string expected) =>
+            CreateSome(value).Map(MapToString).Should().BeSome(expected);
 
         [Fact]
         public void Match_ShouldReturnNoneOperation_GivenValueIsNone() =>
@@ -129,12 +146,12 @@ namespace Vonage.Common.Test.Monads
             act.Should().Throw<InvalidOperationException>().WithMessage(Maybe<int>.NullValueMessage);
         }
 
-        private static Maybe<string> BindToString(int value) => Maybe<string>.Some(value.ToString());
+        private static Maybe<string> BindToString<T>(T value) => Maybe<string>.Some(value.ToString());
 
         private static Maybe<T> CreateSome<T>(T value) => Maybe<T>.Some(value);
 
         private static string GetStaticString() => "Some value";
 
-        private static string MapToString(int value) => value.ToString();
+        private static string MapToString<T>(T value) => value.ToString();
     }
 }
