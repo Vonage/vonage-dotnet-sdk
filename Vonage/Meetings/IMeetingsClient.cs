@@ -15,6 +15,7 @@ using Vonage.Meetings.GetTheme;
 using Vonage.Meetings.UpdateApplication;
 using Vonage.Meetings.UpdateRoom;
 using Vonage.Meetings.UpdateTheme;
+using Vonage.Meetings.UpdateThemeLogo;
 
 namespace Vonage.Meetings;
 
@@ -27,14 +28,14 @@ public interface IMeetingsClient
     ///     Creates a room.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The room.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Room>> CreateRoomAsync(Result<CreateRoomRequest> request);
 
     /// <summary>
     ///     Creates a theme.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The theme.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Theme>> CreateThemeAsync(Result<CreateThemeRequest> request);
 
     /// <summary>
@@ -55,74 +56,81 @@ public interface IMeetingsClient
     ///     Retrieves all available rooms.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The list of available rooms.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request);
 
     /// <summary>
     ///     Retrieves numbers that can be used to dial into a meeting.
     /// </summary>
-    /// <returns>The numbers.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync();
 
     /// <summary>
     ///     Retrieves a recording details.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The recording.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Recording>> GetRecordingAsync(Result<GetRecordingRequest> request);
 
     /// <summary>
     ///     Retrieves recordings from a session.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The recordings from the session.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<GetRecordingsResponse>> GetRecordingsAsync(Result<GetRecordingsRequest> request);
 
     /// <summary>
     ///     Retrieves a room details.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The room.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request);
 
     /// <summary>
     ///     Retrieves rooms by theme.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The list of rooms.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<GetRoomsByThemeResponse>> GetRoomsByThemeAsync(Result<GetRoomsByThemeRequest> request);
 
     /// <summary>
     ///     Retrieves a theme.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The theme.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Theme>> GetThemeAsync(Result<GetThemeRequest> request);
 
     /// <summary>
     ///     Retrieves all themes.
     /// </summary>
-    /// <returns>The themes.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Theme[]>> GetThemesAsync();
 
     /// <summary>
     ///     Updates an application.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The application.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<UpdateApplicationResponse>> UpdateApplicationAsync(Result<UpdateApplicationRequest> request);
 
     /// <summary>
     ///     Updates a room.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The room.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Room>> UpdateRoomAsync(Result<UpdateRoomRequest> request);
 
     /// <summary>
     ///     Updates a theme.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The theme.</returns>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Theme>> UpdateThemeAsync(Result<UpdateThemeRequest> request);
+
+    /// <summary>
+    ///     Updates a logo image and associates it with a theme.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    Task<Result<Unit>> UpdateThemeLogoAsync(Result<UpdateThemeLogoRequest> request);
 }

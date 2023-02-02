@@ -129,12 +129,30 @@ public readonly struct Result<T>
     ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
     /// </summary>
     /// <param name="action">Action to invoke.</param>
-    public void IfSuccess(Action<T> action)
+    /// <returns>The initial result.</returns>
+    public Result<T> IfSuccess(Action<T> action)
     {
         if (this.IsSuccess)
         {
             action(this.success);
         }
+
+        return this;
+    }
+
+    /// <summary>
+    ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
+    /// </summary>
+    /// <param name="action">Action to invoke.</param>
+    /// <returns>The initial result.</returns>
+    public async Task<Result<T>> IfSuccessAsync(Func<T, Task> action)
+    {
+        if (this.IsSuccess)
+        {
+            await action(this.success);
+        }
+
+        return this;
     }
 
     /// <summary>

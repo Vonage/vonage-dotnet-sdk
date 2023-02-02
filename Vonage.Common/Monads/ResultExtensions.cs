@@ -24,6 +24,19 @@ public static class ResultExtensions
     }
 
     /// <summary>
+    ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="action">Action to invoke.</param>
+    /// <typeparam name="T">The source type.</typeparam>
+    /// <returns>The initial result.</returns>
+    public static async Task<Result<T>> IfSuccessAsync<T>(this Task<Result<T>> task, Func<T, Task> action)
+    {
+        var result = await task;
+        return await result.IfSuccessAsync(action);
+    }
+
+    /// <summary>
     ///     Projects from one value to another.
     /// </summary>
     /// <param name="task">Asynchronous result.</param>

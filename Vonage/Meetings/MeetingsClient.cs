@@ -20,12 +20,14 @@ using Vonage.Meetings.GetThemes;
 using Vonage.Meetings.UpdateApplication;
 using Vonage.Meetings.UpdateRoom;
 using Vonage.Meetings.UpdateTheme;
+using Vonage.Meetings.UpdateThemeLogo;
 
 namespace Vonage.Meetings;
 
 /// <inheritdoc />
 public class MeetingsClient : IMeetingsClient
 {
+    private readonly UpdateThemeLogoUseCase updateThemeLogoUseCase;
     private readonly VonageHttpClient vonageClient;
 
     /// <summary>
@@ -34,9 +36,13 @@ public class MeetingsClient : IMeetingsClient
     /// <param name="httpClient">Http Client to used for further connections.</param>
     /// <param name="tokenGeneration">Function used for generating a token.</param>
     /// <param name="userAgent">The user agent.</param>
-    public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) => this.vonageClient =
-        new VonageHttpClient(httpClient, JsonSerializer.BuildWithSnakeCase(),
-            new HttpClientOptions(tokenGeneration, userAgent));
+    public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent)
+    {
+        this.vonageClient =
+            new VonageHttpClient(httpClient, JsonSerializer.BuildWithSnakeCase(),
+                new HttpClientOptions(tokenGeneration, userAgent));
+        this.updateThemeLogoUseCase = new UpdateThemeLogoUseCase(this.vonageClient);
+    }
 
     /// <inheritdoc />
     public Task<Result<Room>> CreateRoomAsync(Result<CreateRoomRequest> request) =>
@@ -98,4 +104,8 @@ public class MeetingsClient : IMeetingsClient
     /// <inheritdoc />
     public Task<Result<Theme>> UpdateThemeAsync(Result<UpdateThemeRequest> request) =>
         this.vonageClient.SendWithResponseAsync<UpdateThemeRequest, Theme>(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> UpdateThemeLogoAsync(Result<UpdateThemeLogoRequest> request) =>
+        this.updateThemeLogoUseCase.UpdateThemeLogoAsync(request);
 }

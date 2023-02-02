@@ -189,6 +189,133 @@ namespace Vonage.Common.Test.Monads
         }
 
         [Fact]
+        public void IfSuccess_ShouldReturnResult_GivenValueIsFailure() =>
+            CreateFailure()
+                .IfSuccess(_ => { })
+                .Should()
+                .BeFailure(CreateResultFailure());
+
+        [Fact]
+        public void IfSuccess_ShouldReturnResult_GivenValueIsSuccess() =>
+            CreateSuccess(10)
+                .IfSuccess(_ => { })
+                .Should()
+                .BeSuccess(10);
+
+        [Fact]
+        public async Task IfSuccessAsync_ShouldBeExecuted_GivenValueIsChainedSuccess()
+        {
+            var test = 10;
+            await CreateSuccess(0)
+                .IfSuccessAsync(_ =>
+                {
+                    test++;
+                    return Task.CompletedTask;
+                })
+                .IfSuccessAsync(_ =>
+                {
+                    test++;
+                    return Task.CompletedTask;
+                })
+                .IfSuccessAsync(_ =>
+                {
+                    test++;
+                    return Task.CompletedTask;
+                })
+                .IfSuccessAsync(_ =>
+                {
+                    test++;
+                    return Task.CompletedTask;
+                })
+                .IfSuccessAsync(_ =>
+                {
+                    test++;
+                    return Task.CompletedTask;
+                });
+            test.Should().Be(15);
+        }
+
+        [Fact]
+        public async Task IfSuccessAsync_ShouldBeExecuted_GivenValueIsSuccess()
+        {
+            var test = 10;
+            await CreateSuccess(10).IfSuccessAsync(value =>
+            {
+                test += value;
+                return Task.CompletedTask;
+            });
+            test.Should().Be(20);
+        }
+
+        [Fact]
+        public async Task IfSuccessAsync_ShouldNotBeExecuted_GivenValueIsChainedFailure()
+        {
+            var test = 10;
+            await CreateFailure()
+                .IfSuccessAsync(_ =>
+                {
+                    test++;
+                    return Task.CompletedTask;
+                })
+                .IfSuccessAsync(_ =>
+                {
+                    test++;
+                    return Task.CompletedTask;
+                })
+                .IfSuccessAsync(_ =>
+                {
+                    test++;
+                    return Task.CompletedTask;
+                })
+                .IfSuccessAsync(_ =>
+                {
+                    test++;
+                    return Task.CompletedTask;
+                });
+            test.Should().Be(10);
+        }
+
+        [Fact]
+        public async Task IfSuccessAsync_ShouldNotBeExecuted_GivenValueIsFailure()
+        {
+            var test = 10;
+            await CreateFailure().IfSuccessAsync(value =>
+            {
+                test += value;
+                return Task.CompletedTask;
+            });
+            test.Should().Be(10);
+        }
+
+        [Fact]
+        public async Task IfSuccessAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
+            (await CreateFailure()
+                .IfSuccessAsync(_ => Task.CompletedTask)
+                .IfSuccessAsync(_ => Task.CompletedTask)
+                .IfSuccessAsync(_ => Task.CompletedTask)
+                .IfSuccessAsync(_ => Task.CompletedTask)
+                .IfSuccessAsync(_ => Task.CompletedTask))
+            .Should().BeFailure(CreateResultFailure());
+
+        [Fact]
+        public async Task IfSuccessAsync_ShouldReturnResult_GivenValueIsFailure() =>
+            (await CreateFailure().IfSuccessAsync(_ => Task.CompletedTask)).Should().BeFailure(CreateResultFailure());
+
+        [Fact]
+        public async Task IfSuccessAsync_ShouldReturnResult_GivenValueIsSuccess() =>
+            (await CreateSuccess(10).IfSuccessAsync(_ => Task.CompletedTask)).Should().BeSuccess(10);
+
+        [Fact]
+        public async Task IfSuccessAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
+            (await CreateSuccess(5)
+                .IfSuccessAsync(_ => Task.CompletedTask)
+                .IfSuccessAsync(_ => Task.CompletedTask)
+                .IfSuccessAsync(_ => Task.CompletedTask)
+                .IfSuccessAsync(_ => Task.CompletedTask)
+                .IfSuccessAsync(_ => Task.CompletedTask))
+            .Should().BeSuccess(5);
+
+        [Fact]
         public void ImplicitOperator_ShouldConvertToSuccess_GivenValueIsSuccess()
         {
             const int value = 55;
