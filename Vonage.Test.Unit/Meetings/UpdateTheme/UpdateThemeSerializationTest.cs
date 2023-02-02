@@ -3,24 +3,26 @@ using System.Drawing;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.Meetings.CreateTheme;
+using Vonage.Meetings.UpdateTheme;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.CreateTheme
+namespace Vonage.Test.Unit.Meetings.UpdateTheme
 {
-    public class CreateThemeSerializationTest
+    public class UpdateThemeSerializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public CreateThemeSerializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(CreateThemeSerializationTest).Namespace,
+        public UpdateThemeSerializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(UpdateThemeSerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldSerialize() =>
-            CreateThemeRequestBuilder
-                .Build("Brand", Color.FromName("#FF00FF"))
+            UpdateThemeRequestBuilder
+                .Build("ThemeId")
+                .WithColor(Color.FromName("#FF00FF"))
                 .WithName("Theme1")
+                .WithBrandText("Brand")
                 .WithShortCompanyUrl(new Uri("https://example.com"))
                 .Create()
                 .Map(value => value.BuildRequestMessage())
@@ -29,9 +31,9 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
                 .BeSuccess(this.helper.GetRequestJson());
 
         [Fact]
-        public void ShouldSerializeWithDefaultValues() =>
-            CreateThemeRequestBuilder
-                .Build("Brand", Color.FromName("#FF00FF"))
+        public void ShouldSerializeEmpty() =>
+            UpdateThemeRequestBuilder
+                .Build("ThemeId")
                 .Create()
                 .Map(value => value.BuildRequestMessage())
                 .Map(value => value.Content.ReadAsStringAsync().Result)

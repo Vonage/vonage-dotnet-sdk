@@ -4,22 +4,24 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Meetings.CreateTheme;
+using Vonage.Meetings.UpdateTheme;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.CreateTheme
+namespace Vonage.Test.Unit.Meetings.UpdateTheme
 {
-    public class CreateThemeRequestBuilderTest
+    public class UpdateThemeRequestBuilderTest
     {
         private readonly Color mainColor;
         private readonly string themeName;
         private readonly string brandText;
+        private readonly string themeId;
         private readonly Uri shortCompanyUrl;
 
-        public CreateThemeRequestBuilderTest()
+        public UpdateThemeRequestBuilderTest()
         {
             var fixture = new Fixture();
             fixture.Customize(new SupportMutableValueTypesCustomization());
+            this.themeId = fixture.Create<string>();
             this.brandText = fixture.Create<string>();
             this.mainColor = fixture.Create<Color>();
             this.themeName = fixture.Create<string>();
@@ -28,14 +30,15 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
 
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
-            CreateThemeRequestBuilder
-                .Build(this.brandText, this.mainColor)
+            UpdateThemeRequestBuilder
+                .Build(this.themeId)
                 .Create()
                 .Should()
                 .BeSuccess(success =>
                 {
-                    success.BrandText.Should().Be(this.brandText);
-                    success.MainColor.Should().Be(this.mainColor);
+                    success.ThemeId.Should().Be(this.themeId);
+                    success.BrandText.Should().BeNone();
+                    success.MainColor.Should().BeNone();
                     success.ThemeName.Should().BeNone();
                     success.ShortCompanyUrl.Should().BeNone();
                 });
@@ -44,25 +47,28 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Build_ShouldReturnFailure_GivenBrandTextIsNullOrWhitespace(string invalidBrandText) =>
-            CreateThemeRequestBuilder
-                .Build(invalidBrandText, this.mainColor)
+        public void Build_ShouldReturnFailure_GivenThemeIdIsNullOrWhitespace(string invalidThemeId) =>
+            UpdateThemeRequestBuilder
+                .Build(invalidThemeId)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("BrandText cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be null or whitespace."));
 
         [Fact]
         public void Build_ShouldReturnSuccess() =>
-            CreateThemeRequestBuilder
-                .Build(this.brandText, this.mainColor)
+            UpdateThemeRequestBuilder
+                .Build(this.themeId)
+                .WithColor(this.mainColor)
+                .WithBrandText(this.brandText)
                 .WithName(this.themeName)
                 .WithShortCompanyUrl(this.shortCompanyUrl)
                 .Create()
                 .Should()
                 .BeSuccess(success =>
                 {
-                    success.BrandText.Should().Be(this.brandText);
-                    success.MainColor.Should().Be(this.mainColor);
+                    success.ThemeId.Should().Be(this.themeId);
+                    success.BrandText.Should().BeSome(this.brandText);
+                    success.MainColor.Should().BeSome(this.mainColor);
                     success.ThemeName.Should().BeSome(this.themeName);
                     success.ShortCompanyUrl.Should().BeSome(this.shortCompanyUrl);
                 });

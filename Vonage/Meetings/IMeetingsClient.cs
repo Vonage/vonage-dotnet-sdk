@@ -2,6 +2,7 @@
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.CreateRoom;
+using Vonage.Meetings.CreateTheme;
 using Vonage.Meetings.DeleteRecording;
 using Vonage.Meetings.DeleteTheme;
 using Vonage.Meetings.GetAvailableRooms;
@@ -13,6 +14,7 @@ using Vonage.Meetings.GetRoomsByTheme;
 using Vonage.Meetings.GetTheme;
 using Vonage.Meetings.UpdateApplication;
 using Vonage.Meetings.UpdateRoom;
+using Vonage.Meetings.UpdateTheme;
 
 namespace Vonage.Meetings;
 
@@ -27,6 +29,13 @@ public interface IMeetingsClient
     /// <param name="request">The request.</param>
     /// <returns>The room.</returns>
     Task<Result<Room>> CreateRoomAsync(Result<CreateRoomRequest> request);
+
+    /// <summary>
+    ///     Creates a theme.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>The theme.</returns>
+    Task<Result<Theme>> CreateThemeAsync(Result<CreateThemeRequest> request);
 
     /// <summary>
     ///     Deletes a recording.
@@ -109,4 +118,11 @@ public interface IMeetingsClient
     /// <param name="request">The request.</param>
     /// <returns>The room.</returns>
     Task<Result<Room>> UpdateRoomAsync(Result<UpdateRoomRequest> request);
+
+    /// <summary>
+    ///     Updates a theme.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>The theme.</returns>
+    Task<Result<Theme>> UpdateThemeAsync(Result<UpdateThemeRequest> request);
 }
