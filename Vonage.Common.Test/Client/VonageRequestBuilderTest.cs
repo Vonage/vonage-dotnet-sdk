@@ -22,7 +22,7 @@ public class VonageRequestBuilderTest
     [Fact]
     public void Build_ShouldReturnRequestNotUpdateContent_GivenContentIsNull() =>
         VonageRequestBuilder
-            .Initialize(this.method, this.endpointUri.AbsoluteUri)
+            .Initialize(this.method, this.endpointUri)
             .WithContent(null)
             .Build()
             .Content
@@ -30,10 +30,20 @@ public class VonageRequestBuilderTest
             .BeNull();
 
     [Fact]
+    public void Build_ShouldReturnRequestWithAbsoluteUri_GivenUriIsProvided() =>
+        VonageRequestBuilder
+            .Initialize(this.method, this.endpointUri)
+            .Build()
+            .RequestUri
+            .IsAbsoluteUri
+            .Should()
+            .BeTrue();
+
+    [Fact]
     public async Task Build_ShouldReturnRequestWithContent_GivenContentIsProvided()
     {
         var request = VonageRequestBuilder
-            .Initialize(this.method, this.endpointUri.AbsoluteUri)
+            .Initialize(this.method, this.endpointUri)
             .WithContent(new StringContent(this.stringContent))
             .Build();
         var result = await request.Content.ReadAsStringAsync();
@@ -44,11 +54,21 @@ public class VonageRequestBuilderTest
     public void Build_ShouldReturnRequestWithMethodAndUri_GivenMandatoryFieldsAreProvided()
     {
         var request = VonageRequestBuilder
-            .Initialize(this.method, this.endpointUri.AbsoluteUri)
+            .Initialize(this.method, this.endpointUri)
             .Build();
         request.Method.Should().Be(this.method);
         request.RequestUri.Should().Be(this.endpointUri);
         request.Headers.Authorization.Should().BeNull();
         request.Content.Should().BeNull();
     }
+
+    [Fact]
+    public void Build_ShouldReturnRequestWithRelativeUri_GivenStringIsProvided() =>
+        VonageRequestBuilder
+            .Initialize(this.method, "/api/fakeEndpoint")
+            .Build()
+            .RequestUri
+            .IsAbsoluteUri
+            .Should()
+            .BeFalse();
 }
