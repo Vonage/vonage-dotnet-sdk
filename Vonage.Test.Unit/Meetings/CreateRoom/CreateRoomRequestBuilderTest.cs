@@ -46,14 +46,14 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .Should()
                 .BeSuccess(success =>
                 {
-                    success.Metadata.Should().BeNull();
-                    success.Type.Should().BeNull();
-                    success.ExpiresAt.Should().BeNull();
+                    success.Metadata.Should().BeNone();
+                    success.Type.Should().BeNone();
+                    success.ExpiresAt.Should().BeNone();
                     success.JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
-                    success.RecordingOptions.Should().BeNull();
+                    success.RecordingOptions.Should().BeNone();
                     success.ExpireAfterUse.Should().BeFalse();
-                    success.ThemeId.Should().BeNull();
-                    success.CallbackUrls.Should().BeNull();
+                    success.ThemeId.Should().BeNone();
+                    success.CallbackUrls.Should().BeNone();
                     success.AvailableFeatures.IsChatAvailable.Should().BeTrue();
                     success.AvailableFeatures.IsRecordingAvailable.Should().BeTrue();
                     success.AvailableFeatures.IsWhiteboardAvailable.Should().BeTrue();
@@ -107,16 +107,16 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .BeSuccess(success =>
                 {
                     success.DisplayName.Should().Be(this.displayName);
-                    success.Metadata.Should().Be(this.metadata);
-                    success.Type.Should().Be(this.roomType);
-                    success.ExpiresAt.Should().Be(this.expiresAt);
+                    success.Metadata.Should().BeSome(this.metadata);
+                    success.Type.Should().BeSome(this.roomType);
+                    success.ExpiresAt.Should().BeSome(this.expiresAt);
                     success.ExpireAfterUse.Should().BeTrue();
-                    success.ThemeId.Should().Be(this.themeId);
+                    success.ThemeId.Should().BeSome(this.themeId);
                     success.JoinApprovalLevel.Should().Be(this.approvalLevel);
-                    success.RecordingOptions.Should().Be(this.recordingOptions);
+                    success.RecordingOptions.Should().BeSome(this.recordingOptions);
                     success.InitialJoinOptions.Should().Be(this.joinOptions);
                     success.AvailableFeatures.Should().Be(this.features);
-                    success.CallbackUrls.Should().Be(this.callback);
+                    success.CallbackUrls.Should().BeSome(this.callback);
                 });
     }
 }

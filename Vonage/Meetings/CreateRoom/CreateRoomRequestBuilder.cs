@@ -12,19 +12,19 @@ public class CreateRoomRequestBuilder
     private const int DisplayNameMaxLength = 200;
     private const int MetadataMaxLength = 500;
     private bool expireAfterUse;
-    private Room.Callback? callback;
 
     private Room.Features features = new()
         {IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true};
 
     private Room.JoinOptions joinOptions = new() {MicrophoneState = RoomMicrophoneState.Default};
-    private Room.RecordingOptions? recordingOptions;
+    private Maybe<Room.Callback> callback;
+    private Maybe<Room.RecordingOptions> recordingOptions;
+    private Maybe<RoomType> roomType;
+    private Maybe<string> metadata;
+    private Maybe<string> expiresAt;
+    private Maybe<string> themeId;
     private RoomApprovalLevel approvalLevel = RoomApprovalLevel.None;
-    private RoomType? roomType;
     private readonly string displayName;
-    private string metadata;
-    private string expiresAt;
-    private string themeId;
 
     private CreateRoomRequestBuilder(string displayName) => this.displayName = displayName;
 
@@ -175,9 +175,10 @@ public class CreateRoomRequestBuilder
                 nameof(request.DisplayName));
 
     private static Result<CreateRoomRequest> VerifyMetadataLength(CreateRoomRequest request) =>
-        request.Metadata is null
-            ? request
-            : InputValidation
-                .VerifyLowerOrEqualThan(request, request.Metadata.Length, MetadataMaxLength,
-                    nameof(request.Metadata));
+        request
+            .Metadata
+            .Match(
+                some => InputValidation.VerifyLowerOrEqualThan(request, some.Length, MetadataMaxLength,
+                    nameof(request.Metadata)),
+                () => request);
 }

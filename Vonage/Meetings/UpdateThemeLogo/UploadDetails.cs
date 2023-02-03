@@ -6,60 +6,30 @@ using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.UpdateThemeLogo;
 
-/// <summary>
-/// </summary>
-public struct UploadDetails
+internal struct UploadDetails
 {
-    /// <summary>
-    /// </summary>
-    [JsonPropertyName("X-Amz-Algorithm")]
-    public string AmazonAlgorithm { get; set; }
+    [JsonPropertyName("X-Amz-Algorithm")] public string AmazonAlgorithm { get; set; }
 
-    /// <summary>
-    /// </summary>
-    [JsonPropertyName("X-Amz-Credential")]
-    public string AmazonCredential { get; set; }
+    [JsonPropertyName("X-Amz-Credential")] public string AmazonCredential { get; set; }
 
-    /// <summary>
-    /// </summary>
-    [JsonPropertyName("X-Amz-Date")]
-    public string AmazonDate { get; set; }
+    [JsonPropertyName("X-Amz-Date")] public string AmazonDate { get; set; }
 
-    /// <summary>
-    /// </summary>
     [JsonPropertyName("X-Amz-Security-Token")]
     public string AmazonSecurityToken { get; set; }
 
-    /// <summary>
-    /// </summary>
-    [JsonPropertyName("X-Amz-Signature")]
-    public string AmazonSignature { get; set; }
+    [JsonPropertyName("X-Amz-Signature")] public string AmazonSignature { get; set; }
 
-    /// <summary>
-    ///     Bucket name to upload to.
-    /// </summary>
     public string Bucket { get; set; }
 
-    /// <summary>
-    /// </summary>
-    [JsonPropertyName("Content-Type")]
-    public string ContentType { get; set; }
+    [JsonPropertyName("Content-Type")] public string ContentType { get; set; }
 
-    /// <summary>
-    ///     Logo's key in storage system.
-    /// </summary>
     public string Key { get; set; }
 
-    /// <summary>
-    /// </summary>
     [JsonPropertyName("logoType")]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<ThemeLogoType>))]
     public ThemeLogoType LogoType { get; set; }
 
-    /// <summary>
-    /// </summary>
-    [JsonPropertyName("Policy")]
-    public string Policy { get; set; }
+    [JsonPropertyName("Policy")] public string Policy { get; set; }
 
     /// <summary>
     ///     Converts data to a dictionary.

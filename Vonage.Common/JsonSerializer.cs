@@ -19,6 +19,7 @@ public class JsonSerializer : IJsonSerializer
     private readonly JsonSerializerOptions settings;
 
     /// <summary>
+    ///     Default constructor.
     /// </summary>
     public JsonSerializer()
     {
@@ -31,16 +32,11 @@ public class JsonSerializer : IJsonSerializer
     }
 
     /// <summary>
+    ///     Constructor with specific naming policy.
     /// </summary>
+    /// <param name="namingPolicy">The naming policy.</param>
     public JsonSerializer(JsonNamingPolicy namingPolicy) : this() =>
         this.settings.PropertyNamingPolicy = namingPolicy;
-
-    /// <summary>
-    /// </summary>
-    /// <param name="converters"></param>
-    public JsonSerializer(IEnumerable<JsonConverter> converters)
-        : this() =>
-        converters.ToList().ForEach(converter => this.settings.Converters.Add(converter));
 
     /// <summary>
     /// </summary>
@@ -73,4 +69,15 @@ public class JsonSerializer : IJsonSerializer
 
     /// <inheritdoc />
     public string SerializeObject<T>(T value) => System.Text.Json.JsonSerializer.Serialize(value, this.settings);
+
+    /// <summary>
+    ///     Add the specified converter to the current instance.
+    /// </summary>
+    /// <param name="converter">The converter.</param>
+    /// <returns>The serializer.</returns>
+    public JsonSerializer WithConverter(JsonConverter converter)
+    {
+        this.settings.Converters.Add(converter);
+        return this;
+    }
 }

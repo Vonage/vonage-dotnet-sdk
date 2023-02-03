@@ -11,8 +11,6 @@ namespace Vonage.Common.Serialization;
 /// <typeparam name="T">The underlying type.</typeparam>
 public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
 {
-    private readonly JsonSerializer serializer;
-
     public MaybeJsonConverter() => this.serializer = new JsonSerializer();
 
     /// <inheritdoc />
@@ -26,4 +24,6 @@ public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
         value
             .Map(some => this.serializer.SerializeObject(some))
             .IfSome(some => writer.WriteRawValue(some));
+
+    protected JsonSerializer serializer;
 }

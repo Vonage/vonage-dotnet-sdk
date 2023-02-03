@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using Vonage.Common;
+﻿using Vonage.Common;
 using Vonage.Common.Serialization;
 using Vonage.Server.Video.Archives.Common;
 
@@ -15,11 +13,9 @@ public static class JsonSerializerBuilder
     ///     Build a serializer.
     /// </summary>
     /// <returns>A serializer.</returns>
-    public static JsonSerializer Build() => new(new List<JsonConverter>
-    {
-        new EnumDescriptionJsonConverter<LayoutType>(),
-        new EnumDescriptionJsonConverter<RenderResolution>(),
-        new EnumDescriptionJsonConverter<OutputMode>(),
-        new EnumDescriptionJsonConverter<StreamMode>(),
-    });
+    public static JsonSerializer Build() => new JsonSerializer()
+        .WithConverter(new EnumDescriptionJsonConverter<LayoutType>())
+        .WithConverter(new EnumDescriptionJsonConverter<RenderResolution>())
+        .WithConverter(new EnumDescriptionJsonConverter<OutputMode>())
+        .WithConverter(new EnumDescriptionJsonConverter<StreamMode>());
 }
