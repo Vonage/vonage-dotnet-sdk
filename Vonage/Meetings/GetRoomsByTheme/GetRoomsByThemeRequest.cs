@@ -14,23 +14,16 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
     /// <summary>
     ///     The ID to end returning events at (excluding end_id itself).
     /// </summary>
-    public Maybe<string> EndId { get; }
+    public Maybe<string> EndId { get; internal init; }
 
     /// <summary>
     ///     The ID to start returning events at.
     /// </summary>
-    public Maybe<string> StartId { get; }
+    public Maybe<string> StartId { get; internal init; }
 
     /// <summary>
     /// </summary>
-    public string ThemeId { get; }
-
-    internal GetRoomsByThemeRequest(string themeId, Maybe<string> startId, Maybe<string> endId)
-    {
-        this.ThemeId = themeId;
-        this.StartId = startId;
-        this.EndId = endId;
-    }
+    public string ThemeId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

@@ -36,15 +36,17 @@ public class UpdateRoomRequestBuilder
     /// <returns>The request if validation succeeded, a failure if it failed.</returns>
     public Result<UpdateRoomRequest> Create() =>
         Result<UpdateRoomRequest>
-            .FromSuccess(new UpdateRoomRequest(
-                this.roomId,
-                this.expiresAt,
-                this.expireAfterUse,
-                this.themeId,
-                this.approvalLevel,
-                this.joinOptions,
-                this.callback,
-                this.features))
+            .FromSuccess(new UpdateRoomRequest
+            {
+                ThemeId = this.themeId,
+                AvailableFeatures = this.features,
+                ExpireAfterUse = this.expireAfterUse,
+                RoomId = this.roomId,
+                CallbackUrls = this.callback,
+                ExpiresAt = this.expiresAt,
+                InitialJoinOptions = this.joinOptions,
+                JoinApprovalLevel = this.approvalLevel,
+            })
             .Bind(VerifyRoomId);
 
     /// <summary>

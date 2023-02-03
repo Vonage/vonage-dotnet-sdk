@@ -16,84 +16,64 @@ public readonly struct CreateRoomRequest : IVonageRequest
 {
     /// <summary>
     /// </summary>
-    public Room.Features AvailableFeatures { get; }
+    public Room.Features AvailableFeatures { get; internal init; }
 
     /// <summary>
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<Room.Callback>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<Room.Callback> CallbackUrls { get; }
+    public Maybe<Room.Callback> CallbackUrls { get; internal init; }
 
     /// <summary>
     /// </summary>
-    public string DisplayName { get; }
+    public string DisplayName { get; internal init; }
 
     /// <summary>
     /// Close the room after a session ends. Only relevant for long_term rooms.
     /// </summary>
-    public bool ExpireAfterUse { get; }
+    public bool ExpireAfterUse { get; internal init; }
 
     /// <summary>
     /// The time for when the room will be expired, expressed in ISO 8601 format. Required only for long-term room creation.
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
-    public Maybe<string> ExpiresAt { get; }
+    public Maybe<string> ExpiresAt { get; internal init; }
 
     /// <summary>
     /// </summary>
-    public Room.JoinOptions InitialJoinOptions { get; }
+    public Room.JoinOptions InitialJoinOptions { get; internal init; }
 
     /// <summary>
     /// The level of approval needed to join the meeting in the room. When set to "after_owner_only" the participants will join the meeting only after the host joined. When set to "explicit_approval" the participants will join the waiting room and the host will deny/approve them.
     /// </summary>
     [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomApprovalLevel>))]
-    public RoomApprovalLevel JoinApprovalLevel { get; }
+    public RoomApprovalLevel JoinApprovalLevel { get; internal init; }
 
     /// <summary>
     /// Free text that can be attached to a room. This will be passed in the form of a header in events related to this room.
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
-    public Maybe<string> Metadata { get; }
+    public Maybe<string> Metadata { get; internal init; }
 
     /// <summary>
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<Room.RecordingOptions>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<Room.RecordingOptions> RecordingOptions { get; }
+    public Maybe<Room.RecordingOptions> RecordingOptions { get; internal init; }
 
     /// <summary>
     /// The theme id for the room
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<string> ThemeId { get; }
+    public Maybe<string> ThemeId { get; internal init; }
 
     /// <summary>
     /// Represents the type of the room.
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<RoomType>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<RoomType> Type { get; }
-
-    internal CreateRoomRequest(string displayName, Maybe<string> metadata, Maybe<RoomType> type,
-        Maybe<string> expiresAt,
-        bool expireAfterUse, Maybe<string> themeId, RoomApprovalLevel joinApprovalLevel,
-        Maybe<Room.RecordingOptions> recordingOptions, Room.JoinOptions initialJoinOptions,
-        Maybe<Room.Callback> callbackUrls,
-        Room.Features availableFeatures)
-    {
-        this.DisplayName = displayName;
-        this.Metadata = metadata;
-        this.Type = type;
-        this.ExpiresAt = expiresAt;
-        this.ExpireAfterUse = expireAfterUse;
-        this.ThemeId = themeId;
-        this.JoinApprovalLevel = joinApprovalLevel;
-        this.RecordingOptions = recordingOptions;
-        this.InitialJoinOptions = initialJoinOptions;
-        this.CallbackUrls = callbackUrls;
-        this.AvailableFeatures = availableFeatures;
-    }
+    public Maybe<RoomType> Type { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

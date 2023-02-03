@@ -19,40 +19,40 @@ public readonly struct UpdateThemeRequest : IVonageRequest
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<string> BrandText { get; }
+    public Maybe<string> BrandText { get; internal init; }
 
     /// <summary>
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<Color>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<Color> MainColor { get; }
+    public Maybe<Color> MainColor { get; internal init; }
 
     /// <summary>
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<Uri>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<Uri> ShortCompanyUrl { get; }
+    public Maybe<Uri> ShortCompanyUrl { get; init; }
 
     /// <summary>
     /// </summary>
     [JsonIgnore]
-    public string ThemeId { get; }
+    public string ThemeId { get; internal init; }
 
     /// <summary>
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<string> ThemeName { get; }
+    public Maybe<string> ThemeName { get; internal init; }
 
-    internal UpdateThemeRequest(Maybe<string> brandText, Maybe<Color> mainColor, Maybe<Uri> shortCompanyUrl,
-        Maybe<string> themeName, string themeId)
-    {
-        this.BrandText = brandText;
-        this.MainColor = mainColor;
-        this.ShortCompanyUrl = shortCompanyUrl;
-        this.ThemeName = themeName;
-        this.ThemeId = themeId;
-    }
+    // internal UpdateThemeRequest(Maybe<string> brandText, Maybe<Color> mainColor, Maybe<Uri> shortCompanyUrl,
+    //     Maybe<string> themeName, string themeId)
+    // {
+    //     this.BrandText = brandText;
+    //     this.MainColor = mainColor;
+    //     this.ShortCompanyUrl = shortCompanyUrl;
+    //     this.ThemeName = themeName;
+    //     this.ThemeId = themeId;
+    // }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

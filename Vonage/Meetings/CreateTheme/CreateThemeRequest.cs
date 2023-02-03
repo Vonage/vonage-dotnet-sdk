@@ -17,31 +17,23 @@ public readonly struct CreateThemeRequest : IVonageRequest
 {
     /// <summary>
     /// </summary>
-    public string BrandText { get; }
+    public string BrandText { get; internal init; }
 
     /// <summary>
     /// </summary>
-    public Color MainColor { get; }
+    public Color MainColor { get; internal init; }
 
     /// <summary>
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<Uri>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<Uri> ShortCompanyUrl { get; }
+    public Maybe<Uri> ShortCompanyUrl { get; internal init; }
 
     /// <summary>
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<string> ThemeName { get; }
-
-    internal CreateThemeRequest(string brandText, Color mainColor, Maybe<string> themeName, Maybe<Uri> shortCompanyUrl)
-    {
-        this.BrandText = brandText;
-        this.MainColor = mainColor;
-        this.ThemeName = themeName;
-        this.ShortCompanyUrl = shortCompanyUrl;
-    }
+    public Maybe<string> ThemeName { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

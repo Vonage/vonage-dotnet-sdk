@@ -23,10 +23,12 @@ public class GetRoomsByThemeVonageRequestBuilder : IVonageRequestBuilder<GetRoom
     /// <inheritdoc />
     public Result<GetRoomsByThemeRequest> Create() =>
         Result<GetRoomsByThemeRequest>
-            .FromSuccess(new GetRoomsByThemeRequest(
-                this.themeId,
-                this.startId,
-                this.endId))
+            .FromSuccess(new GetRoomsByThemeRequest
+            {
+                ThemeId = this.themeId,
+                EndId = this.endId,
+                StartId = this.startId,
+            })
             .Bind(VerifyThemeId);
 
     /// <summary>

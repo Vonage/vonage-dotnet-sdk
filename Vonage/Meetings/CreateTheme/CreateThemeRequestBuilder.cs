@@ -31,11 +31,13 @@ public class CreateThemeRequestBuilder : IVonageRequestBuilder<CreateThemeReques
     /// <inheritdoc />
     public Result<CreateThemeRequest> Create() =>
         Result<CreateThemeRequest>
-            .FromSuccess(new CreateThemeRequest(
-                this.brandText,
-                this.mainColor,
-                this.themeName,
-                this.shortCompanyUrl))
+            .FromSuccess(new CreateThemeRequest
+            {
+                BrandText = this.brandText,
+                MainColor = this.mainColor,
+                ThemeName = this.themeName,
+                ShortCompanyUrl = this.shortCompanyUrl,
+            })
             .Bind(VerifyBrandText);
 
     /// <summary>

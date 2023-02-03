@@ -16,63 +16,48 @@ public readonly struct UpdateRoomRequest : IVonageRequest
 {
     /// <summary>
     /// </summary>
-    public Room.Features AvailableFeatures { get; }
+    public Room.Features AvailableFeatures { get; internal init; }
 
     /// <summary>
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<Room.Callback>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<Room.Callback> CallbackUrls { get; }
+    public Maybe<Room.Callback> CallbackUrls { get; internal init; }
 
     /// <summary>
     /// Close the room after a session ends. Only relevant for long_term rooms.
     /// </summary>
-    public bool ExpireAfterUse { get; }
+    public bool ExpireAfterUse { get; internal init; }
 
     /// <summary>
     /// The time for when the room will be expired, expressed in ISO 8601 format.
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<string> ExpiresAt { get; }
+    public Maybe<string> ExpiresAt { get; internal init; }
 
     /// <summary>
     /// </summary>
-    public Room.JoinOptions InitialJoinOptions { get; }
+    public Room.JoinOptions InitialJoinOptions { get; internal init; }
 
     /// <summary>
     /// The level of approval needed to join the meeting in the room. When set to "after_owner_only" the participants will join the meeting only after the host joined. When set to "explicit_approval" the participants will join the waiting room and the host will deny/approve them.
     /// </summary>
     [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomApprovalLevel>))]
-    public RoomApprovalLevel JoinApprovalLevel { get; }
+    public RoomApprovalLevel JoinApprovalLevel { get; internal init; }
 
     /// <summary>
     /// The room id.
     /// </summary>
     [JsonIgnore]
-    public string RoomId { get; }
+    public string RoomId { get; internal init; }
 
     /// <summary>
     /// The theme id for the room.
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<string> ThemeId { get; }
-
-    internal UpdateRoomRequest(string roomId, Maybe<string> expiresAt,
-        bool expireAfterUse, Maybe<string> themeId, RoomApprovalLevel joinApprovalLevel,
-        Room.JoinOptions initialJoinOptions, Maybe<Room.Callback> callbackUrls,
-        Room.Features availableFeatures)
-    {
-        this.RoomId = roomId;
-        this.ExpiresAt = expiresAt;
-        this.ExpireAfterUse = expireAfterUse;
-        this.ThemeId = themeId;
-        this.JoinApprovalLevel = joinApprovalLevel;
-        this.InitialJoinOptions = initialJoinOptions;
-        this.CallbackUrls = callbackUrls;
-        this.AvailableFeatures = availableFeatures;
-    }
+    public Maybe<string> ThemeId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

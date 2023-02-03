@@ -26,8 +26,14 @@ public class UpdateThemeRequestBuilder : IVonageRequestBuilder<UpdateThemeReques
 
     /// <inheritdoc />
     public Result<UpdateThemeRequest> Create() => Result<UpdateThemeRequest>
-        .FromSuccess(new UpdateThemeRequest(
-            this.brandText, this.mainColor, this.shortCompanyUrl, this.themeName, this.themeId))
+        .FromSuccess(new UpdateThemeRequest
+        {
+            ThemeId = this.themeId,
+            BrandText = this.brandText,
+            MainColor = this.mainColor,
+            ShortCompanyUrl = this.shortCompanyUrl,
+            ThemeName = this.themeName,
+        })
         .Bind(VerifyThemeId);
 
     /// <summary>

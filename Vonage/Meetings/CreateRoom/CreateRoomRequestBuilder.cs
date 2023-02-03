@@ -41,18 +41,20 @@ public class CreateRoomRequestBuilder
     /// <returns>The request if validation succeeded, a failure if it failed.</returns>
     public Result<CreateRoomRequest> Create() =>
         Result<CreateRoomRequest>
-            .FromSuccess(new CreateRoomRequest(
-                this.displayName,
-                this.metadata,
-                this.roomType,
-                this.expiresAt,
-                this.expireAfterUse,
-                this.themeId,
-                this.approvalLevel,
-                this.recordingOptions,
-                this.joinOptions,
-                this.callback,
-                this.features))
+            .FromSuccess(new CreateRoomRequest
+            {
+                DisplayName = this.displayName,
+                Metadata = this.metadata,
+                Type = this.roomType,
+                ExpiresAt = this.expiresAt,
+                ExpireAfterUse = this.expireAfterUse,
+                ThemeId = this.themeId,
+                JoinApprovalLevel = this.approvalLevel,
+                RecordingOptions = this.recordingOptions,
+                InitialJoinOptions = this.joinOptions,
+                CallbackUrls = this.callback,
+                AvailableFeatures = this.features,
+            })
             .Bind(VerifyDisplayName)
             .Bind(VerifyDisplayNameLength)
             .Bind(VerifyMetadataLength);
