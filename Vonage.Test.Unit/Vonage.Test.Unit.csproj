@@ -434,23 +434,32 @@
 		<None Remove="Meetings\UpdateApplication\Data\ShouldSerialize-request.json"/>
         <Content Include="Meetings\UpdateApplication\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+		</Content>
 		<None Remove="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+		<Content Include="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 		<None Remove="Meetings\UpdateTheme\Data\ShouldSerialize-request.json"/>
-        <Content Include="Meetings\UpdateTheme\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+		<Content Include="Meetings\UpdateTheme\Data\ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 		<None Remove="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json"/>
-        <Content Include="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+		<Content Include="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 		<None Remove="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+		<Content Include="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize200-response.json"/>
+		<Content Include="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\UpdateThemeLogo\Data\UploadLogo_ShouldSerialize-request.json"/>
+		<None Remove="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>

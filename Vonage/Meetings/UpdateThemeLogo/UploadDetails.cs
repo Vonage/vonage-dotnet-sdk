@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using EnumsNET;
+using Vonage.Common.Serialization;
 using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.UpdateThemeLogo;
@@ -10,22 +12,27 @@ public struct UploadDetails
 {
     /// <summary>
     /// </summary>
+    [JsonPropertyName("X-Amz-Algorithm")]
     public string AmazonAlgorithm { get; set; }
 
     /// <summary>
     /// </summary>
+    [JsonPropertyName("X-Amz-Credential")]
     public string AmazonCredential { get; set; }
 
     /// <summary>
     /// </summary>
+    [JsonPropertyName("X-Amz-Date")]
     public string AmazonDate { get; set; }
 
     /// <summary>
     /// </summary>
+    [JsonPropertyName("X-Amz-Security-Token")]
     public string AmazonSecurityToken { get; set; }
 
     /// <summary>
     /// </summary>
+    [JsonPropertyName("X-Amz-Signature")]
     public string AmazonSignature { get; set; }
 
     /// <summary>
@@ -35,6 +42,7 @@ public struct UploadDetails
 
     /// <summary>
     /// </summary>
+    [JsonPropertyName("Content-Type")]
     public string ContentType { get; set; }
 
     /// <summary>
@@ -44,10 +52,13 @@ public struct UploadDetails
 
     /// <summary>
     /// </summary>
+    [JsonPropertyName("logoType")]
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<ThemeLogoType>))]
     public ThemeLogoType LogoType { get; set; }
 
     /// <summary>
     /// </summary>
+    [JsonPropertyName("Policy")]
     public string Policy { get; set; }
 
     /// <summary>
