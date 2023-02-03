@@ -44,16 +44,6 @@ public readonly struct UpdateThemeRequest : IVonageRequest
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<string> ThemeName { get; internal init; }
 
-    // internal UpdateThemeRequest(Maybe<string> brandText, Maybe<Color> mainColor, Maybe<Uri> shortCompanyUrl,
-    //     Maybe<string> themeName, string themeId)
-    // {
-    //     this.BrandText = brandText;
-    //     this.MainColor = mainColor;
-    //     this.ShortCompanyUrl = shortCompanyUrl;
-    //     this.ThemeName = themeName;
-    //     this.ThemeId = themeId;
-    // }
-
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
