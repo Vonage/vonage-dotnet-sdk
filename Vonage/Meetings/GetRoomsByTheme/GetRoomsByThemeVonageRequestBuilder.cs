@@ -27,7 +27,7 @@ public class GetRoomsByThemeVonageRequestBuilder : IVonageRequestBuilder<GetRoom
                 this.themeId,
                 this.startId,
                 this.endId))
-            .Bind(VerifyBrandText);
+            .Bind(VerifyThemeId);
 
     /// <summary>
     ///     Sets the end id on the builder.
@@ -51,7 +51,7 @@ public class GetRoomsByThemeVonageRequestBuilder : IVonageRequestBuilder<GetRoom
         return this;
     }
 
-    private static Result<GetRoomsByThemeRequest> VerifyBrandText(GetRoomsByThemeRequest request) =>
+    private static Result<GetRoomsByThemeRequest> VerifyThemeId(GetRoomsByThemeRequest request) =>
         InputValidation
             .VerifyNotEmpty(request, request.ThemeId, nameof(request.ThemeId));
 }

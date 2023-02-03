@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.Meetings.Common;
 
@@ -19,7 +20,9 @@ public readonly struct UpdateRoomRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
-    public Room.Callback? CallbackUrls { get; }
+    [JsonConverter(typeof(VonageMaybeJsonConverter<Room.Callback>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<Room.Callback> CallbackUrls { get; }
 
     /// <summary>
     /// </summary>
@@ -27,7 +30,9 @@ public readonly struct UpdateRoomRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
-    public string ExpiresAt { get; }
+    [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<string> ExpiresAt { get; }
 
     /// <summary>
     /// </summary>
@@ -45,11 +50,13 @@ public readonly struct UpdateRoomRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
-    public string ThemeId { get; }
+    [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<string> ThemeId { get; }
 
-    internal UpdateRoomRequest(string roomId, string expiresAt,
-        bool expireAfterUse, string themeId, RoomApprovalLevel joinApprovalLevel,
-        Room.JoinOptions initialJoinOptions, Room.Callback? callbackUrls,
+    internal UpdateRoomRequest(string roomId, Maybe<string> expiresAt,
+        bool expireAfterUse, Maybe<string> themeId, RoomApprovalLevel joinApprovalLevel,
+        Room.JoinOptions initialJoinOptions, Maybe<Room.Callback> callbackUrls,
         Room.Features availableFeatures)
     {
         this.RoomId = roomId;

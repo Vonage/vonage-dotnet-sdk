@@ -10,16 +10,16 @@ namespace Vonage.Meetings.UpdateRoom;
 public class UpdateRoomRequestBuilder
 {
     private bool expireAfterUse;
-    private Room.Callback? callback;
 
     private Room.Features features = new()
         {IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true};
 
     private Room.JoinOptions joinOptions = new() {MicrophoneState = RoomMicrophoneState.Default};
+    private Maybe<Room.Callback> callback;
+    private Maybe<string> expiresAt;
+    private Maybe<string> themeId;
     private RoomApprovalLevel approvalLevel = RoomApprovalLevel.None;
     private readonly string roomId;
-    private string expiresAt;
-    private string themeId;
 
     private UpdateRoomRequestBuilder(string roomId) => this.roomId = roomId;
 
