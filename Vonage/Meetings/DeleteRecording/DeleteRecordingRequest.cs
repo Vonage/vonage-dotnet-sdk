@@ -37,8 +37,8 @@ public class DeleteRecordingRequest : IVonageRequest
     public static Result<DeleteRecordingRequest> Parse(string recordingId) =>
         Result<DeleteRecordingRequest>
             .FromSuccess(new DeleteRecordingRequest(recordingId))
-            .Bind(VerifyApplicationId);
+            .Bind(VerifyRecordingId);
 
-    private static Result<DeleteRecordingRequest> VerifyApplicationId(DeleteRecordingRequest request) =>
+    private static Result<DeleteRecordingRequest> VerifyRecordingId(DeleteRecordingRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.RecordingId, nameof(RecordingId));
 }
