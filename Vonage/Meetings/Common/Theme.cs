@@ -18,26 +18,32 @@ public struct Theme
     public string ApplicationId { get; set; }
 
     /// <summary>
+    /// The favicon key in storage system
     /// </summary>
     public string BrandedFavicon { get; set; }
 
     /// <summary>
+    /// The favicon link.
     /// </summary>
     public Uri BrandedFaviconUrl { get; set; }
 
     /// <summary>
+    /// Colored logo's key in storage system.
     /// </summary>
     public string BrandImageColored { get; set; }
 
     /// <summary>
+    /// Colored logo's link.
     /// </summary>
     public Uri BrandImageColoredUrl { get; set; }
 
     /// <summary>
+    /// White logo's key in storage system.
     /// </summary>
     public string BrandImageWhite { get; set; }
 
     /// <summary>
+    /// White logo's link.
     /// </summary>
     public Uri BrandImageWhiteUrl { get; set; }
 

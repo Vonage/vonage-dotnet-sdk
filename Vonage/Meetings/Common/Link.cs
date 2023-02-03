@@ -1,4 +1,6 @@
-﻿namespace Vonage.Meetings.Common;
+﻿using System;
+
+namespace Vonage.Meetings.Common;
 
 /// <summary>
 ///     Represents a link to another page.
@@ -8,5 +10,5 @@ public struct Link
     /// <summary>
     ///     Hypertext Reference.
     /// </summary>
-    public string Href { get; set; }
+    public Uri Href { get; set; }
 }

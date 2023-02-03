@@ -13,7 +13,7 @@ public readonly struct GetRecordingsRequest : IVonageRequest
     private GetRecordingsRequest(string sessionId) => this.SessionId = sessionId;
 
     /// <summary>
-    ///     The recording identifier.
+    ///     The session identifier.
     /// </summary>
     public string SessionId { get; }
 

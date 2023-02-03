@@ -25,10 +25,12 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     public Maybe<Room.Callback> CallbackUrls { get; }
 
     /// <summary>
+    /// Close the room after a session ends. Only relevant for long_term rooms.
     /// </summary>
     public bool ExpireAfterUse { get; }
 
     /// <summary>
+    /// The time for when the room will be expired, expressed in ISO 8601 format.
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -39,16 +41,19 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     public Room.JoinOptions InitialJoinOptions { get; }
 
     /// <summary>
+    /// The level of approval needed to join the meeting in the room. When set to "after_owner_only" the participants will join the meeting only after the host joined. When set to "explicit_approval" the participants will join the waiting room and the host will deny/approve them.
     /// </summary>
     [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomApprovalLevel>))]
     public RoomApprovalLevel JoinApprovalLevel { get; }
 
     /// <summary>
+    /// The room id.
     /// </summary>
     [JsonIgnore]
     public string RoomId { get; }
 
     /// <summary>
+    /// The theme id for the room.
     /// </summary>
     [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
