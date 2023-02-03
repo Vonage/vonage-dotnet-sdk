@@ -30,7 +30,7 @@ internal readonly struct UploadLogoRequest : IVonageRequest
         new(response.Fields, response.Url, filepath);
 
     /// <inheritdoc />
-    public string GetEndpointPath() => this.Url.AbsolutePath;
+    public string GetEndpointPath() => this.Url.AbsoluteUri;
 
     private FormUrlEncodedContent GetRequestContent()
     {
