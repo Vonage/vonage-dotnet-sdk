@@ -464,6 +464,10 @@
 		<Content Include="Meetings\CreateRoom\Data\ShouldSerialize-request.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<None Remove="Meetings\UpdateRoom\Data\ShouldSerialize-request.json"/>
+		<Content Include="Meetings\UpdateRoom\Data\ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

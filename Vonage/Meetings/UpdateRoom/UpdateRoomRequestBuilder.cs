@@ -9,7 +9,7 @@ namespace Vonage.Meetings.UpdateRoom;
 /// </summary>
 public class UpdateRoomRequestBuilder
 {
-    private bool expiresAfterUse;
+    private bool expireAfterUse;
     private Room.Callback? callback;
 
     private Room.Features features = new()
@@ -39,7 +39,7 @@ public class UpdateRoomRequestBuilder
             .FromSuccess(new UpdateRoomRequest(
                 this.roomId,
                 this.expiresAt,
-                this.expiresAfterUse,
+                this.expireAfterUse,
                 this.themeId,
                 this.approvalLevel,
                 this.joinOptions,
@@ -51,9 +51,9 @@ public class UpdateRoomRequestBuilder
     ///     Sets the room to expire after use.
     /// </summary>
     /// <returns>The builder.</returns>
-    public UpdateRoomRequestBuilder ExpiresAfterUse()
+    public UpdateRoomRequestBuilder ExpireAfterUse()
     {
-        this.expiresAfterUse = true;
+        this.expireAfterUse = true;
         return this;
     }
 

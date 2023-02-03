@@ -7,12 +7,12 @@ using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetDialNumbers
 {
-    public class GetDialNumbersDeserializationTest
+    public class GetDialNumbersSerializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public GetDialNumbersDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(GetDialNumbersDeserializationTest).Namespace,
+        public GetDialNumbersSerializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(GetDialNumbersSerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]

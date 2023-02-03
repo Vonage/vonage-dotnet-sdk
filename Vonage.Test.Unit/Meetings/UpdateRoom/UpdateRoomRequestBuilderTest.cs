@@ -44,7 +44,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                 {
                     success.ExpiresAt.Should().BeNull();
                     success.JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
-                    success.ExpiresAfterUse.Should().BeFalse();
+                    success.ExpireAfterUse.Should().BeFalse();
                     success.ThemeId.Should().BeNull();
                     success.CallbackUrls.Should().BeNull();
                     success.AvailableFeatures.IsChatAvailable.Should().BeTrue();
@@ -69,7 +69,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
             UpdateRoomRequestBuilder
                 .Build(this.roomId)
                 .WithExpiresAt(this.expiresAt)
-                .ExpiresAfterUse()
+                .ExpireAfterUse()
                 .WithThemeId(this.themeId)
                 .WithApprovalLevel(this.approvalLevel)
                 .WithInitialJoinOptions(this.joinOptions)
@@ -80,7 +80,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                 .BeSuccess(success =>
                 {
                     success.ExpiresAt.Should().Be(this.expiresAt);
-                    success.ExpiresAfterUse.Should().BeTrue();
+                    success.ExpireAfterUse.Should().BeTrue();
                     success.ThemeId.Should().Be(this.themeId);
                     success.JoinApprovalLevel.Should().Be(this.approvalLevel);
                     success.InitialJoinOptions.Should().Be(this.joinOptions);

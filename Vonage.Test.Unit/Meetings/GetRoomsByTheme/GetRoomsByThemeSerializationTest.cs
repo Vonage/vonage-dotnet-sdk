@@ -3,28 +3,27 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
-using Vonage.Meetings.GetAvailableRooms;
+using Vonage.Meetings.GetRoomsByTheme;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
+namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
 {
-    public class GetAvailableRoomsDeserializationTest
+    public class GetRoomsByThemeSerializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public GetAvailableRoomsDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(GetAvailableRoomsDeserializationTest).Namespace,
+        public GetRoomsByThemeSerializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(GetRoomsByThemeSerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
-                .DeserializeObject<GetAvailableRoomsResponse>(this.helper.GetResponseJson())
+                .DeserializeObject<GetRoomsByThemeResponse>(this.helper.GetResponseJson())
                 .Should()
                 .BeSuccess(success =>
                 {
                     success.PageSize.Should().Be(10);
-                    success.TotalItems.Should().Be(30);
                     success.Links.First.Href.Should().Be("https://api.nexmo.com/v0.1/meetings/rooms?page_size=10");
                     success.Links.Previous.Href.Should()
                         .Be("https://api.nexmo.com/v0.1/meetings/rooms?page_size=10&end_id=20");

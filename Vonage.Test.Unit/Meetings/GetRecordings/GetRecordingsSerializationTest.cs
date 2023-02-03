@@ -8,12 +8,12 @@ using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetRecordings
 {
-    public class GetRecordingsDeserializationTest
+    public class GetRecordingsSerializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public GetRecordingsDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(GetRecordingsDeserializationTest).Namespace,
+        public GetRecordingsSerializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(GetRecordingsSerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]

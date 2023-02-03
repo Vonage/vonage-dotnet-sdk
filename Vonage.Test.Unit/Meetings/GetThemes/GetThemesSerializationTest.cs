@@ -9,12 +9,12 @@ using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetThemes
 {
-    public class GetThemesDeserializationTest
+    public class GetThemesSerializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public GetThemesDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(GetThemesDeserializationTest).Namespace,
+        public GetThemesSerializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(GetThemesSerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]

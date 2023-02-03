@@ -3,6 +3,7 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
+using Vonage.Meetings.UpdateRoom;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateRoom
@@ -47,5 +48,26 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                     success.Links.HostUrl.Href.Should()
                         .Be("https://meetings.vonage.com/123456789?participant_token=xyz");
                 });
+
+        [Fact]
+        public void ShouldSerialize() =>
+            UpdateRoomRequestBuilder
+                .Build("string")
+                .WithExpiresAt("2019-08-24")
+                .ExpireAfterUse()
+                .WithThemeId("ef2b46f3-8ebb-437e-a671-272e4990fbc8")
+                .WithApprovalLevel(RoomApprovalLevel.None)
+                .WithInitialJoinOptions(new Room.JoinOptions {MicrophoneState = RoomMicrophoneState.Default})
+                .WithFeatures(new Room.Features
+                    {IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true})
+                .WithCallback(new Room.Callback
+                {
+                    RecordingsCallbackUrl = "https://example.com", SessionsCallbackUrl = "https://example.com",
+                    RoomsCallbackUrl = "https://example.com",
+                })
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
     }
 }

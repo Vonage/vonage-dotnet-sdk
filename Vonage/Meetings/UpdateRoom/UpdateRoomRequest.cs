@@ -23,7 +23,7 @@ public readonly struct UpdateRoomRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
-    public bool ExpiresAfterUse { get; }
+    public bool ExpireAfterUse { get; }
 
     /// <summary>
     /// </summary>
@@ -40,6 +40,7 @@ public readonly struct UpdateRoomRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
+    [JsonIgnore]
     public string RoomId { get; }
 
     /// <summary>
@@ -47,13 +48,13 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     public string ThemeId { get; }
 
     internal UpdateRoomRequest(string roomId, string expiresAt,
-        bool expiresAfterUse, string themeId, RoomApprovalLevel joinApprovalLevel,
+        bool expireAfterUse, string themeId, RoomApprovalLevel joinApprovalLevel,
         Room.JoinOptions initialJoinOptions, Room.Callback? callbackUrls,
         Room.Features availableFeatures)
     {
         this.RoomId = roomId;
         this.ExpiresAt = expiresAt;
-        this.ExpiresAfterUse = expiresAfterUse;
+        this.ExpireAfterUse = expireAfterUse;
         this.ThemeId = themeId;
         this.JoinApprovalLevel = joinApprovalLevel;
         this.InitialJoinOptions = initialJoinOptions;
