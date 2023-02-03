@@ -460,6 +460,10 @@
 		<Content Include="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<None Remove="Meetings\CreateRoom\Data\ShouldSerialize-request.json"/>
+		<Content Include="Meetings\CreateRoom\Data\ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

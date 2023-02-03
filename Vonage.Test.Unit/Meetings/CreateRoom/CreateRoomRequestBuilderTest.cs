@@ -51,7 +51,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     success.ExpiresAt.Should().BeNull();
                     success.JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
                     success.RecordingOptions.Should().BeNull();
-                    success.ExpiresAfterUse.Should().BeFalse();
+                    success.ExpireAfterUse.Should().BeFalse();
                     success.ThemeId.Should().BeNull();
                     success.CallbackUrls.Should().BeNull();
                     success.AvailableFeatures.IsChatAvailable.Should().BeTrue();
@@ -95,7 +95,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .WithMetadata(this.metadata)
                 .WithRoomType(this.roomType)
                 .WithExpiresAt(this.expiresAt)
-                .ExpiresAfterUse()
+                .ExpireAfterUse()
                 .WithThemeId(this.themeId)
                 .WithApprovalLevel(this.approvalLevel)
                 .WithRecordingOptions(this.recordingOptions)
@@ -110,7 +110,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     success.Metadata.Should().Be(this.metadata);
                     success.Type.Should().Be(this.roomType);
                     success.ExpiresAt.Should().Be(this.expiresAt);
-                    success.ExpiresAfterUse.Should().BeTrue();
+                    success.ExpireAfterUse.Should().BeTrue();
                     success.ThemeId.Should().Be(this.themeId);
                     success.JoinApprovalLevel.Should().Be(this.approvalLevel);
                     success.RecordingOptions.Should().Be(this.recordingOptions);

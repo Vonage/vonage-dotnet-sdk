@@ -27,7 +27,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
-    public bool ExpiresAfterUse { get; }
+    public bool ExpireAfterUse { get; }
 
     /// <summary>
     /// </summary>
@@ -60,7 +60,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
     public RoomType? Type { get; }
 
     internal CreateRoomRequest(string displayName, string metadata, RoomType? type, string expiresAt,
-        bool expiresAfterUse, string themeId, RoomApprovalLevel joinApprovalLevel,
+        bool expireAfterUse, string themeId, RoomApprovalLevel joinApprovalLevel,
         Room.RecordingOptions? recordingOptions, Room.JoinOptions initialJoinOptions, Room.Callback? callbackUrls,
         Room.Features availableFeatures)
     {
@@ -68,7 +68,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
         this.Metadata = metadata;
         this.Type = type;
         this.ExpiresAt = expiresAt;
-        this.ExpiresAfterUse = expiresAfterUse;
+        this.ExpireAfterUse = expireAfterUse;
         this.ThemeId = themeId;
         this.JoinApprovalLevel = joinApprovalLevel;
         this.RecordingOptions = recordingOptions;

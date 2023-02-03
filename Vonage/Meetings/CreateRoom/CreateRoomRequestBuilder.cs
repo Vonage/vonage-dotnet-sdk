@@ -11,7 +11,7 @@ public class CreateRoomRequestBuilder
 {
     private const int DisplayNameMaxLength = 200;
     private const int MetadataMaxLength = 500;
-    private bool expiresAfterUse;
+    private bool expireAfterUse;
     private Room.Callback? callback;
 
     private Room.Features features = new()
@@ -46,7 +46,7 @@ public class CreateRoomRequestBuilder
                 this.metadata,
                 this.roomType,
                 this.expiresAt,
-                this.expiresAfterUse,
+                this.expireAfterUse,
                 this.themeId,
                 this.approvalLevel,
                 this.recordingOptions,
@@ -61,9 +61,9 @@ public class CreateRoomRequestBuilder
     ///     Sets the room to expire after use.
     /// </summary>
     /// <returns>The builder.</returns>
-    public CreateRoomRequestBuilder ExpiresAfterUse()
+    public CreateRoomRequestBuilder ExpireAfterUse()
     {
-        this.expiresAfterUse = true;
+        this.expireAfterUse = true;
         return this;
     }
 

@@ -6,6 +6,6 @@ namespace Vonage.Common.Test.Extensions
     {
         public static MaybeAssertionExtensions<T> Should<T>(this Maybe<T> instance) => new(instance);
 
-        public static ResultAssertionExtension<T> Should<T>(this Result<T> instance) => new(instance);
+        public static ResultAssertionExtensions<T> Should<T>(this Result<T> instance) => new(instance);
     }
 }

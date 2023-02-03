@@ -3,16 +3,17 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
+using Vonage.Meetings.CreateRoom;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.CreateRoom
 {
-    public class CreateRoomDeserializationTest
+    public class CreateRoomSerializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public CreateRoomDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(CreateRoomDeserializationTest).Namespace,
+        public CreateRoomSerializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(CreateRoomSerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
@@ -47,5 +48,29 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     success.Links.HostUrl.Href.Should()
                         .Be("https://meetings.vonage.com/123456789?participant_token=xyz");
                 });
+
+        [Fact]
+        public void ShouldSerialize() =>
+            CreateRoomRequestBuilder
+                .Build("string")
+                .WithMetadata("string")
+                .WithRoomType(RoomType.Instant)
+                .WithExpiresAt("2019-08-24")
+                .ExpireAfterUse()
+                .WithThemeId("ef2b46f3-8ebb-437e-a671-272e4990fbc8")
+                .WithApprovalLevel(RoomApprovalLevel.None)
+                .WithRecordingOptions(new Room.RecordingOptions {AutoRecord = true, RecordOnlyOwner = true})
+                .WithInitialJoinOptions(new Room.JoinOptions {MicrophoneState = RoomMicrophoneState.Default})
+                .WithFeatures(new Room.Features
+                    {IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true})
+                .WithCallback(new Room.Callback
+                {
+                    RecordingsCallbackUrl = "https://example.com", SessionsCallbackUrl = "https://example.com",
+                    RoomsCallbackUrl = "https://example.com",
+                })
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
     }
 }
