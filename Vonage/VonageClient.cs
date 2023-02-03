@@ -22,7 +22,6 @@ namespace Vonage
     /// </summary>
     public class VonageClient
     {
-        private const string MeetingsApiUrl = "https://api-eu.vonage.com";
         private Credentials credentials;
 
         public IAccountClient AccountClient { get; private set; }
@@ -82,7 +81,7 @@ namespace Vonage
         {
             var client = new HttpClient(new HttpClientHandler())
             {
-                BaseAddress = new Uri(MeetingsApiUrl),
+                BaseAddress = Configuration.Instance.MeetingsApiUrl,
             };
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             return client;
