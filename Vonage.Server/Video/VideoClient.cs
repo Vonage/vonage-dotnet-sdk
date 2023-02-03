@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Vonage.Request;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Moderation;
@@ -11,7 +10,6 @@ namespace Vonage.Server.Video;
 /// <inheritdoc />
 public class VideoClient : IVideoClient
 {
-    private const string ApiUrl = "https://video.api.vonage.com";
     private Credentials credentials;
 
     /// <inheritdoc />
@@ -61,7 +59,7 @@ public class VideoClient : IVideoClient
     {
         var client = new HttpClient(new HttpClientHandler())
         {
-            BaseAddress = new Uri(ApiUrl),
+            BaseAddress = Configuration.Instance.VideoApiUrl,
         };
         client.DefaultRequestHeaders.Add("Accept", "application/json");
         return client;

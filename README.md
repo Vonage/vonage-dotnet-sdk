@@ -106,6 +106,8 @@ Or
     "Vonage.UserAgent": "myApp/1.0",
     "Vonage.Url.Rest": "https://rest.nexmo.com",
     "Vonage.Url.Api": "https://api.nexmo.com",
+    "Vonage.Meetings.Url.Api": "https://api-eu.vonage.com",
+    "Vonage.Video.Url.Api": "https://video.api.vonage.com",
     "Vonage_key": "VONAGE-API-KEY",
     "Vonage_secret": "VONAGE-API-SECRET",    
     "Vonage.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
@@ -120,27 +122,32 @@ Or
 Or
 
 * Access the Configuration instance and set the appropriate key in your code for example:
+
 ```cshap
 Configuration.Instance.Settings["appSettings:Vonage.Url.Api"] = "https://www.example.com/api";
 Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"] = "https://www.example.com/rest";
+Configuration.Instance.Settings["appSettings:Vonage.Meetings.Url.Api"] = "https://www.meetings.example.com/api";
+Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://www.video.example.com/rest";
 ```
 
 > NOTE: Private Key is the literal key - not a path to the file containing the key
 
 ### Configuration Reference
 
-Key | Description
-----|------------
-Vonage_key | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)
-Vonage_secret | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)
-Vonage.Application.Id | Your application ID
-Vonage.Application.Key | Your application's private key
-Vonage.security_secret | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages)
-Vonage.signing_method | Optional. This is the method used for signing SMS messages
-Vonage.Url.Rest | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com
-Vonage.Url.Api | Optional. Vonage API base URL. Defaults to https://api.nexmo.com
-Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.
-Vonage.UserAgent | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`
+ Key                      | Description                                                                                                                      
+--------------------------|----------------------------------------------------------------------------------------------------------------------------------
+ Vonage_key               | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)                                                          
+ Vonage_secret            | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)                                                       
+ Vonage.Application.Id    | Your application ID                                                                                                              
+ Vonage.Application.Key   | Your application's private key                                                                                                   
+ Vonage.security_secret   | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages) 
+ Vonage.signing_method    | Optional. This is the method used for signing SMS messages                                                                       
+ Vonage.Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           
+ Vonage.Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 
+ Vonage.Meetings.Url.Api  | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                
+ Vonage.Video.Url.Api     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                
+ Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             
+ Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             
 
 ### Logging
 
