@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Meetings.GetRoom;
 using Vonage.Meetings.GetTheme;
 using Xunit;
 
@@ -36,8 +35,8 @@ namespace Vonage.Test.Unit.Meetings.GetTheme
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>
-            GetRoomRequest.Parse(this.themeId)
+            GetThemeRequest.Parse(this.themeId)
                 .Should()
-                .BeSuccess(request => request.RoomId.Should().Be(this.themeId));
+                .BeSuccess(request => request.ThemeId.Should().Be(this.themeId));
     }
 }

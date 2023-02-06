@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common;
@@ -50,7 +51,7 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     /// The room id.
     /// </summary>
     [JsonIgnore]
-    public string RoomId { get; internal init; }
+    public Guid RoomId { get; internal init; }
 
     /// <summary>
     /// The theme id for the room.

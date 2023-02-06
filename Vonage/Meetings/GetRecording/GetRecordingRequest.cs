@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -10,12 +11,12 @@ namespace Vonage.Meetings.GetRecording;
 /// </summary>
 public readonly struct GetRecordingRequest : IVonageRequest
 {
-    private GetRecordingRequest(string recordingId) => this.RecordingId = recordingId;
+    private GetRecordingRequest(Guid recordingId) => this.RecordingId = recordingId;
 
     /// <summary>
     ///     The recording identifier.
     /// </summary>
-    public string RecordingId { get; }
+    public Guid RecordingId { get; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -31,7 +32,7 @@ public readonly struct GetRecordingRequest : IVonageRequest
     /// </summary>
     /// <param name="recordingId">The recording identifier.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<GetRecordingRequest> Parse(string recordingId) =>
+    public static Result<GetRecordingRequest> Parse(Guid recordingId) =>
         Result<GetRecordingRequest>
             .FromSuccess(new GetRecordingRequest(recordingId))
             .Bind(VerifyRecordingId);

@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Monads;
+﻿using System;
+using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Meetings.Common;
 
@@ -14,21 +15,22 @@ public class UpdateRoomRequestBuilder
     private Room.Features features = new()
         {IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true};
 
+    private readonly Guid roomId;
+
     private Room.JoinOptions joinOptions = new() {MicrophoneState = RoomMicrophoneState.Default};
     private Maybe<Room.Callback> callback;
     private Maybe<string> expiresAt;
     private Maybe<string> themeId;
     private RoomApprovalLevel approvalLevel = RoomApprovalLevel.None;
-    private readonly string roomId;
 
-    private UpdateRoomRequestBuilder(string roomId) => this.roomId = roomId;
+    private UpdateRoomRequestBuilder(Guid roomId) => this.roomId = roomId;
 
     /// <summary>
     ///     Initializes a builder for UpdateRoomRequest.
     /// </summary>
     /// <param name="roomId">The room id.</param>
     /// <returns>The builder.</returns>
-    public static UpdateRoomRequestBuilder Build(string roomId) => new(roomId);
+    public static UpdateRoomRequestBuilder Build(Guid roomId) => new(roomId);
 
     /// <summary>
     ///     Creates the request.

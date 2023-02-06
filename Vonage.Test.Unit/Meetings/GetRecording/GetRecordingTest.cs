@@ -55,7 +55,7 @@ namespace Vonage.Test.Unit.Meetings.GetRecording
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<GetRecordingRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetRecordingRequest.Parse(fixture.Create<string>());
+            GetRecordingRequest.Parse(fixture.Create<Guid>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

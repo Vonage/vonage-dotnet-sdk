@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
@@ -10,6 +11,7 @@ namespace Vonage.Common.Validation;
 public static class InputValidation
 {
     private const string CollectionCannotBeNull = "cannot be null.";
+    private const string GuidCannotBeNullOrWhitespace = "cannot be empty.";
     private const string IntCannotBeHigherThan = "cannot be higher than {value}.";
     private const string IntCannotBeNegative = "cannot be negative.";
     private const string StringCannotBeNullOrWhitespace = "cannot be null or whitespace.";
@@ -42,6 +44,20 @@ public static class InputValidation
         string.IsNullOrWhiteSpace(value)
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {StringCannotBeNullOrWhitespace}"))
+            : request;
+
+    /// <summary>
+    ///     Verifies if not null or empty.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <param name="value">The guid.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="T">The request type.</typeparam>
+    /// <returns>Success or Failure.</returns>
+    public static Result<T> VerifyNotEmpty<T>(T request, Guid value, string name) =>
+        value.Equals(Guid.Empty)
+            ? Result<T>.FromFailure(
+                ResultFailure.FromErrorMessage($"{name} {GuidCannotBeNullOrWhitespace}"))
             : request;
 
     /// <summary>

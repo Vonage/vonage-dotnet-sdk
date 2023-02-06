@@ -54,7 +54,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<UpdateRoomRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            UpdateRoomRequestBuilder.Build(fixture.Create<string>()).Create();
+            UpdateRoomRequestBuilder.Build(fixture.Create<Guid>()).Create();
 
         private IRequestBuilder CreateRequest()
         {

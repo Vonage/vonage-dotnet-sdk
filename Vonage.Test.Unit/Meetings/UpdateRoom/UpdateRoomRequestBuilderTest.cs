@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -12,9 +13,9 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
     {
         private readonly Room.Callback callback;
         private readonly Room.Features features;
+        private readonly Guid roomId;
         private readonly Room.JoinOptions joinOptions;
         private readonly RoomApprovalLevel approvalLevel;
-        private readonly string roomId;
         private readonly string expiresAt;
         private readonly string themeId;
 
@@ -22,7 +23,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
         {
             var fixture = new Fixture();
             fixture.Customize(new SupportMutableValueTypesCustomization());
-            this.roomId = fixture.Create<string>();
+            this.roomId = fixture.Create<Guid>();
             fixture.Create<string>();
             fixture.Create<RoomType>();
             this.expiresAt = fixture.Create<string>();
@@ -53,16 +54,13 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                     success.InitialJoinOptions.MicrophoneState.Should().Be(RoomMicrophoneState.Default);
                 });
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Build_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace(string invalidRoomId) =>
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace() =>
             UpdateRoomRequestBuilder
-                .Build(invalidRoomId)
+                .Build(Guid.Empty)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("RoomId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("RoomId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnSuccess_() =>

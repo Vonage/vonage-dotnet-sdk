@@ -51,7 +51,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteRecording
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<DeleteRecordingRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            DeleteRecordingRequest.Parse(fixture.Create<string>());
+            DeleteRecordingRequest.Parse(fixture.Create<Guid>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

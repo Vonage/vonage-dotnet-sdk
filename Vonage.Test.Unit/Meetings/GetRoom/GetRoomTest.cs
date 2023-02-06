@@ -53,7 +53,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<GetRoomRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetRoomRequest.Parse(fixture.Create<string>());
+            GetRoomRequest.Parse(fixture.Create<Guid>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

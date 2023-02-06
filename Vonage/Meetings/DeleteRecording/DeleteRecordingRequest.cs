@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -10,7 +11,7 @@ namespace Vonage.Meetings.DeleteRecording;
 /// </summary>
 public class DeleteRecordingRequest : IVonageRequest
 {
-    private DeleteRecordingRequest(string recordingId)
+    private DeleteRecordingRequest(Guid recordingId)
     {
         this.RecordingId = recordingId;
     }
@@ -18,7 +19,7 @@ public class DeleteRecordingRequest : IVonageRequest
     /// <summary>
     ///     The recording id.
     /// </summary>
-    public string RecordingId { get; }
+    public Guid RecordingId { get; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -34,7 +35,7 @@ public class DeleteRecordingRequest : IVonageRequest
     /// </summary>
     /// <param name="recordingId">The recording id.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<DeleteRecordingRequest> Parse(string recordingId) =>
+    public static Result<DeleteRecordingRequest> Parse(Guid recordingId) =>
         Result<DeleteRecordingRequest>
             .FromSuccess(new DeleteRecordingRequest(recordingId))
             .Bind(VerifyRecordingId);
