@@ -33,30 +33,30 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
                         .Be("https://api.nexmo.com/v0.1/meetings/rooms?page_size=10&start_id=30");
                     success.Links.Self.Href.Should()
                         .Be("https://api.nexmo.com/v0.1/meetings/rooms?page_size=10&start_id=20");
-                    success.Embedded.Rooms.Count.Should().Be(1);
-                    success.Embedded.Rooms[0].CallbackUrls.RecordingsCallbackUrl.Should().Be("https://example.com");
-                    success.Embedded.Rooms[0].CallbackUrls.RoomsCallbackUrl.Should().Be("https://example.com");
-                    success.Embedded.Rooms[0].CallbackUrls.SessionsCallbackUrl.Should().Be("https://example.com");
-                    success.Embedded.Rooms[0].AvailableFeatures.IsChatAvailable.Should().BeTrue();
-                    success.Embedded.Rooms[0].AvailableFeatures.IsRecordingAvailable.Should().BeTrue();
-                    success.Embedded.Rooms[0].AvailableFeatures.IsWhiteboardAvailable.Should().BeTrue();
-                    success.Embedded.Rooms[0].Id.Should().Be(new Guid("934f95c2-28e5-486b-ab8e-1126dbc180f9"));
-                    success.Embedded.Rooms[0].Metadata.Should().Be("abc123");
-                    success.Embedded.Rooms[0].Recording.AutoRecord.Should().BeFalse();
-                    success.Embedded.Rooms[0].Recording.RecordOnlyOwner.Should().BeFalse();
-                    success.Embedded.Rooms[0].Type.Should().Be(RoomType.Instant);
-                    success.Embedded.Rooms[0].CreatedAt.Should().Be(new DateTime(2023, 02, 06, 11, 13, 50));
-                    success.Embedded.Rooms[0].DisplayName.Should().Be("abc123");
-                    success.Embedded.Rooms[0].ExpiresAt.Should().Be(new DateTime(2023, 02, 06, 11, 13, 50));
-                    success.Embedded.Rooms[0].IsAvailable.Should().BeFalse();
-                    success.Embedded.Rooms[0].MeetingCode.Should().Be("123456789");
-                    success.Embedded.Rooms[0].ThemeId.Should().Be("abc123");
-                    success.Embedded.Rooms[0].ExpiresAfterUse.Should().BeFalse();
-                    success.Embedded.Rooms[0].InitialJoinOptions.MicrophoneState.Should()
+                    success.Rooms.Count.Should().Be(1);
+                    success.Rooms[0].CallbackUrls.RecordingsCallbackUrl.Should().Be("https://example.com");
+                    success.Rooms[0].CallbackUrls.RoomsCallbackUrl.Should().Be("https://example.com");
+                    success.Rooms[0].CallbackUrls.SessionsCallbackUrl.Should().Be("https://example.com");
+                    success.Rooms[0].AvailableFeatures.IsChatAvailable.Should().BeTrue();
+                    success.Rooms[0].AvailableFeatures.IsRecordingAvailable.Should().BeTrue();
+                    success.Rooms[0].AvailableFeatures.IsWhiteboardAvailable.Should().BeTrue();
+                    success.Rooms[0].Id.Should().Be(new Guid("934f95c2-28e5-486b-ab8e-1126dbc180f9"));
+                    success.Rooms[0].Metadata.Should().Be("abc123");
+                    success.Rooms[0].Recording.AutoRecord.Should().BeFalse();
+                    success.Rooms[0].Recording.RecordOnlyOwner.Should().BeFalse();
+                    success.Rooms[0].Type.Should().Be(RoomType.Instant);
+                    success.Rooms[0].CreatedAt.Should().Be(new DateTime(2023, 02, 06, 11, 13, 50));
+                    success.Rooms[0].DisplayName.Should().Be("abc123");
+                    success.Rooms[0].ExpiresAt.Should().Be(new DateTime(2023, 02, 06, 11, 13, 50));
+                    success.Rooms[0].IsAvailable.Should().BeFalse();
+                    success.Rooms[0].MeetingCode.Should().Be("123456789");
+                    success.Rooms[0].ThemeId.Should().Be("abc123");
+                    success.Rooms[0].ExpiresAfterUse.Should().BeFalse();
+                    success.Rooms[0].InitialJoinOptions.MicrophoneState.Should()
                         .Be(RoomMicrophoneState.Default);
-                    success.Embedded.Rooms[0].JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
-                    success.Embedded.Rooms[0].Links.GuestUrl.Href.Should().Be("https://meetings.vonage.com/123456789");
-                    success.Embedded.Rooms[0].Links.HostUrl.Href.Should()
+                    success.Rooms[0].JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
+                    success.Rooms[0].Links.GuestUrl.Href.Should().Be("https://meetings.vonage.com/123456789");
+                    success.Rooms[0].Links.HostUrl.Href.Should()
                         .Be("https://meetings.vonage.com/123456789?participant_token=xyz");
                 });
     }

@@ -476,6 +476,7 @@
         <Content Include="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="Meetings\GetAvailableRooms\Data\ShouldDeserializeProd200-response.json"/>
     </ItemGroup>
 
 </Project>
