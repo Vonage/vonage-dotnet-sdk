@@ -58,10 +58,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
 
         private IRequestBuilder CreateRequest()
         {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(value))
-                    .IfFailure(string.Empty);
+            var serializedItems = this.request.GetStringContent().IfFailure(string.Empty);
             return WireMockExtensions
                 .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
                 .UsingPost();

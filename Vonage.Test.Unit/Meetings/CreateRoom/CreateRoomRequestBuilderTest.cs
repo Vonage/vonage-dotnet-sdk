@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -12,14 +13,13 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
     public class CreateRoomRequestBuilderTest
     {
         private readonly Room.Callback callback;
+        private readonly DateTime expiresAt;
         private readonly Room.Features features;
         private readonly Room.JoinOptions joinOptions;
         private readonly Room.RecordingOptions recordingOptions;
         private readonly RoomApprovalLevel approvalLevel;
-        private readonly RoomType roomType;
         private readonly string displayName;
         private readonly string metadata;
-        private readonly string expiresAt;
         private readonly string themeId;
 
         public CreateRoomRequestBuilderTest()
@@ -28,8 +28,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
             fixture.Customize(new SupportMutableValueTypesCustomization());
             this.displayName = fixture.Create<string>();
             this.metadata = fixture.Create<string>();
-            this.roomType = fixture.Create<RoomType>();
-            this.expiresAt = fixture.Create<string>();
+            this.expiresAt = fixture.Create<DateTime>();
             this.approvalLevel = fixture.Create<RoomApprovalLevel>();
             this.recordingOptions = fixture.Create<Room.RecordingOptions>();
             this.joinOptions = fixture.Create<Room.JoinOptions>();
@@ -47,7 +46,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .BeSuccess(success =>
                 {
                     success.Metadata.Should().BeNone();
-                    success.Type.Should().BeNone();
+                    success.Type.Should().Be(RoomType.Instant);
                     success.ExpiresAt.Should().BeNone();
                     success.JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
                     success.RecordingOptions.Should().BeNone();
@@ -93,8 +92,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
             CreateRoomRequestBuilder
                 .Build(this.displayName)
                 .WithMetadata(this.metadata)
-                .WithRoomType(this.roomType)
-                .WithExpiresAt(this.expiresAt)
+                .AsLongTermRoom(this.expiresAt)
                 .ExpireAfterUse()
                 .WithThemeId(this.themeId)
                 .WithApprovalLevel(this.approvalLevel)
@@ -108,7 +106,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 {
                     success.DisplayName.Should().Be(this.displayName);
                     success.Metadata.Should().BeSome(this.metadata);
-                    success.Type.Should().BeSome(this.roomType);
+                    success.Type.Should().Be(RoomType.LongTerm);
                     success.ExpiresAt.Should().BeSome(this.expiresAt);
                     success.ExpireAfterUse.Should().BeTrue();
                     success.ThemeId.Should().BeSome(this.themeId);

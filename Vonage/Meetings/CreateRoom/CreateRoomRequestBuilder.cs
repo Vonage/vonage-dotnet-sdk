@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Monads;
+﻿using System;
+using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Meetings.Common;
 
@@ -18,15 +19,27 @@ public class CreateRoomRequestBuilder
 
     private Room.JoinOptions joinOptions = new() {MicrophoneState = RoomMicrophoneState.Default};
     private Maybe<Room.Callback> callback;
+    private Maybe<DateTime> expiresAt;
     private Maybe<Room.RecordingOptions> recordingOptions;
-    private Maybe<RoomType> roomType;
     private Maybe<string> metadata;
-    private Maybe<string> expiresAt;
     private Maybe<string> themeId;
     private RoomApprovalLevel approvalLevel = RoomApprovalLevel.None;
+    private RoomType roomType = RoomType.Instant;
     private readonly string displayName;
 
     private CreateRoomRequestBuilder(string displayName) => this.displayName = displayName;
+
+    /// <summary>
+    ///     Sets the room as long-term.
+    /// </summary>
+    /// <param name="expiration">The expiration date.</param>
+    /// <returns>The builder.</returns>
+    public CreateRoomRequestBuilder AsLongTermRoom(DateTime expiration)
+    {
+        this.roomType = RoomType.LongTerm;
+        this.expiresAt = expiration;
+        return this;
+    }
 
     /// <summary>
     ///     Initializes a builder for CreateRoomRequest.
@@ -92,16 +105,6 @@ public class CreateRoomRequestBuilder
     }
 
     /// <summary>
-    /// </summary>
-    /// <param name="expiration"></param>
-    /// <returns>The builder.</returns>
-    public CreateRoomRequestBuilder WithExpiresAt(string expiration)
-    {
-        this.expiresAt = expiration;
-        return this;
-    }
-
-    /// <summary>
     ///     Sets the available features on the builder.
     /// </summary>
     /// <param name="availableFeatures">The available features.</param>
@@ -142,17 +145,6 @@ public class CreateRoomRequestBuilder
     public CreateRoomRequestBuilder WithRecordingOptions(Room.RecordingOptions options)
     {
         this.recordingOptions = options;
-        return this;
-    }
-
-    /// <summary>
-    ///     Sets the room type on the builder.
-    /// </summary>
-    /// <param name="type">The room type.</param>
-    /// <returns>The builder.</returns>
-    public CreateRoomRequestBuilder WithRoomType(RoomType type)
-    {
-        this.roomType = type;
         return this;
     }
 

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -54,9 +55,6 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
             CreateRoomRequestBuilder
                 .Build("string")
                 .WithMetadata("string")
-                .WithRoomType(RoomType.Instant)
-                .WithExpiresAt("2019-08-24")
-                .ExpireAfterUse()
                 .WithThemeId("ef2b46f3-8ebb-437e-a671-272e4990fbc8")
                 .WithApprovalLevel(RoomApprovalLevel.None)
                 .WithRecordingOptions(new Room.RecordingOptions {AutoRecord = true, RecordOnlyOwner = true})
@@ -68,6 +66,26 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     RecordingsCallbackUrl = "https://example.com", SessionsCallbackUrl = "https://example.com",
                     RoomsCallbackUrl = "https://example.com",
                 })
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
+        public void ShouldSerializeWithDefaultValues() =>
+            CreateRoomRequestBuilder
+                .Build("string")
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
+        public void ShouldSerializeWithLongTermRoom() =>
+            CreateRoomRequestBuilder
+                .Build("string")
+                .AsLongTermRoom(new DateTime(2023, 02, 07, 20, 10, 05))
+                .ExpireAfterUse()
                 .Create()
                 .GetStringContent()
                 .Should()

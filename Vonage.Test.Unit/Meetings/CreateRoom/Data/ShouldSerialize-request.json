@@ -10,8 +10,6 @@
     "sessions_callback_url": "https://example.com"
   },
   "display_name": "string",
-  "expire_after_use": true,
-  "expires_at": "2019-08-24",
   "initial_join_options": {
     "microphone_state": "default"
   },
