@@ -30,14 +30,14 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     success.AvailableFeatures.IsChatAvailable.Should().BeTrue();
                     success.AvailableFeatures.IsRecordingAvailable.Should().BeTrue();
                     success.AvailableFeatures.IsWhiteboardAvailable.Should().BeTrue();
-                    success.Id.Should().Be("abc123");
+                    success.Id.Should().Be(new Guid("934f95c2-28e5-486b-ab8e-1126dbc180f9"));
                     success.Metadata.Should().Be("abc123");
                     success.Recording.AutoRecord.Should().BeFalse();
                     success.Recording.RecordOnlyOwner.Should().BeFalse();
                     success.Type.Should().Be(RoomType.Instant);
-                    success.CreatedAt.Should().Be("abc123");
+                    success.CreatedAt.Should().Be(new DateTime(2023, 02, 06, 11, 13, 50));
                     success.DisplayName.Should().Be("abc123");
-                    success.ExpiresAt.Should().Be("abc123");
+                    success.ExpiresAt.Should().Be(new DateTime(2023, 02, 06, 11, 13, 50));
                     success.IsAvailable.Should().BeFalse();
                     success.MeetingCode.Should().Be("123456789");
                     success.ThemeId.Should().Be("abc123");

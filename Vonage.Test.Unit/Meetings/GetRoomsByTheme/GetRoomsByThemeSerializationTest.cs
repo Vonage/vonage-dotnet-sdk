@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -38,14 +39,14 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
                     success.Embedded.Rooms[0].AvailableFeatures.IsChatAvailable.Should().BeTrue();
                     success.Embedded.Rooms[0].AvailableFeatures.IsRecordingAvailable.Should().BeTrue();
                     success.Embedded.Rooms[0].AvailableFeatures.IsWhiteboardAvailable.Should().BeTrue();
-                    success.Embedded.Rooms[0].Id.Should().Be("abc123");
+                    success.Embedded.Rooms[0].Id.Should().Be(new Guid("934f95c2-28e5-486b-ab8e-1126dbc180f9"));
                     success.Embedded.Rooms[0].Metadata.Should().Be("abc123");
                     success.Embedded.Rooms[0].Recording.AutoRecord.Should().BeFalse();
                     success.Embedded.Rooms[0].Recording.RecordOnlyOwner.Should().BeFalse();
                     success.Embedded.Rooms[0].Type.Should().Be(RoomType.Instant);
-                    success.Embedded.Rooms[0].CreatedAt.Should().Be("abc123");
+                    success.Embedded.Rooms[0].CreatedAt.Should().Be(new DateTime(2023, 02, 06, 11, 13, 50));
                     success.Embedded.Rooms[0].DisplayName.Should().Be("abc123");
-                    success.Embedded.Rooms[0].ExpiresAt.Should().Be("abc123");
+                    success.Embedded.Rooms[0].ExpiresAt.Should().Be(new DateTime(2023, 02, 06, 11, 13, 50));
                     success.Embedded.Rooms[0].IsAvailable.Should().BeFalse();
                     success.Embedded.Rooms[0].MeetingCode.Should().Be("123456789");
                     success.Embedded.Rooms[0].ThemeId.Should().Be("abc123");

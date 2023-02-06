@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
 
 namespace Vonage.Meetings.Common;
@@ -18,7 +19,7 @@ public struct Room
     /// <summary>
     ///     The time for when the room was created, expressed in ISO 8601 format
     /// </summary>
-    public string CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     /// <summary>
     /// </summary>
@@ -32,11 +33,11 @@ public struct Room
     /// <summary>
     ///     The time for when the room will be expired, expressed in ISO 8601 format
     /// </summary>
-    public string ExpiresAt { get; set; }
+    public DateTime ExpiresAt { get; set; }
 
     /// <summary>
     /// </summary>
-    public string Id { get; set; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// </summary>
