@@ -12,8 +12,12 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.403'
+      - name: Setup .NET 3.1
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.401'
       - uses: actions/checkout@v2
       - name: Build
         run: dotnet build --configuration Release
       - name: Test
-        run: dotnet test  --configuration Release --no-build -f net6.0
+        run: dotnet test  --configuration Release --no-build
