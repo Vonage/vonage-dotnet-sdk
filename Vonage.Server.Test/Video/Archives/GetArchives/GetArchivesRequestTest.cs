@@ -1,6 +1,5 @@
-﻿using AutoFixture;
-using FluentAssertions;
-using Vonage.Common.Failures;
+﻿using System;
+using AutoFixture;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Archives.GetArchives;
 using Xunit;
@@ -9,78 +8,39 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
 {
     public class GetArchivesRequestTest
     {
-        private readonly Fixture fixture;
+        private readonly Guid applicationId;
 
         public GetArchivesRequestTest()
         {
-            this.fixture = new Fixture();
+            var fixture = new Fixture();
+            this.applicationId = fixture.Create<Guid>();
         }
 
-        [Theory]
-        [InlineData("appId", GetArchivesRequest.DefaultOffset, GetArchivesRequest.DefaultCount, null,
-            "/v2/project/appId/archive?offset=0&count=50")]
-        [InlineData("appId", GetArchivesRequest.DefaultOffset, GetArchivesRequest.DefaultCount, "",
-            "/v2/project/appId/archive?offset=0&count=50")]
-        [InlineData("appId", GetArchivesRequest.DefaultOffset, GetArchivesRequest.DefaultCount, " ",
-            "/v2/project/appId/archive?offset=0&count=50")]
-        [InlineData("appId2", 50, 800, "sessionId",
-            "/v2/project/appId2/archive?offset=50&count=800&sessionId=sessionId")]
-        public void GetEndpointPath_ShouldReturnApiEndpoint(string applicationId, int offset, int count,
-            string sessionId, string expected) =>
-            GetArchivesRequest.Parse(applicationId, offset, count, sessionId)
+        [Fact]
+        public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
+            GetArchivesRequestBuilder.Build(this.applicationId)
+                .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess(expected);
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            GetArchivesRequest.Parse(value)
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeSuccess($"/v2/project/{this.applicationId}/archive?offset=0&count=50");
 
         [Fact]
-        public void Parse_ShouldReturnFailure_GivenCountIsHigherThanThreshold() =>
-            GetArchivesRequest.Parse(this.fixture.Create<string>(), count: 1001)
+        public void GetEndpointPath_ShouldReturnApiEndpoint_WithOffsetAndCount() =>
+            GetArchivesRequestBuilder.Build(this.applicationId)
+                .WithCount(100)
+                .WithOffset(1000)
+                .Create()
+                .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Count cannot be higher than 1000."));
+                .BeSuccess($"/v2/project/{this.applicationId}/archive?offset=1000&count=100");
 
         [Fact]
-        public void Parse_ShouldReturnFailure_GivenCountIsNegative() =>
-            GetArchivesRequest.Parse(this.fixture.Create<string>(), count: -1)
+        public void GetEndpointPath_ShouldReturnApiEndpoint_WithSessionId() =>
+            GetArchivesRequestBuilder.Build(this.applicationId)
+                .WithSessionId("123456")
+                .Create()
+                .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Count cannot be negative."));
-
-        [Fact]
-        public void Parse_ShouldReturnFailure_GivenOffsetIsNegative() =>
-            GetArchivesRequest.Parse(this.fixture.Create<string>(), -1)
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Offset cannot be negative."));
-
-        [Fact]
-        public void Parse_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
-            GetArchivesRequest.Parse("appId", 1000, 1000, "Some value")
-                .Should()
-                .BeSuccess(request =>
-                {
-                    request.ApplicationId.Should().Be("appId");
-                    request.Offset.Should().Be(1000);
-                    request.Count.Should().Be(1000);
-                    request.SessionId.Should().Be("Some value");
-                });
-
-        [Fact]
-        public void Parse_ShouldReturnSuccess_GivenOnlyApplicationIdIsProvided() =>
-            GetArchivesRequest.Parse("appId")
-                .Should()
-                .BeSuccess(request =>
-                {
-                    request.ApplicationId.Should().Be("appId");
-                    request.Offset.Should().Be(GetArchivesRequest.DefaultOffset);
-                    request.Count.Should().Be(GetArchivesRequest.DefaultCount);
-                    request.SessionId.Should().BeNull();
-                });
+                .BeSuccess($"/v2/project/{this.applicationId}/archive?offset=0&count=50&sessionId=123456");
     }
 }
