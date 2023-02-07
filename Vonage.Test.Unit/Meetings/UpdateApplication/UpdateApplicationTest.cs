@@ -57,7 +57,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<UpdateApplicationRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            UpdateApplicationRequest.Parse(fixture.Create<string>());
+            UpdateApplicationRequest.Parse(fixture.Create<Guid>());
 
         private IRequestBuilder CreateRequest()
         {

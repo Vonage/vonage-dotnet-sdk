@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         [Fact]
         public void FinalizeLogo_ShouldSerialize() =>
             Result<FinalizeLogoRequest>
-                .FromSuccess(new FinalizeLogoRequest("ThemeId", "logo-key1"))
+                .FromSuccess(new FinalizeLogoRequest(new Guid("ca63a155-d5f0-4131-9903-c59907e53df0"), "logo-key1"))
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());

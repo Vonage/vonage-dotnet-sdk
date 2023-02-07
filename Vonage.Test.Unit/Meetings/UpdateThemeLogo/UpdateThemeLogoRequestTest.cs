@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -10,14 +11,14 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
 {
     public class UpdateThemeLogoRequestTest
     {
-        private readonly string themeId;
+        private readonly Guid themeId;
         private readonly string filePath;
         private readonly ThemeLogoType logoType;
 
         public UpdateThemeLogoRequestTest()
         {
             var fixture = new Fixture();
-            this.themeId = fixture.Create<string>();
+            this.themeId = fixture.Create<Guid>();
             this.filePath = fixture.Create<string>();
             this.logoType = fixture.Create<ThemeLogoType>();
         }
@@ -31,14 +32,11 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("FilePath cannot be null or whitespace."));
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenThemeIdIsNullOrWhitespace(string value) =>
-            UpdateThemeLogoRequest.Parse(value, this.logoType, this.filePath)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenThemeIdIsEmpty() =>
+            UpdateThemeLogoRequest.Parse(Guid.Empty, this.logoType, this.filePath)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

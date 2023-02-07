@@ -36,9 +36,11 @@ internal class UpdateThemeLogoUseCase
     private Task<Result<Unit>> SendFinalizeLogoRequestAsync(FinalizeLogoRequest request) =>
         this.vonageHttpClient.SendAsync<FinalizeLogoRequest>(request);
 
-    private async Task<Result<UploadLogoRequest>> SendUploadLogoRequestAsync(UploadLogoRequest uploadLogoRequest) =>
-        (await this.vonageHttpClient.SendAsync<UploadLogoRequest>(uploadLogoRequest))
-        .Match(_ => uploadLogoRequest, Result<UploadLogoRequest>.FromFailure);
+    private async Task<Result<UploadLogoRequest>> SendUploadLogoRequestAsync(UploadLogoRequest uploadLogoRequest)
+    {
+        return (await this.vonageHttpClient.SendWithoutHeadersAsync<UploadLogoRequest>(uploadLogoRequest))
+            .Match(_ => uploadLogoRequest, Result<UploadLogoRequest>.FromFailure);
+    }
 
     private async Task<Result<Unit>> UpdateThemeLogoAsync(UpdateThemeLogoRequest request)
     {

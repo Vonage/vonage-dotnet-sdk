@@ -45,6 +45,17 @@ public class VonageHttpClient
             .BindAsync(value => MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
 
     /// <summary>
+    ///     Sends a HttpRequest without Authorization and UserAgent headers.
+    /// </summary>
+    /// <param name="request">The request to send.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    public async Task<Result<Unit>> SendWithoutHeadersAsync<T>(Result<T> request) where T : IVonageRequest =>
+        await request
+            .Map(value => value.BuildRequestMessage())
+            .MapAsync(value => this.client.SendAsync(value))
+            .BindAsync(value => MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
+
+    /// <summary>
     ///     Sends a HttpRequest and parses the response.
     /// </summary>
     /// <param name="request">The request to send.</param>

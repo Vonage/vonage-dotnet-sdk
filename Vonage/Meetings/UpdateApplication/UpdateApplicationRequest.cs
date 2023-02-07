@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using Vonage.Common;
 using Vonage.Common.Client;
@@ -12,11 +13,11 @@ namespace Vonage.Meetings.UpdateApplication;
 /// </summary>
 public readonly struct UpdateApplicationRequest : IVonageRequest
 {
-    private UpdateApplicationRequest(string themeId) => this.DefaultThemeId = themeId;
+    private UpdateApplicationRequest(Guid themeId) => this.DefaultThemeId = themeId;
 
     /// <summary>
     /// </summary>
-    public string DefaultThemeId { get; }
+    public Guid DefaultThemeId { get; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -33,7 +34,7 @@ public readonly struct UpdateApplicationRequest : IVonageRequest
     /// </summary>
     /// <param name="themeId">The theme id.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<UpdateApplicationRequest> Parse(string themeId) =>
+    public static Result<UpdateApplicationRequest> Parse(Guid themeId) =>
         Result<UpdateApplicationRequest>
             .FromSuccess(new UpdateApplicationRequest(themeId))
             .Bind(VerifyDefaultThemeId);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using Vonage.Common.Client;
 
@@ -32,10 +33,14 @@ internal readonly struct UploadLogoRequest : IVonageRequest
     /// <inheritdoc />
     public string GetEndpointPath() => this.Url.AbsoluteUri;
 
-    private FormUrlEncodedContent GetRequestContent()
+    private MultipartFormDataContent GetRequestContent()
     {
-        var dictionary = this.Fields.ToDictionary();
-        dictionary.Add("file", this.Filepath);
-        return new FormUrlEncodedContent(dictionary);
+        var content = new MultipartFormDataContent();
+        this.Fields
+            .ToDictionary()
+            .ToList()
+            .ForEach(pair => content.Add(new StringContent(pair.Value), pair.Key));
+        content.Add(new StringContent(this.Filepath), "file");
+        return content;
     }
 }

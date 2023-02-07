@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using Vonage.Common;
 using Vonage.Common.Client;
@@ -7,10 +8,10 @@ namespace Vonage.Meetings.UpdateThemeLogo;
 
 internal readonly struct FinalizeLogoRequest : IVonageRequest
 {
-    private readonly string themeId;
+    private readonly Guid themeId;
     private readonly string key;
 
-    public FinalizeLogoRequest(string themeId, string key)
+    public FinalizeLogoRequest(Guid themeId, string key)
     {
         this.themeId = themeId;
         this.key = key;

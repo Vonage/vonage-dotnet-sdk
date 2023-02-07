@@ -31,7 +31,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
         [Fact]
         public void ShouldSerialize() =>
             UpdateApplicationRequest
-                .Parse("e86a7335-35fe-45e1-b961-5777d4748022")
+                .Parse(new Guid("e86a7335-35fe-45e1-b961-5777d4748022"))
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());

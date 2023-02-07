@@ -33,7 +33,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
                 this.helper.Fixture.Create<string>());
             this.request = UpdateThemeLogoRequest
-                .Parse("ca242c86-25e5-46b1-ad75-97ffd67452ea", ThemeLogoType.White, "C:\\ThisIsATest.txt")
+                .Parse(new Guid("ca242c86-25e5-46b1-ad75-97ffd67452ea"), ThemeLogoType.White, "C:\\ThisIsATest.txt")
                 .GetSuccessUnsafe();
         }
 
@@ -193,7 +193,6 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         private IRequestBuilder GetUploadRequestBuilder() =>
             WireMock.RequestBuilders.Request
                 .Create()
-                .WithHeader("Authorization", $"Bearer {this.helper.Token}")
                 .WithUrl(this.CreateLogosUrlResponse()[0].Url.AbsoluteUri)
                 .UsingPost();
 

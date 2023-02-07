@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Monads;
+﻿using System;
+using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Meetings.Common;
 
@@ -9,7 +10,7 @@ namespace Vonage.Meetings.UpdateThemeLogo;
 /// </summary>
 public readonly struct UpdateThemeLogoRequest
 {
-    private UpdateThemeLogoRequest(string filePath, string themeId, ThemeLogoType type)
+    private UpdateThemeLogoRequest(string filePath, Guid themeId, ThemeLogoType type)
     {
         this.FilePath = filePath;
         this.ThemeId = themeId;
@@ -24,7 +25,7 @@ public readonly struct UpdateThemeLogoRequest
     /// <summary>
     ///     Id of the theme which the logo will be associated with.
     /// </summary>
-    public string ThemeId { get; }
+    public Guid ThemeId { get; }
 
     /// <summary>
     ///     The logo type to upload.
@@ -38,7 +39,7 @@ public readonly struct UpdateThemeLogoRequest
     /// <param name="logoType">The logo type to upload.</param>
     /// <param name="filePath">Absolute path to the logo image.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<UpdateThemeLogoRequest> Parse(string themeId, ThemeLogoType logoType, string filePath) =>
+    public static Result<UpdateThemeLogoRequest> Parse(Guid themeId, ThemeLogoType logoType, string filePath) =>
         Result<UpdateThemeLogoRequest>
             .FromSuccess(new UpdateThemeLogoRequest(filePath, themeId, logoType))
             .Bind(VerifyThemeId)
