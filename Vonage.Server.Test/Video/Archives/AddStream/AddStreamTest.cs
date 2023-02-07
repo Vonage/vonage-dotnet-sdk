@@ -49,7 +49,11 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
             await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<AddStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            AddStreamRequest.Parse(fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
+            AddStreamRequestBuilder.Build(
+                    fixture.Create<Guid>(),
+                    fixture.Create<Guid>(),
+                    fixture.Create<Guid>())
+                .Create();
 
         private IRequestBuilder CreateRequest()
         {
