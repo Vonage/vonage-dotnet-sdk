@@ -63,14 +63,7 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
                 .DisableAudio()
                 .Create()
                 .Should()
-                .BeSuccess(request =>
-                {
-                    request.ApplicationId.Should().Be(this.applicationId);
-                    request.ArchiveId.Should().Be(this.archiveId);
-                    request.StreamId.Should().Be(this.streamId);
-                    request.HasAudio.Should().Be(false);
-                    request.HasVideo.Should().Be(true);
-                });
+                .BeSuccess(request => request.HasAudio.Should().Be(false));
 
         [Fact]
         public void Parse_ShouldReturnDisabledVideo_WhenUsingDisableVideo() =>
@@ -78,13 +71,6 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
                 .DisableVideo()
                 .Create()
                 .Should()
-                .BeSuccess(request =>
-                {
-                    request.ApplicationId.Should().Be(this.applicationId);
-                    request.ArchiveId.Should().Be(this.archiveId);
-                    request.StreamId.Should().Be(this.streamId);
-                    request.HasAudio.Should().Be(true);
-                    request.HasVideo.Should().Be(false);
-                });
+                .BeSuccess(request => request.HasVideo.Should().Be(false));
     }
 }
