@@ -49,7 +49,7 @@ namespace Vonage.Server.Test.Video.Archives.RemoveStream
             await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<RemoveStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            RemoveStreamRequest.Parse(fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
+            RemoveStreamRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>(), fixture.Create<Guid>());
 
         private IRequestBuilder CreateRequest()
         {

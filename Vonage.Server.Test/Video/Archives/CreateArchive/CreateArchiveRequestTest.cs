@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -10,14 +11,14 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 {
     public class CreateArchiveRequestTest
     {
-        private readonly string applicationId;
         private readonly Fixture fixture;
+        private readonly Guid applicationId;
         private readonly string sessionId;
 
         public CreateArchiveRequestTest()
         {
             this.fixture = new Fixture();
-            this.applicationId = this.fixture.Create<string>();
+            this.applicationId = this.fixture.Create<Guid>();
             this.sessionId = this.fixture.Create<string>();
         }
 
@@ -28,21 +29,18 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
                 .Should()
                 .BeSuccess($"/v2/project/{this.applicationId}/archive");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            CreateArchiveRequest.Parse(value, this.fixture.Create<string>())
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+            CreateArchiveRequest.Parse(Guid.Empty, this.fixture.Create<string>())
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
         public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
-            CreateArchiveRequest.Parse(this.fixture.Create<string>(), value)
+            CreateArchiveRequest.Parse(this.fixture.Create<Guid>(), value)
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 

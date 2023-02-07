@@ -49,7 +49,7 @@ namespace Vonage.Server.Test.Video.Sessions.ChangeStreamLayout
 
         private static Result<ChangeStreamLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
             ChangeStreamLayoutRequest.Parse(
-                fixture.Create<string>(),
+                fixture.Create<Guid>(),
                 fixture.Create<string>(),
                 fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>());
 

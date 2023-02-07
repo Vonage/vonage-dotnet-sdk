@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
@@ -10,14 +11,14 @@ namespace Vonage.Server.Test.Video.Sessions.ChangeStreamLayout
 {
     public class ChangeStreamLayoutRequestTest
     {
-        private readonly string applicationId;
+        private readonly Guid applicationId;
         private readonly IEnumerable<ChangeStreamLayoutRequest.LayoutItem> items;
         private readonly string sessionId;
 
         public ChangeStreamLayoutRequestTest()
         {
             var fixture = new Fixture();
-            this.applicationId = fixture.Create<string>();
+            this.applicationId = fixture.Create<Guid>();
             this.sessionId = fixture.Create<string>();
             this.items = fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>();
         }
@@ -29,14 +30,11 @@ namespace Vonage.Server.Test.Video.Sessions.ChangeStreamLayout
                 .Should()
                 .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/stream");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            ChangeStreamLayoutRequest.Parse(value, this.sessionId, this.items)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+            ChangeStreamLayoutRequest.Parse(Guid.Empty, this.sessionId, this.items)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenItemsIsNull() =>

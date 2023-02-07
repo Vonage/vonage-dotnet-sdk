@@ -49,7 +49,7 @@ namespace Vonage.Server.Test.Video.Archives.DeleteArchive
             await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<DeleteArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            DeleteArchiveRequest.Parse(fixture.Create<string>(), fixture.Create<string>());
+            DeleteArchiveRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

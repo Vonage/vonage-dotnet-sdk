@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -9,13 +10,13 @@ namespace Vonage.Server.Test.Video.Sessions.GetStreams
 {
     public class GetStreamsRequestTest
     {
-        private readonly string applicationId;
+        private readonly Guid applicationId;
         private readonly string sessionId;
 
         public GetStreamsRequestTest()
         {
             var fixture = new Fixture();
-            this.applicationId = fixture.Create<string>();
+            this.applicationId = fixture.Create<Guid>();
             this.sessionId = fixture.Create<string>();
         }
 
@@ -26,14 +27,11 @@ namespace Vonage.Server.Test.Video.Sessions.GetStreams
                 .Should()
                 .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/stream");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            GetStreamsRequest.Parse(value, this.sessionId)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+            GetStreamsRequest.Parse(Guid.Empty, this.sessionId)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Theory]
         [InlineData("")]

@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -10,16 +11,16 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignal
 {
     public class SendSignalRequestTest
     {
-        private readonly string applicationId;
-        private readonly string connectionId;
-        private readonly SignalContent content;
         private readonly Fixture fixture;
+        private readonly Guid applicationId;
+        private readonly SignalContent content;
+        private readonly string connectionId;
         private readonly string sessionId;
 
         public SendSignalRequestTest()
         {
             this.fixture = new Fixture();
-            this.applicationId = this.fixture.Create<string>();
+            this.applicationId = this.fixture.Create<Guid>();
             this.sessionId = this.fixture.Create<string>();
             this.connectionId = this.fixture.Create<string>();
             this.content = this.fixture.Create<SignalContent>();
@@ -33,14 +34,11 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignal
                 .BeSuccess(
                     $"/v2/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}/signal");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            SendSignalRequest.Parse(value, this.sessionId, this.connectionId, this.content)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+            SendSignalRequest.Parse(Guid.Empty, this.sessionId, this.connectionId, this.content)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Theory]
         [InlineData("")]

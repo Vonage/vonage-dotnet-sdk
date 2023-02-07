@@ -56,7 +56,7 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         private static Result<CreateArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
             CreateArchiveRequest.Parse(
-                fixture.Create<string>(),
+                fixture.Create<Guid>(),
                 fixture.Create<string>(),
                 fixture.Create<bool>(),
                 fixture.Create<bool>(),
