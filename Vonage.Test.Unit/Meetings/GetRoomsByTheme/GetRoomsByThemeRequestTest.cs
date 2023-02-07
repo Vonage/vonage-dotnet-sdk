@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Test.Extensions;
+﻿using System;
+using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.GetRoomsByTheme;
 using Xunit;
 
@@ -8,38 +9,39 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
     {
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            GetRoomsByThemeVonageRequestBuilder.Build("1234")
+            GetRoomsByThemeVonageRequestBuilder.Build(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/beta/meetings/themes/1234/rooms");
+                .BeSuccess("/beta/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithEndId() =>
-            GetRoomsByThemeVonageRequestBuilder.Build("1234")
+            GetRoomsByThemeVonageRequestBuilder.Build(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
                 .WithEndId("1234")
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/beta/meetings/themes/1234/rooms?end_id=1234");
+                .BeSuccess("/beta/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms?end_id=1234");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithStartId() =>
-            GetRoomsByThemeVonageRequestBuilder.Build("1234")
+            GetRoomsByThemeVonageRequestBuilder.Build(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
                 .WithStartId("1234")
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/beta/meetings/themes/1234/rooms?start_id=1234");
+                .BeSuccess("/beta/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms?start_id=1234");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithStartIdAndEndId() =>
-            GetRoomsByThemeVonageRequestBuilder.Build("1234")
+            GetRoomsByThemeVonageRequestBuilder.Build(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
                 .WithStartId("1234")
                 .WithEndId("5678")
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/beta/meetings/themes/1234/rooms?start_id=1234&end_id=5678");
+                .BeSuccess(
+                    "/beta/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms?start_id=1234&end_id=5678");
     }
 }

@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Client;
+﻿using System;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -7,18 +8,18 @@ namespace Vonage.Meetings.GetRoomsByTheme;
 /// <inheritdoc />
 public class GetRoomsByThemeVonageRequestBuilder : IVonageRequestBuilder<GetRoomsByThemeRequest>
 {
+    private readonly Guid themeId;
     private Maybe<string> startId = Maybe<string>.None;
     private Maybe<string> endId = Maybe<string>.None;
-    private readonly string themeId;
 
-    private GetRoomsByThemeVonageRequestBuilder(string themeId) => this.themeId = themeId;
+    private GetRoomsByThemeVonageRequestBuilder(Guid themeId) => this.themeId = themeId;
 
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
-    /// <param name="brandText"></param>
+    /// <param name="themeId">The theme identifier.</param>
     /// <returns>The builder.</returns>
-    public static GetRoomsByThemeVonageRequestBuilder Build(string brandText) => new(brandText);
+    public static GetRoomsByThemeVonageRequestBuilder Build(Guid themeId) => new(themeId);
 
     /// <inheritdoc />
     public Result<GetRoomsByThemeRequest> Create() =>

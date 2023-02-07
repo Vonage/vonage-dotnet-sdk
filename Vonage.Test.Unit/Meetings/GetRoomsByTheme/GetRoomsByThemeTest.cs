@@ -50,7 +50,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<GetRoomsByThemeRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetRoomsByThemeVonageRequestBuilder.Build(fixture.Create<string>()).Create();
+            GetRoomsByThemeVonageRequestBuilder.Build(fixture.Create<Guid>()).Create();
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

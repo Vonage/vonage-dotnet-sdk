@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common.Client;
@@ -23,7 +24,7 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
-    public string ThemeId { get; internal init; }
+    public Guid ThemeId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
