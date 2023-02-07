@@ -53,7 +53,7 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<MuteStreamsRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            MuteStreamsRequest.Parse(fixture.Create<string>(),
+            MuteStreamsRequest.Parse(fixture.Create<Guid>(),
                 fixture.Create<string>(),
                 fixture.Create<MuteStreamsRequest.MuteStreamsConfiguration>());
 

@@ -50,7 +50,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignal
 
         private static Result<SendSignalRequest> BuildRequest(ISpecimenBuilder fixture) =>
             SendSignalRequest.Parse(
-                fixture.Create<string>(),
+                fixture.Create<Guid>(),
                 fixture.Create<string>(),
                 fixture.Create<string>(),
                 fixture.Create<SignalContent>());

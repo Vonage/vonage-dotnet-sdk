@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -10,7 +11,7 @@ namespace Vonage.Server.Video.Moderation.DisconnectConnection;
 /// </summary>
 public readonly struct DisconnectConnectionRequest : IVonageRequest
 {
-    private DisconnectConnectionRequest(string applicationId, string sessionId, string connectionId)
+    private DisconnectConnectionRequest(Guid applicationId, string sessionId, string connectionId)
     {
         this.ApplicationId = applicationId;
         this.SessionId = sessionId;
@@ -20,7 +21,7 @@ public readonly struct DisconnectConnectionRequest : IVonageRequest
     /// <summary>
     ///     The Vonage Application UUID.
     /// </summary>
-    public string ApplicationId { get; }
+    public Guid ApplicationId { get; }
 
     /// <summary>
     ///     The specific publisher connection Id.
@@ -50,7 +51,7 @@ public readonly struct DisconnectConnectionRequest : IVonageRequest
     /// <param name="connectionId"> The specific publisher connection Id.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
     public static Result<DisconnectConnectionRequest>
-        Parse(string applicationId, string sessionId, string connectionId) =>
+        Parse(Guid applicationId, string sessionId, string connectionId) =>
         Result<DisconnectConnectionRequest>
             .FromSuccess(new DisconnectConnectionRequest(applicationId, sessionId, connectionId))
             .Bind(VerifyApplicationId)

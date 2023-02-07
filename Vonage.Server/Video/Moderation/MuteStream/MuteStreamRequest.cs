@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -10,7 +11,7 @@ namespace Vonage.Server.Video.Moderation.MuteStream;
 /// </summary>
 public readonly struct MuteStreamRequest : IVonageRequest
 {
-    private MuteStreamRequest(string applicationId, string sessionId, string streamId)
+    private MuteStreamRequest(Guid applicationId, string sessionId, string streamId)
     {
         this.ApplicationId = applicationId;
         this.SessionId = sessionId;
@@ -20,7 +21,7 @@ public readonly struct MuteStreamRequest : IVonageRequest
     /// <summary>
     ///      The Vonage Application UUID.
     /// </summary>
-    public string ApplicationId { get; }
+    public Guid ApplicationId { get; }
 
     /// <summary>
     ///       The Video session Id.
@@ -49,7 +50,7 @@ public readonly struct MuteStreamRequest : IVonageRequest
     /// <param name="sessionId">   The Video session Id.</param>
     /// <param name="streamId">The stream Id.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<MuteStreamRequest> Parse(string applicationId, string sessionId, string streamId) =>
+    public static Result<MuteStreamRequest> Parse(Guid applicationId, string sessionId, string streamId) =>
         Result<MuteStreamRequest>
             .FromSuccess(new MuteStreamRequest(applicationId, sessionId, streamId))
             .Bind(VerifyApplicationId)

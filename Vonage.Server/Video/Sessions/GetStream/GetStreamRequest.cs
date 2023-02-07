@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -10,7 +11,7 @@ namespace Vonage.Server.Video.Sessions.GetStream;
 /// </summary>
 public readonly struct GetStreamRequest : IVonageRequest
 {
-    private GetStreamRequest(string applicationId, string sessionId, string streamId)
+    private GetStreamRequest(Guid applicationId, string sessionId, string streamId)
     {
         this.ApplicationId = applicationId;
         this.SessionId = sessionId;
@@ -20,7 +21,7 @@ public readonly struct GetStreamRequest : IVonageRequest
     /// <summary>
     ///     The application Id.
     /// </summary>
-    public string ApplicationId { get; }
+    public Guid ApplicationId { get; }
 
     /// <summary>
     ///     The session Id.
@@ -49,7 +50,7 @@ public readonly struct GetStreamRequest : IVonageRequest
     /// <param name="sessionId">The session Id.</param>
     /// <param name="streamId">The stream Id.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<GetStreamRequest> Parse(string applicationId, string sessionId, string streamId) =>
+    public static Result<GetStreamRequest> Parse(Guid applicationId, string sessionId, string streamId) =>
         Result<GetStreamRequest>
             .FromSuccess(new GetStreamRequest(applicationId, sessionId, streamId))
             .Bind(VerifyApplicationId)

@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -10,15 +11,15 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
 {
     public class SendSignalsRequestTest
     {
-        private readonly string applicationId;
-        private readonly SignalContent content;
         private readonly Fixture fixture;
+        private readonly Guid applicationId;
+        private readonly SignalContent content;
         private readonly string sessionId;
 
         public SendSignalsRequestTest()
         {
             this.fixture = new Fixture();
-            this.applicationId = this.fixture.Create<string>();
+            this.applicationId = this.fixture.Create<Guid>();
             this.sessionId = this.fixture.Create<string>();
             this.content = this.fixture.Create<SignalContent>();
         }
@@ -30,14 +31,11 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
                 .Should()
                 .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/signal");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            SendSignalsRequest.Parse(value, this.sessionId, this.content)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+            SendSignalsRequest.Parse(Guid.Empty, this.sessionId, this.content)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Theory]
         [InlineData("")]

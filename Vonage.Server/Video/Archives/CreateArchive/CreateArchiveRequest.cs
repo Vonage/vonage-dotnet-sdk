@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
@@ -25,7 +26,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     /// <param name="outputMode"></param>
     /// <param name="resolution"></param>
     /// <param name="streamMode"></param>
-    private CreateArchiveRequest(ArchiveLayout layout, string applicationId, string sessionId, bool hasAudio,
+    private CreateArchiveRequest(ArchiveLayout layout, Guid applicationId, string sessionId, bool hasAudio,
         bool hasVideo, string name, OutputMode outputMode, RenderResolution resolution, StreamMode streamMode)
     {
         this.Layout = layout;
@@ -43,7 +44,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     ///     The Vonage Application UUID.
     /// </summary>
     [JsonIgnore]
-    public string ApplicationId { get; }
+    public Guid ApplicationId { get; }
 
     /// <summary>
     ///     Whether the archive will record audio (true, the default) or not (false). If you set both hasAudio and hasVideo to
@@ -142,7 +143,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     /// <param name="layout">The archive's layout.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
     public static Result<CreateArchiveRequest> Parse(
-        string applicationId,
+        Guid applicationId,
         string sessionId,
         bool hasAudio = true,
         bool hasVideo = true,

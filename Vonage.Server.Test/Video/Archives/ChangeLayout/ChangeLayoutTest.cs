@@ -50,7 +50,7 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
             await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<ChangeLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            ChangeLayoutRequest.Parse(fixture.Create<string>(), fixture.Create<string>(),
+            ChangeLayoutRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>(),
                 fixture.Create<ArchiveLayout>());
 
         private IRequestBuilder CreateRequest() =>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
@@ -13,7 +14,7 @@ namespace Vonage.Server.Video.Sessions.ChangeStreamLayout;
 /// </summary>
 public readonly struct ChangeStreamLayoutRequest : IVonageRequest
 {
-    private ChangeStreamLayoutRequest(string applicationId, string sessionId, IEnumerable<LayoutItem> items)
+    private ChangeStreamLayoutRequest(Guid applicationId, string sessionId, IEnumerable<LayoutItem> items)
     {
         this.ApplicationId = applicationId;
         this.SessionId = sessionId;
@@ -23,7 +24,7 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest
     /// <summary>
     ///     The application Id.
     /// </summary>
-    public string ApplicationId { get; }
+    public Guid ApplicationId { get; }
 
     /// <summary>
     ///     The layout items.
@@ -52,7 +53,7 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest
     /// <param name="sessionId">The session Id.</param>
     /// <param name="items">The layout items.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<ChangeStreamLayoutRequest> Parse(string applicationId, string sessionId,
+    public static Result<ChangeStreamLayoutRequest> Parse(Guid applicationId, string sessionId,
         IEnumerable<LayoutItem> items) =>
         Result<ChangeStreamLayoutRequest>
             .FromSuccess(new ChangeStreamLayoutRequest(applicationId, sessionId, items))

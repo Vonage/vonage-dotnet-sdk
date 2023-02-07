@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -9,15 +10,15 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
 {
     public class MuteStreamsRequestTest
     {
-        private readonly string applicationId;
-        private readonly MuteStreamsRequest.MuteStreamsConfiguration configuration;
         private readonly Fixture fixture;
+        private readonly Guid applicationId;
+        private readonly MuteStreamsRequest.MuteStreamsConfiguration configuration;
         private readonly string sessionId;
 
         public MuteStreamsRequestTest()
         {
             this.fixture = new Fixture();
-            this.applicationId = this.fixture.Create<string>();
+            this.applicationId = this.fixture.Create<Guid>();
             this.sessionId = this.fixture.Create<string>();
             this.configuration = this.fixture.Create<MuteStreamsRequest.MuteStreamsConfiguration>();
         }
@@ -30,14 +31,11 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
                 .BeSuccess(
                     $"/v2/project/{this.applicationId}/session/{this.sessionId}/mute");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            MuteStreamsRequest.Parse(value, this.sessionId, this.configuration)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace() =>
+            MuteStreamsRequest.Parse(Guid.Empty, this.sessionId, this.configuration)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenExcludedStreamsIdsAreNull() =>
