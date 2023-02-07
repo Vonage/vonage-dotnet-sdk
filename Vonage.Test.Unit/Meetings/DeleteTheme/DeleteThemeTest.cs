@@ -51,7 +51,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<DeleteThemeRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            DeleteThemeRequest.Parse(fixture.Create<string>(), fixture.Create<bool>());
+            DeleteThemeRequest.Parse(fixture.Create<Guid>(), fixture.Create<bool>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

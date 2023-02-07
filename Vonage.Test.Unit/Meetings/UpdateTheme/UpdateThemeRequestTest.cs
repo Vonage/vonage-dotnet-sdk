@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.UpdateTheme;
 using Xunit;
@@ -7,12 +8,12 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
 {
     public class UpdateThemeRequestTest
     {
-        private readonly string themeId;
+        private readonly Guid themeId;
 
         public UpdateThemeRequestTest()
         {
             var fixture = new Fixture();
-            this.themeId = fixture.Create<string>();
+            this.themeId = fixture.Create<Guid>();
         }
 
         [Fact]

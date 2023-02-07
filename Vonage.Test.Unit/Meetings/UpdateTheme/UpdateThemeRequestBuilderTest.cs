@@ -12,16 +12,16 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
     public class UpdateThemeRequestBuilderTest
     {
         private readonly Color mainColor;
+        private readonly Guid themeId;
         private readonly string themeName;
         private readonly string brandText;
-        private readonly string themeId;
         private readonly Uri shortCompanyUrl;
 
         public UpdateThemeRequestBuilderTest()
         {
             var fixture = new Fixture();
             fixture.Customize(new SupportMutableValueTypesCustomization());
-            this.themeId = fixture.Create<string>();
+            this.themeId = fixture.Create<Guid>();
             this.brandText = fixture.Create<string>();
             this.mainColor = fixture.Create<Color>();
             this.themeName = fixture.Create<string>();
@@ -43,16 +43,13 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
                     success.ShortCompanyUrl.Should().BeNone();
                 });
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Build_ShouldReturnFailure_GivenThemeIdIsNullOrWhitespace(string invalidThemeId) =>
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenThemeIdIsEmpty() =>
             UpdateThemeRequestBuilder
-                .Build(invalidThemeId)
+                .Build(Guid.Empty)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnSuccess() =>

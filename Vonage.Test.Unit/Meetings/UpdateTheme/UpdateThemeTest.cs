@@ -53,7 +53,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<UpdateThemeRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            UpdateThemeRequestBuilder.Build(fixture.Create<string>()).Create();
+            UpdateThemeRequestBuilder.Build(fixture.Create<Guid>()).Create();
 
         private IRequestBuilder CreateRequest()
         {

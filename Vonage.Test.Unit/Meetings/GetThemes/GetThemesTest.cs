@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
+using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common;
@@ -11,6 +13,7 @@ using Vonage.Meetings;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.GetThemes;
 using WireMock.RequestBuilders;
+using WireMock.ResponseBuilders;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetThemes
@@ -28,6 +31,18 @@ namespace Vonage.Test.Unit.Meetings.GetThemes
             this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
             this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
                 this.helper.Fixture.Create<string>());
+        }
+
+        [Fact]
+        public async Task ShouldReturnEmptyArray_GivenResponseIsEmpty()
+        {
+            this.helper.Server
+                .Given(this.CreateRequest())
+                .RespondWith(Response
+                    .Create()
+                    .WithStatusCode(HttpStatusCode.OK));
+            var result = await this.Operation();
+            result.Should().BeSuccess(success => success.Should().BeEmpty());
         }
 
         [Property]

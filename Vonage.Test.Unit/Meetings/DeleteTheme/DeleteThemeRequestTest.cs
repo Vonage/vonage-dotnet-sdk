@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -9,9 +10,9 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
 {
     public class DeleteThemeRequestTest
     {
-        private readonly string themeId;
+        private readonly Guid themeId;
 
-        public DeleteThemeRequestTest() => this.themeId = new Fixture().Create<string>();
+        public DeleteThemeRequestTest() => this.themeId = new Fixture().Create<Guid>();
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
@@ -29,14 +30,11 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
                 .BeSuccess(
                     $"/beta/meetings/themes/{this.themeId}?force=true");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenRecordingIdIsNullOrWhitespace(string value) =>
-            DeleteThemeRequest.Parse(value, false)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenRecordingIdIsEmpty() =>
+            DeleteThemeRequest.Parse(Guid.Empty, false)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

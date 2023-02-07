@@ -9,20 +9,20 @@ namespace Vonage.Meetings.UpdateTheme;
 /// <inheritdoc />
 public class UpdateThemeRequestBuilder : IVonageRequestBuilder<UpdateThemeRequest>
 {
+    private readonly Guid themeId;
     private Maybe<Color> mainColor = Maybe<Color>.None;
     private Maybe<string> themeName = Maybe<string>.None;
     private Maybe<string> brandText = Maybe<string>.None;
     private Maybe<Uri> shortCompanyUrl = Maybe<Uri>.None;
-    private readonly string themeId;
 
-    private UpdateThemeRequestBuilder(string themeId) => this.themeId = themeId;
+    private UpdateThemeRequestBuilder(Guid themeId) => this.themeId = themeId;
 
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
     /// <param name="themeId">The theme id.</param>
     /// <returns>The builder.</returns>
-    public static UpdateThemeRequestBuilder Build(string themeId) => new(themeId);
+    public static UpdateThemeRequestBuilder Build(Guid themeId) => new(themeId);
 
     /// <inheritdoc />
     public Result<UpdateThemeRequest> Create() => Result<UpdateThemeRequest>

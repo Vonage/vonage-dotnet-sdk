@@ -36,7 +36,7 @@ public readonly struct UpdateThemeRequest : IVonageRequest
     /// <summary>
     /// </summary>
     [JsonIgnore]
-    public string ThemeId { get; internal init; }
+    public Guid ThemeId { get; internal init; }
 
     /// <summary>
     /// </summary>

@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -9,12 +10,12 @@ namespace Vonage.Test.Unit.Meetings.GetTheme
 {
     public class GetThemeRequestTest
     {
-        private readonly string themeId;
+        private readonly Guid themeId;
 
         public GetThemeRequestTest()
         {
             var fixture = new Fixture();
-            this.themeId = fixture.Create<string>();
+            this.themeId = fixture.Create<Guid>();
         }
 
         [Fact]
@@ -24,14 +25,11 @@ namespace Vonage.Test.Unit.Meetings.GetTheme
                 .Should()
                 .BeSuccess($"/beta/meetings/themes/{this.themeId}");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace(string value) =>
-            GetThemeRequest.Parse(value)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenThemeIdIsEmpty() =>
+            GetThemeRequest.Parse(Guid.Empty)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

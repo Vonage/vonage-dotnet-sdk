@@ -15,7 +15,7 @@ public struct Theme
 
     /// <summary>
     /// </summary>
-    public string ApplicationId { get; set; }
+    public Guid ApplicationId { get; set; }
 
     /// <summary>
     /// The favicon key in storage system
@@ -66,7 +66,7 @@ public struct Theme
 
     /// <summary>
     /// </summary>
-    public string ThemeId { get; set; }
+    public Guid ThemeId { get; set; }
 
     /// <summary>
     /// </summary>

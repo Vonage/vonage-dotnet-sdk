@@ -73,6 +73,22 @@ namespace Vonage.Common.Test.Monads
         }
 
         [Fact]
+        public void IfNone_Operation_ShouldReturnOperation_GivenValueIsNone() =>
+            Maybe<int>.None.IfNone(() => 5).Should().Be(5);
+
+        [Fact]
+        public void IfNone_Operation_ShouldReturnValue_GivenValueIsSome() =>
+            CreateSome(10).IfNone(() => 5).Should().Be(10);
+
+        [Fact]
+        public void IfNone_Value_ShouldReturnSpecifiedValue_GivenValueIsNone() =>
+            Maybe<int>.None.IfNone(5).Should().Be(5);
+
+        [Fact]
+        public void IfNone_Value_ShouldReturnValue_GivenValueIsSome() =>
+            CreateSome(10).IfNone(5).Should().Be(10);
+
+        [Fact]
         public void IfSome_ShouldBeExecuted_GivenValueIsSome()
         {
             var test = 10;

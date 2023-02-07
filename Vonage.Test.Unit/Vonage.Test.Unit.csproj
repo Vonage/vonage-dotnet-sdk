@@ -477,6 +477,7 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <None Remove="Meetings\GetAvailableRooms\Data\ShouldDeserializeProd200-response.json"/>
+        <None Remove="Meetings\CreateTheme\Data\ShouldDeserializeError-response.json"/>
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common.Client;
@@ -12,7 +13,7 @@ namespace Vonage.Meetings.DeleteTheme;
 /// </summary>
 public readonly struct DeleteThemeRequest : IVonageRequest
 {
-    private DeleteThemeRequest(string themeId, bool forceDelete)
+    private DeleteThemeRequest(Guid themeId, bool forceDelete)
     {
         this.ThemeId = themeId;
         this.ForceDelete = forceDelete;
@@ -26,7 +27,7 @@ public readonly struct DeleteThemeRequest : IVonageRequest
     /// <summary>
     ///     The theme id.
     /// </summary>
-    public string ThemeId { get; }
+    public Guid ThemeId { get; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -44,7 +45,7 @@ public readonly struct DeleteThemeRequest : IVonageRequest
     /// <param name="themeId">The theme id.</param>
     /// <param name="forceDelete">Delete the theme even if theme is used by rooms or as application default theme.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<DeleteThemeRequest> Parse(string themeId, bool forceDelete) =>
+    public static Result<DeleteThemeRequest> Parse(Guid themeId, bool forceDelete) =>
         Result<DeleteThemeRequest>
             .FromSuccess(new DeleteThemeRequest(themeId, forceDelete))
             .Bind(VerifyThemeId);
