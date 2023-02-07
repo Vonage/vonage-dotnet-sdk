@@ -19,6 +19,30 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
         }
 
         [Fact]
+        public void Build_ShouldAssignCount_GivenWithCountIsUsed() =>
+            GetArchivesRequestBuilder.Build(this.applicationId)
+                .WithCount(100)
+                .Create()
+                .Should()
+                .BeSuccess(request => request.Count.Should().Be(100));
+
+        [Fact]
+        public void Build_ShouldAssignOffset_GivenWithOffsetIsUsed() =>
+            GetArchivesRequestBuilder.Build(this.applicationId)
+                .WithOffset(500)
+                .Create()
+                .Should()
+                .BeSuccess(request => request.Offset.Should().Be(500));
+
+        [Fact]
+        public void Build_ShouldAssignSessionId_GivenWithSessionIdIsUsed() =>
+            GetArchivesRequestBuilder.Build(this.applicationId)
+                .WithSessionId("some value")
+                .Create()
+                .Should()
+                .BeSuccess(request => request.SessionId.Should().BeSome("some value"));
+
+        [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
             GetArchivesRequestBuilder.Build(Guid.Empty)
                 .Create()
@@ -48,22 +72,6 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Offset cannot be negative."));
-
-        [Fact]
-        public void Build_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
-            GetArchivesRequestBuilder.Build(this.applicationId)
-                .WithCount(100)
-                .WithOffset(500)
-                .WithSessionId("Some value")
-                .Create()
-                .Should()
-                .BeSuccess(request =>
-                {
-                    request.ApplicationId.Should().Be(this.applicationId);
-                    request.Offset.Should().Be(500);
-                    request.Count.Should().Be(100);
-                    request.SessionId.Should().BeSome("Some value");
-                });
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithDefaultValues() =>
