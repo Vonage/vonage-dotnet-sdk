@@ -11,15 +11,15 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
     public class GetRoomsByThemeRequestBuilderTest
     {
         private readonly Guid themeId;
-        private readonly string startId;
-        private readonly string endId;
+        private readonly int startId;
+        private readonly int endId;
 
         public GetRoomsByThemeRequestBuilderTest()
         {
             var fixture = new Fixture();
             this.themeId = fixture.Create<Guid>();
-            this.startId = fixture.Create<string>();
-            this.endId = fixture.Create<string>();
+            this.startId = fixture.Create<int>();
+            this.endId = fixture.Create<int>();
         }
 
         [Fact]

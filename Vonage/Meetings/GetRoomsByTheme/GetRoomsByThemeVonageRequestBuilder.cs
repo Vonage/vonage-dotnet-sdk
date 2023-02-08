@@ -9,8 +9,8 @@ namespace Vonage.Meetings.GetRoomsByTheme;
 public class GetRoomsByThemeVonageRequestBuilder : IVonageRequestBuilder<GetRoomsByThemeRequest>
 {
     private readonly Guid themeId;
-    private Maybe<string> startId = Maybe<string>.None;
-    private Maybe<string> endId = Maybe<string>.None;
+    private Maybe<int> startId = Maybe<int>.None;
+    private Maybe<int> endId = Maybe<int>.None;
 
     private GetRoomsByThemeVonageRequestBuilder(Guid themeId) => this.themeId = themeId;
 
@@ -37,7 +37,7 @@ public class GetRoomsByThemeVonageRequestBuilder : IVonageRequestBuilder<GetRoom
     /// </summary>
     /// <param name="value">The end id.</param>
     /// <returns>The builder.</returns>
-    public GetRoomsByThemeVonageRequestBuilder WithEndId(string value)
+    public GetRoomsByThemeVonageRequestBuilder WithEndId(int value)
     {
         this.endId = value;
         return this;
@@ -48,7 +48,7 @@ public class GetRoomsByThemeVonageRequestBuilder : IVonageRequestBuilder<GetRoom
     /// </summary>
     /// <param name="value">The start id.</param>
     /// <returns>The builder.</returns>
-    public GetRoomsByThemeVonageRequestBuilder WithStartId(string value)
+    public GetRoomsByThemeVonageRequestBuilder WithStartId(int value)
     {
         this.startId = value;
         return this;

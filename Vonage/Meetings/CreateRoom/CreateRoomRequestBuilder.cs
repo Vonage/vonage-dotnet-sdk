@@ -21,9 +21,9 @@ public class CreateRoomRequestBuilder
     private Maybe<Room.Callback> callback;
     private Maybe<DateTime> expiresAt;
     private Maybe<Room.RecordingOptions> recordingOptions;
+    private Maybe<RoomApprovalLevel> approvalLevel;
     private Maybe<string> metadata;
     private Maybe<string> themeId;
-    private RoomApprovalLevel approvalLevel = RoomApprovalLevel.None;
     private RoomType roomType = RoomType.Instant;
     private readonly string displayName;
 

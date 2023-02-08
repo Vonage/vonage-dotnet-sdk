@@ -7,7 +7,7 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Meetings.GetRoomsByTheme;
 
-/// <summary>
+/// <summary>0
 ///     Represents a request to get all rooms associated with a theme.
 /// </summary>
 public readonly struct GetRoomsByThemeRequest : IVonageRequest
@@ -15,12 +15,12 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
     /// <summary>
     ///     The ID to end returning events at (excluding end_id itself).
     /// </summary>
-    public Maybe<string> EndId { get; internal init; }
+    public Maybe<int> EndId { get; internal init; }
 
     /// <summary>
     ///     The ID to start returning events at.
     /// </summary>
-    public Maybe<string> StartId { get; internal init; }
+    public Maybe<int> StartId { get; internal init; }
 
     /// <summary>
     /// </summary>
@@ -39,8 +39,8 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
     private Dictionary<string, string> GetQueryStringParameters()
     {
         var parameters = new Dictionary<string, string>();
-        this.StartId.IfSome(value => parameters.Add("start_id", value));
-        this.EndId.IfSome(value => parameters.Add("end_id", value));
+        this.StartId.Map(value => value.ToString()).IfSome(value => parameters.Add("start_id", value));
+        this.EndId.Map(value => value.ToString()).IfSome(value => parameters.Add("end_id", value));
         return parameters;
     }
 }

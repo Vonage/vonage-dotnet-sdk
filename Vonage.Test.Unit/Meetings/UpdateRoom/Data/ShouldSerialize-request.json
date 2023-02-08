@@ -11,7 +11,7 @@
       "sessions_callback_url": "https://example.com"
     },
     "expire_after_use": true,
-    "expires_at": "2019-08-24",
+    "expires_at": "2019-08-24T00:00:00",
     "initial_join_options": {
       "microphone_state": "default"
     },

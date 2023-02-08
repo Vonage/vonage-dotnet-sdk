@@ -48,7 +48,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     success.Metadata.Should().BeNone();
                     success.Type.Should().Be(RoomType.Instant);
                     success.ExpiresAt.Should().BeNone();
-                    success.JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
+                    success.JoinApprovalLevel.Should().BeNone();
                     success.RecordingOptions.Should().BeNone();
                     success.ExpireAfterUse.Should().BeFalse();
                     success.ThemeId.Should().BeNone();
@@ -110,7 +110,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     success.ExpiresAt.Should().BeSome(this.expiresAt);
                     success.ExpireAfterUse.Should().BeTrue();
                     success.ThemeId.Should().BeSome(this.themeId);
-                    success.JoinApprovalLevel.Should().Be(this.approvalLevel);
+                    success.JoinApprovalLevel.Should().BeSome(this.approvalLevel);
                     success.RecordingOptions.Should().BeSome(this.recordingOptions);
                     success.InitialJoinOptions.Should().Be(this.joinOptions);
                     success.AvailableFeatures.Should().Be(this.features);

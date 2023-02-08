@@ -10,6 +10,5 @@
   "initial_join_options": {
     "microphone_state": "default"
   },
-  "join_approval_level": "none",
   "type": "long_term"
 }

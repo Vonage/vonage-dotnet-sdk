@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithEndId() =>
             GetRoomsByThemeVonageRequestBuilder.Build(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
-                .WithEndId("1234")
+                .WithEndId(1234)
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
@@ -27,7 +27,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithStartId() =>
             GetRoomsByThemeVonageRequestBuilder.Build(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
-                .WithStartId("1234")
+                .WithStartId(1234)
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
@@ -36,8 +36,8 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithStartIdAndEndId() =>
             GetRoomsByThemeVonageRequestBuilder.Build(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
-                .WithStartId("1234")
-                .WithEndId("5678")
+                .WithStartId(1234)
+                .WithEndId(5678)
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()

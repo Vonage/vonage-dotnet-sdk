@@ -44,7 +44,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
     /// <summary>
     /// The level of approval needed to join the meeting in the room. When set to "after_owner_only" the participants will join the meeting only after the host joined. When set to "explicit_approval" the participants will join the waiting room and the host will deny/approve them.
     /// </summary>
-    public RoomApprovalLevel JoinApprovalLevel { get; internal init; }
+    public Maybe<RoomApprovalLevel> JoinApprovalLevel { get; internal init; }
 
     /// <summary>
     /// Free text that can be attached to a room. This will be passed in the form of a header in events related to this room.
@@ -88,7 +88,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
         }
 
         values.Add("initial_join_options", this.InitialJoinOptions);
-        values.Add("join_approval_level", this.JoinApprovalLevel);
+        this.JoinApprovalLevel.IfSome(value => values.Add("join_approval_level", value));
         this.Metadata.IfSome(value => values.Add("metadata", value));
         this.RecordingOptions.IfSome(value => values.Add("recording_options", value));
         this.ThemeId.IfSome(value => values.Add("theme_id", value));

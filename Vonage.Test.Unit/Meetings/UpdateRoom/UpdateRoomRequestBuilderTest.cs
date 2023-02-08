@@ -12,11 +12,11 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
     public class UpdateRoomRequestBuilderTest
     {
         private readonly Room.Callback callback;
+        private readonly DateTime expiresAt;
         private readonly Room.Features features;
         private readonly Guid roomId;
         private readonly Room.JoinOptions joinOptions;
         private readonly RoomApprovalLevel approvalLevel;
-        private readonly string expiresAt;
         private readonly string themeId;
 
         public UpdateRoomRequestBuilderTest()
@@ -26,7 +26,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
             this.roomId = fixture.Create<Guid>();
             fixture.Create<string>();
             fixture.Create<RoomType>();
-            this.expiresAt = fixture.Create<string>();
+            this.expiresAt = fixture.Create<DateTime>();
             this.approvalLevel = fixture.Create<RoomApprovalLevel>();
             fixture.Create<Room.RecordingOptions>();
             this.joinOptions = fixture.Create<Room.JoinOptions>();

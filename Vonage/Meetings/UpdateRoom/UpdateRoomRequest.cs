@@ -33,9 +33,9 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     /// <summary>
     /// The time for when the room will be expired, expressed in ISO 8601 format.
     /// </summary>
-    [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
+    [JsonConverter(typeof(VonageMaybeJsonConverter<DateTime>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<string> ExpiresAt { get; internal init; }
+    public Maybe<DateTime> ExpiresAt { get; internal init; }
 
     /// <summary>
     /// </summary>

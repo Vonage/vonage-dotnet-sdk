@@ -19,7 +19,7 @@ public class UpdateRoomRequestBuilder
 
     private Room.JoinOptions joinOptions = new() {MicrophoneState = RoomMicrophoneState.Default};
     private Maybe<Room.Callback> callback;
-    private Maybe<string> expiresAt;
+    private Maybe<DateTime> expiresAt;
     private Maybe<string> themeId;
     private RoomApprovalLevel approvalLevel = RoomApprovalLevel.None;
 
@@ -87,7 +87,7 @@ public class UpdateRoomRequestBuilder
     /// </summary>
     /// <param name="expiration"></param>
     /// <returns>The builder.</returns>
-    public UpdateRoomRequestBuilder WithExpiresAt(string expiration)
+    public UpdateRoomRequestBuilder WithExpiresAt(DateTime expiration)
     {
         this.expiresAt = expiration;
         return this;
