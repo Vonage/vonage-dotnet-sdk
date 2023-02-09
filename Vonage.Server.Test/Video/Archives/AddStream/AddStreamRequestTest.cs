@@ -1,6 +1,5 @@
-﻿using AutoFixture;
-using FluentAssertions;
-using Vonage.Common.Failures;
+﻿using System;
+using AutoFixture;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Archives.AddStream;
 using Xunit;
@@ -9,76 +8,24 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
 {
     public class AddStreamRequestTest
     {
-        private readonly string applicationId;
-        private readonly string archiveId;
-        private readonly string streamId;
+        private readonly Guid applicationId;
+        private readonly Guid archiveId;
+        private readonly Guid streamId;
 
         public AddStreamRequestTest()
         {
             var fixture = new Fixture();
-            this.applicationId = fixture.Create<string>();
-            this.archiveId = fixture.Create<string>();
-            this.streamId = fixture.Create<string>();
+            this.applicationId = fixture.Create<Guid>();
+            this.archiveId = fixture.Create<Guid>();
+            this.streamId = fixture.Create<Guid>();
         }
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            AddStreamRequest.Parse(this.applicationId, this.archiveId, this.streamId)
+            AddStreamRequestBuilder.Build(this.applicationId, this.archiveId, this.streamId)
+                .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess($"/v2/project/{this.applicationId}/archive/{this.archiveId}/streams");
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            AddStreamRequest.Parse(value, this.archiveId, this.streamId)
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenArchiveIdIsNullOrWhitespace(string value) =>
-            AddStreamRequest.Parse(this.applicationId, value, this.streamId)
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ArchiveId cannot be null or whitespace."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenStreamIdIsNullOrWhitespace(string value) =>
-            AddStreamRequest.Parse(this.applicationId, this.archiveId, value)
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("StreamId cannot be null or whitespace."));
-
-        [Fact]
-        public void Parse_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
-            AddStreamRequest.Parse(this.applicationId, this.archiveId, this.streamId, false, false)
-                .Should()
-                .BeSuccess(request =>
-                {
-                    request.ApplicationId.Should().Be(this.applicationId);
-                    request.ArchiveId.Should().Be(this.archiveId);
-                    request.StreamId.Should().Be(this.streamId);
-                    request.HasAudio.Should().Be(false);
-                    request.HasVideo.Should().Be(false);
-                });
-
-        [Fact]
-        public void Parse_ShouldReturnSuccess_GivenMandatoryValuesAreProvided() =>
-            AddStreamRequest.Parse(this.applicationId, this.archiveId, this.streamId)
-                .Should()
-                .BeSuccess(request =>
-                {
-                    request.ApplicationId.Should().Be(this.applicationId);
-                    request.ArchiveId.Should().Be(this.archiveId);
-                    request.StreamId.Should().Be(this.streamId);
-                    request.HasAudio.Should().Be(true);
-                    request.HasVideo.Should().Be(true);
-                });
     }
 }

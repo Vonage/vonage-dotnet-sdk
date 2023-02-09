@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -10,16 +11,16 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
 {
     public class ChangeLayoutRequestTest
     {
-        private readonly string applicationId;
-        private readonly string archiveId;
-        private readonly Fixture fixture;
         private readonly ArchiveLayout layout;
+        private readonly Fixture fixture;
+        private readonly Guid applicationId;
+        private readonly Guid archiveId;
 
         public ChangeLayoutRequestTest()
         {
             this.fixture = new Fixture();
-            this.applicationId = this.fixture.Create<string>();
-            this.archiveId = this.fixture.Create<string>();
+            this.applicationId = this.fixture.Create<Guid>();
+            this.archiveId = this.fixture.Create<Guid>();
             this.layout = this.fixture.Create<ArchiveLayout>();
         }
 
@@ -30,23 +31,17 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
                 .Should()
                 .BeSuccess($"/v2/project/{this.applicationId}/archive/{this.archiveId}/layout");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            ChangeLayoutRequest.Parse(value, this.fixture.Create<string>(), this.layout)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+            ChangeLayoutRequest.Parse(Guid.Empty, this.archiveId, this.layout)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenArchiveIdIsNullOrWhitespace(string value) =>
-            ChangeLayoutRequest.Parse(this.fixture.Create<string>(), value, this.layout)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenArchiveIdIsEmpty() =>
+            ChangeLayoutRequest.Parse(this.applicationId, Guid.Empty, this.layout)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ArchiveId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ArchiveId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenAllValuesAreProvided() =>

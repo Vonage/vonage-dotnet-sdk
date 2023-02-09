@@ -52,7 +52,7 @@ namespace Vonage.Server.Test.Video.Sessions.GetStream
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<GetStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetStreamRequest.Parse(fixture.Create<string>(),
+            GetStreamRequest.Parse(fixture.Create<Guid>(),
                 fixture.Create<string>(),
                 fixture.Create<string>());
 

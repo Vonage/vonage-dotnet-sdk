@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -9,14 +10,14 @@ namespace Vonage.Server.Test.Video.Moderation.DisconnectConnection
 {
     public class DisconnectConnectionRequestTest
     {
-        private readonly string applicationId;
+        private readonly Guid applicationId;
         private readonly string connectionId;
         private readonly string sessionId;
 
         public DisconnectConnectionRequestTest()
         {
             var fixture = new Fixture();
-            this.applicationId = fixture.Create<string>();
+            this.applicationId = fixture.Create<Guid>();
             this.sessionId = fixture.Create<string>();
             this.connectionId = fixture.Create<string>();
         }
@@ -28,14 +29,11 @@ namespace Vonage.Server.Test.Video.Moderation.DisconnectConnection
                 .Should()
                 .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            DisconnectConnectionRequest.Parse(value, this.sessionId, this.connectionId)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+            DisconnectConnectionRequest.Parse(Guid.Empty, this.sessionId, this.connectionId)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Theory]
         [InlineData("")]

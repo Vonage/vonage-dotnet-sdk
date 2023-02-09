@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -13,7 +14,7 @@ namespace Vonage.Server.Video.Signaling.SendSignals;
 /// </summary>
 public readonly struct SendSignalsRequest : IVonageRequest
 {
-    private SendSignalsRequest(string applicationId, string sessionId, SignalContent content)
+    private SendSignalsRequest(Guid applicationId, string sessionId, SignalContent content)
     {
         this.ApplicationId = applicationId;
         this.SessionId = sessionId;
@@ -23,7 +24,7 @@ public readonly struct SendSignalsRequest : IVonageRequest
     /// <summary>
     ///     The Vonage application UUID.
     /// </summary>
-    public string ApplicationId { get; }
+    public Guid ApplicationId { get; }
 
     /// <summary>
     ///     The signal content.
@@ -52,7 +53,7 @@ public readonly struct SendSignalsRequest : IVonageRequest
     /// <param name="sessionId">The Video session Id.</param>
     /// <param name="content"> The signal content.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<SendSignalsRequest> Parse(string applicationId, string sessionId, SignalContent content) =>
+    public static Result<SendSignalsRequest> Parse(Guid applicationId, string sessionId, SignalContent content) =>
         Result<SendSignalsRequest>
             .FromSuccess(new SendSignalsRequest(applicationId, sessionId, content))
             .Bind(VerifyApplicationId)

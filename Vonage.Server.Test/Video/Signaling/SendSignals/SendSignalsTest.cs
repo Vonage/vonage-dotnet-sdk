@@ -50,7 +50,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
             await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<SendSignalsRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            SendSignalsRequest.Parse(fixture.Create<string>(),
+            SendSignalsRequest.Parse(fixture.Create<Guid>(),
                 fixture.Create<string>(),
                 fixture.Create<SignalContent>());
 

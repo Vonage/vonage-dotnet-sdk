@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -12,7 +13,7 @@ namespace Vonage.Server.Video.Archives.RemoveStream;
 /// </summary>
 public readonly struct RemoveStreamRequest : IVonageRequest
 {
-    private RemoveStreamRequest(string applicationId, string archiveId, string streamId)
+    private RemoveStreamRequest(Guid applicationId, Guid archiveId, Guid streamId)
     {
         this.ApplicationId = applicationId;
         this.ArchiveId = archiveId;
@@ -22,17 +23,17 @@ public readonly struct RemoveStreamRequest : IVonageRequest
     /// <summary>
     ///     The application Id.
     /// </summary>
-    public string ApplicationId { get; }
+    public Guid ApplicationId { get; }
 
     /// <summary>
     ///     The archive Id.
     /// </summary>
-    public string ArchiveId { get; }
+    public Guid ArchiveId { get; }
 
     /// <summary>
     ///     The stream Id.
     /// </summary>
-    public string StreamId { get; }
+    public Guid StreamId { get; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -51,7 +52,7 @@ public readonly struct RemoveStreamRequest : IVonageRequest
     /// <param name="archiveId">The archive Id.</param>
     /// <param name="streamId">The stream Id.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<RemoveStreamRequest> Parse(string applicationId, string archiveId, string streamId) =>
+    public static Result<RemoveStreamRequest> Parse(Guid applicationId, Guid archiveId, Guid streamId) =>
         Result<RemoveStreamRequest>
             .FromSuccess(new RemoveStreamRequest(applicationId, archiveId, streamId))
             .Bind(VerifyApplicationId)

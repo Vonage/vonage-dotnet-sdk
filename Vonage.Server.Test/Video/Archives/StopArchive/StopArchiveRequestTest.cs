@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -9,14 +10,14 @@ namespace Vonage.Server.Test.Video.Archives.StopArchive
 {
     public class StopArchiveRequestTest
     {
-        private readonly string applicationId;
-        private readonly string archiveId;
+        private readonly Guid applicationId;
+        private readonly Guid archiveId;
 
         public StopArchiveRequestTest()
         {
             var fixture = new Fixture();
-            this.applicationId = fixture.Create<string>();
-            this.archiveId = fixture.Create<string>();
+            this.applicationId = fixture.Create<Guid>();
+            this.archiveId = fixture.Create<Guid>();
         }
 
         [Fact]
@@ -26,23 +27,17 @@ namespace Vonage.Server.Test.Video.Archives.StopArchive
                 .Should()
                 .BeSuccess($"/v2/project/{this.applicationId}/archive/{this.archiveId}/stop");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace(string value) =>
-            StopArchiveRequest.Parse(value, this.archiveId)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+            StopArchiveRequest.Parse(Guid.Empty, this.archiveId)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenArchiveIdIsNullOrWhitespace(string value) =>
-            StopArchiveRequest.Parse(this.applicationId, value)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenArchiveIdIsEmpty() =>
+            StopArchiveRequest.Parse(this.applicationId, Guid.Empty)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ArchiveId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("ArchiveId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

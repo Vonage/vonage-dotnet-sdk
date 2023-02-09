@@ -55,16 +55,7 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<CreateArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            CreateArchiveRequest.Parse(
-                fixture.Create<string>(),
-                fixture.Create<string>(),
-                fixture.Create<bool>(),
-                fixture.Create<bool>(),
-                fixture.Create<string>(),
-                fixture.Create<OutputMode>(),
-                fixture.Create<RenderResolution>(),
-                fixture.Create<StreamMode>(),
-                fixture.Create<ArchiveLayout>());
+            CreateArchiveRequestBuilder.Build(fixture.Create<Guid>(), fixture.Create<string>()).Create();
 
         private IRequestBuilder CreateRequest()
         {

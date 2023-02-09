@@ -48,7 +48,7 @@ namespace Vonage.Server.Test.Video.Moderation.DisconnectConnection
             await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<DisconnectConnectionRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            DisconnectConnectionRequest.Parse(fixture.Create<string>(), fixture.Create<string>(),
+            DisconnectConnectionRequest.Parse(fixture.Create<Guid>(), fixture.Create<string>(),
                 fixture.Create<string>());
 
         private IRequestBuilder CreateRequest() =>

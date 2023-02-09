@@ -54,7 +54,7 @@ namespace Vonage.Server.Test.Video.Archives.StopArchive
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<StopArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            StopArchiveRequest.Parse(fixture.Create<string>(), fixture.Create<string>());
+            StopArchiveRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions
