@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
+using Vonage.Common.Serialization;
 
 namespace Vonage.Meetings.Common;
 
@@ -17,7 +19,7 @@ public struct Room
     /// <summary>
     ///     The time for when the room was created, expressed in ISO 8601 format
     /// </summary>
-    public string CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     /// <summary>
     /// </summary>
@@ -31,11 +33,11 @@ public struct Room
     /// <summary>
     ///     The time for when the room will be expired, expressed in ISO 8601 format
     /// </summary>
-    public string ExpiresAt { get; set; }
+    public DateTime ExpiresAt { get; set; }
 
     /// <summary>
     /// </summary>
-    public string Id { get; set; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// </summary>
@@ -51,6 +53,7 @@ public struct Room
     ///     join the meeting only after the host joined. When set to "explicit_approval" the participants will join the waiting
     ///     room and the host will deny/approve them.
     /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomApprovalLevel>))]
     public RoomApprovalLevel JoinApprovalLevel { get; set; }
 
     /// <summary>
@@ -79,6 +82,7 @@ public struct Room
 
     /// <summary>
     /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomType>))]
     public RoomType Type { get; set; }
 
     /// <summary>
@@ -103,6 +107,7 @@ public struct Room
         /// <summary>
         ///     Set the default microphone option for users in the pre-join screen of this room.
         /// </summary>
+        [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomMicrophoneState>))]
         public RoomMicrophoneState MicrophoneState { get; set; }
     }
 

@@ -1,4 +1,5 @@
 using System;
+using System.IO.Abstractions;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
@@ -103,7 +104,8 @@ namespace Vonage
             this.MessagesClient = new MessagesClient(this.Credentials);
             var client = InitializeHttpClient();
             string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
-            this.MeetingsClient = new MeetingsClient(client, GenerateToken, this.Credentials.GetUserAgent());
+            this.MeetingsClient =
+                new MeetingsClient(client, GenerateToken, this.Credentials.GetUserAgent(), new FileSystem());
         }
     }
 }

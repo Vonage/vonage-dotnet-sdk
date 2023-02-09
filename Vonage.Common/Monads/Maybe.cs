@@ -65,7 +65,21 @@ public readonly struct Maybe<TA>
     public TA GetUnsafe() => this.Match(_ => _, () => throw new UnsafeValueException("State is none."));
 
     /// <summary>
-    ///     Invokes the action if Option is in the Some state, otherwise nothing happens.
+    ///     Returns the result of the operation if Maybe is in the None state, the Some value otherwise.
+    /// </summary>
+    /// <param name="operation">Operation to return a value.</param>
+    /// <returns>A value.</returns>
+    public TA IfNone(Func<TA> operation) => this.IsNone ? operation() : this.value;
+
+    /// <summary>
+    ///     Returns the specified value if Maybe is in the None state, the Some value otherwise.
+    /// </summary>
+    /// <param name="noneValue">The value to return if in None state.</param>
+    /// <returns>A value.</returns>
+    public TA IfNone(TA noneValue) => this.IsNone ? noneValue : this.value;
+
+    /// <summary>
+    ///     Invokes the action if Maybe is in the Some state, otherwise nothing happens.
     /// </summary>
     /// <param name="some">Action to invoke</param>
     /// <returns>Unit.</returns>
@@ -119,11 +133,15 @@ public readonly struct Maybe<TA>
     /// </summary>
     /// <param name="other">Other maybe to be compared with.</param>
     /// <returns>Whether both Maybes are equal.</returns>
-    private bool Equals(Maybe<TA> other)
-    {
-        var bothAreNone = this.IsNone && other.IsNone;
-        return bothAreNone || this.value.Equals(other.value);
-    }
+    private bool Equals(Maybe<TA> other) => this.EqualsNone(other) && this.EqualsSome(other);
+
+    private bool EqualsNone(Maybe<TA> other) =>
+        this.IsNone ? other.IsNone : other.IsSome;
+
+    private bool EqualsSome(Maybe<TA> other) =>
+        this.IsSome
+            ? this.value.Equals(other.value)
+            : other.IsNone;
 
     /// <summary>
     ///     Construct a Maybe in a None state.

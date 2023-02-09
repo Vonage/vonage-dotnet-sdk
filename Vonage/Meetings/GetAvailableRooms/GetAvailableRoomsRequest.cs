@@ -2,6 +2,7 @@
 using System.Net.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
 
 namespace Vonage.Meetings.GetAvailableRooms;
 
@@ -17,7 +18,7 @@ public readonly struct GetAvailableRoomsRequest : IVonageRequest
     /// </summary>
     /// <param name="startId">The ID to start returning events at.</param>
     /// <param name="endId">The ID to end returning events at (excluding end_id itself).</param>
-    private GetAvailableRoomsRequest(string startId, string endId)
+    private GetAvailableRoomsRequest(Maybe<string> startId, Maybe<string> endId)
     {
         this.StartId = startId;
         this.EndId = endId;
@@ -26,18 +27,18 @@ public readonly struct GetAvailableRoomsRequest : IVonageRequest
     /// <summary>
     ///     The ID to end returning events at (excluding end_id itself).
     /// </summary>
-    public string EndId { get; }
+    public Maybe<string> EndId { get; }
 
     /// <summary>
     ///     The ID to start returning events at.
     /// </summary>
-    public string StartId { get; }
+    public Maybe<string> StartId { get; }
 
     /// <summary>
     ///     Build the request with default values.
     /// </summary>
     /// <returns>The request.</returns>
-    public static GetAvailableRoomsRequest Build() => new(null, null);
+    public static GetAvailableRoomsRequest Build() => new(Maybe<string>.None, Maybe<string>.None);
 
     /// <summary>
     ///     Build the request with the specified values.
@@ -45,7 +46,8 @@ public readonly struct GetAvailableRoomsRequest : IVonageRequest
     /// <param name="startId">The ID to start returning events at.</param>
     /// <param name="endId">The ID to end returning events at (excluding end_id itself).</param>
     /// <returns>The request</returns>
-    public static GetAvailableRoomsRequest Build(string startId, string endId) => new(startId, endId);
+    public static GetAvailableRoomsRequest Build(string startId, string endId) =>
+        new(startId ?? Maybe<string>.None, endId ?? Maybe<string>.None);
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -59,16 +61,11 @@ public readonly struct GetAvailableRoomsRequest : IVonageRequest
     private Dictionary<string, string> GetQueryStringParameters()
     {
         var parameters = new Dictionary<string, string>();
-        if (!string.IsNullOrWhiteSpace(this.StartId))
-        {
-            parameters.Add("start_id", this.StartId);
-        }
-
-        if (!string.IsNullOrWhiteSpace(this.EndId))
-        {
-            parameters.Add("end_id", this.EndId);
-        }
-
+        this.StartId.Bind(VerifyIfNotEmpty).IfSome(value => parameters.Add("start_id", value));
+        this.EndId.Bind(VerifyIfNotEmpty).IfSome(value => parameters.Add("end_id", value));
         return parameters;
     }
+
+    private static Maybe<string> VerifyIfNotEmpty(string value) =>
+        string.IsNullOrWhiteSpace(value) ? Maybe<string>.None : value;
 }

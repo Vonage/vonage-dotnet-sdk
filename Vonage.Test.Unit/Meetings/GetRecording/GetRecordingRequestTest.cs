@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -9,12 +10,12 @@ namespace Vonage.Test.Unit.Meetings.GetRecording
 {
     public class GetRecordingRequestTest
     {
-        private readonly string recordingId;
+        private readonly Guid recordingId;
 
         public GetRecordingRequestTest()
         {
             var fixture = new Fixture();
-            this.recordingId = fixture.Create<string>();
+            this.recordingId = fixture.Create<Guid>();
         }
 
         [Fact]
@@ -24,14 +25,11 @@ namespace Vonage.Test.Unit.Meetings.GetRecording
                 .Should()
                 .BeSuccess($"/beta/meetings/recordings/{this.recordingId}");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace(string value) =>
-            GetRecordingRequest.Parse(value)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace() =>
+            GetRecordingRequest.Parse(Guid.Empty)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("RecordingId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("RecordingId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
+using Vonage.Common.Serialization;
+using Yoh.Text.Json.NamingPolicies;
 
 namespace Vonage.Common;
 
@@ -16,24 +19,24 @@ public class JsonSerializer : IJsonSerializer
     private readonly JsonSerializerOptions settings;
 
     /// <summary>
+    ///     Default constructor.
     /// </summary>
-    public JsonSerializer() =>
+    public JsonSerializer()
+    {
         this.settings = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         };
+        this.settings.Converters.Add(new ColorJsonConverter());
+    }
 
     /// <summary>
+    ///     Constructor with specific naming policy.
     /// </summary>
+    /// <param name="namingPolicy">The naming policy.</param>
     public JsonSerializer(JsonNamingPolicy namingPolicy) : this() =>
         this.settings.PropertyNamingPolicy = namingPolicy;
-
-    /// <summary>
-    /// </summary>
-    /// <param name="converters"></param>
-    public JsonSerializer(IEnumerable<JsonConverter> converters)
-        : this() =>
-        converters.ToList().ForEach(converter => this.settings.Converters.Add(converter));
 
     /// <summary>
     /// </summary>
@@ -42,6 +45,12 @@ public class JsonSerializer : IJsonSerializer
     public JsonSerializer(IEnumerable<JsonConverter> converters, JsonNamingPolicy namingPolicy)
         : this(namingPolicy) =>
         converters.ToList().ForEach(converter => this.settings.Converters.Add(converter));
+
+    /// <summary>
+    ///     Builds a serializer with SnakeCase naming policy.
+    /// </summary>
+    /// <returns>The serializer.</returns>
+    public static JsonSerializer BuildWithSnakeCase() => new(JsonNamingPolicies.SnakeCaseLower);
 
     /// <inheritdoc />
     public Result<T> DeserializeObject<T>(string serializedValue)
@@ -60,4 +69,15 @@ public class JsonSerializer : IJsonSerializer
 
     /// <inheritdoc />
     public string SerializeObject<T>(T value) => System.Text.Json.JsonSerializer.Serialize(value, this.settings);
+
+    /// <summary>
+    ///     Add the specified converter to the current instance.
+    /// </summary>
+    /// <param name="converter">The converter.</param>
+    /// <returns>The serializer.</returns>
+    public JsonSerializer WithConverter(JsonConverter converter)
+    {
+        this.settings.Converters.Add(converter);
+        return this;
+    }
 }

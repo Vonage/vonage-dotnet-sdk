@@ -1,0 +1,24 @@
+﻿{
+  "available_features": {
+    "is_chat_available": true,
+    "is_recording_available": true,
+    "is_whiteboard_available": true
+  },
+  "callback_urls": {
+    "recordings_callback_url": "https://example.com",
+    "rooms_callback_url": "https://example.com",
+    "sessions_callback_url": "https://example.com"
+  },
+  "display_name": "string",
+  "initial_join_options": {
+    "microphone_state": "default"
+  },
+  "join_approval_level": "none",
+  "metadata": "string",
+  "recording_options": {
+    "auto_record": true,
+    "record_only_owner": true
+  },
+  "theme_id": "ef2b46f3-8ebb-437e-a671-272e4990fbc8",
+  "type": "instant"
+}

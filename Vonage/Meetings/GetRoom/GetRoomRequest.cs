@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -10,12 +11,12 @@ namespace Vonage.Meetings.GetRoom;
 /// </summary>
 public readonly struct GetRoomRequest : IVonageRequest
 {
-    private GetRoomRequest(string roomId) => this.RoomId = roomId;
+    private GetRoomRequest(Guid roomId) => this.RoomId = roomId;
 
     /// <summary>
     ///     The room identifier.
     /// </summary>
-    public string RoomId { get; }
+    public Guid RoomId { get; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -31,7 +32,7 @@ public readonly struct GetRoomRequest : IVonageRequest
     /// </summary>
     /// <param name="roomId">The room identifier.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<GetRoomRequest> Parse(string roomId) =>
+    public static Result<GetRoomRequest> Parse(Guid roomId) =>
         Result<GetRoomRequest>
             .FromSuccess(new GetRoomRequest(roomId))
             .Bind(VerifyRoomId);

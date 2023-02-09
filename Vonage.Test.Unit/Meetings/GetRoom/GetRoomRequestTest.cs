@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
@@ -9,12 +10,12 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
 {
     public class GetRoomRequestTest
     {
-        private readonly string roomId;
+        private readonly Guid roomId;
 
         public GetRoomRequestTest()
         {
             var fixture = new Fixture();
-            this.roomId = fixture.Create<string>();
+            this.roomId = fixture.Create<Guid>();
         }
 
         [Fact]
@@ -24,14 +25,11 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
                 .Should()
                 .BeSuccess($"/beta/meetings/rooms/{this.roomId}");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace(string value) =>
-            GetRoomRequest.Parse(value)
+        [Fact]
+        public void Parse_ShouldReturnFailure_GivenRoomIdIsEmpty() =>
+            GetRoomRequest.Parse(Guid.Empty)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("RoomId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("RoomId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

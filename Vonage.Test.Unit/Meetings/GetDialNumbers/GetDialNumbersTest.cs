@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings;
-using Vonage.Meetings.Common;
 using Vonage.Meetings.GetDialNumbers;
 using WireMock.RequestBuilders;
 using Xunit;
@@ -24,9 +23,8 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
 
         public GetDialNumbersTest()
         {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
+            this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
+            this.client = MeetingsClientFactory.Create(this.helper);
         }
 
         [Property]

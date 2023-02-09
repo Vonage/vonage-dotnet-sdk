@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Vonage.Common.Monads;
 
 namespace Vonage.Common.Client;
@@ -11,10 +12,8 @@ public class VonageRequestBuilder
     private readonly HttpRequestMessage request;
     private Maybe<HttpContent> requestContent = Maybe<HttpContent>.None;
 
-    private VonageRequestBuilder(HttpMethod httpMethod, string endpointUri)
-    {
-        this.request = new HttpRequestMessage(httpMethod, endpointUri);
-    }
+    private VonageRequestBuilder(HttpMethod httpMethod, Uri uri) =>
+        this.request = new HttpRequestMessage(httpMethod, uri);
 
     public HttpRequestMessage Build()
     {
@@ -22,7 +21,10 @@ public class VonageRequestBuilder
         return this.request;
     }
 
-    public static VonageRequestBuilder Initialize(HttpMethod method, string endpointUri) => new(method, endpointUri);
+    public static VonageRequestBuilder Initialize(HttpMethod method, string endpointUri) =>
+        new(method, new Uri(endpointUri, UriKind.Relative));
+
+    public static VonageRequestBuilder Initialize(HttpMethod method, Uri uri) => new(method, uri);
 
     public VonageRequestBuilder WithContent(HttpContent content)
     {

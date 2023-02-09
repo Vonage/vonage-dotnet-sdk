@@ -4,6 +4,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -24,9 +25,8 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
 
         public GetRoomTest()
         {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
+            this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
+            this.client = MeetingsClientFactory.Create(this.helper);
             this.request = BuildRequest(this.helper.Fixture);
         }
 
@@ -52,7 +52,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<GetRoomRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetRoomRequest.Parse(fixture.Create<string>());
+            GetRoomRequest.Parse(fixture.Create<Guid>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

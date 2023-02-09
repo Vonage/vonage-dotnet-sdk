@@ -4,6 +4,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -26,9 +27,8 @@ namespace Vonage.Test.Unit.Meetings.GetRecording
 
         public GetRecordingTest()
         {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
+            this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
+            this.client = MeetingsClientFactory.Create(this.helper);
             this.request = BuildRequest(this.helper.Fixture);
         }
 
@@ -54,7 +54,7 @@ namespace Vonage.Test.Unit.Meetings.GetRecording
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
         private static Result<GetRecordingRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetRecordingRequest.Parse(fixture.Create<string>());
+            GetRecordingRequest.Parse(fixture.Create<Guid>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

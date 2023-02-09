@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
+using Vonage.Common.Serialization;
 
 namespace Vonage.Meetings.Common;
 
@@ -8,11 +10,11 @@ public struct Recording
 {
     /// <summary>
     /// </summary>
-    public string EndedAt { get; set; }
+    public DateTime EndedAt { get; set; }
 
     /// <summary>
     /// </summary>
-    public string Id { get; set; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// </summary>
@@ -25,10 +27,11 @@ public struct Recording
 
     /// <summary>
     /// </summary>
-    public string StartedAt { get; set; }
+    public DateTime StartedAt { get; set; }
 
     /// <summary>
     /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<RecordingStatus>))]
     public RecordingStatus Status { get; set; }
 
     /// <summary>
