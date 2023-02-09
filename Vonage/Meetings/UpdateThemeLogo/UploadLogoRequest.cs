@@ -7,16 +7,16 @@ namespace Vonage.Meetings.UpdateThemeLogo;
 
 internal readonly struct UploadLogoRequest : IVonageRequest
 {
-    private UploadLogoRequest(UploadDetails fields, Uri url, string filepath)
+    private UploadLogoRequest(UploadDetails fields, Uri url, byte[] file)
     {
         this.Fields = fields;
         this.Url = url;
-        this.Filepath = filepath;
+        this.File = file;
     }
 
     public UploadDetails Fields { get; }
 
-    public string Filepath { get; }
+    public byte[] File { get; }
 
     public Uri Url { get; }
 
@@ -27,8 +27,8 @@ internal readonly struct UploadLogoRequest : IVonageRequest
             .WithContent(this.GetRequestContent())
             .Build();
 
-    public static UploadLogoRequest FromLogosUrl(GetUploadLogosUrlResponse response, string filepath) =>
-        new(response.Fields, response.Url, filepath);
+    public static UploadLogoRequest FromLogosUrl(GetUploadLogosUrlResponse response, byte[] file) =>
+        new(response.Fields, response.Url, file);
 
     /// <inheritdoc />
     public string GetEndpointPath() => this.Url.AbsoluteUri;
@@ -40,7 +40,7 @@ internal readonly struct UploadLogoRequest : IVonageRequest
             .ToDictionary()
             .ToList()
             .ForEach(pair => content.Add(new StringContent(pair.Value), pair.Key));
-        content.Add(new StringContent(this.Filepath), "file");
+        content.Add(new ByteArrayContent(this.File), "file");
         return content;
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO.Abstractions.TestingHelpers;
 using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -30,12 +32,17 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         public UpdateThemeLogoTest()
         {
             this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
-            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
+            this.client = MeetingsClientFactory.Create(this.helper, InitializeFileSystem());
             this.request = UpdateThemeLogoRequest
-                .Parse(new Guid("ca242c86-25e5-46b1-ad75-97ffd67452ea"), ThemeLogoType.White, "C:\\ThisIsATest.txt")
+                .Parse(new Guid("ca242c86-25e5-46b1-ad75-97ffd67452ea"), ThemeLogoType.White, @"C:\ThisIsATest.txt")
                 .GetSuccessUnsafe();
         }
+
+        [Fact]
+        public async Task ShouldReturnFailure_GivenFileDoesNotExist() =>
+            (await MeetingsClientFactory.Create(this.helper, new MockFileSystem()).UpdateThemeLogoAsync(this.request))
+            .Should()
+            .BeFailure(ResultFailure.FromErrorMessage("The file cannot be found."));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
@@ -201,6 +208,12 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
                 .CreateRequest(this.helper.Token,
                     UseCaseHelper.GetPathFromRequest<GetUploadLogosUrlRequest>(GetUploadLogosUrlRequest.Default))
                 .UsingGet();
+
+        private static MockFileSystem InitializeFileSystem() =>
+            new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                {@"C:\ThisIsATest.txt", new MockFileData("Bla bla bla.")},
+            });
 
         private void RetrievingLogosUrlReturnsValidResponse() =>
             this.helper.Server

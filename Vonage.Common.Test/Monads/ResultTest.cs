@@ -36,7 +36,7 @@ namespace Vonage.Common.Test.Monads
         public async Task BindAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
             (await CreateFailure()
                 .BindAsync(IncrementBindAsync)
-                .BindAsync(IncrementBindAsync)
+                .Bind(IncrementBind)
                 .BindAsync(IncrementBindAsync)
                 .BindAsync(IncrementBindAsync)
                 .BindAsync(IncrementBindAsync))
@@ -54,7 +54,7 @@ namespace Vonage.Common.Test.Monads
         public async Task BindAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
             (await CreateSuccess(5)
                 .BindAsync(IncrementBindAsync)
-                .BindAsync(IncrementBindAsync)
+                .Bind(IncrementBind)
                 .BindAsync(IncrementBindAsync)
                 .BindAsync(IncrementBindAsync)
                 .BindAsync(IncrementBindAsync))
@@ -341,7 +341,7 @@ namespace Vonage.Common.Test.Monads
         public async Task MapAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
             (await CreateFailure()
                 .MapAsync(IncrementAsync)
-                .MapAsync(IncrementAsync)
+                .Map(Increment)
                 .MapAsync(IncrementAsync)
                 .MapAsync(IncrementAsync)
                 .MapAsync(IncrementAsync))
@@ -359,7 +359,7 @@ namespace Vonage.Common.Test.Monads
         public async Task MapAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
             (await CreateSuccess(5)
                 .MapAsync(IncrementAsync)
-                .MapAsync(IncrementAsync)
+                .Map(Increment)
                 .MapAsync(IncrementAsync)
                 .MapAsync(IncrementAsync)
                 .MapAsync(IncrementAsync))

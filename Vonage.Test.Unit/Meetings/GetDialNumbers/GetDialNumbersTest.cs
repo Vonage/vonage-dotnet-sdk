@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common;
@@ -25,8 +24,7 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
         public GetDialNumbersTest()
         {
             this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
-            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
+            this.client = MeetingsClientFactory.Create(this.helper);
         }
 
         [Property]

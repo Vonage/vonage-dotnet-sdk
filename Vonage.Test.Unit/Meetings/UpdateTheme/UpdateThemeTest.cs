@@ -26,8 +26,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
         public UpdateThemeTest()
         {
             this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
-            this.client = new MeetingsClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
+            this.client = MeetingsClientFactory.Create(this.helper);
             this.request = BuildRequest(this.helper.Fixture);
         }
 
