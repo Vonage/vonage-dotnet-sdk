@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using Vonage.Common;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Vonage.Common;
 using Vonage.Serialization;
 
 namespace Vonage.Applications.Capabilities
@@ -20,7 +19,8 @@ namespace Vonage.Applications.Capabilities
             [Description("voice")] Voice,
             [Description("rtc")] Rtc,
             [Description("messages")] Messages,
-            [Description("vbc")] Vbc
+            [Description("vbc")] Vbc,
+            [Description("meetings")] Meetings,
         }
     }
 }

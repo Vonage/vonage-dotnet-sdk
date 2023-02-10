@@ -1,14 +1,24 @@
 ﻿using Newtonsoft.Json;
 using Vonage.Applications.Capabilities;
+
 namespace Vonage.Applications
 {
+    /// <summary>
+    ///     Represents capabilities of an application.
+    /// </summary>
     public class ApplicationCapabilities
     {
         /// <summary>
-        /// Voice application webhook config
+        ///     Create meetings with Vonage API.
         /// </summary>
-        [JsonProperty("voice")]
-        public Capabilities.Voice Voice { get; set; }
+        [JsonProperty("meetings")]
+        public Capabilities.Meetings Meetings { get; set; }
+
+        /// <summary>
+        /// Messages and Dispatch application webhook config
+        /// </summary>
+        [JsonProperty("messages")]
+        public Capabilities.Messages Messages { get; set; }
 
         /// <summary>
         /// RTC / Client SDK application webhook config
@@ -23,9 +33,9 @@ namespace Vonage.Applications
         public Vbc Vbc { get; set; }
 
         /// <summary>
-        /// Messages and Dispatch application webhook config
+        /// Voice application webhook config
         /// </summary>
-        [JsonProperty("messages")]
-        public Capabilities.Messages Messages { get; set; }
+        [JsonProperty("voice")]
+        public Capabilities.Voice Voice { get; set; }
     }
 }
