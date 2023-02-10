@@ -98,4 +98,8 @@
     <ItemGroup>
         <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj"/>
     </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Sip\PlayToneIntoCall"/>
+        <Folder Include="Sip\PlayToneIntoConnection"/>
+    </ItemGroup>
 </Project>

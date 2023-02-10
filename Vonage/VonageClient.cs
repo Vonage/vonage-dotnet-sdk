@@ -13,6 +13,7 @@ using Vonage.Pricing;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
+using Vonage.Sip;
 using Vonage.Verify;
 using Vonage.Voice;
 
@@ -63,6 +64,11 @@ namespace Vonage
 
         public IShortCodesClient ShortCodesClient { get; private set; }
 
+        /// <summary>
+        ///     Exposes Sip features.
+        /// </summary>
+        public ISipClient SipClient { get; private set; }
+
         public ISmsClient SmsClient { get; private set; }
 
         public IVerifyClient VerifyClient { get; private set; }
@@ -73,10 +79,7 @@ namespace Vonage
         ///     Constructor for VonageClient.
         /// </summary>
         /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
-        public VonageClient(Credentials credentials)
-        {
-            this.Credentials = credentials;
-        }
+        public VonageClient(Credentials credentials) => this.Credentials = credentials;
 
         private static HttpClient InitializeHttpClient()
         {
@@ -106,6 +109,7 @@ namespace Vonage
             string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
             this.MeetingsClient =
                 new MeetingsClient(client, GenerateToken, this.Credentials.GetUserAgent(), new FileSystem());
+            this.SipClient = new SipClient(client, GenerateToken, this.Credentials.GetUserAgent());
         }
     }
 }
