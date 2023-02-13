@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release
       - name: Test
-        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net6.0 --logger "console;verbosity=detailed"' -f xml  -o 'coverage.xml'
+        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net6.0' -f xml  -o 'coverage.xml'
         env:
           Vonage.Key: ${{ secrets.VONAGE_KEY }}
           Vonage.Secret: ${{ secrets.VONAGE_SECRET }}
