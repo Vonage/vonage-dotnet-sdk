@@ -3,10 +3,10 @@ using System.Net.Http;
 using Vonage.Common;
 using Vonage.Common.Client;
 
-namespace Vonage.Sip;
+namespace Vonage.Server.Video.Sip;
 
 /// <inheritdoc />
-public class SipClient : ISipClient
+public class SipClient
 {
     private readonly VonageHttpClient vonageClient;
 

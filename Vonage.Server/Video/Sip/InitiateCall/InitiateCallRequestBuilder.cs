@@ -2,7 +2,7 @@
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
-namespace Vonage.Sip.InitiateCall;
+namespace Vonage.Server.Video.Sip.InitiateCall;
 
 public class InitiateCallRequestBuilder : IVonageRequestBuilder<InitiateCallRequest>
 {

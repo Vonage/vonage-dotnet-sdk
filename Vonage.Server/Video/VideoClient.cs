@@ -4,6 +4,7 @@ using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Moderation;
 using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Signaling;
+using Vonage.Server.Video.Sip;
 
 namespace Vonage.Server.Video;
 
@@ -36,6 +37,9 @@ public class VideoClient : IVideoClient
     /// <inheritdoc />
     public SignalingClient SignalingClient { get; private set; }
 
+    /// <inheritdoc />
+    public SipClient SipClient { get; private set; }
+
     /// <summary>
     ///     Creates a new client.
     /// </summary>
@@ -53,6 +57,7 @@ public class VideoClient : IVideoClient
         this.SignalingClient = new SignalingClient(client, GenerateToken, this.Credentials.GetUserAgent());
         this.ModerationClient = new ModerationClient(client, GenerateToken, this.Credentials.GetUserAgent());
         this.ArchiveClient = new ArchiveClient(client, GenerateToken, this.Credentials.GetUserAgent());
+        this.SipClient = new SipClient(client, GenerateToken, this.Credentials.GetUserAgent());
     }
 
     private static HttpClient InitializeHttpClient()
