@@ -37,5 +37,11 @@ namespace Vonage.Applications
         /// </summary>
         [JsonProperty("messages")]
         public Capabilities.Messages Messages { get; set; }
+        
+        /// <summary>
+        ///    Create in-app video calls with Vonage API.
+        /// </summary>
+        [JsonProperty("video")]
+        public Capabilities.Video Video { get; set; }
     }
 }
