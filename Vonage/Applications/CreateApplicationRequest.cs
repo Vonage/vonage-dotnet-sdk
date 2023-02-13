@@ -21,7 +21,7 @@ namespace Vonage.Applications
         public Keys Keys { get; set; }
 
         /// <summary>
-        /// Application Name
+        ///     Application Name
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }

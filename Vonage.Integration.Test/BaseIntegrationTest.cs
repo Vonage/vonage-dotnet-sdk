@@ -12,12 +12,9 @@ public abstract class BaseIntegrationTest : IDisposable
     protected BaseIntegrationTest(ITestOutputHelper outputHelper)
     {
         this.Fixture = new Fixture();
-        var apiKey = Environment.GetEnvironmentVariable("Vonage.Key");
-        var apiSecret = Environment.GetEnvironmentVariable("Vonage.Key");
-        Console.WriteLine($"Vonage.Key: {apiKey}");
-        outputHelper.WriteLine($"Vonage.Key: {apiKey}");
-        this.client = new VonageClient(Credentials.FromApiKeyAndSecret(apiKey ?? Configuration.Instance.ApiKey,
-            apiSecret ?? Configuration.Instance.ApiSecret));
+        this.client = new VonageClient(Credentials.FromApiKeyAndSecret(
+            Environment.GetEnvironmentVariable("Vonage.Key") ?? Configuration.Instance.ApiKey,
+            Environment.GetEnvironmentVariable("Vonage.Secret") ?? Configuration.Instance.ApiSecret));
         this.ApplicationClient = new VonageClient(this.CreateApplicationAsync().Result);
     }
 
