@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Security.Authentication;
+using AutoFixture;
 using Vonage.Applications;
 using Vonage.Request;
 using Xunit.Abstractions;
@@ -13,8 +14,8 @@ public abstract class BaseIntegrationTest : IDisposable
     {
         this.Fixture = new Fixture();
         this.client = new VonageClient(Credentials.FromApiKeyAndSecret(
-            Environment.GetEnvironmentVariable("Vonage.Key") ?? Configuration.Instance.ApiKey,
-            Environment.GetEnvironmentVariable("Vonage.Secret") ?? Configuration.Instance.ApiSecret));
+            Environment.GetEnvironmentVariable("Vonage.Key") ?? throw new InvalidCredentialException("Missing variable 'Vonage.Key' from environment variables."),
+            Environment.GetEnvironmentVariable("Vonage.Secret") ??  throw new InvalidCredentialException("Missing variable 'Vonage.Secret' from environment variables.")));
         this.ApplicationClient = new VonageClient(this.CreateApplicationAsync().Result);
     }
 

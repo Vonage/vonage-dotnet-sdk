@@ -8,6 +8,12 @@ namespace Vonage.Applications
     public class CreateApplicationRequest
     {
         /// <summary>
+        ///     Application Name
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        
+        /// <summary>
         /// Your application can use multiple products. This contains the configuration for each product. 
         /// This replaces the application type from version 1 of the Application API.
         /// </summary>
@@ -19,11 +25,5 @@ namespace Vonage.Applications
         /// </summary>
         [JsonProperty("keys")]
         public Keys Keys { get; set; }
-
-        /// <summary>
-        ///     Application Name
-        /// </summary>
-        [JsonProperty("name")]
-        public string Name { get; set; }
     }
 }

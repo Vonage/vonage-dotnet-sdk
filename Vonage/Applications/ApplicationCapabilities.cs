@@ -9,16 +9,10 @@ namespace Vonage.Applications
     public class ApplicationCapabilities
     {
         /// <summary>
-        ///     Create meetings with Vonage API.
+        /// Voice application webhook config
         /// </summary>
-        [JsonProperty("meetings")]
-        public Capabilities.Meetings Meetings { get; set; }
-
-        /// <summary>
-        /// Messages and Dispatch application webhook config
-        /// </summary>
-        [JsonProperty("messages")]
-        public Capabilities.Messages Messages { get; set; }
+        [JsonProperty("voice")]
+        public Capabilities.Voice Voice { get; set; }
 
         /// <summary>
         /// RTC / Client SDK application webhook config
@@ -31,11 +25,17 @@ namespace Vonage.Applications
         /// </summary>
         [JsonProperty("vbc")]
         public Vbc Vbc { get; set; }
+        
+        /// <summary>
+        ///     Create meetings with Vonage API.
+        /// </summary>
+        [JsonProperty("meetings")]
+        public Capabilities.Meetings Meetings { get; set; }
 
         /// <summary>
-        /// Voice application webhook config
+        /// Messages and Dispatch application webhook config
         /// </summary>
-        [JsonProperty("voice")]
-        public Capabilities.Voice Voice { get; set; }
+        [JsonProperty("messages")]
+        public Capabilities.Messages Messages { get; set; }
     }
 }
