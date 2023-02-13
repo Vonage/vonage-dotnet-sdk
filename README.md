@@ -149,6 +149,10 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
  Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             
  Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             
 
+### Integration test configuration
+Make sure to set `Vonage.Key` (with you ApiKey value) and `Vonage.Secret` (with your ApiSecret value) in your environment variables. 
+Integration tests will use those to directly target Vonage's APIs.
+
 ### Logging
 
 #### v5.0.0 +

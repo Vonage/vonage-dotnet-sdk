@@ -1,7 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Vonage.Applications.Capabilities;
+
 namespace Vonage.Applications
 {
+    /// <summary>
+    ///     Represents capabilities of an application.
+    /// </summary>
     public class ApplicationCapabilities
     {
         /// <summary>
@@ -21,6 +25,12 @@ namespace Vonage.Applications
         /// </summary>
         [JsonProperty("vbc")]
         public Vbc Vbc { get; set; }
+        
+        /// <summary>
+        ///     Create meetings with Vonage API.
+        /// </summary>
+        [JsonProperty("meetings")]
+        public Capabilities.Meetings Meetings { get; set; }
 
         /// <summary>
         /// Messages and Dispatch application webhook config
