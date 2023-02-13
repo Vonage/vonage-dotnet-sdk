@@ -44,8 +44,8 @@ namespace Vonage
 
             // verify we have a minimum amount of configuration
             var authCapabilities = new List<string>();
-            if (!string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage_key"]) &&
-                !string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage_secret"]))
+            if (!string.IsNullOrWhiteSpace(this.ApiKey) &&
+                !string.IsNullOrWhiteSpace(this.ApiSecret))
             {
                 authCapabilities.Add("Key/Secret");
             }
@@ -70,6 +70,16 @@ namespace Vonage
                 logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
             }
         }
+
+        /// <summary>
+        ///     Retrieves the Api secret.
+        /// </summary>
+        public string ApiKey => this.Settings["appSettings:Vonage_key"] ?? string.Empty;
+
+        /// <summary>
+        ///     Retrieves the Api secret.
+        /// </summary>
+        public string ApiSecret => this.Settings["appSettings:Vonage_secret"] ?? string.Empty;
 
         /// <summary>
         ///     Retrieves a configured HttpClient.
