@@ -22,13 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="appsettings.json"/>
-        <Content Include="appsettings.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
         <ProjectReference Include="..\Vonage\Vonage.csproj"/>
     </ItemGroup>
