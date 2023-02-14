@@ -51,6 +51,12 @@ public class JsonSerializer : IJsonSerializer
     /// </summary>
     /// <returns>The serializer.</returns>
     public static JsonSerializer BuildWithSnakeCase() => new(JsonNamingPolicies.SnakeCaseLower);
+    
+    /// <summary>
+    /// Builds a serializer with SnakeCase naming policy.
+    /// </summary>
+    /// <returns>The serializer.</returns>
+    public static JsonSerializer BuildWithCamelCase() => new(JsonNamingPolicy.CamelCase);
 
     /// <inheritdoc />
     public Result<T> DeserializeObject<T>(string serializedValue)

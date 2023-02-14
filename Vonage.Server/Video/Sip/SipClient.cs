@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
+using Vonage.Server.Video.Sip.InitiateCall;
 
 namespace Vonage.Server.Video.Sip;
 
-/// <inheritdoc />
+
+/// <summary>
+/// Represents a client for handling SIP calls.
+/// </summary>
 public class SipClient
 {
     private readonly VonageHttpClient vonageClient;
@@ -18,6 +24,14 @@ public class SipClient
     /// <param name="userAgent">The user agent.</param>
     public SipClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) =>
         this.vonageClient =
-            new VonageHttpClient(httpClient, JsonSerializer.BuildWithSnakeCase(),
+            new VonageHttpClient(httpClient, JsonSerializer.BuildWithCamelCase(),
                 new HttpClientOptions(tokenGeneration, userAgent));
+
+    /// <summary>
+    /// Connects your SIP platform to an OpenTok session.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>The call response.</returns>
+    public Task<Result<InitiateCallResponse>> InitiateCall(Result<InitiateCallRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<InitiateCallRequest, InitiateCallResponse>(request);
 }

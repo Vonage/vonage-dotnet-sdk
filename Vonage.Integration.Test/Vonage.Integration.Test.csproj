@@ -23,11 +23,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj" />
+        <ProjectReference Include="..\Vonage.Server\Vonage.Server.csproj" />
         <ProjectReference Include="..\Vonage\Vonage.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Video" />
     </ItemGroup>
 
 </Project>

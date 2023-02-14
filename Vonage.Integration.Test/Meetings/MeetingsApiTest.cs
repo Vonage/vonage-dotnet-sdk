@@ -10,11 +10,6 @@ namespace Vonage.Integration.Test.Meetings;
 
 public class MeetingsApiTest : BaseIntegrationTest
 {
-    public MeetingsApiTest(ITestOutputHelper outputHelper)
-        : base(outputHelper)
-    {
-    }
-
     [Fact]
     public async Task CreateTheme_ShouldReturnSuccess()
     {
