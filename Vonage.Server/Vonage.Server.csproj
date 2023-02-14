@@ -67,7 +67,4 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Video\Sip\PlayToneIntoConnection" />
-    </ItemGroup>
 </Project>

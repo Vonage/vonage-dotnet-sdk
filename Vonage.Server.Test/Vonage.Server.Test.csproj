@@ -85,6 +85,10 @@
         <Content Include="Video\Sip\PlayToneIntoCall\Data\ShouldSerialize-request.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="Video\Sip\PlayToneIntoConnection\Data\ShouldSerialize-request.json" />
+        <Content Include="Video\Sip\PlayToneIntoConnection\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>

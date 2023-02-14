@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoFixture;
+using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Sip.PlayToneIntoCall;
@@ -58,9 +59,9 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
                 .Should()
                 .BeSuccess(request =>
                 {
-                    // request.ApplicationId.Should().Be(this.applicationId);
-                    // request.SessionId.Should().Be(this.sessionId);
-                    // request.Token.Should().Be(this.digits);
+                    request.ApplicationId.Should().Be(this.applicationId);
+                    request.SessionId.Should().Be(this.sessionId);
+                    request.Digits.Should().Be(this.digits);
                 });
     }    
 }
