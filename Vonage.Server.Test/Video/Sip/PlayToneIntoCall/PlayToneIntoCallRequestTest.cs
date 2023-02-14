@@ -39,19 +39,19 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
-            PlayToneIntoCallRequest.Parse(this.applicationId, value, this.digits)
+        public void Parse_ShouldReturnFailure_GivenDigitsIsNullOrWhitespace(string value) =>
+            PlayToneIntoCallRequest.Parse(this.applicationId, this.sessionId, value)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("Digits cannot be null or whitespace."));
 
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenDigitsIsNullOrWhitespace(string value) =>
-            PlayToneIntoCallRequest.Parse(this.applicationId, this.sessionId, value)
+        public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
+            PlayToneIntoCallRequest.Parse(this.applicationId, value, this.digits)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Digits cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
@@ -63,5 +63,5 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
                     request.SessionId.Should().Be(this.sessionId);
                     request.Digits.Should().Be(this.digits);
                 });
-    }    
+    }
 }

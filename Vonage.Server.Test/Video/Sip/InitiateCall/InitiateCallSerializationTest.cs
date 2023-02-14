@@ -3,7 +3,6 @@ using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.Meetings.Common;
 using Vonage.Server.Video.Sip.InitiateCall;
 using Xunit;
 
@@ -11,12 +10,12 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 {
     public class InitiateCallSerializationTest
     {
-         private readonly SerializationTestHelper helper;
+        private readonly SerializationTestHelper helper;
 
         public InitiateCallSerializationTest() =>
             this.helper = new SerializationTestHelper(typeof(InitiateCallSerializationTest).Namespace,
                 JsonSerializer.BuildWithCamelCase());
-        
+
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
@@ -28,7 +27,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
                     success.ConnectionId.Should().Be("5fb383d1-a70f-4153-b009-2ef0429bf08f");
                     success.StreamId.Should().Be("1b934954-f1b4-406a-8bb8-7cde7a8be2a3");
                 });
-        
+
         [Fact]
         public void ShouldSerialize() =>
             SipElementBuilder
@@ -40,17 +39,19 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
                 .WithHeaderKey("some-value")
                 .WithAuthentication(new SipElement.SipAuthentication("p@ssw0rd", "username"))
                 .Create()
-                .Bind(sip => InitiateCallRequest.Parse(Guid.NewGuid(), "b40ef09b-3811-4726-b508-e41a0f96c68f", "78d335fa-323d-0114-9c3d-d6f0d48968cf", sip))
+                .Bind(sip => InitiateCallRequest.Parse(Guid.NewGuid(), "b40ef09b-3811-4726-b508-e41a0f96c68f",
+                    "78d335fa-323d-0114-9c3d-d6f0d48968cf", sip))
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
-        
+
         [Fact]
         public void ShouldSerializeWithDefaultValues() =>
             SipElementBuilder
                 .Build("sip:user@sip.partner.com;transport=tls")
                 .Create()
-                .Bind(sip => InitiateCallRequest.Parse(Guid.NewGuid(), "b40ef09b-3811-4726-b508-e41a0f96c68f", "78d335fa-323d-0114-9c3d-d6f0d48968cf", sip))
+                .Bind(sip => InitiateCallRequest.Parse(Guid.NewGuid(), "b40ef09b-3811-4726-b508-e41a0f96c68f",
+                    "78d335fa-323d-0114-9c3d-d6f0d48968cf", sip))
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());

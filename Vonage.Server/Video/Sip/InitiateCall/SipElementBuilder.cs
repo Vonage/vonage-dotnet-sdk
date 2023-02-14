@@ -4,16 +4,16 @@ using Vonage.Common.Validation;
 namespace Vonage.Server.Video.Sip.InitiateCall;
 
 /// <summary>
-/// Represents a builder for SipElement.
+///     Represents a builder for SipElement.
 /// </summary>
 public class SipElementBuilder
 {
     private bool hasEncryptedMedia;
     private bool hasVideo;
     private bool hasForceMute;
-    private string from;
     private Maybe<SipElement.SipAuthentication> authentication;
     private Maybe<SipElement.SipHeader> customHeaderKey;
+    private string from;
     private readonly string uri;
 
     private SipElementBuilder(string uri) => this.uri = uri;

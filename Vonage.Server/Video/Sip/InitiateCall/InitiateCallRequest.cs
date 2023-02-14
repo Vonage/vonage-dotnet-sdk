@@ -15,19 +15,26 @@ namespace Vonage.Server.Video.Sip.InitiateCall;
 public readonly struct InitiateCallRequest : IVonageRequest
 {
     /// <summary>
+    ///     Vonage Application UUID.
     /// </summary>
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
     /// <summary>
+    ///     The OpenTok session ID for the SIP call to join.
     /// </summary>
     public string SessionId { get; internal init; }
 
     /// <summary>
+    ///     The sip element.
     /// </summary>
     public SipElement Sip { get; internal init; }
 
     /// <summary>
+    ///     The OpenTok token to be used for the participant being called. You can add token data to identify that the
+    ///     participant is on a SIP endpoint or for other identifying data, such as phone numbers. (The OpenTok client
+    ///     libraries include properties for inspecting the connection data for a client connected to a session.) See the Token
+    ///     Creation developer guide.
     /// </summary>
     public string Token { get; internal init; }
 
@@ -42,12 +49,18 @@ public readonly struct InitiateCallRequest : IVonageRequest
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/dial";
 
     /// <summary>
+    ///     Parses the input into a InitiateCallRequest.
     /// </summary>
-    /// <param name="applicationId"></param>
-    /// <param name="sessionId"></param>
-    /// <param name="token"></param>
-    /// <param name="element"></param>
-    /// <returns></returns>
+    /// <param name="applicationId">Vonage Application UUID.</param>
+    /// <param name="sessionId">The OpenTok session ID for the SIP call to join.</param>
+    /// <param name="token">
+    ///     The OpenTok token to be used for the participant being called. You can add token data to identify
+    ///     that the participant is on a SIP endpoint or for other identifying data, such as phone numbers. (The OpenTok client
+    ///     libraries include properties for inspecting the connection data for a client connected to a session.) See the Token
+    ///     Creation developer guide.
+    /// </param>
+    /// <param name="element">The sip element.</param>
+    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
     public static Result<InitiateCallRequest> Parse(Guid applicationId, string sessionId, string token,
         SipElement element) =>
         Result<InitiateCallRequest>.FromSuccess(new InitiateCallRequest

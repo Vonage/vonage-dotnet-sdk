@@ -9,7 +9,6 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Sip;
-using Vonage.Server.Video.Sip.PlayToneIntoCall;
 using Vonage.Server.Video.Sip.PlayToneIntoConnection;
 using WireMock.RequestBuilders;
 using Xunit;
@@ -65,5 +64,5 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoConnection
                 .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
                 .UsingPost();
         }
-    }   
+    }
 }

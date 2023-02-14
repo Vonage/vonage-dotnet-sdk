@@ -10,8 +10,8 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
     public class SipElementBuilderTest
     {
         private readonly SipElement.SipAuthentication authentication;
-        private readonly string uri;
         private readonly SipElement.SipHeader header;
+        private readonly string uri;
         private readonly string from;
 
         public SipElementBuilderTest()

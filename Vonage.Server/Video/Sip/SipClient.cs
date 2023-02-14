@@ -10,9 +10,8 @@ using Vonage.Server.Video.Sip.PlayToneIntoConnection;
 
 namespace Vonage.Server.Video.Sip;
 
-
 /// <summary>
-/// Represents a client for handling SIP calls.
+///     Represents a client for handling SIP calls.
 /// </summary>
 public class SipClient
 {
@@ -30,26 +29,26 @@ public class SipClient
                 new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
-    /// Connects your SIP platform to an OpenTok session.
+    ///     Connects your SIP platform to an OpenTok session.
     /// </summary>
     /// <param name="request">The request.</param>
-    /// <returns>The call response.</returns>
+    /// <returns>Success with the response if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<InitiateCallResponse>> InitiateCallAsync(Result<InitiateCallRequest> request) =>
         this.vonageClient.SendWithResponseAsync<InitiateCallRequest, InitiateCallResponse>(request);
-    
+
     /// <summary>
-    /// 
+    ///     Sends DTMF digits to all participants in an OpenTok call.
     /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
+    /// <param name="request">The request.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> PlayToneIntoCallAsync(Result<PlayToneIntoCallRequest> request) =>
         this.vonageClient.SendAsync(request);
-    
+
     /// <summary>
-    /// 
+    ///     Sends DTMF digits to a single participant in an OpenTok call.
     /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
+    /// <param name="request">The request.</param>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public Task<Result<Unit>> PlayToneIntoConnectionAsync(Result<PlayToneIntoConnectionRequest> request) =>
         this.vonageClient.SendAsync(request);
 }

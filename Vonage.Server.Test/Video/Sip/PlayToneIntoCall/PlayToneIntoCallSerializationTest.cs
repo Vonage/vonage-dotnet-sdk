@@ -14,13 +14,12 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
         public PlayToneIntoCallSerializationTest() =>
             this.helper = new SerializationTestHelper(typeof(PlayToneIntoCallSerializationTest).Namespace,
                 JsonSerializer.BuildWithCamelCase());
-        
+
         [Fact]
         public void ShouldSerialize() =>
             PlayToneIntoCallRequest.Parse(Guid.NewGuid(), "414ac9c2-9a6f-4f4b-aad4-202dbe7b1d8d", "1713")
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
-    }    
+    }
 }
-
