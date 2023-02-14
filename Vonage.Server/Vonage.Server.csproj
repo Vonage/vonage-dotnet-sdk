@@ -68,7 +68,6 @@
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Video\Sip\PlayToneIntoCall" />
       <Folder Include="Video\Sip\PlayToneIntoConnection" />
     </ItemGroup>
 </Project>

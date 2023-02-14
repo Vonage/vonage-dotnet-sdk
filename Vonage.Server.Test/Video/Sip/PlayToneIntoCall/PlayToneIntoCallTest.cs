@@ -9,20 +9,20 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Sip;
-using Vonage.Server.Video.Sip.InitiateCall;
+using Vonage.Server.Video.Sip.PlayToneIntoCall;
 using WireMock.RequestBuilders;
 using Xunit;
 
-namespace Vonage.Server.Test.Video.Sip.InitiateCall
+namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
 {
-    public class InitiateCallTest
+    public class PlayToneIntoCallTest
     {
-        private Func<Task<Result<InitiateCallResponse>>> Operation => () => this.client.InitiateCallAsync(this.request);
-        private readonly Result<InitiateCallRequest> request;
+        private Func<Task<Result<Unit>>> Operation => () => this.client.PlayToneIntoCallAsync(this.request);
+        private readonly Result<PlayToneIntoCallRequest> request;
         private readonly SipClient client;
         private readonly UseCaseHelper helper;
 
-        public InitiateCallTest()
+        public PlayToneIntoCallTest()
         {
             this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
             this.client = new SipClient(this.helper.Server.CreateClient(), () => this.helper.Token,
@@ -40,27 +40,24 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<InitiateCallRequest, InitiateCallResponse>(this
-                .client
-                .InitiateCallAsync);
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<PlayToneIntoCallRequest, Unit>(this.client
+                .PlayToneIntoCallAsync);
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
 
-        private static Result<InitiateCallRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            SipElementBuilder
-                .Build(fixture.Create<string>())
-                .Create()
-                .Bind(sip => InitiateCallRequest.Parse(fixture.Create<Guid>(), fixture.Create<string>(),
-                    fixture.Create<string>(), sip));
+        private static Result<PlayToneIntoCallRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            PlayToneIntoCallRequest.Parse(
+                fixture.Create<Guid>(),
+                fixture.Create<string>(),
+                fixture.Create<string>());
 
         private IRequestBuilder CreateRequest()
         {
             var serializedItems =
                 this.request
-                    .Map(value =>
-                        this.helper.Serializer.SerializeObject(value))
+                    .Map(value => this.helper.Serializer.SerializeObject(value))
                     .IfFailure(string.Empty);
             return WireMockExtensions
                 .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)

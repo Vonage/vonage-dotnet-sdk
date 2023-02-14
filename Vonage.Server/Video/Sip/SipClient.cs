@@ -5,6 +5,7 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Server.Video.Sip.InitiateCall;
+using Vonage.Server.Video.Sip.PlayToneIntoCall;
 
 namespace Vonage.Server.Video.Sip;
 
@@ -32,6 +33,14 @@ public class SipClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>The call response.</returns>
-    public Task<Result<InitiateCallResponse>> InitiateCall(Result<InitiateCallRequest> request) =>
+    public Task<Result<InitiateCallResponse>> InitiateCallAsync(Result<InitiateCallRequest> request) =>
         this.vonageClient.SendWithResponseAsync<InitiateCallRequest, InitiateCallResponse>(request);
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    public Task<Result<Unit>> PlayToneIntoCallAsync(Result<PlayToneIntoCallRequest> request) =>
+        this.vonageClient.SendAsync(request);
 }
