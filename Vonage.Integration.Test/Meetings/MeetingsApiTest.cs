@@ -8,6 +8,7 @@ using Xunit.Abstractions;
 
 namespace Vonage.Integration.Test.Meetings;
 
+[Trait("Category","Integration")]
 public class MeetingsApiTest : BaseIntegrationTest
 {
     [Fact]
