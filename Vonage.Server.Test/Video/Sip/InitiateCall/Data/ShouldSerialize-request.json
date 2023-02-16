@@ -2,8 +2,8 @@
   "sessionId": "b40ef09b-3811-4726-b508-e41a0f96c68f",
   "sip": {
     "auth": {
-      "password": "p@ssw0rd",
-      "username": "username"
+      "username": "username",
+      "password": "p@ssw0rd"
     },
     "from": "from@example.com",
     "headers": {

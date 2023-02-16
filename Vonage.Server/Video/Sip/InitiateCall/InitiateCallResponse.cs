@@ -1,4 +1,6 @@
-﻿namespace Vonage.Server.Video.Sip.InitiateCall;
+﻿using System;
+
+namespace Vonage.Server.Video.Sip.InitiateCall;
 
 /// <summary>
 ///     Represents the response when initiating a call.
@@ -10,7 +12,7 @@ public struct InitiateCallResponse
     ///     terminate the SIP call, using the OpenTok REST API.
     /// </summary>
 
-    public string ConnectionId { get; set; }
+    public Guid ConnectionId { get; set; }
 
     /// <summary>
     ///     A unique ID for the SIP call.

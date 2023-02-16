@@ -75,44 +75,16 @@ public readonly struct SipElement
     public string Uri { get; internal init; }
 
     /// <summary>
-    ///     Represents the authentication for the SIP call.
+    /// Represents the authentication for the SIP call.
     /// </summary>
-    public readonly struct SipAuthentication
-    {
-        /// <summary>
-        ///     Contains the password to be used in the the SIP INVITE request for HTTP digest authentication, if it is required by
-        ///     your SIP platform.
-        /// </summary>
-        public string Password { get; }
-
-        /// <summary>
-        ///     Contains the username to be used in the the SIP INVITE request for HTTP digest authentication, if it is required by
-        ///     your SIP platform.
-        /// </summary>
-        public string Username { get; }
-
-        /// <summary>
-        ///     Constructor.
-        /// </summary>
-        /// <param name="password">
-        ///     Contains the password to be used in the the SIP INVITE request for HTTP digest authentication,
-        ///     if it is required by your SIP platform.
-        /// </param>
-        /// <param name="username">
-        ///     Contains the username to be used in the the SIP INVITE request for HTTP digest authentication,
-        ///     if it is required by your SIP platform.
-        /// </param>
-        public SipAuthentication(string password, string username)
-        {
-            this.Password = password;
-            this.Username = username;
-        }
-    }
+    /// <param name="Username">Contains the username to be used in the the SIP INVITE request for HTTP digest authentication, if it is required by your SIP platform.</param>
+    /// <param name="Password">Contains the password to be used in the the SIP INVITE request for HTTP digest authentication, if it is required by your SIP platform.</param>
+    public record SipAuthentication(string Username, string Password);
 
     /// <summary>
     ///     Represents a custom header to be added to the SIP INVITE request initiated from OpenTok to your SIP platform.
     /// </summary>
-    public readonly struct SipHeader
+    public record SipHeader
     {
         /// <summary>
         ///     Defines custom headers to be added to the SIP INVITE request initiated from OpenTok to your SIP platform.
