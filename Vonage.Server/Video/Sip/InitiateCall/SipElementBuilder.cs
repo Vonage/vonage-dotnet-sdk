@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Monads;
+﻿using System.Collections.Generic;
+using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Sip.InitiateCall;
@@ -11,8 +12,8 @@ public class SipElementBuilder
     private bool hasEncryptedMedia;
     private bool hasVideo;
     private bool hasForceMute;
+    private Maybe<Dictionary<string, string>> headers;
     private Maybe<SipElement.SipAuthentication> authentication;
-    private Maybe<SipElement.SipHeader> customHeaderKey;
     private string from;
     private readonly string uri;
 
@@ -35,7 +36,7 @@ public class SipElementBuilder
                 Authentication = this.authentication,
                 Uri = this.uri,
                 HasVideo = this.hasVideo,
-                Headers = this.customHeaderKey,
+                Headers = this.headers,
                 HasEncryptedMedia = this.hasEncryptedMedia,
                 HasForceMute = this.hasForceMute,
                 From = this.from,
@@ -95,13 +96,24 @@ public class SipElementBuilder
     }
 
     /// <summary>
-    ///     Specifies a custom header to be added to the SIP Invite Request.
+    ///   Specifies a custom header to be added to the SIP Invite Request.
     /// </summary>
-    /// <param name="value">The custom header.</param>
+    /// <param name="key">The header key.</param>
+    /// <param name="value">The header value.</param>
     /// <returns>The builder.</returns>
-    public SipElementBuilder WithHeaderKey(string value)
+    public SipElementBuilder WithHeader(string key, string value)
     {
-        this.customHeaderKey = new SipElement.SipHeader(value);
+        var dictionary = this.headers.IfNone(new Dictionary<string, string>());
+        if (dictionary.ContainsKey(key))
+        {
+            dictionary[key] = value;
+        }
+        else
+        {
+            dictionary.Add(key, value);
+        }
+
+        this.headers = dictionary;
         return this;
     }
 

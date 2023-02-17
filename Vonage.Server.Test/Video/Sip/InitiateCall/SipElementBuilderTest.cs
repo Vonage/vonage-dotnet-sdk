@@ -10,7 +10,6 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
     public class SipElementBuilderTest
     {
         private readonly SipElement.SipAuthentication authentication;
-        private readonly SipElement.SipHeader header;
         private readonly string uri;
         private readonly string from;
 
@@ -20,7 +19,6 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
             fixture.Customize(new SupportMutableValueTypesCustomization());
             this.uri = fixture.Create<string>();
             this.from = fixture.Create<string>();
-            this.header = new SipElement.SipHeader(fixture.Create<string>());
             this.authentication = new SipElement.SipAuthentication(fixture.Create<string>(), fixture.Create<string>());
         }
 
@@ -63,6 +61,16 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
                     success.HasForceMute.Should().BeFalse();
                 });
 
+        [Fact]
+        public void Build_ShouldOverrideCustomHeaderKey_GivenWithHeaderKeyIsUsedOnExistingKey() =>
+            SipElementBuilder.Build(this.uri)
+                .WithHeader("key1", "value1")
+                .WithHeader("key1", "value2")
+                .Create()
+                .Map(element => element.Headers)
+                .Should()
+                .BeSuccess(success => success.Should().BeSome(some => some["key1"].Should().Be("value2")));
+
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
@@ -85,10 +93,11 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
         [Fact]
         public void Build_ShouldSetCustomHeaderKey_GivenWithHeaderKeyIsUsed() =>
             SipElementBuilder.Build(this.uri)
-                .WithHeaderKey(this.header.CustomHeaderKey.GetUnsafe())
+                .WithHeader("key1", "value1")
                 .Create()
+                .Map(element => element.Headers)
                 .Should()
-                .BeSuccess(success => success.Headers.Should().BeSome(this.header));
+                .BeSuccess(success => success.Should().BeSome(some => some["key1"].Should().Be("value1")));
 
         [Fact]
         public void Build_ShouldSetFrom_GivenWithFromIsUsed() =>

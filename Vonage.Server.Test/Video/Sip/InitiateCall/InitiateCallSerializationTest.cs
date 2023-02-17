@@ -36,7 +36,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
                 .EnableForceMute()
                 .EnableEncryptedMedia()
                 .WithFrom("from@example.com")
-                .WithHeaderKey("some-value")
+                .WithHeader("headerKey", "some-value")
                 .WithAuthentication(new SipElement.SipAuthentication("username", "p@ssw0rd"))
                 .Create()
                 .Bind(sip => InitiateCallRequest.Parse(Guid.NewGuid(), "b40ef09b-3811-4726-b508-e41a0f96c68f",

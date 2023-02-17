@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 
@@ -61,9 +62,9 @@ public readonly struct SipElement
     ///     Defines custom headers to be added to the SIP INVITE request initiated fromOpenTok to your SIP platform.
     /// </summary>
     [JsonPropertyOrder(2)]
-    [JsonConverter(typeof(MaybeJsonConverter<SipHeader>))]
+    [JsonConverter(typeof(MaybeJsonConverter<Dictionary<string, string>>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Maybe<SipHeader> Headers { get; internal init; }
+    public Maybe<Dictionary<string, string>> Headers { get; internal init; }
 
     /// <summary>
     ///     The SIP URI to be used as destination of the SIP call initiated from OpenTok to your SIP platform. If the SIP uri
@@ -80,27 +81,4 @@ public readonly struct SipElement
     /// <param name="Username">Contains the username to be used in the the SIP INVITE request for HTTP digest authentication, if it is required by your SIP platform.</param>
     /// <param name="Password">Contains the password to be used in the the SIP INVITE request for HTTP digest authentication, if it is required by your SIP platform.</param>
     public record SipAuthentication(string Username, string Password);
-
-    /// <summary>
-    ///     Represents a custom header to be added to the SIP INVITE request initiated from OpenTok to your SIP platform.
-    /// </summary>
-    public record SipHeader
-    {
-        /// <summary>
-        ///     Defines custom headers to be added to the SIP INVITE request initiated from OpenTok to your SIP platform.
-        /// </summary>
-        [JsonPropertyName("headerKey")]
-        [JsonConverter(typeof(MaybeJsonConverter<string>))]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Maybe<string> CustomHeaderKey { get; }
-
-        /// <summary>
-        ///     Constructor.
-        /// </summary>
-        /// <param name="customHeaderKey">
-        ///     Defines custom headers to be added to the SIP INVITE request initiated from OpenTok to
-        ///     your SIP platform.
-        /// </param>
-        public SipHeader(Maybe<string> customHeaderKey) => this.CustomHeaderKey = customHeaderKey;
-    }
 }
