@@ -73,10 +73,7 @@ namespace Vonage
         ///     Constructor for VonageClient.
         /// </summary>
         /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
-        public VonageClient(Credentials credentials)
-        {
-            this.Credentials = credentials;
-        }
+        public VonageClient(Credentials credentials) => this.Credentials = credentials;
 
         private static HttpClient InitializeHttpClient()
         {

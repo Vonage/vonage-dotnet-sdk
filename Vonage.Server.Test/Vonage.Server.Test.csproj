@@ -13,14 +13,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="4.17.0"/>
-        <PackageReference Include="FluentAssertions" Version="6.9.0"/>
-        <PackageReference Include="FsCheck" Version="2.16.5"/>
-        <PackageReference Include="FsCheck.Xunit" Version="2.16.5"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1"/>
-        <PackageReference Include="Moq" Version="4.18.4"/>
-        <PackageReference Include="WireMock.Net" Version="1.5.13"/>
-        <PackageReference Include="xunit" Version="2.4.2"/>
+        <PackageReference Include="AutoFixture" Version="4.17.0" />
+        <PackageReference Include="FluentAssertions" Version="6.9.0" />
+        <PackageReference Include="FsCheck" Version="2.16.5" />
+        <PackageReference Include="FsCheck.Xunit" Version="2.16.5" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+        <PackageReference Include="Moq" Version="4.18.4" />
+        <PackageReference Include="WireMock.Net" Version="1.5.13" />
+        <PackageReference Include="xunit" Version="2.4.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -32,8 +32,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
-        <ProjectReference Include="..\Vonage.Server\Vonage.Server.csproj"/>
+        <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj" />
+        <ProjectReference Include="..\Vonage.Server\Vonage.Server.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -66,6 +66,28 @@
         </Content>
         <Content Include="Video\Archives\StopArchive\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\Data\ShouldSerializeWithDefaultValues-request.json" />
+        <None Remove="Video\Sip\Data\ShouldSerialize-request.json" />
+        <None Remove="Video\Sip\InitiateCall\Data\ShouldSerialize-request.json" />
+        <Content Include="Video\Sip\InitiateCall\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\InitiateCall\Data\ShouldSerializeWithDefaultValues-request.json" />
+        <Content Include="Video\Sip\InitiateCall\Data\ShouldSerializeWithDefaultValues-request.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\InitiateCall\Data\ShouldDeserialize200-request.json" />
+        <Content Include="Video\Sip\InitiateCall\Data\ShouldDeserialize200-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\PlayToneIntoCall\Data\ShouldSerialize-request.json" />
+        <Content Include="Video\Sip\PlayToneIntoCall\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\PlayToneIntoConnection\Data\ShouldSerialize-request.json" />
+        <Content Include="Video\Sip\PlayToneIntoConnection\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 

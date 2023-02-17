@@ -8,13 +8,9 @@ using Xunit.Abstractions;
 
 namespace Vonage.Integration.Test.Meetings;
 
+[Trait("Category","Integration")]
 public class MeetingsApiTest : BaseIntegrationTest
 {
-    public MeetingsApiTest(ITestOutputHelper outputHelper)
-        : base(outputHelper)
-    {
-    }
-
     [Fact]
     public async Task CreateTheme_ShouldReturnSuccess()
     {
