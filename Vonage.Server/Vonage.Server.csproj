@@ -67,4 +67,12 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Video\Broadcast\AddStreamToBroadcast"/>
+        <Folder Include="Video\Broadcast\ChangeBroadcastLayout"/>
+        <Folder Include="Video\Broadcast\GetBroadcast"/>
+        <Folder Include="Video\Broadcast\RemoveStreamFromBroadcast"/>
+        <Folder Include="Video\Broadcast\StartBroadcast"/>
+        <Folder Include="Video\Broadcast\StopBroadcast"/>
+    </ItemGroup>
 </Project>

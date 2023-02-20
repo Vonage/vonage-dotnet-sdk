@@ -1,0 +1,44 @@
+﻿{
+  "count": 1,
+  "items": [
+    {
+      "id": "1748b7070a81464c9759c46ad10d3734",
+      "sessionId": "2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4",
+      "multiBroadcastTag": "broadcast_tag_provided",
+      "applicationId": "af4cba75-3e4b-48d2-806b-7b9aecef7988",
+      "createdAt": 1676124372,
+      "updatedAt": 1676624372,
+      "maxDuration": 5400,
+      "maxBitrate": 2000000,
+      "broadcastUrls": {
+        "hls": "https://example.com/movie1/fileSequenceA.ts",
+        "rtmp": [
+          {
+            "id": "abc123",
+            "status": "abc456",
+            "serverUrl": "abc789",
+            "streamName": "abc147"
+          }
+        ]
+      },
+      "settings": {
+        "hls": {
+          "lowLatency": true,
+          "dvr": true
+        }
+      },
+      "resolution": "640x480",
+      "hasAudio": true,
+      "hasVideo": true,
+      "streamMode": "manual",
+      "status": "pending",
+      "streams": [
+        {
+          "streamId": "abc123",
+          "hasAudio": true,
+          "hasVideo": true
+        }
+      ]
+    }
+  ]
+}

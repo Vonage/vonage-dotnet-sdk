@@ -1,5 +1,6 @@
 ﻿using Vonage.Request;
 using Vonage.Server.Video.Archives;
+using Vonage.Server.Video.Broadcast;
 using Vonage.Server.Video.Moderation;
 using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Signaling;
@@ -15,6 +16,11 @@ public interface IVideoClient
     ///     Client for archiving.
     /// </summary>
     ArchiveClient ArchiveClient { get; }
+
+    /// <summary>
+    ///     Client for live streaming and broadcasting.
+    /// </summary>
+    BroadcastClient BroadcastClient { get; }
 
     /// <summary>
     ///     Credentials to be used for further sessions.
