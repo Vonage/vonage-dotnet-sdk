@@ -1,15 +1,10 @@
 ﻿using Vonage.Server.Authentication;
 using Vonage.Server.Video.Sessions.CreateSession;
-using Xunit.Abstractions;
 
 namespace Vonage.Integration.Test.Meetings;
 
 public class BroadcastApiTest : BaseIntegrationTest
 {
-    public BroadcastApiTest(ITestOutputHelper outputHelper)
-    {
-    }
-
     [Fact]
     public async Task CreateTheme_ShouldReturnSuccess()
     {
