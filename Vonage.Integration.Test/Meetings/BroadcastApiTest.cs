@@ -7,7 +7,6 @@ namespace Vonage.Integration.Test.Meetings;
 public class BroadcastApiTest : BaseIntegrationTest
 {
     public BroadcastApiTest(ITestOutputHelper outputHelper)
-        : base(outputHelper)
     {
     }
 
