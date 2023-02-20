@@ -15,7 +15,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-      <PackageLicenseExpression/>
+      <PackageLicenseExpression />
     <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.1-beta</PackageReleaseNotes>
     <Configurations>Debug;Release;ReleaseSigned</Configurations>
@@ -27,7 +27,7 @@
     <RepositoryUrl>https://github.com/Vonage/vonage-dotnet-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>VonageLogo_Symbol_Black.png</PackageIcon>
-      <PackageIconUrl/>
+      <PackageIconUrl />
     <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.
         </Description>
     <Version>7.0.1-beta</Version>
@@ -51,17 +51,17 @@
         <DelaySign>false</DelaySign>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj"/>
-        <ProjectReference Include="..\Vonage\Vonage.csproj"/>
+        <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" />
+        <ProjectReference Include="..\Vonage\Vonage.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Include="VonageLogo_Symbol_Black.png">
             <Pack>True</Pack>
-            <PackagePath/>
+            <PackagePath />
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Enums.NET" Version="4.0.1"/>
+        <PackageReference Include="Enums.NET" Version="4.0.1" />
         <PackageReference Include="PolySharp" Version="1.12.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

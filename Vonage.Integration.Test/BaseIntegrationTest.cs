@@ -11,17 +11,13 @@ public abstract class BaseIntegrationTest : IDisposable
 {
     private readonly VonageClient client;
 
-    protected BaseIntegrationTest(ITestOutputHelper outputHelper)
+    protected BaseIntegrationTest()
     {
         this.Fixture = new Fixture();
-        this.client = new VonageClient(Credentials.FromApiKeyAndSecret(
-            Environment.GetEnvironmentVariable("Vonage.Key") ??
-            throw new InvalidCredentialException("Missing variable 'Vonage.Key' from environment variables."),
-            Environment.GetEnvironmentVariable("Vonage.Secret") ??
-            throw new InvalidCredentialException("Missing variable 'Vonage.Secret' from environment variables.")));
-        var res = this.CreateApplicationAsync().Result;
-        this.ApplicationClient = new VonageClient(res);
-        this.VideoClient = new VideoClient(res);
+        this.client = new VonageClient(GetCredentials());
+        var credentials = this.CreateApplicationAsync().Result;
+        this.ApplicationClient = new VonageClient(credentials);
+        this.VideoClient = new VideoClient(credentials);
     }
 
     public virtual void Dispose()
@@ -37,6 +33,7 @@ public abstract class BaseIntegrationTest : IDisposable
             Capabilities = new ApplicationCapabilities
             {
                 Meetings = new Applications.Capabilities.Meetings(),
+                Video = new Applications.Capabilities.Video(),
             },
         };
 
@@ -49,7 +46,14 @@ public abstract class BaseIntegrationTest : IDisposable
     private async Task DeleteApplicationAsync() =>
         await this.client.ApplicationClient.DeleteApplicationAsync(this.ApplicationClient.Credentials.ApplicationId);
 
+    private static Credentials GetCredentials() =>
+        Credentials.FromApiKeyAndSecret(
+            Environment.GetEnvironmentVariable("Vonage.Key") ??
+            throw new InvalidCredentialException("Missing variable 'Vonage.Key' from environment variables."),
+            Environment.GetEnvironmentVariable("Vonage.Secret") ??
+            throw new InvalidCredentialException("Missing variable 'Vonage.Secret' from environment variables."));
+
     protected readonly VonageClient ApplicationClient;
-    protected readonly Fixture Fixture;
     protected readonly VideoClient VideoClient;
+    protected readonly Fixture Fixture;
 }

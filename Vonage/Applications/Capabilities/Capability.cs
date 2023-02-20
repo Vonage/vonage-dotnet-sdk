@@ -21,6 +21,7 @@ namespace Vonage.Applications.Capabilities
             [Description("messages")] Messages,
             [Description("vbc")] Vbc,
             [Description("meetings")] Meetings,
+            [Description("video")] Video,
         }
     }
 }
