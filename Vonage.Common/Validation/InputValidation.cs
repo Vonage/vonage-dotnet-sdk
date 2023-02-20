@@ -13,8 +13,16 @@ public static class InputValidation
     private const string CollectionCannotBeNull = "cannot be null.";
     private const string GuidCannotBeNullOrWhitespace = "cannot be empty.";
     private const string IntCannotBeHigherThan = "cannot be higher than {value}.";
+    private const string IntCannotBeLowerThan = "cannot be lower than {value}.";
     private const string IntCannotBeNegative = "cannot be negative.";
     private const string StringCannotBeNullOrWhitespace = "cannot be null or whitespace.";
+
+    public static Result<T> VerifyHigherOrEqualThan<T>(T request, int value, int minValue, string name) =>
+        value < minValue
+            ? Result<T>.FromFailure(
+                ResultFailure.FromErrorMessage(
+                    $"{name} {IntCannotBeLowerThan.Replace("{value}", minValue.ToString())}"))
+            : request;
 
     /// <summary>
     ///     Verifies if lower or equal than specified threshold.

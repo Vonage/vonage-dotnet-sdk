@@ -72,7 +72,6 @@
         <Folder Include="Video\Broadcast\ChangeBroadcastLayout"/>
         <Folder Include="Video\Broadcast\GetBroadcast"/>
         <Folder Include="Video\Broadcast\RemoveStreamFromBroadcast"/>
-        <Folder Include="Video\Broadcast\StartBroadcast"/>
         <Folder Include="Video\Broadcast\StopBroadcast"/>
     </ItemGroup>
 </Project>
