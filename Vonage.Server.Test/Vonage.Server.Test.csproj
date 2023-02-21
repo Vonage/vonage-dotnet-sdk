@@ -104,6 +104,10 @@
         <Content Include="Video\Broadcast\StartBroadcast\Data\ShouldSerializeWithDefaultValues-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="Video\Broadcast\GetBroadcast\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Video\Broadcast\GetBroadcast\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
