@@ -5,6 +5,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Broadcast.GetBroadcasts;
+using Vonage.Server.Video.Broadcast.StartBroadcast;
 
 namespace Vonage.Server.Video.Broadcast;
 
@@ -35,4 +36,15 @@ public class BroadcastClient
     /// </returns>
     public Task<Result<GetBroadcastsResponse>> GetBroadcastsAsync(Result<GetBroadcastsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetBroadcastsRequest, GetBroadcastsResponse>(request);
+
+    /// <summary>
+    ///     Starts a live stream broadcast for an OpenTok session.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state with the broadcast if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
+    public Task<Result<Common.Broadcast>> StartBroadcastsAsync(Result<StartBroadcastRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<StartBroadcastRequest, Common.Broadcast>(request);
 }

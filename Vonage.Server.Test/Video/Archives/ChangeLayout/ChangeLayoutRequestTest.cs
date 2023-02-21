@@ -3,8 +3,8 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Common;
 using Vonage.Server.Video.Archives.ChangeLayout;
-using Vonage.Server.Video.Archives.Common;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.ChangeLayout
@@ -19,6 +19,7 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
         public ChangeLayoutRequestTest()
         {
             this.fixture = new Fixture();
+            this.fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = this.fixture.Create<Guid>();
             this.archiveId = this.fixture.Create<Guid>();
             this.layout = this.fixture.Create<ArchiveLayout>();

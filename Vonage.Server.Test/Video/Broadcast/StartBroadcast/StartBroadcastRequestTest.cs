@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Common;
 using Vonage.Server.Video.Broadcast.StartBroadcast;
 using Xunit;
 
@@ -14,6 +15,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         public StartBroadcastRequestTest()
         {
             this.fixture = new Fixture();
+            fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = this.fixture.Create<Guid>();
         }
 
@@ -21,8 +23,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
             StartBroadcastRequestBuilder.Build(this.applicationId)
                 .WithSessionId(this.fixture.Create<string>())
-                .WithLayout(this.fixture.Create<string>())
-                .WithOutputs(this.fixture.Create<string>())
+                .WithLayout(this.fixture.Create<ArchiveLayout>())
+                .WithOutputs(this.fixture.Create<StartBroadcastRequest.BroadcastOutput>())
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Vonage.Server.Video.Archives.Common;
+namespace Vonage.Server.Common;
 
 /// <summary>
 ///     Represents the archive layout type.

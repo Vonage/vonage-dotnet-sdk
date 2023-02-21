@@ -7,10 +7,10 @@ using FsCheck.Xunit;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Common;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.ChangeLayout;
-using Vonage.Server.Video.Archives.Common;
 using WireMock.RequestBuilders;
 using Xunit;
 

@@ -1,6 +1,6 @@
 ﻿using Vonage.Common;
 using Vonage.Common.Serialization;
-using Vonage.Server.Video.Archives.Common;
+using Vonage.Server.Common;
 
 namespace Vonage.Server.Serialization;
 

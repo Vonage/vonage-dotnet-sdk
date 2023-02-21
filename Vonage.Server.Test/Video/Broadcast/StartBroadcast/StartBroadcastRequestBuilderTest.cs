@@ -3,7 +3,7 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Archives.Common;
+using Vonage.Server.Common;
 using Vonage.Server.Video.Broadcast.StartBroadcast;
 using Xunit;
 
@@ -11,18 +11,19 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
 {
     public class StartBroadcastRequestBuilderTest
     {
+        private readonly ArchiveLayout layout;
+        private readonly StartBroadcastRequest.BroadcastOutput outputs;
         private readonly Guid applicationId;
         private readonly string sessionId;
-        private readonly string layout;
-        private readonly string outputs;
 
         public StartBroadcastRequestBuilderTest()
         {
             var fixture = new Fixture();
+            fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = fixture.Create<Guid>();
             this.sessionId = fixture.Create<string>();
-            this.layout = fixture.Create<string>();
-            this.outputs = fixture.Create<string>();
+            this.layout = fixture.Create<ArchiveLayout>();
+            this.outputs = fixture.Create<StartBroadcastRequest.BroadcastOutput>();
         }
 
         [Fact]

@@ -3,7 +3,7 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Archives.Common;
+using Vonage.Server.Common;
 using Vonage.Server.Video.Archives.CreateArchive;
 using Xunit;
 
@@ -22,6 +22,7 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
         public CreateArchiveRequestBuilderTest()
         {
             var fixture = new Fixture();
+            fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = fixture.Create<Guid>();
             this.sessionId = fixture.Create<string>();
             this.name = fixture.Create<string>();

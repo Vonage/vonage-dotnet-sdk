@@ -2,7 +2,7 @@
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
-using Vonage.Server.Video.Archives.Common;
+using Vonage.Server.Common;
 
 namespace Vonage.Server.Video.Broadcast.StartBroadcast;
 
@@ -14,6 +14,8 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
 {
     private const int MaximumMaxDuration = 36000;
     private const int MinimumMaxDuration = 60;
+    private ArchiveLayout layout;
+    private StartBroadcastRequest.BroadcastOutput outputs;
     private readonly Guid applicationId;
     private int maxBitrate = 1000;
     private int maxDuration = 14400;
@@ -21,8 +23,6 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
     private RenderResolution resolution = RenderResolution.StandardDefinitionLandscape;
     private StreamMode streamMode = StreamMode.Auto;
     private string sessionId;
-    private string layout;
-    private string outputs;
 
     private StartBroadcastRequestBuilder(Guid applicationId) => this.applicationId = applicationId;
 
@@ -53,7 +53,7 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             .Bind(VerifyMaxDuration);
 
     /// <inheritdoc />
-    public IBuilderForOutputs WithLayout(string value)
+    public IBuilderForOutputs WithLayout(ArchiveLayout value)
     {
         this.layout = value;
         return this;
@@ -88,7 +88,7 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
     }
 
     /// <inheritdoc />
-    public IBuilderForOptional WithOutputs(string value)
+    public IBuilderForOptional WithOutputs(StartBroadcastRequest.BroadcastOutput value)
     {
         this.outputs = value;
         return this;
@@ -144,7 +144,7 @@ public interface IBuilderForLayout
     /// </summary>
     /// <param name="value">The layout.</param>
     /// <returns>The builder.</returns>
-    IBuilderForOutputs WithLayout(string value);
+    IBuilderForOutputs WithLayout(ArchiveLayout value);
 }
 
 /// <summary>
@@ -157,7 +157,7 @@ public interface IBuilderForOutputs
     /// </summary>
     /// <param name="value">The outputs.</param>
     /// <returns>The builder.</returns>
-    IBuilderForOptional WithOutputs(string value);
+    IBuilderForOptional WithOutputs(StartBroadcastRequest.BroadcastOutput value);
 }
 
 /// <summary>
