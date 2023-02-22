@@ -7,6 +7,7 @@ using Vonage.Server.Serialization;
 using Vonage.Server.Video.Broadcast.GetBroadcast;
 using Vonage.Server.Video.Broadcast.GetBroadcasts;
 using Vonage.Server.Video.Broadcast.StartBroadcast;
+using Vonage.Server.Video.Broadcast.StopBroadcast;
 
 namespace Vonage.Server.Video.Broadcast;
 
@@ -59,4 +60,15 @@ public class BroadcastClient
     /// </returns>
     public Task<Result<Common.Broadcast>> StartBroadcastsAsync(Result<StartBroadcastRequest> request) =>
         this.vonageClient.SendWithResponseAsync<StartBroadcastRequest, Common.Broadcast>(request);
+
+    /// <summary>
+    ///     Stops a live stream broadcast.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state with the broadcast if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
+    public Task<Result<Common.Broadcast>> StopBroadcastAsync(Result<StopBroadcastRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<StopBroadcastRequest, Common.Broadcast>(request);
 }

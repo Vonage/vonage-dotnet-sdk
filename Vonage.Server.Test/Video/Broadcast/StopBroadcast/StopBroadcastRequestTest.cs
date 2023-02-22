@@ -1,17 +1,17 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Broadcast.GetBroadcast;
+using Vonage.Server.Video.Broadcast.StopBroadcast;
 using Xunit;
 
-namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
+namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
 {
-    public class GetBroadcastRequestTest
+    public class StopBroadcastRequestTest
     {
         private readonly Guid applicationId;
         private readonly string broadcastId;
 
-        public GetBroadcastRequestTest()
+        public StopBroadcastRequestTest()
         {
             var fixture = new Fixture();
             this.applicationId = fixture.Create<Guid>();
@@ -20,7 +20,7 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
-            GetBroadcastRequestBuilder.Build()
+            StopBroadcastRequestBuilder.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .Create()

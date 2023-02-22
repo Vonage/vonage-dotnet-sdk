@@ -3,17 +3,17 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Broadcast.GetBroadcast;
+using Vonage.Server.Video.Broadcast.StopBroadcast;
 using Xunit;
 
-namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
+namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
 {
-    public class GetBroadcastRequestBuilderTest
+    public class StopBroadcastRequestBuilderTest
     {
         private readonly Guid applicationId;
         private readonly string broadcastId;
 
-        public GetBroadcastRequestBuilderTest()
+        public StopBroadcastRequestBuilderTest()
         {
             var fixture = new Fixture();
             this.applicationId = fixture.Create<Guid>();
@@ -22,7 +22,7 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            GetBroadcastRequestBuilder.Build()
+            StopBroadcastRequestBuilder.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithBroadcastId(this.broadcastId)
                 .Create()
@@ -34,7 +34,7 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
         [InlineData(" ")]
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenBroadcastIdIsNullOrWhitespace(string value) =>
-            GetBroadcastRequestBuilder.Build()
+            StopBroadcastRequestBuilder.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(value)
                 .Create()
@@ -43,7 +43,7 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
 
         [Fact]
         public void Build_ShouldReturnSuccess_GivenValuesAreProvided() =>
-            GetBroadcastRequestBuilder.Build()
+            StopBroadcastRequestBuilder.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .Create()
