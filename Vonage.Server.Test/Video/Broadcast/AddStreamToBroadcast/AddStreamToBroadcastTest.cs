@@ -55,8 +55,15 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
                 .WithStreamId(fixture.Create<Guid>())
                 .Create();
 
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingPatch();
+        private IRequestBuilder CreateRequest()
+        {
+            var serializedItems =
+                this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(value))
+                    .IfFailure(string.Empty);
+            return WireMockExtensions
+                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
+                .UsingPatch();
+        }
     }
 }

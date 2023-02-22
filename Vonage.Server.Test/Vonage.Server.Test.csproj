@@ -112,6 +112,13 @@
         <Content Include="Video\Broadcast\StopBroadcast\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="Video\Broadcast\AddStreamToBroadcast\Data\ShouldSerializeWithDefaultValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Broadcast\AddStreamToBroadcast\Data\ShouldSerialize-request.json"/>
+        <Content Include="Video\Broadcast\AddStreamToBroadcast\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
