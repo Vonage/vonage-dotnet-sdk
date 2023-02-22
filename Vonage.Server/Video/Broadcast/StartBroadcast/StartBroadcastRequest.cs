@@ -104,6 +104,6 @@ public readonly struct StartBroadcastRequest : IVonageRequest
         /// <param name="Id">The unique ID for the stream.</param>
         /// <param name="ServerUrl">The RTMP server url.</param>
         /// <param name="StreamName">The stream name.</param>
-        public record Stream(string Id, string ServerUrl, string StreamName);
+        public record Stream(Guid Id, string ServerUrl, string StreamName);
     }
 }

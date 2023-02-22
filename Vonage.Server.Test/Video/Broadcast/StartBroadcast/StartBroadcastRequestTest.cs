@@ -15,7 +15,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         public StartBroadcastRequestTest()
         {
             this.fixture = new Fixture();
-            fixture.Customize(new SupportMutableValueTypesCustomization());
+            this.fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = this.fixture.Create<Guid>();
         }
 

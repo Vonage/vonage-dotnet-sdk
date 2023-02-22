@@ -11,13 +11,13 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
     public class GetBroadcastRequestBuilderTest
     {
         private readonly Guid applicationId;
-        private readonly string broadcastId;
+        private readonly Guid broadcastId;
 
         public GetBroadcastRequestBuilderTest()
         {
             var fixture = new Fixture();
             this.applicationId = fixture.Create<Guid>();
-            this.broadcastId = fixture.Create<string>();
+            this.broadcastId = fixture.Create<Guid>();
         }
 
         [Fact]
@@ -29,17 +29,14 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Build_ShouldReturnFailure_GivenBroadcastIdIsNullOrWhitespace(string value) =>
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenBroadcastIdIsEmpty() =>
             GetBroadcastRequestBuilder.Build()
                 .WithApplicationId(this.applicationId)
-                .WithBroadcastId(value)
+                .WithBroadcastId(Guid.Empty)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("BroadcastId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("BroadcastId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnSuccess_GivenValuesAreProvided() =>

@@ -20,7 +20,7 @@ public readonly struct AddStreamToBroadcastRequest : IVonageRequest
     ///     The Id of the broadcast.
     /// </summary>
     [JsonIgnore]
-    public string BroadcastId { get; internal init; }
+    public Guid BroadcastId { get; internal init; }
 
     /// <summary>
     ///     Whether to include the stream's audio.

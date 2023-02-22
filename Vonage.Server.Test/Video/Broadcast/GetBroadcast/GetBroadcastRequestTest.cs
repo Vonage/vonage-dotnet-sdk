@@ -9,13 +9,13 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
     public class GetBroadcastRequestTest
     {
         private readonly Guid applicationId;
-        private readonly string broadcastId;
+        private readonly Guid broadcastId;
 
         public GetBroadcastRequestTest()
         {
             var fixture = new Fixture();
             this.applicationId = fixture.Create<Guid>();
-            this.broadcastId = fixture.Create<string>();
+            this.broadcastId = fixture.Create<Guid>();
         }
 
         [Fact]

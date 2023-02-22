@@ -15,7 +15,7 @@ public readonly struct StopBroadcastRequest : IVonageRequest
     /// <summary>
     ///     The Id of the broadcast.
     /// </summary>
-    public string BroadcastId { get; internal init; }
+    public Guid BroadcastId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

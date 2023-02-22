@@ -17,7 +17,7 @@ public class ChangeBroadcastLayoutRequestBuilder :
 {
     private ArchiveLayout layout;
     private Guid applicationId;
-    private string broadcastId;
+    private Guid broadcastId;
 
     /// <summary>
     ///     Initializes a builder.
@@ -44,7 +44,7 @@ public class ChangeBroadcastLayoutRequestBuilder :
     }
 
     /// <inheritdoc />
-    public IBuilderForLayout WithBroadcastId(string value)
+    public IBuilderForLayout WithBroadcastId(Guid value)
     {
         this.broadcastId = value;
         return this;
@@ -86,7 +86,7 @@ public class ChangeBroadcastLayoutRequestBuilder :
         /// </summary>
         /// <param name="value">The broadcast id.</param>
         /// <returns>The builder.</returns>
-        IBuilderForLayout WithBroadcastId(string value);
+        IBuilderForLayout WithBroadcastId(Guid value);
     }
 
     /// <summary>

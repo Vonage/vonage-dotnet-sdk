@@ -12,13 +12,13 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
     {
         private readonly Guid applicationId;
         private readonly Guid streamId;
-        private readonly string broadcastId;
+        private readonly Guid broadcastId;
 
         public RemoveStreamFromBroadcastRequestBuilderTest()
         {
             var fixture = new Fixture();
             this.applicationId = fixture.Create<Guid>();
-            this.broadcastId = fixture.Create<string>();
+            this.broadcastId = fixture.Create<Guid>();
             this.streamId = fixture.Create<Guid>();
         }
 
@@ -32,18 +32,15 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Build_ShouldReturnFailure_GivenBroadcastIdIsNullOrWhitespace(string value) =>
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenBroadcastIdIsEmpty() =>
             RemoveStreamFromBroadcastRequestBuilder.Build()
                 .WithApplicationId(this.applicationId)
-                .WithBroadcastId(value)
+                .WithBroadcastId(Guid.Empty)
                 .WithStreamId(this.streamId)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("BroadcastId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("BroadcastId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenStreamIdIsEmpty() =>

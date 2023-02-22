@@ -21,7 +21,7 @@ namespace Vonage.Server.Video.Broadcast.ChangeBroadcastLayout
         ///     The Id of the broadcast.
         /// </summary>
         [JsonIgnore]
-        public string BroadcastId { get; internal init; }
+        public Guid BroadcastId { get; internal init; }
 
         /// <summary>
         ///     The new layout to apply on the broadcast.

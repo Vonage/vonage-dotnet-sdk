@@ -9,13 +9,13 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
     public class StopBroadcastRequestTest
     {
         private readonly Guid applicationId;
-        private readonly string broadcastId;
+        private readonly Guid broadcastId;
 
         public StopBroadcastRequestTest()
         {
             var fixture = new Fixture();
             this.applicationId = fixture.Create<Guid>();
-            this.broadcastId = fixture.Create<string>();
+            this.broadcastId = fixture.Create<Guid>();
         }
 
         [Fact]

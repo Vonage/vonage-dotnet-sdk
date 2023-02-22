@@ -18,7 +18,7 @@ public class AddStreamToBroadcastRequestBuilder :
     private bool hasAudio = true;
     private Guid applicationId;
     private Guid streamId;
-    private string broadcastId;
+    private Guid broadcastId;
 
     /// <summary>
     ///     Initializes a builder.
@@ -48,7 +48,7 @@ public class AddStreamToBroadcastRequestBuilder :
     }
 
     /// <inheritdoc />
-    public IBuilderForStreamId WithBroadcastId(string value)
+    public IBuilderForStreamId WithBroadcastId(Guid value)
     {
         this.broadcastId = value;
         return this;
@@ -107,7 +107,7 @@ public class AddStreamToBroadcastRequestBuilder :
         /// </summary>
         /// <param name="value">The broadcast id.</param>
         /// <returns>The builder.</returns>
-        IBuilderForStreamId WithBroadcastId(string value);
+        IBuilderForStreamId WithBroadcastId(Guid value);
     }
 
     /// <summary>

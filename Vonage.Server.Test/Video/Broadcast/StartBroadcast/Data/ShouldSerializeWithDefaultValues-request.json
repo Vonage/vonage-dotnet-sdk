@@ -10,7 +10,7 @@
   "outputs": {
     "rtmp": [
       {
-        "id": "foo",
+        "id": "feab5ea7-951f-4dbb-b2f6-3195c3b4b062",
         "serverUrl": "rtmps://myfooserver/myfooapp",
         "streamName": "myfoostream"
       }

@@ -20,7 +20,7 @@ public readonly struct RemoveStreamFromBroadcastRequest : IVonageRequest
     ///     The Id of the broadcast.
     /// </summary>
     [JsonIgnore]
-    public string BroadcastId { get; internal init; }
+    public Guid BroadcastId { get; internal init; }
 
     /// <summary>
     ///     The Id of the stream to add.

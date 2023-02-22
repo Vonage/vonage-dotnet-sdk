@@ -34,7 +34,7 @@ public struct Broadcast
     /// <summary>
     ///     The unique ID for the broadcast.
     /// </summary>
-    public string Id { get; set; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// </summary>
@@ -141,7 +141,7 @@ public struct Broadcast
         {
             /// <summary>
             /// </summary>
-            public string Id { get; set; }
+            public Guid Id { get; set; }
 
             /// <summary>
             /// </summary>
@@ -228,6 +228,6 @@ public struct Broadcast
         /// <summary>
         ///     The stream ID of the stream included in the broadcast.
         /// </summary>
-        public string StreamId { get; set; }
+        public Guid StreamId { get; set; }
     }
 }

@@ -10,13 +10,13 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
     {
         private readonly Guid applicationId;
         private readonly Guid streamId;
-        private readonly string broadcastId;
+        private readonly Guid broadcastId;
 
         public RemoveStreamFromBroadcastRequestTest()
         {
             var fixture = new Fixture();
             this.applicationId = fixture.Create<Guid>();
-            this.broadcastId = fixture.Create<string>();
+            this.broadcastId = fixture.Create<Guid>();
             this.streamId = fixture.Create<Guid>();
         }
 

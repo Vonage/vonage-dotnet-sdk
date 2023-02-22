@@ -11,14 +11,14 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
     {
         private readonly ArchiveLayout layout;
         private readonly Guid applicationId;
-        private readonly string broadcastId;
+        private readonly Guid broadcastId;
 
         public ChangeBroadcastLayoutRequestTest()
         {
             var fixture = new Fixture();
             fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = fixture.Create<Guid>();
-            this.broadcastId = fixture.Create<string>();
+            this.broadcastId = fixture.Create<Guid>();
             this.layout = fixture.Create<ArchiveLayout>();
         }
 

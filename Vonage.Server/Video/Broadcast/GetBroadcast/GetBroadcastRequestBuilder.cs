@@ -14,7 +14,7 @@ public class GetBroadcastRequestBuilder :
     GetBroadcastRequestBuilder.IBuilderForBroadcastId
 {
     private Guid applicationId;
-    private string broadcastId;
+    private Guid broadcastId;
 
     /// <summary>
     ///     Initializes a builder.
@@ -40,7 +40,7 @@ public class GetBroadcastRequestBuilder :
     }
 
     /// <inheritdoc />
-    public IVonageRequestBuilder<GetBroadcastRequest> WithBroadcastId(string value)
+    public IVonageRequestBuilder<GetBroadcastRequest> WithBroadcastId(Guid value)
     {
         this.broadcastId = value;
         return this;
@@ -75,6 +75,6 @@ public class GetBroadcastRequestBuilder :
         /// </summary>
         /// <param name="value">The broadcast id.</param>
         /// <returns>The builder.</returns>
-        IVonageRequestBuilder<GetBroadcastRequest> WithBroadcastId(string value);
+        IVonageRequestBuilder<GetBroadcastRequest> WithBroadcastId(Guid value);
     }
 }

@@ -25,7 +25,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .Should()
                 .BeSuccess(success =>
                 {
-                    success.Id.Should().Be("1748b7070a81464c9759c46ad10d3734");
+                    success.Id.Should().Be(new Guid("6c2bc486-0f4c-49cd-877c-7b609ec5dd19"));
                     success.SessionId.Should().Be("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4");
                     success.MultiBroadcastTag.Should().Be("broadcast_tag_provided");
                     success.ApplicationId.Should().Be(new Guid("af4cba75-3e4b-48d2-806b-7b9aecef7988"));
@@ -41,7 +41,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                     success.BroadcastUrls.Hls.Should()
                         .Be(new Uri("https://example.com/movie1/fileSequenceA.ts"));
                     success.BroadcastUrls.Rtmp.Should().HaveCount(1);
-                    success.BroadcastUrls.Rtmp[0].Id.Should().Be("abc123");
+                    success.BroadcastUrls.Rtmp[0].Id.Should().Be(new Guid("432c916e-22fb-492e-b45b-b96ef3b90297"));
                     success.BroadcastUrls.Rtmp[0].Status.Should().Be(Server.Video.Broadcast.Common.Broadcast
                         .BroadcastUrl.RtmpStream.RtmpStreamStatus.Live);
                     success.BroadcastUrls.Rtmp[0].StreamName.Should().Be("abc147");
@@ -49,7 +49,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                     success.Settings.Hls.Dvr.Should().BeTrue();
                     success.Settings.Hls.LowLatency.Should().BeTrue();
                     success.Streams.Should().HaveCount(1);
-                    success.Streams[0].StreamId.Should().Be("abc123");
+                    success.Streams[0].StreamId.Should().Be(new Guid("cbad214d-4712-40dd-88fd-82412bf66dd5"));
                     success.Streams[0].HasVideo.Should().BeTrue();
                     success.Streams[0].HasAudio.Should().BeTrue();
                 });
@@ -68,7 +68,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 {
                     Streams = new List<StartBroadcastRequest.BroadcastOutput.Stream>
                     {
-                        new StartBroadcastRequest.BroadcastOutput.Stream("foo", "rtmps://myfooserver/myfooapp",
+                        new StartBroadcastRequest.BroadcastOutput.Stream(
+                            new Guid("feab5ea7-951f-4dbb-b2f6-3195c3b4b062"), "rtmps://myfooserver/myfooapp",
                             "myfoostream"),
                     }.ToArray(),
                 })
@@ -96,7 +97,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 {
                     Streams = new List<StartBroadcastRequest.BroadcastOutput.Stream>
                     {
-                        new StartBroadcastRequest.BroadcastOutput.Stream("foo", "rtmps://myfooserver/myfooapp",
+                        new StartBroadcastRequest.BroadcastOutput.Stream(
+                            new Guid("feab5ea7-951f-4dbb-b2f6-3195c3b4b062"), "rtmps://myfooserver/myfooapp",
                             "myfoostream"),
                     }.ToArray(),
                 })

@@ -19,7 +19,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
         public void ShouldSerialize() =>
             AddStreamToBroadcastRequestBuilder.Build()
                 .WithApplicationId(Guid.NewGuid())
-                .WithBroadcastId("broadcastId")
+                .WithBroadcastId(Guid.NewGuid())
                 .WithStreamId(new Guid("12312312-3811-4726-b508-e41a0f96c68f"))
                 .WithDisabledAudio()
                 .WithDisabledVideo()
@@ -32,7 +32,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
         public void ShouldSerializeWithDefaultValues() =>
             AddStreamToBroadcastRequestBuilder.Build()
                 .WithApplicationId(Guid.NewGuid())
-                .WithBroadcastId("broadcastId")
+                .WithBroadcastId(Guid.NewGuid())
                 .WithStreamId(new Guid("12312312-3811-4726-b508-e41a0f96c68f"))
                 .Create()
                 .GetStringContent()

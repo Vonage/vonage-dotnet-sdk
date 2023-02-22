@@ -2,7 +2,7 @@
   "count": 1,
   "items": [
     {
-      "id": "1748b7070a81464c9759c46ad10d3734",
+      "id": "6c2bc486-0f4c-49cd-877c-7b609ec5dd19",
       "sessionId": "2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4",
       "multiBroadcastTag": "broadcast_tag_provided",
       "applicationId": "af4cba75-3e4b-48d2-806b-7b9aecef7988",
@@ -14,7 +14,7 @@
         "hls": "https://example.com/movie1/fileSequenceA.ts",
         "rtmp": [
           {
-            "id": "abc123",
+            "id": "432c916e-22fb-492e-b45b-b96ef3b90297",
             "status": "live",
             "serverUrl": "abc789",
             "streamName": "abc147"
@@ -34,7 +34,7 @@
       "status": "started",
       "streams": [
         {
-          "streamId": "abc123",
+          "streamId": "cbad214d-4712-40dd-88fd-82412bf66dd5",
           "hasAudio": true,
           "hasVideo": true
         }

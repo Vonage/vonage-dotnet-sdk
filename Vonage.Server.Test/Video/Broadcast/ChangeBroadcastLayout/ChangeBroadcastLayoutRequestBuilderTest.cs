@@ -13,14 +13,14 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
     {
         private readonly ArchiveLayout layout;
         private readonly Guid applicationId;
-        private readonly string broadcastId;
+        private readonly Guid broadcastId;
 
         public ChangeBroadcastLayoutRequestBuilderTest()
         {
             var fixture = new Fixture();
             fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = fixture.Create<Guid>();
-            this.broadcastId = fixture.Create<string>();
+            this.broadcastId = fixture.Create<Guid>();
             this.layout = fixture.Create<ArchiveLayout>();
         }
 
@@ -34,18 +34,15 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Build_ShouldReturnFailure_GivenBroadcastIdIsNullOrWhitespace(string value) =>
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenBroadcastIdIsEmpty() =>
             ChangeBroadcastLayoutRequestBuilder.Build()
                 .WithApplicationId(this.applicationId)
-                .WithBroadcastId(value)
+                .WithBroadcastId(Guid.Empty)
                 .WithLayout(this.layout)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("BroadcastId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("BroadcastId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithMandatoryValues() =>

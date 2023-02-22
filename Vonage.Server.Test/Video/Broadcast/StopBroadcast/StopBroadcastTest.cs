@@ -60,7 +60,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
 
         private static Result<StopBroadcastRequest> BuildRequest(ISpecimenBuilder fixture) =>
             StopBroadcastRequestBuilder.Build().WithApplicationId(fixture.Create<Guid>())
-                .WithBroadcastId(fixture.Create<string>()).Create();
+                .WithBroadcastId(fixture.Create<Guid>()).Create();
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

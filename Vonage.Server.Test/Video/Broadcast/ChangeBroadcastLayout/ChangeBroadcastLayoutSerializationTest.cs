@@ -20,7 +20,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
         public void ShouldSerialize() =>
             ChangeBroadcastLayoutRequestBuilder.Build()
                 .WithApplicationId(Guid.NewGuid())
-                .WithBroadcastId("broadcastId")
+                .WithBroadcastId(Guid.NewGuid())
                 .WithLayout(new ArchiveLayout
                 {
                     Type = LayoutType.BestFit,
