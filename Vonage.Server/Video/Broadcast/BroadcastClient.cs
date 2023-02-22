@@ -5,6 +5,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
+using Vonage.Server.Video.Broadcast.ChangeBroadcastLayout;
 using Vonage.Server.Video.Broadcast.GetBroadcast;
 using Vonage.Server.Video.Broadcast.GetBroadcasts;
 using Vonage.Server.Video.Broadcast.RemoveStreamFromBroadcast;
@@ -38,6 +39,16 @@ public class BroadcastClient
     ///     A success state if the operation succeeded. A failure state with the error message if it failed.
     /// </returns>
     public Task<Result<Unit>> AddStreamToBroadcastAsync(Result<AddStreamToBroadcastRequest> request) =>
+        this.vonageClient.SendAsync(request);
+
+    /// <summary>
+    ///     Dynamically changes the layout type of a live streaming broadcast.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state if the operation succeeded. A failure state with the error message if it failed.
+    /// </returns>
+    public Task<Result<Unit>> ChangeBroadcastLayoutAsync(Result<ChangeBroadcastLayoutRequest> request) =>
         this.vonageClient.SendAsync(request);
 
     /// <summary>
