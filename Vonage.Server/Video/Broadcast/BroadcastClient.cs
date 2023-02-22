@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Server.Serialization;
+using Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
 using Vonage.Server.Video.Broadcast.GetBroadcast;
 using Vonage.Server.Video.Broadcast.GetBroadcasts;
 using Vonage.Server.Video.Broadcast.StartBroadcast;
@@ -27,6 +28,16 @@ public class BroadcastClient
     public BroadcastClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) => this.vonageClient =
         new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
             new HttpClientOptions(tokenGeneration, userAgent));
+
+    /// <summary>
+    ///     Adds a stream to a live streaming broadcast.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state if the operation succeeded. A failure state with the error message if it failed.
+    /// </returns>
+    public Task<Result<Unit>> AddStreamToBroadcastAsync(Result<AddStreamToBroadcastRequest> request) =>
+        this.vonageClient.SendAsync(request);
 
     /// <summary>
     ///     Retrieves a live streaming broadcast.

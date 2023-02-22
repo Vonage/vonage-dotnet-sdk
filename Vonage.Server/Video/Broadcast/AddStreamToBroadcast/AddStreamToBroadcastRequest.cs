@@ -2,10 +2,10 @@
 using System.Net.Http;
 using Vonage.Common.Client;
 
-namespace Vonage.Server.Video.Broadcast.StopBroadcast;
+namespace Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
 
 /// <inheritdoc />
-public readonly struct StopBroadcastRequest : IVonageRequest
+public readonly struct AddStreamToBroadcastRequest : IVonageRequest
 {
     /// <summary>
     ///     The Vonage Application UUID.
@@ -17,10 +17,25 @@ public readonly struct StopBroadcastRequest : IVonageRequest
     /// </summary>
     public string BroadcastId { get; internal init; }
 
+    /// <summary>
+    ///     Whether to include the stream's audio.
+    /// </summary>
+    public bool HasAudio { get; internal init; }
+
+    /// <summary>
+    ///     Whether to include the stream's video.
+    /// </summary>
+    public bool HasVideo { get; internal init; }
+
+    /// <summary>
+    ///     The Id of the stream to add.
+    /// </summary>
+    public Guid StreamId { get; internal init; }
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(new HttpMethod("PATCH"), this.GetEndpointPath())
             .Build();
 
     /// <inheritdoc />

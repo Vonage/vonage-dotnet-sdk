@@ -68,7 +68,6 @@
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Video\Broadcast\AddStreamToBroadcast"/>
         <Folder Include="Video\Broadcast\ChangeBroadcastLayout"/>
         <Folder Include="Video\Broadcast\RemoveStreamFromBroadcast"/>
     </ItemGroup>
