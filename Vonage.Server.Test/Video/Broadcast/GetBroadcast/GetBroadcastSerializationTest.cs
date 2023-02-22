@@ -34,12 +34,13 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
                     success.HasAudio.Should().Be(true);
                     success.HasVideo.Should().Be(true);
                     success.StreamMode.Should().Be("manual");
-                    success.Status.Should().Be("pending");
+                    success.Status.Should().Be(Server.Video.Broadcast.Common.Broadcast.BroadcastStatus.Started);
                     success.BroadcastUrls.Hls.Should()
                         .Be(new Uri("https://example.com/movie1/fileSequenceA.ts"));
                     success.BroadcastUrls.Rtmp.Should().HaveCount(1);
                     success.BroadcastUrls.Rtmp[0].Id.Should().Be("abc123");
-                    success.BroadcastUrls.Rtmp[0].Status.Should().Be("abc456");
+                    success.BroadcastUrls.Rtmp[0].Status.Should().Be(Server.Video.Broadcast.Common.Broadcast
+                        .BroadcastUrl.RtmpStream.RtmpStreamStatus.Live);
                     success.BroadcastUrls.Rtmp[0].StreamName.Should().Be("abc147");
                     success.BroadcastUrls.Rtmp[0].ServerUrl.Should().Be("abc789");
                     success.Settings.Hls.Dvr.Should().BeTrue();

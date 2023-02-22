@@ -1,8 +1,8 @@
 ﻿using System;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Serialization;
 using Vonage.Server.Video.Broadcast.GetBroadcasts;
 using Xunit;
 
@@ -14,7 +14,7 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         public GetBroadcastsSerializationTest() =>
             this.helper = new SerializationTestHelper(typeof(GetBroadcastsSerializationTest).Namespace,
-                new JsonSerializer());
+                JsonSerializerBuilder.Build());
 
         [Fact]
         public void ShouldDeserialize200() =>
@@ -37,12 +37,14 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
                     success.Items[0].HasAudio.Should().Be(true);
                     success.Items[0].HasVideo.Should().Be(true);
                     success.Items[0].StreamMode.Should().Be("manual");
-                    success.Items[0].Status.Should().Be("pending");
+                    success.Items[0].Status.Should()
+                        .Be(Server.Video.Broadcast.Common.Broadcast.BroadcastStatus.Started);
                     success.Items[0].BroadcastUrls.Hls.Should()
                         .Be(new Uri("https://example.com/movie1/fileSequenceA.ts"));
                     success.Items[0].BroadcastUrls.Rtmp.Should().HaveCount(1);
                     success.Items[0].BroadcastUrls.Rtmp[0].Id.Should().Be("abc123");
-                    success.Items[0].BroadcastUrls.Rtmp[0].Status.Should().Be("abc456");
+                    success.Items[0].BroadcastUrls.Rtmp[0].Status.Should().Be(Server.Video.Broadcast.Common.Broadcast
+                        .BroadcastUrl.RtmpStream.RtmpStreamStatus.Live);
                     success.Items[0].BroadcastUrls.Rtmp[0].StreamName.Should().Be("abc147");
                     success.Items[0].BroadcastUrls.Rtmp[0].ServerUrl.Should().Be("abc789");
                     success.Items[0].Settings.Hls.Dvr.Should().BeTrue();

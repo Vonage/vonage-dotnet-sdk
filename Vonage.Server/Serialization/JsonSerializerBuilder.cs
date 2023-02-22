@@ -1,6 +1,7 @@
 ﻿using Vonage.Common;
 using Vonage.Common.Serialization;
 using Vonage.Server.Common;
+using Vonage.Server.Video.Broadcast.Common;
 
 namespace Vonage.Server.Serialization;
 
@@ -17,5 +18,7 @@ public static class JsonSerializerBuilder
         .WithConverter(new EnumDescriptionJsonConverter<LayoutType>())
         .WithConverter(new EnumDescriptionJsonConverter<RenderResolution>())
         .WithConverter(new EnumDescriptionJsonConverter<OutputMode>())
-        .WithConverter(new EnumDescriptionJsonConverter<StreamMode>());
+        .WithConverter(new EnumDescriptionJsonConverter<StreamMode>())
+        .WithConverter(new EnumDescriptionJsonConverter<Broadcast.BroadcastStatus>())
+        .WithConverter(new EnumDescriptionJsonConverter<Broadcast.BroadcastUrl.RtmpStream.RtmpStreamStatus>());
 }

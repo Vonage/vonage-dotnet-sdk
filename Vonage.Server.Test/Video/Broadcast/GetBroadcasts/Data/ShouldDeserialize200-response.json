@@ -15,7 +15,7 @@
         "rtmp": [
           {
             "id": "abc123",
-            "status": "abc456",
+            "status": "live",
             "serverUrl": "abc789",
             "streamName": "abc147"
           }
@@ -31,7 +31,7 @@
       "hasAudio": true,
       "hasVideo": true,
       "streamMode": "manual",
-      "status": "pending",
+      "status": "started",
       "streams": [
         {
           "streamId": "abc123",

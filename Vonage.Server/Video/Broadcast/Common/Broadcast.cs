@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Vonage.Server.Video.Broadcast.Common;
 
@@ -70,7 +71,7 @@ public struct Broadcast
     /// <summary>
     ///     Current status of the broadcast.
     /// </summary>
-    public string Status { get; set; }
+    public BroadcastStatus Status { get; set; }
 
     /// <summary>
     ///     Whether streams included in the archive are selected automatically ("auto", the default) or manually ("manual").
@@ -91,6 +92,22 @@ public struct Broadcast
     ///     For this start method, this timestamp matches the createdAt timestamp.
     /// </summary>
     public long UpdatedAt { get; set; }
+
+    /// <summary>
+    ///     Represents the status of a broadcast.
+    /// </summary>
+    public enum BroadcastStatus
+    {
+        /// <summary>
+        ///     Indicates the broadcast is started.
+        /// </summary>
+        [Description("started")] Started,
+
+        /// <summary>
+        ///     Indicates the broadcast is stopped.
+        /// </summary>
+        [Description("stopped")] Stopped,
+    }
 
     /// <summary>
     ///     Represents information regarding HLS and RTMP broadcasts.
@@ -132,11 +149,42 @@ public struct Broadcast
 
             /// <summary>
             /// </summary>
-            public string Status { get; set; }
+            public RtmpStreamStatus Status { get; set; }
 
             /// <summary>
             /// </summary>
             public string StreamName { get; set; }
+
+            /// <summary>
+            ///     The status of the RTMP stream. Poll frequently to check status updates.
+            /// </summary>
+            public enum RtmpStreamStatus
+            {
+                /// <summary>
+                ///     Indicates the platform is in the process of connecting to the remote RTMP server. This is the initial state, and it
+                ///     is the status if you start when there are no streams published in the session. It changes to "live" when there are
+                ///     streams (or it changes to one of the other states).
+                /// </summary>
+                [Description("connecting")] Connecting,
+
+                /// <summary>
+                ///     Indicates platform has successfully connected to the remote RTMP server, and the media is streaming.
+                /// </summary>
+                [Description("live")] Live,
+
+                /// <summary>
+                ///     Indicates platform could not connect to the remote RTMP server. This is due to an unreachable server or an error in
+                ///     the RTMP handshake. Causes include rejected RTMP connections, non-existing RTMP applications, rejected stream
+                ///     names, authentication errors, etc. Check that the server is online, and that you have provided the correct server
+                ///     URL and stream name.
+                /// </summary>
+                [Description("offline")] Offline,
+
+                /// <summary>
+                ///     Indicates there is an error in the platform.
+                /// </summary>
+                [Description("error")] Error,
+            }
         }
     }
 
