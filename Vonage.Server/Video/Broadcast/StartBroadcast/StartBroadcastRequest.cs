@@ -10,6 +10,7 @@ using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Broadcast.StartBroadcast;
 
+/// <inheritdoc />
 public readonly struct StartBroadcastRequest : IVonageRequest
 {
     /// <summary>

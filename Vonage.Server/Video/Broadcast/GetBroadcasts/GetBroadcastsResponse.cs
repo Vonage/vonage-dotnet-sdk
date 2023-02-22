@@ -1,9 +1,17 @@
-﻿using System.Collections.Generic;
+﻿namespace Vonage.Server.Video.Broadcast.GetBroadcasts;
 
-namespace Vonage.Server.Video.Broadcast.GetBroadcasts;
-
+/// <summary>
+///     Represents a response from GetBroadcasts.
+/// </summary>
 public struct GetBroadcastsResponse
 {
+    /// <summary>
+    ///     The number of broadcasts in the the response.
+    /// </summary>
     public int Count { get; set; }
-    public List<Common.Broadcast> Items { get; set; }
+
+    /// <summary>
+    ///     The list of broadcasts.
+    /// </summary>
+    public Common.Broadcast[] Items { get; set; }
 }

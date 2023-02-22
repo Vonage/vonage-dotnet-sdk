@@ -7,6 +7,7 @@ using Vonage.Server.Serialization;
 using Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
 using Vonage.Server.Video.Broadcast.GetBroadcast;
 using Vonage.Server.Video.Broadcast.GetBroadcasts;
+using Vonage.Server.Video.Broadcast.RemoveStreamFromBroadcast;
 using Vonage.Server.Video.Broadcast.StartBroadcast;
 using Vonage.Server.Video.Broadcast.StopBroadcast;
 
@@ -60,6 +61,14 @@ public class BroadcastClient
     /// </returns>
     public Task<Result<GetBroadcastsResponse>> GetBroadcastsAsync(Result<GetBroadcastsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetBroadcastsRequest, GetBroadcastsResponse>(request);
+
+    /// <summary>
+    ///     Removes a live streaming broadcast.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    public Task<Result<Unit>> RemoveStreamFromBroadcastAsync(Result<RemoveStreamFromBroadcastRequest> request) =>
+        this.vonageClient.SendAsync(request);
 
     /// <summary>
     ///     Starts a live stream broadcast for an OpenTok session.

@@ -119,6 +119,10 @@
         <Content Include="Video\Broadcast\AddStreamToBroadcast\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="Video\Broadcast\RemoveStreamFromBroadcast\Data\ShouldSerialize-request.json"/>
+        <Content Include="Video\Broadcast\RemoveStreamFromBroadcast\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
