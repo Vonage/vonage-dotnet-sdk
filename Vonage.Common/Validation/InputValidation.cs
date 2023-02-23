@@ -17,6 +17,15 @@ public static class InputValidation
     private const string IntCannotBeNegative = "cannot be negative.";
     private const string StringCannotBeNullOrWhitespace = "cannot be null or whitespace.";
 
+    /// <summary>
+    ///     Verifies if higher or equal than specified threshold.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="minValue">The threshold.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="T">The request type.</typeparam>
+    /// <returns>Success or Failure.</returns>
     public static Result<T> VerifyHigherOrEqualThan<T>(T request, int value, int minValue, string name) =>
         value < minValue
             ? Result<T>.FromFailure(
