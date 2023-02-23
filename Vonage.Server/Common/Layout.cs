@@ -3,7 +3,7 @@
 namespace Vonage.Server.Common;
 
 /// <summary>
-/// Represents a layout.
+///     Represents a layout.
 /// </summary>
 /// <param name="ScreenshareType">
 ///     Set the screenshareType property to the layout type to use when there is a screen-sharing stream in the session.
@@ -21,7 +21,10 @@ namespace Vonage.Server.Common;
 ///     set the stylesheet property of the layout object to the stylesheet. (For other layout types, do not set a
 ///     stylesheet property.).
 /// </param>
-public record Layout(LayoutType? ScreenshareType, string Stylesheet, LayoutType Type);
+public record Layout(
+    LayoutType? ScreenshareType,
+    string Stylesheet,
+    LayoutType Type);
 
 /// <summary>
 ///     Represents the layout type.

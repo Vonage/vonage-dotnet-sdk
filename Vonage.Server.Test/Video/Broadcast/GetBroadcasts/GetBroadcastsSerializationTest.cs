@@ -44,8 +44,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
                     success.Items[0].BroadcastUrls.Rtmp.Should().HaveCount(1);
                     success.Items[0].BroadcastUrls.Rtmp[0].Id.Should()
                         .Be(new Guid("432c916e-22fb-492e-b45b-b96ef3b90297"));
-                    success.Items[0].BroadcastUrls.Rtmp[0].Status.Should().Be(Server.Video.Broadcast.Common.Broadcast
-                        .BroadcastUrl.RtmpStream.RtmpStreamStatus.Live);
+                    success.Items[0].BroadcastUrls.Rtmp[0].Status.Should()
+                        .Be(Server.Video.Broadcast.Common.Broadcast.RtmpStatus.Live);
                     success.Items[0].BroadcastUrls.Rtmp[0].StreamName.Should().Be("abc147");
                     success.Items[0].BroadcastUrls.Rtmp[0].ServerUrl.Should().Be("abc789");
                     success.Items[0].Settings.Hls.Dvr.Should().BeTrue();

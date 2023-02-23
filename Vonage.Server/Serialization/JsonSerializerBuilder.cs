@@ -20,5 +20,5 @@ public static class JsonSerializerBuilder
         .WithConverter(new EnumDescriptionJsonConverter<OutputMode>())
         .WithConverter(new EnumDescriptionJsonConverter<StreamMode>())
         .WithConverter(new EnumDescriptionJsonConverter<Broadcast.BroadcastStatus>())
-        .WithConverter(new EnumDescriptionJsonConverter<Broadcast.BroadcastUrl.RtmpStream.RtmpStreamStatus>());
+        .WithConverter(new EnumDescriptionJsonConverter<Broadcast.RtmpStatus>());
 }

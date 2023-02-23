@@ -112,122 +112,80 @@ public struct Broadcast
     /// <summary>
     ///     Represents information regarding HLS and RTMP broadcasts.
     /// </summary>
-    public struct BroadcastUrl
+    /// <param name="Hls">
+    ///     If you specified an HLS endpoint, the object includes an hls property, which is set to the URL for the HLS
+    ///     broadcast. Note this HLS broadcast URL points to an index file, an .M3U8- formatted playlist that contains a list
+    ///     of URLs to .ts media segment files (MPEG-2 transport stream files). While the URLs of both the playlist index file
+    ///     and media segment files are provided as soon as the HTTP response is returned, these URLs should not be accessed
+    ///     until 15 – 20 seconds later, after the initiation of the HLS broadcast, due to the delay between the HLS broadcast
+    ///     and the live streams in the OpenTok session. See
+    ///     https://developer.apple.com/library/ios/technotes/tn2288/_index.html for more information about the playlist index
+    ///     file and media segment files for HLS.
+    /// </param>
+    /// <param name="Rtmp">
+    ///     If you specified RTMP stream endpoints, the object includes an rtmp property. This is an array of objects that
+    ///     include information on each of the RTMP streams. Each of these objects has the following properties: id (the ID you
+    ///     assigned to the RTMP stream),serverUrl (the server URL), streamName (the stream name), and status property (which
+    ///     is set to "connecting"). You can call the OpenTok REST method to check for status updates for the broadcast.
+    /// </param>
+    public record BroadcastUrl(Uri Hls, RtmpStream[] Rtmp);
+
+    /// <summary>
+    ///     Represents a RtmpStream.
+    /// </summary>
+    /// <param name="Id">The stream Id.</param>
+    /// <param name="StreamName">The stream name.</param>
+    /// <param name="ServerUrl">The server url.</param>
+    /// <param name="Status">The stream status.</param>
+    public record RtmpStream(Guid Id, string StreamName, string ServerUrl, RtmpStatus Status);
+
+    /// <summary>
+    ///     The status of the RTMP stream. Poll frequently to check status updates.
+    /// </summary>
+    public enum RtmpStatus
     {
         /// <summary>
-        ///     If you specified an HLS endpoint, the object includes an hls property, which is set to the URL for the HLS
-        ///     broadcast. Note this HLS broadcast URL points to an index file, an .M3U8- formatted playlist that contains a list
-        ///     of URLs to .ts media segment files (MPEG-2 transport stream files). While the URLs of both the playlist index file
-        ///     and media segment files are provided as soon as the HTTP response is returned, these URLs should not be accessed
-        ///     until 15 – 20 seconds later, after the initiation of the HLS broadcast, due to the delay between the HLS broadcast
-        ///     and the live streams in the OpenTok session. See
-        ///     https://developer.apple.com/library/ios/technotes/tn2288/_index.html for more information about the playlist index
-        ///     file and media segment files for HLS.
+        ///     Indicates the platform is in the process of connecting to the remote RTMP server. This is the initial state, and it
+        ///     is the status if you start when there are no streams published in the session. It changes to "live" when there are
+        ///     streams (or it changes to one of the other states).
         /// </summary>
-        public Uri Hls { get; set; }
+        [Description("connecting")] Connecting,
 
         /// <summary>
-        ///     If you specified RTMP stream endpoints, the object includes an rtmp property. This is an array of objects that
-        ///     include information on each of the RTMP streams. Each of these objects has the following properties: id (the ID you
-        ///     assigned to the RTMP stream),serverUrl (the server URL), streamName (the stream name), and status property (which
-        ///     is set to "connecting"). You can call the OpenTok REST method to check for status updates for the broadcast.
+        ///     Indicates platform has successfully connected to the remote RTMP server, and the media is streaming.
         /// </summary>
-        public RtmpStream[] Rtmp { get; set; }
+        [Description("live")] Live,
 
         /// <summary>
-        ///     Represents a RTMP stream.
+        ///     Indicates platform could not connect to the remote RTMP server. This is due to an unreachable server or an error in
+        ///     the RTMP handshake. Causes include rejected RTMP connections, non-existing RTMP applications, rejected stream
+        ///     names, authentication errors, etc. Check that the server is online, and that you have provided the correct server
+        ///     URL and stream name.
         /// </summary>
-        public struct RtmpStream
-        {
-            /// <summary>
-            /// </summary>
-            public Guid Id { get; set; }
+        [Description("offline")] Offline,
 
-            /// <summary>
-            /// </summary>
-            public string ServerUrl { get; set; }
-
-            /// <summary>
-            /// </summary>
-            public RtmpStreamStatus Status { get; set; }
-
-            /// <summary>
-            /// </summary>
-            public string StreamName { get; set; }
-
-            /// <summary>
-            ///     The status of the RTMP stream. Poll frequently to check status updates.
-            /// </summary>
-            public enum RtmpStreamStatus
-            {
-                /// <summary>
-                ///     Indicates the platform is in the process of connecting to the remote RTMP server. This is the initial state, and it
-                ///     is the status if you start when there are no streams published in the session. It changes to "live" when there are
-                ///     streams (or it changes to one of the other states).
-                /// </summary>
-                [Description("connecting")] Connecting,
-
-                /// <summary>
-                ///     Indicates platform has successfully connected to the remote RTMP server, and the media is streaming.
-                /// </summary>
-                [Description("live")] Live,
-
-                /// <summary>
-                ///     Indicates platform could not connect to the remote RTMP server. This is due to an unreachable server or an error in
-                ///     the RTMP handshake. Causes include rejected RTMP connections, non-existing RTMP applications, rejected stream
-                ///     names, authentication errors, etc. Check that the server is online, and that you have provided the correct server
-                ///     URL and stream name.
-                /// </summary>
-                [Description("offline")] Offline,
-
-                /// <summary>
-                ///     Indicates there is an error in the platform.
-                /// </summary>
-                [Description("error")] Error,
-            }
-        }
+        /// <summary>
+        ///     Indicates there is an error in the platform.
+        /// </summary>
+        [Description("error")] Error,
     }
 
     /// <summary>
     /// </summary>
-    public struct BroadcastSettings
-    {
-        /// <summary>
-        /// </summary>
-        public BroadcastSettingsHls Hls { get; set; }
+    /// <param name="Hls"></param>
+    public record BroadcastSettings(HlsSettings Hls);
 
-        /// <summary>
-        /// </summary>
-        public struct BroadcastSettingsHls
-        {
-            /// <summary>
-            /// </summary>
-            public bool Dvr { get; set; }
-
-            /// <summary>
-            /// </summary>
-            public bool LowLatency { get; set; }
-        }
-    }
+    /// <summary>
+    /// </summary>
+    /// <param name="Dvr"></param>
+    /// <param name="LowLatency"></param>
+    public record HlsSettings(bool Dvr, bool LowLatency);
 
     /// <summary>
     ///     Represents a stream currently being broadcast.
     /// </summary>
-    public struct LiveStream
-    {
-        /// <summary>
-        ///     Whether the stream's audio is included in the broadcast.
-        /// </summary>
-        public bool HasAudio { get; set; }
-
-        /// <summary>
-        ///     Whether the stream's video is included in the broadcast.
-        /// </summary>
-        public bool HasVideo { get; set; }
-
-        /// <summary>
-        ///     The stream ID of the stream included in the broadcast.
-        /// </summary>
-        public Guid StreamId { get; set; }
-    }
+    /// <param name="StreamId"> The stream ID of the stream included in the broadcast.</param>
+    /// <param name="HasAudio">  Whether the stream's audio is included in the broadcast.</param>
+    /// <param name="HasVideo">  Whether the stream's video is included in the broadcast.</param>
+    public record LiveStream(Guid StreamId, bool HasAudio, bool HasVideo);
 }
