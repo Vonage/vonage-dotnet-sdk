@@ -14,11 +14,11 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
 {
     private const int MaximumMaxDuration = 36000;
     private const int MinimumMaxDuration = 60;
-    private ArchiveLayout layout;
     private StartBroadcastRequest.BroadcastOutput outputs;
     private readonly Guid applicationId;
     private int maxBitrate = 1000;
     private int maxDuration = 14400;
+    private Layout layout;
     private Maybe<string> multiBroadcastTag;
     private RenderResolution resolution = RenderResolution.StandardDefinitionLandscape;
     private StreamMode streamMode = StreamMode.Auto;
@@ -53,7 +53,7 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             .Bind(VerifyMaxDuration);
 
     /// <inheritdoc />
-    public IBuilderForOutputs WithLayout(ArchiveLayout value)
+    public IBuilderForOutputs WithLayout(Layout value)
     {
         this.layout = value;
         return this;
@@ -144,7 +144,7 @@ public interface IBuilderForLayout
     /// </summary>
     /// <param name="value">The layout.</param>
     /// <returns>The builder.</returns>
-    IBuilderForOutputs WithLayout(ArchiveLayout value);
+    IBuilderForOutputs WithLayout(Layout value);
 }
 
 /// <summary>

@@ -9,9 +9,9 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
 {
     public class ChangeBroadcastLayoutRequestTest
     {
-        private readonly ArchiveLayout layout;
         private readonly Guid applicationId;
         private readonly Guid broadcastId;
+        private readonly Layout layout;
 
         public ChangeBroadcastLayoutRequestTest()
         {
@@ -19,7 +19,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
             fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = fixture.Create<Guid>();
             this.broadcastId = fixture.Create<Guid>();
-            this.layout = fixture.Create<ArchiveLayout>();
+            this.layout = fixture.Create<Layout>();
         }
 
         [Fact]

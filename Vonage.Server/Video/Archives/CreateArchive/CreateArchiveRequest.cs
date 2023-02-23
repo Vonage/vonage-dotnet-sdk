@@ -35,7 +35,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     /// <summary>
     ///     Represents the archive's layout.
     /// </summary>
-    public ArchiveLayout Layout { get; internal init; }
+    public Layout Layout { get; internal init; }
 
     /// <summary>
     ///     The name of the archive (for your own identification).

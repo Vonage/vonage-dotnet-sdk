@@ -53,7 +53,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
             ChangeBroadcastLayoutRequestBuilder.Build()
                 .WithApplicationId(fixture.Create<Guid>())
                 .WithBroadcastId(fixture.Create<Guid>())
-                .WithLayout(fixture.Create<ArchiveLayout>())
+                .WithLayout(fixture.Create<Layout>())
                 .Create();
 
         private IRequestBuilder CreateRequest()

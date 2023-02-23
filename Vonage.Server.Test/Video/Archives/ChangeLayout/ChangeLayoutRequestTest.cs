@@ -11,10 +11,10 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
 {
     public class ChangeLayoutRequestTest
     {
-        private readonly ArchiveLayout layout;
         private readonly Fixture fixture;
         private readonly Guid applicationId;
         private readonly Guid archiveId;
+        private readonly Layout layout;
 
         public ChangeLayoutRequestTest()
         {
@@ -22,7 +22,7 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
             this.fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = this.fixture.Create<Guid>();
             this.archiveId = this.fixture.Create<Guid>();
-            this.layout = this.fixture.Create<ArchiveLayout>();
+            this.layout = this.fixture.Create<Layout>();
         }
 
         [Fact]

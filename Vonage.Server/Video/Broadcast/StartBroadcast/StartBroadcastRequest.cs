@@ -25,7 +25,7 @@ public readonly struct StartBroadcastRequest : IVonageRequest
     ///     live streaming feature.
     /// </summary>
     [JsonPropertyOrder(1)]
-    public ArchiveLayout Layout { get; internal init; }
+    public Layout Layout { get; internal init; }
 
     /// <summary>
     /// </summary>

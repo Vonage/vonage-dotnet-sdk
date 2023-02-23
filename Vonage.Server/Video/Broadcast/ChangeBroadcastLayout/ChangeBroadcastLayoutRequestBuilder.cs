@@ -15,9 +15,9 @@ public class ChangeBroadcastLayoutRequestBuilder :
     ChangeBroadcastLayoutRequestBuilder.IBuilderForBroadcastId,
     ChangeBroadcastLayoutRequestBuilder.IBuilderForLayout
 {
-    private ArchiveLayout layout;
     private Guid applicationId;
     private Guid broadcastId;
+    private Layout layout;
 
     /// <summary>
     ///     Initializes a builder.
@@ -51,7 +51,7 @@ public class ChangeBroadcastLayoutRequestBuilder :
     }
 
     /// <inheritdoc />
-    public IVonageRequestBuilder<ChangeBroadcastLayoutRequest> WithLayout(ArchiveLayout value)
+    public IVonageRequestBuilder<ChangeBroadcastLayoutRequest> WithLayout(Layout value)
     {
         this.layout = value;
         return this;
@@ -99,6 +99,6 @@ public class ChangeBroadcastLayoutRequestBuilder :
         /// </summary>
         /// <param name="value">The layout.</param>
         /// <returns>The builder.</returns>
-        IVonageRequestBuilder<ChangeBroadcastLayoutRequest> WithLayout(ArchiveLayout value);
+        IVonageRequestBuilder<ChangeBroadcastLayoutRequest> WithLayout(Layout value);
     }
 }

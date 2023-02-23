@@ -1,9 +1,9 @@
 ﻿namespace Vonage.Server.Common;
 
 /// <summary>
-///     Represents the archive's layout.
+///     Represents a layout.
 /// </summary>
-public struct ArchiveLayout
+public struct Layout
 {
     /// <summary>
     ///     Set the screenshareType property to the layout type to use when there is a screen-sharing stream in the session.

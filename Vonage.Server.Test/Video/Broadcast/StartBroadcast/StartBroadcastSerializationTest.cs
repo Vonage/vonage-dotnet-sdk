@@ -58,7 +58,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         public void ShouldSerialize() =>
             StartBroadcastRequestBuilder.Build(Guid.NewGuid())
                 .WithSessionId("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4")
-                .WithLayout(new ArchiveLayout
+                .WithLayout(new Layout
                 {
                     Type = LayoutType.Custom,
                     Stylesheet = "the layout stylesheet (only used with type == custom)",
@@ -87,7 +87,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         public void ShouldSerializeWithDefaultValues() =>
             StartBroadcastRequestBuilder.Build(Guid.NewGuid())
                 .WithSessionId("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4")
-                .WithLayout(new ArchiveLayout
+                .WithLayout(new Layout
                 {
                     Type = LayoutType.Custom,
                     Stylesheet = "the layout stylesheet (only used with type == custom)",

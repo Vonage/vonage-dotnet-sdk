@@ -27,7 +27,7 @@ namespace Vonage.Server.Video.Broadcast.ChangeBroadcastLayout
         ///     The new layout to apply on the broadcast.
         /// </summary>
         [JsonIgnore]
-        public ArchiveLayout Layout { get; internal init; }
+        public Layout Layout { get; internal init; }
 
         /// <inheritdoc />
         public HttpRequestMessage BuildRequestMessage() =>

@@ -51,7 +51,7 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
 
         private static Result<ChangeLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
             ChangeLayoutRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>(),
-                fixture.Create<ArchiveLayout>());
+                fixture.Create<Layout>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

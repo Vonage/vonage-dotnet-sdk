@@ -61,7 +61,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         private static Result<StartBroadcastRequest> BuildRequest(ISpecimenBuilder fixture) =>
             StartBroadcastRequestBuilder.Build(fixture.Create<Guid>())
                 .WithSessionId(fixture.Create<string>())
-                .WithLayout(fixture.Create<ArchiveLayout>())
+                .WithLayout(fixture.Create<Layout>())
                 .WithOutputs(fixture.Create<StartBroadcastRequest.BroadcastOutput>())
                 .Create();
 

@@ -21,7 +21,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
             ChangeBroadcastLayoutRequestBuilder.Build()
                 .WithApplicationId(Guid.NewGuid())
                 .WithBroadcastId(Guid.NewGuid())
-                .WithLayout(new ArchiveLayout
+                .WithLayout(new Layout
                 {
                     Type = LayoutType.BestFit,
                     ScreenshareType = LayoutType.Pip,

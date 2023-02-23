@@ -11,9 +11,9 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
 {
     public class StartBroadcastRequestBuilderTest
     {
-        private readonly ArchiveLayout layout;
         private readonly StartBroadcastRequest.BroadcastOutput outputs;
         private readonly Guid applicationId;
+        private readonly Layout layout;
         private readonly string sessionId;
 
         public StartBroadcastRequestBuilderTest()
@@ -22,7 +22,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
             fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = fixture.Create<Guid>();
             this.sessionId = fixture.Create<string>();
-            this.layout = fixture.Create<ArchiveLayout>();
+            this.layout = fixture.Create<Layout>();
             this.outputs = fixture.Create<StartBroadcastRequest.BroadcastOutput>();
         }
 
