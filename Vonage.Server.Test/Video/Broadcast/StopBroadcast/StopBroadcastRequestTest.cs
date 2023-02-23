@@ -26,6 +26,6 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/v2/project/{this.applicationId}/broadcast/{this.broadcastId}");
+                .BeSuccess($"/v2/project/{this.applicationId}/broadcast/{this.broadcastId}/stop");
     }
 }

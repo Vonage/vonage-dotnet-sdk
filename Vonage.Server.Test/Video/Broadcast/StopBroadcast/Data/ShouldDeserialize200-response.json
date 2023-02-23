@@ -8,13 +8,13 @@
   "maxDuration": 5400,
   "maxBitrate": 2000000,
   "broadcastUrls": {
-    "hls": "https://example.com/movie1/fileSequenceA.ts",
+    "hls": "http://server/fakepath/playlist.m3u8",
     "rtmp": [
       {
         "id": "432c916e-22fb-492e-b45b-b96ef3b90297",
         "status": "live",
-        "serverUrl": "abc789",
-        "streamName": "abc147"
+        "serverUrl": "rtmps://myfooserver/myfooapp",
+        "streamName": "myfooapp"
       }
     ]
   },

@@ -40,14 +40,14 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
                     success.Items[0].Status.Should()
                         .Be(Server.Video.Broadcast.Common.Broadcast.BroadcastStatus.Started);
                     success.Items[0].BroadcastUrls.Hls.Should()
-                        .Be(new Uri("https://example.com/movie1/fileSequenceA.ts"));
+                        .Be(new Uri("http://server/fakepath/playlist.m3u8"));
                     success.Items[0].BroadcastUrls.Rtmp.Should().HaveCount(1);
                     success.Items[0].BroadcastUrls.Rtmp[0].Id.Should()
                         .Be(new Guid("432c916e-22fb-492e-b45b-b96ef3b90297"));
                     success.Items[0].BroadcastUrls.Rtmp[0].Status.Should()
                         .Be(Server.Video.Broadcast.Common.Broadcast.RtmpStatus.Live);
-                    success.Items[0].BroadcastUrls.Rtmp[0].StreamName.Should().Be("abc147");
-                    success.Items[0].BroadcastUrls.Rtmp[0].ServerUrl.Should().Be("abc789");
+                    success.Items[0].BroadcastUrls.Rtmp[0].StreamName.Should().Be("myfooapp");
+                    success.Items[0].BroadcastUrls.Rtmp[0].ServerUrl.Should().Be("rtmps://myfooserver/myfooapp");
                     success.Items[0].Settings.Hls.Dvr.Should().BeTrue();
                     success.Items[0].Settings.Hls.LowLatency.Should().BeTrue();
                     success.Items[0].Streams.Should().HaveCount(1);

@@ -1,5 +1,6 @@
 ﻿using System;
 using Vonage.Common.Client;
+using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Common;
@@ -50,7 +51,8 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             })
             .Bind(VerifyApplicationId)
             .Bind(VerifySessionId)
-            .Bind(VerifyMaxDuration);
+            .Bind(VerifyMaxDuration)
+            .Bind(VerifyHls);
 
     /// <inheritdoc />
     public IBuilderForOutputs WithLayout(Layout value)
@@ -110,6 +112,14 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
 
     private static Result<StartBroadcastRequest> VerifyApplicationId(StartBroadcastRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<StartBroadcastRequest> VerifyHls(StartBroadcastRequest request) =>
+        request.Outputs.Hls
+            .Map(value => value.LowLatency && value.Dvr)
+            .IfNone(false)
+            ? Result<StartBroadcastRequest>.FromFailure(
+                ResultFailure.FromErrorMessage("Dvr and LowLatency cannot be both set to true."))
+            : request;
 
     private static Result<StartBroadcastRequest> VerifyMaxDuration(StartBroadcastRequest request) =>
         InputValidation

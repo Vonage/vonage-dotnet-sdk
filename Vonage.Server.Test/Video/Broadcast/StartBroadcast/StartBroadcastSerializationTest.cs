@@ -39,13 +39,13 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                     success.StreamMode.Should().Be("manual");
                     success.Status.Should().Be(Server.Video.Broadcast.Common.Broadcast.BroadcastStatus.Started);
                     success.BroadcastUrls.Hls.Should()
-                        .Be(new Uri("https://example.com/movie1/fileSequenceA.ts"));
+                        .Be(new Uri("http://server/fakepath/playlist.m3u8"));
                     success.BroadcastUrls.Rtmp.Should().HaveCount(1);
                     success.BroadcastUrls.Rtmp[0].Id.Should().Be(new Guid("432c916e-22fb-492e-b45b-b96ef3b90297"));
                     success.BroadcastUrls.Rtmp[0].Status.Should()
                         .Be(Server.Video.Broadcast.Common.Broadcast.RtmpStatus.Live);
-                    success.BroadcastUrls.Rtmp[0].StreamName.Should().Be("abc147");
-                    success.BroadcastUrls.Rtmp[0].ServerUrl.Should().Be("abc789");
+                    success.BroadcastUrls.Rtmp[0].StreamName.Should().Be("myfooapp");
+                    success.BroadcastUrls.Rtmp[0].ServerUrl.Should().Be("rtmps://myfooserver/myfooapp");
                     success.Settings.Hls.Dvr.Should().BeTrue();
                     success.Settings.Hls.LowLatency.Should().BeTrue();
                     success.Streams.Should().HaveCount(1);
@@ -62,6 +62,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                     "the layout stylesheet (only used with type == custom)", LayoutType.Custom))
                 .WithOutputs(new StartBroadcastRequest.BroadcastOutput
                 {
+                    Hls = new Server.Video.Broadcast.Common.Broadcast.HlsSettings(false, true),
                     Streams = new List<StartBroadcastRequest.BroadcastOutput.Stream>
                     {
                         new StartBroadcastRequest.BroadcastOutput.Stream(

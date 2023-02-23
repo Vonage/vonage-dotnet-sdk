@@ -36,7 +36,7 @@ public readonly struct RemoveStreamFromBroadcastRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}";
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}/streams";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8, "application/json");

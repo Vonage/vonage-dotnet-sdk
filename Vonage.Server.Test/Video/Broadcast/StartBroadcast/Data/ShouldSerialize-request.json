@@ -8,6 +8,10 @@
   "maxDuration": 20000,
   "maxBitrate": 500,
   "outputs": {
+    "hls": {
+      "dvr": false,
+      "lowLatency": true
+    },
     "rtmp": [
       {
         "id": "feab5ea7-951f-4dbb-b2f6-3195c3b4b062",

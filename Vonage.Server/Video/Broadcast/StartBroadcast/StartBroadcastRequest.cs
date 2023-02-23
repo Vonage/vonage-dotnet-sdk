@@ -93,6 +93,12 @@ public readonly struct StartBroadcastRequest : IVonageRequest
     public struct BroadcastOutput
     {
         /// <summary>
+        /// </summary>
+        [JsonConverter(typeof(MaybeJsonConverter<Common.Broadcast.HlsSettings>))]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public Maybe<Common.Broadcast.HlsSettings> Hls { get; set; }
+
+        /// <summary>
         ///     Represents the types of broadcast streams you want to start.
         /// </summary>
         [JsonPropertyName("rtmp")]

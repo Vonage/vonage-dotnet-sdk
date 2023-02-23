@@ -43,7 +43,7 @@ public struct Broadcast
     /// <summary>
     ///     The maximum duration for the broadcast (if one was set), in seconds.
     /// </summary>
-    public long MaxDuration { get; set; }
+    public int MaxDuration { get; set; }
 
     /// <summary>
     ///     The unique tag for simultaneous broadcasts (if one was set).
@@ -137,7 +137,7 @@ public struct Broadcast
     /// <param name="StreamName">The stream name.</param>
     /// <param name="ServerUrl">The server url.</param>
     /// <param name="Status">The stream status.</param>
-    public record RtmpStream(Guid Id, string StreamName, string ServerUrl, RtmpStatus Status);
+    public record RtmpStream(Guid Id, string StreamName, Uri ServerUrl, RtmpStatus Status);
 
     /// <summary>
     ///     The status of the RTMP stream. Poll frequently to check status updates.

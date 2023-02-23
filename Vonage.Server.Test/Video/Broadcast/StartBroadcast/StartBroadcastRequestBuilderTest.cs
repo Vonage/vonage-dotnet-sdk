@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
@@ -23,7 +24,11 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
             this.applicationId = fixture.Create<Guid>();
             this.sessionId = fixture.Create<string>();
             this.layout = fixture.Create<Layout>();
-            this.outputs = fixture.Create<StartBroadcastRequest.BroadcastOutput>();
+            this.outputs = new StartBroadcastRequest.BroadcastOutput
+            {
+                Hls = new Server.Video.Broadcast.Common.Broadcast.HlsSettings(false, false),
+                Streams = fixture.CreateMany<StartBroadcastRequest.BroadcastOutput.Stream>().ToArray(),
+            };
         }
 
         [Fact]
@@ -89,6 +94,19 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenDvrAndLowLatencyAreBothTrue() =>
+            StartBroadcastRequestBuilder.Build(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .WithLayout(this.layout)
+                .WithOutputs(new StartBroadcastRequest.BroadcastOutput
+                {
+                    Hls = new Server.Video.Broadcast.Common.Broadcast.HlsSettings(true, true),
+                })
+                .Create()
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage("Dvr and LowLatency cannot be both set to true."));
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenMaxDurationIsHigherThanMaximumValue() =>
