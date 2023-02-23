@@ -21,12 +21,8 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
             ChangeBroadcastLayoutRequestBuilder.Build()
                 .WithApplicationId(Guid.NewGuid())
                 .WithBroadcastId(Guid.NewGuid())
-                .WithLayout(new Layout
-                {
-                    Type = LayoutType.BestFit,
-                    ScreenshareType = LayoutType.Pip,
-                    Stylesheet = "stream.instructor {position: absolute; width: 100%;  height:50%;}",
-                })
+                .WithLayout(new Layout(LayoutType.Pip,
+                    "stream.instructor {position: absolute; width: 100%;  height:50%;}", LayoutType.BestFit))
                 .Create()
                 .GetStringContent()
                 .Should()

@@ -58,12 +58,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         public void ShouldSerialize() =>
             StartBroadcastRequestBuilder.Build(Guid.NewGuid())
                 .WithSessionId("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4")
-                .WithLayout(new Layout
-                {
-                    Type = LayoutType.Custom,
-                    Stylesheet = "the layout stylesheet (only used with type == custom)",
-                    ScreenshareType = LayoutType.HorizontalPresentation,
-                })
+                .WithLayout(new Layout(LayoutType.HorizontalPresentation,
+                    "the layout stylesheet (only used with type == custom)", LayoutType.Custom))
                 .WithOutputs(new StartBroadcastRequest.BroadcastOutput
                 {
                     Streams = new List<StartBroadcastRequest.BroadcastOutput.Stream>
@@ -87,12 +83,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         public void ShouldSerializeWithDefaultValues() =>
             StartBroadcastRequestBuilder.Build(Guid.NewGuid())
                 .WithSessionId("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4")
-                .WithLayout(new Layout
-                {
-                    Type = LayoutType.Custom,
-                    Stylesheet = "the layout stylesheet (only used with type == custom)",
-                    ScreenshareType = LayoutType.HorizontalPresentation,
-                })
+                .WithLayout(new Layout(LayoutType.HorizontalPresentation,
+                    "the layout stylesheet (only used with type == custom)", LayoutType.Custom))
                 .WithOutputs(new StartBroadcastRequest.BroadcastOutput
                 {
                     Streams = new List<StartBroadcastRequest.BroadcastOutput.Stream>
