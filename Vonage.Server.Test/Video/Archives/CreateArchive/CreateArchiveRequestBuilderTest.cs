@@ -3,7 +3,7 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Archives.Common;
+using Vonage.Server.Common;
 using Vonage.Server.Video.Archives.CreateArchive;
 using Xunit;
 
@@ -11,8 +11,8 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 {
     public class CreateArchiveRequestBuilderTest
     {
-        private readonly ArchiveLayout layout;
         private readonly Guid applicationId;
+        private readonly Layout layout;
         private readonly OutputMode outputMode;
         private readonly RenderResolution resolution;
         private readonly StreamMode streamMode;
@@ -22,13 +22,14 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
         public CreateArchiveRequestBuilderTest()
         {
             var fixture = new Fixture();
+            fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = fixture.Create<Guid>();
             this.sessionId = fixture.Create<string>();
             this.name = fixture.Create<string>();
             this.streamMode = fixture.Create<StreamMode>();
             this.resolution = fixture.Create<RenderResolution>();
             this.outputMode = fixture.Create<OutputMode>();
-            this.layout = fixture.Create<ArchiveLayout>();
+            this.layout = fixture.Create<Layout>();
         }
 
         [Fact]
@@ -86,7 +87,7 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
                     request.OutputMode.Should().Be(OutputMode.Composed);
                     request.Resolution.Should().Be(RenderResolution.StandardDefinitionLandscape);
                     request.StreamMode.Should().Be(StreamMode.Auto);
-                    request.Layout.Should().Be(default(ArchiveLayout));
+                    request.Layout.Should().Be(default(Layout));
                 });
 
         [Fact]

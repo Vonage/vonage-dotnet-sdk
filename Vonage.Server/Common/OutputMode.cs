@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Vonage.Server.Video.Archives.Common;
+namespace Vonage.Server.Common;
 
 /// <summary>
 ///     Defines values for the OutputMode property of an Archive object.

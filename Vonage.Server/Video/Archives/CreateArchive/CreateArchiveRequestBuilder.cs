@@ -2,17 +2,17 @@
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
-using Vonage.Server.Video.Archives.Common;
+using Vonage.Server.Common;
 
 namespace Vonage.Server.Video.Archives.CreateArchive;
 
 /// <inheritdoc />
 public class CreateArchiveRequestBuilder : IVonageRequestBuilder<CreateArchiveRequest>
 {
-    private ArchiveLayout layout;
     private bool hasAudio = true;
     private bool hasVideo = true;
     private readonly Guid applicationId;
+    private Layout layout;
     private Maybe<string> name = Maybe<string>.None;
     private OutputMode outputMode = OutputMode.Composed;
     private RenderResolution resolution = RenderResolution.StandardDefinitionLandscape;
@@ -76,7 +76,7 @@ public class CreateArchiveRequestBuilder : IVonageRequestBuilder<CreateArchiveRe
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>The builder.</returns>
-    public CreateArchiveRequestBuilder WithArchiveLayout(ArchiveLayout value)
+    public CreateArchiveRequestBuilder WithArchiveLayout(Layout value)
     {
         this.layout = value;
         return this;

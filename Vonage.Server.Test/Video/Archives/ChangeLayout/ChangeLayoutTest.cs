@@ -7,10 +7,10 @@ using FsCheck.Xunit;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Server.Common;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.ChangeLayout;
-using Vonage.Server.Video.Archives.Common;
 using WireMock.RequestBuilders;
 using Xunit;
 
@@ -51,7 +51,7 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
 
         private static Result<ChangeLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
             ChangeLayoutRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>(),
-                fixture.Create<ArchiveLayout>());
+                fixture.Create<Layout>());
 
         private IRequestBuilder CreateRequest() =>
             WireMockExtensions

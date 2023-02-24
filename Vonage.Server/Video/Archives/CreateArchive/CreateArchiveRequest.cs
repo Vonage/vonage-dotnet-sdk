@@ -4,8 +4,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Server.Common;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Archives.Common;
 
 namespace Vonage.Server.Video.Archives.CreateArchive;
 
@@ -35,7 +35,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     /// <summary>
     ///     Represents the archive's layout.
     /// </summary>
-    public ArchiveLayout Layout { get; internal init; }
+    public Layout Layout { get; internal init; }
 
     /// <summary>
     ///     The name of the archive (for your own identification).

@@ -1,6 +1,7 @@
 ﻿using System.Security.Authentication;
 using AutoFixture;
 using Vonage.Applications;
+using Vonage.Applications.Capabilities;
 using Vonage.Request;
 using Vonage.Server.Video;
 
@@ -32,7 +33,7 @@ public abstract class BaseIntegrationTest : IDisposable
             Capabilities = new ApplicationCapabilities
             {
                 Meetings = new Applications.Capabilities.Meetings(),
-                Video = new Applications.Capabilities.Video(),
+                Video = new Video(),
             },
         };
 

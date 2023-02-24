@@ -32,6 +32,7 @@ namespace Vonage.Server.Test.Video
             client.SignalingClient.Should().NotBeNull();
             client.ModerationClient.Should().NotBeNull();
             client.ArchiveClient.Should().NotBeNull();
+            client.BroadcastClient.Should().NotBeNull();
         }
 
         [Fact]
@@ -42,11 +43,13 @@ namespace Vonage.Server.Test.Video
             var signalingClient = client.SignalingClient;
             var moderationClient = client.ModerationClient;
             var archiveClient = client.ArchiveClient;
+            var broadcastClient = client.BroadcastClient;
             client.Credentials = null;
             client.SessionClient.Should().Be(sessionClient);
             client.SignalingClient.Should().Be(signalingClient);
             client.ModerationClient.Should().Be(moderationClient);
             client.ArchiveClient.Should().Be(archiveClient);
+            client.BroadcastClient.Should().Be(broadcastClient);
         }
 
         [Fact]
@@ -57,11 +60,13 @@ namespace Vonage.Server.Test.Video
             var signalingClient = client.SignalingClient;
             var moderationClient = client.ModerationClient;
             var archiveClient = client.ArchiveClient;
+            var broadcastClient = client.BroadcastClient;
             client.Credentials = this.fixture.Create<Credentials>();
             client.SessionClient.Should().NotBe(sessionClient);
             client.SignalingClient.Should().NotBe(signalingClient);
             client.ModerationClient.Should().NotBe(moderationClient);
             client.ArchiveClient.Should().NotBe(archiveClient);
+            client.BroadcastClient.Should().NotBe(broadcastClient);
         }
 
         [Fact]

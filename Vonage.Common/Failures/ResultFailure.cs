@@ -1,13 +1,15 @@
-﻿namespace Vonage.Common.Failures;
+﻿using Vonage.Common.Monads;
+
+namespace Vonage.Common.Failures;
 
 /// <inheritdoc />
 public readonly struct ResultFailure : IResultFailure
 {
-    private ResultFailure(string error) => this.error = error;
     private readonly string error;
+    private ResultFailure(string error) => this.error = error;
 
     /// <summary>
-    ///     Create a failure from an error message.
+    ///     Creates a failure from an error message.
     /// </summary>
     /// <param name="error">The error message.</param>
     /// <returns>The failure.</returns>
@@ -15,4 +17,12 @@ public readonly struct ResultFailure : IResultFailure
 
     /// <inheritdoc />
     public string GetFailureMessage() => this.error;
+
+    /// <summary>
+    ///     Creates a result failure from an error message.
+    /// </summary>
+    /// <param name="error">The error message.</param>
+    /// <typeparam name="T">Type of the result.</typeparam>
+    /// <returns>The result.</returns>
+    public static Result<T> ToResult<T>(string error) => Result<T>.FromFailure(FromErrorMessage(error));
 }

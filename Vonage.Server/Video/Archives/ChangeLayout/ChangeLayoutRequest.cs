@@ -4,8 +4,8 @@ using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+using Vonage.Server.Common;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Archives.Common;
 
 namespace Vonage.Server.Video.Archives.ChangeLayout;
 
@@ -14,7 +14,7 @@ namespace Vonage.Server.Video.Archives.ChangeLayout;
 /// </summary>
 public readonly struct ChangeLayoutRequest : IVonageRequest
 {
-    private ChangeLayoutRequest(Guid applicationId, Guid archiveId, ArchiveLayout layout)
+    private ChangeLayoutRequest(Guid applicationId, Guid archiveId, Layout layout)
     {
         this.ApplicationId = applicationId;
         this.ArchiveId = archiveId;
@@ -34,7 +34,7 @@ public readonly struct ChangeLayoutRequest : IVonageRequest
     /// <summary>
     ///     The layout to apply of the archive.
     /// </summary>
-    public ArchiveLayout Layout { get; }
+    public Layout Layout { get; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -53,7 +53,7 @@ public readonly struct ChangeLayoutRequest : IVonageRequest
     /// <param name="archiveId">The archive Id.</param>
     /// <param name="layout">The layout to apply on the archive.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<ChangeLayoutRequest> Parse(Guid applicationId, Guid archiveId, ArchiveLayout layout) =>
+    public static Result<ChangeLayoutRequest> Parse(Guid applicationId, Guid archiveId, Layout layout) =>
         Result<ChangeLayoutRequest>
             .FromSuccess(new ChangeLayoutRequest(applicationId, archiveId, layout))
             .Bind(VerifyApplicationId)
