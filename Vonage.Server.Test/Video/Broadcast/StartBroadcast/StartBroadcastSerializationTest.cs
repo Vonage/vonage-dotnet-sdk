@@ -59,7 +59,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
             StartBroadcastRequestBuilder.Build(Guid.NewGuid())
                 .WithSessionId("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4")
                 .WithLayout(new Layout(LayoutType.HorizontalPresentation,
-                    "the layout stylesheet (only used with type == custom)", LayoutType.Custom))
+                    null, LayoutType.BestFit))
                 .WithOutputs(new StartBroadcastRequest.BroadcastOutput
                 {
                     Hls = new Server.Video.Broadcast.Common.Broadcast.HlsSettings(false, true),
@@ -84,7 +84,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         public void ShouldSerializeWithDefaultValues() =>
             StartBroadcastRequestBuilder.Build(Guid.NewGuid())
                 .WithSessionId("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4")
-                .WithLayout(new Layout(LayoutType.HorizontalPresentation,
+                .WithLayout(new Layout(null,
                     "the layout stylesheet (only used with type == custom)", LayoutType.Custom))
                 .WithOutputs(new StartBroadcastRequest.BroadcastOutput
                 {

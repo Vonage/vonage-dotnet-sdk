@@ -23,7 +23,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
             fixture.Customize(new SupportMutableValueTypesCustomization());
             this.applicationId = fixture.Create<Guid>();
             this.sessionId = fixture.Create<string>();
-            this.layout = fixture.Create<Layout>();
+            this.layout = new Layout(null, null, LayoutType.HorizontalPresentation);
             this.outputs = new StartBroadcastRequest.BroadcastOutput
             {
                 Hls = new Server.Video.Broadcast.Common.Broadcast.HlsSettings(false, false),
@@ -107,6 +107,58 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Dvr and LowLatency cannot be both set to true."));
+
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenLayoutScreenshareTypeIsSetAndStylesheetIsFilled() =>
+            StartBroadcastRequestBuilder.Build(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .WithLayout(new Layout(LayoutType.Custom, "stylesheet", LayoutType.BestFit))
+                .WithOutputs(this.outputs)
+                .Create()
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage("Stylesheet should be null when screenshare type is set."));
+
+        [Theory]
+        [InlineData(LayoutType.Pip)]
+        [InlineData(LayoutType.HorizontalPresentation)]
+        [InlineData(LayoutType.VerticalPresentation)]
+        public void Build_ShouldReturnFailure_GivenLayoutScreenshareTypeIsSetAndTypeIsNotBestFit(LayoutType value) =>
+            StartBroadcastRequestBuilder.Build(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .WithLayout(new Layout(LayoutType.Custom, null, value))
+                .WithOutputs(this.outputs)
+                .Create()
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage("Type should be BestFit when screenshare type is set."));
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public void Build_ShouldReturnFailure_GivenLayoutStylesheetIsEmptyWithCustomType(string value) =>
+            StartBroadcastRequestBuilder.Build(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .WithLayout(new Layout(null, value, LayoutType.Custom))
+                .WithOutputs(this.outputs)
+                .Create()
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage(
+                    "Stylesheet cannot be null or whitespace when type is Custom."));
+
+        [Theory]
+        [InlineData(LayoutType.BestFit)]
+        [InlineData(LayoutType.Pip)]
+        [InlineData(LayoutType.HorizontalPresentation)]
+        [InlineData(LayoutType.VerticalPresentation)]
+        public void Build_ShouldReturnFailure_GivenLayoutStylesheetIsFilledWithNonCustomType(LayoutType value) =>
+            StartBroadcastRequestBuilder.Build(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .WithLayout(new Layout(null, "stylesheet example", value))
+                .WithOutputs(this.outputs)
+                .Create()
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage(
+                    "Stylesheet should be null or whitespace when type is not Custom."));
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenMaxDurationIsHigherThanMaximumValue() =>

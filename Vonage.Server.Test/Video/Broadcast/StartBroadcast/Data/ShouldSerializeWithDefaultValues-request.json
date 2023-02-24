@@ -1,7 +1,7 @@
 ﻿{
   "sessionId": "2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4",
   "layout": {
-    "screenshareType": "horizontalPresentation",
+    "screenshareType": null,
     "stylesheet": "the layout stylesheet (only used with type == custom)",
     "type": "custom"
   },

@@ -52,7 +52,8 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             .Bind(VerifyApplicationId)
             .Bind(VerifySessionId)
             .Bind(VerifyMaxDuration)
-            .Bind(VerifyHls);
+            .Bind(VerifyHls)
+            .Bind(VerifyLayout);
 
     /// <inheritdoc />
     public IBuilderForOutputs WithLayout(Layout value)
@@ -120,6 +121,31 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             ? Result<StartBroadcastRequest>.FromFailure(
                 ResultFailure.FromErrorMessage("Dvr and LowLatency cannot be both set to true."))
             : request;
+
+    private static Result<StartBroadcastRequest> VerifyLayout(StartBroadcastRequest request) =>
+        new
+            {
+                IsCustomType = request.Layout.Type == LayoutType.Custom,
+                IsBestFitType = request.Layout.Type == LayoutType.BestFit,
+                IsStylesheetEmpty = string.IsNullOrWhiteSpace(request.Layout.Stylesheet),
+                IsScreenshareTypeSet = request.Layout.ScreenshareType != null,
+            }
+            switch
+            {
+                {IsScreenshareTypeSet: true, IsStylesheetEmpty: false} =>
+                    ResultFailure.ToResult<StartBroadcastRequest>(
+                        "Stylesheet should be null when screenshare type is set."),
+                {IsScreenshareTypeSet: true, IsBestFitType: false} =>
+                    ResultFailure.ToResult<StartBroadcastRequest>(
+                        "Type should be BestFit when screenshare type is set."),
+                {IsCustomType: true, IsStylesheetEmpty: true} =>
+                    ResultFailure.ToResult<StartBroadcastRequest>(
+                        "Stylesheet cannot be null or whitespace when type is Custom."),
+                {IsCustomType: false, IsStylesheetEmpty: false} =>
+                    ResultFailure.ToResult<StartBroadcastRequest>(
+                        "Stylesheet should be null or whitespace when type is not Custom."),
+                _ => request,
+            };
 
     private static Result<StartBroadcastRequest> VerifyMaxDuration(StartBroadcastRequest request) =>
         InputValidation
