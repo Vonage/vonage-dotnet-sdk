@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
@@ -17,36 +18,41 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 {
     public class AddStreamToBroadcastTest
     {
-        private readonly BroadcastClient client;
+        private Func<HttpClient, Task<Result<Unit>>> Operation =>
+            httpClient => new BroadcastClient(
+                    httpClient,
+                    () => this.helper.Token,
+                    this.helper.Fixture.Create<string>())
+                .AddStreamToBroadcastAsync(this.request);
 
-        private Func<Task<Result<Unit>>> Operation => () => this.client.AddStreamToBroadcastAsync(this.request);
         private readonly Result<AddStreamToBroadcastRequest> request;
-        private readonly UseCaseHelper helper;
+        private readonly UseCaseHelperNew helper;
 
         public AddStreamToBroadcastTest()
         {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new BroadcastClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
+            this.helper = new UseCaseHelperNew(JsonSerializerBuilder.Build());
             this.request = BuildRequest(this.helper.Fixture);
         }
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.GetExpectedRequest(), this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.GetExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<AddStreamToBroadcastRequest, Unit>(this.client
-                .AddStreamToBroadcastAsync);
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<AddStreamToBroadcastRequest, Unit>(
+                (client, r) => new BroadcastClient(
+                    client,
+                    () => this.helper.Token,
+                    this.helper.Fixture.Create<string>()).AddStreamToBroadcastAsync(r));
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.GetExpectedRequest(), this.Operation);
 
         private static Result<AddStreamToBroadcastRequest> BuildRequest(ISpecimenBuilder fixture) =>
             AddStreamToBroadcastRequestBuilder.Build()
@@ -65,5 +71,15 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
                 .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
                 .UsingPatch();
         }
+
+        private ExpectedRequest GetExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = new HttpMethod("PATCH"),
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
+                Content = this.request
+                    .Map(value => this.helper.Serializer.SerializeObject(value))
+                    .IfFailure(string.Empty),
+            };
     }
 }
