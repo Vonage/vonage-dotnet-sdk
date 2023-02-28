@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
+using FluentAssertions;
 using Vonage.Common.Monads;
 
 namespace Vonage.Common.Test.TestHelpers
@@ -8,18 +9,24 @@ namespace Vonage.Common.Test.TestHelpers
     public class FakeHttpRequestHandler : HttpMessageHandler
     {
         private readonly HttpStatusCode statusCode;
+        private Maybe<ExpectedRequest> expectedRequest = Maybe<ExpectedRequest>.None;
         private Maybe<string> responseContent = Maybe<string>.None;
+        private readonly Uri baseUri = new("http://fake-host/api");
 
         private FakeHttpRequestHandler(HttpStatusCode code) => this.statusCode = code;
 
-        public ReceivedRequest Request { get; private set; }
-
         public static FakeHttpRequestHandler Build(HttpStatusCode code) => new(code);
 
-        public HttpClient ToHttpClient(Uri baseUri) => new(this, false)
+        public HttpClient ToHttpClient() => new(this, false)
         {
-            BaseAddress = baseUri,
+            BaseAddress = this.baseUri,
         };
+
+        public FakeHttpRequestHandler WithExpectedRequest(ExpectedRequest expected)
+        {
+            this.expectedRequest = expected;
+            return this;
+        }
 
         public FakeHttpRequestHandler WithResponseContent(string content)
         {
@@ -27,26 +34,44 @@ namespace Vonage.Common.Test.TestHelpers
             return this;
         }
 
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-            CancellationToken cancellationToken)
+        private void CompareRequests(ReceivedRequest received, ExpectedRequest expected)
+        {
+            received.RequestUri.Should()
+                .Be(new Uri(this.baseUri, expected.RequestUri));
+            received.Method.Should().Be(expected.Method);
+            received.Headers.Authorization.Scheme.Should().Be("Bearer");
+            received.Headers.Authorization.Parameter.Should().NotBeNullOrWhiteSpace();
+            received.Content.Should().Be(expected.Content);
+        }
+
+        private HttpResponseMessage CreateResponseMessage() =>
+            new(this.statusCode)
+            {
+                Content = new StringContent(this.responseContent.IfNone(string.Empty), Encoding.UTF8,
+                    "application/json"),
+            };
+
+        private static async Task<ReceivedRequest> ParseIncomingRequest(HttpRequestMessage request)
         {
             var content = await request.Content.ReadAsStringAsync();
-            this.Request = new ReceivedRequest
+            return new ReceivedRequest
             {
                 RequestUri = request.RequestUri,
                 Method = request.Method,
                 Content = string.IsNullOrWhiteSpace(content) ? Maybe<string>.None : content,
                 Headers = request.Headers,
             };
-            var response = new HttpResponseMessage(this.statusCode)
-            {
-                Content = new StringContent(this.responseContent.IfNone(string.Empty), Encoding.UTF8,
-                    "application/json"),
-            };
-            return response;
         }
 
-        public struct ReceivedRequest
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            var incomingRequest = await ParseIncomingRequest(request);
+            this.expectedRequest.IfSome(expected => this.CompareRequests(incomingRequest, expected));
+            return this.CreateResponseMessage();
+        }
+
+        private struct ReceivedRequest
         {
             public Maybe<string> Content { get; set; }
             public HttpRequestHeaders Headers { get; set; }

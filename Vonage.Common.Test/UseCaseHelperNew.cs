@@ -15,23 +15,21 @@ namespace Vonage.Common.Test
     /// </summary>
     public class UseCaseHelperNew
     {
-        private readonly Uri helperBaseUri = new("http://fake-host/api");
-
-        public Fixture Fixture { get; }
-        public JsonSerializer Serializer { get; }
-
-        public string Token { get; }
-
         /// <summary>
         ///     Creates the helper and initialize dependencies.
         /// </summary>
-        public UseCaseHelperNew()
+        private UseCaseHelperNew()
         {
             this.Serializer = new JsonSerializer();
             this.Fixture = new Fixture();
             this.Fixture.Customize(new SupportMutableValueTypesCustomization());
             this.Token = this.Fixture.Create<string>();
         }
+
+        public Fixture Fixture { get; }
+        public JsonSerializer Serializer { get; }
+
+        public string Token { get; }
 
         /// <summary>
         ///     Creates the helper and initialize dependencies.
@@ -50,7 +48,7 @@ namespace Vonage.Common.Test
         /// <typeparam name="T">The type of the request.</typeparam>
         /// <returns>The path.</returns>
         public static string GetPathFromRequest<T>(Result<T> request) where T : IVonageRequest =>
-            request.Match(value => value.GetEndpointPath(), failure => string.Empty);
+            request.Match(value => value.GetEndpointPath(), _ => string.Empty);
 
         /// <summary>
         ///     Verifies the operation returns the expected value given the response is success.
@@ -62,10 +60,11 @@ namespace Vonage.Common.Test
             Func<HttpClient, Task<Result<TResponse>>> operation)
         {
             var expectedResponse = this.Fixture.Create<TResponse>();
-            var messageHandler = FakeHttpRequestHandler.Build(HttpStatusCode.OK)
+            var messageHandler = FakeHttpRequestHandler
+                .Build(HttpStatusCode.OK)
+                .WithExpectedRequest(expected)
                 .WithResponseContent(this.Serializer.SerializeObject(expectedResponse));
-            var result = await operation(messageHandler.ToHttpClient(this.helperBaseUri));
-            this.VerifyReceivedRequestIsEquivalentToExpected(messageHandler, expected);
+            var result = await operation(messageHandler.ToHttpClient());
             result.Should().BeSuccess(response =>
                 this.Serializer.SerializeObject(response).Should()
                     .Be(this.Serializer.SerializeObject(expectedResponse)));
@@ -82,9 +81,11 @@ namespace Vonage.Common.Test
         {
             var body = this.Fixture.Create<string>();
             var expectedFailureMessage = $"Unable to deserialize '{body}' into '{typeof(TResponse).Name}'.";
-            var messageHandler = FakeHttpRequestHandler.Build(HttpStatusCode.OK).WithResponseContent(body);
-            var result = await operation(messageHandler.ToHttpClient(this.helperBaseUri));
-            this.VerifyReceivedRequestIsEquivalentToExpected(messageHandler, expected);
+            var messageHandler = FakeHttpRequestHandler
+                .Build(HttpStatusCode.OK)
+                .WithExpectedRequest(expected)
+                .WithResponseContent(body);
+            var result = await operation(messageHandler.ToHttpClient());
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
@@ -102,19 +103,16 @@ namespace Vonage.Common.Test
                 FsCheckExtensions.GetErrorResponses(),
                 error =>
                 {
-                    var expectedBody = error.Message is null
-                        ? null
-                        : this.Serializer.SerializeObject(error);
                     var messageHandler = FakeHttpRequestHandler
-                        .Build(error.Code);
-                    if (expectedBody != null)
+                        .Build(error.Code)
+                        .WithExpectedRequest(expected);
+                    if (error.Message != null)
                     {
-                        messageHandler = messageHandler.WithResponseContent(expectedBody);
+                        messageHandler = messageHandler.WithResponseContent(this.Serializer.SerializeObject(error));
                     }
 
-                    operation(messageHandler.ToHttpClient(this.helperBaseUri)).Result.Should()
+                    operation(messageHandler.ToHttpClient()).Result.Should()
                         .BeFailure(error.ToHttpFailure());
-                    this.VerifyReceivedRequestIsEquivalentToExpected(messageHandler, expected);
                 });
 
         /// <summary>
@@ -132,13 +130,14 @@ namespace Vonage.Common.Test
                 FsCheckExtensions.GetNonEmptyStrings(),
                 (statusCode, jsonError) =>
                 {
-                    var messageHandler = FakeHttpRequestHandler.Build(statusCode).WithResponseContent(jsonError);
-                    operation(messageHandler.ToHttpClient(this.helperBaseUri))
+                    var messageHandler = FakeHttpRequestHandler.Build(statusCode)
+                        .WithExpectedRequest(expected)
+                        .WithResponseContent(jsonError);
+                    operation(messageHandler.ToHttpClient())
                         .Result
                         .Should()
                         .BeFailure(ResultFailure.FromErrorMessage(
                             $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'."));
-                    this.VerifyReceivedRequestIsEquivalentToExpected(messageHandler, expected);
                 });
 
         /// <summary>
@@ -152,7 +151,7 @@ namespace Vonage.Common.Test
         {
             var messageHandler = FakeHttpRequestHandler.Build(HttpStatusCode.OK);
             var expectedFailure = ResultFailure.FromErrorMessage(this.Fixture.Create<string>());
-            var result = await operation(messageHandler.ToHttpClient(this.helperBaseUri),
+            var result = await operation(messageHandler.ToHttpClient(),
                 Result<TRequest>.FromFailure(expectedFailure));
             result.Should().BeFailure(expectedFailure);
         }
@@ -165,21 +164,9 @@ namespace Vonage.Common.Test
         public async Task VerifyReturnsUnitGivenApiResponseIsSuccess(ExpectedRequest expected,
             Func<HttpClient, Task<Result<Unit>>> operation)
         {
-            var messageHandler = FakeHttpRequestHandler.Build(HttpStatusCode.OK);
-            var result = await operation(messageHandler.ToHttpClient(this.helperBaseUri));
-            this.VerifyReceivedRequestIsEquivalentToExpected(messageHandler, expected);
+            var messageHandler = FakeHttpRequestHandler.Build(HttpStatusCode.OK).WithExpectedRequest(expected);
+            var result = await operation(messageHandler.ToHttpClient());
             result.Should().BeSuccess(Unit.Default);
-        }
-
-        private void VerifyReceivedRequestIsEquivalentToExpected(FakeHttpRequestHandler handler,
-            ExpectedRequest expected)
-        {
-            handler.Request.RequestUri.Should()
-                .Be(new Uri(this.helperBaseUri, expected.RequestUri));
-            handler.Request.Method.Should().Be(expected.Method);
-            handler.Request.Headers.Authorization.Scheme.Should().Be("Bearer");
-            handler.Request.Headers.Authorization.Parameter.Should().NotBeNullOrWhiteSpace();
-            handler.Request.Content.Should().Be(expected.Content);
         }
     }
 
