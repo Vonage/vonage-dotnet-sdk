@@ -51,17 +51,25 @@ namespace Vonage.Common.Test.TestHelpers
                     "application/json"),
             };
 
-        private static async Task<ReceivedRequest> ParseIncomingRequest(HttpRequestMessage request)
+        private static async Task<Maybe<string>> GetRequestContent(HttpRequestMessage request)
         {
+            if (request.Content is null)
+            {
+                return Maybe<string>.None;
+            }
+
             var content = await request.Content.ReadAsStringAsync();
-            return new ReceivedRequest
+            return string.IsNullOrWhiteSpace(content) ? Maybe<string>.None : content;
+        }
+
+        private static async Task<ReceivedRequest> ParseIncomingRequest(HttpRequestMessage request) =>
+            new()
             {
                 RequestUri = request.RequestUri,
                 Method = request.Method,
-                Content = string.IsNullOrWhiteSpace(content) ? Maybe<string>.None : content,
+                Content = await GetRequestContent(request),
                 Headers = request.Headers,
             };
-        }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)

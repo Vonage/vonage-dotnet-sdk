@@ -1,94 +1,101 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Serialization;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Sessions.CreateSession;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sessions.CreateSession
 {
-    public class CreateSessionTest
+    public class CreateSessionTest : BaseUseCase
     {
         private readonly CreateSessionRequest request = CreateSessionRequest.Default;
         private readonly CreateSessionResponse session;
 
-        private Func<Task<Result<CreateSessionResponse>>> Operation =>
-            () => this.client.CreateSessionAsync(this.request);
+        private Func<VonageHttpClientConfiguration, Task<Result<CreateSessionResponse>>> Operation =>
+            configuration => new SessionClient(configuration).CreateSessionAsync(this.request);
 
-        private readonly SessionClient client;
-        private readonly UseCaseHelper helper;
-
-        public CreateSessionTest()
-        {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
-            this.session = this.helper.Fixture.Create<CreateSessionResponse>();
-        }
+        public CreateSessionTest() => this.session = this.Helper.Fixture.Create<CreateSessionResponse>();
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<CreateSessionRequest, CreateSessionResponse>(
-                this.client
-                    .CreateSessionAsync);
+            await this.Helper.VerifyReturnsFailureGivenRequestIsFailure<CreateSessionRequest, CreateSessionResponse>(
+                (configuration, failureRequest) =>
+                    new SessionClient(configuration).CreateSessionAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenResponseContainsNoSession()
         {
-            var expectedResponse = this.helper.Serializer.SerializeObject(Array.Empty<CreateSessionResponse>());
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
-            var result = await this.Operation();
+            var expectedResponse = this.Helper.Serializer.SerializeObject(Array.Empty<CreateSessionResponse>());
+            var client = FakeHttpRequestHandler
+                .Build(HttpStatusCode.OK)
+                .WithExpectedRequest(this.BuildExpectedRequest())
+                .WithResponseContent(expectedResponse)
+                .ToHttpClient();
+            var configuration = new VonageHttpClientConfiguration(client, () => this.Helper.Fixture.Create<string>(),
+                this.Helper.Fixture.Create<string>());
+            var result = await this.Operation(configuration);
             result.Should().BeFailure(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
         }
 
         [Property]
         public Property ShouldReturnFailure_GivenStatusCodeIsFailure() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenMultipleSessionsAreCreated()
         {
-            var expectedResponse = this.helper.Serializer.SerializeObject(new[]
+            var expectedResponse = this.Helper.Serializer.SerializeObject(new[]
             {
-                this.session, this.helper.Fixture.Create<CreateSessionResponse>(),
-                this.helper.Fixture.Create<CreateSessionResponse>(),
+                this.session, this.Helper.Fixture.Create<CreateSessionResponse>(),
+                this.Helper.Fixture.Create<CreateSessionResponse>(),
             });
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
-            var result = await this.Operation();
+            var client = FakeHttpRequestHandler
+                .Build(HttpStatusCode.OK)
+                .WithExpectedRequest(this.BuildExpectedRequest())
+                .WithResponseContent(expectedResponse)
+                .ToHttpClient();
+            var configuration = new VonageHttpClientConfiguration(client, () => this.Helper.Fixture.Create<string>(),
+                this.Helper.Fixture.Create<string>());
+            var result = await this.Operation(configuration);
             result.Should().BeSuccess(this.session);
         }
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenSessionIsCreated()
         {
-            var expectedResponse = this.helper.Serializer.SerializeObject(new[] {this.session});
-            this.helper.Server
-                .Given(this.CreateRequest())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
-            var result = await this.Operation();
+            var expectedResponse = this.Helper.Serializer.SerializeObject(new[] {this.session});
+            var client = FakeHttpRequestHandler
+                .Build(HttpStatusCode.OK)
+                .WithExpectedRequest(this.BuildExpectedRequest())
+                .WithResponseContent(expectedResponse)
+                .ToHttpClient();
+            var configuration = new VonageHttpClientConfiguration(client, () => this.Helper.Fixture.Create<string>(),
+                this.Helper.Fixture.Create<string>());
+            var result = await this.Operation(configuration);
             result.Should().BeSuccess(this.session);
         }
 
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token, this.request.GetEndpointPath(), this.request.GetUrlEncoded())
-                .UsingPost();
+        private ExpectedRequest BuildExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(this.request.GetEndpointPath(), UriKind.Relative),
+                Content = this.request.GetUrlEncoded(),
+            };
     }
 }

@@ -1,52 +1,56 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
-using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.AddStream;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.AddStream
 {
-    public class AddStreamTest
+    public class AddStreamTest : BaseUseCase
     {
-        private readonly ArchiveClient client;
+        private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
+            configuration => new ArchiveClient(configuration).AddStreamAsync(this.request);
 
-        private Func<Task<Result<Unit>>> Operation => () => this.client.AddStreamAsync(this.request);
         private readonly Result<AddStreamRequest> request;
-        private readonly UseCaseHelper helper;
 
-        public AddStreamTest()
-        {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new ArchiveClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
-            this.request = BuildRequest(this.helper.Fixture);
-        }
+        public AddStreamTest() => this.request = BuildRequest(this.Helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<AddStreamRequest, Unit>(this.client
-                .AddStreamAsync);
+            await this.Helper.VerifyReturnsFailureGivenRequestIsFailure<AddStreamRequest, Unit>(
+                (configuration, failureRequest) =>
+                    new ArchiveClient(configuration).AddStreamAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.Helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.BuildExpectedRequest(), this.Operation);
+
+        private ExpectedRequest BuildExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = new HttpMethod("PATCH"),
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
+                Content = this.request
+                    .Map(value => this.Helper.Serializer.SerializeObject(new
+                        {AddStream = value.StreamId, value.HasAudio, value.HasVideo}))
+                    .IfFailure(string.Empty),
+            };
 
         private static Result<AddStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
             AddStreamRequestBuilder.Build(
@@ -54,18 +58,5 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
                     fixture.Create<Guid>(),
                     fixture.Create<Guid>())
                 .Create();
-
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value =>
-                        this.helper.Serializer.SerializeObject(new
-                            {AddStream = value.StreamId, value.HasAudio, value.HasVideo}))
-                    .IfFailure(string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPatch();
-        }
     }
 }

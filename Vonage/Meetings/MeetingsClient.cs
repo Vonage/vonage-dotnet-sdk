@@ -49,6 +49,20 @@ public class MeetingsClient : IMeetingsClient
             new UpdateThemeLogoUseCase(this.vonageClient, fileSystem.File.Exists, fileSystem.File.ReadAllBytes);
     }
 
+    /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="configuration">The client configuration.</param>
+    /// <param name="fileSystem">The file system.</param>
+    public MeetingsClient(VonageHttpClientConfiguration configuration, IFileSystem fileSystem)
+    {
+        this.vonageClient =
+            new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
+        this.getThemesUseCase = new GetThemesUseCase(this.vonageClient);
+        this.updateThemeLogoUseCase =
+            new UpdateThemeLogoUseCase(this.vonageClient, fileSystem.File.Exists, fileSystem.File.ReadAllBytes);
+    }
+
     /// <inheritdoc />
     public Task<Result<Room>> CreateRoomAsync(Result<CreateRoomRequest> request) =>
         this.vonageClient.SendWithResponseAsync<CreateRoomRequest, Room>(request);

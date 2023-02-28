@@ -1,61 +1,59 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Server.Common;
-using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.ChangeLayout;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.ChangeLayout
 {
-    public class ChangeLayoutTest
+    public class ChangeLayoutTest : BaseUseCase
     {
-        private readonly ArchiveClient client;
+        private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
+            configuration => new ArchiveClient(configuration).ChangeLayoutAsync(this.request);
 
-        private Func<Task<Result<Unit>>> Operation => () => this.client.ChangeLayoutAsync(this.request);
         private readonly Result<ChangeLayoutRequest> request;
-        private readonly UseCaseHelper helper;
 
-        public ChangeLayoutTest()
-        {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new ArchiveClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
-            this.request = BuildRequest(this.helper.Fixture);
-        }
+        public ChangeLayoutTest() => this.request = BuildRequest(this.Helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<ChangeLayoutRequest, Unit>(this.client
-                .ChangeLayoutAsync);
+            await this.Helper.VerifyReturnsFailureGivenRequestIsFailure<ChangeLayoutRequest, Unit>(
+                (configuration, failureRequest) =>
+                    new ArchiveClient(configuration).ChangeLayoutAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.Helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.BuildExpectedRequest(), this.Operation);
+
+        private ExpectedRequest BuildExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
+                Content = this.request
+                    .Map(value => this.Helper.Serializer.SerializeObject(new {value.Layout}))
+                    .IfFailure(string.Empty),
+            };
 
         private static Result<ChangeLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
             ChangeLayoutRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>(),
                 fixture.Create<Layout>());
-
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request))
-                .UsingPut();
     }
 }

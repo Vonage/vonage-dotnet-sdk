@@ -33,6 +33,16 @@ public class SessionClient
     }
 
     /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="configuration">The client configuration.</param>
+    public SessionClient(VonageHttpClientConfiguration configuration)
+    {
+        this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.Build());
+        this.createSessionUseCase = new CreateSessionUseCase(this.vonageClient);
+    }
+
+    /// <summary>
     ///     Changes how the stream is displayed in the layout of a composed Vonage Video archive.
     /// </summary>
     /// <param name="request">The request.</param>

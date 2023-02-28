@@ -38,10 +38,7 @@ public readonly struct Maybe<TA>
     /// <summary>
     ///     Constructor for a None.
     /// </summary>
-    public Maybe()
-    {
-        this.IsSome = false;
-    }
+    public Maybe() => this.IsSome = false;
 
     /// <summary>
     ///     Monadic bind operation.
@@ -62,7 +59,7 @@ public readonly struct Maybe<TA>
     /// </summary>
     /// <returns>The value if in Some state.</returns>
     /// <exception cref="UnsafeValueException">When in None state.</exception>
-    public TA GetUnsafe() => this.Match(_ => _, () => throw new UnsafeValueException("State is none."));
+    public TA GetUnsafe() => this.IfNone(() => throw new UnsafeValueException("State is none."));
 
     /// <summary>
     ///     Returns the result of the operation if Maybe is in the None state, the Some value otherwise.

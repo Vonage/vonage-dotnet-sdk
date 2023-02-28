@@ -57,14 +57,14 @@ namespace Vonage.Common.Test
         /// <param name="operation">The call operation.</param>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         public async Task VerifyReturnsExpectedValueGivenApiResponseIsSuccess<TResponse>(ExpectedRequest expected,
-            Func<HttpClient, Task<Result<TResponse>>> operation)
+            Func<VonageHttpClientConfiguration, Task<Result<TResponse>>> operation)
         {
             var expectedResponse = this.Fixture.Create<TResponse>();
             var messageHandler = FakeHttpRequestHandler
                 .Build(HttpStatusCode.OK)
                 .WithExpectedRequest(expected)
                 .WithResponseContent(this.Serializer.SerializeObject(expectedResponse));
-            var result = await operation(messageHandler.ToHttpClient());
+            var result = await operation(this.CreateConfiguration(messageHandler));
             result.Should().BeSuccess(response =>
                 this.Serializer.SerializeObject(response).Should()
                     .Be(this.Serializer.SerializeObject(expectedResponse)));
@@ -77,7 +77,7 @@ namespace Vonage.Common.Test
         /// <param name="operation">The call operation.</param>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         public async Task VerifyReturnsFailureGivenApiResponseCannotBeParsed<TResponse>(ExpectedRequest expected,
-            Func<HttpClient, Task<Result<TResponse>>> operation)
+            Func<VonageHttpClientConfiguration, Task<Result<TResponse>>> operation)
         {
             var body = this.Fixture.Create<string>();
             var expectedFailureMessage = $"Unable to deserialize '{body}' into '{typeof(TResponse).Name}'.";
@@ -85,7 +85,7 @@ namespace Vonage.Common.Test
                 .Build(HttpStatusCode.OK)
                 .WithExpectedRequest(expected)
                 .WithResponseContent(body);
-            var result = await operation(messageHandler.ToHttpClient());
+            var result = await operation(this.CreateConfiguration(messageHandler));
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
@@ -98,7 +98,7 @@ namespace Vonage.Common.Test
         /// <returns>The property.</returns>
         public Property VerifyReturnsFailureGivenApiResponseIsError<TResponse>(
             ExpectedRequest expected,
-            Func<HttpClient, Task<Result<TResponse>>> operation) =>
+            Func<VonageHttpClientConfiguration, Task<Result<TResponse>>> operation) =>
             Prop.ForAll(
                 FsCheckExtensions.GetErrorResponses(),
                 error =>
@@ -111,7 +111,7 @@ namespace Vonage.Common.Test
                         messageHandler = messageHandler.WithResponseContent(this.Serializer.SerializeObject(error));
                     }
 
-                    operation(messageHandler.ToHttpClient()).Result.Should()
+                    operation(this.CreateConfiguration(messageHandler)).Result.Should()
                         .BeFailure(error.ToHttpFailure());
                 });
 
@@ -124,7 +124,7 @@ namespace Vonage.Common.Test
         /// <returns>The property.</returns>
         public Property VerifyReturnsFailureGivenErrorCannotBeParsed<TResponse>(
             ExpectedRequest expected,
-            Func<HttpClient, Task<Result<TResponse>>> operation) =>
+            Func<VonageHttpClientConfiguration, Task<Result<TResponse>>> operation) =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
                 FsCheckExtensions.GetNonEmptyStrings(),
@@ -133,7 +133,7 @@ namespace Vonage.Common.Test
                     var messageHandler = FakeHttpRequestHandler.Build(statusCode)
                         .WithExpectedRequest(expected)
                         .WithResponseContent(jsonError);
-                    operation(messageHandler.ToHttpClient())
+                    operation(this.CreateConfiguration(messageHandler))
                         .Result
                         .Should()
                         .BeFailure(ResultFailure.FromErrorMessage(
@@ -147,11 +147,11 @@ namespace Vonage.Common.Test
         /// <typeparam name="TRequest">The type of the request.</typeparam>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         public async Task VerifyReturnsFailureGivenRequestIsFailure<TRequest, TResponse>(
-            Func<HttpClient, Result<TRequest>, Task<Result<TResponse>>> operation)
+            Func<VonageHttpClientConfiguration, Result<TRequest>, Task<Result<TResponse>>> operation)
         {
             var messageHandler = FakeHttpRequestHandler.Build(HttpStatusCode.OK);
             var expectedFailure = ResultFailure.FromErrorMessage(this.Fixture.Create<string>());
-            var result = await operation(messageHandler.ToHttpClient(),
+            var result = await operation(this.CreateConfiguration(messageHandler),
                 Result<TRequest>.FromFailure(expectedFailure));
             result.Should().BeFailure(expectedFailure);
         }
@@ -162,12 +162,18 @@ namespace Vonage.Common.Test
         /// <param name="expected">Expected values for the incoming request.</param>
         /// <param name="operation">The call operation.</param>
         public async Task VerifyReturnsUnitGivenApiResponseIsSuccess(ExpectedRequest expected,
-            Func<HttpClient, Task<Result<Unit>>> operation)
+            Func<VonageHttpClientConfiguration, Task<Result<Unit>>> operation)
         {
             var messageHandler = FakeHttpRequestHandler.Build(HttpStatusCode.OK).WithExpectedRequest(expected);
-            var result = await operation(messageHandler.ToHttpClient());
+            var result = await operation(this.CreateConfiguration(messageHandler));
             result.Should().BeSuccess(Unit.Default);
         }
+
+        public static UseCaseHelperNew WithSerializer(JsonSerializer serializer) => new(serializer);
+
+        private VonageHttpClientConfiguration CreateConfiguration(FakeHttpRequestHandler handler) =>
+            new(handler.ToHttpClient(), () => this.Fixture.Create<string>(),
+                this.Fixture.Create<string>());
     }
 
     public struct ExpectedRequest

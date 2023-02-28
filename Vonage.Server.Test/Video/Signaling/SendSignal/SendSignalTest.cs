@@ -1,52 +1,56 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
-using Vonage.Server.Serialization;
 using Vonage.Server.Video.Signaling;
 using Vonage.Server.Video.Signaling.Common;
 using Vonage.Server.Video.Signaling.SendSignal;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Signaling.SendSignal
 {
-    public class SendSignalTest
+    public class SendSignalTest : BaseUseCase
     {
-        private Func<Task<Result<Unit>>> Operation => () => this.client.SendSignalAsync(this.request);
-        private readonly Result<SendSignalRequest> request;
-        private readonly SignalingClient client;
-        private readonly UseCaseHelper helper;
+        private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
+            configuration => new SignalingClient(configuration).SendSignalAsync(this.request);
 
-        public SendSignalTest()
-        {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new SignalingClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
-            this.request = BuildRequest(this.helper.Fixture);
-        }
+        private readonly Result<SendSignalRequest> request;
+
+        public SendSignalTest() => this.request = BuildRequest(this.Helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<SendSignalRequest, Unit>(this.client
-                .SendSignalAsync);
+            await this.Helper.VerifyReturnsFailureGivenRequestIsFailure<SendSignalRequest, Unit>(
+                (configuration, failureRequest) =>
+                    new SignalingClient(configuration).SendSignalAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.Helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.BuildExpectedRequest(), this.Operation);
+
+        private ExpectedRequest BuildExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
+                Content = this.request
+                    .Map(value => this.Helper.Serializer.SerializeObject(value.Content))
+                    .IfFailure(string.Empty),
+            };
 
         private static Result<SendSignalRequest> BuildRequest(ISpecimenBuilder fixture) =>
             SendSignalRequest.Parse(
@@ -54,16 +58,5 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignal
                 fixture.Create<string>(),
                 fixture.Create<string>(),
                 fixture.Create<SignalContent>());
-
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(value.Content))
-                    .IfFailure(string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPost();
-        }
     }
 }

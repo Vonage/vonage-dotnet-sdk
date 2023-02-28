@@ -29,6 +29,13 @@ public class ModerationClient
                 new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="configuration">The client configuration.</param>
+    public ModerationClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
+        new VonageHttpClient(configuration, JsonSerializerBuilder.Build());
+
+    /// <summary>
     ///     Forces a client to disconnect from a session
     /// </summary>
     /// <param name="request">The request.</param>

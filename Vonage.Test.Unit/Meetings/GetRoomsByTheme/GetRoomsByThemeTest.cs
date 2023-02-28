@@ -1,58 +1,62 @@
 ﻿using System;
+using System.IO.Abstractions.TestingHelpers;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Meetings;
 using Vonage.Meetings.GetRoomsByTheme;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
 {
-    public class GetRoomsByThemeTest
+    public class GetRoomsByThemeTest : BaseUseCase
     {
-        private Func<Task<Result<GetRoomsByThemeResponse>>> Operation =>
-            () => this.client.GetRoomsByThemeAsync(this.request);
-
-        private readonly MeetingsClient client;
+        private Func<VonageHttpClientConfiguration, Task<Result<GetRoomsByThemeResponse>>> Operation =>
+            configuration => new MeetingsClient(configuration, new MockFileSystem()).GetRoomsByThemeAsync(this.request);
 
         private readonly Result<GetRoomsByThemeRequest> request;
-        private readonly UseCaseHelper helper;
 
-        public GetRoomsByThemeTest()
-        {
-            this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
-            this.client = MeetingsClientFactory.Create(this.helper);
-            this.request = BuildRequest(this.helper.Fixture);
-        }
+        public GetRoomsByThemeTest() => this.request = BuildRequest(this.helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed() =>
-            await this.helper.VerifyReturnsFailureGivenApiResponseCannotBeParsed(this.CreateRequest(), this.Operation);
+            await this.helper.VerifyReturnsFailureGivenApiResponseCannotBeParsed(this.BuildExpectedRequest(),
+                this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
+
+        [Fact]
+        public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
+            await this.helper
+                .VerifyReturnsFailureGivenRequestIsFailure<GetRoomsByThemeRequest, GetRoomsByThemeResponse>(
+                    (configuration, failureRequest) =>
+                        new MeetingsClient(configuration, new MockFileSystem()).GetRoomsByThemeAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
+                this.Operation);
+
+        private ExpectedRequest BuildExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
+            };
 
         private static Result<GetRoomsByThemeRequest> BuildRequest(ISpecimenBuilder fixture) =>
             GetRoomsByThemeVonageRequestBuilder.Build(fixture.Create<Guid>()).Create();
-
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet();
     }
 }
