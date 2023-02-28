@@ -52,6 +52,12 @@ namespace Vonage.Common.Test
         public static string GetPathFromRequest<T>(Result<T> request) where T : IVonageRequest =>
             request.Match(value => value.GetEndpointPath(), failure => string.Empty);
 
+        /// <summary>
+        ///     Verifies the operation returns the expected value given the response is success.
+        /// </summary>
+        /// <param name="expected">Expected values for the incoming request.</param>
+        /// <param name="operation">The call operation.</param>
+        /// <typeparam name="TResponse">The type of the response.</typeparam>
         public async Task VerifyReturnsExpectedValueGivenApiResponseIsSuccess<TResponse>(ExpectedRequest expected,
             Func<HttpClient, Task<Result<TResponse>>> operation)
         {
