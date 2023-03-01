@@ -29,12 +29,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         HttpMessageHandler,
         ICustomHandlerExpectsRequest
     {
-        private readonly Maybe<MappingRequest> pendingRequest = Maybe<MappingRequest>.None;
         private readonly ReadOnlyCollection<Mapping> requestMappings;
-
-        private CustomHttpMessageHandler(IEnumerable<Mapping> requestMappings, MappingRequest pendingRequest)
-            : this(requestMappings) =>
-            this.pendingRequest = pendingRequest;
 
         public Uri BaseUri => new Uri("http://fake-host/api");
 
