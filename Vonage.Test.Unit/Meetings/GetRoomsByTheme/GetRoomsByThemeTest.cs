@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
     public class GetRoomsByThemeTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<GetRoomsByThemeResponse>>> Operation =>
-            configuration => new MeetingsClient(configuration, new MockFileSystem()).GetRoomsByThemeAsync(this.request);
+            configuration => MeetingsClientFactory.Create(configuration).GetRoomsByThemeAsync(this.request);
 
         private readonly Result<GetRoomsByThemeRequest> request;
 

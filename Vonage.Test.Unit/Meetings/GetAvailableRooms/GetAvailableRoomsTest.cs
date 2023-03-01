@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO.Abstractions.TestingHelpers;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -9,7 +8,6 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Meetings;
 using Vonage.Meetings.GetAvailableRooms;
 using Xunit;
 
@@ -19,7 +17,7 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
     {
         private Func<VonageHttpClientConfiguration, Task<Result<GetAvailableRoomsResponse>>> Operation =>
             configuration =>
-                new MeetingsClient(configuration, new MockFileSystem()).GetAvailableRoomsAsync(this.request);
+                MeetingsClientFactory.Create(configuration).GetAvailableRoomsAsync(this.request);
 
         private readonly GetAvailableRoomsRequest request;
 

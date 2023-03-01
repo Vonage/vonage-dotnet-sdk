@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
     public class GetRoomTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Room>>> Operation =>
-            configuration => new MeetingsClient(configuration, new MockFileSystem()).GetRoomAsync(this.request);
+            configuration => MeetingsClientFactory.Create(configuration).GetRoomAsync(this.request);
 
         private readonly Result<GetRoomRequest> request;
 

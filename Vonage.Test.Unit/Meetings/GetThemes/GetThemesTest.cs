@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO.Abstractions.TestingHelpers;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -12,7 +11,6 @@ using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
-using Vonage.Meetings;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.GetThemes;
 using Xunit;
@@ -21,36 +19,36 @@ namespace Vonage.Test.Unit.Meetings.GetThemes
 {
     public class GetThemesTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<Theme[]>>> Operation =>
-            configuration => new MeetingsClient(configuration, new MockFileSystem()).GetThemesAsync();
+        private static Func<VonageHttpClientConfiguration, Task<Result<Theme[]>>> Operation =>
+            configuration => MeetingsClientFactory.Create(configuration).GetThemesAsync();
 
         [Fact]
         public async Task ShouldReturnEmptyArray_GivenResponseIsEmpty()
         {
             var client = FakeHttpRequestHandler
                 .Build(HttpStatusCode.OK)
-                .WithExpectedRequest(this.BuildExpectedRequest())
+                .WithExpectedRequest(BuildExpectedRequest())
                 .ToHttpClient();
             var configuration = new VonageHttpClientConfiguration(client, () => this.helper.Fixture.Create<string>(),
                 this.helper.Fixture.Create<string>());
-            var result = await this.Operation(configuration);
+            var result = await Operation(configuration);
             result.Should().BeSuccess(success => success.Should().BeEmpty());
         }
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(), Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenStatusCodeIsFailure() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(), Operation);
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
-                this.Operation);
+            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
+                Operation);
 
-        private ExpectedRequest BuildExpectedRequest() =>
+        private static ExpectedRequest BuildExpectedRequest() =>
             new ExpectedRequest
             {
                 Method = HttpMethod.Get,

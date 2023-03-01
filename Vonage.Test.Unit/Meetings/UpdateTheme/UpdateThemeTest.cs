@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
     public class UpdateThemeTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Theme>>> Operation =>
-            configuration => new MeetingsClient(configuration, new MockFileSystem()).UpdateThemeAsync(this.request);
+            configuration => MeetingsClientFactory.Create(configuration).UpdateThemeAsync(this.request);
 
         private readonly Result<UpdateThemeRequest> request;
 

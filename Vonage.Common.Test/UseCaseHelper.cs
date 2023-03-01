@@ -23,23 +23,20 @@ namespace Vonage.Common.Test
             this.Serializer = new JsonSerializer();
             this.Fixture = new Fixture();
             this.Fixture.Customize(new SupportMutableValueTypesCustomization());
-            this.Token = this.Fixture.Create<string>();
         }
-
-        public Fixture Fixture { get; }
-        public JsonSerializer Serializer { get; }
-
-        public string Token { get; }
 
         /// <summary>
         ///     Creates the helper and initialize dependencies.
         /// </summary>
         /// <param name="serializer">A specific serializer.</param>
-        public UseCaseHelper(JsonSerializer serializer)
+        private UseCaseHelper(JsonSerializer serializer)
             : this()
         {
             this.Serializer = serializer;
         }
+
+        public Fixture Fixture { get; }
+        public JsonSerializer Serializer { get; }
 
         /// <summary>
         ///     Retrieves the path from a request.
@@ -51,17 +48,16 @@ namespace Vonage.Common.Test
             request.Match(value => value.GetEndpointPath(), _ => string.Empty);
 
         /// <summary>
+        /// Returns a request's content as a string.
         /// </summary>
-        /// <param name="request"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public async Task<string> ReadRequestContent<T>(Result<T> request) where T : IVonageRequest
-        {
-            var content = await request
+        /// <param name="request">The request.</param>
+        /// <typeparam name="T">The request type.</typeparam>
+        /// <returns>The string content.</returns>
+        public static async Task<string> ReadRequestContent<T>(Result<T> request) where T : IVonageRequest =>
+            await request
                 .Map(value => value.BuildRequestMessage())
-                .MapAsync(value => value.Content.ReadAsStringAsync());
-            return content.IfFailure(string.Empty);
-        }
+                .MapAsync(value => value.Content.ReadAsStringAsync())
+                .IfFailure(string.Empty);
 
         /// <summary>
         ///     Verifies the operation returns the expected value given the response is success.
@@ -182,6 +178,11 @@ namespace Vonage.Common.Test
             result.Should().BeSuccess(Unit.Default);
         }
 
+        /// <summary>
+        ///     Initializes the helper with a specific serializer.
+        /// </summary>
+        /// <param name="serializer">The serializer.</param>
+        /// <returns>The helper.</returns>
         public static UseCaseHelper WithSerializer(JsonSerializer serializer) => new(serializer);
 
         private VonageHttpClientConfiguration CreateConfiguration(FakeHttpRequestHandler handler) =>

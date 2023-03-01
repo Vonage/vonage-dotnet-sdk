@@ -18,8 +18,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
     public class UpdateApplicationTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<UpdateApplicationResponse>>> Operation =>
-            configuration =>
-                new MeetingsClient(configuration, new MockFileSystem()).UpdateApplicationAsync(this.request);
+            configuration => MeetingsClientFactory.Create(configuration).UpdateApplicationAsync(this.request);
 
         private readonly Result<UpdateApplicationRequest> request;
 

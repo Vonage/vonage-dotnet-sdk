@@ -13,26 +13,26 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
 {
     public class GetDialNumbersTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<GetDialNumbersResponse[]>>> Operation =>
+        private static Func<VonageHttpClientConfiguration, Task<Result<GetDialNumbersResponse[]>>> Operation =>
             configuration => MeetingsClientFactory.Create(configuration).GetDialNumbersAsync();
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(), Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed() =>
             await this.helper.VerifyReturnsFailureGivenApiResponseCannotBeParsed(BuildExpectedRequest(),
-                this.Operation);
+                Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenStatusCodeIsFailure() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(), Operation);
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
-                this.Operation);
+                Operation);
 
         private static ExpectedRequest BuildExpectedRequest() =>
             new ExpectedRequest

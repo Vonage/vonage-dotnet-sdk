@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
     public class UpdateRoomTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Room>>> Operation =>
-            configuration => new MeetingsClient(configuration, new MockFileSystem()).UpdateRoomAsync(this.request);
+            configuration => MeetingsClientFactory.Create(configuration).UpdateRoomAsync(this.request);
 
         private readonly Result<UpdateRoomRequest> request;
 
