@@ -39,6 +39,19 @@ public static class ResultExtensions
     }
 
     /// <summary>
+    ///     Returns the default value if the Result is in the Failure state, the success value otherwise.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="defaultValue">Value to return if in the Failure state.</param>
+    /// <typeparam name="TSource">Source type.</typeparam>
+    /// <returns>The default value if the Result is in the Failure state, the success value otherwise.</returns>
+    public static async Task<TSource> IfFailure<TSource>(this Task<Result<TSource>> task, TSource defaultValue)
+    {
+        var result = await task;
+        return result.IfFailure(defaultValue);
+    }
+
+    /// <summary>
     ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
     /// </summary>
     /// <param name="task">Asynchronous result.</param>
