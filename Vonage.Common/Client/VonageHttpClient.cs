@@ -34,6 +34,19 @@ public class VonageHttpClient
     }
 
     /// <summary>
+    ///     Creates a custom Http Client for Vonage purposes.
+    /// </summary>
+    /// <param name="configuration">The custom configuration.</param>
+    /// <param name="serializer">The serializer.</param>
+    public VonageHttpClient(VonageHttpClientConfiguration configuration, IJsonSerializer serializer)
+    {
+        this.client = configuration.HttpClient;
+        this.jsonSerializer = serializer;
+        this.options = new HttpClientOptions(configuration.TokenGeneration, configuration.UserAgent);
+        this.userAgent = GetFormattedUserAgent(this.options.UserAgent);
+    }
+
+    /// <summary>
     ///     Sends a HttpRequest.
     /// </summary>
     /// <param name="request">The request to send.</param>

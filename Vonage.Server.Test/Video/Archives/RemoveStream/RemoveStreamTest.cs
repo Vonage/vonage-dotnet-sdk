@@ -1,65 +1,57 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
-using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.RemoveStream;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.RemoveStream
 {
-    public class RemoveStreamTest
+    public class RemoveStreamTest : BaseUseCase
     {
-        private readonly ArchiveClient client;
+        private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
+            configuration => new ArchiveClient(configuration).RemoveStreamAsync(this.request);
 
-        private Func<Task<Result<Unit>>> Operation => () => this.client.RemoveStreamAsync(this.request);
         private readonly Result<RemoveStreamRequest> request;
-        private readonly UseCaseHelper helper;
 
-        public RemoveStreamTest()
-        {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new ArchiveClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
-            this.request = BuildRequest(this.helper.Fixture);
-        }
+        public RemoveStreamTest() => this.request = BuildRequest(this.Helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<RemoveStreamRequest, Unit>(this.client
-                .RemoveStreamAsync);
+            await this.Helper.VerifyReturnsFailureGivenRequestIsFailure<RemoveStreamRequest, Unit>(
+                (configuration, failureRequest) =>
+                    new ArchiveClient(configuration).RemoveStreamAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.Helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.BuildExpectedRequest(), this.Operation);
+
+        private ExpectedRequest BuildExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = new HttpMethod("PATCH"),
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
+                Content = this.request
+                    .Map(value => this.Helper.Serializer.SerializeObject(new {RemoveStream = value.StreamId}))
+                    .IfFailure(string.Empty),
+            };
 
         private static Result<RemoveStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
             RemoveStreamRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>(), fixture.Create<Guid>());
-
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(new {RemoveStream = value.StreamId}))
-                    .IfFailure(string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPatch();
-        }
     }
 }

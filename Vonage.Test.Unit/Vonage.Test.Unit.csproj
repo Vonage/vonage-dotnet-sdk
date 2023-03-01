@@ -123,11 +123,11 @@
 		<PackageReference Include="coverlet.collector" Version="3.2.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
+		</PackageReference>
+	</ItemGroup>
 
 	<ItemGroup>
-        <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
+		<ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
 		<ProjectReference Include="..\Vonage\Vonage.csproj" />
 	</ItemGroup>
 
@@ -391,7 +391,7 @@
 		<Content Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-        <None Remove="Meetings\GetRecording\Data\ShouldDeserialize200-response.json"/>
+		<None Remove="Meetings\GetRecording\Data\ShouldDeserialize200-response.json"/>
 		<Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
@@ -404,81 +404,81 @@
 		<Content Include="Meetings\GetThemes\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-        <None Remove="Meetings\GetTheme\Data\ShouldDeserialize200-response.json"/>
+		<None Remove="Meetings\GetTheme\Data\ShouldDeserialize200-response.json"/>
 		<Content Include="Meetings\GetTheme\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-        <None Remove="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json"/>
+		<None Remove="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json"/>
 		<Content Include="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-        <None Remove="Meetings\UpdateRoom\Data\ShouldDeserialize200-response.json"/>
+		<None Remove="Meetings\UpdateRoom\Data\ShouldDeserialize200-response.json"/>
 		<Content Include="Meetings\UpdateRoom\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-        <None Remove="Meetings\CreateTheme\Data\ShouldSerialize-request.json"/>
+		<None Remove="Meetings\CreateTheme\Data\ShouldSerialize-request.json"/>
 		<Content Include="Meetings\CreateTheme\Data\ShouldSerialize-request.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-        <None Remove="Meetings\CreateTheme\Data\ShouldSerializeWithDefaultValues-request.json"/>
+		<None Remove="Meetings\CreateTheme\Data\ShouldSerializeWithDefaultValues-request.json"/>
         <Content Include="Meetings\CreateTheme\Data\ShouldSerializeWithDefaultValues-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Meetings\CreateTheme\Data\ShouldDeserialize200-response.json"/>
+		<None Remove="Meetings\CreateTheme\Data\ShouldDeserialize200-response.json"/>
         <Content Include="Meetings\CreateTheme\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json"/>
+		<None Remove="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json"/>
         <Content Include="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Meetings\UpdateApplication\Data\ShouldSerialize-request.json"/>
+		<None Remove="Meetings\UpdateApplication\Data\ShouldSerialize-request.json"/>
         <Content Include="Meetings\UpdateApplication\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-        <None Remove="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\UpdateTheme\Data\ShouldSerialize-request.json"/>
-        <Content Include="Meetings\UpdateTheme\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json"/>
-        <Content Include="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize200-response.json"/>
-        <Content Include="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\UpdateThemeLogo\Data\UploadLogo_ShouldSerialize-request.json"/>
-        <None Remove="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json"/>
-        <Content Include="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\CreateRoom\Data\ShouldSerialize-request.json"/>
-        <Content Include="Meetings\CreateRoom\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\UpdateRoom\Data\ShouldSerialize-request.json"/>
-        <Content Include="Meetings\UpdateRoom\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\CreateRoom\Data\ShouldSerializeWithDefaultValues-request.json"/>
-        <Content Include="Meetings\CreateRoom\Data\ShouldSerializeWithDefaultValues-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json"/>
-        <Content Include="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="Meetings\GetAvailableRooms\Data\ShouldDeserializeProd200-response.json"/>
-        <None Remove="Meetings\CreateTheme\Data\ShouldDeserializeError-response.json"/>
-    </ItemGroup>
+		<None Remove="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\UpdateTheme\Data\ShouldSerialize-request.json"/>
+		<Content Include="Meetings\UpdateTheme\Data\ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json"/>
+		<Content Include="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize200-response.json"/>
+		<Content Include="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\UpdateThemeLogo\Data\UploadLogo_ShouldSerialize-request.json"/>
+		<None Remove="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json"/>
+		<Content Include="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\CreateRoom\Data\ShouldSerialize-request.json"/>
+		<Content Include="Meetings\CreateRoom\Data\ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\UpdateRoom\Data\ShouldSerialize-request.json"/>
+		<Content Include="Meetings\UpdateRoom\Data\ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\CreateRoom\Data\ShouldSerializeWithDefaultValues-request.json"/>
+		<Content Include="Meetings\CreateRoom\Data\ShouldSerializeWithDefaultValues-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json"/>
+		<Content Include="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Meetings\GetAvailableRooms\Data\ShouldDeserializeProd200-response.json"/>
+		<None Remove="Meetings\CreateTheme\Data\ShouldDeserializeError-response.json"/>
+	</ItemGroup>
 
 </Project>

@@ -27,6 +27,13 @@ public class SignalingClient
             new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="configuration">The client configuration.</param>
+    public SignalingClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
+        new VonageHttpClient(configuration, JsonSerializerBuilder.Build());
+
+    /// <summary>
     ///     Sends signals to a single participant in an active Vonage Video session.
     /// </summary>
     /// <param name="request">The signal request.</param>

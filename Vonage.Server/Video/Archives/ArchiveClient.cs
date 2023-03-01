@@ -34,6 +34,13 @@ public class ArchiveClient
             new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="configuration">The client configuration.</param>
+    public ArchiveClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
+        new VonageHttpClient(configuration, JsonSerializerBuilder.Build());
+
+    /// <summary>
     ///     Adds the stream included in a composed archive that was started with the streamMode set to "manual".
     /// </summary>
     /// <param name="request">The request.</param>

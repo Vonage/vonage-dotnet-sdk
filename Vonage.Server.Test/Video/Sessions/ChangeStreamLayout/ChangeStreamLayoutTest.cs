@@ -1,67 +1,60 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
-using Vonage.Server.Serialization;
 using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Sessions.ChangeStreamLayout;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sessions.ChangeStreamLayout
 {
-    public class ChangeStreamLayoutTest
+    public class ChangeStreamLayoutTest : BaseUseCase
     {
-        private Func<Task<Result<Unit>>> Operation => () => this.client.ChangeStreamLayoutAsync(this.request);
-        private readonly Result<ChangeStreamLayoutRequest> request;
-        private readonly SessionClient client;
-        private readonly UseCaseHelper helper;
+        private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
+            configuration => new SessionClient(configuration).ChangeStreamLayoutAsync(this.request);
 
-        public ChangeStreamLayoutTest()
-        {
-            this.helper = new UseCaseHelper(JsonSerializerBuilder.Build());
-            this.client = new SessionClient(this.helper.Server.CreateClient(), () => this.helper.Token,
-                this.helper.Fixture.Create<string>());
-            this.request = BuildRequest(this.helper.Fixture);
-        }
+        private readonly Result<ChangeStreamLayoutRequest> request;
+
+        public ChangeStreamLayoutTest() => this.request = BuildRequest(this.Helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.Helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<ChangeStreamLayoutRequest, Unit>(this.client
-                .ChangeStreamLayoutAsync);
+            await this.Helper.VerifyReturnsFailureGivenRequestIsFailure<ChangeStreamLayoutRequest, Unit>(
+                (configuration, failureRequest) =>
+                    new SessionClient(configuration).ChangeStreamLayoutAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.Helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.BuildExpectedRequest(), this.Operation);
+
+        private ExpectedRequest BuildExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
+                Content = this.request
+                    .Map(value => this.Helper.Serializer.SerializeObject(new {value.Items}))
+                    .IfFailure(string.Empty),
+            };
 
         private static Result<ChangeStreamLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
             ChangeStreamLayoutRequest.Parse(
                 fixture.Create<Guid>(),
                 fixture.Create<string>(),
                 fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>());
-
-        private IRequestBuilder CreateRequest()
-        {
-            var serializedItems =
-                this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(new {value.Items}))
-                    .IfFailure(string.Empty);
-            return WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request), serializedItems)
-                .UsingPut();
-        }
     }
 }

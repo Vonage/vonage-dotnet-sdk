@@ -1,63 +1,60 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
-using Vonage.Meetings;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.GetRecording;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetRecording
 {
-    public class GetRecordingTest
+    public class GetRecordingTest : BaseUseCase
     {
-        private Func<Task<Result<Recording>>> Operation =>
-            () => this.client.GetRecordingAsync(this.request);
+        private Func<VonageHttpClientConfiguration, Task<Result<Recording>>> Operation =>
+            configuration => MeetingsClientFactory.Create(configuration).GetRecordingAsync(this.request);
 
-        private readonly MeetingsClient client;
         private readonly Result<GetRecordingRequest> request;
-        private readonly UseCaseHelper helper;
 
-        public GetRecordingTest()
-        {
-            this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
-            this.client = MeetingsClientFactory.Create(this.helper);
-            this.request = BuildRequest(this.helper.Fixture);
-        }
+        public GetRecordingTest() => this.request = BuildRequest(this.helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed() =>
-            await this.helper.VerifyReturnsFailureGivenApiResponseCannotBeParsed(this.CreateRequest(), this.Operation);
+            await this.helper.VerifyReturnsFailureGivenApiResponseCannotBeParsed(this.BuildExpectedRequest(),
+                this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetRecordingRequest, Recording>(this.client
-                .GetRecordingAsync);
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetRecordingRequest, Recording>(
+                (configuration, failureRequest) =>
+                    MeetingsClientFactory.Create(configuration).GetRecordingAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
+                this.Operation);
+
+        private ExpectedRequest BuildExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
+            };
 
         private static Result<GetRecordingRequest> BuildRequest(ISpecimenBuilder fixture) =>
             GetRecordingRequest.Parse(fixture.Create<Guid>());
-
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingGet();
     }
 }

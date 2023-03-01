@@ -32,6 +32,13 @@ public class BroadcastClient
             new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="configuration">The client configuration.</param>
+    public BroadcastClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
+        new VonageHttpClient(configuration, JsonSerializerBuilder.Build());
+
+    /// <summary>
     ///     Adds a stream to a live streaming broadcast.
     /// </summary>
     /// <param name="request">The request.</param>

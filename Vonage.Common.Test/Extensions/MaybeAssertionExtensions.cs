@@ -11,6 +11,18 @@ namespace Vonage.Common.Test.Extensions
         {
         }
 
+        public AndConstraint<MaybeAssertionExtensions<T>> Be(Maybe<T> expected, string because = "",
+            params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:option} to be {0}{reason}, ", expected)
+                .Given(() => this.Subject)
+                .ForCondition(subject => subject.Equals(expected))
+                .FailWith("but found {0}.", this.Subject);
+            return new AndConstraint<MaybeAssertionExtensions<T>>(this);
+        }
+
         public AndConstraint<MaybeAssertionExtensions<T>> BeNone(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion

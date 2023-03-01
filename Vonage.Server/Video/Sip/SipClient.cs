@@ -29,6 +29,13 @@ public class SipClient
                 new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
+    ///     Creates a new client.
+    /// </summary>
+    /// <param name="configuration">The client configuration.</param>
+    public SipClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
+        new VonageHttpClient(configuration, JsonSerializer.BuildWithCamelCase());
+
+    /// <summary>
     ///     Connects your SIP platform to an OpenTok session.
     /// </summary>
     /// <param name="request">The request.</param>

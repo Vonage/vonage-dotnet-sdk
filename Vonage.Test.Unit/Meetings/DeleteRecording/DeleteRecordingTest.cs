@@ -1,60 +1,53 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
-using Vonage.Meetings;
 using Vonage.Meetings.DeleteRecording;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.DeleteRecording
 {
-    public class DeleteRecordingTest
+    public class DeleteRecordingTest : BaseUseCase
     {
-        private Func<Task<Result<Common.Monads.Unit>>> Operation =>
-            () => this.client.DeleteRecordingAsync(this.request);
+        private Func<VonageHttpClientConfiguration, Task<Result<Common.Monads.Unit>>> Operation =>
+            configuration => MeetingsClientFactory.Create(configuration).DeleteRecordingAsync(this.request);
 
-        private readonly MeetingsClient client;
         private readonly Result<DeleteRecordingRequest> request;
-        private readonly UseCaseHelper helper;
 
-        public DeleteRecordingTest()
-        {
-            this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
-            this.client = MeetingsClientFactory.Create(this.helper);
-            this.request = BuildRequest(this.helper.Fixture);
-        }
+        public DeleteRecordingTest() => this.request = BuildRequest(this.helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.CreateRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.CreateRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<DeleteRecordingRequest, Common.Monads.Unit>(this
-                .client
-                .DeleteRecordingAsync);
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<DeleteRecordingRequest, Common.Monads.Unit>(
+                (configuration, failureRequest) =>
+                    MeetingsClientFactory.Create(configuration).DeleteRecordingAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.CreateRequest(), this.Operation);
+            await this.helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.BuildExpectedRequest(), this.Operation);
+
+        private ExpectedRequest BuildExpectedRequest() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
+            };
 
         private static Result<DeleteRecordingRequest> BuildRequest(ISpecimenBuilder fixture) =>
             DeleteRecordingRequest.Parse(fixture.Create<Guid>());
-
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token, UseCaseHelper.GetPathFromRequest(this.request))
-                .UsingDelete();
     }
 }
