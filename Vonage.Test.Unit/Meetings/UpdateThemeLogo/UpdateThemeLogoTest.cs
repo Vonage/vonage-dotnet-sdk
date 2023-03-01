@@ -214,9 +214,8 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri(this.CreateLogosUrlResponse()[0].Url.AbsoluteUri),
-                Content = this.helper
-                    .ReadRequestContent<UploadLogoRequest>(
-                        UploadLogoRequest.FromLogosUrl(this.CreateLogosUrlResponse()[0], Array.Empty<byte>())).Result,
+                Content = UseCaseHelper.ReadRequestContent<UploadLogoRequest>(
+                    UploadLogoRequest.FromLogosUrl(this.CreateLogosUrlResponse()[0], Array.Empty<byte>())).Result,
             };
 
         private ExpectedRequest BuildExpectedRequestForUrlRetrieval() =>
