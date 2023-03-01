@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
-using FsCheck;
-using FsCheck.Xunit;
 using Vonage.Common;
+using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
@@ -14,64 +14,96 @@ using Vonage.Common.Test.Extensions;
 using Vonage.Meetings;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.UpdateThemeLogo;
-using WireMock.RequestBuilders;
-using WireMock.ResponseBuilders;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
 {
-    public class UpdateThemeLogoTest
+    public class UpdateThemeLogoTest : BaseUseCase
     {
-        private Func<Task<Result<Common.Monads.Unit>>> Operation =>
-            () => this.client.UpdateThemeLogoAsync(this.request);
+        private Func<VonageHttpClientConfiguration, Task<Result<Common.Monads.Unit>>> Operation =>
+            _ => new MeetingsClient(this.BuildConfiguration(), InitializeFileSystem()).UpdateThemeLogoAsync(
+                this.request);
 
-        private readonly MeetingsClient client;
+        private UpdateThemeLogoMessageHandler.IExpectRequest customHandler;
+
         private readonly UpdateThemeLogoRequest request;
-        private readonly UseCaseHelper helper;
 
         public UpdateThemeLogoTest()
         {
-            this.helper = new UseCaseHelper(JsonSerializer.BuildWithSnakeCase());
-            this.client = MeetingsClientFactory.Create(this.helper, InitializeFileSystem());
             this.request = UpdateThemeLogoRequest
                 .Parse(new Guid("ca242c86-25e5-46b1-ad75-97ffd67452ea"), ThemeLogoType.White, @"C:\ThisIsATest.txt")
                 .GetSuccessUnsafe();
+            this.customHandler = UpdateThemeLogoMessageHandler.Build();
         }
 
         [Fact]
         public async Task ShouldReturnFailure_GivenFileDoesNotExist() =>
-            (await MeetingsClientFactory.Create(this.helper, new MockFileSystem()).UpdateThemeLogoAsync(this.request))
+            (await new MeetingsClient(this.BuildConfiguration(), new MockFileSystem()).UpdateThemeLogoAsync(
+                this.request))
             .Should()
             .BeFailure(ResultFailure.FromErrorMessage("The file cannot be found."));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper.VerifyReturnsFailureGivenRequestIsFailure<UpdateThemeLogoRequest, Common.Monads.Unit>(
-                this.client
-                    .UpdateThemeLogoAsync);
+                (_, failureRequest) =>
+                    new MeetingsClient(this.BuildConfiguration(), new MockFileSystem()).UpdateThemeLogoAsync(
+                        failureRequest));
 
-        [Property]
-        public Property ShouldReturnFailureWhenFinalizingLogo_GivenApiErrorCannotBeParsed()
+        [Fact]
+        public void ShouldReturnFailureWhenFinalizingLogo_GivenApiErrorCannotBeParsed()
         {
             this.RetrievingLogosUrlReturnsValidResponse();
             this.UploadingLogoReturnsValidResponse();
-            return this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.GetFinalizingRequestBuilder(),
-                this.Operation);
+            var expectedContent = this.helper.Fixture.Create<string>();
+            this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing())
+                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                {
+                    Code = this.helper.Fixture.Create<HttpStatusCode>(),
+                    Content = expectedContent,
+                });
+            this.Operation(this.BuildConfiguration())
+                .Result
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage(
+                    $"Unable to deserialize '{expectedContent}' into '{nameof(ErrorResponse)}'."));
         }
 
-        [Property]
-        public Property ShouldReturnFailureWhenFinalizingLogo_GivenStatusCodeIsFailure()
+        [Fact]
+        public void ShouldReturnFailureWhenFinalizingLogo_GivenStatusCodeIsFailure()
         {
             this.RetrievingLogosUrlReturnsValidResponse();
             this.UploadingLogoReturnsValidResponse();
-            return this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.GetFinalizingRequestBuilder(),
-                this.Operation);
+            var error = new ErrorResponse(HttpStatusCode.Unauthorized, "Some content.");
+            var expectedResponse = new UpdateThemeLogoMessageHandler.ExpectedResponse
+            {
+                Code = error.Code,
+                Content = this.helper.Serializer.SerializeObject(error),
+            };
+            this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing())
+                .RespondWith(expectedResponse);
+            this.Operation(this.BuildConfiguration())
+                .Result
+                .Should()
+                .BeFailure(error.ToHttpFailure());
         }
 
-        [Property]
-        public Property ShouldReturnFailureWhenRetrievingUploadUrls_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.GetUrlRetrievalRequestBuilder(),
-                this.Operation);
+        [Fact]
+        public void ShouldReturnFailureWhenRetrievingUploadUrls_GivenApiErrorCannotBeParsed()
+        {
+            var expectedContent = this.helper.Fixture.Create<string>();
+            this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUrlRetrieval())
+                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                {
+                    Code = this.helper.Fixture.Create<HttpStatusCode>(),
+                    Content = expectedContent,
+                });
+            this.Operation(this.BuildConfiguration())
+                .Result
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage(
+                    $"Unable to deserialize '{expectedContent}' into '{nameof(ErrorResponse)}'."));
+        }
 
         [Fact]
         public async Task ShouldReturnFailureWhenRetrievingUploadUrls_GivenApiResponseCannotBeParsed()
@@ -79,10 +111,13 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             var body = this.helper.Fixture.Create<string>();
             var expectedFailureMessage =
                 $"Unable to deserialize '{body}' into '{typeof(GetUploadLogosUrlResponse[]).Name}'.";
-            this.helper.Server
-                .Given(this.GetUrlRetrievalRequestBuilder())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, body));
-            var result = await this.Operation();
+            this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUrlRetrieval())
+                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                {
+                    Code = HttpStatusCode.OK,
+                    Content = body,
+                });
+            var result = await this.Operation(this.BuildConfiguration());
             result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
         }
 
@@ -90,32 +125,64 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         public async Task ShouldReturnFailureWhenRetrievingUploadUrls_GivenResponseContainsMatchingLogo()
         {
             var expectedResponse = this.helper.Serializer.SerializeObject(Array.Empty<GetUploadLogosUrlResponse>());
-            this.helper.Server
-                .Given(this.GetUrlRetrievalRequestBuilder())
-                .RespondWith(WireMockExtensions.CreateResponse(HttpStatusCode.OK, expectedResponse));
-            var result = await this.Operation();
+            this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUrlRetrieval())
+                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                {
+                    Code = HttpStatusCode.OK,
+                    Content = expectedResponse,
+                });
+            var result = await this.Operation(this.BuildConfiguration());
             result.Should().BeFailure(ResultFailure.FromErrorMessage(UpdateThemeLogoUseCase.NoMatchingLogo));
         }
 
-        [Property]
-        public Property ShouldReturnFailureWhenRetrievingUploadUrls_GivenStatusCodeIsFailure() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.GetUrlRetrievalRequestBuilder(),
-                this.Operation);
-
-        [Property]
-        public Property ShouldReturnFailureWhenUploadingLogo_GivenApiErrorCannotBeParsed()
+        [Fact]
+        public void ShouldReturnFailureWhenRetrievingUploadUrls_GivenStatusCodeIsFailure()
         {
-            this.RetrievingLogosUrlReturnsValidResponse();
-            return this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.GetUploadRequestBuilder(),
-                this.Operation);
+            var error = new ErrorResponse(HttpStatusCode.BadRequest, "Some content");
+            var expectedResponse = new UpdateThemeLogoMessageHandler.ExpectedResponse
+            {
+                Code = error.Code,
+                Content = this.helper.Serializer.SerializeObject(error),
+            };
+            this.customHandler.GivenRequest(this.BuildExpectedRequestForUrlRetrieval()).RespondWith(expectedResponse);
+            this.Operation(this.BuildConfiguration()).Result.Should()
+                .BeFailure(error.ToHttpFailure());
         }
 
-        [Property]
-        public Property ShouldReturnFailureWhenUploadingLogo_GivenStatusCodeIsFailure()
+        [Fact]
+        public void ShouldReturnFailureWhenUploadingLogo_GivenApiErrorCannotBeParsed()
         {
             this.RetrievingLogosUrlReturnsValidResponse();
-            return this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.GetUploadRequestBuilder(),
-                this.Operation);
+            var expectedContent = this.helper.Fixture.Create<string>();
+            this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUploading())
+                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                {
+                    Code = this.helper.Fixture.Create<HttpStatusCode>(),
+                    Content = expectedContent,
+                });
+            this.Operation(this.BuildConfiguration())
+                .Result
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage(
+                    $"Unable to deserialize '{expectedContent}' into '{nameof(ErrorResponse)}'."));
+        }
+
+        [Fact]
+        public void ShouldReturnFailureWhenUploadingLogo_GivenStatusCodeIsFailure()
+        {
+            this.RetrievingLogosUrlReturnsValidResponse();
+            var error = new ErrorResponse(HttpStatusCode.Unauthorized, "Some content.");
+            var expectedResponse = new UpdateThemeLogoMessageHandler.ExpectedResponse
+            {
+                Code = error.Code,
+                Content = this.helper.Serializer.SerializeObject(error),
+            };
+            this.customHandler.GivenRequest(this.BuildExpectedRequestForUploading())
+                .RespondWith(expectedResponse);
+            this.Operation(this.BuildConfiguration())
+                .Result
+                .Should()
+                .BeFailure(error.ToHttpFailure());
         }
 
         [Fact]
@@ -124,15 +191,49 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.RetrievingLogosUrlReturnsValidResponse();
             this.UploadingLogoReturnsValidResponse();
             this.FinalizingLogoReturnsValidResponse();
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.GetFinalizingRequestBuilder(),
+            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(
+                this.BuildExpectedRequestForFinalizing(),
                 this.Operation);
         }
+
+        private VonageHttpClientConfiguration BuildConfiguration() =>
+            new VonageHttpClientConfiguration(this.customHandler.ToHttpClient(),
+                () => this.helper.Fixture.Create<string>(), this.helper.Fixture.Create<string>());
+
+        private ExpectedRequest BuildExpectedRequestForFinalizing() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri(UseCaseHelper.GetPathFromRequest<FinalizeLogoRequest>(new FinalizeLogoRequest(
+                    this.request.ThemeId,
+                    this.CreateLogosUrlResponse()[0].Fields.Key)), UriKind.Relative),
+            };
+
+        private ExpectedRequest BuildExpectedRequestForUploading() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(this.CreateLogosUrlResponse()[0].Url.AbsoluteUri),
+                Content = this.helper
+                    .ReadRequestContent<UploadLogoRequest>(
+                        UploadLogoRequest.FromLogosUrl(this.CreateLogosUrlResponse()[0], Array.Empty<byte>())).Result,
+            };
+
+        private ExpectedRequest BuildExpectedRequestForUrlRetrieval() =>
+            new ExpectedRequest
+            {
+                Method = HttpMethod.Get,
+                RequestUri =
+                    new Uri(
+                        UseCaseHelper.GetPathFromRequest<GetUploadLogosUrlRequest>(GetUploadLogosUrlRequest.Default),
+                        UriKind.Relative),
+            };
 
         private GetUploadLogosUrlResponse[] CreateLogosUrlResponse() => new[]
         {
             new GetUploadLogosUrlResponse
             {
-                Url = new Uri($"{this.helper.Server.Url}/beta/upload"),
+                Url = new Uri($"{this.customHandler.BaseUri}/beta/upload"),
                 Fields = new UploadDetails
                 {
                     Bucket = "bucket",
@@ -184,30 +285,9 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         };
 
         private void FinalizingLogoReturnsValidResponse() =>
-            this.helper.Server
-                .Given(this.GetFinalizingRequestBuilder())
-                .RespondWith(Response
-                    .Create()
-                    .WithStatusCode(HttpStatusCode.OK));
-
-        private IRequestBuilder GetFinalizingRequestBuilder() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token,
-                    UseCaseHelper.GetPathFromRequest<FinalizeLogoRequest>(new FinalizeLogoRequest(this.request.ThemeId,
-                        this.CreateLogosUrlResponse()[0].Fields.Key)))
-                .UsingPut();
-
-        private IRequestBuilder GetUploadRequestBuilder() =>
-            WireMock.RequestBuilders.Request
-                .Create()
-                .WithUrl(this.CreateLogosUrlResponse()[0].Url.AbsoluteUri)
-                .UsingPost();
-
-        private IRequestBuilder GetUrlRetrievalRequestBuilder() =>
-            WireMockExtensions
-                .CreateRequest(this.helper.Token,
-                    UseCaseHelper.GetPathFromRequest<GetUploadLogosUrlRequest>(GetUploadLogosUrlRequest.Default))
-                .UsingGet();
+            this.customHandler = this.customHandler
+                .GivenRequest(this.BuildExpectedRequestForFinalizing())
+                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse {Code = HttpStatusCode.OK});
 
         private static MockFileSystem InitializeFileSystem() =>
             new MockFileSystem(new Dictionary<string, MockFileData>
@@ -216,18 +296,20 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             });
 
         private void RetrievingLogosUrlReturnsValidResponse() =>
-            this.helper.Server
-                .Given(this.GetUrlRetrievalRequestBuilder())
-                .RespondWith(Response
-                    .Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.helper.Serializer.SerializeObject(this.CreateLogosUrlResponse())));
+            this.customHandler = this.customHandler
+                .GivenRequest(this.BuildExpectedRequestForUrlRetrieval())
+                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                {
+                    Code = HttpStatusCode.OK,
+                    Content = this.helper.Serializer.SerializeObject(this.CreateLogosUrlResponse()),
+                });
 
         private void UploadingLogoReturnsValidResponse() =>
-            this.helper.Server
-                .Given(this.GetUploadRequestBuilder())
-                .RespondWith(Response
-                    .Create()
-                    .WithStatusCode(HttpStatusCode.OK));
+            this.customHandler = this.customHandler
+                .GivenRequest(this.BuildExpectedRequestForUploading())
+                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                {
+                    Code = HttpStatusCode.OK,
+                });
     }
 }

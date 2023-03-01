@@ -6,8 +6,8 @@ namespace Vonage.Server.Test.Video
     public abstract class BaseUseCase
     {
         protected BaseUseCase() =>
-            this.Helper = UseCaseHelperNew.WithSerializer(JsonSerializerBuilder.Build());
+            this.Helper = UseCaseHelper.WithSerializer(JsonSerializerBuilder.Build());
 
-        protected readonly UseCaseHelperNew Helper;
+        protected readonly UseCaseHelper Helper;
     }
 }

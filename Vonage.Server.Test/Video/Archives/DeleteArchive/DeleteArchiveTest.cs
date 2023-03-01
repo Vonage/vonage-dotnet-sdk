@@ -8,10 +8,8 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.DeleteArchive;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.DeleteArchive
@@ -52,10 +50,5 @@ namespace Vonage.Server.Test.Video.Archives.DeleteArchive
 
         private static Result<DeleteArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
             DeleteArchiveRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>());
-
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.Helper.Token, UseCaseHelper.GetPathFromRequest(this.request))
-                .UsingDelete();
     }
 }

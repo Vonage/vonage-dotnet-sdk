@@ -8,11 +8,9 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.Common;
 using Vonage.Server.Video.Archives.StopArchive;
-using WireMock.RequestBuilders;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.StopArchive
@@ -59,9 +57,5 @@ namespace Vonage.Server.Test.Video.Archives.StopArchive
 
         private static Result<StopArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
             StopArchiveRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>());
-
-        private IRequestBuilder CreateRequest() =>
-            WireMockExtensions
-                .CreateRequest(this.Helper.Token, UseCaseHelper.GetPathFromRequest(this.request)).UsingPost();
     }
 }
