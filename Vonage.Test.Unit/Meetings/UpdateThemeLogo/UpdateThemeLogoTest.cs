@@ -21,10 +21,10 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
     public class UpdateThemeLogoTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Common.Monads.Unit>>> Operation =>
-            _ => new MeetingsClient(this.BuildConfiguration(), InitializeFileSystem()).UpdateThemeLogoAsync(
+            configuration => new MeetingsClient(configuration, InitializeFileSystem()).UpdateThemeLogoAsync(
                 this.request);
 
-        private UpdateThemeLogoMessageHandler.IExpectRequest customHandler;
+        private ICustomHandlerExpectsRequest customHandler;
 
         private readonly UpdateThemeLogoRequest request;
 
@@ -33,7 +33,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.request = UpdateThemeLogoRequest
                 .Parse(new Guid("ca242c86-25e5-46b1-ad75-97ffd67452ea"), ThemeLogoType.White, @"C:\ThisIsATest.txt")
                 .GetSuccessUnsafe();
-            this.customHandler = UpdateThemeLogoMessageHandler.Build();
+            this.customHandler = CustomHttpMessageHandler.Build();
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.UploadingLogoReturnsValidResponse();
             var expectedContent = this.helper.Fixture.Create<string>();
             this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing())
-                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                .RespondWith(new MappingResponse
                 {
                     Code = this.helper.Fixture.Create<HttpStatusCode>(),
                     Content = expectedContent,
@@ -75,12 +75,12 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.RetrievingLogosUrlReturnsValidResponse();
             this.UploadingLogoReturnsValidResponse();
             var error = new ErrorResponse(HttpStatusCode.Unauthorized, "Some content.");
-            var expectedResponse = new UpdateThemeLogoMessageHandler.ExpectedResponse
+            var expectedResponse = new MappingResponse
             {
                 Code = error.Code,
                 Content = this.helper.Serializer.SerializeObject(error),
             };
-            this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing())
+            this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing())
                 .RespondWith(expectedResponse);
             this.Operation(this.BuildConfiguration())
                 .Result
@@ -93,7 +93,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         {
             var expectedContent = this.helper.Fixture.Create<string>();
             this.customHandler = this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval())
-                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                .RespondWith(new MappingResponse
                 {
                     Code = this.helper.Fixture.Create<HttpStatusCode>(),
                     Content = expectedContent,
@@ -112,7 +112,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             var expectedFailureMessage =
                 $"Unable to deserialize '{body}' into '{typeof(GetUploadLogosUrlResponse[]).Name}'.";
             this.customHandler = this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval())
-                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                .RespondWith(new MappingResponse
                 {
                     Code = HttpStatusCode.OK,
                     Content = body,
@@ -126,7 +126,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         {
             var expectedResponse = this.helper.Serializer.SerializeObject(Array.Empty<GetUploadLogosUrlResponse>());
             this.customHandler = this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval())
-                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                .RespondWith(new MappingResponse
                 {
                     Code = HttpStatusCode.OK,
                     Content = expectedResponse,
@@ -139,12 +139,13 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         public void ShouldReturnFailureWhenRetrievingUploadUrls_GivenStatusCodeIsFailure()
         {
             var error = new ErrorResponse(HttpStatusCode.BadRequest, "Some content");
-            var expectedResponse = new UpdateThemeLogoMessageHandler.ExpectedResponse
+            var expectedResponse = new MappingResponse
             {
                 Code = error.Code,
                 Content = this.helper.Serializer.SerializeObject(error),
             };
-            this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval()).RespondWith(expectedResponse);
+            this.customHandler = this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval())
+                .RespondWith(expectedResponse);
             this.Operation(this.BuildConfiguration()).Result.Should()
                 .BeFailure(error.ToHttpFailure());
         }
@@ -155,7 +156,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.RetrievingLogosUrlReturnsValidResponse();
             var expectedContent = this.helper.Fixture.Create<string>();
             this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUploading())
-                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                .RespondWith(new MappingResponse
                 {
                     Code = this.helper.Fixture.Create<HttpStatusCode>(),
                     Content = expectedContent,
@@ -172,12 +173,12 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         {
             this.RetrievingLogosUrlReturnsValidResponse();
             var error = new ErrorResponse(HttpStatusCode.Unauthorized, "Some content.");
-            var expectedResponse = new UpdateThemeLogoMessageHandler.ExpectedResponse
+            var expectedResponse = new MappingResponse
             {
                 Code = error.Code,
                 Content = this.helper.Serializer.SerializeObject(error),
             };
-            this.customHandler.GivenRequest(this.BuildExpectedRequestForUploading())
+            this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUploading())
                 .RespondWith(expectedResponse);
             this.Operation(this.BuildConfiguration())
                 .Result
@@ -191,14 +192,17 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.RetrievingLogosUrlReturnsValidResponse();
             this.UploadingLogoReturnsValidResponse();
             this.FinalizingLogoReturnsValidResponse();
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(
-                this.BuildExpectedRequestForFinalizing(),
-                this.Operation);
+            this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing()).RespondWith(
+                new MappingResponse
+                {
+                    Code = HttpStatusCode.OK,
+                });
+            var result = await this.Operation(this.BuildConfiguration());
+            result.Should().BeSuccess(_ => { });
         }
 
         private VonageHttpClientConfiguration BuildConfiguration() =>
-            new VonageHttpClientConfiguration(this.customHandler.ToHttpClient(),
-                () => this.helper.Fixture.Create<string>(), this.helper.Fixture.Create<string>());
+            this.customHandler.ToConfiguration(this.helper.Fixture);
 
         private ExpectedRequest BuildExpectedRequestForFinalizing() =>
             new ExpectedRequest
@@ -286,7 +290,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         private void FinalizingLogoReturnsValidResponse() =>
             this.customHandler = this.customHandler
                 .GivenRequest(this.BuildExpectedRequestForFinalizing())
-                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse {Code = HttpStatusCode.OK});
+                .RespondWith(new MappingResponse {Code = HttpStatusCode.OK});
 
         private static MockFileSystem InitializeFileSystem() =>
             new MockFileSystem(new Dictionary<string, MockFileData>
@@ -297,7 +301,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         private void RetrievingLogosUrlReturnsValidResponse() =>
             this.customHandler = this.customHandler
                 .GivenRequest(BuildExpectedRequestForUrlRetrieval())
-                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                .RespondWith(new MappingResponse
                 {
                     Code = HttpStatusCode.OK,
                     Content = this.helper.Serializer.SerializeObject(this.CreateLogosUrlResponse()),
@@ -306,7 +310,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         private void UploadingLogoReturnsValidResponse() =>
             this.customHandler = this.customHandler
                 .GivenRequest(this.BuildExpectedRequestForUploading())
-                .RespondWith(new UpdateThemeLogoMessageHandler.ExpectedResponse
+                .RespondWith(new MappingResponse
                 {
                     Code = HttpStatusCode.OK,
                 });
