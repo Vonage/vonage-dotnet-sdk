@@ -41,13 +41,7 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
         public async Task ShouldReturnFailure_GivenResponseContainsNoSession()
         {
             var expectedResponse = this.Helper.Serializer.SerializeObject(Array.Empty<CreateSessionResponse>());
-            var client = FakeHttpRequestHandler
-                .Build(HttpStatusCode.OK)
-                .WithExpectedRequest(this.BuildExpectedRequest())
-                .WithResponseContent(expectedResponse)
-                .ToHttpClient();
-            var configuration = new VonageHttpClientConfiguration(client, () => this.Helper.Fixture.Create<string>(),
-                this.Helper.Fixture.Create<string>());
+            var configuration = this.BuildConfigurationWithOkResponse(expectedResponse);
             var result = await this.Operation(configuration);
             result.Should().BeFailure(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
         }
@@ -64,13 +58,7 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
                 this.session, this.Helper.Fixture.Create<CreateSessionResponse>(),
                 this.Helper.Fixture.Create<CreateSessionResponse>(),
             });
-            var client = FakeHttpRequestHandler
-                .Build(HttpStatusCode.OK)
-                .WithExpectedRequest(this.BuildExpectedRequest())
-                .WithResponseContent(expectedResponse)
-                .ToHttpClient();
-            var configuration = new VonageHttpClientConfiguration(client, () => this.Helper.Fixture.Create<string>(),
-                this.Helper.Fixture.Create<string>());
+            var configuration = this.BuildConfigurationWithOkResponse(expectedResponse);
             var result = await this.Operation(configuration);
             result.Should().BeSuccess(this.session);
         }
@@ -79,16 +67,20 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
         public async Task ShouldReturnSuccess_GivenSessionIsCreated()
         {
             var expectedResponse = this.Helper.Serializer.SerializeObject(new[] {this.session});
-            var client = FakeHttpRequestHandler
-                .Build(HttpStatusCode.OK)
-                .WithExpectedRequest(this.BuildExpectedRequest())
-                .WithResponseContent(expectedResponse)
-                .ToHttpClient();
-            var configuration = new VonageHttpClientConfiguration(client, () => this.Helper.Fixture.Create<string>(),
-                this.Helper.Fixture.Create<string>());
+            var configuration = this.BuildConfigurationWithOkResponse(expectedResponse);
             var result = await this.Operation(configuration);
             result.Should().BeSuccess(this.session);
         }
+
+        private VonageHttpClientConfiguration BuildConfigurationWithOkResponse(string expectedResponse) =>
+            new VonageHttpClientConfiguration(
+                FakeHttpRequestHandler
+                    .Build(HttpStatusCode.OK)
+                    .WithExpectedRequest(this.BuildExpectedRequest())
+                    .WithResponseContent(expectedResponse)
+                    .ToHttpClient(),
+                () => this.Helper.Fixture.Create<string>(),
+                this.Helper.Fixture.Create<string>());
 
         private ExpectedRequest BuildExpectedRequest() =>
             new ExpectedRequest
