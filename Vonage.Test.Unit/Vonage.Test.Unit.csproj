@@ -17,48 +17,6 @@
 	  <Compile Remove="Request\**" />
 	  <EmbeddedResource Remove="Request\**" />
 	  <None Remove="Request\**" />
-	  <None Update="Data\MessagesTests\SendMessengerTextAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMessengerTextAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMessengerImageAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMessengerImageAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMessengerAudioAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMessengerAudioAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMessengerVideoAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMessengerVideoAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMessengerFileAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMessengerFileAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendViberTextAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendViberTextAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendViberImageAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendViberImageAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	  <None Update="Data\NccoTests\TestRecord-request.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
@@ -110,24 +68,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoFixture" Version="4.18.0"/>
-		<PackageReference Include="FluentAssertions" Version="6.10.0"/>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
-		<PackageReference Include="Moq" Version="4.18.4"/>
-		<PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="19.1.18"/>
-		<PackageReference Include="xunit" Version="2.4.2"/>
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="coverlet.collector" Version="3.2.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
+        <PackageReference Include="AutoFixture" Version="4.18.0"/>
+        <PackageReference Include="FluentAssertions" Version="6.10.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
+        <PackageReference Include="Moq" Version="4.18.4"/>
+        <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="19.1.18"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="coverlet.collector" Version="3.2.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
+        <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
 		<ProjectReference Include="..\Vonage\Vonage.csproj" />
 	</ItemGroup>
 
@@ -136,84 +94,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Data\MessagesTests\SendWhatsAppFileAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppTemplateAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppCustomAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppVideoAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppFileAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppTemplateAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppCustomAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppVideoAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppAudioAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppAudioAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppImageAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppImageAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppTextAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendWhatsAppTextAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMmsVideoAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMmsAudioAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMmsVideoAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMmsAudioAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMmsVcardAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMmsVcardAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsInvalidCredentials-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMmsImageAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsOk-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsInvalidCredentials-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendMmsImageAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\MessagesTests\SendSmsAsyncReturnsOk-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	  <None Update="Data\MessagingTests\SendSmsAsyncBadResponse.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
@@ -391,7 +271,7 @@
 		<Content Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<None Remove="Meetings\GetRecording\Data\ShouldDeserialize200-response.json"/>
+        <None Remove="Meetings\GetRecording\Data\ShouldDeserialize200-response.json"/>
 		<Content Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
@@ -404,81 +284,249 @@
 		<Content Include="Meetings\GetThemes\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<None Remove="Meetings\GetTheme\Data\ShouldDeserialize200-response.json"/>
+        <None Remove="Meetings\GetTheme\Data\ShouldDeserialize200-response.json"/>
 		<Content Include="Meetings\GetTheme\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<None Remove="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json"/>
+        <None Remove="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json"/>
 		<Content Include="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<None Remove="Meetings\UpdateRoom\Data\ShouldDeserialize200-response.json"/>
+        <None Remove="Meetings\UpdateRoom\Data\ShouldDeserialize200-response.json"/>
 		<Content Include="Meetings\UpdateRoom\Data\ShouldDeserialize200-response.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<None Remove="Meetings\CreateTheme\Data\ShouldSerialize-request.json"/>
+        <None Remove="Meetings\CreateTheme\Data\ShouldSerialize-request.json"/>
 		<Content Include="Meetings\CreateTheme\Data\ShouldSerialize-request.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<None Remove="Meetings\CreateTheme\Data\ShouldSerializeWithDefaultValues-request.json"/>
+        <None Remove="Meetings\CreateTheme\Data\ShouldSerializeWithDefaultValues-request.json"/>
         <Content Include="Meetings\CreateTheme\Data\ShouldSerializeWithDefaultValues-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-		<None Remove="Meetings\CreateTheme\Data\ShouldDeserialize200-response.json"/>
+        <None Remove="Meetings\CreateTheme\Data\ShouldDeserialize200-response.json"/>
         <Content Include="Meetings\CreateTheme\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-		<None Remove="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json"/>
+        <None Remove="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json"/>
         <Content Include="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-		<None Remove="Meetings\UpdateApplication\Data\ShouldSerialize-request.json"/>
+        <None Remove="Meetings\UpdateApplication\Data\ShouldSerialize-request.json"/>
         <Content Include="Meetings\UpdateApplication\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<None Remove="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json"/>
-		<Content Include="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\UpdateTheme\Data\ShouldSerialize-request.json"/>
-		<Content Include="Meetings\UpdateTheme\Data\ShouldSerialize-request.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json"/>
-		<Content Include="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json"/>
-		<Content Include="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize200-response.json"/>
-		<Content Include="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize-request.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\UpdateThemeLogo\Data\UploadLogo_ShouldSerialize-request.json"/>
-		<None Remove="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json"/>
-		<Content Include="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\CreateRoom\Data\ShouldSerialize-request.json"/>
-		<Content Include="Meetings\CreateRoom\Data\ShouldSerialize-request.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\UpdateRoom\Data\ShouldSerialize-request.json"/>
-		<Content Include="Meetings\UpdateRoom\Data\ShouldSerialize-request.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\CreateRoom\Data\ShouldSerializeWithDefaultValues-request.json"/>
-		<Content Include="Meetings\CreateRoom\Data\ShouldSerializeWithDefaultValues-request.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json"/>
-		<Content Include="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<None Remove="Meetings\GetAvailableRooms\Data\ShouldDeserializeProd200-response.json"/>
-		<None Remove="Meetings\CreateTheme\Data\ShouldDeserializeError-response.json"/>
-	</ItemGroup>
+        <None Remove="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\UpdateTheme\Data\ShouldSerialize-request.json"/>
+        <Content Include="Meetings\UpdateTheme\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json"/>
+        <Content Include="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize200-response.json"/>
+        <Content Include="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\UpdateThemeLogo\Data\UploadLogo_ShouldSerialize-request.json"/>
+        <None Remove="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json"/>
+        <Content Include="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\CreateRoom\Data\ShouldSerialize-request.json"/>
+        <Content Include="Meetings\CreateRoom\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\UpdateRoom\Data\ShouldSerialize-request.json"/>
+        <Content Include="Meetings\UpdateRoom\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\CreateRoom\Data\ShouldSerializeWithDefaultValues-request.json"/>
+        <Content Include="Meetings\CreateRoom\Data\ShouldSerializeWithDefaultValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json"/>
+        <Content Include="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Meetings\GetAvailableRooms\Data\ShouldDeserializeProd200-response.json"/>
+        <None Remove="Meetings\CreateTheme\Data\ShouldDeserializeError-response.json"/>
+        <None Remove="Messages\Messenger\Data\SendMessengerAudioAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerAudioAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Messenger\Data\SendMessengerAudioAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerAudioAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Messenger\Data\SendMessengerFileAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerFileAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Messenger\Data\SendMessengerFileAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerFileAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Messenger\Data\SendMessengerImageAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerImageAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Messenger\Data\SendMessengerImageAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerImageAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Messenger\Data\SendMessengerTextAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerTextAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Messenger\Data\SendMessengerTextAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerTextAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Messenger\Data\SendMessengerVideoAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerVideoAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Messenger\Data\SendMessengerVideoAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Messenger\Data\SendMessengerVideoAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Mms\Data\SendMmsAudioAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Mms\Data\SendMmsAudioAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Mms\Data\SendMmsAudioAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Mms\Data\SendMmsAudioAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Mms\Data\SendMmsImageAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Mms\Data\SendMmsImageAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Mms\Data\SendMmsImageAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Mms\Data\SendMmsImageAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Mms\Data\SendMmsVcardAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Mms\Data\SendMmsVcardAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Mms\Data\SendMmsVcardAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Mms\Data\SendMmsVcardAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Mms\Data\SendMmsVideoAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Mms\Data\SendMmsVideoAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Mms\Data\SendMmsVideoAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Mms\Data\SendMmsVideoAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Sms\Data\SendSmsAsyncReturnsInvalidCredentials-request.json"/>
+        <Content Include="Messages\Sms\Data\SendSmsAsyncReturnsInvalidCredentials-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Sms\Data\SendSmsAsyncReturnsInvalidCredentials-response.json"/>
+        <Content Include="Messages\Sms\Data\SendSmsAsyncReturnsInvalidCredentials-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Sms\Data\SendSmsAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Sms\Data\SendSmsAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Sms\Data\SendSmsAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Sms\Data\SendSmsAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppImageAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppImageAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppCustomAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppCustomAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppAudioAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppAudioAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppAudioAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppAudioAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppImageAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppImageAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppTextAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppTextAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppTemplateAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppTemplateAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppVideoAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppVideoAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppCustomAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppCustomAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppFileAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppFileAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppTextAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppTextAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppVideoAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppVideoAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppTemplateAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppTemplateAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\WhatsApp\Data\SendWhatsAppFileAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppFileAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Viber\Data\SendViberImageAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Viber\Data\SendViberImageAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Viber\Data\SendViberImageAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Viber\Data\SendViberImageAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Viber\Data\SendViberTextAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Viber\Data\SendViberTextAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Viber\Data\SendViberTextAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Viber\Data\SendViberTextAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Messages\Messenger\Data"/>
+        <Folder Include="Messages\Mms\Data"/>
+        <Folder Include="Messages\Sms\Data"/>
+        <Folder Include="Messages\Viber\Data"/>
+        <Folder Include="Messages\WhatsApp\Data"/>
+    </ItemGroup>
 
 </Project>
