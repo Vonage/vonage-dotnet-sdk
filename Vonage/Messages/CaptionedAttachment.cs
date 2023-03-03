@@ -1,19 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace Vonage.Messages
+namespace Vonage.Messages;
+
+/// <summary>
+/// </summary>
+public class CaptionedAttachment
 {
-    public class CaptionedAttachment
-    {
-        /// <summary>
-        /// The URL of the attachment.
-        /// </summary>
-        [JsonProperty("url")]
-        public string Url { get; set; }
+    /// <summary>
+    ///     Additional text to accompany the attachment.
+    /// </summary>
+    [JsonPropertyOrder(1)]
+    public string Caption { get; set; }
 
-        /// <summary>
-        /// Additional text to accompany the attachment.
-        /// </summary>
-        [JsonProperty("caption")]
-        public string Caption { get; set; }
-    }
+    /// <summary>
+    ///     The URL of the attachment.
+    /// </summary>
+    [JsonPropertyOrder(0)]
+    public string Url { get; set; }
 }

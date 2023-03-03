@@ -1,16 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace Vonage.Messages.WhatsApp
+namespace Vonage.Messages.WhatsApp;
+
+public class WhatsAppTemplateRequest : MessageRequestBase
 {
-    public class WhatsAppTemplateRequest : MessageRequestBase
-    {
-        public override MessagesChannel Channel => MessagesChannel.WhatsApp;
-        public override MessagesMessageType MessageType => MessagesMessageType.Template;
+    public override MessagesChannel Channel => MessagesChannel.WhatsApp;
+    public override MessagesMessageType MessageType => MessagesMessageType.Template;
 
-        [JsonProperty("template")]
-        public MessageTemplate Template { get; set; }
+    [JsonPropertyOrder(7)] public MessageTemplate Template { get; set; }
 
-        [JsonProperty("whatsapp")]
-        public MessageWhatsApp WhatsApp { get; set; }
-    }
+    [JsonPropertyName("whatsapp")]
+    [JsonPropertyOrder(6)]
+    public MessageWhatsApp WhatsApp { get; set; }
 }

@@ -1,25 +1,25 @@
 {
   "channel": "whatsapp",
   "message_type": "template",
-  "template": {
-    "name": "Amazing template",
-    "parameters":[
-      {
-        "default":"Vonage Verification"
-      },
-      {
-        "default":"64873"
-      },
-      {
-        "default":"10"
-      }
-    ]
-  },
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
   "whatsapp": {
     "policy": "deterministic",
     "locale": "en-GB"
   },
-  "to": "441234567890",
-  "from": "015417543010",
-  "client_ref": "abcdefg"
+  "template": {
+    "name": "Amazing template",
+    "parameters": [
+      {
+        "default": "Vonage Verification"
+      },
+      {
+        "default": "64873"
+      },
+      {
+        "default": "10"
+      }
+    ]
+  }
 }

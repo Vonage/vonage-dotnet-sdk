@@ -1,10 +1,10 @@
 {
   "channel": "messenger",
   "message_type": "image",
-  "image": {
-    "url": "https://test.com/image.png"
-  },
   "to": "441234567890",
   "from": "015417543010",
-  "client_ref": "abcdefg"
+  "client_ref": "abcdefg",
+  "image": {
+    "url": "https://test.com/image.png"
+  }
 }

@@ -1,23 +1,37 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Vonage.Request;
+using Vonage.Serialization;
 
-namespace Vonage.Messages
+namespace Vonage.Messages;
+
+/// <summary>
+/// </summary>
+public class MessagesClient : IMessagesClient
 {
-    public class MessagesClient : IMessagesClient
+    private const string Url = "/v1/messages";
+    private readonly Credentials credentials;
+    private readonly Uri uri;
+
+    /// <summary>
+    /// </summary>
+    /// <param name="credentials"></param>
+    public MessagesClient(Credentials credentials)
     {
-        private readonly Credentials _credentials;
-
-        public MessagesClient(Credentials credentials)
-        {
-            _credentials = credentials;
-        }
-
-        public async Task<MessagesResponse> SendAsync(MessageRequestBase message)
-        {
-            var uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/messages");
-            var result = await ApiRequest.DoRequestWithJsonContentAsync<MessagesResponse>("POST", uri, message,
-                ApiRequest.AuthType.Bearer, _credentials);
-            return result;
-        }
+        this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, Url);
+        this.credentials = credentials;
     }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    public Task<MessagesResponse> SendAsync(IMessage message) =>
+        ApiRequest.DoRequestWithJsonContentAsync(
+            "POST", this.uri,
+            message,
+            ApiRequest.AuthType.Bearer,
+            this.credentials,
+            value => JsonSerializerBuilder.Build().SerializeObject(value),
+            value => JsonSerializerBuilder.Build().DeserializeObject<MessagesResponse>(value).GetSuccessUnsafe());
 }

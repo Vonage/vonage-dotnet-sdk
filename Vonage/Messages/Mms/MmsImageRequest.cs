@@ -1,14 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace Vonage.Messages.Mms
+namespace Vonage.Messages.Mms;
+
+public class MmsImageRequest : MessageRequestBase
 {
-    public class MmsImageRequest : MessageRequestBase
-    {
-        [JsonProperty("image")]
-        public Attachment Image { get; set; }
+    public override MessagesChannel Channel => MessagesChannel.MMS;
+    [JsonPropertyOrder(6)] public Attachment Image { get; set; }
 
-        public override MessagesChannel Channel => MessagesChannel.MMS;
-
-        public override MessagesMessageType MessageType => MessagesMessageType.Image;
-    }
+    public override MessagesMessageType MessageType => MessagesMessageType.Image;
 }

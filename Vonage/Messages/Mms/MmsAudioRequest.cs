@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace Vonage.Messages.Mms
+namespace Vonage.Messages.Mms;
+
+public class MmsAudioRequest : MessageRequestBase
 {
-    public class MmsAudioRequest : MessageRequestBase
-    {
-        [JsonProperty("audio")]
-        public CaptionedAttachment Audio { get; set; }
+    [JsonPropertyOrder(6)] public CaptionedAttachment Audio { get; set; }
 
-        public override MessagesChannel Channel => MessagesChannel.MMS;
+    public override MessagesChannel Channel => MessagesChannel.MMS;
 
-        public override MessagesMessageType MessageType => MessagesMessageType.Audio;
-    }
+    public override MessagesMessageType MessageType => MessagesMessageType.Audio;
 }

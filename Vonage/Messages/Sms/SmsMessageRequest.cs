@@ -1,14 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Vonage.Messages.Sms;
 
-namespace Vonage.Messages.Sms
+public class SmsRequest : MessageRequestBase
 {
-    public class SmsRequest : MessageRequestBase
-    {
-        public override MessagesChannel Channel => MessagesChannel.SMS;
-        
-        public override MessagesMessageType MessageType => MessagesMessageType.Text;
+    public override MessagesChannel Channel => MessagesChannel.SMS;
 
-        [JsonProperty("text")]
-        public string Text { get; set; }
-    }
+    public override MessagesMessageType MessageType => MessagesMessageType.Text;
+
+    public string Text { get; set; }
 }

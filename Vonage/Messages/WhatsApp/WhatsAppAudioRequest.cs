@@ -1,16 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace Vonage.Messages.WhatsApp
+namespace Vonage.Messages.WhatsApp;
+
+public class WhatsAppAudioRequest : MessageRequestBase
 {
-    public class WhatsAppAudioRequest : MessageRequestBase
-    {
-        public override MessagesChannel Channel => MessagesChannel.WhatsApp;
-        public override MessagesMessageType MessageType => MessagesMessageType.Audio;
+    /// <summary>
+    ///     The audio attachment. Supports.aac, .m4a, .amr, .mp3 and.opus
+    /// </summary>
+    [JsonPropertyOrder(6)]
+    public Attachment Audio { get; set; }
 
-        /// <summary>
-        /// The audio attachment. Supports.aac, .m4a, .amr, .mp3 and.opus
-        /// </summary>
-        [JsonProperty("audio")]
-        public Attachment Audio { get; set; }
-    }
+    public override MessagesChannel Channel => MessagesChannel.WhatsApp;
+    public override MessagesMessageType MessageType => MessagesMessageType.Audio;
 }

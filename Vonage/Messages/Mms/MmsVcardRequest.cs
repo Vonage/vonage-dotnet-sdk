@@ -1,14 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace Vonage.Messages.Mms
+namespace Vonage.Messages.Mms;
+
+public class MmsVcardRequest : MessageRequestBase
 {
-    public class MmsVcardRequest : MessageRequestBase
-    {
-        [JsonProperty("vcard")]
-        public Attachment Vcard { get; set; }
+    public override MessagesChannel Channel => MessagesChannel.MMS;
 
-        public override MessagesChannel Channel => MessagesChannel.MMS;
-
-        public override MessagesMessageType MessageType => MessagesMessageType.Vcard;
-    }
+    public override MessagesMessageType MessageType => MessagesMessageType.Vcard;
+    [JsonPropertyOrder(6)] public Attachment Vcard { get; set; }
 }

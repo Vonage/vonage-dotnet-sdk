@@ -1,14 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace Vonage.Messages.Mms
+namespace Vonage.Messages.Mms;
+
+public class MmsVideoRequest : MessageRequestBase
 {
-    public class MmsVideoRequest : MessageRequestBase
-    {
-        [JsonProperty("video")]
-        public CaptionedAttachment Video { get; set; }
+    public override MessagesChannel Channel => MessagesChannel.MMS;
 
-        public override MessagesChannel Channel => MessagesChannel.MMS;
-
-        public override MessagesMessageType MessageType => MessagesMessageType.Video;
-    }
+    public override MessagesMessageType MessageType => MessagesMessageType.Video;
+    [JsonPropertyOrder(6)] public CaptionedAttachment Video { get; set; }
 }

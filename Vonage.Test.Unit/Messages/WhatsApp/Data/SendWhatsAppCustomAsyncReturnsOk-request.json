@@ -1,14 +1,14 @@
 {
   "channel": "whatsapp",
   "message_type": "custom",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
   "custom": {
     "type": "template",
     "template": {
       "something": "whatsapp:hsm:technology:nexmo",
       "name": "parcel_location"
     }
-  },
-  "to": "441234567890",
-  "from": "015417543010",
-  "client_ref": "abcdefg"
+  }
 }

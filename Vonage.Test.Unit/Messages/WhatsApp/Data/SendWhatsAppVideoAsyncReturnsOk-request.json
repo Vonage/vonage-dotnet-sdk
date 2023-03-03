@@ -1,11 +1,11 @@
 {
   "channel": "whatsapp",
   "message_type": "video",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
   "video": {
     "url": "https://test.com/me.mp4",
     "caption": "Me at the zoo"
-  },
-  "to": "441234567890",
-  "from": "015417543010",
-  "client_ref": "abcdefg"
+  }
 }
