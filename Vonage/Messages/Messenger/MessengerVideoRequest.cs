@@ -1,16 +1,11 @@
-using Newtonsoft.Json;
+namespace Vonage.Messages.Messenger;
 
-namespace Vonage.Messages.Messenger
+public class MessengerVideoRequest : MessageRequestBase
 {
-    public class MessengerVideoRequest : MessageRequestBase
-    {
-        public override MessagesChannel Channel => MessagesChannel.Messenger;
-        public override MessagesMessageType MessageType => MessagesMessageType.Video;
-        
-        [JsonProperty("video")]
-        public Attachment Video { get; set; }
-        
-        [JsonProperty("messenger")]
-        public MessengerRequestData Data { get; set; }
-    }
+    public override MessagesChannel Channel => MessagesChannel.Messenger;
+
+    public MessengerRequestData Data { get; set; }
+    public override MessagesMessageType MessageType => MessagesMessageType.Video;
+
+    public Attachment Video { get; set; }
 }

@@ -1,17 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace Vonage.Messages.WhatsApp
+namespace Vonage.Messages.WhatsApp;
+
+public class WhatsAppCustomRequest : MessageRequestBase
 {
-    public class WhatsAppCustomRequest : MessageRequestBase
-    {
-        public override MessagesChannel Channel => MessagesChannel.WhatsApp;
-        public override MessagesMessageType MessageType => MessagesMessageType.Custom;
+    public override MessagesChannel Channel => MessagesChannel.WhatsApp;
 
-        /// <summary>
-        /// A custom payload, which is passed directly to WhatsApp for certain features such as
-        /// templates and interactive messages.
-        /// </summary>
-        [JsonProperty("custom")]
-        public object Custom { get; set; }
-    }
+    /// <summary>
+    ///     A custom payload, which is passed directly to WhatsApp for certain features such as
+    ///     templates and interactive messages.
+    /// </summary>
+    [JsonPropertyOrder(6)]
+    public object Custom { get; set; }
+
+    public override MessagesMessageType MessageType => MessagesMessageType.Custom;
 }

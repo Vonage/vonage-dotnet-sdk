@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Vonage.Messages
+namespace Vonage.Messages;
+
+public interface IMessagesClient
 {
-    public interface IMessagesClient
-    {
-        Task<MessagesResponse> SendAsync(MessageRequestBase message);
-    }
+    Task<MessagesResponse> SendAsync(IMessage message);
 }

@@ -1,13 +1,10 @@
-using System.Runtime.Serialization;
+using System.ComponentModel;
 
-namespace Vonage.Messages.Viber
+namespace Vonage.Messages.Viber;
+
+public enum ViberMessageCategory
 {
-    public enum ViberMessageCategory
-    {
-        [EnumMember(Value = "transaction")]
-        Transaction = 0,
-        
-        [EnumMember(Value = "promotion")]
-        Promotion = 1
-    }
+    [Description("transaction")] Transaction = 0,
+
+    [Description("promotion")] Promotion = 1,
 }

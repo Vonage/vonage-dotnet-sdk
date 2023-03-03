@@ -27,6 +27,7 @@ public class JsonSerializer : IJsonSerializer
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
         this.settings.Converters.Add(new ColorJsonConverter());
     }
@@ -47,16 +48,16 @@ public class JsonSerializer : IJsonSerializer
         converters.ToList().ForEach(converter => this.settings.Converters.Add(converter));
 
     /// <summary>
-    ///     Builds a serializer with SnakeCase naming policy.
-    /// </summary>
-    /// <returns>The serializer.</returns>
-    public static JsonSerializer BuildWithSnakeCase() => new(JsonNamingPolicies.SnakeCaseLower);
-    
-    /// <summary>
     /// Builds a serializer with SnakeCase naming policy.
     /// </summary>
     /// <returns>The serializer.</returns>
     public static JsonSerializer BuildWithCamelCase() => new(JsonNamingPolicy.CamelCase);
+
+    /// <summary>
+    ///     Builds a serializer with SnakeCase naming policy.
+    /// </summary>
+    /// <returns>The serializer.</returns>
+    public static JsonSerializer BuildWithSnakeCase() => new(JsonNamingPolicies.SnakeCaseLower);
 
     /// <inheritdoc />
     public Result<T> DeserializeObject<T>(string serializedValue)

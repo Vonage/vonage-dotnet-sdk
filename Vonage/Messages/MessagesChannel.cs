@@ -1,22 +1,34 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
-namespace Vonage.Messages
+namespace Vonage.Messages;
+
+/// <summary>
+/// </summary>
+public enum MessagesChannel
 {
-    public enum MessagesChannel
-    {
-        [EnumMember(Value = "sms")]
-        SMS,
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "sms")] [Description("sms")]
+    SMS,
 
-        [EnumMember(Value = "mms")]
-        MMS,
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "mms")] [Description("mms")]
+    MMS,
 
-        [EnumMember(Value = "whatsapp")]
-        WhatsApp,
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "whatsapp")] [Description("whatsapp")]
+    WhatsApp,
 
-        [EnumMember(Value = "messenger")]
-        Messenger,
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "messenger")] [Description("messenger")]
+    Messenger,
 
-        [EnumMember(Value = "viber_service")]
-        ViberService
-    }
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "viber_service")] [Description("viber_service")]
+    ViberService,
 }

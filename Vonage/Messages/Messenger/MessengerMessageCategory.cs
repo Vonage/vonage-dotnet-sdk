@@ -1,16 +1,12 @@
-using System.Runtime.Serialization;
+using System.ComponentModel;
 
-namespace Vonage.Messages.Messenger
+namespace Vonage.Messages.Messenger;
+
+public enum MessengerMessageCategory
 {
-    public enum MessengerMessageCategory
-    {
-        [EnumMember(Value = "response")]
-        Response = 0,
-        
-        [EnumMember(Value = "update")] 
-        Update = 1,
-        
-        [EnumMember(Value = "message_tag")]
-        MessageTag = 2
-    }
+    [Description("response")] Response = 0,
+
+    [Description("update")] Update = 1,
+
+    [Description("message_tag")] MessageTag = 2,
 }
