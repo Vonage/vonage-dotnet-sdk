@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Server.Serialization;
@@ -20,16 +18,6 @@ namespace Vonage.Server.Video.Broadcast;
 public class BroadcastClient
 {
     private readonly VonageHttpClient vonageClient;
-
-    /// <summary>
-    ///     Creates a new client.
-    /// </summary>
-    /// <param name="httpClient">Http Client to used for further connections.</param>
-    /// <param name="tokenGeneration">Function used for generating a token.</param>
-    /// <param name="userAgent">The user agent.</param>
-    public BroadcastClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent) => this.vonageClient =
-        new VonageHttpClient(httpClient, JsonSerializerBuilder.Build(),
-            new HttpClientOptions(tokenGeneration, userAgent));
 
     /// <summary>
     ///     Creates a new client.
