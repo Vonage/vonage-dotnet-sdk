@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using Jose;
+using Vonage.Common.Exceptions;
 using Vonage.Request;
 using Vonage.Voice;
 
@@ -11,6 +12,9 @@ namespace Vonage
     /// <inheritdoc />
     public class Jwt : ITokenGenerator
     {
+        public static string CreateToken(string appId, string privateKey) =>
+            CreateTokenWithClaims(appId, privateKey);
+
         /// <inheritdoc />
         public string GenerateToken(string applicationId, string privateKey) => CreateToken(applicationId, privateKey);
 
@@ -18,12 +22,14 @@ namespace Vonage
         public string GenerateToken(Credentials credentials) =>
             this.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey);
 
-        public static string CreateToken(string appId, string privateKey) =>
-            CreateTokenWithClaims(appId, privateKey);
-
         protected static string CreateTokenWithClaims(string appId, string privateKey,
             Dictionary<string, object> claims = null)
         {
+            if (string.IsNullOrWhiteSpace(privateKey))
+            {
+                throw VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();
+            }
+
             var tokenData = new byte[64];
             var rng = RandomNumberGenerator.Create();
             rng.GetBytes(tokenData);

@@ -89,13 +89,12 @@ namespace Vonage.Common.Test
             Func<VonageHttpClientConfiguration, Task<Result<TResponse>>> operation)
         {
             var body = this.Fixture.Create<string>();
-            var expectedFailureMessage = $"Unable to deserialize '{body}' into '{typeof(TResponse).Name}'.";
             var messageHandler = FakeHttpRequestHandler
                 .Build(HttpStatusCode.OK)
                 .WithExpectedRequest(expected)
                 .WithResponseContent(body);
             var result = await operation(this.CreateConfiguration(messageHandler));
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
+            result.Should().BeFailure(DeserializationFailure.From(typeof(TResponse), body));
         }
 
         /// <summary>
@@ -145,8 +144,7 @@ namespace Vonage.Common.Test
                     operation(this.CreateConfiguration(messageHandler))
                         .Result
                         .Should()
-                        .BeFailure(ResultFailure.FromErrorMessage(
-                            $"Unable to deserialize '{jsonError}' into '{nameof(ErrorResponse)}'."));
+                        .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), jsonError));
                 });
 
         /// <summary>

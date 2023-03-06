@@ -5,9 +5,7 @@ using Vonage.Common.Exceptions;
 
 namespace Vonage.Common.Failures;
 
-/// <summary>
-///     Represents a failure with a HttpStatusCode.
-/// </summary>
+/// <inheritdoc />
 public readonly struct HttpFailure : IResultFailure
 {
     /// <summary>

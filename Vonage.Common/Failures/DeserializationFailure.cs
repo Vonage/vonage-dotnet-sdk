@@ -4,6 +4,7 @@ using Vonage.Common.Exceptions;
 
 namespace Vonage.Common.Failures;
 
+/// <inheritdoc />
 public readonly struct DeserializationFailure : IResultFailure
 {
     /// <summary>

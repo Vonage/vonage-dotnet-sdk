@@ -84,7 +84,7 @@ namespace Vonage.Request
             catch (HttpRequestException ex)
             {
                 logger.LogError($"FAIL: {result.StatusCode}");
-                throw new VonageHttpRequestException(ex.Message, ex) {HttpStatusCode = result.StatusCode};
+                throw new VonageHttpRequestException(ex) {HttpStatusCode = result.StatusCode};
             }
         }
 
@@ -120,7 +120,7 @@ namespace Vonage.Request
             catch (HttpRequestException ex)
             {
                 logger.LogError($"FAIL: {result.StatusCode}");
-                throw new VonageHttpRequestException(ex.Message, ex) {HttpStatusCode = result.StatusCode};
+                throw new VonageHttpRequestException(ex) {HttpStatusCode = result.StatusCode};
             }
         }
 
@@ -255,14 +255,14 @@ namespace Vonage.Request
             {
                 case AuthType.Basic:
                     if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
-                        throw new VonageAuthenticationException("API Key or API Secret missing.");
+                        throw VonageAuthenticationException.FromMissingApiKeyOrSecret();
                     var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
                     req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                         Convert.ToBase64String(authBytes));
                     break;
                 case AuthType.Bearer:
                     if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath))
-                        throw new VonageAuthenticationException("AppId or Private Key Path missing.");
+                        throw VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();
 
                     // attempt bearer token auth
                     req.Headers.Authorization = new AuthenticationHeaderValue("Bearer",
@@ -583,7 +583,7 @@ namespace Vonage.Request
             if (authType == AuthType.Basic)
             {
                 if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
-                    throw new VonageAuthenticationException("API Key or API Secret missing.");
+                    throw VonageAuthenticationException.FromMissingApiKeyOrSecret();
                 var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
                 req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                     Convert.ToBase64String(authBytes));
@@ -591,7 +591,7 @@ namespace Vonage.Request
             else if (authType == AuthType.Bearer)
             {
                 if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath))
-                    throw new VonageAuthenticationException("AppId or Private Key Path missing.");
+                    throw VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer",
                     Jwt.CreateToken(appId, appKeyPath));
             }
@@ -626,7 +626,7 @@ namespace Vonage.Request
             if (authType == AuthType.Basic)
             {
                 if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
-                    throw new VonageAuthenticationException("API Key or API Secret missing.");
+                    throw VonageAuthenticationException.FromMissingApiKeyOrSecret();
                 var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
                 req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                     Convert.ToBase64String(authBytes));
@@ -634,7 +634,7 @@ namespace Vonage.Request
             else if (authType == AuthType.Bearer)
             {
                 if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath))
-                    throw new VonageAuthenticationException("AppId or Private Key Path missing.");
+                    throw VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer",
                     Jwt.CreateToken(appId, appKeyPath));
             }
@@ -778,14 +778,14 @@ namespace Vonage.Request
             {
                 case AuthType.Basic:
                     if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
-                        throw new VonageAuthenticationException("API Key or API Secret missing.");
+                        throw VonageAuthenticationException.FromMissingApiKeyOrSecret();
                     var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
                     req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                         Convert.ToBase64String(authBytes));
                     break;
                 case AuthType.Bearer:
                     if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath))
-                        throw new VonageAuthenticationException("AppId or Private Key Path missing.");
+                        throw VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();
 
                     // attempt bearer token auth
                     req.Headers.Authorization = new AuthenticationHeaderValue("Bearer",

@@ -4,20 +4,34 @@ using System.Net.Http;
 
 namespace Vonage.Common.Exceptions
 {
+    /// <summary>
+    ///     Represents an issue when processing an HttpRequest.
+    /// </summary>
     public class VonageHttpRequestException : HttpRequestException
     {
-        public HttpStatusCode HttpStatusCode { get; set; }
-        public string Json { get; set; }
+        /// <summary>
+        ///     The response status code.
+        /// </summary>
+        public HttpStatusCode HttpStatusCode { get; init; }
 
-        public VonageHttpRequestException()
-        {
-        }
+        /// <summary>
+        ///     The response body content.
+        /// </summary>
+        public string Json { get; init; }
 
+        /// <summary>
+        ///     Creates a VonageHttpRequestException.
+        /// </summary>
+        /// <param name="message">The exception message.</param>
         public VonageHttpRequestException(string message) : base(message)
         {
         }
 
-        public VonageHttpRequestException(string message, Exception inner) : base(message, inner)
+        /// <summary>
+        ///     Creates a VonageHttpRequestException.
+        /// </summary>
+        /// <param name="inner">The inner exception.</param>
+        public VonageHttpRequestException(Exception inner) : base(inner.Message, inner)
         {
         }
     }

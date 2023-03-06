@@ -3,7 +3,7 @@
 namespace Vonage.Common.Exceptions
 {
     /// <summary>
-    ///     Represents an issue related to authentication.
+    ///     Represents when processing authentication.
     /// </summary>
     public class VonageAuthenticationException : Exception
     {
@@ -22,7 +22,7 @@ namespace Vonage.Common.Exceptions
         ///     Creates an exception indicating the ApplicationId or PrivateKeyPath are missing.
         /// </summary>
         /// <returns>The exception.</returns>
-        public static VonageAuthenticationException FromMissingApplicationIdOrPrivateKeyPath() =>
+        public static VonageAuthenticationException FromMissingApplicationIdOrPrivateKey() =>
             new("AppId or Private Key Path missing.");
     }
 }
