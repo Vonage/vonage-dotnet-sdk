@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO.Abstractions;
-using System.Net.Http;
+﻿using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Client;
@@ -31,23 +29,6 @@ public class MeetingsClient : IMeetingsClient
     private readonly GetThemesUseCase getThemesUseCase;
     private readonly UpdateThemeLogoUseCase updateThemeLogoUseCase;
     private readonly VonageHttpClient vonageClient;
-
-    /// <summary>
-    ///     Creates a new client.
-    /// </summary>
-    /// <param name="httpClient">Http Client to used for further connections.</param>
-    /// <param name="tokenGeneration">Function used for generating a token.</param>
-    /// <param name="userAgent">The user agent.</param>
-    /// <param name="fileSystem">The file system.</param>
-    public MeetingsClient(HttpClient httpClient, Func<string> tokenGeneration, string userAgent, IFileSystem fileSystem)
-    {
-        this.vonageClient =
-            new VonageHttpClient(httpClient, JsonSerializer.BuildWithSnakeCase(),
-                new HttpClientOptions(tokenGeneration, userAgent));
-        this.getThemesUseCase = new GetThemesUseCase(this.vonageClient);
-        this.updateThemeLogoUseCase =
-            new UpdateThemeLogoUseCase(this.vonageClient, fileSystem.File.Exists, fileSystem.File.ReadAllBytes);
-    }
 
     /// <summary>
     ///     Creates a new client.

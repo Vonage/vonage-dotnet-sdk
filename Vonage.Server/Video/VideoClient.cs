@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using Vonage.Common.Client;
 using Vonage.Request;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Broadcast;
@@ -48,21 +49,21 @@ public class VideoClient : IVideoClient
     ///     Creates a new client.
     /// </summary>
     /// <param name="credentials">Credentials to be used for further clients.</param>
-    public VideoClient(Credentials credentials)
-    {
-        this.Credentials = credentials;
-    }
+    public VideoClient(Credentials credentials) => this.Credentials = credentials;
+
+    private VonageHttpClientConfiguration BuildClientConfiguration() =>
+        new(InitializeHttpClient(), () => new Jwt().GenerateToken(this.Credentials),
+            this.Credentials.GetUserAgent());
 
     private void InitializeClients()
     {
-        var client = InitializeHttpClient();
-        string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
-        this.SessionClient = new SessionClient(client, GenerateToken, this.Credentials.GetUserAgent());
-        this.SignalingClient = new SignalingClient(client, GenerateToken, this.Credentials.GetUserAgent());
-        this.ModerationClient = new ModerationClient(client, GenerateToken, this.Credentials.GetUserAgent());
-        this.ArchiveClient = new ArchiveClient(client, GenerateToken, this.Credentials.GetUserAgent());
-        this.BroadcastClient = new BroadcastClient(client, GenerateToken, this.Credentials.GetUserAgent());
-        this.SipClient = new SipClient(client, GenerateToken, this.Credentials.GetUserAgent());
+        var configuration = this.BuildClientConfiguration();
+        this.SessionClient = new SessionClient(configuration);
+        this.SignalingClient = new SignalingClient(configuration);
+        this.ModerationClient = new ModerationClient(configuration);
+        this.ArchiveClient = new ArchiveClient(configuration);
+        this.BroadcastClient = new BroadcastClient(configuration);
+        this.SipClient = new SipClient(configuration);
     }
 
     private static HttpClient InitializeHttpClient()
