@@ -1,5 +1,7 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Text.Json.Serialization;
+using Vonage.Common.Exceptions;
 
 namespace Vonage.Common.Failures;
 
@@ -51,4 +53,10 @@ public readonly struct HttpFailure : IResultFailure
     public string GetFailureMessage() => string.IsNullOrWhiteSpace(this.Message)
         ? $"{(int) this.Code}."
         : $"{(int) this.Code} - {this.Message}.";
+
+    /// <inheritdoc />
+    public Exception ToException() => new VonageHttpRequestException(this.Message)
+    {
+        HttpStatusCode = this.Code,
+    };
 }

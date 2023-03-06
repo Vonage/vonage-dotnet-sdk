@@ -1,4 +1,6 @@
-﻿namespace Vonage.Common.Failures;
+﻿using System;
+
+namespace Vonage.Common.Failures;
 
 /// <summary>
 ///     Represents a Failure with an error message.
@@ -10,4 +12,10 @@ public interface IResultFailure
     /// </summary>
     /// <returns>The error message.</returns>
     string GetFailureMessage();
+
+    /// <summary>
+    ///     Converts the failure to an exception.
+    /// </summary>
+    /// <returns>The exception.</returns>
+    Exception ToException();
 }

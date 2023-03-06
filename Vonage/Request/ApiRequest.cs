@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Vonage.Common.Exceptions;
 using Vonage.Cryptography;
 using Vonage.Logger;
 using Vonage.Serialization;

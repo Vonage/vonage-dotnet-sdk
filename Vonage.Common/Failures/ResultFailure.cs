@@ -1,4 +1,6 @@
-﻿using Vonage.Common.Monads;
+﻿using System;
+using Vonage.Common.Exceptions;
+using Vonage.Common.Monads;
 
 namespace Vonage.Common.Failures;
 
@@ -17,6 +19,9 @@ public readonly struct ResultFailure : IResultFailure
 
     /// <inheritdoc />
     public string GetFailureMessage() => this.error;
+
+    /// <inheritdoc />
+    public Exception ToException() => new VonageException(this.error);
 
     /// <summary>
     ///     Creates a result failure from an error message.

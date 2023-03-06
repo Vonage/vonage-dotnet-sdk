@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using FluentAssertions;
+using Vonage.Common.Exceptions;
 using Vonage.Common.Failures;
 
 namespace Vonage.Common.Test.Failures
@@ -15,5 +16,13 @@ namespace Vonage.Common.Test.Failures
         public void GetFailureMessage_ShouldReturnMessage_GivenFailureIsCreatedFromCodeAndMessage() =>
             HttpFailure.From(HttpStatusCode.NotFound, "Some message").GetFailureMessage().Should()
                 .Be("404 - Some message.");
+
+        [Fact]
+        public void ToException_ShouldReturnVonageException()
+        {
+            Action act = () => throw HttpFailure.From(HttpStatusCode.NotFound, "Some message").ToException();
+            act.Should().ThrowExactly<VonageHttpRequestException>().WithMessage("Some message").And.HttpStatusCode
+                .Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }
