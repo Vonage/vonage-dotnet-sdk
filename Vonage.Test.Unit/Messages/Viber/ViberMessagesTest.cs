@@ -70,6 +70,7 @@ namespace Vonage.Test.Unit.Messages.Viber
                     Category = ViberMessageCategory.Transaction,
                     TTL = 600,
                     Type = "string",
+                    Action = new ViberAction("https://example.com/page1.html", "Find out more"),
                 },
             };
             var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
@@ -91,6 +92,13 @@ namespace Vonage.Test.Unit.Messages.Viber
                 From = "015417543010",
                 Text = "Hello mum",
                 ClientRef = "abcdefg",
+                Data = new ViberRequestData
+                {
+                    Category = ViberMessageCategory.Transaction,
+                    TTL = 600,
+                    Type = "string",
+                    Action = new ViberAction("https://example.com/page1.html", "Find out more"),
+                },
             };
             var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);

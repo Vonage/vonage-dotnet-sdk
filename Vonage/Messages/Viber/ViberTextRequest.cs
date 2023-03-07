@@ -19,6 +19,7 @@ public class ViberTextRequest : IViberMessage
 
     /// <inheritdoc />
     [JsonPropertyOrder(6)]
+    [JsonPropertyName("viber_service")]
     public ViberRequestData Data { get; set; }
 
     /// <inheritdoc />

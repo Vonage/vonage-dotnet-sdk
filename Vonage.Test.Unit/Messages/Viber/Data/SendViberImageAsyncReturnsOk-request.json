@@ -7,7 +7,11 @@
   "viber_service": {
     "category": "transaction",
     "ttl": 600,
-    "type": "string"
+    "type": "string",
+    "action": {
+      "url": "https://example.com/page1.html",
+      "text": "Find out more"
+    }
   },
   "image": {
     "url": "https://test.com/image.png",
