@@ -5,7 +5,7 @@ namespace Vonage.Messages.WhatsApp;
 /// <summary>
 ///     Represents a WhatsApp configuration.
 /// </summary>
-public class MessageWhatsApp
+public struct MessageWhatsApp
 {
     /// <summary>
     ///     The BCP 47 language of the template. Vonage will translate the BCP 47 format to the WhatsApp equivalent. For

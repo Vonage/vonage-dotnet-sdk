@@ -6,7 +6,7 @@ namespace Vonage.Messages.WhatsApp;
 /// <summary>
 ///     Represents a request to send a text message on WhatsApp.
 /// </summary>
-public class WhatsAppTextRequest : IWhatsAppMessage
+public struct WhatsAppTextRequest : IWhatsAppMessage
 {
     /// <inheritdoc />
     [JsonPropertyOrder(0)]

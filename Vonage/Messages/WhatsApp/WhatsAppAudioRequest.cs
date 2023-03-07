@@ -6,7 +6,7 @@ namespace Vonage.Messages.WhatsApp;
 /// <summary>
 ///     Represents a request to send an audio message on WhatsApp.
 /// </summary>
-public class WhatsAppAudioRequest : IWhatsAppMessage
+public struct WhatsAppAudioRequest : IWhatsAppMessage
 {
     /// <summary>
     ///     The audio attachment. Supports.aac, .m4a, .amr, .mp3 and.opus

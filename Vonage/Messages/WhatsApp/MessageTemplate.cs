@@ -6,7 +6,7 @@ namespace Vonage.Messages.WhatsApp;
 /// <summary>
 ///     Represents a message template.
 /// </summary>
-public class MessageTemplate
+public struct MessageTemplate
 {
     /// <summary>
     ///     The name of the template. For WhatsApp use your WhatsApp namespace (available via Facebook Business Manager),

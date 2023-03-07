@@ -6,7 +6,7 @@ namespace Vonage.Messages.WhatsApp;
 /// <summary>
 ///     Represents a request to send an image message on Viber.
 /// </summary>
-public class WhatsAppImageRequest : IWhatsAppMessage
+public struct WhatsAppImageRequest : IWhatsAppMessage
 {
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
