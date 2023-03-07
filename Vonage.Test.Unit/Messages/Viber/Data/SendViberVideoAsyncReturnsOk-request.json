@@ -1,0 +1,19 @@
+{
+  "channel": "viber_service",
+  "message_type": "text",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
+  "viber_service": {
+    "category": "transaction",
+    "duration": "123",
+    "file_size": "1",
+    "ttl": 600,
+    "type": "string"
+  },
+  "video": {
+    "url": "https://example.com/image.jpg",
+    "caption": "Check out this new video",
+    "thumb_url": "https://example.com/file1.jpg"
+  }
+}

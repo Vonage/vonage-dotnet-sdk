@@ -519,13 +519,20 @@
         <Content Include="Messages\Viber\Data\SendViberTextAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
         <Folder Include="Messages\Messenger\Data"/>
         <Folder Include="Messages\Mms\Data"/>
         <Folder Include="Messages\Sms\Data"/>
-        <Folder Include="Messages\Viber\Data"/>
         <Folder Include="Messages\WhatsApp\Data"/>
     </ItemGroup>
 
