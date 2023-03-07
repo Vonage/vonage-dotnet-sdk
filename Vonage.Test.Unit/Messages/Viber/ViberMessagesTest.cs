@@ -22,6 +22,36 @@ namespace Vonage.Test.Unit.Messages.Viber
         }
 
         [Fact]
+        public async Task SendViberFileAsyncReturnsOk()
+        {
+            var expectedResponse = this.helper.GetResponseJson();
+            var expectedRequest = this.helper.GetRequestJson();
+            var request = new ViberFileRequest
+            {
+                To = "441234567890",
+                From = "015417543010",
+                ClientRef = "abcdefg",
+                Data = new ViberRequestData
+                {
+                    Category = ViberMessageCategory.Transaction,
+                    Type = "string",
+                    TTL = 600,
+                },
+                File = new ViberFileRequest.ViberFileData
+                {
+                    Url = "https://example.com/files/",
+                    Name = "example.pdf",
+                },
+            };
+            var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.Setup(this.expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(credentials);
+            var response = await client.MessagesClient.SendAsync(request);
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+        }
+
+        [Fact]
         public async Task SendViberImageAsyncReturnsOk()
         {
             var expectedResponse = this.helper.GetResponseJson();

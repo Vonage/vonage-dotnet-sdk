@@ -1,0 +1,16 @@
+{
+  "channel": "viber_service",
+  "message_type": "text",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
+  "viber_service": {
+    "category": "transaction",
+    "ttl": 600,
+    "type": "string"
+  },
+  "file": {
+    "url": "https://example.com/files/",
+    "name": "example.pdf"
+  }
+}
