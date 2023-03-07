@@ -6,7 +6,7 @@ namespace Vonage.Messages.Viber;
 /// <summary>
 ///     Represents Viber-specific information.
 /// </summary>
-public class ViberRequestData
+public struct ViberRequestData
 {
     /// <summary>
     ///     The node for Viber action buttons.

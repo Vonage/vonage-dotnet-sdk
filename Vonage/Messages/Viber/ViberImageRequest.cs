@@ -6,7 +6,7 @@ namespace Vonage.Messages.Viber;
 /// <summary>
 ///     Represents a request to send an image message on Viber.
 /// </summary>
-public class ViberImageRequest : IViberMessage
+public struct ViberImageRequest : IViberMessage
 {
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
