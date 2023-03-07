@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using Vonage.Common.Exceptions;
 using Vonage.Redaction;
 using Vonage.Request;
 using Xunit;
@@ -32,14 +33,12 @@ namespace Vonage.Test.Unit
                 Type = type
             };
             var expectedResponseContent = GetExpectedJson();
-
             string expectedUri = $"{ApiUrl}/v1/redact/transaction";
             Setup(expectedUri, expectedResponseContent);
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
-
             bool response = client.RedactClient.Redact(request, passCredentials ? creds : null);
 
             //ASSERT
@@ -70,20 +69,17 @@ namespace Vonage.Test.Unit
                 Type = type
             };
             var expectedResponseContent = GetExpectedJson();
-
             string expectedUri = $"{ApiUrl}/v1/redact/transaction";
             Setup(expectedUri, expectedResponseContent);
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
-
             bool response = await client.RedactClient.RedactAsync(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.True(response);
         }
-
 
         [Fact]
         public void RedactReturns401()
@@ -96,14 +92,12 @@ namespace Vonage.Test.Unit
                 Type = RedactionType.Inbound
             };
             var expectedResponseContent = GetExpectedJson();
-
             string expectedUri = $"{ApiUrl}/v1/redact/transaction";
             Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Unauthorized);
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
-
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
             //ASSERT
@@ -122,14 +116,12 @@ namespace Vonage.Test.Unit
                 Type = RedactionType.Inbound
             };
             var expectedResponseContent = GetExpectedJson();
-
             string expectedUri = $"{ApiUrl}/v1/redact/transaction";
             Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Forbidden);
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
-
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
             //ASSERT
@@ -148,14 +140,12 @@ namespace Vonage.Test.Unit
                 Type = RedactionType.Inbound
             };
             var expectedResponseContent = GetExpectedJson();
-
             string expectedUri = $"{ApiUrl}/v1/redact/transaction";
             Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.NotFound);
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
-
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
             //ASSERT
@@ -164,7 +154,6 @@ namespace Vonage.Test.Unit
         }
 
 #if (NETCOREAPP2_1_OR_GREATER)
-
         [Fact]
         public void RedactReturns422()
         {
@@ -218,5 +207,4 @@ namespace Vonage.Test.Unit
         }
 #endif
     }
-
 }

@@ -1,9 +1,13 @@
-﻿namespace Vonage.Messaging
+﻿using Vonage.Common.Exceptions;
+
+namespace Vonage.Messaging
 {
     public class VonageSmsResponseException : VonageException
     {
-        public VonageSmsResponseException(string message) : base(message) { }
-
         public SendSmsResponse Response { get; set; }
+
+        public VonageSmsResponseException(string message) : base(message)
+        {
+        }
     }
 }

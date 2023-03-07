@@ -65,8 +65,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage(
-                    $"Unable to deserialize '{expectedContent}' into '{nameof(ErrorResponse)}'."));
+                .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), expectedContent));
         }
 
         [Fact]
@@ -101,16 +100,13 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage(
-                    $"Unable to deserialize '{expectedContent}' into '{nameof(ErrorResponse)}'."));
+                .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), expectedContent));
         }
 
         [Fact]
         public async Task ShouldReturnFailureWhenRetrievingUploadUrls_GivenApiResponseCannotBeParsed()
         {
             var body = this.helper.Fixture.Create<string>();
-            var expectedFailureMessage =
-                $"Unable to deserialize '{body}' into '{typeof(GetUploadLogosUrlResponse[]).Name}'.";
             this.customHandler = this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval())
                 .RespondWith(new MappingResponse
                 {
@@ -118,7 +114,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
                     Content = body,
                 });
             var result = await this.Operation(this.BuildConfiguration());
-            result.Should().BeFailure(ResultFailure.FromErrorMessage(expectedFailureMessage));
+            result.Should().BeFailure(DeserializationFailure.From(typeof(GetUploadLogosUrlResponse[]), body));
         }
 
         [Fact]
@@ -164,8 +160,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage(
-                    $"Unable to deserialize '{expectedContent}' into '{nameof(ErrorResponse)}'."));
+                .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), expectedContent));
         }
 
         [Fact]

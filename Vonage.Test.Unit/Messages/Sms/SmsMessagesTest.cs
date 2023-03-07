@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common;
+using Vonage.Common.Exceptions;
 using Vonage.Common.Test;
 using Vonage.Messages.Sms;
 using Vonage.Request;

@@ -69,8 +69,7 @@ public class JsonSerializer : IJsonSerializer
         }
         catch (Exception)
         {
-            return Result<T>.FromFailure(
-                ResultFailure.FromErrorMessage($"Unable to deserialize '{serializedValue}' into '{typeof(T).Name}'."));
+            return Result<T>.FromFailure(DeserializationFailure.From(typeof(T), serializedValue));
         }
     }
 

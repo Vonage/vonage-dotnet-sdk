@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Vonage.Common.Exceptions;
 
 namespace Vonage.Numbers
 {
     public class VonageNumberResponseException : VonageException
     {
-        public VonageNumberResponseException(string message) : base(message) {  }
         public NumberTransactionResponse Response { get; set; }
+
+        public VonageNumberResponseException(string message) : base(message)
+        {
+        }
     }
 }

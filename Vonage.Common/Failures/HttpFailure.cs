@@ -1,11 +1,11 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Text.Json.Serialization;
+using Vonage.Common.Exceptions;
 
 namespace Vonage.Common.Failures;
 
-/// <summary>
-///     Represents a failure with a HttpStatusCode.
-/// </summary>
+/// <inheritdoc />
 public readonly struct HttpFailure : IResultFailure
 {
     /// <summary>
@@ -51,4 +51,10 @@ public readonly struct HttpFailure : IResultFailure
     public string GetFailureMessage() => string.IsNullOrWhiteSpace(this.Message)
         ? $"{(int) this.Code}."
         : $"{(int) this.Code} - {this.Message}.";
+
+    /// <inheritdoc />
+    public Exception ToException() => new VonageHttpRequestException(this.Message)
+    {
+        HttpStatusCode = this.Code,
+    };
 }
