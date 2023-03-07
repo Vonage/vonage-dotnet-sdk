@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Vonage.Messages.WhatsApp;
 
+/// <summary>
+///     Represents a message template.
+/// </summary>
 public class MessageTemplate
 {
     /// <summary>

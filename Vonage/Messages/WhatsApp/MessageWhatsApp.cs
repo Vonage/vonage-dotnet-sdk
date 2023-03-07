@@ -2,6 +2,9 @@
 
 namespace Vonage.Messages.WhatsApp;
 
+/// <summary>
+///     Represents a WhatsApp configuration.
+/// </summary>
 public class MessageWhatsApp
 {
     /// <summary>

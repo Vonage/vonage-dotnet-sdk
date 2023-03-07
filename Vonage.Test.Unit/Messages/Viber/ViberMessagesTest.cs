@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Test;
+using Vonage.Messages;
 using Vonage.Messages.Viber;
 using Vonage.Request;
 using Xunit;
@@ -36,7 +37,7 @@ namespace Vonage.Test.Unit.Messages.Viber
                     Type = "string",
                     TTL = 600,
                 },
-                File = new ViberFileRequest.ViberFileData
+                File = new ViberFileRequest.FileInformation
                 {
                     Url = "https://example.com/files/",
                     Name = "example.pdf",
@@ -59,7 +60,7 @@ namespace Vonage.Test.Unit.Messages.Viber
             {
                 To = "441234567890",
                 From = "015417543010",
-                Image = new ViberImageRequest.FileInformation
+                Image = new CaptionedAttachment
                 {
                     Url = "https://test.com/image.png",
                     Caption = "Check out this new promotion",

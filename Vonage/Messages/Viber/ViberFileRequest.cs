@@ -26,7 +26,7 @@ public struct ViberFileRequest : IViberMessage
     ///     The file information of the request.
     /// </summary>
     [JsonPropertyOrder(6)]
-    public ViberFileData File { get; set; }
+    public FileInformation File { get; set; }
 
     /// <inheritdoc />
     [JsonPropertyOrder(3)]
@@ -44,7 +44,7 @@ public struct ViberFileRequest : IViberMessage
     /// <summary>
     ///     Represents the file information of the request.
     /// </summary>
-    public struct ViberFileData
+    public struct FileInformation
     {
         /// <summary>
         ///     The name and extension of the file.

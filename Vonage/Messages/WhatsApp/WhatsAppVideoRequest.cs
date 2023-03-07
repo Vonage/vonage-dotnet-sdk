@@ -1,16 +1,38 @@
 ﻿using System.Text.Json.Serialization;
+using Vonage.Common.Serialization;
 
 namespace Vonage.Messages.WhatsApp;
 
-public class WhatsAppVideoRequest : MessageRequestBase
+/// <summary>
+///     Represents a request to send a video message on WhatsApp.
+/// </summary>
+public class WhatsAppVideoRequest : IWhatsAppMessage
 {
-    public override MessagesChannel Channel => MessagesChannel.WhatsApp;
-    public override MessagesMessageType MessageType => MessagesMessageType.Video;
+    /// <inheritdoc />
+    [JsonPropertyOrder(0)]
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesChannel>))]
+    public MessagesChannel Channel => MessagesChannel.WhatsApp;
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(4)]
+    public string ClientRef { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(3)]
+    public string From { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(1)]
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesMessageType>))]
+    public MessagesMessageType MessageType => MessagesMessageType.Video;
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(2)]
+    public string To { get; set; }
 
     /// <summary>
-    ///     The video attachment.
-    ///     Supports .mp4 and .3gpp. Note, only H.264 video codec and AAC audio codec is supported.
+    ///     The video information of the request.
     /// </summary>
-    [JsonPropertyOrder(6)]
+    [JsonPropertyOrder(5)]
     public CaptionedAttachment Video { get; set; }
 }
