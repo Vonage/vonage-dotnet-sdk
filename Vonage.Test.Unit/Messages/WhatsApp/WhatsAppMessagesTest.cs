@@ -122,6 +122,46 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
         }
 
         [Fact]
+        public async Task SendWhatsAppStickerAsyncReturnsOkWithIdSticker()
+        {
+            var expectedResponse = this.helper.GetResponseJson();
+            var expectedRequest = this.helper.GetRequestJson();
+            var request = new WhatsAppStickerRequest<IdSticker>
+            {
+                To = "447700900000",
+                From = "447700900001",
+                ClientRef = "string",
+                Sticker = new IdSticker(new Guid("aabb7a31-1d1f-4755-a574-2971d831cd5b")),
+            };
+            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.Setup(this.expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(creds);
+            var response = await client.MessagesClient.SendAsync(request);
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+        }
+
+        [Fact]
+        public async Task SendWhatsAppStickerAsyncReturnsOkWithUrlSticker()
+        {
+            var expectedResponse = this.helper.GetResponseJson();
+            var expectedRequest = this.helper.GetRequestJson();
+            var request = new WhatsAppStickerRequest<UrlSticker>
+            {
+                To = "447700900000",
+                From = "447700900001",
+                ClientRef = "string",
+                Sticker = new UrlSticker("https://example.com/image.webp"),
+            };
+            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.Setup(this.expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(creds);
+            var response = await client.MessagesClient.SendAsync(request);
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+        }
+
+        [Fact]
         public async Task SendWhatsAppTemplateAsyncReturnsOk()
         {
             var expectedResponse = this.helper.GetResponseJson();

@@ -1,0 +1,10 @@
+{
+  "channel": "whatsapp",
+  "message_type": "sticker",
+  "to": "447700900000",
+  "from": "447700900001",
+  "client_ref": "string",
+  "sticker": {
+    "url": "https://example.com/image.webp"
+  }
+}

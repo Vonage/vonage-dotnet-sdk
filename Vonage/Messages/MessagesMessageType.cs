@@ -46,4 +46,9 @@ public enum MessagesMessageType
     /// </summary>
     [EnumMember(Value = "template")] [Description("template")]
     Template = 7,
+
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "sticker")] [Description("sticker")]
+    Sticker = 8,
 }
