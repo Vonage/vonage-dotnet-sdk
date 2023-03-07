@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Test;
-using Vonage.Messages;
 using Vonage.Messages.Viber;
 using Vonage.Request;
 using Xunit;
@@ -60,11 +59,18 @@ namespace Vonage.Test.Unit.Messages.Viber
             {
                 To = "441234567890",
                 From = "015417543010",
-                Image = new Attachment
+                Image = new ViberImageRequest.FileInformation
                 {
                     Url = "https://test.com/image.png",
+                    Caption = "Check out this new promotion",
                 },
                 ClientRef = "abcdefg",
+                Data = new ViberRequestData
+                {
+                    Category = ViberMessageCategory.Transaction,
+                    TTL = 600,
+                    Type = "string",
+                },
             };
             var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
@@ -112,7 +118,7 @@ namespace Vonage.Test.Unit.Messages.Viber
                     FileSize = "1",
                     TTL = 600,
                 },
-                Video = new ViberVideoRequest.ViberVideoData
+                Video = new ViberVideoRequest.VideoInformation
                 {
                     Url = "https://example.com/image.jpg",
                     Caption = "Check out this new video",

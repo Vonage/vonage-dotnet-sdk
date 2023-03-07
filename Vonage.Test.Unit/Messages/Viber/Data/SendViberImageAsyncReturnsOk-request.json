@@ -4,7 +4,13 @@
   "to": "441234567890",
   "from": "015417543010",
   "client_ref": "abcdefg",
+  "viber_service": {
+    "category": "transaction",
+    "ttl": 600,
+    "type": "string"
+  },
   "image": {
-    "url": "https://test.com/image.png"
+    "url": "https://test.com/image.png",
+    "caption": "Check out this new promotion"
   }
 }

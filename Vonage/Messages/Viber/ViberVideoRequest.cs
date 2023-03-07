@@ -39,12 +39,12 @@ public struct ViberVideoRequest : IViberMessage
     ///     The video information of the request.
     /// </summary>
     [JsonPropertyOrder(6)]
-    public ViberVideoData Video { get; set; }
+    public VideoInformation Video { get; set; }
 
     /// <summary>
     ///     Represents the video information of the request.
     /// </summary>
-    public struct ViberVideoData
+    public struct VideoInformation
     {
         /// <summary>
         ///     Text caption to accompany message.
