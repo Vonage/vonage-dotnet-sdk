@@ -8,12 +8,12 @@ namespace Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
 /// <param name="Header">The value of the header text.</param>
 /// <param name="Body">The value of the body text.</param>
 /// <param name="Footer">The value of the footer text.</param>
-/// <param name="MultipleItemsAction">Contains data about the product displayed in the message.</param>
+/// <param name="Action">Contains data about the product displayed in the message.</param>
 public record MultipleItemsMessageContent(
     [property: JsonPropertyOrder(1)] TextSection Header,
     [property: JsonPropertyOrder(2)] TextSection Body,
     [property: JsonPropertyOrder(3)] TextSection Footer,
-    [property: JsonPropertyOrder(4)] MultipleItemsAction MultipleItemsAction) : IProductMessageContent
+    [property: JsonPropertyOrder(4)] MultipleItemsAction Action) : IProductMessageContent
 {
     /// <summary>
     ///     The content type.
