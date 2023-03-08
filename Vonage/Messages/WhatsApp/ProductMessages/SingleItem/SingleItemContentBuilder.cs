@@ -1,6 +1,7 @@
 namespace Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 
 /// <summary>
+///     Represents a builder for Single Items product message content.
 /// </summary>
 public class SingleItemContentBuilder :
     IBuilderForBody,
@@ -24,8 +25,9 @@ public class SingleItemContentBuilder :
             new SingleItemAction(this.catalogId, this.productRetailerId)));
 
     /// <summary>
+    ///     Initializes a builder.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The builder</returns>
     public static IBuilderForBody Initialize() => new SingleItemContentBuilder();
 
     /// <inheritdoc />
@@ -57,27 +59,66 @@ public class SingleItemContentBuilder :
     }
 }
 
+/// <summary>
+///     Represents a builder that allows to set the Body.
+/// </summary>
 public interface IBuilderForBody
 {
+    /// <summary>
+    ///     Sets the Body text.
+    /// </summary>
+    /// <param name="value">The Body.</param>
+    /// <returns>The builder</returns>
     IBuilderForFooter WithBody(string value);
 }
 
+/// <summary>
+///     Represents a builder that allows to set the Footer.
+/// </summary>
 public interface IBuilderForFooter
 {
+    /// <summary>
+    ///     Sets the Footer text.
+    /// </summary>
+    /// <param name="value">The Footer.</param>
+    /// <returns>The builder</returns>
     IBuilderForCatalog WithFooter(string value);
 }
 
+/// <summary>
+///     Represents a builder that allows to set the Catalog.
+/// </summary>
 public interface IBuilderForCatalog
 {
+    /// <summary>
+    ///     Sets the CatalogId.
+    /// </summary>
+    /// <param name="value">The catalog Id.</param>
+    /// <returns>The builder</returns>
     IBuilderForProductRetailer WithCatalogId(string value);
 }
 
+/// <summary>
+///     Represents a builder that allows to set a Product Retailer.
+/// </summary>
 public interface IBuilderForProductRetailer
 {
+    /// <summary>
+    ///     Sets the product retailer Id.
+    /// </summary>
+    /// <param name="value">The product retailer Id.</param>
+    /// <returns>The builder</returns>
     IBuildable WithProductRetailerId(string value);
 }
 
+/// <summary>
+///     Represents a builder that allows to build the product message.
+/// </summary>
 public interface IBuildable
 {
+    /// <summary>
+    ///     Builds the product message using all specified values.
+    /// </summary>
+    /// <returns>The product message.</returns>
     ProductMessage<SingleItemMessageContent> Build();
 }

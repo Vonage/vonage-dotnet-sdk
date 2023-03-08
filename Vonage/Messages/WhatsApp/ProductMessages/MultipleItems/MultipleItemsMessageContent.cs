@@ -3,40 +3,45 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
 
 /// <summary>
+///     Represents the content for Multiple Item product messages.
 /// </summary>
-/// <param name="Header"></param>
-/// <param name="Body"></param>
-/// <param name="Footer"></param>
-/// <param name="Action"></param>
+/// <param name="Header">The value of the header text.</param>
+/// <param name="Body">The value of the body text.</param>
+/// <param name="Footer">The value of the footer text.</param>
+/// <param name="MultipleItemsAction">Contains data about the product displayed in the message.</param>
 public record MultipleItemsMessageContent(
     [property: JsonPropertyOrder(1)] TextSection Header,
     [property: JsonPropertyOrder(2)] TextSection Body,
     [property: JsonPropertyOrder(3)] TextSection Footer,
-    [property: JsonPropertyOrder(4)] ActionMultipleItems Action) : IProductMessageContent
+    [property: JsonPropertyOrder(4)] MultipleItemsAction MultipleItemsAction) : IProductMessageContent
 {
     /// <summary>
+    ///     The content type.
     /// </summary>
     [JsonPropertyOrder(0)]
     public string Type => "product_list";
 }
 
 /// <summary>
+///     Represents the action for a Multiple Item product message.
 /// </summary>
-/// <param name="CatalogId"></param>
-/// <param name="Sections"></param>
-public record ActionMultipleItems(
+/// <param name="CatalogId">The catalog Id.</param>
+/// <param name="Sections">The section.</param>
+public record MultipleItemsAction(
     [property: JsonPropertyOrder(0)] string CatalogId,
     [property: JsonPropertyOrder(1)] params Section[] Sections);
 
 /// <summary>
+///     Represents a section of items grouped by title.
 /// </summary>
-/// <param name="Title"></param>
-/// <param name="ProductItems"></param>
+/// <param name="Title">The title of the sections.</param>
+/// <param name="ProductItems">The product items of the section.</param>
 public record Section(
     [property: JsonPropertyOrder(0)] string Title,
     [property: JsonPropertyOrder(1)] params ProductItem[] ProductItems);
 
 /// <summary>
+///     Represents a product item.
 /// </summary>
-/// <param name="ProductRetailerId"></param>
+/// <param name="ProductRetailerId">The product retailer Id.</param>
 public record ProductItem(string ProductRetailerId);

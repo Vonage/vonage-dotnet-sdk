@@ -5,7 +5,6 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Messages;
 using Vonage.Messages.WhatsApp;
-using Vonage.Messages.WhatsApp.ProductMessages;
 using Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
 using Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 using Vonage.Request;
@@ -134,10 +133,10 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                 To = "441234567890",
                 From = "015417543010",
                 ClientRef = "abcdefg",
-                Custom = MultipleItemsContentBuilder.InitializeForMultipleItems()
-                    .WithHeader(new TextSection("Our top products", "text"))
-                    .WithBody(new TextSection("Check out these great products"))
-                    .WithFooter(new TextSection("Sale now on!"))
+                Custom = MultipleItemsContentBuilder.Initialize()
+                    .WithHeader("Our top products")
+                    .WithBody("Check out these great products")
+                    .WithFooter("Sale now on!")
                     .WithCatalogId("catalog_1")
                     .WithSection("Cool products")
                     .WithProductRetailer("product_1")
