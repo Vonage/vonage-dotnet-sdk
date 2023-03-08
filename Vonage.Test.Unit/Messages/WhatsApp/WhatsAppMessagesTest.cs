@@ -5,6 +5,9 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Messages;
 using Vonage.Messages.WhatsApp;
+using Vonage.Messages.WhatsApp.ProductMessages;
+using Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
+using Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 using Vonage.Request;
 using Xunit;
 
@@ -119,6 +122,61 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
             var response = await client.MessagesClient.SendAsync(request);
             Assert.NotNull(response);
             Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        }
+
+        [Fact]
+        public async Task SendWhatsAppMultipleItemsAsyncReturnsOk()
+        {
+            var expectedResponse = this.helper.GetResponseJson();
+            var expectedRequest = this.helper.GetRequestJson();
+            var request = new WhatsAppMultipleItemsRequest
+            {
+                To = "441234567890",
+                From = "015417543010",
+                ClientRef = "abcdefg",
+                Custom = MultipleItemsContentBuilder.InitializeForMultipleItems()
+                    .WithHeader(new TextSection("Our top products", "text"))
+                    .WithBody(new TextSection("Check out these great products"))
+                    .WithFooter(new TextSection("Sale now on!"))
+                    .WithCatalogId("catalog_1")
+                    .WithSection("Cool products")
+                    .WithProductRetailer("product_1")
+                    .WithProductRetailer("product_2")
+                    .WithSection("Awesome products")
+                    .WithProductRetailer("product_3")
+                    .Build(),
+            };
+            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.Setup(this.expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(creds);
+            var response = await client.MessagesClient.SendAsync(request);
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+        }
+
+        [Fact]
+        public async Task SendWhatsAppSingleItemAsyncReturnsOk()
+        {
+            var expectedResponse = this.helper.GetResponseJson();
+            var expectedRequest = this.helper.GetRequestJson();
+            var request = new WhatsAppSingleProductRequest
+            {
+                To = "441234567890",
+                From = "015417543010",
+                ClientRef = "abcdefg",
+                Custom = SingleItemContentBuilder.Initialize()
+                    .WithBody("Check out this cool product")
+                    .WithFooter("Sale now on!")
+                    .WithCatalogId("catalog_1")
+                    .WithProductRetailerId("product_1")
+                    .Build(),
+            };
+            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.Setup(this.expectedUri, expectedResponse, expectedRequest);
+            var client = new VonageClient(creds);
+            var response = await client.MessagesClient.SendAsync(request);
+            Assert.NotNull(response);
+            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
         }
 
         [Fact]
