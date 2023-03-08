@@ -1,21 +1,23 @@
+using Vonage.Common.Monads;
+
 namespace Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 
 /// <summary>
 ///     Represents a builder for Single Items product message content.
 /// </summary>
-public class SingleItemContentBuilder :
-    IBuilderForBody,
+public class SingleItemContentOptionalBuilder :
+    IOptionalBuilderForBody,
     IBuilderForFooter,
     IBuilderForCatalog,
     IBuilderForProductRetailer,
     IBuildable
 {
+    private Maybe<TextSection> body = Maybe<TextSection>.None;
+    private Maybe<TextSection> footer = Maybe<TextSection>.None;
     private string catalogId;
     private string productRetailerId;
-    private TextSection body;
-    private TextSection footer;
 
-    private SingleItemContentBuilder()
+    private SingleItemContentOptionalBuilder()
     {
     }
 
@@ -28,7 +30,7 @@ public class SingleItemContentBuilder :
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder</returns>
-    public static IBuilderForBody Initialize() => new SingleItemContentBuilder();
+    public static IOptionalBuilderForBody Initialize() => new SingleItemContentOptionalBuilder();
 
     /// <inheritdoc />
     public IBuilderForFooter WithBody(string value)
@@ -62,7 +64,7 @@ public class SingleItemContentBuilder :
 /// <summary>
 ///     Represents a builder that allows to set the Body.
 /// </summary>
-public interface IBuilderForBody
+public interface IOptionalBuilderForBody : IBuilderForFooter, IBuilderForCatalog
 {
     /// <summary>
     ///     Sets the Body text.
@@ -75,7 +77,7 @@ public interface IBuilderForBody
 /// <summary>
 ///     Represents a builder that allows to set the Footer.
 /// </summary>
-public interface IBuilderForFooter
+public interface IBuilderForFooter : IBuilderForCatalog
 {
     /// <summary>
     ///     Sets the Footer text.

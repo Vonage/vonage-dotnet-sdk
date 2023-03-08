@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using Vonage.Common.Monads;
+using Vonage.Common.Serialization;
 
 namespace Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 
@@ -9,10 +11,18 @@ namespace Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 /// <param name="Footer">The value of the footer text.</param>
 /// <param name="Action">Contains data about the product displayed in the message.</param>
 public record SingleItemMessageContent(
-    [property: JsonPropertyOrder(1)] TextSection Body,
-    [property: JsonPropertyOrder(2)] TextSection Footer,
+    [property: JsonPropertyOrder(1)]
+    [property: JsonConverter(typeof(MaybeJsonConverter<TextSection>))]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    Maybe<TextSection> Body,
+    [property: JsonPropertyOrder(2)]
+    [property: JsonConverter(typeof(MaybeJsonConverter<TextSection>))]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    Maybe<TextSection> Footer,
     [property: JsonPropertyOrder(3)] SingleItemAction Action) : IProductMessageContent
 {
+    // [JsonConverter(typeof(MaybeJsonConverter<Uri>))]
+    // [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     /// <summary>
     ///     The content type.
     /// </summary>
