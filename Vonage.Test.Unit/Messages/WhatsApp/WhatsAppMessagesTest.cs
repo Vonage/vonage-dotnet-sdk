@@ -163,7 +163,7 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                 To = "441234567890",
                 From = "015417543010",
                 ClientRef = "abcdefg",
-                Custom = SingleItemContentOptionalBuilder.Initialize()
+                Custom = SingleItemContentBuilder.Initialize()
                     .WithBody("Check out this cool product")
                     .WithFooter("Sale now on!")
                     .WithCatalogId("catalog_1")

@@ -10,7 +10,7 @@ namespace Vonage.Test.Unit.Messages.WhatsApp.ProductMessages.SingleItem
     {
         private readonly IOptionalBuilderForBody builder;
 
-        public SingleItemContentBuilderTest() => this.builder = SingleItemContentOptionalBuilder.Initialize();
+        public SingleItemContentBuilderTest() => this.builder = SingleItemContentBuilder.Initialize();
 
         [Fact]
         public void Build_WithAllInformation() =>

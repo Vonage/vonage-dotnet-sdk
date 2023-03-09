@@ -5,10 +5,8 @@ namespace Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 /// <summary>
 ///     Represents a builder for Single Items product message content.
 /// </summary>
-public class SingleItemContentOptionalBuilder :
+public class SingleItemContentBuilder :
     IOptionalBuilderForBody,
-    IBuilderForFooter,
-    IBuilderForCatalog,
     IBuilderForProductRetailer,
     IBuildable
 {
@@ -17,7 +15,7 @@ public class SingleItemContentOptionalBuilder :
     private string catalogId;
     private string productRetailerId;
 
-    private SingleItemContentOptionalBuilder()
+    private SingleItemContentBuilder()
     {
     }
 
@@ -30,7 +28,7 @@ public class SingleItemContentOptionalBuilder :
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder</returns>
-    public static IOptionalBuilderForBody Initialize() => new SingleItemContentOptionalBuilder();
+    public static IOptionalBuilderForBody Initialize() => new SingleItemContentBuilder();
 
     /// <inheritdoc />
     public IBuilderForFooter WithBody(string value)
@@ -64,7 +62,7 @@ public class SingleItemContentOptionalBuilder :
 /// <summary>
 ///     Represents a builder that allows to set the Body.
 /// </summary>
-public interface IOptionalBuilderForBody : IBuilderForFooter, IBuilderForCatalog
+public interface IOptionalBuilderForBody : IBuilderForFooter
 {
     /// <summary>
     ///     Sets the Body text.

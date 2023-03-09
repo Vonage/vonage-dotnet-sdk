@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Vonage.Common.Exceptions;
 using Vonage.Common.Monads;
 
 namespace Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
@@ -11,15 +12,14 @@ public class MultipleItemsContentBuilder :
     IBuilderForHeader,
     IBuilderForBody,
     IBuilderForFooter,
-    IBuilderForCatalog,
     IBuilderForOptionalSection
 {
     private readonly List<Section> sections = new();
     private readonly List<string> productIds = new();
     private Maybe<string> section;
+    private Maybe<TextSection> footer = Maybe<TextSection>.None;
     private string catalogId;
     private TextSection body;
-    private TextSection footer;
     private TextSection header;
 
     private MultipleItemsContentBuilder()
@@ -30,6 +30,8 @@ public class MultipleItemsContentBuilder :
     public ProductMessage<MultipleItemsMessageContent> Build()
     {
         this.FinalizeSection();
+        this.VerifyMaximumItemsPerSection();
+        this.VerifyMaximumItemsAcrossSections();
         return new ProductMessage<MultipleItemsMessageContent>(new MultipleItemsMessageContent(
             this.header, this.body, this.footer, new MultipleItemsAction(this.catalogId, this.sections.ToArray())));
     }
@@ -95,6 +97,22 @@ public class MultipleItemsContentBuilder :
             this.productIds.Clear();
         });
     }
+
+    private void VerifyMaximumItemsAcrossSections()
+    {
+        if (this.sections.SelectMany(individualSection => individualSection.ProductItems).Count() > 30)
+        {
+            throw new VonageException("The message cannot have more than 30 products across all sections.");
+        }
+    }
+
+    private void VerifyMaximumItemsPerSection()
+    {
+        if (this.sections.First().ProductItems.Length > 10)
+        {
+            throw new VonageException("The message cannot have more than 10 products for a section.");
+        }
+    }
 }
 
 /// <summary>
@@ -126,7 +144,7 @@ public interface IBuilderForBody
 /// <summary>
 ///     Represents a builder that allows to set the Footer.
 /// </summary>
-public interface IBuilderForFooter
+public interface IBuilderForFooter : IBuilderForCatalog
 {
     /// <summary>
     ///     Sets the Footer.

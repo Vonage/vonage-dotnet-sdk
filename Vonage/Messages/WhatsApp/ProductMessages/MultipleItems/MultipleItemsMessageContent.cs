@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using Vonage.Common.Monads;
+using Vonage.Common.Serialization;
 
 namespace Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
 
@@ -12,7 +14,10 @@ namespace Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
 public record MultipleItemsMessageContent(
     [property: JsonPropertyOrder(1)] TextSection Header,
     [property: JsonPropertyOrder(2)] TextSection Body,
-    [property: JsonPropertyOrder(3)] TextSection Footer,
+    [property: JsonPropertyOrder(3)]
+    [property: JsonConverter(typeof(MaybeJsonConverter<TextSection>))]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    Maybe<TextSection> Footer,
     [property: JsonPropertyOrder(4)] MultipleItemsAction Action) : IProductMessageContent
 {
     /// <summary>
