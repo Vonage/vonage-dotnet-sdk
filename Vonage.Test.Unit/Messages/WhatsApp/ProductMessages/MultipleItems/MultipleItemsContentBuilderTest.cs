@@ -14,9 +14,6 @@ namespace Vonage.Test.Unit.Messages.WhatsApp.ProductMessages.MultipleItems
         private readonly Fixture fixture;
         private readonly IBuilderForHeader builder;
 
-        // header is required
-        // body is required
-        // footer is optional
         public MultipleItemsContentBuilderTest()
         {
             this.builder = MultipleItemsContentBuilder.Initialize();
