@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Messages;
@@ -14,6 +15,7 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
 {
     public class WhatsAppMessagesTest : TestBase
     {
+        private readonly Func<IMessage, Task<MessagesResponse>> operation;
         private readonly SerializationTestHelper helper;
         private readonly string expectedUri;
 
@@ -22,6 +24,10 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
             this.expectedUri = $"{this.ApiUrl}/v1/messages";
             this.helper = new SerializationTestHelper(typeof(WhatsAppMessagesTest).Namespace,
                 JsonSerializer.BuildWithCamelCase());
+            this.operation = request =>
+                new VonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
+                    .MessagesClient
+                    .SendAsync(request);
         }
 
         [Fact]
@@ -39,12 +45,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                 },
                 ClientRef = "abcdefg",
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
         }
 
         [Fact]
@@ -67,12 +70,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                     },
                 },
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
         }
 
         [Fact]
@@ -91,12 +91,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                 },
                 ClientRef = "abcdefg",
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
         }
 
         [Fact]
@@ -115,12 +112,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                 },
                 ClientRef = "abcdefg",
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
         }
 
         [Fact]
@@ -145,12 +139,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                     .WithProductRetailer("product_3")
                     .Build(),
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"));
         }
 
         [Fact]
@@ -170,12 +161,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                     .WithProductRetailerId("product_1")
                     .Build(),
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"));
         }
 
         [Fact]
@@ -190,12 +178,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                 ClientRef = "string",
                 Sticker = new IdSticker(new Guid("aabb7a31-1d1f-4755-a574-2971d831cd5b")),
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"));
         }
 
         [Fact]
@@ -210,12 +195,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                 ClientRef = "string",
                 Sticker = new UrlSticker("https://example.com/image.webp"),
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"));
         }
 
         [Fact]
@@ -244,12 +226,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                     Locale = "en-GB",
                 },
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
         }
 
         [Fact]
@@ -264,12 +243,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                 Text = "Hello mum",
                 ClientRef = "abcdefg",
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
         }
 
         [Fact]
@@ -288,12 +264,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
                 },
                 ClientRef = "abcdefg",
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
         }
     }
 }

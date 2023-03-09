@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Messages;
@@ -11,6 +12,7 @@ namespace Vonage.Test.Unit.Messages.Viber
 {
     public class ViberMessagesTest : TestBase
     {
+        private readonly Func<IMessage, Task<MessagesResponse>> operation;
         private readonly SerializationTestHelper helper;
         private readonly string expectedUri;
 
@@ -19,6 +21,10 @@ namespace Vonage.Test.Unit.Messages.Viber
             this.expectedUri = $"{this.ApiUrl}/v1/messages";
             this.helper = new SerializationTestHelper(typeof(ViberMessagesTest).Namespace,
                 JsonSerializer.BuildWithCamelCase());
+            this.operation = request =>
+                new VonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
+                    .MessagesClient
+                    .SendAsync(request);
         }
 
         [Fact]
@@ -43,12 +49,9 @@ namespace Vonage.Test.Unit.Messages.Viber
                     Name = "example.pdf",
                 },
             };
-            var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(credentials);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"));
         }
 
         [Fact]
@@ -74,12 +77,9 @@ namespace Vonage.Test.Unit.Messages.Viber
                     Action = new ViberAction("https://example.com/page1.html", "Find out more"),
                 },
             };
-            var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(credentials);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
         }
 
         [Fact]
@@ -101,12 +101,9 @@ namespace Vonage.Test.Unit.Messages.Viber
                     Action = new ViberAction("https://example.com/page1.html", "Find out more"),
                 },
             };
-            var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(credentials);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
         }
 
         [Fact]
@@ -134,12 +131,9 @@ namespace Vonage.Test.Unit.Messages.Viber
                     ThumbUrl = "https://example.com/file1.jpg",
                 },
             };
-            var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(credentials);
-            var response = await client.MessagesClient.SendAsync(request);
-            Assert.NotNull(response);
-            Assert.Equal(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"), response.MessageUuid);
+            var response = await this.operation(request);
+            response.MessageUuid.Should().Be(new Guid("d1159a25-f64a-4d0e-8cf1-9896b760f3e4"));
         }
     }
 }
