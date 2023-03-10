@@ -2,24 +2,27 @@
 
 namespace Vonage.Messaging
 {
+    /// <summary>
+    /// Represents the type of message.
+    /// </summary>
     public enum SmsType
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember(Value = "text")]
         Text = 1,
         
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember(Value = "binary")]
         Binary = 2,
         
-        [EnumMember(Value = "wappush")]
-        Wappush = 3,
-        
+        /// <summary>
+        /// 
+        /// </summary>
         [EnumMember(Value = "unicode")]
         Unicode = 4,
-        
-        [EnumMember(Value = "vcal")]
-        VCal = 5,
-        
-        [EnumMember(Value = "vcar")]
-        VCar = 6
     }
 }
