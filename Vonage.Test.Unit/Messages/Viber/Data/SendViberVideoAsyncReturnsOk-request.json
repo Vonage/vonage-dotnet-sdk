@@ -1,6 +1,6 @@
 {
   "channel": "viber_service",
-  "message_type": "text",
+  "message_type": "video",
   "to": "441234567890",
   "from": "015417543010",
   "client_ref": "abcdefg",

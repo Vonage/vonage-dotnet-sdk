@@ -29,7 +29,7 @@ public struct ViberVideoRequest : IViberMessage
     /// <inheritdoc />
     [JsonPropertyOrder(1)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesMessageType>))]
-    public MessagesMessageType MessageType => MessagesMessageType.Text;
+    public MessagesMessageType MessageType => MessagesMessageType.Video;
 
     /// <inheritdoc />
     [JsonPropertyOrder(2)]
