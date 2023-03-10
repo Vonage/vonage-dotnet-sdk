@@ -4,7 +4,7 @@ using Vonage.Common.Serialization;
 namespace Vonage.Messages.WhatsApp;
 
 /// <summary>
-///     Represents a request to send a custom message on Viber.
+///     Represents a request to send a custom message on WhatsApp.
 /// </summary>
 public struct WhatsAppCustomRequest : IWhatsAppMessage
 {
