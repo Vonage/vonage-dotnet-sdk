@@ -8,11 +8,12 @@ namespace Vonage.Messages.Viber;
 public enum ViberMessageCategory
 {
     /// <summary>
-    ///     sssssss
+    ///  Transaction.
     /// </summary>
     [Description("transaction")] Transaction = 0,
 
     /// <summary>
+    /// Promotion.
     /// </summary>
     [Description("promotion")] Promotion = 1,
 }
