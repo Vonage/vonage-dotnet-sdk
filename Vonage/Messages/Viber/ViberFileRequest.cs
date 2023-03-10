@@ -35,7 +35,7 @@ public struct ViberFileRequest : IViberMessage
     /// <inheritdoc />
     [JsonPropertyOrder(1)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesMessageType>))]
-    public MessagesMessageType MessageType => MessagesMessageType.Text;
+    public MessagesMessageType MessageType => MessagesMessageType.File;
 
     /// <inheritdoc />
     [JsonPropertyOrder(2)]
