@@ -516,7 +516,47 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <None Remove="Messages\Viber\Data\SendViberTextAsyncReturnsOk-response.json"/>
-        <Content Include="Messages\Viber\Data\SendViberTextAsyncReturnsOk-response.json">
+		<Content Include="Messages\Viber\Data\SendViberTextAsyncReturnsOk-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+        <None Remove="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-request.json"/>
+		<Content Include="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+        <None Remove="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-response.json"/>
+		<Content Include="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+        <None Remove="Messages\Viber\Data\SendViberFileAsyncReturnsOk-request.json"/>
+        <Content Include="Messages\Viber\Data\SendViberFileAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Viber\Data\SendViberFileAsyncReturnsOk-response.json"/>
+        <Content Include="Messages\Viber\Data\SendViberFileAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithUrlSticker-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithUrlSticker-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOk-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
@@ -525,8 +565,6 @@
         <Folder Include="Messages\Messenger\Data"/>
         <Folder Include="Messages\Mms\Data"/>
         <Folder Include="Messages\Sms\Data"/>
-        <Folder Include="Messages\Viber\Data"/>
-        <Folder Include="Messages\WhatsApp\Data"/>
     </ItemGroup>
 
 </Project>

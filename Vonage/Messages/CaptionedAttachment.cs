@@ -3,6 +3,7 @@
 namespace Vonage.Messages;
 
 /// <summary>
+/// Represents an attachment to a message.
 /// </summary>
 public class CaptionedAttachment
 {
@@ -13,7 +14,7 @@ public class CaptionedAttachment
     public string Caption { get; set; }
 
     /// <summary>
-    ///     The URL of the attachment.
+    ///    The publicly accessible URL of the image attachment. The image file is available for 48 hours after it is created. Supported types are .jpg, .jpeg, and .png
     /// </summary>
     [JsonPropertyOrder(0)]
     public string Url { get; set; }

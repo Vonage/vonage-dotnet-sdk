@@ -1,0 +1,47 @@
+{
+  "channel": "whatsapp",
+  "message_type": "custom",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
+  "custom": {
+    "type": "interactive",
+    "interactive": {
+      "type": "product_list",
+      "header": {
+        "type": "text",
+        "text": "Our top products"
+      },
+      "body": {
+        "text": "Check out these great products"
+      },
+      "footer": {
+        "text": "Sale now on!"
+      },
+      "action": {
+        "catalog_id": "catalog_1",
+        "sections": [
+          {
+            "title": "Cool products",
+            "product_items": [
+              {
+                "product_retailer_id": "product_1"
+              },
+              {
+                "product_retailer_id": "product_2"
+              }
+            ]
+          },
+          {
+            "title": "Awesome products",
+            "product_items": [
+              {
+                "product_retailer_id": "product_3"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

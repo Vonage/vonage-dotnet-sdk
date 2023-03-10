@@ -3,7 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace Vonage.Messages.WhatsApp;
 
-public class MessageTemplate
+/// <summary>
+///     Represents a message template.
+/// </summary>
+public struct MessageTemplate
 {
     /// <summary>
     ///     The name of the template. For WhatsApp use your WhatsApp namespace (available via Facebook Business Manager),

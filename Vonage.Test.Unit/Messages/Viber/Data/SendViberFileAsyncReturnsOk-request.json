@@ -1,17 +1,16 @@
 {
   "channel": "viber_service",
-  "message_type": "text",
-  "text": "Hello mum",
+  "message_type": "file",
   "to": "441234567890",
   "from": "015417543010",
   "client_ref": "abcdefg",
   "viber_service": {
     "category": "transaction",
     "ttl": 600,
-    "type": "string",
-    "action": {
-      "url": "https://example.com/page1.html",
-      "text": "Find out more"
-    }
+    "type": "string"
+  },
+  "file": {
+    "url": "https://example.com/files/",
+    "name": "example.pdf"
   }
 }

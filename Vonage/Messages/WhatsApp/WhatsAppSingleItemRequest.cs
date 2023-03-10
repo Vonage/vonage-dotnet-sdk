@@ -1,41 +1,38 @@
 using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
+using Vonage.Messages.WhatsApp.ProductMessages;
+using Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 
-namespace Vonage.Messages.Viber;
+namespace Vonage.Messages.WhatsApp;
 
 /// <summary>
-///     Represents a request to send an image message on Viber.
+///     Represents a request to send Single Item product message on WhatsApp.
 /// </summary>
-public struct ViberImageRequest : IViberMessage
+public struct WhatsAppSingleProductRequest : IWhatsAppMessage
 {
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesChannel>))]
-    public MessagesChannel Channel => MessagesChannel.ViberService;
+    public MessagesChannel Channel => MessagesChannel.WhatsApp;
 
     /// <inheritdoc />
     [JsonPropertyOrder(4)]
     public string ClientRef { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     The custom content.
+    /// </summary>
     [JsonPropertyOrder(5)]
-    [JsonPropertyName("viber_service")]
-    public ViberRequestData Data { get; set; }
+    public ProductMessage<SingleItemMessageContent> Custom { get; set; }
 
     /// <inheritdoc />
     [JsonPropertyOrder(3)]
     public string From { get; set; }
 
-    /// <summary>
-    ///    The file information of the request.
-    /// </summary>
-    [JsonPropertyOrder(6)]
-    public CaptionedAttachment Image { get; set; }
-
     /// <inheritdoc />
     [JsonPropertyOrder(1)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesMessageType>))]
-    public MessagesMessageType MessageType => MessagesMessageType.Image;
+    public MessagesMessageType MessageType => MessagesMessageType.Custom;
 
     /// <inheritdoc />
     [JsonPropertyOrder(2)]
