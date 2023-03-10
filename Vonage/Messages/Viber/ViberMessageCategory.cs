@@ -3,7 +3,7 @@ using System.ComponentModel;
 namespace Vonage.Messages.Viber;
 
 /// <summary>
-///     Represents a category tag for Viber messages.ss
+///     Represents a category tag for Viber messages.
 /// </summary>
 public enum ViberMessageCategory
 {
