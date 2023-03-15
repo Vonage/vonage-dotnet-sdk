@@ -51,20 +51,26 @@
         <DelaySign>false</DelaySign>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" />
+        <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" PrivateAssets="All"/>
         <ProjectReference Include="..\Vonage\Vonage.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Include="VonageLogo_Symbol_Black.png">
             <Pack>True</Pack>
-            <PackagePath />
+            <PackagePath/>
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Enums.NET" Version="4.0.1" />
+        <PackageReference Include="Enums.NET" Version="4.0.1"/>
         <PackageReference Include="PolySharp" Version="1.12.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <_PackageFiles Include="$(OutputPath)\Vonage.Common.dll">
+            <BuildAction>None</BuildAction>
+            <PackagePath>lib\netstandard2.0</PackagePath>
+        </_PackageFiles>
     </ItemGroup>
 </Project>
