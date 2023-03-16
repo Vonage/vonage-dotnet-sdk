@@ -22,5 +22,4 @@ jobs:
       - name: Test
         run: dotnet test  --configuration Release --no-build --filter Category!=Integration
         env:
-          Vonage.Key: ${{ secrets.VONAGE_KEY }}
-          Vonage.Secret: ${{ secrets.VONAGE_SECRET }}
+          Vonage.Test.RsaPrivateKey: ${{ secrets.VONAGE_RSA_PRIVATE_KEY }}
