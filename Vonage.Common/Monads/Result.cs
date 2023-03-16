@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Vonage.Common.Failures;
+using Vonage.Common.Monads.Exceptions;
 
 namespace Vonage.Common.Monads;
 

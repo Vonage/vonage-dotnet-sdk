@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vonage.Common.Monads
+namespace Vonage.Common.Monads.Exceptions
 {
     /// <summary>
     ///     Represents errors that occur during unsafe value retrieval.

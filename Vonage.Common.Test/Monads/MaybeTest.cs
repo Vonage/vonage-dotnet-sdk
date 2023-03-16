@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Monads;
+using Vonage.Common.Monads.Exceptions;
 using Vonage.Common.Test.Extensions;
 
 namespace Vonage.Common.Test.Monads
@@ -69,7 +70,7 @@ namespace Vonage.Common.Test.Monads
         public void GetUnsafe_ShouldThrowException_GivenNone()
         {
             Action act = () => Maybe<string>.None.GetUnsafe();
-            act.Should().Throw<UnsafeValueException>().WithMessage("State is None.");
+            act.Should().Throw<NoneStateException>();
         }
 
         [Fact]

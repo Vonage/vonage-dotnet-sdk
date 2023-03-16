@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
+using Vonage.Common.Monads.Exceptions;
 using Vonage.Common.Test.Extensions;
 
 namespace Vonage.Common.Test.Monads
