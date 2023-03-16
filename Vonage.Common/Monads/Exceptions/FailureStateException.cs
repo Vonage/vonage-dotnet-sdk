@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Vonage.Common.Failures;
 
 namespace Vonage.Common.Monads.Exceptions;
@@ -6,6 +7,7 @@ namespace Vonage.Common.Monads.Exceptions;
 /// <summary>
 ///     Represents errors that occurs when a Result is in a Failure state.
 /// </summary>
+[Serializable]
 public class FailureStateException : Exception
 {
     /// <summary>
@@ -20,4 +22,9 @@ public class FailureStateException : Exception
     public FailureStateException(IResultFailure failure)
         : base("State is Failure.") =>
         this.Failure = failure;
+
+    protected FailureStateException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
+    }
 }

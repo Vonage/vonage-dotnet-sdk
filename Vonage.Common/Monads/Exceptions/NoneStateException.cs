@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Vonage.Common.Monads.Exceptions;
 
@@ -12,6 +13,11 @@ public class NoneStateException : Exception
     /// </summary>
     public NoneStateException()
         : base("State is None.")
+    {
+    }
+
+    protected NoneStateException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
     {
     }
 }
