@@ -149,15 +149,26 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
  Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             
  Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             
 
+### Test configuration
+
+Make sure to set `Vonage.Test.RsaPrivateKey` (with a RSA Private Key) in your environment variables.
+Some tests rely on that to verify a token can be created.
+
+For security reasons, not RSA Private Key is hardcoded in the repository.
+
 ### Integration test configuration
-Make sure to set `Vonage.Key` (with you ApiKey value) and `Vonage.Secret` (with your ApiSecret value) in your environment variables. 
+
+Make sure to set `Vonage.Key` (with you ApiKey value) and `Vonage.Secret` (with your ApiSecret value) in your
+environment variables.
 Integration tests will use those to directly target Vonage's APIs.
 
 ### Logging
 
 #### v5.0.0 +
 
-The Library uses Microsoft.Extensions.Logging to preform all of it's logging tasks. To configure logging for you app simply create a new `ILoggerFactory` and call the `LogProvider.SetLogFactory()` method to tell the Vonage library how to log. For example, to log to the console with serilog you can do the following:
+The Library uses Microsoft.Extensions.Logging to preform all of it's logging tasks. To configure logging for you app
+simply create a new `ILoggerFactory` and call the `LogProvider.SetLogFactory()` method to tell the Vonage library how to
+log. For example, to log to the console with serilog you can do the following:
 
 ```csharp
 using Microsoft.Extensions.Logging;
