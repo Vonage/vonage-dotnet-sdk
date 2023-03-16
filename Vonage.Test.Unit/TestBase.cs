@@ -23,21 +23,12 @@ namespace Vonage.Test.Unit
         protected string RestUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"];
         protected string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
         protected string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
-        protected string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID") ?? "afed99d2-ae38-487c-bb5a-fe2518febd44";
-        protected string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ?? @"-----BEGIN RSA PRIVATE KEY-----
-MIICXAIBAAKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUp
-wmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ5
-1s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQABAoGAFijko56+qGyN8M0RVyaRAXz++xTqHBLh
-3tx4VgMtrQ+WEgCjhoTwo23KMBAuJGSYnRmoBZM3lMfTKevIkAidPExvYCdm5dYq3XToLkkLv5L2
-pIIVOFMDG+KESnAFV7l2c+cnzRMW0+b6f8mR1CJzZuxVLL6Q02fvLi55/mbSYxECQQDeAw6fiIQX
-GukBI4eMZZt4nscy2o12KyYner3VpoeE+Np2q+Z3pvAMd/aNzQ/W9WaI+NRfcxUJrmfPwIGm63il
-AkEAxCL5HQb2bQr4ByorcMWm/hEP2MZzROV73yF41hPsRC9m66KrheO9HPTJuo3/9s5p+sqGxOlF
-L0NDt4SkosjgGwJAFklyR1uZ/wPJjj611cdBcztlPdqoxssQGnh85BzCj/u3WqBpE2vjvyyvyI5k
-X6zk7S0ljKtt2jny2+00VsBerQJBAJGC1Mg5Oydo5NwD6BiROrPxGo2bpTbu/fhrT8ebHkTz2epl
-U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
-37sJ5QsW+sJyoNde3xH8vdXhzU7eT82D6X/scw9RZz+/6rCJ4p0=
------END RSA PRIVATE KEY-----";
 
+        protected string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID") ??
+                                 "afed99d2-ae38-487c-bb5a-fe2518febd44";
+
+        protected string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
+                                      Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
 
 #if NETCOREAPP2_0_OR_GREATER
         private static readonly Assembly ThisAssembly = typeof(TestBase).GetTypeInfo().Assembly;
@@ -58,10 +49,11 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
             }
         }
 
-
-        protected void Setup(string uri, string responseContent, string requestContent = null, HttpStatusCode expectedCode = HttpStatusCode.OK)
+        protected void Setup(string uri, string responseContent, string requestContent = null,
+            HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
-            Setup(uri, new StringContent(responseContent, Encoding.UTF8, "application/json"), expectedCode, requestContent);
+            Setup(uri, new StringContent(responseContent, Encoding.UTF8, "application/json"), expectedCode,
+                requestContent);
         }
 
         protected void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
@@ -69,11 +61,12 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
             Setup(uri, new StreamContent(new MemoryStream(responseContent)), expectedCode);
         }
 
-        private void Setup(string uri, HttpContent httpContent, HttpStatusCode expectedCode, string requestContent = null)
+        private void Setup(string uri, HttpContent httpContent, HttpStatusCode expectedCode,
+            string requestContent = null)
         {
-            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(Configuration.Instance, null);
+            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)
+                ?.SetValue(Configuration.Instance, null);
             Mock<HttpMessageHandler> mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-          
             mockHandler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(MockedMethod,
@@ -81,10 +74,10 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
                     ItExpr.IsAny<CancellationToken>())
                 .Callback<HttpRequestMessage, CancellationToken>((actualHttpRequestMessage, cancellationToken) =>
                 {
-                    Assert.Equal(uri, actualHttpRequestMessage.RequestUri.AbsoluteUri, StringComparer.OrdinalIgnoreCase);
+                    Assert.Equal(uri, actualHttpRequestMessage.RequestUri.AbsoluteUri,
+                        StringComparer.OrdinalIgnoreCase);
                     if (requestContent == null)
                         return;
-                    
                     var actualContent = actualHttpRequestMessage.Content.ReadAsStringAsync().Result;
                     Assert.Equal(requestContent, actualContent, StringComparer.OrdinalIgnoreCase);
                 })
@@ -94,7 +87,6 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
                     Content = httpContent
                 })
                 .Verifiable();
-            
             Configuration.Instance.ClientHandler = mockHandler.Object;
         }
 
@@ -103,8 +95,7 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
         {
             var type = GetType().Name;
             var projectFolder = GetType().Namespace.Substring(TestAssemblyName.Length);
-            var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type , name + ".json");
-
+            var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, name + ".json");
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException($"File not found at {path}.");
@@ -123,7 +114,6 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);
                 var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, $"{name}-response.json");
-
                 if (!File.Exists(path))
                 {
                     throw new FileNotFoundException($"File not found at {path}.");
@@ -152,7 +142,6 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);
                 var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, $"{name}-request.json");
-
                 if (!File.Exists(path))
                 {
                     throw new FileNotFoundException($"File not found at {path}.");
@@ -165,7 +154,7 @@ U9VQQSQzY1oZMVX8i1m5WUTLPz2yLJIBQVdXqhMCQBGoiuSoSjafUhV7i1cEGpb88h5NBYZzWXGZ
 
             return string.Empty;
         }
-        
+
         protected string GetRequestJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null)
         {
             var response = GetRequestJson(name);
