@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Vonage.Common.Failures;
+using Vonage.Common.Monads.Exceptions;
 
 namespace Vonage.Common.Monads;
 
@@ -85,9 +86,9 @@ public readonly struct Result<T>
     ///     Retrieves the Failure value. This method is unsafe and will throw an exception if in Success state.
     /// </summary>
     /// <returns>The Failure value when in Failure state.</returns>
-    /// <exception cref="UnsafeValueException">When in Success state.</exception>
+    /// <exception cref="FailureStateException">When in Success state.</exception>
     public IResultFailure GetFailureUnsafe() =>
-        this.Match(_ => throw new UnsafeValueException("State is Success."), _ => _);
+        this.Match(value => throw new SuccessStateException<T>(value), _ => _);
 
     /// <inheritdoc />
     public override int GetHashCode() => this.IsSuccess ? this.success.GetHashCode() : this.failure.GetHashCode();
@@ -96,8 +97,8 @@ public readonly struct Result<T>
     ///     Retrieves the Success value. This method is unsafe and will throw an exception if in Failure state.
     /// </summary>
     /// <returns>The Success value if in Success state.</returns>
-    /// <exception cref="UnsafeValueException">When in Failure state.</exception>
-    public T GetSuccessUnsafe() => this.Match(_ => _, _ => throw new UnsafeValueException("State is Failure."));
+    /// <exception cref="FailureStateException">When in Failure state.</exception>
+    public T GetSuccessUnsafe() => this.IfFailure(value => throw new FailureStateException(value));
 
     /// <summary>
     ///     Invokes the action if Result is in the Failure state, otherwise nothing happens.

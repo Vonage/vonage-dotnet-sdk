@@ -1,4 +1,5 @@
 ﻿using System;
+using Vonage.Common.Monads.Exceptions;
 
 namespace Vonage.Common.Monads;
 
@@ -58,8 +59,8 @@ public readonly struct Maybe<TA>
     ///     Retrieves the Maybe's value. This method is unsafe and will throw an exception if in None state.
     /// </summary>
     /// <returns>The value if in Some state.</returns>
-    /// <exception cref="UnsafeValueException">When in None state.</exception>
-    public TA GetUnsafe() => this.IfNone(() => throw new UnsafeValueException("State is none."));
+    /// <exception cref="NoneStateException">When in None state.</exception>
+    public TA GetUnsafe() => this.IfNone(() => throw new NoneStateException());
 
     /// <summary>
     ///     Returns the result of the operation if Maybe is in the None state, the Some value otherwise.

@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
+using Vonage.Common.Monads.Exceptions;
 using Vonage.Common.Test.Extensions;
 
 namespace Vonage.Common.Test.Monads
@@ -112,7 +113,8 @@ namespace Vonage.Common.Test.Monads
         public void GetFailureUnsafe_ShouldThrowException_GivenSuccess()
         {
             Action act = () => CreateSuccess(5).GetFailureUnsafe();
-            act.Should().Throw<UnsafeValueException>().WithMessage("State is Success.");
+            act.Should().Throw<SuccessStateException<int>>().WithMessage("State is Success.")
+                .Which.Success.Should().Be(5);
         }
 
         [Fact]
@@ -137,7 +139,9 @@ namespace Vonage.Common.Test.Monads
         public void GetSuccessUnsafe_ShouldThrowException_GivenFailure()
         {
             Action act = () => CreateFailure().GetSuccessUnsafe();
-            act.Should().Throw<UnsafeValueException>().WithMessage("State is Failure.");
+            act.Should().Throw<FailureStateException>()
+                .WithMessage("State is Failure.")
+                .Which.Failure.Should().Be(CreateResultFailure());
         }
 
         [Fact]
