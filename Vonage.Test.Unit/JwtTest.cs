@@ -9,16 +9,16 @@ namespace Vonage.Test.Unit
     public class JwtTest
     {
         private const string ApplicationId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-        private readonly string PrivateKey = Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
+        private readonly string privateKey = Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
 
         [Fact]
         public void GenerateToken_ShouldGenerateToken_GivenCredentialsAreProvided() =>
-            new Jwt().GenerateToken(Credentials.FromAppIdAndPrivateKey(ApplicationId, PrivateKey)).Should()
+            new Jwt().GenerateToken(Credentials.FromAppIdAndPrivateKey(ApplicationId, this.privateKey)).Should()
                 .NotBeEmpty();
 
         [Fact]
         public void GenerateToken_ShouldGenerateToken_GivenIdAndKeyAreProvided() =>
-            new Jwt().GenerateToken(ApplicationId, PrivateKey).Should().NotBeEmpty();
+            new Jwt().GenerateToken(ApplicationId, this.privateKey).Should().NotBeEmpty();
 
         [Theory]
         [InlineData("")]
@@ -34,7 +34,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestJwt()
         {
-            var token = Jwt.CreateToken(ApplicationId, PrivateKey);
+            var token = Jwt.CreateToken(ApplicationId, this.privateKey);
             Assert.False(string.IsNullOrEmpty(token));
         }
     }
