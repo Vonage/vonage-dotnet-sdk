@@ -1,11 +1,11 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace Vonage.Common.Monads.Exceptions;
 
 /// <summary>
 ///     Represents errors that occurs when a Result is in a Success state.
 /// </summary>
+[Serializable]
 public class SuccessStateException<T> : Exception
 {
     /// <summary>
@@ -20,9 +20,4 @@ public class SuccessStateException<T> : Exception
     public SuccessStateException(T success)
         : base("State is Success.") =>
         this.Success = success;
-
-    protected SuccessStateException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }
