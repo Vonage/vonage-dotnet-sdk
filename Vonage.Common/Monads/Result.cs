@@ -88,7 +88,7 @@ public readonly struct Result<T>
     /// <returns>The Failure value when in Failure state.</returns>
     /// <exception cref="UnsafeValueException">When in Success state.</exception>
     public IResultFailure GetFailureUnsafe() =>
-        this.Match(_ => throw new UnsafeValueException("State is Success."), _ => _);
+        this.Match(value => throw new SuccessStateException<T>(value), _ => _);
 
     /// <inheritdoc />
     public override int GetHashCode() => this.IsSuccess ? this.success.GetHashCode() : this.failure.GetHashCode();
@@ -98,7 +98,7 @@ public readonly struct Result<T>
     /// </summary>
     /// <returns>The Success value if in Success state.</returns>
     /// <exception cref="UnsafeValueException">When in Failure state.</exception>
-    public T GetSuccessUnsafe() => this.Match(_ => _, _ => throw new UnsafeValueException("State is Failure."));
+    public T GetSuccessUnsafe() => this.Match(_ => _, value => throw new FailureStateException(value));
 
     /// <summary>
     ///     Invokes the action if Result is in the Failure state, otherwise nothing happens.
