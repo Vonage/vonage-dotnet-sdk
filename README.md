@@ -156,8 +156,7 @@ Some tests rely on that to verify a token can be created.
 For security reasons, not RSA Private Key is hardcoded in the repository.
 
 ### Integration test configuration
-Make sure to set `Vonage.Key` (with you ApiKey value) and `Vonage.Secret` (with your ApiSecret value) in your
-environment variables.
+Make sure to set `Vonage.Key` (with you ApiKey value) and `Vonage.Secret` (with your ApiSecret value) in your environment variables.
 Integration tests will use those to directly target Vonage's APIs.
 
 ### Logging
