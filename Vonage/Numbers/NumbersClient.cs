@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vonage.Request;
 
@@ -97,10 +98,13 @@ namespace Vonage.Numbers
 
         public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
         {
+            var apiKey = (creds ?? Credentials).ApiKey;
+            var apiSecret = (creds ?? Credentials).ApiSecret;
             var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/buy"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/buy?api_key={apiKey}&api_secret={apiSecret}"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                false
             );
             ValidateNumbersResponse(response);
             return response;

@@ -142,7 +142,7 @@ namespace Vonage.Request
             var requestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
             return SendGetRequest<T>(requestUri, authType, credentials);
         }
-
+        
         /// <summary>
         ///     SendAsync a GET request to the versioned Vonage API.
         ///     Do not include credentials in the parameters object. If you need to override credentials, use the optional
@@ -169,12 +169,13 @@ namespace Vonage.Request
         /// <param name="uri"></param>
         /// <param name="parameters"></param>
         /// <param name="creds"></param>
+        /// <param name="withCredentials">Indicates whether credentials should be included in Query string.</param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static T DoPostRequestUrlContentFromObject<T>(Uri uri, object parameters, Credentials creds = null)
+        public static T DoPostRequestUrlContentFromObject<T>(Uri uri, object parameters, Credentials creds = null, bool withCredentials = true)
         {
             var apiParams = GetParameters(parameters);
-            return DoPostRequestWithUrlContent<T>(uri, apiParams, creds);
+            return DoPostRequestWithUrlContent<T>(uri, apiParams, creds, withCredentials);
         }
 
         /// <summary>
@@ -192,33 +193,15 @@ namespace Vonage.Request
             var apiParams = GetParameters(parameters);
             return await DoPostRequestWithUrlContentAsync<T>(uri, apiParams, creds);
         }
-
-        /// <summary>
-        ///     SendAsync a Post Request with Url Content
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="parameters"></param>
-        /// <param name="creds"></param>
-        /// <returns></returns>
-        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters,
-            Credentials creds = null)
+        
+        private static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters,
+            Credentials creds = null, bool withCredentials = true)
         {
-            var response = DoRequestWithUrlContent("POST", uri, parameters, creds: creds);
+            var response = DoRequestWithUrlContent("POST", uri, parameters, creds: creds, withCredentials: withCredentials);
             return JsonConvert.DeserializeObject<T>(response.JsonResponse);
         }
-
-        /// <summary>
-        /// SendAsync a Post Request with Url Content
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="parameters"></param>
-        /// <param name="creds"></param>
-        /// <returns></returns>
-        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static async Task<T> DoPostRequestWithUrlContentAsync<T>(Uri uri, Dictionary<string, string> parameters,
+        
+        private static async Task<T> DoPostRequestWithUrlContentAsync<T>(Uri uri, Dictionary<string, string> parameters,
             Credentials creds = null)
         {
             var response = await DoRequestWithUrlContentAsync("POST", uri, parameters, creds: creds);
@@ -303,19 +286,8 @@ namespace Vonage.Request
                 value => JsonConvert.SerializeObject(value, VonageSerialization.SerializerSettings),
                 JsonConvert.DeserializeObject<T>);
 
-        /// <summary>
-        ///     SendAsync a request to the Vonage API using the specified HTTP method and the provided parameters.
-        ///     Do not include credentials in the parameters object. If you need to override credentials, use the optional
-        ///     Credentials parameter.
-        /// </summary>
-        /// <param name="method">HTTP method (POST, PUT, DELETE, etc)</param>
-        /// <param name="uri">The URI to communicate with</param>
-        /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
-        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        /// <returns></returns>
-        public static VonageResponse DoRequestWithUrlContent(string method, Uri uri,
-            Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null)
+        private static VonageResponse DoRequestWithUrlContent(string method, Uri uri,
+            Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null, bool withCredentials = true)
         {
             var logger = LogProvider.GetLogger(LoggerCategory);
             var sb = new StringBuilder();
@@ -323,7 +295,7 @@ namespace Vonage.Request
             // if parameters is null, assume that key and secret have been taken care of            
             if (null != parameters)
             {
-                sb = GetQueryStringBuilderFor(parameters, authType, creds);
+                sb = GetQueryStringBuilderFor(parameters, authType, creds, withCredentials);
             }
 
             var req = new HttpRequestMessage
@@ -347,19 +319,8 @@ namespace Vonage.Request
             logger.LogDebug($"{method} {uri} {sb}");
             return SendHttpRequest(req);
         }
-
-        /// <summary>
-        ///     SendAsync a request to the Vonage API using the specified HTTP method and the provided parameters.
-        ///     Do not include credentials in the parameters object. If you need to override credentials, use the optional
-        ///     Credentials parameter.
-        /// </summary>
-        /// <param name="method">HTTP method (POST, PUT, DELETE, etc)</param>
-        /// <param name="uri">The URI to communicate with</param>
-        /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
-        /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        /// <returns></returns>
-        public static async Task<VonageResponse> DoRequestWithUrlContentAsync(string method, Uri uri,
+        
+        private static async Task<VonageResponse> DoRequestWithUrlContentAsync(string method, Uri uri,
             Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null)
         {
             var logger = LogProvider.GetLogger(LoggerCategory);
@@ -410,14 +371,8 @@ namespace Vonage.Request
 
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
-
-        /// <summary>
-        ///     Sends an HttpRequest on to the Vonage API
-        /// </summary>
-        /// <param name="req"></param>
-        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        /// <returns></returns>
-        public static VonageResponse SendHttpRequest(HttpRequestMessage req)
+        
+        private static VonageResponse SendHttpRequest(HttpRequestMessage req)
         {
             var logger = LogProvider.GetLogger(LoggerCategory);
             var response = Configuration.Instance.Client.SendAsync(req).Result;
@@ -445,14 +400,8 @@ namespace Vonage.Request
                     {HttpStatusCode = response.StatusCode, Json = json};
             }
         }
-
-        /// <summary>
-        ///     Sends an HttpRequest on to the Vonage API
-        /// </summary>
-        /// <param name="req"></param>
-        /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        /// <returns></returns>
-        public static async Task<VonageResponse> SendHttpRequestAsync(HttpRequestMessage req)
+        
+        private static async Task<VonageResponse> SendHttpRequestAsync(HttpRequestMessage req)
         {
             var logger = LogProvider.GetLogger(LoggerCategory);
             var response = await Configuration.Instance.Client.SendAsync(req).ConfigureAwait(false);
@@ -489,8 +438,9 @@ namespace Vonage.Request
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="creds"></param>
+        /// <param name="withCredentials">Indicates whether credentials should be included in Query string.</param>
         /// <returns></returns>
-        private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null)
+        private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null, bool withCredentials = true)
         {
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Vonage_secret"];
@@ -536,11 +486,20 @@ namespace Vonage.Request
                         kvp.Value.Replace('=', '_').Replace('&', '_'));
                 }
             };
-            parameters.Add("api_key", apiKey);
+
+            if (withCredentials)
+            {
+                parameters.Add("api_key", apiKey);    
+            }
+            
             if (string.IsNullOrEmpty(securitySecret))
             {
                 // security secret not provided, do not sign
-                parameters.Add("api_secret", apiSecret);
+                if (withCredentials)
+                {
+                    parameters.Add("api_secret", apiSecret);    
+                }
+                
                 buildStringFromParams(parameters, sb);
                 return sb;
             }
@@ -662,7 +621,7 @@ namespace Vonage.Request
         /// </summary>
         /// <param name="request"></param>
         /// <param name="creds"></param>
-        internal static void SetUserAgent(ref HttpRequestMessage request, Credentials creds)
+        private static void SetUserAgent(ref HttpRequestMessage request, Credentials creds)
         {
             if (string.IsNullOrEmpty(_userAgent))
             {
@@ -704,7 +663,7 @@ namespace Vonage.Request
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        internal static Dictionary<string, string> GetParameters(object parameters)
+        private static Dictionary<string, string> GetParameters(object parameters)
         {
             var json = JsonConvert.SerializeObject(parameters, VonageSerialization.SerializerSettings);
             return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
@@ -722,15 +681,8 @@ namespace Vonage.Request
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
 
-        /// <summary>
-        /// Creates a query string for the given parameters - if the auth type is Query the credentials are appended to the end of the query string
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <param name="type"></param>
-        /// <param name="creds"></param>
-        /// <returns></returns>
-        internal static StringBuilder GetQueryStringBuilderFor(object parameters, AuthType type,
-            Credentials creds = null)
+        private static StringBuilder GetQueryStringBuilderFor(object parameters, AuthType type,
+            Credentials creds = null, bool withCredentials = true)
         {
             Dictionary<string, string> apiParams;
             if (!(parameters is Dictionary<string, string>))
@@ -745,7 +697,7 @@ namespace Vonage.Request
             var sb = new StringBuilder();
             if (type == AuthType.Query)
             {
-                sb = BuildQueryString(apiParams, creds);
+                sb = BuildQueryString(apiParams, creds, withCredentials);
             }
             else
             {

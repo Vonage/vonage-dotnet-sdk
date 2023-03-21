@@ -131,22 +131,22 @@ namespace Vonage.Test.Unit
               ""error-code"": ""200"",
               ""error-code-label"": ""success""
             }";
-            var expectedUri = $"{RestUrl}/number/buy";
-            string expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedUri = $"{RestUrl}/number/buy?api_key={ApiKey}&api_secret={ApiSecret}";
+            string expectedRequestContent;
             NumberTransactionRequest request;
 
             if (kitchenSink)
             {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&target_api_key=12345&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"country=GB&msisdn=447700900000&target_api_key=12345&";
                 request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000", TargetApiKey="12345" };
             }
             else
             {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"country=GB&msisdn=447700900000&";
                 request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000" };
             }
             
-            Setup(expectedUri, expectedResponse, expectdRequestContent);
+            Setup(expectedUri, expectedResponse, expectedRequestContent);
 
             var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
