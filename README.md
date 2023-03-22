@@ -507,31 +507,6 @@ Therefore, they should be installed on your machine to guarantee compatibility w
 
 Pull requests are welcome!
 
-## Thanks
-
-Special thanks to our contributors:
-
-* [jdpearce](https://github.com/jdpearce)
-* [jonferreira](https://github.com/jonferreira)
-* [fauna5](https://github.com/fauna5)
-* [taylus](https://github.com/taylus)
-* [smikis](https://github.com/smikis)
-* [gagandeepp](https://github.com/gagandeepp)
-* [kzuri](https://github.com/kzuri)
-* [Parikshit-Hood](https://github.com/Parikshit-Hooda)
-* [onpoc](https://github.com/onpoc)
-* [hognevevle](https://github.com/hognevevle)
-
-### Try
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
 ## License
 
 This library is released under [the MIT License][license].
