@@ -185,13 +185,14 @@ namespace Vonage.Request
         /// <param name="uri"></param>
         /// <param name="parameters"></param>
         /// <param name="creds"></param>
+        /// <param name="withCredentials">Indicates whether credentials should be included in Query string.</param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
         public static async Task<T> DoPostRequestUrlContentFromObjectAsync<T>(Uri uri, object parameters,
-            Credentials creds = null)
+            Credentials creds = null, bool withCredentials = true)
         {
             var apiParams = GetParameters(parameters);
-            return await DoPostRequestWithUrlContentAsync<T>(uri, apiParams, creds);
+            return await DoPostRequestWithUrlContentAsync<T>(uri, apiParams, creds, withCredentials);
         }
         
         private static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters,
@@ -202,9 +203,9 @@ namespace Vonage.Request
         }
         
         private static async Task<T> DoPostRequestWithUrlContentAsync<T>(Uri uri, Dictionary<string, string> parameters,
-            Credentials creds = null)
+            Credentials creds = null, bool withCredentials = true)
         {
-            var response = await DoRequestWithUrlContentAsync("POST", uri, parameters, creds: creds);
+            var response = await DoRequestWithUrlContentAsync("POST", uri, parameters, creds: creds, withCredentials: withCredentials);
             return JsonConvert.DeserializeObject<T>(response.JsonResponse);
         }
 
@@ -321,7 +322,7 @@ namespace Vonage.Request
         }
         
         private static async Task<VonageResponse> DoRequestWithUrlContentAsync(string method, Uri uri,
-            Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null)
+            Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null, bool withCredentials = true)
         {
             var logger = LogProvider.GetLogger(LoggerCategory);
             var sb = new StringBuilder();
@@ -329,7 +330,7 @@ namespace Vonage.Request
             // if parameters is null, assume that key and secret have been taken care of            
             if (null != parameters)
             {
-                sb = GetQueryStringBuilderFor(parameters, authType, creds);
+                sb = GetQueryStringBuilderFor(parameters, authType, creds, withCredentials);
             }
 
             var req = new HttpRequestMessage

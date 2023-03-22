@@ -1,21 +1,207 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Web;
 using Vonage.Numbers;
+using Vonage.Request;
 using Xunit;
+
 namespace Vonage.Test.Unit
 {
     public class NumbersTests : TestBase
     {
         [Theory]
-        [InlineData(true,true)]
-        [InlineData(false,false)]
-        public void TestSearchNumbers(bool passCreds, bool kitchenSink)
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void TestBuyNumber(bool passCredentials, bool kitchenSink)
         {
-            var expetedResponse = @"{
+            var expectedResponse = @"{
+              ""error-code"": ""200"",
+              ""error-code-label"": ""success""
+            }";
+            var expectedUri = $"{this.RestUrl}/number/buy?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
+            string expectedRequestContent;
+            NumberTransactionRequest request;
+            if (kitchenSink)
+            {
+                expectedRequestContent = "country=GB&msisdn=447700900000&target_api_key=12345&";
+                request = new NumberTransactionRequest
+                    {Country = "GB", Msisdn = "447700900000", TargetApiKey = "12345"};
+            }
+            else
+            {
+                expectedRequestContent = "country=GB&msisdn=447700900000&";
+                request = new NumberTransactionRequest {Country = "GB", Msisdn = "447700900000"};
+            }
+
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = new VonageClient(credentials);
+            NumberTransactionResponse response;
+            if (passCredentials)
+            {
+                response = client.NumbersClient.BuyANumber(request, credentials);
+            }
+            else
+            {
+                response = client.NumbersClient.BuyANumber(request);
+            }
+
+            Assert.Equal("200", response.ErrorCode);
+            Assert.Equal("success", response.ErrorCodeLabel);
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public async void TestBuyNumberAsync(bool passCredentials, bool kitchenSink)
+        {
+            var expectedResponse = @"{
+              ""error-code"": ""200"",
+              ""error-code-label"": ""success""
+            }";
+            var expectedUri = $"{this.RestUrl}/number/buy?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
+            string expectedRequestContent;
+            NumberTransactionRequest request;
+            if (kitchenSink)
+            {
+                expectedRequestContent = "country=GB&msisdn=447700900000&target_api_key=12345&";
+                request = new NumberTransactionRequest
+                    {Country = "GB", Msisdn = "447700900000", TargetApiKey = "12345"};
+            }
+            else
+            {
+                expectedRequestContent = "country=GB&msisdn=447700900000&";
+                request = new NumberTransactionRequest {Country = "GB", Msisdn = "447700900000"};
+            }
+
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = new VonageClient(credentials);
+            NumberTransactionResponse response;
+            if (passCredentials)
+            {
+                response = await client.NumbersClient.BuyANumberAsync(request, credentials);
+            }
+            else
+            {
+                response = await client.NumbersClient.BuyANumberAsync(request);
+            }
+
+            Assert.Equal("200", response.ErrorCode);
+            Assert.Equal("success", response.ErrorCodeLabel);
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void TestCancelNumber(bool passCredentials, bool kitchenSink)
+        {
+            var expectedResponse = @"{
+              ""error-code"": ""200"",
+              ""error-code-label"": ""success""
+            }";
+            var expectedUri = $"{this.RestUrl}/number/cancel?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
+            string expectedRequestContent;
+            NumberTransactionRequest request;
+            if (kitchenSink)
+            {
+                expectedRequestContent = "country=GB&msisdn=447700900000&target_api_key=12345&";
+                request = new NumberTransactionRequest
+                    {Country = "GB", Msisdn = "447700900000", TargetApiKey = "12345"};
+            }
+            else
+            {
+                expectedRequestContent = "country=GB&msisdn=447700900000&";
+                request = new NumberTransactionRequest {Country = "GB", Msisdn = "447700900000"};
+            }
+
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = new VonageClient(credentials);
+            NumberTransactionResponse response;
+            if (passCredentials)
+            {
+                response = client.NumbersClient.CancelANumber(request, credentials);
+            }
+            else
+            {
+                response = client.NumbersClient.CancelANumber(request);
+            }
+
+            Assert.Equal("200", response.ErrorCode);
+            Assert.Equal("success", response.ErrorCodeLabel);
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public async void TestCancelNumberAsync(bool passCredentials, bool kitchenSink)
+        {
+            const string expectedResponse = @"{
+              ""error-code"": ""200"",
+              ""error-code-label"": ""success""
+            }";
+            var expectedUri = $"{this.RestUrl}/number/cancel?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
+            string expectedRequestContent;
+            NumberTransactionRequest request;
+            if (kitchenSink)
+            {
+                expectedRequestContent = "country=GB&msisdn=447700900000&target_api_key=12345&";
+                request = new NumberTransactionRequest
+                    {Country = "GB", Msisdn = "447700900000", TargetApiKey = "12345"};
+            }
+            else
+            {
+                expectedRequestContent = "country=GB&msisdn=447700900000&";
+                request = new NumberTransactionRequest {Country = "GB", Msisdn = "447700900000"};
+            }
+
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = new VonageClient(credentials);
+            NumberTransactionResponse response;
+            if (passCredentials)
+            {
+                response = await client.NumbersClient.CancelANumberAsync(request, credentials);
+            }
+            else
+            {
+                response = await client.NumbersClient.CancelANumberAsync(request);
+            }
+
+            Assert.Equal("200", response.ErrorCode);
+            Assert.Equal("success", response.ErrorCodeLabel);
+        }
+
+        [Fact]
+        public void TestFailedPurchase()
+        {
+            const string expectedResponse = @"{
+              ""error-code"": ""401"",
+              ""error-code-label"": ""authentifcation failed""
+            }";
+            var expectedUri = $"{this.RestUrl}/number/buy?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
+            var expectedRequestContent = "country=GB&msisdn=447700900000&";
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var request = new NumberTransactionRequest {Country = "GB", Msisdn = "447700900000"};
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = new VonageClient(credentials);
+            try
+            {
+                client.NumbersClient.BuyANumber(request);
+                Assert.True(false, "Failin because exception was not thrown");
+            }
+            catch (VonageNumberResponseException ex)
+            {
+                Assert.Equal("401", ex.Response.ErrorCode);
+                Assert.Equal("authentifcation failed", ex.Response.ErrorCodeLabel);
+            }
+        }
+
+        [Theory]
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void TestSearchNumbers(bool passCredentials, bool kitchenSink)
+        {
+            const string expectedResponse = @"{
               ""count"": 1234,
               ""numbers"": [
                 {
@@ -30,26 +216,31 @@ namespace Vonage.Test.Unit
                 }
               ]
             }";
-            var expectedUri = $"{RestUrl}/number/search";
+            var expectedUri = $"{this.RestUrl}/number/search";
             NumberSearchRequest request;
             if (kitchenSink)
             {
-                expectedUri += $"?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberSearchRequest { Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains, Features = "SMS", Size = 10, Index = 1 };
+                expectedUri +=
+                    $"?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                request = new NumberSearchRequest
+                {
+                    Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains,
+                    Features = "SMS", Size = 10, Index = 1,
+                };
             }
             else
             {
-                expectedUri += $"?country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberSearchRequest { Country = "GB" };
+                expectedUri += $"?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                request = new NumberSearchRequest {Country = "GB"};
             }
-            Setup(expectedUri, expetedResponse);
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
 
+            this.Setup(expectedUri, expectedResponse);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = new VonageClient(credentials);
             NumbersSearchResponse response;
-            if (passCreds)
+            if (passCredentials)
             {
-                response = client.NumbersClient.GetAvailableNumbers(request, creds);
+                response = client.NumbersClient.GetAvailableNumbers(request, credentials);
             }
             else
             {
@@ -69,9 +260,9 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public async void TestSearchNumbersAsync(bool passCreds, bool kitchenSink)
+        public async void TestSearchNumbersAsync(bool passCredentials, bool kitchenSink)
         {
-            var expetedResponse = @"{
+            const string expectedResponse = @"{
               ""count"": 1234,
               ""numbers"": [
                 {
@@ -86,26 +277,31 @@ namespace Vonage.Test.Unit
                 }
               ]
             }";
-            var expectedUri = $"{RestUrl}/number/search";
+            var expectedUri = $"{this.RestUrl}/number/search";
             NumberSearchRequest request;
             if (kitchenSink)
             {
-                expectedUri += $"?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberSearchRequest { Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains, Features = "SMS", Size = 10, Index = 1 };
+                expectedUri +=
+                    $"?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                request = new NumberSearchRequest
+                {
+                    Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains,
+                    Features = "SMS", Size = 10, Index = 1,
+                };
             }
             else
             {
-                expectedUri += $"?country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberSearchRequest { Country = "GB" };
+                expectedUri += $"?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                request = new NumberSearchRequest {Country = "GB"};
             }
-            Setup(expectedUri, expetedResponse);
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
 
+            this.Setup(expectedUri, expectedResponse);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = new VonageClient(credentials);
             NumbersSearchResponse response;
-            if (passCreds)
+            if (passCredentials)
             {
-                response = await client.NumbersClient.GetAvailableNumbersAsync(request, creds);
+                response = await client.NumbersClient.GetAvailableNumbersAsync(request, credentials);
             }
             else
             {
@@ -123,217 +319,47 @@ namespace Vonage.Test.Unit
         }
 
         [Theory]
-        [InlineData(true,true)]
-        [InlineData(false,false)]
-        public void TestBuyNumber(bool passCreds, bool kitchenSink)
+        [InlineData(true, true)]
+        [InlineData(false, false)]
+        public void TestUpdateNumber(bool passCredentials, bool kitchenSink)
         {
-            var expectedResponse = @"{
+            const string expectedResponse = @"{
               ""error-code"": ""200"",
               ""error-code-label"": ""success""
             }";
-            var expectedUri = $"{RestUrl}/number/buy?api_key={ApiKey}&api_secret={ApiSecret}";
+            var expectedUri = $"{this.RestUrl}/number/update?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
             string expectedRequestContent;
-            NumberTransactionRequest request;
-
-            if (kitchenSink)
-            {
-                expectedRequestContent = $"country=GB&msisdn=447700900000&target_api_key=12345&";
-                request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000", TargetApiKey="12345" };
-            }
-            else
-            {
-                expectedRequestContent = $"country=GB&msisdn=447700900000&";
-                request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000" };
-            }
-            
-            Setup(expectedUri, expectedResponse, expectedRequestContent);
-
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
-            NumberTransactionResponse response;
-            if (passCreds)
-            {
-                response = client.NumbersClient.BuyANumber(request, creds);
-            }
-            else
-            {
-                response = client.NumbersClient.BuyANumber(request);
-            }
-            
-            Assert.Equal("200",response.ErrorCode);
-            Assert.Equal("success", response.ErrorCodeLabel);
-        }
-
-        [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public async void TestBuyNumberAsync(bool passCreds, bool kitchenSink)
-        {
-            var expectedResponse = @"{
-              ""error-code"": ""200"",
-              ""error-code-label"": ""success""
-            }";
-            var expectedUri = $"{RestUrl}/number/buy";
-            string expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
-            NumberTransactionRequest request;
-
-            if (kitchenSink)
-            {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&target_api_key=12345&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000", TargetApiKey = "12345" };
-            }
-            else
-            {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000" };
-            }
-
-            Setup(expectedUri, expectedResponse, expectdRequestContent);
-
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
-            NumberTransactionResponse response;
-            if (passCreds)
-            {
-                response = await client.NumbersClient.BuyANumberAsync(request, creds);
-            }
-            else
-            {
-                response = await client.NumbersClient.BuyANumberAsync(request);
-            }
-
-            Assert.Equal("200", response.ErrorCode);
-            Assert.Equal("success", response.ErrorCodeLabel);
-        }
-
-        [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public void TestCancelNumber(bool passCreds, bool kitchenSink)
-        {
-            var expectedResponse = @"{
-              ""error-code"": ""200"",
-              ""error-code-label"": ""success""
-            }";
-            var expectedUri = $"{RestUrl}/number/cancel";
-            string expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
-            NumberTransactionRequest request;
-
-            if (kitchenSink)
-            {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&target_api_key=12345&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000", TargetApiKey = "12345" };
-            }
-            else
-            {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000" };
-            }
-
-            Setup(expectedUri, expectedResponse, expectdRequestContent);
-
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
-            NumberTransactionResponse response;
-            if (passCreds)
-            {
-                response = client.NumbersClient.CancelANumber(request, creds);
-            }
-            else
-            {
-                response = client.NumbersClient.CancelANumber(request);
-            }
-
-            Assert.Equal("200", response.ErrorCode);
-            Assert.Equal("success", response.ErrorCodeLabel);
-        }
-
-        [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public async void TestCancelNumberAsync(bool passCreds, bool kitchenSink)
-        {
-            var expectedResponse = @"{
-              ""error-code"": ""200"",
-              ""error-code-label"": ""success""
-            }";
-            var expectedUri = $"{RestUrl}/number/cancel";
-            string expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
-            NumberTransactionRequest request;
-
-            if (kitchenSink)
-            {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&target_api_key=12345&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000", TargetApiKey = "12345" };
-            }
-            else
-            {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000" };
-            }
-
-            Setup(expectedUri, expectedResponse, expectdRequestContent);
-
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
-            NumberTransactionResponse response;
-            if (passCreds)
-            {
-                response = await client.NumbersClient.CancelANumberAsync(request, creds);
-            }
-            else
-            {
-                response = await client.NumbersClient.CancelANumberAsync(request);
-            }
-
-            Assert.Equal("200", response.ErrorCode);
-            Assert.Equal("success", response.ErrorCodeLabel);
-        }
-
-        [Theory]
-        [InlineData(true,true)]
-        [InlineData(false,false)]
-        public void TestUpdateNumber(bool passCreds, bool kitchenSink)
-        {
-            var expectedResponse = @"{
-              ""error-code"": ""200"",
-              ""error-code-label"": ""success""
-            }";
-            var expectedUri = $"{RestUrl}/number/update";
-            string expectdRequestContent;
             UpdateNumberRequest request;
-
             if (kitchenSink)
-            {                
-                expectdRequestContent = $"country=GB&msisdn=447700900000&app_id=aaaaaaaa-bbbb-cccc-dddd-0123456789abc&moHttpUrl={HttpUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&" +
-                    $"moSmppSysType=inbound&voiceCallbackType=tel&voiceCallbackValue=447700900000&voiceStatusCallback={HttpUtility.UrlEncode("https://example.com/webhooks/status")}&" +
-                    $"api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new UpdateNumberRequest 
-                { 
-                    Country = "GB", 
-                    Msisdn = "447700900000", 
-                    AppId= "aaaaaaaa-bbbb-cccc-dddd-0123456789abc", 
-                    MoHttpUrl= "https://example.com/webhooks/inbound-sms",
-                    MoSmppSysType="inbound",
-                    VoiceCallbackType="tel",
-                    VoiceCallbackValue= "447700900000",
-                    VoiceStatusCallback= "https://example.com/webhooks/status"
+            {
+                expectedRequestContent =
+                    $"country=GB&msisdn=447700900000&app_id=aaaaaaaa-bbbb-cccc-dddd-0123456789abc&moHttpUrl={HttpUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&" +
+                    $"moSmppSysType=inbound&voiceCallbackType=tel&voiceCallbackValue=447700900000&voiceStatusCallback={HttpUtility.UrlEncode("https://example.com/webhooks/status")}&";
+                request = new UpdateNumberRequest
+                {
+                    Country = "GB",
+                    Msisdn = "447700900000",
+                    AppId = "aaaaaaaa-bbbb-cccc-dddd-0123456789abc",
+                    MoHttpUrl = "https://example.com/webhooks/inbound-sms",
+                    MoSmppSysType = "inbound",
+                    VoiceCallbackType = "tel",
+                    VoiceCallbackValue = "447700900000",
+                    VoiceStatusCallback = "https://example.com/webhooks/status",
                 };
             }
             else
             {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new UpdateNumberRequest { Country = "GB", Msisdn = "447700900000" };
+                expectedRequestContent = "country=GB&msisdn=447700900000&";
+                request = new UpdateNumberRequest {Country = "GB", Msisdn = "447700900000"};
             }
 
-            Setup(expectedUri, expectedResponse, expectdRequestContent);
-
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = new VonageClient(credentials);
             NumberTransactionResponse response;
-            if (passCreds)
+            if (passCredentials)
             {
-                response = client.NumbersClient.UpdateANumber(request, creds);
+                response = client.NumbersClient.UpdateANumber(request, credentials);
             }
             else
             {
@@ -347,21 +373,20 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
-        public async void TestUpdateNumberAsync(bool passCreds, bool kitchenSink)
+        public async void TestUpdateNumberAsync(bool passCredentials, bool kitchenSink)
         {
-            var expectedResponse = @"{
+            const string expectedResponse = @"{
               ""error-code"": ""200"",
               ""error-code-label"": ""success""
             }";
-            var expectedUri = $"{RestUrl}/number/update";
-            string expectdRequestContent;
+            var expectedUri = $"{this.RestUrl}/number/update?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
+            string expectedRequestContent;
             UpdateNumberRequest request;
-
             if (kitchenSink)
             {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&app_id=aaaaaaaa-bbbb-cccc-dddd-0123456789abc&moHttpUrl={HttpUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&" +
-                    $"moSmppSysType=inbound&voiceCallbackType=tel&voiceCallbackValue=447700900000&voiceStatusCallback={HttpUtility.UrlEncode("https://example.com/webhooks/status")}&" +
-                    $"api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent =
+                    $"country=GB&msisdn=447700900000&app_id=aaaaaaaa-bbbb-cccc-dddd-0123456789abc&moHttpUrl={HttpUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&" +
+                    $"moSmppSysType=inbound&voiceCallbackType=tel&voiceCallbackValue=447700900000&voiceStatusCallback={HttpUtility.UrlEncode("https://example.com/webhooks/status")}&";
                 request = new UpdateNumberRequest
                 {
                     Country = "GB",
@@ -371,23 +396,22 @@ namespace Vonage.Test.Unit
                     MoSmppSysType = "inbound",
                     VoiceCallbackType = "tel",
                     VoiceCallbackValue = "447700900000",
-                    VoiceStatusCallback = "https://example.com/webhooks/status"
+                    VoiceStatusCallback = "https://example.com/webhooks/status",
                 };
             }
             else
             {
-                expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
-                request = new UpdateNumberRequest { Country = "GB", Msisdn = "447700900000" };
+                expectedRequestContent = "country=GB&msisdn=447700900000&";
+                request = new UpdateNumberRequest {Country = "GB", Msisdn = "447700900000"};
             }
 
-            Setup(expectedUri, expectedResponse, expectdRequestContent);
-
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = new VonageClient(credentials);
             NumberTransactionResponse response;
-            if (passCreds)
+            if (passCredentials)
             {
-                response = await client.NumbersClient.UpdateANumberAsync(request, creds);
+                response = await client.NumbersClient.UpdateANumberAsync(request, credentials);
             }
             else
             {
@@ -397,31 +421,5 @@ namespace Vonage.Test.Unit
             Assert.Equal("200", response.ErrorCode);
             Assert.Equal("success", response.ErrorCodeLabel);
         }
-
-        [Fact]
-        public void TestFailedPurchase()
-        {
-            var expectedResponse = @"{
-              ""error-code"": ""401"",
-              ""error-code-label"": ""authentifcation failed""
-            }";
-            var expectedUri = $"{RestUrl}/number/buy";
-            string expectdRequestContent = $"country=GB&msisdn=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
-            Setup(expectedUri, expectedResponse, expectdRequestContent);
-            var request = new NumberTransactionRequest { Country = "GB", Msisdn = "447700900000" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
-            var client = new VonageClient(creds);
-            try
-            {
-                client.NumbersClient.BuyANumber(request);
-                Assert.True(false, "Failin because exception was not thrown");
-            }
-            catch (VonageNumberResponseException ex)
-            {
-                Assert.Equal("401", ex.Response.ErrorCode);
-                Assert.Equal("authentifcation failed", ex.Response.ErrorCodeLabel);
-            }
-        }
-        
     }
 }

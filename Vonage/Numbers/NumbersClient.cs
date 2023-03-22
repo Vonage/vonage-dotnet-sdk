@@ -36,10 +36,13 @@ namespace Vonage.Numbers
 
         public async Task<NumberTransactionResponse> BuyANumberAsync(NumberTransactionRequest request, Credentials creds = null)
         {
+            var apiKey = (creds ?? Credentials).ApiKey;
+            var apiSecret = (creds ?? Credentials).ApiSecret;
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(                
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/buy"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/buy?api_key={apiKey}&api_secret={apiSecret}"),
                 request,                
-                creds ?? Credentials
+                creds ?? Credentials,
+                false
             );
             ValidateNumbersResponse(response);
             return response; 
@@ -47,10 +50,13 @@ namespace Vonage.Numbers
 
         public async Task<NumberTransactionResponse> CancelANumberAsync(NumberTransactionRequest request, Credentials creds = null)
         {
+            var apiKey = (creds ?? Credentials).ApiKey;
+            var apiSecret = (creds ?? Credentials).ApiSecret;
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(                
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/cancel"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/cancel?api_key={apiKey}&api_secret={apiSecret}"),
                 request,                
-                creds ?? Credentials
+                creds ?? Credentials,
+                false
             );
             ValidateNumbersResponse(response);
             return response;
@@ -58,10 +64,13 @@ namespace Vonage.Numbers
 
         public async Task<NumberTransactionResponse> UpdateANumberAsync(UpdateNumberRequest request, Credentials creds = null)
         {
+            var apiKey = (creds ?? Credentials).ApiKey;
+            var apiSecret = (creds ?? Credentials).ApiSecret;
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/update"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/update?api_key={apiKey}&api_secret={apiSecret}"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                false
             );
             ValidateNumbersResponse(response);
             return response;
@@ -112,10 +121,13 @@ namespace Vonage.Numbers
 
         public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
         {
+            var apiKey = (creds ?? Credentials).ApiKey;
+            var apiSecret = (creds ?? Credentials).ApiSecret;
             var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/cancel"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/cancel?api_key={apiKey}&api_secret={apiSecret}"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                false
             );
             ValidateNumbersResponse(response);
             return response;
@@ -123,10 +135,13 @@ namespace Vonage.Numbers
 
         public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
         {
+            var apiKey = (creds ?? Credentials).ApiKey;
+            var apiSecret = (creds ?? Credentials).ApiSecret;
             var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/update"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/update?api_key={apiKey}&api_secret={apiSecret}"),
                 request,
-                creds ?? Credentials
+                creds ?? Credentials,
+                false
             );
             ValidateNumbersResponse(response);
             return response;
