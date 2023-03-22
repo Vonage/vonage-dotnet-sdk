@@ -67,7 +67,7 @@ namespace Vonage.Numbers
             var apiKey = (creds ?? Credentials).ApiKey;
             var apiSecret = (creds ?? Credentials).ApiSecret;
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/update?api_key={apiKey}&api_secret={apiSecret}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/update?api_key={apiKey}&api_secret={apiSecret}"),
                 request,
                 creds ?? Credentials,
                 false
