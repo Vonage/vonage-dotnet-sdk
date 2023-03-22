@@ -3,19 +3,18 @@ Vonage Client Library for .NET
 ===================================
 
 [![](http://img.shields.io/nuget/v/Vonage.svg?style=flat-square)](https://www.nuget.org/packages/Vonage/)
-[![Build Status](https://github.com/Vonage/vonage-dotnet/workflows/.NET%20Core/badge.svg)](https://github.com/Nexmo/nexmo-dotnet/actions?query=workflow%3A%22.NET+Core%22)
+[![Build Status](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Vonage_vonage-dotnet-sdk&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Vonage_vonage-dotnet-sdk)
+[![CodeScene Code Health](https://codescene.io/projects/29782/status-badges/code-health)](https://codescene.io/projects/29782)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-<img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
-
-You can use this C# client library to integrate [Vonage's APIs](#api-coverage) to your application. To use this, you'll
+You can use this C# client library to integrate [Vonage's APIs](#supported-apis) to your application. To use this, you'll
 need a Vonage API account. Sign up [for free at vonage.com][signup].
 
  * [Installation](#installation)
  * [Configuration](#configuration)
  * [Examples](#examples)
- * [Coverage](#api-coverage)
+ * [Coverage](#supported-apis)
  * [Contributing](#contributing)
 
 ## Installation
@@ -467,6 +466,7 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Dispatch API          |         Beta         |     ❌      |
 | External Accounts API |         Beta         |     ❌      |
 | Media API             |         Beta         |     ❌      |
+| Meetings API          |         Beta         |     ✅      |
 | Messages API          | General Availability |     ✅      |
 | Number Insight API    | General Availability |     ✅      |
 | Number Management API | General Availability |     ✅      |
@@ -475,7 +475,7 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Reports API           |         Beta         |     ❌      |
 | SMS API               | General Availability |     ✅      |
 | Verify API            | General Availability |     ✅      |
-| Video API             |         Beta         |     ❌      |
+| Video API             |         Beta         |     ✅      |
 | Voice API             | General Availability |     ✅      |
 
 ## FAQ
