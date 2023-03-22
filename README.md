@@ -12,10 +12,23 @@ You can use this C# client library to integrate [Vonage's APIs](#supported-apis)
 need a Vonage API account. Sign up [for free at vonage.com][signup].
 
  * [Installation](#installation)
+   * [Migration guides](#migration-guides)
+     * [Upgrading 5.x => 6.x](#upgrading-5x--6x)
+   * [Targeted frameworks](#targeted-frameworks)
+   * [Tested frameworks](#tested-frameworks)
  * [Configuration](#configuration)
+   * [Configuration reference](#configuration-reference)
+   * [Test configuration](#test-configuration)
+   * [Logging](#logging)
+     * [v5.0.0+](#v500-)
+     * [3.1.x, 5.0.0](#-31x-500-)
+     * [2.2.0, 3.0.x](#220---30x)
  * [Examples](#examples)
- * [Coverage](#supported-apis)
+ * [Supported APIs](#supported-apis)
+ * [FAQ](#faq)
  * [Contributing](#contributing)
+ * [Thanks](#thanks)
+ * [Licence](#license)
 
 ## Installation
 
@@ -48,7 +61,9 @@ If you would prefer to run directly from source:
 </ItemGroup>
 ```
 
-## Upgrading 5.x > 6.x
+### Migration guides
+
+#### Upgrading 5.x > 6.x
 
 Changes in version 6.x
 
@@ -57,11 +72,13 @@ Changes in version 6.x
 * Ncco now inherits from List, it no longer has the `Actions` property, to add an action use `ncco.Add(action);`
 * Strings with values "true" or "false" are now represented as `bool` in code
 
-## Targeted frameworks
+### Targeted frameworks
+The SDK targets towards `netstandard2.0`.
+It is compatible with every [supported version](#tested-frameworks).
 
-* netstandard2.0
-
-## Tested frameworks
+### Tested frameworks
+We test the SDK against every supported version of the framework.
+Therefore, we ensure complete compatibility no matter the version you are using.
 
 * .NET Framework 4.6.2
 * .NET Framework 4.7.0
@@ -154,10 +171,6 @@ Some tests rely on that to verify a token can be created.
 
 For security reasons, not RSA Private Key is hardcoded in the repository.
 
-### Integration test configuration
-Make sure to set `Vonage.Key` (with you ApiKey value) and `Vonage.Secret` (with your ApiSecret value) in your environment variables.
-Integration tests will use those to directly target Vonage's APIs.
-
 ### Logging
 
 #### v5.0.0 +
@@ -224,9 +237,8 @@ Example ```logging.json``` contents that would log all requests as well as major
 
 You may specify other types of logging (file, etc.). 
 
-Examples
---------
-We are working on a separate repository for .NET examples. [Check it out here!](https://github.com/nexmo-community/nexmo-dotnet-quickstart)
+## Examples
+We are working on a separate repository for .NET examples. [Check it out here!](https://github.com/Vonage/vonage-dotnet-code-snippets)
 
 The following examples show how to:
 
@@ -483,8 +495,7 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 Q: Does the .NET SDK Support the async pattern?
 A: Yes
 
-Contributing
-------------
+## Contributing
 
 Pick your preferred IDE:
 
@@ -503,8 +514,7 @@ Therefore, they should be installed on your machine to guarantee compatibility w
 
 Pull requests are welcome!
 
-Thanks
-------
+## Thanks
 
 Special thanks to our contributors:
 
@@ -518,8 +528,7 @@ Special thanks to our contributors:
 * [Parikshit-Hood](https://github.com/Parikshit-Hooda)
 * [onpoc](https://github.com/onpoc)
 
-License
--------
+## License
 
 This library is released under [the MIT License][license].
 
