@@ -17,6 +17,10 @@ need a Vonage API account. Sign up [for free at vonage.com][signup].
    * [Targeted frameworks](#targeted-frameworks)
    * [Tested frameworks](#tested-frameworks)
  * [Configuration](#configuration)
+   * [Setup](#setup)
+     * [Provide credentials](#provide-credentials)
+     * [Set credentials in settings file](#set-credentials-in-settings-file)
+     * [Override values on Configuration singleton](#override-values-in-configuration-singleton)
    * [Configuration reference](#configuration-reference)
    * [Test configuration](#test-configuration)
    * [Logging](#logging)
@@ -90,9 +94,11 @@ Therefore, we ensure complete compatibility no matter the version you are using.
 
 ## Configuration
 
+### Setup
 To setup the configuration of the Vonage Client you can do one of the following.
 
-* Create a Vonage Client instance and pass in credentials in the constructor - this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id)
+### Provide credentials
+Create a Vonage Client instance and pass in credentials in the constructor - this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id)
 
 ```csharp
 var credentials = Credentials.FromApiKeyAndSecret(
@@ -103,18 +109,8 @@ var credentials = Credentials.FromApiKeyAndSecret(
 var vonageClient = new VonageClient(credentials);
 ```
 
-```csharp
-var response = vonageClient.SmsClient.SendAnSms(new Vonage.Messaging.SendSmsRequest()
-{
-    To = TO_NUMBER,
-    From = VONAGE_BRAND_NAME,
-    Text = "A text message sent using the Vonage SMS API"
-});
-```
-
-Or
-
-* Provide the vonage URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
+### Set credentials in settings file
+Provide the vonage URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
 
 ```json
 {
@@ -132,12 +128,10 @@ Or
 }
 ```
 > Note: In the event multiple configuration files are found, the order of precedence is as follows:
+> ```appsettings.json``` which overrides ```settings.json``` 
 
-	* ```appsettings.json``` which overrides
-	* ```settings.json```
-Or
-
-* Access the Configuration instance and set the appropriate key in your code for example:
+### Override values in Configuration singleton
+Access the Configuration instance and set the appropriate key in your code for example:
 
 ```cshap
 Configuration.Instance.Settings["appSettings:Vonage.Url.Api"] = "https://www.example.com/api";
@@ -150,20 +144,20 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
 
 ### Configuration Reference
 
- Key                      | Description                                                                                                                      
---------------------------|----------------------------------------------------------------------------------------------------------------------------------
- Vonage_key               | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)                                                          
- Vonage_secret            | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)                                                       
- Vonage.Application.Id    | Your application ID                                                                                                              
- Vonage.Application.Key   | Your application's private key                                                                                                   
- Vonage.security_secret   | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages) 
- Vonage.signing_method    | Optional. This is the method used for signing SMS messages                                                                       
- Vonage.Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           
- Vonage.Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 
- Vonage.Meetings.Url.Api  | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                
- Vonage.Video.Url.Api     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                
- Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             
- Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             
+| Key                      | Description                                                                                                                      |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| Vonage_key               | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)                                                          |
+| Vonage_secret            | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)                                                       |
+| Vonage.Application.Id    | Your application ID                                                                                                              |
+| Vonage.Application.Key   | Your application's private key                                                                                                   |
+| Vonage.security_secret   | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages) |
+| Vonage.signing_method    | Optional. This is the method used for signing SMS messages                                                                       |
+| Vonage.Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           |
+| Vonage.Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 |
+| Vonage.Meetings.Url.Api  | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                |
+| Vonage.Video.Url.Api     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
+| Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             |
+| Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
 
 ### Test configuration
 Make sure to set `Vonage.Test.RsaPrivateKey` (with a RSA Private Key) in your environment variables.
@@ -468,7 +462,7 @@ Make sure to copy appsettings.json.example to appsettings.json and enter your ke
 
 The following is a list of Vonage APIs and whether the Vonage .NET SDK provides support for them:
 
-| API                   |  API Release Status  | Supported? 
+| API                   |  API Release Status  | Supported? |
 |-----------------------|:--------------------:|:----------:|
 | Account API           | General Availability |     ✅      |
 | Alerts API            | General Availability |     ✅      |
@@ -493,12 +487,11 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 ## FAQ
 
 Q: Does the .NET SDK Support the async pattern?
-A: Yes
+A: Yes. All methods either support asynchronous behaviours by default or provide specific behaviours for each sync/async option.
 
 ## Contributing
 
 Pick your preferred IDE:
-
 - Visual Studio (Community is fine)
 - Visual Studio Code
 - Jetbrains Rider
@@ -527,6 +520,17 @@ Special thanks to our contributors:
 * [kzuri](https://github.com/kzuri)
 * [Parikshit-Hood](https://github.com/Parikshit-Hooda)
 * [onpoc](https://github.com/onpoc)
+* [hognevevle](https://github.com/hognevevle)
+
+### Try
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## License
 
