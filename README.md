@@ -3,20 +3,36 @@ Vonage Client Library for .NET
 ===================================
 
 [![](http://img.shields.io/nuget/v/Vonage.svg?style=flat-square)](https://www.nuget.org/packages/Vonage/)
-[![Build Status](https://github.com/Vonage/vonage-dotnet/workflows/.NET%20Core/badge.svg)](https://github.com/Nexmo/nexmo-dotnet/actions?query=workflow%3A%22.NET+Core%22)
+[![Build Status](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Vonage_vonage-dotnet-sdk&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Vonage_vonage-dotnet-sdk)
+[![CodeScene Code Health](https://codescene.io/projects/29782/status-badges/code-health)](https://codescene.io/projects/29782)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-<img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
-
-You can use this C# client library to integrate [Vonage's APIs](#api-coverage) to your application. To use this, you'll
+You can use this C# client library to integrate [Vonage's APIs](#supported-apis) to your application. To use this, you'll
 need a Vonage API account. Sign up [for free at vonage.com][signup].
 
  * [Installation](#installation)
+   * [Migration guides](#migration-guides)
+     * [Upgrading 5.x => 6.x](#upgrading-5x--6x)
+   * [Targeted frameworks](#targeted-frameworks)
+   * [Tested frameworks](#tested-frameworks)
  * [Configuration](#configuration)
+   * [Setup](#setup)
+     * [Provide credentials](#provide-credentials)
+     * [Set credentials in settings file](#set-credentials-in-settings-file)
+     * [Override values on Configuration singleton](#override-values-in-configuration-singleton)
+   * [Configuration reference](#configuration-reference)
+   * [Test configuration](#test-configuration)
+   * [Logging](#logging)
+     * [v5.0.0+](#v500-)
+     * [3.1.x, 5.0.0](#-31x-500-)
+     * [2.2.0, 3.0.x](#220---30x)
  * [Examples](#examples)
- * [Coverage](#api-coverage)
+ * [Supported APIs](#supported-apis)
+ * [FAQ](#faq)
  * [Contributing](#contributing)
+ * [Thanks](#thanks)
+ * [Licence](#license)
 
 ## Installation
 
@@ -49,7 +65,9 @@ If you would prefer to run directly from source:
 </ItemGroup>
 ```
 
-## Upgrading 5.x > 6.x
+### Migration guides
+
+#### Upgrading 5.x > 6.x
 
 Changes in version 6.x
 
@@ -58,11 +76,13 @@ Changes in version 6.x
 * Ncco now inherits from List, it no longer has the `Actions` property, to add an action use `ncco.Add(action);`
 * Strings with values "true" or "false" are now represented as `bool` in code
 
-## Targeted frameworks
+### Targeted frameworks
+The SDK targets towards `netstandard2.0`.
+It is compatible with every [supported version](#tested-frameworks).
 
-* netstandard2.0
-
-## Tested frameworks
+### Tested frameworks
+We test the SDK against every supported version of the framework.
+Therefore, we ensure complete compatibility no matter the version you are using.
 
 * .NET Framework 4.6.2
 * .NET Framework 4.7.0
@@ -74,9 +94,11 @@ Changes in version 6.x
 
 ## Configuration
 
+### Setup
 To setup the configuration of the Vonage Client you can do one of the following.
 
-* Create a Vonage Client instance and pass in credentials in the constructor - this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id)
+### Provide credentials
+Create a Vonage Client instance and pass in credentials in the constructor - this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id)
 
 ```csharp
 var credentials = Credentials.FromApiKeyAndSecret(
@@ -87,18 +109,8 @@ var credentials = Credentials.FromApiKeyAndSecret(
 var vonageClient = new VonageClient(credentials);
 ```
 
-```csharp
-var response = vonageClient.SmsClient.SendAnSms(new Vonage.Messaging.SendSmsRequest()
-{
-    To = TO_NUMBER,
-    From = VONAGE_BRAND_NAME,
-    Text = "A text message sent using the Vonage SMS API"
-});
-```
-
-Or
-
-* Provide the vonage URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
+### Set credentials in settings file
+Provide the vonage URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
 
 ```json
 {
@@ -116,12 +128,10 @@ Or
 }
 ```
 > Note: In the event multiple configuration files are found, the order of precedence is as follows:
+> ```appsettings.json``` which overrides ```settings.json``` 
 
-	* ```appsettings.json``` which overrides
-	* ```settings.json```
-Or
-
-* Access the Configuration instance and set the appropriate key in your code for example:
+### Override values in Configuration singleton
+Access the Configuration instance and set the appropriate key in your code for example:
 
 ```cshap
 Configuration.Instance.Settings["appSettings:Vonage.Url.Api"] = "https://www.example.com/api";
@@ -134,30 +144,26 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
 
 ### Configuration Reference
 
- Key                      | Description                                                                                                                      
---------------------------|----------------------------------------------------------------------------------------------------------------------------------
- Vonage_key               | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)                                                          
- Vonage_secret            | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)                                                       
- Vonage.Application.Id    | Your application ID                                                                                                              
- Vonage.Application.Key   | Your application's private key                                                                                                   
- Vonage.security_secret   | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages) 
- Vonage.signing_method    | Optional. This is the method used for signing SMS messages                                                                       
- Vonage.Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           
- Vonage.Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 
- Vonage.Meetings.Url.Api  | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                
- Vonage.Video.Url.Api     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                
- Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             
- Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             
+| Key                      | Description                                                                                                                      |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| Vonage_key               | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)                                                          |
+| Vonage_secret            | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)                                                       |
+| Vonage.Application.Id    | Your application ID                                                                                                              |
+| Vonage.Application.Key   | Your application's private key                                                                                                   |
+| Vonage.security_secret   | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages) |
+| Vonage.signing_method    | Optional. This is the method used for signing SMS messages                                                                       |
+| Vonage.Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           |
+| Vonage.Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 |
+| Vonage.Meetings.Url.Api  | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                |
+| Vonage.Video.Url.Api     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
+| Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             |
+| Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
 
 ### Test configuration
 Make sure to set `Vonage.Test.RsaPrivateKey` (with a RSA Private Key) in your environment variables.
 Some tests rely on that to verify a token can be created.
 
 For security reasons, not RSA Private Key is hardcoded in the repository.
-
-### Integration test configuration
-Make sure to set `Vonage.Key` (with you ApiKey value) and `Vonage.Secret` (with your ApiSecret value) in your environment variables.
-Integration tests will use those to directly target Vonage's APIs.
 
 ### Logging
 
@@ -225,9 +231,8 @@ Example ```logging.json``` contents that would log all requests as well as major
 
 You may specify other types of logging (file, etc.). 
 
-Examples
---------
-We are working on a separate repository for .NET examples. [Check it out here!](https://github.com/nexmo-community/nexmo-dotnet-quickstart)
+## Examples
+We are working on a separate repository for .NET examples. [Check it out here!](https://github.com/Vonage/vonage-dotnet-code-snippets)
 
 The following examples show how to:
 
@@ -457,7 +462,7 @@ Make sure to copy appsettings.json.example to appsettings.json and enter your ke
 
 The following is a list of Vonage APIs and whether the Vonage .NET SDK provides support for them:
 
-| API                   |  API Release Status  | Supported? 
+| API                   |  API Release Status  | Supported? |
 |-----------------------|:--------------------:|:----------:|
 | Account API           | General Availability |     ✅      |
 | Alerts API            | General Availability |     ✅      |
@@ -467,6 +472,7 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Dispatch API          |         Beta         |     ❌      |
 | External Accounts API |         Beta         |     ❌      |
 | Media API             |         Beta         |     ❌      |
+| Meetings API          |         Beta         |     ✅      |
 | Messages API          | General Availability |     ✅      |
 | Number Insight API    | General Availability |     ✅      |
 | Number Management API | General Availability |     ✅      |
@@ -475,19 +481,17 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Reports API           |         Beta         |     ❌      |
 | SMS API               | General Availability |     ✅      |
 | Verify API            | General Availability |     ✅      |
-| Video API             |         Beta         |     ❌      |
+| Video API             |         Beta         |     ✅      |
 | Voice API             | General Availability |     ✅      |
 
 ## FAQ
 
 Q: Does the .NET SDK Support the async pattern?
-A: Yes
+A: Yes. All methods either support asynchronous behaviours by default or provide specific behaviours for each sync/async option.
 
-Contributing
-------------
+## Contributing
 
 Pick your preferred IDE:
-
 - Visual Studio (Community is fine)
 - Visual Studio Code
 - Jetbrains Rider
@@ -503,23 +507,7 @@ Therefore, they should be installed on your machine to guarantee compatibility w
 
 Pull requests are welcome!
 
-Thanks
-------
-
-Special thanks to our contributors:
-
-* [jdpearce](https://github.com/jdpearce)
-* [jonferreira](https://github.com/jonferreira)
-* [fauna5](https://github.com/fauna5)
-* [taylus](https://github.com/taylus)
-* [smikis](https://github.com/smikis)
-* [gagandeepp](https://github.com/gagandeepp)
-* [kzuri](https://github.com/kzuri)
-* [Parikshit-Hood](https://github.com/Parikshit-Hooda)
-* [onpoc](https://github.com/onpoc)
-
-License
--------
+## License
 
 This library is released under [the MIT License][license].
 
