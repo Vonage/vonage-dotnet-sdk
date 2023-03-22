@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestBuyNumber()
+        public void BuyNumber()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&";
@@ -33,7 +33,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async Task TestBuyNumberAsync()
+        public async Task BuyNumberAsync()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&";
@@ -46,7 +46,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async Task TestBuyNumberAsyncWithCredentials()
+        public async Task BuyNumberAsyncWithCredentials()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&target_api_key=12345&";
@@ -60,7 +60,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestBuyNumberWithCredentials()
+        public void BuyNumberWithCredentials()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&target_api_key=12345&";
@@ -74,7 +74,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestCancelNumber()
+        public void CancelNumber()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&";
@@ -87,7 +87,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async Task TestCancelNumberAsync()
+        public async Task CancelNumberAsync()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&";
@@ -100,7 +100,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async Task TestCancelNumberAsyncWithCredentials()
+        public async Task CancelNumberAsyncWithCredentials()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&target_api_key=12345&";
@@ -114,7 +114,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestCancelNumberWithCredentials()
+        public void CancelNumberWithCredentials()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&target_api_key=12345&";
@@ -128,7 +128,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestFailedPurchase()
+        public void FailedPurchase()
         {
             const string expectedResponse =
                 @"{""error-code"": ""401"",""error-code-label"": ""authentication failed""}";
@@ -143,7 +143,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestSearchNumbers()
+        public void GetAvailableNumbers()
         {
             const string expectedResponse =
                 @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
@@ -163,7 +163,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async Task TestSearchNumbersAsync()
+        public async Task GetAvailableNumbersAsync()
         {
             const string expectedResponse =
                 @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
@@ -183,7 +183,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async Task TestSearchNumbersAsyncWithCredentials()
+        public async Task GetAvailableNumbersAsyncWithCredentials()
         {
             const string expectedResponse =
                 @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
@@ -207,7 +207,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestSearchNumbersWithCredentials()
+        public void GetAvailableNumbersWithCredentials()
         {
             const string expectedResponse =
                 @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
@@ -231,7 +231,95 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestUpdateNumber()
+        public void GetOwnedNumbers()
+        {
+            const string expectedResponse =
+                @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
+            var expectedUri =
+                $"{this.RestUrl}/account/numbers?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            var request = new NumberSearchRequest {Country = "GB"};
+            this.Setup(expectedUri, expectedResponse);
+            var response = this.client.NumbersClient.GetOwnedNumbers(request);
+            var number = response.Numbers[0];
+            Assert.Equal(1234, response.Count);
+            Assert.Equal("GB", number.Country);
+            Assert.Equal("447700900000", number.Msisdn);
+            Assert.Equal("mobile-lvn", number.Type);
+            Assert.Equal("1.25", number.Cost);
+            Assert.Equal("VOICE", number.Features[0]);
+            Assert.Equal("SMS", number.Features[1]);
+        }
+
+        [Fact]
+        public async Task GetOwnedNumbersAsync()
+        {
+            const string expectedResponse =
+                @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
+            var expectedUri =
+                $"{this.RestUrl}/account/numbers?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            var request = new NumberSearchRequest {Country = "GB"};
+            this.Setup(expectedUri, expectedResponse);
+            var response = await this.client.NumbersClient.GetOwnedNumbersAsync(request);
+            var number = response.Numbers[0];
+            Assert.Equal(1234, response.Count);
+            Assert.Equal("GB", number.Country);
+            Assert.Equal("447700900000", number.Msisdn);
+            Assert.Equal("mobile-lvn", number.Type);
+            Assert.Equal("1.25", number.Cost);
+            Assert.Equal("VOICE", number.Features[0]);
+            Assert.Equal("SMS", number.Features[1]);
+        }
+
+        [Fact]
+        public async Task GetOwnedNumbersAsyncWithCredentials()
+        {
+            const string expectedResponse =
+                @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
+            var expectedUri =
+                $"{this.RestUrl}/account/numbers?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            var request = new NumberSearchRequest
+            {
+                Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains,
+                Features = "SMS", Size = 10, Index = 1,
+            };
+            this.Setup(expectedUri, expectedResponse);
+            var response = await this.client.NumbersClient.GetOwnedNumbersAsync(request, this.credentials);
+            var number = response.Numbers[0];
+            Assert.Equal(1234, response.Count);
+            Assert.Equal("GB", number.Country);
+            Assert.Equal("447700900000", number.Msisdn);
+            Assert.Equal("mobile-lvn", number.Type);
+            Assert.Equal("1.25", number.Cost);
+            Assert.Equal("VOICE", number.Features[0]);
+            Assert.Equal("SMS", number.Features[1]);
+        }
+
+        [Fact]
+        public void GetOwnedNumbersWithCredentials()
+        {
+            const string expectedResponse =
+                @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
+            var expectedUri =
+                $"{this.RestUrl}/account/numbers?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            var request = new NumberSearchRequest
+            {
+                Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains,
+                Features = "SMS", Size = 10, Index = 1,
+            };
+            this.Setup(expectedUri, expectedResponse);
+            var response = this.client.NumbersClient.GetOwnedNumbers(request, this.credentials);
+            var number = response.Numbers[0];
+            Assert.Equal(1234, response.Count);
+            Assert.Equal("GB", number.Country);
+            Assert.Equal("447700900000", number.Msisdn);
+            Assert.Equal("mobile-lvn", number.Type);
+            Assert.Equal("1.25", number.Cost);
+            Assert.Equal("VOICE", number.Features[0]);
+            Assert.Equal("SMS", number.Features[1]);
+        }
+
+        [Fact]
+        public void UpdateNumber()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&";
@@ -244,7 +332,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async Task TestUpdateNumberAsync()
+        public async Task UpdateNumberAsync()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             const string expectedRequestContent = "country=GB&msisdn=447700900000&";
@@ -257,7 +345,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public async Task TestUpdateNumberAsyncWithCredentials()
+        public async Task UpdateNumberAsyncWithCredentials()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             var expectedUri = $"{this.RestUrl}/number/update?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
@@ -282,7 +370,7 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestUpdateNumberWithCredentials()
+        public void UpdateNumberWithCredentials()
         {
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             var expectedUri = $"{this.RestUrl}/number/update?api_key={this.ApiKey}&api_secret={this.ApiSecret}";

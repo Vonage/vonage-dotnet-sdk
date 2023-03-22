@@ -1,172 +1,182 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Numbers
 {
+    /// <inheritdoc />
     public class NumbersClient : INumbersClient
     {
-        public NumbersClient(Credentials creds = null)
-        {
-            Credentials = creds;
-        }
-        
+        private const string SuccessStatusCode = "200";
+
+        /// <summary>
+        ///     Gets or sets credentials to be used in further requests.
+        /// </summary>
         public Credentials Credentials { get; set; }
-        
-        public Task<NumbersSearchResponse> GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null)
-        {
-            return ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"), 
-                ApiRequest.AuthType.Query, 
-                request, 
-                creds ?? Credentials
-                );
-        }
 
-        public Task<NumbersSearchResponse> GetAvailableNumbersAsync(NumberSearchRequest request, Credentials creds = null)
-        {
-            return ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"), 
-                ApiRequest.AuthType.Query, 
-                request, 
-                creds ?? Credentials
-            );
-        }
+        /// <summary>
+        ///     Constructor for NumbersClients.
+        /// </summary>
+        /// <param name="credentials">Credentials to be used in further requests.</param>
+        public NumbersClient(Credentials credentials = null) => this.Credentials = credentials;
 
-        public async Task<NumberTransactionResponse> BuyANumberAsync(NumberTransactionRequest request, Credentials creds = null)
+        /// <inheritdoc />
+        public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
         {
-            var apiKey = (creds ?? Credentials).ApiKey;
-            var apiSecret = (creds ?? Credentials).ApiSecret;
-            var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(                
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/buy?api_key={apiKey}&api_secret={apiSecret}"),
-                request,                
-                creds ?? Credentials,
-                false
-            );
-            ValidateNumbersResponse(response);
-            return response; 
-        }
-
-        public async Task<NumberTransactionResponse> CancelANumberAsync(NumberTransactionRequest request, Credentials creds = null)
-        {
-            var apiKey = (creds ?? Credentials).ApiKey;
-            var apiSecret = (creds ?? Credentials).ApiSecret;
-            var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(                
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/cancel?api_key={apiKey}&api_secret={apiSecret}"),
-                request,                
-                creds ?? Credentials,
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
+                    $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                request,
+                creds ?? this.Credentials,
                 false
             );
             ValidateNumbersResponse(response);
             return response;
         }
 
-        public async Task<NumberTransactionResponse> UpdateANumberAsync(UpdateNumberRequest request, Credentials creds = null)
+        /// <inheritdoc />
+        public async Task<NumberTransactionResponse> BuyANumberAsync(NumberTransactionRequest request,
+            Credentials creds = null)
         {
-            var apiKey = (creds ?? Credentials).ApiKey;
-            var apiSecret = (creds ?? Credentials).ApiSecret;
             var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/update?api_key={apiKey}&api_secret={apiSecret}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
+                    $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
-                creds ?? Credentials,
+                creds ?? this.Credentials,
                 false
             );
             ValidateNumbersResponse(response);
             return response;
         }
 
-        public static void ValidateNumbersResponse(NumberTransactionResponse response)
+        /// <inheritdoc />
+        public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
         {
-            const string SUCCESS = "200";
-            if (response.ErrorCode != SUCCESS)
-            {
-                throw new VonageNumberResponseException($"Number Transaction failed with error code:{response.ErrorCode} and label {response.ErrorCodeLabel}"){ Response = response};
-            }
-        }
-
-        public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null)
-        {
-            return ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
-                ApiRequest.AuthType.Query,
+            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
+                    $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
-                creds ?? Credentials
-                );
+                creds ?? this.Credentials,
+                false
+            );
+            ValidateNumbersResponse(response);
+            return response;
         }
 
-        public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null)
+        /// <inheritdoc />
+        public async Task<NumberTransactionResponse> CancelANumberAsync(NumberTransactionRequest request,
+            Credentials creds = null)
         {
-            return ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
+            var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
+                    $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                request,
+                creds ?? this.Credentials,
+                false
+            );
+            ValidateNumbersResponse(response);
+            return response;
+        }
+
+        /// <inheritdoc />
+        public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null) =>
+            ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
                 ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials
+                creds ?? this.Credentials
             );
-        }
 
-        public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
-        {
-            var apiKey = (creds ?? Credentials).ApiKey;
-            var apiSecret = (creds ?? Credentials).ApiSecret;
-            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/buy?api_key={apiKey}&api_secret={apiSecret}"),
+        /// <inheritdoc />
+        public Task<NumbersSearchResponse> GetAvailableNumbersAsync(NumberSearchRequest request,
+            Credentials creds = null) =>
+            ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
+                ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials,
-                false
+                creds ?? this.Credentials
             );
-            ValidateNumbersResponse(response);
-            return response;
-        }
 
-        public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
-        {
-            var apiKey = (creds ?? Credentials).ApiKey;
-            var apiSecret = (creds ?? Credentials).ApiSecret;
-            var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/cancel?api_key={apiKey}&api_secret={apiSecret}"),
+        /// <inheritdoc />
+        public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null) =>
+            ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
+                ApiRequest.AuthType.Query,
                 request,
-                creds ?? Credentials,
-                false
+                creds ?? this.Credentials
             );
-            ValidateNumbersResponse(response);
-            return response;
-        }
 
+        /// <inheritdoc />
+        public Task<NumbersSearchResponse>
+            GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null) =>
+            ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
+                ApiRequest.AuthType.Query,
+                request,
+                creds ?? this.Credentials
+            );
+
+        /// <inheritdoc />
+        public NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey,
+            Credentials creds = null) =>
+            ApiRequest.DoRequestWithJsonContent<NumberTransferResponse>(
+                "POST",
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                request,
+                ApiRequest.AuthType.Basic,
+                creds ?? this.Credentials
+            );
+
+        /// <inheritdoc />
+        public Task<NumberTransferResponse> TransferANumberAsync(NumberTransferRequest request, string apiKey,
+            Credentials creds = null) =>
+            ApiRequest.DoRequestWithJsonContentAsync<NumberTransferResponse>(
+                "POST",
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                request,
+                ApiRequest.AuthType.Basic,
+                creds ?? this.Credentials
+            );
+
+        /// <inheritdoc />
         public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
         {
-            var apiKey = (creds ?? Credentials).ApiKey;
-            var apiSecret = (creds ?? Credentials).ApiSecret;
             var response = ApiRequest.DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/number/update?api_key={apiKey}&api_secret={apiSecret}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
+                    $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
-                creds ?? Credentials,
+                creds ?? this.Credentials,
                 false
             );
             ValidateNumbersResponse(response);
             return response;
         }
-        
-        public NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey, Credentials creds = null)
+
+        /// <inheritdoc />
+        public async Task<NumberTransactionResponse> UpdateANumberAsync(UpdateNumberRequest request,
+            Credentials creds = null)
         {
-            return ApiRequest.DoRequestWithJsonContent<NumberTransferResponse>(
-                "POST",
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+            var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
+                    $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
-                ApiRequest.AuthType.Basic,
-                creds: creds ?? Credentials
+                creds ?? this.Credentials,
+                false
             );
+            ValidateNumbersResponse(response);
+            return response;
         }
-        
-        public Task<NumberTransferResponse> TransferANumberAsync(NumberTransferRequest request, string apiKey, Credentials creds = null)
+
+        private static string FormatQueryStringCredentials(Credentials credentials) =>
+            $"api_key={credentials.ApiKey}&api_secret={credentials.ApiSecret}";
+
+        private static void ValidateNumbersResponse(NumberTransactionResponse response)
         {
-            return ApiRequest.DoRequestWithJsonContentAsync<NumberTransferResponse>(
-                "POST",
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
-                request,
-                ApiRequest.AuthType.Basic,
-                creds: creds ?? Credentials
-            );
+            if (response.ErrorCode != SuccessStatusCode)
+            {
+                throw new VonageNumberResponseException(
+                        $"Number Transaction failed with error code:{response.ErrorCode} and label {response.ErrorCodeLabel}")
+                    {Response = response};
+            }
         }
     }
 }
