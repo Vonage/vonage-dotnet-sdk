@@ -1,11 +1,8 @@
 using System;
-using System.IO.Abstractions;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
-using Vonage.Common.Client;
 using Vonage.Conversions;
-using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
@@ -46,11 +43,6 @@ namespace Vonage
                 this.PropagateCredentials();
             }
         }
-
-        /// <summary>
-        ///     Exposes Meetings features.
-        /// </summary>
-        public IMeetingsClient MeetingsClient { get; private set; }
 
         public IMessagesClient MessagesClient { get; private set; }
 
@@ -100,12 +92,6 @@ namespace Vonage
             this.SmsClient = new SmsClient(this.Credentials);
             this.PricingClient = new PricingClient(this.Credentials);
             this.MessagesClient = new MessagesClient(this.Credentials);
-            var client = InitializeHttpClient();
-            string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
-            this.MeetingsClient =
-                new MeetingsClient(
-                    new VonageHttpClientConfiguration(client, GenerateToken, this.Credentials.GetUserAgent()),
-                    new FileSystem());
         }
     }
 }
