@@ -565,7 +565,6 @@
         <Folder Include="Messages\Messenger\Data" />
         <Folder Include="Messages\Mms\Data" />
         <Folder Include="Messages\Sms\Data" />
-        <Folder Include="VerifyV2\StartVerification"/>
         <Folder Include="VerifyV2\VerifyCode" />
     </ItemGroup>
 
