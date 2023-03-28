@@ -1,3 +1,5 @@
+using System;
+using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -14,6 +16,13 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public StartSmsVerificationSerializationTest() =>
             this.helper = new SerializationTestHelper(typeof(StartSmsVerificationSerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
+
+        [Fact]
+        public void ShouldDeserialize200() =>
+            this.helper.Serializer
+                .DeserializeObject<StartVerificationResponse>(this.helper.GetResponseJson())
+                .Should()
+                .BeSuccess(success => success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
 
         [Fact]
         public void ShouldSerialize() =>
