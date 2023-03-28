@@ -1,3 +1,7 @@
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace Vonage.VerifyV2.StartVerification;
 
 /// <summary>
@@ -5,8 +9,6 @@ namespace Vonage.VerifyV2.StartVerification;
 /// </summary>
 public readonly struct Locale
 {
-    private Locale(string language) => this.Language = language;
-
     /// <summary>
     ///     The de-de locale.
     /// </summary>
@@ -76,4 +78,25 @@ public readonly struct Locale
     ///     The ru-ru locale.
     /// </summary>
     public static Locale RuRu => new("ru-ru");
+
+    internal Locale(string language) => this.Language = language;
+}
+
+/// <summary>
+///     Represents a custom converter from Locale description to Json.
+/// </summary>
+public class LocaleJsonConverter : JsonConverter<Locale>
+{
+    /// <inheritdoc />
+    public override Locale Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var value = reader.GetString();
+        return value != null
+            ? new Locale(value)
+            : default;
+    }
+
+    /// <inheritdoc />
+    public override void Write(Utf8JsonWriter writer, Locale value, JsonSerializerOptions options) =>
+        writer.WriteStringValue(value.Language);
 }

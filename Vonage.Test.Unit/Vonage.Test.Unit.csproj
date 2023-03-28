@@ -539,27 +539,31 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithUrlSticker-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOk-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOk-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Remove="VerifyV2\StartVerification\Sms\Data\ShouldSerialize-request.json"/>
+		<Content Include="VerifyV2\StartVerification\Sms\Data\ShouldSerialize-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
     <ItemGroup>
         <Folder Include="Messages\Messenger\Data" />
