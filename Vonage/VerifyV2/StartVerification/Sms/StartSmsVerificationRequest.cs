@@ -42,7 +42,7 @@ public struct StartSmsVerificationRequest : IVonageRequest
     public HttpRequestMessage BuildRequestMessage() => throw new NotImplementedException();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => throw new NotImplementedException();
+    public string GetEndpointPath() => "/verify";
 }
 
 /// <summary>
