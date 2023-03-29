@@ -5,7 +5,6 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
@@ -63,7 +62,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         private static Result<StartVerificationRequest<WhatsAppWorkflow>> BuildRequest(ISpecimenBuilder fixture) =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .Create();
     }
 }

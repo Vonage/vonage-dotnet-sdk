@@ -1,8 +1,6 @@
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Failures;
-using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.WhatsApp;
@@ -23,7 +21,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldReturnFailure_GivenBrandIsNullOrWhitespace(string value) =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(value)
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Brand cannot be null or whitespace."));
@@ -32,7 +30,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldReturnFailure_GivenChannelTimeoutIsHigherThanMaximum() =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithChannelTimeout(901)
                 .Create()
                 .Should()
@@ -42,7 +40,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldReturnFailure_GivenChannelTimeoutIsLowerThanMinimum() =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithChannelTimeout(59)
                 .Create()
                 .Should()
@@ -52,7 +50,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldReturnFailure_GivenCodeLengthIsHigherThanMaximum() =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithCodeLength(11)
                 .Create()
                 .Should()
@@ -62,7 +60,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldReturnFailure_GivenCodeLengthIsLowerThanMinimum() =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithCodeLength(3)
                 .Create()
                 .Should()
@@ -74,7 +72,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldReturnFailure_GivenFromIsProvidedButEmpty(string value) =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber(), PhoneNumber.Parse(value)))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789", value))
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
@@ -86,7 +84,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldReturnFailure_GivenWorkflowToIsNullOrWhitespace(string value) =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(PhoneNumber.Parse(value)))
+                .WithWorkflow(WhatsAppWorkflow.Parse(value))
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
@@ -97,7 +95,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldSetChannelTimeout(int value) =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithChannelTimeout(value)
                 .Create()
                 .Map(request => request.ChannelTimeout)
@@ -108,7 +106,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldSetClientReference() =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithClientReference("client ref")
                 .Create()
                 .Map(request => request.ClientReference)
@@ -121,7 +119,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldSetCodeLength(int value) =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithCodeLength(value)
                 .Create()
                 .Map(request => request.CodeLength)
@@ -132,7 +130,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_ShouldSetLocale() =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithLocale(Locale.FrFr)
                 .Create()
                 .Map(request => request.Locale)
@@ -143,7 +141,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void Create_WithMandatoryInformation() =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand("some brand")
-                .WithWorkflow(WhatsAppWorkflow.Parse(GetValidNumber()))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .Create()
                 .Should()
                 .BeSuccess(request =>
@@ -158,7 +156,5 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
                     request.ClientReference.Should().BeNone();
                     request.ChannelTimeout.Should().Be(300);
                 });
-
-        private static Result<PhoneNumber> GetValidNumber() => PhoneNumber.Parse("123456789");
     }
 }

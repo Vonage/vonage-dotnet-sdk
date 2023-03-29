@@ -38,21 +38,25 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
     public PhoneNumber To { get; }
 
     /// <summary>
-    /// </summary>
-    /// <param name="to"></param>
-    /// <returns></returns>
-    public static Result<SmsWorkflow> Parse(Result<PhoneNumber> to) =>
-        to.Map(phoneNumber => new SmsWorkflow(phoneNumber, Maybe<string>.None))
-            .Bind(VerifyWorkflowHashNotEmpty)
-            .Bind(VerifyWorkflowHashLength);
-
-    /// <summary>
+    /// 
     /// </summary>
     /// <param name="to"></param>
     /// <param name="hash"></param>
     /// <returns></returns>
-    public static Result<SmsWorkflow> Parse(Result<PhoneNumber> to, string hash) =>
-        to.Map(phoneNumber => new SmsWorkflow(phoneNumber, hash))
+    public static Result<SmsWorkflow> Parse(string to, string hash) =>
+        PhoneNumber.Parse(to)
+            .Map(phoneNumber => new SmsWorkflow(phoneNumber, hash))
+            .Bind(VerifyWorkflowHashNotEmpty)
+            .Bind(VerifyWorkflowHashLength);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="to"></param>
+    /// <returns></returns>
+    public static Result<SmsWorkflow> Parse(string to) =>
+        PhoneNumber.Parse(to)
+            .Map(phoneNumber => new SmsWorkflow(phoneNumber, Maybe<string>.None))
             .Bind(VerifyWorkflowHashNotEmpty)
             .Bind(VerifyWorkflowHashLength);
 

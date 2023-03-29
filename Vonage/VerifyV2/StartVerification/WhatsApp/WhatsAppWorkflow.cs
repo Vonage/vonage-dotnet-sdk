@@ -40,14 +40,15 @@ public readonly struct WhatsAppWorkflow : IVerificationWorkflow
     /// </summary>
     /// <param name="to"></param>
     /// <returns></returns>
-    public static Result<WhatsAppWorkflow> Parse(Result<PhoneNumber> to) =>
-        to.Map(phoneNumber => new WhatsAppWorkflow(phoneNumber, Maybe<PhoneNumber>.None));
+    public static Result<WhatsAppWorkflow> Parse(string to) =>
+        PhoneNumber.Parse(to).Map(phoneNumber => new WhatsAppWorkflow(phoneNumber, Maybe<PhoneNumber>.None));
 
     /// <summary>
     /// </summary>
     /// <param name="to"></param>
     /// <param name="from"></param>
     /// <returns></returns>
-    public static Result<WhatsAppWorkflow> Parse(Result<PhoneNumber> to, Result<PhoneNumber> from) =>
-        to.Merge(from, (toNumber, fromNumber) => new WhatsAppWorkflow(toNumber, fromNumber));
+    public static Result<WhatsAppWorkflow> Parse(string to, string from) =>
+        PhoneNumber.Parse(to)
+            .Merge(PhoneNumber.Parse(from), (toNumber, fromNumber) => new WhatsAppWorkflow(toNumber, fromNumber));
 }

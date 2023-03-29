@@ -5,7 +5,6 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
@@ -62,6 +61,6 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
 
         private static Result<StartVerificationRequest<SmsWorkflow>> BuildRequest(ISpecimenBuilder fixture) =>
             StartVerificationRequestBuilder.ForSms().WithBrand(fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789"))).Create();
+                .WithWorkflow(SmsWorkflow.Parse("123456789")).Create();
     }
 }

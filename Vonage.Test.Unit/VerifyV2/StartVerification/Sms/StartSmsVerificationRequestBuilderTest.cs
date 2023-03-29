@@ -1,6 +1,5 @@
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
@@ -22,7 +21,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldReturnFailure_GivenBrandIsNullOrWhitespace(string value) =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(value)
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Brand cannot be null or whitespace."));
@@ -31,7 +30,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldReturnFailure_GivenChannelTimeoutIsHigherThanMaximum() =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .WithChannelTimeout(901)
                 .Create()
                 .Should()
@@ -41,7 +40,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldReturnFailure_GivenChannelTimeoutIsLowerThanMinimum() =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .WithChannelTimeout(59)
                 .Create()
                 .Should()
@@ -51,7 +50,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldReturnFailure_GivenCodeLengthIsHigherThanMaximum() =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .WithCodeLength(11)
                 .Create()
                 .Should()
@@ -61,7 +60,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldReturnFailure_GivenCodeLengthIsLowerThanMinimum() =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .WithCodeLength(3)
                 .Create()
                 .Should()
@@ -73,7 +72,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldReturnFailure_GivenHashIsProvidedButEmpty(string value) =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789"), value))
+                .WithWorkflow(SmsWorkflow.Parse("123456789", value))
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Hash cannot be null or whitespace."));
@@ -84,7 +83,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldReturnFailure_GivenHashIsProvidedButLengthIsNot11(string value) =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789"), value))
+                .WithWorkflow(SmsWorkflow.Parse("123456789", value))
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Hash length should be 11."));
@@ -96,7 +95,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldReturnFailure_GivenWorkflowToIsNullOrWhitespace(string value) =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse(value)))
+                .WithWorkflow(SmsWorkflow.Parse(value))
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
@@ -107,7 +106,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldSetChannelTimeout(int value) =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .WithChannelTimeout(value)
                 .Create()
                 .Map(request => request.ChannelTimeout)
@@ -118,7 +117,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldSetClientReference() =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .WithClientReference("client ref")
                 .Create()
                 .Map(request => request.ClientReference)
@@ -131,7 +130,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldSetCodeLength(int value) =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .WithCodeLength(value)
                 .Create()
                 .Map(request => request.CodeLength)
@@ -142,7 +141,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_ShouldSetLocale() =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .WithLocale(Locale.FrFr)
                 .Create()
                 .Map(request => request.Locale)
@@ -153,7 +152,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void Create_WithMandatoryInformation() =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand("some brand")
-                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789"), "12345678901"))
+                .WithWorkflow(SmsWorkflow.Parse("123456789", "12345678901"))
                 .Create()
                 .Should()
                 .BeSuccess(request =>
