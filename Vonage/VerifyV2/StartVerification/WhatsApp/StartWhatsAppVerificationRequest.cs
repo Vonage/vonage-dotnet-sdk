@@ -6,10 +6,10 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 
-namespace Vonage.VerifyV2.StartVerification.Sms;
+namespace Vonage.VerifyV2.StartVerification.WhatsApp;
 
 /// <inheritdoc />
-public readonly struct StartSmsVerificationRequest : IStartVerificationRequest
+public readonly struct StartWhatsAppVerificationRequest : IStartVerificationRequest
 {
     /// <summary>
     ///     Gets the brand that is sending the verification request.
@@ -49,7 +49,7 @@ public readonly struct StartSmsVerificationRequest : IStartVerificationRequest
     /// </summary>
     [JsonPropertyOrder(5)]
     [JsonPropertyName("workflow")]
-    public SmsWorkflow[] Workflows { get; internal init; }
+    public WhatsAppWorkflow[] Workflows { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -67,26 +67,28 @@ public readonly struct StartSmsVerificationRequest : IStartVerificationRequest
 }
 
 /// <summary>
-///     Represents a verification workflow.
+///     Represents a verification workflow for WhatsApp.
 /// </summary>
 /// <param name="Channel">The channel name.</param>
 /// <param name="To">
 ///     The phone number to contact, in the E.164 format. Don't use a leading + or 00 when entering a phone
 ///     number, start with the country code, for example, 447700900000.
 /// </param>
-/// <param name="Hash">Optional Android Application Hash Key for automatic code detection on a user's device.</param>
-public record SmsWorkflow([property: JsonPropertyOrder(1)] string To,
+/// <param name="From">
+///     An optional sender number, in the E.164 format. Don't use a leading + or 00 when entering a phone
+///     number, start with the country code, for example, 447700900000.
+/// </param>
+public record WhatsAppWorkflow([property: JsonPropertyOrder(1)] string To,
     [property: JsonPropertyOrder(3)]
-    [property: JsonPropertyName("app_hash")]
     [property: JsonConverter(typeof(MaybeJsonConverter<string>))]
-    Maybe<string> Hash) : IVerificationWorkflow
+    Maybe<string> From) : IVerificationWorkflow
 {
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
-    public string Channel => "sms";
+    public string Channel => "whatsapp";
 
     /// <inheritdoc />
-    public SmsWorkflow(string to)
+    public WhatsAppWorkflow(string to)
         : this(to, Maybe<string>.None)
     {
     }

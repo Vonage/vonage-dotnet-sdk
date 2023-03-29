@@ -1,22 +1,22 @@
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
-using Vonage.VerifyV2.StartVerification.Sms;
+using Vonage.VerifyV2.StartVerification.WhatsApp;
 using Xunit;
 
-namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
+namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
 {
-    public class StartSmsVerificationRequestTest
+    public class StartWhatsAppVerificationRequestTest
     {
         private readonly Fixture fixture;
 
-        public StartSmsVerificationRequestTest() => this.fixture = new Fixture();
+        public StartWhatsAppVerificationRequestTest() => this.fixture = new Fixture();
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            StartVerificationRequestBuilder.ForSms()
+            StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(new SmsWorkflow(this.fixture.Create<string>()))
+                .WithWorkflow(new WhatsAppWorkflow(this.fixture.Create<string>()))
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()

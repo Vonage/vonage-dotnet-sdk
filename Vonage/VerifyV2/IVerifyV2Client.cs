@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.VerifyV2.StartVerification;
-using Vonage.VerifyV2.StartVerification.Sms;
 
 namespace Vonage.VerifyV2;
 
@@ -15,5 +14,6 @@ public interface IVerifyV2Client
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>The response.</returns>
-    Task<Result<StartVerificationResponse>> StartVerificationAsync(Result<StartSmsVerificationRequest> request);
+    Task<Result<StartVerificationResponse>> StartVerificationAsync<T>(Result<T> request)
+        where T : IStartVerificationRequest;
 }

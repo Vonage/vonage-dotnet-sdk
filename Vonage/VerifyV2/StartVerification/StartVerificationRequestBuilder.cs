@@ -5,6 +5,7 @@ using Vonage.VerifyV2.StartVerification.Sms;
 using Vonage.VerifyV2.StartVerification.Voice;
 using Vonage.VerifyV2.StartVerification.WhatsApp;
 using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
+using IBuilderForBrand = Vonage.VerifyV2.StartVerification.Sms.IBuilderForBrand;
 
 namespace Vonage.VerifyV2.StartVerification;
 
@@ -23,7 +24,13 @@ public static class StartVerificationRequestBuilder
     public static IBuilderForBrand ForSms() => new StartSmsVerificationRequestBuilder();
 
     public static StartVoiceVerificationRequestBuilder ForVoice() => throw new NotImplementedException();
-    public static StartWhatsAppVerificationRequestBuilder ForWhatsApp() => throw new NotImplementedException();
+
+    /// <summary>
+    ///     Returns a builder for WhatsApp verification request.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static WhatsApp.IBuilderForBrand ForWhatsApp() =>
+        new StartWhatsAppVerificationRequestBuilder();
 
     public static StartWhatsAppInteractiveVerificationRequestBuilder ForWhatsAppInteractive() =>
         throw new NotImplementedException();

@@ -9,14 +9,14 @@ namespace Vonage.VerifyV2.StartVerification.Sms;
 /// <summary>
 ///     Represents a builder for a StartVerificationRequest over SMS.
 /// </summary>
-public class StartSmsVerificationRequestBuilder :
+internal class StartSmsVerificationRequestBuilder :
     IOptionalBuilder,
     IBuilderForBrand,
     IBuilderForWorkflow
 {
     private int channelTimeout = 300;
     private int codeLength = 4;
-    private readonly List<Workflow> workflows = new();
+    private readonly List<SmsWorkflow> workflows = new();
     private Locale locale = Locale.EnUs;
     private Maybe<string> clientReference = Maybe<string>.None;
     private string brand;
@@ -37,7 +37,6 @@ public class StartSmsVerificationRequestBuilder :
         .Bind(VerifyChannelTimeoutLowerThanMaximum)
         .Bind(VerifyCodeLengthHigherThanMinimum)
         .Bind(VerifyCodeLengthLowerThanMaximum)
-        .Bind(VerifyWorkflowChannelNotEmpty)
         .Bind(VerifyWorkflowToNotEmpty)
         .Bind(VerifyWorkflowHashNotEmpty)
         .Bind(VerifyWorkflowHashLength);
@@ -78,7 +77,7 @@ public class StartSmsVerificationRequestBuilder :
     }
 
     /// <inheritdoc />
-    public IOptionalBuilder WithWorkflow(Workflow value)
+    public IOptionalBuilder WithWorkflow(SmsWorkflow value)
     {
         this.workflows.Add(value);
         return this;
@@ -108,13 +107,6 @@ public class StartSmsVerificationRequestBuilder :
         StartSmsVerificationRequest request) =>
         InputValidation
             .VerifyLowerOrEqualThan(request, request.CodeLength, 10, nameof(request.CodeLength));
-
-    private static Result<StartSmsVerificationRequest> VerifyWorkflowChannelNotEmpty(
-        StartSmsVerificationRequest request)
-    {
-        var workflow = request.Workflows.First();
-        return InputValidation.VerifyNotEmpty(request, workflow.Channel, nameof(workflow.Channel));
-    }
 
     private static Result<StartSmsVerificationRequest> VerifyWorkflowHashLength(
         StartSmsVerificationRequest request)
@@ -215,7 +207,7 @@ public interface IBuilderForWorkflow
     /// </summary>
     /// <param name="value">The Workflow.</param>
     /// <returns>The builder.</returns>
-    IOptionalBuilder WithWorkflow(Workflow value);
+    IOptionalBuilder WithWorkflow(SmsWorkflow value);
 }
 
 /// <summary>
