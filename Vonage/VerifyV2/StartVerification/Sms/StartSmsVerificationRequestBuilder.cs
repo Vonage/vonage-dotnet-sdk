@@ -22,8 +22,9 @@ internal class StartSmsVerificationRequestBuilder :
     private string brand;
 
     /// <inheritdoc />
-    public Result<StartSmsVerificationRequest> Create() => Result<StartSmsVerificationRequest>.FromSuccess(
-            new StartSmsVerificationRequest
+    public Result<StartVerificationRequest<SmsWorkflow>> Create() => Result<StartVerificationRequest<SmsWorkflow>>
+        .FromSuccess(
+            new StartVerificationRequest<SmsWorkflow>
             {
                 Brand = this.brand,
                 Locale = this.locale,
@@ -83,49 +84,49 @@ internal class StartSmsVerificationRequestBuilder :
         return this;
     }
 
-    private static Result<StartSmsVerificationRequest> VerifyBrandNotEmpty(
-        StartSmsVerificationRequest request) =>
+    private static Result<StartVerificationRequest<SmsWorkflow>> VerifyBrandNotEmpty(
+        StartVerificationRequest<SmsWorkflow> request) =>
         InputValidation
             .VerifyNotEmpty(request, request.Brand, nameof(request.Brand));
 
-    private static Result<StartSmsVerificationRequest> VerifyChannelTimeoutHigherThanMinimum(
-        StartSmsVerificationRequest request) =>
+    private static Result<StartVerificationRequest<SmsWorkflow>> VerifyChannelTimeoutHigherThanMinimum(
+        StartVerificationRequest<SmsWorkflow> request) =>
         InputValidation
             .VerifyHigherOrEqualThan(request, request.ChannelTimeout, 60, nameof(request.ChannelTimeout));
 
-    private static Result<StartSmsVerificationRequest> VerifyChannelTimeoutLowerThanMaximum(
-        StartSmsVerificationRequest request) =>
+    private static Result<StartVerificationRequest<SmsWorkflow>> VerifyChannelTimeoutLowerThanMaximum(
+        StartVerificationRequest<SmsWorkflow> request) =>
         InputValidation
             .VerifyLowerOrEqualThan(request, request.ChannelTimeout, 900, nameof(request.ChannelTimeout));
 
-    private static Result<StartSmsVerificationRequest> VerifyCodeLengthHigherThanMinimum(
-        StartSmsVerificationRequest request) =>
+    private static Result<StartVerificationRequest<SmsWorkflow>> VerifyCodeLengthHigherThanMinimum(
+        StartVerificationRequest<SmsWorkflow> request) =>
         InputValidation
             .VerifyHigherOrEqualThan(request, request.CodeLength, 4, nameof(request.CodeLength));
 
-    private static Result<StartSmsVerificationRequest> VerifyCodeLengthLowerThanMaximum(
-        StartSmsVerificationRequest request) =>
+    private static Result<StartVerificationRequest<SmsWorkflow>> VerifyCodeLengthLowerThanMaximum(
+        StartVerificationRequest<SmsWorkflow> request) =>
         InputValidation
             .VerifyLowerOrEqualThan(request, request.CodeLength, 10, nameof(request.CodeLength));
 
-    private static Result<StartSmsVerificationRequest> VerifyWorkflowHashLength(
-        StartSmsVerificationRequest request)
+    private static Result<StartVerificationRequest<SmsWorkflow>> VerifyWorkflowHashLength(
+        StartVerificationRequest<SmsWorkflow> request)
     {
         var workflow = request.Workflows.First();
         return workflow.Hash.Match(some => InputValidation.VerifyLength(request, some, 11, nameof(workflow.Hash)),
             () => request);
     }
 
-    private static Result<StartSmsVerificationRequest> VerifyWorkflowHashNotEmpty(
-        StartSmsVerificationRequest request)
+    private static Result<StartVerificationRequest<SmsWorkflow>> VerifyWorkflowHashNotEmpty(
+        StartVerificationRequest<SmsWorkflow> request)
     {
         var workflow = request.Workflows.First();
         return workflow.Hash.Match(some => InputValidation.VerifyNotEmpty(request, some, nameof(workflow.Hash)),
             () => request);
     }
 
-    private static Result<StartSmsVerificationRequest> VerifyWorkflowToNotEmpty(
-        StartSmsVerificationRequest request)
+    private static Result<StartVerificationRequest<SmsWorkflow>> VerifyWorkflowToNotEmpty(
+        StartVerificationRequest<SmsWorkflow> request)
     {
         var workflow = request.Workflows.First();
         return InputValidation.VerifyNotEmpty(request, workflow.To, nameof(workflow.To));
@@ -214,7 +215,7 @@ public interface IBuilderForWorkflow
 ///     Represents a builder for optional values.
 /// </summary>
 public interface IOptionalBuilder :
-    IVonageRequestBuilder<StartSmsVerificationRequest>,
+    IVonageRequestBuilder<StartVerificationRequest<SmsWorkflow>>,
     IOptionalOptionalBuilderForLocale,
     IOptionalOptionalBuilderForChannelTimeout,
     IOptionalOptionalBuilderForClientReference,

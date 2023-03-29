@@ -6,10 +6,12 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 
-namespace Vonage.VerifyV2.StartVerification.WhatsApp;
+namespace Vonage.VerifyV2.StartVerification;
 
 /// <inheritdoc />
-public readonly struct StartWhatsAppVerificationRequest : IStartVerificationRequest
+public class StartVerificationRequest<T> : IStartVerificationRequest
+    where T : IVerificationWorkflow
+
 {
     /// <summary>
     ///     Gets the brand that is sending the verification request.
@@ -49,7 +51,7 @@ public readonly struct StartWhatsAppVerificationRequest : IStartVerificationRequ
     /// </summary>
     [JsonPropertyOrder(5)]
     [JsonPropertyName("workflow")]
-    public WhatsAppWorkflow[] Workflows { get; internal init; }
+    public T[] Workflows { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -64,32 +66,4 @@ public readonly struct StartWhatsAppVerificationRequest : IStartVerificationRequ
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
             Encoding.UTF8,
             "application/json");
-}
-
-/// <summary>
-///     Represents a verification workflow for WhatsApp.
-/// </summary>
-/// <param name="Channel">The channel name.</param>
-/// <param name="To">
-///     The phone number to contact, in the E.164 format. Don't use a leading + or 00 when entering a phone
-///     number, start with the country code, for example, 447700900000.
-/// </param>
-/// <param name="From">
-///     An optional sender number, in the E.164 format. Don't use a leading + or 00 when entering a phone
-///     number, start with the country code, for example, 447700900000.
-/// </param>
-public record WhatsAppWorkflow([property: JsonPropertyOrder(1)] string To,
-    [property: JsonPropertyOrder(3)]
-    [property: JsonConverter(typeof(MaybeJsonConverter<string>))]
-    Maybe<string> From) : IVerificationWorkflow
-{
-    /// <inheritdoc />
-    [JsonPropertyOrder(0)]
-    public string Channel => "whatsapp";
-
-    /// <inheritdoc />
-    public WhatsAppWorkflow(string to)
-        : this(to, Maybe<string>.None)
-    {
-    }
 }

@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         private Func<VonageHttpClientConfiguration, Task<Result<StartVerificationResponse>>> Operation =>
             configuration => new VerifyV2Client(configuration).StartVerificationAsync(this.request);
 
-        private readonly Result<StartSmsVerificationRequest> request;
+        private readonly Result<StartVerificationRequest<SmsWorkflow>> request;
 
         public StartSmsVerificationTest() => this.request = BuildRequest(this.helper.Fixture);
 
@@ -41,7 +41,8 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<StartSmsVerificationRequest, StartVerificationResponse>(
+                .VerifyReturnsFailureGivenRequestIsFailure<StartVerificationRequest<SmsWorkflow>,
+                    StartVerificationResponse>(
                     (configuration, failureRequest) =>
                         new VerifyV2Client(configuration).StartVerificationAsync(failureRequest));
 
@@ -58,7 +59,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
                 Content = this.request.GetStringContent().IfFailure(string.Empty),
             };
 
-        private static Result<StartSmsVerificationRequest> BuildRequest(ISpecimenBuilder fixture) =>
+        private static Result<StartVerificationRequest<SmsWorkflow>> BuildRequest(ISpecimenBuilder fixture) =>
             StartVerificationRequestBuilder.ForSms().WithBrand(fixture.Create<string>())
                 .WithWorkflow(new SmsWorkflow(fixture.Create<string>())).Create();
     }

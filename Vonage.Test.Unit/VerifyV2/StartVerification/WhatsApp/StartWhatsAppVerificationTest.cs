@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         private Func<VonageHttpClientConfiguration, Task<Result<StartVerificationResponse>>> Operation =>
             configuration => new VerifyV2Client(configuration).StartVerificationAsync(this.request);
 
-        private readonly Result<StartWhatsAppVerificationRequest> request;
+        private readonly Result<StartVerificationRequest<WhatsAppWorkflow>> request;
 
         public StartWhatsAppVerificationTest() => this.request = BuildRequest(this.helper.Fixture);
 
@@ -41,7 +41,8 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<StartWhatsAppVerificationRequest, StartVerificationResponse>(
+                .VerifyReturnsFailureGivenRequestIsFailure<StartVerificationRequest<WhatsAppWorkflow>,
+                    StartVerificationResponse>(
                     (configuration, failureRequest) =>
                         new VerifyV2Client(configuration).StartVerificationAsync(failureRequest));
 
@@ -58,7 +59,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
                 Content = this.request.GetStringContent().IfFailure(string.Empty),
             };
 
-        private static Result<StartWhatsAppVerificationRequest> BuildRequest(ISpecimenBuilder fixture) =>
+        private static Result<StartVerificationRequest<WhatsAppWorkflow>> BuildRequest(ISpecimenBuilder fixture) =>
             StartVerificationRequestBuilder.ForWhatsApp().WithBrand(fixture.Create<string>())
                 .WithWorkflow(new WhatsAppWorkflow(fixture.Create<string>(), fixture.Create<string>())).Create();
     }

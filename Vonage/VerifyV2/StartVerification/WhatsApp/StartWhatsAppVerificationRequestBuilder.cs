@@ -22,23 +22,24 @@ internal class StartWhatsAppVerificationRequestBuilder :
     private string brand;
 
     /// <inheritdoc />
-    public Result<StartWhatsAppVerificationRequest> Create() => Result<StartWhatsAppVerificationRequest>.FromSuccess(
-            new StartWhatsAppVerificationRequest
-            {
-                Brand = this.brand,
-                Locale = this.locale,
-                ChannelTimeout = this.channelTimeout,
-                ClientReference = this.clientReference,
-                CodeLength = this.codeLength,
-                Workflows = this.workflows.ToArray(),
-            })
-        .Bind(VerifyBrandNotEmpty)
-        .Bind(VerifyChannelTimeoutHigherThanMinimum)
-        .Bind(VerifyChannelTimeoutLowerThanMaximum)
-        .Bind(VerifyCodeLengthHigherThanMinimum)
-        .Bind(VerifyCodeLengthLowerThanMaximum)
-        .Bind(VerifyWorkflowToNotEmpty)
-        .Bind(VerifyWorkflowFromNotEmpty);
+    public Result<StartVerificationRequest<WhatsAppWorkflow>> Create() =>
+        Result<StartVerificationRequest<WhatsAppWorkflow>>.FromSuccess(
+                new StartVerificationRequest<WhatsAppWorkflow>
+                {
+                    Brand = this.brand,
+                    Locale = this.locale,
+                    ChannelTimeout = this.channelTimeout,
+                    ClientReference = this.clientReference,
+                    CodeLength = this.codeLength,
+                    Workflows = this.workflows.ToArray(),
+                })
+            .Bind(VerifyBrandNotEmpty)
+            .Bind(VerifyChannelTimeoutHigherThanMinimum)
+            .Bind(VerifyChannelTimeoutLowerThanMaximum)
+            .Bind(VerifyCodeLengthHigherThanMinimum)
+            .Bind(VerifyCodeLengthLowerThanMaximum)
+            .Bind(VerifyWorkflowToNotEmpty)
+            .Bind(VerifyWorkflowFromNotEmpty);
 
     /// <inheritdoc />
     public IBuilderForWorkflow WithBrand(string value)
@@ -82,41 +83,41 @@ internal class StartWhatsAppVerificationRequestBuilder :
         return this;
     }
 
-    private static Result<StartWhatsAppVerificationRequest> VerifyBrandNotEmpty(
-        StartWhatsAppVerificationRequest request) =>
+    private static Result<StartVerificationRequest<WhatsAppWorkflow>> VerifyBrandNotEmpty(
+        StartVerificationRequest<WhatsAppWorkflow> request) =>
         InputValidation
             .VerifyNotEmpty(request, request.Brand, nameof(request.Brand));
 
-    private static Result<StartWhatsAppVerificationRequest> VerifyChannelTimeoutHigherThanMinimum(
-        StartWhatsAppVerificationRequest request) =>
+    private static Result<StartVerificationRequest<WhatsAppWorkflow>> VerifyChannelTimeoutHigherThanMinimum(
+        StartVerificationRequest<WhatsAppWorkflow> request) =>
         InputValidation
             .VerifyHigherOrEqualThan(request, request.ChannelTimeout, 60, nameof(request.ChannelTimeout));
 
-    private static Result<StartWhatsAppVerificationRequest> VerifyChannelTimeoutLowerThanMaximum(
-        StartWhatsAppVerificationRequest request) =>
+    private static Result<StartVerificationRequest<WhatsAppWorkflow>> VerifyChannelTimeoutLowerThanMaximum(
+        StartVerificationRequest<WhatsAppWorkflow> request) =>
         InputValidation
             .VerifyLowerOrEqualThan(request, request.ChannelTimeout, 900, nameof(request.ChannelTimeout));
 
-    private static Result<StartWhatsAppVerificationRequest> VerifyCodeLengthHigherThanMinimum(
-        StartWhatsAppVerificationRequest request) =>
+    private static Result<StartVerificationRequest<WhatsAppWorkflow>> VerifyCodeLengthHigherThanMinimum(
+        StartVerificationRequest<WhatsAppWorkflow> request) =>
         InputValidation
             .VerifyHigherOrEqualThan(request, request.CodeLength, 4, nameof(request.CodeLength));
 
-    private static Result<StartWhatsAppVerificationRequest> VerifyCodeLengthLowerThanMaximum(
-        StartWhatsAppVerificationRequest request) =>
+    private static Result<StartVerificationRequest<WhatsAppWorkflow>> VerifyCodeLengthLowerThanMaximum(
+        StartVerificationRequest<WhatsAppWorkflow> request) =>
         InputValidation
             .VerifyLowerOrEqualThan(request, request.CodeLength, 10, nameof(request.CodeLength));
 
-    private static Result<StartWhatsAppVerificationRequest> VerifyWorkflowFromNotEmpty(
-        StartWhatsAppVerificationRequest request)
+    private static Result<StartVerificationRequest<WhatsAppWorkflow>> VerifyWorkflowFromNotEmpty(
+        StartVerificationRequest<WhatsAppWorkflow> request)
     {
         var workflow = request.Workflows.First();
         return workflow.From.Match(some => InputValidation.VerifyNotEmpty(request, some, nameof(workflow.From)),
             () => request);
     }
 
-    private static Result<StartWhatsAppVerificationRequest> VerifyWorkflowToNotEmpty(
-        StartWhatsAppVerificationRequest request)
+    private static Result<StartVerificationRequest<WhatsAppWorkflow>> VerifyWorkflowToNotEmpty(
+        StartVerificationRequest<WhatsAppWorkflow> request)
     {
         var workflow = request.Workflows.First();
         return InputValidation.VerifyNotEmpty(request, workflow.To, nameof(workflow.To));
@@ -205,7 +206,7 @@ public interface IBuilderForWorkflow
 ///     Represents a builder for optional values.
 /// </summary>
 public interface IOptionalBuilder :
-    IVonageRequestBuilder<StartWhatsAppVerificationRequest>,
+    IVonageRequestBuilder<StartVerificationRequest<WhatsAppWorkflow>>,
     IOptionalOptionalBuilderForLocale,
     IOptionalOptionalBuilderForChannelTimeout,
     IOptionalOptionalBuilderForClientReference,
