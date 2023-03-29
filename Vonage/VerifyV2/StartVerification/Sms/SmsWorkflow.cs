@@ -5,27 +5,34 @@ using Vonage.Common.Serialization;
 namespace Vonage.VerifyV2.StartVerification.Sms;
 
 /// <summary>
-///     Represents a verification workflow.
+/// Represents a verification workflow for SMS.
 /// </summary>
-/// <param name="Channel">The channel name.</param>
-/// <param name="To">
-///     The phone number to contact, in the E.164 format. Don't use a leading + or 00 when entering a phone
-///     number, start with the country code, for example, 447700900000.
-/// </param>
-/// <param name="Hash">Optional Android Application Hash Key for automatic code detection on a user's device.</param>
-public record SmsWorkflow([property: JsonPropertyOrder(1)] string To,
-    [property: JsonPropertyOrder(3)]
-    [property: JsonPropertyName("app_hash")]
-    [property: JsonConverter(typeof(MaybeJsonConverter<string>))]
-    Maybe<string> Hash) : IVerificationWorkflow
+public struct SmsWorkflow : IVerificationWorkflow
 {
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
     public string Channel => "sms";
 
-    /// <inheritdoc />
-    public SmsWorkflow(string to)
-        : this(to, Maybe<string>.None)
+    /// <summary>
+    ///     Optional Android Application Hash Key for automatic code detection on a user's device.
+    /// </summary>
+    [JsonPropertyOrder(3)]
+    [JsonPropertyName("app_hash")]
+    [JsonConverter(typeof(MaybeJsonConverter<string>))]
+    public Maybe<string> Hash { get; set; }
+
+    /// <summary>
+    ///     The phone number to contact, in the E.164 format. Don't use a leading + or 00 when entering a phone number, start
+    ///     with the country code, for example, 447700900000.
+    /// </summary>
+    [JsonPropertyOrder(1)]
+    public string To { get; set; }
+
+    public SmsWorkflow(string to) : this() => this.To = to;
+
+    public SmsWorkflow(string to, Maybe<string> hash)
     {
+        this.To = to;
+        this.Hash = hash;
     }
 }
