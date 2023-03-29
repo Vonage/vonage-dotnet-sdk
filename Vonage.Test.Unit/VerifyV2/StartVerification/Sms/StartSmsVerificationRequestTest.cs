@@ -1,4 +1,5 @@
 using AutoFixture;
+using Vonage.Common;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Sms;
@@ -16,7 +17,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(new SmsWorkflow(this.fixture.Create<string>()))
+                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("123456789")))
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()

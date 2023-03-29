@@ -28,7 +28,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         public void ShouldSerialize() =>
             StartVerificationRequestBuilder.ForSms()
                 .WithBrand("ACME, Inc")
-                .WithWorkflow(new SmsWorkflow("447700900000", "12345678901"))
+                .WithWorkflow(SmsWorkflow.Parse(PhoneNumber.Parse("447700900000"), "12345678901"))
                 .WithLocale(Locale.EsEs)
                 .WithChannelTimeout(300)
                 .WithClientReference("my-personal-reference")

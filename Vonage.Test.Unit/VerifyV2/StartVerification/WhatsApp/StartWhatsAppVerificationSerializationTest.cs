@@ -28,7 +28,8 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
         public void ShouldSerialize() =>
             StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand("ACME, Inc")
-                .WithWorkflow(new WhatsAppWorkflow("447700900000", "447700900001"))
+                .WithWorkflow(WhatsAppWorkflow.Parse(PhoneNumber.Parse("447700900000"),
+                    PhoneNumber.Parse("447700900001")))
                 .WithLocale(Locale.EsEs)
                 .WithChannelTimeout(300)
                 .WithClientReference("my-personal-reference")

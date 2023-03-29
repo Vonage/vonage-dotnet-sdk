@@ -30,6 +30,7 @@ public class JsonSerializer : IJsonSerializer
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
         this.settings.Converters.Add(new ColorJsonConverter());
+        this.settings.Converters.Add(new PhoneNumberJsonConverter());
     }
 
     /// <summary>
