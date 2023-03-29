@@ -3,6 +3,7 @@ using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.VerifyV2.StartVerification.Sms;
 using Vonage.VerifyV2.StartVerification.WhatsApp;
+using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
 
 namespace Vonage.VerifyV2.StartVerification;
 
@@ -24,6 +25,13 @@ public static class StartVerificationRequestBuilder
     /// <returns>The builder.</returns>
     public static IBuilderForBrandV2<WhatsAppWorkflow> ForWhatsApp() =>
         new StartVerificationRequestBuilderV2<WhatsAppWorkflow>();
+
+    /// <summary>
+    ///     Returns a builder for WhatsAppInteractive verification request.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForBrandV2<WhatsAppInteractiveWorkflow> ForWhatsAppInteractive() =>
+        new StartVerificationRequestBuilderV2<WhatsAppInteractiveWorkflow>();
 }
 
 /// <summary>

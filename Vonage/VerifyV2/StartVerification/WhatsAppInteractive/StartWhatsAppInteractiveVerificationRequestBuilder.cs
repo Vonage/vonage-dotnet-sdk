@@ -1,5 +1,0 @@
-namespace Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
-
-public class StartWhatsAppInteractiveVerificationRequestBuilder
-{
-}

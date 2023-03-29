@@ -105,6 +105,9 @@
         </_PackageFiles>
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="VerifyV2\StartVerification\Email"/>
+        <Folder Include="VerifyV2\StartVerification\SilentAuth"/>
+        <Folder Include="VerifyV2\StartVerification\Voice"/>
         <Folder Include="VerifyV2\VerifyCode"/>
     </ItemGroup>
 </Project>

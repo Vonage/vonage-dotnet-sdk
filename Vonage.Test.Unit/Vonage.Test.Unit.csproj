@@ -575,6 +575,14 @@
         <Content Include="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerialize-request.json"/>
+        <Content Include="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
