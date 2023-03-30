@@ -15,6 +15,10 @@ public readonly struct PhoneNumber
 {
     private const int MaximumLength = 15;
     private const int MinimumLength = 7;
+    private const string InternationalIndicator = "+";
+    private const string MustContainDigits = "Number can only contain digits.";
+    private const string NumberLengthIdentifier = "Number length";
+
     private PhoneNumber(string number) => this.Number = number;
 
     /// <summary>
@@ -44,23 +48,23 @@ public readonly struct PhoneNumber
     public override string ToString() => this.Number;
 
     private static PhoneNumber RemoveInternationalIndicator(PhoneNumber value) =>
-        new(value.Number.Replace("+", string.Empty));
+        new(value.Number.Replace(InternationalIndicator, string.Empty));
 
     private static Result<PhoneNumber> VerifyDigitsOnly(
         PhoneNumber request) =>
         request.Number.Select(char.IsDigit).All(_ => _)
             ? request
-            : Result<PhoneNumber>.FromFailure(ResultFailure.FromErrorMessage("Number can only contain digits."));
+            : Result<PhoneNumber>.FromFailure(ResultFailure.FromErrorMessage(MustContainDigits));
 
     private static Result<PhoneNumber> VerifyLengthHigherThanMinimum(
         PhoneNumber request) =>
         InputValidation
-            .VerifyHigherOrEqualThan(request, request.Number.Length, MinimumLength, "Number length");
+            .VerifyHigherOrEqualThan(request, request.Number.Length, MinimumLength, NumberLengthIdentifier);
 
     private static Result<PhoneNumber> VerifyLengthLowerThanMaximum(
         PhoneNumber request) =>
         InputValidation
-            .VerifyLowerOrEqualThan(request, request.Number.Length, MaximumLength, "Number length");
+            .VerifyLowerOrEqualThan(request, request.Number.Length, MaximumLength, NumberLengthIdentifier);
 
     private static Result<PhoneNumber> VerifyNumberNotEmpty(PhoneNumber number) =>
         InputValidation

@@ -591,6 +591,14 @@
         <Content Include="VerifyV2\StartVerification\Voice\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="VerifyV2\StartVerification\Email\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="VerifyV2\StartVerification\Email\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Email\Data\ShouldSerialize-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Email\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>

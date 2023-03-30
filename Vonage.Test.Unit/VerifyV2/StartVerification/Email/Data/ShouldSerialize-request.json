@@ -1,0 +1,14 @@
+{
+  "locale": "es-es",
+  "channel_timeout": 300,
+  "client_ref": "my-personal-reference",
+  "code_length": 4,
+  "brand": "ACME, Inc",
+  "workflow": [
+    {
+      "channel": "email",
+      "to": "alice@company.com",
+      "from": "bob@company.com"
+    }
+  ]
+}

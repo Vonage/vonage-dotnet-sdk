@@ -1,6 +1,7 @@
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+using Vonage.VerifyV2.StartVerification.Email;
 using Vonage.VerifyV2.StartVerification.Sms;
 using Vonage.VerifyV2.StartVerification.Voice;
 using Vonage.VerifyV2.StartVerification.WhatsApp;
@@ -13,6 +14,13 @@ namespace Vonage.VerifyV2.StartVerification;
 /// </summary>
 public static class StartVerificationRequestBuilder
 {
+    /// <summary>
+    ///     Returns a builder for Email verification request.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForBrand<EmailWorkflow> ForEmail() =>
+        new StartVerificationRequestBuilder<EmailWorkflow>();
+
     /// <summary>
     ///     Returns a builder for SMS verification request.
     /// </summary>

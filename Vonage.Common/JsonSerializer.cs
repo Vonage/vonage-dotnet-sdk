@@ -31,6 +31,7 @@ public class JsonSerializer : IJsonSerializer
         };
         this.settings.Converters.Add(new ColorJsonConverter());
         this.settings.Converters.Add(new PhoneNumberJsonConverter());
+        this.settings.Converters.Add(new EmailJsonConverter());
     }
 
     /// <summary>
