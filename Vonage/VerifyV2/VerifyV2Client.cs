@@ -3,6 +3,7 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.VerifyV2.StartVerification;
+using Vonage.VerifyV2.VerifyCode;
 
 namespace Vonage.VerifyV2;
 
@@ -22,4 +23,8 @@ internal class VerifyV2Client : IVerifyV2Client
     public Task<Result<StartVerificationResponse>>
         StartVerificationAsync<T>(Result<T> request) where T : IStartVerificationRequest =>
         this.vonageClient.SendWithResponseAsync<T, StartVerificationResponse>(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> VerifyCodeAsync(Result<VerifyCodeRequest> request) =>
+        this.vonageClient.SendAsync(request);
 }

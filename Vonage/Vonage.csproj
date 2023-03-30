@@ -104,7 +104,4 @@
             <PackagePath>lib\netstandard2.0</PackagePath>
         </_PackageFiles>
     </ItemGroup>
-    <ItemGroup>
-        <Folder Include="VerifyV2\VerifyCode"/>
-    </ItemGroup>
 </Project>
