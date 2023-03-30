@@ -2,6 +2,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.VerifyV2.StartVerification.Email;
+using Vonage.VerifyV2.StartVerification.SilentAuth;
 using Vonage.VerifyV2.StartVerification.Sms;
 using Vonage.VerifyV2.StartVerification.Voice;
 using Vonage.VerifyV2.StartVerification.WhatsApp;
@@ -10,7 +11,7 @@ using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
 namespace Vonage.VerifyV2.StartVerification;
 
 /// <summary>
-/// Represents the base builder for StartVerificationRequest.
+///     Represents the base builder for StartVerificationRequest.
 /// </summary>
 public static class StartVerificationRequestBuilder
 {
@@ -20,6 +21,13 @@ public static class StartVerificationRequestBuilder
     /// <returns>The builder.</returns>
     public static IBuilderForBrand<EmailWorkflow> ForEmail() =>
         new StartVerificationRequestBuilder<EmailWorkflow>();
+
+    /// <summary>
+    ///     Returns a builder for SilentAuth verification request.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForBrand ForSilentAuth() =>
+        new StartSilentAuthVerificationRequestBuilder();
 
     /// <summary>
     ///     Returns a builder for SMS verification request.

@@ -1,0 +1,9 @@
+{
+  "brand": "ACME, Inc",
+  "workflow": [
+    {
+      "channel": "silent_auth",
+      "to": "447700900000"
+    }
+  ]
+}

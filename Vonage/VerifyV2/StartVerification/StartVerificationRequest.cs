@@ -9,7 +9,7 @@ using Vonage.Common.Serialization;
 namespace Vonage.VerifyV2.StartVerification;
 
 /// <inheritdoc />
-public class StartVerificationRequest<T> : IStartVerificationRequest
+public readonly struct StartVerificationRequest<T> : IStartVerificationRequest
     where T : IVerificationWorkflow
 
 {
