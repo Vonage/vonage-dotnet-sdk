@@ -4,17 +4,17 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
-using Vonage.VerifyV2.StartVerification.WhatsApp;
+using Vonage.VerifyV2.StartVerification.Sms;
 using Xunit;
 
-namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
+namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
 {
-    public class StartWhatsAppVerificationSerializationTest
+    public class SerializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public StartWhatsAppVerificationSerializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(StartWhatsAppVerificationSerializationTest).Namespace,
+        public SerializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
@@ -26,9 +26,9 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
 
         [Fact]
         public void ShouldSerialize() =>
-            StartVerificationRequestBuilder.ForWhatsApp()
+            StartVerificationRequestBuilder.ForSms()
                 .WithBrand("ACME, Inc")
-                .WithWorkflow(WhatsAppWorkflow.Parse("447700900000", "447700900001"))
+                .WithWorkflow(SmsWorkflow.Parse("447700900000", "12345678901"))
                 .WithLocale(Locale.EsEs)
                 .WithChannelTimeout(300)
                 .WithClientReference("my-personal-reference")

@@ -11,19 +11,19 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2;
 using Vonage.VerifyV2.StartVerification;
-using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
+using Vonage.VerifyV2.StartVerification.WhatsApp;
 using Xunit;
 
-namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsAppInteractive
+namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
 {
-    public class StartWhatsAppInteractiveVerificationTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<StartVerificationResponse>>> Operation =>
             configuration => new VerifyV2Client(configuration).StartVerificationAsync(this.request);
 
-        private readonly Result<StartVerificationRequest<WhatsAppInteractiveWorkflow>> request;
+        private readonly Result<StartVerificationRequest<WhatsAppWorkflow>> request;
 
-        public StartWhatsAppInteractiveVerificationTest() => this.request = BuildRequest(this.helper.Fixture);
+        public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -41,7 +41,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsAppInteractive
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<StartVerificationRequest<WhatsAppInteractiveWorkflow>,
+                .VerifyReturnsFailureGivenRequestIsFailure<StartVerificationRequest<WhatsAppWorkflow>,
                     StartVerificationResponse>(
                     (configuration, failureRequest) =>
                         new VerifyV2Client(configuration).StartVerificationAsync(failureRequest));
@@ -59,11 +59,10 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsAppInteractive
                 Content = this.request.GetStringContent().IfFailure(string.Empty),
             };
 
-        private static Result<StartVerificationRequest<WhatsAppInteractiveWorkflow>> BuildRequest(
-            ISpecimenBuilder fixture) =>
-            StartVerificationRequestBuilder.ForWhatsAppInteractive()
+        private static Result<StartVerificationRequest<WhatsAppWorkflow>> BuildRequest(ISpecimenBuilder fixture) =>
+            StartVerificationRequestBuilder.ForWhatsApp()
                 .WithBrand(fixture.Create<string>())
-                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
+                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .Create();
     }
 }

@@ -6,11 +6,11 @@ using Xunit;
 
 namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsAppInteractive
 {
-    public class StartWhatsAppInteractiveVerificationRequestTest
+    public class RequestTest
     {
         private readonly Fixture fixture;
 
-        public StartWhatsAppInteractiveVerificationRequestTest() => this.fixture = new Fixture();
+        public RequestTest() => this.fixture = new Fixture();
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>

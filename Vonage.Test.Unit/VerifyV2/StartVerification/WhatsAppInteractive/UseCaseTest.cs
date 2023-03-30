@@ -11,19 +11,19 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2;
 using Vonage.VerifyV2.StartVerification;
-using Vonage.VerifyV2.StartVerification.Sms;
+using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
 using Xunit;
 
-namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
+namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsAppInteractive
 {
-    public class StartSmsVerificationTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<StartVerificationResponse>>> Operation =>
             configuration => new VerifyV2Client(configuration).StartVerificationAsync(this.request);
 
-        private readonly Result<StartVerificationRequest<SmsWorkflow>> request;
+        private readonly Result<StartVerificationRequest<WhatsAppInteractiveWorkflow>> request;
 
-        public StartSmsVerificationTest() => this.request = BuildRequest(this.helper.Fixture);
+        public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -41,7 +41,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<StartVerificationRequest<SmsWorkflow>,
+                .VerifyReturnsFailureGivenRequestIsFailure<StartVerificationRequest<WhatsAppInteractiveWorkflow>,
                     StartVerificationResponse>(
                     (configuration, failureRequest) =>
                         new VerifyV2Client(configuration).StartVerificationAsync(failureRequest));
@@ -52,15 +52,18 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
                 this.Operation);
 
         private ExpectedRequest BuildExpectedRequest() =>
-            new ExpectedRequest
+            new ExpectedRequest()
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
                 Content = this.request.GetStringContent().IfFailure(string.Empty),
             };
 
-        private static Result<StartVerificationRequest<SmsWorkflow>> BuildRequest(ISpecimenBuilder fixture) =>
-            StartVerificationRequestBuilder.ForSms().WithBrand(fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse("123456789")).Create();
+        private static Result<StartVerificationRequest<WhatsAppInteractiveWorkflow>> BuildRequest(
+            ISpecimenBuilder fixture) =>
+            StartVerificationRequestBuilder.ForWhatsAppInteractive()
+                .WithBrand(fixture.Create<string>())
+                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
+                .Create();
     }
 }
