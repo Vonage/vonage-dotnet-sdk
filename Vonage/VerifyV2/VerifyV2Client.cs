@@ -7,7 +7,7 @@ using Vonage.VerifyV2.StartVerification;
 namespace Vonage.VerifyV2;
 
 /// <inheritdoc />
-public class VerifyV2Client : IVerifyV2Client
+internal class VerifyV2Client : IVerifyV2Client
 {
     private readonly VonageHttpClient vonageClient;
 
@@ -15,7 +15,7 @@ public class VerifyV2Client : IVerifyV2Client
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
-    public VerifyV2Client(VonageHttpClientConfiguration configuration) =>
+    internal VerifyV2Client(VonageHttpClientConfiguration configuration) =>
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
 
     /// <inheritdoc />

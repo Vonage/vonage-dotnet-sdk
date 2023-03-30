@@ -26,17 +26,14 @@ namespace Vonage.Test.Unit
         public void Constructor_ShouldInitializeClients()
         {
             this.client.MeetingsClient.Should().NotBeNull();
-            this.client.VerifyV2Client.Should().NotBeNull();
         }
 
         [Fact]
         public void Credentials_ShouldOverrideClients_GivenCredentialsAreProvided()
         {
             var meetingsClient = this.client.MeetingsClient;
-            var verifyV2Client = this.client.VerifyV2Client;
             this.client.Credentials = this.fixture.Create<Credentials>();
             this.client.MeetingsClient.Should().NotBe(meetingsClient);
-            this.client.VerifyV2Client.Should().NotBe(verifyV2Client);
         }
 
         [Fact]
