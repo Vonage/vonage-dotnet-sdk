@@ -27,7 +27,7 @@ public readonly struct VerifyCodeRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/verify/{this.RequestId}";
+    public string GetEndpointPath() => $"/v2/verify/{this.RequestId}";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),

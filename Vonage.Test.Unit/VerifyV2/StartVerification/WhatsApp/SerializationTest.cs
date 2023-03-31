@@ -37,5 +37,15 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsApp
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
+        public void ShouldSerializeDefaultValues() =>
+            StartVerificationRequestBuilder.ForWhatsApp()
+                .WithBrand("ACME, Inc")
+                .WithWorkflow(WhatsAppWorkflow.Parse("447700900000"))
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
     }
 }

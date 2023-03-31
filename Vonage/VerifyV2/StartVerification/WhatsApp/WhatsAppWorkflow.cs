@@ -26,6 +26,7 @@ public readonly struct WhatsAppWorkflow : IVerificationWorkflow
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<PhoneNumber>))]
     [JsonPropertyOrder(3)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<PhoneNumber> From { get; }
 
     /// <summary>

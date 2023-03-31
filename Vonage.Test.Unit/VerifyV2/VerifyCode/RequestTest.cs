@@ -19,6 +19,6 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/verify/123456789");
+                .BeSuccess("/v2/verify/123456789");
     }
 }

@@ -37,5 +37,15 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Email
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
+        public void ShouldSerializeDefaultValues() =>
+            StartVerificationRequestBuilder.ForEmail()
+                .WithBrand("ACME, Inc")
+                .WithWorkflow(EmailWorkflow.Parse("alice@company.com"))
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
     }
 }

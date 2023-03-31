@@ -38,5 +38,15 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Voice
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
+        public void ShouldSerializeDefaultValues() =>
+            StartVerificationRequestBuilder.ForVoice()
+                .WithBrand("ACME, Inc")
+                .WithWorkflow(VoiceWorkflow.Parse("447700900000"))
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
     }
 }

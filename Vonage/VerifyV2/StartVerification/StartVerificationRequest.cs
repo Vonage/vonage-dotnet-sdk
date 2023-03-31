@@ -31,6 +31,7 @@ public readonly struct StartVerificationRequest<T> : IStartVerificationRequest
     [JsonPropertyOrder(2)]
     [JsonPropertyName("client_ref")]
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<string> ClientReference { get; internal init; }
 
     /// <summary>
@@ -60,7 +61,7 @@ public readonly struct StartVerificationRequest<T> : IStartVerificationRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/verify";
+    public string GetEndpointPath() => "/v2/verify";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),

@@ -31,7 +31,7 @@ public readonly struct StartSilentAuthVerificationRequest : IStartVerificationRe
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/verify";
+    public string GetEndpointPath() => "/v2/verify";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),

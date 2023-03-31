@@ -20,6 +20,6 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Email
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/verify");
+                .BeSuccess("/v2/verify");
     }
 }

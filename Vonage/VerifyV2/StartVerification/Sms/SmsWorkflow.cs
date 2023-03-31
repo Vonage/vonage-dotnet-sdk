@@ -27,6 +27,7 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
     [JsonPropertyOrder(3)]
     [JsonPropertyName("app_hash")]
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<string> Hash { get; }
 
     /// <summary>

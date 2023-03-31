@@ -611,6 +611,26 @@
         <Content Include="VerifyV2\VerifyCode\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="VerifyV2\StartVerification\Sms\Data\ShouldSerializeMandatory-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Sms\Data\ShouldSerializeDefaultValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Email\Data\ShouldSerializeDefaultValues-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Email\Data\ShouldSerializeDefaultValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Voice\Data\ShouldSerializeDefaultValues.json"/>
+        <Content Include="VerifyV2\StartVerification\Voice\Data\ShouldSerializeDefaultValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerializeDefaultValues-request.json"/>
+        <Content Include="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerializeDefaultValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerializeDefaultValues-request.json"/>
+        <Content Include="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerializeDefaultValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>

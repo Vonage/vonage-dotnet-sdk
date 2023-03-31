@@ -25,6 +25,7 @@ public readonly struct EmailWorkflow : IVerificationWorkflow
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<MailAddress>))]
     [JsonPropertyOrder(3)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<MailAddress> From { get; }
 
     /// <summary>

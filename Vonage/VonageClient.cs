@@ -15,6 +15,7 @@ using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
 using Vonage.Verify;
+using Vonage.VerifyV2;
 using Vonage.Voice;
 
 namespace Vonage
@@ -68,6 +69,8 @@ namespace Vonage
 
         public IVerifyClient VerifyClient { get; private set; }
 
+        public IVerifyV2Client VerifyV2 { get; set; }
+
         public IVoiceClient VoiceClient { get; private set; }
 
         /// <summary>
@@ -76,11 +79,11 @@ namespace Vonage
         /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
         public VonageClient(Credentials credentials) => this.Credentials = credentials;
 
-        private static HttpClient InitializeHttpClient()
+        private static HttpClient InitializeHttpClient(Uri baseUri)
         {
             var client = new HttpClient(new HttpClientHandler())
             {
-                BaseAddress = Configuration.Instance.MeetingsApiUrl,
+                BaseAddress = baseUri,
             };
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             return client;
@@ -100,11 +103,15 @@ namespace Vonage
             this.SmsClient = new SmsClient(this.Credentials);
             this.PricingClient = new PricingClient(this.Credentials);
             this.MessagesClient = new MessagesClient(this.Credentials);
-            var client = InitializeHttpClient();
             string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
-            var configuration =
-                new VonageHttpClientConfiguration(client, GenerateToken, this.Credentials.GetUserAgent());
-            this.MeetingsClient = new MeetingsClient(configuration, new FileSystem());
+            var meetingsConfiguration = new VonageHttpClientConfiguration(
+                InitializeHttpClient(Configuration.Instance.MeetingsApiUrl), GenerateToken,
+                this.Credentials.GetUserAgent());
+            var verifyConfiguration = new VonageHttpClientConfiguration(
+                InitializeHttpClient(Configuration.Instance.NexmoApiUrl), GenerateToken,
+                this.Credentials.GetUserAgent());
+            this.MeetingsClient = new MeetingsClient(meetingsConfiguration, new FileSystem());
+            this.VerifyV2 = new VerifyV2Client(verifyConfiguration);
         }
     }
 }
