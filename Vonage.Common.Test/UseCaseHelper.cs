@@ -30,10 +30,8 @@ namespace Vonage.Common.Test
         /// </summary>
         /// <param name="serializer">A specific serializer.</param>
         private UseCaseHelper(JsonSerializer serializer)
-            : this()
-        {
+            : this() =>
             this.Serializer = serializer;
-        }
 
         public Fixture Fixture { get; }
         public JsonSerializer Serializer { get; }
@@ -111,16 +109,18 @@ namespace Vonage.Common.Test
                 FsCheckExtensions.GetErrorResponses(),
                 error =>
                 {
+                    var expectedContent = string.Empty;
                     var messageHandler = FakeHttpRequestHandler
                         .Build(error.Code)
                         .WithExpectedRequest(expected);
                     if (error.Message != null)
                     {
-                        messageHandler = messageHandler.WithResponseContent(this.Serializer.SerializeObject(error));
+                        expectedContent = this.Serializer.SerializeObject(error);
+                        messageHandler = messageHandler.WithResponseContent(expectedContent);
                     }
 
                     operation(this.CreateConfiguration(messageHandler)).Result.Should()
-                        .BeFailure(error.ToHttpFailure());
+                        .BeFailure(HttpFailure.From(error.Code, error.Message ?? string.Empty, expectedContent));
                 });
 
         /// <summary>
@@ -145,9 +145,8 @@ namespace Vonage.Common.Test
                         .Result
                         .Should()
                         .BeFailure(HttpFailure.From(statusCode,
-                            DeserializationFailure.From(typeof(ErrorResponse), jsonError).GetFailureMessage()));
-
-                    //.BeFailure(DeserializationFailure.From(typeof(ErrorResponse), jsonError));
+                            DeserializationFailure.From(typeof(ErrorResponse), jsonError).GetFailureMessage(),
+                            jsonError));
                 });
 
         /// <summary>

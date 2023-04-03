@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
@@ -30,7 +28,7 @@ public class VonageHttpClient
         this.client = httpClient;
         this.jsonSerializer = serializer;
         this.options = options;
-        this.userAgent = GetFormattedUserAgent(this.options.UserAgent);
+        this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.options.UserAgent);
     }
 
     /// <summary>
@@ -43,7 +41,7 @@ public class VonageHttpClient
         this.client = configuration.HttpClient;
         this.jsonSerializer = serializer;
         this.options = new HttpClientOptions(configuration.TokenGeneration, configuration.UserAgent);
-        this.userAgent = GetFormattedUserAgent(this.options.UserAgent);
+        this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.options.UserAgent);
     }
 
     /// <summary>
@@ -89,8 +87,8 @@ public class VonageHttpClient
     {
         var errorResponse = this.jsonSerializer
             .DeserializeObject<ErrorResponse>(responseContent)
-            .Match(success => HttpFailure.From(code, success.Message),
-                failure => HttpFailure.From(code, failure.GetFailureMessage()));
+            .Match(success => HttpFailure.From(code, success.Message, responseContent),
+                failure => HttpFailure.From(code, failure.GetFailureMessage(), responseContent));
         return Result<T>.FromFailure(errorResponse);
     }
 
@@ -99,30 +97,6 @@ public class VonageHttpClient
 
     private static Task<Result<Unit>> CreateSuccessResult(HttpResponseMessage response) =>
         Task.FromResult(Result<Unit>.FromSuccess(Unit.Default));
-
-    private static string GetFormattedUserAgent(string userAgent)
-    {
-#if NETSTANDARD1_6 || NETSTANDARD2_0 || NETSTANDARD2_1
-        var languageVersion = RuntimeInformation.FrameworkDescription
-            .Replace(" ", string.Empty)
-            .Replace("/", string.Empty)
-            .Replace(":", string.Empty)
-            .Replace(";", string.Empty)
-            .Replace("_", string.Empty)
-            .Replace("(", string.Empty)
-            .Replace(")", string.Empty);
-#else
-        var languageVersion = System.Diagnostics.FileVersionInfo
-            .GetVersionInfo(typeof(int).Assembly.Location)
-            .ProductVersion;
-#endif
-        var libraryVersion = typeof(VonageHttpClient)
-            .GetTypeInfo()
-            .Assembly
-            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-            .InformationalVersion;
-        return $"vonage-dotnet/{libraryVersion} dotnet/{languageVersion} {userAgent}".Trim();
-    }
 
     private static Task<Result<T>> MatchResponse<T>(
         HttpResponseMessage response,

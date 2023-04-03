@@ -35,5 +35,5 @@ public readonly struct ErrorResponse
     ///     Converts to HttpFailure.
     /// </summary>
     /// <returns>The failure.</returns>
-    public HttpFailure ToHttpFailure() => HttpFailure.From(this.Code, this.Message ?? string.Empty);
+    public HttpFailure ToHttpFailure() => HttpFailure.From(this.Code, this.Message ?? string.Empty, string.Empty);
 }
