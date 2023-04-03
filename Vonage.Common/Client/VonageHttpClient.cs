@@ -85,11 +85,14 @@ public class VonageHttpClient
             .WithAuthorization(this.options.TokenGeneration())
             .WithUserAgent(this.userAgent);
 
-    private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent) =>
-        this.jsonSerializer
+    private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent)
+    {
+        var errorResponse = this.jsonSerializer
             .DeserializeObject<ErrorResponse>(responseContent)
-            .Map(parsedError => HttpFailure.From(code, parsedError.Message))
-            .Bind(failure => Result<T>.FromFailure(failure));
+            .Match(success => HttpFailure.From(code, success.Message),
+                failure => HttpFailure.From(code, failure.GetFailureMessage()));
+        return Result<T>.FromFailure(errorResponse);
+    }
 
     private static Result<T> CreateFailureResult<T>(HttpStatusCode code) =>
         Result<T>.FromFailure(HttpFailure.From(code));

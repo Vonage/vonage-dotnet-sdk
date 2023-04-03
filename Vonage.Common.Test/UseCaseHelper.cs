@@ -144,7 +144,10 @@ namespace Vonage.Common.Test
                     operation(this.CreateConfiguration(messageHandler))
                         .Result
                         .Should()
-                        .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), jsonError));
+                        .BeFailure(HttpFailure.From(statusCode,
+                            DeserializationFailure.From(typeof(ErrorResponse), jsonError).GetFailureMessage()));
+
+                    //.BeFailure(DeserializationFailure.From(typeof(ErrorResponse), jsonError));
                 });
 
         /// <summary>

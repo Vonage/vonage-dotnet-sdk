@@ -56,16 +56,18 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.RetrievingLogosUrlReturnsValidResponse();
             this.UploadingLogoReturnsValidResponse();
             var expectedContent = this.helper.Fixture.Create<string>();
+            var statusCode = this.helper.Fixture.Create<HttpStatusCode>();
             this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing())
                 .RespondWith(new MappingResponse
                 {
-                    Code = this.helper.Fixture.Create<HttpStatusCode>(),
+                    Code = statusCode,
                     Content = expectedContent,
                 });
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), expectedContent));
+                .BeFailure(HttpFailure.From(statusCode,
+                    DeserializationFailure.From(typeof(ErrorResponse), expectedContent).GetFailureMessage()));
         }
 
         [Fact]
@@ -91,16 +93,18 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         public void ShouldReturnFailureWhenRetrievingUploadUrls_GivenApiErrorCannotBeParsed()
         {
             var expectedContent = this.helper.Fixture.Create<string>();
+            var statusCode = this.helper.Fixture.Create<HttpStatusCode>();
             this.customHandler = this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval())
                 .RespondWith(new MappingResponse
                 {
-                    Code = this.helper.Fixture.Create<HttpStatusCode>(),
+                    Code = statusCode,
                     Content = expectedContent,
                 });
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), expectedContent));
+                .BeFailure(HttpFailure.From(statusCode,
+                    DeserializationFailure.From(typeof(ErrorResponse), expectedContent).GetFailureMessage()));
         }
 
         [Fact]
@@ -151,16 +155,18 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         {
             this.RetrievingLogosUrlReturnsValidResponse();
             var expectedContent = this.helper.Fixture.Create<string>();
+            var statusCode = this.helper.Fixture.Create<HttpStatusCode>();
             this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUploading())
                 .RespondWith(new MappingResponse
                 {
-                    Code = this.helper.Fixture.Create<HttpStatusCode>(),
+                    Code = statusCode,
                     Content = expectedContent,
                 });
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), expectedContent));
+                .BeFailure(HttpFailure.From(statusCode,
+                    DeserializationFailure.From(typeof(ErrorResponse), expectedContent).GetFailureMessage()));
         }
 
         [Fact]
