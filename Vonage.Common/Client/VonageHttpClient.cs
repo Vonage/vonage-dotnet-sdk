@@ -20,20 +20,6 @@ public class VonageHttpClient
     /// <summary>
     ///     Creates a custom Http Client for Vonage purposes.
     /// </summary>
-    /// <param name="httpClient">The http client.</param>
-    /// <param name="serializer">The serializer.</param>
-    /// <param name="options">The options.</param>
-    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer, HttpClientOptions options)
-    {
-        this.client = httpClient;
-        this.jsonSerializer = serializer;
-        this.options = options;
-        this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.options.UserAgent);
-    }
-
-    /// <summary>
-    ///     Creates a custom Http Client for Vonage purposes.
-    /// </summary>
     /// <param name="configuration">The custom configuration.</param>
     /// <param name="serializer">The serializer.</param>
     public VonageHttpClient(VonageHttpClientConfiguration configuration, IJsonSerializer serializer)
@@ -50,10 +36,7 @@ public class VonageHttpClient
     /// <param name="request">The request to send.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<Unit>> SendAsync<T>(Result<T> request) where T : IVonageRequest =>
-        await request
-            .Map(this.BuildHttpRequestMessage)
-            .MapAsync(value => this.client.SendAsync(value))
-            .BindAsync(value => MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
+        await this.SendRequest(request, this.BuildHttpRequestMessage, this.ParseFailure<Unit>, CreateSuccessResult);
 
     /// <summary>
     ///     Sends a HttpRequest without Authorization and UserAgent headers.
@@ -61,10 +44,8 @@ public class VonageHttpClient
     /// <param name="request">The request to send.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<Unit>> SendWithoutHeadersAsync<T>(Result<T> request) where T : IVonageRequest =>
-        await request
-            .Map(value => value.BuildRequestMessage())
-            .MapAsync(value => this.client.SendAsync(value))
-            .BindAsync(value => MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
+        await this.SendRequest(request, value => value.BuildRequestMessage(), this.ParseFailure<Unit>,
+            CreateSuccessResult);
 
     /// <summary>
     ///     Sends a HttpRequest and parses the response.
@@ -73,10 +54,8 @@ public class VonageHttpClient
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<TResponse>> SendWithResponseAsync<TRequest, TResponse>(Result<TRequest> request)
         where TRequest : IVonageRequest =>
-        await request
-            .Map(this.BuildHttpRequestMessage)
-            .MapAsync(value => this.client.SendAsync(value))
-            .BindAsync(value => MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
+        await this.SendRequest(request, this.BuildHttpRequestMessage, this.ParseFailure<TResponse>,
+            this.ParseSuccess<TResponse>);
 
     private HttpRequestMessage BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
         value.BuildRequestMessage()
@@ -119,4 +98,14 @@ public class VonageHttpClient
             .DeserializeObject<T>(responseContent)
             .Match(Result<T>.FromSuccess, Result<T>.FromFailure);
     }
+
+    private async Task<Result<TResponse>> SendRequest<TRequest, TResponse>(
+        Result<TRequest> request,
+        Func<TRequest, HttpRequestMessage> httpRequestConversion,
+        Func<HttpResponseMessage, Task<Result<TResponse>>> failure,
+        Func<HttpResponseMessage, Task<Result<TResponse>>> success) =>
+        await request
+            .Map(httpRequestConversion)
+            .MapAsync(value => this.client.SendAsync(value))
+            .BindAsync(response => MatchResponse(response, failure, success));
 }
