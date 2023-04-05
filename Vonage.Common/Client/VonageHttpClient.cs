@@ -13,9 +13,8 @@ namespace Vonage.Common.Client;
 public class VonageHttpClient
 {
     private readonly HttpClient client;
-    private readonly HttpClientOptions options;
     private readonly IJsonSerializer jsonSerializer;
-    private readonly string userAgent;
+    private readonly Result<HttpClientOptions> requestOptions;
 
     /// <summary>
     ///     Creates a custom Http Client for Vonage purposes.
@@ -26,8 +25,9 @@ public class VonageHttpClient
     {
         this.client = configuration.HttpClient;
         this.jsonSerializer = serializer;
-        this.options = new HttpClientOptions(configuration.TokenGeneration, configuration.UserAgent);
-        this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.options.UserAgent);
+        this.requestOptions = configuration.TokenGeneration()
+            .Map(token =>
+                new HttpClientOptions(token, UserAgentProvider.GetFormattedUserAgent(configuration.UserAgent)));
     }
 
     /// <summary>
@@ -57,10 +57,12 @@ public class VonageHttpClient
         await this.SendRequest(request, this.BuildHttpRequestMessage, this.ParseFailure<TResponse>,
             this.ParseSuccess<TResponse>);
 
-    private HttpRequestMessage BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
-        value.BuildRequestMessage()
-            .WithAuthorization(this.options.TokenGeneration())
-            .WithUserAgent(this.userAgent);
+    private Result<HttpRequestMessage> BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
+        this.requestOptions
+            .Map(options => value
+                .BuildRequestMessage()
+                .WithAuthorization(options.Token)
+                .WithUserAgent(options.UserAgent));
 
     private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent)
     {
@@ -101,11 +103,11 @@ public class VonageHttpClient
 
     private async Task<Result<TResponse>> SendRequest<TRequest, TResponse>(
         Result<TRequest> request,
-        Func<TRequest, HttpRequestMessage> httpRequestConversion,
+        Func<TRequest, Result<HttpRequestMessage>> httpRequestConversion,
         Func<HttpResponseMessage, Task<Result<TResponse>>> failure,
         Func<HttpResponseMessage, Task<Result<TResponse>>> success) =>
         await request
-            .Map(httpRequestConversion)
+            .Bind(httpRequestConversion)
             .MapAsync(value => this.client.SendAsync(value))
             .BindAsync(response => MatchResponse(response, failure, success));
 }

@@ -4,6 +4,7 @@ using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
 using Vonage.Conversions;
 using Vonage.Meetings;
 using Vonage.Messages;
@@ -101,7 +102,7 @@ namespace Vonage
             this.PricingClient = new PricingClient(this.Credentials);
             this.MessagesClient = new MessagesClient(this.Credentials);
             var client = InitializeHttpClient();
-            string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
+            Result<string> GenerateToken() => new Jwt().GenerateToken(this.Credentials);
             this.MeetingsClient =
                 new MeetingsClient(
                     new VonageHttpClientConfiguration(client, GenerateToken, this.Credentials.GetUserAgent()),
