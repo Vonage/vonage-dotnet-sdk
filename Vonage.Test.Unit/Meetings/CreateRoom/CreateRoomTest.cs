@@ -38,6 +38,10 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
             this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenAuthenticationFailed() =>
+            await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+
+        [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper.VerifyReturnsFailureGivenRequestIsFailure<CreateRoomRequest, Room>(
                 (configuration, failureRequest) =>

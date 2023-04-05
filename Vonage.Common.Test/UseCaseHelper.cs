@@ -166,6 +166,21 @@ namespace Vonage.Common.Test
         }
 
         /// <summary>
+        ///     Verifies the operation returns a failure when the token generation fails.
+        /// </summary>
+        /// <param name="operation">The call operation.</param>
+        public async Task VerifyReturnsFailureGivenTokenGenerationFails<TResponse>(
+            Func<VonageHttpClientConfiguration, Task<Result<TResponse>>> operation)
+        {
+            var configuration = new VonageHttpClientConfiguration(
+                FakeHttpRequestHandler.Build(HttpStatusCode.OK).ToHttpClient(),
+                () => new AuthenticationFailure().ToResult<string>(),
+                this.Fixture.Create<string>());
+            var result = await operation(configuration);
+            result.Should().BeFailure(new AuthenticationFailure());
+        }
+
+        /// <summary>
         ///     Verifies the operation returns the default unit value given the response is success.
         /// </summary>
         /// <param name="expected">Expected values for the incoming request.</param>
