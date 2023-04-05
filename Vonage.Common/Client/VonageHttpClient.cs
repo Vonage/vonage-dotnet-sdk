@@ -64,50 +64,41 @@ public class VonageHttpClient
                 .WithAuthorization(options.Token)
                 .WithUserAgent(options.UserAgent));
 
-    private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent)
-    {
-        var errorResponse = this.jsonSerializer
+    private HttpFailure CreateFailureResult(HttpStatusCode code, string responseContent) =>
+        this.jsonSerializer
             .DeserializeObject<ErrorResponse>(responseContent)
             .Match(success => HttpFailure.From(code, success.Message, responseContent),
                 failure => HttpFailure.From(code, failure.GetFailureMessage(), responseContent));
-        return Result<T>.FromFailure(errorResponse);
-    }
 
-    private static Result<T> CreateFailureResult<T>(HttpStatusCode code) =>
-        Result<T>.FromFailure(HttpFailure.From(code));
+    private static HttpFailure CreateFailureResult(HttpStatusCode code) => HttpFailure.From(code);
 
-    private static Task<Result<Unit>> CreateSuccessResult(HttpResponseMessage response) =>
-        Task.FromResult(Result<Unit>.FromSuccess(Unit.Default));
+    private static Result<Unit> CreateSuccessResult(ResponseData response) => Result<Unit>.FromSuccess(Unit.Default);
 
-    private static Task<Result<T>> MatchResponse<T>(
-        HttpResponseMessage response,
-        Func<HttpResponseMessage, Task<Result<T>>> failure,
-        Func<HttpResponseMessage, Task<Result<T>>> success) =>
-        !response.IsSuccessStatusCode ? failure(response) : success(response);
+    private static async Task<ResponseData> ExtractResponseData(HttpResponseMessage response) =>
+        new(response.StatusCode, response.IsSuccessStatusCode, await response.Content.ReadAsStringAsync());
 
-    private async Task<Result<T>> ParseFailure<T>(HttpResponseMessage response)
-    {
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return string.IsNullOrWhiteSpace(responseContent)
-            ? CreateFailureResult<T>(response.StatusCode)
-            : this.CreateFailureResult<T>(response.StatusCode, responseContent);
-    }
+    private Result<T> ParseFailure<T>(ResponseData response) =>
+        MaybeExtensions.From(response.Content)
+            .Match(value => this.CreateFailureResult(response.Code, value), () => CreateFailureResult(response.Code))
+            .ToResult<T>();
 
-    private async Task<Result<T>> ParseSuccess<T>(HttpResponseMessage response)
-    {
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return this.jsonSerializer
-            .DeserializeObject<T>(responseContent)
+    private Result<T> ParseSuccess<T>(ResponseData response) =>
+        this.jsonSerializer
+            .DeserializeObject<T>(response.Content)
             .Match(Result<T>.FromSuccess, Result<T>.FromFailure);
-    }
 
     private async Task<Result<TResponse>> SendRequest<TRequest, TResponse>(
         Result<TRequest> request,
         Func<TRequest, Result<HttpRequestMessage>> httpRequestConversion,
-        Func<HttpResponseMessage, Task<Result<TResponse>>> failure,
-        Func<HttpResponseMessage, Task<Result<TResponse>>> success) =>
+        Func<ResponseData, Result<TResponse>> failure,
+        Func<ResponseData, Result<TResponse>> success) =>
         await request
             .Bind(httpRequestConversion)
             .MapAsync(value => this.client.SendAsync(value))
-            .BindAsync(response => MatchResponse(response, failure, success));
+            .MapAsync(ExtractResponseData)
+            .Bind(response => !response.IsSuccessStatusCode ? failure(response) : success(response));
+
+    private record ResponseData(HttpStatusCode Code, bool IsSuccessStatusCode, string Content);
+
+    private record HttpClientOptions(string Token, string UserAgent);
 }

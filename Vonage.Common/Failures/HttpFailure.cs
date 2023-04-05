@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text.Json.Serialization;
 using Vonage.Common.Exceptions;
+using Vonage.Common.Monads;
 
 namespace Vonage.Common.Failures;
 
@@ -66,4 +67,7 @@ public readonly struct HttpFailure : IResultFailure
         HttpStatusCode = this.Code,
         Json = this.Json,
     };
+
+    /// <inheritdoc />
+    public Result<T> ToResult<T>() => Result<T>.FromFailure(this);
 }

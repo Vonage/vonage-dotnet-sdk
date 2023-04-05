@@ -133,17 +133,17 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             switch
             {
                 {IsScreenshareTypeSet: true, IsStylesheetEmpty: false} =>
-                    ResultFailure.ToResult<StartBroadcastRequest>(
-                        "Stylesheet should be null when screenshare type is set."),
+                    ResultFailure.FromErrorMessage("Stylesheet should be null when screenshare type is set.")
+                        .ToResult<StartBroadcastRequest>(),
                 {IsScreenshareTypeSet: true, IsBestFitType: false} =>
-                    ResultFailure.ToResult<StartBroadcastRequest>(
-                        "Type should be BestFit when screenshare type is set."),
+                    ResultFailure.FromErrorMessage("Type should be BestFit when screenshare type is set.")
+                        .ToResult<StartBroadcastRequest>(),
                 {IsCustomType: true, IsStylesheetEmpty: true} =>
-                    ResultFailure.ToResult<StartBroadcastRequest>(
-                        "Stylesheet cannot be null or whitespace when type is Custom."),
+                    ResultFailure.FromErrorMessage("Stylesheet cannot be null or whitespace when type is Custom.")
+                        .ToResult<StartBroadcastRequest>(),
                 {IsCustomType: false, IsStylesheetEmpty: false} =>
-                    ResultFailure.ToResult<StartBroadcastRequest>(
-                        "Stylesheet should be null or whitespace when type is not Custom."),
+                    ResultFailure.FromErrorMessage("Stylesheet should be null or whitespace when type is not Custom.")
+                        .ToResult<StartBroadcastRequest>(),
                 _ => request,
             };
 
