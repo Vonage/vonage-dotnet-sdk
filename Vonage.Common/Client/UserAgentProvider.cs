@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Vonage.Common.Client;
 
-public class UserAgentProvider
+internal static class UserAgentProvider
 {
     internal static string GetFormattedUserAgent(string userAgent)
     {

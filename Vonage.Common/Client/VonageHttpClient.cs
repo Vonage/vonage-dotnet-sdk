@@ -98,7 +98,7 @@ public class VonageHttpClient
             .MapAsync(ExtractResponseData)
             .Bind(response => !response.IsSuccessStatusCode ? failure(response) : success(response));
 
-    private record ResponseData(HttpStatusCode Code, bool IsSuccessStatusCode, string Content);
+    private sealed record ResponseData(HttpStatusCode Code, bool IsSuccessStatusCode, string Content);
 
-    private record HttpClientOptions(string Token, string UserAgent);
+    private sealed record HttpClientOptions(string Token, string UserAgent);
 }
