@@ -16,14 +16,14 @@ using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateTheme
 {
-    public class UpdateThemeTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Theme>>> Operation =>
             configuration => MeetingsClientFactory.Create(configuration).UpdateThemeAsync(this.request);
 
         private readonly Result<UpdateThemeRequest> request;
 
-        public UpdateThemeTest() => this.request = BuildRequest(this.helper.Fixture);
+        public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>

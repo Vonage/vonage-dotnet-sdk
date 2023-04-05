@@ -6,11 +6,11 @@ using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateTheme
 {
-    public class UpdateThemeRequestTest
+    public class RequestTest
     {
         private readonly Guid themeId;
 
-        public UpdateThemeRequestTest()
+        public RequestTest()
         {
             var fixture = new Fixture();
             this.themeId = fixture.Create<Guid>();

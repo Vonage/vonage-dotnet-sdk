@@ -16,14 +16,14 @@ using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateRoom
 {
-    public class USeCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Room>>> Operation =>
             configuration => MeetingsClientFactory.Create(configuration).UpdateRoomAsync(this.request);
 
         private readonly Result<UpdateRoomRequest> request;
 
-        public USeCaseTest() => this.request = BuildRequest(this.helper.Fixture);
+        public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>

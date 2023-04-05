@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateTheme
 {
-    public class UpdateThemeRequestBuilderTest
+    public class RequestBuilderTest
     {
         private readonly Color mainColor;
         private readonly Guid themeId;
@@ -17,7 +17,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
         private readonly string brandText;
         private readonly Uri shortCompanyUrl;
 
-        public UpdateThemeRequestBuilderTest()
+        public RequestBuilderTest()
         {
             var fixture = new Fixture();
             fixture.Customize(new SupportMutableValueTypesCustomization());
