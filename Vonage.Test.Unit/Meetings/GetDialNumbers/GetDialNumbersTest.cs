@@ -30,6 +30,10 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
             this.helper.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(), Operation);
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(Operation);
+
+        [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
                 Operation);

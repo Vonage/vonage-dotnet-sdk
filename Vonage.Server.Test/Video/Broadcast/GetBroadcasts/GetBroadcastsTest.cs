@@ -43,6 +43,10 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
                     new BroadcastClient(configuration).GetBroadcastsAsync(failureRequest));
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.Helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+
+        [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
             await this.Helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
                 this.Operation);

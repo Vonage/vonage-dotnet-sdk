@@ -51,6 +51,10 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
                         failureRequest));
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+
+        [Fact]
         public void ShouldReturnFailureWhenFinalizingLogo_GivenApiErrorCannotBeParsed()
         {
             this.RetrievingLogosUrlReturnsValidResponse();

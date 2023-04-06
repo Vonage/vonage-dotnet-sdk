@@ -44,6 +44,10 @@ namespace Vonage.Server.Test.Video.Archives.GetArchive
                     new ArchiveClient(configuration).GetArchiveAsync(failureRequest));
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.Helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+
+        [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
             await this.Helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
                 this.Operation);
