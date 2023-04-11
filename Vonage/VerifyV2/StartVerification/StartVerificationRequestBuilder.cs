@@ -79,11 +79,8 @@ internal class StartVerificationRequestBuilder :
     }
 
     /// <inheritdoc />
-    public IOptionalBuilder WithFallbackWorkflow<T>(Result<T> value) where T : IVerificationWorkflow
-    {
-        value.Match(this.AddWorkflow, this.SetFailure);
-        return this;
-    }
+    public IOptionalBuilder WithFallbackWorkflow<T>(Result<T> value) where T : IVerificationWorkflow =>
+        this.SetWorkflow(value);
 
     /// <inheritdoc />
     public IOptionalBuilder WithLocale(Locale value)
@@ -93,11 +90,7 @@ internal class StartVerificationRequestBuilder :
     }
 
     /// <inheritdoc />
-    public IOptionalBuilder WithWorkflow<T>(Result<T> value) where T : IVerificationWorkflow
-    {
-        value.Match(this.AddWorkflow, this.SetFailure);
-        return this;
-    }
+    public IOptionalBuilder WithWorkflow<T>(Result<T> value) where T : IVerificationWorkflow => this.SetWorkflow(value);
 
     private Unit AddWorkflow<T>(T workflow) where T : IVerificationWorkflow
     {
@@ -115,16 +108,11 @@ internal class StartVerificationRequestBuilder :
         return Unit.Default;
     }
 
-    private StartVerificationRequest ToVerificationRequest(IVerificationWorkflow value) =>
-        new()
-        {
-            Brand = this.brand,
-            Locale = this.locale,
-            ChannelTimeout = this.channelTimeout,
-            ClientReference = this.clientReference,
-            CodeLength = this.codeLength,
-            Workflows = new[] {value},
-        };
+    private IOptionalBuilder SetWorkflow<T>(Result<T> value) where T : IVerificationWorkflow
+    {
+        value.Match(this.AddWorkflow, this.SetFailure);
+        return this;
+    }
 
     private static Result<StartVerificationRequest> VerifyBrandNotEmpty(
         StartVerificationRequest request) =>

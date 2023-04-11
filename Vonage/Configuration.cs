@@ -105,6 +105,9 @@ namespace Vonage
         /// </summary>
         public Uri MeetingsApiUrl => new(this.Settings["appSettings:Vonage.Meetings.Url.Api"] ?? string.Empty);
 
+        /// <summary>
+        ///     Retrieves the Nexmo Api Url.
+        /// </summary>
         public Uri NexmoApiUrl => new(this.Settings["appSettings:Vonage.Url.Api"] ?? string.Empty);
 
         /// <summary>
