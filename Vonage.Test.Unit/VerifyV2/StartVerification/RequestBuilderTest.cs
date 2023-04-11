@@ -2,6 +2,7 @@ using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
+using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Email;
@@ -84,6 +85,19 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Email is invalid."));
+
+        [Fact]
+        public void Create_ShouldReturnFailure_GivenFallbackWorkflowIsFailure() =>
+            StartVerificationRequestBuilder.Build()
+                .WithBrand("some brand")
+                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
+                .WithFallbackWorkflow(WhatsAppWorkflow.Parse("123456789"))
+                .WithFallbackWorkflow(
+                    Result<VoiceWorkflow>.FromFailure(ResultFailure.FromErrorMessage("Random message.")))
+                .Create()
+                .Map(request => request.Workflows)
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage("Random message."));
 
         [Theory]
         [InlineData("")]
@@ -267,6 +281,31 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .BeSuccess("bob@company.com");
 
         [Fact]
+        public void Create_ShouldSetFallbackWorkflows() =>
+            StartVerificationRequestBuilder.Build()
+                .WithBrand("some brand")
+                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
+                .WithFallbackWorkflow(WhatsAppWorkflow.Parse("123456789"))
+                .WithFallbackWorkflow(VoiceWorkflow.Parse("123456789"))
+                .Create()
+                .Map(request => request.Workflows)
+                .Should()
+                .BeSuccess(workflows =>
+                {
+                    workflows.Should().HaveCount(3);
+                    var mainWorkflow = workflows[0] as WhatsAppInteractiveWorkflow? ?? default;
+                    mainWorkflow.Channel.Should().Be("whatsapp_interactive");
+                    mainWorkflow.To.Number.Should().Be("123456789");
+                    var fallbackWorkflowOne = workflows[1] as WhatsAppWorkflow? ?? default;
+                    fallbackWorkflowOne.Channel.Should().Be("whatsapp");
+                    fallbackWorkflowOne.To.Number.Should().Be("123456789");
+                    fallbackWorkflowOne.From.Should().BeNone();
+                    var fallbackWorkflowTwo = workflows[2] as VoiceWorkflow? ?? default;
+                    fallbackWorkflowTwo.Channel.Should().Be("voice");
+                    fallbackWorkflowTwo.To.Number.Should().Be("123456789");
+                });
+
+        [Fact]
         public void Create_ShouldSetLocale() =>
             StartVerificationRequestBuilder.Build()
                 .WithBrand(this.fixture.Create<string>())
@@ -327,6 +366,22 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 });
 
         [Fact]
+        public void Create_ShouldSetWhatsAppInteractiveWorkflow() =>
+            StartVerificationRequestBuilder.Build()
+                .WithBrand("some brand")
+                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
+                .Create()
+                .Map(request => request.Workflows)
+                .Should()
+                .BeSuccess(workflows =>
+                {
+                    workflows.Should().HaveCount(1);
+                    var workflow = workflows[0] as WhatsAppInteractiveWorkflow? ?? default;
+                    workflow.Channel.Should().Be("whatsapp_interactive");
+                    workflow.To.Number.Should().Be("123456789");
+                });
+
+        [Fact]
         public void Create_ShouldSetWhatsAppWorkflow() =>
             StartVerificationRequestBuilder.Build()
                 .WithBrand("some brand")
@@ -341,22 +396,6 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                     workflow.Channel.Should().Be("whatsapp");
                     workflow.To.Number.Should().Be("123456789");
                     workflow.From.Should().BeNone();
-                });
-
-        [Fact]
-        public void Create_WithMandatoryInformation() =>
-            StartVerificationRequestBuilder.Build()
-                .WithBrand("some brand")
-                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
-                .Create()
-                .Map(request => request.Workflows)
-                .Should()
-                .BeSuccess(workflows =>
-                {
-                    workflows.Should().HaveCount(1);
-                    var workflow = workflows[0] as WhatsAppInteractiveWorkflow? ?? default;
-                    workflow.Channel.Should().Be("whatsapp_interactive");
-                    workflow.To.Number.Should().Be("123456789");
                 });
     }
 }

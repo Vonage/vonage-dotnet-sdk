@@ -27,7 +27,7 @@ internal class StartVerificationRequestBuilder :
     ///     Initializes a builder for StartVerificationRequest.
     /// </summary>
     /// <returns></returns>
-    public static StartVerificationRequestBuilder Build() => new();
+    public static IBuilderForBrand Build() => new StartVerificationRequestBuilder();
 
     /// <inheritdoc />
     public Result<StartVerificationRequest> Create() =>
@@ -79,8 +79,9 @@ internal class StartVerificationRequestBuilder :
     }
 
     /// <inheritdoc />
-    public IOptionalBuilder WithFallbackWorkflow(IVerificationWorkflow value)
+    public IOptionalBuilder WithFallbackWorkflow<T>(Result<T> value) where T : IVerificationWorkflow
     {
+        value.Match(this.AddWorkflow, this.SetFailure);
         return this;
     }
 
@@ -106,7 +107,11 @@ internal class StartVerificationRequestBuilder :
 
     private Unit SetFailure(IResultFailure failureValue)
     {
-        this.failure = Maybe<IResultFailure>.Some(failureValue);
+        if (this.failure.IsNone)
+        {
+            this.failure = Maybe<IResultFailure>.Some(failureValue);
+        }
+
         return Unit.Default;
     }
 
@@ -215,7 +220,7 @@ public interface IOptionalBuilderForFallbackWorkflow
     /// </summary>
     /// <param name="value">The fallback workflow.</param>
     /// <returns>The builder.</returns>
-    IOptionalBuilder WithFallbackWorkflow(IVerificationWorkflow value);
+    IOptionalBuilder WithFallbackWorkflow<T>(Result<T> value) where T : IVerificationWorkflow;
 }
 
 /// <summary>

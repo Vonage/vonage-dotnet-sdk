@@ -612,6 +612,10 @@
         <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeWhatsAppWorkflow-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeFallbackWorkflows-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeFallbackWorkflows-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>

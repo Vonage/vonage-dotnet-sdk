@@ -55,6 +55,18 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .BeSuccess(this.helper.GetRequestJson());
 
         [Fact]
+        public void ShouldSerializeFallbackWorkflows() =>
+            StartVerificationRequestBuilder.Build()
+                .WithBrand("ACME, Inc")
+                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("447700900000"))
+                .WithFallbackWorkflow(WhatsAppWorkflow.Parse("447700900000"))
+                .WithFallbackWorkflow(VoiceWorkflow.Parse("447700900000"))
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
         public void ShouldSerializeSilentAuthWorkflow() =>
             StartVerificationRequestBuilder.Build()
                 .WithBrand("ACME, Inc")
