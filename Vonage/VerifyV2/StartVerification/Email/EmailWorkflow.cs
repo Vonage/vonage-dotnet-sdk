@@ -52,4 +52,7 @@ public readonly struct EmailWorkflow : IVerificationWorkflow
     public static Result<EmailWorkflow> Parse(string to, string from) =>
         MailAddress.Parse(to)
             .Merge(MailAddress.Parse(from), (toNumber, fromNumber) => new EmailWorkflow(toNumber, fromNumber));
+
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 }

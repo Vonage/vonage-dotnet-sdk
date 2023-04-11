@@ -15,6 +15,7 @@ using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
 using Vonage.Verify;
+using Vonage.VerifyV2;
 using Vonage.Voice;
 
 namespace Vonage
@@ -68,6 +69,8 @@ namespace Vonage
 
         public IVerifyClient VerifyClient { get; private set; }
 
+        public IVerifyV2Client VerifyV2Client { get; private set; }
+
         public IVoiceClient VoiceClient { get; private set; }
 
         /// <summary>
@@ -104,7 +107,11 @@ namespace Vonage
             var meetingsConfiguration = new VonageHttpClientConfiguration(
                 InitializeHttpClient(Configuration.Instance.MeetingsApiUrl), GenerateToken,
                 this.Credentials.GetUserAgent());
+            var verifyConfiguration = new VonageHttpClientConfiguration(
+                InitializeHttpClient(Configuration.Instance.NexmoApiUrl), GenerateToken,
+                this.Credentials.GetUserAgent());
             this.MeetingsClient = new MeetingsClient(meetingsConfiguration, new FileSystem());
+            this.VerifyV2Client = new VerifyV2Client(verifyConfiguration);
         }
     }
 }

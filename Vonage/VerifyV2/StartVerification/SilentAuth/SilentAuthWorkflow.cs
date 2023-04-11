@@ -31,4 +31,7 @@ public readonly struct SilentAuthWorkflow : IVerificationWorkflow
     /// <returns>Success or failure.</returns>
     public static Result<SilentAuthWorkflow> Parse(string to) =>
         PhoneNumber.Parse(to).Map(phoneNumber => new SilentAuthWorkflow(phoneNumber));
+
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 }

@@ -559,76 +559,57 @@
         <Content Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="VerifyV2\StartVerification\Sms\Data\ShouldSerialize-request.json" />
-        <Content Include="VerifyV2\StartVerification\Sms\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="VerifyV2\StartVerification\Sms\Data\ShouldDeserialize200-response.json" />
-        <Content Include="VerifyV2\StartVerification\Sms\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="VerifyV2\StartVerification\WhatsApp\Data\ShouldDeserialize200-response.json" />
-        <Content Include="VerifyV2\StartVerification\WhatsApp\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <None Remove="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerialize-request.json" />
-        <Content Include="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+        <None Remove="VerifyV2\StartVerification\Sms\Data\ShouldSerialize-request.json"/>
+        <None Remove="VerifyV2\StartVerification\Sms\Data\ShouldDeserialize200-response.json"/>
+        <None Remove="VerifyV2\StartVerification\WhatsApp\Data\ShouldDeserialize200-response.json"/>
+        <None Remove="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerialize-request.json"/>
         <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerialize-request.json"/>
-        <Content Include="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\Voice\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="VerifyV2\StartVerification\Voice\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\Voice\Data\ShouldSerialize-request.json"/>
-        <Content Include="VerifyV2\StartVerification\Voice\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\Email\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="VerifyV2\StartVerification\Email\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\Email\Data\ShouldSerialize-request.json"/>
-        <Content Include="VerifyV2\StartVerification\Email\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\SilentAuth\Data\ShouldDeserialize200-response.json"/>
-        <Content Include="VerifyV2\StartVerification\SilentAuth\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\SilentAuth\Data\ShouldSerialize-request.json"/>
-        <Content Include="VerifyV2\StartVerification\SilentAuth\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\VerifyCode\Data\ShouldSerialize-request.json"/>
         <Content Include="VerifyV2\VerifyCode\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <None Remove="VerifyV2\StartVerification\Sms\Data\ShouldSerializeMandatory-request.json"/>
-        <Content Include="VerifyV2\StartVerification\Sms\Data\ShouldSerializeDefaultValues-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\Email\Data\ShouldSerializeDefaultValues-request.json"/>
-        <Content Include="VerifyV2\StartVerification\Email\Data\ShouldSerializeDefaultValues-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\Voice\Data\ShouldSerializeDefaultValues.json"/>
-        <Content Include="VerifyV2\StartVerification\Voice\Data\ShouldSerializeDefaultValues-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <None Remove="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerializeDefaultValues-request.json"/>
-        <Content Include="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerializeDefaultValues-request.json">
+        <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerializeDefaultValues-request.json"/>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="VerifyV2\StartVerification\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerializeDefaultValues-request.json"/>
-        <Content Include="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerializeDefaultValues-request.json">
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerialize-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeDefaultValues-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeWhatsAppInteractiveWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeEmailWorkflow-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeEmailWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeSilentAuthWorkflow-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeSilentAuthWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeSmsWorkflow-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeSmsWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeVoiceWorkflow-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeVoiceWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeWhatsAppWorkflow-request.json"/>
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeWhatsAppWorkflow-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

@@ -1,10 +1,10 @@
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
-using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
+using Vonage.VerifyV2.StartVerification.Sms;
 using Xunit;
 
-namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsAppInteractive
+namespace Vonage.Test.Unit.VerifyV2.StartVerification
 {
     public class RequestTest
     {
@@ -14,9 +14,9 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.WhatsAppInteractive
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            StartVerificationRequestBuilder.ForWhatsAppInteractive()
+            StartVerificationRequestBuilder.Build()
                 .WithBrand(this.fixture.Create<string>())
-                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
+                .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()

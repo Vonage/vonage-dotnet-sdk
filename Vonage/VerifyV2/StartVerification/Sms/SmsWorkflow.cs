@@ -61,6 +61,9 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
             .Bind(VerifyWorkflowHashNotEmpty)
             .Bind(VerifyWorkflowHashLength);
 
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
+
     private static Result<SmsWorkflow> VerifyWorkflowHashLength(
         SmsWorkflow request) =>
         request.Hash.Match(some => InputValidation.VerifyLength(request, some, 11, nameof(request.Hash)),

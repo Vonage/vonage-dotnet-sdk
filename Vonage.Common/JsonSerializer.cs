@@ -41,6 +41,9 @@ public class JsonSerializer : IJsonSerializer
     public JsonSerializer(JsonNamingPolicy namingPolicy) : this() =>
         this.settings.PropertyNamingPolicy = namingPolicy;
 
+    public JsonSerializer(JsonSerializerOptions options) : this() =>
+        this.settings = options;
+
     /// <summary>
     /// </summary>
     /// <param name="converters"></param>

@@ -11,17 +11,17 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2;
 using Vonage.VerifyV2.StartVerification;
-using Vonage.VerifyV2.StartVerification.Sms;
+using Vonage.VerifyV2.StartVerification.Email;
 using Xunit;
 
-namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
+namespace Vonage.Test.Unit.VerifyV2.StartVerification
 {
     public class UseCaseTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<StartVerificationResponse>>> Operation =>
             configuration => new VerifyV2Client(configuration).StartVerificationAsync(this.request);
 
-        private readonly Result<StartVerificationRequest<SmsWorkflow>> request;
+        private readonly Result<StartVerificationRequest> request;
 
         public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
@@ -41,7 +41,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<StartVerificationRequest<SmsWorkflow>,
+                .VerifyReturnsFailureGivenRequestIsFailure<StartVerificationRequest,
                     StartVerificationResponse>(
                     (configuration, failureRequest) =>
                         new VerifyV2Client(configuration).StartVerificationAsync(failureRequest));
@@ -59,8 +59,10 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Sms
                 Content = this.request.GetStringContent().IfFailure(string.Empty),
             };
 
-        private static Result<StartVerificationRequest<SmsWorkflow>> BuildRequest(ISpecimenBuilder fixture) =>
-            StartVerificationRequestBuilder.ForSms().WithBrand(fixture.Create<string>())
-                .WithWorkflow(SmsWorkflow.Parse("123456789")).Create();
+        private static Result<StartVerificationRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            StartVerificationRequestBuilder.Build()
+                .WithBrand(fixture.Create<string>())
+                .WithWorkflow(EmailWorkflow.Parse("bob@company.com"))
+                .Create();
     }
 }

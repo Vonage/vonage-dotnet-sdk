@@ -31,4 +31,7 @@ public readonly struct WhatsAppInteractiveWorkflow : IVerificationWorkflow
     /// <returns>Success or failure.</returns>
     public static Result<WhatsAppInteractiveWorkflow> Parse(string to) =>
         PhoneNumber.Parse(to).Map(phoneNumber => new WhatsAppInteractiveWorkflow(phoneNumber));
+
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 }

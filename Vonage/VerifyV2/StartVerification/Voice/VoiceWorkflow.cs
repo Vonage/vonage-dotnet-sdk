@@ -31,4 +31,7 @@ public readonly struct VoiceWorkflow : IVerificationWorkflow
     /// <returns>Success or failure.</returns>
     public static Result<VoiceWorkflow> Parse(string to) =>
         PhoneNumber.Parse(to).Map(phoneNumber => new VoiceWorkflow(phoneNumber));
+
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 }

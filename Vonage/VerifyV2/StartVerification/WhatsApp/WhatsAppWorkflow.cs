@@ -53,4 +53,7 @@ public readonly struct WhatsAppWorkflow : IVerificationWorkflow
     public static Result<WhatsAppWorkflow> Parse(string to, string from) =>
         PhoneNumber.Parse(to)
             .Merge(PhoneNumber.Parse(from), (toNumber, fromNumber) => new WhatsAppWorkflow(toNumber, fromNumber));
+
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 }

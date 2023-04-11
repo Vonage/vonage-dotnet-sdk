@@ -6,9 +6,8 @@
   "brand": "ACME, Inc",
   "workflow": [
     {
-      "channel": "whatsapp",
-      "to": "447700900000",
-      "from": "447700900001"
+      "channel": "email",
+      "to": "alice@company.com"
     }
   ]
 }

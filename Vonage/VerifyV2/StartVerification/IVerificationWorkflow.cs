@@ -1,3 +1,5 @@
+using Vonage.Common;
+
 namespace Vonage.VerifyV2.StartVerification;
 
 /// <summary>
@@ -12,4 +14,11 @@ public interface IVerificationWorkflow
     ///     The verification channel.
     /// </summary>
     string Channel { get; }
+
+    /// <summary>
+    ///     Serializes the workflow.
+    /// </summary>
+    /// <param name="serializer">The serializer.</param>
+    /// <returns>The serialized workflow.</returns>
+    string Serialize(IJsonSerializer serializer);
 }
