@@ -44,7 +44,7 @@ namespace Vonage.Request
         private Queue<DateTime> _releaseTimes;
 
         // protect release time queue
-        private object _queueLock = new object();
+        private object _queueLock = new();
 
         public TimeSpanSemaphore(int maxCount, TimeSpan resetSpan)
         {
@@ -104,60 +104,6 @@ namespace Vonage.Request
                 _releaseTimes.Enqueue(DateTime.UtcNow);
             }
             _pool.Release();
-        }
-
-        /// <summary>
-        /// Runs an action after entering the semaphore (if the CancellationToken is not canceled)
-        /// </summary>
-        public void Run(Action action, CancellationToken cancelToken)
-        {
-            // will throw if token is cancelled, but will auto-release lock
-            Wait(cancelToken);
-
-            try
-            {
-                action();
-            }
-            finally
-            {
-                Release();
-            }
-        }
-
-        /// <summary>
-        /// Runs an action after entering the semaphore (if the CancellationToken is not canceled)
-        /// </summary>
-        public async Task RunAsync(Func<Task> action, CancellationToken cancelToken)
-        {
-            // will throw if token is cancelled, but will auto-release lock
-            Wait(cancelToken);
-
-            try
-            {
-                await action().ConfigureAwait(false);
-            }
-            finally
-            {
-                Release();
-            }
-        }
-
-        /// <summary>
-        /// Runs an action after entering the semaphore (if the CancellationToken is not canceled)
-        /// </summary>
-        public async Task RunAsync<T>(Func<T, Task> action, T arg, CancellationToken cancelToken)
-        {
-            // will throw if token is cancelled, but will auto-release lock
-            Wait(cancelToken);
-
-            try
-            {
-                await action(arg).ConfigureAwait(false);
-            }
-            finally
-            {
-                Release();
-            }
         }
 
         /// <summary>

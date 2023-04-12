@@ -43,7 +43,7 @@ namespace Vonage.Test.Unit
             voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
                 new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"});
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            var json = JsonConvert.SerializeObject(voiceCapability, VonageSerialization.SerializerSettings);
+            JsonConvert.SerializeObject(voiceCapability, VonageSerialization.SerializerSettings);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
             {
@@ -170,7 +170,7 @@ namespace Vonage.Test.Unit
             voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
                 new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"});
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            var json = JsonConvert.SerializeObject(voiceCapability);
+            JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
                 {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
@@ -268,7 +268,6 @@ namespace Vonage.Test.Unit
         public void GetApplication(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
-            var uri = $"{ApiUrl}/v2/applications/{id}";
             var expectedResponse = @"{
                   ""id"": ""78d335fa323d01149c3dd6f0d48968cf"",
                   ""name"": ""My Application"",
@@ -358,7 +357,6 @@ namespace Vonage.Test.Unit
         public async void GetApplicationAsync(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
-            var uri = $"{ApiUrl}/v2/applications/{id}";
             var expectedResponse = @"{
                   ""id"": ""78d335fa323d01149c3dd6f0d48968cf"",
                   ""name"": ""My Application"",
@@ -745,7 +743,7 @@ namespace Vonage.Test.Unit
             voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
                 new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"});
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            var json = JsonConvert.SerializeObject(voiceCapability);
+            JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
                 {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
@@ -866,7 +864,7 @@ namespace Vonage.Test.Unit
             voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
                 new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"});
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            var json = JsonConvert.SerializeObject(voiceCapability);
+            JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
                 {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};

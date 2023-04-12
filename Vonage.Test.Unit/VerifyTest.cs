@@ -217,7 +217,7 @@ namespace Vonage.Test.Unit
             var client = new VonageClient(creds);
             try
             {
-                var response = client.VerifyClient.VerifyControl(request, creds);
+                client.VerifyClient.VerifyControl(request, creds);
                 Assert.True(false, "Automatically failing because exception wasn't thrown");
             }            
             catch(VonageVerifyResponseException ex)

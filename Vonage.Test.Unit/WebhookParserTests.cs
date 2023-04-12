@@ -100,7 +100,7 @@ namespace Vonage.Test.Unit
         {
             var queryArgs = new List<KeyValuePair<string, StringValues>>();
             queryArgs.Add(new KeyValuePair<string, StringValues>("foo-bar", "foo"));
-            var output = Utility.WebhookParser.ParseQuery<Foo>(queryArgs);
+            Utility.WebhookParser.ParseQuery<Foo>(queryArgs);
         }
 
         public class Foo
