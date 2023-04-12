@@ -13,7 +13,7 @@ public class MultiInput : Input
     /// Result of Dtmf input
     /// </summary>
     [JsonProperty("dtmf")]
-    new public DtmfResult Dtmf { get; set; }
+    public new DtmfResult Dtmf { get; set; }
 
     /// <summary>
     /// Result of the speech recognition
