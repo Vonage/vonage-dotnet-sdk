@@ -16,12 +16,12 @@ namespace Vonage.Test.Unit
         public void SendAlert(bool passCredentials, bool useAllParameters)
         {
             //ARRANGE
-            AlertRequest request = new AlertRequest
+            var request = new AlertRequest
             {
-                To = "16365553226"
+                To = "16365553226",
             };
 
-            string expectedUri = $"{this.RestUrl}/sc/us/alert/json?to={request.To}";
+            var expectedUri = $"{this.RestUrl}/sc/us/alert/json?to={request.To}";
 
             if (useAllParameters)
             {
@@ -41,7 +41,7 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
-            AlertResponse response = client.ShortCodesClient.SendAlert(request, passCredentials ? creds : null);
+            var response = client.ShortCodesClient.SendAlert(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.Equal("1", response.MessageCount);
@@ -63,12 +63,12 @@ namespace Vonage.Test.Unit
         public async Task SendAlertAsync(bool passCredentials, bool useAllParameters)
         {
             //ARRANGE
-            AlertRequest request = new AlertRequest
+            var request = new AlertRequest
             {
-                To = "16365553226"
+                To = "16365553226",
             };
 
-            string expectedUri = $"{this.RestUrl}/sc/us/alert/json?to={request.To}";
+            var expectedUri = $"{this.RestUrl}/sc/us/alert/json?to={request.To}";
 
             if (useAllParameters)
             {
@@ -88,7 +88,7 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
-            AlertResponse response = await client.ShortCodesClient.SendAlertAsync(request, passCredentials ? creds : null);
+            var response = await client.ShortCodesClient.SendAlertAsync(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.Equal("1", response.MessageCount);
@@ -108,20 +108,20 @@ namespace Vonage.Test.Unit
         public void ManageOptIn(bool passCredentials)
         {
             //ARRANGE
-            OptInManageRequest request = new OptInManageRequest
+            var request = new OptInManageRequest
             {
-                Msisdn = "15559301529"
+                Msisdn = "15559301529",
             };
 
             var expectedResponseContent = this.GetExpectedJson();
-            string expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn={request.Msisdn}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            var expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn={request.Msisdn}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
             var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
-            OptInRecord response = client.ShortCodesClient.ManageOptIn(request, passCredentials ? creds : null);
+            var response = client.ShortCodesClient.ManageOptIn(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.Equal("15559301529", response.Msisdn);
@@ -136,20 +136,20 @@ namespace Vonage.Test.Unit
         public async Task ManageOptInAsync(bool passCredentials)
         {
             //ARRANGE
-            OptInManageRequest request = new OptInManageRequest
+            var request = new OptInManageRequest
             {
-                Msisdn = "15559301529"
+                Msisdn = "15559301529",
             };
 
             var expectedResponseContent = this.GetExpectedJson();
-            string expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn={request.Msisdn}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            var expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn={request.Msisdn}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
             var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
-            OptInRecord response = await client.ShortCodesClient.ManageOptInAsync(request, passCredentials ? creds : null);
+            var response = await client.ShortCodesClient.ManageOptInAsync(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.Equal("15559301529", response.Msisdn);
@@ -166,9 +166,9 @@ namespace Vonage.Test.Unit
         public void QueryOptIns(bool passCredentials, bool allParameters)
         {
             //ARRANGE
-            OptInQueryRequest request = new OptInQueryRequest();
+            var request = new OptInQueryRequest();
 
-            string expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/query/json?";
+            var expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/query/json?";
 
             if (allParameters)
             {
@@ -186,7 +186,7 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
-            OptInSearchResponse response = client.ShortCodesClient.QueryOptIns(request, passCredentials ? creds : null);
+            var response = client.ShortCodesClient.QueryOptIns(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.Equal("3", response.OptInCount);
@@ -200,9 +200,9 @@ namespace Vonage.Test.Unit
         public async Task QueryOptInsAsync(bool passCredentials, bool allParameters)
         {
             //ARRANGE
-            OptInQueryRequest request = new OptInQueryRequest();
+            var request = new OptInQueryRequest();
 
-            string expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/query/json?";
+            var expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/query/json?";
 
             if (allParameters)
             {
@@ -220,7 +220,7 @@ namespace Vonage.Test.Unit
             var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
-            OptInSearchResponse response = await client.ShortCodesClient.QueryOptInsAsync(request, passCredentials ? creds : null);
+            var response = await client.ShortCodesClient.QueryOptInsAsync(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.Equal("3", response.OptInCount);
@@ -232,17 +232,17 @@ namespace Vonage.Test.Unit
         public void SendTwoFactorAuth(bool passCredentials)
         {
             //ARRANGE
-            TwoFactorAuthRequest request = new TwoFactorAuthRequest();
+            var request = new TwoFactorAuthRequest();
 
-            string expectedUri = $"{this.RestUrl}/sc/us/2fa/json?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            string expectedResponseContent = this.GetExpectedJson();
+            var expectedUri = $"{this.RestUrl}/sc/us/2fa/json?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            var expectedResponseContent = this.GetExpectedJson();
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
             var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
-            TwoFactorAuthResponse response = client.ShortCodesClient.SendTwoFactorAuth(request, passCredentials ? creds : null);
+            var response = client.ShortCodesClient.SendTwoFactorAuth(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.Equal("1", response.MessageCount);
@@ -254,17 +254,17 @@ namespace Vonage.Test.Unit
         public async Task SendTwoFactorAuthAsync(bool passCredentials)
         {
             //ARRANGE
-            TwoFactorAuthRequest request = new TwoFactorAuthRequest();
+            var request = new TwoFactorAuthRequest();
 
-            string expectedUri = $"{this.RestUrl}/sc/us/2fa/json?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            string expectedResponseContent = this.GetExpectedJson();
+            var expectedUri = $"{this.RestUrl}/sc/us/2fa/json?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            var expectedResponseContent = this.GetExpectedJson();
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
             var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
-            TwoFactorAuthResponse response = await client.ShortCodesClient.SendTwoFactorAuthAsync(request, passCredentials ? creds : null);
+            var response = await client.ShortCodesClient.SendTwoFactorAuthAsync(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.Equal("1", response.MessageCount);

@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit
                 Language = "en-US",
                 Context = new[] { "dog", "cat" },
                 StartTimeout = 5,
-                MaxDuration = 30
+                MaxDuration = 30,
             };
             var dtmfSettings = new DtmfSettings { MaxDigits = 1, TimeOut = 3, SubmitOnHash = true };
             var inputAction = new MultiInputAction
@@ -29,8 +29,8 @@ namespace Vonage.Test.Unit
                 Type = new[]
                 {
                     NccoInputType.DTMF,
-                    NccoInputType.Speech
-                }
+                    NccoInputType.Speech,
+                },
             };
 
             //act
@@ -48,7 +48,7 @@ namespace Vonage.Test.Unit
             var expected = this.GetExpectedJson();
             var settings = new SpeechSettings
             {
-                Uuid = new[] { "aaaaaaaa-bbbb-cccc-dddd-0123456789ab" }
+                Uuid = new[] { "aaaaaaaa-bbbb-cccc-dddd-0123456789ab" },
             };
             var inputAction = new MultiInputAction { Speech = settings };
 

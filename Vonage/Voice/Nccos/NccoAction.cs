@@ -21,7 +21,7 @@ public abstract class NccoAction
 
         [EnumMember(Value = "input")] Input = 6,
 
-        [EnumMember(Value = "notify")] Notify = 7
+        [EnumMember(Value = "notify")] Notify = 7,
     }
 
     [JsonProperty("action")] public abstract ActionType Action { get; }

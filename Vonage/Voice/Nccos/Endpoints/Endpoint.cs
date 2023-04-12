@@ -25,6 +25,6 @@ public abstract class Endpoint
         [EnumMember(Value="sip")]
         Sip=4,
         [EnumMember(Value="vbc")]
-        Vbc=5
+        Vbc=5,
     }
 }

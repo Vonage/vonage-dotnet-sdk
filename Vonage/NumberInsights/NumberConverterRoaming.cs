@@ -20,13 +20,13 @@ internal class NumberRoamingConverter : JsonConverter
             if (reader.TokenType == JsonToken.StartObject) {
                 var obj = JObject.Load(reader);
 
-                RoamingStatus status = obj["status"].ToString().ToEnum<RoamingStatus>();
+                var status = obj["status"].ToString().ToEnum<RoamingStatus>();
                     
                 return new Roaming {
                     Status = status,
                     RoamingCountryCode = obj["roaming_country_code"]?.ToString(),
                     RoamingNetworkCode = obj["roaming_network_code"]?.ToString(),
-                    RoamingNetworkName = obj["roaming_network_name"]?.ToString()
+                    RoamingNetworkName = obj["roaming_network_name"]?.ToString(),
                 };
             }
 
@@ -37,7 +37,7 @@ internal class NumberRoamingConverter : JsonConverter
         {
             return new Roaming
             {
-                Status = RoamingStatus.Unknown
+                Status = RoamingStatus.Unknown,
             };
         }
 

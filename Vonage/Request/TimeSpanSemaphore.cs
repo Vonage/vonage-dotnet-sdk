@@ -53,7 +53,7 @@ internal class TimeSpanSemaphore : IDisposable
 
         // initialize queue with old timestamps
         this._releaseTimes = new Queue<DateTime>(maxCount);
-        for (int i = 0; i < maxCount; i++)
+        for (var i = 0; i < maxCount; i++)
         {
             this._releaseTimes.Enqueue(DateTime.MinValue);
         }
@@ -75,17 +75,17 @@ internal class TimeSpanSemaphore : IDisposable
         }
 
         // sleep until the time since the previous release equals the reset period
-        DateTime now = DateTime.UtcNow;
-        DateTime windowReset = oldestRelease.Add(this._resetSpan);
+        var now = DateTime.UtcNow;
+        var windowReset = oldestRelease.Add(this._resetSpan);
         if (windowReset > now)
         {
-            int sleepMilliseconds = Math.Max(
+            var sleepMilliseconds = Math.Max(
                 (int)(windowReset.Subtract(now).Ticks / TimeSpan.TicksPerMillisecond),
                 1); // sleep at least 1ms to be sure next window has started
             // TODO: log
             //_logger.LogInformation($"Waiting {sleepMilliseconds} ms for TimeSpanSemaphore limit to reset.");
 
-            bool cancelled = cancelToken.WaitHandle.WaitOne(sleepMilliseconds);
+            var cancelled = cancelToken.WaitHandle.WaitOne(sleepMilliseconds);
             if (cancelled)
             {
                 this.Release();

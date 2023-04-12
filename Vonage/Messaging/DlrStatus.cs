@@ -12,5 +12,5 @@ public enum DlrStatus
     rejected = 3,
     accepted = 4,
     buffered = 5,
-    unknown = 6
+    unknown = 6,
 }

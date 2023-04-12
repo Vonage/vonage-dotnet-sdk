@@ -11,5 +11,5 @@ public enum NccoInputType
     DTMF = 0,
 
     [EnumMember(Value = "speech")]
-    Speech = 1
+    Speech = 1,
 }

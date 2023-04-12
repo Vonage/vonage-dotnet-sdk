@@ -35,13 +35,13 @@ namespace Vonage.Test.Unit
                     new PhoneEndpoint
                     {
                         Number = "14155550100",
-                        DtmfAnswer = "p*123#"
-                    }
+                        DtmfAnswer = "p*123#",
+                    },
                 },
                 From = new PhoneEndpoint
                 {
                     Number = "14155550100",
-                    DtmfAnswer = "p*123#"
+                    DtmfAnswer = "p*123#",
                 },
                 Ncco = new Ncco(new TalkAction {Text = "Hello World"}),
                 AnswerUrl = new[] {"https://example.com/answer"},
@@ -91,13 +91,13 @@ namespace Vonage.Test.Unit
                     new PhoneEndpoint
                     {
                         Number = "14155550100",
-                        DtmfAnswer = "p*123#"
-                    }
+                        DtmfAnswer = "p*123#",
+                    },
                 },
                 From = new PhoneEndpoint
                 {
                     Number = "14155550100",
-                    DtmfAnswer = "p*123#"
+                    DtmfAnswer = "p*123#",
                 },
                 Ncco = new Ncco(new TalkAction {Text = "Hello World"}),
                 AnswerUrl = new[] {"https://example.com/answer"},
@@ -265,13 +265,13 @@ namespace Vonage.Test.Unit
                     new PhoneEndpoint
                     {
                         Number = "14155550100",
-                        DtmfAnswer = "p*123#"
-                    }
+                        DtmfAnswer = "p*123#",
+                    },
                 },
                 From = new PhoneEndpoint
                 {
                     Number = "14155550100",
-                    DtmfAnswer = "p*123#"
+                    DtmfAnswer = "p*123#",
                 },
                 Ncco = new Ncco(new TalkAction {Text = "בדיקה בדיקה בדיקה"}),
                 AnswerUrl = new[] {"https://example.com/answer"},
@@ -445,8 +445,8 @@ namespace Vonage.Test.Unit
                     new PhoneEndpoint
                     {
                         Number = "14155550100",
-                        DtmfAnswer = "p*123#"
-                    }
+                        DtmfAnswer = "p*123#",
+                    },
                 },
                 RandomFromNumber = true,
                 Ncco = new Ncco(new TalkAction {Text = "Hello World"}),
@@ -711,7 +711,7 @@ namespace Vonage.Test.Unit
                     PageSize = 10,
                     RecordIndex = 0,
                     Order = "asc",
-                    Status = "started"
+                    Status = "started",
                 };
             }
             else
@@ -820,7 +820,7 @@ namespace Vonage.Test.Unit
                     PageSize = 10,
                     RecordIndex = 0,
                     Order = "asc",
-                    Status = "started"
+                    Status = "started",
                 };
             }
             else
@@ -948,7 +948,7 @@ namespace Vonage.Test.Unit
                 {
                     StreamUrl = new[] {"https://example.com/waiting.mp3"},
                     Loop = 0,
-                    Level = "0.4"
+                    Level = "0.4",
                 };
             }
             else
@@ -956,7 +956,7 @@ namespace Vonage.Test.Unit
                 expectedRequestContent = @"{""stream_url"":[""https://example.com/waiting.mp3""]}";
                 command = new StreamCommand
                 {
-                    StreamUrl = new[] {"https://example.com/waiting.mp3"}
+                    StreamUrl = new[] {"https://example.com/waiting.mp3"},
                 };
             }
 
@@ -993,7 +993,7 @@ namespace Vonage.Test.Unit
             expectedRequestContent = @"{""stream_url"":[""https://example.com/waiting.mp3""]}";
             command = new StreamCommand
             {
-                StreamUrl = new[] {"https://example.com/waiting.mp3"}
+                StreamUrl = new[] {"https://example.com/waiting.mp3"},
             };
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
@@ -1036,7 +1036,7 @@ namespace Vonage.Test.Unit
                     Level = "0.4",
                     VoiceName = "salli",
                     Language = "en-US",
-                    Style = 1
+                    Style = 1,
                 };
             }
             else
@@ -1044,7 +1044,7 @@ namespace Vonage.Test.Unit
                 expectedRequestContent = @"{""text"":""Hello. How are you today?""}";
                 command = new TalkCommand
                 {
-                    Text = "Hello. How are you today?"
+                    Text = "Hello. How are you today?",
                 };
             }
 
@@ -1081,7 +1081,7 @@ namespace Vonage.Test.Unit
             expectedRequestContent = @"{""text"":""Hello. How are you today?""}";
             command = new TalkCommand
             {
-                Text = "Hello. How are you today?"
+                Text = "Hello. How are you today?",
             };
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);

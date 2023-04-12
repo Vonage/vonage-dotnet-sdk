@@ -26,20 +26,20 @@ namespace Vonage.Test.Unit
         public void Redact(bool passCredentials, RedactionProduct product, RedactionType type)
         {
             //ARRANGE
-            RedactRequest request = new RedactRequest
+            var request = new RedactRequest
             {
                 Id = "test",
                 Product = product,
-                Type = type
+                Type = type,
             };
             var expectedResponseContent = this.GetExpectedJson();
-            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
-            bool response = client.RedactClient.Redact(request, passCredentials ? creds : null);
+            var response = client.RedactClient.Redact(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.True(response);
@@ -62,20 +62,20 @@ namespace Vonage.Test.Unit
         public async Task RedactAsync(bool passCredentials, RedactionProduct product, RedactionType type)
         {
             //ARRANGE
-            RedactRequest request = new RedactRequest
+            var request = new RedactRequest
             {
                 Id = "test",
                 Product = product,
-                Type = type
+                Type = type,
             };
             var expectedResponseContent = this.GetExpectedJson();
-            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
-            bool response = await client.RedactClient.RedactAsync(request, passCredentials ? creds : null);
+            var response = await client.RedactClient.RedactAsync(request, passCredentials ? creds : null);
 
             //ASSERT
             Assert.True(response);
@@ -85,14 +85,14 @@ namespace Vonage.Test.Unit
         public void RedactReturns401()
         {
             //ARRANGE
-            RedactRequest request = new RedactRequest
+            var request = new RedactRequest
             {
                 Id = "209ab3c7536542b91e8b5aef032f6861",
                 Product = RedactionProduct.Sms,
-                Type = RedactionType.Inbound
+                Type = RedactionType.Inbound,
             };
             var expectedResponseContent = this.GetExpectedJson();
-            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Unauthorized);
 
             //ACT
@@ -109,14 +109,14 @@ namespace Vonage.Test.Unit
         public void RedactReturns403()
         {
             //ARRANGE
-            RedactRequest request = new RedactRequest
+            var request = new RedactRequest
             {
                 Id = "209ab3c7536542b91e8b5aef032f6861",
                 Product = RedactionProduct.Sms,
-                Type = RedactionType.Inbound
+                Type = RedactionType.Inbound,
             };
             var expectedResponseContent = this.GetExpectedJson();
-            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Forbidden);
 
             //ACT
@@ -133,14 +133,14 @@ namespace Vonage.Test.Unit
         public void RedactReturns404()
         {
             //ARRANGE
-            RedactRequest request = new RedactRequest
+            var request = new RedactRequest
             {
                 Id = "209ab3c7536542b91e8b5aef032f6861",
                 Product = RedactionProduct.Sms,
-                Type = RedactionType.Inbound
+                Type = RedactionType.Inbound,
             };
             var expectedResponseContent = this.GetExpectedJson();
-            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.NotFound);
 
             //ACT
@@ -158,15 +158,15 @@ namespace Vonage.Test.Unit
         public void RedactReturns422()
         {
             //ARRANGE
-            RedactRequest request = new RedactRequest
+            var request = new RedactRequest
             {
                 Id = "209ab3c7536542b91e8b5aef032f6861",
                 Product = RedactionProduct.Sms,
-                Type = RedactionType.Inbound
+                Type = RedactionType.Inbound,
             };
             var expectedResponseContent = this.GetExpectedJson();
 
-            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.UnprocessableEntity);
 
             //ACT
@@ -184,15 +184,15 @@ namespace Vonage.Test.Unit
         public void RedactReturns429()
         {
             //ARRANGE
-            RedactRequest request = new RedactRequest
+            var request = new RedactRequest
             {
                 Id = "209ab3c7536542b91e8b5aef032f6861",
                 Product = RedactionProduct.Sms,
-                Type = RedactionType.Inbound
+                Type = RedactionType.Inbound,
             };
             var expectedResponseContent = this.GetExpectedJson();
 
-            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.TooManyRequests);
 
             //ACT

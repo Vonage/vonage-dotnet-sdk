@@ -41,14 +41,14 @@ public class VoiceClient : IVoiceClient
             {
                 new PhoneEndpoint
                 {
-                    Number = toNumber
-                }
+                    Number = toNumber,
+                },
             },
             From = new PhoneEndpoint
             {
-                Number = fromNumber
+                Number = fromNumber,
             },
-            Ncco = ncco
+            Ncco = ncco,
         };
         return ApiRequest.DoRequestWithJsonContent<CallResponse>(
             POST,
@@ -64,13 +64,13 @@ public class VoiceClient : IVoiceClient
         {
             To = new[]
             {
-                toEndPoint
+                toEndPoint,
             },
             From = new PhoneEndpoint
             {
-                Number = fromNumber
+                Number = fromNumber,
             },
-            Ncco = ncco
+            Ncco = ncco,
         };
         return ApiRequest.DoRequestWithJsonContent<CallResponse>(
             POST,
@@ -113,14 +113,14 @@ public class VoiceClient : IVoiceClient
             {
                 new PhoneEndpoint
                 {
-                    Number = toNumber
-                }
+                    Number = toNumber,
+                },
             },
             From = new PhoneEndpoint
             {
-                Number = fromNumber
+                Number = fromNumber,
             },
-            Ncco = ncco
+            Ncco = ncco,
         };
         return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
             POST,
@@ -143,13 +143,13 @@ public class VoiceClient : IVoiceClient
         {
             To = new[]
             {
-                toEndPoint
+                toEndPoint,
             },
             From = new PhoneEndpoint
             {
-                Number = fromNumber
+                Number = fromNumber,
             },
-            Ncco = ncco
+            Ncco = ncco,
         };
         return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
             POST,
@@ -225,7 +225,7 @@ public class VoiceClient : IVoiceClient
             return new GetRecordingResponse()
             {
                 ResultStream = bytes,
-                Status = response.StatusCode
+                Status = response.StatusCode,
             };
         }
     }
@@ -254,7 +254,7 @@ public class VoiceClient : IVoiceClient
             return new GetRecordingResponse()
             {
                 ResultStream = bytes,
-                Status = response.StatusCode
+                Status = response.StatusCode,
             };
         }
     }

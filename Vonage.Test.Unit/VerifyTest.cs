@@ -22,7 +22,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{this.ApiUrl}/verify/json";
 
             string expectedRequestContent;
-            VerifyRequest request = new VerifyRequest { Number= "447700900000", Brand="Acme Inc"};
+            var request = new VerifyRequest { Number= "447700900000", Brand="Acme Inc"};
             if (kitchenSink)
             {
                 expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&sender_id=ACME&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
@@ -72,7 +72,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{this.ApiUrl}/verify/check/json";
 
             string expectedRequestContent;
-            VerifyCheckRequest request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
+            var request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
             if (kitchenSink)
             {
                 expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&ip_address={HttpUtility.UrlEncode("123.0.0.255")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
@@ -241,7 +241,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{this.ApiUrl}/verify/psd2/json";
 
             string expectedRequestContent;
-            Psd2Request request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
+            var request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
             if (kitchenSink)
             {
                 expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
@@ -286,7 +286,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{this.ApiUrl}/verify/json";
 
             string expectedRequestContent;
-            VerifyRequest request = new VerifyRequest { Number = "447700900000", Brand = "Acme Inc" };
+            var request = new VerifyRequest { Number = "447700900000", Brand = "Acme Inc" };
             if (kitchenSink)
             {
                 expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&sender_id=ACME&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
@@ -336,7 +336,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{this.ApiUrl}/verify/check/json";
 
             string expectedRequestContent;
-            VerifyCheckRequest request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
+            var request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
             if (kitchenSink)
             {
                 expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&ip_address={HttpUtility.UrlEncode("123.0.0.255")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
@@ -478,7 +478,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{this.ApiUrl}/verify/psd2/json";
 
             string expectedRequestContent;
-            Psd2Request request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
+            var request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
             if (kitchenSink)
             {
                 expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";

@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit
         [InlineData("application/trash")]
         public void TestParseStream(string contentType)
         {
-            string contentString = "";
+            var contentString = "";
             if(contentType == "application/x-www-form-urlencoded; charset=UTF-8")
             {
                 contentString = "foo-bar=foo%20bar";
@@ -28,8 +28,8 @@ namespace Vonage.Test.Unit
             {
                 contentString = "{\"foo-bar\":\"foo bar\"}";
             }
-            byte[] contentToBytes = Encoding.UTF8.GetBytes(contentString);
-            MemoryStream stream = new MemoryStream(contentToBytes);
+            var contentToBytes = Encoding.UTF8.GetBytes(contentString);
+            var stream = new MemoryStream(contentToBytes);
             try
             {
                 var output = Utility.WebhookParser.ParseWebhook<Foo>(stream, contentType);
@@ -48,7 +48,7 @@ namespace Vonage.Test.Unit
         [InlineData("application/trash")]
         public void TestParseHttpRequestMessage(string contentType)
         {
-            string contentString = "";
+            var contentString = "";
             if (contentType == "application/x-www-form-urlencoded")
             {
                 contentString = "foo-bar=foo%20bar";
@@ -57,7 +57,7 @@ namespace Vonage.Test.Unit
             {
                 contentString = "{\"foo-bar\":\"foo bar\"}";
             }
-            byte[] contentToBytes = Encoding.UTF8.GetBytes(contentString);            
+            var contentToBytes = Encoding.UTF8.GetBytes(contentString);            
             var request = new HttpRequestMessage();
             request.Content = new ByteArrayContent(contentToBytes);
             request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);       
@@ -78,7 +78,7 @@ namespace Vonage.Test.Unit
         {
             var contentType = "application/x-www-form-urlencoded";
             var contentString = "foo-bar=foo bar";
-            byte[] contentToBytes = Encoding.UTF8.GetBytes(contentString);
+            var contentToBytes = Encoding.UTF8.GetBytes(contentString);
             var request = new HttpRequestMessage();
             request.Content = new ByteArrayContent(contentToBytes);
             request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);

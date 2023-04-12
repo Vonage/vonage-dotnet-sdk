@@ -31,7 +31,7 @@ public class Webhook
         FallbackAnswerUrl = 5,
 
         [EnumMember(Value = "Unknown")]
-        Unknown = 6
+        Unknown = 6,
     }
 
 }

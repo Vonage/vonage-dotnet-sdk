@@ -23,7 +23,7 @@ namespace Vonage.Test.Unit
                 request = new BasicNumberInsightRequest
                 {
                     Country = "GB",
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
             else
@@ -31,7 +31,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new BasicNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
@@ -78,7 +78,7 @@ namespace Vonage.Test.Unit
                 request = new BasicNumberInsightRequest
                 {
                     Country = "GB",
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
             else
@@ -86,7 +86,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new BasicNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
@@ -136,7 +136,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
@@ -209,7 +209,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
@@ -316,7 +316,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
@@ -386,7 +386,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
@@ -462,7 +462,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
@@ -534,7 +534,7 @@ namespace Vonage.Test.Unit
             var activeStatus = active ? "active" : "inactive";
             var responseData = new Dictionary<string, string>
             {
-                {"active_status", activeStatus}
+                {"active_status", activeStatus},
             };
             var expectedResponse = this.GetResponseJson(responseData);
 
@@ -549,7 +549,7 @@ namespace Vonage.Test.Unit
                 Country = "GB",
                 Number = "15555551212",
                 Ip = "123.0.0.255",
-                RealTimeData = true
+                RealTimeData = true,
             };
             this.Setup(expectedUri, expectedResponse);
 
@@ -589,7 +589,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
@@ -670,7 +670,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
@@ -741,7 +741,7 @@ namespace Vonage.Test.Unit
                 request = new AdvancedNumberInsightAsynchronousRequest
                 {
                     Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
-                    Callback = "https://example.com/callback"
+                    Callback = "https://example.com/callback",
                 };
             }
             else
@@ -751,7 +751,7 @@ namespace Vonage.Test.Unit
                 request = new AdvancedNumberInsightAsynchronousRequest
                 {
                     Number = "15555551212",
-                    Callback = "https://example.com/callback"
+                    Callback = "https://example.com/callback",
                 };
             }
 
@@ -793,7 +793,7 @@ namespace Vonage.Test.Unit
                 request = new AdvancedNumberInsightAsynchronousRequest
                 {
                     Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
-                    Callback = "https://example.com/callback"
+                    Callback = "https://example.com/callback",
                 };
             }
             else
@@ -803,7 +803,7 @@ namespace Vonage.Test.Unit
                 request = new AdvancedNumberInsightAsynchronousRequest
                 {
                     Number = "15555551212",
-                    Callback = "https://example.com/callback"
+                    Callback = "https://example.com/callback",
                 };
             }
 
@@ -840,7 +840,7 @@ namespace Vonage.Test.Unit
             var request = new AdvancedNumberInsightAsynchronousRequest
             {
                 Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
-                Callback = "https://example.com/callback"
+                Callback = "https://example.com/callback",
             };
             this.Setup(expectedUri, expectedResponse);
             //ACT
@@ -891,9 +891,9 @@ namespace Vonage.Test.Unit
             var expectedResponse = this.GetExpectedJson();
 
             var expectedUri = $"{this.ApiUrl}/ni/advanced/json?number=971639946111&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            AdvancedNumberInsightRequest request = new AdvancedNumberInsightRequest
+            var request = new AdvancedNumberInsightRequest
             {
-                Number = "971639946111"
+                Number = "971639946111",
             };
             this.Setup(expectedUri, expectedResponse);
 

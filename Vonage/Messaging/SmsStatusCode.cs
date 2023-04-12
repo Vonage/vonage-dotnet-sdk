@@ -21,5 +21,5 @@ public enum SmsStatusCode
     InvalidCallbackUrl = 23,
     NonWhiteListedDestination = 29,
     SignatureAndApiSeretDisallowed = 32,
-    NumberDeactivated = 33
+    NumberDeactivated = 33,
 }

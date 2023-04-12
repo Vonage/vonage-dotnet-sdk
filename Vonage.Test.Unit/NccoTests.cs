@@ -28,7 +28,7 @@ namespace Vonage.Test.Unit
                 TimeOut = "60",
                 BeepStart = true,
                 EventUrl = new[] {"https://example.com/record", "https://test.com/record"},
-                EventMethod = "POST"
+                EventMethod = "POST",
             };
 
             var ncco = new Ncco(recordAction);
@@ -58,7 +58,7 @@ namespace Vonage.Test.Unit
                 EndOnExit = false,
                 Record = false,
                 CanSpeak = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"},
-                CanHear = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"}
+                CanHear = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"},
             };
             var ncco = new Ncco(conversationAction);
             var actualJson = ncco.ToString();
@@ -77,7 +77,7 @@ namespace Vonage.Test.Unit
                 EndOnExit = true,
                 Record = true,
                 CanSpeak = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"},
-                CanHear = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"}
+                CanHear = new[] {"6a4d6af0-55a6-4667-be90-8614e4c8e83c"},
             };
             var ncco = new Ncco(conversationAction);
             var actualJson = ncco.ToString();
@@ -99,9 +99,9 @@ namespace Vonage.Test.Unit
                         OnAnswer = new PhoneEndpoint.Answer
                         {
                             Url = "https://example.com/answer",
-                            RingbackTone = "http://example.com/ringbackTone.wav"
-                        }
-                    }
+                            RingbackTone = "http://example.com/ringbackTone.wav",
+                        },
+                    },
                 },
                 From = "447700900000",
                 EventType = "synchronous",
@@ -110,7 +110,7 @@ namespace Vonage.Test.Unit
                 MachineDetection = "continue",
                 EventUrl = new[] {"https://exampe.com/webhooks/events"},
                 RingbackTone = "http://example.com/ringbackTone.wav",
-                EventMethod = "POST"
+                EventMethod = "POST",
             };
             var ncco = new Ncco(connectAction);
             var actualJson = ncco.ToString();
@@ -129,7 +129,7 @@ namespace Vonage.Test.Unit
                 Level = "0",
                 VoiceName = "kimberly",
                 Language = "en-US",
-                Style = 0
+                Style = 0,
             };
             var ncco = new Ncco(talkAction);
             var actualJson = ncco.ToString();
@@ -142,7 +142,7 @@ namespace Vonage.Test.Unit
             var expectedJson = this.GetRequestJson();
             var talkAction = new TalkAction
             {
-                Text = "Hello World"
+                Text = "Hello World",
             };
             var ncco = new Ncco(talkAction);
             var actualJson = ncco.ToString();
@@ -174,9 +174,9 @@ namespace Vonage.Test.Unit
                 EventMethod = "POST",
                 Payload = new TestClass
                 {
-                    Bar = "foo"
+                    Bar = "foo",
                 },
-                EventUrl = new[] {"https://example.com/webhooks/events"}
+                EventUrl = new[] {"https://example.com/webhooks/events"},
             };
             var ncco = new Ncco(notifyAction);
             var actualJson = ncco.ToString();
@@ -191,7 +191,7 @@ namespace Vonage.Test.Unit
             {
                 Uri = "wss://example.com/ws",
                 ContentType = "audio/l16;rate=16000",
-                Headers = new TestClass {Bar = "foo"}
+                Headers = new TestClass {Bar = "foo"},
             };
             Assert.Equal(expectedJson,
                 JsonConvert.SerializeObject(endpoint, Serialization.VonageSerialization.SerializerSettings));
@@ -203,7 +203,7 @@ namespace Vonage.Test.Unit
             var expectedJson = this.GetRequestJson();
             var endpoint = new AppEndpoint
             {
-                User = "steve"
+                User = "steve",
             };
             Assert.Equal(expectedJson,
                 JsonConvert.SerializeObject(endpoint, Serialization.VonageSerialization.SerializerSettings));
@@ -216,7 +216,7 @@ namespace Vonage.Test.Unit
             var endpoint = new SipEndpoint
             {
                 Uri = "sip:rebekka@sip.example.com",
-                Headers = new TestClass {Bar = "foo"}
+                Headers = new TestClass {Bar = "foo"},
             };
             Assert.Equal(expectedJson,
                 JsonConvert.SerializeObject(endpoint, Serialization.VonageSerialization.SerializerSettings));
@@ -228,7 +228,7 @@ namespace Vonage.Test.Unit
             var expectedJson = this.GetRequestJson();
             var endpoint = new VbcEndpoint
             {
-                Extension = "4567"
+                Extension = "4567",
             };
             Assert.Equal(expectedJson,
                 JsonConvert.SerializeObject(endpoint, Serialization.VonageSerialization.SerializerSettings));

@@ -32,7 +32,7 @@ public class CallCommandConverter : JsonConverter
                 continue;
             }
             var propertyName = property.Name;
-            foreach(CustomAttributeData att in property.CustomAttributes)
+            foreach(var att in property.CustomAttributes)
             {
                 if(att.AttributeType.Name == "JsonPropertyAttribute")
                 {

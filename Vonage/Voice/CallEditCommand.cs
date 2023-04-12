@@ -19,7 +19,7 @@ public class CallEditCommand
         [EnumMember(Value = "unearmuff")]
         unearmuff = 5,
         [EnumMember(Value = "transfer")]
-        transfer = 6
+        transfer = 6,
     }
 
     /// <summary>

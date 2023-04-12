@@ -42,9 +42,9 @@ namespace Vonage.Test.Unit
         {
             get
             {
-                string codeBase = ThisAssembly.CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
+                var codeBase = ThisAssembly.CodeBase;
+                var uri = new UriBuilder(codeBase);
+                var path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
             }
         }
@@ -66,7 +66,7 @@ namespace Vonage.Test.Unit
         {
             typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)
                 ?.SetValue(Configuration.Instance, null);
-            Mock<HttpMessageHandler> mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(MockedMethod,
@@ -84,7 +84,7 @@ namespace Vonage.Test.Unit
                 .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = expectedCode,
-                    Content = httpContent
+                    Content = httpContent,
                 })
                 .Verifiable();
             Configuration.Instance.ClientHandler = mockHandler.Object;
@@ -108,8 +108,8 @@ namespace Vonage.Test.Unit
 
         protected string GetResponseJson([CallerMemberName] string name = null)
         {
-            string type = this.GetType().Name;
-            string ns = this.GetType().Namespace;
+            var type = this.GetType().Name;
+            var ns = this.GetType().Namespace;
             if (ns != null)
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);
@@ -136,8 +136,8 @@ namespace Vonage.Test.Unit
 
         protected string GetRequestJson([CallerMemberName] string name = null)
         {
-            string type = this.GetType().Name;
-            string ns = this.GetType().Namespace;
+            var type = this.GetType().Name;
+            var ns = this.GetType().Namespace;
             if (ns != null)
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);

@@ -3,5 +3,5 @@
 public enum Direction
 {
     inbound = 1,
-    outbound = 2
+    outbound = 2,
 }

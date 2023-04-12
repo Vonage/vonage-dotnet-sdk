@@ -25,8 +25,8 @@ public class WebhookTypeDictionaryConverter : JsonConverter
         var jObject = JObject.Load(reader);
         foreach (var x in jObject)
         {
-            Webhook.Type key = x.Key.ToEnum<Webhook.Type>();
-            Webhook value = (Webhook) x.Value.ToObject(typeof(Webhook));
+            var key = x.Key.ToEnum<Webhook.Type>();
+            var value = (Webhook) x.Value.ToObject(typeof(Webhook));
             result.Add(key, value);
         }
 
@@ -43,16 +43,16 @@ public class WebhookTypeDictionaryConverter : JsonConverter
         }
 
         // get dictionary & key type
-        if (value is not IDictionary dictionary || !this.TryGetEnumType(value.GetType(), out Type enumType))
+        if (value is not IDictionary dictionary || !this.TryGetEnumType(value.GetType(), out var enumType))
             throw new InvalidOperationException(
                 $"Can't parse value type '{value.GetType().FullName}' as a supported dictionary type."); // shouldn't be possible since we check in CanConvert
-        Type enumValueType = Enum.GetUnderlyingType(enumType);
+        var enumValueType = Enum.GetUnderlyingType(enumType);
 
         // serialize
         writer.WriteStartObject();
         foreach (DictionaryEntry pair in dictionary)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             using (TextWriter textWriter = new StringWriter(sb))
             {
                 serializer.Serialize(textWriter, pair.Key, enumValueType);
@@ -77,7 +77,7 @@ public class WebhookTypeDictionaryConverter : JsonConverter
 
         // ignore if not a supported dictionary
         {
-            Type genericType = objectType.GetGenericTypeDefinition();
+            var genericType = objectType.GetGenericTypeDefinition();
             if (genericType != typeof(IDictionary<,>) && genericType != typeof(Dictionary<,>))
             {
                 keyType = null;

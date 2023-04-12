@@ -14,7 +14,7 @@ public class RecordAction : NccoAction
 
         [EnumMember(Value = "wav")] Wav = 2,
 
-        [EnumMember(Value = "ogg")] Ogg = 3
+        [EnumMember(Value = "ogg")] Ogg = 3,
     }
 
     public override ActionType Action => ActionType.Record;

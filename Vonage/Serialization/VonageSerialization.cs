@@ -12,7 +12,7 @@ public class VonageSerialization
             {
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 Formatting = Formatting.None,
-                MissingMemberHandling = MissingMemberHandling.Ignore
+                MissingMemberHandling = MissingMemberHandling.Ignore,
             };
 
             return settings;

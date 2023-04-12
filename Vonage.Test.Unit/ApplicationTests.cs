@@ -51,13 +51,13 @@ namespace Vonage.Test.Unit
             };
             var keys = new Keys
             {
-                PublicKey = PublicKey
+                PublicKey = PublicKey,
             };
             var request = new CreateApplicationRequest
             {
                 Capabilities = capabilities,
                 Keys = keys,
-                Name = "My Application"
+                Name = "My Application",
             };
             var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(credentials);
@@ -176,7 +176,7 @@ namespace Vonage.Test.Unit
                 {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
             var keys = new Keys
             {
-                PublicKey = PublicKey
+                PublicKey = PublicKey,
             };
             var request = new CreateApplicationRequest
                 {Capabilities = capabilities, Keys = keys, Name = "My Application"};
@@ -221,7 +221,7 @@ namespace Vonage.Test.Unit
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{this.ApiUrl}/v2/applications/{id}";
-            string expectedResponse = "";
+            var expectedResponse = "";
             this.Setup(uri, expectedResponse);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
@@ -245,7 +245,7 @@ namespace Vonage.Test.Unit
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{this.ApiUrl}/v2/applications/{id}";
-            string expectedResponse = "";
+            var expectedResponse = "";
             this.Setup(uri, expectedResponse);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
@@ -526,7 +526,7 @@ namespace Vonage.Test.Unit
                 applications = client.ApplicationClient.ListApplications(request);
             }
 
-            Application application = applications.Embedded.Applications[0];
+            var application = applications.Embedded.Applications[0];
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal("https://example.com/webhooks/answer",
                 application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
@@ -639,7 +639,7 @@ namespace Vonage.Test.Unit
                 applications = await client.ApplicationClient.ListApplicationsAsync(request);
             }
 
-            Application application = applications.Embedded.Applications[0];
+            var application = applications.Embedded.Applications[0];
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal("https://example.com/webhooks/answer",
                 application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
@@ -749,7 +749,7 @@ namespace Vonage.Test.Unit
                 {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
             var keys = new Keys
             {
-                PublicKey = PublicKey
+                PublicKey = PublicKey,
             };
             var application = new CreateApplicationRequest
                 {Capabilities = capabilities, Keys = keys, Name = "My Application"};
@@ -870,7 +870,7 @@ namespace Vonage.Test.Unit
                 {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
             var keys = new Keys
             {
-                PublicKey = PublicKey
+                PublicKey = PublicKey,
             };
             var application = new CreateApplicationRequest
                 {Capabilities = capabilities, Keys = keys, Name = "My Application"};

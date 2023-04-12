@@ -275,7 +275,7 @@ internal class PemParse
                     Q = Q,
                     DP = DP,
                     DQ = DQ,
-                    InverseQ = IQ
+                    InverseQ = IQ,
                 };
                 RSA.ImportParameters(RSAparams);
                 return RSA;

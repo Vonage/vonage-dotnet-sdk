@@ -12,7 +12,7 @@ public class Psd2Request : VerifyRequestBase
         SMS_SMS = 4,
         SMS_TTS = 5,
         SMS = 6,
-        TTS = 7
+        TTS = 7,
     }
 
     /// <summary>

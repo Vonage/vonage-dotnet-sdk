@@ -74,7 +74,7 @@ namespace Vonage.Test.Unit
                 Type = SmsType.Text,
                 Udh = "06050415811581",
                 ContentId = "testcontent",
-                EntityId = "testEntity"
+                EntityId = "testEntity",
             };
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
@@ -258,7 +258,7 @@ namespace Vonage.Test.Unit
                 Type = SmsType.Text,
                 Udh = "06050415811581",
                 ContentId = "testcontent",
-                EntityId = "testEntity"
+                EntityId = "testEntity",
             };
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
