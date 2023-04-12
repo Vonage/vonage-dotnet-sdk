@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Vonage.Messaging
+namespace Vonage.Messaging;
+
+public enum DlrStatus
 {
-    public enum DlrStatus
-    {
-        delivered = 0,
-        expired = 1,
-        failed = 2,
-        rejected = 3,
-        accepted = 4,
-        buffered = 5,
-        unknown = 6
-    }
+    delivered = 0,
+    expired = 1,
+    failed = 2,
+    rejected = 3,
+    accepted = 4,
+    buffered = 5,
+    unknown = 6
 }

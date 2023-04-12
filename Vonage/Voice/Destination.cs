@@ -6,17 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Vonage.Voice
+namespace Vonage.Voice;
+
+public class Destination
 {
-    public class Destination
-    {
-        [JsonProperty("type")]
-        public string Type { get; set; } = "ncco";
+    [JsonProperty("type")]
+    public string Type { get; set; } = "ncco";
 
-        [JsonProperty("url")]
-        public string[] Url { get; set; }
+    [JsonProperty("url")]
+    public string[] Url { get; set; }
 
-        [JsonProperty("ncco")]
-        public Ncco Ncco { get; set; }
-    }
+    [JsonProperty("ncco")]
+    public Ncco Ncco { get; set; }
 }

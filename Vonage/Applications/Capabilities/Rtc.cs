@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 
-namespace Vonage.Applications.Capabilities
+namespace Vonage.Applications.Capabilities;
+
+public class Rtc : Capability
 {
-    public class Rtc : Capability
+    public Rtc(IDictionary<Common.Webhook.Type, Common.Webhook> webhooks)
     {
-        public Rtc(IDictionary<Common.Webhook.Type, Common.Webhook> webhooks)
-        {
-            this.Webhooks = webhooks;
-            this.Type = CapabilityType.Rtc;
-        }
+        this.Webhooks = webhooks;
+        this.Type = CapabilityType.Rtc;
     }
 }

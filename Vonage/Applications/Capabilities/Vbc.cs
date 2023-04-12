@@ -1,10 +1,9 @@
-namespace Vonage.Applications.Capabilities
+namespace Vonage.Applications.Capabilities;
+
+public class Vbc : Capability 
 {
-    public class Vbc : Capability 
+    public Vbc()
     {
-        public Vbc()
-        {
-            Type = CapabilityType.Vbc;
-        }
+        Type = CapabilityType.Vbc;
     }
 }

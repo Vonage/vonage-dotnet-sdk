@@ -1,10 +1,9 @@
 using Newtonsoft.Json;
 
-namespace Vonage.Accounts
+namespace Vonage.Accounts;
+
+public class TopUpResult
 {
-    public class TopUpResult
-    {
-        [JsonProperty("response")]
-        public string Response { get; set; }
-    }
+    [JsonProperty("response")]
+    public string Response { get; set; }
 }

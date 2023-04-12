@@ -2,18 +2,17 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Vonage.NumberInsights
+namespace Vonage.NumberInsights;
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum RoamingStatus
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum RoamingStatus
-    {
-        [EnumMember(Value = "unknown")]
-        Unknown,
+    [EnumMember(Value = "unknown")]
+    Unknown,
         
-        [EnumMember(Value = "roaming")]
-        Roaming,
+    [EnumMember(Value = "roaming")]
+    Roaming,
         
-        [EnumMember(Value = "not_roaming")]
-        NotRoaming
-    }
+    [EnumMember(Value = "not_roaming")]
+    NotRoaming
 }

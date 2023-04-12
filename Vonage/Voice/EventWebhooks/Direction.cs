@@ -1,8 +1,7 @@
-﻿namespace Vonage.Voice.EventWebhooks
+﻿namespace Vonage.Voice.EventWebhooks;
+
+public enum Direction
 {
-    public enum Direction
-    {
-        inbound = 1,
-        outbound = 2
-    }
+    inbound = 1,
+    outbound = 2
 }

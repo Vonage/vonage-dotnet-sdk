@@ -2,14 +2,13 @@
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
 
-namespace Vonage.Redaction
+namespace Vonage.Redaction;
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum RedactionType
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum RedactionType
-    {
-        [EnumMember(Value = "inbound")]
-        Inbound,
-        [EnumMember(Value = "outbound")]
-        Outbound
-    }
+    [EnumMember(Value = "inbound")]
+    Inbound,
+    [EnumMember(Value = "outbound")]
+    Outbound
 }

@@ -1,10 +1,9 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
-namespace Vonage.Applications
+namespace Vonage.Applications;
+
+public class ApplicationList
 {
-    public class ApplicationList
-    {
-        [JsonProperty("applications")]
-        public IList<Application> Applications { get; set; }
-    }
+    [JsonProperty("applications")]
+    public IList<Application> Applications { get; set; }
 }
