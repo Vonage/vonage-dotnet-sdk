@@ -287,13 +287,13 @@ public struct ContextDetails
     /// An object containing details of a product from a product message being quoted or replied to using the 'Message Business' option.
     /// </summary>
     [JsonPropertyName("whatsapp_referred_product")]
-    public WhatsAppPreferredProduct ReferredProduct { get; set; }
+    public WhatsAppReferredProduct ReferredProduct { get; set; }
 }
 
 /// <summary>
 /// An object containing details of a product from a product message being quoted or replied to using the 'Message Business' option.
 /// </summary>
-public struct WhatsAppPreferredProduct
+public struct WhatsAppReferredProduct
 {
     /// <summary>
     /// The ID of the catalog associated with the product from the product message being quoted or replied to using the 'Message Business' option.

@@ -448,7 +448,7 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                     {
                         MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
                         MessageFrom = "447700900000",
-                        ReferredProduct = new WhatsAppPreferredProduct
+                        ReferredProduct = new WhatsAppReferredProduct
                         {
                             CatalogId = "1267260820787549",
                             ProductRetailerId = "r07qei73l7",
