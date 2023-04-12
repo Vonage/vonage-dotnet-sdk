@@ -58,11 +58,5 @@ public class SmsResponseMessage
     public string AccountRef { get; set; }
 
     [JsonIgnore]
-    public SmsStatusCode StatusCode 
-    { 
-        get
-        {
-            return (SmsStatusCode)int.Parse(this.Status);
-        } 
-    }
+    public SmsStatusCode StatusCode => (SmsStatusCode)int.Parse(this.Status);
 }

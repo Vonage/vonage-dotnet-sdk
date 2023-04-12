@@ -24,7 +24,7 @@ namespace Vonage.Request;
 /// </summary>
 internal class ApiRequest
 {
-    const string LoggerCategory = "Vonage.Request.ApiRequest";
+    private const string LoggerCategory = "Vonage.Request.ApiRequest";
 
     private static string _userAgent;
 
