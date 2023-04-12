@@ -12,6 +12,6 @@ public class AppEndpoint : Endpoint
 
     public AppEndpoint()
     {
-        Type = EndpointType.App;
+        this.Type = EndpointType.App;
     }
 }

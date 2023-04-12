@@ -11,6 +11,6 @@ public class PageListDateTimeConverter : IsoDateTimeConverter
 {
     public PageListDateTimeConverter()
     {
-        base.DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ";            
+        this.DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ";            
     }
 }

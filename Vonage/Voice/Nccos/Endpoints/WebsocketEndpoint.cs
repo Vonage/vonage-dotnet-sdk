@@ -25,6 +25,6 @@ public class WebsocketEndpoint : Endpoint
 
     public WebsocketEndpoint()
     {
-        Type = EndpointType.Websocket;
+        this.Type = EndpointType.Websocket;
     }
 }

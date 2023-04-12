@@ -42,6 +42,6 @@ public class MultiInputAction : NccoAction
 
     public MultiInputAction()
     {
-        Dtmf = new DtmfSettings();
+        this.Dtmf = new DtmfSettings();
     }
 }

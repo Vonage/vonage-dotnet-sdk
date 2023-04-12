@@ -9,7 +9,7 @@ public class NumberInsightClient : INumberInsightClient
 
     public NumberInsightClient(Credentials creds = null)
     {
-        Credentials = creds;
+        this.Credentials = creds;
     }
     public async Task<BasicInsightResponse> GetNumberInsightBasicAsync(BasicNumberInsightRequest request, Credentials creds = null)
     {
@@ -17,9 +17,9 @@ public class NumberInsightClient : INumberInsightClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateNumberInsightResponse(response);
+        this.ValidateNumberInsightResponse(response);
         return response;
     }
 
@@ -29,9 +29,9 @@ public class NumberInsightClient : INumberInsightClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateNumberInsightResponse(response);
+        this.ValidateNumberInsightResponse(response);
         return response;
     }
 
@@ -41,9 +41,9 @@ public class NumberInsightClient : INumberInsightClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateNumberInsightResponse(response);
+        this.ValidateNumberInsightResponse(response);
         return response;
     }
 
@@ -53,9 +53,9 @@ public class NumberInsightClient : INumberInsightClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateNumberInsightResponse(response);
+        this.ValidateNumberInsightResponse(response);
         return response;
     }
 
@@ -65,9 +65,9 @@ public class NumberInsightClient : INumberInsightClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateNumberInsightResponse(response);
+        this.ValidateNumberInsightResponse(response);
         return response;
     }
 
@@ -77,9 +77,9 @@ public class NumberInsightClient : INumberInsightClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateNumberInsightResponse(response);
+        this.ValidateNumberInsightResponse(response);
         return response;
     }
 
@@ -89,9 +89,9 @@ public class NumberInsightClient : INumberInsightClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateNumberInsightResponse(response);
+        this.ValidateNumberInsightResponse(response);
         return response;
     }
 
@@ -101,9 +101,9 @@ public class NumberInsightClient : INumberInsightClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateNumberInsightResponse(response);
+        this.ValidateNumberInsightResponse(response);
         return response;
     }
 

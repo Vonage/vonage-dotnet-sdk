@@ -48,17 +48,17 @@ public class Credentials
 
     public Credentials(string vonageApiKey, string vonageApiSecret)
     {
-        ApiKey = vonageApiKey;
-        ApiSecret = vonageApiSecret;
+        this.ApiKey = vonageApiKey;
+        this.ApiSecret = vonageApiSecret;
     }
 
     public Credentials(string vonageApiKey, string vonageApiSecret, string vonageApplicationId,
         string vonageApplicationPrivateKey)
     {
-        ApiKey = vonageApiKey;
-        ApiSecret = vonageApiSecret;
-        ApplicationId = vonageApplicationId;
-        ApplicationKey = vonageApplicationPrivateKey;
+        this.ApiKey = vonageApiKey;
+        this.ApiSecret = vonageApiSecret;
+        this.ApplicationId = vonageApplicationId;
+        this.ApplicationKey = vonageApplicationPrivateKey;
     }
 
     public static Credentials FromApiKeyAndSecret(string apiKey, string apiSecret)

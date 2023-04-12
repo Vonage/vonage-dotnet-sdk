@@ -9,7 +9,7 @@ public class RedactClient : IRedactClient
 
     public RedactClient(Credentials creds = null)
     {
-        Credentials = creds;
+        this.Credentials = creds;
     }
 
 
@@ -21,7 +21,7 @@ public class RedactClient : IRedactClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api,"/v1/redact/transaction"),
             request,
             ApiRequest.AuthType.Basic,
-            creds??Credentials
+            creds?? this.Credentials
         );
         return true;
     }
@@ -34,7 +34,7 @@ public class RedactClient : IRedactClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
             request,
             ApiRequest.AuthType.Basic,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
         return true;
     }

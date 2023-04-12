@@ -17,11 +17,11 @@ internal class ThrottlingMessageHandler : DelegatingHandler
     public ThrottlingMessageHandler(TimeSpanSemaphore execTimeSpanSemaphore, HttpMessageHandler innerHandler)
         : base(innerHandler)
     {
-        _execTimeSpanSemaphore = execTimeSpanSemaphore;
+        this._execTimeSpanSemaphore = execTimeSpanSemaphore;
     }
 
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        return _execTimeSpanSemaphore?.RunAsync(base.SendAsync, request, cancellationToken) ?? base.SendAsync(request, cancellationToken);
+        return this._execTimeSpanSemaphore?.RunAsync(base.SendAsync, request, cancellationToken) ?? base.SendAsync(request, cancellationToken);
     }
 }

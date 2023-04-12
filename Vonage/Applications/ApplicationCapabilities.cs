@@ -42,5 +42,5 @@ public class ApplicationCapabilities
     ///    Create in-app video calls with Vonage API.
     /// </summary>
     [JsonProperty("video")]
-    public Capabilities.Video Video { get; set; }
+    public Video Video { get; set; }
 }

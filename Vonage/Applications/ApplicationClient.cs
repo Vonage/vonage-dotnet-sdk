@@ -8,7 +8,7 @@ public class ApplicationClient : IApplicationClient
     public Credentials Credentials { get; set; }
     public ApplicationClient(Credentials creds = null)
     {
-        Credentials = creds;
+        this.Credentials = creds;
     }
     public Task<Application> CreateApplicaitonAsync(CreateApplicationRequest request, Credentials creds = null)
     {
@@ -17,7 +17,7 @@ public class ApplicationClient : IApplicationClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             request,
             ApiRequest.AuthType.Basic,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -27,7 +27,7 @@ public class ApplicationClient : IApplicationClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             ApiRequest.AuthType.Basic,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -36,7 +36,7 @@ public class ApplicationClient : IApplicationClient
         return ApiRequest.DoGetRequestWithQueryParametersAsync<Application>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             ApiRequest.AuthType.Basic,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -47,7 +47,7 @@ public class ApplicationClient : IApplicationClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             request,
             ApiRequest.AuthType.Basic,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -57,7 +57,7 @@ public class ApplicationClient : IApplicationClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             null,
             ApiRequest.AuthType.Basic,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
         return true;
     }
@@ -69,7 +69,7 @@ public class ApplicationClient : IApplicationClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             request,
             ApiRequest.AuthType.Basic,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -79,7 +79,7 @@ public class ApplicationClient : IApplicationClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             ApiRequest.AuthType.Basic,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -88,7 +88,7 @@ public class ApplicationClient : IApplicationClient
         return ApiRequest.DoGetRequestWithQueryParameters<Application>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             ApiRequest.AuthType.Basic,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -99,7 +99,7 @@ public class ApplicationClient : IApplicationClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             request,
             ApiRequest.AuthType.Basic,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -109,7 +109,7 @@ public class ApplicationClient : IApplicationClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             null,
             ApiRequest.AuthType.Basic,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
         return true;
     }

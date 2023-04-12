@@ -9,16 +9,16 @@ public class VerifyClient : IVerifyClient
 
     public VerifyClient(Credentials creds = null)
     {
-        Credentials = creds;
+        this.Credentials = creds;
     }
     public async Task<VerifyResponse> VerifyRequestAsync(VerifyRequest request, Credentials creds = null)
     {
         var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<VerifyResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateVerifyResponse(response);
+        this.ValidateVerifyResponse(response);
         return response;
     }
 
@@ -27,9 +27,9 @@ public class VerifyClient : IVerifyClient
         var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<VerifyCheckResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateVerifyResponse(response);
+        this.ValidateVerifyResponse(response);
         return response;
     }
 
@@ -39,7 +39,7 @@ public class VerifyClient : IVerifyClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -48,9 +48,9 @@ public class VerifyClient : IVerifyClient
         var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<VerifyControlResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateVerifyResponse(response);
+        this.ValidateVerifyResponse(response);
         return response;
     }
 
@@ -59,9 +59,9 @@ public class VerifyClient : IVerifyClient
         var response = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<VerifyResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateVerifyResponse(response);
+        this.ValidateVerifyResponse(response);
         return response;
     }
 
@@ -70,9 +70,9 @@ public class VerifyClient : IVerifyClient
         var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateVerifyResponse(response);
+        this.ValidateVerifyResponse(response);
         return response;
     }
 
@@ -81,9 +81,9 @@ public class VerifyClient : IVerifyClient
         var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyCheckResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateVerifyResponse(response);
+        this.ValidateVerifyResponse(response);
         return response;
     }
 
@@ -93,7 +93,7 @@ public class VerifyClient : IVerifyClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -102,9 +102,9 @@ public class VerifyClient : IVerifyClient
         var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyControlResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateVerifyResponse(response);
+        this.ValidateVerifyResponse(response);
         return response;
     }
 
@@ -113,9 +113,9 @@ public class VerifyClient : IVerifyClient
         var response = ApiRequest.DoPostRequestUrlContentFromObject<VerifyResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
-        ValidateVerifyResponse(response);
+        this.ValidateVerifyResponse(response);
         return response;
     }
 

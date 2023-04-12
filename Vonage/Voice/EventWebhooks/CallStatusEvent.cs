@@ -45,11 +45,11 @@ public class CallStatusEvent : Event
         get
         {
             DetailedStatus detail;
-            if (string.IsNullOrEmpty(DetailString))
+            if (string.IsNullOrEmpty(this.DetailString))
             {
                 return DetailedStatus.no_detail;
             }                
-            if (Enum.TryParse(DetailString, out detail))
+            if (Enum.TryParse(this.DetailString, out detail))
             {
                 return detail;
             }

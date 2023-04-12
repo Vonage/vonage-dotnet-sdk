@@ -20,6 +20,6 @@ public class SipEndpoint : Endpoint
 
     public SipEndpoint()
     {
-        Type = EndpointType.Sip;
+        this.Type = EndpointType.Sip;
     }
 }

@@ -48,14 +48,14 @@ internal class TimeSpanSemaphore : IDisposable
 
     public TimeSpanSemaphore(int maxCount, TimeSpan resetSpan)
     {
-        _pool = new SemaphoreSlim(maxCount, maxCount);
-        _resetSpan = resetSpan;
+        this._pool = new SemaphoreSlim(maxCount, maxCount);
+        this._resetSpan = resetSpan;
 
         // initialize queue with old timestamps
-        _releaseTimes = new Queue<DateTime>(maxCount);
+        this._releaseTimes = new Queue<DateTime>(maxCount);
         for (int i = 0; i < maxCount; i++)
         {
-            _releaseTimes.Enqueue(DateTime.MinValue);
+            this._releaseTimes.Enqueue(DateTime.MinValue);
         }
     }
 
@@ -65,18 +65,18 @@ internal class TimeSpanSemaphore : IDisposable
     private void Wait(CancellationToken cancelToken)
     {
         // will throw if token is cancelled
-        _pool.Wait(cancelToken);
+        this._pool.Wait(cancelToken);
 
         // get the oldest release from the queue
         DateTime oldestRelease;
-        lock (_queueLock)
+        lock (this._queueLock)
         {
-            oldestRelease = _releaseTimes.Dequeue();
+            oldestRelease = this._releaseTimes.Dequeue();
         }
 
         // sleep until the time since the previous release equals the reset period
         DateTime now = DateTime.UtcNow;
-        DateTime windowReset = oldestRelease.Add(_resetSpan);
+        DateTime windowReset = oldestRelease.Add(this._resetSpan);
         if (windowReset > now)
         {
             int sleepMilliseconds = Math.Max(
@@ -88,7 +88,7 @@ internal class TimeSpanSemaphore : IDisposable
             bool cancelled = cancelToken.WaitHandle.WaitOne(sleepMilliseconds);
             if (cancelled)
             {
-                Release();
+                this.Release();
                 cancelToken.ThrowIfCancellationRequested();
             }
         }
@@ -99,11 +99,12 @@ internal class TimeSpanSemaphore : IDisposable
     /// </summary>
     private void Release()
     {
-        lock (_queueLock)
+        lock (this._queueLock)
         {
-            _releaseTimes.Enqueue(DateTime.UtcNow);
+            this._releaseTimes.Enqueue(DateTime.UtcNow);
         }
-        _pool.Release();
+
+        this._pool.Release();
     }
 
     /// <summary>
@@ -112,7 +113,7 @@ internal class TimeSpanSemaphore : IDisposable
     public async Task<TR> RunAsync<T, TR>(Func<T, CancellationToken, Task<TR>> action, T arg, CancellationToken cancelToken)
     {
         // will throw if token is cancelled, but will auto-release lock
-        Wait(cancelToken);
+        this.Wait(cancelToken);
 
         try
         {
@@ -120,7 +121,7 @@ internal class TimeSpanSemaphore : IDisposable
         }
         finally
         {
-            Release();
+            this.Release();
         }
     }
 
@@ -129,6 +130,6 @@ internal class TimeSpanSemaphore : IDisposable
     /// </summary>
     public void Dispose()
     {
-        _pool.Dispose();
+        this._pool.Dispose();
     }
 }

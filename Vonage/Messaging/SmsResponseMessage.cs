@@ -62,7 +62,7 @@ public class SmsResponseMessage
     { 
         get
         {
-            return (SmsStatusCode)int.Parse(Status);
+            return (SmsStatusCode)int.Parse(this.Status);
         } 
     }
 }

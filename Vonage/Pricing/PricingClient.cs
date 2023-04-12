@@ -7,7 +7,7 @@ public class PricingClient : IPricingClient
 {
     public PricingClient(Credentials creds = null)
     {
-        Credentials = creds;
+        this.Credentials = creds;
     }
         
     public Credentials Credentials { get; set; }
@@ -19,7 +19,7 @@ public class PricingClient : IPricingClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -29,7 +29,7 @@ public class PricingClient : IPricingClient
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
             ApiRequest.AuthType.Query,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -40,7 +40,7 @@ public class PricingClient : IPricingClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -51,7 +51,7 @@ public class PricingClient : IPricingClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -61,7 +61,7 @@ public class PricingClient : IPricingClient
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
             ApiRequest.AuthType.Query,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -72,7 +72,7 @@ public class PricingClient : IPricingClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
             ApiRequest.AuthType.Query,
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 }

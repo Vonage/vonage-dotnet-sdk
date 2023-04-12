@@ -12,6 +12,6 @@ public class VbcEndpoint : Endpoint
 
     public VbcEndpoint()
     {
-        Type = EndpointType.Vbc;
+        this.Type = EndpointType.Vbc;
     }
 }

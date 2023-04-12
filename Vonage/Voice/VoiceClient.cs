@@ -19,7 +19,7 @@ public class VoiceClient : IVoiceClient
 
     public VoiceClient(Credentials credentials = null)
     {
-        Credentials = credentials;
+        this.Credentials = credentials;
     }
 
     public CallResponse CreateCall(CallCommand command, Credentials creds = null)
@@ -29,7 +29,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -54,8 +54,7 @@ public class VoiceClient : IVoiceClient
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            ApiRequest.AuthType.Bearer,
-            Credentials
+            ApiRequest.AuthType.Bearer, this.Credentials
         );
     }
 
@@ -77,8 +76,7 @@ public class VoiceClient : IVoiceClient
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            ApiRequest.AuthType.Bearer,
-            Credentials
+            ApiRequest.AuthType.Bearer, this.Credentials
         );
     }
 
@@ -96,7 +94,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -128,8 +126,7 @@ public class VoiceClient : IVoiceClient
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            ApiRequest.AuthType.Bearer,
-            Credentials
+            ApiRequest.AuthType.Bearer, this.Credentials
         );
     }
 
@@ -158,8 +155,7 @@ public class VoiceClient : IVoiceClient
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            ApiRequest.AuthType.Bearer,
-            Credentials
+            ApiRequest.AuthType.Bearer, this.Credentials
         );
     }
 
@@ -168,7 +164,7 @@ public class VoiceClient : IVoiceClient
         return ApiRequest.DoGetRequestWithQueryParameters<CallRecord>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
             ApiRequest.AuthType.Bearer,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -183,7 +179,7 @@ public class VoiceClient : IVoiceClient
         return ApiRequest.DoGetRequestWithQueryParametersAsync<CallRecord>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
             ApiRequest.AuthType.Bearer,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -193,7 +189,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             ApiRequest.AuthType.Bearer,
             filter,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -209,13 +205,13 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             ApiRequest.AuthType.Bearer,
             filter,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
     public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
     {
-        using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(recordingUrl), creds ?? Credentials))
+        using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(recordingUrl), creds ?? this.Credentials))
         {
             var readTask = response.Content.ReadAsStreamAsync();
             byte[] bytes;
@@ -244,7 +240,7 @@ public class VoiceClient : IVoiceClient
     public async Task<GetRecordingResponse> GetRecordingAsync(string recordingUrl, Credentials creds = null)
     {
         using (var response =
-               await ApiRequest.DoGetRequestWithJwtAsync(new Uri(recordingUrl), creds ?? Credentials))
+               await ApiRequest.DoGetRequestWithJwtAsync(new Uri(recordingUrl), creds ?? this.Credentials))
         {
             var readTask = response.Content.ReadAsStreamAsync();
             byte[] bytes;
@@ -270,7 +266,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
             cmd,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -288,7 +284,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
             cmd,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -299,7 +295,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             command,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -317,7 +313,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             command,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -328,7 +324,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             cmd,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -346,7 +342,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             cmd,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -357,7 +353,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             new { },
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -374,7 +370,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             new { },
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -385,7 +381,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             new { },
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -402,7 +398,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             new { },
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -413,7 +409,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
             command,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
         return true;
     }
@@ -432,7 +428,7 @@ public class VoiceClient : IVoiceClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
             command,
             ApiRequest.AuthType.Bearer,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
         return true;
     }

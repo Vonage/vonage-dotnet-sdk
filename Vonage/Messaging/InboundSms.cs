@@ -69,7 +69,7 @@ public class InboundSms
         var signatureString = ConstructSignatureStringFromDictionary(dict);
         var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signatureSecret, method).ToString();
         System.Diagnostics.Debug.WriteLine(testSig);
-        return testSig == Sig;
+        return testSig == this.Sig;
     }
 
     public static string ConstructSignatureStringFromDictionary(IDictionary<string, string> query)

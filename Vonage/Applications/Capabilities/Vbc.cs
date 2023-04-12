@@ -4,6 +4,6 @@ public class Vbc : Capability
 {
     public Vbc()
     {
-        Type = CapabilityType.Vbc;
+        this.Type = CapabilityType.Vbc;
     }
 }

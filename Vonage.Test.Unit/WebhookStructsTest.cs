@@ -63,7 +63,7 @@ namespace Vonage.Test.Unit
             Assert.Null(callStatusWebhook.DetailString);
             Assert.Equal(Direction.outbound, callStatusWebhook.Direction);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (callStatusWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), callStatusWebhook.TimeStamp);
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace Vonage.Test.Unit
             Assert.Equal(DetailedStatus.restricted, callStatusWebhook.Detail);
             Assert.Equal(Direction.outbound, callStatusWebhook.Direction);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (callStatusWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), callStatusWebhook.TimeStamp);
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace Vonage.Test.Unit
             Assert.Equal("as-yet-unknown-detail", callStatusWebhook.DetailString);
             Assert.Equal(Direction.outbound, callStatusWebhook.Direction);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (callStatusWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), callStatusWebhook.TimeStamp);
         }
 
         [Theory]
@@ -145,7 +145,7 @@ namespace Vonage.Test.Unit
             Assert.Equal(type, humanMachineWebhook.Status);
             Assert.Equal(Direction.outbound, humanMachineWebhook.Direction);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (humanMachineWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), humanMachineWebhook.TimeStamp);
         }
 
         [Fact]
@@ -173,9 +173,9 @@ namespace Vonage.Test.Unit
             Assert.Equal("answered", answeredWebhook.Status);
             Assert.Equal(Direction.outbound, answeredWebhook.Direction);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (answeredWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), answeredWebhook.TimeStamp);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (answeredWebhook.StartTime));
+                                       DateTimeStyles.AdjustToUniversal), answeredWebhook.StartTime);
             Assert.Equal("1234", answeredWebhook.Network);
             Assert.Equal("0.02", answeredWebhook.Rate);
         }
@@ -208,11 +208,11 @@ namespace Vonage.Test.Unit
             Assert.Equal("completed", completedWebhook.Status);
             Assert.Equal(Direction.outbound, completedWebhook.Direction);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (completedWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), completedWebhook.TimeStamp);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (completedWebhook.StartTime));
+                                       DateTimeStyles.AdjustToUniversal), completedWebhook.StartTime);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:01.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (completedWebhook.EndTime));
+                                       DateTimeStyles.AdjustToUniversal), completedWebhook.EndTime);
             Assert.Equal("1234", completedWebhook.Network);
             Assert.Equal("0.02", completedWebhook.Rate);
             Assert.Equal("0.03", completedWebhook.Price);
@@ -234,11 +234,11 @@ namespace Vonage.Test.Unit
                 }";
             var recordWebhook = (Voice.EventWebhooks.Record)EventBase.ParseEvent(json);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (recordWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), recordWebhook.TimeStamp);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (recordWebhook.StartTime));
+                                       DateTimeStyles.AdjustToUniversal), recordWebhook.StartTime);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:01.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (recordWebhook.EndTime));
+                                       DateTimeStyles.AdjustToUniversal), recordWebhook.EndTime);
             Assert.Equal("https://api.nexmo.com/v1/files/bbbbbbbb-aaaa-cccc-dddd-0123456789ab", recordWebhook.RecordingUrl);
             Assert.True(12222 == recordWebhook.Size);
             Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", recordWebhook.Uuid);
@@ -267,7 +267,7 @@ namespace Vonage.Test.Unit
             Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.Uuid);
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.ConversationUuid);                   
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (inputWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), inputWebhook.TimeStamp);
         }
 
         [Fact]
@@ -295,7 +295,7 @@ namespace Vonage.Test.Unit
             Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.Uuid);
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.ConversationUuid);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (inputWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), inputWebhook.TimeStamp);
         }
 
         [Fact]
@@ -321,7 +321,7 @@ namespace Vonage.Test.Unit
             Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.Uuid);
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.ConversationUuid);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (inputWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), inputWebhook.TimeStamp);
         }
 
         [Fact]
@@ -338,7 +338,7 @@ namespace Vonage.Test.Unit
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", transferWebhook.ConversationUuidFrom);
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", transferWebhook.ConversationUuidTo);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (transferWebhook.TimeStamp));
+                                       DateTimeStyles.AdjustToUniversal), transferWebhook.TimeStamp);
             Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", transferWebhook.Uuid);
         }
 
@@ -355,7 +355,7 @@ namespace Vonage.Test.Unit
             Assert.Equal("Syntax error in NCCO. Invalid value type or action.", errorWebhook.Reason);
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", errorWebhook.ConversationUuid);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (errorWebhook.TimeStamp));            
+                                       DateTimeStyles.AdjustToUniversal), errorWebhook.TimeStamp);            
         }
 
         [Fact]
@@ -371,7 +371,7 @@ namespace Vonage.Test.Unit
             Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", notification.ConversationUuid);
             Assert.Equal("foo", notification.Payload.bar);
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                       DateTimeStyles.AdjustToUniversal), (notification.TimeStamp)) ;
+                                       DateTimeStyles.AdjustToUniversal), notification.TimeStamp) ;
         }
         public class Foo
         {

@@ -32,7 +32,7 @@ public class PhoneEndpoint : Endpoint
 
     public PhoneEndpoint()
     {
-        Type = EndpointType.Phone;
+        this.Type = EndpointType.Phone;
     }
         
     public class Answer

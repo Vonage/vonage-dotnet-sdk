@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit
         public void GetPricingForCountry(bool passCreds)
         {
             //ARRANGE
-            var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?country=CA&api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedUri = $"{this.RestUrl}/account/get-pricing/outbound/sms?country=CA&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent = @"{
               ""countryCode"": ""CA"",
               ""countryName"": ""Canada"",
@@ -34,10 +34,10 @@ namespace Vonage.Test.Unit
                 }
               ]
             }";
-            Setup(uri: expectedUri, responseContent: expectedResponseContent);
+            this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Pricing.Country country;
 
@@ -73,7 +73,7 @@ namespace Vonage.Test.Unit
         public async void GetPricingForCountryAsync(bool passCreds)
         {
             //ARRANGE
-            var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?country=CA&api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedUri = $"{this.RestUrl}/account/get-pricing/outbound/sms?country=CA&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent = @"{
               ""countryCode"": ""CA"",
               ""countryName"": ""Canada"",
@@ -93,10 +93,10 @@ namespace Vonage.Test.Unit
                 }
               ]
             }";
-            Setup(uri: expectedUri, responseContent: expectedResponseContent);
+            this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Pricing.Country country;
 
@@ -132,7 +132,7 @@ namespace Vonage.Test.Unit
         public void GetPricingForPrefix(bool passCreds)
         {
             //ARRANGE
-            var expectedUri = $"{RestUrl}/account/get-prefix-pricing/outbound/sms?prefix=1&api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedUri = $"{this.RestUrl}/account/get-prefix-pricing/outbound/sms?prefix=1&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponse = @"{
                   ""count"": ""243"",
                   ""countries"": [
@@ -156,10 +156,10 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            Setup(uri: expectedUri, responseContent: expectedResponse);
+            this.Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
@@ -193,7 +193,7 @@ namespace Vonage.Test.Unit
         public async void GetPricingForPrefixAsync(bool passCreds)
         {
             //ARRANGE
-            var expectedUri = $"{RestUrl}/account/get-prefix-pricing/outbound/sms?prefix=1&api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedUri = $"{this.RestUrl}/account/get-prefix-pricing/outbound/sms?prefix=1&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponse = @"{
                   ""count"": ""243"",
                   ""countries"": [
@@ -217,10 +217,10 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            Setup(uri: expectedUri, responseContent: expectedResponse);
+            this.Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
@@ -254,7 +254,7 @@ namespace Vonage.Test.Unit
         public void GetPricingAllCountries(bool passCreds)
         {
             //ARRANGE
-            var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedUri = $"{this.RestUrl}/account/get-pricing/outbound/sms?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponse = @"{
                   ""count"": ""243"",
                   ""countries"": [
@@ -278,10 +278,10 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            Setup(uri: expectedUri, responseContent: expectedResponse);
+            this.Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
@@ -315,7 +315,7 @@ namespace Vonage.Test.Unit
         public async void GetPricingAllCountriesAsync(bool passCreds)
         {
             //ARRANGE
-            var expectedUri = $"{RestUrl}/account/get-pricing/outbound/sms?api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedUri = $"{this.RestUrl}/account/get-pricing/outbound/sms?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponse = @"{
                   ""count"": ""243"",
                   ""countries"": [
@@ -339,10 +339,10 @@ namespace Vonage.Test.Unit
                     }
                   ]
                 }";
-            Setup(uri: expectedUri, responseContent: expectedResponse);
+            this.Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)

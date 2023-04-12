@@ -52,7 +52,7 @@ public class DeliveryReceipt
         {
             try
             {
-                return (DlrStatus)Enum.Parse(typeof(DlrStatus), StringStatus);
+                return (DlrStatus)Enum.Parse(typeof(DlrStatus), this.StringStatus);
             }
             catch (Exception)
             {

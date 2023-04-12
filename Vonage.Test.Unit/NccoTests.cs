@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit
         {
             var parameters = new Dictionary<string, string>();
             parameters.Add("format", JsonConvert.SerializeObject(audioFormat, Serialization.VonageSerialization.SerializerSettings));
-            var expectedJson = GetRequestJson(parameters);
+            var expectedJson = this.GetRequestJson(parameters);
 
             var recordAction = new RecordAction
             {
@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestRecordMinimalist()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var recordAction = new RecordAction();
             var ncco = new Ncco(recordAction);
             var actualJson = ncco.ToString();
@@ -49,7 +49,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestConversation()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var conversationAction = new ConversationAction
             {
                 Name = "vonage-conference-standard",
@@ -68,7 +68,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestConversationAllTrue()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var conversationAction = new ConversationAction
             {
                 Name = "vonage-conference-standard",
@@ -87,7 +87,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestConnect()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var connectAction = new ConnectAction
             {
                 Endpoint = new Endpoint[]
@@ -120,7 +120,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestTalk()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var talkAction = new TalkAction
             {
                 Text = "Hello World",
@@ -139,7 +139,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestTalkBareBones()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var talkAction = new TalkAction
             {
                 Text = "Hello World"
@@ -152,7 +152,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestStream()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var talkAction = new StreamAction
             {
                 StreamUrl = new[] {"https://acme.com/streams/music.mp3"},
@@ -168,7 +168,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestNotify()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var notifyAction = new NotifyAction
             {
                 EventMethod = "POST",
@@ -186,7 +186,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestWebsocketEndpoint()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var endpoint = new WebsocketEndpoint
             {
                 Uri = "wss://example.com/ws",
@@ -200,7 +200,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestAppEndpoint()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var endpoint = new AppEndpoint
             {
                 User = "steve"
@@ -212,7 +212,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestSipEndpoint()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var endpoint = new SipEndpoint
             {
                 Uri = "sip:rebekka@sip.example.com",
@@ -225,7 +225,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestVbcEndpoint()
         {
-            var expectedJson = GetRequestJson();
+            var expectedJson = this.GetRequestJson();
             var endpoint = new VbcEndpoint
             {
                 Extension = "4567"

@@ -32,12 +32,12 @@ namespace Vonage.Test.Unit
                 Product = product,
                 Type = type
             };
-            var expectedResponseContent = GetExpectedJson();
-            string expectedUri = $"{ApiUrl}/v1/redact/transaction";
-            Setup(expectedUri, expectedResponseContent);
+            var expectedResponseContent = this.GetExpectedJson();
+            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             bool response = client.RedactClient.Redact(request, passCredentials ? creds : null);
 
@@ -68,12 +68,12 @@ namespace Vonage.Test.Unit
                 Product = product,
                 Type = type
             };
-            var expectedResponseContent = GetExpectedJson();
-            string expectedUri = $"{ApiUrl}/v1/redact/transaction";
-            Setup(expectedUri, expectedResponseContent);
+            var expectedResponseContent = this.GetExpectedJson();
+            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             bool response = await client.RedactClient.RedactAsync(request, passCredentials ? creds : null);
 
@@ -91,12 +91,12 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound
             };
-            var expectedResponseContent = GetExpectedJson();
-            string expectedUri = $"{ApiUrl}/v1/redact/transaction";
-            Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Unauthorized);
+            var expectedResponseContent = this.GetExpectedJson();
+            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Unauthorized);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
@@ -115,12 +115,12 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound
             };
-            var expectedResponseContent = GetExpectedJson();
-            string expectedUri = $"{ApiUrl}/v1/redact/transaction";
-            Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Forbidden);
+            var expectedResponseContent = this.GetExpectedJson();
+            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Forbidden);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
@@ -139,12 +139,12 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound
             };
-            var expectedResponseContent = GetExpectedJson();
-            string expectedUri = $"{ApiUrl}/v1/redact/transaction";
-            Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.NotFound);
+            var expectedResponseContent = this.GetExpectedJson();
+            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.NotFound);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
@@ -164,13 +164,13 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound
             };
-            var expectedResponseContent = GetExpectedJson();
+            var expectedResponseContent = this.GetExpectedJson();
 
-            string expectedUri = $"{ApiUrl}/v1/redact/transaction";
-            Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.UnprocessableEntity);
+            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.UnprocessableEntity);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
@@ -190,13 +190,13 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound
             };
-            var expectedResponseContent = GetExpectedJson();
+            var expectedResponseContent = this.GetExpectedJson();
 
-            string expectedUri = $"{ApiUrl}/v1/redact/transaction";
-            Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.TooManyRequests);
+            string expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
+            this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.TooManyRequests);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));

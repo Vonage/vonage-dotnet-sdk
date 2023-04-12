@@ -9,7 +9,7 @@ public class ConversionClient : IConversionClient
 
     public ConversionClient(Credentials creds = null)
     {
-        Credentials = creds;
+        this.Credentials = creds;
     }
     public async Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null)
     {
@@ -17,7 +17,7 @@ public class ConversionClient : IConversionClient
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
             request,
-            creds??Credentials
+            creds?? this.Credentials
         );
         return true;
     }
@@ -28,7 +28,7 @@ public class ConversionClient : IConversionClient
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
             request,
-            creds??Credentials
+            creds?? this.Credentials
         );
         return true;
     }
@@ -39,7 +39,7 @@ public class ConversionClient : IConversionClient
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
         return true;
     }
@@ -50,7 +50,7 @@ public class ConversionClient : IConversionClient
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
         return true;
     }

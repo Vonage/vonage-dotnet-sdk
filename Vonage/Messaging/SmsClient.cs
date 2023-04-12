@@ -9,7 +9,7 @@ public class SmsClient : ISmsClient
 
     public SmsClient(Credentials creds = null)
     {
-        Credentials = creds;
+        this.Credentials = creds;
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ public class SmsClient : ISmsClient
         var result = await ApiRequest.DoPostRequestUrlContentFromObjectAsync<SendSmsResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
 
         ValidSmsResponse(result);
@@ -36,7 +36,7 @@ public class SmsClient : ISmsClient
         var result = ApiRequest.DoPostRequestUrlContentFromObject<SendSmsResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
 
         ValidSmsResponse(result);
@@ -45,12 +45,12 @@ public class SmsClient : ISmsClient
 
     public Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.Text, Credentials creds = null)
     {
-        return SendAnSmsAsync(new SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
+        return this.SendAnSmsAsync(new SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
     }
 
     public SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.Text, Credentials creds = null)
     {
-        return SendAnSms(new SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
+        return this.SendAnSms(new SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
     }
 
     private static void ValidSmsResponse(SendSmsResponse smsResponse)

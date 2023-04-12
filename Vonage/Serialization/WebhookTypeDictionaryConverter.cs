@@ -15,7 +15,7 @@ public class WebhookTypeDictionaryConverter : JsonConverter
 {
     public override bool CanConvert(Type objectType)
     {
-        return TryGetEnumType(objectType, out _);
+        return this.TryGetEnumType(objectType, out _);
     }
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
@@ -43,7 +43,7 @@ public class WebhookTypeDictionaryConverter : JsonConverter
         }
 
         // get dictionary & key type
-        if (value is not IDictionary dictionary || !TryGetEnumType(value.GetType(), out Type enumType))
+        if (value is not IDictionary dictionary || !this.TryGetEnumType(value.GetType(), out Type enumType))
             throw new InvalidOperationException(
                 $"Can't parse value type '{value.GetType().FullName}' as a supported dictionary type."); // shouldn't be possible since we check in CanConvert
         Type enumValueType = Enum.GetUnderlyingType(enumType);

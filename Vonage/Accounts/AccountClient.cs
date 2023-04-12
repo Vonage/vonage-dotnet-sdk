@@ -8,7 +8,7 @@ public class AccountClient : IAccountClient
     public Credentials Credentials { get; set; }
     public AccountClient(Credentials creds = null)
     {
-        Credentials = creds;
+        this.Credentials = creds;
     }
         
     public Task<Balance> GetAccountBalanceAsync(Credentials creds = null)
@@ -16,7 +16,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.DoGetRequestWithQueryParametersAsync<Balance>(
             ApiRequest.GetBaseUriFor("/account/get-balance"), 
             ApiRequest.AuthType.Query, 
-            credentials: creds ?? Credentials);
+            credentials: creds ?? this.Credentials);
     }
 
     public Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null)
@@ -25,7 +25,7 @@ public class AccountClient : IAccountClient
             ApiRequest.GetBaseUriFor("/account/top-up"),
             ApiRequest.AuthType.Query,
             request,
-            credentials:creds ?? Credentials
+            credentials:creds ?? this.Credentials
         );
     }
 
@@ -35,7 +35,7 @@ public class AccountClient : IAccountClient
         (
             ApiRequest.GetBaseUriFor("/account/settings"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -44,7 +44,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.DoGetRequestWithQueryParametersAsync<SecretsRequestResult>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
             ApiRequest.AuthType.Basic,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -55,7 +55,7 @@ public class AccountClient : IAccountClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
             request,
             ApiRequest.AuthType.Basic,
-            creds: creds ?? Credentials
+            creds: creds ?? this.Credentials
         );
     }
 
@@ -64,7 +64,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.DoGetRequestWithQueryParametersAsync<Secret>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
             ApiRequest.AuthType.Basic,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -74,7 +74,7 @@ public class AccountClient : IAccountClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
             null,
             ApiRequest.AuthType.Basic,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
         return true;
     }
@@ -84,7 +84,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.DoGetRequestWithQueryParameters<Balance>(
             ApiRequest.GetBaseUriFor("/account/get-balance"),
             ApiRequest.AuthType.Query,
-            credentials: creds ?? Credentials);
+            credentials: creds ?? this.Credentials);
     }
 
     public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null)
@@ -93,7 +93,7 @@ public class AccountClient : IAccountClient
             ApiRequest.GetBaseUriFor("/account/top-up"),
             ApiRequest.AuthType.Query,
             request,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -103,7 +103,7 @@ public class AccountClient : IAccountClient
         (
             ApiRequest.GetBaseUriFor("/account/settings"),
             request,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
     }
 
@@ -112,7 +112,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.DoGetRequestWithQueryParameters<SecretsRequestResult>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
             ApiRequest.AuthType.Basic,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -123,7 +123,7 @@ public class AccountClient : IAccountClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
             request,
             ApiRequest.AuthType.Basic,
-            creds: creds ?? Credentials
+            creds: creds ?? this.Credentials
         );
     }
 
@@ -132,7 +132,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.DoGetRequestWithQueryParameters<Secret>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
             ApiRequest.AuthType.Basic,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 
@@ -142,7 +142,7 @@ public class AccountClient : IAccountClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
             null,
             ApiRequest.AuthType.Basic,
-            creds ?? Credentials
+            creds ?? this.Credentials
         );
         return true;
     }
@@ -154,7 +154,7 @@ public class AccountClient : IAccountClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
             request,
             ApiRequest.AuthType.Basic,
-            creds: creds ?? Credentials
+            creds: creds ?? this.Credentials
         );
     }
         
@@ -165,7 +165,7 @@ public class AccountClient : IAccountClient
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
             request,
             ApiRequest.AuthType.Basic,
-            creds: creds ?? Credentials
+            creds: creds ?? this.Credentials
         );
     }
         
@@ -174,7 +174,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.DoGetRequestWithQueryParameters<SubAccount>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
             ApiRequest.AuthType.Basic,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
         
@@ -183,7 +183,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.DoGetRequestWithQueryParametersAsync<SubAccount>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
             ApiRequest.AuthType.Basic,
-            credentials: creds ?? Credentials
+            credentials: creds ?? this.Credentials
         );
     }
 }
