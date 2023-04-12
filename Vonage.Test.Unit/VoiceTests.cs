@@ -1028,7 +1028,7 @@ namespace Vonage.Test.Unit
             if (kitchenSink)
             {
                 expectedRequestContent =
-                    @"{""text"":""Hello. How are you today?"",""voice_name"":""salli"",""loop"":0,""level"":""0.4"",""language"":""en-US"",""style"":1}";
+                    @"{""text"":""Hello. How are you today?"",""voice_name"":""salli"",""loop"":0,""level"":""0.4"",""language"":""en-US"",""style"":1,""premium"":true}";
                 command = new TalkCommand
                 {
                     Text = "Hello. How are you today?",
@@ -1036,7 +1036,8 @@ namespace Vonage.Test.Unit
                     Level = "0.4",
                     VoiceName = "salli",
                     Language = "en-US",
-                    Style = 1
+                    Style = 1,
+                    Premium = true,
                 };
             }
             else

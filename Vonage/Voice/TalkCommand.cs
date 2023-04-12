@@ -47,5 +47,10 @@ namespace Vonage.Voice
         /// </summary>
         [JsonProperty("style")]
         public int? Style { get; set; }
+
+        /// <summary>
+        /// Set to `true` to use the premium version of the specified style if available, otherwise the standard version will be used. You can find more information about Premium Voices in the [Text-To-Speech guide](https://developer.vonage.com/en/voice/voice-api/guides/text-to-speech#premium-voices).
+        /// </summary>
+        public bool Premium { get; set; }
     }
 }
