@@ -152,8 +152,6 @@ public struct ProductItem
 
     /// <summary>
     /// The ID of the specific product being ordered.
-
-
     /// </summary>
     [JsonPropertyName("product_retailer_id")]
     public string ProductRetailerId { get; set; }
