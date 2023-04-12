@@ -23,16 +23,16 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "messenger",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "0123456789",
-                    from = "9876543210",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "audio",
-                    audio = new AudioDetails
+                    Channel = "messenger",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "0123456789",
+                    From = "9876543210",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "audio",
+                    Audio = new UrlDetails
                     {
-                        url = "https://example.com/audio.mp3",
+                        Url = "https://example.com/audio.mp3",
                     },
                 });
 
@@ -43,16 +43,16 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "messenger",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "0123456789",
-                    from = "9876543210",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "file",
-                    file = new FileDetails
+                    Channel = "messenger",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "0123456789",
+                    From = "9876543210",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "file",
+                    File = new UrlDetails
                     {
-                        url = "https://example.com/file.pdf",
+                        Url = "https://example.com/file.pdf",
                     },
                 });
 
@@ -63,16 +63,16 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "messenger",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "0123456789",
-                    from = "9876543210",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "image",
-                    image = new ImageDetails
+                    Channel = "messenger",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "0123456789",
+                    From = "9876543210",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "image",
+                    Image = new UrlDetails
                     {
-                        url = "https://example.com/image.jpg",
+                        Url = "https://example.com/image.jpg",
                     },
                 });
 
@@ -83,14 +83,14 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "messenger",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "0123456789",
-                    from = "9876543210",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "text",
-                    text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
+                    Channel = "messenger",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "0123456789",
+                    From = "9876543210",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "text",
+                    Text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
                 });
 
         [Fact]
@@ -100,13 +100,13 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "messenger",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "0123456789",
-                    from = "9876543210",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "unsupported",
+                    Channel = "messenger",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "0123456789",
+                    From = "9876543210",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "unsupported",
                 });
 
         [Fact]
@@ -116,16 +116,16 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "messenger",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "0123456789",
-                    from = "9876543210",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "video",
-                    video = new VideoDetails
+                    Channel = "messenger",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "0123456789",
+                    From = "9876543210",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "video",
+                    Video = new UrlDetails
                     {
-                        url = "https://example.com/video.mp4",
+                        Url = "https://example.com/video.mp4",
                     },
                 });
 
@@ -136,16 +136,16 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "mms",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "447700900000",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "audio",
-                    audio = new AudioDetails
+                    Channel = "mms",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "447700900000",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "audio",
+                    Audio = new UrlDetails
                     {
-                        url = "https://example.com/audio.mp3",
+                        Url = "https://example.com/audio.mp3",
                     },
                 });
 
@@ -156,16 +156,16 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "mms",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "447700900000",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "image",
-                    image = new ImageDetails
+                    Channel = "mms",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "447700900000",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "image",
+                    Image = new UrlDetails
                     {
-                        url = "https://example.com/image.jpg",
+                        Url = "https://example.com/image.jpg",
                     },
                 });
 
@@ -176,14 +176,14 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "mms",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "447700900000",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "text",
-                    text = "This is sample text.",
+                    Channel = "mms",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "447700900000",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "text",
+                    Text = "This is sample text.",
                 });
 
         [Fact]
@@ -193,16 +193,16 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "mms",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "447700900000",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "vcard",
-                    vcard = new VcardDetails
+                    Channel = "mms",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "447700900000",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "vcard",
+                    Vcard = new UrlDetails
                     {
-                        url = "https://example.com/conatact.vcf",
+                        Url = "https://example.com/conatact.vcf",
                     },
                 });
 
@@ -213,16 +213,16 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "mms",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "447700900000",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "video",
-                    video = new VideoDetails
+                    Channel = "mms",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "447700900000",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "video",
+                    Video = new UrlDetails
                     {
-                        url = "https://example.com/video.mp4",
+                        Url = "https://example.com/video.mp4",
                     },
                 });
 
@@ -233,22 +233,22 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "sms",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    to = "447700900000",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    text = "Hello From Vonage!",
-                    sms = new SmsDetails
+                    Channel = "sms",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    To = "447700900000",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    Text = "Hello From Vonage!",
+                    Sms = new SmsDetails
                     {
-                        total_count = "2",
-                        num_messages = "2",
-                        keyword = "HELLO",
+                        TotalCount = "2",
+                        MessagesCount = "2",
+                        Keyword = "HELLO",
                     },
-                    usage = new UsageDetails
+                    Usage = new UsageDetails
                     {
-                        currency = "EUR",
-                        price = "0.0333",
+                        Currency = "EUR",
+                        Price = "0.0333",
                     },
                 });
 
@@ -259,20 +259,20 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "viber_service",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "viber_service",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "1234567890abcdef",
+                        MessageUuid = "1234567890abcdef",
                     },
-                    to = "0123456789",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "file",
-                    file = new FileDetails
+                    To = "0123456789",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "file",
+                    File = new UrlDetails
                     {
-                        url = "https://example.com/file.pdf",
+                        Url = "https://example.com/file.pdf",
                     },
                 });
 
@@ -283,20 +283,20 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "viber_service",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "viber_service",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "1234567890abcdef",
+                        MessageUuid = "1234567890abcdef",
                     },
-                    to = "0123456789",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "image",
-                    image = new ImageDetails
+                    To = "0123456789",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "image",
+                    Image = new UrlDetails
                     {
-                        url = "https://example.com/image.jpg",
+                        Url = "https://example.com/image.jpg",
                     },
                 });
 
@@ -307,18 +307,18 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "viber_service",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "viber_service",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "1234567890abcdef",
+                        MessageUuid = "1234567890abcdef",
                     },
-                    to = "0123456789",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "text",
-                    text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
+                    To = "0123456789",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "text",
+                    Text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
                 });
 
         [Fact]
@@ -328,20 +328,20 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "viber_service",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "viber_service",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "1234567890abcdef",
+                        MessageUuid = "1234567890abcdef",
                     },
-                    to = "0123456789",
-                    from = "447700900001",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "video",
-                    video = new VideoDetails
+                    To = "0123456789",
+                    From = "447700900001",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "video",
+                    Video = new UrlDetails
                     {
-                        url = "https://example.com/video.mp4",
+                        Url = "https://example.com/video.mp4",
                     },
                 });
 
@@ -352,26 +352,26 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "whatsapp",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        message_from = "447700900000",
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
                     },
-                    profile = new ProfileDetails
+                    Profile = new ProfileDetails
                     {
-                        name = "Jane Smith",
+                        Name = "Jane Smith",
                     },
-                    to = "447700900000",
-                    from = "447700900001",
-                    provider_message = "string",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "audio",
-                    audio = new AudioDetails
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "audio",
+                    Audio = new UrlDetails
                     {
-                        url = "https://example.com/audio.mp3",
+                        Url = "https://example.com/audio.mp3",
                     },
                 });
 
@@ -382,26 +382,26 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "whatsapp",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        message_from = "447700900000",
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
                     },
-                    profile = new ProfileDetails
+                    Profile = new ProfileDetails
                     {
-                        name = "Jane Smith",
+                        Name = "Jane Smith",
                     },
-                    to = "447700900000",
-                    from = "447700900001",
-                    provider_message = "string",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "file",
-                    file = new FileDetails
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "file",
+                    File = new UrlDetails
                     {
-                        url = "https://example.com/file.pdf",
+                        Url = "https://example.com/file.pdf",
                     },
                 });
 
@@ -412,26 +412,26 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "whatsapp",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        message_from = "447700900000",
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
                     },
-                    profile = new ProfileDetails
+                    Profile = new ProfileDetails
                     {
-                        name = "Jane Smith",
+                        Name = "Jane Smith",
                     },
-                    to = "447700900000",
-                    from = "447700900001",
-                    provider_message = "string",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "image",
-                    image = new ImageDetails
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "image",
+                    Image = new UrlDetails
                     {
-                        url = "https://example.com/image.jpg",
+                        Url = "https://example.com/image.jpg",
                     },
                 });
 
@@ -442,38 +442,38 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(success =>
                 {
-                    success.channel.Should().Be("whatsapp");
-                    success.message_uuid.Should().Be(new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"));
-                    success.context.Should().Be(new ContextDetails
+                    success.Channel.Should().Be("whatsapp");
+                    success.MessageUuid.Should().Be(new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"));
+                    success.Context.Should().Be(new ContextDetails
                     {
-                        message_uuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        message_from = "447700900000",
-                        whatsapp_referred_product = new WhatsAppPreferredProduct
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
+                        ReferredProduct = new WhatsAppPreferredProduct
                         {
-                            catalog_id = "1267260820787549",
-                            product_retailer_id = "r07qei73l7",
+                            CatalogId = "1267260820787549",
+                            ProductRetailerId = "r07qei73l7",
                         },
                     });
-                    success.profile.Should().Be(new ProfileDetails
+                    success.Profile.Should().Be(new ProfileDetails
                     {
-                        name = "Jane Smith",
+                        Name = "Jane Smith",
                     });
-                    success.to.Should().Be("447700900000");
-                    success.from.Should().Be("447700900001");
-                    success.provider_message.Should().Be("string");
-                    success.client_ref.Should().Be("string");
-                    success.message_type.Should().Be("order");
-                    success.timestamp.Should().Be(DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"));
-                    success.order.HasValue.Should().BeTrue();
-                    success.order?.catalog_id.Should().Be("2806150799683508");
-                    success.order?.product_items.Should().BeEquivalentTo(new[]
+                    success.To.Should().Be("447700900000");
+                    success.From.Should().Be("447700900001");
+                    success.ProviderMessage.Should().Be("string");
+                    success.ClientReference.Should().Be("string");
+                    success.MessageType.Should().Be("order");
+                    success.Timestamp.Should().Be(DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"));
+                    success.Order.HasValue.Should().BeTrue();
+                    success.Order?.CatalogId.Should().Be("2806150799683508");
+                    success.Order?.ProductItems.Should().BeEquivalentTo(new[]
                     {
                         new ProductItem
                         {
-                            product_retailer_id = "pk1v7rudbg",
-                            quantity = "1",
-                            item_price = "9.99",
-                            currency = "USD",
+                            ProductRetailerId = "pk1v7rudbg",
+                            Quantity = "1",
+                            ItemPrice = "9.99",
+                            Currency = "USD",
                         },
                     });
                 });
@@ -485,28 +485,61 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "whatsapp",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        message_from = "447700900000",
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
                     },
-                    profile = new ProfileDetails
+                    Profile = new ProfileDetails
                     {
-                        name = "Jane Smith",
+                        Name = "Jane Smith",
                     },
-                    to = "447700900000",
-                    from = "447700900001",
-                    provider_message = "string",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "reply",
-                    reply = new ReplyDetails
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "reply",
+                    Reply = new ReplyDetails
                     {
-                        id = "row1",
-                        title = "9am",
-                        description = "Select 9am appointment time",
+                        Id = "row1",
+                        Title = "9am",
+                        Description = "Select 9am appointment time",
+                    },
+                });
+        
+        [Fact]
+        public void ShouldDeserializeWhatsAppLocation() =>
+            this.helper.Serializer
+                .DeserializeObject<MessageWebhookResponse>(this.helper.GetResponseJson())
+                .Should()
+                .BeSuccess(new MessageWebhookResponse
+                {
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
+                    {
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
+                    },
+                    Profile = new ProfileDetails
+                    {
+                        Name = "Jane Smith",
+                    },
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "location",
+                    Location = new LocationDetails
+                    {
+                        Latitude = 40.34772m,
+                        Longitude = -74.18847m,
+                        Name = "Vonage",
+                        Address = "23 Main St, Holmdel, NJ 07733, USA",
                     },
                 });
 
@@ -517,26 +550,26 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "whatsapp",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        message_from = "447700900000",
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
                     },
-                    profile = new ProfileDetails
+                    Profile = new ProfileDetails
                     {
-                        name = "Jane Smith",
+                        Name = "Jane Smith",
                     },
-                    to = "447700900000",
-                    from = "447700900001",
-                    provider_message = "string",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "sticker",
-                    sticker = new StickerDetails
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "sticker",
+                    Sticker = new UrlDetails
                     {
-                        url = "https://api-us.nexmo.com/v3/media/1b456509-974c-458b-aafa-45fc48a4d976",
+                        Url = "https://api-us.nexmo.com/v3/media/1b456509-974c-458b-aafa-45fc48a4d976",
                     },
                 });
 
@@ -547,24 +580,24 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "whatsapp",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        message_from = "447700900000",
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
                     },
-                    profile = new ProfileDetails
+                    Profile = new ProfileDetails
                     {
-                        name = "Jane Smith",
+                        Name = "Jane Smith",
                     },
-                    to = "447700900000",
-                    from = "447700900001",
-                    provider_message = "string",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "text",
-                    text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "text",
+                    Text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
                 });
 
         [Fact]
@@ -574,23 +607,23 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "whatsapp",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        message_from = "447700900000",
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
                     },
-                    profile = new ProfileDetails
+                    Profile = new ProfileDetails
                     {
-                        name = "Jane Smith",
+                        Name = "Jane Smith",
                     },
-                    to = "447700900000",
-                    from = "447700900001",
-                    provider_message = "string",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "unsupported",
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "unsupported",
                 });
 
         [Fact]
@@ -600,26 +633,26 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 .Should()
                 .BeSuccess(new MessageWebhookResponse
                 {
-                    channel = "whatsapp",
-                    message_uuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    context = new ContextDetails
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
                     {
-                        message_uuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        message_from = "447700900000",
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
                     },
-                    profile = new ProfileDetails
+                    Profile = new ProfileDetails
                     {
-                        name = "Jane Smith",
+                        Name = "Jane Smith",
                     },
-                    to = "447700900000",
-                    from = "447700900001",
-                    provider_message = "string",
-                    timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    client_ref = "string",
-                    message_type = "video",
-                    video = new VideoDetails
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "video",
+                    Video = new UrlDetails
                     {
-                        url = "https://example.com/video.mp4",
+                        Url = "https://example.com/video.mp4",
                     },
                 });
     }
