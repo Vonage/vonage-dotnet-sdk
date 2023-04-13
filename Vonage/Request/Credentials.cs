@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Cryptography;
@@ -10,10 +11,6 @@ namespace Vonage.Request
     /// </summary>
     public class Credentials
     {
-        private Credentials()
-        {
-        }
-
         /// <summary>
         ///     Vonage API Key (from your account dashboard)
         /// </summary>
@@ -49,6 +46,46 @@ namespace Vonage.Request
         ///     Signature Secret (from API settings section of your account settings)
         /// </summary>
         public string SecuritySecret { get; set; }
+
+        /// <summary>
+        ///     Obsolete constructor for Credentials.
+        /// </summary>
+        [Obsolete(
+            "Factory methods should be favoured over constructors. Public constructors will be removed on next major release.")]
+        public Credentials()
+        {
+        }
+
+        /// <summary>
+        ///     Obsolete constructor for Credentials.
+        /// </summary>
+        /// <param name="vonageApiKey">The api key.</param>
+        /// <param name="vonageApiSecret">The api secret.</param>
+        [Obsolete(
+            "Factory methods should be favoured over constructors. Public constructors will be removed on next major release.")]
+        public Credentials(string vonageApiKey, string vonageApiSecret)
+        {
+            ApiKey = vonageApiKey;
+            ApiSecret = vonageApiSecret;
+        }
+
+        /// <summary>
+        ///     Obsolete constructor for Credentials.
+        /// </summary>
+        /// <param name="vonageApiKey">The api key.</param>
+        /// <param name="vonageApiSecret">The api secret.</param>
+        /// <param name="vonageApplicationId">The application id.</param>
+        /// <param name="vonageApplicationPrivateKey">The private key.</param>
+        [Obsolete(
+            "Factory methods should be favoured over constructors. Public constructors will be removed on next major release.")]
+        public Credentials(string vonageApiKey, string vonageApiSecret, string vonageApplicationId,
+            string vonageApplicationPrivateKey)
+        {
+            ApiKey = vonageApiKey;
+            ApiSecret = vonageApiSecret;
+            ApplicationId = vonageApplicationId;
+            ApplicationKey = vonageApplicationPrivateKey;
+        }
 
         /// <summary>
         ///     Builds credentials from ApiKey and ApiSecret.
