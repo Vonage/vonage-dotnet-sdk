@@ -17,7 +17,7 @@ namespace Vonage.Pricing
             return ApiRequest.DoGetRequestWithQueryParametersAsync<Country>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -28,7 +28,7 @@ namespace Vonage.Pricing
             return ApiRequest.DoGetRequestWithQueryParametersAsync<PricingResult>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 credentials: creds ?? Credentials
             );
         }
@@ -38,7 +38,7 @@ namespace Vonage.Pricing
             return ApiRequest.DoGetRequestWithQueryParametersAsync<PricingResult>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -49,7 +49,7 @@ namespace Vonage.Pricing
             return ApiRequest.DoGetRequestWithQueryParameters<Country>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -60,7 +60,7 @@ namespace Vonage.Pricing
             return ApiRequest.DoGetRequestWithQueryParameters<PricingResult>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 credentials: creds ?? Credentials
             );
         }
@@ -70,7 +70,7 @@ namespace Vonage.Pricing
             return ApiRequest.DoGetRequestWithQueryParameters<PricingResult>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );

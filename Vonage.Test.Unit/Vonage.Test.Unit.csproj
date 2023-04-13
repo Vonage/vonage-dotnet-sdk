@@ -14,9 +14,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Request\**" />
-	  <EmbeddedResource Remove="Request\**" />
-	  <None Remove="Request\**" />
 	  <None Update="Data\NccoTests\TestRecord-request.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>

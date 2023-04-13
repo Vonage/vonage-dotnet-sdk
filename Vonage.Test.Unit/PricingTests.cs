@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vonage.Request;
 using Xunit;
 namespace Vonage.Test.Unit
 {
@@ -37,7 +38,7 @@ namespace Vonage.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Pricing.Country country;
 
@@ -96,7 +97,7 @@ namespace Vonage.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Pricing.Country country;
 
@@ -159,7 +160,7 @@ namespace Vonage.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
@@ -220,7 +221,7 @@ namespace Vonage.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
@@ -281,7 +282,7 @@ namespace Vonage.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
@@ -342,7 +343,7 @@ namespace Vonage.Test.Unit
             Setup(uri: expectedUri, responseContent: expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)

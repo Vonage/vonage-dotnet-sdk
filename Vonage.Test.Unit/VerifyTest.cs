@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Vonage.Request;
 using Vonage.Verify;
 using Xunit;
 namespace Vonage.Test.Unit
@@ -39,7 +40,7 @@ namespace Vonage.Test.Unit
                 expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&number=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
             }
             Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
             if (passCreds)
@@ -82,7 +83,7 @@ namespace Vonage.Test.Unit
                 expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&api_key={ApiKey}&api_secret={ApiSecret}&";
             }
             Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyCheckResponse response;
             if (passCreds)
@@ -137,7 +138,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{ApiUrl}/verify/search/json?request_id=abcdef0123456789abcdef0123456789&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse);
             var request = new VerifySearchRequest { RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifySearchResponse response;
             if (passCreds)
@@ -185,7 +186,7 @@ namespace Vonage.Test.Unit
             Setup(expectedUri, expectedResponse, requestContent);
 
             var request = new VerifyControlRequest { Cmd = "cancel", RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyControlResponse response;
             if (passCreds)
@@ -213,7 +214,7 @@ namespace Vonage.Test.Unit
             Setup(expectedUri, expectedResponse, requestContent);
 
             var request = new VerifyControlRequest { Cmd = "cancel", RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             try
             {
@@ -256,7 +257,7 @@ namespace Vonage.Test.Unit
             }
 
             Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
             if (passCreds)
@@ -301,7 +302,7 @@ namespace Vonage.Test.Unit
                 expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&number=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
             }
             Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
             if (passCreds)
@@ -344,7 +345,7 @@ namespace Vonage.Test.Unit
                 expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&api_key={ApiKey}&api_secret={ApiSecret}&";
             }
             Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyCheckResponse response;
             if (passCreds)
@@ -399,7 +400,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{ApiUrl}/verify/search/json?request_id=abcdef0123456789abcdef0123456789&api_key={ApiKey}&api_secret={ApiSecret}&";
             Setup(expectedUri, expectedResponse);
             var request = new VerifySearchRequest { RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifySearchResponse response;
             if (passCreds)
@@ -447,7 +448,7 @@ namespace Vonage.Test.Unit
             Setup(expectedUri, expectedResponse, requestContent);
 
             var request = new VerifyControlRequest { Cmd = "cancel", RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyControlResponse response;
             if (passCreds)
@@ -491,7 +492,7 @@ namespace Vonage.Test.Unit
             }
 
             Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Request.Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
             if (passCreds)

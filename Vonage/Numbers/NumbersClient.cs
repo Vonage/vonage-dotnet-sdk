@@ -81,7 +81,7 @@ namespace Vonage.Numbers
         public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null) =>
             ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? this.Credentials
             );
@@ -91,7 +91,7 @@ namespace Vonage.Numbers
             Credentials creds = null) =>
             ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? this.Credentials
             );
@@ -100,7 +100,7 @@ namespace Vonage.Numbers
         public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null) =>
             ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? this.Credentials
             );
@@ -110,7 +110,7 @@ namespace Vonage.Numbers
             GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null) =>
             ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? this.Credentials
             );
@@ -122,7 +122,7 @@ namespace Vonage.Numbers
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? this.Credentials
             );
 
@@ -133,7 +133,7 @@ namespace Vonage.Numbers
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? this.Credentials
             );
 

@@ -16,7 +16,7 @@ namespace Vonage.Applications
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? Credentials
             );
         }
@@ -25,7 +25,7 @@ namespace Vonage.Applications
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<ApplicationPage>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 request,
                 creds ?? Credentials
             );
@@ -35,7 +35,7 @@ namespace Vonage.Applications
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<Application>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
@@ -46,7 +46,7 @@ namespace Vonage.Applications
                 "PUT",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? Credentials
             );
         }
@@ -56,7 +56,7 @@ namespace Vonage.Applications
             await ApiRequest.DoDeleteRequestWithUrlContentAsync(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 null,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? Credentials
             );
             return true;
@@ -68,7 +68,7 @@ namespace Vonage.Applications
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? Credentials
             );
         }
@@ -77,7 +77,7 @@ namespace Vonage.Applications
         {
             return ApiRequest.DoGetRequestWithQueryParameters<ApplicationPage>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 request,
                 creds ?? Credentials
             );
@@ -87,7 +87,7 @@ namespace Vonage.Applications
         {
             return ApiRequest.DoGetRequestWithQueryParameters<Application>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
@@ -98,7 +98,7 @@ namespace Vonage.Applications
                 "PUT",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? Credentials
             );
         }
@@ -108,7 +108,7 @@ namespace Vonage.Applications
             ApiRequest.DoDeleteRequestWithUrlContent(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 null,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? Credentials
             );
             return true;

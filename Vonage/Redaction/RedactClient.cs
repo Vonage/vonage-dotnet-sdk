@@ -20,7 +20,7 @@ namespace Vonage.Redaction
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api,"/v1/redact/transaction"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds??Credentials
             );
             return true;
@@ -33,7 +33,7 @@ namespace Vonage.Redaction
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? Credentials
             );
             return true;

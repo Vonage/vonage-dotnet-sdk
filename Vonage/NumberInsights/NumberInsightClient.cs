@@ -15,7 +15,7 @@ namespace Vonage.NumberInsights
         {
             var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<BasicInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -27,7 +27,7 @@ namespace Vonage.NumberInsights
         {
             var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<StandardInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -39,7 +39,7 @@ namespace Vonage.NumberInsights
         {
             var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<AdvancedInsightsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -51,7 +51,7 @@ namespace Vonage.NumberInsights
         {
             var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<AdvancedInsightsAsynchronousResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -63,7 +63,7 @@ namespace Vonage.NumberInsights
         {
             var response = ApiRequest.DoGetRequestWithQueryParameters<BasicInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -75,7 +75,7 @@ namespace Vonage.NumberInsights
         {
             var response = ApiRequest.DoGetRequestWithQueryParameters<StandardInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -87,7 +87,7 @@ namespace Vonage.NumberInsights
         {
             var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -99,7 +99,7 @@ namespace Vonage.NumberInsights
         {
             var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsAsynchronousResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );

@@ -604,12 +604,7 @@ namespace Vonage.Request
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public enum AuthType
-        {
-            Basic,
-            Bearer,
-            Query,
-        }
+        
 
         public enum UriType
         {
@@ -762,4 +757,25 @@ namespace Vonage.Request
             return payloadDeserialization(jsonResponse);
         }
     }
+}
+
+/// <summary>
+/// Represents the type of authentication used for a request.
+/// </summary>
+public enum AuthType
+{
+    /// <summary>
+    /// Base64 encoded API key and secret joined by a colon.
+    /// </summary>
+    Basic,
+    
+    /// <summary>
+    /// JSON WebToken.
+    /// </summary>
+    Bearer,
+    
+    /// <summary>
+    /// Credentials in query string.
+    /// </summary>
+    Query,
 }

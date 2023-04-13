@@ -15,7 +15,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<Balance>(
                 ApiRequest.GetBaseUriFor("/account/get-balance"), 
-                ApiRequest.AuthType.Query, 
+                AuthType.Query, 
                 credentials: creds ?? Credentials);
         }
 
@@ -23,7 +23,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<TopUpResult>(
                 ApiRequest.GetBaseUriFor("/account/top-up"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 credentials:creds ?? Credentials
             );
@@ -43,7 +43,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<SecretsRequestResult>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
@@ -54,7 +54,7 @@ namespace Vonage.Accounts
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds: creds ?? Credentials
             );
         }
@@ -63,7 +63,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<Secret>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
@@ -73,7 +73,7 @@ namespace Vonage.Accounts
             await ApiRequest.DoDeleteRequestWithUrlContentAsync(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 null,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? Credentials
             );
             return true;
@@ -83,7 +83,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParameters<Balance>(
                 ApiRequest.GetBaseUriFor("/account/get-balance"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 credentials: creds ?? Credentials);
         }
 
@@ -91,7 +91,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParameters<TopUpResult>(
                 ApiRequest.GetBaseUriFor("/account/top-up"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 credentials: creds ?? Credentials
             );
@@ -111,7 +111,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParameters<SecretsRequestResult>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
@@ -122,7 +122,7 @@ namespace Vonage.Accounts
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds: creds ?? Credentials
             );
         }
@@ -131,7 +131,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParameters<Secret>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
@@ -141,7 +141,7 @@ namespace Vonage.Accounts
             ApiRequest.DoDeleteRequestWithUrlContent(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
                 null,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds ?? Credentials
             );
             return true;
@@ -153,7 +153,7 @@ namespace Vonage.Accounts
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds: creds ?? Credentials
             );
         }
@@ -164,7 +164,7 @@ namespace Vonage.Accounts
                 "POST",
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
                 request,
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 creds: creds ?? Credentials
             );
         }
@@ -173,7 +173,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParameters<SubAccount>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }
@@ -182,7 +182,7 @@ namespace Vonage.Accounts
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<SubAccount>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
-                ApiRequest.AuthType.Basic,
+                AuthType.Basic,
                 credentials: creds ?? Credentials
             );
         }

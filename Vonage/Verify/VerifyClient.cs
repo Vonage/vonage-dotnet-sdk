@@ -37,7 +37,7 @@ namespace Vonage.Verify
         {
             return ApiRequest.DoGetRequestWithQueryParametersAsync<VerifySearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
@@ -91,7 +91,7 @@ namespace Vonage.Verify
         {
             return ApiRequest.DoGetRequestWithQueryParameters<VerifySearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
-                ApiRequest.AuthType.Query,
+                AuthType.Query,
                 request,
                 creds ?? Credentials
             );
