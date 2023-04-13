@@ -142,7 +142,7 @@ namespace Vonage.Request
             var requestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
             return SendGetRequest<T>(requestUri, authType, credentials);
         }
-        
+
         /// <summary>
         ///     SendAsync a GET request to the versioned Vonage API.
         ///     Do not include credentials in the parameters object. If you need to override credentials, use the optional
@@ -172,7 +172,8 @@ namespace Vonage.Request
         /// <param name="withCredentials">Indicates whether credentials should be included in Query string.</param>
         /// <returns></returns>
         /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-        public static T DoPostRequestUrlContentFromObject<T>(Uri uri, object parameters, Credentials creds = null, bool withCredentials = true)
+        public static T DoPostRequestUrlContentFromObject<T>(Uri uri, object parameters, Credentials creds = null,
+            bool withCredentials = true)
         {
             var apiParams = GetParameters(parameters);
             return DoPostRequestWithUrlContent<T>(uri, apiParams, creds, withCredentials);
@@ -193,20 +194,6 @@ namespace Vonage.Request
         {
             var apiParams = GetParameters(parameters);
             return await DoPostRequestWithUrlContentAsync<T>(uri, apiParams, creds, withCredentials);
-        }
-        
-        private static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters,
-            Credentials creds = null, bool withCredentials = true)
-        {
-            var response = DoRequestWithUrlContent("POST", uri, parameters, creds: creds, withCredentials: withCredentials);
-            return JsonConvert.DeserializeObject<T>(response.JsonResponse);
-        }
-        
-        private static async Task<T> DoPostRequestWithUrlContentAsync<T>(Uri uri, Dictionary<string, string> parameters,
-            Credentials creds = null, bool withCredentials = true)
-        {
-            var response = await DoRequestWithUrlContentAsync("POST", uri, parameters, creds: creds, withCredentials: withCredentials);
-            return JsonConvert.DeserializeObject<T>(response.JsonResponse);
         }
 
         /// <summary>
@@ -287,74 +274,6 @@ namespace Vonage.Request
                 value => JsonConvert.SerializeObject(value, VonageSerialization.SerializerSettings),
                 JsonConvert.DeserializeObject<T>);
 
-        private static VonageResponse DoRequestWithUrlContent(string method, Uri uri,
-            Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null, bool withCredentials = true)
-        {
-            var logger = LogProvider.GetLogger(LoggerCategory);
-            var sb = new StringBuilder();
-
-            // if parameters is null, assume that key and secret have been taken care of            
-            if (null != parameters)
-            {
-                sb = GetQueryStringBuilderFor(parameters, authType, creds, withCredentials);
-            }
-
-            var req = new HttpRequestMessage
-            {
-                RequestUri = uri,
-                Method = new HttpMethod(method),
-            };
-            if (authType == AuthType.Basic)
-            {
-                var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
-                var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Vonage_secret"];
-                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
-                req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
-                    Convert.ToBase64String(authBytes));
-            }
-
-            SetUserAgent(ref req, creds);
-            var data = Encoding.ASCII.GetBytes(sb.ToString());
-            req.Content = new ByteArrayContent(data);
-            req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-            logger.LogDebug($"{method} {uri} {sb}");
-            return SendHttpRequest(req);
-        }
-        
-        private static async Task<VonageResponse> DoRequestWithUrlContentAsync(string method, Uri uri,
-            Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null, bool withCredentials = true)
-        {
-            var logger = LogProvider.GetLogger(LoggerCategory);
-            var sb = new StringBuilder();
-
-            // if parameters is null, assume that key and secret have been taken care of            
-            if (null != parameters)
-            {
-                sb = GetQueryStringBuilderFor(parameters, authType, creds, withCredentials);
-            }
-
-            var req = new HttpRequestMessage
-            {
-                RequestUri = uri,
-                Method = new HttpMethod(method),
-            };
-            if (authType == AuthType.Basic)
-            {
-                var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
-                var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Vonage_secret"];
-                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
-                req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
-                    Convert.ToBase64String(authBytes));
-            }
-
-            SetUserAgent(ref req, creds);
-            var data = Encoding.ASCII.GetBytes(sb.ToString());
-            req.Content = new ByteArrayContent(data);
-            req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-            logger.LogDebug($"{method} {uri} {sb}");
-            return await SendHttpRequestAsync(req);
-        }
-
         public static Uri GetBaseUri(UriType uriType, string url = null)
         {
             Uri baseUri;
@@ -372,67 +291,6 @@ namespace Vonage.Request
 
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
         }
-        
-        private static VonageResponse SendHttpRequest(HttpRequestMessage req)
-        {
-            var logger = LogProvider.GetLogger(LoggerCategory);
-            var response = Configuration.Instance.Client.SendAsync(req).Result;
-            var stream = response.Content.ReadAsStreamAsync().Result;
-            string json;
-            using (var sr = new StreamReader(stream))
-            {
-                json = sr.ReadToEnd();
-            }
-
-            try
-            {
-                logger.LogDebug(json);
-                response.EnsureSuccessStatusCode();
-                return new VonageResponse
-                {
-                    Status = response.StatusCode,
-                    JsonResponse = json,
-                };
-            }
-            catch (HttpRequestException exception)
-            {
-                logger.LogError($"FAIL: {response.StatusCode}");
-                throw new VonageHttpRequestException(exception.Message + " Json from error: " + json)
-                    {HttpStatusCode = response.StatusCode, Json = json};
-            }
-        }
-        
-        private static async Task<VonageResponse> SendHttpRequestAsync(HttpRequestMessage req)
-        {
-            var logger = LogProvider.GetLogger(LoggerCategory);
-            var response = await Configuration.Instance.Client.SendAsync(req).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            string json;
-            using (var sr = new StreamReader(stream))
-            {
-                json = await sr.ReadToEndAsync();
-            }
-
-            try
-            {
-                logger.LogDebug(json);
-                response.EnsureSuccessStatusCode();
-                return new VonageResponse
-                {
-                    Status = response.StatusCode,
-                    JsonResponse = json,
-                };
-            }
-            catch (HttpRequestException exception)
-            {
-                logger.LogError($"FAIL: {response.StatusCode}");
-                throw new VonageHttpRequestException(exception.Message + " Json from error: " + json)
-                {
-                    HttpStatusCode = response.StatusCode,
-                    Json = json,
-                };
-            }
-        }
 
         /// <summary>
         /// Builds a query string for a get request - if there is a security secret a signature is built for the request and added to the query string
@@ -441,7 +299,8 @@ namespace Vonage.Request
         /// <param name="creds"></param>
         /// <param name="withCredentials">Indicates whether credentials should be included in Query string.</param>
         /// <returns></returns>
-        private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null, bool withCredentials = true)
+        private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null,
+            bool withCredentials = true)
         {
             var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
             var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Vonage_secret"];
@@ -487,20 +346,19 @@ namespace Vonage.Request
                         kvp.Value.Replace('=', '_').Replace('&', '_'));
                 }
             };
-
             if (withCredentials)
             {
-                parameters.Add("api_key", apiKey);    
+                parameters.Add("api_key", apiKey);
             }
-            
+
             if (string.IsNullOrEmpty(securitySecret))
             {
                 // security secret not provided, do not sign
                 if (withCredentials)
                 {
-                    parameters.Add("api_secret", apiSecret);    
+                    parameters.Add("api_secret", apiSecret);
                 }
-                
+
                 buildStringFromParams(parameters, sb);
                 return sb;
             }
@@ -515,6 +373,132 @@ namespace Vonage.Request
             queryToSign = queryToSign.Remove(queryToSign.Length - 1);
             var signature = SmsSignatureGenerator.GenerateSignature(queryToSign, securitySecret, method);
             sb.AppendFormat("sig={0}", signature);
+            return sb;
+        }
+
+        private static T DoPostRequestWithUrlContent<T>(Uri uri, Dictionary<string, string> parameters,
+            Credentials creds = null, bool withCredentials = true)
+        {
+            var response =
+                DoRequestWithUrlContent("POST", uri, parameters, creds: creds, withCredentials: withCredentials);
+            return JsonConvert.DeserializeObject<T>(response.JsonResponse);
+        }
+
+        private static async Task<T> DoPostRequestWithUrlContentAsync<T>(Uri uri, Dictionary<string, string> parameters,
+            Credentials creds = null, bool withCredentials = true)
+        {
+            var response = await DoRequestWithUrlContentAsync("POST", uri, parameters, creds: creds,
+                withCredentials: withCredentials);
+            return JsonConvert.DeserializeObject<T>(response.JsonResponse);
+        }
+
+        private static VonageResponse DoRequestWithUrlContent(string method, Uri uri,
+            Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null,
+            bool withCredentials = true)
+        {
+            var logger = LogProvider.GetLogger(LoggerCategory);
+            var sb = new StringBuilder();
+
+            // if parameters is null, assume that key and secret have been taken care of            
+            if (null != parameters)
+            {
+                sb = GetQueryStringBuilderFor(parameters, authType, creds, withCredentials);
+            }
+
+            var req = new HttpRequestMessage
+            {
+                RequestUri = uri,
+                Method = new HttpMethod(method),
+            };
+            if (authType == AuthType.Basic)
+            {
+                var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
+                var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Vonage_secret"];
+                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
+                req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(authBytes));
+            }
+
+            SetUserAgent(ref req, creds);
+            var data = Encoding.ASCII.GetBytes(sb.ToString());
+            req.Content = new ByteArrayContent(data);
+            req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            logger.LogDebug($"{method} {uri} {sb}");
+            return SendHttpRequest(req);
+        }
+
+        private static async Task<VonageResponse> DoRequestWithUrlContentAsync(string method, Uri uri,
+            Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null,
+            bool withCredentials = true)
+        {
+            var logger = LogProvider.GetLogger(LoggerCategory);
+            var sb = new StringBuilder();
+
+            // if parameters is null, assume that key and secret have been taken care of            
+            if (null != parameters)
+            {
+                sb = GetQueryStringBuilderFor(parameters, authType, creds, withCredentials);
+            }
+
+            var req = new HttpRequestMessage
+            {
+                RequestUri = uri,
+                Method = new HttpMethod(method),
+            };
+            if (authType == AuthType.Basic)
+            {
+                var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
+                var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Vonage_secret"];
+                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
+                req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(authBytes));
+            }
+
+            SetUserAgent(ref req, creds);
+            var data = Encoding.ASCII.GetBytes(sb.ToString());
+            req.Content = new ByteArrayContent(data);
+            req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            logger.LogDebug($"{method} {uri} {sb}");
+            return await SendHttpRequestAsync(req);
+        }
+
+        /// <summary>
+        /// extracts parameters from an object into a dictionary
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private static Dictionary<string, string> GetParameters(object parameters)
+        {
+            var json = JsonConvert.SerializeObject(parameters, VonageSerialization.SerializerSettings);
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+        }
+
+        private static StringBuilder GetQueryStringBuilderFor(object parameters, AuthType type,
+            Credentials creds = null, bool withCredentials = true)
+        {
+            Dictionary<string, string> apiParams;
+            if (!(parameters is Dictionary<string, string>))
+            {
+                apiParams = GetParameters(parameters);
+            }
+            else
+            {
+                apiParams = (Dictionary<string, string>) parameters;
+            }
+
+            var sb = new StringBuilder();
+            if (type == AuthType.Query)
+            {
+                sb = BuildQueryString(apiParams, creds, withCredentials);
+            }
+            else
+            {
+                foreach (var key in apiParams.Keys)
+                {
+                    sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(apiParams[key]));
+                }
+            }
+
             return sb;
         }
 
@@ -604,12 +588,65 @@ namespace Vonage.Request
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        
-
-        public enum UriType
+        private static VonageResponse SendHttpRequest(HttpRequestMessage req)
         {
-            Api,
-            Rest,
+            var logger = LogProvider.GetLogger(LoggerCategory);
+            var response = Configuration.Instance.Client.SendAsync(req).Result;
+            var stream = response.Content.ReadAsStreamAsync().Result;
+            string json;
+            using (var sr = new StreamReader(stream))
+            {
+                json = sr.ReadToEnd();
+            }
+
+            try
+            {
+                logger.LogDebug(json);
+                response.EnsureSuccessStatusCode();
+                return new VonageResponse
+                {
+                    Status = response.StatusCode,
+                    JsonResponse = json,
+                };
+            }
+            catch (HttpRequestException exception)
+            {
+                logger.LogError($"FAIL: {response.StatusCode}");
+                throw new VonageHttpRequestException(exception.Message + " Json from error: " + json)
+                    {HttpStatusCode = response.StatusCode, Json = json};
+            }
+        }
+
+        private static async Task<VonageResponse> SendHttpRequestAsync(HttpRequestMessage req)
+        {
+            var logger = LogProvider.GetLogger(LoggerCategory);
+            var response = await Configuration.Instance.Client.SendAsync(req).ConfigureAwait(false);
+            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            string json;
+            using (var sr = new StreamReader(stream))
+            {
+                json = await sr.ReadToEndAsync();
+            }
+
+            try
+            {
+                logger.LogDebug(json);
+                response.EnsureSuccessStatusCode();
+                return new VonageResponse
+                {
+                    Status = response.StatusCode,
+                    JsonResponse = json,
+                };
+            }
+            catch (HttpRequestException exception)
+            {
+                logger.LogError($"FAIL: {response.StatusCode}");
+                throw new VonageHttpRequestException(exception.Message + " Json from error: " + json)
+                {
+                    HttpStatusCode = response.StatusCode,
+                    Json = json,
+                };
+            }
         }
 
         /// <summary>
@@ -654,15 +691,10 @@ namespace Vonage.Request
             request.Headers.UserAgent.ParseAdd(_userAgent);
         }
 
-        /// <summary>
-        /// extracts parameters from an object into a dictionary
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        private static Dictionary<string, string> GetParameters(object parameters)
+        public enum UriType
         {
-            var json = JsonConvert.SerializeObject(parameters, VonageSerialization.SerializerSettings);
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            Api,
+            Rest,
         }
 
         /// <summary>
@@ -675,35 +707,6 @@ namespace Vonage.Request
         {
             var baseUri = new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"]);
             return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
-        }
-
-        private static StringBuilder GetQueryStringBuilderFor(object parameters, AuthType type,
-            Credentials creds = null, bool withCredentials = true)
-        {
-            Dictionary<string, string> apiParams;
-            if (!(parameters is Dictionary<string, string>))
-            {
-                apiParams = GetParameters(parameters);
-            }
-            else
-            {
-                apiParams = (Dictionary<string, string>) parameters;
-            }
-
-            var sb = new StringBuilder();
-            if (type == AuthType.Query)
-            {
-                sb = BuildQueryString(apiParams, creds, withCredentials);
-            }
-            else
-            {
-                foreach (var key in apiParams.Keys)
-                {
-                    sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(apiParams[key]));
-                }
-            }
-
-            return sb;
         }
 
         internal static async Task<T> DoRequestWithJsonContentAsync<T>(string method, Uri uri, object payload,
@@ -757,25 +760,25 @@ namespace Vonage.Request
             return payloadDeserialization(jsonResponse);
         }
     }
-}
 
-/// <summary>
-/// Represents the type of authentication used for a request.
-/// </summary>
-public enum AuthType
-{
     /// <summary>
-    /// Base64 encoded API key and secret joined by a colon.
+    ///     Represents the type of authentication used for a request.
     /// </summary>
-    Basic,
-    
-    /// <summary>
-    /// JSON WebToken.
-    /// </summary>
-    Bearer,
-    
-    /// <summary>
-    /// Credentials in query string.
-    /// </summary>
-    Query,
+    public enum AuthType
+    {
+        /// <summary>
+        ///     Base64 encoded API key and secret joined by a colon.
+        /// </summary>
+        Basic,
+
+        /// <summary>
+        ///     JSON WebToken.
+        /// </summary>
+        Bearer,
+
+        /// <summary>
+        ///     Credentials in query string.
+        /// </summary>
+        Query,
+    }
 }
