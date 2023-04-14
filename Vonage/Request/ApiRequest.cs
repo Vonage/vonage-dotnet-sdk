@@ -419,12 +419,7 @@ internal partial class ApiRequest
         request.Headers.UserAgent.ParseAdd(_userAgent);
     }
 
-    public enum AuthType
-    {
-        Basic,
-        Bearer,
-        Query,
-    }
+ 
 
     public enum UriType
     {
@@ -494,4 +489,11 @@ internal partial class ApiRequest
         var jsonResponse = (await SendHttpRequestAsync(req)).JsonResponse;
         return payloadDeserialization(jsonResponse);
     }
+}
+
+public enum AuthType
+{
+    Basic,
+    Bearer,
+    Query,
 }

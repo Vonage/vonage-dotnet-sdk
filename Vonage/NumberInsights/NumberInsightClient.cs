@@ -15,7 +15,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<BasicInsightResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -27,7 +27,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<StandardInsightResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -39,7 +39,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<AdvancedInsightsResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -51,7 +51,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = await ApiRequest.DoGetRequestWithQueryParametersAsync<AdvancedInsightsAsynchronousResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -63,7 +63,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = ApiRequest.DoGetRequestWithQueryParameters<BasicInsightResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -75,7 +75,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = ApiRequest.DoGetRequestWithQueryParameters<StandardInsightResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -87,7 +87,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -99,7 +99,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = ApiRequest.DoGetRequestWithQueryParameters<AdvancedInsightsAsynchronousResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web;
+using Vonage.Request;
 using Vonage.ShortCodes;
 using Xunit;
 
@@ -38,7 +39,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var response = client.ShortCodesClient.SendAlert(request, passCredentials ? creds : null);
@@ -85,7 +86,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var response = await client.ShortCodesClient.SendAlertAsync(request, passCredentials ? creds : null);
@@ -118,7 +119,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var response = client.ShortCodesClient.ManageOptIn(request, passCredentials ? creds : null);
@@ -146,7 +147,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var response = await client.ShortCodesClient.ManageOptInAsync(request, passCredentials ? creds : null);
@@ -183,7 +184,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var response = client.ShortCodesClient.QueryOptIns(request, passCredentials ? creds : null);
@@ -217,7 +218,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var response = await client.ShortCodesClient.QueryOptInsAsync(request, passCredentials ? creds : null);
@@ -239,7 +240,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var response = client.ShortCodesClient.SendTwoFactorAuth(request, passCredentials ? creds : null);
@@ -261,7 +262,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
 
             var response = await client.ShortCodesClient.SendTwoFactorAuthAsync(request, passCredentials ? creds : null);

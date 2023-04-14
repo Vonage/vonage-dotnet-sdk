@@ -16,7 +16,7 @@ public class ShortCodesClient : IShortCodesClient
     {
         return ApiRequest.DoGetRequestWithQueryParametersAsync<OptInSearchResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/query/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials);
     }
@@ -25,7 +25,7 @@ public class ShortCodesClient : IShortCodesClient
     {
         return ApiRequest.DoGetRequestWithQueryParametersAsync<OptInRecord>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/manage/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials);
     }
@@ -34,7 +34,7 @@ public class ShortCodesClient : IShortCodesClient
     {
         return ApiRequest.DoGetRequestWithQueryParametersAsync<AlertResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials);
     }
@@ -43,7 +43,7 @@ public class ShortCodesClient : IShortCodesClient
     {
         return ApiRequest.DoGetRequestWithQueryParametersAsync<TwoFactorAuthResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/2fa/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials);
     }
@@ -52,7 +52,7 @@ public class ShortCodesClient : IShortCodesClient
     {
         return ApiRequest.DoGetRequestWithQueryParameters<OptInSearchResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/query/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials);
     }
@@ -61,7 +61,7 @@ public class ShortCodesClient : IShortCodesClient
     {
         return ApiRequest.DoGetRequestWithQueryParameters<OptInRecord>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/manage/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials);
     }
@@ -70,7 +70,7 @@ public class ShortCodesClient : IShortCodesClient
     {
         return ApiRequest.DoGetRequestWithQueryParameters<AlertResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials);
     }
@@ -79,7 +79,7 @@ public class ShortCodesClient : IShortCodesClient
     {
         return ApiRequest.DoGetRequestWithQueryParameters<TwoFactorAuthResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/2fa/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials);
     }
