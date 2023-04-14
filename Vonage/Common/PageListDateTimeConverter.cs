@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Vonage.Common
+namespace Vonage.Common;
+
+public class PageListDateTimeConverter : IsoDateTimeConverter
 {
-    public class PageListDateTimeConverter : IsoDateTimeConverter
+    public PageListDateTimeConverter()
     {
-        public PageListDateTimeConverter()
-        {
-            base.DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ";            
-        }
+        this.DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ";            
     }
 }

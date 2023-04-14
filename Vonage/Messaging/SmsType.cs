@@ -1,28 +1,27 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Vonage.Messaging
+namespace Vonage.Messaging;
+
+/// <summary>
+/// Represents the type of message.
+/// </summary>
+public enum SmsType
 {
     /// <summary>
-    /// Represents the type of message.
+    /// 
     /// </summary>
-    public enum SmsType
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        [EnumMember(Value = "text")]
-        Text = 1,
+    [EnumMember(Value = "text")]
+    Text = 1,
         
-        /// <summary>
-        /// 
-        /// </summary>
-        [EnumMember(Value = "binary")]
-        Binary = 2,
+    /// <summary>
+    /// 
+    /// </summary>
+    [EnumMember(Value = "binary")]
+    Binary = 2,
         
-        /// <summary>
-        /// 
-        /// </summary>
-        [EnumMember(Value = "unicode")]
-        Unicode = 4,
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    [EnumMember(Value = "unicode")]
+    Unicode = 4,
 }

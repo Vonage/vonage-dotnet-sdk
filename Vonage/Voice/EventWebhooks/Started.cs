@@ -1,6 +1,5 @@
-﻿namespace Vonage.Voice.EventWebhooks
+﻿namespace Vonage.Voice.EventWebhooks;
+
+public class Started : CallStatusEvent
 {
-    public class Started : CallStatusEvent
-    {
-    }
 }

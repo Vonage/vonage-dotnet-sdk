@@ -4,27 +4,26 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System;
 
-namespace Vonage.Logger
+namespace Vonage.Logger;
+
+public class LogProvider
 {
-    public class LogProvider
+    private static IDictionary<string, ILogger> _loggers = new ConcurrentDictionary<string, ILogger>();
+    private static ILoggerFactory _loggerFactory = new LoggerFactory();
+
+    public static void SetLogFactory(ILoggerFactory factory)
     {
-        private static IDictionary<string, ILogger> _loggers = new ConcurrentDictionary<string, ILogger>();
-        private static ILoggerFactory _loggerFactory = new LoggerFactory();
+        _loggerFactory?.Dispose();
+        _loggerFactory = factory;
+        _loggers.Clear();
+    }
 
-        public static void SetLogFactory(ILoggerFactory factory)
+    public static ILogger GetLogger(string category)
+    {
+        if (!_loggers.ContainsKey(category))
         {
-            _loggerFactory?.Dispose();
-            _loggerFactory = factory;
-            _loggers.Clear();
+            _loggers[category] = _loggerFactory?.CreateLogger(category) ?? NullLogger.Instance;
         }
-
-        public static ILogger GetLogger(string category)
-        {
-            if (!_loggers.ContainsKey(category))
-            {
-                _loggers[category] = _loggerFactory?.CreateLogger(category) ?? NullLogger.Instance;
-            }
-            return _loggers[category];
-        }
+        return _loggers[category];
     }
 }

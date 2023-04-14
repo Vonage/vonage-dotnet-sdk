@@ -1,7 +1,6 @@
-namespace Vonage.ShortCodes
+namespace Vonage.ShortCodes;
+
+public class TwoFactorAuthRequest
 {
-    public class TwoFactorAuthRequest
-    {
         
-    }
 }

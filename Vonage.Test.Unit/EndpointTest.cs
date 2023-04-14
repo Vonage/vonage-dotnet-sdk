@@ -18,9 +18,9 @@ namespace Vonage.Test.Unit
                 Type = "websocket",
                 Uri = "wss://www.example.com/ws",
                 Headers = new Foo { Bar = "bar" },
-                ContentType = "audio/l16;rate=16000"
+                ContentType = "audio/l16;rate=16000",
             };
-            string json = JsonConvert.SerializeObject(websocketEndpoint, VonageSerialization.SerializerSettings);    
+            var json = JsonConvert.SerializeObject(websocketEndpoint, VonageSerialization.SerializerSettings);    
             Assert.Equal(expected, json);
         }
 
@@ -32,9 +32,9 @@ namespace Vonage.Test.Unit
             {                
                 Uri = "wss://www.example.com/ws",
                 Headers = new Foo { Bar = "bar" },
-                ContentType = "audio/l16;rate=16000"
+                ContentType = "audio/l16;rate=16000",
             };
-            string json = JsonConvert.SerializeObject(websocketEndpoint, VonageSerialization.SerializerSettings);
+            var json = JsonConvert.SerializeObject(websocketEndpoint, VonageSerialization.SerializerSettings);
             Assert.Equal(expected, json);
         }
 

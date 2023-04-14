@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Vonage.Voice
+namespace Vonage.Voice;
+
+public class CallList
 {
-    public class CallList
-    {
-        [JsonProperty("calls")]
-        public List<CallRecord> Calls { get; set; }
-    }
+    [JsonProperty("calls")]
+    public List<CallRecord> Calls { get; set; }
 }

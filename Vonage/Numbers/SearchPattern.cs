@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Vonage.Numbers
+namespace Vonage.Numbers;
+
+public enum SearchPattern
 {
-    public enum SearchPattern
-    {
-        StartsWith = 0,
-        Contains = 1,
-        EndsWith = 2
-    }
+    StartsWith = 0,
+    Contains = 1,
+    EndsWith = 2,
 }

@@ -14,11 +14,6 @@ namespace Vonage.Server.Video.Sessions.CreateSession;
 public readonly struct CreateSessionRequest : IVonageRequest
 {
     /// <summary>
-    ///     The endpoint for creating a session.
-    /// </summary>
-    private const string CreateSessionEndpoint = "/session/create";
-
-    /// <summary>
     ///     Indicates media mode and archive mode are incompatible.
     /// </summary>
     public const string IncompatibleMediaAndArchive =

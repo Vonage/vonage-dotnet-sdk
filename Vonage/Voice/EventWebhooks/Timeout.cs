@@ -1,7 +1,6 @@
-﻿namespace Vonage.Voice.EventWebhooks
-{
-    public class Timeout : CallStatusEvent
-    {
+﻿namespace Vonage.Voice.EventWebhooks;
 
-    }
+public class Timeout : CallStatusEvent
+{
+
 }

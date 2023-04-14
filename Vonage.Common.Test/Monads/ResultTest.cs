@@ -27,7 +27,7 @@ namespace Vonage.Common.Test.Monads
             (await CreateSuccess(5)
                 .BindAsync(IncrementBindAsync)
                 .BindAsync(IncrementBindAsync)
-                .BindAsync(value => Task.FromResult(CreateFailure()))
+                .BindAsync(_ => Task.FromResult(CreateFailure()))
                 .BindAsync(IncrementBindAsync)
                 .BindAsync(IncrementBindAsync))
             .Should()

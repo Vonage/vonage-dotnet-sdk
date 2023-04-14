@@ -42,9 +42,9 @@ namespace Vonage.Test.Unit
         {
             get
             {
-                string codeBase = ThisAssembly.CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
+                var codeBase = ThisAssembly.CodeBase;
+                var uri = new UriBuilder(codeBase);
+                var path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
             }
         }
@@ -52,13 +52,13 @@ namespace Vonage.Test.Unit
         protected void Setup(string uri, string responseContent, string requestContent = null,
             HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
-            Setup(uri, new StringContent(responseContent, Encoding.UTF8, "application/json"), expectedCode,
+            this.Setup(uri, new StringContent(responseContent, Encoding.UTF8, "application/json"), expectedCode,
                 requestContent);
         }
 
         protected void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
         {
-            Setup(uri, new StreamContent(new MemoryStream(responseContent)), expectedCode);
+            this.Setup(uri, new StreamContent(new MemoryStream(responseContent)), expectedCode);
         }
 
         private void Setup(string uri, HttpContent httpContent, HttpStatusCode expectedCode,
@@ -66,7 +66,7 @@ namespace Vonage.Test.Unit
         {
             typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)
                 ?.SetValue(Configuration.Instance, null);
-            Mock<HttpMessageHandler> mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(MockedMethod,
@@ -84,7 +84,7 @@ namespace Vonage.Test.Unit
                 .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = expectedCode,
-                    Content = httpContent
+                    Content = httpContent,
                 })
                 .Verifiable();
             Configuration.Instance.ClientHandler = mockHandler.Object;
@@ -93,8 +93,8 @@ namespace Vonage.Test.Unit
         [Obsolete("Use GetResponseJson")]
         protected string GetExpectedJson([CallerMemberName] string name = null)
         {
-            var type = GetType().Name;
-            var projectFolder = GetType().Namespace.Substring(TestAssemblyName.Length);
+            var type = this.GetType().Name;
+            var projectFolder = this.GetType().Namespace.Substring(TestAssemblyName.Length);
             var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, name + ".json");
             if (!File.Exists(path))
             {
@@ -108,8 +108,8 @@ namespace Vonage.Test.Unit
 
         protected string GetResponseJson([CallerMemberName] string name = null)
         {
-            string type = GetType().Name;
-            string ns = GetType().Namespace;
+            var type = this.GetType().Name;
+            var ns = this.GetType().Namespace;
             if (ns != null)
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);
@@ -129,15 +129,15 @@ namespace Vonage.Test.Unit
 
         protected string GetResponseJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null)
         {
-            var response = GetResponseJson(name);
+            var response = this.GetResponseJson(name);
             response = TokenReplacementRegEx.Replace(response, match => parameters[match.Groups[1].Value]);
             return response;
         }
 
         protected string GetRequestJson([CallerMemberName] string name = null)
         {
-            string type = GetType().Name;
-            string ns = GetType().Namespace;
+            var type = this.GetType().Name;
+            var ns = this.GetType().Namespace;
             if (ns != null)
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);
@@ -157,7 +157,7 @@ namespace Vonage.Test.Unit
 
         protected string GetRequestJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null)
         {
-            var response = GetRequestJson(name);
+            var response = this.GetRequestJson(name);
             response = TokenReplacementRegEx.Replace(response, match => parameters[match.Groups[1].Value]);
             return response;
         }

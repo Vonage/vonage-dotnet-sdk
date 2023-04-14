@@ -1,10 +1,9 @@
 using Newtonsoft.Json;
 
-namespace Vonage.ShortCodes
+namespace Vonage.ShortCodes;
+
+public class OptInManageRequest
 {
-    public class OptInManageRequest
-    {
-        [JsonProperty("msisdn")]
-        public string Msisdn { get; set; }
-    }
+    [JsonProperty("msisdn")]
+    public string Msisdn { get; set; }
 }
