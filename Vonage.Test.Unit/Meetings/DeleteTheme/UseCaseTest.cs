@@ -37,6 +37,10 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
                     MeetingsClientFactory.Create(configuration).DeleteThemeAsync(failureRequest));
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+
+        [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
                 this.Operation);

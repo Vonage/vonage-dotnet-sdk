@@ -38,6 +38,10 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
                     new BroadcastClient(configuration).RemoveStreamFromBroadcastAsync(failureRequest));
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.Helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+
+        [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
             await this.Helper.VerifyReturnsUnitGivenApiResponseIsSuccess(this.BuildExpectedRequest(), this.Operation);
 

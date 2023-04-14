@@ -51,21 +51,28 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
                         failureRequest));
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+
+        [Fact]
         public void ShouldReturnFailureWhenFinalizingLogo_GivenApiErrorCannotBeParsed()
         {
             this.RetrievingLogosUrlReturnsValidResponse();
             this.UploadingLogoReturnsValidResponse();
             var expectedContent = this.helper.Fixture.Create<string>();
+            var statusCode = this.helper.Fixture.Create<HttpStatusCode>();
             this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing())
                 .RespondWith(new MappingResponse
                 {
-                    Code = this.helper.Fixture.Create<HttpStatusCode>(),
+                    Code = statusCode,
                     Content = expectedContent,
                 });
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), expectedContent));
+                .BeFailure(HttpFailure.From(statusCode,
+                    DeserializationFailure.From(typeof(ErrorResponse), expectedContent).GetFailureMessage(),
+                    expectedContent));
         }
 
         [Fact]
@@ -74,33 +81,37 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
             this.RetrievingLogosUrlReturnsValidResponse();
             this.UploadingLogoReturnsValidResponse();
             var error = new ErrorResponse(HttpStatusCode.Unauthorized, "Some content.");
+            var errorContent = this.helper.Serializer.SerializeObject(error);
             var expectedResponse = new MappingResponse
             {
                 Code = error.Code,
-                Content = this.helper.Serializer.SerializeObject(error),
+                Content = errorContent,
             };
             this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing())
                 .RespondWith(expectedResponse);
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(error.ToHttpFailure());
+                .BeFailure(HttpFailure.From(error.Code, error.Message, errorContent));
         }
 
         [Fact]
         public void ShouldReturnFailureWhenRetrievingUploadUrls_GivenApiErrorCannotBeParsed()
         {
             var expectedContent = this.helper.Fixture.Create<string>();
+            var statusCode = this.helper.Fixture.Create<HttpStatusCode>();
             this.customHandler = this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval())
                 .RespondWith(new MappingResponse
                 {
-                    Code = this.helper.Fixture.Create<HttpStatusCode>(),
+                    Code = statusCode,
                     Content = expectedContent,
                 });
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), expectedContent));
+                .BeFailure(HttpFailure.From(statusCode,
+                    DeserializationFailure.From(typeof(ErrorResponse), expectedContent).GetFailureMessage(),
+                    expectedContent));
         }
 
         [Fact]
@@ -135,15 +146,16 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         public void ShouldReturnFailureWhenRetrievingUploadUrls_GivenStatusCodeIsFailure()
         {
             var error = new ErrorResponse(HttpStatusCode.BadRequest, "Some content");
+            var errorContent = this.helper.Serializer.SerializeObject(error);
             var expectedResponse = new MappingResponse
             {
                 Code = error.Code,
-                Content = this.helper.Serializer.SerializeObject(error),
+                Content = errorContent,
             };
             this.customHandler = this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval())
                 .RespondWith(expectedResponse);
             this.Operation(this.BuildConfiguration()).Result.Should()
-                .BeFailure(error.ToHttpFailure());
+                .BeFailure(HttpFailure.From(error.Code, error.Message, errorContent));
         }
 
         [Fact]
@@ -151,16 +163,19 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         {
             this.RetrievingLogosUrlReturnsValidResponse();
             var expectedContent = this.helper.Fixture.Create<string>();
+            var statusCode = this.helper.Fixture.Create<HttpStatusCode>();
             this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUploading())
                 .RespondWith(new MappingResponse
                 {
-                    Code = this.helper.Fixture.Create<HttpStatusCode>(),
+                    Code = statusCode,
                     Content = expectedContent,
                 });
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), expectedContent));
+                .BeFailure(HttpFailure.From(statusCode,
+                    DeserializationFailure.From(typeof(ErrorResponse), expectedContent).GetFailureMessage(),
+                    expectedContent));
         }
 
         [Fact]
@@ -168,17 +183,18 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         {
             this.RetrievingLogosUrlReturnsValidResponse();
             var error = new ErrorResponse(HttpStatusCode.Unauthorized, "Some content.");
+            var errorContent = this.helper.Serializer.SerializeObject(error);
             var expectedResponse = new MappingResponse
             {
                 Code = error.Code,
-                Content = this.helper.Serializer.SerializeObject(error),
+                Content = errorContent,
             };
             this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUploading())
                 .RespondWith(expectedResponse);
             this.Operation(this.BuildConfiguration())
                 .Result
                 .Should()
-                .BeFailure(error.ToHttpFailure());
+                .BeFailure(HttpFailure.From(error.Code, error.Message, errorContent));
         }
 
         [Fact]

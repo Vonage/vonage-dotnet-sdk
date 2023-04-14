@@ -24,6 +24,6 @@ namespace Vonage.Common.Test.Failures
             this.helper.Serializer
                 .DeserializeObject<HttpFailure>(this.helper.GetResponseJsonForStatusCode(code))
                 .Should()
-                .BeSuccess(HttpFailure.From(statusCode, message));
+                .BeSuccess(HttpFailure.From(statusCode, message, null));
     }
 }

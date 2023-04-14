@@ -32,7 +32,7 @@ internal class UpdateThemeLogoUseCase
         ThemeLogoType logoType) =>
         url.Any(VerifyMatchingLogoType(logoType))
             ? url.Where(VerifyMatchingLogoType(logoType)).ToArray()[0]
-            : Result<GetUploadLogosUrlResponse>.FromFailure(ResultFailure.FromErrorMessage(NoMatchingLogo));
+            : ResultFailure.FromErrorMessage(NoMatchingLogo).ToResult<GetUploadLogosUrlResponse>();
 
     private Task<Result<Unit>> FinalizeLogoAsync(UploadData request) =>
         this.vonageHttpClient.SendAsync<FinalizeLogoRequest>(new FinalizeLogoRequest(request.ThemeData.ThemeId,
@@ -48,7 +48,7 @@ internal class UpdateThemeLogoUseCase
     private Result<UpdateThemeData> LoadFile(UpdateThemeLogoRequest request) =>
         this.fileExistOperation(request.FilePath)
             ? new UpdateThemeData(this.readFileOperation(request.FilePath), request.ThemeId, request.Type)
-            : Result<UpdateThemeData>.FromFailure(ResultFailure.FromErrorMessage("The file cannot be found."));
+            : ResultFailure.FromErrorMessage("The file cannot be found.").ToResult<UpdateThemeData>();
 
     private static UploadData ToUploadLogoRequest(LogoUrlData logoUrl) =>
         new(UploadLogoRequest.FromLogosUrl(logoUrl.Response, logoUrl.ThemeData.File), logoUrl.ThemeData);

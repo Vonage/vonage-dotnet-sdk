@@ -45,7 +45,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
         public VonageHttpClientConfiguration ToConfiguration(ISpecimenBuilder builder) =>
             new VonageHttpClientConfiguration(
                 new HttpClient(this, false) {BaseAddress = this.BaseUri},
-                builder.Create<string>,
+                () => Result<string>.FromSuccess(builder.Create<string>()),
                 builder.Create<string>());
 
         public HttpClient ToHttpClient() => new HttpClient(this, false) {BaseAddress = this.BaseUri};
