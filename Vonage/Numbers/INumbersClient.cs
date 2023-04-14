@@ -3,6 +3,9 @@ using Vonage.Request;
 
 namespace Vonage.Numbers
 {
+    /// <summary>
+    /// Represents a client for NumbersApi.
+    /// </summary>
     public interface INumbersClient
     {
         /// <summary>
