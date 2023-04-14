@@ -42,6 +42,10 @@ namespace Vonage.Test.Unit.Meetings.GetRecordings
                     MeetingsClientFactory.Create(configuration).GetRecordingsAsync(failureRequest));
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+
+        [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
             await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
                 this.Operation);

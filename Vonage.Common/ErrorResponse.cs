@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text.Json.Serialization;
-using Vonage.Common.Failures;
 
 namespace Vonage.Common;
 
@@ -30,10 +29,4 @@ public readonly struct ErrorResponse
         this.Code = code;
         this.Message = message;
     }
-
-    /// <summary>
-    ///     Converts to HttpFailure.
-    /// </summary>
-    /// <returns>The failure.</returns>
-    public HttpFailure ToHttpFailure() => HttpFailure.From(this.Code, this.Message ?? string.Empty);
 }

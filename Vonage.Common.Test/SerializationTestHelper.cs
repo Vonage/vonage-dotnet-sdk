@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Vonage.Common.Test
@@ -19,17 +18,9 @@ namespace Vonage.Common.Test
             this.Serializer = new JsonSerializer();
         }
 
-        public SerializationTestHelper(string callerNamespace, JsonNamingPolicy namingPolicy)
-        {
-            this.callerNamespace = callerNamespace;
-            this.Serializer = new JsonSerializer(namingPolicy);
-        }
-
         public SerializationTestHelper(string callerNamespace, JsonSerializer customSerializer)
-            : this(callerNamespace)
-        {
+            : this(callerNamespace) =>
             this.Serializer = customSerializer;
-        }
 
         public string GetRequestJson([CallerMemberName] string name = null) =>
             ReadFile(string.Concat(this.GetUseCaseFolder(), GetRelativeFilePath(name, FileType.Request)));

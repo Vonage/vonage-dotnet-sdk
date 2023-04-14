@@ -51,6 +51,10 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
             this.Helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
 
         [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.Helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+
+        [Fact]
         public async Task ShouldReturnSuccess_GivenMultipleSessionsAreCreated()
         {
             var expectedResponse = this.Helper.Serializer.SerializeObject(new[]

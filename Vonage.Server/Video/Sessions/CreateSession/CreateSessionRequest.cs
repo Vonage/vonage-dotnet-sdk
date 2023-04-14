@@ -98,7 +98,7 @@ public readonly struct CreateSessionRequest : IVonageRequest
         Parse(IpAddress ipAddress, MediaMode mediaMode, ArchiveMode archiveMode) =>
         AreMediaAndArchiveCompatible(mediaMode, archiveMode)
             ? Result<CreateSessionRequest>.FromSuccess(new CreateSessionRequest(ipAddress, mediaMode, archiveMode))
-            : Result<CreateSessionRequest>.FromFailure(ResultFailure.FromErrorMessage(IncompatibleMediaAndArchive));
+            : ResultFailure.FromErrorMessage(IncompatibleMediaAndArchive).ToResult<CreateSessionRequest>();
 
     private static bool AreMediaAndArchiveCompatible(MediaMode mediaMode, ArchiveMode archiveMode) =>
         archiveMode == ArchiveMode.Manual || mediaMode == MediaMode.Routed;

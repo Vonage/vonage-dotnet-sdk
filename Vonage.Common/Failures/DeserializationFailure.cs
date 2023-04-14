@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using Vonage.Common.Exceptions;
+using Vonage.Common.Monads;
 
 namespace Vonage.Common.Failures;
 
@@ -47,4 +48,7 @@ public readonly struct DeserializationFailure : IResultFailure
     {
         Json = this.SerializedContent,
     };
+
+    /// <inheritdoc />
+    public Result<T> ToResult<T>() => Result<T>.FromFailure(this);
 }
