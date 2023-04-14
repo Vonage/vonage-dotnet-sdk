@@ -1,0 +1,12 @@
+{
+  "channel": "messenger",
+  "message_uuid": "52afe398-e31a-4362-8c42-beb0c3b1d098",
+  "to": "0123456789",
+  "from": "9876543210",
+  "timestamp": "2020-01-01T14:00:00.000Z",
+  "client_ref": "string",
+  "message_type": "video",
+  "video": {
+    "url": "https://example.com/video.mp4"
+  }
+}
