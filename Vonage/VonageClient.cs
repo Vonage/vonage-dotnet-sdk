@@ -76,11 +76,11 @@ namespace Vonage
         /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
         public VonageClient(Credentials credentials) => this.Credentials = credentials;
 
-        private static HttpClient InitializeHttpClient()
+        private static HttpClient InitializeHttpClient(Uri baseUri)
         {
             var client = new HttpClient(new HttpClientHandler())
             {
-                BaseAddress = Configuration.Instance.MeetingsApiUrl,
+                BaseAddress = baseUri,
             };
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             return client;
@@ -100,12 +100,11 @@ namespace Vonage
             this.SmsClient = new SmsClient(this.Credentials);
             this.PricingClient = new PricingClient(this.Credentials);
             this.MessagesClient = new MessagesClient(this.Credentials);
-            var client = InitializeHttpClient();
             string GenerateToken() => new Jwt().GenerateToken(this.Credentials);
-            this.MeetingsClient =
-                new MeetingsClient(
-                    new VonageHttpClientConfiguration(client, GenerateToken, this.Credentials.GetUserAgent()),
-                    new FileSystem());
+            var meetingsConfiguration = new VonageHttpClientConfiguration(
+                InitializeHttpClient(Configuration.Instance.MeetingsApiUrl), GenerateToken,
+                this.Credentials.GetUserAgent());
+            this.MeetingsClient = new MeetingsClient(meetingsConfiguration, new FileSystem());
         }
     }
 }

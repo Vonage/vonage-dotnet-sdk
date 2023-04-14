@@ -188,6 +188,18 @@ public readonly struct Result<T>
         this.IsFailure ? failureOperation(this.failure) : successOperation(this.success);
 
     /// <summary>
+    ///     Merge two results together. The merge operation will be used if they're both in a Success state.
+    /// </summary>
+    /// <param name="other">The other result.</param>
+    /// <param name="merge">The operation used if they're both in a Success state.</param>
+    /// <typeparam name="TB">The return type.</typeparam>
+    /// <returns>A result.</returns>
+    public Result<TB> Merge<TB>(Result<T> other, Func<T, T, TB> merge) =>
+        this.IsSuccess && other.IsSuccess
+            ? Result<TB>.FromSuccess(merge(this.success, other.success))
+            : Result<TB>.FromFailure(this.IsFailure ? this.failure : other.failure);
+
+    /// <summary>
     ///     Implicit operator from TA to Result of TA.
     /// </summary>
     /// <param name="value">Value to be converted.</param>
