@@ -1,4 +1,5 @@
 ﻿using System;
+using Vonage.Common.Monads;
 
 namespace Vonage.Common.Failures;
 
@@ -18,4 +19,11 @@ public interface IResultFailure
     /// </summary>
     /// <returns>The exception.</returns>
     Exception ToException();
+
+    /// <summary>
+    ///     Converts the failure to a Result with a Failure state.
+    /// </summary>
+    /// <typeparam name="T">The underlying type of Result.</typeparam>
+    /// <returns>A Result with a Failure state.</returns>
+    Result<T> ToResult<T>();
 }

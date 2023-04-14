@@ -1,4 +1,5 @@
-﻿using Vonage.Request;
+﻿using Vonage.Common.Monads;
+using Vonage.Request;
 
 namespace Vonage.Voice;
 
@@ -13,12 +14,12 @@ public interface ITokenGenerator
     /// <param name="applicationId">The application Id.</param>
     /// <param name="privateKey">The application private key.</param>
     /// <returns>The token.</returns>
-    string GenerateToken(string applicationId, string privateKey);
+    Result<string> GenerateToken(string applicationId, string privateKey);
 
     /// <summary>
     ///     Generates a token.
     /// </summary>
     /// <param name="credentials">The application credentials.</param>
     /// <returns>The token.</returns>
-    string GenerateToken(Credentials credentials);
+    Result<string> GenerateToken(Credentials credentials);
 }

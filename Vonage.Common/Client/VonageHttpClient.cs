@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
@@ -15,23 +13,8 @@ namespace Vonage.Common.Client;
 public class VonageHttpClient
 {
     private readonly HttpClient client;
-    private readonly HttpClientOptions options;
     private readonly IJsonSerializer jsonSerializer;
-    private readonly string userAgent;
-
-    /// <summary>
-    ///     Creates a custom Http Client for Vonage purposes.
-    /// </summary>
-    /// <param name="httpClient">The http client.</param>
-    /// <param name="serializer">The serializer.</param>
-    /// <param name="options">The options.</param>
-    public VonageHttpClient(HttpClient httpClient, IJsonSerializer serializer, HttpClientOptions options)
-    {
-        this.client = httpClient;
-        this.jsonSerializer = serializer;
-        this.options = options;
-        this.userAgent = GetFormattedUserAgent(this.options.UserAgent);
-    }
+    private readonly Result<HttpClientOptions> requestOptions;
 
     /// <summary>
     ///     Creates a custom Http Client for Vonage purposes.
@@ -42,8 +25,9 @@ public class VonageHttpClient
     {
         this.client = configuration.HttpClient;
         this.jsonSerializer = serializer;
-        this.options = new HttpClientOptions(configuration.TokenGeneration, configuration.UserAgent);
-        this.userAgent = GetFormattedUserAgent(this.options.UserAgent);
+        this.requestOptions = configuration.TokenGeneration()
+            .Map(token =>
+                new HttpClientOptions(token, UserAgentProvider.GetFormattedUserAgent(configuration.UserAgent)));
     }
 
     /// <summary>
@@ -52,10 +36,7 @@ public class VonageHttpClient
     /// <param name="request">The request to send.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<Unit>> SendAsync<T>(Result<T> request) where T : IVonageRequest =>
-        await request
-            .Map(this.BuildHttpRequestMessage)
-            .MapAsync(value => this.client.SendAsync(value))
-            .BindAsync(value => MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
+        await this.SendRequest(request, this.BuildHttpRequestMessage, this.ParseFailure<Unit>, CreateSuccessResult);
 
     /// <summary>
     ///     Sends a HttpRequest without Authorization and UserAgent headers.
@@ -63,10 +44,8 @@ public class VonageHttpClient
     /// <param name="request">The request to send.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<Unit>> SendWithoutHeadersAsync<T>(Result<T> request) where T : IVonageRequest =>
-        await request
-            .Map(value => value.BuildRequestMessage())
-            .MapAsync(value => this.client.SendAsync(value))
-            .BindAsync(value => MatchResponse(value, this.ParseFailure<Unit>, CreateSuccessResult));
+        await this.SendRequest(request, value => value.BuildRequestMessage(), this.ParseFailure<Unit>,
+            CreateSuccessResult);
 
     /// <summary>
     ///     Sends a HttpRequest and parses the response.
@@ -75,71 +54,51 @@ public class VonageHttpClient
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<TResponse>> SendWithResponseAsync<TRequest, TResponse>(Result<TRequest> request)
         where TRequest : IVonageRequest =>
-        await request
-            .Map(this.BuildHttpRequestMessage)
-            .MapAsync(value => this.client.SendAsync(value))
-            .BindAsync(value => MatchResponse(value, this.ParseFailure<TResponse>, this.ParseSuccess<TResponse>));
+        await this.SendRequest(request, this.BuildHttpRequestMessage, this.ParseFailure<TResponse>,
+            this.ParseSuccess<TResponse>);
 
-    private HttpRequestMessage BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
-        value.BuildRequestMessage()
-            .WithAuthorization(this.options.TokenGeneration())
-            .WithUserAgent(this.userAgent);
+    private Result<HttpRequestMessage> BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
+        this.requestOptions
+            .Map(options => value
+                .BuildRequestMessage()
+                .WithAuthorization(options.Token)
+                .WithUserAgent(options.UserAgent));
 
-    private Result<T> CreateFailureResult<T>(HttpStatusCode code, string responseContent) =>
+    private HttpFailure CreateFailureResult(HttpStatusCode code, string responseContent) =>
         this.jsonSerializer
             .DeserializeObject<ErrorResponse>(responseContent)
-            .Map(parsedError => HttpFailure.From(code, parsedError.Message))
-            .Bind(failure => Result<T>.FromFailure(failure));
+            .Match(success => HttpFailure.From(code, success.Message, responseContent),
+                failure => HttpFailure.From(code, failure.GetFailureMessage(), responseContent));
 
-    private static Result<T> CreateFailureResult<T>(HttpStatusCode code) =>
-        Result<T>.FromFailure(HttpFailure.From(code));
+    private static HttpFailure CreateFailureResult(HttpStatusCode code) => HttpFailure.From(code);
 
-    private static Task<Result<Unit>> CreateSuccessResult(HttpResponseMessage response) =>
-        Task.FromResult(Result<Unit>.FromSuccess(Unit.Default));
+    private static Result<Unit> CreateSuccessResult(ResponseData response) => Result<Unit>.FromSuccess(Unit.Default);
 
-    private static string GetFormattedUserAgent(string userAgent)
-    {
-#if NETSTANDARD1_6 || NETSTANDARD2_0 || NETSTANDARD2_1
-        var languageVersion = RuntimeInformation.FrameworkDescription
-            .Replace(" ", string.Empty)
-            .Replace("/", string.Empty)
-            .Replace(":", string.Empty)
-            .Replace(";", string.Empty)
-            .Replace("_", string.Empty)
-            .Replace("(", string.Empty)
-            .Replace(")", string.Empty);
-#else
-        var languageVersion = System.Diagnostics.FileVersionInfo
-            .GetVersionInfo(typeof(int).Assembly.Location)
-            .ProductVersion;
-#endif
-        var libraryVersion = typeof(VonageHttpClient)
-            .GetTypeInfo()
-            .Assembly
-            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-            .InformationalVersion;
-        return $"vonage-dotnet/{libraryVersion} dotnet/{languageVersion} {userAgent}".Trim();
-    }
+    private static async Task<ResponseData> ExtractResponseData(HttpResponseMessage response) =>
+        new(response.StatusCode, response.IsSuccessStatusCode, await response.Content.ReadAsStringAsync());
 
-    private static Task<Result<T>> MatchResponse<T>(
-        HttpResponseMessage response,
-        Func<HttpResponseMessage, Task<Result<T>>> failure,
-        Func<HttpResponseMessage, Task<Result<T>>> success) =>
-        !response.IsSuccessStatusCode ? failure(response) : success(response);
+    private Result<T> ParseFailure<T>(ResponseData response) =>
+        MaybeExtensions.From(response.Content)
+            .Match(value => this.CreateFailureResult(response.Code, value), () => CreateFailureResult(response.Code))
+            .ToResult<T>();
 
-    private async Task<Result<T>> ParseFailure<T>(HttpResponseMessage response)
-    {
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return string.IsNullOrWhiteSpace(responseContent)
-            ? CreateFailureResult<T>(response.StatusCode)
-            : this.CreateFailureResult<T>(response.StatusCode, responseContent);
-    }
-
-    private async Task<Result<T>> ParseSuccess<T>(HttpResponseMessage response)
-    {
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return this.jsonSerializer
-            .DeserializeObject<T>(responseContent)
+    private Result<T> ParseSuccess<T>(ResponseData response) =>
+        this.jsonSerializer
+            .DeserializeObject<T>(response.Content)
             .Match(Result<T>.FromSuccess, Result<T>.FromFailure);
-    }
+
+    private async Task<Result<TResponse>> SendRequest<TRequest, TResponse>(
+        Result<TRequest> request,
+        Func<TRequest, Result<HttpRequestMessage>> httpRequestConversion,
+        Func<ResponseData, Result<TResponse>> failure,
+        Func<ResponseData, Result<TResponse>> success) =>
+        await request
+            .Bind(httpRequestConversion)
+            .MapAsync(value => this.client.SendAsync(value))
+            .MapAsync(ExtractResponseData)
+            .Bind(response => !response.IsSuccessStatusCode ? failure(response) : success(response));
+
+    private sealed record ResponseData(HttpStatusCode Code, bool IsSuccessStatusCode, string Content);
+
+    private sealed record HttpClientOptions(string Token, string UserAgent);
 }
