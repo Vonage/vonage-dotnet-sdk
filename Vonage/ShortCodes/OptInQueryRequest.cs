@@ -1,14 +1,13 @@
 using Newtonsoft.Json;
 
-namespace Vonage.ShortCodes
-{
-    public class OptInQueryRequest
-    {
-        [JsonProperty("page-size")]
-        public string PageSize { get; set; }
+namespace Vonage.ShortCodes;
 
-        [JsonProperty("page")]
-        public string Page { get; set; }
+public class OptInQueryRequest
+{
+    [JsonProperty("page-size")]
+    public string PageSize { get; set; }
+
+    [JsonProperty("page")]
+    public string Page { get; set; }
         
-    }
 }

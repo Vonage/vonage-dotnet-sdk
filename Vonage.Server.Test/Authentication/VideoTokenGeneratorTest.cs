@@ -27,7 +27,7 @@ namespace Vonage.Server.Test.Authentication
         [Fact]
         public void GenerateToken_ShouldReturnSuccess_GivenCredentialsAreProvided() =>
             CreateClaims()
-                .Bind(claims => new VideoTokenGenerator().GenerateToken(GetCredentials(), claims))
+                .Bind(claims => new VideoTokenGenerator().GenerateToken(this.GetCredentials(), claims))
                 .Should()
                 .BeSuccess(token =>
                 {

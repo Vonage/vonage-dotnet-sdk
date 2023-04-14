@@ -1,13 +1,12 @@
 using Newtonsoft.Json;
 using Vonage.Common;
-namespace Vonage.ShortCodes
+namespace Vonage.ShortCodes;
+
+public class AlertResponse
 {
-    public class AlertResponse
-    {
-        [JsonProperty("message-count")]
-        public string MessageCount { get; set; }
+    [JsonProperty("message-count")]
+    public string MessageCount { get; set; }
 
         
-        public Message[] Messages { get; set; }
-    }
+    public Message[] Messages { get; set; }
 }

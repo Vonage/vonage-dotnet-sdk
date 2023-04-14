@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Vonage.NumberInsights
+namespace Vonage.NumberInsights;
+
+public enum NumberValidity
 {
-    public enum NumberValidity
-    {
-        unknown,
-        valid,
-        not_valid,
-        inferred,
-        inferred_not_valid
-    }
+    unknown,
+    valid,
+    not_valid,
+    inferred,
+    inferred_not_valid
 }

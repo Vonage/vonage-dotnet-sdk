@@ -1,13 +1,12 @@
 ﻿using Newtonsoft.Json;
 
-namespace Vonage.Voice
+namespace Vonage.Voice;
+
+public class DtmfCommand
 {
-    public class DtmfCommand
-    {
-        /// <summary>
-        /// The array of digits to send to the call
-        /// </summary>
-        [JsonProperty("digits")]
-        public string Digits { get; set; }
-    }
+    /// <summary>
+    /// The array of digits to send to the call
+    /// </summary>
+    [JsonProperty("digits")]
+    public string Digits { get; set; }
 }

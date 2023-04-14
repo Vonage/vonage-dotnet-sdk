@@ -11,7 +11,7 @@ namespace Vonage.Test.Unit
         public void TestSerializeNccoAllProperties()
         {
             // arrage
-            var expected = GetExpectedJson();
+            var expected = this.GetExpectedJson();
             var settings = new SpeechSettings
             {
                 Uuid = new[] { "aaaaaaaa-bbbb-cccc-dddd-0123456789ab" },
@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit
                 Language = "en-US",
                 Context = new[] { "dog", "cat" },
                 StartTimeout = 5,
-                MaxDuration = 30
+                MaxDuration = 30,
             };
             var dtmfSettings = new DtmfSettings { MaxDigits = 1, TimeOut = 3, SubmitOnHash = true };
             var inputAction = new MultiInputAction
@@ -29,8 +29,8 @@ namespace Vonage.Test.Unit
                 Type = new[]
                 {
                     NccoInputType.DTMF,
-                    NccoInputType.Speech
-                }
+                    NccoInputType.Speech,
+                },
             };
 
             //act
@@ -45,10 +45,10 @@ namespace Vonage.Test.Unit
         public void TestSerializeNccoAllPropertiesEmpty()
         {
             // arrage
-            var expected = GetExpectedJson();
+            var expected = this.GetExpectedJson();
             var settings = new SpeechSettings
             {
-                Uuid = new[] { "aaaaaaaa-bbbb-cccc-dddd-0123456789ab" }
+                Uuid = new[] { "aaaaaaaa-bbbb-cccc-dddd-0123456789ab" },
             };
             var inputAction = new MultiInputAction { Speech = settings };
 
@@ -64,7 +64,7 @@ namespace Vonage.Test.Unit
         public void TestWebhookSerialization()
         {
             //ARRANGE
-            var inboundString = GetExpectedJson();
+            var inboundString = this.GetExpectedJson();
 
             var serialized = JsonConvert.DeserializeObject<MultiInput>(inboundString);
 
@@ -82,7 +82,7 @@ namespace Vonage.Test.Unit
         public void TestWebhookSerializationSpeechOveridden()
         {
             //ARRANGE
-            var inboundString = GetExpectedJson();
+            var inboundString = this.GetExpectedJson();
 
             var serialized = JsonConvert.DeserializeObject<MultiInput>(inboundString);
 

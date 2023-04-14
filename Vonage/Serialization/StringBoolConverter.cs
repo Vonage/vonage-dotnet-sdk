@@ -1,43 +1,42 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Vonage.Serialization
+namespace Vonage.Serialization;
+
+internal class StringBoolConverter : JsonConverter
 {
-    internal class StringBoolConverter : JsonConverter
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        if (value == null)
         {
-            if (value == null)
-            {
-                writer.WriteNull();
-                return;
-            }
-
-            if (bool.TryParse(value.ToString(), out var boolValue))
-            {
-                writer.WriteValue(boolValue ? "true" : "false");
-            }
+            writer.WriteNull();
+            return;
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
-            JsonSerializer serializer)
+        if (bool.TryParse(value.ToString(), out var boolValue))
         {
-            switch (reader.Value)
-            {
-                case "active":
-                case "true":
-                    return true;
-                case "inactive":
-                case "false":
-                    return false;
-                default:
-                    return serializer.Deserialize<bool>(reader);
-            }
+            writer.WriteValue(boolValue ? "true" : "false");
         }
+    }
 
-        public override bool CanConvert(Type objectType)
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+        JsonSerializer serializer)
+    {
+        switch (reader.Value)
         {
-            return objectType == typeof(bool);
+            case "active":
+            case "true":
+                return true;
+            case "inactive":
+            case "false":
+                return false;
+            default:
+                return serializer.Deserialize<bool>(reader);
         }
+    }
+
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(bool);
     }
 }

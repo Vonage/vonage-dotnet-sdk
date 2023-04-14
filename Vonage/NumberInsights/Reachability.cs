@@ -1,25 +1,24 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Vonage.NumberInsights
+namespace Vonage.NumberInsights;
+
+public enum NumberReachability
 {
-    public enum NumberReachability
-    {
-        [EnumMember(Value = "unknown")]
-        Unknown,
+    [EnumMember(Value = "unknown")]
+    Unknown,
         
-        [EnumMember(Value = "reachable")]
-        Reachable,
+    [EnumMember(Value = "reachable")]
+    Reachable,
         
-        [EnumMember(Value = "undeliverable")]
-        Undeliverable,
+    [EnumMember(Value = "undeliverable")]
+    Undeliverable,
         
-        [EnumMember(Value = "absent")]
-        Absent,
+    [EnumMember(Value = "absent")]
+    Absent,
         
-        [EnumMember(Value = "bad_number")]
-        BadNumber,
+    [EnumMember(Value = "bad_number")]
+    BadNumber,
         
-        [EnumMember(Value = "blacklisted")]
-        Blacklisted
-    }
+    [EnumMember(Value = "blacklisted")]
+    Blacklisted
 }

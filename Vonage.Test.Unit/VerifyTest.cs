@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Vonage.Request;
 using Vonage.Verify;
 using Xunit;
 namespace Vonage.Test.Unit
@@ -20,13 +19,13 @@ namespace Vonage.Test.Unit
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
               ""status"": ""0""
             }";
-            var expectedUri = $"{ApiUrl}/verify/json";
+            var expectedUri = $"{this.ApiUrl}/verify/json";
 
             string expectedRequestContent;
-            VerifyRequest request = new VerifyRequest { Number= "447700900000", Brand="Acme Inc"};
+            var request = new VerifyRequest { Number= "447700900000", Brand="Acme Inc"};
             if (kitchenSink)
             {
-                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&sender_id=ACME&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&sender_id=ACME&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request.Country = "GB";
                 request.SenderId = "ACME";
                 request.CodeLength = 4;
@@ -37,10 +36,11 @@ namespace Vonage.Test.Unit
             }
             else 
             {
-                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&number=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&number=447700900000&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             }
-            Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
             if (passCreds)
@@ -69,21 +69,22 @@ namespace Vonage.Test.Unit
               ""currency"": ""EUR"",
               ""estimated_price_messages_sent"": ""0.03330000""
             }";
-            var expectedUri = $"{ApiUrl}/verify/check/json";
+            var expectedUri = $"{this.ApiUrl}/verify/check/json";
 
             string expectedRequestContent;
-            VerifyCheckRequest request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
+            var request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
             if (kitchenSink)
             {
-                expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&ip_address={HttpUtility.UrlEncode("123.0.0.255")}&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&ip_address={HttpUtility.UrlEncode("123.0.0.255")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request.IpAddress = "123.0.0.255";
             }
             else
             {
-                expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             }
-            Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifyCheckResponse response;
             if (passCreds)
@@ -135,10 +136,10 @@ namespace Vonage.Test.Unit
               ],
               ""estimated_price_messages_sent"": ""0.03330000""
             }";
-            var expectedUri = $"{ApiUrl}/verify/search/json?request_id=abcdef0123456789abcdef0123456789&api_key={ApiKey}&api_secret={ApiSecret}&";
-            Setup(expectedUri, expectedResponse);
+            var expectedUri = $"{this.ApiUrl}/verify/search/json?request_id=abcdef0123456789abcdef0123456789&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            this.Setup(expectedUri, expectedResponse);
             var request = new VerifySearchRequest { RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifySearchResponse response;
             if (passCreds)
@@ -181,12 +182,12 @@ namespace Vonage.Test.Unit
               ""command"": ""cancel""
             }";
 
-            var expectedUri = $"{ApiUrl}/verify/control/json";
-            var requestContent = $"request_id=abcdef0123456789abcdef0123456789&cmd=cancel&api_key={ApiKey}&api_secret={ApiSecret}&";
-            Setup(expectedUri, expectedResponse, requestContent);
+            var expectedUri = $"{this.ApiUrl}/verify/control/json";
+            var requestContent = $"request_id=abcdef0123456789abcdef0123456789&cmd=cancel&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            this.Setup(expectedUri, expectedResponse, requestContent);
 
             var request = new VerifyControlRequest { Cmd = "cancel", RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifyControlResponse response;
             if (passCreds)
@@ -209,16 +210,16 @@ namespace Vonage.Test.Unit
               ""error_text"": ""invalid credentials""
             }";
 
-            var expectedUri = $"{ApiUrl}/verify/control/json";
-            var requestContent = $"request_id=abcdef0123456789abcdef0123456789&cmd=cancel&api_key={ApiKey}&api_secret={ApiSecret}&";
-            Setup(expectedUri, expectedResponse, requestContent);
+            var expectedUri = $"{this.ApiUrl}/verify/control/json";
+            var requestContent = $"request_id=abcdef0123456789abcdef0123456789&cmd=cancel&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            this.Setup(expectedUri, expectedResponse, requestContent);
 
             var request = new VerifyControlRequest { Cmd = "cancel", RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             try
             {
-                var response = client.VerifyClient.VerifyControl(request, creds);
+                client.VerifyClient.VerifyControl(request, creds);
                 Assert.True(false, "Automatically failing because exception wasn't thrown");
             }            
             catch(VonageVerifyResponseException ex)
@@ -237,13 +238,13 @@ namespace Vonage.Test.Unit
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
               ""status"": ""0""
             }";
-            var expectedUri = $"{ApiUrl}/verify/psd2/json";
+            var expectedUri = $"{this.ApiUrl}/verify/psd2/json";
 
             string expectedRequestContent;
-            Psd2Request request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
+            var request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
             if (kitchenSink)
             {
-                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request.Country = "GB";
                 request.CodeLength = 4;
                 request.Lg = "en-us";
@@ -253,11 +254,11 @@ namespace Vonage.Test.Unit
             }
             else
             {
-                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&number=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&number=447700900000&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             }
 
-            Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
             if (passCreds)
@@ -282,13 +283,13 @@ namespace Vonage.Test.Unit
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
               ""status"": ""0""
             }";
-            var expectedUri = $"{ApiUrl}/verify/json";
+            var expectedUri = $"{this.ApiUrl}/verify/json";
 
             string expectedRequestContent;
-            VerifyRequest request = new VerifyRequest { Number = "447700900000", Brand = "Acme Inc" };
+            var request = new VerifyRequest { Number = "447700900000", Brand = "Acme Inc" };
             if (kitchenSink)
             {
-                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&sender_id=ACME&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&sender_id=ACME&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request.Country = "GB";
                 request.SenderId = "ACME";
                 request.CodeLength = 4;
@@ -299,10 +300,11 @@ namespace Vonage.Test.Unit
             }
             else
             {
-                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&number=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"brand={HttpUtility.UrlEncode("Acme Inc")}&number=447700900000&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             }
-            Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
             if (passCreds)
@@ -331,21 +333,22 @@ namespace Vonage.Test.Unit
               ""currency"": ""EUR"",
               ""estimated_price_messages_sent"": ""0.03330000""
             }";
-            var expectedUri = $"{ApiUrl}/verify/check/json";
+            var expectedUri = $"{this.ApiUrl}/verify/check/json";
 
             string expectedRequestContent;
-            VerifyCheckRequest request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
+            var request = new VerifyCheckRequest { Code = "1234", RequestId = "abcdef0123456789abcdef0123456789" };
             if (kitchenSink)
             {
-                expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&ip_address={HttpUtility.UrlEncode("123.0.0.255")}&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&ip_address={HttpUtility.UrlEncode("123.0.0.255")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request.IpAddress = "123.0.0.255";
             }
             else
             {
-                expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"request_id=abcdef0123456789abcdef0123456789&code=1234&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             }
-            Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifyCheckResponse response;
             if (passCreds)
@@ -397,10 +400,10 @@ namespace Vonage.Test.Unit
               ],
               ""estimated_price_messages_sent"": ""0.03330000""
             }";
-            var expectedUri = $"{ApiUrl}/verify/search/json?request_id=abcdef0123456789abcdef0123456789&api_key={ApiKey}&api_secret={ApiSecret}&";
-            Setup(expectedUri, expectedResponse);
+            var expectedUri = $"{this.ApiUrl}/verify/search/json?request_id=abcdef0123456789abcdef0123456789&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            this.Setup(expectedUri, expectedResponse);
             var request = new VerifySearchRequest { RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifySearchResponse response;
             if (passCreds)
@@ -443,12 +446,12 @@ namespace Vonage.Test.Unit
               ""command"": ""cancel""
             }";
 
-            var expectedUri = $"{ApiUrl}/verify/control/json";
-            var requestContent = $"request_id=abcdef0123456789abcdef0123456789&cmd=cancel&api_key={ApiKey}&api_secret={ApiSecret}&";
-            Setup(expectedUri, expectedResponse, requestContent);
+            var expectedUri = $"{this.ApiUrl}/verify/control/json";
+            var requestContent = $"request_id=abcdef0123456789abcdef0123456789&cmd=cancel&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            this.Setup(expectedUri, expectedResponse, requestContent);
 
             var request = new VerifyControlRequest { Cmd = "cancel", RequestId = "abcdef0123456789abcdef0123456789" };
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifyControlResponse response;
             if (passCreds)
@@ -472,13 +475,13 @@ namespace Vonage.Test.Unit
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
               ""status"": ""0""
             }";
-            var expectedUri = $"{ApiUrl}/verify/psd2/json";
+            var expectedUri = $"{this.ApiUrl}/verify/psd2/json";
 
             string expectedRequestContent;
-            Psd2Request request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
+            var request = new Psd2Request { Number = "447700900000", Payee = "Acme Inc", Amount = 4.8 };
             if (kitchenSink)
             {
-                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&workflow_id=1&number=447700900000&country=GB&code_length=4&lg=en-us&pin_expiry=240&next_event_wait=60&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request.Country = "GB";
                 request.CodeLength = 4;
                 request.Lg = "en-us";
@@ -488,11 +491,11 @@ namespace Vonage.Test.Unit
             }
             else
             {
-                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&number=447700900000&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedRequestContent = $"payee={HttpUtility.UrlEncode("Acme Inc")}&amount=4.8&number=447700900000&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             }
 
-            Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             VerifyResponse response;
             if (passCreds)

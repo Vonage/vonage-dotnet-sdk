@@ -1,18 +1,17 @@
 ﻿using System;
 
-namespace Vonage.Common.Exceptions
+namespace Vonage.Common.Exceptions;
+
+/// <summary>
+///     Represents a Vonage-specific exception.
+/// </summary>
+public class VonageException : Exception
 {
     /// <summary>
-    ///     Represents a Vonage-specific exception.
+    ///     Creates a VonageException.
     /// </summary>
-    public class VonageException : Exception
+    /// <param name="message">The exception message.</param>
+    public VonageException(string message) : base(message)
     {
-        /// <summary>
-        ///     Creates a VonageException.
-        /// </summary>
-        /// <param name="message">The exception message.</param>
-        public VonageException(string message) : base(message)
-        {
-        }
     }
 }

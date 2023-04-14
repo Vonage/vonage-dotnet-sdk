@@ -1,10 +1,9 @@
 using Newtonsoft.Json;
 
-namespace Vonage.Verify
+namespace Vonage.Verify;
+
+public class VerifyControlResponse : VerifyResponseBase
 {
-    public class VerifyControlResponse : VerifyResponseBase
-    {
-        [JsonProperty("command")]
-        public string Command { get; set; }
-    }
+    [JsonProperty("command")]
+    public string Command { get; set; }
 }

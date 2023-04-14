@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using Vonage.NumberInsights;
-using Vonage.Request;
 using Xunit;
 
 namespace Vonage.Test.Unit
@@ -14,33 +13,33 @@ namespace Vonage.Test.Unit
         public void TestBasicNIRequest(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedUri = $"{ApiUrl}/ni/basic/json";
+            var expectedUri = $"{this.ApiUrl}/ni/basic/json";
             BasicNumberInsightRequest request;
-            var expectedResponseContent = GetExpectedJson();
+            var expectedResponseContent = this.GetExpectedJson();
 
             if (kitchenSink)
             {
-                expectedUri += $"?number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new BasicNumberInsightRequest
                 {
                     Country = "GB",
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
             else
             {
-                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new BasicNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
-            Setup(expectedUri, expectedResponseContent);
+            this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
             BasicInsightResponse response;
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             if (passCreds)
             {
@@ -69,33 +68,33 @@ namespace Vonage.Test.Unit
         public async void TestBasicNIRequestAsync(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedUri = $"{ApiUrl}/ni/basic/json";
+            var expectedUri = $"{this.ApiUrl}/ni/basic/json";
             BasicNumberInsightRequest request;
-            var expectedResponseContent = GetExpectedJson();
+            var expectedResponseContent = this.GetExpectedJson();
 
             if (kitchenSink)
             {
-                expectedUri += $"?number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new BasicNumberInsightRequest
                 {
                     Country = "GB",
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
             else
             {
-                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new BasicNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
-            Setup(expectedUri, expectedResponseContent);
+            this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
             BasicInsightResponse response;
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             if (passCreds)
             {
@@ -124,27 +123,27 @@ namespace Vonage.Test.Unit
         public void TestStandardNIRequest(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{ApiUrl}/ni/standard/json";
+            var expectedResponse = this.GetExpectedJson();
+            var expectedUri = $"{this.ApiUrl}/ni/standard/json";
             StandardNumberInsightRequest request;
             if (kitchenSink)
             {
-                expectedUri += $"?cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
             }
             else
             {
-                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
@@ -197,27 +196,27 @@ namespace Vonage.Test.Unit
         public void TestStandardNIRequestWithoutRoaming(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{ApiUrl}/ni/standard/json";
+            var expectedResponse = this.GetExpectedJson();
+            var expectedUri = $"{this.ApiUrl}/ni/standard/json";
             StandardNumberInsightRequest request;
             if (kitchenSink)
             {
-                expectedUri += $"?cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
             }
             else
             {
-                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
@@ -305,26 +304,26 @@ namespace Vonage.Test.Unit
               ""first_name"": ""John"",
               ""caller_type"": ""consumer""
             }";
-            var expectedUri = $"{ApiUrl}/ni/standard/json";
+            var expectedUri = $"{this.ApiUrl}/ni/standard/json";
             StandardNumberInsightRequest request;
             if (kitchenSink)
             {
-                expectedUri += $"?cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
             }
             else
             {
-                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
@@ -374,27 +373,27 @@ namespace Vonage.Test.Unit
         public async void TestStandardNIRequestAsync(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{ApiUrl}/ni/standard/json";
+            var expectedResponse = this.GetExpectedJson();
+            var expectedUri = $"{this.ApiUrl}/ni/standard/json";
             StandardNumberInsightRequest request;
             if (kitchenSink)
             {
-                expectedUri += $"?cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
             }
             else
             {
-                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new StandardNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
@@ -447,30 +446,30 @@ namespace Vonage.Test.Unit
         public void TestAdvancedNIRequestSync(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = GetExpectedJson();
+            var expectedResponse = this.GetExpectedJson();
 
-            var expectedUri = $"{ApiUrl}/ni/advanced/json";
+            var expectedUri = $"{this.ApiUrl}/ni/advanced/json";
             AdvancedNumberInsightRequest request;
             if (kitchenSink)
             {
                 expectedUri +=
-                    $"?ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                    $"?ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightRequest
                     {Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255"};
             }
             else
             {
-                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsResponse response;
             if (passCreds)
@@ -535,14 +534,14 @@ namespace Vonage.Test.Unit
             var activeStatus = active ? "active" : "inactive";
             var responseData = new Dictionary<string, string>
             {
-                {"active_status", activeStatus}
+                {"active_status", activeStatus},
             };
-            var expectedResponse = GetResponseJson(responseData);
+            var expectedResponse = this.GetResponseJson(responseData);
 
-            var expectedUri = $"{ApiUrl}/ni/advanced/json";
+            var expectedUri = $"{this.ApiUrl}/ni/advanced/json";
 
             expectedUri +=
-                $"?ip={HttpUtility.UrlEncode("123.0.0.255")}&real_time_data=true&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                $"?ip={HttpUtility.UrlEncode("123.0.0.255")}&real_time_data=true&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
 
             var request = new AdvancedNumberInsightRequest
             {
@@ -550,13 +549,12 @@ namespace Vonage.Test.Unit
                 Country = "GB",
                 Number = "15555551212",
                 Ip = "123.0.0.255",
-                RealTimeData = true
+                RealTimeData = true,
             };
-
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             var response = client.NumberInsightClient.GetNumberInsightAdvanced(request);
 
@@ -575,30 +573,30 @@ namespace Vonage.Test.Unit
         public async void TestAdvancedNIRequestSyncAsync(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = GetExpectedJson();
+            var expectedResponse = this.GetExpectedJson();
 
-            var expectedUri = $"{ApiUrl}/ni/advanced/json";
+            var expectedUri = $"{this.ApiUrl}/ni/advanced/json";
             AdvancedNumberInsightRequest request;
             if (kitchenSink)
             {
                 expectedUri +=
-                    $"?ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                    $"?ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightRequest
                     {Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255"};
             }
             else
             {
-                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsResponse response;
             if (passCreds)
@@ -656,30 +654,30 @@ namespace Vonage.Test.Unit
         public void TestAdvancedNIRequestSyncWithNullableValues(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = GetExpectedJson();
+            var expectedResponse = this.GetExpectedJson();
 
-            var expectedUri = $"{ApiUrl}/ni/advanced/json";
+            var expectedUri = $"{this.ApiUrl}/ni/advanced/json";
             AdvancedNumberInsightRequest request;
             if (kitchenSink)
             {
                 expectedUri +=
-                    $"?ip=123.0.0.255&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                    $"?ip=123.0.0.255&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightRequest
                     {Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255"};
             }
             else
             {
-                expectedUri += $"?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightRequest
                 {
-                    Number = "15555551212"
+                    Number = "15555551212",
                 };
             }
 
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsResponse response;
             if (passCreds)
@@ -733,34 +731,34 @@ namespace Vonage.Test.Unit
         [InlineData(false, false)]
         public void TestAdvancedAsync(bool passCreds, bool kitchenSink)
         {
-            var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{ApiUrl}/ni/advanced/async/json";
+            var expectedResponse = this.GetExpectedJson();
+            var expectedUri = $"{this.ApiUrl}/ni/advanced/async/json";
             AdvancedNumberInsightAsynchronousRequest request;
             if (kitchenSink)
             {
                 expectedUri +=
-                    $"?callback={HttpUtility.UrlEncode("https://example.com/callback")}&ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                    $"?callback={HttpUtility.UrlEncode("https://example.com/callback")}&ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightAsynchronousRequest
                 {
                     Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
-                    Callback = "https://example.com/callback"
+                    Callback = "https://example.com/callback",
                 };
             }
             else
             {
                 expectedUri +=
-                    $"?callback={HttpUtility.UrlEncode("https://example.com/callback")}&number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                    $"?callback={HttpUtility.UrlEncode("https://example.com/callback")}&number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightAsynchronousRequest
                 {
                     Number = "15555551212",
-                    Callback = "https://example.com/callback"
+                    Callback = "https://example.com/callback",
                 };
             }
 
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsAsynchronousResponse response;
             if (passCreds)
@@ -785,34 +783,34 @@ namespace Vonage.Test.Unit
         [InlineData(false, false)]
         public async void TestAdvancedAsyncAsync(bool passCreds, bool kitchenSink)
         {
-            var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{ApiUrl}/ni/advanced/async/json";
+            var expectedResponse = this.GetExpectedJson();
+            var expectedUri = $"{this.ApiUrl}/ni/advanced/async/json";
             AdvancedNumberInsightAsynchronousRequest request;
             if (kitchenSink)
             {
                 expectedUri +=
-                    $"?callback={HttpUtility.UrlEncode("https://example.com/callback")}&ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                    $"?callback={HttpUtility.UrlEncode("https://example.com/callback")}&ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightAsynchronousRequest
                 {
                     Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
-                    Callback = "https://example.com/callback"
+                    Callback = "https://example.com/callback",
                 };
             }
             else
             {
                 expectedUri +=
-                    $"?callback={HttpUtility.UrlEncode("https://example.com/callback")}&number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+                    $"?callback={HttpUtility.UrlEncode("https://example.com/callback")}&number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
                 request = new AdvancedNumberInsightAsynchronousRequest
                 {
                     Number = "15555551212",
-                    Callback = "https://example.com/callback"
+                    Callback = "https://example.com/callback",
                 };
             }
 
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsAsynchronousResponse response;
             if (passCreds)
@@ -836,17 +834,17 @@ namespace Vonage.Test.Unit
         public void TestFailedAsyncRequest()
         {
             //ARRANGE
-            var expectedResponse = GetExpectedJson();
+            var expectedResponse = this.GetExpectedJson();
             var expectedUri =
-                $"{ApiUrl}/ni/advanced/async/json?callback={HttpUtility.UrlEncode("https://example.com/callback")}&ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={ApiKey}&api_secret={ApiSecret}&";
+                $"{this.ApiUrl}/ni/advanced/async/json?callback={HttpUtility.UrlEncode("https://example.com/callback")}&ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var request = new AdvancedNumberInsightAsynchronousRequest
             {
                 Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
-                Callback = "https://example.com/callback"
+                Callback = "https://example.com/callback",
             };
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             try
             {
@@ -854,7 +852,7 @@ namespace Vonage.Test.Unit
                 //ASSERT
                 Assert.True(false, "Auto fail because request returned without throwing exception");
             }
-            catch (NumberInsights.VonageNumberInsightResponseException ex)
+            catch (VonageNumberInsightResponseException ex)
             {
                 //ASSERT
                 Assert.Equal(4, ex.Response.Status);
@@ -865,12 +863,12 @@ namespace Vonage.Test.Unit
         public void TestFailedAdvancedRequest()
         {
             //ARRANGE
-            var expectedResponse = GetExpectedJson();
-            var expectedUri = $"{ApiUrl}/ni/advanced/json?number=15555551212&api_key={ApiKey}&api_secret={ApiSecret}&";
+            var expectedResponse = this.GetExpectedJson();
+            var expectedUri = $"{this.ApiUrl}/ni/advanced/json?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var request = new AdvancedNumberInsightRequest {Number = "15555551212"};
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             try
             {
@@ -878,7 +876,7 @@ namespace Vonage.Test.Unit
                 //ASSERT
                 Assert.True(false, "Auto fail because request returned without throwing exception");
             }
-            catch (NumberInsights.VonageNumberInsightResponseException ex)
+            catch (VonageNumberInsightResponseException ex)
             {
                 //ASSERT
                 Assert.Equal(4, ex.Response.Status);
@@ -890,18 +888,17 @@ namespace Vonage.Test.Unit
         public void AdvancedNIRequestSyncWithNotRoamingStatus()
         {
             //ARRANGE
-            var expectedResponse = GetExpectedJson();
+            var expectedResponse = this.GetExpectedJson();
 
-            var expectedUri = $"{ApiUrl}/ni/advanced/json?number=971639946111&api_key={ApiKey}&api_secret={ApiSecret}&";
-            AdvancedNumberInsightRequest request = new AdvancedNumberInsightRequest
+            var expectedUri = $"{this.ApiUrl}/ni/advanced/json?number=971639946111&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            var request = new AdvancedNumberInsightRequest
             {
-                Number = "971639946111"
+                Number = "971639946111",
             };
-
-            Setup(expectedUri, expectedResponse);
+            this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsResponse response;
 

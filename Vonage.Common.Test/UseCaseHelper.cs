@@ -30,10 +30,8 @@ namespace Vonage.Common.Test
         /// </summary>
         /// <param name="serializer">A specific serializer.</param>
         private UseCaseHelper(JsonSerializer serializer)
-            : this()
-        {
+            : this() =>
             this.Serializer = serializer;
-        }
 
         public Fixture Fixture { get; }
         public JsonSerializer Serializer { get; }
@@ -111,16 +109,18 @@ namespace Vonage.Common.Test
                 FsCheckExtensions.GetErrorResponses(),
                 error =>
                 {
+                    var expectedContent = string.Empty;
                     var messageHandler = FakeHttpRequestHandler
                         .Build(error.Code)
                         .WithExpectedRequest(expected);
                     if (error.Message != null)
                     {
-                        messageHandler = messageHandler.WithResponseContent(this.Serializer.SerializeObject(error));
+                        expectedContent = this.Serializer.SerializeObject(error);
+                        messageHandler = messageHandler.WithResponseContent(expectedContent);
                     }
 
                     operation(this.CreateConfiguration(messageHandler)).Result.Should()
-                        .BeFailure(error.ToHttpFailure());
+                        .BeFailure(HttpFailure.From(error.Code, error.Message ?? string.Empty, expectedContent));
                 });
 
         /// <summary>
@@ -144,7 +144,9 @@ namespace Vonage.Common.Test
                     operation(this.CreateConfiguration(messageHandler))
                         .Result
                         .Should()
-                        .BeFailure(DeserializationFailure.From(typeof(ErrorResponse), jsonError));
+                        .BeFailure(HttpFailure.From(statusCode,
+                            DeserializationFailure.From(typeof(ErrorResponse), jsonError).GetFailureMessage(),
+                            jsonError));
                 });
 
         /// <summary>
@@ -161,6 +163,21 @@ namespace Vonage.Common.Test
             var result = await operation(this.CreateConfiguration(messageHandler),
                 Result<TRequest>.FromFailure(expectedFailure));
             result.Should().BeFailure(expectedFailure);
+        }
+
+        /// <summary>
+        ///     Verifies the operation returns a failure when the token generation fails.
+        /// </summary>
+        /// <param name="operation">The call operation.</param>
+        public async Task VerifyReturnsFailureGivenTokenGenerationFails<TResponse>(
+            Func<VonageHttpClientConfiguration, Task<Result<TResponse>>> operation)
+        {
+            var configuration = new VonageHttpClientConfiguration(
+                FakeHttpRequestHandler.Build(HttpStatusCode.OK).ToHttpClient(),
+                () => new AuthenticationFailure().ToResult<string>(),
+                this.Fixture.Create<string>());
+            var result = await operation(configuration);
+            result.Should().BeFailure(new AuthenticationFailure());
         }
 
         /// <summary>

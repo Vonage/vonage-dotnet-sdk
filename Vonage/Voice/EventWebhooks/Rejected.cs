@@ -1,6 +1,5 @@
-﻿namespace Vonage.Voice.EventWebhooks
+﻿namespace Vonage.Voice.EventWebhooks;
+
+public class Rejected : CallStatusEvent
 {
-    public class Rejected : CallStatusEvent
-    {
-    }
 }

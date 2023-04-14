@@ -19,10 +19,10 @@ namespace Vonage.Test.Unit
         public void CreateApplication(bool passCreds)
         {
             //ARRANGE
-            var uri = $"{ApiUrl}/v2/applications";
-            var expectedResponseContent = GetResponseJson();
-            var expectedRequestContent = GetRequestJson();
-            Setup(uri, expectedResponseContent, expectedRequestContent);
+            var uri = $"{this.ApiUrl}/v2/applications";
+            var expectedResponseContent = this.GetResponseJson();
+            var expectedRequestContent = this.GetRequestJson();
+            this.Setup(uri, expectedResponseContent, expectedRequestContent);
 
             //ACT
             var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>();
@@ -43,7 +43,7 @@ namespace Vonage.Test.Unit
             voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
                 new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"});
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            var json = JsonConvert.SerializeObject(voiceCapability, VonageSerialization.SerializerSettings);
+            JsonConvert.SerializeObject(voiceCapability, VonageSerialization.SerializerSettings);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
             {
@@ -51,15 +51,15 @@ namespace Vonage.Test.Unit
             };
             var keys = new Keys
             {
-                PublicKey = PublicKey
+                PublicKey = PublicKey,
             };
             var request = new CreateApplicationRequest
             {
                 Capabilities = capabilities,
                 Keys = keys,
-                Name = "My Application"
+                Name = "My Application",
             };
-            var credentials = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(credentials);
             Application response;
             if (passCreds)
@@ -99,7 +99,7 @@ namespace Vonage.Test.Unit
         public async void CreateApplicationAsync(bool passCreds)
         {
             //ARRANGE
-            var uri = $"{ApiUrl}/v2/applications";
+            var uri = $"{this.ApiUrl}/v2/applications";
             var expectedResponse = @"{
                   ""id"": ""78d335fa323d01149c3dd6f0d48968cf"",
                   ""name"": ""My Application"",
@@ -149,7 +149,7 @@ namespace Vonage.Test.Unit
                         }";
             var expectedRequestContent =
                 @"{""name"":""My Application"",""capabilities"":{""voice"":{""webhooks"":{""answer_url"":{""http_method"":""GET"",""address"":""https://example.com/webhooks/answer""},""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""},""fallback_answer_url"":{""http_method"":""GET"",""address"":""https://fallback.example.com/webhooks/answer""}}},""rtc"":{""webhooks"":{""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""}}},""vbc"":{},""messages"":{""webhooks"":{""inbound_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/inbound""},""status_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/status""}}}},""keys"":{""public_key"":""some public key""}}";
-            Setup(uri: uri, responseContent: expectedResponse, requestContent: expectedRequestContent);
+            this.Setup(uri: uri, responseContent: expectedResponse, requestContent: expectedRequestContent);
 
             //ACT
             var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>();
@@ -170,17 +170,17 @@ namespace Vonage.Test.Unit
             voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
                 new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"});
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            var json = JsonConvert.SerializeObject(voiceCapability);
+            JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
                 {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
             var keys = new Keys
             {
-                PublicKey = PublicKey
+                PublicKey = PublicKey,
             };
             var request = new CreateApplicationRequest
                 {Capabilities = capabilities, Keys = keys, Name = "My Application"};
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Application response;
             if (passCreds)
@@ -220,10 +220,10 @@ namespace Vonage.Test.Unit
         public void DeleteApplication(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
-            var uri = $"{ApiUrl}/v2/applications/{id}";
-            string expectedResponse = "";
-            Setup(uri, expectedResponse);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var uri = $"{this.ApiUrl}/v2/applications/{id}";
+            var expectedResponse = "";
+            this.Setup(uri, expectedResponse);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             bool result;
             if (passCreds)
@@ -244,10 +244,10 @@ namespace Vonage.Test.Unit
         public async void DeleteApplicationAsync(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
-            var uri = $"{ApiUrl}/v2/applications/{id}";
-            string expectedResponse = "";
-            Setup(uri, expectedResponse);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var uri = $"{this.ApiUrl}/v2/applications/{id}";
+            var expectedResponse = "";
+            this.Setup(uri, expectedResponse);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             bool result;
             if (passCreds)
@@ -268,7 +268,6 @@ namespace Vonage.Test.Unit
         public void GetApplication(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
-            var uri = $"{ApiUrl}/v2/applications/{id}";
             var expectedResponse = @"{
                   ""id"": ""78d335fa323d01149c3dd6f0d48968cf"",
                   ""name"": ""My Application"",
@@ -316,9 +315,9 @@ namespace Vonage.Test.Unit
                     ""private_key"": ""some private key""
                   }
                         }";
-            var expectedUri = $"{ApiUrl}/v2/applications/{id}";
-            Setup(expectedUri, expectedResponse);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var expectedUri = $"{this.ApiUrl}/v2/applications/{id}";
+            this.Setup(expectedUri, expectedResponse);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Application application;
             if (passCreds)
@@ -358,7 +357,6 @@ namespace Vonage.Test.Unit
         public async void GetApplicationAsync(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
-            var uri = $"{ApiUrl}/v2/applications/{id}";
             var expectedResponse = @"{
                   ""id"": ""78d335fa323d01149c3dd6f0d48968cf"",
                   ""name"": ""My Application"",
@@ -406,9 +404,9 @@ namespace Vonage.Test.Unit
                     ""private_key"": ""some private key""
                   }
                         }";
-            var expectedUri = $"{ApiUrl}/v2/applications/{id}";
-            Setup(expectedUri, expectedResponse);
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var expectedUri = $"{this.ApiUrl}/v2/applications/{id}";
+            this.Setup(expectedUri, expectedResponse);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Application application;
             if (passCreds)
@@ -504,19 +502,19 @@ namespace Vonage.Test.Unit
             ListApplicationsRequest request;
             if (passParameters)
             {
-                expectedUri = $"{ApiUrl}/v2/applications?page_size=10&page=1&";
+                expectedUri = $"{this.ApiUrl}/v2/applications?page_size=10&page=1&";
                 request = new ListApplicationsRequest {Page = 1, PageSize = 10};
             }
             else
             {
-                expectedUri = $"{ApiUrl}/v2/applications";
+                expectedUri = $"{this.ApiUrl}/v2/applications";
                 request = new ListApplicationsRequest();
             }
 
-            Setup(expectedUri, expectedResult);
+            this.Setup(expectedUri, expectedResult);
 
             //Act
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             ApplicationPage applications;
             if (passCreds)
@@ -528,7 +526,7 @@ namespace Vonage.Test.Unit
                 applications = client.ApplicationClient.ListApplications(request);
             }
 
-            Application application = applications.Embedded.Applications[0];
+            var application = applications.Embedded.Applications[0];
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal("https://example.com/webhooks/answer",
                 application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
@@ -617,19 +615,19 @@ namespace Vonage.Test.Unit
             ListApplicationsRequest request;
             if (passParameters)
             {
-                expectedUri = $"{ApiUrl}/v2/applications?page_size=10&page=1&";
+                expectedUri = $"{this.ApiUrl}/v2/applications?page_size=10&page=1&";
                 request = new ListApplicationsRequest {Page = 1, PageSize = 10};
             }
             else
             {
-                expectedUri = $"{ApiUrl}/v2/applications";
+                expectedUri = $"{this.ApiUrl}/v2/applications";
                 request = new ListApplicationsRequest();
             }
 
-            Setup(expectedUri, expectedResult);
+            this.Setup(expectedUri, expectedResult);
 
             //Act
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             ApplicationPage applications;
             if (passCreds)
@@ -641,7 +639,7 @@ namespace Vonage.Test.Unit
                 applications = await client.ApplicationClient.ListApplicationsAsync(request);
             }
 
-            Application application = applications.Embedded.Applications[0];
+            var application = applications.Embedded.Applications[0];
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal("https://example.com/webhooks/answer",
                 application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
@@ -674,7 +672,7 @@ namespace Vonage.Test.Unit
         public void UpdateApplication(bool passCredentials)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
-            var uri = $"{ApiUrl}/v2/applications/{id}";
+            var uri = $"{this.ApiUrl}/v2/applications/{id}";
             var expectedResponse = @"{
                   ""id"": ""78d335fa323d01149c3dd6f0d48968cf"",
                   ""name"": ""My Application"",
@@ -724,7 +722,7 @@ namespace Vonage.Test.Unit
                         }";
             var expectedRequestContent =
                 @"{""name"":""My Application"",""capabilities"":{""voice"":{""webhooks"":{""answer_url"":{""http_method"":""GET"",""address"":""https://example.com/webhooks/answer""},""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""},""fallback_answer_url"":{""http_method"":""GET"",""address"":""https://fallback.example.com/webhooks/answer""}}},""rtc"":{""webhooks"":{""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""}}},""vbc"":{},""messages"":{""webhooks"":{""inbound_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/inbound""},""status_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/status""}}}},""keys"":{""public_key"":""some public key""}}";
-            Setup(uri: uri, responseContent: expectedResponse, requestContent: expectedRequestContent);
+            this.Setup(uri: uri, responseContent: expectedResponse, requestContent: expectedRequestContent);
 
             //ACT
             var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>();
@@ -745,17 +743,17 @@ namespace Vonage.Test.Unit
             voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
                 new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"});
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            var json = JsonConvert.SerializeObject(voiceCapability);
+            JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
                 {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
             var keys = new Keys
             {
-                PublicKey = PublicKey
+                PublicKey = PublicKey,
             };
             var application = new CreateApplicationRequest
                 {Capabilities = capabilities, Keys = keys, Name = "My Application"};
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Application response;
             if (passCredentials)
@@ -795,7 +793,7 @@ namespace Vonage.Test.Unit
         public async void UpdateApplicationAsync(bool passCredentials)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
-            var uri = $"{ApiUrl}/v2/applications/{id}";
+            var uri = $"{this.ApiUrl}/v2/applications/{id}";
             var expectedResponse = @"{
                   ""id"": ""78d335fa323d01149c3dd6f0d48968cf"",
                   ""name"": ""My Application"",
@@ -845,7 +843,7 @@ namespace Vonage.Test.Unit
                         }";
             var expectedRequestContent =
                 @"{""name"":""My Application"",""capabilities"":{""voice"":{""webhooks"":{""answer_url"":{""http_method"":""GET"",""address"":""https://example.com/webhooks/answer""},""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""},""fallback_answer_url"":{""http_method"":""GET"",""address"":""https://fallback.example.com/webhooks/answer""}}},""rtc"":{""webhooks"":{""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""}}},""vbc"":{},""messages"":{""webhooks"":{""inbound_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/inbound""},""status_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/status""}}}},""keys"":{""public_key"":""some public key""}}";
-            Setup(uri: uri, responseContent: expectedResponse, requestContent: expectedRequestContent);
+            this.Setup(uri: uri, responseContent: expectedResponse, requestContent: expectedRequestContent);
 
             //ACT
             var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>();
@@ -866,17 +864,17 @@ namespace Vonage.Test.Unit
             voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
                 new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"});
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            var json = JsonConvert.SerializeObject(voiceCapability);
+            JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
                 {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
             var keys = new Keys
             {
-                PublicKey = PublicKey
+                PublicKey = PublicKey,
             };
             var application = new CreateApplicationRequest
                 {Capabilities = capabilities, Keys = keys, Name = "My Application"};
-            var creds = Credentials.FromApiKeyAndSecret(ApiKey, ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             Application response;
             if (passCredentials)

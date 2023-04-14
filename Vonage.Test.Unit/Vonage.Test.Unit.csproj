@@ -536,14 +536,14 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithUrlSticker-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-request.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-response.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-request.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
         <Content Include="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
@@ -618,6 +618,167 @@
         </Content>
         <None Remove="Messages\Webhooks\Data\ShouldDeserializeMessengerVideo-response.json" />
         <Content Include="Messages\Webhooks\Data\ShouldDeserializeMessengerVideo-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppAudio-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppAudio-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppFile-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppFile-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppImage-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppImage-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppLocation-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppLocation-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppOrder-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppOrder-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppReply-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppReply-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppSticker-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppSticker-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppText-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppText-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Sms\Data\ShouldSerialize-request.json" />
+        <None Remove="VerifyV2\StartVerification\Sms\Data\ShouldDeserialize200-response.json" />
+        <None Remove="VerifyV2\StartVerification\WhatsApp\Data\ShouldDeserialize200-response.json" />
+        <None Remove="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerialize-request.json" />
+        <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldDeserialize200-response.json" />
+        <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerialize-request.json" />
+        <None Remove="VerifyV2\StartVerification\Voice\Data\ShouldDeserialize200-response.json" />
+        <None Remove="VerifyV2\StartVerification\Voice\Data\ShouldSerialize-request.json" />
+        <None Remove="VerifyV2\StartVerification\Email\Data\ShouldDeserialize200-response.json" />
+        <None Remove="VerifyV2\StartVerification\Email\Data\ShouldSerialize-request.json" />
+        <None Remove="VerifyV2\StartVerification\SilentAuth\Data\ShouldDeserialize200-response.json" />
+        <None Remove="VerifyV2\StartVerification\SilentAuth\Data\ShouldSerialize-request.json" />
+        <None Remove="VerifyV2\VerifyCode\Data\ShouldSerialize-request.json" />
+        <Content Include="VerifyV2\VerifyCode\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Sms\Data\ShouldSerializeMandatory-request.json" />
+        <None Remove="VerifyV2\StartVerification\Email\Data\ShouldSerializeDefaultValues-request.json" />
+        <None Remove="VerifyV2\StartVerification\Voice\Data\ShouldSerializeDefaultValues.json" />
+        <None Remove="VerifyV2\StartVerification\WhatsApp\Data\ShouldSerializeDefaultValues-request.json" />
+        <None Remove="VerifyV2\StartVerification\WhatsAppInteractive\Data\ShouldSerializeDefaultValues-request.json" />
+        <None Remove="VerifyV2\StartVerification\Data\ShouldDeserialize200-response.json" />
+        <Content Include="VerifyV2\StartVerification\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerialize-request.json" />
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeDefaultValues-request.json" />
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeWhatsAppInteractiveWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeEmailWorkflow-request.json" />
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeEmailWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeSilentAuthWorkflow-request.json" />
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeSilentAuthWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeSmsWorkflow-request.json" />
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeSmsWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeVoiceWorkflow-request.json" />
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeVoiceWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeWhatsAppWorkflow-request.json" />
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeWhatsAppWorkflow-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="VerifyV2\StartVerification\Data\ShouldSerializeFallbackWorkflows-request.json" />
+        <Content Include="VerifyV2\StartVerification\Data\ShouldSerializeFallbackWorkflows-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMessengerAudio-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMessengerAudio-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMessengerFile-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMessengerFile-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMessengerImage-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMessengerImage-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMessengerText-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMessengerText-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMessengerUnsupported-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMessengerUnsupported-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMessengerVideo-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMessengerVideo-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMmsAudio-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMmsAudio-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMmsImage-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMmsImage-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMmsText-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMmsText-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMmsVcard-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMmsVcard-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeMmsVideo-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeMmsVideo-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeSms-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeSms-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeViberFile-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeViberFile-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeViberImage-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeViberImage-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeViberText-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeViberText-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeViberVideo-response.json" />
+        <Content Include="Messages\Webhooks\Data\ShouldDeserializeViberVideo-response.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppAudio-response.json" />

@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Vonage.Voice.EventWebhooks
+namespace Vonage.Voice.EventWebhooks;
+
+public class Disconnected : CallStatusEvent
 {
-    public class Disconnected : CallStatusEvent
-    {
-    }
 }

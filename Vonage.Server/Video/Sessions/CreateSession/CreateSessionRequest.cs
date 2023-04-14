@@ -14,11 +14,6 @@ namespace Vonage.Server.Video.Sessions.CreateSession;
 public readonly struct CreateSessionRequest : IVonageRequest
 {
     /// <summary>
-    ///     The endpoint for creating a session.
-    /// </summary>
-    private const string CreateSessionEndpoint = "/session/create";
-
-    /// <summary>
     ///     Indicates media mode and archive mode are incompatible.
     /// </summary>
     public const string IncompatibleMediaAndArchive =
@@ -98,7 +93,7 @@ public readonly struct CreateSessionRequest : IVonageRequest
         Parse(IpAddress ipAddress, MediaMode mediaMode, ArchiveMode archiveMode) =>
         AreMediaAndArchiveCompatible(mediaMode, archiveMode)
             ? Result<CreateSessionRequest>.FromSuccess(new CreateSessionRequest(ipAddress, mediaMode, archiveMode))
-            : Result<CreateSessionRequest>.FromFailure(ResultFailure.FromErrorMessage(IncompatibleMediaAndArchive));
+            : ResultFailure.FromErrorMessage(IncompatibleMediaAndArchive).ToResult<CreateSessionRequest>();
 
     private static bool AreMediaAndArchiveCompatible(MediaMode mediaMode, ArchiveMode archiveMode) =>
         archiveMode == ArchiveMode.Manual || mediaMode == MediaMode.Routed;

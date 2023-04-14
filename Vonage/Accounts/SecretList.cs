@@ -1,10 +1,9 @@
 using Newtonsoft.Json;
 
-namespace Vonage.Accounts
+namespace Vonage.Accounts;
+
+public class SecretList
 {
-    public class SecretList
-    {
-        [JsonProperty("secrets")]
-        public Secret[] Secrets { get; set; }
-    }
+    [JsonProperty("secrets")]
+    public Secret[] Secrets { get; set; }
 }
