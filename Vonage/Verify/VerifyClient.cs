@@ -37,7 +37,7 @@ public class VerifyClient : IVerifyClient
     {
         return ApiRequest.DoGetRequestWithQueryParametersAsync<VerifySearchResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -91,7 +91,7 @@ public class VerifyClient : IVerifyClient
     {
         return ApiRequest.DoGetRequestWithQueryParameters<VerifySearchResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );

@@ -20,7 +20,7 @@ public class RedactClient : IRedactClient
             "POST",
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api,"/v1/redact/transaction"),
             request,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds?? this.Credentials
         );
         return true;
@@ -33,7 +33,7 @@ public class RedactClient : IRedactClient
             "POST",
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
             request,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds ?? this.Credentials
         );
         return true;

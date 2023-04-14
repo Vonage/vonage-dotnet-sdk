@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Vonage.Request;
 using Xunit;
 namespace Vonage.Test.Unit
 {
@@ -19,7 +20,7 @@ namespace Vonage.Test.Unit
             var expectedResponse = "";
             this.Setup(expectedUri, expectedResponse, expectedContent);
             var request = new Conversions.ConversionRequest { Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
-            var credentials = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(credentials);
             bool response;
             if (passCreds)
@@ -43,7 +44,7 @@ namespace Vonage.Test.Unit
             var expectedResponse = "";
             this.Setup(expectedUri, expectedResponse, expectedContent);
             var request = new Conversions.ConversionRequest { Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             bool response;
             if (passCreds)
@@ -67,7 +68,7 @@ namespace Vonage.Test.Unit
             var expectedResponse = "";
             this.Setup(expectedUri, expectedResponse, expectedContent);
             var request = new Conversions.ConversionRequest { Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             bool response;
             if (passCreds)
@@ -91,7 +92,7 @@ namespace Vonage.Test.Unit
             var expectedResponse = "";
             this.Setup(expectedUri, expectedResponse, expectedContent);
             var request = new Conversions.ConversionRequest { Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00" };
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             bool response;
             if (passCreds)

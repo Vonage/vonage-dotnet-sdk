@@ -16,7 +16,7 @@ public class ApplicationClient : IApplicationClient
             "POST",
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             request,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds ?? this.Credentials
         );
     }
@@ -25,7 +25,7 @@ public class ApplicationClient : IApplicationClient
     {
         return ApiRequest.DoGetRequestWithQueryParametersAsync<ApplicationPage>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             request,
             creds ?? this.Credentials
         );
@@ -35,7 +35,7 @@ public class ApplicationClient : IApplicationClient
     {
         return ApiRequest.DoGetRequestWithQueryParametersAsync<Application>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             credentials: creds ?? this.Credentials
         );
     }
@@ -46,7 +46,7 @@ public class ApplicationClient : IApplicationClient
             "PUT",
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             request,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds ?? this.Credentials
         );
     }
@@ -56,7 +56,7 @@ public class ApplicationClient : IApplicationClient
         await ApiRequest.DoDeleteRequestWithUrlContentAsync(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             null,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds ?? this.Credentials
         );
         return true;
@@ -68,7 +68,7 @@ public class ApplicationClient : IApplicationClient
             "POST",
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             request,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds ?? this.Credentials
         );
     }
@@ -77,7 +77,7 @@ public class ApplicationClient : IApplicationClient
     {
         return ApiRequest.DoGetRequestWithQueryParameters<ApplicationPage>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             request,
             creds ?? this.Credentials
         );
@@ -87,7 +87,7 @@ public class ApplicationClient : IApplicationClient
     {
         return ApiRequest.DoGetRequestWithQueryParameters<Application>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             credentials: creds ?? this.Credentials
         );
     }
@@ -98,7 +98,7 @@ public class ApplicationClient : IApplicationClient
             "PUT",
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             request,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds ?? this.Credentials
         );
     }
@@ -108,7 +108,7 @@ public class ApplicationClient : IApplicationClient
         ApiRequest.DoDeleteRequestWithUrlContent(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             null,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds ?? this.Credentials
         );
         return true;

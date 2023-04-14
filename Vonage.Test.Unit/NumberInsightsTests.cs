@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using Vonage.NumberInsights;
+using Vonage.Request;
 using Xunit;
 
 namespace Vonage.Test.Unit
@@ -39,7 +40,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             BasicInsightResponse response;
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             if (passCreds)
             {
@@ -94,7 +95,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             BasicInsightResponse response;
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             if (passCreds)
             {
@@ -143,7 +144,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
@@ -216,7 +217,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
@@ -323,7 +324,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
@@ -393,7 +394,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
@@ -469,7 +470,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsResponse response;
             if (passCreds)
@@ -554,7 +555,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             var response = client.NumberInsightClient.GetNumberInsightAdvanced(request);
 
@@ -596,7 +597,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsResponse response;
             if (passCreds)
@@ -677,7 +678,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsResponse response;
             if (passCreds)
@@ -758,7 +759,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsAsynchronousResponse response;
             if (passCreds)
@@ -810,7 +811,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsAsynchronousResponse response;
             if (passCreds)
@@ -844,7 +845,7 @@ namespace Vonage.Test.Unit
             };
             this.Setup(expectedUri, expectedResponse);
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             try
             {
@@ -868,7 +869,7 @@ namespace Vonage.Test.Unit
             var request = new AdvancedNumberInsightRequest {Number = "15555551212"};
             this.Setup(expectedUri, expectedResponse);
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             try
             {
@@ -898,7 +899,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
 
             //ACT
-            var creds = Request.Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = new VonageClient(creds);
             AdvancedInsightsResponse response;
 

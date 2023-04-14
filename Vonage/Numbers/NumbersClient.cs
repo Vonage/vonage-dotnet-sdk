@@ -81,7 +81,7 @@ public class NumbersClient : INumbersClient
     public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null) =>
         ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -91,7 +91,7 @@ public class NumbersClient : INumbersClient
         Credentials creds = null) =>
         ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -100,7 +100,7 @@ public class NumbersClient : INumbersClient
     public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null) =>
         ApiRequest.DoGetRequestWithQueryParameters<NumbersSearchResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -110,7 +110,7 @@ public class NumbersClient : INumbersClient
         GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null) =>
         ApiRequest.DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
-            ApiRequest.AuthType.Query,
+            AuthType.Query,
             request,
             creds ?? this.Credentials
         );
@@ -122,7 +122,7 @@ public class NumbersClient : INumbersClient
             "POST",
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
             request,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds ?? this.Credentials
         );
 
@@ -133,7 +133,7 @@ public class NumbersClient : INumbersClient
             "POST",
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
             request,
-            ApiRequest.AuthType.Basic,
+            AuthType.Basic,
             creds ?? this.Credentials
         );
 
