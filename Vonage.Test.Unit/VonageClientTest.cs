@@ -23,20 +23,6 @@ namespace Vonage.Test.Unit
         public void Constructor_ShouldAssignCredentials() => this.client.Credentials.Should().Be(this.credentials);
 
         [Fact]
-        public void Constructor_ShouldInitializeClients()
-        {
-            this.client.MeetingsClient.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void Credentials_ShouldOverrideClients_GivenCredentialsAreProvided()
-        {
-            var meetingsClient = this.client.MeetingsClient;
-            this.client.Credentials = this.fixture.Create<Credentials>();
-            this.client.MeetingsClient.Should().NotBe(meetingsClient);
-        }
-
-        [Fact]
         public void Credentials_ShouldOverrideCredentials()
         {
             var newCredentials = this.fixture.Create<Credentials>();
