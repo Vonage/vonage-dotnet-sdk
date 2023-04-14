@@ -20,7 +20,7 @@ namespace Vonage.Common.Test.Failures
 
         [Fact]
         public void ToResult_ShouldReturnFailure() =>
-            ResultFailure.ToResult<int>("Some error.").Should()
-                .BeFailure(failure => failure.GetFailureMessage().Should().Be("Some error."));
+            ResultFailure.FromErrorMessage("Some error.").ToResult<int>().Should()
+                .BeFailure(ResultFailure.FromErrorMessage("Some error."));
     }
 }

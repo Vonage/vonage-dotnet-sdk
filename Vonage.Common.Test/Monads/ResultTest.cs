@@ -390,6 +390,31 @@ namespace Vonage.Common.Test.Monads
                 .Should()
                 .Be(6);
 
+        [Fact]
+        public void Merge_ShouldReturnFailure_GivenFirstMonadIsFailure() =>
+            CreateFailure()
+                .Merge(CreateSuccess(5), (first, second) => new {First = first, Second = second})
+                .Should()
+                .BeFailure(CreateResultFailure());
+
+        [Fact]
+        public void Merge_ShouldReturnFailure_GivenSecondMonadIsFailure() =>
+            CreateSuccess(5)
+                .Merge(CreateFailure(), (first, second) => new {First = first, Second = second})
+                .Should()
+                .BeFailure(CreateResultFailure());
+
+        [Fact]
+        public void Merge_ShouldReturnSuccess_GivenBothResultsAreSuccess() =>
+            CreateSuccess(5)
+                .Merge(CreateSuccess(10), (first, second) => new {First = first, Second = second})
+                .Should()
+                .BeSuccess(success =>
+                {
+                    success.First.Should().Be(5);
+                    success.Second.Should().Be(10);
+                });
+
         private static Result<int> CreateFailure() =>
             Result<int>.FromFailure(CreateResultFailure());
 

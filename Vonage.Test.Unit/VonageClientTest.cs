@@ -8,9 +8,9 @@ namespace Vonage.Test.Unit
 {
     public class VonageClientTest
     {
-        private readonly VonageClient client;
         private readonly Credentials credentials;
         private readonly Fixture fixture;
+        private readonly VonageClient client;
 
         public VonageClientTest()
         {
@@ -23,7 +23,10 @@ namespace Vonage.Test.Unit
         public void Constructor_ShouldAssignCredentials() => this.client.Credentials.Should().Be(this.credentials);
 
         [Fact]
-        public void Constructor_ShouldInitializeClients() => this.client.MeetingsClient.Should().NotBeNull();
+        public void Constructor_ShouldInitializeClients()
+        {
+            this.client.MeetingsClient.Should().NotBeNull();
+        }
 
         [Fact]
         public void Credentials_ShouldOverrideClients_GivenCredentialsAreProvided()

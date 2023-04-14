@@ -19,10 +19,8 @@ namespace Vonage.Common.Test
         }
 
         public SerializationTestHelper(string callerNamespace, JsonSerializer customSerializer)
-            : this(callerNamespace)
-        {
+            : this(callerNamespace) =>
             this.Serializer = customSerializer;
-        }
 
         public string GetRequestJson([CallerMemberName] string name = null) =>
             ReadFile(string.Concat(this.GetUseCaseFolder(), GetRelativeFilePath(name, FileType.Request)));

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using Jose;
 using Vonage.Common.Exceptions;
+using Vonage.Common.Failures;
+using Vonage.Common.Monads;
 using Vonage.Request;
 using Vonage.Voice;
 
@@ -16,10 +18,20 @@ public class Jwt : ITokenGenerator
         CreateTokenWithClaims(appId, privateKey);
 
     /// <inheritdoc />
-    public string GenerateToken(string applicationId, string privateKey) => CreateToken(applicationId, privateKey);
+    public Result<string> GenerateToken(string applicationId, string privateKey)
+    {
+        try
+        {
+            return CreateToken(applicationId, privateKey);
+        }
+        catch (Exception)
+        {
+            return Result<string>.FromFailure(new AuthenticationFailure());
+        }
+    }
 
     /// <inheritdoc />
-    public string GenerateToken(Credentials credentials) =>
+    public Result<string> GenerateToken(Credentials credentials) =>
         this.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey);
 
     protected static string CreateTokenWithClaims(string appId, string privateKey,

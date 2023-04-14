@@ -23,11 +23,6 @@ public readonly struct ResultFailure : IResultFailure
     /// <inheritdoc />
     public Exception ToException() => new VonageException(this.error);
 
-    /// <summary>
-    ///     Creates a result failure from an error message.
-    /// </summary>
-    /// <param name="error">The error message.</param>
-    /// <typeparam name="T">Type of the result.</typeparam>
-    /// <returns>The result.</returns>
-    public static Result<T> ToResult<T>(string error) => Result<T>.FromFailure(FromErrorMessage(error));
+    /// <inheritdoc />
+    public Result<T> ToResult<T>() => Result<T>.FromFailure(this);
 }
