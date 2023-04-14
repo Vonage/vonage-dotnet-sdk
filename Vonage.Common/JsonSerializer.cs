@@ -30,6 +30,8 @@ public class JsonSerializer : IJsonSerializer
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
         this.settings.Converters.Add(new ColorJsonConverter());
+        this.settings.Converters.Add(new PhoneNumberJsonConverter());
+        this.settings.Converters.Add(new EmailJsonConverter());
     }
 
     /// <summary>
@@ -38,6 +40,9 @@ public class JsonSerializer : IJsonSerializer
     /// <param name="namingPolicy">The naming policy.</param>
     public JsonSerializer(JsonNamingPolicy namingPolicy) : this() =>
         this.settings.PropertyNamingPolicy = namingPolicy;
+
+    public JsonSerializer(JsonSerializerOptions options) : this() =>
+        this.settings = options;
 
     /// <summary>
     /// </summary>

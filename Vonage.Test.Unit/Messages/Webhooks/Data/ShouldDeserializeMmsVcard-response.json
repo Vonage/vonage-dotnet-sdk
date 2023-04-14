@@ -1,0 +1,12 @@
+{
+  "channel": "mms",
+  "message_uuid": "52afe398-e31a-4362-8c42-beb0c3b1d098",
+  "to": "447700900000",
+  "from": "447700900001",
+  "timestamp": "2020-01-01T14:00:00.000Z",
+  "client_ref": "string",
+  "message_type": "vcard",
+  "vcard": {
+    "url": "https://example.com/conatact.vcf"
+  }
+}

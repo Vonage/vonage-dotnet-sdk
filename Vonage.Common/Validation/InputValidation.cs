@@ -16,6 +16,7 @@ public static class InputValidation
     private const string IntCannotBeLowerThan = "cannot be lower than {value}.";
     private const string IntCannotBeNegative = "cannot be negative.";
     private const string StringCannotBeNullOrWhitespace = "cannot be null or whitespace.";
+    private const string UnexpectedLength = "length should be {value}.";
 
     /// <summary>
     ///     Verifies if higher or equal than specified threshold.
@@ -31,6 +32,22 @@ public static class InputValidation
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage(
                     $"{name} {IntCannotBeLowerThan.Replace("{value}", minValue.ToString())}"))
+            : request;
+
+    /// <summary>
+    ///     Verifies string length.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <param name="value">The string.</param>
+    /// <param name="expectedLength">The expected length.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="T">The request type.</typeparam>
+    /// <returns>Success or Failure.</returns>
+    public static Result<T> VerifyLength<T>(T request, string value, int expectedLength, string name) =>
+        value.Length != expectedLength
+            ? Result<T>.FromFailure(
+                ResultFailure.FromErrorMessage(
+                    $"{name} {UnexpectedLength.Replace("{value}", expectedLength.ToString())}"))
             : request;
 
     /// <summary>

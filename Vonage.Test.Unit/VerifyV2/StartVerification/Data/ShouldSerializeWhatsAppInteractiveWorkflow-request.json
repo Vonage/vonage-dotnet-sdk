@@ -1,0 +1,12 @@
+{
+  "locale": "en-us",
+  "channel_timeout": 300,
+  "code_length": 4,
+  "brand": "ACME, Inc",
+  "workflow": [
+    {
+      "channel": "whatsapp_interactive",
+      "to": "447700900000"
+    }
+  ]
+}
