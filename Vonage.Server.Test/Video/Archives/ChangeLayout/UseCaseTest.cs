@@ -56,7 +56,10 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
             };
 
         private static Result<ChangeLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            ChangeLayoutRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>(),
-                fixture.Create<Layout>());
+            ChangeLayoutRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithArchiveId(fixture.Create<Guid>())
+                .WithLayout(fixture.Create<Layout>())
+                .Create();
     }
 }
