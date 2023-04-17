@@ -4,7 +4,6 @@ using System.Web;
 using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
-using Vonage.Server.Video.Sessions.Common;
 
 namespace Vonage.Server.Video.Sessions.CreateSession;
 

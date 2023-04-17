@@ -73,4 +73,7 @@
             <PackagePath>lib\netstandard2.0</PackagePath>
         </_PackageFiles>
     </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Video\Archives\Common\"/>
+    </ItemGroup>
 </Project>

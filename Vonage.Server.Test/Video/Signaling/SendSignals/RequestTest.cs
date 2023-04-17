@@ -3,7 +3,7 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Signaling.Common;
+using Vonage.Server.Video.Signaling;
 using Vonage.Server.Video.Signaling.SendSignals;
 using Xunit;
 

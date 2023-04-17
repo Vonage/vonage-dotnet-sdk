@@ -26,7 +26,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
             this.layout = new Layout(null, null, LayoutType.HorizontalPresentation);
             this.outputs = new StartBroadcastRequest.BroadcastOutput
             {
-                Hls = new Server.Video.Broadcast.Common.Broadcast.HlsSettings(false, false),
+                Hls = new Server.Video.Broadcast.Broadcast.HlsSettings(false, false),
                 Streams = fixture.CreateMany<StartBroadcastRequest.BroadcastOutput.Stream>().ToArray(),
             };
         }
@@ -102,7 +102,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithLayout(this.layout)
                 .WithOutputs(new StartBroadcastRequest.BroadcastOutput
                 {
-                    Hls = new Server.Video.Broadcast.Common.Broadcast.HlsSettings(true, true),
+                    Hls = new Server.Video.Broadcast.Broadcast.HlsSettings(true, true),
                 })
                 .Create()
                 .Should()

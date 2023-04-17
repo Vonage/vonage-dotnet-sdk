@@ -18,7 +18,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<Server.Video.Broadcast.Common.Broadcast>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<Server.Video.Broadcast.Broadcast>>> Operation =>
             configuration => new BroadcastClient(configuration).StartBroadcastsAsync(this.request);
 
         private readonly Result<StartBroadcastRequest> request;

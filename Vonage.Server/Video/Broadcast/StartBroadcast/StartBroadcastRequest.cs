@@ -94,9 +94,9 @@ public readonly struct StartBroadcastRequest : IVonageRequest
     {
         /// <summary>
         /// </summary>
-        [JsonConverter(typeof(MaybeJsonConverter<Common.Broadcast.HlsSettings>))]
+        [JsonConverter(typeof(MaybeJsonConverter<Broadcast.HlsSettings>))]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Maybe<Common.Broadcast.HlsSettings> Hls { get; set; }
+        public Maybe<Broadcast.HlsSettings> Hls { get; set; }
 
         /// <summary>
         ///     Represents the types of broadcast streams you want to start.

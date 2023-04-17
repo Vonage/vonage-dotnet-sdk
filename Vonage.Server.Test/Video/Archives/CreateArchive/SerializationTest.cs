@@ -3,7 +3,7 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Common;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Archives.Common;
+using Vonage.Server.Video.Archives;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.CreateArchive

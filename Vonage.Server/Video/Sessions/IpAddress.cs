@@ -2,7 +2,7 @@
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
-namespace Vonage.Server.Video.Sessions.Common;
+namespace Vonage.Server.Video.Sessions;
 
 /// <summary>
 ///     Represents a valid IpAddress.

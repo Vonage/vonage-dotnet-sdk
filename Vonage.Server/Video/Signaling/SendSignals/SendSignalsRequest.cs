@@ -5,7 +5,6 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Signaling.Common;
 
 namespace Vonage.Server.Video.Signaling.SendSignals;
 

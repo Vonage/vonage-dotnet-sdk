@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Vonage.Server.Video.Broadcast.Common;
+namespace Vonage.Server.Video.Broadcast;
 
 /// <summary>
 ///     Represents a broadcast.
