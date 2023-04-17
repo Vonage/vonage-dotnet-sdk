@@ -63,6 +63,6 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
             };
 
         private static Result<CreateThemeRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            CreateThemeRequestBuilder.Build(fixture.Create<string>(), fixture.Create<Color>()).Create();
+            CreateThemeRequest.Build(fixture.Create<string>(), fixture.Create<Color>()).Create();
     }
 }

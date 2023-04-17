@@ -43,7 +43,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
 
         [Fact]
         public void ShouldSerialize() =>
-            CreateThemeRequestBuilder
+            CreateThemeRequest
                 .Build("Brand", Color.FromArgb(255, 255, 0, 255))
                 .WithName("Theme1")
                 .WithShortCompanyUrl(new Uri("https://example.com"))
@@ -54,7 +54,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
 
         [Fact]
         public void ShouldSerializeWithDefaultValues() =>
-            CreateThemeRequestBuilder
+            CreateThemeRequest
                 .Build("Brand", Color.FromArgb(255, 255, 0, 255))
                 .Create()
                 .GetStringContent()

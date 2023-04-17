@@ -17,7 +17,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            CreateRoomRequestBuilder
+            CreateRoomRequest
                 .Build(this.displayName)
                 .Create()
                 .Map(request => request.GetEndpointPath())

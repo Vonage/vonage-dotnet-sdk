@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            CreateThemeRequestBuilder
+            CreateThemeRequest
                 .Build(this.displayName, this.mainColor)
                 .Create()
                 .Map(request => request.GetEndpointPath())

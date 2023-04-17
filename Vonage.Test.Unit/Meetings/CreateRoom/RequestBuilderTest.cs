@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
 
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
-            CreateRoomRequestBuilder
+            CreateRoomRequest
                 .Build(this.displayName)
                 .Create()
                 .Should()
@@ -61,7 +61,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenDisplayNameExceeds200Length() =>
-            CreateRoomRequestBuilder
+            CreateRoomRequest
                 .Build(StringHelper.GenerateString(201))
                 .Create()
                 .Should()
@@ -72,7 +72,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         [InlineData(" ")]
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenDisplayNameIsNullOrWhitespace(string invalidDisplayName) =>
-            CreateRoomRequestBuilder
+            CreateRoomRequest
                 .Build(invalidDisplayName)
                 .Create()
                 .Should()
@@ -80,7 +80,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenMetadataExceeds500Length() =>
-            CreateRoomRequestBuilder
+            CreateRoomRequest
                 .Build(this.displayName)
                 .WithMetadata(StringHelper.GenerateString(501))
                 .Create()
@@ -89,7 +89,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
 
         [Fact]
         public void Build_ShouldReturnSuccess_() =>
-            CreateRoomRequestBuilder
+            CreateRoomRequest
                 .Build(this.displayName)
                 .WithMetadata(this.metadata)
                 .AsLongTermRoom(this.expiresAt)

@@ -7,26 +7,18 @@ using Vonage.Common.Validation;
 namespace Vonage.Meetings.CreateTheme;
 
 /// <inheritdoc />
-public class CreateThemeRequestBuilder : IVonageRequestBuilder<CreateThemeRequest>
+internal class CreateThemeRequestBuilder : ICreateThemeRequestBuilder
 {
     private readonly Color mainColor;
     private Maybe<string> themeName = Maybe<string>.None;
     private Maybe<Uri> shortCompanyUrl = Maybe<Uri>.None;
     private readonly string brandText;
 
-    private CreateThemeRequestBuilder(string brandText, Color mainColor)
+    internal CreateThemeRequestBuilder(string brandText, Color mainColor)
     {
         this.brandText = brandText;
         this.mainColor = mainColor;
     }
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <param name="brandText"></param>
-    /// <param name="mainColor"></param>
-    /// <returns>The builder.</returns>
-    public static CreateThemeRequestBuilder Build(string brandText, Color mainColor) => new(brandText, mainColor);
 
     /// <inheritdoc />
     public Result<CreateThemeRequest> Create() =>
@@ -45,7 +37,7 @@ public class CreateThemeRequestBuilder : IVonageRequestBuilder<CreateThemeReques
     /// </summary>
     /// <param name="value">The theme name.</param>
     /// <returns>The builder.</returns>
-    public CreateThemeRequestBuilder WithName(string value)
+    public ICreateThemeRequestBuilder WithName(string value)
     {
         this.themeName = value;
         return this;
@@ -56,7 +48,7 @@ public class CreateThemeRequestBuilder : IVonageRequestBuilder<CreateThemeReques
     /// </summary>
     /// <param name="value">The company Url.</param>
     /// <returns>The builder.</returns>
-    public CreateThemeRequestBuilder WithShortCompanyUrl(Uri value)
+    public ICreateThemeRequestBuilder WithShortCompanyUrl(Uri value)
     {
         this.shortCompanyUrl = value;
         return this;
@@ -65,4 +57,24 @@ public class CreateThemeRequestBuilder : IVonageRequestBuilder<CreateThemeReques
     private static Result<CreateThemeRequest> VerifyBrandText(CreateThemeRequest request) =>
         InputValidation
             .VerifyNotEmpty(request, request.BrandText, nameof(request.BrandText));
+}
+
+/// <summary>
+///     Represents a builder for CreateThemeRequest.
+/// </summary>
+public interface ICreateThemeRequestBuilder : IVonageRequestBuilder<CreateThemeRequest>
+{
+    /// <summary>
+    ///     Sets the theme name on the builder.
+    /// </summary>
+    /// <param name="value">The theme name.</param>
+    /// <returns>The builder.</returns>
+    ICreateThemeRequestBuilder WithName(string value);
+
+    /// <summary>
+    ///     Sets the company Url on the builder.
+    /// </summary>
+    /// <param name="value">The company Url.</param>
+    /// <returns>The builder.</returns>
+    ICreateThemeRequestBuilder WithShortCompanyUrl(Uri value);
 }
