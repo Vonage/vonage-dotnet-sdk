@@ -32,7 +32,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void ShouldSerialize() =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(EmailWorkflow.Parse("alice@company.com"))
                 .WithLocale(Locale.EsEs)
@@ -46,7 +46,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void ShouldSerializeEmailWorkflow() =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(EmailWorkflow.Parse("alice@company.com"))
                 .Create()
@@ -56,7 +56,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void ShouldSerializeFallbackWorkflows() =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("447700900000"))
                 .WithFallbackWorkflow(WhatsAppWorkflow.Parse("447700900000"))
@@ -68,7 +68,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void ShouldSerializeSilentAuthWorkflow() =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(SilentAuthWorkflow.Parse("447700900000"))
                 .Create()
@@ -78,7 +78,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void ShouldSerializeSmsWorkflow() =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(SmsWorkflow.Parse("447700900000"))
                 .Create()
@@ -88,7 +88,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void ShouldSerializeVoiceWorkflow() =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(VoiceWorkflow.Parse("447700900000"))
                 .Create()
@@ -98,7 +98,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void ShouldSerializeWhatsAppInteractiveWorkflow() =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("447700900000"))
                 .Create()
@@ -108,7 +108,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void ShouldSerializeWhatsAppWorkflow() =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(WhatsAppWorkflow.Parse("447700900000"))
                 .Create()

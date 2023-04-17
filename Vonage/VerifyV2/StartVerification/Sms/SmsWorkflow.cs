@@ -39,7 +39,7 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
     public PhoneNumber To { get; }
 
     /// <summary>
-    /// Parses the input into a SmsWorkflow.
+    ///     Parses the input into a SmsWorkflow.
     /// </summary>
     /// <param name="to">The phone number to contact.</param>
     /// <param name="hash">The Android application hash key.</param>
@@ -51,7 +51,7 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
             .Bind(VerifyWorkflowHashLength);
 
     /// <summary>
-    /// Parses the input into a SmsWorkflow.
+    ///     Parses the input into a SmsWorkflow.
     /// </summary>
     /// <param name="to">The phone number to contact.</param>
     /// <returns>Success or failure.</returns>

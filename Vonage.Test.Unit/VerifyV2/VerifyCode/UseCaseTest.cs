@@ -52,7 +52,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
 
         private static Result<VerifyCodeRequest> BuildRequest(
             ISpecimenBuilder fixture) =>
-            VerifyCodeRequestBuilder.Build()
+            VerifyCodeRequest.Build()
                 .WithRequestId(fixture.Create<string>())
                 .WithCode(fixture.Create<string>())
                 .Create();

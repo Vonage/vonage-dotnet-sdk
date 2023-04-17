@@ -20,6 +20,12 @@ public readonly struct VerifyCodeRequest : IVonageRequest
     [JsonIgnore]
     public string RequestId { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns></returns>
+    public static IBuilderForRequestId Build() => new VerifyCodeRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
         .Initialize(HttpMethod.Post, this.GetEndpointPath())

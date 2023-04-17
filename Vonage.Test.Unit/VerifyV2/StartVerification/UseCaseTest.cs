@@ -60,7 +60,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
             };
 
         private static Result<StartVerificationRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand(fixture.Create<string>())
                 .WithWorkflow(EmailWorkflow.Parse("bob@company.com"))
                 .Create();

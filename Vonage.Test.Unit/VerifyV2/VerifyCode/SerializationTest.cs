@@ -17,7 +17,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
 
         [Fact]
         public void ShouldSerialize() =>
-            VerifyCodeRequestBuilder.Build()
+            VerifyCodeRequest.Build()
                 .WithRequestId("Some request id.")
                 .WithCode("123456789")
                 .Create()

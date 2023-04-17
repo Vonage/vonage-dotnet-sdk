@@ -15,7 +15,6 @@ namespace Vonage.VerifyV2.StartVerification;
 
 /// <inheritdoc />
 public readonly struct StartVerificationRequest : IStartVerificationRequest
-
 {
     /// <summary>
     ///     Gets the brand that is sending the verification request.
@@ -46,6 +45,12 @@ public readonly struct StartVerificationRequest : IStartVerificationRequest
     ///     Gets verification workflows.
     /// </summary>
     public IVerificationWorkflow[] Workflows { get; internal init; }
+
+    /// <summary>
+    ///     Initializes a builder for StartVerificationRequest.
+    /// </summary>
+    /// <returns></returns>
+    public static IBuilderForBrand Build() => new StartVerificationRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
