@@ -12,11 +12,7 @@ public class VerifyCodeRequestBuilder : IVonageRequestBuilder<VerifyCodeRequest>
     private string code;
     private string requestId;
 
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns></returns>
-    public static IBuilderForRequestId Build() => new VerifyCodeRequestBuilder();
+
 
     /// <inheritdoc />
     public Result<VerifyCodeRequest> Create() => Result<VerifyCodeRequest>.FromSuccess(new VerifyCodeRequest

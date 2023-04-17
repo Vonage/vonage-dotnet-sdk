@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
         [InlineData(" ")]
         [InlineData(null)]
         public void Create_ShouldReturnFailure_GivenCodeIsNullOrWhitespace(string value) =>
-            VerifyCodeRequestBuilder.Build()
+            VerifyCodeRequest.Build()
                 .WithRequestId(this.fixture.Create<string>())
                 .WithCode(value)
                 .Create()
@@ -30,7 +30,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
         [InlineData(" ")]
         [InlineData(null)]
         public void Create_ShouldReturnFailure_GivenRequestIdIsNullOrWhitespace(string value) =>
-            VerifyCodeRequestBuilder.Build()
+            VerifyCodeRequest.Build()
                 .WithRequestId(value)
                 .WithCode(this.fixture.Create<string>())
                 .Create()
@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
 
         [Fact]
         public void Create_ShouldReturnSuccess() =>
-            VerifyCodeRequestBuilder.Build()
+            VerifyCodeRequest.Build()
                 .WithRequestId("Some request id.")
                 .WithCode("Some code.")
                 .Create()

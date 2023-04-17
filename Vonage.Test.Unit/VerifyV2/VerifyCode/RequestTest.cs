@@ -13,7 +13,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            VerifyCodeRequestBuilder.Build()
+            VerifyCodeRequest.Build()
                 .WithRequestId("123456789")
                 .WithCode(this.fixture.Create<string>())
                 .Create()

@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            StartVerificationRequestBuilder.Build()
+            StartVerificationRequest.Build()
                 .WithBrand(this.fixture.Create<string>())
                 .WithWorkflow(SmsWorkflow.Parse("123456789"))
                 .Create()

@@ -23,12 +23,6 @@ internal class StartVerificationRequestBuilder :
     private Maybe<string> clientReference = Maybe<string>.None;
     private string brand;
 
-    /// <summary>
-    ///     Initializes a builder for StartVerificationRequest.
-    /// </summary>
-    /// <returns></returns>
-    public static IBuilderForBrand Build() => new StartVerificationRequestBuilder();
-
     /// <inheritdoc />
     public Result<StartVerificationRequest> Create() =>
         this.failure
