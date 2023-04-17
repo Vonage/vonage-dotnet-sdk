@@ -30,7 +30,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
 
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
-            UpdateThemeRequestBuilder
+            UpdateThemeRequest
                 .Build(this.themeId)
                 .Create()
                 .Should()
@@ -45,7 +45,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenThemeIdIsEmpty() =>
-            UpdateThemeRequestBuilder
+            UpdateThemeRequest
                 .Build(Guid.Empty)
                 .Create()
                 .Should()
@@ -53,7 +53,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
 
         [Fact]
         public void Build_ShouldReturnSuccess() =>
-            UpdateThemeRequestBuilder
+            UpdateThemeRequest
                 .Build(this.themeId)
                 .WithColor(this.mainColor)
                 .WithBrandText(this.brandText)

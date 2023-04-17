@@ -43,7 +43,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
 
         [Fact]
         public void ShouldSerialize() =>
-            UpdateThemeRequestBuilder
+            UpdateThemeRequest
                 .Build(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
                 .WithColor(Color.FromArgb(255, 255, 0, 255))
                 .WithName("Theme1")
@@ -56,7 +56,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
 
         [Fact]
         public void ShouldSerializeEmpty() =>
-            UpdateThemeRequestBuilder
+            UpdateThemeRequest
                 .Build(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
                 .Create()
                 .GetStringContent()

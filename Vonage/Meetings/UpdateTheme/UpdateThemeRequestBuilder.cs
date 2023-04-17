@@ -7,7 +7,7 @@ using Vonage.Common.Validation;
 namespace Vonage.Meetings.UpdateTheme;
 
 /// <inheritdoc />
-public class UpdateThemeRequestBuilder : IVonageRequestBuilder<UpdateThemeRequest>
+internal class UpdateThemeRequestBuilder : IBuilderForOptional
 {
     private readonly Guid themeId;
     private Maybe<Color> mainColor = Maybe<Color>.None;
@@ -15,14 +15,7 @@ public class UpdateThemeRequestBuilder : IVonageRequestBuilder<UpdateThemeReques
     private Maybe<string> brandText = Maybe<string>.None;
     private Maybe<Uri> shortCompanyUrl = Maybe<Uri>.None;
 
-    private UpdateThemeRequestBuilder(Guid themeId) => this.themeId = themeId;
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <param name="themeId">The theme id.</param>
-    /// <returns>The builder.</returns>
-    public static UpdateThemeRequestBuilder Build(Guid themeId) => new(themeId);
+    internal UpdateThemeRequestBuilder(Guid themeId) => this.themeId = themeId;
 
     /// <inheritdoc />
     public Result<UpdateThemeRequest> Create() => Result<UpdateThemeRequest>
@@ -41,7 +34,7 @@ public class UpdateThemeRequestBuilder : IVonageRequestBuilder<UpdateThemeReques
     /// </summary>
     /// <param name="value">The brand text.</param>
     /// <returns>The builder.</returns>
-    public UpdateThemeRequestBuilder WithBrandText(string value)
+    public IBuilderForOptional WithBrandText(string value)
     {
         this.brandText = value;
         return this;
@@ -52,7 +45,7 @@ public class UpdateThemeRequestBuilder : IVonageRequestBuilder<UpdateThemeReques
     /// </summary>
     /// <param name="value">The color.</param>
     /// <returns>The builder.</returns>
-    public UpdateThemeRequestBuilder WithColor(Color value)
+    public IBuilderForOptional WithColor(Color value)
     {
         this.mainColor = value;
         return this;
@@ -63,7 +56,7 @@ public class UpdateThemeRequestBuilder : IVonageRequestBuilder<UpdateThemeReques
     /// </summary>
     /// <param name="value">The theme name.</param>
     /// <returns>The builder.</returns>
-    public UpdateThemeRequestBuilder WithName(string value)
+    public IBuilderForOptional WithName(string value)
     {
         this.themeName = value;
         return this;
@@ -74,7 +67,7 @@ public class UpdateThemeRequestBuilder : IVonageRequestBuilder<UpdateThemeReques
     /// </summary>
     /// <param name="value">The company Url.</param>
     /// <returns>The builder.</returns>
-    public UpdateThemeRequestBuilder WithShortCompanyUrl(Uri value)
+    public IBuilderForOptional WithShortCompanyUrl(Uri value)
     {
         this.shortCompanyUrl = value;
         return this;
@@ -83,4 +76,38 @@ public class UpdateThemeRequestBuilder : IVonageRequestBuilder<UpdateThemeReques
     private static Result<UpdateThemeRequest> VerifyThemeId(UpdateThemeRequest request) =>
         InputValidation
             .VerifyNotEmpty(request, request.ThemeId, nameof(request.ThemeId));
+}
+
+/// <summary>
+///     Represents a builder for optional values.
+/// </summary>
+public interface IBuilderForOptional : IVonageRequestBuilder<UpdateThemeRequest>
+{
+    /// <summary>
+    ///     Sets the brand text on the builder.
+    /// </summary>
+    /// <param name="value">The brand text.</param>
+    /// <returns>The builder.</returns>
+    public IBuilderForOptional WithBrandText(string value);
+
+    /// <summary>
+    ///     Sets the main color on the builder.
+    /// </summary>
+    /// <param name="value">The color.</param>
+    /// <returns>The builder.</returns>
+    public IBuilderForOptional WithColor(Color value);
+
+    /// <summary>
+    ///     Sets the theme name on the builder.
+    /// </summary>
+    /// <param name="value">The theme name.</param>
+    /// <returns>The builder.</returns>
+    public IBuilderForOptional WithName(string value);
+
+    /// <summary>
+    ///     Sets the company Url on the builder.
+    /// </summary>
+    /// <param name="value">The company Url.</param>
+    /// <returns>The builder.</returns>
+    public IBuilderForOptional WithShortCompanyUrl(Uri value);
 }

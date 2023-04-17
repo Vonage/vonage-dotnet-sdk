@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            UpdateThemeRequestBuilder
+            UpdateThemeRequest
                 .Build(this.themeId)
                 .Create()
                 .Map(request => request.GetEndpointPath())
