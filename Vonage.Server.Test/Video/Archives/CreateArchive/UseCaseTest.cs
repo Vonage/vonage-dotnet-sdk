@@ -9,7 +9,6 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Server.Video.Archives;
-using Vonage.Server.Video.Archives.Common;
 using Vonage.Server.Video.Archives.CreateArchive;
 using Xunit;
 

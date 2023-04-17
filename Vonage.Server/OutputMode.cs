@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Vonage.Server.Common;
+namespace Vonage.Server;
 
 /// <summary>
 ///     Defines values for the OutputMode property of an Archive object.

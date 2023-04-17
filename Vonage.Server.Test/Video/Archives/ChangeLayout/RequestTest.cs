@@ -3,7 +3,6 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Common;
 using Vonage.Server.Video.Archives.ChangeLayout;
 using Xunit;
 

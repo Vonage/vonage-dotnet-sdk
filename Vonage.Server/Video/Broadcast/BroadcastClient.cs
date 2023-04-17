@@ -54,8 +54,8 @@ public class BroadcastClient
     ///     A success state with the broadcast if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
-    public Task<Result<Common.Broadcast>> GetBroadcastAsync(Result<GetBroadcastRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<GetBroadcastRequest, Common.Broadcast>(request);
+    public Task<Result<Broadcast>> GetBroadcastAsync(Result<GetBroadcastRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetBroadcastRequest, Broadcast>(request);
 
     /// <summary>
     ///     Retrieves all live streaming broadcasts.
@@ -84,8 +84,8 @@ public class BroadcastClient
     ///     A success state with the broadcast if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
-    public Task<Result<Common.Broadcast>> StartBroadcastsAsync(Result<StartBroadcastRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<StartBroadcastRequest, Common.Broadcast>(request);
+    public Task<Result<Broadcast>> StartBroadcastsAsync(Result<StartBroadcastRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<StartBroadcastRequest, Broadcast>(request);
 
     /// <summary>
     ///     Stops a live stream broadcast.
@@ -95,6 +95,6 @@ public class BroadcastClient
     ///     A success state with the broadcast if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
-    public Task<Result<Common.Broadcast>> StopBroadcastAsync(Result<StopBroadcastRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<StopBroadcastRequest, Common.Broadcast>(request);
+    public Task<Result<Broadcast>> StopBroadcastAsync(Result<StopBroadcastRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<StopBroadcastRequest, Broadcast>(request);
 }

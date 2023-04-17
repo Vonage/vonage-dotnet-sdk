@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Vonage.Server.Common;
+namespace Vonage.Server;
 
 /// <summary>
 ///     Represents a layout.

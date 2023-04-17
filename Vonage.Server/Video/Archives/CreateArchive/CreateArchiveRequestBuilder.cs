@@ -2,7 +2,6 @@
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
-using Vonage.Server.Common;
 
 namespace Vonage.Server.Video.Archives.CreateArchive;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Common;
 using Vonage.Server.Video.Broadcast.StartBroadcast;
 using Xunit;
 

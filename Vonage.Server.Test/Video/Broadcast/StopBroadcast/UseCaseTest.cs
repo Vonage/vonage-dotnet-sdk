@@ -16,7 +16,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<Server.Video.Broadcast.Common.Broadcast>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<Server.Video.Broadcast.Broadcast>>> Operation =>
             configuration => new BroadcastClient(configuration).StopBroadcastAsync(this.request);
 
         private readonly Result<StopBroadcastRequest> request;
@@ -40,7 +40,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.Helper
                 .VerifyReturnsFailureGivenRequestIsFailure<StopBroadcastRequest,
-                    Server.Video.Broadcast.Common.Broadcast>(
+                    Server.Video.Broadcast.Broadcast>(
                     (configuration, failureRequest) =>
                         new BroadcastClient(configuration).StopBroadcastAsync(failureRequest));
 

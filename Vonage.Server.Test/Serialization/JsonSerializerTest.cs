@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Common;
 using Vonage.Server.Serialization;
 using Xunit;
 

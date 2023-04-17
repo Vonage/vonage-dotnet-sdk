@@ -3,7 +3,6 @@ using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
-using Vonage.Server.Common;
 
 namespace Vonage.Server.Video.Broadcast.StartBroadcast;
 
