@@ -5,33 +5,20 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.CreateArchive;
 
-/// <inheritdoc />
-public class CreateArchiveRequestBuilder : IVonageRequestBuilder<CreateArchiveRequest>
+/// <summary>
+///     Represents a builder for CreateArchiveRequest.
+/// </summary>
+internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForApplicationId, IBuilderForOptional
 {
     private bool hasAudio = true;
     private bool hasVideo = true;
-    private readonly Guid applicationId;
+    private Guid applicationId;
     private Layout layout;
     private Maybe<string> name = Maybe<string>.None;
     private OutputMode outputMode = OutputMode.Composed;
     private RenderResolution resolution = RenderResolution.StandardDefinitionLandscape;
     private StreamMode streamMode = StreamMode.Auto;
-    private readonly string sessionId;
-
-    private CreateArchiveRequestBuilder(Guid applicationId, string sessionId)
-    {
-        this.applicationId = applicationId;
-        this.sessionId = sessionId;
-    }
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <param name="applicationId">The Vonage Application UUID.</param>
-    /// <param name="sessionId"></param>
-    /// <returns>The builder.</returns>
-    public static CreateArchiveRequestBuilder Build(Guid applicationId, string sessionId) =>
-        new(applicationId, sessionId);
+    private string sessionId;
 
     /// <inheritdoc />
     public Result<CreateArchiveRequest> Create() =>
@@ -50,76 +37,64 @@ public class CreateArchiveRequestBuilder : IVonageRequestBuilder<CreateArchiveRe
             .Bind(VerifyApplicationId)
             .Bind(VerifySessionId);
 
-    /// <summary>
-    ///     Disables the audio on the request.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public CreateArchiveRequestBuilder DisableAudio()
+    /// <inheritdoc />
+    public IBuilderForOptional DisableAudio()
     {
         this.hasAudio = false;
         return this;
     }
 
-    /// <summary>
-    ///     Disables the video on the request.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public CreateArchiveRequestBuilder DisableVideo()
+    /// <inheritdoc />
+    public IBuilderForOptional DisableVideo()
     {
         this.hasVideo = false;
         return this;
     }
 
-    /// <summary>
-    ///     Sets the archive's layout.
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The builder.</returns>
-    public CreateArchiveRequestBuilder WithArchiveLayout(Layout value)
+    /// <inheritdoc />
+    public IBuilderForSessionId WithApplicationId(Guid value)
+    {
+        this.applicationId = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithArchiveLayout(Layout value)
     {
         this.layout = value;
         return this;
     }
 
-    /// <summary>
-    ///     Sets the name of the archive.
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The builder.</returns>
-    public CreateArchiveRequestBuilder WithName(string value)
+    /// <inheritdoc />
+    public IBuilderForOptional WithName(string value)
     {
         this.name = value;
         return this;
     }
 
-    /// <summary>
-    ///     Sets the output mode.
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The builder.</returns>
-    public CreateArchiveRequestBuilder WithOutputMode(OutputMode value)
+    /// <inheritdoc />
+    public IBuilderForOptional WithOutputMode(OutputMode value)
     {
         this.outputMode = value;
         return this;
     }
 
-    /// <summary>
-    ///     Sets the resolution.
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The builder.</returns>
-    public CreateArchiveRequestBuilder WithRenderResolution(RenderResolution value)
+    /// <inheritdoc />
+    public IBuilderForOptional WithRenderResolution(RenderResolution value)
     {
         this.resolution = value;
         return this;
     }
 
-    /// <summary>
-    ///     Sets the stream mode.
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The builder.</returns>
-    public CreateArchiveRequestBuilder WithStreamMode(StreamMode value)
+    /// <inheritdoc />
+    public IBuilderForOptional WithSessionId(string value)
+    {
+        this.sessionId = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithStreamMode(StreamMode value)
     {
         this.streamMode = value;
         return this;
@@ -130,4 +105,83 @@ public class CreateArchiveRequestBuilder : IVonageRequestBuilder<CreateArchiveRe
 
     private static Result<CreateArchiveRequest> VerifySessionId(CreateArchiveRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
+}
+
+/// <summary>
+///     Represents a builder for ApplicationId.
+/// </summary>
+public interface IBuilderForApplicationId
+{
+    /// <summary>
+    ///     Sets the ApplicationId.
+    /// </summary>
+    /// <param name="value">The ApplicationId.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForSessionId WithApplicationId(Guid value);
+}
+
+/// <summary>
+///     Represents a builder for SessionId.
+/// </summary>
+public interface IBuilderForSessionId
+{
+    /// <summary>
+    ///     Sets the SessionId.
+    /// </summary>
+    /// <param name="value">The SessionId.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithSessionId(string value);
+}
+
+/// <summary>
+///     Represents a builder for optional values.
+/// </summary>
+public interface IBuilderForOptional : IVonageRequestBuilder<CreateArchiveRequest>
+{
+    /// <summary>
+    ///     Disables the audio on the request.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional DisableAudio();
+
+    /// <summary>
+    ///     Disables the video on the request.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional DisableVideo();
+
+    /// <summary>
+    ///     Sets the archive's layout.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithArchiveLayout(Layout value);
+
+    /// <summary>
+    ///     Sets the name of the archive.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithName(string value);
+
+    /// <summary>
+    ///     Sets the output mode.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithOutputMode(OutputMode value);
+
+    /// <summary>
+    ///     Sets the resolution.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithRenderResolution(RenderResolution value);
+
+    /// <summary>
+    ///     Sets the stream mode.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithStreamMode(StreamMode value);
 }

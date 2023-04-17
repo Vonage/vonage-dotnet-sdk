@@ -62,6 +62,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
             };
 
         private static Result<CreateArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            CreateArchiveRequestBuilder.Build(fixture.Create<Guid>(), fixture.Create<string>()).Create();
+            CreateArchiveRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithSessionId(fixture.Create<string>())
+                .Create();
     }
 }

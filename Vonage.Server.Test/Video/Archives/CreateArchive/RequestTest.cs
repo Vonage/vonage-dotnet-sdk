@@ -20,7 +20,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
