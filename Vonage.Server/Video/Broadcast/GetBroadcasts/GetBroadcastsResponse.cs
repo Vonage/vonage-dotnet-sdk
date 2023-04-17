@@ -13,5 +13,5 @@ public struct GetBroadcastsResponse
     /// <summary>
     ///     The list of broadcasts.
     /// </summary>
-    public Common.Broadcast[] Items { get; set; }
+    public Broadcast[] Items { get; set; }
 }

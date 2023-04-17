@@ -24,8 +24,9 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
 
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
-            GetRoomsByThemeVonageRequestBuilder
-                .Build(this.themeId)
+            GetRoomsByThemeRequest
+                .Build()
+                .WithThemeId(this.themeId)
                 .Create()
                 .Should()
                 .BeSuccess(success =>
@@ -37,16 +38,18 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenThemeIdIsNullOrWhitespace() =>
-            GetRoomsByThemeVonageRequestBuilder
-                .Build(Guid.Empty)
+            GetRoomsByThemeRequest
+                .Build()
+                .WithThemeId(Guid.Empty)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnSuccess() =>
-            GetRoomsByThemeVonageRequestBuilder
-                .Build(this.themeId)
+            GetRoomsByThemeRequest
+                .Build()
+                .WithThemeId(this.themeId)
                 .WithStartId(this.startId)
                 .WithEndId(this.endId)
                 .Create()

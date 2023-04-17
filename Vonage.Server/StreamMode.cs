@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Vonage.Server.Common;
+namespace Vonage.Server;
 
 /// <summary>
 ///     Whether streams included in an archive or broadcast are selected automatically or manually.

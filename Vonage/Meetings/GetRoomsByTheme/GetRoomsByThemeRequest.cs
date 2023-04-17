@@ -26,6 +26,12 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
     /// </summary>
     public Guid ThemeId { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForThemeId Build() => new GetRoomsByThemeRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder

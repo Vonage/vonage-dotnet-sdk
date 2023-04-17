@@ -57,10 +57,10 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
             };
 
         private static Result<AddStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            AddStreamRequestBuilder.Build(
-                    fixture.Create<Guid>(),
-                    fixture.Create<Guid>(),
-                    fixture.Create<Guid>())
+            AddStreamRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithArchiveId(fixture.Create<Guid>())
+                .WithStreamId(fixture.Create<Guid>())
                 .Create();
     }
 }

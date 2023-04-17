@@ -8,7 +8,6 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Server.Common;
 using Vonage.Server.Video.Broadcast;
 using Vonage.Server.Video.Broadcast.GetBroadcasts;
 using Vonage.Server.Video.Broadcast.StartBroadcast;
@@ -18,7 +17,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<Server.Video.Broadcast.Common.Broadcast>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<Server.Video.Broadcast.Broadcast>>> Operation =>
             configuration => new BroadcastClient(configuration).StartBroadcastsAsync(this.request);
 
         private readonly Result<StartBroadcastRequest> request;

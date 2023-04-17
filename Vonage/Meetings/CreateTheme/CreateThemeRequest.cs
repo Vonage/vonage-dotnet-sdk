@@ -35,6 +35,15 @@ public readonly struct CreateThemeRequest : IVonageRequest
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<string> ThemeName { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <param name="brandText"></param>
+    /// <param name="mainColor"></param>
+    /// <returns>The builder.</returns>
+    public static ICreateThemeRequestBuilder Build(string brandText, Color mainColor) =>
+        new CreateThemeRequestBuilder(brandText, mainColor);
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder

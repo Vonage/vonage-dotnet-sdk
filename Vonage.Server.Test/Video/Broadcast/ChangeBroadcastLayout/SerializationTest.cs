@@ -1,7 +1,6 @@
 ﻿using System;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Common;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Broadcast.ChangeBroadcastLayout;
 using Xunit;

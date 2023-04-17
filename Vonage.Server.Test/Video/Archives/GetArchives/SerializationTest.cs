@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Common;
 using Vonage.Server.Serialization;
 using Vonage.Server.Video.Archives.GetArchives;
 using Xunit;

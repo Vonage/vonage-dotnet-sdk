@@ -1,4 +1,4 @@
-namespace Vonage.Server.Video.Sessions.Common;
+namespace Vonage.Server.Video.Sessions;
 
 /// <summary>
 ///     Defines values for a session's Media mode.

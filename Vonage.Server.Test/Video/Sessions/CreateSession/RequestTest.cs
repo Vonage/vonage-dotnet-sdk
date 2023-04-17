@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Sessions.Common;
+using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Sessions.CreateSession;
 using Xunit;
 

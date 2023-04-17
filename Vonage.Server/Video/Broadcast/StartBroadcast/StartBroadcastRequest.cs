@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
-using Vonage.Server.Common;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Broadcast.StartBroadcast;
@@ -94,9 +93,9 @@ public readonly struct StartBroadcastRequest : IVonageRequest
     {
         /// <summary>
         /// </summary>
-        [JsonConverter(typeof(MaybeJsonConverter<Common.Broadcast.HlsSettings>))]
+        [JsonConverter(typeof(MaybeJsonConverter<Broadcast.HlsSettings>))]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Maybe<Common.Broadcast.HlsSettings> Hls { get; set; }
+        public Maybe<Broadcast.HlsSettings> Hls { get; set; }
 
         /// <summary>
         ///     Represents the types of broadcast streams you want to start.

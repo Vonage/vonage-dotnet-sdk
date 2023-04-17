@@ -3,7 +3,6 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Common;
 using Vonage.Server.Video.Archives.CreateArchive;
 using Xunit;
 
@@ -34,7 +33,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void Build_ShouldAssignArchiveLayout_GivenWithArchiveLayoutIsUsed() =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
                 .WithArchiveLayout(this.layout)
                 .Create()
                 .Should()
@@ -42,7 +43,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void Build_ShouldAssignName_GivenWithNameIsUsed() =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
                 .WithName(this.name)
                 .Create()
                 .Should()
@@ -50,7 +53,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void Build_ShouldAssignOutputMode_GivenWithOutputModeIsUsed() =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
                 .WithOutputMode(this.outputMode)
                 .Create()
                 .Should()
@@ -58,7 +63,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void Build_ShouldAssignResolution_GivenWithRenderResolutionIsUsed() =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
                 .WithRenderResolution(this.resolution)
                 .Create()
                 .Should()
@@ -66,7 +73,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void Build_ShouldAssignStreamMode_GivenWithStreamModeIsUsed() =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
                 .WithStreamMode(this.streamMode)
                 .Create()
                 .Should()
@@ -74,7 +83,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithDefaultValues() =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
                 .Create()
                 .Should()
                 .BeSuccess(request =>
@@ -92,7 +103,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void Parse_ShouldReturnDisabledAudio_WhenUsingDisableAudio() =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
                 .DisableAudio()
                 .Create()
                 .Should()
@@ -100,7 +113,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void Parse_ShouldReturnDisabledVideo_WhenUsingDisableVideo() =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
                 .DisableVideo()
                 .Create()
                 .Should()
@@ -108,7 +123,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            CreateArchiveRequestBuilder.Build(Guid.Empty, this.sessionId)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(Guid.Empty)
+                .WithSessionId(this.sessionId)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
@@ -118,7 +135,9 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
         [InlineData(" ")]
         [InlineData(null)]
         public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
-            CreateArchiveRequestBuilder.Build(this.applicationId, value)
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(value)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));

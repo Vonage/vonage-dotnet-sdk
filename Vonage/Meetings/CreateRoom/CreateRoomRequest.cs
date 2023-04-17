@@ -65,6 +65,13 @@ public readonly struct CreateRoomRequest : IVonageRequest
     /// </summary>
     public RoomType Type { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder for CreateRoomRequest.
+    /// </summary>
+    /// <param name="displayName">The display name.</param>
+    /// <returns>The builder.</returns>
+    public static ICreateRoomRequestBuilder Build(string displayName) => new CreateRoomRequestBuilder(displayName);
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder

@@ -4,7 +4,6 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
-using Vonage.Server.Common;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Archives.CreateArchive;
@@ -70,6 +69,13 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     ///     automatic and manual modes, the archive composer includes streams based on stream prioritization rules.
     /// </summary>
     public StreamMode StreamMode { get; internal init; }
+
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() =>
+        new CreateArchiveRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

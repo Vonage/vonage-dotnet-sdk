@@ -61,6 +61,6 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
             };
 
         private static Result<GetRoomsByThemeRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetRoomsByThemeVonageRequestBuilder.Build(fixture.Create<Guid>()).Create();
+            GetRoomsByThemeRequest.Build().WithThemeId(fixture.Create<Guid>()).Create();
     }
 }

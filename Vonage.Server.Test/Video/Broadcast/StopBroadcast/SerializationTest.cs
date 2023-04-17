@@ -18,7 +18,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
-                .DeserializeObject<Server.Video.Broadcast.Common.Broadcast>(this.helper.GetResponseJson())
+                .DeserializeObject<Server.Video.Broadcast.Broadcast>(this.helper.GetResponseJson())
                 .Should()
                 .BeSuccess(success =>
                 {
@@ -34,13 +34,13 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
                     success.HasAudio.Should().Be(true);
                     success.HasVideo.Should().Be(true);
                     success.StreamMode.Should().Be("manual");
-                    success.Status.Should().Be(Server.Video.Broadcast.Common.Broadcast.BroadcastStatus.Started);
+                    success.Status.Should().Be(Server.Video.Broadcast.Broadcast.BroadcastStatus.Started);
                     success.BroadcastUrls.Hls.Should()
                         .Be(new Uri("http://server/fakepath/playlist.m3u8"));
                     success.BroadcastUrls.Rtmp.Should().HaveCount(1);
                     success.BroadcastUrls.Rtmp[0].Id.Should().Be(new Guid("432c916e-22fb-492e-b45b-b96ef3b90297"));
                     success.BroadcastUrls.Rtmp[0].Status.Should()
-                        .Be(Server.Video.Broadcast.Common.Broadcast.RtmpStatus.Live);
+                        .Be(Server.Video.Broadcast.Broadcast.RtmpStatus.Live);
                     success.BroadcastUrls.Rtmp[0].StreamName.Should().Be("myfooapp");
                     success.BroadcastUrls.Rtmp[0].ServerUrl.Should().Be("rtmps://myfooserver/myfooapp");
                     success.Settings.Hls.Dvr.Should().BeTrue();

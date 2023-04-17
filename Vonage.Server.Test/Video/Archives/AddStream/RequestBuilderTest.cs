@@ -24,28 +24,40 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            AddStreamRequestBuilder.Build(Guid.Empty, this.archiveId, this.streamId)
+            AddStreamRequest.Build()
+                .WithApplicationId(Guid.Empty)
+                .WithArchiveId(this.archiveId)
+                .WithStreamId(this.streamId)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenArchiveIdIsEmpty() =>
-            AddStreamRequestBuilder.Build(this.applicationId, Guid.Empty, this.streamId)
+            AddStreamRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithArchiveId(Guid.Empty)
+                .WithStreamId(this.streamId)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ArchiveId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenStreamIdIsEmpty() =>
-            AddStreamRequestBuilder.Build(this.applicationId, this.archiveId, Guid.Empty)
+            AddStreamRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithArchiveId(this.archiveId)
+                .WithStreamId(Guid.Empty)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("StreamId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithDefaultValues() =>
-            AddStreamRequestBuilder.Build(this.applicationId, this.archiveId, this.streamId)
+            AddStreamRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithArchiveId(this.archiveId)
+                .WithStreamId(this.streamId)
                 .Create()
                 .Should()
                 .BeSuccess(request =>
@@ -59,7 +71,10 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
 
         [Fact]
         public void Parse_ShouldReturnDisabledAudio_WhenUsingDisableAudio() =>
-            AddStreamRequestBuilder.Build(this.applicationId, this.archiveId, this.streamId)
+            AddStreamRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithArchiveId(this.archiveId)
+                .WithStreamId(this.streamId)
                 .DisableAudio()
                 .Create()
                 .Should()
@@ -67,7 +82,10 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
 
         [Fact]
         public void Parse_ShouldReturnDisabledVideo_WhenUsingDisableVideo() =>
-            AddStreamRequestBuilder.Build(this.applicationId, this.archiveId, this.streamId)
+            AddStreamRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithArchiveId(this.archiveId)
+                .WithStreamId(this.streamId)
                 .DisableVideo()
                 .Create()
                 .Should()

@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
-using Vonage.Server.Common;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Broadcast.ChangeBroadcastLayout;

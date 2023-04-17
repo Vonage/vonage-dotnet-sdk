@@ -1,4 +1,4 @@
-﻿namespace Vonage.Server.Video.Signaling.Common;
+﻿namespace Vonage.Server.Video.Signaling;
 
 /// <summary>
 ///     Represents a signal to be sent.

@@ -8,7 +8,6 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Server.Common;
 using Vonage.Server.Video.Broadcast;
 using Vonage.Server.Video.Broadcast.ChangeBroadcastLayout;
 using Xunit;

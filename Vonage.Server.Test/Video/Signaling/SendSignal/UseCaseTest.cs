@@ -9,7 +9,6 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Server.Video.Signaling;
-using Vonage.Server.Video.Signaling.Common;
 using Vonage.Server.Video.Signaling.SendSignal;
 using Xunit;
 

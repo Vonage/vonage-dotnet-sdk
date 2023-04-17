@@ -53,6 +53,6 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
             };
 
         private static Result<DeleteThemeRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            DeleteThemeRequest.Parse(fixture.Create<Guid>(), fixture.Create<bool>());
+            DeleteThemeRequest.Build().WithThemeId(fixture.Create<Guid>()).Create();
     }
 }
