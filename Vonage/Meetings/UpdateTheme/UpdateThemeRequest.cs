@@ -49,7 +49,7 @@ public readonly struct UpdateThemeRequest : IVonageRequest
     /// </summary>
     /// <param name="themeId">The theme id.</param>
     /// <returns>The builder.</returns>
-    public static IBuilderForOptional Build(Guid themeId) => new UpdateThemeRequestBuilder(themeId);
+    public static IBuilderForThemeId Build() => new UpdateThemeRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

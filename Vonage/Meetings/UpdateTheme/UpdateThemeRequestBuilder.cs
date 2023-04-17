@@ -6,16 +6,16 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Meetings.UpdateTheme;
 
-/// <inheritdoc />
-internal class UpdateThemeRequestBuilder : IBuilderForOptional
+/// <summary>
+///     Represents a builder for UpdateThemeRequest.
+/// </summary>
+internal class UpdateThemeRequestBuilder : IBuilderForThemeId, IBuilderForOptional
 {
-    private readonly Guid themeId;
+    private Guid themeId;
     private Maybe<Color> mainColor = Maybe<Color>.None;
     private Maybe<string> themeName = Maybe<string>.None;
     private Maybe<string> brandText = Maybe<string>.None;
     private Maybe<Uri> shortCompanyUrl = Maybe<Uri>.None;
-
-    internal UpdateThemeRequestBuilder(Guid themeId) => this.themeId = themeId;
 
     /// <inheritdoc />
     public Result<UpdateThemeRequest> Create() => Result<UpdateThemeRequest>
@@ -73,9 +73,28 @@ internal class UpdateThemeRequestBuilder : IBuilderForOptional
         return this;
     }
 
+    public IBuilderForOptional WithThemeId(Guid value)
+    {
+        this.themeId = value;
+        return this;
+    }
+
     private static Result<UpdateThemeRequest> VerifyThemeId(UpdateThemeRequest request) =>
         InputValidation
             .VerifyNotEmpty(request, request.ThemeId, nameof(request.ThemeId));
+}
+
+/// <summary>
+///     Represents a builder for ThemeId.
+/// </summary>
+public interface IBuilderForThemeId
+{
+    /// <summary>
+    ///     Sets the theme Id.
+    /// </summary>
+    /// <param name="value">The theme Id.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithThemeId(Guid value);
 }
 
 /// <summary>

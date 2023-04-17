@@ -31,7 +31,8 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
             UpdateThemeRequest
-                .Build(this.themeId)
+                .Build()
+                .WithThemeId(this.themeId)
                 .Create()
                 .Should()
                 .BeSuccess(success =>
@@ -46,7 +47,8 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
         [Fact]
         public void Build_ShouldReturnFailure_GivenThemeIdIsEmpty() =>
             UpdateThemeRequest
-                .Build(Guid.Empty)
+                .Build()
+                .WithThemeId(Guid.Empty)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be empty."));
@@ -54,7 +56,8 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
         [Fact]
         public void Build_ShouldReturnSuccess() =>
             UpdateThemeRequest
-                .Build(this.themeId)
+                .Build()
+                .WithThemeId(this.themeId)
                 .WithColor(this.mainColor)
                 .WithBrandText(this.brandText)
                 .WithName(this.themeName)
