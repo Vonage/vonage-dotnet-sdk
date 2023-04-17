@@ -13,18 +13,18 @@ public readonly struct VerifyCodeRequest : IVonageRequest
     ///     The code the user supplied.
     /// </summary>
     public string Code { get; internal init; }
-    
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns></returns>
-    public static IBuilderForRequestId Build() => new VerifyCodeRequestBuilder();
 
     /// <summary>
     ///     ID of the verify request.
     /// </summary>
     [JsonIgnore]
     public string RequestId { get; internal init; }
+
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns></returns>
+    public static IBuilderForRequestId Build() => new VerifyCodeRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
