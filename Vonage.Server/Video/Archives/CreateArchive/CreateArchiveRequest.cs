@@ -70,6 +70,13 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     /// </summary>
     public StreamMode StreamMode { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() =>
+        new CreateArchiveRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
