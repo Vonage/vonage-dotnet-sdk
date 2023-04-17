@@ -64,6 +64,6 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
             };
 
         private static Result<UpdateRoomRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            UpdateRoomRequestBuilder.Build(fixture.Create<Guid>()).Create();
+            UpdateRoomRequest.Build().WithRoomId(fixture.Create<Guid>()).Create();
     }
 }

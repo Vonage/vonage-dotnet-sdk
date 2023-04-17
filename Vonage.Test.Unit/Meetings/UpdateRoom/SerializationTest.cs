@@ -52,8 +52,9 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
 
         [Fact]
         public void ShouldSerialize() =>
-            UpdateRoomRequestBuilder
-                .Build(new Guid("934f95c2-28e5-486b-ab8e-1126dbc180f9"))
+            UpdateRoomRequest
+                .Build()
+                .WithRoomId(new Guid("934f95c2-28e5-486b-ab8e-1126dbc180f9"))
                 .WithExpiresAt(new DateTime(2019, 08, 24))
                 .ExpireAfterUse()
                 .WithThemeId("ef2b46f3-8ebb-437e-a671-272e4990fbc8")

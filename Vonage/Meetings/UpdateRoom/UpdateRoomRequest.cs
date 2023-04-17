@@ -60,6 +60,12 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<string> ThemeId { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder for UpdateRoomRequest.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForRoomId Build() => new UpdateRoomRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder

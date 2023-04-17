@@ -18,8 +18,9 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            UpdateRoomRequestBuilder
-                .Build(this.roomId)
+            UpdateRoomRequest
+                .Build()
+                .WithRoomId(this.roomId)
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()

@@ -37,8 +37,9 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
 
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
-            UpdateRoomRequestBuilder
-                .Build(this.roomId)
+            UpdateRoomRequest
+                .Build()
+                .WithRoomId(this.roomId)
                 .Create()
                 .Should()
                 .BeSuccess(success =>
@@ -56,16 +57,18 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace() =>
-            UpdateRoomRequestBuilder
-                .Build(Guid.Empty)
+            UpdateRoomRequest
+                .Build()
+                .WithRoomId(Guid.Empty)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("RoomId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnSuccess_() =>
-            UpdateRoomRequestBuilder
-                .Build(this.roomId)
+            UpdateRoomRequest
+                .Build()
+                .WithRoomId(this.roomId)
                 .WithExpiresAt(this.expiresAt)
                 .ExpireAfterUse()
                 .WithThemeId(this.themeId)
