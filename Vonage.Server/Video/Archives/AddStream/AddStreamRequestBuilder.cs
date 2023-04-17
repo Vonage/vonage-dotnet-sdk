@@ -5,31 +5,17 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.AddStream;
 
-/// <inheritdoc />
-public class AddStreamRequestBuilder : IVonageRequestBuilder<AddStreamRequest>
+/// <summary>
+///     Represents a builder for AddStreamRequest.
+/// </summary>
+internal class AddStreamRequestBuilder : IBuilderForArchiveId, IBuilderForApplicationId, IBuilderForStreamId,
+    IBuilderForOptional
 {
     private bool hasAudio = true;
     private bool hasVideo = true;
-    private readonly Guid applicationId;
-    private readonly Guid archiveId;
-    private readonly Guid streamId;
-
-    private AddStreamRequestBuilder(Guid applicationId, Guid archiveId, Guid streamId)
-    {
-        this.applicationId = applicationId;
-        this.archiveId = archiveId;
-        this.streamId = streamId;
-    }
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <param name="applicationId">The application id.</param>
-    /// <param name="archiveId">The archive id.</param>
-    /// <param name="streamId">The stream id.</param>
-    /// <returns>The builder.</returns>
-    public static AddStreamRequestBuilder Build(Guid applicationId, Guid archiveId, Guid streamId) =>
-        new(applicationId, archiveId, streamId);
+    private Guid applicationId;
+    private Guid archiveId;
+    private Guid streamId;
 
     /// <inheritdoc />
     public Result<AddStreamRequest> Create() => Result<AddStreamRequest>
@@ -49,7 +35,7 @@ public class AddStreamRequestBuilder : IVonageRequestBuilder<AddStreamRequest>
     ///     Disables the audio on the request.
     /// </summary>
     /// <returns>The builder.</returns>
-    public AddStreamRequestBuilder DisableAudio()
+    public IBuilderForOptional DisableAudio()
     {
         this.hasAudio = false;
         return this;
@@ -59,9 +45,30 @@ public class AddStreamRequestBuilder : IVonageRequestBuilder<AddStreamRequest>
     ///     Disables the video on the request.
     /// </summary>
     /// <returns>The builder.</returns>
-    public AddStreamRequestBuilder DisableVideo()
+    public IBuilderForOptional DisableVideo()
     {
         this.hasVideo = false;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForArchiveId WithApplicationId(Guid value)
+    {
+        this.applicationId = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForStreamId WithArchiveId(Guid value)
+    {
+        this.archiveId = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithStreamId(Guid value)
+    {
+        this.streamId = value;
         return this;
     }
 
@@ -73,4 +80,61 @@ public class AddStreamRequestBuilder : IVonageRequestBuilder<AddStreamRequest>
 
     private static Result<AddStreamRequest> VerifyStreamId(AddStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
+}
+
+/// <summary>
+///     Represents a builder for ApplicationId.
+/// </summary>
+public interface IBuilderForApplicationId
+{
+    /// <summary>
+    ///     Sets the ApplicationId.
+    /// </summary>
+    /// <param name="value">The ApplicationId.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForArchiveId WithApplicationId(Guid value);
+}
+
+/// <summary>
+///     Represents a builder for ArchiveId.
+/// </summary>
+public interface IBuilderForArchiveId
+{
+    /// <summary>
+    ///     Sets the ArchiveId.
+    /// </summary>
+    /// <param name="value">The ArchiveId.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForStreamId WithArchiveId(Guid value);
+}
+
+/// <summary>
+///     Represents a builder for StreamId.
+/// </summary>
+public interface IBuilderForStreamId
+{
+    /// <summary>
+    ///     Sets the StreamId.
+    /// </summary>
+    /// <param name="value">The StreamId.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithStreamId(Guid value);
+}
+
+/// <summary>
+///     Represents a builder for optional values.
+/// </summary>
+public interface IBuilderForOptional : IVonageRequestBuilder<AddStreamRequest>
+{
+    /// <summary>
+    ///     Disables the audio on the request.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public IBuilderForOptional DisableAudio();
+
+    /// <summary>
+    ///     Disables the video on the request.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public IBuilderForOptional DisableVideo();
 }

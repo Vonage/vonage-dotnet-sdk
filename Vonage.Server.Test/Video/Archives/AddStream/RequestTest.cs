@@ -22,7 +22,10 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            AddStreamRequestBuilder.Build(this.applicationId, this.archiveId, this.streamId)
+            AddStreamRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithArchiveId(this.archiveId)
+                .WithStreamId(this.streamId)
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()

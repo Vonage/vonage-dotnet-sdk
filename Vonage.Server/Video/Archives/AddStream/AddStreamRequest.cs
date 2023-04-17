@@ -36,6 +36,13 @@ public readonly struct AddStreamRequest : IVonageRequest
     /// </summary>
     public Guid StreamId { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() =>
+        new AddStreamRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
