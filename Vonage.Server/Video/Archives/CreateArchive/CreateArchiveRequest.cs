@@ -74,8 +74,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() =>
-        new CreateArchiveRequestBuilder();
+    public static IBuilderForApplicationId Build() => new CreateArchiveRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

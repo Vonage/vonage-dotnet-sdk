@@ -40,8 +40,7 @@ public readonly struct AddStreamRequest : IVonageRequest
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() =>
-        new AddStreamRequestBuilder();
+    public static IBuilderForApplicationId Build() => new AddStreamRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
