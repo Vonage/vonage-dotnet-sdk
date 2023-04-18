@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using EnumsNET;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -8,7 +9,7 @@ namespace Vonage.Server.Authentication;
 /// <summary>
 ///     Represents additional claims for the Video Client's token.
 /// </summary>
-public readonly struct TokenAdditionalClaims
+public readonly struct TokenAdditionalClaims : IHasSessionId
 {
     /// <summary>
     ///     Represents the default scope (session.connect).
@@ -36,9 +37,7 @@ public readonly struct TokenAdditionalClaims
     /// </summary>
     public string Scope { get; }
 
-    /// <summary>
-    ///     The session ID corresponding to the session to which the user will connect.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <summary>
@@ -60,7 +59,7 @@ public readonly struct TokenAdditionalClaims
         Role role = Role.Publisher)
         => Result<TokenAdditionalClaims>
             .FromSuccess(new TokenAdditionalClaims(scope, sessionId, role))
-            .Bind(VerifySessionId);
+            .Bind(BuilderExtensions.VerifySessionId);
 
     /// <summary>
     ///     Converts claims to a dictionary.
@@ -72,7 +71,4 @@ public readonly struct TokenAdditionalClaims
         {"session_id", this.SessionId},
         {"scope", this.Scope},
     };
-
-    private static Result<TokenAdditionalClaims> VerifySessionId(TokenAdditionalClaims request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 }

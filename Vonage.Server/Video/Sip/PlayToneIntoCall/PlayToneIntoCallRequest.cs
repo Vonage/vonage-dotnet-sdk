@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -12,11 +13,9 @@ namespace Vonage.Server.Video.Sip.PlayToneIntoCall;
 /// <summary>
 ///     Represents a request to play a tone for all participants of a session.
 /// </summary>
-public class PlayToneIntoCallRequest : IVonageRequest
+public class PlayToneIntoCallRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    /// <summary>
-    ///     Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
@@ -26,9 +25,7 @@ public class PlayToneIntoCallRequest : IVonageRequest
     /// </summary>
     public string Digits { get; internal init; }
 
-    /// <summary>
-    ///     Video session ID.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public string SessionId { get; internal init; }
 
@@ -58,19 +55,13 @@ public class PlayToneIntoCallRequest : IVonageRequest
                 SessionId = sessionId,
                 Digits = digits, ApplicationId = applicationId,
             })
-            .Bind(VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyDigits);
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8, "application/json");
 
-    private static Result<PlayToneIntoCallRequest> VerifyApplicationId(PlayToneIntoCallRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
-
     private static Result<PlayToneIntoCallRequest> VerifyDigits(PlayToneIntoCallRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Digits, nameof(request.Digits));
-
-    private static Result<PlayToneIntoCallRequest> VerifySessionId(PlayToneIntoCallRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }

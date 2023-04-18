@@ -53,6 +53,9 @@ namespace Vonage.Server.Test.Video.Archives.DeleteArchive
             };
 
         private static Result<DeleteArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            DeleteArchiveRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>());
+            DeleteArchiveRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithArchiveId(fixture.Create<Guid>())
+                .Create();
     }
 }

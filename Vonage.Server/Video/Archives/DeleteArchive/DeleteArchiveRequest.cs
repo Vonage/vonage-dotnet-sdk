@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
-using Vonage.Common.Monads;
-using Vonage.Common.Validation;
+using Vonage.Common.Client.Builders;
 
 namespace Vonage.Server.Video.Archives.DeleteArchive;
 
 /// <summary>
 ///     Represents a request to delete an archive.
 /// </summary>
-public readonly struct DeleteArchiveRequest : IVonageRequest
+public readonly struct DeleteArchiveRequest : IVonageRequest, IHasApplicationId, IHasArchiveId
 {
-    private DeleteArchiveRequest(Guid applicationId, Guid archiveId)
-    {
-        this.ApplicationId = applicationId;
-        this.ArchiveId = archiveId;
-    }
+    /// <inheritdoc />
+    public Guid ApplicationId { get; private init; }
+
+    /// <inheritdoc />
+    public Guid ArchiveId { get; private init; }
 
     /// <summary>
-    ///     The application Id.
+    /// Initializes a builder.
     /// </summary>
-    public Guid ApplicationId { get; }
-
-    /// <summary>
-    ///     The archive Id.
-    /// </summary>
-    public Guid ArchiveId { get; }
+    /// <returns>The builder.</returns>
+    public static ArchiveRequestBuilder<DeleteArchiveRequest>.IBuilderForApplicationId Build() =>
+        ArchiveRequestBuilder<DeleteArchiveRequest>.Build(tuple => new DeleteArchiveRequest
+        {
+            ApplicationId = tuple.Item1,
+            ArchiveId = tuple.Item2,
+        });
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -35,22 +35,4 @@ public readonly struct DeleteArchiveRequest : IVonageRequest
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}";
-
-    /// <summary>
-    ///     Parses the input into a DeleteArchiveRequest.
-    /// </summary>
-    /// <param name="applicationId">The application Id.</param>
-    /// <param name="archiveId">The archive Id.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<DeleteArchiveRequest> Parse(Guid applicationId, Guid archiveId) =>
-        Result<DeleteArchiveRequest>
-            .FromSuccess(new DeleteArchiveRequest(applicationId, archiveId))
-            .Bind(VerifyApplicationId)
-            .Bind(VerifyArchiveId);
-
-    private static Result<DeleteArchiveRequest> VerifyApplicationId(DeleteArchiveRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
-
-    private static Result<DeleteArchiveRequest> VerifyArchiveId(DeleteArchiveRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(ArchiveId));
 }

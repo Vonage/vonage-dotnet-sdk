@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace Vonage.Voice.EventWebhooks;
 
@@ -16,5 +15,4 @@ public class Transfer : Event
     /// </summary>
     [JsonProperty("conversation_uuid_to")]
     public string ConversationUuidTo { get; set; }
-        
 }

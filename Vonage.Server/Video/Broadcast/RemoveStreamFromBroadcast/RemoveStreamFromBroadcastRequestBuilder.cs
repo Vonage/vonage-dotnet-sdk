@@ -1,5 +1,6 @@
 ﻿using System;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -32,9 +33,9 @@ public class RemoveStreamFromBroadcastRequestBuilder :
                 BroadcastId = this.broadcastId,
                 StreamId = this.streamId,
             })
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifyBroadcastId)
-            .Bind(VerifyStreamId);
+            .Bind(BuilderExtensions.VerifyStreamId);
 
     /// <inheritdoc />
     public IBuilderForBroadcastId WithApplicationId(Guid value)
@@ -57,16 +58,9 @@ public class RemoveStreamFromBroadcastRequestBuilder :
         return this;
     }
 
-    private static Result<RemoveStreamFromBroadcastRequest> VerifyApplicationId(
-        RemoveStreamFromBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
-
     private static Result<RemoveStreamFromBroadcastRequest>
         VerifyBroadcastId(RemoveStreamFromBroadcastRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
-
-    private static Result<RemoveStreamFromBroadcastRequest> VerifyStreamId(RemoveStreamFromBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
 
     /// <summary>
     ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.

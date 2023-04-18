@@ -24,7 +24,7 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
         }
 
         [Fact]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+        public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
             ChangeLayoutRequest.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithArchiveId(this.archiveId)
@@ -34,7 +34,7 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Fact]
-        public void Parse_ShouldReturnFailure_GivenArchiveIdIsEmpty() =>
+        public void Build_ShouldReturnFailure_GivenArchiveIdIsEmpty() =>
             ChangeLayoutRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithArchiveId(Guid.Empty)
@@ -44,7 +44,7 @@ namespace Vonage.Server.Test.Video.Archives.ChangeLayout
                 .BeFailure(ResultFailure.FromErrorMessage("ArchiveId cannot be empty."));
 
         [Fact]
-        public void Parse_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
+        public void Build_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
             ChangeLayoutRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithArchiveId(this.archiveId)

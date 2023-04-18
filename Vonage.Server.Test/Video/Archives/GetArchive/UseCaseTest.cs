@@ -59,6 +59,7 @@ namespace Vonage.Server.Test.Video.Archives.GetArchive
             };
 
         private static Result<GetArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetArchiveRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>());
+            GetArchiveRequest.Build().WithApplicationId(fixture.Create<Guid>()).WithArchiveId(fixture.Create<Guid>())
+                .Create();
     }
 }

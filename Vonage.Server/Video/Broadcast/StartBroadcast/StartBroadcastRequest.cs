@@ -3,14 +3,17 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Broadcast.StartBroadcast;
 
-/// <inheritdoc />
-public readonly struct StartBroadcastRequest : IVonageRequest
+/// <summary>
+///     Represents a request to start a broadcast.
+/// </summary>
+public readonly struct StartBroadcastRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <summary>
     ///     Vonage Application UUID.
@@ -62,9 +65,7 @@ public readonly struct StartBroadcastRequest : IVonageRequest
     [JsonPropertyOrder(5)]
     public RenderResolution Resolution { get; internal init; }
 
-    /// <summary>
-    ///     The session ID of the OpenTok session you want to broadcast
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyOrder(0)]
     public string SessionId { get; internal init; }
 

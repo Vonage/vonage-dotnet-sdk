@@ -40,7 +40,8 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
             CreateRoomRequest
-                .Build(this.displayName)
+                .Build()
+                .WithDisplayName(this.displayName)
                 .Create()
                 .Should()
                 .BeSuccess(success =>
@@ -62,7 +63,8 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         [Fact]
         public void Build_ShouldReturnFailure_GivenDisplayNameExceeds200Length() =>
             CreateRoomRequest
-                .Build(StringHelper.GenerateString(201))
+                .Build()
+                .WithDisplayName(StringHelper.GenerateString(201))
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("DisplayName cannot be higher than 200."));
@@ -73,7 +75,8 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenDisplayNameIsNullOrWhitespace(string invalidDisplayName) =>
             CreateRoomRequest
-                .Build(invalidDisplayName)
+                .Build()
+                .WithDisplayName(invalidDisplayName)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("DisplayName cannot be null or whitespace."));
@@ -81,7 +84,8 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         [Fact]
         public void Build_ShouldReturnFailure_GivenMetadataExceeds500Length() =>
             CreateRoomRequest
-                .Build(this.displayName)
+                .Build()
+                .WithDisplayName(this.displayName)
                 .WithMetadata(StringHelper.GenerateString(501))
                 .Create()
                 .Should()
@@ -90,7 +94,8 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         [Fact]
         public void Build_ShouldReturnSuccess_() =>
             CreateRoomRequest
-                .Build(this.displayName)
+                .Build()
+                .WithDisplayName(this.displayName)
                 .WithMetadata(this.metadata)
                 .AsLongTermRoom(this.expiresAt)
                 .ExpireAfterUse()

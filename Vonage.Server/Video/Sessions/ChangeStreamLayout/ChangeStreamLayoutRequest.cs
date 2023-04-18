@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -12,7 +13,7 @@ namespace Vonage.Server.Video.Sessions.ChangeStreamLayout;
 /// <summary>
 ///     Represents a request to change a stream layout.
 /// </summary>
-public readonly struct ChangeStreamLayoutRequest : IVonageRequest
+public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private ChangeStreamLayoutRequest(Guid applicationId, string sessionId, IEnumerable<LayoutItem> items)
     {
@@ -21,9 +22,7 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest
         this.Items = items;
     }
 
-    /// <summary>
-    ///     The application Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; }
 
     /// <summary>
@@ -31,9 +30,7 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest
     /// </summary>
     public IEnumerable<LayoutItem> Items { get; }
 
-    /// <summary>
-    ///     The session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <inheritdoc />
@@ -57,8 +54,8 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest
         IEnumerable<LayoutItem> items) =>
         Result<ChangeStreamLayoutRequest>
             .FromSuccess(new ChangeStreamLayoutRequest(applicationId, sessionId, items))
-            .Bind(VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyItems);
 
     private StringContent GetRequestContent() =>
@@ -66,14 +63,8 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest
             Encoding.UTF8,
             "application/json");
 
-    private static Result<ChangeStreamLayoutRequest> VerifyApplicationId(ChangeStreamLayoutRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
-
     private static Result<ChangeStreamLayoutRequest> VerifyItems(ChangeStreamLayoutRequest request) =>
         InputValidation.VerifyNotNull(request, request.Items, nameof(Items));
-
-    private static Result<ChangeStreamLayoutRequest> VerifySessionId(ChangeStreamLayoutRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 
     /// <summary>
     ///     Represents a request to change a stream with layout classes.

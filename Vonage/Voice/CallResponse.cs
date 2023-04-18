@@ -1,16 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace Vonage.Voice;
 
 public class CallResponse
 {
-    /// <summary>
-    ///  A unique identifier for this Call.
-    /// </summary>
-    [JsonProperty("uuid")]
-    public string Uuid { get; set; }
-
     /// <summary>
     /// A unique identifier for the Conversation this Call is part of.
     /// </summary>
@@ -34,5 +27,10 @@ public class CallResponse
     /// </summary>
     [JsonProperty("status")]
     public string Status { get; set; }
-        
+
+    /// <summary>
+    ///  A unique identifier for this Call.
+    /// </summary>
+    [JsonProperty("uuid")]
+    public string Uuid { get; set; }
 }

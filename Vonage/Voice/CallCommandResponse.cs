@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vonage.Voice;
 
@@ -14,7 +9,7 @@ public class CallCommandResponse
     /// </summary>
     [JsonProperty("message")]
     public string Message { get; set; }
-        
+
     /// <summary>
     /// The unique id for this request.
     /// </summary>

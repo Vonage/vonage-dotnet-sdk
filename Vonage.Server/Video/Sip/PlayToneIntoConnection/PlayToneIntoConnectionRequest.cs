@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -12,17 +13,13 @@ namespace Vonage.Server.Video.Sip.PlayToneIntoConnection;
 /// <summary>
 ///     Represents a request to play a tone for a specific participant of a session.
 /// </summary>
-public class PlayToneIntoConnectionRequest : IVonageRequest
+public class PlayToneIntoConnectionRequest : IVonageRequest, IHasApplicationId, IHasSessionId, IHasConnectionId
 {
-    /// <summary>
-    ///     Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     Specific publisher connection ID
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public string ConnectionId { get; internal init; }
 
@@ -32,9 +29,7 @@ public class PlayToneIntoConnectionRequest : IVonageRequest
     /// </summary>
     public string Digits { get; internal init; }
 
-    /// <summary>
-    ///     Video session ID.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public string SessionId { get; internal init; }
 
@@ -69,23 +64,14 @@ public class PlayToneIntoConnectionRequest : IVonageRequest
                 ApplicationId = applicationId,
                 ConnectionId = connectionId,
             })
-            .Bind(VerifyApplicationId)
-            .Bind(VerifySessionId)
-            .Bind(VerifyConnectionId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifySessionId)
+            .Bind(BuilderExtensions.VerifyConnectionId)
             .Bind(VerifyDigits);
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8, "application/json");
 
-    private static Result<PlayToneIntoConnectionRequest> VerifyApplicationId(PlayToneIntoConnectionRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
-
-    private static Result<PlayToneIntoConnectionRequest> VerifyConnectionId(PlayToneIntoConnectionRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(request.ConnectionId));
-
     private static Result<PlayToneIntoConnectionRequest> VerifyDigits(PlayToneIntoConnectionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Digits, nameof(request.Digits));
-
-    private static Result<PlayToneIntoConnectionRequest> VerifySessionId(PlayToneIntoConnectionRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }

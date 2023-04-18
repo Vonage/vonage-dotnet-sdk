@@ -164,7 +164,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             var client = new VonageClient(creds);
-            var toEndpoint = new PhoneEndpoint() {Number = "14155550100"};
+            var toEndpoint = new PhoneEndpoint {Number = "14155550100"};
             var response = client.VoiceClient.CreateCall(
                 toEndpoint, "14155550100", new Ncco(new TalkAction {Text = "Hello World"}));
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);

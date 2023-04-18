@@ -56,6 +56,10 @@ namespace Vonage.Server.Test.Video.Archives.RemoveStream
             };
 
         private static Result<RemoveStreamRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            RemoveStreamRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>(), fixture.Create<Guid>());
+            RemoveStreamRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithArchiveId(fixture.Create<Guid>())
+                .WithStreamId(fixture.Create<Guid>())
+                .Create();
     }
 }

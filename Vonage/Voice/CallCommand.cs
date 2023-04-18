@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Vonage.Voice.Nccos;
 using Vonage.Voice.Nccos.Endpoints;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vonage.Voice;
 

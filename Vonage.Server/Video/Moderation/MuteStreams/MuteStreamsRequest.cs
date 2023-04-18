@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -11,7 +12,7 @@ namespace Vonage.Server.Video.Moderation.MuteStreams;
 /// <summary>
 ///     Represents a request to mute streams.
 /// </summary>
-public readonly struct MuteStreamsRequest : IVonageRequest
+public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private MuteStreamsRequest(Guid applicationId, string sessionId, MuteStreamsConfiguration configuration)
     {
@@ -20,9 +21,7 @@ public readonly struct MuteStreamsRequest : IVonageRequest
         this.Configuration = configuration;
     }
 
-    /// <summary>
-    ///     The Vonage application UUID.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; }
 
     /// <summary>
@@ -30,9 +29,7 @@ public readonly struct MuteStreamsRequest : IVonageRequest
     /// </summary>
     public MuteStreamsConfiguration Configuration { get; }
 
-    /// <summary>
-    ///     The Video session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <inheritdoc />
@@ -57,8 +54,8 @@ public readonly struct MuteStreamsRequest : IVonageRequest
         MuteStreamsConfiguration configuration) =>
         Result<MuteStreamsRequest>
             .FromSuccess(new MuteStreamsRequest(applicationId, sessionId, configuration))
-            .Bind(VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyExcludedStreams);
 
     private StringContent GetRequestContent() =>
@@ -66,15 +63,9 @@ public readonly struct MuteStreamsRequest : IVonageRequest
             Encoding.UTF8,
             "application/json");
 
-    private static Result<MuteStreamsRequest> VerifyApplicationId(MuteStreamsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
-
     private static Result<MuteStreamsRequest> VerifyExcludedStreams(MuteStreamsRequest request) =>
         InputValidation.VerifyNotNull(request, request.Configuration.ExcludedStreamIds,
             nameof(MuteStreamsConfiguration.ExcludedStreamIds));
-
-    private static Result<MuteStreamsRequest> VerifySessionId(MuteStreamsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 
     /// <summary>
     ///     Represents a configuration for muting streams.

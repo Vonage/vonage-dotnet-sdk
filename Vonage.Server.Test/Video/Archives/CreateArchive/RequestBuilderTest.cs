@@ -82,6 +82,47 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
                 .BeSuccess(request => request.StreamMode.Should().Be(this.streamMode));
 
         [Fact]
+        public void Build_ShouldReturnDisabledAudio_WhenUsingDisableAudio() =>
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .DisableAudio()
+                .Create()
+                .Should()
+                .BeSuccess(request => request.HasAudio.Should().Be(false));
+
+        [Fact]
+        public void Build_ShouldReturnDisabledVideo_WhenUsingDisableVideo() =>
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .DisableVideo()
+                .Create()
+                .Should()
+                .BeSuccess(request => request.HasVideo.Should().Be(false));
+
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+            CreateArchiveRequest.Build()
+                .WithApplicationId(Guid.Empty)
+                .WithSessionId(this.sessionId)
+                .Create()
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public void Build_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
+            CreateArchiveRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(value)
+                .Create()
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+
+        [Fact]
         public void Build_ShouldReturnSuccess_WithDefaultValues() =>
             CreateArchiveRequest.Build()
                 .WithApplicationId(this.applicationId)
@@ -100,46 +141,5 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
                     request.StreamMode.Should().Be(StreamMode.Auto);
                     request.Layout.Should().Be(default(Layout));
                 });
-
-        [Fact]
-        public void Parse_ShouldReturnDisabledAudio_WhenUsingDisableAudio() =>
-            CreateArchiveRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .DisableAudio()
-                .Create()
-                .Should()
-                .BeSuccess(request => request.HasAudio.Should().Be(false));
-
-        [Fact]
-        public void Parse_ShouldReturnDisabledVideo_WhenUsingDisableVideo() =>
-            CreateArchiveRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .DisableVideo()
-                .Create()
-                .Should()
-                .BeSuccess(request => request.HasVideo.Should().Be(false));
-
-        [Fact]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            CreateArchiveRequest.Build()
-                .WithApplicationId(Guid.Empty)
-                .WithSessionId(this.sessionId)
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
-            CreateArchiveRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(value)
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
     }
 }

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Archives.GetArchives;
 
-/// <inheritdoc />
-public readonly struct GetArchivesRequest : IVonageRequest
+/// <summary>
+///     Represents a request to retrieve archives.
+/// </summary>
+public readonly struct GetArchivesRequest : IVonageRequest, IHasApplicationId
 {
-    /// <summary>
-    ///     The Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; internal init; }
 
     /// <summary>
@@ -31,6 +32,12 @@ public readonly struct GetArchivesRequest : IVonageRequest
     ///     archives for an automatically archived session.)
     /// </summary>
     public Maybe<string> SessionId { get; internal init; }
+
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new GetArchivesRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

@@ -1,5 +1,6 @@
 ﻿using System;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -48,8 +49,8 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
                 MaxDuration = this.maxDuration,
                 MultiBroadcastTag = this.multiBroadcastTag,
             })
-            .Bind(VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyMaxDuration)
             .Bind(VerifyHls)
             .Bind(VerifyLayout);
@@ -110,9 +111,6 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
         return this;
     }
 
-    private static Result<StartBroadcastRequest> VerifyApplicationId(StartBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
-
     private static Result<StartBroadcastRequest> VerifyHls(StartBroadcastRequest request) =>
         request.Outputs.Hls
             .Map(value => value.LowLatency && value.Dvr)
@@ -151,9 +149,6 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             .VerifyHigherOrEqualThan(request, request.MaxDuration, MinimumMaxDuration, nameof(request.MaxDuration))
             .Bind(_ => InputValidation.VerifyLowerOrEqualThan(request, request.MaxDuration, MaximumMaxDuration,
                 nameof(request.MaxDuration)));
-
-    private static Result<StartBroadcastRequest> VerifySessionId(StartBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 
 namespace Vonage.Server.Video.Broadcast.StopBroadcast;
 
-/// <inheritdoc />
-public readonly struct StopBroadcastRequest : IVonageRequest
+/// <summary>
+///     Represents a request to stop a broadcast.
+/// </summary>
+public readonly struct StopBroadcastRequest : IVonageRequest, IHasApplicationId, IHasBroadcastId
 {
-    /// <summary>
-    ///     The Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     The Id of the broadcast.
-    /// </summary>
+    /// <inheritdoc />
     public Guid BroadcastId { get; internal init; }
 
     /// <inheritdoc />

@@ -6,19 +6,15 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Meetings.CreateTheme;
 
-/// <inheritdoc />
-internal class CreateThemeRequestBuilder : ICreateThemeRequestBuilder
+/// <summary>
+///     Represents a builder for CreateThemeRequest.
+/// </summary>
+internal class CreateThemeRequestBuilder : IBuilderForBrand, IBuilderForColor, IBuilderForOptional
 {
-    private readonly Color mainColor;
+    private Color mainColor;
     private Maybe<string> themeName = Maybe<string>.None;
     private Maybe<Uri> shortCompanyUrl = Maybe<Uri>.None;
-    private readonly string brandText;
-
-    internal CreateThemeRequestBuilder(string brandText, Color mainColor)
-    {
-        this.brandText = brandText;
-        this.mainColor = mainColor;
-    }
+    private string brandText;
 
     /// <inheritdoc />
     public Result<CreateThemeRequest> Create() =>
@@ -32,23 +28,29 @@ internal class CreateThemeRequestBuilder : ICreateThemeRequestBuilder
             })
             .Bind(VerifyBrandText);
 
-    /// <summary>
-    ///     Sets the theme name on the builder.
-    /// </summary>
-    /// <param name="value">The theme name.</param>
-    /// <returns>The builder.</returns>
-    public ICreateThemeRequestBuilder WithName(string value)
+    /// <inheritdoc />
+    public IBuilderForColor WithBrand(string value)
+    {
+        this.brandText = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithColor(Color value)
+    {
+        this.mainColor = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithName(string value)
     {
         this.themeName = value;
         return this;
     }
 
-    /// <summary>
-    ///     Sets the company Url on the builder.
-    /// </summary>
-    /// <param name="value">The company Url.</param>
-    /// <returns>The builder.</returns>
-    public ICreateThemeRequestBuilder WithShortCompanyUrl(Uri value)
+    /// <inheritdoc />
+    public IBuilderForOptional WithShortCompanyUrl(Uri value)
     {
         this.shortCompanyUrl = value;
         return this;
@@ -60,21 +62,47 @@ internal class CreateThemeRequestBuilder : ICreateThemeRequestBuilder
 }
 
 /// <summary>
-///     Represents a builder for CreateThemeRequest.
+/// Represents a builder for Brand.
 /// </summary>
-public interface ICreateThemeRequestBuilder : IVonageRequestBuilder<CreateThemeRequest>
+public interface IBuilderForBrand
+{
+    /// <summary>
+    ///     Sets the brand.
+    /// </summary>
+    /// <param name="value">The brand.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForColor WithBrand(string value);
+}
+
+/// <summary>
+///     Represents a builder for Color.
+/// </summary>
+public interface IBuilderForColor
+{
+    /// <summary>
+    ///     Sets the brand.
+    /// </summary>
+    /// <param name="value">The brand.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithColor(Color value);
+}
+
+/// <summary>
+///     Represents a builder for optional values.
+/// </summary>
+public interface IBuilderForOptional : IVonageRequestBuilder<CreateThemeRequest>
 {
     /// <summary>
     ///     Sets the theme name on the builder.
     /// </summary>
     /// <param name="value">The theme name.</param>
     /// <returns>The builder.</returns>
-    ICreateThemeRequestBuilder WithName(string value);
+    IBuilderForOptional WithName(string value);
 
     /// <summary>
     ///     Sets the company Url on the builder.
     /// </summary>
     /// <param name="value">The company Url.</param>
     /// <returns>The builder.</returns>
-    ICreateThemeRequestBuilder WithShortCompanyUrl(Uri value);
+    IBuilderForOptional WithShortCompanyUrl(Uri value);
 }

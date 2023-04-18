@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -11,7 +12,7 @@ namespace Vonage.Server.Video.Signaling.SendSignals;
 /// <summary>
 ///     Represents a request to send a signal to all participants.
 /// </summary>
-public readonly struct SendSignalsRequest : IVonageRequest
+public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private SendSignalsRequest(Guid applicationId, string sessionId, SignalContent content)
     {
@@ -20,9 +21,7 @@ public readonly struct SendSignalsRequest : IVonageRequest
         this.Content = content;
     }
 
-    /// <summary>
-    ///     The Vonage application UUID.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; }
 
     /// <summary>
@@ -30,9 +29,7 @@ public readonly struct SendSignalsRequest : IVonageRequest
     /// </summary>
     public SignalContent Content { get; }
 
-    /// <summary>
-    ///     The Video session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <inheritdoc />
@@ -55,8 +52,8 @@ public readonly struct SendSignalsRequest : IVonageRequest
     public static Result<SendSignalsRequest> Parse(Guid applicationId, string sessionId, SignalContent content) =>
         Result<SendSignalsRequest>
             .FromSuccess(new SendSignalsRequest(applicationId, sessionId, content))
-            .Bind(VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyContentType)
             .Bind(VerifyContentData);
 
@@ -65,15 +62,9 @@ public readonly struct SendSignalsRequest : IVonageRequest
             Encoding.UTF8,
             "application/json");
 
-    private static Result<SendSignalsRequest> VerifyApplicationId(SendSignalsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
-
     private static Result<SendSignalsRequest> VerifyContentData(SendSignalsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Data, nameof(SignalContent.Data));
 
     private static Result<SendSignalsRequest> VerifyContentType(SendSignalsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Type, nameof(SignalContent.Type));
-
-    private static Result<SendSignalsRequest> VerifySessionId(SendSignalsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 }

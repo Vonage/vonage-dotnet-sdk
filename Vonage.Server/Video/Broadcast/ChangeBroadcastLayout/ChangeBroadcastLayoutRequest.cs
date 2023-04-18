@@ -3,22 +3,21 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Broadcast.ChangeBroadcastLayout;
 
-/// <inheritdoc />
-public readonly struct ChangeBroadcastLayoutRequest : IVonageRequest
+/// <summary>
+///     Represents a request to change a broadcast layout.
+/// </summary>
+public readonly struct ChangeBroadcastLayoutRequest : IVonageRequest, IHasApplicationId, IHasBroadcastId
 {
-    /// <summary>
-    ///     The Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     The Id of the broadcast.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public Guid BroadcastId { get; internal init; }
 

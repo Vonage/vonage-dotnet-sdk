@@ -3,16 +3,17 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Broadcast.RemoveStreamFromBroadcast;
 
-/// <inheritdoc />
-public readonly struct RemoveStreamFromBroadcastRequest : IVonageRequest
+/// <summary>
+///     Represents a request to remove a stream from a broadcast.
+/// </summary>
+public readonly struct RemoveStreamFromBroadcastRequest : IVonageRequest, IHasApplicationId, IHasStreamId
 {
-    /// <summary>
-    ///     The Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
@@ -22,9 +23,7 @@ public readonly struct RemoveStreamFromBroadcastRequest : IVonageRequest
     [JsonIgnore]
     public Guid BroadcastId { get; internal init; }
 
-    /// <summary>
-    ///     The Id of the stream to add.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("removeStream")]
     public Guid StreamId { get; internal init; }
 

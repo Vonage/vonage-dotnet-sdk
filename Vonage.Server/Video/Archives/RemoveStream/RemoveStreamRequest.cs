@@ -2,8 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
-using Vonage.Common.Monads;
-using Vonage.Common.Validation;
+using Vonage.Common.Client.Builders;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Archives.RemoveStream;
@@ -11,29 +10,28 @@ namespace Vonage.Server.Video.Archives.RemoveStream;
 /// <summary>
 ///     Represents a request to remove a stream from an archive.
 /// </summary>
-public readonly struct RemoveStreamRequest : IVonageRequest
+public readonly struct RemoveStreamRequest : IVonageRequest, IHasApplicationId, IHasArchiveId, IHasStreamId
 {
-    private RemoveStreamRequest(Guid applicationId, Guid archiveId, Guid streamId)
-    {
-        this.ApplicationId = applicationId;
-        this.ArchiveId = archiveId;
-        this.StreamId = streamId;
-    }
+    /// <inheritdoc />
+    public Guid ApplicationId { get; private init; }
+
+    /// <inheritdoc />
+    public Guid ArchiveId { get; private init; }
+
+    /// <inheritdoc />
+    public Guid StreamId { get; private init; }
 
     /// <summary>
-    ///     The application Id.
+    ///     Initializes a builder.
     /// </summary>
-    public Guid ApplicationId { get; }
-
-    /// <summary>
-    ///     The archive Id.
-    /// </summary>
-    public Guid ArchiveId { get; }
-
-    /// <summary>
-    ///     The stream Id.
-    /// </summary>
-    public Guid StreamId { get; }
+    /// <returns>The builder.</returns>
+    public static StreamRequestBuilder<RemoveStreamRequest>.IBuilderForApplicationId Build() =>
+        StreamRequestBuilder<RemoveStreamRequest>.Build(tuple => new RemoveStreamRequest
+        {
+            ApplicationId = tuple.Item1,
+            ArchiveId = tuple.Item2,
+            StreamId = tuple.Item3,
+        });
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -45,31 +43,8 @@ public readonly struct RemoveStreamRequest : IVonageRequest
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/streams";
 
-    /// <summary>
-    ///     Parses the input into a RemoveStreamRequest.
-    /// </summary>
-    /// <param name="applicationId">The application Id.</param>
-    /// <param name="archiveId">The archive Id.</param>
-    /// <param name="streamId">The stream Id.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<RemoveStreamRequest> Parse(Guid applicationId, Guid archiveId, Guid streamId) =>
-        Result<RemoveStreamRequest>
-            .FromSuccess(new RemoveStreamRequest(applicationId, archiveId, streamId))
-            .Bind(VerifyApplicationId)
-            .Bind(VerifyArchiveId)
-            .Bind(VerifyStreamId);
-
     private StringContent GetRequestContent() =>
         new(
             JsonSerializerBuilder.Build().SerializeObject(new {RemoveStream = this.StreamId}), Encoding.UTF8,
             "application/json");
-
-    private static Result<RemoveStreamRequest> VerifyApplicationId(RemoveStreamRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
-
-    private static Result<RemoveStreamRequest> VerifyArchiveId(RemoveStreamRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(ArchiveId));
-
-    private static Result<RemoveStreamRequest> VerifyStreamId(RemoveStreamRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(StreamId));
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -9,7 +10,7 @@ namespace Vonage.Server.Video.Sessions.GetStream;
 /// <summary>
 ///     Represents a request to retrieve a stream.
 /// </summary>
-public readonly struct GetStreamRequest : IVonageRequest
+public readonly struct GetStreamRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private GetStreamRequest(Guid applicationId, string sessionId, string streamId)
     {
@@ -18,14 +19,10 @@ public readonly struct GetStreamRequest : IVonageRequest
         this.StreamId = streamId;
     }
 
-    /// <summary>
-    ///     The application Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; }
 
-    /// <summary>
-    ///     The session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <summary>
@@ -53,15 +50,9 @@ public readonly struct GetStreamRequest : IVonageRequest
     public static Result<GetStreamRequest> Parse(Guid applicationId, string sessionId, string streamId) =>
         Result<GetStreamRequest>
             .FromSuccess(new GetStreamRequest(applicationId, sessionId, streamId))
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifyStreamId)
-            .Bind(VerifySessionId);
-
-    private static Result<GetStreamRequest> VerifyApplicationId(GetStreamRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
-
-    private static Result<GetStreamRequest> VerifySessionId(GetStreamRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
+            .Bind(BuilderExtensions.VerifySessionId);
 
     private static Result<GetStreamRequest> VerifyStreamId(GetStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(StreamId));

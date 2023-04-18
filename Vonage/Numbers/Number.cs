@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Vonage.Numbers;
@@ -6,10 +5,22 @@ namespace Vonage.Numbers;
 public class Number
 {
     /// <summary>
+    /// The monthly rental cost for this number, in Euros
+    /// </summary>
+    [JsonProperty("cost")]
+    public string Cost { get; set; }
+
+    /// <summary>
     /// The two character country code in ISO 3166-1 alpha-2 format
     /// </summary>
     [JsonProperty("country")]
     public string Country { get; set; }
+
+    /// <summary>
+    /// The capabilities of the number: SMS or VOICE or SMS,VOICE or SMS,MMS or VOICE,MMS or SMS,MMS,VOICE
+    /// </summary>
+    [JsonProperty("features")]
+    public string[] Features { get; set; }
 
     /// <summary>
     /// An available inbound virtual number.
@@ -22,16 +33,4 @@ public class Number
     /// </summary>
     [JsonProperty("type")]
     public string Type { get; set; }
-
-    /// <summary>
-    /// The capabilities of the number: SMS or VOICE or SMS,VOICE or SMS,MMS or VOICE,MMS or SMS,MMS,VOICE
-    /// </summary>
-    [JsonProperty("features")]
-    public string[] Features { get; set; }
-
-    /// <summary>
-    /// The monthly rental cost for this number, in Euros
-    /// </summary>
-    [JsonProperty("cost")]
-    public string Cost { get; set; }
 }
