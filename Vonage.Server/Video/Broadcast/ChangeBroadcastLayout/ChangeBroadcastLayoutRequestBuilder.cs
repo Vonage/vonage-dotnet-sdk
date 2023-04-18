@@ -1,5 +1,6 @@
 ﻿using System;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -32,7 +33,7 @@ public class ChangeBroadcastLayoutRequestBuilder :
                 BroadcastId = this.broadcastId,
                 Layout = this.layout,
             })
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifyBroadcastId);
 
     /// <inheritdoc />
@@ -55,9 +56,6 @@ public class ChangeBroadcastLayoutRequestBuilder :
         this.layout = value;
         return this;
     }
-
-    private static Result<ChangeBroadcastLayoutRequest> VerifyApplicationId(ChangeBroadcastLayoutRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
     private static Result<ChangeBroadcastLayoutRequest> VerifyBroadcastId(ChangeBroadcastLayoutRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));

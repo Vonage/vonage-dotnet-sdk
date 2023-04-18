@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Server.Serialization;
 
@@ -11,11 +12,9 @@ namespace Vonage.Server.Video.Archives.CreateArchive;
 /// <summary>
 ///     Represents a request to creating an archive.
 /// </summary>
-public readonly struct CreateArchiveRequest : IVonageRequest
+public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId
 {
-    /// <summary>
-    ///     The Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 

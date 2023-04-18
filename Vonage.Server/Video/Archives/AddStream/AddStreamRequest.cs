@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Archives.AddStream;
@@ -9,16 +10,12 @@ namespace Vonage.Server.Video.Archives.AddStream;
 /// <summary>
 ///     Represents a request to add a stream to an archive.
 /// </summary>
-public readonly struct AddStreamRequest : IVonageRequest
+public readonly struct AddStreamRequest : IVonageRequest, IHasApplicationId, IHasArchiveId, IHasStreamId
 {
-    /// <summary>
-    ///     The application Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     The archive Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ArchiveId { get; internal init; }
 
     /// <summary>
@@ -31,9 +28,7 @@ public readonly struct AddStreamRequest : IVonageRequest
     /// </summary>
     public bool HasVideo { get; internal init; }
 
-    /// <summary>
-    ///     The stream Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid StreamId { get; internal init; }
 
     /// <summary>

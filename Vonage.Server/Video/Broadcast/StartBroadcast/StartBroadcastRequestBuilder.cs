@@ -1,5 +1,6 @@
 ﻿using System;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -48,7 +49,7 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
                 MaxDuration = this.maxDuration,
                 MultiBroadcastTag = this.multiBroadcastTag,
             })
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifySessionId)
             .Bind(VerifyMaxDuration)
             .Bind(VerifyHls)
@@ -109,9 +110,6 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
         this.sessionId = value;
         return this;
     }
-
-    private static Result<StartBroadcastRequest> VerifyApplicationId(StartBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
     private static Result<StartBroadcastRequest> VerifyHls(StartBroadcastRequest request) =>
         request.Outputs.Hls

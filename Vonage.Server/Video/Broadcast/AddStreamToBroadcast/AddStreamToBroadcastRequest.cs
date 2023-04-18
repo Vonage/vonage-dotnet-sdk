@@ -3,16 +3,17 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
 
-/// <inheritdoc />
-public readonly struct AddStreamToBroadcastRequest : IVonageRequest
+/// <summary>
+///     Represents a request to add a stream to a broadcast.
+/// </summary>
+public readonly struct AddStreamToBroadcastRequest : IVonageRequest, IHasApplicationId, IHasStreamId
 {
-    /// <summary>
-    ///     The Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
@@ -34,9 +35,7 @@ public readonly struct AddStreamToBroadcastRequest : IVonageRequest
     [JsonPropertyOrder(2)]
     public bool HasVideo { get; internal init; }
 
-    /// <summary>
-    ///     The Id of the stream to add.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("addStream")]
     [JsonPropertyOrder(0)]
     public Guid StreamId { get; internal init; }

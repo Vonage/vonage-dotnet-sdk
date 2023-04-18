@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 
 namespace Vonage.Server.Video.Archives.GetArchive;
 
 /// <summary>
 ///     Represents a request to retrieve an archive.
 /// </summary>
-public readonly struct GetArchiveRequest : IVonageRequest
+public readonly struct GetArchiveRequest : IVonageRequest, IHasApplicationId, IHasArchiveId
 {
-    /// <summary>
-    ///     The application Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     The archive Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ArchiveId { get; internal init; }
 
     /// <summary>

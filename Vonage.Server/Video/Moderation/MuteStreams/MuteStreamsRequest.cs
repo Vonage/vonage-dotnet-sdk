@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -11,7 +12,7 @@ namespace Vonage.Server.Video.Moderation.MuteStreams;
 /// <summary>
 ///     Represents a request to mute streams.
 /// </summary>
-public readonly struct MuteStreamsRequest : IVonageRequest
+public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId
 {
     private MuteStreamsRequest(Guid applicationId, string sessionId, MuteStreamsConfiguration configuration)
     {
@@ -20,9 +21,7 @@ public readonly struct MuteStreamsRequest : IVonageRequest
         this.Configuration = configuration;
     }
 
-    /// <summary>
-    ///     The Vonage application UUID.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; }
 
     /// <summary>
@@ -57,7 +56,7 @@ public readonly struct MuteStreamsRequest : IVonageRequest
         MuteStreamsConfiguration configuration) =>
         Result<MuteStreamsRequest>
             .FromSuccess(new MuteStreamsRequest(applicationId, sessionId, configuration))
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifySessionId)
             .Bind(VerifyExcludedStreams);
 
@@ -65,9 +64,6 @@ public readonly struct MuteStreamsRequest : IVonageRequest
         new(JsonSerializerBuilder.Build().SerializeObject(this.Configuration),
             Encoding.UTF8,
             "application/json");
-
-    private static Result<MuteStreamsRequest> VerifyApplicationId(MuteStreamsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
 
     private static Result<MuteStreamsRequest> VerifyExcludedStreams(MuteStreamsRequest request) =>
         InputValidation.VerifyNotNull(request, request.Configuration.ExcludedStreamIds,

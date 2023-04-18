@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -11,7 +12,7 @@ namespace Vonage.Server.Video.Signaling.SendSignals;
 /// <summary>
 ///     Represents a request to send a signal to all participants.
 /// </summary>
-public readonly struct SendSignalsRequest : IVonageRequest
+public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId
 {
     private SendSignalsRequest(Guid applicationId, string sessionId, SignalContent content)
     {
@@ -20,9 +21,7 @@ public readonly struct SendSignalsRequest : IVonageRequest
         this.Content = content;
     }
 
-    /// <summary>
-    ///     The Vonage application UUID.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; }
 
     /// <summary>
@@ -55,7 +54,7 @@ public readonly struct SendSignalsRequest : IVonageRequest
     public static Result<SendSignalsRequest> Parse(Guid applicationId, string sessionId, SignalContent content) =>
         Result<SendSignalsRequest>
             .FromSuccess(new SendSignalsRequest(applicationId, sessionId, content))
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifySessionId)
             .Bind(VerifyContentType)
             .Bind(VerifyContentData);
@@ -64,9 +63,6 @@ public readonly struct SendSignalsRequest : IVonageRequest
         new(JsonSerializerBuilder.Build().SerializeObject(this.Content),
             Encoding.UTF8,
             "application/json");
-
-    private static Result<SendSignalsRequest> VerifyApplicationId(SendSignalsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
 
     private static Result<SendSignalsRequest> VerifyContentData(SendSignalsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Data, nameof(SignalContent.Data));

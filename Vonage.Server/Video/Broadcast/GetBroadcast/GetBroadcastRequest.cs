@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 
 namespace Vonage.Server.Video.Broadcast.GetBroadcast;
 
-/// <inheritdoc />
-public readonly struct GetBroadcastRequest : IVonageRequest
+/// <summary>
+///     Represents a request to retrieve a broadcast.
+/// </summary>
+public readonly struct GetBroadcastRequest : IVonageRequest, IHasApplicationId
 {
-    /// <summary>
-    ///     The Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; internal init; }
 
     /// <summary>

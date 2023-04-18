@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -9,7 +10,7 @@ namespace Vonage.Server.Video.Sessions.GetStreams;
 /// <summary>
 ///     Represents a request to retrieve streams.
 /// </summary>
-public readonly struct GetStreamsRequest : IVonageRequest
+public readonly struct GetStreamsRequest : IVonageRequest, IHasApplicationId
 {
     private GetStreamsRequest(Guid applicationId, string sessionId)
     {
@@ -17,9 +18,7 @@ public readonly struct GetStreamsRequest : IVonageRequest
         this.SessionId = sessionId;
     }
 
-    /// <summary>
-    ///     The application Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; }
 
     /// <summary>
@@ -45,11 +44,8 @@ public readonly struct GetStreamsRequest : IVonageRequest
     public static Result<GetStreamsRequest> Parse(Guid applicationId, string sessionId) =>
         Result<GetStreamsRequest>
             .FromSuccess(new GetStreamsRequest(applicationId, sessionId))
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifySessionId);
-
-    private static Result<GetStreamsRequest> VerifyApplicationId(GetStreamsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
 
     private static Result<GetStreamsRequest> VerifySessionId(GetStreamsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -9,7 +10,7 @@ namespace Vonage.Server.Video.Moderation.MuteStream;
 /// <summary>
 ///     Represents a request to mute a stream.
 /// </summary>
-public readonly struct MuteStreamRequest : IVonageRequest
+public readonly struct MuteStreamRequest : IVonageRequest, IHasApplicationId
 {
     private MuteStreamRequest(Guid applicationId, string sessionId, string streamId)
     {
@@ -18,9 +19,7 @@ public readonly struct MuteStreamRequest : IVonageRequest
         this.StreamId = streamId;
     }
 
-    /// <summary>
-    ///      The Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; }
 
     /// <summary>
@@ -53,12 +52,9 @@ public readonly struct MuteStreamRequest : IVonageRequest
     public static Result<MuteStreamRequest> Parse(Guid applicationId, string sessionId, string streamId) =>
         Result<MuteStreamRequest>
             .FromSuccess(new MuteStreamRequest(applicationId, sessionId, streamId))
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifyStreamId)
             .Bind(VerifySessionId);
-
-    private static Result<MuteStreamRequest> VerifyApplicationId(MuteStreamRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
 
     private static Result<MuteStreamRequest> VerifySessionId(MuteStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));

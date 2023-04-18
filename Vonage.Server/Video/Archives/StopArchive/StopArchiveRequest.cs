@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.StopArchive;
 
 /// <summary>
 ///     Represents a request to stop an archive.
 /// </summary>
-public readonly struct StopArchiveRequest : IVonageRequest
+public readonly struct StopArchiveRequest : IVonageRequest, IHasApplicationId, IHasArchiveId
 {
     private StopArchiveRequest(Guid applicationId, Guid archiveId)
     {
@@ -17,14 +17,10 @@ public readonly struct StopArchiveRequest : IVonageRequest
         this.ArchiveId = archiveId;
     }
 
-    /// <summary>
-    ///     The application Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; }
 
-    /// <summary>
-    ///     The archive Id.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ArchiveId { get; }
 
     /// <inheritdoc />
@@ -45,12 +41,6 @@ public readonly struct StopArchiveRequest : IVonageRequest
     public static Result<StopArchiveRequest> Parse(Guid applicationId, Guid archiveId) =>
         Result<StopArchiveRequest>
             .FromSuccess(new StopArchiveRequest(applicationId, archiveId))
-            .Bind(VerifyApplicationId)
-            .Bind(VerifyArchiveId);
-
-    private static Result<StopArchiveRequest> VerifyApplicationId(StopArchiveRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
-
-    private static Result<StopArchiveRequest> VerifyArchiveId(StopArchiveRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(ArchiveId));
+            .Bind(BuilderExtensions.VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyArchiveId);
 }

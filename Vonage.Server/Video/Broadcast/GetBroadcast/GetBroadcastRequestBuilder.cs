@@ -1,5 +1,6 @@
 ﻿using System;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -29,7 +30,7 @@ public class GetBroadcastRequestBuilder :
                 ApplicationId = this.applicationId,
                 BroadcastId = this.broadcastId,
             })
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifyBroadcastId);
 
     /// <inheritdoc />
@@ -45,9 +46,6 @@ public class GetBroadcastRequestBuilder :
         this.broadcastId = value;
         return this;
     }
-
-    private static Result<GetBroadcastRequest> VerifyApplicationId(GetBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
     private static Result<GetBroadcastRequest> VerifyBroadcastId(GetBroadcastRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));

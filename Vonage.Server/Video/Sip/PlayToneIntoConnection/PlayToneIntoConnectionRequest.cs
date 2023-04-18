@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
@@ -12,11 +13,9 @@ namespace Vonage.Server.Video.Sip.PlayToneIntoConnection;
 /// <summary>
 ///     Represents a request to play a tone for a specific participant of a session.
 /// </summary>
-public class PlayToneIntoConnectionRequest : IVonageRequest
+public class PlayToneIntoConnectionRequest : IVonageRequest, IHasApplicationId
 {
-    /// <summary>
-    ///     Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
@@ -69,16 +68,13 @@ public class PlayToneIntoConnectionRequest : IVonageRequest
                 ApplicationId = applicationId,
                 ConnectionId = connectionId,
             })
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifySessionId)
             .Bind(VerifyConnectionId)
             .Bind(VerifyDigits);
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8, "application/json");
-
-    private static Result<PlayToneIntoConnectionRequest> VerifyApplicationId(PlayToneIntoConnectionRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
     private static Result<PlayToneIntoConnectionRequest> VerifyConnectionId(PlayToneIntoConnectionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(request.ConnectionId));

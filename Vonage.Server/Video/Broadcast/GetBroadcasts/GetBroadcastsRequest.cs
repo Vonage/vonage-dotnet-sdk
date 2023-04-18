@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Broadcast.GetBroadcasts;
 
-/// <inheritdoc />
-public readonly struct GetBroadcastsRequest : IVonageRequest
+/// <summary>
+///     Represents a request to retrieve broadcasts.
+/// </summary>
+public readonly struct GetBroadcastsRequest : IVonageRequest, IHasApplicationId
 {
-    /// <summary>
-    ///     The Vonage Application UUID.
-    /// </summary>
+    /// <inheritdoc />
     public Guid ApplicationId { get; internal init; }
 
     /// <summary>

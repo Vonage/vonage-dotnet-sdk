@@ -1,5 +1,6 @@
 ﻿using System;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -34,7 +35,7 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
                 Name = this.name,
                 Resolution = this.resolution,
             })
-            .Bind(VerifyApplicationId)
+            .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifySessionId);
 
     /// <inheritdoc />
@@ -99,9 +100,6 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
         this.streamMode = value;
         return this;
     }
-
-    private static Result<CreateArchiveRequest> VerifyApplicationId(CreateArchiveRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
     private static Result<CreateArchiveRequest> VerifySessionId(CreateArchiveRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));

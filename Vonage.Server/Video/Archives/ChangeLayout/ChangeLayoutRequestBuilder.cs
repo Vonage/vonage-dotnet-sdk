@@ -1,7 +1,7 @@
 using System;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.ChangeLayout;
 
@@ -23,8 +23,8 @@ internal class ChangeLayoutRequestBuilder : IBuilderForArchiveId, IBuilderForApp
             ArchiveId = this.archiveId,
             Layout = this.layout,
         })
-        .Bind(VerifyApplicationId)
-        .Bind(VerifyArchiveId);
+        .Bind(BuilderExtensions.VerifyApplicationId)
+        .Bind(BuilderExtensions.VerifyArchiveId);
 
     /// <inheritdoc />
     public IBuilderForArchiveId WithApplicationId(Guid value)
@@ -46,12 +46,6 @@ internal class ChangeLayoutRequestBuilder : IBuilderForArchiveId, IBuilderForApp
         this.layout = value;
         return this;
     }
-
-    private static Result<ChangeLayoutRequest> VerifyApplicationId(ChangeLayoutRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
-
-    private static Result<ChangeLayoutRequest> VerifyArchiveId(ChangeLayoutRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(request.ArchiveId));
 }
 
 /// <summary>
