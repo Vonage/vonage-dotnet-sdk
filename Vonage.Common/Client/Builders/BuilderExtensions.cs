@@ -14,6 +14,9 @@ public static class BuilderExtensions
     public static Result<T> VerifyBroadcastId<T>(T request) where T : IHasBroadcastId =>
         InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 
+    public static Result<T> VerifyConnectionId<T>(T request) where T : IHasConnectionId =>
+        InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(request.ConnectionId));
+
     public static Result<T> VerifySessionId<T>(T request) where T : IHasSessionId =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 

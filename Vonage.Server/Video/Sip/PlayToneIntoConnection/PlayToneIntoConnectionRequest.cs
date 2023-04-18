@@ -13,15 +13,13 @@ namespace Vonage.Server.Video.Sip.PlayToneIntoConnection;
 /// <summary>
 ///     Represents a request to play a tone for a specific participant of a session.
 /// </summary>
-public class PlayToneIntoConnectionRequest : IVonageRequest, IHasApplicationId, IHasSessionId
+public class PlayToneIntoConnectionRequest : IVonageRequest, IHasApplicationId, IHasSessionId, IHasConnectionId
 {
     /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     Specific publisher connection ID
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public string ConnectionId { get; internal init; }
 
@@ -68,14 +66,11 @@ public class PlayToneIntoConnectionRequest : IVonageRequest, IHasApplicationId, 
             })
             .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(VerifyConnectionId)
+            .Bind(BuilderExtensions.VerifyConnectionId)
             .Bind(VerifyDigits);
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8, "application/json");
-
-    private static Result<PlayToneIntoConnectionRequest> VerifyConnectionId(PlayToneIntoConnectionRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(request.ConnectionId));
 
     private static Result<PlayToneIntoConnectionRequest> VerifyDigits(PlayToneIntoConnectionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Digits, nameof(request.Digits));

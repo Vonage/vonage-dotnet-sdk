@@ -12,7 +12,7 @@ namespace Vonage.Server.Video.Signaling.SendSignal;
 /// <summary>
 ///     Represents a request to send a signal to specific participant.
 /// </summary>
-public readonly struct SendSignalRequest : IVonageRequest, IHasApplicationId, IHasSessionId
+public readonly struct SendSignalRequest : IVonageRequest, IHasApplicationId, IHasSessionId, IHasConnectionId
 {
     private SendSignalRequest(Guid applicationId, string sessionId, string connectionId, SignalContent content)
     {
@@ -25,9 +25,7 @@ public readonly struct SendSignalRequest : IVonageRequest, IHasApplicationId, IH
     /// <inheritdoc />
     public Guid ApplicationId { get; }
 
-    /// <summary>
-    ///     The specific publisher connection Id.
-    /// </summary>
+    /// <inheritdoc />
     public string ConnectionId { get; }
 
     /// <summary>
@@ -63,7 +61,7 @@ public readonly struct SendSignalRequest : IVonageRequest, IHasApplicationId, IH
             .FromSuccess(new SendSignalRequest(applicationId, sessionId, connectionId, content))
             .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(VerifyConnectionId)
+            .Bind(BuilderExtensions.VerifyConnectionId)
             .Bind(VerifyContentType)
             .Bind(VerifyContentData);
 
@@ -71,9 +69,6 @@ public readonly struct SendSignalRequest : IVonageRequest, IHasApplicationId, IH
         new(JsonSerializerBuilder.Build().SerializeObject(this.Content),
             Encoding.UTF8,
             "application/json");
-
-    private static Result<SendSignalRequest> VerifyConnectionId(SendSignalRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(ConnectionId));
 
     private static Result<SendSignalRequest> VerifyContentData(SendSignalRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Data, nameof(SignalContent.Data));

@@ -3,14 +3,13 @@ using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Moderation.DisconnectConnection;
 
 /// <summary>
 ///     Represents a request to disconnect a connection.
 /// </summary>
-public readonly struct DisconnectConnectionRequest : IVonageRequest, IHasApplicationId, IHasSessionId
+public readonly struct DisconnectConnectionRequest : IVonageRequest, IHasApplicationId, IHasSessionId, IHasConnectionId
 {
     private DisconnectConnectionRequest(Guid applicationId, string sessionId, string connectionId)
     {
@@ -22,9 +21,7 @@ public readonly struct DisconnectConnectionRequest : IVonageRequest, IHasApplica
     /// <inheritdoc />
     public Guid ApplicationId { get; }
 
-    /// <summary>
-    ///     The specific publisher connection Id.
-    /// </summary>
+    /// <inheritdoc />
     public string ConnectionId { get; }
 
     /// <inheritdoc />
@@ -52,9 +49,6 @@ public readonly struct DisconnectConnectionRequest : IVonageRequest, IHasApplica
         Result<DisconnectConnectionRequest>
             .FromSuccess(new DisconnectConnectionRequest(applicationId, sessionId, connectionId))
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifyConnectionId)
+            .Bind(BuilderExtensions.VerifyConnectionId)
             .Bind(BuilderExtensions.VerifySessionId);
-
-    private static Result<DisconnectConnectionRequest> VerifyConnectionId(DisconnectConnectionRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(ConnectionId));
 }
