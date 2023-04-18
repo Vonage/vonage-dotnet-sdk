@@ -38,11 +38,8 @@ public readonly struct CreateThemeRequest : IVonageRequest
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
-    /// <param name="brandText"></param>
-    /// <param name="mainColor"></param>
     /// <returns>The builder.</returns>
-    public static ICreateThemeRequestBuilder Build(string brandText, Color mainColor) =>
-        new CreateThemeRequestBuilder(brandText, mainColor);
+    public static IBuilderForBrand Build() => new CreateThemeRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

@@ -61,6 +61,6 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
             };
 
         private static Result<CreateRoomRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            CreateRoomRequest.Build(fixture.Create<string>()).Create();
+            CreateRoomRequest.Build().WithDisplayName(fixture.Create<string>()).Create();
     }
 }

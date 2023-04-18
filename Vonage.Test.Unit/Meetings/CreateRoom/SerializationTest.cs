@@ -53,7 +53,8 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         [Fact]
         public void ShouldSerialize() =>
             CreateRoomRequest
-                .Build("string")
+                .Build()
+                .WithDisplayName("string")
                 .WithMetadata("string")
                 .WithThemeId("ef2b46f3-8ebb-437e-a671-272e4990fbc8")
                 .WithApprovalLevel(RoomApprovalLevel.None)
@@ -74,7 +75,8 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         [Fact]
         public void ShouldSerializeWithDefaultValues() =>
             CreateRoomRequest
-                .Build("string")
+                .Build()
+                .WithDisplayName("string")
                 .Create()
                 .GetStringContent()
                 .Should()
@@ -83,7 +85,8 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         [Fact]
         public void ShouldSerializeWithLongTermRoom() =>
             CreateRoomRequest
-                .Build("string")
+                .Build()
+                .WithDisplayName("string")
                 .AsLongTermRoom(new DateTime(2023, 02, 07, 20, 10, 05))
                 .ExpireAfterUse()
                 .Create()

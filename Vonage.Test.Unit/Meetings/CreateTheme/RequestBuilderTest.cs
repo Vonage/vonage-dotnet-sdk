@@ -29,7 +29,9 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
         [Fact]
         public void Build_ShouldHaveDefaultValues() =>
             CreateThemeRequest
-                .Build(this.brandText, this.mainColor)
+                .Build()
+                .WithBrand(this.brandText)
+                .WithColor(this.mainColor)
                 .Create()
                 .Should()
                 .BeSuccess(success =>
@@ -46,7 +48,9 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenBrandTextIsNullOrWhitespace(string invalidBrandText) =>
             CreateThemeRequest
-                .Build(invalidBrandText, this.mainColor)
+                .Build()
+                .WithBrand(invalidBrandText)
+                .WithColor(this.mainColor)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("BrandText cannot be null or whitespace."));
@@ -54,7 +58,9 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
         [Fact]
         public void Build_ShouldReturnSuccess() =>
             CreateThemeRequest
-                .Build(this.brandText, this.mainColor)
+                .Build()
+                .WithBrand(this.brandText)
+                .WithColor(this.mainColor)
                 .WithName(this.themeName)
                 .WithShortCompanyUrl(this.shortCompanyUrl)
                 .Create()

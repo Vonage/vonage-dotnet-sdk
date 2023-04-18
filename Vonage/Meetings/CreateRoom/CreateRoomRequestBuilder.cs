@@ -6,8 +6,10 @@ using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.CreateRoom;
 
-/// <inheritdoc />
-internal class CreateRoomRequestBuilder : ICreateRoomRequestBuilder
+/// <summary>
+///     Represents a builder for CreateRoomRequest.
+/// </summary>
+internal class CreateRoomRequestBuilder : IBuilderForDisplayName, IBuilderForOptional
 {
     private const int DisplayNameMaxLength = 200;
     private const int MetadataMaxLength = 500;
@@ -24,12 +26,10 @@ internal class CreateRoomRequestBuilder : ICreateRoomRequestBuilder
     private Maybe<string> metadata;
     private Maybe<string> themeId;
     private RoomType roomType = RoomType.Instant;
-    private readonly string displayName;
-
-    internal CreateRoomRequestBuilder(string displayName) => this.displayName = displayName;
+    private string displayName;
 
     /// <inheritdoc />
-    public ICreateRoomRequestBuilder AsLongTermRoom(DateTime expiration)
+    public IBuilderForOptional AsLongTermRoom(DateTime expiration)
     {
         this.roomType = RoomType.LongTerm;
         this.expiresAt = expiration;
@@ -58,56 +58,63 @@ internal class CreateRoomRequestBuilder : ICreateRoomRequestBuilder
             .Bind(VerifyMetadataLength);
 
     /// <inheritdoc />
-    public ICreateRoomRequestBuilder ExpireAfterUse()
+    public IBuilderForOptional ExpireAfterUse()
     {
         this.expireAfterUse = true;
         return this;
     }
 
     /// <inheritdoc />
-    public ICreateRoomRequestBuilder WithApprovalLevel(RoomApprovalLevel level)
+    public IBuilderForOptional WithApprovalLevel(RoomApprovalLevel level)
     {
         this.approvalLevel = level;
         return this;
     }
 
     /// <inheritdoc />
-    public ICreateRoomRequestBuilder WithCallback(Room.Callback callbackUrls)
+    public IBuilderForOptional WithCallback(Room.Callback callbackUrls)
     {
         this.callback = callbackUrls;
         return this;
     }
 
     /// <inheritdoc />
-    public ICreateRoomRequestBuilder WithFeatures(Room.Features availableFeatures)
+    public IBuilderForOptional WithDisplayName(string value)
+    {
+        this.displayName = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithFeatures(Room.Features availableFeatures)
     {
         this.features = availableFeatures;
         return this;
     }
 
     /// <inheritdoc />
-    public ICreateRoomRequestBuilder WithInitialJoinOptions(Room.JoinOptions options)
+    public IBuilderForOptional WithInitialJoinOptions(Room.JoinOptions options)
     {
         this.joinOptions = options;
         return this;
     }
 
     /// <inheritdoc />
-    public ICreateRoomRequestBuilder WithMetadata(string data)
+    public IBuilderForOptional WithMetadata(string data)
     {
         this.metadata = data;
         return this;
     }
 
     /// <inheritdoc />
-    public ICreateRoomRequestBuilder WithRecordingOptions(Room.RecordingOptions options)
+    public IBuilderForOptional WithRecordingOptions(Room.RecordingOptions options)
     {
         this.recordingOptions = options;
         return this;
     }
 
     /// <inheritdoc />
-    public ICreateRoomRequestBuilder WithThemeId(string theme)
+    public IBuilderForOptional WithThemeId(string theme)
     {
         this.themeId = theme;
         return this;
@@ -132,69 +139,82 @@ internal class CreateRoomRequestBuilder : ICreateRoomRequestBuilder
 }
 
 /// <summary>
-///     Represents a builder for CreateRoomRequest.
+/// Represents a builder for DisplayName.
 /// </summary>
-public interface ICreateRoomRequestBuilder : IVonageRequestBuilder<CreateRoomRequest>
+public interface IBuilderForDisplayName
+{
+    /// <summary>
+    ///     Sets the DisplayName.
+    /// </summary>
+    /// <param name="value">The display name.</param>
+    /// <returns></returns>
+    IBuilderForOptional WithDisplayName(string value);
+}
+
+/// <summary>
+///     Represents a builder for optional values.
+/// </summary>
+public interface IBuilderForOptional : IVonageRequestBuilder<CreateRoomRequest>
 {
     /// <summary>
     ///     Sets the room as long-term.
     /// </summary>
     /// <param name="expiration">The expiration date.</param>
     /// <returns>The builder.</returns>
-    ICreateRoomRequestBuilder AsLongTermRoom(DateTime expiration);
+    IBuilderForOptional AsLongTermRoom(DateTime expiration);
 
     /// <summary>
     ///     Sets the room to expire after use.
     /// </summary>
     /// <returns>The builder.</returns>
-    ICreateRoomRequestBuilder ExpireAfterUse();
+    IBuilderForOptional ExpireAfterUse();
 
     /// <summary>
     ///     Sets the approval level on the builder.
     /// </summary>
     /// <param name="level">The approval level.</param>
     /// <returns>The builder.</returns>
-    ICreateRoomRequestBuilder WithApprovalLevel(RoomApprovalLevel level);
+    IBuilderForOptional WithApprovalLevel(RoomApprovalLevel level);
 
     /// <summary>
     ///     Sets the callback urls on the builder.
     /// </summary>
     /// <param name="callbackUrls">The callback urls.</param>
     /// <returns>The builder.</returns>
-    ICreateRoomRequestBuilder WithCallback(Room.Callback callbackUrls);
+    IBuilderForOptional WithCallback(Room.Callback callbackUrls);
 
     /// <summary>
     ///     Sets the available features on the builder.
     /// </summary>
     /// <param name="availableFeatures">The available features.</param>
     /// <returns>The builder.</returns>
-    ICreateRoomRequestBuilder WithFeatures(Room.Features availableFeatures);
+    IBuilderForOptional WithFeatures(Room.Features availableFeatures);
 
     /// <summary>
     ///     Sets the join options on the builder.
     /// </summary>
     /// <param name="options">The join options.</param>
     /// <returns>The builder.</returns>
-    ICreateRoomRequestBuilder WithInitialJoinOptions(Room.JoinOptions options);
+    IBuilderForOptional WithInitialJoinOptions(Room.JoinOptions options);
 
     /// <summary>
     ///     Sets the medata on the builder.
     /// </summary>
     /// <param name="data">The data.</param>
     /// <returns>The builder.</returns>
-    ICreateRoomRequestBuilder WithMetadata(string data);
+    IBuilderForOptional WithMetadata(string data);
 
     /// <summary>
     ///     Sets the recording options on the builder.
     /// </summary>
     /// <param name="options">The recording options.</param>
     /// <returns>The builder.</returns>
-    ICreateRoomRequestBuilder WithRecordingOptions(Room.RecordingOptions options);
+    IBuilderForOptional WithRecordingOptions(Room.RecordingOptions options);
 
     /// <summary>
     ///     Sets the theme  identifier on the builder.
     /// </summary>
     /// <param name="theme">The theme identifier.</param>
     /// <returns>The builder.</returns>
-    ICreateRoomRequestBuilder WithThemeId(string theme);
+    IBuilderForOptional WithThemeId(string theme);
 }
