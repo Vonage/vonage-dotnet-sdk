@@ -20,7 +20,12 @@ public readonly struct GetArchiveRequest : IVonageRequest, IHasApplicationId, IH
     /// Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new GetArchiveRequestBuilder();
+    public static ArchiveRequestBuilder<GetArchiveRequest>.IBuilderForApplicationId Build() =>
+        ArchiveRequestBuilder<GetArchiveRequest>.Build(tuple => new GetArchiveRequest
+        {
+            ApplicationId = tuple.Item1,
+            ArchiveId = tuple.Item2,
+        });
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>

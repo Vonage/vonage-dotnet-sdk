@@ -2,7 +2,6 @@
 using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
-using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Archives.StopArchive;
 
@@ -11,17 +10,22 @@ namespace Vonage.Server.Video.Archives.StopArchive;
 /// </summary>
 public readonly struct StopArchiveRequest : IVonageRequest, IHasApplicationId, IHasArchiveId
 {
-    private StopArchiveRequest(Guid applicationId, Guid archiveId)
-    {
-        this.ApplicationId = applicationId;
-        this.ArchiveId = archiveId;
-    }
+    /// <inheritdoc />
+    public Guid ApplicationId { get; private init; }
 
     /// <inheritdoc />
-    public Guid ApplicationId { get; }
+    public Guid ArchiveId { get; private init; }
 
-    /// <inheritdoc />
-    public Guid ArchiveId { get; }
+    /// <summary>
+    /// Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static ArchiveRequestBuilder<StopArchiveRequest>.IBuilderForApplicationId Build() =>
+        ArchiveRequestBuilder<StopArchiveRequest>.Build(tuple => new StopArchiveRequest
+        {
+            ApplicationId = tuple.Item1,
+            ArchiveId = tuple.Item2,
+        });
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -31,16 +35,4 @@ public readonly struct StopArchiveRequest : IVonageRequest, IHasApplicationId, I
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/stop";
-
-    /// <summary>
-    ///     Parses the input into a StopArchiveRequest.
-    /// </summary>
-    /// <param name="applicationId">The application Id.</param>
-    /// <param name="archiveId">The archive Id.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<StopArchiveRequest> Parse(Guid applicationId, Guid archiveId) =>
-        Result<StopArchiveRequest>
-            .FromSuccess(new StopArchiveRequest(applicationId, archiveId))
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifyArchiveId);
 }

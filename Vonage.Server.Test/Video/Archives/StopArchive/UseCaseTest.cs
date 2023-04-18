@@ -59,6 +59,9 @@ namespace Vonage.Server.Test.Video.Archives.StopArchive
             };
 
         private static Result<StopArchiveRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            StopArchiveRequest.Parse(fixture.Create<Guid>(), fixture.Create<Guid>());
+            StopArchiveRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithArchiveId(fixture.Create<Guid>())
+                .Create();
     }
 }
