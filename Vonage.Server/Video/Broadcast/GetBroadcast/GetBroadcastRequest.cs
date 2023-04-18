@@ -8,14 +8,12 @@ namespace Vonage.Server.Video.Broadcast.GetBroadcast;
 /// <summary>
 ///     Represents a request to retrieve a broadcast.
 /// </summary>
-public readonly struct GetBroadcastRequest : IVonageRequest, IHasApplicationId
+public readonly struct GetBroadcastRequest : IVonageRequest, IHasApplicationId, IHasBroadcastId
 {
     /// <inheritdoc />
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     The Id of the broadcast.
-    /// </summary>
+    /// <inheritdoc />
     public Guid BroadcastId { get; internal init; }
 
     /// <inheritdoc />

@@ -2,7 +2,6 @@
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.ChangeBroadcastLayout;
 
@@ -34,7 +33,7 @@ public class ChangeBroadcastLayoutRequestBuilder :
                 Layout = this.layout,
             })
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifyBroadcastId);
+            .Bind(BuilderExtensions.VerifyBroadcastId);
 
     /// <inheritdoc />
     public IBuilderForBroadcastId WithApplicationId(Guid value)
@@ -56,9 +55,6 @@ public class ChangeBroadcastLayoutRequestBuilder :
         this.layout = value;
         return this;
     }
-
-    private static Result<ChangeBroadcastLayoutRequest> VerifyBroadcastId(ChangeBroadcastLayoutRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 
     /// <summary>
     ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.

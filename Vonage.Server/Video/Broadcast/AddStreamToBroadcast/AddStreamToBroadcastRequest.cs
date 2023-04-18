@@ -11,15 +11,13 @@ namespace Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
 /// <summary>
 ///     Represents a request to add a stream to a broadcast.
 /// </summary>
-public readonly struct AddStreamToBroadcastRequest : IVonageRequest, IHasApplicationId, IHasStreamId
+public readonly struct AddStreamToBroadcastRequest : IVonageRequest, IHasApplicationId, IHasStreamId, IHasBroadcastId
 {
     /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     The Id of the broadcast.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public Guid BroadcastId { get; internal init; }
 

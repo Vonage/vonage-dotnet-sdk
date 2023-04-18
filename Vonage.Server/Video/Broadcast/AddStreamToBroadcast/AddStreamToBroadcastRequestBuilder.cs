@@ -2,7 +2,6 @@
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
 
@@ -38,7 +37,7 @@ public class AddStreamToBroadcastRequestBuilder :
                 StreamId = this.streamId,
             })
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifyBroadcastId)
+            .Bind(BuilderExtensions.VerifyBroadcastId)
             .Bind(BuilderExtensions.VerifyStreamId);
 
     /// <inheritdoc />
@@ -75,9 +74,6 @@ public class AddStreamToBroadcastRequestBuilder :
         this.streamId = value;
         return this;
     }
-
-    private static Result<AddStreamToBroadcastRequest> VerifyBroadcastId(AddStreamToBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 
     /// <summary>
     ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.

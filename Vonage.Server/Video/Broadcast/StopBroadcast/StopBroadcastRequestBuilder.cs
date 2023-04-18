@@ -2,7 +2,6 @@
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.StopBroadcast;
 
@@ -31,7 +30,7 @@ public class StopBroadcastRequestBuilder :
                 BroadcastId = this.broadcastId,
             })
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifyBroadcastId);
+            .Bind(BuilderExtensions.VerifyBroadcastId);
 
     /// <inheritdoc />
     public IBuilderForBroadcastId WithApplicationId(Guid value)
@@ -46,9 +45,6 @@ public class StopBroadcastRequestBuilder :
         this.broadcastId = value;
         return this;
     }
-
-    private static Result<StopBroadcastRequest> VerifyBroadcastId(StopBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 
     /// <summary>
     ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.

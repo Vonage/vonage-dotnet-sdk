@@ -8,14 +8,12 @@ namespace Vonage.Server.Video.Broadcast.StopBroadcast;
 /// <summary>
 ///     Represents a request to stop a broadcast.
 /// </summary>
-public readonly struct StopBroadcastRequest : IVonageRequest, IHasApplicationId
+public readonly struct StopBroadcastRequest : IVonageRequest, IHasApplicationId, IHasBroadcastId
 {
     /// <inheritdoc />
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     The Id of the broadcast.
-    /// </summary>
+    /// <inheritdoc />
     public Guid BroadcastId { get; internal init; }
 
     /// <inheritdoc />
