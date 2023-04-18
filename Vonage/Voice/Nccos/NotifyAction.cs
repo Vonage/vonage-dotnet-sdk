@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Vonage.Voice.Nccos;
 
@@ -7,10 +8,10 @@ public class NotifyAction : NccoAction
     public override ActionType Action => ActionType.Notify;
 
     /// <summary>
-    /// The HTTP method to use when sending payload to your eventUrl
+    /// The JSON object body to send to your event URL
     /// </summary>
-    [JsonProperty("eventMethod")]
-    public string EventMethod { get; set; }
+    [JsonProperty("payload")]
+    public object Payload { get; set; }
 
     /// <summary>
     /// The URL to send events to. If you return an NCCO when you receive a notification, it will replace the current NCCO
@@ -19,8 +20,8 @@ public class NotifyAction : NccoAction
     public string[] EventUrl { get; set; }
 
     /// <summary>
-    /// The JSON object body to send to your event URL
+    /// The HTTP method to use when sending payload to your eventUrl
     /// </summary>
-    [JsonProperty("payload")]
-    public object Payload { get; set; }
+    [JsonProperty("eventMethod")]
+    public string EventMethod { get; set; }
 }

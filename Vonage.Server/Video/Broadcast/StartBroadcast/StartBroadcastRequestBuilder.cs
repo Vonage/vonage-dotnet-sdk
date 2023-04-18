@@ -50,7 +50,7 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
                 MultiBroadcastTag = this.multiBroadcastTag,
             })
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyMaxDuration)
             .Bind(VerifyHls)
             .Bind(VerifyLayout);
@@ -149,9 +149,6 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             .VerifyHigherOrEqualThan(request, request.MaxDuration, MinimumMaxDuration, nameof(request.MaxDuration))
             .Bind(_ => InputValidation.VerifyLowerOrEqualThan(request, request.MaxDuration, MaximumMaxDuration,
                 nameof(request.MaxDuration)));
-
-    private static Result<StartBroadcastRequest> VerifySessionId(StartBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

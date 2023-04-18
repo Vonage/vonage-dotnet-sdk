@@ -36,7 +36,7 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
                 Resolution = this.resolution,
             })
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifySessionId);
+            .Bind(BuilderExtensions.VerifySessionId);
 
     /// <inheritdoc />
     public IBuilderForOptional DisableAudio()
@@ -100,9 +100,6 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
         this.streamMode = value;
         return this;
     }
-
-    private static Result<CreateArchiveRequest> VerifySessionId(CreateArchiveRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

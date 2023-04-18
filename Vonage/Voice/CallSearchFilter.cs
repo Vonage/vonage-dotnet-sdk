@@ -7,18 +7,16 @@ namespace Vonage.Voice;
 public class CallSearchFilter
 {
     /// <summary>
-    ///  Return all the records associated with a specific Conversation.
+    /// Filter on the status of this Call.Possible values are:
+    ///  started - Platform has stared the call.
+    ///  ringing - the user's handset is ringing.
+    ///  answered - the user has answered your call.
+    ///  timeout - your user did not answer your call with ringing_timer.
+    ///  machine - Platform detected an answering machine.
+    ///  completed - Platform has terminated this call.
     /// </summary>
-    [JsonProperty("conversation_uuid")]
-    public string ConversationUuid { get; set; }
-
-    /// <summary>
-    /// Return the records that occurred before this point in time.
-    /// Times must be in UTC, they will not be converted.
-    /// </summary>
-    [JsonProperty("date_end")]
-    [JsonConverter(typeof(PageListDateTimeConverter))]
-    public DateTime? DateEnd { get; set; }
+    [JsonProperty("status")]
+    public string Status { get; set; }
 
     /// <summary>
     /// Return the records that occurred after this point in time.
@@ -29,13 +27,13 @@ public class CallSearchFilter
     public DateTime? DateStart { get; set; }
 
     /// <summary>
-    /// Return the results in:
-    ///  asc - ascending order.This is the default value.
-    ///  desc - descending order.
+    /// Return the records that occurred before this point in time.
+    /// Times must be in UTC, they will not be converted.
     /// </summary>
-    [JsonProperty("order")]
-    public string Order { get; set; }
-
+    [JsonProperty("date_end")]
+    [JsonConverter(typeof(PageListDateTimeConverter))]
+    public DateTime? DateEnd { get; set; }
+        
     /// <summary>
     /// Return this amount of records in the response. The default value is 10.
     /// </summary>
@@ -49,14 +47,16 @@ public class CallSearchFilter
     public int? RecordIndex { get; set; }
 
     /// <summary>
-    /// Filter on the status of this Call.Possible values are:
-    ///  started - Platform has stared the call.
-    ///  ringing - the user's handset is ringing.
-    ///  answered - the user has answered your call.
-    ///  timeout - your user did not answer your call with ringing_timer.
-    ///  machine - Platform detected an answering machine.
-    ///  completed - Platform has terminated this call.
+    /// Return the results in:
+    ///  asc - ascending order.This is the default value.
+    ///  desc - descending order.
     /// </summary>
-    [JsonProperty("status")]
-    public string Status { get; set; }
+    [JsonProperty("order")]
+    public string Order { get; set; }
+        
+    /// <summary>
+    ///  Return all the records associated with a specific Conversation.
+    /// </summary>
+    [JsonProperty("conversation_uuid")]
+    public string ConversationUuid { get; set; }
 }

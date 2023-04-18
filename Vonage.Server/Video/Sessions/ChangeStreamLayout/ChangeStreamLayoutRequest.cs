@@ -13,7 +13,7 @@ namespace Vonage.Server.Video.Sessions.ChangeStreamLayout;
 /// <summary>
 ///     Represents a request to change a stream layout.
 /// </summary>
-public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicationId
+public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private ChangeStreamLayoutRequest(Guid applicationId, string sessionId, IEnumerable<LayoutItem> items)
     {
@@ -30,9 +30,7 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicati
     /// </summary>
     public IEnumerable<LayoutItem> Items { get; }
 
-    /// <summary>
-    ///     The session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <inheritdoc />
@@ -57,7 +55,7 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicati
         Result<ChangeStreamLayoutRequest>
             .FromSuccess(new ChangeStreamLayoutRequest(applicationId, sessionId, items))
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyItems);
 
     private StringContent GetRequestContent() =>
@@ -67,9 +65,6 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicati
 
     private static Result<ChangeStreamLayoutRequest> VerifyItems(ChangeStreamLayoutRequest request) =>
         InputValidation.VerifyNotNull(request, request.Items, nameof(Items));
-
-    private static Result<ChangeStreamLayoutRequest> VerifySessionId(ChangeStreamLayoutRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 
     /// <summary>
     ///     Represents a request to change a stream with layout classes.

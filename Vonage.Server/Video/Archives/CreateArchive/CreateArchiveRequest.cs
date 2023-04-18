@@ -12,7 +12,7 @@ namespace Vonage.Server.Video.Archives.CreateArchive;
 /// <summary>
 ///     Represents a request to creating an archive.
 /// </summary>
-public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId
+public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <inheritdoc />
     [JsonIgnore]
@@ -55,9 +55,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId
     /// </summary>
     public RenderResolution Resolution { get; internal init; }
 
-    /// <summary>
-    ///     The session ID of the Vonage Video session you are working with.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; internal init; }
 
     /// <summary>

@@ -5,9 +5,12 @@ namespace Vonage.Voice;
 
 public class Destination
 {
-    [JsonProperty("ncco")] public Ncco Ncco { get; set; }
+    [JsonProperty("type")]
+    public string Type { get; set; } = "ncco";
 
-    [JsonProperty("type")] public string Type { get; set; } = "ncco";
+    [JsonProperty("url")]
+    public string[] Url { get; set; }
 
-    [JsonProperty("url")] public string[] Url { get; set; }
+    [JsonProperty("ncco")]
+    public Ncco Ncco { get; set; }
 }

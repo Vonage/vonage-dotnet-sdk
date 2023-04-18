@@ -10,7 +10,7 @@ namespace Vonage.Server.Video.Moderation.MuteStream;
 /// <summary>
 ///     Represents a request to mute a stream.
 /// </summary>
-public readonly struct MuteStreamRequest : IVonageRequest, IHasApplicationId
+public readonly struct MuteStreamRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private MuteStreamRequest(Guid applicationId, string sessionId, string streamId)
     {
@@ -22,9 +22,7 @@ public readonly struct MuteStreamRequest : IVonageRequest, IHasApplicationId
     /// <inheritdoc />
     public Guid ApplicationId { get; }
 
-    /// <summary>
-    ///       The Video session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <summary>
@@ -54,10 +52,7 @@ public readonly struct MuteStreamRequest : IVonageRequest, IHasApplicationId
             .FromSuccess(new MuteStreamRequest(applicationId, sessionId, streamId))
             .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifyStreamId)
-            .Bind(VerifySessionId);
-
-    private static Result<MuteStreamRequest> VerifySessionId(MuteStreamRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
+            .Bind(BuilderExtensions.VerifySessionId);
 
     private static Result<MuteStreamRequest> VerifyStreamId(MuteStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(StreamId));

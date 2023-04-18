@@ -12,7 +12,7 @@ namespace Vonage.Server.Video.Moderation.MuteStreams;
 /// <summary>
 ///     Represents a request to mute streams.
 /// </summary>
-public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId
+public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private MuteStreamsRequest(Guid applicationId, string sessionId, MuteStreamsConfiguration configuration)
     {
@@ -29,9 +29,7 @@ public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId
     /// </summary>
     public MuteStreamsConfiguration Configuration { get; }
 
-    /// <summary>
-    ///     The Video session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <inheritdoc />
@@ -57,7 +55,7 @@ public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId
         Result<MuteStreamsRequest>
             .FromSuccess(new MuteStreamsRequest(applicationId, sessionId, configuration))
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyExcludedStreams);
 
     private StringContent GetRequestContent() =>
@@ -68,9 +66,6 @@ public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId
     private static Result<MuteStreamsRequest> VerifyExcludedStreams(MuteStreamsRequest request) =>
         InputValidation.VerifyNotNull(request, request.Configuration.ExcludedStreamIds,
             nameof(MuteStreamsConfiguration.ExcludedStreamIds));
-
-    private static Result<MuteStreamsRequest> VerifySessionId(MuteStreamsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 
     /// <summary>
     ///     Represents a configuration for muting streams.

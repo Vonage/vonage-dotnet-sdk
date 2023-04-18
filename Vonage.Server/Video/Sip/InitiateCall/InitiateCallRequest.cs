@@ -13,15 +13,13 @@ namespace Vonage.Server.Video.Sip.InitiateCall;
 /// <summary>
 ///     Represents a request to initiate an outbound Sip call.
 /// </summary>
-public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId
+public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     The OpenTok session ID for the SIP call to join.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; internal init; }
 
     /// <summary>
@@ -70,14 +68,11 @@ public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId
                 Token = token,
             })
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyToken);
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8, "application/json");
-
-    private static Result<InitiateCallRequest> VerifySessionId(InitiateCallRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 
     private static Result<InitiateCallRequest> VerifyToken(InitiateCallRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Token, nameof(request.Token));

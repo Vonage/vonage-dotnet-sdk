@@ -10,7 +10,7 @@ namespace Vonage.Server.Video.Sessions.GetStream;
 /// <summary>
 ///     Represents a request to retrieve a stream.
 /// </summary>
-public readonly struct GetStreamRequest : IVonageRequest, IHasApplicationId
+public readonly struct GetStreamRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private GetStreamRequest(Guid applicationId, string sessionId, string streamId)
     {
@@ -22,9 +22,7 @@ public readonly struct GetStreamRequest : IVonageRequest, IHasApplicationId
     /// <inheritdoc />
     public Guid ApplicationId { get; }
 
-    /// <summary>
-    ///     The session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <summary>
@@ -54,10 +52,7 @@ public readonly struct GetStreamRequest : IVonageRequest, IHasApplicationId
             .FromSuccess(new GetStreamRequest(applicationId, sessionId, streamId))
             .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifyStreamId)
-            .Bind(VerifySessionId);
-
-    private static Result<GetStreamRequest> VerifySessionId(GetStreamRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
+            .Bind(BuilderExtensions.VerifySessionId);
 
     private static Result<GetStreamRequest> VerifyStreamId(GetStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(StreamId));

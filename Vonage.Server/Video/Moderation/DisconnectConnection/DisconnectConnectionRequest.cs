@@ -10,7 +10,7 @@ namespace Vonage.Server.Video.Moderation.DisconnectConnection;
 /// <summary>
 ///     Represents a request to disconnect a connection.
 /// </summary>
-public readonly struct DisconnectConnectionRequest : IVonageRequest, IHasApplicationId
+public readonly struct DisconnectConnectionRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private DisconnectConnectionRequest(Guid applicationId, string sessionId, string connectionId)
     {
@@ -27,9 +27,7 @@ public readonly struct DisconnectConnectionRequest : IVonageRequest, IHasApplica
     /// </summary>
     public string ConnectionId { get; }
 
-    /// <summary>
-    ///     The Video session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <inheritdoc />
@@ -55,11 +53,8 @@ public readonly struct DisconnectConnectionRequest : IVonageRequest, IHasApplica
             .FromSuccess(new DisconnectConnectionRequest(applicationId, sessionId, connectionId))
             .Bind(BuilderExtensions.VerifyApplicationId)
             .Bind(VerifyConnectionId)
-            .Bind(VerifySessionId);
+            .Bind(BuilderExtensions.VerifySessionId);
 
     private static Result<DisconnectConnectionRequest> VerifyConnectionId(DisconnectConnectionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(ConnectionId));
-
-    private static Result<DisconnectConnectionRequest> VerifySessionId(DisconnectConnectionRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 }

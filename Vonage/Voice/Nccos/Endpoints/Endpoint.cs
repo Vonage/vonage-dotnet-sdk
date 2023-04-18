@@ -9,7 +9,7 @@ public abstract class Endpoint
     /// <summary>
     /// the type of endpoint being connected
     /// </summary>
-    [JsonProperty("type")]
+    [JsonProperty("type", Order = 99)]
     [JsonConverter(typeof(StringEnumConverter))]
     public EndpointType Type { get; protected set; }
 

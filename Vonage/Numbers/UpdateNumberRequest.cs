@@ -5,16 +5,22 @@ namespace Vonage.Numbers;
 public class UpdateNumberRequest
 {
     /// <summary>
-    /// The Application that will handle inbound traffic to this number.
-    /// </summary>
-    [JsonProperty("app_id")]
-    public string AppId { get; set; }
-
-    /// <summary>
     /// The two character country code in ISO 3166-1 alpha-2 format
     /// </summary>
     [JsonProperty("country")]
     public string Country { get; set; }
+
+    /// <summary>
+    /// An available inbound virtual number.
+    /// </summary>
+    [JsonProperty("msisdn")]
+    public string Msisdn { get; set; }
+
+    /// <summary>
+    /// The Application that will handle inbound traffic to this number.
+    /// </summary>
+    [JsonProperty("app_id")]
+    public string AppId { get; set; }
 
     /// <summary>
     /// An URL-encoded URI to the webhook endpoint that handles inbound messages. 
@@ -30,12 +36,6 @@ public class UpdateNumberRequest
     /// </summary>
     [JsonProperty("moSmppSysType")]
     public string MoSmppSysType { get; set; }
-
-    /// <summary>
-    /// An available inbound virtual number.
-    /// </summary>
-    [JsonProperty("msisdn")]
-    public string Msisdn { get; set; }
 
     /// <summary>
     /// Specify whether inbound voice calls on your number are forwarded to a SIP or a telephone number. 

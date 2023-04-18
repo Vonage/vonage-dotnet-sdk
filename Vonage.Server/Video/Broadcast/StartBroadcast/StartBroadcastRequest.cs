@@ -13,7 +13,7 @@ namespace Vonage.Server.Video.Broadcast.StartBroadcast;
 /// <summary>
 ///     Represents a request to start a broadcast.
 /// </summary>
-public readonly struct StartBroadcastRequest : IVonageRequest, IHasApplicationId
+public readonly struct StartBroadcastRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <summary>
     ///     Vonage Application UUID.
@@ -65,9 +65,7 @@ public readonly struct StartBroadcastRequest : IVonageRequest, IHasApplicationId
     [JsonPropertyOrder(5)]
     public RenderResolution Resolution { get; internal init; }
 
-    /// <summary>
-    ///     The session ID of the OpenTok session you want to broadcast
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyOrder(0)]
     public string SessionId { get; internal init; }
 

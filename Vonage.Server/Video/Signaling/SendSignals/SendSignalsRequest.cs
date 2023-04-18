@@ -12,7 +12,7 @@ namespace Vonage.Server.Video.Signaling.SendSignals;
 /// <summary>
 ///     Represents a request to send a signal to all participants.
 /// </summary>
-public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId
+public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     private SendSignalsRequest(Guid applicationId, string sessionId, SignalContent content)
     {
@@ -29,9 +29,7 @@ public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId
     /// </summary>
     public SignalContent Content { get; }
 
-    /// <summary>
-    ///     The Video session Id.
-    /// </summary>
+    /// <inheritdoc />
     public string SessionId { get; }
 
     /// <inheritdoc />
@@ -55,7 +53,7 @@ public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId
         Result<SendSignalsRequest>
             .FromSuccess(new SendSignalsRequest(applicationId, sessionId, content))
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifySessionId)
+            .Bind(BuilderExtensions.VerifySessionId)
             .Bind(VerifyContentType)
             .Bind(VerifyContentData);
 
@@ -69,7 +67,4 @@ public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId
 
     private static Result<SendSignalsRequest> VerifyContentType(SendSignalsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Type, nameof(SignalContent.Type));
-
-    private static Result<SendSignalsRequest> VerifySessionId(SendSignalsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(SessionId));
 }

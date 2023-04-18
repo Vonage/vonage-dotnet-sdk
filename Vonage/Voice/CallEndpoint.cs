@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Security.Cryptography;
+using Newtonsoft.Json;
 
 namespace Vonage.Voice;
 
@@ -9,7 +10,7 @@ public class CallEndpoint
     /// <summary>
     /// The internet media type for the audio you are streaming.Possible values are: audio/l16; rate=16000
     /// </summary>
-    [JsonProperty("content-type")]
+    [JsonProperty("content-type", Order = 2)]
     public string ContentType { get; set; }
 
     /// <summary>
@@ -21,7 +22,7 @@ public class CallEndpoint
     /// <summary>
     /// A JSON object containing any metadata you want.
     /// </summary>
-    [JsonProperty("headers")]
+    [JsonProperty("headers", Order = 3)]
     public object Headers { get; set; }
 
     /// <summary>
@@ -33,7 +34,7 @@ public class CallEndpoint
     /// <summary>
     /// One of the following: phone, websocket, sip
     /// </summary>
-    [JsonProperty("type")]
+    [JsonProperty("type", Order = 0)]
     public string Type { get; set; }
 
     /// <summary>
@@ -41,6 +42,6 @@ public class CallEndpoint
     /// OR
     /// The SIP URI to the endpoint you are connecting to in the format sip:rebekka@sip.example.com.
     /// </summary>
-    [JsonProperty("uri")]
+    [JsonProperty("uri", Order = 1)]
     public string Uri { get; set; }
 }
