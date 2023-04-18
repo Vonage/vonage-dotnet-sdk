@@ -24,7 +24,7 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            RemoveStreamFromBroadcastRequestBuilder.Build()
+            RemoveStreamFromBroadcastRequest.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(this.streamId)
@@ -34,7 +34,7 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenBroadcastIdIsEmpty() =>
-            RemoveStreamFromBroadcastRequestBuilder.Build()
+            RemoveStreamFromBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(Guid.Empty)
                 .WithStreamId(this.streamId)
@@ -44,7 +44,7 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenStreamIdIsEmpty() =>
-            RemoveStreamFromBroadcastRequestBuilder.Build()
+            RemoveStreamFromBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(Guid.Empty)
@@ -54,7 +54,7 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithMandatoryValues() =>
-            RemoveStreamFromBroadcastRequestBuilder.Build()
+            RemoveStreamFromBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(this.streamId)

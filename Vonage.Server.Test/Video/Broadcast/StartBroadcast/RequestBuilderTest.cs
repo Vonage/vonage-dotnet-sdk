@@ -86,7 +86,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            StartBroadcastRequestBuilder.Build(Guid.Empty)
+            StartBroadcastRequest.Build()
+                .WithApplicationId(Guid.Empty)
                 .WithSessionId(this.sessionId)
                 .WithLayout(this.layout)
                 .WithOutputs(this.outputs)
@@ -96,7 +97,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenDvrAndLowLatencyAreBothTrue() =>
-            StartBroadcastRequestBuilder.Build(this.applicationId)
+            StartBroadcastRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
                 .WithLayout(this.layout)
                 .WithOutputs(new StartBroadcastRequest.BroadcastOutput
@@ -109,7 +111,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenLayoutScreenshareTypeIsSetAndStylesheetIsFilled() =>
-            StartBroadcastRequestBuilder.Build(this.applicationId)
+            StartBroadcastRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
                 .WithLayout(new Layout(LayoutType.Custom, "stylesheet", LayoutType.BestFit))
                 .WithOutputs(this.outputs)
@@ -122,7 +125,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         [InlineData(LayoutType.HorizontalPresentation)]
         [InlineData(LayoutType.VerticalPresentation)]
         public void Build_ShouldReturnFailure_GivenLayoutScreenshareTypeIsSetAndTypeIsNotBestFit(LayoutType value) =>
-            StartBroadcastRequestBuilder.Build(this.applicationId)
+            StartBroadcastRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
                 .WithLayout(new Layout(LayoutType.Custom, null, value))
                 .WithOutputs(this.outputs)
@@ -135,7 +139,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         [InlineData(" ")]
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenLayoutStylesheetIsEmptyWithCustomType(string value) =>
-            StartBroadcastRequestBuilder.Build(this.applicationId)
+            StartBroadcastRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
                 .WithLayout(new Layout(null, value, LayoutType.Custom))
                 .WithOutputs(this.outputs)
@@ -150,7 +155,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         [InlineData(LayoutType.HorizontalPresentation)]
         [InlineData(LayoutType.VerticalPresentation)]
         public void Build_ShouldReturnFailure_GivenLayoutStylesheetIsFilledWithNonCustomType(LayoutType value) =>
-            StartBroadcastRequestBuilder.Build(this.applicationId)
+            StartBroadcastRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
                 .WithLayout(new Layout(null, "stylesheet example", value))
                 .WithOutputs(this.outputs)
@@ -180,7 +186,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         [InlineData(" ")]
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
-            StartBroadcastRequestBuilder.Build(this.applicationId)
+            StartBroadcastRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId(value)
                 .WithLayout(this.layout)
                 .WithOutputs(this.outputs)
@@ -208,7 +215,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 });
 
         private IBuilderForOptional BuildWithMandatoryValues() =>
-            StartBroadcastRequestBuilder.Build(this.applicationId)
+            StartBroadcastRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
                 .WithLayout(this.layout)
                 .WithOutputs(this.outputs);

@@ -20,7 +20,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
-            StopBroadcastRequestBuilder.Build()
+            StopBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .Create()

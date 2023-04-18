@@ -2,28 +2,21 @@
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.RemoveStreamFromBroadcast;
 
 /// <summary>
 ///     Represents a builder for RemoveStreamFromBroadcastRequest.
 /// </summary>
-public class RemoveStreamFromBroadcastRequestBuilder :
+internal class RemoveStreamFromBroadcastRequestBuilder :
     IVonageRequestBuilder<RemoveStreamFromBroadcastRequest>,
-    RemoveStreamFromBroadcastRequestBuilder.IBuilderForApplicationId,
-    RemoveStreamFromBroadcastRequestBuilder.IBuilderForBroadcastId,
-    RemoveStreamFromBroadcastRequestBuilder.IBuilderForStreamId
+    IBuilderForApplicationId,
+    IBuilderForBroadcastId,
+    IBuilderForStreamId
 {
     private Guid applicationId;
     private Guid streamId;
     private Guid broadcastId;
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new RemoveStreamFromBroadcastRequestBuilder();
 
     /// <inheritdoc />
     public Result<RemoveStreamFromBroadcastRequest> Create() =>
@@ -34,7 +27,7 @@ public class RemoveStreamFromBroadcastRequestBuilder :
                 StreamId = this.streamId,
             })
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifyBroadcastId)
+            .Bind(BuilderExtensions.VerifyBroadcastId)
             .Bind(BuilderExtensions.VerifyStreamId);
 
     /// <inheritdoc />
@@ -57,47 +50,43 @@ public class RemoveStreamFromBroadcastRequestBuilder :
         this.streamId = value;
         return this;
     }
+}
 
-    private static Result<RemoveStreamFromBroadcastRequest>
-        VerifyBroadcastId(RemoveStreamFromBroadcastRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
-
+/// <summary>
+///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+/// </summary>
+public interface IBuilderForApplicationId
+{
     /// <summary>
-    ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+    ///     Sets the ApplicationId on the builder.
     /// </summary>
-    public interface IBuilderForApplicationId
-    {
-        /// <summary>
-        ///     Sets the ApplicationId on the builder.
-        /// </summary>
-        /// <param name="value">The application id.</param>
-        /// <returns>The builder.</returns>
-        IBuilderForBroadcastId WithApplicationId(Guid value);
-    }
+    /// <param name="value">The application id.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForBroadcastId WithApplicationId(Guid value);
+}
 
+/// <summary>
+///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+/// </summary>
+public interface IBuilderForBroadcastId
+{
     /// <summary>
-    ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+    ///     Sets the BroadcastId on the builder.
     /// </summary>
-    public interface IBuilderForBroadcastId
-    {
-        /// <summary>
-        ///     Sets the BroadcastId on the builder.
-        /// </summary>
-        /// <param name="value">The broadcast id.</param>
-        /// <returns>The builder.</returns>
-        IBuilderForStreamId WithBroadcastId(Guid value);
-    }
+    /// <param name="value">The broadcast id.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForStreamId WithBroadcastId(Guid value);
+}
 
+/// <summary>
+///     Represents a GetBroadcastRequestBuilder that allows to set the StreamId.
+/// </summary>
+public interface IBuilderForStreamId
+{
     /// <summary>
-    ///     Represents a GetBroadcastRequestBuilder that allows to set the StreamId.
+    ///     Sets the StreamId on the builder.
     /// </summary>
-    public interface IBuilderForStreamId
-    {
-        /// <summary>
-        ///     Sets the StreamId on the builder.
-        /// </summary>
-        /// <param name="value">The stream id.</param>
-        /// <returns>The builder.</returns>
-        IVonageRequestBuilder<RemoveStreamFromBroadcastRequest> WithStreamId(Guid value);
-    }
+    /// <param name="value">The stream id.</param>
+    /// <returns>The builder.</returns>
+    IVonageRequestBuilder<RemoveStreamFromBroadcastRequest> WithStreamId(Guid value);
 }

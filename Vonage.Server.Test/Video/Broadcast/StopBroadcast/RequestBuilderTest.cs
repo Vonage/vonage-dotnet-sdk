@@ -22,7 +22,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            StopBroadcastRequestBuilder.Build()
+            StopBroadcastRequest.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithBroadcastId(this.broadcastId)
                 .Create()
@@ -31,7 +31,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenBroadcastIdIsEmpty() =>
-            StopBroadcastRequestBuilder.Build()
+            StopBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(Guid.Empty)
                 .Create()
@@ -40,7 +40,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
 
         [Fact]
         public void Build_ShouldReturnSuccess_GivenValuesAreProvided() =>
-            StopBroadcastRequestBuilder.Build()
+            StopBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .Create()
