@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
+using Vonage.Common.Client.Builders;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Archives.RemoveStream;
@@ -9,7 +10,7 @@ namespace Vonage.Server.Video.Archives.RemoveStream;
 /// <summary>
 ///     Represents a request to remove a stream from an archive.
 /// </summary>
-public readonly struct RemoveStreamRequest : IVonageRequest
+public readonly struct RemoveStreamRequest : IVonageRequest, IHasApplicationId, IHasArchiveId, IHasStreamId
 {
     private RemoveStreamRequest(Guid applicationId, Guid archiveId, Guid streamId)
     {
@@ -34,10 +35,17 @@ public readonly struct RemoveStreamRequest : IVonageRequest
     public Guid StreamId { get; internal init; }
 
     /// <summary>
-    /// Initializes a builder.
+    ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new RemoveStreamRequestBuilder();
+    public static IBuilderForApplicationId<RemoveStreamRequest> Build() =>
+        StreamRequestBuilder<RemoveStreamRequest>
+            .Build((applicationId, archiveId, streamId) => new RemoveStreamRequest
+            {
+                ApplicationId = applicationId,
+                ArchiveId = archiveId,
+                StreamId = streamId,
+            });
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
