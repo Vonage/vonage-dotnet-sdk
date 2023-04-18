@@ -62,8 +62,10 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
             };
 
         private static Result<MuteStreamsRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            MuteStreamsRequest.Parse(fixture.Create<Guid>(),
-                fixture.Create<string>(),
-                fixture.Create<MuteStreamsRequest.MuteStreamsConfiguration>());
+            MuteStreamsRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithSessionId(fixture.Create<string>())
+                .WithConfiguration(fixture.Create<MuteStreamsRequest.MuteStreamsConfiguration>())
+                .Create();
     }
 }
