@@ -8,7 +8,7 @@ namespace Vonage.Server.Video.Broadcast.GetBroadcast;
 /// <summary>
 ///     Represents a builder for a GetBroadcastRequest.
 /// </summary>
-public class GetBroadcastRequestBuilder :
+internal class GetBroadcastRequestBuilder :
     IVonageRequestBuilder<GetBroadcastRequest>,
     IBuilderForApplicationId,
     IBuilderForBroadcastId
@@ -42,7 +42,7 @@ public class GetBroadcastRequestBuilder :
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+///     Represents a builder that allows to set the ApplicationId.
 /// </summary>
 public interface IBuilderForApplicationId
 {
@@ -55,7 +55,7 @@ public interface IBuilderForApplicationId
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+///     Represents a builder that allows to set the ApplicationId.
 /// </summary>
 public interface IBuilderForBroadcastId
 {

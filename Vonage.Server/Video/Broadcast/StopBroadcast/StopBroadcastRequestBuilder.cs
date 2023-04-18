@@ -42,7 +42,7 @@ internal class StopBroadcastRequestBuilder :
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+///     Represents a builder that allows to set the ApplicationId.
 /// </summary>
 public interface IBuilderForApplicationId
 {
@@ -55,7 +55,7 @@ public interface IBuilderForApplicationId
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+///     Represents a builder that allows to set the ApplicationId.
 /// </summary>
 public interface IBuilderForBroadcastId
 {

@@ -53,7 +53,7 @@ internal class RemoveStreamFromBroadcastRequestBuilder :
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+///     Represents a builder that allows to set the ApplicationId.
 /// </summary>
 public interface IBuilderForApplicationId
 {
@@ -66,7 +66,7 @@ public interface IBuilderForApplicationId
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+///     Represents a builder that allows to set the ApplicationId.
 /// </summary>
 public interface IBuilderForBroadcastId
 {
@@ -79,7 +79,7 @@ public interface IBuilderForBroadcastId
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the StreamId.
+///     Represents a builder that allows to set the StreamId.
 /// </summary>
 public interface IBuilderForStreamId
 {

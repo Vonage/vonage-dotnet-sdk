@@ -71,7 +71,7 @@ internal class AddStreamToBroadcastRequestBuilder :
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+///     Represents a builder that allows to set the ApplicationId.
 /// </summary>
 public interface IBuilderForApplicationId
 {
@@ -84,7 +84,7 @@ public interface IBuilderForApplicationId
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+///     Represents a builder that allows to set the ApplicationId.
 /// </summary>
 public interface IBuilderForBroadcastId
 {
@@ -97,7 +97,7 @@ public interface IBuilderForBroadcastId
 }
 
 /// <summary>
-///     Represents a GetBroadcastRequestBuilder that allows to set the StreamId.
+///     Represents a builder that allows to set the StreamId.
 /// </summary>
 public interface IBuilderForStreamId
 {
@@ -110,7 +110,7 @@ public interface IBuilderForStreamId
 }
 
 /// <summary>
-///     Represents a AddStreamToBroadcastRequestBuilder that allows to set optional values.
+///     Represents a builder that allows to set optional values.
 /// </summary>
 public interface IBuilderForOptional : IVonageRequestBuilder<AddStreamToBroadcastRequest>
 {
