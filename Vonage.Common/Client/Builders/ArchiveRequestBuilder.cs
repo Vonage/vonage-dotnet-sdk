@@ -5,22 +5,20 @@ using Vonage.Common.Validation;
 namespace Vonage.Common.Client.Builders;
 
 /// <summary>
-///     Represents a builder for StreamRequests, aka requests having an ApplicationId, an ArchiveId and a StreamId.
+///     Represents a builder for ArchiveRequests, aka requests having an ApplicationId and an ArchiveId.
 /// </summary>
 /// <typeparam name="T">Type of the underlying request.</typeparam>
-public class StreamRequestBuilder<T> :
+public class ArchiveRequestBuilder<T> :
     IVonageRequestBuilder<T>,
-    StreamRequestBuilder<T>.IBuilderForApplicationId,
-    StreamRequestBuilder<T>.IBuilderForArchiveId,
-    StreamRequestBuilder<T>.IBuilderForStreamId
-    where T : IVonageRequest, IHasApplicationId, IHasArchiveId, IHasStreamId
+    ArchiveRequestBuilder<T>.IBuilderForApplicationId,
+    ArchiveRequestBuilder<T>.IBuilderForArchiveId
+    where T : IVonageRequest, IHasApplicationId, IHasArchiveId
 {
-    private readonly Func<Tuple<Guid, Guid, Guid>, T> requestInitializer;
+    private readonly Func<Tuple<Guid, Guid>, T> requestInitializer;
     private Guid archiveId;
     private Guid applicationId;
-    private Guid streamId;
 
-    private StreamRequestBuilder(Func<Tuple<Guid, Guid, Guid>, T> requestInitializer) =>
+    private ArchiveRequestBuilder(Func<Tuple<Guid, Guid>, T> requestInitializer) =>
         this.requestInitializer = requestInitializer;
 
     /// <summary>
@@ -28,16 +26,15 @@ public class StreamRequestBuilder<T> :
     /// </summary>
     /// <param name="requestInitializer">The method to initialize a request.</param>
     /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build(Func<Tuple<Guid, Guid, Guid>, T> requestInitializer) =>
-        new StreamRequestBuilder<T>(requestInitializer);
+    public static IBuilderForApplicationId Build(Func<Tuple<Guid, Guid>, T> requestInitializer) =>
+        new ArchiveRequestBuilder<T>(requestInitializer);
 
     /// <inheritdoc />
     public Result<T> Create() => Result<T>
         .FromSuccess(
-            this.requestInitializer(new Tuple<Guid, Guid, Guid>(this.applicationId, this.archiveId, this.streamId)))
+            this.requestInitializer(new Tuple<Guid, Guid>(this.applicationId, this.archiveId)))
         .Bind(VerifyApplicationId)
-        .Bind(VerifyArchiveId)
-        .Bind(VerifyStreamId);
+        .Bind(VerifyArchiveId);
 
     /// <inheritdoc />
     public IBuilderForArchiveId WithApplicationId(Guid value)
@@ -47,16 +44,9 @@ public class StreamRequestBuilder<T> :
     }
 
     /// <inheritdoc />
-    public IBuilderForStreamId WithArchiveId(Guid value)
+    public IVonageRequestBuilder<T> WithArchiveId(Guid value)
     {
         this.archiveId = value;
-        return this;
-    }
-
-    /// <inheritdoc />
-    public IVonageRequestBuilder<T> WithStreamId(Guid value)
-    {
-        this.streamId = value;
         return this;
     }
 
@@ -65,9 +55,6 @@ public class StreamRequestBuilder<T> :
 
     private static Result<T> VerifyArchiveId(T request) =>
         InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(request.ArchiveId));
-
-    private static Result<T> VerifyStreamId(T request) =>
-        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
 
     /// <summary>
     ///     Represents a builder for ArchiveId.
@@ -79,7 +66,7 @@ public class StreamRequestBuilder<T> :
         /// </summary>
         /// <param name="value">The ArchiveId.</param>
         /// <returns>The builder.</returns>
-        IBuilderForStreamId WithArchiveId(Guid value);
+        IVonageRequestBuilder<T> WithArchiveId(Guid value);
     }
 
     /// <summary>
@@ -93,18 +80,5 @@ public class StreamRequestBuilder<T> :
         /// <param name="value">The ApplicationId.</param>
         /// <returns>The builder.</returns>
         IBuilderForArchiveId WithApplicationId(Guid value);
-    }
-
-    /// <summary>
-    ///     Represents a builder for StreamId.
-    /// </summary>
-    public interface IBuilderForStreamId
-    {
-        /// <summary>
-        ///     Sets the StreamId.
-        /// </summary>
-        /// <param name="value">The StreamId.</param>
-        /// <returns>The builder.</returns>
-        IVonageRequestBuilder<T> WithStreamId(Guid value);
     }
 }

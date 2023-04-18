@@ -12,40 +12,26 @@ namespace Vonage.Server.Video.Archives.RemoveStream;
 /// </summary>
 public readonly struct RemoveStreamRequest : IVonageRequest, IHasApplicationId, IHasArchiveId, IHasStreamId
 {
-    private RemoveStreamRequest(Guid applicationId, Guid archiveId, Guid streamId)
-    {
-        this.ApplicationId = applicationId;
-        this.ArchiveId = archiveId;
-        this.StreamId = streamId;
-    }
+    /// <inheritdoc />
+    public Guid ApplicationId { get; private init; }
 
-    /// <summary>
-    ///     The application Id.
-    /// </summary>
-    public Guid ApplicationId { get; internal init; }
+    /// <inheritdoc />
+    public Guid ArchiveId { get; private init; }
 
-    /// <summary>
-    ///     The archive Id.
-    /// </summary>
-    public Guid ArchiveId { get; internal init; }
-
-    /// <summary>
-    ///     The stream Id.
-    /// </summary>
-    public Guid StreamId { get; internal init; }
+    /// <inheritdoc />
+    public Guid StreamId { get; private init; }
 
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId<RemoveStreamRequest> Build() =>
-        StreamRequestBuilder<RemoveStreamRequest>
-            .Build((applicationId, archiveId, streamId) => new RemoveStreamRequest
-            {
-                ApplicationId = applicationId,
-                ArchiveId = archiveId,
-                StreamId = streamId,
-            });
+    public static StreamRequestBuilder<RemoveStreamRequest>.IBuilderForApplicationId Build() =>
+        StreamRequestBuilder<RemoveStreamRequest>.Build(tuple => new RemoveStreamRequest
+        {
+            ApplicationId = tuple.Item1,
+            ArchiveId = tuple.Item2,
+            StreamId = tuple.Item3,
+        });
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
