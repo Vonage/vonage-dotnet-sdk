@@ -222,7 +222,7 @@ public class VoiceClient : IVoiceClient
                 bytes = ms.ToArray();
             }
 
-            return new GetRecordingResponse()
+            return new GetRecordingResponse
             {
                 ResultStream = bytes,
                 Status = response.StatusCode,
@@ -251,7 +251,7 @@ public class VoiceClient : IVoiceClient
                 bytes = ms.ToArray();
             }
 
-            return new GetRecordingResponse()
+            return new GetRecordingResponse
             {
                 ResultStream = bytes,
                 Status = response.StatusCode,

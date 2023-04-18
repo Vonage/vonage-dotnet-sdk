@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Vonage.Voice.EventWebhooks;
 
 public class Completed : CallStatusEvent
 {
+    /// <summary>
+    /// Call length (in seconds)
+    /// </summary>
+    [JsonProperty("duration")]
+    public string Duration { get; set; }
+
     /// <summary>
     /// Timestamp (ISO 8601 format) of the end time of the call
     /// </summary>
@@ -22,16 +24,10 @@ public class Completed : CallStatusEvent
     public string Network { get; set; }
 
     /// <summary>
-    /// Call length (in seconds)
+    /// Total cost of the call (EUR)
     /// </summary>
-    [JsonProperty("duration")]
-    public string Duration { get; set; }
-
-    /// <summary>
-    /// Timestamp (ISO 8601 format)
-    /// </summary>
-    [JsonProperty("start_time")]
-    public DateTime StartTime { get; set; }
+    [JsonProperty("price")]
+    public string Price { get; set; }
 
     /// <summary>
     /// Cost per minute of the call (EUR)
@@ -40,8 +36,8 @@ public class Completed : CallStatusEvent
     public string Rate { get; set; }
 
     /// <summary>
-    /// Total cost of the call (EUR)
+    /// Timestamp (ISO 8601 format)
     /// </summary>
-    [JsonProperty("price")]
-    public string Price { get; set; }
+    [JsonProperty("start_time")]
+    public DateTime StartTime { get; set; }
 }

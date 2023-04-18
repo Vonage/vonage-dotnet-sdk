@@ -1,45 +1,27 @@
-﻿using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
-
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using Xunit;
+
 namespace Vonage.Test.Unit
 {
     public class WebhookParserTests
     {
-        [Theory]
-        [InlineData("application/x-www-form-urlencoded; charset=UTF-8")]
-        [InlineData("application/json; charset=UTF-8")]
-        [InlineData("application/trash")]
-        public void TestParseStream(string contentType)
+        [Fact]
+        public void TestParseHttpRequestContentWithBadlyEscapedUrl()
         {
-            var contentString = "";
-            if(contentType == "application/x-www-form-urlencoded; charset=UTF-8")
-            {
-                contentString = "foo-bar=foo%20bar";
-            }
-            else
-            {
-                contentString = "{\"foo-bar\":\"foo bar\"}";
-            }
+            var contentType = "application/x-www-form-urlencoded";
+            var contentString = "foo-bar=foo bar";
             var contentToBytes = Encoding.UTF8.GetBytes(contentString);
-            var stream = new MemoryStream(contentToBytes);
-            try
-            {
-                var output = Utility.WebhookParser.ParseWebhook<Foo>(stream, contentType);
-                Assert.Equal("foo bar", output.FooBar);
-            }
-            catch (Exception)
-            {
-                if (contentType != "application/trash")
-                    throw;
-            }
+            var request = new HttpRequestMessage();
+            request.Content = new ByteArrayContent(contentToBytes);
+            request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+            var output = Utility.WebhookParser.ParseWebhook<Foo>(request);
+            Assert.Equal("foo bar", output.FooBar);
         }
 
         [Theory]
@@ -57,10 +39,11 @@ namespace Vonage.Test.Unit
             {
                 contentString = "{\"foo-bar\":\"foo bar\"}";
             }
-            var contentToBytes = Encoding.UTF8.GetBytes(contentString);            
+
+            var contentToBytes = Encoding.UTF8.GetBytes(contentString);
             var request = new HttpRequestMessage();
             request.Content = new ByteArrayContent(contentToBytes);
-            request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);       
+            request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
             try
             {
                 var output = Utility.WebhookParser.ParseWebhook<Foo>(request);
@@ -74,28 +57,6 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestParseHttpRequestContentWithBadlyEscapedUrl()
-        {
-            var contentType = "application/x-www-form-urlencoded";
-            var contentString = "foo-bar=foo bar";
-            var contentToBytes = Encoding.UTF8.GetBytes(contentString);
-            var request = new HttpRequestMessage();
-            request.Content = new ByteArrayContent(contentToBytes);
-            request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
-            var output = Utility.WebhookParser.ParseWebhook<Foo>(request);
-            Assert.Equal("foo bar", output.FooBar);
-        }
-
-        [Fact]
-        public void TestParseQueryArgsMvcLegacy()
-        {
-            var queryArgs = new List<KeyValuePair<string, string>>();
-            queryArgs.Add(new KeyValuePair<string, string>("foo-bar", "foo" ));
-            var output = Utility.WebhookParser.ParseQueryNameValuePairs<Foo>(queryArgs);
-            Assert.Equal("foo", output.FooBar);
-        }
-
-        [Fact]
         public void TestParseQueryArgsCore()
         {
             var queryArgs = new List<KeyValuePair<string, StringValues>>();
@@ -103,10 +64,48 @@ namespace Vonage.Test.Unit
             Utility.WebhookParser.ParseQuery<Foo>(queryArgs);
         }
 
+        [Fact]
+        public void TestParseQueryArgsMvcLegacy()
+        {
+            var queryArgs = new List<KeyValuePair<string, string>>();
+            queryArgs.Add(new KeyValuePair<string, string>("foo-bar", "foo"));
+            var output = Utility.WebhookParser.ParseQueryNameValuePairs<Foo>(queryArgs);
+            Assert.Equal("foo", output.FooBar);
+        }
+
+        [Theory]
+        [InlineData("application/x-www-form-urlencoded; charset=UTF-8")]
+        [InlineData("application/json; charset=UTF-8")]
+        [InlineData("application/trash")]
+        public void TestParseStream(string contentType)
+        {
+            var contentString = "";
+            if (contentType == "application/x-www-form-urlencoded; charset=UTF-8")
+            {
+                contentString = "foo-bar=foo%20bar";
+            }
+            else
+            {
+                contentString = "{\"foo-bar\":\"foo bar\"}";
+            }
+
+            var contentToBytes = Encoding.UTF8.GetBytes(contentString);
+            var stream = new MemoryStream(contentToBytes);
+            try
+            {
+                var output = Utility.WebhookParser.ParseWebhook<Foo>(stream, contentType);
+                Assert.Equal("foo bar", output.FooBar);
+            }
+            catch (Exception)
+            {
+                if (contentType != "application/trash")
+                    throw;
+            }
+        }
+
         public class Foo
         {
-            [JsonProperty("foo-bar")]
-            public string FooBar { get; set; }
+            [JsonProperty("foo-bar")] public string FooBar { get; set; }
         }
     }
 }

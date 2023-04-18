@@ -11,10 +11,7 @@ namespace Vonage.Meetings.DeleteRecording;
 /// </summary>
 public class DeleteRecordingRequest : IVonageRequest
 {
-    private DeleteRecordingRequest(Guid recordingId)
-    {
-        this.RecordingId = recordingId;
-    }
+    private DeleteRecordingRequest(Guid recordingId) => this.RecordingId = recordingId;
 
     /// <summary>
     ///     The recording id.

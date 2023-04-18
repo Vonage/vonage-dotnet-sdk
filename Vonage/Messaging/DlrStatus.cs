@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Vonage.Messaging;
+﻿namespace Vonage.Messaging;
 
 public enum DlrStatus
 {

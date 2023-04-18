@@ -1,20 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Vonage.Voice;
 
 public class CallRecord
 {
-    /// <summary>
-    ///  A unique identifier for this Call.
-    /// </summary>
-    [JsonProperty("uuid")]
-    public string Uuid { get; set; }
-
     /// <summary>
     /// A unique identifier for the Conversation this Call is part of.
     /// </summary>
@@ -22,13 +12,22 @@ public class CallRecord
     public string ConversationUuid { get; set; }
 
     /// <summary>
-    /// The single or mixed collection of endpoint types you connected to.Possible value are:
-    ///  phone - phone numbers in e.164 format.Options are:
-    ///    number - the phone number to connect to in E.164 format.
-    ///    dtmfAnswer - Set the digits that are sent to the user as soon as the Call is answered.The* and # digits are respected. You create pauses using p. Each pause is 500ms.
+    /// Possible values are outbound or inbound.
     /// </summary>
-    [JsonProperty("to")]        
-    public CallEndpoint To { get; set; }
+    [JsonProperty("direction")]
+    public string Direction { get; set; }
+
+    /// <summary>
+    /// The time elapsed for the Call to take place in seconds.
+    /// </summary>
+    [JsonProperty("duration")]
+    public string Duration { get; set; }
+
+    /// <summary>
+    /// The time the Call ended
+    /// </summary>
+    [JsonProperty("end_time")]
+    public DateTime? EndTime { get; set; }
 
     /// <summary>
     /// The endpoint you called from. Possible values are the same as to 
@@ -36,11 +35,25 @@ public class CallRecord
     [JsonProperty("from")]
     public CallEndpoint From { get; set; }
 
+    [JsonProperty("_links")] public Common.HALLinks Links { get; set; }
+
     /// <summary>
-    /// Possible values are outbound or inbound.
+    /// The Mobile Country Code Mobile Network Code (MCCMNC) for the carrier network used to make this Call.
     /// </summary>
-    [JsonProperty("direction")]
-    public string Direction { get; set; }
+    [JsonProperty("network")]
+    public string Network { get; set; }
+
+    /// <summary>
+    /// The total price charged for this Call.
+    /// </summary>
+    [JsonProperty("price")]
+    public string Price { get; set; }
+
+    /// <summary>
+    /// The price per minute for this Call.
+    /// </summary>
+    [JsonProperty("rate")]
+    public string Rate { get; set; }
 
     /// <summary>
     /// The URL to download a call or conversation recording from.
@@ -55,12 +68,6 @@ public class CallRecord
     public DateTime? StartTime { get; set; }
 
     /// <summary>
-    /// The Mobile Country Code Mobile Network Code (MCCMNC) for the carrier network used to make this Call.
-    /// </summary>
-    [JsonProperty("network")]
-    public string Network { get; set; }
-
-    /// <summary>
     /// The status of the Call. Possible values are:
     ///  started - Platform has stared the Call.
     ///  ringing - the user's handset is ringing.
@@ -73,29 +80,17 @@ public class CallRecord
     public string Status { get; set; }
 
     /// <summary>
-    /// The price per minute for this Call.
+    /// The single or mixed collection of endpoint types you connected to.Possible value are:
+    ///  phone - phone numbers in e.164 format.Options are:
+    ///    number - the phone number to connect to in E.164 format.
+    ///    dtmfAnswer - Set the digits that are sent to the user as soon as the Call is answered.The* and # digits are respected. You create pauses using p. Each pause is 500ms.
     /// </summary>
-    [JsonProperty("rate")]
-    public string Rate { get; set; }
+    [JsonProperty("to")]
+    public CallEndpoint To { get; set; }
 
     /// <summary>
-    /// The total price charged for this Call.
+    ///  A unique identifier for this Call.
     /// </summary>
-    [JsonProperty("price")]
-    public string Price { get; set; }
-
-    /// <summary>
-    /// The time elapsed for the Call to take place in seconds.
-    /// </summary>
-    [JsonProperty("duration")]
-    public string Duration { get; set; }
-
-    /// <summary>
-    /// The time the Call ended
-    /// </summary>
-    [JsonProperty("end_time")]
-    public DateTime? EndTime { get; set; }
-
-    [JsonProperty("_links")]
-    public Common.HALLinks Links { get; set; }
+    [JsonProperty("uuid")]
+    public string Uuid { get; set; }
 }
