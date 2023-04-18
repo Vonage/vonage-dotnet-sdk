@@ -15,7 +15,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
         public RequestBuilderTest() => this.themeId = new Fixture().Create<Guid>();
 
         [Fact]
-        public void Parse_ShouldReturnDefaultValueForForceDelete() =>
+        public void Build_ShouldReturnDefaultValueForForceDelete() =>
             DeleteThemeRequest.Build()
                 .WithThemeId(this.themeId)
                 .Create()
@@ -24,7 +24,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
                 .BeSuccess(false);
 
         [Fact]
-        public void Parse_ShouldReturnFailure_GivenRecordingIdIsEmpty() =>
+        public void Build_ShouldReturnFailure_GivenRecordingIdIsEmpty() =>
             DeleteThemeRequest.Build()
                 .WithThemeId(Guid.Empty)
                 .Create()
@@ -32,7 +32,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
                 .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be empty."));
 
         [Fact]
-        public void Parse_ShouldReturnSetThemeId() =>
+        public void Build_ShouldReturnSetThemeId() =>
             DeleteThemeRequest.Build()
                 .WithThemeId(this.themeId)
                 .Create()
@@ -40,7 +40,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
                 .BeSuccess(request => request.ThemeId.Should().Be(this.themeId));
 
         [Fact]
-        public void Parse_ShouldSetForceDelete_GivenWithForceDeleteIsUsed() =>
+        public void Build_ShouldSetForceDelete_GivenWithForceDeleteIsUsed() =>
             DeleteThemeRequest.Build()
                 .WithThemeId(this.themeId)
                 .WithForceDelete()

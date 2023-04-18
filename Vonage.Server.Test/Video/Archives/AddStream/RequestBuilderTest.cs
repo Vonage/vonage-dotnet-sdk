@@ -23,6 +23,28 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
         }
 
         [Fact]
+        public void Build_ShouldReturnDisabledAudio_WhenUsingDisableAudio() =>
+            AddStreamRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithArchiveId(this.archiveId)
+                .WithStreamId(this.streamId)
+                .DisableAudio()
+                .Create()
+                .Should()
+                .BeSuccess(request => request.HasAudio.Should().Be(false));
+
+        [Fact]
+        public void Build_ShouldReturnDisabledVideo_WhenUsingDisableVideo() =>
+            AddStreamRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithArchiveId(this.archiveId)
+                .WithStreamId(this.streamId)
+                .DisableVideo()
+                .Create()
+                .Should()
+                .BeSuccess(request => request.HasVideo.Should().Be(false));
+
+        [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
             AddStreamRequest.Build()
                 .WithApplicationId(Guid.Empty)
@@ -68,27 +90,5 @@ namespace Vonage.Server.Test.Video.Archives.AddStream
                     request.HasAudio.Should().Be(true);
                     request.HasVideo.Should().Be(true);
                 });
-
-        [Fact]
-        public void Parse_ShouldReturnDisabledAudio_WhenUsingDisableAudio() =>
-            AddStreamRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithArchiveId(this.archiveId)
-                .WithStreamId(this.streamId)
-                .DisableAudio()
-                .Create()
-                .Should()
-                .BeSuccess(request => request.HasAudio.Should().Be(false));
-
-        [Fact]
-        public void Parse_ShouldReturnDisabledVideo_WhenUsingDisableVideo() =>
-            AddStreamRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithArchiveId(this.archiveId)
-                .WithStreamId(this.streamId)
-                .DisableVideo()
-                .Create()
-                .Should()
-                .BeSuccess(request => request.HasVideo.Should().Be(false));
     }
 }
