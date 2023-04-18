@@ -32,6 +32,12 @@ public readonly struct GetArchivesRequest : IVonageRequest
     /// </summary>
     public Maybe<string> SessionId { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new GetArchivesRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder

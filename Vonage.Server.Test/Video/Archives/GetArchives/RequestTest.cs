@@ -18,7 +18,8 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
-            GetArchivesRequestBuilder.Build(this.applicationId)
+            GetArchivesRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
@@ -26,7 +27,8 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithOffsetAndCount() =>
-            GetArchivesRequestBuilder.Build(this.applicationId)
+            GetArchivesRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithCount(100)
                 .WithOffset(1000)
                 .Create()
@@ -36,7 +38,8 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithSessionId() =>
-            GetArchivesRequestBuilder.Build(this.applicationId)
+            GetArchivesRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId("123456")
                 .Create()
                 .Map(request => request.GetEndpointPath())
