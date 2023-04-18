@@ -38,6 +38,12 @@ public readonly struct AddStreamToBroadcastRequest : IVonageRequest, IHasApplica
     [JsonPropertyOrder(0)]
     public Guid StreamId { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new AddStreamToBroadcastRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
