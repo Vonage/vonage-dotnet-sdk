@@ -18,7 +18,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
@@ -26,7 +27,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithOffsetAndCount() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithCount(100)
                 .WithOffset(1000)
                 .Create()
@@ -36,7 +38,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithSessionId() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId("123456")
                 .Create()
                 .Map(request => request.GetEndpointPath())

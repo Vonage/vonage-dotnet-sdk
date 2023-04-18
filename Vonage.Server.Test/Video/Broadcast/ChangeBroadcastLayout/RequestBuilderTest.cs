@@ -25,7 +25,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            ChangeBroadcastLayoutRequestBuilder.Build()
+            ChangeBroadcastLayoutRequest.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithBroadcastId(this.broadcastId)
                 .WithLayout(this.layout)
@@ -35,7 +35,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenBroadcastIdIsEmpty() =>
-            ChangeBroadcastLayoutRequestBuilder.Build()
+            ChangeBroadcastLayoutRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(Guid.Empty)
                 .WithLayout(this.layout)
@@ -45,7 +45,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithMandatoryValues() =>
-            ChangeBroadcastLayoutRequestBuilder.Build()
+            ChangeBroadcastLayoutRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithLayout(this.layout)

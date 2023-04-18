@@ -17,7 +17,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
 
         [Fact]
         public void ShouldSerialize() =>
-            ChangeBroadcastLayoutRequestBuilder.Build()
+            ChangeBroadcastLayoutRequest.Build()
                 .WithApplicationId(Guid.NewGuid())
                 .WithBroadcastId(Guid.NewGuid())
                 .WithLayout(new Layout(LayoutType.Pip,

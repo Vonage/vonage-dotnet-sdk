@@ -23,7 +23,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
-            ChangeBroadcastLayoutRequestBuilder.Build()
+            ChangeBroadcastLayoutRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithLayout(this.layout)
