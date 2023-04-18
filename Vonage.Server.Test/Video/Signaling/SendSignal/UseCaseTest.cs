@@ -56,10 +56,11 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignal
             };
 
         private static Result<SendSignalRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            SendSignalRequest.Parse(
-                fixture.Create<Guid>(),
-                fixture.Create<string>(),
-                fixture.Create<string>(),
-                fixture.Create<SignalContent>());
+            SendSignalRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithSessionId(fixture.Create<string>())
+                .WithConnectionId(fixture.Create<string>())
+                .WithContent(fixture.Create<SignalContent>())
+                .Create();
     }
 }
