@@ -17,7 +17,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 
         [Fact]
         public void ShouldSerialize() =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(Guid.NewGuid())
                 .WithBroadcastId(Guid.NewGuid())
                 .WithStreamId(new Guid("12312312-3811-4726-b508-e41a0f96c68f"))
@@ -30,7 +30,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 
         [Fact]
         public void ShouldSerializeWithDefaultValues() =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(Guid.NewGuid())
                 .WithBroadcastId(Guid.NewGuid())
                 .WithStreamId(new Guid("12312312-3811-4726-b508-e41a0f96c68f"))

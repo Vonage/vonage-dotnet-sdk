@@ -60,7 +60,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
             };
 
         private static Result<AddStreamToBroadcastRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(fixture.Create<Guid>())
                 .WithBroadcastId(fixture.Create<Guid>())
                 .WithStreamId(fixture.Create<Guid>())

@@ -8,23 +8,17 @@ namespace Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
 /// <summary>
 ///     Represents a builder for AddStreamToBroadcastRequest.
 /// </summary>
-public class AddStreamToBroadcastRequestBuilder :
-    AddStreamToBroadcastRequestBuilder.IBuilderForApplicationId,
-    AddStreamToBroadcastRequestBuilder.IBuilderForBroadcastId,
-    AddStreamToBroadcastRequestBuilder.IBuilderForStreamId,
-    AddStreamToBroadcastRequestBuilder.IBuilderForOptional
+internal class AddStreamToBroadcastRequestBuilder :
+    IBuilderForApplicationId,
+    IBuilderForBroadcastId,
+    IBuilderForStreamId,
+    IBuilderForOptional
 {
     private bool hasVideo = true;
     private bool hasAudio = true;
     private Guid applicationId;
     private Guid streamId;
     private Guid broadcastId;
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new AddStreamToBroadcastRequestBuilder();
 
     /// <inheritdoc />
     public Result<AddStreamToBroadcastRequest> Create() =>
@@ -74,61 +68,61 @@ public class AddStreamToBroadcastRequestBuilder :
         this.streamId = value;
         return this;
     }
+}
+
+/// <summary>
+///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+/// </summary>
+public interface IBuilderForApplicationId
+{
+    /// <summary>
+    ///     Sets the ApplicationId on the builder.
+    /// </summary>
+    /// <param name="value">The application id.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForBroadcastId WithApplicationId(Guid value);
+}
+
+/// <summary>
+///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+/// </summary>
+public interface IBuilderForBroadcastId
+{
+    /// <summary>
+    ///     Sets the BroadcastId on the builder.
+    /// </summary>
+    /// <param name="value">The broadcast id.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForStreamId WithBroadcastId(Guid value);
+}
+
+/// <summary>
+///     Represents a GetBroadcastRequestBuilder that allows to set the StreamId.
+/// </summary>
+public interface IBuilderForStreamId
+{
+    /// <summary>
+    ///     Sets the StreamId on the builder.
+    /// </summary>
+    /// <param name="value">The stream id.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithStreamId(Guid value);
+}
+
+/// <summary>
+///     Represents a AddStreamToBroadcastRequestBuilder that allows to set optional values.
+/// </summary>
+public interface IBuilderForOptional : IVonageRequestBuilder<AddStreamToBroadcastRequest>
+{
+    /// <summary>
+    ///     Disables audio on the builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithDisabledAudio();
 
     /// <summary>
-    ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+    ///     Disables video on the builder.
     /// </summary>
-    public interface IBuilderForApplicationId
-    {
-        /// <summary>
-        ///     Sets the ApplicationId on the builder.
-        /// </summary>
-        /// <param name="value">The application id.</param>
-        /// <returns>The builder.</returns>
-        IBuilderForBroadcastId WithApplicationId(Guid value);
-    }
-
-    /// <summary>
-    ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
-    /// </summary>
-    public interface IBuilderForBroadcastId
-    {
-        /// <summary>
-        ///     Sets the BroadcastId on the builder.
-        /// </summary>
-        /// <param name="value">The broadcast id.</param>
-        /// <returns>The builder.</returns>
-        IBuilderForStreamId WithBroadcastId(Guid value);
-    }
-
-    /// <summary>
-    ///     Represents a GetBroadcastRequestBuilder that allows to set the StreamId.
-    /// </summary>
-    public interface IBuilderForStreamId
-    {
-        /// <summary>
-        ///     Sets the StreamId on the builder.
-        /// </summary>
-        /// <param name="value">The stream id.</param>
-        /// <returns>The builder.</returns>
-        IBuilderForOptional WithStreamId(Guid value);
-    }
-
-    /// <summary>
-    ///     Represents a AddStreamToBroadcastRequestBuilder that allows to set optional values.
-    /// </summary>
-    public interface IBuilderForOptional : IVonageRequestBuilder<AddStreamToBroadcastRequest>
-    {
-        /// <summary>
-        ///     Disables audio on the builder.
-        /// </summary>
-        /// <returns>The builder.</returns>
-        IBuilderForOptional WithDisabledAudio();
-
-        /// <summary>
-        ///     Disables video on the builder.
-        /// </summary>
-        /// <returns>The builder.</returns>
-        IBuilderForOptional WithDisabledVideo();
-    }
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithDisabledVideo();
 }
