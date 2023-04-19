@@ -56,10 +56,11 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoConnection
             };
 
         private static Result<PlayToneIntoConnectionRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            PlayToneIntoConnectionRequest.Parse(
-                fixture.Create<Guid>(),
-                fixture.Create<string>(),
-                fixture.Create<string>(),
-                fixture.Create<string>());
+            PlayToneIntoConnectionRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithSessionId(fixture.Create<string>())
+                .WithConnectionId(fixture.Create<string>())
+                .WithDigits(fixture.Create<string>())
+                .Create();
     }
 }
