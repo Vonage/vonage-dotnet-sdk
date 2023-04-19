@@ -2,13 +2,9 @@
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.CreateArchive;
 
-/// <summary>
-///     Represents a builder for CreateArchiveRequest.
-/// </summary>
 internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForApplicationId, IBuilderForOptional
 {
     private bool hasAudio = true;

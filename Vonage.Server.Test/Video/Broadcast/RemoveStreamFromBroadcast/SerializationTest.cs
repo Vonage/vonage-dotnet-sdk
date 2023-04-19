@@ -17,7 +17,7 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
 
         [Fact]
         public void ShouldSerialize() =>
-            RemoveStreamFromBroadcastRequestBuilder.Build()
+            RemoveStreamFromBroadcastRequest.Build()
                 .WithApplicationId(Guid.NewGuid())
                 .WithBroadcastId(Guid.NewGuid())
                 .WithStreamId(new Guid("12312312-3811-4726-b508-e41a0f96c68f"))

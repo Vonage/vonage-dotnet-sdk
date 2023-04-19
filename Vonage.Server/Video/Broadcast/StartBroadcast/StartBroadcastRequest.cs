@@ -74,6 +74,12 @@ public readonly struct StartBroadcastRequest : IVonageRequest, IHasApplicationId
     [JsonPropertyOrder(6)]
     public StreamMode StreamMode { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new StartBroadcastRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder

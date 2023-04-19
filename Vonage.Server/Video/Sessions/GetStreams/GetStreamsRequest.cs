@@ -2,8 +2,6 @@
 using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
-using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Sessions.GetStreams;
 
@@ -12,17 +10,17 @@ namespace Vonage.Server.Video.Sessions.GetStreams;
 /// </summary>
 public readonly struct GetStreamsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    private GetStreamsRequest(Guid applicationId, string sessionId)
-    {
-        this.ApplicationId = applicationId;
-        this.SessionId = sessionId;
-    }
+    /// <inheritdoc />
+    public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    public Guid ApplicationId { get; }
+    public string SessionId { get; internal init; }
 
-    /// <inheritdoc />
-    public string SessionId { get; }
+    /// <summary>
+    /// Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new GetStreamsRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -32,16 +30,4 @@ public readonly struct GetStreamsRequest : IVonageRequest, IHasApplicationId, IH
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream";
-
-    /// <summary>
-    ///     Parses the input into a GetStreamRequest.
-    /// </summary>
-    /// <param name="applicationId">The application Id.</param>
-    /// <param name="sessionId">The session Id.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<GetStreamsRequest> Parse(Guid applicationId, string sessionId) =>
-        Result<GetStreamsRequest>
-            .FromSuccess(new GetStreamsRequest(applicationId, sessionId))
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId);
 }

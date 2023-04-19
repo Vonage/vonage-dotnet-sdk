@@ -5,22 +5,13 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Broadcast.GetBroadcast;
 
-/// <summary>
-///     Represents a builder for a GetBroadcastRequest.
-/// </summary>
-public class GetBroadcastRequestBuilder :
+internal class GetBroadcastRequestBuilder :
     IVonageRequestBuilder<GetBroadcastRequest>,
-    GetBroadcastRequestBuilder.IBuilderForApplicationId,
-    GetBroadcastRequestBuilder.IBuilderForBroadcastId
+    IBuilderForApplicationId,
+    IBuilderForBroadcastId
 {
     private Guid applicationId;
     private Guid broadcastId;
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new GetBroadcastRequestBuilder();
 
     /// <inheritdoc />
     public Result<GetBroadcastRequest> Create() =>
@@ -45,30 +36,30 @@ public class GetBroadcastRequestBuilder :
         this.broadcastId = value;
         return this;
     }
+}
 
+/// <summary>
+///     Represents a builder that allows to set the ApplicationId.
+/// </summary>
+public interface IBuilderForApplicationId
+{
     /// <summary>
-    ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+    ///     Sets the ApplicationId on the builder.
     /// </summary>
-    public interface IBuilderForApplicationId
-    {
-        /// <summary>
-        ///     Sets the ApplicationId on the builder.
-        /// </summary>
-        /// <param name="value">The application id.</param>
-        /// <returns>The builder.</returns>
-        IBuilderForBroadcastId WithApplicationId(Guid value);
-    }
+    /// <param name="value">The application id.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForBroadcastId WithApplicationId(Guid value);
+}
 
+/// <summary>
+///     Represents a builder that allows to set the ApplicationId.
+/// </summary>
+public interface IBuilderForBroadcastId
+{
     /// <summary>
-    ///     Represents a GetBroadcastRequestBuilder that allows to set the ApplicationId.
+    ///     Sets the BroadcastId on the builder.
     /// </summary>
-    public interface IBuilderForBroadcastId
-    {
-        /// <summary>
-        ///     Sets the BroadcastId on the builder.
-        /// </summary>
-        /// <param name="value">The broadcast id.</param>
-        /// <returns>The builder.</returns>
-        IVonageRequestBuilder<GetBroadcastRequest> WithBroadcastId(Guid value);
-    }
+    /// <param name="value">The broadcast id.</param>
+    /// <returns>The builder.</returns>
+    IVonageRequestBuilder<GetBroadcastRequest> WithBroadcastId(Guid value);
 }

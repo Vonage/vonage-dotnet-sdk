@@ -56,7 +56,7 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
             };
 
         private static Result<RemoveStreamFromBroadcastRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            RemoveStreamFromBroadcastRequestBuilder.Build()
+            RemoveStreamFromBroadcastRequest.Build()
                 .WithApplicationId(fixture.Create<Guid>())
                 .WithBroadcastId(fixture.Create<Guid>())
                 .WithStreamId(fixture.Create<Guid>())

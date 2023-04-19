@@ -61,7 +61,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast
             };
 
         private static Result<StopBroadcastRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            StopBroadcastRequestBuilder.Build().WithApplicationId(fixture.Create<Guid>())
+            StopBroadcastRequest.Build().WithApplicationId(fixture.Create<Guid>())
                 .WithBroadcastId(fixture.Create<Guid>()).Create();
     }
 }

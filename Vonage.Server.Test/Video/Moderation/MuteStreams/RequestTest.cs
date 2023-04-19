@@ -25,7 +25,11 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            MuteStreamsRequest.Parse(this.applicationId, this.sessionId, this.configuration)
+            MuteStreamsRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .WithConfiguration(this.configuration)
+                .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
@@ -33,14 +37,21 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenApplicationIdIsNullOrWhitespace() =>
-            MuteStreamsRequest.Parse(Guid.Empty, this.sessionId, this.configuration)
+            MuteStreamsRequest.Build()
+                .WithApplicationId(Guid.Empty)
+                .WithSessionId(this.sessionId)
+                .WithConfiguration(this.configuration)
+                .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenExcludedStreamsIdsAreNull() =>
-            MuteStreamsRequest.Parse(this.applicationId, this.sessionId,
-                    new MuteStreamsRequest.MuteStreamsConfiguration(this.fixture.Create<bool>(), null))
+            MuteStreamsRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .WithConfiguration(new MuteStreamsRequest.MuteStreamsConfiguration(this.fixture.Create<bool>(), null))
+                .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ExcludedStreamIds cannot be null."));
 
@@ -49,13 +60,21 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
         [InlineData(" ")]
         [InlineData(null)]
         public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
-            MuteStreamsRequest.Parse(this.applicationId, value, this.configuration)
+            MuteStreamsRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(value)
+                .WithConfiguration(this.configuration)
+                .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>
-            MuteStreamsRequest.Parse(this.applicationId, this.sessionId, this.configuration)
+            MuteStreamsRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .WithConfiguration(this.configuration)
+                .Create()
                 .Should()
                 .BeSuccess(request =>
                 {

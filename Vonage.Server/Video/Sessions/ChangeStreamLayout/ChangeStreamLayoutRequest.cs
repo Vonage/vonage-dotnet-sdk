@@ -4,8 +4,6 @@ using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
-using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Sessions.ChangeStreamLayout;
@@ -15,23 +13,22 @@ namespace Vonage.Server.Video.Sessions.ChangeStreamLayout;
 /// </summary>
 public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    private ChangeStreamLayoutRequest(Guid applicationId, string sessionId, IEnumerable<LayoutItem> items)
-    {
-        this.ApplicationId = applicationId;
-        this.SessionId = sessionId;
-        this.Items = items;
-    }
-
     /// <inheritdoc />
-    public Guid ApplicationId { get; }
+    public Guid ApplicationId { get; internal init; }
 
     /// <summary>
     ///     The layout items.
     /// </summary>
-    public IEnumerable<LayoutItem> Items { get; }
+    public IEnumerable<LayoutItem> Items { get; internal init; }
 
     /// <inheritdoc />
-    public string SessionId { get; }
+    public string SessionId { get; internal init; }
+
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new ChangeStreamLayoutRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -43,28 +40,10 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicati
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream";
 
-    /// <summary>
-    ///     Parses the input into a ChangeStreamLayoutRequest.
-    /// </summary>
-    /// <param name="applicationId">The application Id.</param>
-    /// <param name="sessionId">The session Id.</param>
-    /// <param name="items">The layout items.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<ChangeStreamLayoutRequest> Parse(Guid applicationId, string sessionId,
-        IEnumerable<LayoutItem> items) =>
-        Result<ChangeStreamLayoutRequest>
-            .FromSuccess(new ChangeStreamLayoutRequest(applicationId, sessionId, items))
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(VerifyItems);
-
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.Build().SerializeObject(new {this.Items}),
             Encoding.UTF8,
             "application/json");
-
-    private static Result<ChangeStreamLayoutRequest> VerifyItems(ChangeStreamLayoutRequest request) =>
-        InputValidation.VerifyNotNull(request, request.Items, nameof(Items));
 
     /// <summary>
     ///     Represents a request to change a stream with layout classes.

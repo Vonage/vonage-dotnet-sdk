@@ -20,7 +20,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void Build_ShouldAssignCount_GivenWithCountIsUsed() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithCount(100)
                 .Create()
                 .Should()
@@ -28,7 +29,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void Build_ShouldAssignOffset_GivenWithOffsetIsUsed() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithOffset(500)
                 .Create()
                 .Should()
@@ -36,7 +38,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void Build_ShouldAssignSessionId_GivenWithSessionIdIsUsed() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId("some value")
                 .Create()
                 .Should()
@@ -44,14 +47,16 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            GetBroadcastsRequestBuilder.Build(Guid.Empty)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(Guid.Empty)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenCountIsHigherThanThreshold() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithCount(1001)
                 .Create()
                 .Should()
@@ -59,7 +64,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenCountIsNegative() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithCount(-1)
                 .Create()
                 .Should()
@@ -67,7 +73,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenOffsetIsNegative() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithOffset(-1)
                 .Create()
                 .Should()
@@ -75,7 +82,8 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithDefaultValues() =>
-            GetBroadcastsRequestBuilder.Build(this.applicationId)
+            GetBroadcastsRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .Create()
                 .Should()
                 .BeSuccess(request =>

@@ -2,8 +2,6 @@
 using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
-using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Sessions.GetStream;
 
@@ -12,23 +10,22 @@ namespace Vonage.Server.Video.Sessions.GetStream;
 /// </summary>
 public readonly struct GetStreamRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    private GetStreamRequest(Guid applicationId, string sessionId, string streamId)
-    {
-        this.ApplicationId = applicationId;
-        this.SessionId = sessionId;
-        this.StreamId = streamId;
-    }
+    /// <inheritdoc />
+    public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    public Guid ApplicationId { get; }
-
-    /// <inheritdoc />
-    public string SessionId { get; }
+    public string SessionId { get; internal init; }
 
     /// <summary>
     ///     The stream Id.
     /// </summary>
-    public string StreamId { get; }
+    public string StreamId { get; internal init; }
+
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new GetStreamRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -39,21 +36,4 @@ public readonly struct GetStreamRequest : IVonageRequest, IHasApplicationId, IHa
     /// <inheritdoc />
     public string GetEndpointPath() =>
         $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream/{this.StreamId}";
-
-    /// <summary>
-    ///     Parses the input into a GetStreamRequest.
-    /// </summary>
-    /// <param name="applicationId">The application Id.</param>
-    /// <param name="sessionId">The session Id.</param>
-    /// <param name="streamId">The stream Id.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<GetStreamRequest> Parse(Guid applicationId, string sessionId, string streamId) =>
-        Result<GetStreamRequest>
-            .FromSuccess(new GetStreamRequest(applicationId, sessionId, streamId))
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(VerifyStreamId)
-            .Bind(BuilderExtensions.VerifySessionId);
-
-    private static Result<GetStreamRequest> VerifyStreamId(GetStreamRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(StreamId));
 }

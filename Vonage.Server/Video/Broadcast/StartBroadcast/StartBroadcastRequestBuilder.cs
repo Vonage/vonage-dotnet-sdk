@@ -7,16 +7,14 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.StartBroadcast;
 
-/// <summary>
-///     Represents a builder for StartBroadcastRequest.
-/// </summary>
-public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOutputs, IBuilderForLayout,
+internal class StartBroadcastRequestBuilder : IBuilderForApplicationId, IBuilderForSessionId, IBuilderForOutputs,
+    IBuilderForLayout,
     IBuilderForOptional
 {
     private const int MaximumMaxDuration = 36000;
     private const int MinimumMaxDuration = 60;
     private StartBroadcastRequest.BroadcastOutput outputs;
-    private readonly Guid applicationId;
+    private Guid applicationId;
     private int maxBitrate = 1000;
     private int maxDuration = 14400;
     private Layout layout;
@@ -24,16 +22,6 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
     private RenderResolution resolution = RenderResolution.StandardDefinitionLandscape;
     private StreamMode streamMode = StreamMode.Auto;
     private string sessionId;
-
-    private StartBroadcastRequestBuilder(Guid applicationId) => this.applicationId = applicationId;
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <param name="applicationId">The Vonage application UUID.</param>
-    /// <returns>The builder.</returns>
-    public static IBuilderForSessionId Build(Guid applicationId) =>
-        new StartBroadcastRequestBuilder(applicationId);
 
     /// <inheritdoc />
     public Result<StartBroadcastRequest> Create() =>
@@ -54,6 +42,13 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             .Bind(VerifyMaxDuration)
             .Bind(VerifyHls)
             .Bind(VerifyLayout);
+
+    /// <inheritdoc />
+    public IBuilderForSessionId WithApplicationId(Guid value)
+    {
+        this.applicationId = value;
+        return this;
+    }
 
     /// <inheritdoc />
     public IBuilderForOutputs WithLayout(Layout value)
@@ -149,6 +144,19 @@ public class StartBroadcastRequestBuilder : IBuilderForSessionId, IBuilderForOut
             .VerifyHigherOrEqualThan(request, request.MaxDuration, MinimumMaxDuration, nameof(request.MaxDuration))
             .Bind(_ => InputValidation.VerifyLowerOrEqualThan(request, request.MaxDuration, MaximumMaxDuration,
                 nameof(request.MaxDuration)));
+}
+
+/// <summary>
+///     Represents a StartBroadcastRequestBuilder that allows to set the ApplicationId.
+/// </summary>
+public interface IBuilderForApplicationId
+{
+    /// <summary>
+    ///     Sets the ApplicationId on the builder.
+    /// </summary>
+    /// <param name="value">The application id.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForSessionId WithApplicationId(Guid value);
 }
 
 /// <summary>

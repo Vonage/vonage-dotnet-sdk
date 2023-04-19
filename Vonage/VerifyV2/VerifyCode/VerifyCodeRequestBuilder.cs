@@ -4,9 +4,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.VerifyV2.VerifyCode;
 
-/// <summary>
-///     Represents a builder for VerifyCodeRequest.
-/// </summary>
 internal class VerifyCodeRequestBuilder : IVonageRequestBuilder<VerifyCodeRequest>, IBuilderForCode,
     IBuilderForRequestId
 {

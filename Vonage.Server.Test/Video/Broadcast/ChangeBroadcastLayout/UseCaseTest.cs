@@ -56,7 +56,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
             };
 
         private static Result<ChangeBroadcastLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            ChangeBroadcastLayoutRequestBuilder.Build()
+            ChangeBroadcastLayoutRequest.Build()
                 .WithApplicationId(fixture.Create<Guid>())
                 .WithBroadcastId(fixture.Create<Guid>())
                 .WithLayout(fixture.Create<Layout>())

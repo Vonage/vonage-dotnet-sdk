@@ -4,7 +4,7 @@ using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Sessions;
 using Xunit;
 
-namespace Vonage.Server.Test.Video.Sessions.Common
+namespace Vonage.Server.Test.Video.Sessions
 {
     public class IpAddressTest
     {

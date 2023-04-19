@@ -3,8 +3,6 @@ using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
-using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 using Vonage.Server.Serialization;
 
 namespace Vonage.Server.Video.Moderation.MuteStreams;
@@ -14,23 +12,22 @@ namespace Vonage.Server.Video.Moderation.MuteStreams;
 /// </summary>
 public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    private MuteStreamsRequest(Guid applicationId, string sessionId, MuteStreamsConfiguration configuration)
-    {
-        this.ApplicationId = applicationId;
-        this.SessionId = sessionId;
-        this.Configuration = configuration;
-    }
-
     /// <inheritdoc />
-    public Guid ApplicationId { get; }
+    public Guid ApplicationId { get; internal init; }
 
     /// <summary>
     ///     The request content.
     /// </summary>
-    public MuteStreamsConfiguration Configuration { get; }
+    public MuteStreamsConfiguration Configuration { get; internal init; }
 
     /// <inheritdoc />
-    public string SessionId { get; }
+    public string SessionId { get; internal init; }
+
+    /// <summary>
+    /// Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new MuteStreamsRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -43,29 +40,10 @@ public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId, I
     public string GetEndpointPath() =>
         $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/mute";
 
-    /// <summary>
-    ///     Parses the input into a MuteStreamsRequest.
-    /// </summary>
-    /// <param name="applicationId">The Vonage application UUID.</param>
-    /// <param name="sessionId">The Video session Id.</param>
-    /// <param name="configuration"> The request configuration.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<MuteStreamsRequest> Parse(Guid applicationId, string sessionId,
-        MuteStreamsConfiguration configuration) =>
-        Result<MuteStreamsRequest>
-            .FromSuccess(new MuteStreamsRequest(applicationId, sessionId, configuration))
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(VerifyExcludedStreams);
-
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.Build().SerializeObject(this.Configuration),
             Encoding.UTF8,
             "application/json");
-
-    private static Result<MuteStreamsRequest> VerifyExcludedStreams(MuteStreamsRequest request) =>
-        InputValidation.VerifyNotNull(request, request.Configuration.ExcludedStreamIds,
-            nameof(MuteStreamsConfiguration.ExcludedStreamIds));
 
     /// <summary>
     ///     Represents a configuration for muting streams.

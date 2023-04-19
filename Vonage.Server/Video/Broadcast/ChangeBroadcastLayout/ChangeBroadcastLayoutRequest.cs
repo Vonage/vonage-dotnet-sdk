@@ -27,6 +27,12 @@ public readonly struct ChangeBroadcastLayoutRequest : IVonageRequest, IHasApplic
     [JsonIgnore]
     public Layout Layout { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new ChangeBroadcastLayoutRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder

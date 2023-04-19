@@ -16,6 +16,12 @@ public readonly struct GetBroadcastRequest : IVonageRequest, IHasApplicationId, 
     /// <inheritdoc />
     public Guid BroadcastId { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new GetBroadcastRequestBuilder();
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder

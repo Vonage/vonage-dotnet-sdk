@@ -22,7 +22,7 @@ namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
-            RemoveStreamFromBroadcastRequestBuilder.Build()
+            RemoveStreamFromBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(this.streamId)

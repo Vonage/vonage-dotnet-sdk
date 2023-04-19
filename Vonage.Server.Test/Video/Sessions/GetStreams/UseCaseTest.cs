@@ -59,7 +59,9 @@ namespace Vonage.Server.Test.Video.Sessions.GetStreams
             };
 
         private static Result<GetStreamsRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetStreamsRequest.Parse(fixture.Create<Guid>(),
-                fixture.Create<string>());
+            GetStreamsRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithSessionId(fixture.Create<string>())
+                .Create();
     }
 }

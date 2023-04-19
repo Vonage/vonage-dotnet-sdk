@@ -7,9 +7,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.VerifyV2.StartVerification;
 
-/// <summary>
-///     Represents a builder for a StartVerificationRequest.
-/// </summary>
 internal class StartVerificationRequestBuilder :
     IOptionalBuilder,
     IBuilderForBrand,

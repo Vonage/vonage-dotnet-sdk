@@ -61,7 +61,7 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
             };
 
         private static Result<GetBroadcastRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetBroadcastRequestBuilder.Build().WithApplicationId(fixture.Create<Guid>())
+            GetBroadcastRequest.Build().WithApplicationId(fixture.Create<Guid>())
                 .WithBroadcastId(fixture.Create<Guid>()).Create();
     }
 }

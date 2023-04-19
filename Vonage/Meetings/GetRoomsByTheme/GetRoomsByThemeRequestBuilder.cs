@@ -5,9 +5,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Meetings.GetRoomsByTheme;
 
-/// <summary>
-///     Represents a builder for GetRoomsByThemeRequest.
-/// </summary>
 internal class GetRoomsByThemeRequestBuilder : IBuilderForThemeId, IOptionalBuilder
 {
     private Guid themeId;

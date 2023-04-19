@@ -22,7 +22,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(this.streamId)

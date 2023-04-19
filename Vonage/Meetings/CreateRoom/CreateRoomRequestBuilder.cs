@@ -6,9 +6,6 @@ using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.CreateRoom;
 
-/// <summary>
-///     Represents a builder for CreateRoomRequest.
-/// </summary>
 internal class CreateRoomRequestBuilder : IBuilderForDisplayName, IBuilderForOptional
 {
     private const int DisplayNameMaxLength = 200;

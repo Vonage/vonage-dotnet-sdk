@@ -24,7 +24,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 
         [Fact]
         public void Build_ShouldDisableAudio_GivenWithDisabledAudioIsUsed() =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(this.streamId)
@@ -36,7 +36,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 
         [Fact]
         public void Build_ShouldDisableVideo_GivenWithDisabledVideoIsUsed() =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(this.streamId)
@@ -48,7 +48,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(this.streamId)
@@ -58,7 +58,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenBroadcastIdIsEmpty() =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(Guid.Empty)
                 .WithStreamId(this.streamId)
@@ -68,7 +68,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenStreamIdIsEmpty() =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(Guid.Empty)
@@ -78,7 +78,7 @@ namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithMandatoryValues() =>
-            AddStreamToBroadcastRequestBuilder.Build()
+            AddStreamToBroadcastRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithBroadcastId(this.broadcastId)
                 .WithStreamId(this.streamId)

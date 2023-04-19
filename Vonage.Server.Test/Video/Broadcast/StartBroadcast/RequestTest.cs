@@ -20,7 +20,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            StartBroadcastRequestBuilder.Build(this.applicationId)
+            StartBroadcastRequest.Build()
+                .WithApplicationId(this.applicationId)
                 .WithSessionId(this.fixture.Create<string>())
                 .WithLayout(new Layout(null, null, LayoutType.HorizontalPresentation))
                 .WithOutputs(this.fixture.Create<StartBroadcastRequest.BroadcastOutput>())

@@ -56,9 +56,10 @@ namespace Vonage.Server.Test.Video.Sessions.ChangeStreamLayout
             };
 
         private static Result<ChangeStreamLayoutRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            ChangeStreamLayoutRequest.Parse(
-                fixture.Create<Guid>(),
-                fixture.Create<string>(),
-                fixture.CreateMany<ChangeStreamLayoutRequest.LayoutItem>());
+            ChangeStreamLayoutRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithSessionId(fixture.Create<string>())
+                .WithItem(fixture.Create<ChangeStreamLayoutRequest.LayoutItem>())
+                .Create();
     }
 }
