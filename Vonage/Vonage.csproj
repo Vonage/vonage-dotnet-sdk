@@ -55,27 +55,15 @@
     </PropertyGroup>
     <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' ">
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="jose-jwt" Version="4.1.0" />
-        <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-        <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-        <PackageReference Include="System.Net.Http" Version="4.3.4" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="jose-jwt" Version="4.1.0" />
-        <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-        <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-        <PackageReference Include="System.Net.Http" Version="4.3.4" />
-        <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
-        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-        <PackageReference Include="System.Security.Cryptography.OpenSsl" Version="5.0.0" />
-        <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
     <ItemGroup>
         <None Include="VonageLogo_Symbol_Black.png">
@@ -84,16 +72,17 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-        <PackageReference Include="PolySharp" Version="1.12.1">
+        <PackageReference Include="Enums.NET" Version="4.0.1"/>
+        <PackageReference Include="Handy.DotNETCore-Compatibility.ColorTranslations" Version="0.2.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0"/>
+        <PackageReference Include="PolySharp" Version="1.13.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="System.ComponentModel" Version="4.3.0" />
-        <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
-        <PackageReference Include="System.IO.Abstractions" Version="19.1.18" />
-        <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0" />
+        <PackageReference Include="System.IO.Abstractions" Version="19.2.15"/>
+        <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
+        <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" PrivateAssets="All" />

@@ -62,10 +62,11 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Enums.NET" Version="4.0.1"/>
-        <PackageReference Include="PolySharp" Version="1.12.1">
+        <PackageReference Include="PolySharp" Version="1.13.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Update="NETStandard.Library" Version="2.0.3"/>
     </ItemGroup>
     <ItemGroup>
         <_PackageFiles Include="$(OutputPath)\Vonage.Common.dll">
