@@ -2,8 +2,6 @@
 using System.Text;
 using System.Web;
 using Vonage.Common.Client;
-using Vonage.Common.Failures;
-using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Sessions.CreateSession;
 
@@ -13,37 +11,41 @@ namespace Vonage.Server.Video.Sessions.CreateSession;
 public readonly struct CreateSessionRequest : IVonageRequest
 {
     /// <summary>
-    ///     Indicates media mode and archive mode are incompatible.
+    ///     Set to always to have the session archived automatically. With the archiveMode set to manual (the default), you can
+    ///     archive the session by calling the REST /archive POST method. If you set the archiveMode to always, you must also
+    ///     set the p2p.preference parameter to disabled (the default).
     /// </summary>
-    public const string IncompatibleMediaAndArchive =
-        "A session with always archive mode must also have the routed media mode.";
-
-    private CreateSessionRequest(IpAddress location, MediaMode mediaMode, ArchiveMode archiveMode)
-    {
-        this.Location = location;
-        this.MediaMode = mediaMode;
-        this.ArchiveMode = archiveMode;
-    }
-
-    /// <summary>
-    ///     Set to always to have the session archived automatically. With the archiveMode set to manual (the default), you can archive the session by calling the REST /archive POST method. If you set the archiveMode to always, you must also set the p2p.preference parameter to disabled (the default).
-    /// </summary>
-    public ArchiveMode ArchiveMode { get; }
+    public ArchiveMode ArchiveMode { get; internal init; }
 
     /// <summary>
     ///     Creates a default request with empty ip address, relayed media mode and manual archive mode.
     /// </summary>
-    public static CreateSessionRequest Default => new(IpAddress.Empty, MediaMode.Relayed, ArchiveMode.Manual);
+    public static CreateSessionRequest Default => new()
+    {
+        Location = IpAddress.Empty,
+        MediaMode = MediaMode.Relayed,
+        ArchiveMode = ArchiveMode.Manual,
+    };
 
     /// <summary>
-    ///     The IP address that the Vonage Video APi will use to situate the session in its global network. If no location hint is passed in (which is recommended), the session uses a media server based on the location of the first client connecting to the session. Pass a location hint in only if you know the general geographic region (and a representative IP address) and you think the first client connecting may not be in that region. Specify an IP address that is representative of the geographical location for the session.
+    ///     The IP address that the Vonage Video APi will use to situate the session in its global network. If no location hint
+    ///     is passed in (which is recommended), the session uses a media server based on the location of the first client
+    ///     connecting to the session. Pass a location hint in only if you know the general geographic region (and a
+    ///     representative IP address) and you think the first client connecting may not be in that region. Specify an IP
+    ///     address that is representative of the geographical location for the session.
     /// </summary>
-    public IpAddress Location { get; }
+    public IpAddress Location { get; internal init; }
 
     /// <summary>
     ///     Indicates how streams are sent.
     /// </summary>
-    public MediaMode MediaMode { get; }
+    public MediaMode MediaMode { get; internal init; }
+
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForLocation Build() => new CreateSessionRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -56,8 +58,9 @@ public readonly struct CreateSessionRequest : IVonageRequest
     public string GetEndpointPath() => "/session/create";
 
     /// <summary>
+    /// Retrieves the encoded Url.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The encoded Url.</returns>
     public string GetUrlEncoded()
     {
         var builder = new StringBuilder();
@@ -69,33 +72,6 @@ public readonly struct CreateSessionRequest : IVonageRequest
         builder.Append(HttpUtility.UrlEncode(GetMediaPreference(this.MediaMode)));
         return builder.ToString();
     }
-
-    /// <summary>
-    ///     Parses the provided input.
-    /// </summary>
-    /// <param name="location">The IP address that the Vonage Video APi will use to situate the session in its global network. If no location hint is passed in (which is recommended), the session uses a media server based on the location of the first client connecting to the session. Pass a location hint in only if you know the general geographic region (and a representative IP address) and you think the first client connecting may not be in that region. Specify an IP address that is representative of the geographical location for the session.</param>
-    /// <param name="mediaMode">Indicates how streams are sent.</param>
-    /// <param name="archiveMode">Set to always to have the session archived automatically. With the archiveModeset to manual (the default), you can archive the session by calling the REST /archive POST method. If you set the archiveMode to always, you must also set the p2p.preference parameter to disabled (the default).</param>
-    /// <returns>Success if the parsing operation succeeded, Failure if it failed.</returns>
-    public static Result<CreateSessionRequest> Parse(string location, MediaMode mediaMode, ArchiveMode archiveMode) =>
-        IpAddress
-            .Parse(location)
-            .Bind(ipAddress => Parse(ipAddress, mediaMode, archiveMode));
-
-    /// <summary>
-    /// </summary>
-    /// <param name="ipAddress"></param>
-    /// <param name="mediaMode"></param>
-    /// <param name="archiveMode"></param>
-    /// <returns></returns>
-    public static Result<CreateSessionRequest>
-        Parse(IpAddress ipAddress, MediaMode mediaMode, ArchiveMode archiveMode) =>
-        AreMediaAndArchiveCompatible(mediaMode, archiveMode)
-            ? Result<CreateSessionRequest>.FromSuccess(new CreateSessionRequest(ipAddress, mediaMode, archiveMode))
-            : ResultFailure.FromErrorMessage(IncompatibleMediaAndArchive).ToResult<CreateSessionRequest>();
-
-    private static bool AreMediaAndArchiveCompatible(MediaMode mediaMode, ArchiveMode archiveMode) =>
-        archiveMode == ArchiveMode.Manual || mediaMode == MediaMode.Routed;
 
     private static string GetMediaPreference(MediaMode mediaMode) =>
         mediaMode == MediaMode.Relayed ? "enabled" : "disabled";
