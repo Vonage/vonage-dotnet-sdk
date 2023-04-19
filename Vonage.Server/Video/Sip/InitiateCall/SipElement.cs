@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
@@ -73,7 +74,7 @@ public readonly struct SipElement
     ///     transmission to be encrypted, set the secure property to true.
     /// </summary>
     [JsonPropertyOrder(6)]
-    public string Uri { get; internal init; }
+    public Uri Uri { get; internal init; }
 
     /// <summary>
     /// Represents the authentication for the SIP call.

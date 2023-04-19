@@ -30,28 +30,30 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public void ShouldSerialize() =>
-            SipElementBuilder
-                .Build("sip:user@sip.partner.com;transport=tls")
+            InitiateCallRequest.Build()
+                .WithApplicationId(Guid.NewGuid())
+                .WithSessionId("b40ef09b-3811-4726-b508-e41a0f96c68f")
+                .WithToken("78d335fa-323d-0114-9c3d-d6f0d48968cf")
+                .WithSipUri(new Uri("sip:user@sip.partner.com;transport=tls"))
                 .EnableVideo()
                 .EnableForceMute()
                 .EnableEncryptedMedia()
+                .WithAuthentication(new SipElement.SipAuthentication("username", "p@ssw0rd"))
                 .WithFrom("from@example.com")
                 .WithHeader("headerKey", "some-value")
-                .WithAuthentication(new SipElement.SipAuthentication("username", "p@ssw0rd"))
                 .Create()
-                .Bind(sip => InitiateCallRequest.Parse(Guid.NewGuid(), "b40ef09b-3811-4726-b508-e41a0f96c68f",
-                    "78d335fa-323d-0114-9c3d-d6f0d48968cf", sip))
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
 
         [Fact]
         public void ShouldSerializeWithDefaultValues() =>
-            SipElementBuilder
-                .Build("sip:user@sip.partner.com;transport=tls")
+            InitiateCallRequest.Build()
+                .WithApplicationId(Guid.NewGuid())
+                .WithSessionId("b40ef09b-3811-4726-b508-e41a0f96c68f")
+                .WithToken("78d335fa-323d-0114-9c3d-d6f0d48968cf")
+                .WithSipUri(new Uri("sip:user@sip.partner.com;transport=tls"))
                 .Create()
-                .Bind(sip => InitiateCallRequest.Parse(Guid.NewGuid(), "b40ef09b-3811-4726-b508-e41a0f96c68f",
-                    "78d335fa-323d-0114-9c3d-d6f0d48968cf", sip))
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());

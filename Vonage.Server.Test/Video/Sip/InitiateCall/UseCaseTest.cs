@@ -56,10 +56,11 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
             };
 
         private static Result<InitiateCallRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            SipElementBuilder
-                .Build(fixture.Create<string>())
-                .Create()
-                .Bind(sip => InitiateCallRequest.Parse(fixture.Create<Guid>(), fixture.Create<string>(),
-                    fixture.Create<string>(), sip));
+            InitiateCallRequest.Build()
+                .WithApplicationId(fixture.Create<Guid>())
+                .WithSessionId(fixture.Create<string>())
+                .WithToken(fixture.Create<string>())
+                .WithSipUri(fixture.Create<Uri>())
+                .Create();
     }
 }
