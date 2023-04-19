@@ -1,52 +1,56 @@
-﻿using System;
+using System;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
-namespace Vonage.Server.Video.Broadcast.RemoveStreamFromBroadcast;
+namespace Vonage.Server.Video.Sessions.GetStream;
 
-internal class RemoveStreamFromBroadcastRequestBuilder :
-    IVonageRequestBuilder<RemoveStreamFromBroadcastRequest>,
+internal class GetStreamRequestBuilder :
+    IVonageRequestBuilder<GetStreamRequest>,
     IBuilderForApplicationId,
-    IBuilderForBroadcastId,
+    IBuilderForSessionId,
     IBuilderForStreamId
 {
     private Guid applicationId;
-    private Guid streamId;
-    private Guid broadcastId;
+    private string streamId;
+    private string sessionId;
 
     /// <inheritdoc />
-    public Result<RemoveStreamFromBroadcastRequest> Create() =>
-        Result<RemoveStreamFromBroadcastRequest>.FromSuccess(new RemoveStreamFromBroadcastRequest
+    public Result<GetStreamRequest> Create() =>
+        Result<GetStreamRequest>.FromSuccess(new GetStreamRequest
             {
                 ApplicationId = this.applicationId,
-                BroadcastId = this.broadcastId,
+                SessionId = this.sessionId,
                 StreamId = this.streamId,
             })
             .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifyBroadcastId)
-            .Bind(BuilderExtensions.VerifyStreamId);
+            .Bind(BuilderExtensions.VerifySessionId)
+            .Bind(VerifyStreamId);
 
     /// <inheritdoc />
-    public IBuilderForBroadcastId WithApplicationId(Guid value)
+    public IBuilderForSessionId WithApplicationId(Guid value)
     {
         this.applicationId = value;
         return this;
     }
 
     /// <inheritdoc />
-    public IBuilderForStreamId WithBroadcastId(Guid value)
+    public IBuilderForStreamId WithSessionId(string value)
     {
-        this.broadcastId = value;
+        this.sessionId = value;
         return this;
     }
 
     /// <inheritdoc />
-    public IVonageRequestBuilder<RemoveStreamFromBroadcastRequest> WithStreamId(Guid value)
+    public IVonageRequestBuilder<GetStreamRequest> WithStreamId(string value)
     {
         this.streamId = value;
         return this;
     }
+
+    private static Result<GetStreamRequest> VerifyStreamId(GetStreamRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(GetStreamRequest.StreamId));
 }
 
 /// <summary>
@@ -59,20 +63,20 @@ public interface IBuilderForApplicationId
     /// </summary>
     /// <param name="value">The application id.</param>
     /// <returns>The builder.</returns>
-    IBuilderForBroadcastId WithApplicationId(Guid value);
+    IBuilderForSessionId WithApplicationId(Guid value);
 }
 
 /// <summary>
-///     Represents a builder that allows to set the BroadcastId.
+///     Represents a builder that allows to set the SessionId.
 /// </summary>
-public interface IBuilderForBroadcastId
+public interface IBuilderForSessionId
 {
     /// <summary>
-    ///     Sets the BroadcastId on the builder.
+    ///     Sets the SessionId on the builder.
     /// </summary>
-    /// <param name="value">The broadcast id.</param>
+    /// <param name="value">The session id.</param>
     /// <returns>The builder.</returns>
-    IBuilderForStreamId WithBroadcastId(Guid value);
+    IBuilderForStreamId WithSessionId(string value);
 }
 
 /// <summary>
@@ -85,5 +89,5 @@ public interface IBuilderForStreamId
     /// </summary>
     /// <param name="value">The stream id.</param>
     /// <returns>The builder.</returns>
-    IVonageRequestBuilder<RemoveStreamFromBroadcastRequest> WithStreamId(Guid value);
+    IVonageRequestBuilder<GetStreamRequest> WithStreamId(string value);
 }

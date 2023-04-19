@@ -26,7 +26,7 @@ public readonly struct CreateSessionRequest : IVonageRequest
     }
 
     /// <summary>
-    ///     Set to always to have the session archived automatically. With the archiveModeset to manual (the default), you can archive the session by calling the REST /archive POST method. If you set the archiveMode to always, you must also set the p2p.preference parameter to disabled (the default).
+    ///     Set to always to have the session archived automatically. With the archiveMode set to manual (the default), you can archive the session by calling the REST /archive POST method. If you set the archiveMode to always, you must also set the p2p.preference parameter to disabled (the default).
     /// </summary>
     public ArchiveMode ArchiveMode { get; }
 
