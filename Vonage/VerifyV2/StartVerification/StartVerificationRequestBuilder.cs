@@ -139,11 +139,6 @@ internal class StartVerificationRequestBuilder :
         InputValidation
             .VerifyLowerOrEqualThan(request, request.CodeLength, 10, nameof(request.CodeLength));
 
-    private static Result<StartVerificationRequest> VerifyCodeNotEmpty(
-        StartVerificationRequest request) =>
-        request.Code.Match(some => InputValidation.VerifyNotEmpty(request, some, nameof(request.Code)),
-            () => request);
-
     private static Result<StartVerificationRequest> VerifyWorkflowsNotEmpty(StartVerificationRequest request) =>
         request.Workflows.Any()
             ? request
