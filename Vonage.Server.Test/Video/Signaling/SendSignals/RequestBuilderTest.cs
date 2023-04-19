@@ -25,7 +25,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
         }
 
         [Fact]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+        public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
             SendSignalsRequest.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithSessionId(this.sessionId)
@@ -38,7 +38,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenContentDataIsNull(string value) =>
+        public void Build_ShouldReturnFailure_GivenContentDataIsNull(string value) =>
             SendSignalsRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
@@ -51,7 +51,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenContentTypeIsNull(string value) =>
+        public void Build_ShouldReturnFailure_GivenContentTypeIsNull(string value) =>
             SendSignalsRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
@@ -64,7 +64,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
+        public void Build_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
             SendSignalsRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(value)
@@ -74,7 +74,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
                 .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 
         [Fact]
-        public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>
+        public void Build_ShouldReturnSuccess_GivenValuesAreProvided() =>
             SendSignalsRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)

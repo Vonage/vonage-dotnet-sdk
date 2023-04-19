@@ -23,7 +23,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
         }
 
         [Fact]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+        public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
             PlayToneIntoCallRequest.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithSessionId(this.sessionId)
@@ -36,7 +36,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenDigitsIsNullOrWhitespace(string value) =>
+        public void Build_ShouldReturnFailure_GivenDigitsIsNullOrWhitespace(string value) =>
             PlayToneIntoCallRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
@@ -49,7 +49,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
+        public void Build_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
             PlayToneIntoCallRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(value)
@@ -59,7 +59,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
                 .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 
         [Fact]
-        public void Parse_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
+        public void Build_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
             PlayToneIntoCallRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)

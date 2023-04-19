@@ -23,7 +23,7 @@ namespace Vonage.Server.Test.Video.Moderation.DisconnectConnection
         }
 
         [Fact]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+        public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
             DisconnectConnectionRequest.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithSessionId(this.sessionId)
@@ -36,7 +36,7 @@ namespace Vonage.Server.Test.Video.Moderation.DisconnectConnection
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenConnectionIdIsNullOrWhitespace(string value) =>
+        public void Build_ShouldReturnFailure_GivenConnectionIdIsNullOrWhitespace(string value) =>
             DisconnectConnectionRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
@@ -49,7 +49,7 @@ namespace Vonage.Server.Test.Video.Moderation.DisconnectConnection
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
+        public void Build_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
             DisconnectConnectionRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(value)
@@ -59,7 +59,7 @@ namespace Vonage.Server.Test.Video.Moderation.DisconnectConnection
                 .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 
         [Fact]
-        public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>
+        public void Build_ShouldReturnSuccess_GivenValuesAreProvided() =>
             DisconnectConnectionRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)

@@ -25,7 +25,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoConnection
         }
 
         [Fact]
-        public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+        public void Build_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
             PlayToneIntoConnectionRequest.Build()
                 .WithApplicationId(Guid.Empty)
                 .WithSessionId(this.sessionId)
@@ -39,7 +39,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoConnection
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenConnectionIdIsNullOrWhitespace(string value) =>
+        public void Build_ShouldReturnFailure_GivenConnectionIdIsNullOrWhitespace(string value) =>
             PlayToneIntoConnectionRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
@@ -53,7 +53,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoConnection
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenDigitsIsNullOrWhitespace(string value) =>
+        public void Build_ShouldReturnFailure_GivenDigitsIsNullOrWhitespace(string value) =>
             PlayToneIntoConnectionRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
@@ -67,7 +67,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoConnection
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
+        public void Build_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
             PlayToneIntoConnectionRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(value)
@@ -78,7 +78,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoConnection
                 .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
 
         [Fact]
-        public void Parse_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
+        public void Build_ShouldReturnSuccess_GivenAllValuesAreProvided() =>
             PlayToneIntoConnectionRequest.Build()
                 .WithApplicationId(this.applicationId)
                 .WithSessionId(this.sessionId)
