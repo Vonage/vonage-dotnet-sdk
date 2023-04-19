@@ -4,6 +4,7 @@
   "client_ref": "my-personal-reference",
   "code_length": 4,
   "brand": "ACME, Inc",
+  "code": "123456",
   "workflow": [
     {
       "channel": "email",

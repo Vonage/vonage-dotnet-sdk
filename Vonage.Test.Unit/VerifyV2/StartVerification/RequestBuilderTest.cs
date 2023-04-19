@@ -237,6 +237,17 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .Should()
                 .BeSuccess("client ref");
 
+        [Fact]
+        public void Create_ShouldSetCode() =>
+            StartVerificationRequest.Build()
+                .WithBrand(this.fixture.Create<string>())
+                .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+                .WithCode("123456")
+                .Create()
+                .Map(request => request.Code)
+                .Should()
+                .BeSuccess("123456");
+
         [Theory]
         [InlineData(4)]
         [InlineData(10)]

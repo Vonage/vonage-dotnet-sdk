@@ -32,6 +32,11 @@ public readonly struct StartVerificationRequest : IStartVerificationRequest
     public Maybe<string> ClientReference { get; internal init; }
 
     /// <summary>
+    ///     An optional alphanumeric custom code to use, if you don't want Vonage to generate the code.
+    /// </summary>
+    public Maybe<string> Code { get; internal init; }
+
+    /// <summary>
     ///     Gets the length of the code to send to the user
     /// </summary>
     public int CodeLength { get; internal init; }
@@ -83,6 +88,7 @@ public readonly struct StartVerificationRequest : IStartVerificationRequest
         this.ClientReference.IfSome(some => values.Add("client_ref", some));
         values.Add("code_length", this.CodeLength);
         values.Add("brand", this.Brand);
+        this.Code.IfSome(some => values.Add("code", some));
         values.Add("workflow", this.Workflows
             .Select(workflow => workflow.Serialize(serializer))
             .Select(serializedString => serializer.DeserializeObject<dynamic>(serializedString))
