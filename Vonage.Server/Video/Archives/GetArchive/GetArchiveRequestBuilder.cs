@@ -5,9 +5,6 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Archives.GetArchive;
 
-/// <summary>
-///     Represents a builder for GetArchiveRequest.
-/// </summary>
 internal class GetArchiveRequestBuilder : IBuilderForApplicationId, IBuilderForArchiveId,
     IVonageRequestBuilder<GetArchiveRequest>
 {

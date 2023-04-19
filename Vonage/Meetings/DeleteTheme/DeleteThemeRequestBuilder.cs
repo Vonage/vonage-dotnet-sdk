@@ -5,9 +5,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Meetings.DeleteTheme;
 
-/// <summary>
-///     Represents a builder for DeleteThemeRequest.
-/// </summary>
 internal class DeleteThemeRequestBuilder : IBuilderForThemeId, IOptionalBuilder
 {
     private bool forceDelete;

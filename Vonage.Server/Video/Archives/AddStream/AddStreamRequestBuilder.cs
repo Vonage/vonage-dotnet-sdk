@@ -5,9 +5,6 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Archives.AddStream;
 
-/// <summary>
-///     Represents a builder for AddStreamRequest.
-/// </summary>
 internal class AddStreamRequestBuilder : IBuilderForArchiveId, IBuilderForApplicationId, IBuilderForStreamId,
     IBuilderForOptional
 {

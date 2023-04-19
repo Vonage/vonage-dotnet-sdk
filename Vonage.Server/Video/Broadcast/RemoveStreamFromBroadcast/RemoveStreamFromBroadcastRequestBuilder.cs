@@ -5,9 +5,6 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Broadcast.RemoveStreamFromBroadcast;
 
-/// <summary>
-///     Represents a builder for RemoveStreamFromBroadcastRequest.
-/// </summary>
 internal class RemoveStreamFromBroadcastRequestBuilder :
     IVonageRequestBuilder<RemoveStreamFromBroadcastRequest>,
     IBuilderForApplicationId,

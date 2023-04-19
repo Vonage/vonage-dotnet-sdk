@@ -6,9 +6,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Sip.PlayToneIntoCall;
 
-/// <summary>
-///     Represents a builder for PlayToneIntoCallRequestBuilder.
-/// </summary>
 internal class PlayToneIntoCallRequestBuilder :
     IBuilderForApplicationId,
     IBuilderForDigits,

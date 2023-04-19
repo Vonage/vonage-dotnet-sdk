@@ -6,9 +6,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Meetings.UpdateTheme;
 
-/// <summary>
-///     Represents a builder for UpdateThemeRequest.
-/// </summary>
 internal class UpdateThemeRequestBuilder : IBuilderForThemeId, IBuilderForOptional
 {
     private Guid themeId;

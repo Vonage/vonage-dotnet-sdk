@@ -5,9 +5,6 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Broadcast.StopBroadcast;
 
-/// <summary>
-///     Represents a builder for a StopBroadcastRequest.
-/// </summary>
 internal class StopBroadcastRequestBuilder :
     IVonageRequestBuilder<StopBroadcastRequest>,
     IBuilderForApplicationId,

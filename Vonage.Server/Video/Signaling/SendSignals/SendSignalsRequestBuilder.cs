@@ -6,9 +6,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Signaling.SendSignals;
 
-/// <summary>
-///     Represents a builder for SendSignalsRequestBuilder.
-/// </summary>
 internal class SendSignalsRequestBuilder :
     IBuilderForApplicationId,
     IBuilderForSessionId,

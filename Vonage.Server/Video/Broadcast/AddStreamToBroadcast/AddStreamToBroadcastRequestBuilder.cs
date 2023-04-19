@@ -5,9 +5,6 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
 
-/// <summary>
-///     Represents a builder for AddStreamToBroadcastRequest.
-/// </summary>
 internal class AddStreamToBroadcastRequestBuilder :
     IBuilderForApplicationId,
     IBuilderForBroadcastId,

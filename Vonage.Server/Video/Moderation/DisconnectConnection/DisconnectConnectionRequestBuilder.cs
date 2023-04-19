@@ -5,9 +5,6 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Moderation.DisconnectConnection;
 
-/// <summary>
-///     Represents a builder for DisconnectConnectionRequest.
-/// </summary>
 internal class DisconnectConnectionRequestBuilder :
     IBuilderForApplicationId,
     IBuilderForConnectionId,

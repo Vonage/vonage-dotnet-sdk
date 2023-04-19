@@ -5,9 +5,6 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Broadcast.ChangeBroadcastLayout;
 
-/// <summary>
-///     Represents a builder for a ChangeBroadcastLayoutRequest.
-/// </summary>
 internal class ChangeBroadcastLayoutRequestBuilder :
     IVonageRequestBuilder<ChangeBroadcastLayoutRequest>,
     IBuilderForApplicationId,

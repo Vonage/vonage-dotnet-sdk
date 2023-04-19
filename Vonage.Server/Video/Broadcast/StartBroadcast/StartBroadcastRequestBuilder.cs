@@ -7,9 +7,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.StartBroadcast;
 
-/// <summary>
-///     Represents a builder for StartBroadcastRequest.
-/// </summary>
 internal class StartBroadcastRequestBuilder : IBuilderForApplicationId, IBuilderForSessionId, IBuilderForOutputs,
     IBuilderForLayout,
     IBuilderForOptional

@@ -6,9 +6,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Meetings.CreateTheme;
 
-/// <summary>
-///     Represents a builder for CreateThemeRequest.
-/// </summary>
 internal class CreateThemeRequestBuilder : IBuilderForBrand, IBuilderForColor, IBuilderForOptional
 {
     private Color mainColor;

@@ -5,9 +5,6 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Server.Video.Broadcast.GetBroadcast;
 
-/// <summary>
-///     Represents a builder for a GetBroadcastRequest.
-/// </summary>
 internal class GetBroadcastRequestBuilder :
     IVonageRequestBuilder<GetBroadcastRequest>,
     IBuilderForApplicationId,

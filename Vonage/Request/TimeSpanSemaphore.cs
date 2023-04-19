@@ -30,21 +30,17 @@ using System.Threading.Tasks;
 
 namespace Vonage.Request;
 
-/// <summary>
-/// Allows a limited number of acquisitions during a timespan
-/// </summary>
 internal class TimeSpanSemaphore : IDisposable
 {
+    // protect release time queue
+    private object _queueLock = new();
+
+    // keep track of the release times
+    private Queue<DateTime> _releaseTimes;
     private SemaphoreSlim _pool;
 
     // the time span for the max number of callers
     private TimeSpan _resetSpan;
-
-    // keep track of the release times
-    private Queue<DateTime> _releaseTimes;
-
-    // protect release time queue
-    private object _queueLock = new();
 
     public TimeSpanSemaphore(int maxCount, TimeSpan resetSpan)
     {
@@ -57,6 +53,45 @@ internal class TimeSpanSemaphore : IDisposable
         {
             this._releaseTimes.Enqueue(DateTime.MinValue);
         }
+    }
+
+    /// <summary>
+    /// Releases all resources used by the current instance
+    /// </summary>
+    public void Dispose()
+    {
+        this._pool.Dispose();
+    }
+
+    /// <summary>
+    /// Runs an action after entering the semaphore (if the CancellationToken is not canceled)
+    /// </summary>
+    public async Task<TR> RunAsync<T, TR>(Func<T, CancellationToken, Task<TR>> action, T arg,
+        CancellationToken cancelToken)
+    {
+        // will throw if token is cancelled, but will auto-release lock
+        this.Wait(cancelToken);
+        try
+        {
+            return await action(arg, cancelToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            this.Release();
+        }
+    }
+
+    /// <summary>
+    /// Exits the semaphore
+    /// </summary>
+    private void Release()
+    {
+        lock (this._queueLock)
+        {
+            this._releaseTimes.Enqueue(DateTime.UtcNow);
+        }
+
+        this._pool.Release();
     }
 
     /// <summary>
@@ -80,11 +115,11 @@ internal class TimeSpanSemaphore : IDisposable
         if (windowReset > now)
         {
             var sleepMilliseconds = Math.Max(
-                (int)(windowReset.Subtract(now).Ticks / TimeSpan.TicksPerMillisecond),
+                (int) (windowReset.Subtract(now).Ticks / TimeSpan.TicksPerMillisecond),
                 1); // sleep at least 1ms to be sure next window has started
+
             // TODO: log
             //_logger.LogInformation($"Waiting {sleepMilliseconds} ms for TimeSpanSemaphore limit to reset.");
-
             var cancelled = cancelToken.WaitHandle.WaitOne(sleepMilliseconds);
             if (cancelled)
             {
@@ -92,44 +127,5 @@ internal class TimeSpanSemaphore : IDisposable
                 cancelToken.ThrowIfCancellationRequested();
             }
         }
-    }
-
-    /// <summary>
-    /// Exits the semaphore
-    /// </summary>
-    private void Release()
-    {
-        lock (this._queueLock)
-        {
-            this._releaseTimes.Enqueue(DateTime.UtcNow);
-        }
-
-        this._pool.Release();
-    }
-
-    /// <summary>
-    /// Runs an action after entering the semaphore (if the CancellationToken is not canceled)
-    /// </summary>
-    public async Task<TR> RunAsync<T, TR>(Func<T, CancellationToken, Task<TR>> action, T arg, CancellationToken cancelToken)
-    {
-        // will throw if token is cancelled, but will auto-release lock
-        this.Wait(cancelToken);
-
-        try
-        {
-            return await action(arg, cancelToken).ConfigureAwait(false);
-        }
-        finally
-        {
-            this.Release();
-        }
-    }
-
-    /// <summary>
-    /// Releases all resources used by the current instance
-    /// </summary>
-    public void Dispose()
-    {
-        this._pool.Dispose();
     }
 }

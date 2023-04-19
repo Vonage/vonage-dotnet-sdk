@@ -6,9 +6,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.GetArchives;
 
-/// <summary>
-///     Represents a builder for GetArchivesRequest.
-/// </summary>
 internal class GetArchivesRequestBuilder : IBuilderForApplicationId, IBuilderForOptional
 {
     private const int MaxCount = 1000;

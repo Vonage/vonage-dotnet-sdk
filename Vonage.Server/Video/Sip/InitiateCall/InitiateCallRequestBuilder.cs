@@ -7,9 +7,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Sip.InitiateCall;
 
-/// <summary>
-///     Represents a builder for InitiateCallRequestBuilder.
-/// </summary>
 internal class InitiateCallRequestBuilder :
     IBuilderForApplicationId,
     IBuilderForToken,

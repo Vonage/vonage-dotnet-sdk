@@ -6,9 +6,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Moderation.MuteStreams;
 
-/// <summary>
-///     Represents a builder for MuteStreamsRequest.
-/// </summary>
 internal class MuteStreamsRequestBuilder :
     IBuilderForApplicationId,
     IBuilderForConfiguration,

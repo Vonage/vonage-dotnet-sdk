@@ -6,9 +6,6 @@ using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.UpdateRoom;
 
-/// <summary>
-///     Represents a builder for UpdateRoomRequest.
-/// </summary>
 internal class UpdateRoomRequestBuilder : IBuilderForRoomId, IBuilderForOptional
 {
     private bool expireAfterUse;

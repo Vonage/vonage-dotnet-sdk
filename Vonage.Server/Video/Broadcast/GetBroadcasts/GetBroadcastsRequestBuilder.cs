@@ -6,9 +6,6 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.GetBroadcasts;
 
-/// <summary>
-///     Represents a builder for GetBroadcastsRequest.
-/// </summary>
 internal class GetBroadcastsRequestBuilder : IBuilderForApplicationId, IBuilderForOptional
 {
     private const int MaxCount = 1000;
