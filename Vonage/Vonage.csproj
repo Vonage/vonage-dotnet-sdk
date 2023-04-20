@@ -80,7 +80,18 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-
+        <Folder Include="ProactiveConnect\Actions\"/>
+        <Folder Include="ProactiveConnect\Events\"/>
+        <Folder Include="ProactiveConnect\Items\"/>
+        <Folder Include="ProactiveConnect\Jobs\"/>
+        <Folder Include="ProactiveConnect\Lists\ClearList\"/>
+        <Folder Include="ProactiveConnect\Lists\CreateList\"/>
+        <Folder Include="ProactiveConnect\Lists\DeleteList\"/>
+        <Folder Include="ProactiveConnect\Lists\GetLists\"/>
+        <Folder Include="ProactiveConnect\Lists\GetList\"/>
+        <Folder Include="ProactiveConnect\Lists\ReplaceItems\"/>
+        <Folder Include="ProactiveConnect\Lists\UpdateList\"/>
+        <Folder Include="ProactiveConnect\Runs\"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" PrivateAssets="All"/>
