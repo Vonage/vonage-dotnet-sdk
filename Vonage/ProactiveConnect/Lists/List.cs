@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Vonage.ProactiveConnect.Lists.CreateList;
+namespace Vonage.ProactiveConnect.Lists;
 
 /// <summary>
 ///     Represents a response when creating a list.
 /// </summary>
-public struct CreateListResponse
+public struct List
 {
     /// <summary>
     ///     Attributes of the list.

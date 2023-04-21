@@ -9,6 +9,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.ProactiveConnect;
+using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.CreateList;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<CreateListResponse>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<List>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).CreateListAsync(this.request);
 
         private readonly Result<CreateListRequest> request;
@@ -39,7 +40,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<CreateListRequest, CreateListResponse>(
+                .VerifyReturnsFailureGivenRequestIsFailure<CreateListRequest, List>(
                     (configuration, failureRequest) =>
                         new ProactiveConnectClient(configuration).CreateListAsync(failureRequest));
 

@@ -60,7 +60,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
                             Key = true,
                         },
                     });
-                    firstList.ListDataSource.Type.Should().Be(ListDataSourceType.Manual);
+                    firstList.DataSource.Type.Should().Be(ListDataSourceType.Manual);
                     firstList.ItemsCount.Should().Be(1000);
                     firstList.SyncStatus.Should().Be(new SyncStatus
                     {
@@ -81,7 +81,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
                         new ListAttribute {Name = "Phone", Key = true},
                         new ListAttribute {Name = "Email"},
                     });
-                    secondList.ListDataSource.Should().Be(new ListDataSource
+                    secondList.DataSource.Should().Be(new ListDataSource
                     {
                         Type = ListDataSourceType.Salesforce,
                         Soql = "Some sql statement",

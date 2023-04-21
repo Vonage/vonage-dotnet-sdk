@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
-                .DeserializeObject<CreateListResponse>(this.helper.GetResponseJson())
+                .DeserializeObject<List>(this.helper.GetResponseJson())
                 .Should()
                 .BeSuccess(success =>
                 {
