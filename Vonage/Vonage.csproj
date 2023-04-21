@@ -86,7 +86,6 @@
         <Folder Include="ProactiveConnect\Jobs\"/>
         <Folder Include="ProactiveConnect\Lists\ClearList\"/>
         <Folder Include="ProactiveConnect\Lists\DeleteList\"/>
-        <Folder Include="ProactiveConnect\Lists\GetList\"/>
         <Folder Include="ProactiveConnect\Lists\ReplaceItems\"/>
         <Folder Include="ProactiveConnect\Lists\UpdateList\"/>
         <Folder Include="ProactiveConnect\Runs\"/>

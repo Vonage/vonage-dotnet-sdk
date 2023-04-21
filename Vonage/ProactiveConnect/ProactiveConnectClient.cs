@@ -4,6 +4,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.CreateList;
+using Vonage.ProactiveConnect.Lists.GetList;
 using Vonage.ProactiveConnect.Lists.GetLists;
 
 namespace Vonage.ProactiveConnect;
@@ -22,6 +23,10 @@ internal class ProactiveConnectClient : IProactiveConnectClient
     /// <inheritdoc />
     public Task<Result<List>> CreateListAsync(Result<CreateListRequest> request) =>
         this.vonageClient.SendWithResponseAsync<CreateListRequest, List>(request);
+
+    /// <inheritdoc />
+    public Task<Result<List>> GetListAsync(Result<GetListRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetListRequest, List>(request);
 
     /// <inheritdoc />
     public Task<Result<GetListsResponse>> GetListsAsync(Result<GetListsRequest> request) =>
