@@ -65,7 +65,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
                     firstList.SyncStatus.Should().Be(new SyncStatus
                     {
                         Dirty = false,
-                        Value = "configured",
+                        Value = SyncStatus.Status.Configured,
                         DataModified = false,
                         MetadataModified = false,
                     });

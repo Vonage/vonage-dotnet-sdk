@@ -35,18 +35,6 @@ public struct ListItem
     [JsonPropertyName("updated_at")] public DateTimeOffset UpdatedAt { get; set; }
 }
 
-public struct SyncStatus
-{
-    [JsonPropertyName("data_modified")] public bool DataModified { get; set; }
-
-    [JsonPropertyName("dirty")] public bool Dirty { get; set; }
-
-    [JsonPropertyName("metadata_modified")]
-    public bool MetadataModified { get; set; }
-
-    [JsonPropertyName("value")] public string Value { get; set; }
-}
-
 public struct GetListsResponse
 {
     [JsonPropertyName("_embedded")] public EmbeddedLists EmbeddedLists { get; set; }

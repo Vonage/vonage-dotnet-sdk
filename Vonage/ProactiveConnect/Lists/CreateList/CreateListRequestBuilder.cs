@@ -94,10 +94,10 @@ internal class CreateListRequestBuilder : IBuilderForName, IBuilderForOptional
 
     private static Result<CreateListRequest> VerifyIntegrationIdNotEmptyWhenSalesforce(CreateListRequest request)
     {
-        var dataSource = request.DataSource.IfNone(new ListDataSource {Type = ListDataSourceType.Manual});
-        return dataSource.Type == ListDataSourceType.Salesforce
-            ? InputValidation.VerifyNotEmpty(request, dataSource.IntegrationId,
-                $"{nameof(request.DataSource)} {nameof(dataSource.IntegrationId)}")
+        var value = request.DataSource.IfNone(new ListDataSource {Type = ListDataSourceType.Manual});
+        return value.Type == ListDataSourceType.Salesforce
+            ? InputValidation.VerifyNotEmpty(request, value.IntegrationId,
+                $"{nameof(request.DataSource)} {nameof(value.IntegrationId)}")
             : request;
     }
 
@@ -110,10 +110,10 @@ internal class CreateListRequestBuilder : IBuilderForName, IBuilderForOptional
 
     private static Result<CreateListRequest> VerifySoqlNotEmptyWhenSalesforce(CreateListRequest request)
     {
-        var dataSource = request.DataSource.IfNone(new ListDataSource {Type = ListDataSourceType.Manual});
-        return dataSource.Type == ListDataSourceType.Salesforce
-            ? InputValidation.VerifyNotEmpty(request, dataSource.Soql,
-                $"{nameof(request.DataSource)} {nameof(dataSource.Soql)}")
+        var value = request.DataSource.IfNone(new ListDataSource {Type = ListDataSourceType.Manual});
+        return value.Type == ListDataSourceType.Salesforce
+            ? InputValidation.VerifyNotEmpty(request, value.Soql,
+                $"{nameof(request.DataSource)} {nameof(value.Soql)}")
             : request;
     }
 
