@@ -4,13 +4,29 @@ using Vonage.Common.Serialization;
 
 namespace Vonage.ProactiveConnect.Lists;
 
-#pragma warning disable CS1591
+/// <summary>
+///     Represents a list data source.
+/// </summary>
 public struct ListDataSource
 {
-    [JsonPropertyName("integration_id")] public string IntegrationId { get; set; }
+    /// <summary>
+    ///     Integration id defining salesforce credential to use for this datasource
+    /// </summary>
+    [JsonPropertyOrder(1)]
+    [JsonPropertyName("integration_id")]
+    public string IntegrationId { get; set; }
 
-    [JsonPropertyName("soql")] public string Soql { get; set; }
+    /// <summary>
+    ///     Salesforce query defining which data to fetch from salesforce
+    /// </summary>
+    [JsonPropertyOrder(2)]
+    [JsonPropertyName("soql")]
+    public string Soql { get; set; }
 
+    /// <summary>
+    ///     The datasource type.
+    /// </summary>
+    [JsonPropertyOrder(0)]
     [JsonPropertyName("type")]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<ListDataSourceType>))]
     public ListDataSourceType Type { get; set; }

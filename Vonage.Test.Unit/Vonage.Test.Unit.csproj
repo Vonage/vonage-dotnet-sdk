@@ -826,6 +826,19 @@
         <Content Include="ProactiveConnect\Lists\GetLists\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="ProactiveConnect\Lists\CreateList\Data\ShouldSerialize-request.json"/>
+        <None Remove="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithMandatoryValues-request.json"/>
+        <Content Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithMandatoryValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithSalesforceDataSource-request.json"/>
+        <Content Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithSalesforceDataSource-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithManualDataSource-request.json"/>
+        <Content Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithManualDataSource-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
