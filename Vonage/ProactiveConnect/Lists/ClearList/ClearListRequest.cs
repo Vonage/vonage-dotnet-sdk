@@ -4,12 +4,12 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
-namespace Vonage.ProactiveConnect.Lists.DeleteList;
+namespace Vonage.ProactiveConnect.Lists.ClearList;
 
 /// <summary>
-///     Represents a request to delete a list.
+///     Represents a request to delete all items from a list.
 /// </summary>
-public readonly struct DeleteListRequest : IVonageRequest
+public readonly struct ClearListRequest : IVonageRequest
 {
     /// <summary>
     ///     Unique identifier for a list.
@@ -18,21 +18,21 @@ public readonly struct DeleteListRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Delete, this.GetEndpointPath())
+        .Initialize(HttpMethod.Post, this.GetEndpointPath())
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/bulk/lists/{this.Id}";
+    public string GetEndpointPath() => $"/bulk/lists/{this.Id}/clear";
 
     /// <summary>
-    ///     Parses the input into a DeleteListRequest.
+    ///     Parses the input into a ClearListRequest.
     /// </summary>
     /// <param name="id">The list Id.</param>
     /// <returns>Success or Failure.</returns>
-    public static Result<DeleteListRequest> Parse(Guid id) => Result<DeleteListRequest>
-        .FromSuccess(new DeleteListRequest {Id = id})
+    public static Result<ClearListRequest> Parse(Guid id) => Result<ClearListRequest>
+        .FromSuccess(new ClearListRequest {Id = id})
         .Bind(VerifyListId);
 
-    private static Result<DeleteListRequest> VerifyListId(DeleteListRequest request) =>
+    private static Result<ClearListRequest> VerifyListId(ClearListRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Id, nameof(request.Id));
 }

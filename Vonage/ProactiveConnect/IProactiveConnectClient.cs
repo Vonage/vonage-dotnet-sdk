@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.ProactiveConnect.Lists;
+using Vonage.ProactiveConnect.Lists.ClearList;
 using Vonage.ProactiveConnect.Lists.CreateList;
 using Vonage.ProactiveConnect.Lists.DeleteList;
 using Vonage.ProactiveConnect.Lists.GetList;
@@ -13,6 +14,13 @@ namespace Vonage.ProactiveConnect;
 /// </summary>
 public interface IProactiveConnectClient
 {
+    /// <summary>
+    ///     Clears a list.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Unit>> ClearListAsync(Result<ClearListRequest> request);
+
     /// <summary>
     ///     Creates a list.
     /// </summary>

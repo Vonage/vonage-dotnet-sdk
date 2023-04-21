@@ -3,6 +3,7 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.ProactiveConnect.Lists;
+using Vonage.ProactiveConnect.Lists.ClearList;
 using Vonage.ProactiveConnect.Lists.CreateList;
 using Vonage.ProactiveConnect.Lists.DeleteList;
 using Vonage.ProactiveConnect.Lists.GetList;
@@ -20,6 +21,10 @@ internal class ProactiveConnectClient : IProactiveConnectClient
     /// <param name="configuration">The client configuration.</param>
     internal ProactiveConnectClient(VonageHttpClientConfiguration configuration) =>
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> ClearListAsync(Result<ClearListRequest> request) =>
+        this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
     public Task<Result<List>> CreateListAsync(Result<CreateListRequest> request) =>
