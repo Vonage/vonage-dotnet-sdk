@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
@@ -10,13 +11,31 @@ namespace Vonage.Common.Validation;
 /// </summary>
 public static class InputValidation
 {
+    private const string CannotBeHigherThan = "cannot be higher than {value}.";
+    private const string CannotBeLowerThan = "cannot be lower than {value}.";
     private const string CollectionCannotBeNull = "cannot be null.";
     private const string GuidCannotBeNullOrWhitespace = "cannot be empty.";
-    private const string IntCannotBeHigherThan = "cannot be higher than {value}.";
-    private const string IntCannotBeLowerThan = "cannot be lower than {value}.";
     private const string IntCannotBeNegative = "cannot be negative.";
     private const string StringCannotBeNullOrWhitespace = "cannot be null or whitespace.";
     private const string UnexpectedLength = "length should be {value}.";
+
+    /// <summary>
+    ///     Verifies if count lower or equal than specified threshold.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="maximumCount">The threshold.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="T">The request type.</typeparam>
+    /// <typeparam name="TItem">The collection item type.</typeparam>
+    /// <returns>Success or Failure.</returns>
+    public static Result<T> VerifyCountLowerOrEqualThan<T, TItem>(T request, IEnumerable<TItem> value, int maximumCount,
+        string name) =>
+        value.Count() > maximumCount
+            ? Result<T>.FromFailure(
+                ResultFailure.FromErrorMessage(
+                    $"{name} count {CannotBeHigherThan.Replace("{value}", maximumCount.ToString())}"))
+            : request;
 
     /// <summary>
     ///     Verifies if higher or equal than specified threshold.
@@ -31,7 +50,7 @@ public static class InputValidation
         value < minValue
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage(
-                    $"{name} {IntCannotBeLowerThan.Replace("{value}", minValue.ToString())}"))
+                    $"{name} {CannotBeLowerThan.Replace("{value}", minValue.ToString())}"))
             : request;
 
     /// <summary>
@@ -51,6 +70,38 @@ public static class InputValidation
             : request;
 
     /// <summary>
+    ///     Verifies if length higher or equal than specified threshold.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="minimumLength">The threshold.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="T">The request type.</typeparam>
+    /// <returns>Success or Failure.</returns>
+    public static Result<T> VerifyLengthHigherOrEqualThan<T>(T request, string value, int minimumLength, string name) =>
+        value.Length < minimumLength
+            ? Result<T>.FromFailure(
+                ResultFailure.FromErrorMessage(
+                    $"{name} length {CannotBeLowerThan.Replace("{value}", minimumLength.ToString())}"))
+            : request;
+
+    /// <summary>
+    ///     Verifies if length lower or equal than specified threshold.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <param name="value">The value.</param>
+    /// <param name="maximumLength">The threshold.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="T">The request type.</typeparam>
+    /// <returns>Success or Failure.</returns>
+    public static Result<T> VerifyLengthLowerOrEqualThan<T>(T request, string value, int maximumLength, string name) =>
+        value?.Length > maximumLength
+            ? Result<T>.FromFailure(
+                ResultFailure.FromErrorMessage(
+                    $"{name} length {CannotBeHigherThan.Replace("{value}", maximumLength.ToString())}"))
+            : request;
+
+    /// <summary>
     ///     Verifies if lower or equal than specified threshold.
     /// </summary>
     /// <param name="request">The request.</param>
@@ -63,7 +114,7 @@ public static class InputValidation
         value > maxValue
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage(
-                    $"{name} {IntCannotBeHigherThan.Replace("{value}", maxValue.ToString())}"))
+                    $"{name} {CannotBeHigherThan.Replace("{value}", maxValue.ToString())}"))
             : request;
 
     /// <summary>

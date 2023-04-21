@@ -4,9 +4,9 @@ using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.GetLists;
 using Xunit;
-using Attribute = Vonage.ProactiveConnect.Lists.GetLists.Attribute;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
 {
@@ -45,22 +45,22 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
                     firstList.Tags.Should().BeEquivalentTo("vip");
                     firstList.Attributes.Should().BeEquivalentTo(new[]
                     {
-                        new Attribute
+                        new ListAttribute
                         {
                             Name = "firstName",
                         },
-                        new Attribute
+                        new ListAttribute
                         {
                             Name = "lastName",
                         },
-                        new Attribute
+                        new ListAttribute
                         {
                             Name = "number",
                             Alias = "Phone",
                             Key = true,
                         },
                     });
-                    firstList.Datasource.Type.Should().Be("manual");
+                    firstList.ListDataSource.Type.Should().Be(ListDataSourceType.Manual);
                     firstList.ItemsCount.Should().Be(1000);
                     firstList.SyncStatus.Should().Be(new SyncStatus
                     {
@@ -77,13 +77,13 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
                     secondList.Tags.Should().BeEquivalentTo("salesforce");
                     secondList.Attributes.Should().BeEquivalentTo(new[]
                     {
-                        new Attribute {Name = "Id"},
-                        new Attribute {Name = "Phone", Key = true},
-                        new Attribute {Name = "Email"},
+                        new ListAttribute {Name = "Id"},
+                        new ListAttribute {Name = "Phone", Key = true},
+                        new ListAttribute {Name = "Email"},
                     });
-                    secondList.Datasource.Should().Be(new Datasource
+                    secondList.ListDataSource.Should().Be(new ListDataSource
                     {
-                        Type = "salesforce",
+                        Type = ListDataSourceType.Salesforce,
                         Soql = "Some sql statement",
                         IntegrationId = "salesforce",
                     });

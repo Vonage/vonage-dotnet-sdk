@@ -14,17 +14,17 @@ public struct EmbeddedLists
 
 public struct ListItem
 {
-    [JsonPropertyName("attributes")] public IEnumerable<Attribute> Attributes { get; set; }
+    [JsonPropertyName("attributes")] public IEnumerable<ListAttribute> Attributes { get; set; }
 
     [JsonPropertyName("created_at")] public DateTimeOffset CreatedAt { get; set; }
-
-    [JsonPropertyName("datasource")] public Datasource Datasource { get; set; }
 
     [JsonPropertyName("description")] public string Description { get; set; }
 
     [JsonPropertyName("id")] public Guid Id { get; set; }
 
     [JsonPropertyName("items_count")] public int ItemsCount { get; set; }
+
+    [JsonPropertyName("datasource")] public ListDataSource ListDataSource { get; set; }
 
     [JsonPropertyName("name")] public string Name { get; set; }
 
@@ -33,24 +33,6 @@ public struct ListItem
     [JsonPropertyName("tags")] public List<string> Tags { get; set; }
 
     [JsonPropertyName("updated_at")] public DateTimeOffset UpdatedAt { get; set; }
-}
-
-public struct Attribute
-{
-    [JsonPropertyName("alias")] public string Alias { get; set; }
-
-    [JsonPropertyName("key")] public bool Key { get; set; }
-
-    [JsonPropertyName("name")] public string Name { get; set; }
-}
-
-public struct Datasource
-{
-    [JsonPropertyName("integration_id")] public string IntegrationId { get; set; }
-
-    [JsonPropertyName("soql")] public string Soql { get; set; }
-
-    [JsonPropertyName("type")] public string Type { get; set; }
 }
 
 public struct SyncStatus

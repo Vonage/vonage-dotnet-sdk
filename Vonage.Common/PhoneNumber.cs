@@ -17,7 +17,6 @@ public readonly struct PhoneNumber
     private const int MinimumLength = 7;
     private const string InternationalIndicator = "+";
     private const string MustContainDigits = "Number can only contain digits.";
-    private const string NumberLengthIdentifier = "Number length";
 
     private PhoneNumber(string number) => this.Number = number;
 
@@ -59,12 +58,12 @@ public readonly struct PhoneNumber
     private static Result<PhoneNumber> VerifyLengthHigherThanMinimum(
         PhoneNumber request) =>
         InputValidation
-            .VerifyHigherOrEqualThan(request, request.Number.Length, MinimumLength, NumberLengthIdentifier);
+            .VerifyLengthHigherOrEqualThan(request, request.Number, MinimumLength, nameof(request.Number));
 
     private static Result<PhoneNumber> VerifyLengthLowerThanMaximum(
         PhoneNumber request) =>
         InputValidation
-            .VerifyLowerOrEqualThan(request, request.Number.Length, MaximumLength, NumberLengthIdentifier);
+            .VerifyLengthLowerOrEqualThan(request, request.Number, MaximumLength, nameof(request.Number));
 
     private static Result<PhoneNumber> VerifyNumberNotEmpty(PhoneNumber number) =>
         InputValidation
