@@ -847,6 +847,10 @@
         <Content Include="ProactiveConnect\Lists\GetList\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="ProactiveConnect\Lists\DeleteList\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="ProactiveConnect\Lists\DeleteList\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
