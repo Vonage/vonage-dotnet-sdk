@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using Vonage.Common;
 using Vonage.Common.Serialization;
 
 namespace Vonage.Meetings.Common;
@@ -157,10 +158,10 @@ public struct Room
     {
         /// <summary>
         /// </summary>
-        public Link GuestUrl { get; set; }
+        public HalLink GuestUrl { get; set; }
 
         /// <summary>
         /// </summary>
-        public Link HostUrl { get; set; }
+        public HalLink HostUrl { get; set; }
     }
 }

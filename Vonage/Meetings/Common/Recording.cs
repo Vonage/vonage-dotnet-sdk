@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using Vonage.Common;
 using Vonage.Common.Serialization;
 
 namespace Vonage.Meetings.Common;
@@ -40,6 +41,6 @@ public struct Recording
     {
         /// <summary>
         /// </summary>
-        public Link Url { get; set; }
+        public HalLink Url { get; set; }
     }
 }
