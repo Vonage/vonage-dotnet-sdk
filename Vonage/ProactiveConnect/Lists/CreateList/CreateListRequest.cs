@@ -64,7 +64,7 @@ public readonly struct CreateListRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/bulk/lists";
+    public string GetEndpointPath() => "/v.01/bulk/lists";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),

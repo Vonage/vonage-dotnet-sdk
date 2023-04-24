@@ -31,5 +31,5 @@ public readonly struct GetListsRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/bulk/lists?page={this.Page}&page_size={this.PageSize}";
+    public string GetEndpointPath() => $"/v.01/bulk/lists?page={this.Page}&page_size={this.PageSize}";
 }

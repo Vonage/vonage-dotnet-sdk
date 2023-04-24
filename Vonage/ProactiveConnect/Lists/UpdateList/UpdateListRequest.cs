@@ -75,7 +75,7 @@ public readonly struct UpdateListRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/bulk/lists/{this.Id}";
+    public string GetEndpointPath() => $"/v.01/bulk/lists/{this.Id}";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),

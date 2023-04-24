@@ -13,6 +13,6 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/bulk/lists");
+                .BeSuccess("/v.01/bulk/lists");
     }
 }

@@ -13,7 +13,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.DeleteList
             DeleteListRequest.Parse(new Guid("de51fd37-551c-45f1-8eaf-0fcd75c0bbc8"))
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/bulk/lists/de51fd37-551c-45f1-8eaf-0fcd75c0bbc8");
+                .BeSuccess("/v.01/bulk/lists/de51fd37-551c-45f1-8eaf-0fcd75c0bbc8");
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenIdIsEmpty() =>
