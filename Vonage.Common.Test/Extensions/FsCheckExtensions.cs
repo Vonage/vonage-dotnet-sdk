@@ -35,7 +35,8 @@ namespace Vonage.Common.Test.Extensions
         ///     Retrieves a string generator that produces only non-null/non-empty string.
         /// </summary>
         /// <returns>An Arbitrary of strings.</returns>
-        public static Arbitrary<string> GetNonEmptyStrings() =>
-            GetAny<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value));
+        public static Arbitrary<string> GetNonDeserializableStrings() =>
+            GetAny<string>().MapFilter(_ => _,
+                value => !string.IsNullOrWhiteSpace(value) && value.Contains("{") && value.Contains("}"));
     }
 }
