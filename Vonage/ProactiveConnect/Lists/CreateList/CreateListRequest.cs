@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -37,12 +36,6 @@ public readonly struct CreateListRequest : IVonageRequest
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<string> Description { get; internal init; }
-
-    /// <summary>
-    ///     Unique identifier for a list.
-    /// </summary>
-    [JsonIgnore]
-    public Guid Id { get; init; }
 
     /// <summary>
     ///     The name of the resource.
