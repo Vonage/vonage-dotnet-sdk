@@ -9,6 +9,7 @@ using Vonage.ProactiveConnect.Lists.DeleteList;
 using Vonage.ProactiveConnect.Lists.GetList;
 using Vonage.ProactiveConnect.Lists.GetLists;
 using Vonage.ProactiveConnect.Lists.ReplaceItems;
+using Vonage.ProactiveConnect.Lists.UpdateList;
 
 namespace Vonage.ProactiveConnect;
 
@@ -46,4 +47,8 @@ internal class ProactiveConnectClient : IProactiveConnectClient
     /// <inheritdoc />
     public Task<Result<Unit>> ReplaceItemsAsync(Result<ReplaceItemsRequest> request) =>
         this.vonageClient.SendAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<List>> UpdateListAsync(Result<UpdateListRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<UpdateListRequest, List>(request);
 }

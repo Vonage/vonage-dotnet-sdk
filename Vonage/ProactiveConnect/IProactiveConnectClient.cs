@@ -7,6 +7,7 @@ using Vonage.ProactiveConnect.Lists.DeleteList;
 using Vonage.ProactiveConnect.Lists.GetList;
 using Vonage.ProactiveConnect.Lists.GetLists;
 using Vonage.ProactiveConnect.Lists.ReplaceItems;
+using Vonage.ProactiveConnect.Lists.UpdateList;
 
 namespace Vonage.ProactiveConnect;
 
@@ -56,4 +57,11 @@ public interface IProactiveConnectClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Unit>> ReplaceItemsAsync(Result<ReplaceItemsRequest> request);
+
+    /// <summary>
+    ///     Updates a list.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<List>> UpdateListAsync(Result<UpdateListRequest> request);
 }

@@ -8,18 +8,20 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 
-namespace Vonage.ProactiveConnect.Lists.CreateList;
+namespace Vonage.ProactiveConnect.Lists.UpdateList;
 
 /// <summary>
-///     Represents a request to create a list.
+///     Represents a request to update a list.
 /// </summary>
-public readonly struct CreateListRequest : IVonageRequest
+public readonly struct UpdateListRequest : IVonageRequest
 {
     /// <summary>
     ///     Attributes of the list.
     /// </summary>
     [JsonPropertyOrder(4)]
-    public IEnumerable<ListAttribute> Attributes { get; internal init; }
+    [JsonConverter(typeof(MaybeJsonConverter<IEnumerable<ListAttribute>>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<IEnumerable<ListAttribute>> Attributes { get; internal init; }
 
     /// <summary>
     ///     The data source.
@@ -55,23 +57,25 @@ public readonly struct CreateListRequest : IVonageRequest
     ///     characters.
     /// </summary>
     [JsonPropertyOrder(3)]
-    public IEnumerable<string> Tags { get; internal init; }
+    [JsonConverter(typeof(MaybeJsonConverter<IEnumerable<string>>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<IEnumerable<string>> Tags { get; internal init; }
 
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForName Build() => new CreateListRequestBuilder();
+    public static IBuilderForListId Build() => new UpdateListRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(HttpMethod.Put, this.GetEndpointPath())
             .WithContent(this.GetRequestContent())
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/bulk/lists";
+    public string GetEndpointPath() => $"/bulk/lists/{this.Id}";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
