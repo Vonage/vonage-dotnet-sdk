@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Vonage.Common.Client;
-using Vonage.Common.Monads;
-using Vonage.Common.Validation;
-
 namespace Vonage.ProactiveConnect.Items.UpdateItem;
 
-internal class UpdateItemRequestBuilder : IBuilderForListId, IBuilderForItemId, IBuilderForCustomData,
-    IVonageRequestBuilder<UpdateItemRequest>
+internal class UpdateItemRequestBuilder : IBuilderForListId, IBuilderForItemId, IBuilderForCustomData
 {
     private readonly Dictionary<string, object> data = new();
     private Guid listId;
