@@ -30,7 +30,7 @@ namespace Vonage.Common.Test.Extensions
         /// <returns>An Arbitrary of strings.</returns>
         public static Arbitrary<string> GetNonDeserializableStrings() =>
             GetAny<string>().MapFilter(_ => _,
-                value => !string.IsNullOrWhiteSpace(value) && value.Contains('{') && value.Contains('}'));
+                value => !string.IsNullOrWhiteSpace(value) && !value.Contains('{') && !value.Contains('}'));
 
         /// <summary>
         ///     Retrieves a generator that produces any value.
