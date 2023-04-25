@@ -84,7 +84,6 @@
         <Folder Include="ProactiveConnect\Events\"/>
         <Folder Include="ProactiveConnect\Items\ExtractItems\"/>
         <Folder Include="ProactiveConnect\Items\GetItems\"/>
-        <Folder Include="ProactiveConnect\Items\GetItem\"/>
         <Folder Include="ProactiveConnect\Items\ImportItems\"/>
         <Folder Include="ProactiveConnect\Items\UpdateItem\"/>
         <Folder Include="ProactiveConnect\Jobs\"/>

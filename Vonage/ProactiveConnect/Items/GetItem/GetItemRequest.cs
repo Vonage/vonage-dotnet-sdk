@@ -4,12 +4,12 @@ using System.Text;
 using Vonage.Common;
 using Vonage.Common.Client;
 
-namespace Vonage.ProactiveConnect.Items.DeleteItem;
+namespace Vonage.ProactiveConnect.Items.GetItem;
 
 /// <summary>
-///     Represents a request to delete an item.
+///     Represents a request to retrieve an item.
 /// </summary>
-public readonly struct DeleteItemRequest : IVonageRequest
+public readonly struct GetItemRequest : IVonageRequest
 {
     /// <summary>
     ///     Unique identifier for the item.
@@ -29,7 +29,7 @@ public readonly struct DeleteItemRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Delete, this.GetEndpointPath())
+        .Initialize(HttpMethod.Get, this.GetEndpointPath())
         .WithContent(this.GetRequestContent())
         .Build();
 
