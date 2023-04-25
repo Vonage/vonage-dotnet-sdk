@@ -812,15 +812,19 @@
         </Content>
         <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppText-response.json" />
         <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppText-response.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json" />
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json"/>
         <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json" />
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json"/>
         <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Items\CreateItem\Data\ShouldSerialize-request.json"/>
+        <Content Include="ProactiveConnect\Items\CreateItem\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 
