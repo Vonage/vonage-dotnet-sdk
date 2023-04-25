@@ -6,14 +6,14 @@ using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Items;
 using Xunit;
 
-namespace Vonage.Test.Unit.ProactiveConnect.Items
+namespace Vonage.Test.Unit.ProactiveConnect.Items.DeleteItem
 {
-    public class ListItemSerializationTest
+    public class SerializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public ListItemSerializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(ListItemSerializationTest).Namespace,
+        public SerializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
