@@ -135,7 +135,7 @@ namespace Vonage.Common.Test
             Func<VonageHttpClientConfiguration, Task<Result<TResponse>>> operation) =>
             Prop.ForAll(
                 FsCheckExtensions.GetInvalidStatusCodes(),
-                FsCheckExtensions.GetNonEmptyStrings(),
+                FsCheckExtensions.GetNonDeserializableStrings(),
                 (statusCode, jsonError) =>
                 {
                     var messageHandler = FakeHttpRequestHandler.Build(statusCode)
