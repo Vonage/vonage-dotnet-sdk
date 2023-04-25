@@ -1,5 +1,10 @@
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
+using Vonage.ProactiveConnect.Items;
+using Vonage.ProactiveConnect.Items.CreateItem;
+using Vonage.ProactiveConnect.Items.DeleteItem;
+using Vonage.ProactiveConnect.Items.GetItem;
+using Vonage.ProactiveConnect.Items.UpdateItem;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.ClearList;
 using Vonage.ProactiveConnect.Lists.CreateList;
@@ -24,6 +29,13 @@ public interface IProactiveConnectClient
     Task<Result<Unit>> ClearListAsync(Result<ClearListRequest> request);
 
     /// <summary>
+    ///     Creates an item.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<ListItem>> CreateItemAsync(Result<CreateItemRequest> request);
+
+    /// <summary>
     ///     Creates a list.
     /// </summary>
     /// <param name="request">The request.</param>
@@ -31,11 +43,25 @@ public interface IProactiveConnectClient
     Task<Result<List>> CreateListAsync(Result<CreateListRequest> request);
 
     /// <summary>
+    ///     Deletes an item.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<ListItem>> DeleteItemAsync(Result<DeleteItemRequest> request);
+
+    /// <summary>
     ///     Deletes a list.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<List>> DeleteListAsync(Result<DeleteListRequest> request);
+
+    /// <summary>
+    ///     Retrieves an item.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<ListItem>> GetItemAsync(Result<GetItemRequest> request);
 
     /// <summary>
     ///     Retrieves a single list.
@@ -57,6 +83,13 @@ public interface IProactiveConnectClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Unit>> ReplaceItemsAsync(Result<ReplaceItemsRequest> request);
+
+    /// <summary>
+    ///     Updates an item.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<ListItem>> UpdateItemAsync(Result<UpdateItemRequest> request);
 
     /// <summary>
     ///     Updates a list.

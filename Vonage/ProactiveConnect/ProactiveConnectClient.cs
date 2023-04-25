@@ -2,6 +2,11 @@ using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.ProactiveConnect.Items;
+using Vonage.ProactiveConnect.Items.CreateItem;
+using Vonage.ProactiveConnect.Items.DeleteItem;
+using Vonage.ProactiveConnect.Items.GetItem;
+using Vonage.ProactiveConnect.Items.UpdateItem;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.ClearList;
 using Vonage.ProactiveConnect.Lists.CreateList;
@@ -29,12 +34,24 @@ internal class ProactiveConnectClient : IProactiveConnectClient
         this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
+    public Task<Result<ListItem>> CreateItemAsync(Result<CreateItemRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<CreateItemRequest, ListItem>(request);
+
+    /// <inheritdoc />
     public Task<Result<List>> CreateListAsync(Result<CreateListRequest> request) =>
         this.vonageClient.SendWithResponseAsync<CreateListRequest, List>(request);
 
     /// <inheritdoc />
+    public Task<Result<ListItem>> DeleteItemAsync(Result<DeleteItemRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<DeleteItemRequest, ListItem>(request);
+
+    /// <inheritdoc />
     public Task<Result<List>> DeleteListAsync(Result<DeleteListRequest> request) =>
         this.vonageClient.SendWithResponseAsync<DeleteListRequest, List>(request);
+
+    /// <inheritdoc />
+    public Task<Result<ListItem>> GetItemAsync(Result<GetItemRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetItemRequest, ListItem>(request);
 
     /// <inheritdoc />
     public Task<Result<List>> GetListAsync(Result<GetListRequest> request) =>
@@ -47,6 +64,10 @@ internal class ProactiveConnectClient : IProactiveConnectClient
     /// <inheritdoc />
     public Task<Result<Unit>> ReplaceItemsAsync(Result<ReplaceItemsRequest> request) =>
         this.vonageClient.SendAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<ListItem>> UpdateItemAsync(Result<UpdateItemRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<UpdateItemRequest, ListItem>(request);
 
     /// <inheritdoc />
     public Task<Result<List>> UpdateListAsync(Result<UpdateListRequest> request) =>
