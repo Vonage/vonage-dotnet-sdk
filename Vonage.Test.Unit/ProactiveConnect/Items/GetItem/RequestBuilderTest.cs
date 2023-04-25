@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
         }
 
         [Fact]
-        public void Build_ShouldReturnFailure_GivenDataIsEmpty() =>
+        public void Build_ShouldReturnFailure_GivenItemIdIsEmpty() =>
             GetItemRequest
                 .Build()
                 .WithListId(this.listId)
@@ -40,7 +40,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
                 .BeFailure(ResultFailure.FromErrorMessage("ListId cannot be empty."));
 
         [Fact]
-        public void Build_ShouldSetData() =>
+        public void Build_ShouldSetItemId() =>
             GetItemRequest
                 .Build()
                 .WithListId(this.listId)

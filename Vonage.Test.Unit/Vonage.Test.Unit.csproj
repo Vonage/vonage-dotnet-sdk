@@ -839,6 +839,14 @@
         <Content Include="ProactiveConnect\Items\GetItem\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Remove="ProactiveConnect\Items\UpdateItem\Data\ShouldSerialize-request.json"/>
+        <Content Include="ProactiveConnect\Items\UpdateItem\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Items\UpdateItem\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="ProactiveConnect\Items\UpdateItem\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
