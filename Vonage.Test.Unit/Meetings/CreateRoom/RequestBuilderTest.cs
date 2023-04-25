@@ -67,7 +67,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .WithDisplayName(StringHelper.GenerateString(201))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("DisplayName cannot be higher than 200."));
+                .BeFailure(ResultFailure.FromErrorMessage("DisplayName length cannot be higher than 200."));
 
         [Theory]
         [InlineData("")]
@@ -89,7 +89,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .WithMetadata(StringHelper.GenerateString(501))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Metadata cannot be higher than 500."));
+                .BeFailure(ResultFailure.FromErrorMessage("Metadata length cannot be higher than 500."));
 
         [Fact]
         public void Build_ShouldReturnSuccess_() =>

@@ -812,15 +812,61 @@
         </Content>
         <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppText-response.json" />
         <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppText-response.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json" />
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json"/>
         <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json" />
+        <None Remove="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json"/>
         <Content Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\GetLists\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="ProactiveConnect\Lists\GetLists\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\CreateList\Data\ShouldSerialize-request.json"/>
+        <None Remove="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithMandatoryValues-request.json"/>
+        <Content Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithMandatoryValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithSalesforceDataSource-request.json"/>
+        <Content Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithSalesforceDataSource-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithManualDataSource-request.json"/>
+        <Content Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithManualDataSource-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\CreateList\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="ProactiveConnect\Lists\CreateList\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\GetList\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="ProactiveConnect\Lists\GetList\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\DeleteList\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="ProactiveConnect\Lists\DeleteList\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\ClearList\Data\ShouldDeserialize200-response.json"/>
+        <None Remove="ProactiveConnect\Lists\UpdateItem\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="ProactiveConnect\Lists\UpdateItem\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\UpdateItem\Data\ShouldSerializeWithMandatoryValues-request.json"/>
+        <Content Include="ProactiveConnect\Lists\UpdateItem\Data\ShouldSerializeWithMandatoryValues-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\UpdateItem\Data\ShouldSerializeWithManualDataSource-request.json"/>
+        <Content Include="ProactiveConnect\Lists\UpdateItem\Data\ShouldSerializeWithManualDataSource-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <None Remove="ProactiveConnect\Lists\UpdateItem\Data\ShouldSerializeWithSalesforceDataSource-request.json"/>
+        <Content Include="ProactiveConnect\Lists\UpdateItem\Data\ShouldSerializeWithSalesforceDataSource-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 

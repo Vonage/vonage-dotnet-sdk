@@ -129,8 +129,4 @@
         </Content>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Video\Sessions\Common\"/>
-    </ItemGroup>
-
 </Project>

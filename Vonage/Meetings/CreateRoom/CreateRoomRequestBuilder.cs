@@ -123,14 +123,14 @@ internal class CreateRoomRequestBuilder : IBuilderForDisplayName, IBuilderForOpt
 
     private static Result<CreateRoomRequest> VerifyDisplayNameLength(CreateRoomRequest request) =>
         InputValidation
-            .VerifyLowerOrEqualThan(request, request.DisplayName.Length, DisplayNameMaxLength,
+            .VerifyLengthLowerOrEqualThan(request, request.DisplayName, DisplayNameMaxLength,
                 nameof(request.DisplayName));
 
     private static Result<CreateRoomRequest> VerifyMetadataLength(CreateRoomRequest request) =>
         request
             .Metadata
             .Match(
-                some => InputValidation.VerifyLowerOrEqualThan(request, some.Length, MetadataMaxLength,
+                some => InputValidation.VerifyLengthLowerOrEqualThan(request, some, MetadataMaxLength,
                     nameof(request.Metadata)),
                 () => request);
 }
