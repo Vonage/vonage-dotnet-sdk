@@ -7,7 +7,7 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Meetings.GetRoomsByTheme;
 
-/// <summary>0
+/// <summary>
 ///     Represents a request to get all rooms associated with a theme.
 /// </summary>
 public readonly struct GetRoomsByThemeRequest : IVonageRequest

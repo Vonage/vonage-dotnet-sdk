@@ -14,11 +14,19 @@ namespace Vonage;
 /// <inheritdoc />
 public class Jwt : ITokenGenerator
 {
-    public static string CreateToken(string appId, string privateKey) =>
-        CreateTokenWithClaims(appId, privateKey);
+    /// <summary>
+    ///     Creates a token from application id and private key.
+    /// </summary>
+    /// <param name="appId">The application id.</param>
+    /// <param name="privateKey">The private key.</param>
+    /// <param name="claims">The additional claims.</param>
+    /// <returns>The token.</returns>
+    public static string CreateToken(string appId, string privateKey, Dictionary<string, object> claims = null) =>
+        CreateTokenWithClaims(appId, privateKey, claims);
 
     /// <inheritdoc />
-    public Result<string> GenerateToken(string applicationId, string privateKey)
+    public Result<string> GenerateToken(string applicationId, string privateKey,
+        Dictionary<string, object> claims = null)
     {
         try
         {
@@ -31,11 +39,18 @@ public class Jwt : ITokenGenerator
     }
 
     /// <inheritdoc />
-    public Result<string> GenerateToken(Credentials credentials) =>
+    public Result<string> GenerateToken(Credentials credentials, Dictionary<string, object> claims = null) =>
         this.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey);
 
-    protected static string CreateTokenWithClaims(string appId, string privateKey,
-        Dictionary<string, object> claims = null)
+    /// <summary>
+    ///     Creates a token with custom claims.
+    /// </summary>
+    /// <param name="appId">The application Id.</param>
+    /// <param name="privateKey">The private key.</param>
+    /// <param name="claims">The custom claims.</param>
+    /// <returns>The token.</returns>
+    /// <exception cref="VonageAuthenticationException">When the private key is null or whitespace.</exception>
+    protected static string CreateTokenWithClaims(string appId, string privateKey, Dictionary<string, object> claims)
     {
         if (string.IsNullOrWhiteSpace(privateKey))
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Vonage.Common;
 using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.GetAvailableRooms;
@@ -11,7 +12,7 @@ public struct GetAvailableRoomsResponse
     /// <summary>
     /// </summary>
     [JsonPropertyName("_links")]
-    public RoomLinks Links { get; set; }
+    public HalLinks Links { get; set; }
 
     /// <summary>
     ///     The number of results returned on this page.

@@ -2,12 +2,15 @@ using System;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
+using Vonage.Common.Client;
+using Vonage.Common.Monads;
 using Vonage.Conversions;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
 using Vonage.Numbers;
 using Vonage.Pricing;
+using Vonage.ProactiveConnect;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
@@ -52,6 +55,11 @@ public class VonageClient
 
     public IPricingClient PricingClient { get; private set; }
 
+    /// <summary>
+    ///     Client for Proactive Connect API.
+    /// </summary>
+    public IProactiveConnectClient ProactiveConnectClient { get; set; }
+
     public IRedactClient RedactClient { get; private set; }
 
     public IShortCodesClient ShortCodesClient { get; private set; }
@@ -92,5 +100,11 @@ public class VonageClient
         this.SmsClient = new SmsClient(this.Credentials);
         this.PricingClient = new PricingClient(this.Credentials);
         this.MessagesClient = new MessagesClient(this.Credentials);
+        Result<string> GenerateToken() => new Jwt().GenerateToken(this.Credentials);
+        var meetingsConfiguration = new VonageHttpClientConfiguration(
+            InitializeHttpClient(Configuration.Instance.MeetingsApiUrl),
+            GenerateToken,
+            this.Credentials.GetUserAgent());
+        this.ProactiveConnectClient = new ProactiveConnectClient(meetingsConfiguration);
     }
 }

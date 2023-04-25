@@ -9,13 +9,6 @@ namespace Vonage.Common.Test.Extensions
     public static class FsCheckExtensions
     {
         /// <summary>
-        ///     Retrieves a generator that produces any value.
-        /// </summary>
-        /// <typeparam name="T">Type of the value.</typeparam>
-        /// <returns>An Arbitrary.</returns>
-        public static Arbitrary<T> GetAny<T>() => Arb.From<T>();
-
-        /// <summary>
         ///     Retrieves a generator that produces error responses with invalid status codes.
         /// </summary>
         /// <returns>An Arbitrary of ErrorResponse.</returns>
@@ -35,7 +28,15 @@ namespace Vonage.Common.Test.Extensions
         ///     Retrieves a string generator that produces only non-null/non-empty string.
         /// </summary>
         /// <returns>An Arbitrary of strings.</returns>
-        public static Arbitrary<string> GetNonEmptyStrings() =>
-            GetAny<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value));
+        public static Arbitrary<string> GetNonDeserializableStrings() =>
+            GetAny<string>().MapFilter(_ => _,
+                value => !string.IsNullOrWhiteSpace(value) && !value.Contains('{') && !value.Contains('}'));
+
+        /// <summary>
+        ///     Retrieves a generator that produces any value.
+        /// </summary>
+        /// <typeparam name="T">Type of the value.</typeparam>
+        /// <returns>An Arbitrary.</returns>
+        internal static Arbitrary<T> GetAny<T>() => Arb.From<T>();
     }
 }
