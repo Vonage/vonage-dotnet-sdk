@@ -82,7 +82,6 @@
     <ItemGroup>
         <Folder Include="ProactiveConnect\Actions\"/>
         <Folder Include="ProactiveConnect\Events\"/>
-        <Folder Include="ProactiveConnect\Items\DeleteItem\"/>
         <Folder Include="ProactiveConnect\Items\ExtractItems\"/>
         <Folder Include="ProactiveConnect\Items\GetItems\"/>
         <Folder Include="ProactiveConnect\Items\GetItem\"/>
