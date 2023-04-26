@@ -11,9 +11,9 @@ using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Items.ImportItems;
-using Vonage.Test.Unit.Meetings.UpdateThemeLogo;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Items.ImportItems

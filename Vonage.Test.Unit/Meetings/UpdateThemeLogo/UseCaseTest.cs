@@ -11,6 +11,7 @@ using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Meetings;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.UpdateThemeLogo;
