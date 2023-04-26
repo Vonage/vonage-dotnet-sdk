@@ -83,7 +83,6 @@
         <Folder Include="ProactiveConnect\Actions\"/>
         <Folder Include="ProactiveConnect\Events\"/>
         <Folder Include="ProactiveConnect\Items\GetItems\"/>
-        <Folder Include="ProactiveConnect\Items\ImportItems\"/>
         <Folder Include="ProactiveConnect\Jobs\"/>
         <Folder Include="ProactiveConnect\Runs\"/>
     </ItemGroup>

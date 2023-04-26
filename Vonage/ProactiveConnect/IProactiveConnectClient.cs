@@ -5,6 +5,7 @@ using Vonage.ProactiveConnect.Items.CreateItem;
 using Vonage.ProactiveConnect.Items.DeleteItem;
 using Vonage.ProactiveConnect.Items.ExtractItems;
 using Vonage.ProactiveConnect.Items.GetItem;
+using Vonage.ProactiveConnect.Items.ImportItems;
 using Vonage.ProactiveConnect.Items.UpdateItem;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.ClearList;
@@ -84,6 +85,13 @@ public interface IProactiveConnectClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<GetListsResponse>> GetListsAsync(Result<GetListsRequest> request);
+
+    /// <summary>
+    ///     Imports list items from a CSV file.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<ImportItemsResponse>> ImportItemsAsync(Result<ImportItemsRequest> request);
 
     /// <summary>
     ///     Fetches and replaces all items from datasource.
