@@ -8,7 +8,7 @@ namespace Vonage.ProactiveConnect.Items.ImportItems;
 /// <summary>
 ///     Represents a request to import items from CSV file.
 /// </summary>
-public class ImportItemsRequest : IVonageRequest
+public readonly struct ImportItemsRequest : IVonageRequest
 {
     /// <summary>
     ///     CSV content of list items to import.

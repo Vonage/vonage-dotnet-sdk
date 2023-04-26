@@ -9,7 +9,7 @@ namespace Vonage.ProactiveConnect.Items.ExtractItems;
 /// <summary>
 ///     Represents a request to extract items.
 /// </summary>
-public class ExtractItemsRequest : IVonageRequest
+public readonly struct ExtractItemsRequest : IVonageRequest
 {
     /// <summary>
     ///     Unique identifier for the list.

@@ -5,6 +5,7 @@ using Vonage.ProactiveConnect.Items.CreateItem;
 using Vonage.ProactiveConnect.Items.DeleteItem;
 using Vonage.ProactiveConnect.Items.ExtractItems;
 using Vonage.ProactiveConnect.Items.GetItem;
+using Vonage.ProactiveConnect.Items.GetItems;
 using Vonage.ProactiveConnect.Items.ImportItems;
 using Vonage.ProactiveConnect.Items.UpdateItem;
 using Vonage.ProactiveConnect.Lists;
@@ -71,6 +72,13 @@ public interface IProactiveConnectClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<ListItem>> GetItemAsync(Result<GetItemRequest> request);
+
+    /// <summary>
+    ///     Retrieves all items of a list.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetItemsResponse>> GetItemsAsync(Result<GetItemsRequest> request);
 
     /// <summary>
     ///     Retrieves a single list.

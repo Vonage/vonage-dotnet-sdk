@@ -7,6 +7,7 @@ using Vonage.ProactiveConnect.Items.CreateItem;
 using Vonage.ProactiveConnect.Items.DeleteItem;
 using Vonage.ProactiveConnect.Items.ExtractItems;
 using Vonage.ProactiveConnect.Items.GetItem;
+using Vonage.ProactiveConnect.Items.GetItems;
 using Vonage.ProactiveConnect.Items.ImportItems;
 using Vonage.ProactiveConnect.Items.UpdateItem;
 using Vonage.ProactiveConnect.Lists;
@@ -58,6 +59,10 @@ internal class ProactiveConnectClient : IProactiveConnectClient
     /// <inheritdoc />
     public Task<Result<ListItem>> GetItemAsync(Result<GetItemRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetItemRequest, ListItem>(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetItemsResponse>> GetItemsAsync(Result<GetItemsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetItemsRequest, GetItemsResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<List>> GetListAsync(Result<GetListRequest> request) =>
