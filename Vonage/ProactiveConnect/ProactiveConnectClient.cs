@@ -44,12 +44,12 @@ internal class ProactiveConnectClient : IProactiveConnectClient
         this.vonageClient.SendWithResponseAsync<CreateListRequest, List>(request);
 
     /// <inheritdoc />
-    public Task<Result<ListItem>> DeleteItemAsync(Result<DeleteItemRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<DeleteItemRequest, ListItem>(request);
+    public Task<Result<Unit>> DeleteItemAsync(Result<DeleteItemRequest> request) =>
+        this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<List>> DeleteListAsync(Result<DeleteListRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<DeleteListRequest, List>(request);
+    public Task<Result<Unit>> DeleteListAsync(Result<DeleteListRequest> request) =>
+        this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
     public Task<Result<string>> ExtractItemsAsync(Result<ExtractItemsRequest> request) =>

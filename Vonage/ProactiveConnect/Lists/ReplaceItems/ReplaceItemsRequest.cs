@@ -22,7 +22,7 @@ public readonly struct ReplaceItemsRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v.01/bulk/lists/{this.Id}/fetch";
+    public string GetEndpointPath() => $"/v0.1/bulk/lists/{this.Id}/fetch";
 
     /// <summary>
     ///     Parses the input into a ReplaceItemsRequest.

@@ -14,6 +14,6 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/v.01/bulk/lists?page=25&page_size=50");
+                .BeSuccess("/v0.1/bulk/lists?page=25&page_size=50");
     }
 }

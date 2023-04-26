@@ -49,14 +49,14 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
-    Task<Result<ListItem>> DeleteItemAsync(Result<DeleteItemRequest> request);
+    Task<Result<Unit>> DeleteItemAsync(Result<DeleteItemRequest> request);
 
     /// <summary>
     ///     Deletes a list.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
-    Task<Result<List>> DeleteListAsync(Result<DeleteListRequest> request);
+    Task<Result<Unit>> DeleteListAsync(Result<DeleteListRequest> request);
 
     /// <summary>
     ///     Extracts list items as a CSV format.

@@ -633,9 +633,6 @@
         <None Include="ProactiveConnect\Items\CreateItem\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="ProactiveConnect\Items\DeleteItem\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="ProactiveConnect\Items\GetItem\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -655,9 +652,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithSalesforceDataSource-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\DeleteList\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="ProactiveConnect\Lists\GetList\Data\ShouldDeserialize200-response.json">
