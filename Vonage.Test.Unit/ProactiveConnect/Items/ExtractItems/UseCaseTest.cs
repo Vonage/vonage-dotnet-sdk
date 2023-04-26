@@ -9,29 +9,23 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.ProactiveConnect;
-using Vonage.ProactiveConnect.Items;
-using Vonage.ProactiveConnect.Items.GetItem;
+using Vonage.ProactiveConnect.Items.ExtractItems;
 using Xunit;
 
-namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
+namespace Vonage.Test.Unit.ProactiveConnect.Items.ExtractItems
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<ListItem>>> Operation =>
-            configuration => new ProactiveConnectClient(configuration).GetItemAsync(this.request);
+        private Func<VonageHttpClientConfiguration, Task<Result<string>>> Operation =>
+            configuration => new ProactiveConnectClient(configuration).ExtractItemsAsync(this.request);
 
-        private readonly Result<GetItemRequest> request;
+        private readonly Result<ExtractItemsRequest> request;
 
         public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
             this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
-
-        [Fact]
-        public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed() =>
-            await this.helper.VerifyReturnsFailureGivenApiResponseCannotBeParsed(this.BuildExpectedRequest(),
-                this.Operation);
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
@@ -40,9 +34,9 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<GetItemRequest, ListItem>(
+                .VerifyReturnsFailureGivenRequestIsFailure<ExtractItemsRequest, string>(
                     (configuration, failureRequest) =>
-                        new ProactiveConnectClient(configuration).GetItemAsync(failureRequest));
+                        new ProactiveConnectClient(configuration).ExtractItemsAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
@@ -50,7 +44,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
+            await this.helper.VerifyReturnsRawContentGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
                 this.Operation);
 
         private ExpectedRequest BuildExpectedRequest() =>
@@ -60,7 +54,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
                 RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
             };
 
-        private static Result<GetItemRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetItemRequest.Build().WithListId(fixture.Create<Guid>()).WithItemId(fixture.Create<Guid>()).Create();
+        private static Result<ExtractItemsRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            ExtractItemsRequest.Parse(fixture.Create<Guid>());
     }
 }

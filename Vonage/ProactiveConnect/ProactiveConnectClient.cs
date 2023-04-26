@@ -5,6 +5,7 @@ using Vonage.Common.Monads;
 using Vonage.ProactiveConnect.Items;
 using Vonage.ProactiveConnect.Items.CreateItem;
 using Vonage.ProactiveConnect.Items.DeleteItem;
+using Vonage.ProactiveConnect.Items.ExtractItems;
 using Vonage.ProactiveConnect.Items.GetItem;
 using Vonage.ProactiveConnect.Items.UpdateItem;
 using Vonage.ProactiveConnect.Lists;
@@ -48,6 +49,10 @@ internal class ProactiveConnectClient : IProactiveConnectClient
     /// <inheritdoc />
     public Task<Result<List>> DeleteListAsync(Result<DeleteListRequest> request) =>
         this.vonageClient.SendWithResponseAsync<DeleteListRequest, List>(request);
+
+    /// <inheritdoc />
+    public Task<Result<string>> ExtractItemsAsync(Result<ExtractItemsRequest> request) =>
+        this.vonageClient.SendWithRawResponseAsync(request);
 
     /// <inheritdoc />
     public Task<Result<ListItem>> GetItemAsync(Result<GetItemRequest> request) =>

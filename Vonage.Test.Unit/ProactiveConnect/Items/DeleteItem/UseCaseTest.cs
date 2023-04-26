@@ -58,9 +58,6 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.DeleteItem
             {
                 Method = HttpMethod.Delete,
                 RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
-                Content = this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(value))
-                    .IfFailure(string.Empty),
             };
 
         private static Result<DeleteItemRequest> BuildRequest(ISpecimenBuilder fixture) =>

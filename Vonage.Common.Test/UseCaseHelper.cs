@@ -181,6 +181,23 @@ namespace Vonage.Common.Test
         }
 
         /// <summary>
+        ///     Verifies the operation returns the raw content given the response is success.
+        /// </summary>
+        /// <param name="expected">Expected values for the incoming request.</param>
+        /// <param name="operation">The call operation.</param>
+        public async Task VerifyReturnsRawContentGivenApiResponseIsSuccess(ExpectedRequest expected,
+            Func<VonageHttpClientConfiguration, Task<Result<string>>> operation)
+        {
+            var expectedResponse = this.Fixture.Create<string>();
+            var messageHandler = FakeHttpRequestHandler
+                .Build(HttpStatusCode.OK)
+                .WithExpectedRequest(expected)
+                .WithResponseContent(expectedResponse);
+            var result = await operation(this.CreateConfiguration(messageHandler));
+            result.Should().BeSuccess(expectedResponse);
+        }
+
+        /// <summary>
         ///     Verifies the operation returns the default unit value given the response is success.
         /// </summary>
         /// <param name="expected">Expected values for the incoming request.</param>

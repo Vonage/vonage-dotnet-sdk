@@ -3,6 +3,7 @@ using Vonage.Common.Monads;
 using Vonage.ProactiveConnect.Items;
 using Vonage.ProactiveConnect.Items.CreateItem;
 using Vonage.ProactiveConnect.Items.DeleteItem;
+using Vonage.ProactiveConnect.Items.ExtractItems;
 using Vonage.ProactiveConnect.Items.GetItem;
 using Vonage.ProactiveConnect.Items.UpdateItem;
 using Vonage.ProactiveConnect.Lists;
@@ -55,6 +56,13 @@ public interface IProactiveConnectClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<List>> DeleteListAsync(Result<DeleteListRequest> request);
+
+    /// <summary>
+    ///     Extracts list items as a CSV format.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<string>> ExtractItemsAsync(Result<ExtractItemsRequest> request);
 
     /// <summary>
     ///     Retrieves an item.
