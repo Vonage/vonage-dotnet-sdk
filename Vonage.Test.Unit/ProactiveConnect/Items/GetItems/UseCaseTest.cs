@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItems
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<GetItemsResponse>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<PaginationResult<EmbeddedItems>>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).GetItemsAsync(this.request);
 
         private readonly Result<GetItemsRequest> request;
@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItems
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<GetItemsRequest, GetItemsResponse>(
+                .VerifyReturnsFailureGivenRequestIsFailure<GetItemsRequest, PaginationResult<EmbeddedItems>>(
                     (configuration, failureRequest) =>
                         new ProactiveConnectClient(configuration).GetItemsAsync(failureRequest));
 

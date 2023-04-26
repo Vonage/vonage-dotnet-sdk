@@ -78,7 +78,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
-    Task<Result<GetItemsResponse>> GetItemsAsync(Result<GetItemsRequest> request);
+    Task<Result<PaginationResult<EmbeddedItems>>> GetItemsAsync(Result<GetItemsRequest> request);
 
     /// <summary>
     ///     Retrieves a single list.
@@ -92,7 +92,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
-    Task<Result<GetListsResponse>> GetListsAsync(Result<GetListsRequest> request);
+    Task<Result<PaginationResult<EmbeddedLists>>> GetListsAsync(Result<GetListsRequest> request);
 
     /// <summary>
     ///     Imports list items from a CSV file.

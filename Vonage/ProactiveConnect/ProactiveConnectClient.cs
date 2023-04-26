@@ -61,16 +61,16 @@ internal class ProactiveConnectClient : IProactiveConnectClient
         this.vonageClient.SendWithResponseAsync<GetItemRequest, ListItem>(request);
 
     /// <inheritdoc />
-    public Task<Result<GetItemsResponse>> GetItemsAsync(Result<GetItemsRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<GetItemsRequest, GetItemsResponse>(request);
+    public Task<Result<PaginationResult<EmbeddedItems>>> GetItemsAsync(Result<GetItemsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetItemsRequest, PaginationResult<EmbeddedItems>>(request);
 
     /// <inheritdoc />
     public Task<Result<List>> GetListAsync(Result<GetListRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetListRequest, List>(request);
 
     /// <inheritdoc />
-    public Task<Result<GetListsResponse>> GetListsAsync(Result<GetListsRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<GetListsRequest, GetListsResponse>(request);
+    public Task<Result<PaginationResult<EmbeddedLists>>> GetListsAsync(Result<GetListsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetListsRequest, PaginationResult<EmbeddedLists>>(request);
 
     /// <inheritdoc />
     public Task<Result<ImportItemsResponse>> ImportItemsAsync(Result<ImportItemsRequest> request) =>
