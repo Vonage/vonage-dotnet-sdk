@@ -3,8 +3,7 @@ using Vonage.Common.Monads;
 
 namespace Vonage.ProactiveConnect.Lists.GetLists;
 
-internal class GetListsRequestBuilder : IBuilderForPage, IBuilderForPageSize, IBuilderForOrder,
-    IVonageRequestBuilder<GetListsRequest>
+internal class GetListsRequestBuilder : IBuilderForPage, IBuilderForPageSize, IBuilderForOrder
 {
     private FetchOrder order = FetchOrder.Ascending;
     private int pageSize;

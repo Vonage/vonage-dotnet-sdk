@@ -23,12 +23,14 @@ internal class CreateItemRequestBuilder : IBuilderForListId, IBuilderForCustomDa
             .Bind(VerifyListId)
             .Bind(VerifyData);
 
+    /// <inheritdoc />
     public IBuilderForCustomData WithCustomData(KeyValuePair<string, object> value)
     {
         this.data.Add(value.Key, value.Value);
         return this;
     }
 
+    /// <inheritdoc />
     public IBuilderForCustomData WithListId(Guid value)
     {
         this.listId = value;

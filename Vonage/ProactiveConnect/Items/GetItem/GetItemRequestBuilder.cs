@@ -21,12 +21,14 @@ internal class DeleteItemRequestBuilder : IBuilderForListId, IBuilderForItemId, 
             .Bind(VerifyListId)
             .Bind(VerifyItemId);
 
+    /// <inheritdoc />
     public IVonageRequestBuilder<GetItemRequest> WithItemId(Guid value)
     {
         this.itemId = value;
         return this;
     }
 
+    /// <inheritdoc />
     public IBuilderForItemId WithListId(Guid value)
     {
         this.listId = value;

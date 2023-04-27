@@ -2,6 +2,7 @@ using System;
 using AutoFixture;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
+using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Items.GetItems;
 using Xunit;
 
@@ -43,6 +44,31 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItems
                 .Map(request => request.ListId)
                 .Should()
                 .BeSuccess(this.listId);
+
+        [Fact]
+        public void Build_ShouldSetOrderAscending_GivenDefault() =>
+            GetItemsRequest
+                .Build()
+                .WithListId(this.listId)
+                .WithPage(this.page)
+                .WithPageSize(this.pageSize)
+                .Create()
+                .Map(request => request.Order)
+                .Should()
+                .BeSuccess(FetchOrder.Ascending);
+
+        [Fact]
+        public void Build_ShouldSetOrderDescending_GivenOrderByDescendingIsUsed() =>
+            GetItemsRequest
+                .Build()
+                .WithListId(this.listId)
+                .WithPage(this.page)
+                .WithPageSize(this.pageSize)
+                .OrderByDescending()
+                .Create()
+                .Map(request => request.Order)
+                .Should()
+                .BeSuccess(FetchOrder.Descending);
 
         [Fact]
         public void Build_ShouldSetPage() =>

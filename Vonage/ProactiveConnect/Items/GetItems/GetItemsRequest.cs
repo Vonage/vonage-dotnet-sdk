@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using EnumsNET;
 using Vonage.Common.Client;
 
 namespace Vonage.ProactiveConnect.Items.GetItems;
@@ -13,6 +14,11 @@ public readonly struct GetItemsRequest : IVonageRequest
     ///     Unique identifier for a list.
     /// </summary>
     public Guid ListId { get; internal init; }
+
+    /// <summary>
+    ///     Defines the data ordering.
+    /// </summary>
+    public FetchOrder Order { get; internal init; }
 
     /// <summary>
     ///     Page of results to jump to.
@@ -38,5 +44,5 @@ public readonly struct GetItemsRequest : IVonageRequest
 
     /// <inheritdoc />
     public string GetEndpointPath() =>
-        $"/v0.1/bulk/lists/{this.ListId}/items?page={this.Page}&page_size={this.PageSize}";
+        $"/v0.1/bulk/lists/{this.ListId}/items?page={this.Page}&page_size={this.PageSize}&order={this.Order.AsString(EnumFormat.Description)}";
 }

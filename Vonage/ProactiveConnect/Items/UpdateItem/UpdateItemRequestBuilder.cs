@@ -26,18 +26,21 @@ internal class UpdateItemRequestBuilder : IBuilderForListId, IBuilderForItemId, 
             .Bind(VerifyItemId)
             .Bind(VerifyData);
 
+    /// <inheritdoc />
     public IBuilderForCustomData WithCustomData(KeyValuePair<string, object> value)
     {
         this.data.Add(value.Key, value.Value);
         return this;
     }
 
+    /// <inheritdoc />
     public IBuilderForCustomData WithItemId(Guid value)
     {
         this.itemId = value;
         return this;
     }
 
+    /// <inheritdoc />
     public IBuilderForItemId WithListId(Guid value)
     {
         this.listId = value;

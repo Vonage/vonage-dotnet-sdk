@@ -5,9 +5,9 @@ using Vonage.Common.Validation;
 
 namespace Vonage.ProactiveConnect.Items.GetItems;
 
-internal class GetItemsRequestBuilder : IBuilderForListId, IBuilderForPage, IBuilderForPageSize,
-    IVonageRequestBuilder<GetItemsRequest>
+internal class GetItemsRequestBuilder : IBuilderForListId, IBuilderForPage, IBuilderForOrder, IBuilderForPageSize
 {
+    private FetchOrder order = FetchOrder.Ascending;
     private Guid listId;
     private int pageSize;
     private int page;
@@ -20,9 +20,18 @@ internal class GetItemsRequestBuilder : IBuilderForListId, IBuilderForPage, IBui
                 ListId = this.listId,
                 Page = this.page,
                 PageSize = this.pageSize,
+                Order = this.order,
             })
             .Bind(VerifyListId);
 
+    /// <inheritdoc />
+    public IVonageRequestBuilder<GetItemsRequest> OrderByDescending()
+    {
+        this.order = FetchOrder.Descending;
+        return this;
+    }
+
+    /// <inheritdoc />
     public IBuilderForPage WithListId(Guid value)
     {
         this.listId = value;
@@ -37,7 +46,7 @@ internal class GetItemsRequestBuilder : IBuilderForListId, IBuilderForPage, IBui
     }
 
     /// <inheritdoc />
-    public IVonageRequestBuilder<GetItemsRequest> WithPageSize(int value)
+    public IBuilderForOrder WithPageSize(int value)
     {
         this.pageSize = value;
         return this;
@@ -83,5 +92,17 @@ public interface IBuilderForPageSize
     /// </summary>
     /// <param name="value">The page size.</param>
     /// <returns>The builder.</returns>
-    IVonageRequestBuilder<GetItemsRequest> WithPageSize(int value);
+    IBuilderForOrder WithPageSize(int value);
+}
+
+/// <summary>
+///     Represents a builder for Order.
+/// </summary>
+public interface IBuilderForOrder : IVonageRequestBuilder<GetItemsRequest>
+{
+    /// <summary>
+    ///     Sets the order to Descending on the builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    IVonageRequestBuilder<GetItemsRequest> OrderByDescending();
 }
