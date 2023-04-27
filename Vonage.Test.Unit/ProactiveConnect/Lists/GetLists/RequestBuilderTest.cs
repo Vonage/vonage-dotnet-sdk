@@ -1,6 +1,6 @@
 using AutoFixture;
-using FluentAssertions;
 using Vonage.Common.Test.Extensions;
+using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Lists.GetLists;
 using Xunit;
 
@@ -19,17 +19,48 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
         }
 
         [Fact]
-        public void Build_ShouldReturnSuccess() =>
+        public void Build_ShouldSetOrderAscending_GivenDefault() =>
             GetListsRequest
                 .Build()
                 .WithPage(this.page)
                 .WithPageSize(this.pageSize)
                 .Create()
+                .Map(request => request.Order)
                 .Should()
-                .BeSuccess(success =>
-                {
-                    success.Page.Should().Be(this.page);
-                    success.PageSize.Should().Be(this.pageSize);
-                });
+                .BeSuccess(FetchOrder.Ascending);
+
+        [Fact]
+        public void Build_ShouldSetOrderDescending_GivenOrderByDescendingIsUsed() =>
+            GetListsRequest
+                .Build()
+                .WithPage(this.page)
+                .WithPageSize(this.pageSize)
+                .OrderByDescending()
+                .Create()
+                .Map(request => request.Order)
+                .Should()
+                .BeSuccess(FetchOrder.Descending);
+
+        [Fact]
+        public void Build_ShouldSetPage() =>
+            GetListsRequest
+                .Build()
+                .WithPage(this.page)
+                .WithPageSize(this.pageSize)
+                .Create()
+                .Map(request => request.Page)
+                .Should()
+                .BeSuccess(this.page);
+
+        [Fact]
+        public void Build_ShouldSetPageSize() =>
+            GetListsRequest
+                .Build()
+                .WithPage(this.page)
+                .WithPageSize(this.pageSize)
+                .Create()
+                .Map(request => request.PageSize)
+                .Should()
+                .BeSuccess(this.pageSize);
     }
 }
