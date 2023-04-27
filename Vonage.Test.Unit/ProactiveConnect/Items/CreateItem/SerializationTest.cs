@@ -46,5 +46,26 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.CreateItem
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
+        public void ShouldSerializeComplexObject() =>
+            CreateItemRequest
+                .Build()
+                .WithListId(Guid.NewGuid())
+                .WithCustomData(new KeyValuePair<string, object>("fizz", new {Foo = "bar"}))
+                .WithCustomData(new KeyValuePair<string, object>("baz", 2))
+                .WithCustomData(new KeyValuePair<string, object>("Bat", "qux"))
+                .WithCustomData(new KeyValuePair<string, object>("more_items", new object[]
+                {
+                    1,
+                    2,
+                    "three",
+                    true,
+                    new {Foo = "bar"},
+                }))
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
     }
 }

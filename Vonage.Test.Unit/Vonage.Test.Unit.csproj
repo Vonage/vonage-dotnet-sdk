@@ -675,6 +675,9 @@
         <None Update="ProactiveConnect\Items\GetItems\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="ProactiveConnect\Items\CreateItem\Data\ShouldSerializeComplexObject-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
