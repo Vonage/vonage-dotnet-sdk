@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
+using Vonage.ProactiveConnect.Events.GetEvents;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.ClearList;
 using Vonage.ProactiveConnect.Lists.CreateList;
@@ -36,6 +37,13 @@ public interface IProactiveConnectClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<List>> DeleteListAsync(Result<DeleteListRequest> request);
+
+    /// <summary>
+    ///     Retrieves all events.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetEventsResponse>> GetEventsAsync(Result<GetEventsRequest> request);
 
     /// <summary>
     ///     Retrieves a single list.

@@ -42,29 +42,32 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Data\NccoTests\TestAppEndpoint-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\NccoTests\TestSipEndpoint-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\NccoTests\TestVbcEndpoint-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\NccoTests\TestConversationAllTrue-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\ApplicationTests\CreateApplication-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\ApplicationTests\CreateApplication-request.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncRealTimeData-response.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+        <None Update="Data\NccoTests\TestSipEndpoint-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\NccoTests\TestVbcEndpoint-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\NccoTests\TestConversationAllTrue-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\ApplicationTests\CreateApplication-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\ApplicationTests\CreateApplication-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncRealTimeData-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ProactiveConnect\Events\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
-	<ItemGroup>
+    <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.18.0"/>
         <PackageReference Include="FluentAssertions" Version="6.10.0"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
