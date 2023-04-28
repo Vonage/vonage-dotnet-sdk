@@ -4,6 +4,7 @@ using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.GetLists;
 using Xunit;
@@ -21,7 +22,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
-                .DeserializeObject<GetListsResponse>(this.helper.GetResponseJson())
+                .DeserializeObject<PaginationResult<EmbeddedLists>>(this.helper.GetResponseJson())
                 .Should()
                 .BeSuccess(success =>
                 {
@@ -37,9 +38,9 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
                         .Be(new Uri("https://api-eu.vonage.com/v0.1/bulk/lists?page_size=100&page=1"));
                     success.Links.First.Href.Should()
                         .Be(new Uri("https://api-eu.vonage.com/v0.1/bulk/lists?page_size=100&page=1"));
-                    success.EmbeddedLists.Lists.Should().HaveCount(2);
-                    var firstList = success.EmbeddedLists.Lists.ToList()[0];
-                    var secondList = success.EmbeddedLists.Lists.ToList()[1];
+                    success.Embedded.Lists.Should().HaveCount(2);
+                    var firstList = success.Embedded.Lists.ToList()[0];
+                    var secondList = success.Embedded.Lists.ToList()[1];
                     firstList.Name.Should().Be("Recipients for demo");
                     firstList.Description.Should().Be("List of recipients for demo");
                     firstList.Tags.Should().BeEquivalentTo("vip");

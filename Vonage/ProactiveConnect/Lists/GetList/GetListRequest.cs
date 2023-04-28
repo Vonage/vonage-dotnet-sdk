@@ -22,7 +22,7 @@ public readonly struct GetListRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v.01/bulk/lists/{this.Id}";
+    public string GetEndpointPath() => $"/v0.1/bulk/lists/{this.Id}";
 
     /// <summary>
     ///     Parses the input into a GetListRequest.

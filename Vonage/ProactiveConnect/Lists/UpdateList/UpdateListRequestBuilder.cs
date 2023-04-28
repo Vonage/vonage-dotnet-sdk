@@ -57,6 +57,7 @@ internal class UpdateListRequestBuilder : IBuilderForListId, IBuilderForName, IB
         return this;
     }
 
+    /// <inheritdoc />
     public IBuilderForName WithListId(Guid value)
     {
         this.id = value;

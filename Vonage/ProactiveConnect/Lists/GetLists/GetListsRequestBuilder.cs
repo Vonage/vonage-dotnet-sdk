@@ -3,8 +3,9 @@ using Vonage.Common.Monads;
 
 namespace Vonage.ProactiveConnect.Lists.GetLists;
 
-internal class GetListsRequestBuilder : IBuilderForPage, IBuilderForPageSize, IVonageRequestBuilder<GetListsRequest>
+internal class GetListsRequestBuilder : IBuilderForPage, IBuilderForPageSize, IBuilderForOrder
 {
+    private FetchOrder order = FetchOrder.Ascending;
     private int pageSize;
     private int page;
 
@@ -15,7 +16,15 @@ internal class GetListsRequestBuilder : IBuilderForPage, IBuilderForPageSize, IV
             {
                 Page = this.page,
                 PageSize = this.pageSize,
+                Order = this.order,
             });
+
+    /// <inheritdoc />
+    public IVonageRequestBuilder<GetListsRequest> OrderByDescending()
+    {
+        this.order = FetchOrder.Descending;
+        return this;
+    }
 
     /// <inheritdoc />
     public IBuilderForPageSize WithPage(int value)
@@ -25,7 +34,7 @@ internal class GetListsRequestBuilder : IBuilderForPage, IBuilderForPageSize, IV
     }
 
     /// <inheritdoc />
-    public IVonageRequestBuilder<GetListsRequest> WithPageSize(int value)
+    public IBuilderForOrder WithPageSize(int value)
     {
         this.pageSize = value;
         return this;
@@ -55,5 +64,17 @@ public interface IBuilderForPageSize
     /// </summary>
     /// <param name="value">The page size.</param>
     /// <returns>The builder.</returns>
-    IVonageRequestBuilder<GetListsRequest> WithPageSize(int value);
+    IBuilderForOrder WithPageSize(int value);
+}
+
+/// <summary>
+///     Represents a builder for Order.
+/// </summary>
+public interface IBuilderForOrder : IVonageRequestBuilder<GetListsRequest>
+{
+    /// <summary>
+    ///     Sets the order to Descending on the builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    IVonageRequestBuilder<GetListsRequest> OrderByDescending();
 }

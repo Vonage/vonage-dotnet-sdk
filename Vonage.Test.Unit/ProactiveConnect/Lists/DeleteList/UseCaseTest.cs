@@ -9,7 +9,6 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.ProactiveConnect;
-using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.DeleteList;
 using Xunit;
 
@@ -17,7 +16,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.DeleteList
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<List>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<Common.Monads.Unit>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).DeleteListAsync(this.request);
 
         private readonly Result<DeleteListRequest> request;
@@ -28,11 +27,6 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.DeleteList
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
             this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
 
-        [Fact]
-        public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed() =>
-            await this.helper.VerifyReturnsFailureGivenApiResponseCannotBeParsed(this.BuildExpectedRequest(),
-                this.Operation);
-
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
             this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
@@ -40,7 +34,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.DeleteList
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<DeleteListRequest, List>(
+                .VerifyReturnsFailureGivenRequestIsFailure<DeleteListRequest, Common.Monads.Unit>(
                     (configuration, failureRequest) =>
                         new ProactiveConnectClient(configuration).DeleteListAsync(failureRequest));
 

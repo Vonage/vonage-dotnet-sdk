@@ -15,6 +15,6 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/v.01/bulk/lists/8ef94367-3a18-47a7-b59e-e98835194dcb");
+                .BeSuccess("/v0.1/bulk/lists/8ef94367-3a18-47a7-b59e-e98835194dcb");
     }
 }

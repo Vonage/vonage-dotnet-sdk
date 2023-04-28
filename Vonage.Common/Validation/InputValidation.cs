@@ -135,6 +135,21 @@ public static class InputValidation
     ///     Verifies if not null or empty.
     /// </summary>
     /// <param name="request">The request.</param>
+    /// <param name="value">The string.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="T">The request type.</typeparam>
+    /// <typeparam name="TElement">The nested element type.</typeparam>
+    /// <returns>Success or Failure.</returns>
+    public static Result<T> VerifyNotEmpty<T, TElement>(T request, IEnumerable<TElement> value, string name) =>
+        !value.Any()
+            ? Result<T>.FromFailure(
+                ResultFailure.FromErrorMessage($"{name} {GuidCannotBeNullOrWhitespace}"))
+            : request;
+
+    /// <summary>
+    ///     Verifies if not null or empty.
+    /// </summary>
+    /// <param name="request">The request.</param>
     /// <param name="value">The guid.</param>
     /// <param name="name">The display name.</param>
     /// <typeparam name="T">The request type.</typeparam>
