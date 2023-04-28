@@ -1,118 +1,101 @@
-# 3.2.0 (2018-09-28)
+# v6.2.0 (2023-04-19)
 
-* Added Secret Management API implementation.
+* fix: missing dependencies
+* refactor: make builders internal
 
-# 3.1.1 (2018-08-30)
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.1.0...v6.2.0
 
-* Fixed missed Credentials default constructor.
+---
 
-# 3.1.0 (2018-08-16)
+# v6.1.0 (2023-04-17)
 
-* Added Redact API implementation.
+* feat: add premium to start talk request
+* feat: webhook classes for messages
+* refactor: remove duplicate code for sync version of methods
+* refactor: extend responses and monads capabilities
+* style: unify test class names
+* fix: add basic auth support for Messages
 
-# 3.0.1 (2018-03-05)
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.0.5...v6.1.0
 
-* Fixed missed NumberInsight instanciation (#90)
+---
 
-# 3.0.0 (2018-02-23)
+# v6.0.5 (2023-03-27)
 
-* __[BREAKING]__ Deprioritize support for configuration via configuration files.
-* __[BREAKING]__ ApplicationKey must now be the actual private key and not a path to the key.
-* Instance-based methods are available to use.
-* Support .NET Standard 2.0.
+* Fix Numbers Api authentication to match Api specs
+* Add latest Messages features
+* Remove hardcoded keys from the repository
+* Use System.Text.Json instead of Newtonsoft for Messages Api
+* New Vonage.Common project
+* Readme update
 
-# 2.3.1 (2017-11-23)
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.0.4...v6.0.5
 
-* Set Json serialization DefaultValueHandling to ignore (Voice API defaults no longer required to be explicitly sent)
+---
 
-# 2.3.0 (2017-11-09)
+# v6.0.4 (2023-01-13)
 
-* __[BREAKING]__ `Account.GetBalance` returns (instead of a `decimal`) a `Balance` object that includes your account
-  balance and other properties.
-* __[BREAKING]__ `NumberInsight` calls, request classes, and response classes have changed slightly. The underlying
-  calls to Nexmo's API have been updated as well. Thanks to @RabebOthmani for the PR!
-  * CHANGE: NumberInsightBasicResponse RequestBasic(NumberInsightBasicRequest, ...) => NumberInsightBasicResponse
-    RequestBasic(NumberInsightRequest, ...)
-  * CHANGE: NumberInsightStandardResponse RequestStandard(NumberInsightBasicRequest, ...) =>
-    NumberInsightStandardResponse RequestStandard(NumberInsightRequest, ...)
-  * ADD: NumberInsightAdvancedResponse RequestAdvanced(NumberInsightRequest, ...)
-  * CHANGE: NumberInsightRequestResponse Request(NumberInsightRequest, ...) => NumberInsightAsyncRequestResponse
-    RequestAsync(NumberInsightAsyncRequest, ...)
-* API and documentation refresh: Added missing JSON properties, updated summaries from the official docs.
-* Support additional call endpoint types.
-* Introduced `Nexmo.Api.EnsureSuccessStatusCode` configuration option. You may instruct the library to throw an
-  exception if a request results in an unsuccessful HTTP status code.
-* Address `ShortCode.RequestAlert` request bug.
-* Expose the configuration `ILoggerFactory` for use with external logging implementations.
+* Align frameworks on netstandard2.0
+* Subaccount support
 
-# 2.2.2 (2017-06-19)
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.0.3...v6.0.4
 
-* Updated jose-jwt to 2.3.0 which is reported to address key loading issues.
+---
 
-# 2.2.1 (2017-03-21)
+# v6.0.3 (2022-08-04)
 
-* Fixed NuGet dependencies; testing shows they are now being correctly included when performing `install-package`.
+- First v6 general release.
 
-# 2.2.0 (2017-03-10)
+---
 
-* Promoted to release, no changes from rc2.
+# v6.0.2-rc (2022-05-31)
 
-# 2.2.0-rc2 (2017-01-12)
+- Adding Real Time Data for Advanced Number Insights
 
-* Allow PKCS#8 formatted private keys; auth key parser logging.
+---
 
-# 2.2.0-rc1 (2017-01-12)
+# v6.0.1-rc (2022-05-25)
 
-* Expose internal API request methods to allow custom API calls from library consumers as some new Nexmo API endpoints
-  may not be immediately supported.
-* Allow override of request credentials per API call.
-* Optional configuration and request logging.
-* Support signed requests via security key.
-* Optional API request rate limiting.
+- Reinstating .ToString method on Ncco class
+- Making Vonage serialization settings public
+- Removing `VersionPrefix` from project file as to not confuse
+- Renaming Number Insights methods so not confusing between `async` and `Asynchronous`
 
-# 2.1.2 (2016-12-07)
+---
 
-* Look for `appsettings.json` (netcore webapp convention)
-* Ensure XML config parser only looks for keyvalues inside `<appSettings>` and `<connectionStrings>` elements.
-* Gracefully ignore elements with key attribute but not value attribute.
+# v6.0.0-rc (2022-05-24)
 
-# 2.1.1 (2016-12-06)
+- Removing legacy Nexmo classes that have been marked as obsolete in previous versions
+- Renaming enums to use Pascal Case as is accepted practice
+- Moving serialisation settings to a single location
+- Adding methods for new Messages API (SMS, MMS, WhatsApp, Messenger, Viber)
+- Refactoring NCCO class to use List as it's base class
+- Misc. refactoring
 
-* Look for `<executing process>.exe.config` file for XML configuration.
+---
 
-# 2.1.0 (2016-11-18)
+# v5.10.0 (2022-04-20)
 
-* User-Agent reporting. You may also append an application-specific ID via settings.json.
-* __[BREAKING]__ Support web.config XML. This has changed the settings.json structure slightly. Please check the README
-  for details.
+- Real-Time data for advanced number insights
+- Unit Test refactoring
+- Authentication exceptions to give more information if incorrect authentication credentials are supplied
 
-# 2.0.0 (2016-10-24)
+---
 
-* Dependency marking for netstandard1.6
+# v5.9.5 (2022-01-19)
 
-# 2.0.0-rc2 (2016-10-22)
+- NCCO Input "Type" property added to align with documentation
 
-* Fix JWT generation (key import fail) on OSX/Linux
+---
 
-# 2.0.0-rc1 (2016-10-16)
+# v5.9.3 (2021-11-23)
 
-* NumberInsight basic + standard support
-* NumberVerify control call
-* JWT token generation
-* Application API support
-* Application-based call API support
-* .NET Standard 1.6 support
-* __[BREAKING]__ Moved configuration from app.config to settings.json
-* __[BREAKING]__ Nexmo.Api.Voice static class has been deprecated - you must move to the new Voice calls inside the new
-  Nexmo.Api.Voice namespace. See [the Nexmo docs](https://docs.nexmo.com/voice/voice-api) for details.
+- Fixing an issue caused by the usage of a non thread safe Dictionary.
 
-JWT notes:
+---
 
-* When registering a new application, make sure you save the private key. This library does not (currently) take care of
-  this for you.
-* Make sure your saved private key is ASCII (not UTF-8, no
-  BOM) - http://stackoverflow.com/questions/1068650/using-awk-to-remove-the-byte-order-mark
+# v5.9.2 (2021-11-04)
 
-# 1.0.0 (2016-03-19)
+- Fixing issue with Advance Number Insights throwing an exception when status = `not_roaming`
 
-* Initial release with nuget package
+---
