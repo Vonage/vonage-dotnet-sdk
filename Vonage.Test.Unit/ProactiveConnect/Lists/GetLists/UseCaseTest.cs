@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<GetListsResponse>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<PaginationResult<EmbeddedLists>>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).GetListsAsync(this.request);
 
         private readonly Result<GetListsRequest> request;
@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<GetListsRequest, GetListsResponse>(
+                .VerifyReturnsFailureGivenRequestIsFailure<GetListsRequest, PaginationResult<EmbeddedLists>>(
                     (configuration, failureRequest) =>
                         new ProactiveConnectClient(configuration).GetListsAsync(failureRequest));
 

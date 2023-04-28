@@ -22,7 +22,7 @@ public readonly struct ClearListRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v.01/bulk/lists/{this.Id}/clear";
+    public string GetEndpointPath() => $"/v0.1/bulk/lists/{this.Id}/clear";
 
     /// <summary>
     ///     Parses the input into a ClearListRequest.

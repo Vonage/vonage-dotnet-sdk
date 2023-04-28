@@ -1,5 +1,13 @@
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
+using Vonage.ProactiveConnect.Items;
+using Vonage.ProactiveConnect.Items.CreateItem;
+using Vonage.ProactiveConnect.Items.DeleteItem;
+using Vonage.ProactiveConnect.Items.ExtractItems;
+using Vonage.ProactiveConnect.Items.GetItem;
+using Vonage.ProactiveConnect.Items.GetItems;
+using Vonage.ProactiveConnect.Items.ImportItems;
+using Vonage.ProactiveConnect.Items.UpdateItem;
 using Vonage.ProactiveConnect.Events.GetEvents;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.ClearList;
@@ -25,6 +33,13 @@ public interface IProactiveConnectClient
     Task<Result<Unit>> ClearListAsync(Result<ClearListRequest> request);
 
     /// <summary>
+    ///     Creates an item.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<ListItem>> CreateItemAsync(Result<CreateItemRequest> request);
+
+    /// <summary>
     ///     Creates a list.
     /// </summary>
     /// <param name="request">The request.</param>
@@ -32,11 +47,39 @@ public interface IProactiveConnectClient
     Task<Result<List>> CreateListAsync(Result<CreateListRequest> request);
 
     /// <summary>
+    ///     Deletes an item.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Unit>> DeleteItemAsync(Result<DeleteItemRequest> request);
+
+    /// <summary>
     ///     Deletes a list.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
-    Task<Result<List>> DeleteListAsync(Result<DeleteListRequest> request);
+    Task<Result<Unit>> DeleteListAsync(Result<DeleteListRequest> request);
+
+    /// <summary>
+    ///     Extracts list items as a CSV format.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<string>> ExtractItemsAsync(Result<ExtractItemsRequest> request);
+
+    /// <summary>
+    ///     Retrieves an item.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<ListItem>> GetItemAsync(Result<GetItemRequest> request);
+
+    /// <summary>
+    ///     Retrieves all items of a list.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<PaginationResult<EmbeddedItems>>> GetItemsAsync(Result<GetItemsRequest> request);
 
     /// <summary>
     ///     Retrieves all events.
@@ -57,7 +100,14 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
-    Task<Result<GetListsResponse>> GetListsAsync(Result<GetListsRequest> request);
+    Task<Result<PaginationResult<EmbeddedLists>>> GetListsAsync(Result<GetListsRequest> request);
+
+    /// <summary>
+    ///     Imports list items from a CSV file.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<ImportItemsResponse>> ImportItemsAsync(Result<ImportItemsRequest> request);
 
     /// <summary>
     ///     Fetches and replaces all items from datasource.
@@ -65,6 +115,13 @@ public interface IProactiveConnectClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Unit>> ReplaceItemsAsync(Result<ReplaceItemsRequest> request);
+
+    /// <summary>
+    ///     Updates an item.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<ListItem>> UpdateItemAsync(Result<UpdateItemRequest> request);
 
     /// <summary>
     ///     Updates a list.

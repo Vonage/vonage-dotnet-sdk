@@ -1,0 +1,18 @@
+{
+  "data": {
+    "fizz": {
+      "foo": "bar"
+    },
+    "baz": 2,
+    "Bat": "qux",
+    "more_items": [
+      1,
+      2,
+      "three",
+      true,
+      {
+        "foo": "bar"
+      }
+    ]
+  }
+}

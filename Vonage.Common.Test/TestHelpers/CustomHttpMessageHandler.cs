@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Net;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
-using Vonage.Common.Test;
 
-namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
+namespace Vonage.Common.Test.TestHelpers
 {
     /// <summary>
     ///     Custom message handler for CustomHttpMessageHandler.

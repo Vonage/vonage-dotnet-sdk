@@ -48,6 +48,17 @@ public class VonageHttpClient
             CreateSuccessResult);
 
     /// <summary>
+    ///     Sends a HttpRequest and returns the raw content.
+    /// </summary>
+    /// <param name="request">The request to send.</param>
+    /// <typeparam name="TRequest">Type of the request.</typeparam>
+    /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    public async Task<Result<string>> SendWithRawResponseAsync<TRequest>(Result<TRequest> request)
+        where TRequest : IVonageRequest =>
+        await this.SendRequest(request, this.BuildHttpRequestMessage, this.ParseFailure<string>,
+            responseData => responseData.Content);
+
+    /// <summary>
     ///     Sends a HttpRequest and parses the response.
     /// </summary>
     /// <param name="request">The request to send.</param>
