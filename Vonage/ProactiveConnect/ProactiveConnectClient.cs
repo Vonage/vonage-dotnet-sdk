@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.ProactiveConnect.Events.GetEvents;
 using Vonage.ProactiveConnect.Items;
 using Vonage.ProactiveConnect.Items.CreateItem;
 using Vonage.ProactiveConnect.Items.DeleteItem;
@@ -55,6 +56,10 @@ internal class ProactiveConnectClient : IProactiveConnectClient
     /// <inheritdoc />
     public Task<Result<string>> ExtractItemsAsync(Result<ExtractItemsRequest> request) =>
         this.vonageClient.SendWithRawResponseAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<PaginationResult<EmbeddedEvents>>> GetEventsAsync(Result<GetEventsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetEventsRequest, PaginationResult<EmbeddedEvents>>(request);
 
     /// <inheritdoc />
     public Task<Result<ListItem>> GetItemAsync(Result<GetItemRequest> request) =>

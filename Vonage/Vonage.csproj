@@ -81,7 +81,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="ProactiveConnect\Actions\"/>
-        <Folder Include="ProactiveConnect\Events\"/>
         <Folder Include="ProactiveConnect\Jobs\"/>
         <Folder Include="ProactiveConnect\Runs\"/>
     </ItemGroup>
