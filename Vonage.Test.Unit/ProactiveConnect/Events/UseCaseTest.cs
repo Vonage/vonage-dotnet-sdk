@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Events
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<GetEventsResponse>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<PaginationResult<EmbeddedEvents>>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).GetEventsAsync(this.request);
 
         private readonly Result<GetEventsRequest> request;
@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Events
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<GetEventsRequest, GetEventsResponse>(
+                .VerifyReturnsFailureGivenRequestIsFailure<GetEventsRequest, PaginationResult<EmbeddedEvents>>(
                     (configuration, failureRequest) =>
                         new ProactiveConnectClient(configuration).GetEventsAsync(failureRequest));
 

@@ -1,4 +1,22 @@
 {
+  "total_items": 1,
+  "page": 1,
+  "page_size": 100,
+  "total_pages": 1,
+  "_links": {
+    "self": {
+      "href": "https://api-eu.vonage.com/v0.1/bulk/events?page_size=100&page=1"
+    },
+    "prev": {
+      "href": "https://api-eu.vonage.com/v0.1/bulk/events?page_size=100&page=1"
+    },
+    "next": {
+      "href": "https://api-eu.vonage.com/v0.1/bulk/events?page_size=100&page=1"
+    },
+    "first": {
+      "href": "https://api-eu.vonage.com/v0.1/bulk/events?page_size=100&page=1"
+    }
+  },
   "events": [
     {
       "occurred_at": "2022-08-07T13:18:21.970Z",
