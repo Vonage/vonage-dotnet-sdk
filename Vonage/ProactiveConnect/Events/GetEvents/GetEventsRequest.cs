@@ -1,4 +1,5 @@
 using System.Net.Http;
+using EnumsNET;
 using Vonage.Common.Client;
 
 namespace Vonage.ProactiveConnect.Events.GetEvents;
@@ -8,6 +9,11 @@ namespace Vonage.ProactiveConnect.Events.GetEvents;
 /// </summary>
 public readonly struct GetEventsRequest : IVonageRequest
 {
+    /// <summary>
+    ///     Defines the data ordering.
+    /// </summary>
+    public FetchOrder Order { get; internal init; }
+
     /// <summary>
     ///     Page of results to jump to.
     /// </summary>
@@ -31,5 +37,6 @@ public readonly struct GetEventsRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v.01/bulk/events?page={this.Page}&page_size={this.PageSize}";
+    public string GetEndpointPath() =>
+        $"/v0.1/bulk/events?page={this.Page}&page_size={this.PageSize}&order={this.Order.AsString(EnumFormat.Description)}";
 }

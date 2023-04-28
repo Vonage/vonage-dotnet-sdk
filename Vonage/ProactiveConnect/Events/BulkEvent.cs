@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
 
@@ -31,7 +30,7 @@ public record BulkEvent(
     Guid ActionId,
     Guid RunId,
     string RecipientId,
-    JsonElement Data
+    object Data
 );
 
 public enum BulkEventType

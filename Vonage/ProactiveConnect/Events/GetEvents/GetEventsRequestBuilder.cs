@@ -3,8 +3,9 @@ using Vonage.Common.Monads;
 
 namespace Vonage.ProactiveConnect.Events.GetEvents;
 
-internal class GetEventsRequestBuilder : IBuilderForPage, IBuilderForPageSize, IVonageRequestBuilder<GetEventsRequest>
+internal class GetEventsRequestBuilder : IBuilderForPage, IBuilderForPageSize, IBuilderForOrder
 {
+    private FetchOrder order;
     private int pageSize;
     private int page;
 
@@ -15,7 +16,15 @@ internal class GetEventsRequestBuilder : IBuilderForPage, IBuilderForPageSize, I
             {
                 Page = this.page,
                 PageSize = this.pageSize,
+                Order = this.order,
             });
+
+    /// <inheritdoc />
+    public IVonageRequestBuilder<GetEventsRequest> OrderByDescending()
+    {
+        this.order = FetchOrder.Descending;
+        return this;
+    }
 
     /// <inheritdoc />
     public IBuilderForPageSize WithPage(int value)
@@ -25,7 +34,7 @@ internal class GetEventsRequestBuilder : IBuilderForPage, IBuilderForPageSize, I
     }
 
     /// <inheritdoc />
-    public IVonageRequestBuilder<GetEventsRequest> WithPageSize(int value)
+    public IBuilderForOrder WithPageSize(int value)
     {
         this.pageSize = value;
         return this;
@@ -55,5 +64,17 @@ public interface IBuilderForPageSize
     /// </summary>
     /// <param name="value">The page size.</param>
     /// <returns>The builder.</returns>
-    IVonageRequestBuilder<GetEventsRequest> WithPageSize(int value);
+    IBuilderForOrder WithPageSize(int value);
+}
+
+/// <summary>
+///     Represents a builder for Order.
+/// </summary>
+public interface IBuilderForOrder : IVonageRequestBuilder<GetEventsRequest>
+{
+    /// <summary>
+    ///     Sets the order to Descending on the builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    IVonageRequestBuilder<GetEventsRequest> OrderByDescending();
 }
