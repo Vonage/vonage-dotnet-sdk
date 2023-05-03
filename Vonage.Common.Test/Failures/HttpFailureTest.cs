@@ -20,9 +20,8 @@ namespace Vonage.Common.Test.Failures
         [Fact]
         public void ToException_ShouldReturnVonageException()
         {
-            Action act = () =>
-                throw HttpFailure.From(HttpStatusCode.NotFound, "Some message", "json data").ToException();
-            var exception = act.Should().ThrowExactly<VonageHttpRequestException>().Which;
+            var exception = HttpFailure.From(HttpStatusCode.NotFound, "Some message", "json data").ToException()
+                .Should().BeOfType<VonageHttpRequestException>().Which;
             exception.Message.Should().Be("Some message");
             exception.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
             exception.Json.Should().Be("json data");

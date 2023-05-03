@@ -12,11 +12,11 @@ namespace Vonage.Common.Test.Failures
             ResultFailure.FromErrorMessage("Some error.").GetFailureMessage().Should().Be("Some error.");
 
         [Fact]
-        public void ToException_ShouldReturnVonageException()
-        {
-            Action act = () => throw ResultFailure.FromErrorMessage("Some error.").ToException();
-            act.Should().ThrowExactly<VonageException>().WithMessage("Some error.");
-        }
+        public void ToException_ShouldReturnVonageException() =>
+            ResultFailure.FromErrorMessage("Some error.").ToException()
+                .Should()
+                .BeOfType<VonageException>()
+                .Which.Message.Should().Be("Some error.");
 
         [Fact]
         public void ToResult_ShouldReturnFailure() =>

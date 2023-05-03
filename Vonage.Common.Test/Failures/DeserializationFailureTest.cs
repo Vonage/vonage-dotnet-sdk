@@ -14,10 +14,9 @@ public class DeserializationFailureTest
     [Fact]
     public void ToException_ShouldReturnVonageException()
     {
-        Action act = () =>
-            throw DeserializationFailure.From(typeof(DeserializationFailureTest), "serialized text").ToException();
-        act.Should().ThrowExactly<VonageHttpRequestException>()
-            .WithMessage("Unable to deserialize 'serialized text' into 'DeserializationFailureTest'.")
-            .And.Json.Should().Be("serialized text");
+        var exception = DeserializationFailure.From(typeof(DeserializationFailureTest), "serialized text").ToException()
+            .Should().BeOfType<VonageHttpRequestException>().Which;
+        exception.Message.Should().Be("Unable to deserialize 'serialized text' into 'DeserializationFailureTest'.");
+        exception.Json.Should().Be("serialized text");
     }
 }
