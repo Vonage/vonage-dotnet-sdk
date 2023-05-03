@@ -5,7 +5,7 @@ on:
 jobs:
   coreSDK:
     runs-on: ubuntu-latest
-    if: contains(github.event.release.target_commitish, 'release/core/')
+    if: !contains(github.event.release.target_commitish, 'release/video/')
     steps:
       - uses: actions/checkout@v2
         with:
