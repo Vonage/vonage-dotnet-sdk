@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
-using Vonage.Common.Monads.Exceptions;
 using Vonage.Common.Test.Extensions;
 
 namespace Vonage.Common.Test.Monads
@@ -106,18 +105,6 @@ namespace Vonage.Common.Test.Monads
         }
 
         [Fact]
-        public void GetFailureUnsafe_ShouldReturnFailure_GivenFailure() =>
-            CreateFailure().GetFailureUnsafe().Should().Be(CreateResultFailure());
-
-        [Fact]
-        public void GetFailureUnsafe_ShouldThrowException_GivenSuccess()
-        {
-            Action act = () => CreateSuccess(5).GetFailureUnsafe();
-            act.Should().Throw<SuccessStateException<int>>().WithMessage("State is Success.")
-                .Which.Success.Should().Be(5);
-        }
-
-        [Fact]
         public void GetHashCode_ShouldReturnValue_GivenFailure()
         {
             const int value = 35;
@@ -136,12 +123,13 @@ namespace Vonage.Common.Test.Monads
             CreateSuccess(5).GetSuccessUnsafe().Should().Be(5);
 
         [Fact]
-        public void GetSuccessUnsafe_ShouldThrowException_GivenFailure()
+        public void GetSuccessUnsafe_ShouldThrowResultException_GivenFailure()
         {
+            var expectedException = CreateResultFailure().ToException();
             Action act = () => CreateFailure().GetSuccessUnsafe();
-            act.Should().Throw<FailureStateException>()
-                .WithMessage("State is Failure.")
-                .Which.Failure.Should().Be(CreateResultFailure());
+            var exception = act.Should().Throw<Exception>().Which;
+            exception.Should().BeOfType(expectedException.GetType());
+            exception.Message.Should().Be(expectedException.Message);
         }
 
         [Fact]
