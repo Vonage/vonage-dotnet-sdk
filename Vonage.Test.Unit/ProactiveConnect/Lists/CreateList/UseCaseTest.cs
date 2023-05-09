@@ -8,6 +8,7 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.CreateList;
@@ -15,7 +16,7 @@ using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<List>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).CreateListAsync(this.request);

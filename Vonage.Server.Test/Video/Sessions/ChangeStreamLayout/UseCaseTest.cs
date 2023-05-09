@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Sessions.ChangeStreamLayout;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sessions.ChangeStreamLayout
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
             configuration => new SessionClient(configuration).ChangeStreamLayoutAsync(this.request);

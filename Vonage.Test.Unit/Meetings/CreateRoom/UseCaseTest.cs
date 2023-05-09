@@ -9,13 +9,14 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.CreateRoom;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.CreateRoom
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Room>>> Operation =>
             configuration => MeetingsClientFactory.Create(configuration).CreateRoomAsync(this.request);

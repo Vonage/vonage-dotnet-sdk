@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Events.GetEvents;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Events
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<PaginationResult<EmbeddedEvents>>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).GetEventsAsync(this.request);

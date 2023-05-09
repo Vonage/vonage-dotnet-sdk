@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Server.Video.Moderation;
 using Vonage.Server.Video.Moderation.MuteStream;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Moderation.MuteStream
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<MuteStreamResponse>>> Operation =>
             configuration => new ModerationClient(configuration).MuteStreamAsync(this.request);

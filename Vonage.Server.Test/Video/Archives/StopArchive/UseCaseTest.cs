@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.StopArchive;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.StopArchive
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Archive>>> Operation =>
             configuration => new ArchiveClient(configuration).StopArchiveAsync(this.request);

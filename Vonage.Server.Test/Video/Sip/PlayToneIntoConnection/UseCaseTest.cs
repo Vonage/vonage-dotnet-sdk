@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Server.Video.Sip;
 using Vonage.Server.Video.Sip.PlayToneIntoConnection;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sip.PlayToneIntoConnection
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
             configuration => new SipClient(configuration).PlayToneIntoConnectionAsync(this.request);

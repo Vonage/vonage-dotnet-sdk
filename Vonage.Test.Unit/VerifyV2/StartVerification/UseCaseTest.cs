@@ -9,6 +9,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.VerifyV2;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Email;
@@ -16,7 +17,7 @@ using Xunit;
 
 namespace Vonage.Test.Unit.VerifyV2.StartVerification
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<StartVerificationResponse>>> Operation =>
             configuration => new VerifyV2Client(configuration).StartVerificationAsync(this.request);
@@ -45,6 +46,10 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                     StartVerificationResponse>(
                     (configuration, failureRequest) =>
                         new VerifyV2Client(configuration).StartVerificationAsync(failureRequest));
+
+        [Fact]
+        public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
+            await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
