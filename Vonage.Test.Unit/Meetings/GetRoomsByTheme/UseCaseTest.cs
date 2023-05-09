@@ -9,13 +9,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Meetings;
 using Vonage.Meetings.GetRoomsByTheme;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<GetRoomsByThemeResponse>>> Operation =>
             configuration => MeetingsClientFactory.Create(configuration).GetRoomsByThemeAsync(this.request);

@@ -9,13 +9,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Meetings;
 using Vonage.Meetings.UpdateApplication;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateApplication
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<UpdateApplicationResponse>>> Operation =>
             configuration => MeetingsClientFactory.Create(configuration).UpdateApplicationAsync(this.request);

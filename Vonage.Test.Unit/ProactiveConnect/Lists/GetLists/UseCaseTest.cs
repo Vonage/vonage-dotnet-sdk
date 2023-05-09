@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Lists.GetLists;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<PaginationResult<EmbeddedLists>>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).GetListsAsync(this.request);

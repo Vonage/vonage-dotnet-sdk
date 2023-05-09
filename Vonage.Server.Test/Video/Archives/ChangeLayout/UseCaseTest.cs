@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Archives.ChangeLayout;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.ChangeLayout
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
             configuration => new ArchiveClient(configuration).ChangeLayoutAsync(this.request);

@@ -8,6 +8,7 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Items;
 using Vonage.ProactiveConnect.Items.GetItem;
@@ -15,7 +16,7 @@ using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<ListItem>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).GetItemAsync(this.request);

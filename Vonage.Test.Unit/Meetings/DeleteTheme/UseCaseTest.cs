@@ -8,12 +8,13 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Meetings.DeleteTheme;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.DeleteTheme
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Common.Monads.Unit>>> Operation =>
             configuration => MeetingsClientFactory.Create(configuration).DeleteThemeAsync(this.request);

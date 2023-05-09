@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Server.Video.Moderation;
 using Vonage.Server.Video.Moderation.DisconnectConnection;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Moderation.DisconnectConnection
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
             configuration => new ModerationClient(configuration).DisconnectConnectionAsync(this.request);

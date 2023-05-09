@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Lists.DeleteList;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Lists.DeleteList
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Common.Monads.Unit>>> Operation =>
             configuration => new ProactiveConnectClient(configuration).DeleteListAsync(this.request);

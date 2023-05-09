@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Server.Video.Broadcast;
 using Vonage.Server.Video.Broadcast.AddStreamToBroadcast;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Broadcast.AddStreamToBroadcast
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Unit>>> Operation =>
             configuration => new BroadcastClient(configuration).AddStreamToBroadcastAsync(this.request);

@@ -8,13 +8,14 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Sessions.GetStreams;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sessions.GetStreams
 {
-    public class UseCaseTest : BaseUseCase
+    public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<GetStreamsResponse>>> Operation =>
             configuration => new SessionClient(configuration).GetStreamsAsync(this.request);
