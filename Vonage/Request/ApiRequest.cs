@@ -107,11 +107,8 @@ internal partial class ApiRequest
     /// <returns></returns>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public static async Task<T> DoPostRequestUrlContentFromObjectAsync<T>(Uri uri, object parameters,
-        Credentials creds = null, bool withCredentials = true)
-    {
-        var apiParams = GetParameters(parameters);
-        return await DoPostRequestWithUrlContentAsync<T>(uri, apiParams, creds, withCredentials);
-    }
+        Credentials creds = null, bool withCredentials = true) =>
+        await DoPostRequestWithUrlContentAsync<T>(uri, GetParameters(parameters), creds, withCredentials);
 
     /// <summary>
     ///     SendAsync a request to the versioned Vonage API.
@@ -132,21 +129,14 @@ internal partial class ApiRequest
 
     public static Uri GetBaseUri(UriType uriType, string url = null)
     {
-        Uri baseUri;
-        switch (uriType)
+        var baseUri = uriType switch
         {
-            case UriType.Api:
-                baseUri = new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Api"] ??
-                                  throw new ArgumentException("Uri 'appSettings:Vonage.Url.Api' is empty."));
-                break;
-            case UriType.Rest:
-                baseUri = new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"] ??
-                                  throw new ArgumentException("Uri 'appSettings:Vonage.Url.Rest' is empty."));
-                break;
-            default:
-                throw new Exception("Unknown Uri Type Detected");
-        }
-
+            UriType.Api => new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Api"] ??
+                                   throw new ArgumentException("Uri 'appSettings:Vonage.Url.Api' is empty.")),
+            UriType.Rest => new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"] ??
+                                    throw new ArgumentException("Uri 'appSettings:Vonage.Url.Rest' is empty.")),
+            _ => throw new Exception("Unknown Uri Type Detected"),
+        };
         return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
     }
 
@@ -288,9 +278,7 @@ internal partial class ApiRequest
     private static StringBuilder GetQueryStringBuilderFor(object parameters, AuthType type,
         Credentials creds = null, bool withCredentials = true)
     {
-        var apiParams = parameters is not Dictionary<string, string> dictionary
-            ? GetParameters(parameters)
-            : dictionary;
+        var apiParams = parameters as Dictionary<string, string> ?? GetParameters(parameters);
         var sb = new StringBuilder();
         if (type == AuthType.Query)
         {
@@ -329,20 +317,27 @@ internal partial class ApiRequest
             Method = HttpMethod.Get,
         };
         SetUserAgent(ref req, creds);
-        if (authType == AuthType.Basic)
+        switch (authType)
         {
-            if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
+            case AuthType.Basic when string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret):
                 throw VonageAuthenticationException.FromMissingApiKeyOrSecret();
-            var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
-            req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
-                Convert.ToBase64String(authBytes));
-        }
-        else if (authType == AuthType.Bearer)
-        {
-            if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath))
+            case AuthType.Basic:
+            {
+                var authBytes = Encoding.UTF8.GetBytes(apiKey + ":" + apiSecret);
+                req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(authBytes));
+                break;
+            }
+            case AuthType.Bearer when string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath):
                 throw VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();
-            req.Headers.Authorization = new AuthenticationHeaderValue("Bearer",
-                Jwt.CreateToken(appId, appKeyPath));
+            case AuthType.Bearer:
+                req.Headers.Authorization = new AuthenticationHeaderValue("Bearer",
+                    Jwt.CreateToken(appId, appKeyPath));
+                break;
+            case AuthType.Query:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(authType), authType, null);
         }
 
         logger.LogDebug("GET {Uri}", uri);
@@ -424,9 +419,19 @@ internal partial class ApiRequest
         request.Headers.UserAgent.ParseAdd(_userAgent);
     }
 
+    /// <summary>
+    ///     Type of the Uri.
+    /// </summary>
     public enum UriType
     {
+        /// <summary>
+        ///     Api uri type.
+        /// </summary>
         Api,
+
+        /// <summary>
+        ///     Rest uri type.
+        /// </summary>
         Rest,
     }
 
