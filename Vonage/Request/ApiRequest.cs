@@ -42,7 +42,7 @@ internal partial class ApiRequest
         await DoRequestWithUrlContentAsync("DELETE", uri, parameters, authType, creds);
 
     /// <summary>
-    ///     Sends a GET request to the Vonage API using a JWT and returns the full HTTP resonse message
+    ///     Sends a GET request to the Vonage API using a JWT and returns the full HTTP response message
     ///     this is primarily for pulling a raw stream off an API call -e.g. a recording
     /// </summary>
     /// <param name="uri"></param>
@@ -176,7 +176,7 @@ internal partial class ApiRequest
         {
             foreach (var kvp in param)
             {
-                //Special Case for ids from MessagesSearch API which needs a sereies of ID's with unescaped &/=
+                //Special Case for ids from MessagesSearch API which needs a series of ID's with unescaped &/=
                 strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key),
                     kvp.Key == "ids" ? kvp.Value : WebUtility.UrlEncode(kvp.Value));
             }
@@ -478,7 +478,7 @@ internal partial class ApiRequest
                 req.RequestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
                 break;
             default:
-                throw new ArgumentException("Unkown Auth Type set for function");
+                throw new ArgumentException("Unknown Auth Type set for function");
         }
 
         var json = payloadSerialization(payload);
