@@ -52,7 +52,7 @@ public class Jwt : ITokenGenerator
     /// <exception cref="VonageAuthenticationException">When the private key is null or whitespace.</exception>
     protected static string CreateTokenWithClaims(string appId, string privateKey, Dictionary<string, object> claims)
     {
-        if (string.IsNullOrWhiteSpace(privateKey))
+        if (string.IsNullOrWhiteSpace(appId) || string.IsNullOrWhiteSpace(privateKey))
         {
             throw VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();
         }
