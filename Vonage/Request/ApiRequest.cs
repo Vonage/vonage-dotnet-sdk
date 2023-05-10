@@ -25,8 +25,8 @@ namespace Vonage.Request;
 internal partial class ApiRequest
 {
     private const string LoggerCategory = "Vonage.Request.ApiRequest";
-
     private static string _userAgent;
+    private static readonly ILogger Logger = LogProvider.GetLogger(LoggerCategory);
 
     /// <summary>
     ///     Sends an HTTP DELETE
@@ -51,19 +51,16 @@ internal partial class ApiRequest
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public static async Task<HttpResponseMessage> DoGetRequestWithJwtAsync(Uri uri, Credentials creds)
     {
-        var logger = LogProvider.GetLogger(LoggerCategory);
-        var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Vonage.Application.Id"];
-        var appKeyPath = creds?.ApplicationKey ??
-                         Configuration.Instance.Settings["appSettings:Vonage.Application.Key"];
+        var appId = creds?.ApplicationId ?? Configuration.Instance.ApplicationId;
+        var appKeyPath = creds?.ApplicationKey ?? Configuration.Instance.ApplicationKey;
         var req = new HttpRequestMessage
         {
             RequestUri = uri,
             Method = HttpMethod.Get,
         };
         SetUserAgent(ref req, creds);
-        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer",
-            Jwt.CreateToken(appId, appKeyPath));
-        logger.LogDebug("GET {Uri}", uri);
+        req.Headers.Authorization = BuildBearerAuthentication(appId, appKeyPath);
+        Logger.LogDebug("GET {Uri}", uri);
         var result = await Configuration.Instance.Client.SendAsync(req);
         try
         {
@@ -72,7 +69,7 @@ internal partial class ApiRequest
         }
         catch (HttpRequestException ex)
         {
-            logger.LogError("FAIL: {StatusCode}", result.StatusCode);
+            Logger.LogError("FAIL: {StatusCode}", result.StatusCode);
             throw new VonageHttpRequestException(ex) {HttpStatusCode = result.StatusCode};
         }
     }
@@ -140,6 +137,10 @@ internal partial class ApiRequest
         return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
     }
 
+    private static AuthenticationHeaderValue
+        BuildBearerAuthentication(string applicationId, string applicationKeyPath) =>
+        new("Bearer", Jwt.CreateToken(applicationId, applicationKeyPath));
+
     /// <summary>
     ///     Builds a query string for a get request - if there is a security secret a signature is built for the request and
     ///     added to the query string
@@ -151,10 +152,9 @@ internal partial class ApiRequest
     private static StringBuilder BuildQueryString(IDictionary<string, string> parameters, Credentials creds = null,
         bool withCredentials = true)
     {
-        var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
-        var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Vonage_secret"];
-        var securitySecret = creds?.SecuritySecret ??
-                             Configuration.Instance.Settings["appSettings:Vonage.security_secret"];
+        var apiKey = creds?.ApiKey ?? Configuration.Instance.ApiKey;
+        var apiSecret = creds?.ApiSecret ?? Configuration.Instance.ApiSecret;
+        var securitySecret = creds?.SecuritySecret ?? Configuration.Instance.SecuritySecret;
         SmsSignatureGenerator.Method method;
         if (creds?.Method != null)
         {
@@ -233,7 +233,6 @@ internal partial class ApiRequest
         Dictionary<string, string> parameters, AuthType authType = AuthType.Query, Credentials creds = null,
         bool withCredentials = true)
     {
-        var logger = LogProvider.GetLogger(LoggerCategory);
         var sb = new StringBuilder();
 
         // if parameters is null, assume that key and secret have been taken care of            
@@ -260,7 +259,7 @@ internal partial class ApiRequest
         var data = Encoding.ASCII.GetBytes(sb.ToString());
         req.Content = new ByteArrayContent(data);
         req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-        logger.LogDebug("{Method} {Uri} {StringBuilder}", method, uri, sb);
+        Logger.LogDebug("{Method} {Uri} {StringBuilder}", method, uri, sb);
         return await SendHttpRequestAsync(req);
     }
 
@@ -305,7 +304,6 @@ internal partial class ApiRequest
     /// <exception cref="VonageHttpRequestException">Thrown if the API encounters a non-zero result</exception>
     private static async Task<T> SendGetRequestAsync<T>(Uri uri, AuthType authType, Credentials creds)
     {
-        var logger = LogProvider.GetLogger(LoggerCategory);
         var appId = creds?.ApplicationId ?? Configuration.Instance.Settings["appSettings:Vonage.Application.Id"];
         var appKeyPath = creds?.ApplicationKey ??
                          Configuration.Instance.Settings["appSettings:Vonage.Application.Key"];
@@ -331,8 +329,7 @@ internal partial class ApiRequest
             case AuthType.Bearer when string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath):
                 throw VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();
             case AuthType.Bearer:
-                req.Headers.Authorization = new AuthenticationHeaderValue("Bearer",
-                    Jwt.CreateToken(appId, appKeyPath));
+                req.Headers.Authorization = BuildBearerAuthentication(appId, appKeyPath);
                 break;
             case AuthType.Query:
                 break;
@@ -340,14 +337,13 @@ internal partial class ApiRequest
                 throw new ArgumentOutOfRangeException(nameof(authType), authType, null);
         }
 
-        logger.LogDebug("GET {Uri}", uri);
+        Logger.LogDebug("GET {Uri}", uri);
         var json = (await SendHttpRequestAsync(req)).JsonResponse;
         return JsonConvert.DeserializeObject<T>(json);
     }
 
     private static async Task<VonageResponse> SendHttpRequestAsync(HttpRequestMessage req)
     {
-        var logger = LogProvider.GetLogger(LoggerCategory);
         var response = await Configuration.Instance.Client.SendAsync(req).ConfigureAwait(false);
         var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
         string json;
@@ -358,7 +354,7 @@ internal partial class ApiRequest
 
         try
         {
-            logger.LogDebug("{Json}", json);
+            Logger.LogDebug("{Json}", json);
             response.EnsureSuccessStatusCode();
             return new VonageResponse
             {
@@ -368,7 +364,7 @@ internal partial class ApiRequest
         }
         catch (HttpRequestException exception)
         {
-            logger.LogError("FAIL: {StatusCode}", response.StatusCode);
+            Logger.LogError("FAIL: {StatusCode}", response.StatusCode);
             throw new VonageHttpRequestException(exception.Message + " Json from error: " + json)
             {
                 HttpStatusCode = response.StatusCode,
@@ -457,7 +453,6 @@ internal partial class ApiRequest
                          Configuration.Instance.Settings["appSettings:Vonage.Application.Key"];
         var apiKey = (creds?.ApiKey ?? Configuration.Instance.Settings["appSettings:Vonage_key"])?.ToLower();
         var apiSecret = creds?.ApiSecret ?? Configuration.Instance.Settings["appSettings:Vonage_secret"];
-        var logger = LogProvider.GetLogger(LoggerCategory);
         var req = new HttpRequestMessage
         {
             RequestUri = uri,
@@ -476,10 +471,7 @@ internal partial class ApiRequest
             case AuthType.Bearer:
                 if (string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(appKeyPath))
                     throw VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();
-
-                // attempt bearer token auth
-                req.Headers.Authorization = new AuthenticationHeaderValue("Bearer",
-                    Jwt.CreateToken(appId, appKeyPath));
+                req.Headers.Authorization = BuildBearerAuthentication(appId, appKeyPath);
                 break;
             case AuthType.Query:
                 var sb = BuildQueryString(new Dictionary<string, string>(), creds);
@@ -490,8 +482,8 @@ internal partial class ApiRequest
         }
 
         var json = payloadSerialization(payload);
-        logger.LogDebug("Request URI: {Uri}", uri);
-        logger.LogDebug("JSON Payload: {Json}", json);
+        Logger.LogDebug("Request URI: {Uri}", uri);
+        Logger.LogDebug("JSON Payload: {Json}", json);
         var data = Encoding.UTF8.GetBytes(json);
         req.Content = new ByteArrayContent(data);
         req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");

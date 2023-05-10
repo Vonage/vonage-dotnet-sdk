@@ -82,6 +82,16 @@ public sealed class Configuration
     public string ApiSecret => this.Settings["appSettings:Vonage_secret"] ?? string.Empty;
 
     /// <summary>
+    ///     Retrieves the Application Id.
+    /// </summary>
+    public string ApplicationId => this.Settings["appSettings:Vonage.Application.Id"] ?? string.Empty;
+
+    /// <summary>
+    ///     Retrieves the Application Key.
+    /// </summary>
+    public string ApplicationKey => this.Settings["appSettings:Vonage.Application.Key"] ?? string.Empty;
+
+    /// <summary>
     ///     Retrieves a configured HttpClient.
     /// </summary>
     public HttpClient Client =>
@@ -109,6 +119,11 @@ public sealed class Configuration
     ///     Retrieves the Nexmo Api Url.
     /// </summary>
     public Uri NexmoApiUrl => new(this.Settings["appSettings:Vonage.Url.Api"] ?? string.Empty);
+
+    /// <summary>
+    ///     Retrieves the Security Secret.
+    /// </summary>
+    public string SecuritySecret => this.Settings["appSettings:Vonage.security_secret"] ?? string.Empty;
 
     /// <summary>
     ///     Exposes the configuration's content.
