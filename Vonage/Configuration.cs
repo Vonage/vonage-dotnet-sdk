@@ -141,6 +141,11 @@ public sealed class Configuration
     public string SigningMethod => this.Settings["appSettings:Vonage.signing_method"] ?? string.Empty;
 
     /// <summary>
+    ///     Retrieves the User Agent.
+    /// </summary>
+    public string UserAgent => this.Settings["appSettings:Vonage.UserAgent"] ?? string.Empty;
+
+    /// <summary>
     ///     Retrieves the Video Api Url.
     /// </summary>
     public Uri VideoApiUrl => new(this.Settings["appSettings:Vonage.Video.Url.Api"] ?? string.Empty);

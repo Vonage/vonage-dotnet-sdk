@@ -5,12 +5,11 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Vonage.Common.Client;
 using Vonage.Common.Exceptions;
 using Vonage.Cryptography;
 using Vonage.Logger;
@@ -307,6 +306,9 @@ internal partial class ApiRequest
         return sb;
     }
 
+    private static string GetUserAgent(Credentials credentials) =>
+        credentials?.AppUserAgent ?? Configuration.Instance.UserAgent;
+
     /// <summary>
     ///     Sends an HTTP GET request to the Vonage API without any additional parameters
     /// </summary>
@@ -383,35 +385,7 @@ internal partial class ApiRequest
     {
         if (string.IsNullOrEmpty(_userAgent))
         {
-#if NETSTANDARD1_6 || NETSTANDARD2_0 || NETSTANDARD2_1
-
-            // TODO: watch the next core release; may have functionality to make this cleaner
-            var languageVersion = RuntimeInformation.FrameworkDescription
-                    .Replace(" ", "")
-                    .Replace("/", "")
-                    .Replace(":", "")
-                    .Replace(";", "")
-                    .Replace("_", "")
-                    .Replace("(", "")
-                    .Replace(")", "")
-                ;
-#else
-                var languageVersion = System.Diagnostics.FileVersionInfo
-                    .GetVersionInfo(typeof(int).Assembly.Location)
-                    .ProductVersion;
-#endif
-            var libraryVersion = typeof(ApiRequest)
-                .GetTypeInfo()
-                .Assembly
-                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-                .InformationalVersion;
-            _userAgent = $"vonage-dotnet/{libraryVersion} dotnet/{languageVersion}";
-            var appVersion = credentials?.AppUserAgent ??
-                             Configuration.Instance.Settings["appSettings:Vonage.UserAgent"];
-            if (!string.IsNullOrWhiteSpace(appVersion))
-            {
-                _userAgent += $" {appVersion}";
-            }
+            _userAgent = UserAgentProvider.GetFormattedUserAgent(GetUserAgent(credentials));
         }
 
         request.Headers.UserAgent.ParseAdd(_userAgent);
