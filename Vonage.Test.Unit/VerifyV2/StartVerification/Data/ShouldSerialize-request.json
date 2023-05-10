@@ -9,5 +9,6 @@
       "channel": "email",
       "to": "alice@company.com"
     }
-  ]
+  ],
+  "fraud_check": false
 }

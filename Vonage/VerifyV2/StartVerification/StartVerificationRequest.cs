@@ -37,6 +37,11 @@ public readonly struct StartVerificationRequest : IStartVerificationRequest
     public int CodeLength { get; internal init; }
 
     /// <summary>
+    ///     Indicates if the request goes though a network block for Fraud Check.
+    /// </summary>
+    public bool FraudCheck { get; internal init; }
+
+    /// <summary>
     ///     Gets the request language.
     /// </summary>
     public Locale Locale { get; internal init; }
@@ -87,6 +92,11 @@ public readonly struct StartVerificationRequest : IStartVerificationRequest
             .Select(workflow => workflow.Serialize(serializer))
             .Select(serializedString => serializer.DeserializeObject<dynamic>(serializedString))
             .Select(result => result.IfFailure(default)));
+        if (!this.FraudCheck)
+        {
+            values.Add("fraud_check", false);
+        }
+
         return new StringContent(serializer.SerializeObject(values), Encoding.UTF8, "application/json");
     }
 }

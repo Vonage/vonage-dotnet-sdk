@@ -12,6 +12,7 @@ internal class StartVerificationRequestBuilder :
     IBuilderForBrand,
     IBuilderForWorkflow
 {
+    private bool fraudCheck = true;
     private int channelTimeout = 300;
     private int codeLength = 4;
     private readonly List<IVerificationWorkflow> workflows = new();
@@ -33,6 +34,7 @@ internal class StartVerificationRequestBuilder :
                     ClientReference = this.clientReference,
                     CodeLength = this.codeLength,
                     Workflows = this.workflows.ToArray(),
+                    FraudCheck = this.fraudCheck,
                 }))
             .Bind(VerifyWorkflowsNotEmpty)
             .Bind(VerifyBrandNotEmpty)
@@ -40,6 +42,13 @@ internal class StartVerificationRequestBuilder :
             .Bind(VerifyChannelTimeoutLowerThanMaximum)
             .Bind(VerifyCodeLengthHigherThanMinimum)
             .Bind(VerifyCodeLengthLowerThanMaximum);
+
+    /// <inheritdoc />
+    public IOptionalBuilder SkipFraudCheck()
+    {
+        this.fraudCheck = false;
+        return this;
+    }
 
     /// <inheritdoc />
     public IBuilderForWorkflow WithBrand(string value)
@@ -203,6 +212,18 @@ public interface IOptionalBuilderForFallbackWorkflow
 }
 
 /// <summary>
+///     Represents a builder for SkipFraudCheck.
+/// </summary>
+public interface IOptionalBuilderForSkipFraudCheck
+{
+    /// <summary>
+    ///     Sets a fallback workflow.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    IOptionalBuilder SkipFraudCheck();
+}
+
+/// <summary>
 ///     Represents a builder for Brand.
 /// </summary>
 public interface IBuilderForBrand
@@ -237,6 +258,7 @@ public interface IOptionalBuilder :
     IOptionalOptionalBuilderForChannelTimeout,
     IOptionalOptionalBuilderForClientReference,
     IOptionalBuilderForCodeLength,
-    IOptionalBuilderForFallbackWorkflow
+    IOptionalBuilderForFallbackWorkflow,
+    IOptionalBuilderForSkipFraudCheck
 {
 }
