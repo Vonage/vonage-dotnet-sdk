@@ -58,7 +58,7 @@ internal partial class ApiRequest
         };
         SetUserAgent(ref req, credentials);
         req.Headers.Authorization =
-            BuildBearerAuthentication(GetApplicationId(credentials), GetApplicationKey(credentials));
+            BuildBearerAuth(GetApplicationId(credentials), GetApplicationKey(credentials));
         Logger.LogDebug("GET {Uri}", uri);
         var result = await Configuration.Instance.Client.SendAsync(req);
         try
@@ -123,24 +123,29 @@ internal partial class ApiRequest
             value => JsonConvert.SerializeObject(value, VonageSerialization.SerializerSettings),
             JsonConvert.DeserializeObject<T>);
 
-    public static Uri GetBaseUri(UriType uriType, string url = null)
-    {
-        var baseUri = uriType switch
+    public static Uri GetBaseUri(UriType uriType, string url = null) =>
+        string.IsNullOrEmpty(url) ? BuildBaseUri(uriType) : new Uri(BuildBaseUri(uriType), url);
+
+    private static Uri BuildBaseUri(UriType uriType) =>
+        uriType switch
         {
-            UriType.Api => new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Api"] ??
-                                   throw new ArgumentException("Uri 'appSettings:Vonage.Url.Api' is empty.")),
-            UriType.Rest => new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"] ??
-                                    throw new ArgumentException("Uri 'appSettings:Vonage.Url.Rest' is empty.")),
+            UriType.Api => Configuration.Instance.NexmoApiUrl,
+            UriType.Rest => Configuration.Instance.RestApiUrl,
             _ => throw new Exception("Unknown Uri Type Detected"),
         };
-        return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
+
+    private static AuthenticationHeaderValue BuildBasicAuth(string apikey, string apiSecret)
+    {
+        if (string.IsNullOrEmpty(apikey) || string.IsNullOrEmpty(apiSecret))
+        {
+            throw VonageAuthenticationException.FromMissingApiKeyOrSecret();
+        }
+
+        return new AuthenticationHeaderValue("Basic",
+            Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apikey} : {apiSecret}")));
     }
 
-    private static AuthenticationHeaderValue BuildBasicAuth(string apikey, string apiSecret) =>
-        new("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apikey} : {apiSecret}")));
-
-    private static AuthenticationHeaderValue
-        BuildBearerAuthentication(string applicationId, string applicationKeyPath) =>
+    private static AuthenticationHeaderValue BuildBearerAuth(string applicationId, string applicationKeyPath) =>
         new("Bearer", Jwt.CreateToken(applicationId, applicationKeyPath));
 
     /// <summary>
@@ -161,7 +166,7 @@ internal partial class ApiRequest
         {
             method = credentials.Method;
         }
-        else if (Enum.TryParse(Configuration.Instance.Settings["appSettings:Vonage.signing_method"], out method))
+        else if (Enum.TryParse(Configuration.Instance.SigningMethod, out method))
         {
             //left blank intentionally
         }
@@ -325,7 +330,7 @@ internal partial class ApiRequest
                 break;
             case AuthType.Bearer:
                 req.Headers.Authorization =
-                    BuildBearerAuthentication(GetApplicationId(credentials), GetApplicationKey(credentials));
+                    BuildBearerAuth(GetApplicationId(credentials), GetApplicationKey(credentials));
                 break;
             case AuthType.Query:
                 break;
@@ -434,12 +439,8 @@ internal partial class ApiRequest
     /// <param name="component"></param>
     /// <param name="url"></param>
     /// <returns></returns>
-    internal static Uri GetBaseUriFor(string url = null)
-    {
-        var baseUri = new Uri(Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"] ??
-                              throw new ArgumentException("Uri 'appSettings:Vonage.Url.Rest' is empty."));
-        return string.IsNullOrEmpty(url) ? baseUri : new Uri(baseUri, url);
-    }
+    internal static Uri GetBaseUriFor(string url = null) =>
+        string.IsNullOrEmpty(url) ? Configuration.Instance.RestApiUrl : new Uri(Configuration.Instance.RestApiUrl, url);
 
     internal static async Task<T> DoRequestWithJsonContentAsync<T>(string method, Uri uri, object payload,
         AuthType authType, Credentials credentials, Func<object, string> payloadSerialization,
@@ -454,15 +455,11 @@ internal partial class ApiRequest
         switch (authType)
         {
             case AuthType.Basic:
-                if (string.IsNullOrEmpty(GetApiKey(credentials)) || string.IsNullOrEmpty(GetApiSecret(credentials)))
-                    throw VonageAuthenticationException.FromMissingApiKeyOrSecret();
-                var authBytes = Encoding.UTF8.GetBytes(GetApiKey(credentials) + ":" + GetApiSecret(credentials));
-                req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
-                    Convert.ToBase64String(authBytes));
+                req.Headers.Authorization = BuildBasicAuth(GetApiKey(credentials), GetApiSecret(credentials));
                 break;
             case AuthType.Bearer:
                 req.Headers.Authorization =
-                    BuildBearerAuthentication(GetApplicationId(credentials), GetApplicationKey(credentials));
+                    BuildBearerAuth(GetApplicationId(credentials), GetApplicationKey(credentials));
                 break;
             case AuthType.Query:
                 var sb = BuildQueryString(new Dictionary<string, string>(), credentials);

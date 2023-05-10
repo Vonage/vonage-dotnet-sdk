@@ -121,6 +121,11 @@ public sealed class Configuration
     public Uri NexmoApiUrl => new(this.Settings["appSettings:Vonage.Url.Api"] ?? string.Empty);
 
     /// <summary>
+    ///     Retrieves the Rest Api Url.
+    /// </summary>
+    public Uri RestApiUrl => new(this.Settings["appSettings:Vonage.Url.Rest"] ?? string.Empty);
+
+    /// <summary>
     ///     Retrieves the Security Secret.
     /// </summary>
     public string SecuritySecret => this.Settings["appSettings:Vonage.security_secret"] ?? string.Empty;
@@ -129,6 +134,11 @@ public sealed class Configuration
     ///     Exposes the configuration's content.
     /// </summary>
     public IConfiguration Settings { get; }
+
+    /// <summary>
+    ///     Retrieves the SigningMethod.
+    /// </summary>
+    public string SigningMethod => this.Settings["appSettings:Vonage.signing_method"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the Video Api Url.
