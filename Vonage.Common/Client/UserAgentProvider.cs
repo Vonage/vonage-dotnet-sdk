@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace Vonage.Common.Client;
 
-internal static class UserAgentProvider
+public static class UserAgentProvider
 {
-    internal static string GetFormattedUserAgent(string userAgent)
+    public static string GetFormattedUserAgent(string userAgent)
     {
 #if NETSTANDARD1_6 || NETSTANDARD2_0 || NETSTANDARD2_1
         var languageVersion = RuntimeInformation.FrameworkDescription

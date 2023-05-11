@@ -82,6 +82,16 @@ public sealed class Configuration
     public string ApiSecret => this.Settings["appSettings:Vonage_secret"] ?? string.Empty;
 
     /// <summary>
+    ///     Retrieves the Application Id.
+    /// </summary>
+    public string ApplicationId => this.Settings["appSettings:Vonage.Application.Id"] ?? string.Empty;
+
+    /// <summary>
+    ///     Retrieves the Application Key.
+    /// </summary>
+    public string ApplicationKey => this.Settings["appSettings:Vonage.Application.Key"] ?? string.Empty;
+
+    /// <summary>
     ///     Retrieves a configured HttpClient.
     /// </summary>
     public HttpClient Client =>
@@ -111,9 +121,29 @@ public sealed class Configuration
     public Uri NexmoApiUrl => new(this.Settings["appSettings:Vonage.Url.Api"] ?? string.Empty);
 
     /// <summary>
+    ///     Retrieves the Rest Api Url.
+    /// </summary>
+    public Uri RestApiUrl => new(this.Settings["appSettings:Vonage.Url.Rest"] ?? string.Empty);
+
+    /// <summary>
+    ///     Retrieves the Security Secret.
+    /// </summary>
+    public string SecuritySecret => this.Settings["appSettings:Vonage.security_secret"] ?? string.Empty;
+
+    /// <summary>
     ///     Exposes the configuration's content.
     /// </summary>
     public IConfiguration Settings { get; }
+
+    /// <summary>
+    ///     Retrieves the SigningMethod.
+    /// </summary>
+    public string SigningMethod => this.Settings["appSettings:Vonage.signing_method"] ?? string.Empty;
+
+    /// <summary>
+    ///     Retrieves the User Agent.
+    /// </summary>
+    public string UserAgent => this.Settings["appSettings:Vonage.UserAgent"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the Video Api Url.
