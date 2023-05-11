@@ -7,6 +7,9 @@ using Vonage.Voice.Nccos.Endpoints;
 
 namespace Vonage.Voice;
 
+/// <summary>
+///     Represents a client to expose Voice capabilities.
+/// </summary>
 public interface IVoiceClient
 {
     /// <summary>
