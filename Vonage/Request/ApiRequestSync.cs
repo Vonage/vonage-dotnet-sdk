@@ -18,7 +18,7 @@ internal partial class ApiRequest
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public VonageResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters,
         AuthType authType = AuthType.Query) =>
-        ExecuteAsyncOperation(() => this.DoRequestWithUrlContentAsync("DELETE", uri, parameters, authType));
+        ExecuteAsyncOperation(() => this.DoRequestWithUrlContentAsync(HttpMethod.Delete, uri, parameters, authType));
 
     /// <summary>
     ///     Sends a GET request to the Vonage API using a JWT and returns the full HTTP resonse message
@@ -68,7 +68,7 @@ internal partial class ApiRequest
     /// <param name="authType">Authorization type used on the API</param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public T DoRequestWithJsonContent<T>(string method, Uri uri, object payload, AuthType authType) =>
+    public T DoRequestWithJsonContent<T>(HttpMethod method, Uri uri, object payload, AuthType authType) =>
         ExecuteAsyncOperation(() => this.DoRequestWithJsonContentAsync<T>(method, uri, payload, authType));
 
     private static T ExecuteAsyncOperation<T>(Func<Task<T>> operation)

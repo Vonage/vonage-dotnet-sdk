@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Exceptions;
@@ -12,16 +13,13 @@ namespace Vonage.Voice;
 public class VoiceClient : IVoiceClient
 {
     public const string CALLS_ENDPOINT = "v1/calls";
-    public const string DELETE = "DELETE";
-    public const string POST = "POST";
-    public const string PUT = "PUT";
     public Credentials Credentials { get; set; }
 
     public VoiceClient(Credentials credentials = null) => this.Credentials = credentials;
 
     public CallResponse CreateCall(CallCommand command, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallResponse>(
-            POST,
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
             AuthType.Bearer
@@ -45,7 +43,7 @@ public class VoiceClient : IVoiceClient
             Ncco = ncco,
         };
         return new ApiRequest(this.Credentials).DoRequestWithJsonContent<CallResponse>(
-            POST,
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
             AuthType.Bearer
@@ -67,7 +65,7 @@ public class VoiceClient : IVoiceClient
             Ncco = ncco,
         };
         return new ApiRequest(this.Credentials).DoRequestWithJsonContent<CallResponse>(
-            POST,
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
             AuthType.Bearer
@@ -83,7 +81,7 @@ public class VoiceClient : IVoiceClient
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null) =>
         new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallResponse>(
-            POST,
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
             AuthType.Bearer
@@ -114,7 +112,7 @@ public class VoiceClient : IVoiceClient
             Ncco = ncco,
         };
         return new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallResponse>(
-            POST,
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
             AuthType.Bearer
@@ -143,7 +141,7 @@ public class VoiceClient : IVoiceClient
             Ncco = ncco,
         };
         return new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallResponse>(
-            POST,
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
             AuthType.Bearer
@@ -238,7 +236,7 @@ public class VoiceClient : IVoiceClient
 
     public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
-            PUT,
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
             cmd,
             AuthType.Bearer
@@ -253,7 +251,7 @@ public class VoiceClient : IVoiceClient
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null) =>
         new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
-            PUT,
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
             cmd,
             AuthType.Bearer
@@ -261,7 +259,7 @@ public class VoiceClient : IVoiceClient
 
     public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
-            PUT,
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             command,
             AuthType.Bearer
@@ -276,7 +274,7 @@ public class VoiceClient : IVoiceClient
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public Task<CallCommandResponse> StartStreamAsync(string id, StreamCommand command, Credentials creds = null) =>
         new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
-            PUT,
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             command,
             AuthType.Bearer
@@ -284,7 +282,7 @@ public class VoiceClient : IVoiceClient
 
     public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
-            PUT,
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             cmd,
             AuthType.Bearer
@@ -299,7 +297,7 @@ public class VoiceClient : IVoiceClient
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public Task<CallCommandResponse> StartTalkAsync(string id, TalkCommand cmd, Credentials creds = null) =>
         new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
-            PUT,
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             cmd,
             AuthType.Bearer
@@ -307,7 +305,7 @@ public class VoiceClient : IVoiceClient
 
     public CallCommandResponse StopStream(string id, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
-            DELETE,
+            HttpMethod.Delete,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             new { },
             AuthType.Bearer
@@ -321,7 +319,7 @@ public class VoiceClient : IVoiceClient
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public Task<CallCommandResponse> StopStreamAsync(string id, Credentials creds = null) =>
         new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
-            DELETE,
+            HttpMethod.Delete,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             new { },
             AuthType.Bearer
@@ -329,7 +327,7 @@ public class VoiceClient : IVoiceClient
 
     public CallCommandResponse StopTalk(string id, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
-            DELETE,
+            HttpMethod.Delete,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             new { },
             AuthType.Bearer
@@ -343,7 +341,7 @@ public class VoiceClient : IVoiceClient
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public Task<CallCommandResponse> StopTalkAsync(string id, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
-            DELETE,
+            HttpMethod.Delete,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             new { },
             AuthType.Bearer
@@ -352,7 +350,7 @@ public class VoiceClient : IVoiceClient
     public bool UpdateCall(string id, CallEditCommand command, Credentials creds = null)
     {
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallRecord>(
-            PUT,
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
             command,
             AuthType.Bearer
@@ -370,7 +368,7 @@ public class VoiceClient : IVoiceClient
     public async Task<bool> UpdateCallAsync(string id, CallEditCommand command, Credentials creds = null)
     {
         await new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<CallRecord>(
-            PUT,
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
             command,
             AuthType.Bearer

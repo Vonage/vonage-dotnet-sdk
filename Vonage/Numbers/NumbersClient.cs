@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
 
@@ -115,7 +116,7 @@ public class NumbersClient : INumbersClient
     public NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey,
         Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<NumberTransferResponse>(
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
             request,
             AuthType.Basic
@@ -125,7 +126,7 @@ public class NumbersClient : INumbersClient
     public Task<NumberTransferResponse> TransferANumberAsync(NumberTransferRequest request, string apiKey,
         Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<NumberTransferResponse>(
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
             request,
             AuthType.Basic

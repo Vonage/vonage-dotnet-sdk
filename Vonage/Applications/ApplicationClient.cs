@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
 
@@ -11,7 +12,7 @@ public class ApplicationClient : IApplicationClient
 
     public Application CreateApplicaiton(CreateApplicationRequest request, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<Application>(
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             request,
             AuthType.Basic
@@ -19,7 +20,7 @@ public class ApplicationClient : IApplicationClient
 
     public Task<Application> CreateApplicaitonAsync(CreateApplicationRequest request, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<Application>(
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             request,
             AuthType.Basic
@@ -73,7 +74,7 @@ public class ApplicationClient : IApplicationClient
 
     public Application UpdateApplication(string id, CreateApplicationRequest request, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<Application>(
-            "PUT",
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             request,
             AuthType.Basic
@@ -82,7 +83,7 @@ public class ApplicationClient : IApplicationClient
     public Task<Application> UpdateApplicationAsync(string id, CreateApplicationRequest request,
         Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<Application>(
-            "PUT",
+            HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             request,
             AuthType.Basic

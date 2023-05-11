@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
 
@@ -13,7 +14,7 @@ public class RedactClient : IRedactClient
     {
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<object>
         (
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
             request,
             AuthType.Basic
@@ -25,7 +26,7 @@ public class RedactClient : IRedactClient
     {
         await new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<object>
         (
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
             request,
             AuthType.Basic

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
 using Vonage.Serialization;
@@ -31,7 +32,7 @@ public class MessagesClient : IMessagesClient
         var authType = this.credentials.GetPreferredAuthenticationType()
             .IfFailure(failure => throw failure.ToException());
         return new ApiRequest(this.credentials).DoRequestWithJsonContentAsync(
-            "POST", this.uri,
+            HttpMethod.Post, this.uri,
             message,
             authType,
             value => JsonSerializerBuilder.Build().SerializeObject(value),

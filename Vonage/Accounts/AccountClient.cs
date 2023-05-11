@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
 
@@ -26,7 +27,7 @@ public class AccountClient : IAccountClient
 
     public Secret CreateApiSecret(CreateSecretRequest request, string apiKey = null, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<Secret>(
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
             request,
             AuthType.Basic
@@ -34,7 +35,7 @@ public class AccountClient : IAccountClient
 
     public Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<Secret>(
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
             request,
             AuthType.Basic
@@ -43,7 +44,7 @@ public class AccountClient : IAccountClient
     public SubAccount CreateSubAccount(CreateSubAccountRequest request, string apiKey = null,
         Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<SubAccount>(
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
             request,
             AuthType.Basic
@@ -52,7 +53,7 @@ public class AccountClient : IAccountClient
     public Task<SubAccount> CreateSubAccountAsync(CreateSubAccountRequest request, string apiKey = null,
         Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<SubAccount>(
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
             request,
             AuthType.Basic
