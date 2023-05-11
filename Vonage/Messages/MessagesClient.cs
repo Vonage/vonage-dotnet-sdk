@@ -28,12 +28,12 @@ public class MessagesClient : IMessagesClient
     /// <returns></returns>
     public Task<MessagesResponse> SendAsync(IMessage message)
     {
-        var authType = this.credentials.GetPreferredAuthenticationType().IfFailure(failure => throw failure.ToException());
-        return ApiRequest.DoRequestWithJsonContentAsync(
+        var authType = this.credentials.GetPreferredAuthenticationType()
+            .IfFailure(failure => throw failure.ToException());
+        return new ApiRequest(this.credentials).DoRequestWithJsonContentAsync(
             "POST", this.uri,
             message,
             authType,
-            this.credentials,
             value => JsonSerializerBuilder.Build().SerializeObject(value),
             value => JsonSerializerBuilder.Build().DeserializeObject<MessagesResponse>(value).GetSuccessUnsafe());
     }

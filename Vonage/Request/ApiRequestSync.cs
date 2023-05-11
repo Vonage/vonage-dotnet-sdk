@@ -14,12 +14,11 @@ internal partial class ApiRequest
     /// </summary>
     /// <param name="uri"></param>
     /// <param name="parameters"></param>
-    /// <param name="creds"></param>
     /// <returns></returns>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public static VonageResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters,
-        AuthType authType = AuthType.Query, Credentials creds = null) =>
-        ExecuteAsyncOperation(() => DoRequestWithUrlContentAsync("DELETE", uri, parameters, authType, creds));
+    public VonageResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters,
+        AuthType authType = AuthType.Query) =>
+        ExecuteAsyncOperation(() => this.DoRequestWithUrlContentAsync("DELETE", uri, parameters, authType));
 
     /// <summary>
     ///     Sends a GET request to the Vonage API using a JWT and returns the full HTTP resonse message
@@ -29,8 +28,8 @@ internal partial class ApiRequest
     /// <param name="creds"></param>
     /// <returns>HttpResponseMessage</returns>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public static HttpResponseMessage DoGetRequestWithJwt(Uri uri, Credentials creds) =>
-        ExecuteAsyncOperation(() => DoGetRequestWithJwtAsync(uri, creds));
+    public HttpResponseMessage DoGetRequestWithJwt(Uri uri) =>
+        ExecuteAsyncOperation(() => this.DoGetRequestWithJwtAsync(uri));
 
     /// <summary>
     ///     SendAsync a GET request to the versioned Vonage API.
@@ -41,9 +40,8 @@ internal partial class ApiRequest
     /// <param name="parameters">Parameters required by the endpoint (do not include credentials)</param>
     /// <param name="credentials">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">Thrown if the API encounters a non-zero result</exception>
-    public static T DoGetRequestWithQueryParameters<T>(Uri uri, AuthType authType, object parameters = null,
-        Credentials credentials = null) =>
-        ExecuteAsyncOperation(() => DoGetRequestWithQueryParametersAsync<T>(uri, authType, parameters, credentials));
+    public T DoGetRequestWithQueryParameters<T>(Uri uri, AuthType authType, object parameters = null) =>
+        ExecuteAsyncOperation(() => this.DoGetRequestWithQueryParametersAsync<T>(uri, authType, parameters));
 
     /// <summary>
     ///     Sends a Post request to the specified endpoint with the given parameters
@@ -55,9 +53,9 @@ internal partial class ApiRequest
     /// <param name="withCredentials">Indicates whether credentials should be included in Query string.</param>
     /// <returns></returns>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public static T DoPostRequestUrlContentFromObject<T>(Uri uri, object parameters, Credentials creds = null,
+    public T DoPostRequestUrlContentFromObject<T>(Uri uri, object parameters,
         bool withCredentials = true) =>
-        ExecuteAsyncOperation(() => DoPostRequestUrlContentFromObjectAsync<T>(uri, parameters, creds, withCredentials));
+        ExecuteAsyncOperation(() => this.DoPostRequestUrlContentFromObjectAsync<T>(uri, parameters, withCredentials));
 
     /// <summary>
     ///     SendAsync a request to the versioned Vonage API.
@@ -70,9 +68,8 @@ internal partial class ApiRequest
     /// <param name="authType">Authorization type used on the API</param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public static T DoRequestWithJsonContent<T>(string method, Uri uri, object payload, AuthType authType,
-        Credentials creds) =>
-        ExecuteAsyncOperation(() => DoRequestWithJsonContentAsync<T>(method, uri, payload, authType, creds));
+    public T DoRequestWithJsonContent<T>(string method, Uri uri, object payload, AuthType authType) =>
+        ExecuteAsyncOperation(() => this.DoRequestWithJsonContentAsync<T>(method, uri, payload, authType));
 
     private static T ExecuteAsyncOperation<T>(Func<Task<T>> operation)
     {
@@ -94,6 +91,6 @@ internal partial class ApiRequest
     /// <param name="authType"></param>
     /// <param name="creds"></param>
     /// <exception cref="VonageHttpRequestException">Thrown if the API encounters a non-zero result</exception>
-    private static T SendGetRequest<T>(Uri uri, AuthType authType, Credentials creds) =>
-        ExecuteAsyncOperation(() => SendGetRequestAsync<T>(uri, authType, creds));
+    private T SendGetRequest<T>(Uri uri, AuthType authType) =>
+        ExecuteAsyncOperation(() => this.SendGetRequestAsync<T>(uri, authType));
 }

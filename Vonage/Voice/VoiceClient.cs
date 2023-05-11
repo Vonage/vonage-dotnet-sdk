@@ -17,21 +17,15 @@ public class VoiceClient : IVoiceClient
     public const string PUT = "PUT";
     public Credentials Credentials { get; set; }
 
-    public VoiceClient(Credentials credentials = null)
-    {
-        this.Credentials = credentials;
-    }
+    public VoiceClient(Credentials credentials = null) => this.Credentials = credentials;
 
-    public CallResponse CreateCall(CallCommand command, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+    public CallResponse CreateCall(CallCommand command, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallResponse>(
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
     public CallResponse CreateCall(string toNumber, string fromNumber, Ncco ncco)
     {
@@ -50,11 +44,11 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+        return new ApiRequest(this.Credentials).DoRequestWithJsonContent<CallResponse>(
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            AuthType.Bearer, this.Credentials
+            AuthType.Bearer
         );
     }
 
@@ -72,34 +66,31 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return ApiRequest.DoRequestWithJsonContent<CallResponse>(
+        return new ApiRequest(this.Credentials).DoRequestWithJsonContent<CallResponse>(
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            AuthType.Bearer, this.Credentials
+            AuthType.Bearer
         );
     }
 
     /// <summary>
-    /// POST /v1/calls - create an outbound SIP or PSTN Call
+    ///     POST /v1/calls - create an outbound SIP or PSTN Call
     /// </summary>
     /// <param name="command"></param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <returns></returns>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
+    public Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null) =>
+        new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallResponse>(
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
     /// <summary>
-    /// POST /v1/calls - create an outbound SIP or PSTN Call
+    ///     POST /v1/calls - create an outbound SIP or PSTN Call
     /// </summary>
     /// <param name="toNumber"></param>
     /// <param name="fromNumber"></param>
@@ -122,16 +113,16 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
+        return new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallResponse>(
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            AuthType.Bearer, this.Credentials
+            AuthType.Bearer
         );
     }
 
     /// <summary>
-    /// POST /v1/calls - create an outbound SIP or PSTN Call
+    ///     POST /v1/calls - create an outbound SIP or PSTN Call
     /// </summary>
     /// <param name="toEndPoint"></param>
     /// <param name="fromNumber"></param>
@@ -151,67 +142,55 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return ApiRequest.DoRequestWithJsonContentAsync<CallResponse>(
+        return new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallResponse>(
             POST,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             command,
-            AuthType.Bearer, this.Credentials
+            AuthType.Bearer
         );
     }
 
-    public CallRecord GetCall(string id, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParameters<CallRecord>(
+    public CallRecord GetCall(string id, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<CallRecord>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
-            AuthType.Bearer,
-            credentials: creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
     /// <summary>
-    /// GET /v1/calls/{uuid} - retrieve information about a single Call
+    ///     GET /v1/calls/{uuid} - retrieve information about a single Call
     /// </summary>
     /// <param name="id">id of call</param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public Task<CallRecord> GetCallAsync(string id, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParametersAsync<CallRecord>(
+    public Task<CallRecord> GetCallAsync(string id, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<CallRecord>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
-            AuthType.Bearer,
-            credentials: creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
-    public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParameters<PageResponse<CallList>>(
+    public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<PageResponse<CallList>>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             AuthType.Bearer,
-            filter,
-            creds ?? this.Credentials
+            filter
         );
-    }
 
     /// <summary>
-    /// GET /v1/calls - retrieve information about all your Calls
-    /// <param name="filter">Filter to search calls on</param>
-    /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+    ///     GET /v1/calls - retrieve information about all your Calls
+    ///     <param name="filter">Filter to search calls on</param>
+    ///     <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// </summary>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public Task<PageResponse<CallList>> GetCallsAsync(CallSearchFilter filter, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParametersAsync<PageResponse<CallList>>(
+    public Task<PageResponse<CallList>> GetCallsAsync(CallSearchFilter filter, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<PageResponse<CallList>>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CALLS_ENDPOINT),
             AuthType.Bearer,
-            filter,
-            creds ?? this.Credentials
+            filter
         );
-    }
 
     public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
     {
-        using (var response = ApiRequest.DoGetRequestWithJwt(new Uri(recordingUrl), creds ?? this.Credentials))
+        using (var response = new ApiRequest(creds ?? this.Credentials).DoGetRequestWithJwt(new Uri(recordingUrl)))
         {
             var readTask = response.Content.ReadAsStreamAsync();
             byte[] bytes;
@@ -231,7 +210,7 @@ public class VoiceClient : IVoiceClient
     }
 
     /// <summary>
-    /// GET - retrieves the recording from a call based off of the input url
+    ///     GET - retrieves the recording from a call based off of the input url
     /// </summary>
     /// <param name="recordingUrl">Url where the recorded call lives</param>
     /// <param name="creds">Overridden credentials</param>
@@ -239,183 +218,150 @@ public class VoiceClient : IVoiceClient
     /// <returns>A response containing a byte array representing the file stream</returns>
     public async Task<GetRecordingResponse> GetRecordingAsync(string recordingUrl, Credentials creds = null)
     {
-        using (var response =
-               await ApiRequest.DoGetRequestWithJwtAsync(new Uri(recordingUrl), creds ?? this.Credentials))
+        using var response =
+            await new ApiRequest(creds ?? this.Credentials).DoGetRequestWithJwtAsync(new Uri(recordingUrl));
+        var readTask = response.Content.ReadAsStreamAsync();
+        byte[] bytes;
+        readTask.Wait();
+        using (var ms = new MemoryStream())
         {
-            var readTask = response.Content.ReadAsStreamAsync();
-            byte[] bytes;
-            readTask.Wait();
-            using (var ms = new MemoryStream())
-            {
-                readTask.Result.CopyTo(ms);
-                bytes = ms.ToArray();
-            }
-
-            return new GetRecordingResponse
-            {
-                ResultStream = bytes,
-                Status = response.StatusCode,
-            };
+            readTask.Result.CopyTo(ms);
+            bytes = ms.ToArray();
         }
+
+        return new GetRecordingResponse
+        {
+            ResultStream = bytes,
+            Status = response.StatusCode,
+        };
     }
 
-    public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+    public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
             PUT,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
             cmd,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
     /// <summary>
-    /// PUT /v1/calls/{uuid}/dtmf - send Dual-tone multi-frequency(DTMF) tones to an active Call
+    ///     PUT /v1/calls/{uuid}/dtmf - send Dual-tone multi-frequency(DTMF) tones to an active Call
     /// </summary>
     /// <param name="id">id of call</param>
     /// <param name="cmd">Command to execute against call</param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+    public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null) =>
+        new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
             PUT,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/dtmf"),
             cmd,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
-    public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+    public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
             PUT,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             command,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
     /// <summary>
-    /// PUT /v1/calls/{uuid}/stream - stream an audio file to an active Call
+    ///     PUT /v1/calls/{uuid}/stream - stream an audio file to an active Call
     /// </summary>
     /// <param name="id">id of call</param>
     /// <param name="cmd">Command to execute against call</param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public Task<CallCommandResponse> StartStreamAsync(string id, StreamCommand command, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+    public Task<CallCommandResponse> StartStreamAsync(string id, StreamCommand command, Credentials creds = null) =>
+        new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
             PUT,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             command,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
-    public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+    public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
             PUT,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             cmd,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
     /// <summary>
-    /// PUT /v1/calls/{uuid}/talk - send a synthesized speech message to an active Call
+    ///     PUT /v1/calls/{uuid}/talk - send a synthesized speech message to an active Call
     /// </summary>
     /// <param name="id">id of call</param>
     /// <param name="cmd">Command to execute against call</param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public Task<CallCommandResponse> StartTalkAsync(string id, TalkCommand cmd, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+    public Task<CallCommandResponse> StartTalkAsync(string id, TalkCommand cmd, Credentials creds = null) =>
+        new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
             PUT,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             cmd,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
-    public CallCommandResponse StopStream(string id, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+    public CallCommandResponse StopStream(string id, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
             DELETE,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             new { },
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
     /// <summary>
-    /// DELETE /v1/calls/{uuid}/stream - stop streaming an audio file to an active Call
+    ///     DELETE /v1/calls/{uuid}/stream - stop streaming an audio file to an active Call
     /// </summary>
     /// <param name="id">id of call</param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public Task<CallCommandResponse> StopStreamAsync(string id, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+    public Task<CallCommandResponse> StopStreamAsync(string id, Credentials creds = null) =>
+        new ApiRequest(this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
             DELETE,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/stream"),
             new { },
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
-    public CallCommandResponse StopTalk(string id, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContent<CallCommandResponse>(
+    public CallCommandResponse StopTalk(string id, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallCommandResponse>(
             DELETE,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             new { },
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
     /// <summary>
-    /// DELETE /v1/calls/{uuid}/talk - stop sending a synthesized speech message to an active Call
+    ///     DELETE /v1/calls/{uuid}/talk - stop sending a synthesized speech message to an active Call
     /// </summary>
     /// <param name="id">id of call</param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
-    public Task<CallCommandResponse> StopTalkAsync(string id, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContentAsync<CallCommandResponse>(
+    public Task<CallCommandResponse> StopTalkAsync(string id, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
             DELETE,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}/talk"),
             new { },
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
-    }
 
     public bool UpdateCall(string id, CallEditCommand command, Credentials creds = null)
     {
-        ApiRequest.DoRequestWithJsonContent<CallRecord>(
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<CallRecord>(
             PUT,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
             command,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
         return true;
     }
 
     /// <summary>
-    /// PUT /v1/calls/{uuid} - modify an existing Call
+    ///     PUT /v1/calls/{uuid} - modify an existing Call
     /// </summary>
     /// <param name="id">id of call</param>
     /// <param name="cmd">Command to execute against call</param>
@@ -423,12 +369,11 @@ public class VoiceClient : IVoiceClient
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     public async Task<bool> UpdateCallAsync(string id, CallEditCommand command, Credentials creds = null)
     {
-        await ApiRequest.DoRequestWithJsonContentAsync<CallRecord>(
+        await new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<CallRecord>(
             PUT,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CALLS_ENDPOINT}/{id}"),
             command,
-            AuthType.Bearer,
-            creds ?? this.Credentials
+            AuthType.Bearer
         );
         return true;
     }

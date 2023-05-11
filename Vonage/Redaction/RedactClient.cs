@@ -7,34 +7,28 @@ public class RedactClient : IRedactClient
 {
     public Credentials Credentials { get; set; }
 
-    public RedactClient(Credentials creds = null)
-    {
-        this.Credentials = creds;
-    }
-
-
-    public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
-    {
-        await ApiRequest.DoRequestWithJsonContentAsync<object>
-        (
-            "POST",
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api,"/v1/redact/transaction"),
-            request,
-            AuthType.Basic,
-            creds?? this.Credentials
-        );
-        return true;
-    }
+    public RedactClient(Credentials creds = null) => this.Credentials = creds;
 
     public bool Redact(RedactRequest request, Credentials creds = null)
     {
-        ApiRequest.DoRequestWithJsonContent<object>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<object>
         (
             "POST",
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
             request,
-            AuthType.Basic,
-            creds ?? this.Credentials
+            AuthType.Basic
+        );
+        return true;
+    }
+
+    public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
+    {
+        await new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<object>
+        (
+            "POST",
+            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
+            request,
+            AuthType.Basic
         );
         return true;
     }
