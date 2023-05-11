@@ -27,11 +27,17 @@ internal partial class ApiRequest
     private readonly ILogger logger;
     private readonly string userAgent;
 
-    public ApiRequest(Credentials credentials)
+    private ApiRequest()
     {
         this.logger = LogProvider.GetLogger("Vonage.Request.ApiRequest");
+        this.userAgent = UserAgentProvider.GetFormattedUserAgent(Configuration.Instance.UserAgent);
+    }
+
+    public ApiRequest(Credentials credentials) : this()
+    {
         this.credentials = credentials;
-        this.userAgent = UserAgentProvider.GetFormattedUserAgent(GetUserAgent(credentials));
+        this.userAgent =
+            UserAgentProvider.GetFormattedUserAgent(this.credentials?.AppUserAgent ?? Configuration.Instance.UserAgent);
     }
 
     /// <summary>
@@ -60,7 +66,7 @@ internal partial class ApiRequest
             RequestUri = uri,
             Method = HttpMethod.Get,
         };
-        SetUserAgent(ref req);
+        this.SetUserAgent(req);
         req.Headers.Authorization =
             BuildBearerAuth(GetApplicationId(this.credentials), GetApplicationKey(this.credentials));
         this.logger.LogDebug("GET {Uri}", uri);
@@ -152,14 +158,6 @@ internal partial class ApiRequest
     private static AuthenticationHeaderValue BuildBearerAuth(string applicationId, string applicationKeyPath) =>
         new("Bearer", Jwt.CreateToken(applicationId, applicationKeyPath));
 
-    /// <summary>
-    ///     Builds a query string for a get request - if there is a security secret a signature is built for the request and
-    ///     added to the query string
-    /// </summary>
-    /// <param name="parameters"></param>
-    /// <param name="credentials"></param>
-    /// <param name="withCredentials">Indicates whether credentials should be included in Query string.</param>
-    /// <returns></returns>
     private static StringBuilder BuildQueryString(IDictionary<string, string> parameters,
         Credentials credentials = null,
         bool withCredentials = true)
@@ -261,7 +259,7 @@ internal partial class ApiRequest
             req.Headers.Authorization = BuildBasicAuth(GetApiKey(this.credentials), GetApiSecret(this.credentials));
         }
 
-        SetUserAgent(ref req);
+        this.SetUserAgent(req);
         var data = Encoding.ASCII.GetBytes(sb.ToString());
         req.Content = new ByteArrayContent(data);
         req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
@@ -280,11 +278,6 @@ internal partial class ApiRequest
     private static string GetApplicationKey(Credentials credentials) =>
         credentials?.ApplicationKey ?? Configuration.Instance.ApplicationKey;
 
-    /// <summary>
-    ///     extracts parameters from an object into a dictionary
-    /// </summary>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
     private static Dictionary<string, string> GetParameters(object parameters)
     {
         var json = JsonConvert.SerializeObject(parameters, VonageSerialization.SerializerSettings);
@@ -311,17 +304,6 @@ internal partial class ApiRequest
         return sb;
     }
 
-    private static string GetUserAgent(Credentials credentials) =>
-        credentials?.AppUserAgent ?? Configuration.Instance.UserAgent;
-
-    /// <summary>
-    ///     Sends an HTTP GET request to the Vonage API without any additional parameters
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="uri"></param>
-    /// <param name="authType"></param>
-    /// <param name="credentials"></param>
-    /// <exception cref="VonageHttpRequestException">Thrown if the API encounters a non-zero result</exception>
     private async Task<T> SendGetRequestAsync<T>(Uri uri, AuthType authType)
     {
         var req = new HttpRequestMessage
@@ -329,7 +311,7 @@ internal partial class ApiRequest
             RequestUri = uri,
             Method = HttpMethod.Get,
         };
-        SetUserAgent(ref req);
+        this.SetUserAgent(req);
         switch (authType)
         {
             case AuthType.Basic:
@@ -381,12 +363,7 @@ internal partial class ApiRequest
         }
     }
 
-    /// <summary>
-    ///     Sets the user agent for an HTTP request
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="credentials"></param>
-    private void SetUserAgent(ref HttpRequestMessage request) => request.Headers.UserAgent.ParseAdd(this.userAgent);
+    private void SetUserAgent(HttpRequestMessage request) => request.Headers.UserAgent.ParseAdd(this.userAgent);
 
     /// <summary>
     ///     Type of the Uri.
@@ -404,12 +381,6 @@ internal partial class ApiRequest
         Rest,
     }
 
-    /// <summary>
-    ///     Retrieves the Base URI for a given component and appends the given url to the end of it.
-    /// </summary>
-    /// <param name="component"></param>
-    /// <param name="url"></param>
-    /// <returns></returns>
     internal static Uri GetBaseUriFor(string url = null) =>
         string.IsNullOrEmpty(url) ? Configuration.Instance.RestApiUrl : new Uri(Configuration.Instance.RestApiUrl, url);
 
@@ -422,7 +393,7 @@ internal partial class ApiRequest
             RequestUri = uri,
             Method = new HttpMethod(method),
         };
-        SetUserAgent(ref req);
+        this.SetUserAgent(req);
         switch (authType)
         {
             case AuthType.Basic:

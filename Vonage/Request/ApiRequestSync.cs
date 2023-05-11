@@ -82,15 +82,4 @@ internal partial class ApiRequest
             throw exception.InnerExceptions.First();
         }
     }
-
-    /// <summary>
-    ///     Sends an HTTP GET request to the Vonage API without any additional parameters
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="uri"></param>
-    /// <param name="authType"></param>
-    /// <param name="creds"></param>
-    /// <exception cref="VonageHttpRequestException">Thrown if the API encounters a non-zero result</exception>
-    private T SendGetRequest<T>(Uri uri, AuthType authType) =>
-        ExecuteAsyncOperation(() => this.SendGetRequestAsync<T>(uri, authType));
 }
