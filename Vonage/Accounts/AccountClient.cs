@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
 
@@ -7,187 +8,135 @@ public class AccountClient : IAccountClient
 {
     public Credentials Credentials { get; set; }
 
-    public AccountClient(Credentials creds = null)
-    {
-        this.Credentials = creds;
-    }
+    public AccountClient(Credentials creds = null) => this.Credentials = creds;
 
-    public AccountSettingsResult ChangeAccountSettings(AccountSettingsRequest request, Credentials creds = null)
-    {
-        return ApiRequest.DoPostRequestUrlContentFromObject<AccountSettingsResult>
+    public AccountSettingsResult ChangeAccountSettings(AccountSettingsRequest request, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoPostRequestUrlContentFromObject<AccountSettingsResult>
         (
             ApiRequest.GetBaseUriFor("/account/settings"),
-            request,
-            creds ?? this.Credentials
+            request
         );
-    }
 
     public Task<AccountSettingsResult> ChangeAccountSettingsAsync(AccountSettingsRequest request,
-        Credentials creds = null)
-    {
-        return ApiRequest.DoPostRequestUrlContentFromObjectAsync<AccountSettingsResult>
+        Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoPostRequestUrlContentFromObjectAsync<AccountSettingsResult>
         (
             ApiRequest.GetBaseUriFor("/account/settings"),
-            request,
-            creds ?? this.Credentials
+            request
         );
-    }
 
-    public Secret CreateApiSecret(CreateSecretRequest request, string apiKey = null, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContent<Secret>(
-            "POST",
+    public Secret CreateApiSecret(CreateSecretRequest request, string apiKey = null, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<Secret>(
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
             request,
-            AuthType.Basic,
-            creds: creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
-    public Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContentAsync<Secret>(
-            "POST",
+    public Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<Secret>(
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
             request,
-            AuthType.Basic,
-            creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
-    public SubAccount CreateSubAccount(CreateSubAccountRequest request, string apiKey = null, Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContent<SubAccount>(
-            "POST",
+    public SubAccount CreateSubAccount(CreateSubAccountRequest request, string apiKey = null,
+        Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<SubAccount>(
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
             request,
-            AuthType.Basic,
-            creds: creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
     public Task<SubAccount> CreateSubAccountAsync(CreateSubAccountRequest request, string apiKey = null,
-        Credentials creds = null)
-    {
-        return ApiRequest.DoRequestWithJsonContentAsync<SubAccount>(
-            "POST",
+        Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<SubAccount>(
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
             request,
-            AuthType.Basic,
-            creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
-    public Balance GetAccountBalance(Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParameters<Balance>(
+    public Balance GetAccountBalance(Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<Balance>(
             ApiRequest.GetBaseUriFor("/account/get-balance"),
-            AuthType.Query,
-            credentials: creds ?? this.Credentials);
-    }
+            AuthType.Query);
 
-    public Task<Balance> GetAccountBalanceAsync(Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParametersAsync<Balance>(
+    public Task<Balance> GetAccountBalanceAsync(Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<Balance>(
             ApiRequest.GetBaseUriFor("/account/get-balance"),
-            AuthType.Query,
-            credentials: creds ?? this.Credentials);
-    }
+            AuthType.Query);
 
-    public Secret RetrieveApiSecret(string secretId, string apiKey = null, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParameters<Secret>(
+    public Secret RetrieveApiSecret(string secretId, string apiKey = null, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<Secret>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
-            AuthType.Basic,
-            credentials: creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
-    public Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParametersAsync<Secret>(
+    public Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<Secret>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
-            AuthType.Basic,
-            credentials: creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
-    public SecretsRequestResult RetrieveApiSecrets(string apiKey = null, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParameters<SecretsRequestResult>(
+    public SecretsRequestResult RetrieveApiSecrets(string apiKey = null, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<SecretsRequestResult>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
-            AuthType.Basic,
-            credentials: creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
-    public Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParametersAsync<SecretsRequestResult>(
+    public Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<SecretsRequestResult>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
-            AuthType.Basic,
-            credentials: creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
-    public SubAccount RetrieveSubAccount(string subAccountKey, string apiKey = null, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParameters<SubAccount>(
+    public SubAccount RetrieveSubAccount(string subAccountKey, string apiKey = null, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<SubAccount>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
-            AuthType.Basic,
-            credentials: creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
     public Task<SubAccount> RetrieveSubAccountAsync(string subAccountKey, string apiKey = null,
-        Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParametersAsync<SubAccount>(
+        Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<SubAccount>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
-            AuthType.Basic,
-            credentials: creds ?? this.Credentials
+            AuthType.Basic
         );
-    }
 
     public bool RevokeApiSecret(string secretId, string apiKey = null, Credentials creds = null)
     {
-        ApiRequest.DoDeleteRequestWithUrlContent(
+        new ApiRequest(creds ?? this.Credentials).DoDeleteRequestWithUrlContent(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
             null,
-            AuthType.Basic,
-            creds ?? this.Credentials
+            AuthType.Basic
         );
         return true;
     }
 
     public async Task<bool> RevokeApiSecretAsync(string secretId, string apiKey, Credentials creds = null)
     {
-        await ApiRequest.DoDeleteRequestWithUrlContentAsync(
+        await new ApiRequest(creds ?? this.Credentials).DoDeleteRequestWithUrlContentAsync(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
             null,
-            AuthType.Basic,
-            creds ?? this.Credentials
+            AuthType.Basic
         );
         return true;
     }
 
-    public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParameters<TopUpResult>(
+    public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<TopUpResult>(
             ApiRequest.GetBaseUriFor("/account/top-up"),
             AuthType.Query,
-            request,
-            credentials: creds ?? this.Credentials
+            request
         );
-    }
 
-    public Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null)
-    {
-        return ApiRequest.DoGetRequestWithQueryParametersAsync<TopUpResult>(
+    public Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<TopUpResult>(
             ApiRequest.GetBaseUriFor("/account/top-up"),
             AuthType.Query,
-            request,
-            credentials: creds ?? this.Credentials
+            request
         );
-    }
 }
