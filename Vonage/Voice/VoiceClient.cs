@@ -31,6 +31,7 @@ public class VoiceClient : IVoiceClient
         );
 
     /// <inheritdoc />
+    [Obsolete("Favor 'CreateCall(CallCommand) instead.'")]
     public CallResponse CreateCall(string toNumber, string fromNumber, Ncco ncco)
     {
         var command = new CallCommand
@@ -52,6 +53,7 @@ public class VoiceClient : IVoiceClient
     }
 
     /// <inheritdoc />
+    [Obsolete("Favor 'CreateCall(CallCommand) instead.'")]
     public CallResponse CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
     {
         var command = new CallCommand
@@ -79,6 +81,7 @@ public class VoiceClient : IVoiceClient
         );
 
     /// <inheritdoc />
+    [Obsolete("Favor 'CreateCallAsync(CallCommand) instead.'")]
     public Task<CallResponse> CreateCallAsync(string toNumber, string fromNumber, Ncco ncco)
     {
         var command = new CallCommand
@@ -100,6 +103,7 @@ public class VoiceClient : IVoiceClient
     }
 
     /// <inheritdoc />
+    [Obsolete("Favor 'CreateCallAsync(CallCommand) instead.'")]
     public Task<CallResponse> CreateCallAsync(Endpoint toEndPoint, string fromNumber, Ncco ncco)
     {
         var command = new CallCommand
