@@ -155,18 +155,9 @@ public class VoiceClient : IVoiceClient
     public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
     {
         using var response = new ApiRequest(this.GetCredentials(creds)).DoGetRequestWithJwt(new Uri(recordingUrl));
-        var readTask = response.Content.ReadAsStreamAsync();
-        byte[] bytes;
-        readTask.Wait();
-        using (var ms = new MemoryStream())
-        {
-            readTask.Result.CopyTo(ms);
-            bytes = ms.ToArray();
-        }
-
         return new GetRecordingResponse
         {
-            ResultStream = bytes,
+            ResultStream = ReadContent(response.Content).Result,
             Status = response.StatusCode,
         };
     }
@@ -176,18 +167,9 @@ public class VoiceClient : IVoiceClient
     {
         using var response =
             await new ApiRequest(this.GetCredentials(creds)).DoGetRequestWithJwtAsync(new Uri(recordingUrl));
-        var readTask = response.Content.ReadAsStreamAsync();
-        byte[] bytes;
-        readTask.Wait();
-        using (var ms = new MemoryStream())
-        {
-            await readTask.Result.CopyToAsync(ms);
-            bytes = ms.ToArray();
-        }
-
         return new GetRecordingResponse
         {
-            ResultStream = bytes,
+            ResultStream = await ReadContent(response.Content),
             Status = response.StatusCode,
         };
     }
@@ -307,4 +289,12 @@ public class VoiceClient : IVoiceClient
     }
 
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.credentials;
+
+    private static async Task<byte[]> ReadContent(HttpContent content)
+    {
+        var readTask = await content.ReadAsStreamAsync();
+        using var ms = new MemoryStream();
+        await readTask.CopyToAsync(ms);
+        return ms.ToArray();
+    }
 }
