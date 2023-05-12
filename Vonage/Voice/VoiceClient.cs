@@ -48,12 +48,7 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return new ApiRequest(this.credentials).DoRequestWithJsonContent<CallResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-            command,
-            AuthType.Bearer
-        );
+        return this.CreateCall(command);
     }
 
     /// <inheritdoc />
@@ -71,17 +66,12 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return new ApiRequest(this.credentials).DoRequestWithJsonContent<CallResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-            command,
-            AuthType.Bearer
-        );
+        return this.CreateCall(command);
     }
 
     /// <inheritdoc />
     public Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null) =>
-        new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallResponse>(
+        new ApiRequest(this.GetCredentials(creds)).DoRequestWithJsonContentAsync<CallResponse>(
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
             command,
@@ -106,12 +96,7 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-            command,
-            AuthType.Bearer
-        );
+        return this.CreateCallAsync(command);
     }
 
     /// <inheritdoc />
@@ -129,12 +114,7 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-            command,
-            AuthType.Bearer
-        );
+        return this.CreateCallAsync(command);
     }
 
     /// <inheritdoc />
@@ -219,7 +199,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null) =>
-        new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
+        new ApiRequest(this.GetCredentials(creds)).DoRequestWithJsonContentAsync<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/dtmf"),
             cmd,
@@ -237,7 +217,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallCommandResponse> StartStreamAsync(string id, StreamCommand command, Credentials creds = null) =>
-        new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
+        new ApiRequest(this.GetCredentials(creds)).DoRequestWithJsonContentAsync<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
             command,
