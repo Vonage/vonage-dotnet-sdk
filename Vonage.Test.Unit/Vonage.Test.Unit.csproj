@@ -684,6 +684,9 @@
         <Folder Include="Messages\Messenger\Data"/>
         <Folder Include="Messages\Mms\Data"/>
         <Folder Include="Messages\Sms\Data"/>
+        <None Update="Data\VoiceTests\CreateCallWithAdvancedMachineDetection.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

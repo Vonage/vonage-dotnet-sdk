@@ -49,7 +49,7 @@ public class CallCommandConverter : JsonConverter
                 }
             }
 
-            if ((propertyName == NCCO || propertyName == NCCO_OBJ || propertyName == NCCO_PASCAL) && nccoUsed)
+            if ((propertyName is NCCO or NCCO_OBJ || propertyName == NCCO_PASCAL) && nccoUsed)
             {
                 continue;
             }
