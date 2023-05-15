@@ -18,6 +18,7 @@ internal class StartVerificationRequestBuilder :
     private Locale locale = Locale.EnUs;
     private Maybe<IResultFailure> failure = Maybe<IResultFailure>.None;
     private Maybe<string> clientReference = Maybe<string>.None;
+    private Maybe<string> code;
     private string brand;
 
     /// <inheritdoc />
@@ -33,6 +34,7 @@ internal class StartVerificationRequestBuilder :
                     ClientReference = this.clientReference,
                     CodeLength = this.codeLength,
                     Workflows = this.workflows.ToArray(),
+                    Code = this.code,
                 }))
             .Bind(VerifyWorkflowsNotEmpty)
             .Bind(VerifyBrandNotEmpty)
@@ -59,6 +61,13 @@ internal class StartVerificationRequestBuilder :
     public IOptionalBuilder WithClientReference(string value)
     {
         this.clientReference = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IOptionalBuilder WithCode(string value)
+    {
+        this.code = value;
         return this;
     }
 
@@ -190,6 +199,19 @@ public interface IOptionalBuilderForCodeLength
 }
 
 /// <summary>
+///     Represents a builder for Code.
+/// </summary>
+public interface IOptionalBuilderForCode
+{
+    /// <summary>
+    ///     Sets a custom code, if you don't want Vonage to generate the code.
+    /// </summary>
+    /// <param name="value">The custom code.</param>
+    /// <returns>The builder.</returns>
+    IOptionalBuilder WithCode(string value);
+}
+
+/// <summary>
 ///     Represents a builder for fallback workflow.
 /// </summary>
 public interface IOptionalBuilderForFallbackWorkflow
@@ -237,6 +259,7 @@ public interface IOptionalBuilder :
     IOptionalOptionalBuilderForChannelTimeout,
     IOptionalOptionalBuilderForClientReference,
     IOptionalBuilderForCodeLength,
-    IOptionalBuilderForFallbackWorkflow
+    IOptionalBuilderForFallbackWorkflow,
+    IOptionalBuilderForCode
 {
 }

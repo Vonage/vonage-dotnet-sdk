@@ -39,6 +39,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .WithChannelTimeout(300)
                 .WithClientReference("my-personal-reference")
                 .WithCodeLength(4)
+                .WithCode("123456")
                 .Create()
                 .GetStringContent()
                 .Should()
