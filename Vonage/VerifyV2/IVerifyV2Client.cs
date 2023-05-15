@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
+using Vonage.VerifyV2.Cancel;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.VerifyCode;
 
@@ -10,6 +11,13 @@ namespace Vonage.VerifyV2;
 /// </summary>
 public interface IVerifyV2Client
 {
+    /// <summary>
+    ///     Aborts the workflow if a verification request is still active.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Unit>> CancelAsync(Result<CancelRequest> request);
+
     /// <summary>
     ///     Requests a verification to be sent to a user.
     /// </summary>

@@ -40,6 +40,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .WithClientReference("my-personal-reference")
                 .WithCodeLength(4)
                 .SkipFraudCheck()
+                .WithCode("123456")
                 .Create()
                 .GetStringContent()
                 .Should()

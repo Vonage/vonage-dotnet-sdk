@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
 
@@ -7,34 +8,28 @@ public class RedactClient : IRedactClient
 {
     public Credentials Credentials { get; set; }
 
-    public RedactClient(Credentials creds = null)
-    {
-        this.Credentials = creds;
-    }
+    public RedactClient(Credentials creds = null) => this.Credentials = creds;
 
-
-    public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
+    public bool Redact(RedactRequest request, Credentials creds = null)
     {
-        await ApiRequest.DoRequestWithJsonContentAsync<object>
+        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<object>
         (
-            "POST",
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api,"/v1/redact/transaction"),
+            HttpMethod.Post,
+            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
             request,
-            AuthType.Basic,
-            creds?? this.Credentials
+            AuthType.Basic
         );
         return true;
     }
 
-    public bool Redact(RedactRequest request, Credentials creds = null)
+    public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
     {
-        ApiRequest.DoRequestWithJsonContent<object>
+        await new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<object>
         (
-            "POST",
+            HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
             request,
-            AuthType.Basic,
-            creds ?? this.Credentials
+            AuthType.Basic
         );
         return true;
     }
