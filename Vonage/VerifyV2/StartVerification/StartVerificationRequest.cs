@@ -37,7 +37,7 @@ public readonly struct StartVerificationRequest : IStartVerificationRequest
     public int CodeLength { get; internal init; }
 
     /// <summary>
-    ///     Indicates if the request goes though a network block for Fraud Check.
+    ///     Indicates the request will bypass network block, if necessary.
     /// </summary>
     public bool FraudCheck { get; internal init; }
 
