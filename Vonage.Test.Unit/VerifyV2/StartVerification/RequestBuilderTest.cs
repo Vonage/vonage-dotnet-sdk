@@ -22,6 +22,16 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         public RequestBuilderTest() => this.fixture = new Fixture();
 
+        [Fact]
+        public void Create_ShouldEnableFraudCheck_ByDefault() =>
+            StartVerificationRequest.Build()
+                .WithBrand(this.fixture.Create<string>())
+                .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+                .Create()
+                .Map(request => request.FraudCheck)
+                .Should()
+                .BeSuccess(true);
+
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
@@ -408,5 +418,16 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                     workflow.To.Number.Should().Be("123456789");
                     workflow.From.Should().BeNone();
                 });
+
+        [Fact]
+        public void Create_ShouldSkipFraudCheck_GivenSkipFraudCheckIsUsed() =>
+            StartVerificationRequest.Build()
+                .WithBrand(this.fixture.Create<string>())
+                .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+                .SkipFraudCheck()
+                .Create()
+                .Map(request => request.FraudCheck)
+                .Should()
+                .BeSuccess(false);
     }
 }
