@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Web;
+using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Exceptions;
 using Vonage.Request;
@@ -14,6 +15,34 @@ namespace Vonage.Test.Unit
 {
     public class VoiceTests : TestBase
     {
+        [Theory]
+        [InlineData(45)]
+        [InlineData(120)]
+        public void AdvancedMachineDetectionProperties_ShouldReturnInstance_GivenBeepTimeoutIsValid(int value)
+        {
+            var properties = new CallCommand.AdvancedMachineDetectionProperties(
+                CallCommand.AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
+                CallCommand.AdvancedMachineDetectionProperties.MachineDetectionMode.Detect,
+                value);
+            properties.Behavior.Should()
+                .Be(CallCommand.AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue);
+            properties.Mode.Should().Be(CallCommand.AdvancedMachineDetectionProperties.MachineDetectionMode.Detect);
+            properties.BeepTimeout.Should().Be(value);
+        }
+
+        [Theory]
+        [InlineData(44)]
+        [InlineData(121)]
+        public void AdvancedMachineDetectionProperties_ShouldThrowException_GivenBeepTimeoutIsInvalid(int value)
+        {
+            Action act = () => _ = new CallCommand.AdvancedMachineDetectionProperties(
+                CallCommand.AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
+                CallCommand.AdvancedMachineDetectionProperties.MachineDetectionMode.Detect,
+                value);
+            act.Should().ThrowExactly<VonageException>()
+                .WithMessage("Beep Timeout has a minimal value of 45, and a maximal value of 120.");
+        }
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
