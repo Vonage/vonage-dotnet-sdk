@@ -14,7 +14,8 @@ public record AdvancedMachineDetectionProperties
     ///     Maximum time in seconds Vonage should wait for a machine beep to be detected. A machine event
     ///     with sub_state set to beep_timeout will be sent if the timeout is exceeded.
     /// </summary>
-    [JsonProperty("beep_timeout", Order = 2)]
+    [JsonProperty("beepTimeout", Order = 2)]
+    [JsonIgnore]
     public int BeepTimeout { get; }
 
     /// <summary>

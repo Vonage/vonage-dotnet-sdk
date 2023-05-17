@@ -28,8 +28,7 @@
   "machine_detection": "continue",
   "advanced_machine_detection": {
     "behavior": "continue",
-    "mode": "detect",
-    "beep_timeout": 45
+    "mode": "detect"
   },
   "length_timer": 1,
   "ringing_timer": 1

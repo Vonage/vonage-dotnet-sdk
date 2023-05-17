@@ -24,8 +24,7 @@
     "ringbackTone": "http://example.com/ringbackTone.wav",
     "advanced_machine_detection": {
       "behavior": "continue",
-      "mode": "detect",
-      "beep_timeout": 45
+      "mode": "detect"
     }
   }
 ]
