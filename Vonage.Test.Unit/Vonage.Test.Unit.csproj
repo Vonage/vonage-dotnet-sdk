@@ -687,6 +687,9 @@
         <None Update="Data\VoiceTests\CreateCallWithAdvancedMachineDetection.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Data\NccoTests\TestConnectWithAdvancedMachineDetection-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

@@ -20,13 +20,13 @@ namespace Vonage.Test.Unit
         [InlineData(120)]
         public void AdvancedMachineDetectionProperties_ShouldReturnInstance_GivenBeepTimeoutIsValid(int value)
         {
-            var properties = new CallCommand.AdvancedMachineDetectionProperties(
-                CallCommand.AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
-                CallCommand.AdvancedMachineDetectionProperties.MachineDetectionMode.Detect,
+            var properties = new AdvancedMachineDetectionProperties(
+                AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
+                AdvancedMachineDetectionProperties.MachineDetectionMode.Detect,
                 value);
             properties.Behavior.Should()
-                .Be(CallCommand.AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue);
-            properties.Mode.Should().Be(CallCommand.AdvancedMachineDetectionProperties.MachineDetectionMode.Detect);
+                .Be(AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue);
+            properties.Mode.Should().Be(AdvancedMachineDetectionProperties.MachineDetectionMode.Detect);
             properties.BeepTimeout.Should().Be(value);
         }
 
@@ -35,9 +35,9 @@ namespace Vonage.Test.Unit
         [InlineData(121)]
         public void AdvancedMachineDetectionProperties_ShouldThrowException_GivenBeepTimeoutIsInvalid(int value)
         {
-            Action act = () => _ = new CallCommand.AdvancedMachineDetectionProperties(
-                CallCommand.AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
-                CallCommand.AdvancedMachineDetectionProperties.MachineDetectionMode.Detect,
+            Action act = () => _ = new AdvancedMachineDetectionProperties(
+                AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
+                AdvancedMachineDetectionProperties.MachineDetectionMode.Detect,
                 value);
             act.Should().ThrowExactly<VonageException>()
                 .WithMessage("Beep Timeout has a minimal value of 45, and a maximal value of 120.");
@@ -213,9 +213,9 @@ namespace Vonage.Test.Unit
                 EventUrl = new[] {"https://example.com/event"},
                 EventMethod = "POST",
                 MachineDetection = "continue",
-                AdvancedMachineDetection = new CallCommand.AdvancedMachineDetectionProperties(
-                    CallCommand.AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
-                    CallCommand.AdvancedMachineDetectionProperties.MachineDetectionMode.Detect, 45),
+                AdvancedMachineDetection = new AdvancedMachineDetectionProperties(
+                    AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
+                    AdvancedMachineDetectionProperties.MachineDetectionMode.Detect, 45),
                 LengthTimer = 1,
                 RingingTimer = 1,
             };
