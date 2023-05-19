@@ -1,3 +1,16 @@
+# v6.3.0 (2023-05-19)
+
+* feat: proactive connect
+* feat: add optional claims when generating a token
+* feat: verifyV2 BYOP
+* feat: verifyV2 Cancel
+* feat: verifyV2 fraud check
+* feat: voice advanced machine detection
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.2.0...v6.3.0
+
+---
+
 # v6.2.0 (2023-04-19)
 
 * fix: missing dependencies
