@@ -161,10 +161,7 @@
         <None Update="Data\VoiceTests\TestCreateCallWithRandomFromNumber.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\CreateCallAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\VoiceTests\CreateCall.json">
+        <None Update="Data\VoiceTests\CreateCall-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\RedactTests\RedactReturns429.json">
@@ -684,10 +681,16 @@
         <Folder Include="Messages\Messenger\Data"/>
         <Folder Include="Messages\Mms\Data"/>
         <Folder Include="Messages\Sms\Data"/>
-        <None Update="Data\VoiceTests\CreateCallWithAdvancedMachineDetection.json">
+        <None Update="Data\NccoTests\TestConnectWithAdvancedMachineDetection-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NccoTests\TestConnectWithAdvancedMachineDetection-request.json">
+        <None Update="Data\VoiceTests\CreateCall-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithEndpointAndNcco-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithEndpointAndNcco-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
