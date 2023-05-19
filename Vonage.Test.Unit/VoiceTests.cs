@@ -15,6 +15,12 @@ namespace Vonage.Test.Unit
 {
     public class VoiceTests : TestBase
     {
+        private const string BaseUri = "https://api.nexmo.com/v1/calls";
+        private readonly VonageClient client;
+
+        public VoiceTests() =>
+            this.client = new VonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
+
         [Theory]
         [InlineData(45)]
         [InlineData(120)]
@@ -48,7 +54,6 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public void CreateCall(bool passCreds)
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -56,7 +61,7 @@ namespace Vonage.Test.Unit
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
             var expectedRequesetContent = this.GetExpectedJson();
-            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            this.Setup(BaseUri, expectedResponse, expectedRequesetContent);
             var request = new CallCommand
             {
                 To = new Endpoint[]
@@ -81,16 +86,15 @@ namespace Vonage.Test.Unit
                 LengthTimer = 1,
                 RingingTimer = 1,
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallResponse response;
             if (passCreds)
             {
-                response = client.VoiceClient.CreateCall(request, creds);
+                var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+                response = this.client.VoiceClient.CreateCall(request, creds);
             }
             else
             {
-                response = client.VoiceClient.CreateCall(request);
+                response = this.client.VoiceClient.CreateCall(request);
             }
 
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -104,7 +108,6 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public async Task CreateCallAsync(bool passCreds)
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -112,7 +115,7 @@ namespace Vonage.Test.Unit
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
             var expectedRequesetContent = this.GetExpectedJson();
-            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            this.Setup(BaseUri, expectedResponse, expectedRequesetContent);
             var request = new CallCommand
             {
                 To = new[]
@@ -137,16 +140,15 @@ namespace Vonage.Test.Unit
                 LengthTimer = 1,
                 RingingTimer = 1,
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallResponse response;
             if (passCreds)
             {
-                response = await client.VoiceClient.CreateCallAsync(request, creds);
+                var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+                response = await this.client.VoiceClient.CreateCallAsync(request, creds);
             }
             else
             {
-                response = await client.VoiceClient.CreateCallAsync(request);
+                response = await this.client.VoiceClient.CreateCallAsync(request);
             }
 
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -158,7 +160,6 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task CreateCallAsyncWithWrongCredsThrowsAuthException()
         {
-            var expectedUri = $"{this.ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -167,12 +168,10 @@ namespace Vonage.Test.Unit
             }";
             var expectedRequesetContent =
                 @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
-            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
-            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            this.Setup(BaseUri, expectedResponse, expectedRequesetContent);
             var toEndpoint = new PhoneEndpoint {Number = "14155550100"};
             var exception = await Assert.ThrowsAsync<VonageAuthenticationException>(async () =>
-                await client.VoiceClient.CreateCallAsync(
+                await this.BuildClientWithWrongCredentials().VoiceClient.CreateCallAsync(
                     toEndpoint, "14155550100", new Ncco(new TalkAction {Text = "Hello World"})));
             Assert.NotNull(exception);
             Assert.Equal("AppId or Private Key Path missing.", exception.Message);
@@ -183,7 +182,6 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public void CreateCallWithAdvancedMachineDetection(bool passCreds)
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -191,7 +189,7 @@ namespace Vonage.Test.Unit
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
             var expectedRequesetContent = this.GetExpectedJson();
-            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            this.Setup(BaseUri, expectedResponse, expectedRequesetContent);
             var request = new CallCommand
             {
                 To = new Endpoint[]
@@ -220,15 +218,14 @@ namespace Vonage.Test.Unit
                 RingingTimer = 1,
             };
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallResponse response;
             if (passCreds)
             {
-                response = client.VoiceClient.CreateCall(request, creds);
+                response = this.client.VoiceClient.CreateCall(request, creds);
             }
             else
             {
-                response = client.VoiceClient.CreateCall(request);
+                response = this.client.VoiceClient.CreateCall(request);
             }
 
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -240,7 +237,6 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithEndpointAndNcco()
         {
-            var expectedUri = $"{this.ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -249,11 +245,10 @@ namespace Vonage.Test.Unit
             }";
             var expectedRequestContent =
                 @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            this.Setup(BaseUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             var toEndpoint = new PhoneEndpoint {Number = "14155550100"};
-            var response = client.VoiceClient.CreateCall(
+            var response = this.client.VoiceClient.CreateCall(
                 toEndpoint, "14155550100", new Ncco(new TalkAction {Text = "Hello World"}));
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
@@ -264,7 +259,6 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task CreateCallWithEndpointAndNccoAsync()
         {
-            var expectedUri = $"{this.ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -273,11 +267,10 @@ namespace Vonage.Test.Unit
             }";
             var expectedRequestContent =
                 @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
+            this.Setup(BaseUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             var toEndpoint = new PhoneEndpoint {Number = "14155550100"};
-            var response = await client.VoiceClient.CreateCallAsync(
+            var response = await this.client.VoiceClient.CreateCallAsync(
                 toEndpoint, "14155550100", new Ncco(new TalkAction {Text = "Hello World"}));
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
@@ -288,7 +281,6 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithStringParameters()
         {
-            var expectedUri = $"{this.ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -297,11 +289,10 @@ namespace Vonage.Test.Unit
             }";
             var expectedRequesetContent =
                 @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
-            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            this.Setup(BaseUri, expectedResponse, expectedRequesetContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallResponse response;
-            response = client.VoiceClient.CreateCall("14155550100", "14155550100",
+            response = this.client.VoiceClient.CreateCall("14155550100", "14155550100",
                 new Ncco(new TalkAction {Text = "Hello World"}));
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
@@ -312,7 +303,6 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task CreateCallWithStringParametersAsync()
         {
-            var expectedUri = $"{this.ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -321,11 +311,10 @@ namespace Vonage.Test.Unit
             }";
             var expectedRequesetContent =
                 @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
-            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            this.Setup(BaseUri, expectedResponse, expectedRequesetContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallResponse response;
-            response = await client.VoiceClient.CreateCallAsync("14155550100", "14155550100",
+            response = await this.client.VoiceClient.CreateCallAsync("14155550100", "14155550100",
                 new Ncco(new TalkAction {Text = "Hello World"}));
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
@@ -336,7 +325,6 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithUnicodeCharecters()
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -345,7 +333,7 @@ namespace Vonage.Test.Unit
             }";
             var expectedRequesetContent =
                 @"{""to"":[{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""}],""from"":{""number"":""14155550100"",""dtmfAnswer"":""p*123#"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""בדיקה בדיקה בדיקה""}],""answer_url"":[""https://example.com/answer""],""answer_method"":""GET"",""event_url"":[""https://example.com/event""],""event_method"":""POST"",""machine_detection"":""continue"",""length_timer"":1,""ringing_timer"":1}";
-            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            this.Setup(BaseUri, expectedResponse, expectedRequesetContent);
             var request = new CallCommand
             {
                 To = new[]
@@ -371,9 +359,8 @@ namespace Vonage.Test.Unit
                 RingingTimer = 1,
             };
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallResponse response;
-            response = client.VoiceClient.CreateCall(request);
+            response = this.client.VoiceClient.CreateCall(request);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
             Assert.Equal("outbound", response.Direction);
@@ -383,7 +370,6 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithWrongCredsThrowsAuthException()
         {
-            var expectedUri = $"{this.ApiUrl}/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -392,12 +378,11 @@ namespace Vonage.Test.Unit
             }";
             var expectedRequesetContent =
                 @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
-            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
-            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            this.Setup(BaseUri, expectedResponse, expectedRequesetContent);
             var toEndpoint = new PhoneEndpoint {Number = "14155550100"};
-            var exception = Assert.Throws<VonageAuthenticationException>(() => client.VoiceClient.CreateCall(
-                toEndpoint, "14155550100", new Ncco(new TalkAction {Text = "Hello World"})));
+            var exception = Assert.Throws<VonageAuthenticationException>(() => this.BuildClientWithWrongCredentials()
+                .VoiceClient.CreateCall(
+                    toEndpoint, "14155550100", new Ncco(new TalkAction {Text = "Hello World"})));
             Assert.NotNull(exception);
             Assert.Equal("AppId or Private Key Path missing.", exception.Message);
         }
@@ -408,22 +393,21 @@ namespace Vonage.Test.Unit
         public void StopStream(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/stream";
+            var expectedUri = $"{BaseUri}/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Stream stopped"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
                 }";
             this.Setup(expectedUri, expectedResponse, "{}");
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = client.VoiceClient.StopStream(uuid, creds);
+                response = this.client.VoiceClient.StopStream(uuid, creds);
             }
             else
             {
-                response = client.VoiceClient.StopStream(uuid);
+                response = this.client.VoiceClient.StopStream(uuid);
             }
 
             Assert.Equal("Stream stopped", response.Message);
@@ -436,22 +420,21 @@ namespace Vonage.Test.Unit
         public async Task StopStreamAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/stream";
+            var expectedUri = $"{BaseUri}/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Stream stopped"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
                 }";
             this.Setup(expectedUri, expectedResponse, "{}");
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = await client.VoiceClient.StopStreamAsync(uuid, creds);
+                response = await this.client.VoiceClient.StopStreamAsync(uuid, creds);
             }
             else
             {
-                response = await client.VoiceClient.StopStreamAsync(uuid);
+                response = await this.client.VoiceClient.StopStreamAsync(uuid);
             }
 
             Assert.Equal("Stream stopped", response.Message);
@@ -464,22 +447,21 @@ namespace Vonage.Test.Unit
         public void StopTalk(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/stream";
+            var expectedUri = $"{BaseUri}/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Talk stopped"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
                 }";
             this.Setup(expectedUri, expectedResponse, "{}");
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = client.VoiceClient.StopStream(uuid, creds);
+                response = this.client.VoiceClient.StopStream(uuid, creds);
             }
             else
             {
-                response = client.VoiceClient.StopStream(uuid);
+                response = this.client.VoiceClient.StopStream(uuid);
             }
 
             Assert.Equal("Talk stopped", response.Message);
@@ -492,22 +474,21 @@ namespace Vonage.Test.Unit
         public async Task StopTalkAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/stream";
+            var expectedUri = $"{BaseUri}/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Talk stopped"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
                 }";
             this.Setup(expectedUri, expectedResponse, "{}");
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = await client.VoiceClient.StopStreamAsync(uuid, creds);
+                response = await this.client.VoiceClient.StopStreamAsync(uuid, creds);
             }
             else
             {
-                response = await client.VoiceClient.StopStreamAsync(uuid);
+                response = await this.client.VoiceClient.StopStreamAsync(uuid);
             }
 
             Assert.Equal("Talk stopped", response.Message);
@@ -517,7 +498,6 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestCreateCallWithRandomFromNumber()
         {
-            var expectedUri = "https://api.nexmo.com/v1/calls";
             var expectedResponse = @"{
               ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
               ""status"": ""started"",
@@ -525,7 +505,7 @@ namespace Vonage.Test.Unit
               ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
             }";
             var expectedRequesetContent = this.GetExpectedJson();
-            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            this.Setup(BaseUri, expectedResponse, expectedRequesetContent);
             var request = new CallCommand
             {
                 To = new[]
@@ -547,8 +527,7 @@ namespace Vonage.Test.Unit
                 RingingTimer = 1,
             };
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
-            var response = client.VoiceClient.CreateCall(request);
+            var response = this.client.VoiceClient.CreateCall(request);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
             Assert.Equal("outbound", response.Direction);
@@ -560,19 +539,18 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public void TestGetRecordings(bool passCreds)
         {
-            var expectedUri = $"{this.ApiUrl}/v1/calls63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{BaseUri}/63f61863-4a51-4f6b-86e1-46edebcf9356";
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
             this.Setup(expectedUri, expectedResponse);
-            var client = new VonageClient(creds);
             GetRecordingResponse response;
             if (passCreds)
             {
-                response = client.VoiceClient.GetRecording(expectedUri, creds);
+                response = this.client.VoiceClient.GetRecording(expectedUri, creds);
             }
             else
             {
-                response = client.VoiceClient.GetRecording(expectedUri);
+                response = this.client.VoiceClient.GetRecording(expectedUri);
             }
 
             Assert.Equal(expectedResponse, response.ResultStream);
@@ -583,19 +561,18 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public async Task TestGetRecordingsAsync(bool passCreds)
         {
-            var expectedUri = $"{this.ApiUrl}/v1/calls63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var expectedUri = $"{BaseUri}/63f61863-4a51-4f6b-86e1-46edebcf9356";
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
             this.Setup(expectedUri, expectedResponse);
-            var client = new VonageClient(creds);
             GetRecordingResponse response;
             if (passCreds)
             {
-                response = await client.VoiceClient.GetRecordingAsync(expectedUri, creds);
+                response = await this.client.VoiceClient.GetRecordingAsync(expectedUri, creds);
             }
             else
             {
-                response = await client.VoiceClient.GetRecordingAsync(expectedUri);
+                response = await this.client.VoiceClient.GetRecordingAsync(expectedUri);
             }
 
             Assert.Equal(expectedResponse, response.ResultStream);
@@ -636,18 +613,17 @@ namespace Vonage.Test.Unit
                         ""end_time"": ""2020-01-01 12:00:00"",
                         ""network"": ""65512""
                       }";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}";
+            var expectedUri = $"{BaseUri}/{uuid}";
             this.Setup(expectedUri, expectedResponse);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallRecord callRecord;
             if (passCreds)
             {
-                callRecord = client.VoiceClient.GetCall(uuid, creds);
+                callRecord = this.client.VoiceClient.GetCall(uuid, creds);
             }
             else
             {
-                callRecord = client.VoiceClient.GetCall(uuid);
+                callRecord = this.client.VoiceClient.GetCall(uuid);
             }
 
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
@@ -704,18 +680,17 @@ namespace Vonage.Test.Unit
                         ""end_time"": ""2020-01-01 12:00:00"",
                         ""network"": ""65512""
                       }";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}";
+            var expectedUri = $"{BaseUri}/{uuid}";
             this.Setup(expectedUri, expectedResponse);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallRecord callRecord;
             if (passCreds)
             {
-                callRecord = await client.VoiceClient.GetCallAsync(uuid, creds);
+                callRecord = await this.client.VoiceClient.GetCallAsync(uuid, creds);
             }
             else
             {
-                callRecord = await client.VoiceClient.GetCallAsync(uuid);
+                callRecord = await this.client.VoiceClient.GetCallAsync(uuid);
             }
 
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
@@ -790,7 +765,7 @@ namespace Vonage.Test.Unit
             if (kitchenSink)
             {
                 expectedUri =
-                    $"{this.ApiUrl}/v1/calls?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&";
+                    $"{BaseUri}?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&";
                 filter = new CallSearchFilter
                 {
                     ConversationUuid = "CON-f972836a-550f-45fa-956c-12a2ab5b7d22",
@@ -810,15 +785,14 @@ namespace Vonage.Test.Unit
 
             this.Setup(expectedUri, expectedResponse);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             PageResponse<CallList> callList;
             if (passCreds)
             {
-                callList = client.VoiceClient.GetCalls(filter, creds);
+                callList = this.client.VoiceClient.GetCalls(filter, creds);
             }
             else
             {
-                callList = client.VoiceClient.GetCalls(filter);
+                callList = this.client.VoiceClient.GetCalls(filter);
             }
 
             var callRecord = callList.Embedded.Calls[0];
@@ -899,7 +873,7 @@ namespace Vonage.Test.Unit
             if (kitchenSink)
             {
                 expectedUri =
-                    $"{this.ApiUrl}/v1/calls?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&";
+                    $"{BaseUri}?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&";
                 filter = new CallSearchFilter
                 {
                     ConversationUuid = "CON-f972836a-550f-45fa-956c-12a2ab5b7d22",
@@ -919,15 +893,14 @@ namespace Vonage.Test.Unit
 
             this.Setup(expectedUri, expectedResponse);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             PageResponse<CallList> callList;
             if (passCreds)
             {
-                callList = await client.VoiceClient.GetCallsAsync(filter, creds);
+                callList = await this.client.VoiceClient.GetCallsAsync(filter, creds);
             }
             else
             {
-                callList = await client.VoiceClient.GetCallsAsync(filter);
+                callList = await this.client.VoiceClient.GetCallsAsync(filter);
             }
 
             var callRecord = callList.Embedded.Calls[0];
@@ -961,7 +934,7 @@ namespace Vonage.Test.Unit
         public void TestStartDtmf(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/dtmf";
+            var expectedUri = $"{BaseUri}/{uuid}/dtmf";
             var expectedResponse = @"{
                   ""message"": ""DTMF sent"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -970,15 +943,14 @@ namespace Vonage.Test.Unit
             var command = new DtmfCommand {Digits = "1234"};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = client.VoiceClient.StartDtmf(uuid, command, creds);
+                response = this.client.VoiceClient.StartDtmf(uuid, command, creds);
             }
             else
             {
-                response = client.VoiceClient.StartDtmf(uuid, command);
+                response = this.client.VoiceClient.StartDtmf(uuid, command);
             }
 
             Assert.Equal("DTMF sent", response.Message);
@@ -991,7 +963,7 @@ namespace Vonage.Test.Unit
         public async Task TestStartDtmfAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/dtmf";
+            var expectedUri = $"{BaseUri}/{uuid}/dtmf";
             var expectedResponse = @"{
                   ""message"": ""DTMF sent"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -1000,15 +972,14 @@ namespace Vonage.Test.Unit
             var command = new DtmfCommand {Digits = "1234"};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = await client.VoiceClient.StartDtmfAsync(uuid, command, creds);
+                response = await this.client.VoiceClient.StartDtmfAsync(uuid, command, creds);
             }
             else
             {
-                response = await client.VoiceClient.StartDtmfAsync(uuid, command);
+                response = await this.client.VoiceClient.StartDtmfAsync(uuid, command);
             }
 
             Assert.Equal("DTMF sent", response.Message);
@@ -1021,7 +992,7 @@ namespace Vonage.Test.Unit
         public void TestStartStream(bool passCreds, bool kitchenSink)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/stream";
+            var expectedUri = $"{BaseUri}/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Stream started"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -1050,15 +1021,14 @@ namespace Vonage.Test.Unit
 
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = client.VoiceClient.StartStream(uuid, command, creds);
+                response = this.client.VoiceClient.StartStream(uuid, command, creds);
             }
             else
             {
-                response = client.VoiceClient.StartStream(uuid, command);
+                response = this.client.VoiceClient.StartStream(uuid, command);
             }
 
             Assert.Equal("Stream started", response.Message);
@@ -1071,7 +1041,7 @@ namespace Vonage.Test.Unit
         public async Task TestStartStreamAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/stream";
+            var expectedUri = $"{BaseUri}/{uuid}/stream";
             var expectedResponse = @"{
                   ""message"": ""Stream started"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -1085,15 +1055,14 @@ namespace Vonage.Test.Unit
             };
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = await client.VoiceClient.StartStreamAsync(uuid, command, creds);
+                response = await this.client.VoiceClient.StartStreamAsync(uuid, command, creds);
             }
             else
             {
-                response = await client.VoiceClient.StartStreamAsync(uuid, command);
+                response = await this.client.VoiceClient.StartStreamAsync(uuid, command);
             }
 
             Assert.Equal("Stream started", response.Message);
@@ -1106,7 +1075,7 @@ namespace Vonage.Test.Unit
         public void TestStartTalk(bool passCreds, bool kitchenSink)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/talk";
+            var expectedUri = $"{BaseUri}/{uuid}/talk";
             var expectedResponse = @"{
                   ""message"": ""Talk started"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -1139,15 +1108,14 @@ namespace Vonage.Test.Unit
 
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = client.VoiceClient.StartTalk(uuid, command, creds);
+                response = this.client.VoiceClient.StartTalk(uuid, command, creds);
             }
             else
             {
-                response = client.VoiceClient.StartTalk(uuid, command);
+                response = this.client.VoiceClient.StartTalk(uuid, command);
             }
 
             Assert.Equal("Talk started", response.Message);
@@ -1160,7 +1128,7 @@ namespace Vonage.Test.Unit
         public async Task TestStartTalkAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}/talk";
+            var expectedUri = $"{BaseUri}/{uuid}/talk";
             var expectedResponse = @"{
                   ""message"": ""Talk started"",
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
@@ -1174,15 +1142,14 @@ namespace Vonage.Test.Unit
             };
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             CallCommandResponse response;
             if (passCreds)
             {
-                response = await client.VoiceClient.StartTalkAsync(uuid, command, creds);
+                response = await this.client.VoiceClient.StartTalkAsync(uuid, command, creds);
             }
             else
             {
-                response = await client.VoiceClient.StartTalkAsync(uuid, command);
+                response = await this.client.VoiceClient.StartTalkAsync(uuid, command);
             }
 
             Assert.Equal("Talk started", response.Message);
@@ -1195,21 +1162,20 @@ namespace Vonage.Test.Unit
         public async Task TestUpdateCallAsync(bool passCreds)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}";
+            var expectedUri = $"{BaseUri}/{uuid}";
             var expectedResponse = "";
             var expectedRequestContent = @"{""action"":""earmuff""}";
             var request = new CallEditCommand {Action = CallEditCommand.ActionType.earmuff};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             bool response;
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
             if (passCreds)
             {
-                response = await client.VoiceClient.UpdateCallAsync(uuid, request, creds);
+                response = await this.client.VoiceClient.UpdateCallAsync(uuid, request, creds);
             }
             else
             {
-                response = await client.VoiceClient.UpdateCallAsync(uuid, request);
+                response = await this.client.VoiceClient.UpdateCallAsync(uuid, request);
             }
 
             Assert.True(response);
@@ -1219,7 +1185,7 @@ namespace Vonage.Test.Unit
         public void TestUpdateCallWithCredentials()
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}";
+            var expectedUri = $"{BaseUri}/{uuid}";
             var expectedResponse = "";
             var expectedRequestContent =
                 @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""url"":[""https://example.com/ncco.json""]}}";
@@ -1227,8 +1193,7 @@ namespace Vonage.Test.Unit
             var request = new CallEditCommand {Destination = destination, Action = CallEditCommand.ActionType.transfer};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
-            var response = client.VoiceClient.UpdateCall(uuid, request, creds);
+            var response = this.client.VoiceClient.UpdateCall(uuid, request, creds);
             Assert.True(response);
         }
 
@@ -1236,7 +1201,7 @@ namespace Vonage.Test.Unit
         public void TestUpdateCallWithInlineNcco()
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}";
+            var expectedUri = $"{BaseUri}/{uuid}";
             var expectedResponse = "";
             var expectedRequestContent =
                 @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}}";
@@ -1244,8 +1209,7 @@ namespace Vonage.Test.Unit
             var request = new CallEditCommand {Destination = destination, Action = CallEditCommand.ActionType.transfer};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
-            var response = client.VoiceClient.UpdateCall(uuid, request);
+            var response = this.client.VoiceClient.UpdateCall(uuid, request);
             Assert.True(response);
         }
 
@@ -1259,7 +1223,7 @@ namespace Vonage.Test.Unit
         public void UpdateCallWithActionsType(CallEditCommand.ActionType actionType)
         {
             var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{this.ApiUrl}/v1/calls/{uuid}";
+            var expectedUri = $"{BaseUri}/{uuid}";
             var expectedActionType = actionType.ToString().ToLower();
             var expectedRequestContent = @"{""action"":""" + expectedActionType +
                                          @""",""destination"":{""type"":""ncco"",""url"":[""https://example.com/ncco.json""]}}";
@@ -1267,9 +1231,11 @@ namespace Vonage.Test.Unit
             var request = new CallEditCommand {Destination = destination, Action = actionType};
             this.Setup(expectedUri, string.Empty, expectedRequestContent);
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-            var client = new VonageClient(creds);
-            var response = client.VoiceClient.UpdateCall(uuid, request);
+            var response = this.client.VoiceClient.UpdateCall(uuid, request);
             Assert.True(response);
         }
+
+        private VonageClient BuildClientWithWrongCredentials() =>
+            new VonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
     }
 }
