@@ -6,7 +6,6 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Exceptions;
-using Vonage.Request;
 using Vonage.Voice;
 using Vonage.Voice.Nccos;
 using Vonage.Voice.Nccos.Endpoints;
@@ -23,7 +22,7 @@ namespace Vonage.Test.Unit
         public VoiceTests()
         {
             this.fixture = new Fixture();
-            this.client = new VonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
+            this.client = new VonageClient(this.BuildCredentialsForBearerAuthentication());
         }
 
         [Theory]
@@ -167,7 +166,7 @@ namespace Vonage.Test.Unit
                     AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
                     AdvancedMachineDetectionProperties.MachineDetectionMode.Detect, 45),
             };
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             var response = await this.client.VoiceClient.CreateCallAsync(request, creds);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
@@ -178,21 +177,10 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task CreateCallAsyncWithWrongCredsThrowsAuthException()
         {
-            var expectedResponse = @"{
-              ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
-              ""status"": ""started"",
-              ""direction"": ""outbound"",
-              ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
-            }";
-            var expectedRequestContent =
-                @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
-            this.Setup(BaseUri, expectedResponse, expectedRequestContent);
-            var toEndpoint = new PhoneEndpoint {Number = "14155550100"};
-            var exception = await Assert.ThrowsAsync<VonageAuthenticationException>(async () =>
-                await this.BuildClientWithWrongCredentials().VoiceClient.CreateCallAsync(
-                    toEndpoint, "14155550100", new Ncco(new TalkAction {Text = "Hello World"})));
-            Assert.NotNull(exception);
-            Assert.Equal("AppId or Private Key Path missing.", exception.Message);
+            Func<Task> act = async () =>
+                await this.BuildClientWithBasicAuthentication().VoiceClient.CreateCallAsync(new CallCommand());
+            await act.Should().ThrowExactlyAsync<VonageAuthenticationException>()
+                .WithMessage("AppId or Private Key Path missing.");
         }
 
         [Fact]
@@ -228,8 +216,7 @@ namespace Vonage.Test.Unit
                 LengthTimer = 1,
                 RingingTimer = 1,
             };
-            var response = this.client.VoiceClient.CreateCall(request,
-                Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
+            var response = this.client.VoiceClient.CreateCall(request, this.BuildCredentialsForBearerAuthentication());
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
             Assert.Equal("outbound", response.Direction);
@@ -298,7 +285,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent =
                 @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
             this.Setup(BaseUri, expectedResponse, expectedRequestContent);
-            Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.BuildCredentialsForBearerAuthentication();
             var response = await this.client.VoiceClient.CreateCallAsync("14155550100", "14155550100",
                 new Ncco(new TalkAction {Text = "Hello World"}));
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -343,7 +330,7 @@ namespace Vonage.Test.Unit
                 LengthTimer = 1,
                 RingingTimer = 1,
             };
-            Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.BuildCredentialsForBearerAuthentication();
             var response = this.client.VoiceClient.CreateCall(request);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
@@ -354,21 +341,10 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithWrongCredsThrowsAuthException()
         {
-            var expectedResponse = @"{
-              ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
-              ""status"": ""started"",
-              ""direction"": ""outbound"",
-              ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
-            }";
-            var expectedRequestContent =
-                @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""text"":""Hello World"",""action"":""talk""}]}";
-            this.Setup(BaseUri, expectedResponse, expectedRequestContent);
-            var toEndpoint = new PhoneEndpoint {Number = "14155550100"};
-            var exception = Assert.Throws<VonageAuthenticationException>(() => this.BuildClientWithWrongCredentials()
-                .VoiceClient.CreateCall(
-                    toEndpoint, "14155550100", new Ncco(new TalkAction {Text = "Hello World"})));
-            Assert.NotNull(exception);
-            Assert.Equal("AppId or Private Key Path missing.", exception.Message);
+            Action act = () => this.BuildClientWithBasicAuthentication()
+                .VoiceClient.CreateCall(new CallCommand());
+            act.Should().ThrowExactly<VonageAuthenticationException>()
+                .WithMessage("AppId or Private Key Path missing.");
         }
 
         [Theory]
@@ -383,7 +359,7 @@ namespace Vonage.Test.Unit
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
                 }";
             this.Setup(expectedUri, expectedResponse, "{}");
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -410,7 +386,7 @@ namespace Vonage.Test.Unit
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
                 }";
             this.Setup(expectedUri, expectedResponse, "{}");
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -437,7 +413,7 @@ namespace Vonage.Test.Unit
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
                 }";
             this.Setup(expectedUri, expectedResponse, "{}");
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -464,7 +440,7 @@ namespace Vonage.Test.Unit
                   ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
                 }";
             this.Setup(expectedUri, expectedResponse, "{}");
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -510,7 +486,7 @@ namespace Vonage.Test.Unit
                 LengthTimer = 1,
                 RingingTimer = 1,
             };
-            Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.BuildCredentialsForBearerAuthentication();
             var response = this.client.VoiceClient.CreateCall(request);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
@@ -524,7 +500,7 @@ namespace Vonage.Test.Unit
         public void TestGetRecordings(bool passCreds)
         {
             var expectedUri = this.fixture.Create<Uri>().ToString();
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
             this.Setup(expectedUri, expectedResponse);
             GetRecordingResponse response;
@@ -546,7 +522,7 @@ namespace Vonage.Test.Unit
         public async Task TestGetRecordingsAsync(bool passCreds)
         {
             var expectedUri = this.fixture.Create<Uri>().ToString();
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
             this.Setup(expectedUri, expectedResponse);
             GetRecordingResponse response;
@@ -599,7 +575,7 @@ namespace Vonage.Test.Unit
                       }";
             var expectedUri = $"{BaseUri}/{uuid}";
             this.Setup(expectedUri, expectedResponse);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallRecord callRecord;
             if (passCreds)
             {
@@ -634,7 +610,7 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public async Task TestGetSpecificCallAsync(bool passCreds)
         {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var uuid = this.fixture.Create<Guid>().ToString();
             var expectedResponse = @"{
                         ""_links"": {
                           ""self"": {
@@ -666,7 +642,7 @@ namespace Vonage.Test.Unit
                       }";
             var expectedUri = $"{BaseUri}/{uuid}";
             this.Setup(expectedUri, expectedResponse);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallRecord callRecord;
             if (passCreds)
             {
@@ -768,7 +744,7 @@ namespace Vonage.Test.Unit
             }
 
             this.Setup(expectedUri, expectedResponse);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             PageResponse<CallList> callList;
             if (passCreds)
             {
@@ -876,7 +852,7 @@ namespace Vonage.Test.Unit
             }
 
             this.Setup(expectedUri, expectedResponse);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             PageResponse<CallList> callList;
             if (passCreds)
             {
@@ -926,7 +902,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent = @"{""digits"":""1234""}";
             var command = new DtmfCommand {Digits = "1234"};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -955,7 +931,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent = @"{""digits"":""1234""}";
             var command = new DtmfCommand {Digits = "1234"};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -1004,7 +980,7 @@ namespace Vonage.Test.Unit
             }
 
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -1036,7 +1012,7 @@ namespace Vonage.Test.Unit
                 StreamUrl = new[] {"https://example.com/waiting.mp3"},
             };
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -1089,7 +1065,7 @@ namespace Vonage.Test.Unit
             }
 
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -1121,7 +1097,7 @@ namespace Vonage.Test.Unit
                 Text = "Hello. How are you today?",
             };
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             CallCommandResponse response;
             if (passCreds)
             {
@@ -1141,14 +1117,14 @@ namespace Vonage.Test.Unit
         [InlineData(false)]
         public async Task TestUpdateCallAsync(bool passCreds)
         {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var uuid = this.fixture.Create<Guid>().ToString();
             var expectedUri = $"{BaseUri}/{uuid}";
             var expectedResponse = "";
             var expectedRequestContent = @"{""action"":""earmuff""}";
             var request = new CallEditCommand {Action = CallEditCommand.ActionType.earmuff};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
             bool response;
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             if (passCreds)
             {
                 response = await this.client.VoiceClient.UpdateCallAsync(uuid, request, creds);
@@ -1164,7 +1140,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestUpdateCallWithCredentials()
         {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var uuid = this.fixture.Create<Guid>().ToString();
             var expectedUri = $"{BaseUri}/{uuid}";
             var expectedResponse = "";
             var expectedRequestContent =
@@ -1172,7 +1148,7 @@ namespace Vonage.Test.Unit
             var destination = new Destination {Type = "ncco", Url = new[] {"https://example.com/ncco.json"}};
             var request = new CallEditCommand {Destination = destination, Action = CallEditCommand.ActionType.transfer};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var creds = this.BuildCredentialsForBearerAuthentication();
             var response = this.client.VoiceClient.UpdateCall(uuid, request, creds);
             Assert.True(response);
         }
@@ -1180,7 +1156,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestUpdateCallWithInlineNcco()
         {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var uuid = this.fixture.Create<Guid>().ToString();
             var expectedUri = $"{BaseUri}/{uuid}";
             var expectedResponse = "";
             var expectedRequestContent =
@@ -1188,7 +1164,7 @@ namespace Vonage.Test.Unit
             var destination = new Destination {Type = "ncco", Ncco = new Ncco(new TalkAction {Text = "hello world"})};
             var request = new CallEditCommand {Destination = destination, Action = CallEditCommand.ActionType.transfer};
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.BuildCredentialsForBearerAuthentication();
             var response = this.client.VoiceClient.UpdateCall(uuid, request);
             Assert.True(response);
         }
@@ -1202,7 +1178,7 @@ namespace Vonage.Test.Unit
         [InlineData(CallEditCommand.ActionType.transfer)]
         public void UpdateCallWithActionsType(CallEditCommand.ActionType actionType)
         {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
+            var uuid = this.fixture.Create<Guid>().ToString();
             var expectedUri = $"{BaseUri}/{uuid}";
             var expectedActionType = actionType.ToString().ToLower();
             var expectedRequestContent = @"{""action"":""" + expectedActionType +
@@ -1210,12 +1186,12 @@ namespace Vonage.Test.Unit
             var destination = new Destination {Type = "ncco", Url = new[] {"https://example.com/ncco.json"}};
             var request = new CallEditCommand {Destination = destination, Action = actionType};
             this.Setup(expectedUri, string.Empty, expectedRequestContent);
-            Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            this.BuildCredentialsForBearerAuthentication();
             var response = this.client.VoiceClient.UpdateCall(uuid, request);
             Assert.True(response);
         }
 
-        private VonageClient BuildClientWithWrongCredentials() =>
-            new VonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
+        private VonageClient BuildClientWithBasicAuthentication() =>
+            new VonageClient(this.BuildCredentialsForBasicAuthentication());
     }
 }
