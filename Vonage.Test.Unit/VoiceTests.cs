@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Web;
+using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Exceptions;
 using Vonage.Request;
@@ -14,6 +15,34 @@ namespace Vonage.Test.Unit
 {
     public class VoiceTests : TestBase
     {
+        [Theory]
+        [InlineData(45)]
+        [InlineData(120)]
+        public void AdvancedMachineDetectionProperties_ShouldReturnInstance_GivenBeepTimeoutIsValid(int value)
+        {
+            var properties = new AdvancedMachineDetectionProperties(
+                AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
+                AdvancedMachineDetectionProperties.MachineDetectionMode.Detect,
+                value);
+            properties.Behavior.Should()
+                .Be(AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue);
+            properties.Mode.Should().Be(AdvancedMachineDetectionProperties.MachineDetectionMode.Detect);
+            properties.BeepTimeout.Should().Be(value);
+        }
+
+        [Theory]
+        [InlineData(44)]
+        [InlineData(121)]
+        public void AdvancedMachineDetectionProperties_ShouldThrowException_GivenBeepTimeoutIsInvalid(int value)
+        {
+            Action act = () => _ = new AdvancedMachineDetectionProperties(
+                AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
+                AdvancedMachineDetectionProperties.MachineDetectionMode.Detect,
+                value);
+            act.Should().ThrowExactly<VonageException>()
+                .WithMessage("Beep Timeout has a minimal value of 45, and a maximal value of 120.");
+        }
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
@@ -147,6 +176,65 @@ namespace Vonage.Test.Unit
                     toEndpoint, "14155550100", new Ncco(new TalkAction {Text = "Hello World"})));
             Assert.NotNull(exception);
             Assert.Equal("AppId or Private Key Path missing.", exception.Message);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void CreateCallWithAdvancedMachineDetection(bool passCreds)
+        {
+            var expectedUri = "https://api.nexmo.com/v1/calls";
+            var expectedResponse = @"{
+              ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
+              ""status"": ""started"",
+              ""direction"": ""outbound"",
+              ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
+            }";
+            var expectedRequesetContent = this.GetExpectedJson();
+            this.Setup(expectedUri, expectedResponse, expectedRequesetContent);
+            var request = new CallCommand
+            {
+                To = new Endpoint[]
+                {
+                    new PhoneEndpoint
+                    {
+                        Number = "14155550100",
+                        DtmfAnswer = "p*123#",
+                    },
+                },
+                From = new PhoneEndpoint
+                {
+                    Number = "14155550100",
+                    DtmfAnswer = "p*123#",
+                },
+                Ncco = new Ncco(new TalkAction {Text = "Hello World"}),
+                AnswerUrl = new[] {"https://example.com/answer"},
+                AnswerMethod = "GET",
+                EventUrl = new[] {"https://example.com/event"},
+                EventMethod = "POST",
+                MachineDetection = "continue",
+                AdvancedMachineDetection = new AdvancedMachineDetectionProperties(
+                    AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
+                    AdvancedMachineDetectionProperties.MachineDetectionMode.Detect, 45),
+                LengthTimer = 1,
+                RingingTimer = 1,
+            };
+            var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+            var client = new VonageClient(creds);
+            CallResponse response;
+            if (passCreds)
+            {
+                response = client.VoiceClient.CreateCall(request, creds);
+            }
+            else
+            {
+                response = client.VoiceClient.CreateCall(request);
+            }
+
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
+            Assert.Equal("outbound", response.Direction);
+            Assert.Equal("started", response.Status);
         }
 
         [Fact]

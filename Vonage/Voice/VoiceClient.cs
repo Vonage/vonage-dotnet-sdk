@@ -31,6 +31,7 @@ public class VoiceClient : IVoiceClient
         );
 
     /// <inheritdoc />
+    [Obsolete("Favor 'CreateCall(CallCommand) instead.'")]
     public CallResponse CreateCall(string toNumber, string fromNumber, Ncco ncco)
     {
         var command = new CallCommand
@@ -48,15 +49,11 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return new ApiRequest(this.credentials).DoRequestWithJsonContent<CallResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-            command,
-            AuthType.Bearer
-        );
+        return this.CreateCall(command);
     }
 
     /// <inheritdoc />
+    [Obsolete("Favor 'CreateCall(CallCommand) instead.'")]
     public CallResponse CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
     {
         var command = new CallCommand
@@ -71,17 +68,12 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return new ApiRequest(this.credentials).DoRequestWithJsonContent<CallResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-            command,
-            AuthType.Bearer
-        );
+        return this.CreateCall(command);
     }
 
     /// <inheritdoc />
     public Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null) =>
-        new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallResponse>(
+        new ApiRequest(this.GetCredentials(creds)).DoRequestWithJsonContentAsync<CallResponse>(
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
             command,
@@ -89,6 +81,7 @@ public class VoiceClient : IVoiceClient
         );
 
     /// <inheritdoc />
+    [Obsolete("Favor 'CreateCallAsync(CallCommand) instead.'")]
     public Task<CallResponse> CreateCallAsync(string toNumber, string fromNumber, Ncco ncco)
     {
         var command = new CallCommand
@@ -106,15 +99,11 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-            command,
-            AuthType.Bearer
-        );
+        return this.CreateCallAsync(command);
     }
 
     /// <inheritdoc />
+    [Obsolete("Favor 'CreateCallAsync(CallCommand) instead.'")]
     public Task<CallResponse> CreateCallAsync(Endpoint toEndPoint, string fromNumber, Ncco ncco)
     {
         var command = new CallCommand
@@ -129,12 +118,7 @@ public class VoiceClient : IVoiceClient
             },
             Ncco = ncco,
         };
-        return new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-            command,
-            AuthType.Bearer
-        );
+        return this.CreateCallAsync(command);
     }
 
     /// <inheritdoc />
@@ -171,18 +155,9 @@ public class VoiceClient : IVoiceClient
     public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
     {
         using var response = new ApiRequest(this.GetCredentials(creds)).DoGetRequestWithJwt(new Uri(recordingUrl));
-        var readTask = response.Content.ReadAsStreamAsync();
-        byte[] bytes;
-        readTask.Wait();
-        using (var ms = new MemoryStream())
-        {
-            readTask.Result.CopyTo(ms);
-            bytes = ms.ToArray();
-        }
-
         return new GetRecordingResponse
         {
-            ResultStream = bytes,
+            ResultStream = ReadContent(response.Content).Result,
             Status = response.StatusCode,
         };
     }
@@ -192,18 +167,9 @@ public class VoiceClient : IVoiceClient
     {
         using var response =
             await new ApiRequest(this.GetCredentials(creds)).DoGetRequestWithJwtAsync(new Uri(recordingUrl));
-        var readTask = response.Content.ReadAsStreamAsync();
-        byte[] bytes;
-        readTask.Wait();
-        using (var ms = new MemoryStream())
-        {
-            await readTask.Result.CopyToAsync(ms);
-            bytes = ms.ToArray();
-        }
-
         return new GetRecordingResponse
         {
-            ResultStream = bytes,
+            ResultStream = await ReadContent(response.Content),
             Status = response.StatusCode,
         };
     }
@@ -219,7 +185,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null) =>
-        new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
+        new ApiRequest(this.GetCredentials(creds)).DoRequestWithJsonContentAsync<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/dtmf"),
             cmd,
@@ -237,7 +203,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallCommandResponse> StartStreamAsync(string id, StreamCommand command, Credentials creds = null) =>
-        new ApiRequest(this.credentials).DoRequestWithJsonContentAsync<CallCommandResponse>(
+        new ApiRequest(this.GetCredentials(creds)).DoRequestWithJsonContentAsync<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
             command,
@@ -323,4 +289,12 @@ public class VoiceClient : IVoiceClient
     }
 
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.credentials;
+
+    private static async Task<byte[]> ReadContent(HttpContent content)
+    {
+        var readTask = await content.ReadAsStreamAsync();
+        using var ms = new MemoryStream();
+        await readTask.CopyToAsync(ms);
+        return ms.ToArray();
+    }
 }

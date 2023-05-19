@@ -2,7 +2,7 @@
 using Vonage.Common.Monads;
 using Vonage.Request;
 
-namespace Vonage.Voice;
+namespace Vonage;
 
 /// <summary>
 ///     Represents a token generator.
