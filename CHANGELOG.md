@@ -1,4 +1,4 @@
-# v6.3.0 (2023-05-19)
+# v6.3.1 (2023-05-19)
 
 * feat: proactive connect
 * feat: add optional claims when generating a token
