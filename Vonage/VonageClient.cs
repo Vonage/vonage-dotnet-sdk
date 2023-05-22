@@ -2,6 +2,8 @@ using System;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
+using Vonage.Common.Client;
+using Vonage.Common.Monads;
 using Vonage.Conversions;
 using Vonage.Messages;
 using Vonage.Messaging;
@@ -12,6 +14,7 @@ using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
 using Vonage.Verify;
+using Vonage.VerifyV2;
 using Vonage.Voice;
 
 namespace Vonage;
@@ -60,6 +63,11 @@ public class VonageClient
 
     public IVerifyClient VerifyClient { get; private set; }
 
+    /// <summary>
+    ///     Exposes VerifyV2 features.
+    /// </summary>
+    public IVerifyV2Client VerifyV2Client { get; private set; }
+
     public IVoiceClient VoiceClient { get; private set; }
 
     /// <summary>
@@ -92,5 +100,11 @@ public class VonageClient
         this.SmsClient = new SmsClient(this.Credentials);
         this.PricingClient = new PricingClient(this.Credentials);
         this.MessagesClient = new MessagesClient(this.Credentials);
+        Result<string> GenerateToken() => new Jwt().GenerateToken(this.Credentials);
+        var nexmoConfiguration = new VonageHttpClientConfiguration(
+            InitializeHttpClient(Configuration.Instance.NexmoApiUrl),
+            GenerateToken,
+            this.Credentials.GetUserAgent());
+        this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
     }
 }

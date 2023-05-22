@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -18,7 +19,7 @@ public readonly struct VerifyCodeRequest : IVonageRequest
     ///     ID of the verify request.
     /// </summary>
     [JsonIgnore]
-    public string RequestId { get; internal init; }
+    public Guid RequestId { get; internal init; }
 
     /// <summary>
     ///     Initializes a builder.

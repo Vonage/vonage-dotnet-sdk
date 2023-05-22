@@ -1,3 +1,4 @@
+using System;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -18,7 +19,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
         [Fact]
         public void ShouldSerialize() =>
             VerifyCodeRequest.Build()
-                .WithRequestId("Some request id.")
+                .WithRequestId(Guid.NewGuid())
                 .WithCode("123456789")
                 .Create()
                 .GetStringContent()
