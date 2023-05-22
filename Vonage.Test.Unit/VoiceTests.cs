@@ -144,15 +144,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void CreateCallWithStringParameters()
         {
-            var expectedResponse = @"{
-              ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
-              ""status"": ""started"",
-              ""direction"": ""outbound"",
-              ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
-            }";
-            var expectedRequestContent =
-                @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
-            this.Setup(BaseUri, expectedResponse, expectedRequestContent);
+            this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
             var response = this.client.VoiceClient.CreateCall("14155550100", "14155550100",
                 new Ncco(new TalkAction {Text = "Hello World"}));
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -164,15 +156,8 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task CreateCallWithStringParametersAsync()
         {
-            var expectedResponse = @"{
-              ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
-              ""status"": ""started"",
-              ""direction"": ""outbound"",
-              ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
-            }";
-            var expectedRequestContent =
-                @"{""to"":[{""number"":""14155550100"",""type"":""phone""}],""from"":{""number"":""14155550100"",""type"":""phone""},""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}";
-            this.Setup(BaseUri, expectedResponse, expectedRequestContent);
+            this.Setup(BaseUri, this.GetResponseJson(nameof(this.CreateCallWithStringParameters)),
+                this.GetRequestJson(nameof(this.CreateCallWithStringParameters)));
             this.BuildCredentialsForBearerAuthentication();
             var response = await this.client.VoiceClient.CreateCallAsync("14155550100", "14155550100",
                 new Ncco(new TalkAction {Text = "Hello World"}));
