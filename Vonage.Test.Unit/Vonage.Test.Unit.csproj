@@ -693,6 +693,12 @@
         <None Update="Data\VoiceTests\CreateCallWithEndpointAndNcco-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Data\VoiceTests\CreateCallWithUnicodeCharacters-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithUnicodeCharacters-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
