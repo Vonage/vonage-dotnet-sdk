@@ -324,26 +324,10 @@ namespace Vonage.Test.Unit
             }";
             var expectedRequestContent = this.GetExpectedJson();
             this.Setup(BaseUri, expectedResponse, expectedRequestContent);
-            var request = new CallCommand
-            {
-                To = new Endpoint[]
-                {
-                    new PhoneEndpoint
-                    {
-                        Number = "14155550100",
-                        DtmfAnswer = "p*123#",
-                    },
-                },
-                RandomFromNumber = true,
-                Ncco = new Ncco(new TalkAction {Text = "Hello World"}),
-                AnswerUrl = new[] {"https://example.com/answer"},
-                AnswerMethod = "GET",
-                EventUrl = new[] {"https://example.com/event"},
-                EventMethod = "POST",
-                MachineDetection = "continue",
-                LengthTimer = 1,
-                RingingTimer = 1,
-            };
+            var request = BuildCreateCallCommand();
+            request.From = null;
+            request.AdvancedMachineDetection = null;
+            request.RandomFromNumber = true;
             this.BuildCredentialsForBearerAuthentication();
             var response = this.client.VoiceClient.CreateCall(request);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
