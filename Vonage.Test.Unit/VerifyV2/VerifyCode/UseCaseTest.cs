@@ -58,7 +58,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
         private static Result<VerifyCodeRequest> BuildRequest(
             ISpecimenBuilder fixture) =>
             VerifyCodeRequest.Build()
-                .WithRequestId(fixture.Create<string>())
+                .WithRequestId(fixture.Create<Guid>())
                 .WithCode(fixture.Create<string>())
                 .Create();
     }

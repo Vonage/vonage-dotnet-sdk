@@ -1,3 +1,4 @@
+using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
@@ -19,34 +20,31 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
         [InlineData(null)]
         public void Create_ShouldReturnFailure_GivenCodeIsNullOrWhitespace(string value) =>
             VerifyCodeRequest.Build()
-                .WithRequestId(this.fixture.Create<string>())
+                .WithRequestId(this.fixture.Create<Guid>())
                 .WithCode(value)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Code cannot be null or whitespace."));
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Create_ShouldReturnFailure_GivenRequestIdIsNullOrWhitespace(string value) =>
+        [Fact]
+        public void Create_ShouldReturnFailure_GivenRequestIdIsEmpty() =>
             VerifyCodeRequest.Build()
-                .WithRequestId(value)
+                .WithRequestId(Guid.Empty)
                 .WithCode(this.fixture.Create<string>())
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("RequestId cannot be null or whitespace."));
+                .BeFailure(ResultFailure.FromErrorMessage("RequestId cannot be empty."));
 
         [Fact]
         public void Create_ShouldReturnSuccess() =>
             VerifyCodeRequest.Build()
-                .WithRequestId("Some request id.")
+                .WithRequestId(new Guid("06547d61-7ac0-43bb-94bd-503b24b2a3a5"))
                 .WithCode("Some code.")
                 .Create()
                 .Should()
                 .BeSuccess(request =>
                 {
-                    request.RequestId.Should().Be("Some request id.");
+                    request.RequestId.Should().Be(new Guid("06547d61-7ac0-43bb-94bd-503b24b2a3a5"));
                     request.Code.Should().Be("Some code.");
                 });
     }

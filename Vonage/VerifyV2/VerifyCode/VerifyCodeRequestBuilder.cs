@@ -1,3 +1,4 @@
+using System;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -7,8 +8,8 @@ namespace Vonage.VerifyV2.VerifyCode;
 internal class VerifyCodeRequestBuilder : IVonageRequestBuilder<VerifyCodeRequest>, IBuilderForCode,
     IBuilderForRequestId
 {
+    private Guid requestId;
     private string code;
-    private string requestId;
 
     /// <inheritdoc />
     public Result<VerifyCodeRequest> Create() => Result<VerifyCodeRequest>.FromSuccess(new VerifyCodeRequest
@@ -27,7 +28,7 @@ internal class VerifyCodeRequestBuilder : IVonageRequestBuilder<VerifyCodeReques
     }
 
     /// <inheritdoc />
-    public IBuilderForCode WithRequestId(string value)
+    public IBuilderForCode WithRequestId(Guid value)
     {
         this.requestId = value;
         return this;
@@ -54,7 +55,7 @@ public interface IBuilderForRequestId
     /// </summary>
     /// <param name="value">The RequestId.</param>
     /// <returns>The builder.</returns>
-    IBuilderForCode WithRequestId(string value);
+    IBuilderForCode WithRequestId(Guid value);
 }
 
 /// <summary>

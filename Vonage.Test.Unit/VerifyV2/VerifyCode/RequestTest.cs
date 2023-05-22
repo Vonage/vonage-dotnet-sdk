@@ -1,3 +1,4 @@
+using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.VerifyCode;
@@ -14,11 +15,11 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
             VerifyCodeRequest.Build()
-                .WithRequestId("123456789")
+                .WithRequestId(new Guid("06547d61-7ac0-43bb-94bd-503b24b2a3a5"))
                 .WithCode(this.fixture.Create<string>())
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/v2/verify/123456789");
+                .BeSuccess("/v2/verify/06547d61-7ac0-43bb-94bd-503b24b2a3a5");
     }
 }
