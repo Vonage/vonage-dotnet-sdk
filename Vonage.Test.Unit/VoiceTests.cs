@@ -264,6 +264,180 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
+        public void GetSpecificCall()
+        {
+            var uuid = this.fixture.Create<string>();
+            this.Setup($"{BaseUri}/{uuid}", this.GetResponseJson());
+            var callRecord = this.client.VoiceClient.GetCall(uuid);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
+            Assert.Equal("started", callRecord.Status);
+            Assert.Equal("outbound", callRecord.Direction);
+            Assert.Equal("0.39", callRecord.Rate);
+            Assert.Equal("23.40", callRecord.Price);
+            Assert.Equal("60", callRecord.Duration);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
+        }
+
+        [Fact]
+        public async Task GetSpecificCallAsync()
+        {
+            var uuid = this.fixture.Create<Guid>().ToString();
+            this.Setup($"{BaseUri}/{uuid}", this.GetResponseJson(nameof(this.GetSpecificCall)));
+            var callRecord = await this.client.VoiceClient.GetCallAsync(uuid);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
+            Assert.Equal("started", callRecord.Status);
+            Assert.Equal("outbound", callRecord.Direction);
+            Assert.Equal("0.39", callRecord.Rate);
+            Assert.Equal("23.40", callRecord.Price);
+            Assert.Equal("60", callRecord.Duration);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
+        }
+
+        [Fact]
+        public async Task GetSpecificCallAsyncWithCredentials()
+        {
+            var uuid = this.fixture.Create<Guid>().ToString();
+            this.Setup($"{BaseUri}/{uuid}", this.GetResponseJson(nameof(this.GetSpecificCall)));
+            var callRecord =
+                await this.client.VoiceClient.GetCallAsync(uuid, this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
+            Assert.Equal("started", callRecord.Status);
+            Assert.Equal("outbound", callRecord.Direction);
+            Assert.Equal("0.39", callRecord.Rate);
+            Assert.Equal("23.40", callRecord.Price);
+            Assert.Equal("60", callRecord.Duration);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
+        }
+
+        [Fact]
+        public void GetSpecificCallWithCredentials()
+        {
+            var uuid = this.fixture.Create<string>();
+            this.Setup($"{BaseUri}/{uuid}", this.GetResponseJson(nameof(this.GetSpecificCall)));
+            var callRecord = this.client.VoiceClient.GetCall(uuid, this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
+            Assert.Equal("started", callRecord.Status);
+            Assert.Equal("outbound", callRecord.Direction);
+            Assert.Equal("0.39", callRecord.Rate);
+            Assert.Equal("23.40", callRecord.Price);
+            Assert.Equal("60", callRecord.Duration);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
+        }
+
+        [Fact]
+        public void ListCalls()
+        {
+            var filter = new CallSearchFilter();
+            this.Setup($"{this.ApiUrl}/v1/calls", this.GetResponseJson());
+            var callList = this.client.VoiceClient.GetCalls(filter);
+            var callRecord = callList.Embedded.Calls[0];
+            Assert.True(100 == callList.Count);
+            Assert.True(10 == callList.PageSize);
+            Assert.True(0 == callList.PageIndex);
+            Assert.Equal("/calls?page_size=10&record_index=20&order=asc", callList.Links.Self.Href);
+            Assert.Equal("/calls/63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Links.Self.Href);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
+            Assert.Equal("started", callRecord.Status);
+            Assert.Equal("outbound", callRecord.Direction);
+            Assert.Equal("0.39", callRecord.Rate);
+            Assert.Equal("23.40", callRecord.Price);
+            Assert.Equal("60", callRecord.Duration);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
+        }
+
+        [Fact]
+        public void ListCallsWithCredentials()
+        {
+            var filter = new CallSearchFilter
+            {
+                ConversationUuid = "CON-f972836a-550f-45fa-956c-12a2ab5b7d22",
+                DateStart = DateTime.Parse("2016-11-14T07:45:14"),
+                DateEnd = DateTime.Parse("2016-11-14T07:45:14"),
+                PageSize = 10,
+                RecordIndex = 0,
+                Order = "asc",
+                Status = "started",
+            };
+            this.Setup(
+                $"{BaseUri}?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&",
+                this.GetResponseJson(nameof(this.ListCalls)));
+            var callList = this.client.VoiceClient.GetCalls(filter, this.BuildCredentialsForBearerAuthentication());
+            var callRecord = callList.Embedded.Calls[0];
+            Assert.True(100 == callList.Count);
+            Assert.True(10 == callList.PageSize);
+            Assert.True(0 == callList.PageIndex);
+            Assert.Equal("/calls?page_size=10&record_index=20&order=asc", callList.Links.Self.Href);
+            Assert.Equal("/calls/63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Links.Self.Href);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
+            Assert.Equal("started", callRecord.Status);
+            Assert.Equal("outbound", callRecord.Direction);
+            Assert.Equal("0.39", callRecord.Rate);
+            Assert.Equal("23.40", callRecord.Price);
+            Assert.Equal("60", callRecord.Duration);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
+        }
+
+        [Fact]
         public void StopStream()
         {
             var uuid = this.fixture.Create<string>();
@@ -343,248 +517,6 @@ namespace Vonage.Test.Unit
             var response = this.client.VoiceClient.StopStream(uuid, this.BuildCredentialsForBearerAuthentication());
             Assert.Equal("Talk stopped", response.Message);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
-        }
-
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public void TestGetSpecificCall(bool passCreds)
-        {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedResponse = @"{
-                        ""_links"": {
-                          ""self"": {
-                            ""href"": ""/calls/63f61863-4a51-4f6b-86e1-46edebcf9356""
-                          }
-                        },
-                        ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
-                        ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22"",
-                        ""to"":
-                          {
-                            ""type"": ""phone"",
-                            ""number"": ""447700900000""
-                          }
-                        ,
-                        ""from"":
-                          {
-                            ""type"": ""phone"",
-                            ""number"": ""447700900001""
-                          }
-                        ,
-                        ""status"": ""started"",
-                        ""direction"": ""outbound"",
-                        ""rate"": ""0.39"",
-                        ""price"": ""23.40"",
-                        ""duration"": ""60"",
-                        ""start_time"": ""2020-01-01 12:00:00"",
-                        ""end_time"": ""2020-01-01 12:00:00"",
-                        ""network"": ""65512""
-                      }";
-            var expectedUri = $"{BaseUri}/{uuid}";
-            this.Setup(expectedUri, expectedResponse);
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            CallRecord callRecord;
-            if (passCreds)
-            {
-                callRecord = this.client.VoiceClient.GetCall(uuid, creds);
-            }
-            else
-            {
-                callRecord = this.client.VoiceClient.GetCall(uuid);
-            }
-
-            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
-            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
-            Assert.Equal("447700900000", callRecord.To.Number);
-            Assert.Equal("phone", callRecord.To.Type);
-            Assert.Equal("phone", callRecord.From.Type);
-            Assert.Equal("447700900001", callRecord.From.Number);
-            Assert.Equal("started", callRecord.Status);
-            Assert.Equal("outbound", callRecord.Direction);
-            Assert.Equal("0.39", callRecord.Rate);
-            Assert.Equal("23.40", callRecord.Price);
-            Assert.Equal("60", callRecord.Duration);
-            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
-            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
-        }
-
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task TestGetSpecificCallAsync(bool passCreds)
-        {
-            var uuid = this.fixture.Create<Guid>().ToString();
-            var expectedResponse = @"{
-                        ""_links"": {
-                          ""self"": {
-                            ""href"": ""/calls/63f61863-4a51-4f6b-86e1-46edebcf9356""
-                          }
-                        },
-                        ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
-                        ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22"",
-                        ""to"":
-                          {
-                            ""type"": ""phone"",
-                            ""number"": ""447700900000""
-                          }
-                        ,
-                        ""from"":
-                          {
-                            ""type"": ""phone"",
-                            ""number"": ""447700900001""
-                          }
-                        ,
-                        ""status"": ""started"",
-                        ""direction"": ""outbound"",
-                        ""rate"": ""0.39"",
-                        ""price"": ""23.40"",
-                        ""duration"": ""60"",
-                        ""start_time"": ""2020-01-01 12:00:00"",
-                        ""end_time"": ""2020-01-01 12:00:00"",
-                        ""network"": ""65512""
-                      }";
-            var expectedUri = $"{BaseUri}/{uuid}";
-            this.Setup(expectedUri, expectedResponse);
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            CallRecord callRecord;
-            if (passCreds)
-            {
-                callRecord = await this.client.VoiceClient.GetCallAsync(uuid, creds);
-            }
-            else
-            {
-                callRecord = await this.client.VoiceClient.GetCallAsync(uuid);
-            }
-
-            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
-            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
-            Assert.Equal("447700900000", callRecord.To.Number);
-            Assert.Equal("phone", callRecord.To.Type);
-            Assert.Equal("phone", callRecord.From.Type);
-            Assert.Equal("447700900001", callRecord.From.Number);
-            Assert.Equal("started", callRecord.Status);
-            Assert.Equal("outbound", callRecord.Direction);
-            Assert.Equal("0.39", callRecord.Rate);
-            Assert.Equal("23.40", callRecord.Price);
-            Assert.Equal("60", callRecord.Duration);
-            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
-            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
-        }
-
-        [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public void TestListCalls(bool passCreds, bool kitchenSink)
-        {
-            var expectedResponse = @"{
-                  ""count"": 100,
-                  ""page_size"": 10,
-                  ""record_index"": 0,
-                  ""_links"": {
-                                ""self"": {
-                                    ""href"": ""/calls?page_size=10&record_index=20&order=asc""
-                                }
-                            },
-                  ""_embedded"": {
-                                ""calls"": [
-                                  {
-                        ""_links"": {
-                          ""self"": {
-                            ""href"": ""/calls/63f61863-4a51-4f6b-86e1-46edebcf9356""
-                          }
-                        },
-                        ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
-                        ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22"",
-                        ""to"":
-                          {
-                            ""type"": ""phone"",
-                            ""number"": ""447700900000""
-                          }
-                        ,
-                        ""from"": 
-                          {
-                            ""type"": ""phone"",
-                            ""number"": ""447700900001""
-                          }
-                        ,
-                        ""status"": ""started"",
-                        ""direction"": ""outbound"",
-                        ""rate"": ""0.39"",
-                        ""price"": ""23.40"",
-                        ""duration"": ""60"",
-                        ""start_time"": ""2020-01-01 12:00:00"",
-                        ""end_time"": ""2020-01-01 12:00:00"",
-                        ""network"": ""65512""
-                      }
-                    ]
-                  }
-                }";
-            CallSearchFilter filter;
-            string expectedUri;
-            if (kitchenSink)
-            {
-                expectedUri =
-                    $"{BaseUri}?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&";
-                filter = new CallSearchFilter
-                {
-                    ConversationUuid = "CON-f972836a-550f-45fa-956c-12a2ab5b7d22",
-                    DateStart = DateTime.Parse("2016-11-14T07:45:14"),
-                    DateEnd = DateTime.Parse("2016-11-14T07:45:14"),
-                    PageSize = 10,
-                    RecordIndex = 0,
-                    Order = "asc",
-                    Status = "started",
-                };
-            }
-            else
-            {
-                expectedUri = $"{this.ApiUrl}/v1/calls";
-                filter = new CallSearchFilter();
-            }
-
-            this.Setup(expectedUri, expectedResponse);
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            PageResponse<CallList> callList;
-            if (passCreds)
-            {
-                callList = this.client.VoiceClient.GetCalls(filter, creds);
-            }
-            else
-            {
-                callList = this.client.VoiceClient.GetCalls(filter);
-            }
-
-            var callRecord = callList.Embedded.Calls[0];
-            Assert.True(100 == callList.Count);
-            Assert.True(10 == callList.PageSize);
-            Assert.True(0 == callList.PageIndex);
-            Assert.Equal("/calls?page_size=10&record_index=20&order=asc", callList.Links.Self.Href);
-            Assert.Equal("/calls/63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Links.Self.Href);
-            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
-            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
-            Assert.Equal("447700900000", callRecord.To.Number);
-            Assert.Equal("phone", callRecord.To.Type);
-            Assert.Equal("phone", callRecord.From.Type);
-            Assert.Equal("447700900001", callRecord.From.Number);
-            Assert.Equal("started", callRecord.Status);
-            Assert.Equal("outbound", callRecord.Direction);
-            Assert.Equal("0.39", callRecord.Rate);
-            Assert.Equal("23.40", callRecord.Price);
-            Assert.Equal("60", callRecord.Duration);
-            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
-            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
         }
 
         [Theory]
