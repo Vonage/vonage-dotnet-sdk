@@ -793,44 +793,13 @@ namespace Vonage.Test.Unit
             Assert.Equal(uuid, response.Uuid);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task TestUpdateCallAsync(bool passCreds)
-        {
-            var uuid = this.fixture.Create<Guid>().ToString();
-            var expectedUri = $"{BaseUri}/{uuid}";
-            var expectedResponse = "";
-            var expectedRequestContent = @"{""action"":""earmuff""}";
-            var request = new CallEditCommand {Action = CallEditCommand.ActionType.earmuff};
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            bool response;
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            if (passCreds)
-            {
-                response = await this.client.VoiceClient.UpdateCallAsync(uuid, request, creds);
-            }
-            else
-            {
-                response = await this.client.VoiceClient.UpdateCallAsync(uuid, request);
-            }
-
-            Assert.True(response);
-        }
-
         [Fact]
-        public void TestUpdateCallWithCredentials()
+        public async Task UpdateCallAsync()
         {
             var uuid = this.fixture.Create<Guid>().ToString();
-            var expectedUri = $"{BaseUri}/{uuid}";
-            var expectedResponse = "";
-            var expectedRequestContent =
-                @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""url"":[""https://example.com/ncco.json""]}}";
-            var destination = new Destination {Type = "ncco", Url = new[] {"https://example.com/ncco.json"}};
-            var request = new CallEditCommand {Destination = destination, Action = CallEditCommand.ActionType.transfer};
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            var response = this.client.VoiceClient.UpdateCall(uuid, request, creds);
+            var request = new CallEditCommand {Action = CallEditCommand.ActionType.earmuff};
+            this.Setup($"{BaseUri}/{uuid}", string.Empty, this.GetRequestJson());
+            var response = await this.client.VoiceClient.UpdateCallAsync(uuid, request);
             Assert.True(response);
         }
 
@@ -852,6 +821,21 @@ namespace Vonage.Test.Unit
             };
             this.Setup($"{BaseUri}/{uuid}", string.Empty, expectedRequestContent);
             Assert.True(this.client.VoiceClient.UpdateCall(uuid, request));
+        }
+
+        [Fact]
+        public void UpdateCallWithCredentials()
+        {
+            var uuid = this.fixture.Create<Guid>().ToString();
+            var request = new CallEditCommand
+            {
+                Destination = new Destination {Type = "ncco", Url = new[] {"https://example.com/ncco.json"}},
+                Action = CallEditCommand.ActionType.transfer,
+            };
+            this.Setup($"{BaseUri}/{uuid}", string.Empty, this.GetRequestJson());
+            var response =
+                this.client.VoiceClient.UpdateCall(uuid, request, this.BuildCredentialsForBearerAuthentication());
+            Assert.True(response);
         }
 
         [Fact]

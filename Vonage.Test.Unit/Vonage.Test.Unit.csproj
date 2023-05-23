@@ -741,6 +741,12 @@
         <None Update="Data\VoiceTests\StartStreamWithCredentials-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Data\VoiceTests\UpdateCallWithCredentials-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\UpdateCallAsync-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
