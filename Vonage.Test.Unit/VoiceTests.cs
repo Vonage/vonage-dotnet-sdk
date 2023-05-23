@@ -92,6 +92,23 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
+        public async Task CreateCallAsyncWithRandomFromNumber()
+        {
+            this.Setup(BaseUri, this.GetResponseJson(nameof(this.CreateCallWithRandomFromNumber)),
+                this.GetRequestJson(nameof(this.CreateCallWithRandomFromNumber)));
+            var request = BuildCreateCallCommand();
+            request.From = null;
+            request.AdvancedMachineDetection = null;
+            request.RandomFromNumber = true;
+            this.BuildCredentialsForBearerAuthentication();
+            var response = await this.client.VoiceClient.CreateCallAsync(request);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
+            Assert.Equal("outbound", response.Direction);
+            Assert.Equal("started", response.Status);
+        }
+
+        [Fact]
         public async Task CreateCallAsyncWithWrongCredsThrowsAuthException()
         {
             Func<Task> act = async () =>
@@ -134,6 +151,22 @@ namespace Vonage.Test.Unit
             var response = await this.client.VoiceClient.CreateCallAsync(
                 new PhoneEndpoint {Number = "14155550100"}, "14155550100",
                 new Ncco(new TalkAction {Text = "Hello World"}));
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
+            Assert.Equal("outbound", response.Direction);
+            Assert.Equal("started", response.Status);
+        }
+
+        [Fact]
+        public void CreateCallWithRandomFromNumber()
+        {
+            this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
+            var request = BuildCreateCallCommand();
+            request.From = null;
+            request.AdvancedMachineDetection = null;
+            request.RandomFromNumber = true;
+            this.BuildCredentialsForBearerAuthentication();
+            var response = this.client.VoiceClient.CreateCall(request);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
             Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
             Assert.Equal("outbound", response.Direction);
@@ -188,6 +221,49 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
+        public void GetRecording()
+        {
+            var expectedUri = this.fixture.Create<Uri>().ToString();
+            var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+            this.Setup(expectedUri, expectedResponse);
+            var response = this.client.VoiceClient.GetRecording(expectedUri);
+            Assert.Equal(expectedResponse, response.ResultStream);
+        }
+
+        [Fact]
+        public async Task GetRecordingsAsync()
+        {
+            var expectedUri = this.fixture.Create<Uri>().ToString();
+            var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+            this.Setup(expectedUri, expectedResponse);
+            var response = await this.client.VoiceClient.GetRecordingAsync(expectedUri);
+            Assert.Equal(expectedResponse, response.ResultStream);
+        }
+
+        [Fact]
+        public async Task GetRecordingsAsyncWithCredentials()
+        {
+            var expectedUri = this.fixture.Create<Uri>().ToString();
+            var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+            this.Setup(expectedUri, expectedResponse);
+            var response =
+                await this.client.VoiceClient.GetRecordingAsync(expectedUri,
+                    this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal(expectedResponse, response.ResultStream);
+        }
+
+        [Fact]
+        public void GetRecordingWithCredentials()
+        {
+            var expectedUri = this.fixture.Create<Uri>().ToString();
+            var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+            this.Setup(expectedUri, expectedResponse);
+            var response =
+                this.client.VoiceClient.GetRecording(expectedUri, this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal(expectedResponse, response.ResultStream);
+        }
+
+        [Fact]
         public void StopStream()
         {
             var uuid = this.fixture.Create<string>();
@@ -228,125 +304,45 @@ namespace Vonage.Test.Unit
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public void StopTalk(bool passCreds)
+        [Fact]
+        public void StopTalk()
         {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{BaseUri}/{uuid}/stream";
-            var expectedResponse = @"{
-                  ""message"": ""Talk stopped"",
-                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
-                }";
-            this.Setup(expectedUri, expectedResponse, "{}");
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            CallCommandResponse response;
-            if (passCreds)
-            {
-                response = this.client.VoiceClient.StopStream(uuid, creds);
-            }
-            else
-            {
-                response = this.client.VoiceClient.StopStream(uuid);
-            }
-
+            var uuid = this.fixture.Create<string>();
+            this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson());
+            var response = this.client.VoiceClient.StopStream(uuid);
             Assert.Equal("Talk stopped", response.Message);
-            Assert.Equal(uuid, response.Uuid);
-        }
-
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task StopTalkAsync(bool passCreds)
-        {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{BaseUri}/{uuid}/stream";
-            var expectedResponse = @"{
-                  ""message"": ""Talk stopped"",
-                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
-                }";
-            this.Setup(expectedUri, expectedResponse, "{}");
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            CallCommandResponse response;
-            if (passCreds)
-            {
-                response = await this.client.VoiceClient.StopStreamAsync(uuid, creds);
-            }
-            else
-            {
-                response = await this.client.VoiceClient.StopStreamAsync(uuid);
-            }
-
-            Assert.Equal("Talk stopped", response.Message);
-            Assert.Equal(uuid, response.Uuid);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
         }
 
         [Fact]
-        public void TestCreateCallWithRandomFromNumber()
+        public async Task StopTalkAsync()
         {
-            var expectedResponse = @"{
-              ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
-              ""status"": ""started"",
-              ""direction"": ""outbound"",
-              ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22""
-            }";
-            var expectedRequestContent = this.GetExpectedJson();
-            this.Setup(BaseUri, expectedResponse, expectedRequestContent);
-            var request = BuildCreateCallCommand();
-            request.From = null;
-            request.AdvancedMachineDetection = null;
-            request.RandomFromNumber = true;
-            this.BuildCredentialsForBearerAuthentication();
-            var response = this.client.VoiceClient.CreateCall(request);
+            var uuid = this.fixture.Create<string>();
+            this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson(nameof(this.StopTalk)));
+            var response = await this.client.VoiceClient.StopStreamAsync(uuid);
+            Assert.Equal("Talk stopped", response.Message);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
-            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
-            Assert.Equal("outbound", response.Direction);
-            Assert.Equal("started", response.Status);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public void TestGetRecordings(bool passCreds)
+        [Fact]
+        public async Task StopTalkAsyncWithCredentials()
         {
-            var expectedUri = this.fixture.Create<Uri>().ToString();
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-            this.Setup(expectedUri, expectedResponse);
-            GetRecordingResponse response;
-            if (passCreds)
-            {
-                response = this.client.VoiceClient.GetRecording(expectedUri, creds);
-            }
-            else
-            {
-                response = this.client.VoiceClient.GetRecording(expectedUri);
-            }
-
-            Assert.Equal(expectedResponse, response.ResultStream);
+            var uuid = this.fixture.Create<string>();
+            this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson(nameof(this.StopTalk)));
+            var response =
+                await this.client.VoiceClient.StopStreamAsync(uuid, this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal("Talk stopped", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task TestGetRecordingsAsync(bool passCreds)
+        [Fact]
+        public void StopTalkWithCredentials()
         {
-            var expectedUri = this.fixture.Create<Uri>().ToString();
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-            this.Setup(expectedUri, expectedResponse);
-            GetRecordingResponse response;
-            if (passCreds)
-            {
-                response = await this.client.VoiceClient.GetRecordingAsync(expectedUri, creds);
-            }
-            else
-            {
-                response = await this.client.VoiceClient.GetRecordingAsync(expectedUri);
-            }
-
-            Assert.Equal(expectedResponse, response.ResultStream);
+            var uuid = this.fixture.Create<string>();
+            this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson(nameof(this.StopTalk)));
+            var response = this.client.VoiceClient.StopStream(uuid, this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal("Talk stopped", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
         }
 
         [Theory]
