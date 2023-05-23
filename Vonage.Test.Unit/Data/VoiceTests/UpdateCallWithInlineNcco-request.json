@@ -1,0 +1,12 @@
+﻿{
+  "action": "transfer",
+  "destination": {
+    "type": "ncco",
+    "ncco": [
+      {
+        "action": "talk",
+        "text": "Hello World"
+      }
+    ]
+  }
+}

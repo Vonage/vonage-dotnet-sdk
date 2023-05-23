@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Web;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Exceptions;
 using Vonage.Voice;
 using Vonage.Voice.Nccos;
@@ -396,6 +395,80 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
+        public async Task ListCallsAsync()
+        {
+            var filter = new CallSearchFilter();
+            this.Setup($"{this.ApiUrl}/v1/calls", this.GetResponseJson(nameof(this.ListCalls)));
+            var callList = await this.client.VoiceClient.GetCallsAsync(filter);
+            var callRecord = callList.Embedded.Calls[0];
+            Assert.True(100 == callList.Count);
+            Assert.True(10 == callList.PageSize);
+            Assert.True(0 == callList.PageIndex);
+            Assert.Equal("/calls?page_size=10&record_index=20&order=asc", callList.Links.Self.Href);
+            Assert.Equal("/calls/63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Links.Self.Href);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
+            Assert.Equal("started", callRecord.Status);
+            Assert.Equal("outbound", callRecord.Direction);
+            Assert.Equal("0.39", callRecord.Rate);
+            Assert.Equal("23.40", callRecord.Price);
+            Assert.Equal("60", callRecord.Duration);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
+        }
+
+        [Fact]
+        public async Task ListCallsAsyncWithCredentials()
+        {
+            var filter = new CallSearchFilter
+            {
+                ConversationUuid = "CON-f972836a-550f-45fa-956c-12a2ab5b7d22",
+                DateStart = DateTime.Parse("2016-11-14T07:45:14"),
+                DateEnd = DateTime.Parse("2016-11-14T07:45:14"),
+                PageSize = 10,
+                RecordIndex = 0,
+                Order = "asc",
+                Status = "started",
+            };
+            this.Setup(
+                $"{BaseUri}?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&",
+                this.GetResponseJson(nameof(this.ListCalls)));
+            var callList =
+                await this.client.VoiceClient.GetCallsAsync(filter, this.BuildCredentialsForBearerAuthentication());
+            var callRecord = callList.Embedded.Calls[0];
+            Assert.True(100 == callList.Count);
+            Assert.True(10 == callList.PageSize);
+            Assert.True(0 == callList.PageIndex);
+            Assert.Equal("/calls?page_size=10&record_index=20&order=asc", callList.Links.Self.Href);
+            Assert.Equal("/calls/63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Links.Self.Href);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
+            Assert.Equal("447700900000", callRecord.To.Number);
+            Assert.Equal("phone", callRecord.To.Type);
+            Assert.Equal("phone", callRecord.From.Type);
+            Assert.Equal("447700900001", callRecord.From.Number);
+            Assert.Equal("started", callRecord.Status);
+            Assert.Equal("outbound", callRecord.Direction);
+            Assert.Equal("0.39", callRecord.Rate);
+            Assert.Equal("23.40", callRecord.Price);
+            Assert.Equal("60", callRecord.Duration);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
+            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
+        }
+
+        [Fact]
         public void ListCallsWithCredentials()
         {
             var filter = new CallSearchFilter
@@ -435,6 +508,56 @@ namespace Vonage.Test.Unit
             Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
                 CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                               DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
+        }
+
+        [Fact]
+        public void StartDtmf()
+        {
+            var uuid = this.fixture.Create<string>();
+            var command = new DtmfCommand {Digits = "1234"};
+            this.Setup($"{BaseUri}/{uuid}/dtmf", this.GetResponseJson(), this.GetRequestJson());
+            var response = this.client.VoiceClient.StartDtmf(uuid, command);
+            Assert.Equal("DTMF sent", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+        }
+
+        [Fact]
+        public async Task StartDtmfAsync()
+        {
+            var uuid = this.fixture.Create<string>();
+            var command = new DtmfCommand {Digits = "1234"};
+            this.Setup($"{BaseUri}/{uuid}/dtmf", this.GetResponseJson(nameof(this.StartDtmf)),
+                this.GetRequestJson(nameof(this.StartDtmf)));
+            var response = await this.client.VoiceClient.StartDtmfAsync(uuid, command);
+            Assert.Equal("DTMF sent", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+        }
+
+        [Fact]
+        public async Task StartDtmfAsyncWithCredentials()
+        {
+            var uuid = this.fixture.Create<string>();
+            var command = new DtmfCommand {Digits = "1234"};
+            this.Setup($"{BaseUri}/{uuid}/dtmf", this.GetResponseJson(nameof(this.StartDtmf)),
+                this.GetRequestJson(nameof(this.StartDtmf)));
+            var response =
+                await this.client.VoiceClient.StartDtmfAsync(uuid, command,
+                    this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal("DTMF sent", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+        }
+
+        [Fact]
+        public void StartDtmfWithCredentials()
+        {
+            var uuid = this.fixture.Create<string>();
+            var command = new DtmfCommand {Digits = "1234"};
+            this.Setup($"{BaseUri}/{uuid}/dtmf", this.GetResponseJson(nameof(this.StartDtmf)),
+                this.GetRequestJson(nameof(this.StartDtmf)));
+            var response =
+                this.client.VoiceClient.StartDtmf(uuid, command, this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal("DTMF sent", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
         }
 
         [Fact]
@@ -517,172 +640,6 @@ namespace Vonage.Test.Unit
             var response = this.client.VoiceClient.StopStream(uuid, this.BuildCredentialsForBearerAuthentication());
             Assert.Equal("Talk stopped", response.Message);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
-        }
-
-        [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public async Task TestListCallsAsync(bool passCreds, bool kitchenSink)
-        {
-            var expectedResponse = @"{
-                  ""count"": 100,
-                  ""page_size"": 10,
-                  ""record_index"": 0,
-                  ""_links"": {
-                                ""self"": {
-                                    ""href"": ""/calls?page_size=10&record_index=20&order=asc""
-                                }
-                            },
-                  ""_embedded"": {
-                                ""calls"": [
-                                  {
-                        ""_links"": {
-                          ""self"": {
-                            ""href"": ""/calls/63f61863-4a51-4f6b-86e1-46edebcf9356""
-                          }
-                        },
-                        ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356"",
-                        ""conversation_uuid"": ""CON-f972836a-550f-45fa-956c-12a2ab5b7d22"",
-                        ""to"":
-                          {
-                            ""type"": ""phone"",
-                            ""number"": ""447700900000""
-                          }
-                        ,
-                        ""from"": 
-                          {
-                            ""type"": ""phone"",
-                            ""number"": ""447700900001""
-                          }
-                        ,
-                        ""status"": ""started"",
-                        ""direction"": ""outbound"",
-                        ""rate"": ""0.39"",
-                        ""price"": ""23.40"",
-                        ""duration"": ""60"",
-                        ""start_time"": ""2020-01-01 12:00:00"",
-                        ""end_time"": ""2020-01-01 12:00:00"",
-                        ""network"": ""65512""
-                      }
-                    ]
-                  }
-                }";
-            CallSearchFilter filter;
-            string expectedUri;
-            if (kitchenSink)
-            {
-                expectedUri =
-                    $"{BaseUri}?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&";
-                filter = new CallSearchFilter
-                {
-                    ConversationUuid = "CON-f972836a-550f-45fa-956c-12a2ab5b7d22",
-                    DateStart = DateTime.Parse("2016-11-14T07:45:14"),
-                    DateEnd = DateTime.Parse("2016-11-14T07:45:14"),
-                    PageSize = 10,
-                    RecordIndex = 0,
-                    Order = "asc",
-                    Status = "started",
-                };
-            }
-            else
-            {
-                expectedUri = $"{this.ApiUrl}/v1/calls";
-                filter = new CallSearchFilter();
-            }
-
-            this.Setup(expectedUri, expectedResponse);
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            PageResponse<CallList> callList;
-            if (passCreds)
-            {
-                callList = await this.client.VoiceClient.GetCallsAsync(filter, creds);
-            }
-            else
-            {
-                callList = await this.client.VoiceClient.GetCallsAsync(filter);
-            }
-
-            var callRecord = callList.Embedded.Calls[0];
-            Assert.True(100 == callList.Count);
-            Assert.True(10 == callList.PageSize);
-            Assert.True(0 == callList.PageIndex);
-            Assert.Equal("/calls?page_size=10&record_index=20&order=asc", callList.Links.Self.Href);
-            Assert.Equal("/calls/63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Links.Self.Href);
-            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
-            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
-            Assert.Equal("447700900000", callRecord.To.Number);
-            Assert.Equal("phone", callRecord.To.Type);
-            Assert.Equal("phone", callRecord.From.Type);
-            Assert.Equal("447700900001", callRecord.From.Number);
-            Assert.Equal("started", callRecord.Status);
-            Assert.Equal("outbound", callRecord.Direction);
-            Assert.Equal("0.39", callRecord.Rate);
-            Assert.Equal("23.40", callRecord.Price);
-            Assert.Equal("60", callRecord.Duration);
-            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                              DateTimeStyles.AdjustToUniversal), callRecord.StartTime);
-            Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-                CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                              DateTimeStyles.AdjustToUniversal), callRecord.EndTime);
-        }
-
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public void TestStartDtmf(bool passCreds)
-        {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{BaseUri}/{uuid}/dtmf";
-            var expectedResponse = @"{
-                  ""message"": ""DTMF sent"",
-                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
-                }";
-            var expectedRequestContent = @"{""digits"":""1234""}";
-            var command = new DtmfCommand {Digits = "1234"};
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            CallCommandResponse response;
-            if (passCreds)
-            {
-                response = this.client.VoiceClient.StartDtmf(uuid, command, creds);
-            }
-            else
-            {
-                response = this.client.VoiceClient.StartDtmf(uuid, command);
-            }
-
-            Assert.Equal("DTMF sent", response.Message);
-            Assert.Equal(uuid, response.Uuid);
-        }
-
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task TestStartDtmfAsync(bool passCreds)
-        {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{BaseUri}/{uuid}/dtmf";
-            var expectedResponse = @"{
-                  ""message"": ""DTMF sent"",
-                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
-                }";
-            var expectedRequestContent = @"{""digits"":""1234""}";
-            var command = new DtmfCommand {Digits = "1234"};
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            CallCommandResponse response;
-            if (passCreds)
-            {
-                response = await this.client.VoiceClient.StartDtmfAsync(uuid, command, creds);
-            }
-            else
-            {
-                response = await this.client.VoiceClient.StartDtmfAsync(uuid, command);
-            }
-
-            Assert.Equal("DTMF sent", response.Message);
-            Assert.Equal(uuid, response.Uuid);
         }
 
         [Theory]
@@ -892,22 +849,6 @@ namespace Vonage.Test.Unit
             Assert.True(response);
         }
 
-        [Fact]
-        public void TestUpdateCallWithInlineNcco()
-        {
-            var uuid = this.fixture.Create<Guid>().ToString();
-            var expectedUri = $"{BaseUri}/{uuid}";
-            var expectedResponse = "";
-            var expectedRequestContent =
-                @"{""action"":""transfer"",""destination"":{""type"":""ncco"",""ncco"":[{""action"":""talk"",""text"":""Hello World""}]}}";
-            var destination = new Destination {Type = "ncco", Ncco = new Ncco(new TalkAction {Text = "hello world"})};
-            var request = new CallEditCommand {Destination = destination, Action = CallEditCommand.ActionType.transfer};
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            this.BuildCredentialsForBearerAuthentication();
-            var response = this.client.VoiceClient.UpdateCall(uuid, request);
-            Assert.True(response);
-        }
-
         [Theory]
         [InlineData(CallEditCommand.ActionType.hangup)]
         [InlineData(CallEditCommand.ActionType.mute)]
@@ -918,16 +859,27 @@ namespace Vonage.Test.Unit
         public void UpdateCallWithActionsType(CallEditCommand.ActionType actionType)
         {
             var uuid = this.fixture.Create<Guid>().ToString();
-            var expectedUri = $"{BaseUri}/{uuid}";
-            var expectedActionType = actionType.ToString().ToLower();
-            var expectedRequestContent = @"{""action"":""" + expectedActionType +
-                                         @""",""destination"":{""type"":""ncco"",""url"":[""https://example.com/ncco.json""]}}";
-            var destination = new Destination {Type = "ncco", Url = new[] {"https://example.com/ncco.json"}};
-            var request = new CallEditCommand {Destination = destination, Action = actionType};
-            this.Setup(expectedUri, string.Empty, expectedRequestContent);
-            this.BuildCredentialsForBearerAuthentication();
-            var response = this.client.VoiceClient.UpdateCall(uuid, request);
-            Assert.True(response);
+            var expectedRequestContent = this.GetRequestJson().Replace("$action", actionType.ToString().ToLower());
+            var request = new CallEditCommand
+            {
+                Destination = new Destination {Type = "ncco", Url = new[] {"https://example.com/ncco.json"}},
+                Action = actionType,
+            };
+            this.Setup($"{BaseUri}/{uuid}", string.Empty, expectedRequestContent);
+            Assert.True(this.client.VoiceClient.UpdateCall(uuid, request));
+        }
+
+        [Fact]
+        public void UpdateCallWithInlineNcco()
+        {
+            var uuid = this.fixture.Create<Guid>().ToString();
+            var request = new CallEditCommand
+            {
+                Destination = new Destination {Type = "ncco", Ncco = new Ncco(new TalkAction {Text = "hello world"})},
+                Action = CallEditCommand.ActionType.transfer,
+            };
+            this.Setup($"{BaseUri}/{uuid}", string.Empty, this.GetRequestJson());
+            Assert.True(this.client.VoiceClient.UpdateCall(uuid, request));
         }
 
         private VonageClient BuildClientWithBasicAuthentication() =>
