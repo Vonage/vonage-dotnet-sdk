@@ -705,6 +705,9 @@
         <None Update="Data\VoiceTests\CreateCallWithStringParameters-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Data\VoiceTests\StopStream-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
