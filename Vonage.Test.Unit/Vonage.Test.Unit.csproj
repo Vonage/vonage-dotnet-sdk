@@ -158,13 +158,7 @@
         <None Update="Data\NumberInsightsTests\AdvancedNIRequestSyncWithNotRoamingStatus.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\TestCreateCallWithRandomFromNumber.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\VoiceTests\CreateCallAsync.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\VoiceTests\CreateCall.json">
+        <None Update="Data\VoiceTests\CreateCall-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\RedactTests\RedactReturns429.json">
@@ -684,10 +678,82 @@
         <Folder Include="Messages\Messenger\Data"/>
         <Folder Include="Messages\Mms\Data"/>
         <Folder Include="Messages\Sms\Data"/>
-        <None Update="Data\VoiceTests\CreateCallWithAdvancedMachineDetection.json">
+        <None Update="Data\NccoTests\TestConnectWithAdvancedMachineDetection-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NccoTests\TestConnectWithAdvancedMachineDetection-request.json">
+        <None Update="Data\VoiceTests\CreateCall-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithEndpointAndNcco-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithEndpointAndNcco-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithUnicodeCharacters-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithUnicodeCharacters-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithStringParameters-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithStringParameters-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StopStream-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StopTalk-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithRandomFromNumber-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\CreateCallWithRandomFromNumber-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\GetSpecificCall-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\ListCalls-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\UpdateCallWithActionsType-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\UpdateCallWithInlineNcco-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StartDtmf-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StartDtmf-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StartStream-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StartStream-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StartStreamWithCredentials-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\UpdateCallWithCredentials-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\UpdateCallAsync-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StartTalk-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StartTalk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\VoiceTests\StartTalkWithCredentials-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

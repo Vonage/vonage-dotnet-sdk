@@ -63,7 +63,7 @@ public class CallCommand
     /// <summary>
     ///     This will convert to ncco as per the CallCommandConverter - it is preferable to use this over the JArray Ncco
     /// </summary>
-    [JsonProperty(Order = 2)]
+    [JsonProperty("ncco", Order = 2)]
     public Ncco Ncco { get; set; }
 
     /// <summary>

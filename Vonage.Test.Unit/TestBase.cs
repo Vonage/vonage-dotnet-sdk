@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
+using Vonage.Request;
 using Xunit;
 
 namespace Vonage.Test.Unit
@@ -37,6 +38,12 @@ namespace Vonage.Test.Unit
 #endif
 
         private static readonly string TestAssemblyName = ThisAssembly.GetName().Name;
+
+        protected Credentials BuildCredentialsForBasicAuthentication() =>
+            Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+
+        protected Credentials BuildCredentialsForBearerAuthentication() =>
+            Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
 
         private static string AssemblyDirectory
         {
