@@ -627,6 +627,68 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
+        public void StartTalk()
+        {
+            var uuid = this.fixture.Create<string>();
+            this.Setup($"{BaseUri}/{uuid}/talk", this.GetResponseJson(), this.GetRequestJson());
+            var response = this.client.VoiceClient.StartTalk(uuid, new TalkCommand
+            {
+                Text = "Hello. How are you today?",
+            });
+            Assert.Equal("Talk started", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+        }
+
+        [Fact]
+        public async Task StartTalkAsync()
+        {
+            var uuid = this.fixture.Create<string>();
+            this.Setup($"{BaseUri}/{uuid}/talk", this.GetResponseJson(nameof(this.StartTalk)),
+                this.GetRequestJson(nameof(this.StartTalk)));
+            var response = await this.client.VoiceClient.StartTalkAsync(uuid, new TalkCommand
+            {
+                Text = "Hello. How are you today?",
+            });
+            Assert.Equal("Talk started", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+        }
+
+        [Fact]
+        public async Task StartTalkAsyncWithCredentials()
+        {
+            var uuid = this.fixture.Create<string>();
+            this.Setup($"{BaseUri}/{uuid}/talk", this.GetResponseJson(nameof(this.StartTalk)),
+                this.GetRequestJson(nameof(this.StartTalk)));
+            var response = await this.client.VoiceClient.StartTalkAsync(uuid, new TalkCommand
+            {
+                Text = "Hello. How are you today?",
+            }, this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal("Talk started", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+        }
+
+        [Fact]
+        public void StartTalkWithCredentials()
+        {
+            var uuid = this.fixture.Create<string>();
+            var command = new TalkCommand
+            {
+                Text = "Hello. How are you today?",
+                Loop = 0,
+                Level = "0.4",
+                VoiceName = "salli",
+                Language = "en-US",
+                Style = 1,
+                Premium = true,
+            };
+            this.Setup($"{BaseUri}/{uuid}/talk", this.GetResponseJson(nameof(this.StartTalk)), this.GetRequestJson());
+            var response =
+                this.client.VoiceClient.StartTalk(uuid, command, this.BuildCredentialsForBearerAuthentication());
+            Assert.Equal("Talk started", response.Message);
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+        }
+
+        [Fact]
         public void StopStream()
         {
             var uuid = this.fixture.Create<string>();
@@ -706,91 +768,6 @@ namespace Vonage.Test.Unit
             var response = this.client.VoiceClient.StopStream(uuid, this.BuildCredentialsForBearerAuthentication());
             Assert.Equal("Talk stopped", response.Message);
             Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
-        }
-
-        [Theory]
-        [InlineData(true, true)]
-        [InlineData(false, false)]
-        public void TestStartTalk(bool passCreds, bool kitchenSink)
-        {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{BaseUri}/{uuid}/talk";
-            var expectedResponse = @"{
-                  ""message"": ""Talk started"",
-                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
-                }";
-            string expectedRequestContent;
-            TalkCommand command;
-            if (kitchenSink)
-            {
-                expectedRequestContent =
-                    @"{""text"":""Hello. How are you today?"",""voice_name"":""salli"",""loop"":0,""level"":""0.4"",""language"":""en-US"",""style"":1,""premium"":true}";
-                command = new TalkCommand
-                {
-                    Text = "Hello. How are you today?",
-                    Loop = 0,
-                    Level = "0.4",
-                    VoiceName = "salli",
-                    Language = "en-US",
-                    Style = 1,
-                    Premium = true,
-                };
-            }
-            else
-            {
-                expectedRequestContent = @"{""text"":""Hello. How are you today?""}";
-                command = new TalkCommand
-                {
-                    Text = "Hello. How are you today?",
-                };
-            }
-
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            CallCommandResponse response;
-            if (passCreds)
-            {
-                response = this.client.VoiceClient.StartTalk(uuid, command, creds);
-            }
-            else
-            {
-                response = this.client.VoiceClient.StartTalk(uuid, command);
-            }
-
-            Assert.Equal("Talk started", response.Message);
-            Assert.Equal(uuid, response.Uuid);
-        }
-
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task TestStartTalkAsync(bool passCreds)
-        {
-            var uuid = "63f61863-4a51-4f6b-86e1-46edebcf9356";
-            var expectedUri = $"{BaseUri}/{uuid}/talk";
-            var expectedResponse = @"{
-                  ""message"": ""Talk started"",
-                  ""uuid"": ""63f61863-4a51-4f6b-86e1-46edebcf9356""
-                }";
-            var expectedRequestContent = @"{""text"":""Hello. How are you today?""}";
-            var command = new TalkCommand
-            {
-                Text = "Hello. How are you today?",
-            };
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var creds = this.BuildCredentialsForBearerAuthentication();
-            CallCommandResponse response;
-            if (passCreds)
-            {
-                response = await this.client.VoiceClient.StartTalkAsync(uuid, command, creds);
-            }
-            else
-            {
-                response = await this.client.VoiceClient.StartTalkAsync(uuid, command);
-            }
-
-            Assert.Equal("Talk started", response.Message);
-            Assert.Equal(uuid, response.Uuid);
         }
 
         [Fact]
