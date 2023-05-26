@@ -365,6 +365,26 @@ namespace Vonage.Common.Test.Monads
             .BeSuccess(6);
 
         [Fact]
+        public void Match_ShouldExecuteFailureOperation_GivenValueIsSuccess()
+        {
+            var value = 0;
+            void Success(int a) => value++;
+            void Failure(IResultFailure failure) => value--;
+            CreateFailure().Match(Success, Failure);
+            value.Should().Be(-1);
+        }
+
+        [Fact]
+        public void Match_ShouldExecuteSuccessOperation_GivenValueIsSuccess()
+        {
+            var value = 0;
+            void Success(int a) => value++;
+            void Failure(IResultFailure failure) => value--;
+            CreateSuccess(5).Match(Success, Failure);
+            value.Should().Be(1);
+        }
+
+        [Fact]
         public void Match_ShouldReturnFailureOperation_GivenValueIsFailure() =>
             CreateFailure()
                 .Match(value => value.ToString(), failure => failure.GetFailureMessage())
