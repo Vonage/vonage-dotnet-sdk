@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vonage.Request;
 
@@ -91,6 +92,14 @@ public interface IAccountClient
     Task<SubAccount> RetrieveSubAccountAsync(string subAccountKey, string apiKey = null, Credentials creds = null);
 
     /// <summary>
+    /// Retrieve sub accounts
+    /// </summary>
+    /// <param name="apiKey"></param>
+    /// <param name="creds"></param>
+    /// <returns></returns>
+    Task<List<SubAccount>> RetrieveSubAccountsAsync(string apiKey = null, Credentials creds = null);
+
+    /// <summary>
     /// Create a new sub account
     /// </summary>
     /// <param name="request"></param>
@@ -107,6 +116,14 @@ public interface IAccountClient
     /// <param name="creds"></param>
     /// <returns></returns>
     SubAccount RetrieveSubAccount(string subAccountKey, string apiKey = null, Credentials creds = null);
+
+    /// <summary>
+    /// Retrieve sub accounts
+    /// </summary>
+    /// <param name="apiKey"></param>
+    /// <param name="creds"></param>
+    /// <returns></returns>
+    List<SubAccount> RetrieveSubAccounts(string apiKey = null, Credentials creds = null);
 
     /// <summary>
     /// Retrieve the current balance of your Vonage API account

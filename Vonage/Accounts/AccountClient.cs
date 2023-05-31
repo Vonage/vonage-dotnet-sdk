@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
@@ -103,6 +104,19 @@ public class AccountClient : IAccountClient
         Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<SubAccount>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
+            AuthType.Basic
+        );
+
+    public List<SubAccount> RetrieveSubAccounts(string apiKey = null, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<List<SubAccount>>(
+            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
+            AuthType.Basic
+        );
+
+    public Task<List<SubAccount>> RetrieveSubAccountsAsync(string apiKey = null,
+        Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<List<SubAccount>>(
+            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
             AuthType.Basic
         );
 
