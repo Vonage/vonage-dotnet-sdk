@@ -107,15 +107,15 @@ public class AccountClient : IAccountClient
             AuthType.Basic
         );
 
-    public List<SubAccount> RetrieveSubAccounts(string apiKey = null, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<List<SubAccount>>(
+    public SubAccounts RetrieveSubAccounts(string apiKey = null, Credentials creds = null) =>
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<SubAccounts>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
             AuthType.Basic
         );
 
-    public Task<List<SubAccount>> RetrieveSubAccountsAsync(string apiKey = null,
+    public Task<SubAccounts> RetrieveSubAccountsAsync(string apiKey = null,
         Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<List<SubAccount>>(
+        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<SubAccounts>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
             AuthType.Basic
         );
