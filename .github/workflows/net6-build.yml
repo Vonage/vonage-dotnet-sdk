@@ -1,4 +1,4 @@
-name: NET6.0 Build
+name: NET7.0 Build
 
 on:
   push:
@@ -14,10 +14,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
-      - name: Setup .NET 6.0
+      - name: Setup .NET 7.0
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.403'
+          dotnet-version: '7.0.302'
       - name: Install SonarScanner
         run: |
           dotnet tool update --global dotnet-sonarscanner
