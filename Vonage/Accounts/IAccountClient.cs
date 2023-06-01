@@ -97,7 +97,7 @@ public interface IAccountClient
     /// <param name="apiKey"></param>
     /// <param name="creds"></param>
     /// <returns></returns>
-    Task<SubAccounts> RetrieveSubAccountsAsync(string apiKey = null, Credentials creds = null);
+    Task<SubAccountsRequestResult> RetrieveSubAccountsAsync(string apiKey = null, Credentials creds = null);
 
     /// <summary>
     /// Create a new sub account
@@ -123,7 +123,7 @@ public interface IAccountClient
     /// <param name="apiKey"></param>
     /// <param name="creds"></param>
     /// <returns></returns>
-    SubAccounts RetrieveSubAccounts(string apiKey = null, Credentials creds = null);
+    SubAccountsRequestResult RetrieveSubAccounts(string apiKey = null, Credentials creds = null);
 
     /// <summary>
     /// Retrieve the current balance of your Vonage API account

@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Vonage.Accounts;
 
-public class SubAccounts
+public class SubAccountsRequestResult
 {
     [JsonProperty("links")]
     public Links Links { get; set; }
@@ -17,5 +17,5 @@ public class SubAccounts
 
 
     [JsonProperty("_embedded")]
-    public Embedded Embedded { get; set; }
+    public SubAccountList Embedded { get; set; }
 }

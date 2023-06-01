@@ -2,7 +2,7 @@
 
 namespace Vonage.Accounts;
 
-public class Embedded
+public class SubAccountList
 {
     [JsonProperty("primary_account")]
     public PrimaryAccount PrimaryAccount { get; set; }
