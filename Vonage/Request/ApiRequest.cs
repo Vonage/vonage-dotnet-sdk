@@ -99,7 +99,7 @@ internal partial class ApiRequest
         }
 
         return new AuthenticationHeaderValue("Basic",
-            Convert.ToBase64String(Encoding.UTF8.GetBytes($"{this.GetApiKey()} : {this.GetApiSecret()}")));
+            Convert.ToBase64String(Encoding.UTF8.GetBytes($"{this.GetApiKey()}:{this.GetApiSecret()}")));
     }
 
     private AuthenticationHeaderValue BuildBearerAuth() =>
