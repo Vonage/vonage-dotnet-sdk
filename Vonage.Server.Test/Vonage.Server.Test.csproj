@@ -3,7 +3,7 @@
     <PropertyGroup>
         <Nullable>disable</Nullable>
         <IsPackable>false</IsPackable>
-        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows;net7.0;net7.0-windows;net481</TargetFrameworks>
         <AssemblyName>Vonage.Server.Test</AssemblyName>
         <RootNamespace>Vonage.Server.Test</RootNamespace>
         <PackageId>Vonage.Server.Test</PackageId>

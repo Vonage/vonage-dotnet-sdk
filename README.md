@@ -89,8 +89,11 @@ Therefore, we ensure complete compatibility no matter the version you are using.
 * .NET Framework 4.7.1
 * .NET Framework 4.7.2
 * .NET Framework 4.8.0
+* .NET Framework 4.8.1
 * .NET 6.0
 * .NET 6.0-Windows
+* .NET 7.0
+* .NET 7.0-Windows
 
 ## Configuration
 
