@@ -42,22 +42,30 @@ public class AccountClient : IAccountClient
         );
 
     public SubAccount CreateSubAccount(CreateSubAccountRequest request, string apiKey = null,
-        Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<SubAccount>(
+        Credentials creds = null)
+    {
+        var credentials = creds ?? this.Credentials;
+        var accountId = apiKey ?? credentials.ApiKey;
+        return new ApiRequest(credentials).DoRequestWithJsonContent<SubAccount>(
             HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
+            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts"),
             request,
             AuthType.Basic
         );
+    }
 
     public Task<SubAccount> CreateSubAccountAsync(CreateSubAccountRequest request, string apiKey = null,
-        Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<SubAccount>(
+        Credentials creds = null)
+    {
+        var credentials = creds ?? this.Credentials;
+        var accountId = apiKey ?? credentials.ApiKey;
+        return new ApiRequest(credentials).DoRequestWithJsonContentAsync<SubAccount>(
             HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts"),
+            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts"),
             request,
             AuthType.Basic
         );
+    }
 
     public Balance GetAccountBalance(Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<Balance>(
@@ -93,18 +101,26 @@ public class AccountClient : IAccountClient
             AuthType.Basic
         );
 
-    public SubAccount RetrieveSubAccount(string subAccountKey, string apiKey = null, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParameters<SubAccount>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
+    public SubAccount RetrieveSubAccount(string subAccountKey, string apiKey = null, Credentials creds = null)
+    {
+        var credentials = creds ?? this.Credentials;
+        var accountId = apiKey ?? credentials.ApiKey;
+        return new ApiRequest(credentials).DoGetRequestWithQueryParameters<SubAccount>(
+            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts/{subAccountKey}"),
             AuthType.Basic
         );
+    }
 
     public Task<SubAccount> RetrieveSubAccountAsync(string subAccountKey, string apiKey = null,
-        Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<SubAccount>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/subaccounts/{subAccountKey}"),
+        Credentials creds = null)
+    {
+        var credentials = creds ?? this.Credentials;
+        var accountId = apiKey ?? credentials.ApiKey;
+        return new ApiRequest(credentials).DoGetRequestWithQueryParametersAsync<SubAccount>(
+            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts/{subAccountKey}"),
             AuthType.Basic
         );
+    }
 
     public bool RevokeApiSecret(string secretId, string apiKey = null, Credentials creds = null)
     {
