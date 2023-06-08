@@ -8,14 +8,10 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Setup .NET 6.0
+      - name: Setup .NET 7.0
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.403'
-      - name: Setup .NET 3.1
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.401'
+          dotnet-version: '7.0.302'
       - uses: actions/checkout@v2
       - name: Build
         run: dotnet build --configuration Release

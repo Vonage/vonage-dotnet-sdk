@@ -1,4 +1,4 @@
-name: NET6.0 Build
+name: NET7.0 Build
 
 on:
   push:
@@ -14,10 +14,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
-      - name: Setup .NET 6.0
+      - name: Setup .NET 7.0
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.403'
+          dotnet-version: '7.0.302'
       - name: Install SonarScanner
         run: |
           dotnet tool update --global dotnet-sonarscanner
@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release
       - name: Test
-        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net6.0 --filter Category!=Integration' -f xml  -o 'coverage.xml'
+        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net7.0 --filter Category!=Integration' -f xml  -o 'coverage.xml'
         env:
           Vonage.Test.RsaPrivateKey: ${{ secrets.VONAGE_RSA_PRIVATE_KEY }}
       - name: End SonarScanner
