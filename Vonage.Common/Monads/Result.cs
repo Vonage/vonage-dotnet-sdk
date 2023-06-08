@@ -178,6 +178,23 @@ public readonly struct Result<T>
         this.IsFailure ? failureOperation(this.failure) : successOperation(this.success);
 
     /// <summary>
+    ///     Match the two states of the Result.
+    /// </summary>
+    /// <param name="successOperation">Success match operation.</param>
+    /// <param name="failureOperation">Failure match operation.</param>
+    public void Match(Action<T> successOperation, Action<IResultFailure> failureOperation)
+    {
+        if (this.IsFailure)
+        {
+            failureOperation(this.failure);
+        }
+        else
+        {
+            successOperation(this.success);
+        }
+    }
+
+    /// <summary>
     ///     Merge two results together. The merge operation will be used if they're both in a Success state.
     /// </summary>
     /// <param name="other">The other result.</param>
