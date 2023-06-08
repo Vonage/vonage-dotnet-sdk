@@ -1,4 +1,4 @@
-name: NET7.0 Build
+name: .NET Build
 
 on:
   push:
