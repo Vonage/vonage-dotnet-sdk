@@ -3,12 +3,14 @@ Vonage Client Library for .NET
 ===================================
 
 [![](http://img.shields.io/nuget/v/Vonage.svg?style=flat-square)](https://www.nuget.org/packages/Vonage/)
-[![Build Status](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)
+[![Build Status](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net-build.yml/badge.svg)
+[![MultiFramework Build Status](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/multiframework-build.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Vonage_vonage-dotnet-sdk&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Vonage_vonage-dotnet-sdk)
 [![CodeScene Code Health](https://codescene.io/projects/29782/status-badges/code-health)](https://codescene.io/projects/29782)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-You can use this C# client library to integrate [Vonage's APIs](#supported-apis) to your application. To use this, you'll
+You can use this C# client library to integrate [Vonage's APIs](#supported-apis) to your application. To use this,
+you'll
 need a Vonage API account. Sign up [for free at vonage.com][signup].
 
  * [Installation](#installation)
