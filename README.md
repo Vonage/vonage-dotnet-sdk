@@ -1,38 +1,39 @@
-
 Vonage Client Library for .NET
 ===================================
 
 [![](http://img.shields.io/nuget/v/Vonage.svg?style=flat-square)](https://www.nuget.org/packages/Vonage/)
-[![Build Status](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net6-build.yml/badge.svg)
+[![Build Status](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net-build.yml/badge.svg)](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/net-build.yml/badge.svg)
+[![MultiFramework Build Status](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/multiframework-build.yml/badge.svg)](https://github.com/Vonage/vonage-dotnet-sdk/actions/workflows/multiframework-build.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Vonage_vonage-dotnet-sdk&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Vonage_vonage-dotnet-sdk)
 [![CodeScene Code Health](https://codescene.io/projects/29782/status-badges/code-health)](https://codescene.io/projects/29782)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-You can use this C# client library to integrate [Vonage's APIs](#supported-apis) to your application. To use this, you'll
-need a Vonage API account. Sign up [for free at vonage.com][signup].
+You can use this C# client library to integrate [Vonage's APIs](#supported-apis) to your application.
+To use this, you'll need a Vonage API account.
+Sign up [for free at vonage.com][signup].
 
- * [Installation](#installation)
-   * [Migration guides](#migration-guides)
-     * [Upgrading 5.x => 6.x](#upgrading-5x--6x)
-   * [Targeted frameworks](#targeted-frameworks)
-   * [Tested frameworks](#tested-frameworks)
- * [Configuration](#configuration)
-   * [Setup](#setup)
-     * [Provide credentials](#provide-credentials)
-     * [Set credentials in settings file](#set-credentials-in-settings-file)
-     * [Override values on Configuration singleton](#override-values-in-configuration-singleton)
-   * [Configuration reference](#configuration-reference)
-   * [Test configuration](#test-configuration)
-   * [Logging](#logging)
-     * [v5.0.0+](#v500-)
-     * [3.1.x, 5.0.0](#-31x-500-)
-     * [2.2.0, 3.0.x](#220---30x)
- * [Examples](#examples)
- * [Supported APIs](#supported-apis)
- * [FAQ](#faq)
- * [Contributing](#contributing)
- * [Thanks](#thanks)
- * [Licence](#license)
+* [Installation](#installation)
+    * [Migration guides](#migration-guides)
+        * [Upgrading 5.x => 6.x](#upgrading-5x--6x)
+    * [Targeted frameworks](#targeted-frameworks)
+    * [Tested frameworks](#tested-frameworks)
+* [Configuration](#configuration)
+    * [Setup](#setup)
+        * [Provide credentials](#provide-credentials)
+        * [Set credentials in settings file](#set-credentials-in-settings-file)
+        * [Override values on Configuration singleton](#override-values-in-configuration-singleton)
+    * [Configuration reference](#configuration-reference)
+    * [Test configuration](#test-configuration)
+    * [Logging](#logging)
+        * [v5.0.0+](#v500-)
+        * [3.1.x, 5.0.0](#-31x-500-)
+        * [2.2.0, 3.0.x](#220---30x)
+* [Examples](#examples)
+* [Supported APIs](#supported-apis)
+* [FAQ](#faq)
+* [Contributing](#contributing)
+* [Thanks](#thanks)
+* [Licence](#license)
 
 ## Installation
 
@@ -59,6 +60,7 @@ If you would prefer to run directly from source:
 * Clone this repository `git clone https://github.com/vonage/vonage-dotnet-sdk`
 * Add the Vonage/Vonage.csproj file to your .sln file
 * Add the Vonage/Vonage.csproj file as a project dependency of you project e.g.
+
 ```xml
 <ItemGroup>
     <ProjectReference Include="..\Vonage\Vonage.csproj" />
@@ -77,10 +79,12 @@ Changes in version 6.x
 * Strings with values "true" or "false" are now represented as `bool` in code
 
 ### Targeted frameworks
+
 The SDK targets towards `netstandard2.0`.
 It is compatible with every [supported version](#tested-frameworks).
 
 ### Tested frameworks
+
 We test the SDK against every supported version of the framework.
 Therefore, we ensure complete compatibility no matter the version you are using.
 
@@ -98,10 +102,13 @@ Therefore, we ensure complete compatibility no matter the version you are using.
 ## Configuration
 
 ### Setup
+
 To setup the configuration of the Vonage Client you can do one of the following.
 
 ### Provide credentials
-Create a Vonage Client instance and pass in credentials in the constructor - this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id)
+
+Create a Vonage Client instance and pass in credentials in the constructor - this will only affect the security
+credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id)
 
 ```csharp
 var credentials = Credentials.FromApiKeyAndSecret(
@@ -113,6 +120,7 @@ var vonageClient = new VonageClient(credentials);
 ```
 
 ### Set credentials in settings file
+
 Provide the vonage URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
 
 ```json
@@ -130,10 +138,12 @@ Provide the vonage URLs, API key, secret, and application credentials (for JWT) 
   }
 }
 ```
+
 > Note: In the event multiple configuration files are found, the order of precedence is as follows:
-> ```appsettings.json``` which overrides ```settings.json``` 
+> ```appsettings.json``` which overrides ```settings.json```
 
 ### Override values in Configuration singleton
+
 Access the Configuration instance and set the appropriate key in your code for example:
 
 ```cshap
@@ -163,6 +173,7 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
 | Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
 
 ### Test configuration
+
 Make sure to set `Vonage.Test.RsaPrivateKey` (with a RSA Private Key) in your environment variables.
 Some tests rely on that to verify a token can be created.
 
@@ -172,7 +183,9 @@ For security reasons, not RSA Private Key is hardcoded in the repository.
 
 #### v5.0.0 +
 
-The Library uses Microsoft.Extensions.Logging to preform all of it's logging tasks. To configure logging for you app simply create a new `ILoggerFactory` and call the `LogProvider.SetLogFactory()` method to tell the Vonage library how to log. For example, to log to the console with serilog you can do the following:
+The Library uses Microsoft.Extensions.Logging to preform all of it's logging tasks. To configure logging for you app
+simply create a new `ILoggerFactory` and call the `LogProvider.SetLogFactory()` method to tell the Vonage library how to
+log. For example, to log to the console with serilog you can do the following:
 
 ```csharp
 using Microsoft.Extensions.Logging;
@@ -193,7 +206,8 @@ LogProvider.SetLogFactory(factory);
 
 The library makes use of [LibLog](https://github.com/damianh/LibLog/wiki) to facilitate logging.
 
-Your application controls if and how logging occurs. Example using [Serilog](https://serilog.net/) and [Serilog.Sinks.Console](https://www.nuget.org/packages/Serilog.Sinks.Console) v3.x:
+Your application controls if and how logging occurs. Example using [Serilog](https://serilog.net/)
+and [Serilog.Sinks.Console](https://www.nuget.org/packages/Serilog.Sinks.Console) v3.x:
 
 ```C#
 using Vonage.Request;
@@ -214,11 +228,14 @@ Log.Logger.Debug("end");
 
 #### 2.2.0 - 3.0.x
 
-You can request console logging by placing a ```logging.json``` file alongside your ```appsettings.json``` configuration.
+You can request console logging by placing a ```logging.json``` file alongside your ```appsettings.json```
+configuration.
 
-Note that logging Vonage messages will very likely expose your key and secret to the console as they can be part of the query string.
+Note that logging Vonage messages will very likely expose your key and secret to the console as they can be part of the
+query string.
 
-Example ```logging.json``` contents that would log all requests as well as major configuration and authentication errors:
+Example ```logging.json``` contents that would log all requests as well as major configuration and authentication
+errors:
 
 ```json
 {
@@ -232,21 +249,23 @@ Example ```logging.json``` contents that would log all requests as well as major
 }
 ```
 
-You may specify other types of logging (file, etc.). 
+You may specify other types of logging (file, etc.).
 
 ## Examples
-We are working on a separate repository for .NET examples. [Check it out here!](https://github.com/Vonage/vonage-dotnet-code-snippets)
+
+We are working on a separate repository for .NET
+examples. [Check it out here!](https://github.com/Vonage/vonage-dotnet-code-snippets)
 
 The following examples show how to:
 
- * [Send a message](#sending-a-message)
- * [Receive a message](#receiving-a-message)
- * [Receive a message delivery receipt](#receiving-a-message-delivery-receipt)
- * [Redact a message](#redacting-a-message)
- * [Initiate a call](#initiating-a-call)
- * [Receive a call](#receiving-a-call)
- * [Send 2FA code](#sending-2fa-code)
- * [Check 2FA code](#checking-2fa-code)
+* [Send a message](#sending-a-message)
+* [Receive a message](#receiving-a-message)
+* [Receive a message delivery receipt](#receiving-a-message-delivery-receipt)
+* [Redact a message](#redacting-a-message)
+* [Initiate a call](#initiating-a-call)
+* [Receive a call](#receiving-a-call)
+* [Send 2FA code](#sending-2fa-code)
+* [Check 2FA code](#checking-2fa-code)
 
 ### Sending a Message
 
@@ -272,7 +291,8 @@ var response = await vonageClient.SmsClient.SendAnSmsAsync(new Vonage.Messaging.
 
 Use [Vonage's SMS API][doc_sms] to receive an SMS message. Assumes your Vonage webhook endpoint is configured.
 
-The best method for receiving an SMS will vary depending on whether you configure your webhooks to be GET or POST. Will Also Vary between ASP.NET MVC and ASP.NET MVC Core.
+The best method for receiving an SMS will vary depending on whether you configure your webhooks to be GET or POST. Will
+Also Vary between ASP.NET MVC and ASP.NET MVC Core.
 
 #### ASP.NET MVC Core
 
@@ -328,7 +348,8 @@ public async Task<HttpResponseMessage> PostInbound()
 
 Use [Vonage's SMS API][doc_sms] to receive an SMS delivery receipt. Assumes your Vonage webhook endpoint is configured.
 
-The best method for receiving an SMS will vary depending on whether you configure your webhooks to be GET or POST. Will Also Vary between ASP.NET MVC and ASP.NET MVC Core.
+The best method for receiving an SMS will vary depending on whether you configure your webhooks to be GET or POST. Will
+Also Vary between ASP.NET MVC and ASP.NET MVC Core.
 
 #### ASP.NET MVC Core
 
@@ -395,7 +416,9 @@ var response = await client.RedactClient.RedactAsync(request);
 
 Use [Vonage's Voice API][doc_voice] to initiate a voice call.
 
-__NOTE:__ You must have a valid Application ID and private key in order to make voice calls. Use either ```Vonage.Application``` or Vonage's Node.js-based [CLI tool](https://github.com/nexmo/nexmo-cli) to register. See the [Application API][doc_app] documentation for details.
+__NOTE:__ You must have a valid Application ID and private key in order to make voice calls. Use
+either ```Vonage.Application``` or Vonage's Node.js-based [CLI tool](https://github.com/nexmo/nexmo-cli) to register.
+See the [Application API][doc_app] documentation for details.
 
 ```csharp
 var creds = Credentials.FromAppIdAndPrivateKeyPath(VONAGE_APPLICATION_ID, VONAGE_PRIVATE_KEY_PATH);
@@ -459,7 +482,7 @@ var response = await client.VerifyClient.VerifyCheckAsync(request);
 ### Additional Examples
 
 * Check out the sample MVC application and tests for more examples.
-Make sure to copy appsettings.json.example to appsettings.json and enter your key/secret.
+  Make sure to copy appsettings.json.example to appsettings.json and enter your key/secret.
 
 ## Supported APIs
 
@@ -490,11 +513,13 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 ## FAQ
 
 Q: Does the .NET SDK Support the async pattern?
-A: Yes. All methods either support asynchronous behaviours by default or provide specific behaviours for each sync/async option.
+A: Yes. All methods either support asynchronous behaviours by default or provide specific behaviours for each sync/async
+option.
 
 ## Contributing
 
 Pick your preferred IDE:
+
 - Visual Studio (Community is fine)
 - Visual Studio Code
 - Jetbrains Rider
@@ -515,9 +540,15 @@ Pull requests are welcome!
 This library is released under [the MIT License][license].
 
 [signup]: https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+
 [doc_sms]: https://developer.nexmo.com/api/sms?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+
 [doc_voice]: https://developer.nexmo.com/voice/voice-api/overview?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+
 [doc_verify]: https://developer.nexmo.com/verify/overview?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+
 [doc_app]: https://developer.nexmo.com/concepts/guides/applications?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+
 [doc_redact]: https://developer.nexmo.com/api/redact?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library
+
 [license]: LICENSE.md
