@@ -1,3 +1,32 @@
+# v6.4.0 (2023-06-09)
+
+* fix: SubAccounts implementation
+* feat: implement Match on Result with void return type
+* feat: dependency injection extension
+* feat: add 4.8.1 and 7.0 in targeted frameworks
+* ci: fix multiframework pipeline
+* doc: readme badge fix
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.3.3...v6.4.0
+
+---
+
+# v6.3.3 (2023-06-01)
+
+* fix: basic auth encoding
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.3.2...v6.3.3
+
+---
+
+# v6.3.2 (2023-05-22)
+
+* fix: change RequestId to Guid for VerifyCodeRequest
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.3.1...v6.3.2
+
+---
+
 # v6.3.1 (2023-05-19)
 
 * feat: proactive connect
