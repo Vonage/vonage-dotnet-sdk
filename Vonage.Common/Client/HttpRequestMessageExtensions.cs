@@ -5,9 +5,10 @@ namespace Vonage.Common.Client;
 
 internal static class HttpRequestMessageExtensions
 {
-    internal static HttpRequestMessage WithAuthorization(this HttpRequestMessage message, string token)
+    internal static HttpRequestMessage WithAuthenticationHeader(this HttpRequestMessage message,
+        AuthenticationHeaderValue header)
     {
-        message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        message.Headers.Authorization = header;
         return message;
     }
 

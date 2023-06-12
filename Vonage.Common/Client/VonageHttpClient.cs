@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
@@ -25,9 +26,9 @@ public class VonageHttpClient
     {
         this.client = configuration.HttpClient;
         this.jsonSerializer = serializer;
-        this.requestOptions = configuration.TokenGeneration()
-            .Map(token =>
-                new HttpClientOptions(token, UserAgentProvider.GetFormattedUserAgent(configuration.UserAgent)));
+        this.requestOptions = configuration.AuthenticationHeader
+            .Map(header =>
+                new HttpClientOptions(header, UserAgentProvider.GetFormattedUserAgent(configuration.UserAgent)));
     }
 
     /// <summary>
@@ -68,13 +69,6 @@ public class VonageHttpClient
         await this.SendRequest(request, this.BuildHttpRequestMessage, this.ParseFailure<TResponse>,
             this.ParseSuccess<TResponse>);
 
-    private Result<HttpRequestMessage> BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
-        this.requestOptions
-            .Map(options => value
-                .BuildRequestMessage()
-                .WithAuthorization(options.Token)
-                .WithUserAgent(options.UserAgent));
-
     private HttpFailure CreateFailureResult(HttpStatusCode code, string responseContent) =>
         this.jsonSerializer
             .DeserializeObject<ErrorResponse>(responseContent)
@@ -109,7 +103,14 @@ public class VonageHttpClient
             .MapAsync(ExtractResponseData)
             .Bind(response => !response.IsSuccessStatusCode ? failure(response) : success(response));
 
+    protected virtual Result<HttpRequestMessage> BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
+        this.requestOptions
+            .Map(options => value
+                .BuildRequestMessage()
+                .WithAuthenticationHeader(options.AuthenticationHeader)
+                .WithUserAgent(options.UserAgent));
+
     private sealed record ResponseData(HttpStatusCode Code, bool IsSuccessStatusCode, string Content);
 
-    private sealed record HttpClientOptions(string Token, string UserAgent);
+    private sealed record HttpClientOptions(AuthenticationHeaderValue AuthenticationHeader, string UserAgent);
 }

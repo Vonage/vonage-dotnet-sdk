@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http.Headers;
+using System.Text;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Cryptography;
@@ -146,6 +148,13 @@ namespace Vonage.Request
         }
 
         /// <summary>
+        ///     Provides the preferred authentication based on authentication type.
+        /// </summary>
+        /// <returns>The authentication header if it matches any criteria. A AuthenticationFailure otherwise.</returns>
+        public Result<AuthenticationHeaderValue> GetAuthenticationHeader() =>
+            this.GetPreferredAuthenticationType().Bind(this.GetPreferredAuthenticationHeader);
+
+        /// <summary>
         ///     Provides the preferred authentication type.
         /// </summary>
         /// <returns>The authentication type if it matches any criteria. A AuthenticationFailure otherwise.</returns>
@@ -173,5 +182,15 @@ namespace Vonage.Request
         /// <returns>The user agent.</returns>
         public string GetUserAgent() =>
             this.AppUserAgent ?? Configuration.Instance.Settings["appSettings:Vonage.UserAgent"];
+
+        private Result<AuthenticationHeaderValue> GetPreferredAuthenticationHeader(AuthType authenticationType) =>
+            authenticationType switch
+            {
+                AuthType.Basic => Result<AuthenticationHeaderValue>.FromSuccess(new AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(Encoding.UTF8.GetBytes($"{this.ApiKey}:{this.ApiSecret}")))),
+                AuthType.Bearer => new Jwt().GenerateToken(this)
+                    .Map(token => new AuthenticationHeaderValue("Bearer", token)),
+                _ => Result<AuthenticationHeaderValue>.FromFailure(new AuthenticationFailure()),
+            };
     }
 }

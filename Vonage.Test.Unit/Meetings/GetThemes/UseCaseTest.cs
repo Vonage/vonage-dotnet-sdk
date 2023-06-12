@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
@@ -29,7 +30,9 @@ namespace Vonage.Test.Unit.Meetings.GetThemes
                 .Build(HttpStatusCode.OK)
                 .WithExpectedRequest(BuildExpectedRequest())
                 .ToHttpClient();
-            var configuration = new VonageHttpClientConfiguration(client, () => this.helper.Fixture.Create<string>(),
+            var configuration = new VonageHttpClientConfiguration(
+                client,
+                new AuthenticationHeaderValue("Bearer", this.helper.Fixture.Create<string>()),
                 this.helper.Fixture.Create<string>());
             var result = await Operation(configuration);
             result.Should().BeSuccess(success => success.Should().BeEmpty());

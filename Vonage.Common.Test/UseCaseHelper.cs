@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using AutoFixture;
 using FluentAssertions;
 using FsCheck;
@@ -174,7 +175,7 @@ namespace Vonage.Common.Test
         {
             var configuration = new VonageHttpClientConfiguration(
                 FakeHttpRequestHandler.Build(HttpStatusCode.OK).ToHttpClient(),
-                () => new AuthenticationFailure().ToResult<string>(),
+                new AuthenticationFailure().ToResult<AuthenticationHeaderValue>(),
                 this.Fixture.Create<string>());
             var result = await operation(configuration);
             result.Should().BeFailure(new AuthenticationFailure());
@@ -218,7 +219,7 @@ namespace Vonage.Common.Test
         public static UseCaseHelper WithSerializer(JsonSerializer serializer) => new(serializer);
 
         private VonageHttpClientConfiguration CreateConfiguration(FakeHttpRequestHandler handler) =>
-            new(handler.ToHttpClient(), () => this.Fixture.Create<string>(),
+            new(handler.ToHttpClient(), new AuthenticationHeaderValue("Bearer", this.Fixture.Create<string>()),
                 this.Fixture.Create<string>());
     }
 
