@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoFixture;
 using FsCheck;
@@ -83,7 +84,7 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
                     .WithExpectedRequest(this.BuildExpectedRequest())
                     .WithResponseContent(expectedResponse)
                     .ToHttpClient(),
-                () => this.Helper.Fixture.Create<string>(),
+                new AuthenticationHeaderValue("Bearer", this.Helper.Fixture.Create<string>()),
                 this.Helper.Fixture.Create<string>());
 
         private ExpectedRequest BuildExpectedRequest() =>

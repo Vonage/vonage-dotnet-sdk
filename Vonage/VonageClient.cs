@@ -3,7 +3,6 @@ using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
 using Vonage.Common.Client;
-using Vonage.Common.Monads;
 using Vonage.Conversions;
 using Vonage.Messages;
 using Vonage.Messaging;
@@ -100,10 +99,9 @@ public class VonageClient
         this.SmsClient = new SmsClient(this.Credentials);
         this.PricingClient = new PricingClient(this.Credentials);
         this.MessagesClient = new MessagesClient(this.Credentials);
-        Result<string> GenerateToken() => new Jwt().GenerateToken(this.Credentials);
         var nexmoConfiguration = new VonageHttpClientConfiguration(
             InitializeHttpClient(Configuration.Instance.NexmoApiUrl),
-            GenerateToken,
+            this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
         this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
     }

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using Vonage.Common.Monads;
 
 namespace Vonage.Common.Client;
@@ -8,7 +8,9 @@ namespace Vonage.Common.Client;
 ///     Represents the configuration for all Vonage Clients.
 /// </summary>
 /// <param name="HttpClient">HttpClient to used for further connections.</param>
-/// <param name="TokenGeneration">Function used for generating a token.</param>
+/// <param name="AuthenticationHeader">AuthenticationHeader to be used for further connections.</param>
 /// <param name="UserAgent">Value to be used in the user-agent header of each request.</param>
-public record VonageHttpClientConfiguration(HttpClient HttpClient, Func<Result<string>> TokenGeneration,
+public record VonageHttpClientConfiguration(
+    HttpClient HttpClient,
+    Result<AuthenticationHeaderValue> AuthenticationHeader,
     string UserAgent);

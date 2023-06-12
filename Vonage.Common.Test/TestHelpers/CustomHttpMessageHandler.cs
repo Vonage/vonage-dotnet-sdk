@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using AutoFixture;
 using AutoFixture.Kernel;
@@ -38,7 +39,7 @@ namespace Vonage.Common.Test.TestHelpers
         public VonageHttpClientConfiguration ToConfiguration(ISpecimenBuilder builder) =>
             new VonageHttpClientConfiguration(
                 new HttpClient(this, false) {BaseAddress = this.BaseUri},
-                () => Result<string>.FromSuccess(builder.Create<string>()),
+                new AuthenticationHeaderValue("Bearer", builder.Create<string>()),
                 builder.Create<string>());
 
         public HttpClient ToHttpClient() => new HttpClient(this, false) {BaseAddress = this.BaseUri};

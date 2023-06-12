@@ -52,7 +52,9 @@ public class VideoClient : IVideoClient
     public VideoClient(Credentials credentials) => this.Credentials = credentials;
 
     private VonageHttpClientConfiguration BuildClientConfiguration() =>
-        new(InitializeHttpClient(), () => new Jwt().GenerateToken(this.Credentials),
+        new(
+            InitializeHttpClient(),
+            this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
 
     private void InitializeClients()
