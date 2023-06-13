@@ -219,8 +219,7 @@ namespace Vonage.Common.Test
         public static UseCaseHelper WithSerializer(JsonSerializer serializer) => new(serializer);
 
         private VonageHttpClientConfiguration CreateConfiguration(FakeHttpRequestHandler handler) =>
-            new(handler.ToHttpClient(), new AuthenticationHeaderValue("Bearer", this.Fixture.Create<string>()),
-                this.Fixture.Create<string>());
+            new(handler.ToHttpClient(), new AuthenticationHeaderValue("Anonymous"), this.Fixture.Create<string>());
     }
 
     public struct ExpectedRequest

@@ -39,8 +39,6 @@ namespace Vonage.Common.Test.TestHelpers
             received.RequestUri.Should()
                 .Be(new Uri(this.baseUri, expected.RequestUri));
             received.Method.Should().Be(expected.Method);
-            received.Headers.Authorization.Scheme.Should().Be("Bearer");
-            received.Headers.Authorization.Parameter.Should().NotBeNullOrWhiteSpace();
             received.Content.Should().Be(expected.Content);
         }
 

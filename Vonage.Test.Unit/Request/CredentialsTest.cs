@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Text;
+using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Request;
@@ -8,6 +11,38 @@ namespace Vonage.Test.Unit.Request
 {
     public class CredentialsTest
     {
+        [Fact]
+        public void GetAuthenticationHeader_ReturnsBasicScheme_GivenContainsApiKeyAndApiSecret() =>
+            BuildBasicCredentials()
+                .GetAuthenticationHeader()
+                .Map(header => header.Scheme)
+                .Should()
+                .BeSuccess("Basic");
+
+        [Fact]
+        public void GetAuthenticationHeader_ReturnsBearerScheme_GivenContainsApplicationIdAndPrivateKey() =>
+            BuildBearerCredentials()
+                .GetAuthenticationHeader()
+                .Map(header => header.Scheme)
+                .Should()
+                .BeSuccess("Bearer");
+
+        [Fact]
+        public void GetAuthenticationHeader_ReturnsEncodedCredentials_GivenContainsApiKeyAndApiSecret() =>
+            BuildBasicCredentials()
+                .GetAuthenticationHeader()
+                .Map(header => header.Parameter)
+                .Should()
+                .BeSuccess(Convert.ToBase64String(Encoding.UTF8.GetBytes("apiKey:apiSecret")));
+
+        [Fact]
+        public void GetAuthenticationHeader_ReturnsToken_GivenContainsApplicationIdAndPrivateKey() =>
+            BuildBearerCredentials()
+                .GetAuthenticationHeader()
+                .Map(header => header.Parameter)
+                .Should()
+                .BeSuccess(success => success.Should().NotBeNullOrWhiteSpace());
+
         public static IEnumerable<object[]> GetInvalidCredentials()
         {
             yield return new object[] {Credentials.FromApiKeyAndSecret("", "apiSecret")};
@@ -26,23 +61,28 @@ namespace Vonage.Test.Unit.Request
 
         [Fact]
         public void GetPreferredAuthenticationType_ReturnsBasic_GivenContainsApiKeyAndApiSecret() =>
-            Credentials.FromApiKeyAndSecret("apiKey", "apiSecret")
+            BuildBasicCredentials()
                 .GetPreferredAuthenticationType()
                 .Should()
                 .BeSuccess(AuthType.Basic);
 
         [Fact]
         public void GetPreferredAuthenticationType_ReturnsBearer_GivenContainsApplicationIdAndPrivateKey() =>
-            Credentials.FromAppIdAndPrivateKey("appId", "privateKey")
+            BuildBearerCredentials()
                 .GetPreferredAuthenticationType()
                 .Should()
                 .BeSuccess(AuthType.Bearer);
 
         [Theory]
         [MemberData(nameof(GetInvalidCredentials))]
-        public void GetPreferredAuthenticationType_ReturnsNone_GivenInformationIsMissing(Credentials credentials) =>
+        public void GetPreferredAuthenticationType_ReturnsFailure_GivenInformationIsMissing(Credentials credentials) =>
             credentials.GetPreferredAuthenticationType()
                 .Should()
                 .BeFailure(new AuthenticationFailure());
+
+        private static Credentials BuildBasicCredentials() => Credentials.FromApiKeyAndSecret("apiKey", "apiSecret");
+
+        private static Credentials BuildBearerCredentials() => Credentials.FromAppIdAndPrivateKey("appId",
+            Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey"));
     }
 }
