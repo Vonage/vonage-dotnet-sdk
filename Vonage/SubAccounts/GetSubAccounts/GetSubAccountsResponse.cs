@@ -9,6 +9,6 @@ namespace Vonage.SubAccounts.GetSubAccounts;
 /// <param name="SubAccounts">All subaccounts.</param>
 public record GetSubAccountsResponse(
     [property: JsonPropertyName("primary_account")]
-    SubAccount PrimaryAccount,
+    Account PrimaryAccount,
     [property: JsonPropertyName("subaccounts")]
-    SubAccount[] SubAccounts);
+    Account[] SubAccounts);

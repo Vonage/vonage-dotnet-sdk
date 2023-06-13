@@ -14,7 +14,7 @@ namespace Vonage.SubAccounts;
 /// <param name="IsSuspended">SubAccount suspension status.</param>
 /// <param name="Balance">Balance of the SubAccount. Value is null if balance is shared with primary account.</param>
 /// <param name="CreditLimit">Credit limit of the SubAccount. Value is null if balance is shared with primary account.</param>
-public record SubAccount(
+public record Account(
     [property: JsonPropertyName("api_key")]
     string ApiKey,
     [property: JsonPropertyName("name")] string Name,

@@ -25,7 +25,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
                 .Should()
                 .BeSuccess(success =>
                 {
-                    success.Content.PrimaryAccount.Should().Be(new SubAccount(
+                    success.Content.PrimaryAccount.Should().Be(new Account(
                         "bbe6222f",
                         "Department A",
                         "bbe6222f",
@@ -37,7 +37,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
                     ));
                     success.Content.SubAccounts.Should().BeEquivalentTo(new[]
                     {
-                        new SubAccount(
+                        new Account(
                             "aze1243v",
                             "SubAccount department A",
                             "bbe6222f",
