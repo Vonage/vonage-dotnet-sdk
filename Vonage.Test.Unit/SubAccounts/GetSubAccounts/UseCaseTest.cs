@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoFixture;
+using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common;
@@ -54,9 +55,20 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
             await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
 
         [Fact]
-        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess() =>
-            await this.helper.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(this.BuildExpectedRequest(),
-                this.Operation);
+        public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
+        {
+            var expectedResponse = this.helper.Fixture.Create<EmbeddedResponse<GetSubAccountsResponse>>();
+            var messageHandler = FakeHttpRequestHandler
+                .Build(HttpStatusCode.OK)
+                .WithExpectedRequest(this.BuildExpectedRequest())
+                .WithResponseContent(this.helper.Serializer.SerializeObject(expectedResponse));
+            var result = await this.Operation(this.BuildConfiguration(messageHandler));
+            result.Should().BeSuccess(success =>
+            {
+                success.PrimaryAccount.Should().Be(expectedResponse.Content.PrimaryAccount);
+                success.SubAccounts.Should().BeEquivalentTo(expectedResponse.Content.SubAccounts);
+            });
+        }
 
         private VonageHttpClientConfiguration BuildConfiguration(FakeHttpRequestHandler handler) =>
             new VonageHttpClientConfiguration(
