@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
 
 namespace Vonage.SubAccounts;
@@ -21,10 +23,16 @@ public class SubAccountsClient : ISubAccountsClient
     {
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
         this.apiKey = apiKey;
+        var a = GetSubAccountRequest.Parse("a")
+            .Map(req => req.WithApiKey("b"));
     }
 
     /// <inheritdoc />
-    public async Task<Result<GetSubAccountsResponse>> GetSubaccounts() =>
+    public Task<Result<Account>> GetSubAccount(Result<GetSubAccountsResponse> request) =>
+        throw new NotImplementedException();
+
+    /// <inheritdoc />
+    public async Task<Result<GetSubAccountsResponse>> GetSubAccounts() =>
         await this.vonageClient
             .SendWithResponseAsync<GetSubAccountsRequest, EmbeddedResponse<GetSubAccountsResponse>>(
                 GetSubAccountsRequest.Build(this.apiKey))

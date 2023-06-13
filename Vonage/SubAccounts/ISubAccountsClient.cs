@@ -10,8 +10,15 @@ namespace Vonage.SubAccounts;
 public interface ISubAccountsClient
 {
     /// <summary>
+    ///     Retrieve a subaccount of the primary account
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    Task<Result<Account>> GetSubAccount(Result<GetSubAccountsResponse> request);
+
+    /// <summary>
     ///     Retrieve all subaccounts of the primary account.
     /// </summary>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
-    Task<Result<GetSubAccountsResponse>> GetSubaccounts();
+    Task<Result<GetSubAccountsResponse>> GetSubAccounts();
 }

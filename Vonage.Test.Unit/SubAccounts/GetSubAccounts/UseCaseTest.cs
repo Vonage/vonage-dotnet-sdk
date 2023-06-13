@@ -23,7 +23,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
     public class UseCaseTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<GetSubAccountsResponse>>> Operation =>
-            configuration => new SubAccountsClient(configuration, this.apiKey).GetSubaccounts();
+            configuration => new SubAccountsClient(configuration, this.apiKey).GetSubAccounts();
 
         private readonly string apiKey;
 
