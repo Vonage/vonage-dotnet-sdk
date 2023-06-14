@@ -23,11 +23,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
     public class UseCaseTest : BaseUseCase
     {
         private Func<VonageHttpClientConfiguration, Task<Result<GetSubAccountsResponse>>> Operation =>
-            configuration => new SubAccountsClient(configuration, this.apiKey).GetSubAccounts();
-
-        private readonly string apiKey;
-
-        public UseCaseTest() => this.apiKey = "27ebS990";
+            configuration => new SubAccountsClient(configuration, ApiKey).GetSubAccounts();
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
@@ -80,7 +76,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
             new ExpectedRequest
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(GetSubAccountsRequest.Build(this.apiKey).GetEndpointPath(), UriKind.Relative),
+                RequestUri = new Uri(GetSubAccountsRequest.Build(ApiKey).GetEndpointPath(), UriKind.Relative),
             };
     }
 }

@@ -1,4 +1,6 @@
-﻿using Vonage.Common.Test.Extensions;
+﻿using FluentAssertions;
+using Vonage.Common.Failures;
+using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.GetSubAccount;
 using Xunit;
 
@@ -20,5 +22,20 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccount
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess("/accounts//subaccounts/456iFuDL099");
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public void Parse_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace(string value) =>
+            GetSubAccountRequest.Parse(value)
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage("SubAccountKey cannot be null or whitespace."));
+
+        [Fact]
+        public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>
+            GetSubAccountRequest.Parse("123456789")
+                .Should()
+                .BeSuccess(request => request.SubAccountKey.Should().Be("123456789"));
     }
 }

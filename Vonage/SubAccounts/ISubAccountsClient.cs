@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Vonage.Common.Monads;
+using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
 
 namespace Vonage.SubAccounts;
@@ -14,7 +15,7 @@ public interface ISubAccountsClient
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    Task<Result<Account>> GetSubAccount(Result<GetSubAccountsResponse> request);
+    Task<Result<Account>> GetSubAccount(Result<GetSubAccountRequest> request);
 
     /// <summary>
     ///     Retrieve all subaccounts of the primary account.
