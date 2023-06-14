@@ -22,12 +22,12 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<GetSubAccountsResponse>>> Operation =>
+        private static Func<VonageHttpClientConfiguration, Task<Result<GetSubAccountsResponse>>> Operation =>
             configuration => new SubAccountsClient(configuration, ApiKey).GetSubAccounts();
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>
-            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(this.BuildExpectedRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(), Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenApiResponseCannotBeParsed()
@@ -35,20 +35,20 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
             var body = this.helper.Fixture.Create<string>();
             var messageHandler = FakeHttpRequestHandler
                 .Build(HttpStatusCode.OK)
-                .WithExpectedRequest(this.BuildExpectedRequest())
+                .WithExpectedRequest(BuildExpectedRequest())
                 .WithResponseContent(body);
-            var result = await this.Operation(this.BuildConfiguration(messageHandler));
+            var result = await Operation(this.BuildConfiguration(messageHandler));
             result.Should()
                 .BeFailure(DeserializationFailure.From(typeof(EmbeddedResponse<GetSubAccountsResponse>), body));
         }
 
         [Property]
         public Property ShouldReturnFailure_GivenApiResponseIsError() =>
-            this.helper.VerifyReturnsFailureGivenApiResponseIsError(this.BuildExpectedRequest(), this.Operation);
+            this.helper.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(), Operation);
 
         [Fact]
         public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
-            await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+            await this.helper.VerifyReturnsFailureGivenTokenGenerationFails(Operation);
 
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
@@ -56,9 +56,9 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
             var expectedResponse = this.helper.Fixture.Create<EmbeddedResponse<GetSubAccountsResponse>>();
             var messageHandler = FakeHttpRequestHandler
                 .Build(HttpStatusCode.OK)
-                .WithExpectedRequest(this.BuildExpectedRequest())
+                .WithExpectedRequest(BuildExpectedRequest())
                 .WithResponseContent(this.helper.Serializer.SerializeObject(expectedResponse));
-            var result = await this.Operation(this.BuildConfiguration(messageHandler));
+            var result = await Operation(this.BuildConfiguration(messageHandler));
             result.Should().BeSuccess(success =>
             {
                 success.PrimaryAccount.Should().Be(expectedResponse.Content.PrimaryAccount);
@@ -72,7 +72,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
                 new AuthenticationHeaderValue("Basic", this.helper.Fixture.Create<string>()),
                 this.helper.Fixture.Create<string>());
 
-        private ExpectedRequest BuildExpectedRequest() =>
+        private static ExpectedRequest BuildExpectedRequest() =>
             new ExpectedRequest
             {
                 Method = HttpMethod.Get,
