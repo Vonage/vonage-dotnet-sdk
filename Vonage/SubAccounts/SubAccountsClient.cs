@@ -2,6 +2,7 @@
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.SubAccounts.CreateSubAccount;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
 
@@ -23,6 +24,12 @@ public class SubAccountsClient : ISubAccountsClient
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
         this.apiKey = apiKey;
     }
+
+    /// <inheritdoc />
+    public Task<Result<Account>> CreateSubAccount(Result<CreateSubAccountRequest> request) =>
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .BindAsync(completeRequest =>
+                this.vonageClient.SendWithResponseAsync<CreateSubAccountRequest, Account>(completeRequest));
 
     /// <inheritdoc />
     public Task<Result<Account>> GetSubAccount(Result<GetSubAccountRequest> request) =>
