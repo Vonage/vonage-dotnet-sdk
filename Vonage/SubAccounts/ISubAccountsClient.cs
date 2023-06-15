@@ -3,6 +3,7 @@ using Vonage.Common.Monads;
 using Vonage.SubAccounts.CreateSubAccount;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
+using Vonage.SubAccounts.UpdateSubAccount;
 
 namespace Vonage.SubAccounts;
 
@@ -12,7 +13,7 @@ namespace Vonage.SubAccounts;
 public interface ISubAccountsClient
 {
     /// <summary>
-    /// Creates a subaccount.
+    ///     Creates a subaccount.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
@@ -30,4 +31,11 @@ public interface ISubAccountsClient
     /// </summary>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<GetSubAccountsResponse>> GetSubAccounts();
+
+    /// <summary>
+    ///     Updates a subaccount.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    Task<Result<Account>> UpdateSubAccount(Result<UpdateSubAccountRequest> request);
 }

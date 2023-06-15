@@ -11,6 +11,7 @@ internal class CreateSubAccountRequestBuilder : IBuilderForName, IBuilderForOpti
     private Maybe<string> secret;
     private string name;
 
+    /// <inheritdoc />
     public Result<CreateSubAccountRequest> Create() =>
         Result<CreateSubAccountRequest>
             .FromSuccess(new CreateSubAccountRequest
@@ -70,7 +71,7 @@ public interface IBuilderForName
 public interface IBuilderForOptional : IVonageRequestBuilder<CreateSubAccountRequest>
 {
     /// <summary>
-    ///     Disable shared balance with primary account.
+    ///     Disables shared balance with primary account.
     /// </summary>
     /// <returns>The builder.</returns>
     IBuilderForOptional DisableSharedAccountBalance();

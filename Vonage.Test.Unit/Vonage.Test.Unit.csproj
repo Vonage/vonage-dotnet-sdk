@@ -768,6 +768,24 @@
         <None Update="SubAccounts\CreateSubAccount\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="SubAccounts\UpdateSubAccount\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="SubAccounts\UpdateSubAccount\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="SubAccounts\UpdateSubAccount\Data\ShouldSerializeWithOnlyName-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="SubAccounts\UpdateSubAccount\Data\ShouldSerializeWithOnlyEnabledAccount-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="SubAccounts\UpdateSubAccount\Data\ShouldSerializeWithOnlyEnabledSharedBalance-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="SubAccounts\CreateSubAccount\Data\ShouldSerializeWithDefaultValues-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

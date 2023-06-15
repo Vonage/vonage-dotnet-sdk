@@ -3,10 +3,10 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts;
-using Vonage.SubAccounts.CreateSubAccount;
+using Vonage.SubAccounts.UpdateSubAccount;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
+namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
 {
     public class SerializationTest
     {
@@ -35,9 +35,10 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
 
         [Fact]
         public void ShouldSerialize() =>
-            CreateSubAccountRequest.Build()
-                .WithName("My SubAccount")
-                .WithSecret("123456789AbcDef")
+            UpdateSubAccountRequest.Build()
+                .WithSubAccountKey("RandomKey")
+                .WithName("Subaccount department B")
+                .SuspendAccount()
                 .DisableSharedAccountBalance()
                 .Create()
                 .GetStringContent()
@@ -45,9 +46,30 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
                 .BeSuccess(this.helper.GetRequestJson());
 
         [Fact]
-        public void ShouldSerializeWithDefaultValues() =>
-            CreateSubAccountRequest.Build()
-                .WithName("My SubAccount")
+        public void ShouldSerializeWithOnlyEnabledAccount() =>
+            UpdateSubAccountRequest.Build()
+                .WithSubAccountKey("RandomKey")
+                .EnableAccount()
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
+        public void ShouldSerializeWithOnlyEnabledSharedBalance() =>
+            UpdateSubAccountRequest.Build()
+                .WithSubAccountKey("RandomKey")
+                .EnableSharedAccountBalance()
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
+        public void ShouldSerializeWithOnlyName() =>
+            UpdateSubAccountRequest.Build()
+                .WithSubAccountKey("RandomKey")
+                .WithName("Subaccount department B")
                 .Create()
                 .GetStringContent()
                 .Should()

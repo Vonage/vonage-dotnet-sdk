@@ -11,6 +11,11 @@ namespace Vonage.SubAccounts.CreateSubAccount;
 public readonly struct CreateSubAccountRequest : IVonageRequest
 {
     /// <summary>
+    ///     Unique primary account ID.
+    /// </summary>
+    private string ApiKey { get; init; }
+
+    /// <summary>
     ///     Name of the subaccount.
     /// </summary>
     public string Name { get; internal init; }
@@ -53,9 +58,4 @@ public readonly struct CreateSubAccountRequest : IVonageRequest
     }
 
     internal CreateSubAccountRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
-
-    /// <summary>
-    ///     Unique primary account ID.
-    /// </summary>
-    internal string ApiKey { get; init; }
 }

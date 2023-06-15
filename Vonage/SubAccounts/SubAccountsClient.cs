@@ -5,6 +5,7 @@ using Vonage.Common.Monads;
 using Vonage.SubAccounts.CreateSubAccount;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
+using Vonage.SubAccounts.UpdateSubAccount;
 
 namespace Vonage.SubAccounts;
 
@@ -43,4 +44,10 @@ public class SubAccountsClient : ISubAccountsClient
             .SendWithResponseAsync<GetSubAccountsRequest, EmbeddedResponse<GetSubAccountsResponse>>(
                 GetSubAccountsRequest.Build(this.apiKey))
             .Map(value => value.Content);
+
+    /// <inheritdoc />
+    public Task<Result<Account>> UpdateSubAccount(Result<UpdateSubAccountRequest> request) =>
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .BindAsync(completeRequest =>
+                this.vonageClient.SendWithResponseAsync<UpdateSubAccountRequest, Account>(completeRequest));
 }
