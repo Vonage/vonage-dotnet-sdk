@@ -23,7 +23,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
     public class UseCaseTest : BaseUseCase
     {
         private static Func<VonageHttpClientConfiguration, Task<Result<GetSubAccountsResponse>>> Operation =>
-            configuration => new SubAccountsClient(configuration, ApiKey).GetSubAccounts();
+            configuration => new SubAccountsClient(configuration, ApiKey).GetSubAccountsAsync();
 
         [Property]
         public Property ShouldReturnFailure_GivenApiErrorCannotBeParsed() =>

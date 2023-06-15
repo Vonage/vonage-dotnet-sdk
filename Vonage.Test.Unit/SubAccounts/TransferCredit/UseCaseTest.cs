@@ -11,17 +11,17 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.SubAccounts;
-using Vonage.SubAccounts.CreateSubAccount;
+using Vonage.SubAccounts.TransferCredit;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
+namespace Vonage.Test.Unit.SubAccounts.TransferCredit
 {
     public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<Account>>> Operation =>
-            configuration => new SubAccountsClient(configuration, ApiKey).CreateSubAccountAsync(this.request);
+        private Func<VonageHttpClientConfiguration, Task<Result<CreditTransfer>>> Operation =>
+            configuration => new SubAccountsClient(configuration, ApiKey).TransferCreditAsync(this.request);
 
-        private readonly Result<CreateSubAccountRequest> request;
+        private readonly Result<TransferCreditRequest> request;
 
         public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
@@ -40,9 +40,9 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<CreateSubAccountRequest, Account>(
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<TransferCreditRequest, CreditTransfer>(
                 (configuration, failureRequest) =>
-                    new SubAccountsClient(configuration, ApiKey).CreateSubAccountAsync(failureRequest));
+                    new SubAccountsClient(configuration, ApiKey).TransferCreditAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
@@ -64,7 +64,11 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
                 Content = this.request.GetStringContent().IfFailure(string.Empty),
             };
 
-        private static Result<CreateSubAccountRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            CreateSubAccountRequest.Build().WithName(fixture.Create<string>()).Create();
+        private static Result<TransferCreditRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            TransferCreditRequest.Build()
+                .WithFrom(fixture.Create<string>())
+                .WithTo(fixture.Create<string>())
+                .WithAmount(fixture.Create<decimal>())
+                .Create();
     }
 }

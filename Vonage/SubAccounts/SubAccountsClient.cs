@@ -5,6 +5,7 @@ using Vonage.Common.Monads;
 using Vonage.SubAccounts.CreateSubAccount;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
+using Vonage.SubAccounts.TransferCredit;
 using Vonage.SubAccounts.UpdateSubAccount;
 
 namespace Vonage.SubAccounts;
@@ -27,26 +28,32 @@ public class SubAccountsClient : ISubAccountsClient
     }
 
     /// <inheritdoc />
-    public Task<Result<Account>> CreateSubAccount(Result<CreateSubAccountRequest> request) =>
+    public Task<Result<Account>> CreateSubAccountAsync(Result<CreateSubAccountRequest> request) =>
         request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<CreateSubAccountRequest, Account>(completeRequest));
 
     /// <inheritdoc />
-    public Task<Result<Account>> GetSubAccount(Result<GetSubAccountRequest> request) =>
+    public Task<Result<Account>> GetSubAccountAsync(Result<GetSubAccountRequest> request) =>
         request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<GetSubAccountRequest, Account>(completeRequest));
 
     /// <inheritdoc />
-    public async Task<Result<GetSubAccountsResponse>> GetSubAccounts() =>
+    public async Task<Result<GetSubAccountsResponse>> GetSubAccountsAsync() =>
         await this.vonageClient
             .SendWithResponseAsync<GetSubAccountsRequest, EmbeddedResponse<GetSubAccountsResponse>>(
                 GetSubAccountsRequest.Build(this.apiKey))
             .Map(value => value.Content);
 
     /// <inheritdoc />
-    public Task<Result<Account>> UpdateSubAccount(Result<UpdateSubAccountRequest> request) =>
+    public Task<Result<CreditTransfer>> TransferCreditAsync(Result<TransferCreditRequest> request) =>
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .BindAsync(completeRequest =>
+                this.vonageClient.SendWithResponseAsync<TransferCreditRequest, CreditTransfer>(completeRequest));
+
+    /// <inheritdoc />
+    public Task<Result<Account>> UpdateSubAccountAsync(Result<UpdateSubAccountRequest> request) =>
         request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<UpdateSubAccountRequest, Account>(completeRequest));

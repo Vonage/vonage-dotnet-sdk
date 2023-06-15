@@ -61,7 +61,7 @@ public interface IBuilderForName
     ///     Sets the Name.
     /// </summary>
     /// <param name="value">The name.</param>
-    /// <returns></returns>
+    /// <returns>The builder.</returns>
     IBuilderForOptional WithName(string value);
 }
 

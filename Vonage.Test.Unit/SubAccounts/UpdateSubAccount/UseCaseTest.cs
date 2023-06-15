@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
     public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Account>>> Operation =>
-            configuration => new SubAccountsClient(configuration, ApiKey).UpdateSubAccount(this.request);
+            configuration => new SubAccountsClient(configuration, ApiKey).UpdateSubAccountAsync(this.request);
 
         private readonly Result<UpdateSubAccountRequest> request;
 
@@ -42,7 +42,7 @@ namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper.VerifyReturnsFailureGivenRequestIsFailure<UpdateSubAccountRequest, Account>(
                 (configuration, failureRequest) =>
-                    new SubAccountsClient(configuration, ApiKey).UpdateSubAccount(failureRequest));
+                    new SubAccountsClient(configuration, ApiKey).UpdateSubAccountAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>

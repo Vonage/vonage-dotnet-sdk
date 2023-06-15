@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccount
     public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Account>>> Operation =>
-            configuration => new SubAccountsClient(configuration, ApiKey).GetSubAccount(this.request);
+            configuration => new SubAccountsClient(configuration, ApiKey).GetSubAccountAsync(this.request);
 
         private readonly Result<GetSubAccountRequest> request;
 
@@ -41,7 +41,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccount
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetSubAccountRequest, Account>(
                 (configuration, failureRequest) =>
-                    new SubAccountsClient(configuration, ApiKey).GetSubAccount(failureRequest));
+                    new SubAccountsClient(configuration, ApiKey).GetSubAccountAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>

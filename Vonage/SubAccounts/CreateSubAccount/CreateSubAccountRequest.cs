@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Common.Serialization;
 
 namespace Vonage.SubAccounts.CreateSubAccount;
 
@@ -18,16 +19,22 @@ public readonly struct CreateSubAccountRequest : IVonageRequest
     /// <summary>
     ///     Name of the subaccount.
     /// </summary>
+    [JsonPropertyOrder(0)]
     public string Name { get; internal init; }
 
     /// <summary>
     ///     Secret of the subaccount.
     /// </summary>
+    [JsonPropertyOrder(2)]
+    [JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<string> Secret { get; internal init; }
 
     /// <summary>
     ///     Flag showing if balance is shared with primary account.
     /// </summary>
+    [JsonPropertyOrder(1)]
+    [JsonPropertyName("use_primary_account_balance")]
     public bool UsePrimaryAccountBalance { get; internal init; }
 
     /// <summary>
@@ -45,17 +52,9 @@ public readonly struct CreateSubAccountRequest : IVonageRequest
     /// <inheritdoc />
     public string GetEndpointPath() => $"/accounts/{this.ApiKey}/subaccounts/";
 
-    private StringContent GetRequestContent()
-    {
-        var values = new Dictionary<string, object>
-        {
-            {"name", this.Name},
-            {"use_primary_account_balance", this.UsePrimaryAccountBalance},
-        };
-        this.Secret.IfSome(value => values.Add("secret", value));
-        return new StringContent(JsonSerializer.BuildWithSnakeCase().SerializeObject(values), Encoding.UTF8,
-            "application/json");
-    }
+    private StringContent GetRequestContent() => new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
+        Encoding.UTF8,
+        "application/json");
 
     internal CreateSubAccountRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
 }
