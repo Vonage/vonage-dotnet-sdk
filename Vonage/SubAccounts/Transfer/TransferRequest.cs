@@ -6,15 +6,16 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 
-namespace Vonage.SubAccounts.TransferCredit;
+namespace Vonage.SubAccounts.Transfer;
 
 /// <inheritdoc />
-public readonly struct TransferCreditRequest : IVonageRequest
+public readonly struct TransferRequest : IVonageRequest
 {
-    /// <summary>
-    ///     Unique primary account ID.
-    /// </summary>
+    internal const string BalanceTransfer = "balance-transfers";
+    internal const string CreditTransfer = "credit-transfers";
     private string ApiKey { get; init; }
+
+    private string Endpoint { get; init; }
 
     /// <summary>
     ///     The amount to be transferred.
@@ -43,10 +44,10 @@ public readonly struct TransferCreditRequest : IVonageRequest
     public string To { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder for TransferCreditRequest.
+    ///     Initializes a builder for a transfer request.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForFrom Build() => new TransferCreditRequestBuilder();
+    public static IBuilderForFrom Build() => new TransferRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -55,11 +56,13 @@ public readonly struct TransferCreditRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/credit-transfers/";
+    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/{this.Endpoint}/";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
-    internal TransferCreditRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
+    internal TransferRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
+
+    internal TransferRequest WithEndpoint(string endpoint) => this with {Endpoint = endpoint};
 }

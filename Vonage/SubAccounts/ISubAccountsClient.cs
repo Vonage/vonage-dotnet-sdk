@@ -4,7 +4,7 @@ using Vonage.SubAccounts.CreateSubAccount;
 using Vonage.SubAccounts.GetCreditTransfers;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
-using Vonage.SubAccounts.TransferCredit;
+using Vonage.SubAccounts.Transfer;
 using Vonage.SubAccounts.UpdateSubAccount;
 
 namespace Vonage.SubAccounts;
@@ -42,11 +42,18 @@ public interface ISubAccountsClient
     Task<Result<GetSubAccountsResponse>> GetSubAccountsAsync();
 
     /// <summary>
+    ///     Transfer balance limit between a primary account and one of its subaccounts.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    Task<Result<BalanceTransfer>> TransferBalanceAsync(Result<TransferRequest> request);
+
+    /// <summary>
     ///     Transfer credit limit between a primary account and one of its subaccounts.
     /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
-    Task<Result<CreditTransfer>> TransferCreditAsync(Result<TransferCreditRequest> request);
+    /// <param name="request">The request.</param>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    Task<Result<CreditTransfer>> TransferCreditAsync(Result<TransferRequest> request);
 
     /// <summary>
     ///     Updates a subaccount.

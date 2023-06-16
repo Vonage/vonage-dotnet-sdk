@@ -3,7 +3,7 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts;
-using Vonage.SubAccounts.TransferCredit;
+using Vonage.SubAccounts.Transfer;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.TransferCredit
@@ -32,7 +32,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
 
         [Fact]
         public void ShouldSerialize() =>
-            TransferCreditRequest.Build()
+            TransferRequest.Build()
                 .WithFrom("7c9738e6")
                 .WithTo("ad6dc56f")
                 .WithAmount((decimal) 123.45)

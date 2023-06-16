@@ -3,7 +3,7 @@ using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.SubAccounts.TransferCredit;
+using Vonage.SubAccounts.Transfer;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.TransferCredit
@@ -24,7 +24,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
 
         [Fact]
         public void Build_ShouldHaveNoReference_GivenDefault() =>
-            TransferCreditRequest
+            TransferRequest
                 .Build()
                 .WithFrom(this.from)
                 .WithTo(this.to)
@@ -38,7 +38,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
         public Property Build_ShouldReturnFailure_GivenAmountIsNegative2() =>
             Prop.ForAll(
                 FsCheckExtensions.GetNegativeNumbers(),
-                negativeAmount => TransferCreditRequest
+                negativeAmount => TransferRequest
                     .Build()
                     .WithFrom(this.from)
                     .WithTo(this.to)
@@ -52,7 +52,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
         [InlineData(" ")]
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenFromIsNullOrWhitespace(string invalidValue) =>
-            TransferCreditRequest
+            TransferRequest
                 .Build()
                 .WithFrom(invalidValue)
                 .WithTo(this.to)
@@ -66,7 +66,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
         [InlineData(" ")]
         [InlineData(null)]
         public void Build_ShouldReturnFailure_GivenToIsNullOrWhitespace(string invalidValue) =>
-            TransferCreditRequest
+            TransferRequest
                 .Build()
                 .WithFrom(this.from)
                 .WithTo(invalidValue)
@@ -77,7 +77,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
 
         [Fact]
         public void Build_ShouldSetAmount() =>
-            TransferCreditRequest
+            TransferRequest
                 .Build()
                 .WithFrom(this.from)
                 .WithTo(this.to)
@@ -89,7 +89,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
 
         [Fact]
         public void Build_ShouldSetFrom() =>
-            TransferCreditRequest
+            TransferRequest
                 .Build()
                 .WithFrom(this.from)
                 .WithTo(this.to)
@@ -101,7 +101,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
 
         [Fact]
         public void Build_ShouldSetReference() =>
-            TransferCreditRequest
+            TransferRequest
                 .Build()
                 .WithFrom(this.from)
                 .WithTo(this.to)
@@ -114,7 +114,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
 
         [Fact]
         public void Build_ShouldSetTo() =>
-            TransferCreditRequest
+            TransferRequest
                 .Build()
                 .WithFrom(this.from)
                 .WithTo(this.to)

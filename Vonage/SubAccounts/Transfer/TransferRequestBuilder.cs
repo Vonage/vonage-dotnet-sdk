@@ -2,9 +2,9 @@
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
-namespace Vonage.SubAccounts.TransferCredit;
+namespace Vonage.SubAccounts.Transfer;
 
-internal class TransferCreditRequestBuilder : IBuilderForFrom, IBuilderForAmount, IBuilderForTo, IBuilderForOptional
+internal class TransferRequestBuilder : IBuilderForFrom, IBuilderForAmount, IBuilderForTo, IBuilderForOptional
 {
     private decimal amount;
     private Maybe<string> reference;
@@ -12,9 +12,9 @@ internal class TransferCreditRequestBuilder : IBuilderForFrom, IBuilderForAmount
     private string to;
 
     /// <inheritdoc />
-    public Result<TransferCreditRequest> Create() =>
-        Result<TransferCreditRequest>
-            .FromSuccess(new TransferCreditRequest
+    public Result<TransferRequest> Create() =>
+        Result<TransferRequest>
+            .FromSuccess(new TransferRequest
             {
                 From = this.from,
                 To = this.to,
@@ -53,13 +53,13 @@ internal class TransferCreditRequestBuilder : IBuilderForFrom, IBuilderForAmount
         return this;
     }
 
-    private static Result<TransferCreditRequest> VerifyAmount(TransferCreditRequest request) =>
+    private static Result<TransferRequest> VerifyAmount(TransferRequest request) =>
         InputValidation.VerifyNotNegative(request, request.Amount, nameof(request.Amount));
 
-    private static Result<TransferCreditRequest> VerifyFrom(TransferCreditRequest request) =>
+    private static Result<TransferRequest> VerifyFrom(TransferRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.From, nameof(request.From));
 
-    private static Result<TransferCreditRequest> VerifyTo(TransferCreditRequest request) =>
+    private static Result<TransferRequest> VerifyTo(TransferRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.To, nameof(request.To));
 }
 
@@ -105,7 +105,7 @@ public interface IBuilderForAmount
 /// <summary>
 ///     Represents a builder for optional values.
 /// </summary>
-public interface IBuilderForOptional : IVonageRequestBuilder<TransferCreditRequest>
+public interface IBuilderForOptional : IVonageRequestBuilder<TransferRequest>
 {
     /// <summary>
     ///     Sets the reference.

@@ -11,7 +11,7 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.SubAccounts;
-using Vonage.SubAccounts.TransferCredit;
+using Vonage.SubAccounts.Transfer;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.TransferCredit
@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
         private Func<VonageHttpClientConfiguration, Task<Result<CreditTransfer>>> Operation =>
             configuration => new SubAccountsClient(configuration, ApiKey).TransferCreditAsync(this.request);
 
-        private readonly Result<TransferCreditRequest> request;
+        private readonly Result<TransferRequest> request;
 
         public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
@@ -40,7 +40,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<TransferCreditRequest, CreditTransfer>(
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<TransferRequest, CreditTransfer>(
                 (configuration, failureRequest) =>
                     new SubAccountsClient(configuration, ApiKey).TransferCreditAsync(failureRequest));
 
@@ -59,13 +59,15 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
                 Method = HttpMethod.Post,
                 RequestUri =
                     new Uri(
-                        UseCaseHelper.GetPathFromRequest(this.request.Map(incompleteRequest =>
-                            incompleteRequest.WithApiKey(ApiKey))), UriKind.Relative),
+                        UseCaseHelper.GetPathFromRequest(this.request
+                            .Map(incompleteRequest => incompleteRequest.WithApiKey(ApiKey))
+                            .Map(incompleteRequest => incompleteRequest.WithEndpoint(TransferRequest.CreditTransfer))),
+                        UriKind.Relative),
                 Content = this.request.GetStringContent().IfFailure(string.Empty),
             };
 
-        private static Result<TransferCreditRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            TransferCreditRequest.Build()
+        private static Result<TransferRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            TransferRequest.Build()
                 .WithFrom(fixture.Create<string>())
                 .WithTo(fixture.Create<string>())
                 .WithAmount(fixture.Create<decimal>())
