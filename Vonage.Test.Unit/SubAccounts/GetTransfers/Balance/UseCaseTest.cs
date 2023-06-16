@@ -19,12 +19,12 @@ using Vonage.SubAccounts;
 using Vonage.SubAccounts.GetTransfers;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
+namespace Vonage.Test.Unit.SubAccounts.GetTransfers.Balance
 {
     public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
         private Func<VonageHttpClientConfiguration, Task<Result<Transfer[]>>> Operation =>
-            configuration => new SubAccountsClient(configuration, ApiKey).GetCreditTransfersAsync(this.request);
+            configuration => new SubAccountsClient(configuration, ApiKey).GetBalanceTransfersAsync(this.request);
 
         private readonly Result<GetTransfersRequest> request;
         public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
@@ -54,7 +54,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetTransfersRequest, Transfer[]>(
                 (configuration, failureRequest) =>
-                    new SubAccountsClient(configuration, ApiKey).GetCreditTransfersAsync(failureRequest));
+                    new SubAccountsClient(configuration, ApiKey).GetBalanceTransfersAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
@@ -70,7 +70,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
                 .WithResponseContent(this.helper.Serializer.SerializeObject(expectedResponse));
             var result = await this.Operation(this.BuildConfiguration(messageHandler));
             result.Should().BeSuccess(success =>
-                success.Should().BeEquivalentTo(expectedResponse.Content.CreditTransfers));
+                success.Should().BeEquivalentTo(expectedResponse.Content.BalanceTransfers));
         }
 
         private VonageHttpClientConfiguration BuildConfiguration(FakeHttpRequestHandler handler) =>
@@ -86,7 +86,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
                 RequestUri =
                     new Uri(
                         UseCaseHelper.GetPathFromRequest(this.request.Map(incompleteRequest =>
-                            incompleteRequest.WithApiKey(ApiKey).WithEndpoint(GetTransfersRequest.CreditTransfer))),
+                            incompleteRequest.WithApiKey(ApiKey).WithEndpoint(GetTransfersRequest.BalanceTransfer))),
                         UriKind.Relative),
             };
 

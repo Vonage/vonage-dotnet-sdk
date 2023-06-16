@@ -7,7 +7,7 @@ using Vonage.SubAccounts;
 using Vonage.SubAccounts.GetTransfers;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
+namespace Vonage.Test.Unit.SubAccounts.GetTransfers.Credit
 {
     public class SerializationTest
     {
