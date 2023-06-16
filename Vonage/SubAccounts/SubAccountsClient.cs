@@ -7,6 +7,7 @@ using Vonage.SubAccounts.GetCreditTransfers;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
 using Vonage.SubAccounts.Transfer;
+using Vonage.SubAccounts.TransferNumber;
 using Vonage.SubAccounts.UpdateSubAccount;
 
 namespace Vonage.SubAccounts;
@@ -73,8 +74,22 @@ public class SubAccountsClient : ISubAccountsClient
                 this.vonageClient.SendWithResponseAsync<TransferRequest, CreditTransfer>(completeRequest));
 
     /// <inheritdoc />
+    public Task<Result<TransferNumberResponse>> TransferNumberAsync(Result<TransferNumberRequest> request) =>
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .BindAsync(completeRequest =>
+                this.vonageClient
+                    .SendWithResponseAsync<TransferNumberRequest, TransferNumberResponse>(completeRequest));
+
+    /// <inheritdoc />
     public Task<Result<Account>> UpdateSubAccountAsync(Result<UpdateSubAccountRequest> request) =>
         request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<UpdateSubAccountRequest, Account>(completeRequest));
+
+    /// <inheritdoc />
+    public Task<Result<TransferNumberResponse>> UpdateSubAccountAsync(Result<TransferNumberRequest> request) =>
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .BindAsync(completeRequest =>
+                this.vonageClient
+                    .SendWithResponseAsync<TransferNumberRequest, TransferNumberResponse>(completeRequest));
 }

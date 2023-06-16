@@ -5,6 +5,7 @@ using Vonage.SubAccounts.GetCreditTransfers;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
 using Vonage.SubAccounts.Transfer;
+using Vonage.SubAccounts.TransferNumber;
 using Vonage.SubAccounts.UpdateSubAccount;
 
 namespace Vonage.SubAccounts;
@@ -56,9 +57,23 @@ public interface ISubAccountsClient
     Task<Result<CreditTransfer>> TransferCreditAsync(Result<TransferRequest> request);
 
     /// <summary>
+    ///     Transfer number from one account to another.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    Task<Result<TransferNumberResponse>> TransferNumberAsync(Result<TransferNumberRequest> request);
+
+    /// <summary>
     ///     Updates a subaccount.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Account>> UpdateSubAccountAsync(Result<UpdateSubAccountRequest> request);
+
+    /// <summary>
+    ///     Transfer number from one account to another.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    Task<Result<TransferNumberResponse>> UpdateSubAccountAsync(Result<TransferNumberRequest> request);
 }

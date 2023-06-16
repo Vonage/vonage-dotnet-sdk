@@ -35,7 +35,7 @@ namespace Vonage.Test.Unit.SubAccounts.Transfer
                 .BeSuccess(success => success.Should().BeNone());
 
         [Property]
-        public Property Build_ShouldReturnFailure_GivenAmountIsNegative2() =>
+        public Property Build_ShouldReturnFailure_GivenAmountIsNegative() =>
             Prop.ForAll(
                 FsCheckExtensions.GetNegativeNumbers(),
                 negativeAmount => TransferRequest
