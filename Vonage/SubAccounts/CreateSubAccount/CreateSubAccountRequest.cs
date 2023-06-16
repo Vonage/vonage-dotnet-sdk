@@ -50,7 +50,7 @@ public readonly struct CreateSubAccountRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/subaccounts/";
+    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/subaccounts";
 
     private StringContent GetRequestContent() => new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
         Encoding.UTF8,

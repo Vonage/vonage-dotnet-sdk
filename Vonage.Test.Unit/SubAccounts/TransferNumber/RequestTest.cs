@@ -23,7 +23,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
                 .Map(request => request.WithApiKey("489dsSS564652"))
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/accounts/489dsSS564652/transfer-number/");
+                .BeSuccess("/accounts/489dsSS564652/transfer-number");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
@@ -36,6 +36,6 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/accounts//transfer-number/");
+                .BeSuccess("/accounts//transfer-number");
     }
 }

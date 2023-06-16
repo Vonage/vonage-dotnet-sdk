@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
                 .Map(request => request.WithApiKey("489dsSS564652"))
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/accounts/489dsSS564652/subaccounts/");
+                .BeSuccess("/accounts/489dsSS564652/subaccounts");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
@@ -29,6 +29,6 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/accounts//subaccounts/");
+                .BeSuccess("/accounts//subaccounts");
     }
 }

@@ -56,7 +56,7 @@ public readonly struct TransferRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/{this.Endpoint}/";
+    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/{this.Endpoint}";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,

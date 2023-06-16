@@ -22,7 +22,7 @@ namespace Vonage.Test.Unit.SubAccounts.Transfer
                 .Map(request => request.WithEndpoint(TransferRequest.BalanceTransfer))
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/accounts/489dsSS564652/balance-transfers/");
+                .BeSuccess("/accounts/489dsSS564652/balance-transfers");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_GivenCreditTransfer() =>
@@ -36,7 +36,7 @@ namespace Vonage.Test.Unit.SubAccounts.Transfer
                 .Map(request => request.WithEndpoint(TransferRequest.CreditTransfer))
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/accounts/489dsSS564652/credit-transfers/");
+                .BeSuccess("/accounts/489dsSS564652/credit-transfers");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_GivenKeyAndEndpointAreMissing() =>
@@ -48,6 +48,6 @@ namespace Vonage.Test.Unit.SubAccounts.Transfer
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/accounts///");
+                .BeSuccess("/accounts//");
     }
 }
