@@ -92,11 +92,4 @@ public class SubAccountsClient : ISubAccountsClient
         request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<UpdateSubAccountRequest, Account>(completeRequest));
-
-    /// <inheritdoc />
-    public Task<Result<TransferNumberResponse>> UpdateSubAccountAsync(Result<TransferNumberRequest> request) =>
-        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
-            .BindAsync(completeRequest =>
-                this.vonageClient
-                    .SendWithResponseAsync<TransferNumberRequest, TransferNumberResponse>(completeRequest));
 }

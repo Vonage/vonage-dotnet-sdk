@@ -76,11 +76,4 @@ public interface ISubAccountsClient
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Account>> UpdateSubAccountAsync(Result<UpdateSubAccountRequest> request);
-
-    /// <summary>
-    ///     Transfer number from one account to another.
-    /// </summary>
-    /// <param name="request">The request.</param>
-    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
-    Task<Result<TransferNumberResponse>> UpdateSubAccountAsync(Result<TransferNumberRequest> request);
 }
