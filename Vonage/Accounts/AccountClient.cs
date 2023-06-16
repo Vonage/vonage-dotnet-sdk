@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
@@ -41,6 +42,7 @@ public class AccountClient : IAccountClient
             AuthType.Basic
         );
 
+    [Obsolete("Use SubAccountsClient instead.")]
     public SubAccount CreateSubAccount(CreateSubAccountRequest request, string apiKey = null,
         Credentials creds = null)
     {
@@ -54,6 +56,7 @@ public class AccountClient : IAccountClient
         );
     }
 
+    [Obsolete("Use SubAccountsClient instead.")]
     public Task<SubAccount> CreateSubAccountAsync(CreateSubAccountRequest request, string apiKey = null,
         Credentials creds = null)
     {
@@ -101,6 +104,7 @@ public class AccountClient : IAccountClient
             AuthType.Basic
         );
 
+    [Obsolete("Use SubAccountsClient instead.")]
     public SubAccount RetrieveSubAccount(string subAccountKey, string apiKey = null, Credentials creds = null)
     {
         var credentials = creds ?? this.Credentials;
@@ -111,6 +115,7 @@ public class AccountClient : IAccountClient
         );
     }
 
+    [Obsolete("Use SubAccountsClient instead.")]
     public Task<SubAccount> RetrieveSubAccountAsync(string subAccountKey, string apiKey = null,
         Credentials creds = null)
     {
