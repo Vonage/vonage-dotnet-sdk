@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.SubAccounts.CreateSubAccount;
+using Vonage.SubAccounts.GetCreditTransfers;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
 using Vonage.SubAccounts.TransferCredit;
@@ -19,6 +20,13 @@ public interface ISubAccountsClient
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Account>> CreateSubAccountAsync(Result<CreateSubAccountRequest> request);
+
+    /// <summary>
+    ///     Retrieve a list of credit transfers that have taken place for a primary account within a specified time period.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    Task<Result<CreditTransfer[]>> GetCreditTransfersAsync(Result<GetCreditTransfersRequest> request);
 
     /// <summary>
     ///     Retrieves a subaccount of the primary account

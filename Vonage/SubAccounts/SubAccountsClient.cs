@@ -3,6 +3,7 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.SubAccounts.CreateSubAccount;
+using Vonage.SubAccounts.GetCreditTransfers;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
 using Vonage.SubAccounts.TransferCredit;
@@ -32,6 +33,15 @@ public class SubAccountsClient : ISubAccountsClient
         request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<CreateSubAccountRequest, Account>(completeRequest));
+
+    /// <inheritdoc />
+    public Task<Result<CreditTransfer[]>> GetCreditTransfersAsync(Result<GetCreditTransfersRequest> request) =>
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .BindAsync(completeRequest =>
+                this.vonageClient
+                    .SendWithResponseAsync<GetCreditTransfersRequest, EmbeddedResponse<GetCreditTransfersResponse>>(
+                        completeRequest))
+            .Map(value => value.Content.CreditTransfers);
 
     /// <inheritdoc />
     public Task<Result<Account>> GetSubAccountAsync(Result<GetSubAccountRequest> request) =>
