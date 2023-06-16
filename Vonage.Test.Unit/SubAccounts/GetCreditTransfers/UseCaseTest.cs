@@ -16,7 +16,7 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.SubAccounts;
-using Vonage.SubAccounts.GetCreditTransfers;
+using Vonage.SubAccounts.GetTransfers;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
@@ -26,7 +26,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
         private Func<VonageHttpClientConfiguration, Task<Result<Transfer[]>>> Operation =>
             configuration => new SubAccountsClient(configuration, ApiKey).GetCreditTransfersAsync(this.request);
 
-        private readonly Result<GetCreditTransfersRequest> request;
+        private readonly Result<GetTransfersRequest> request;
         public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
         [Property]
@@ -43,7 +43,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
                 .WithResponseContent(body);
             var result = await this.Operation(this.BuildConfiguration(messageHandler));
             result.Should()
-                .BeFailure(DeserializationFailure.From(typeof(EmbeddedResponse<GetCreditTransfersResponse>), body));
+                .BeFailure(DeserializationFailure.From(typeof(EmbeddedResponse<GetTransfersResponse>), body));
         }
 
         [Property]
@@ -52,7 +52,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetCreditTransfersRequest, Transfer[]>(
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetTransfersRequest, Transfer[]>(
                 (configuration, failureRequest) =>
                     new SubAccountsClient(configuration, ApiKey).GetCreditTransfersAsync(failureRequest));
 
@@ -63,7 +63,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
         [Fact]
         public async Task ShouldReturnSuccess_GivenApiResponseIsSuccess()
         {
-            var expectedResponse = this.helper.Fixture.Create<EmbeddedResponse<GetCreditTransfersResponse>>();
+            var expectedResponse = this.helper.Fixture.Create<EmbeddedResponse<GetTransfersResponse>>();
             var messageHandler = FakeHttpRequestHandler
                 .Build(HttpStatusCode.OK)
                 .WithExpectedRequest(this.BuildExpectedRequest())
@@ -86,10 +86,11 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
                 RequestUri =
                     new Uri(
                         UseCaseHelper.GetPathFromRequest(this.request.Map(incompleteRequest =>
-                            incompleteRequest.WithApiKey(ApiKey))), UriKind.Relative),
+                            incompleteRequest.WithApiKey(ApiKey).WithEndpoint(GetTransfersRequest.CreditTransfer))),
+                        UriKind.Relative),
             };
 
-        private static Result<GetCreditTransfersRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            GetCreditTransfersRequest.Build().WithStartDate(fixture.Create<DateTimeOffset>()).Create();
+        private static Result<GetTransfersRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            GetTransfersRequest.Build().WithStartDate(fixture.Create<DateTimeOffset>()).Create();
     }
 }

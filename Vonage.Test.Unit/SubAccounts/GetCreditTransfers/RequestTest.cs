@@ -1,6 +1,6 @@
 ﻿using System;
 using Vonage.Common.Test.Extensions;
-using Vonage.SubAccounts.GetCreditTransfers;
+using Vonage.SubAccounts.GetTransfers;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
@@ -20,24 +20,26 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .Create()
                 .Map(request => request.WithApiKey("489dsSS564652"))
+                .Map(request => request.WithEndpoint(GetTransfersRequest.CreditTransfer))
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess("/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_GivenAllParametersAreProvided() =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .WithEndDate(this.endDate)
                 .WithSubAccountKey(this.subAccountKey)
                 .Create()
                 .Map(request => request.WithApiKey("489dsSS564652"))
+                .Map(request => request.WithEndpoint(GetTransfersRequest.CreditTransfer))
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
@@ -45,38 +47,40 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_GivenEndDateIsProvided() =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .WithEndDate(this.endDate)
                 .Create()
                 .Map(request => request.WithApiKey("489dsSS564652"))
+                .Map(request => request.WithEndpoint(GetTransfersRequest.CreditTransfer))
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
                     "/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z&end_date=2020-06-30T12%3A00%3A00Z");
 
         [Fact]
+        public void GetEndpointPath_ShouldReturnApiEndpoint_GivenKeyAndEndpointAreMissing() =>
+            GetTransfersRequest
+                .Build()
+                .WithStartDate(this.startDate)
+                .Create()
+                .Map(request => request.GetEndpointPath())
+                .Should()
+                .BeSuccess("/accounts//?start_date=2018-03-02T17%3A34%3A49Z");
+
+        [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_GivenSubAccountKeyIsProvided() =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .WithSubAccountKey(this.subAccountKey)
                 .Create()
                 .Map(request => request.WithApiKey("489dsSS564652"))
+                .Map(request => request.WithEndpoint(GetTransfersRequest.CreditTransfer))
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
                     "/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z&subaccount=123AZs456");
-
-        [Fact]
-        public void GetEndpointPath_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
-            GetCreditTransfersRequest
-                .Build()
-                .WithStartDate(this.startDate)
-                .Create()
-                .Map(request => request.GetEndpointPath())
-                .Should()
-                .BeSuccess("/accounts//credit-transfers?start_date=2018-03-02T17%3A34%3A49Z");
     }
 }

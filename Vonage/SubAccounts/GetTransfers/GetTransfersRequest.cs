@@ -5,17 +5,18 @@ using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
-namespace Vonage.SubAccounts.GetCreditTransfers;
+namespace Vonage.SubAccounts.GetTransfers;
 
 /// <inheritdoc />
-public readonly struct GetCreditTransfersRequest : IVonageRequest
+public readonly struct GetTransfersRequest : IVonageRequest
 {
+    internal const string BalanceTransfer = "balance-transfers";
+    internal const string CreditTransfer = "credit-transfers";
     private const string DateFormat = "yyyy-MM-ddTHH:mm:ssZ";
 
-    /// <summary>
-    ///     Unique primary account ID.
-    /// </summary>
     private string ApiKey { get; init; }
+
+    private string Endpoint { get; init; }
 
     /// <summary>
     ///     End of the retrieval period. If absent then all transfers until now is returned.
@@ -33,10 +34,10 @@ public readonly struct GetCreditTransfersRequest : IVonageRequest
     public Maybe<string> SubAccountKey { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder for GetCreditTransfersRequest.
+    ///     Initializes a builder for GetTransfersRequest.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForStartDate Build() => new GetCreditTransfersRequestBuilder();
+    public static IBuilderForStartDate Build() => new GetTransfersRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -44,7 +45,7 @@ public readonly struct GetCreditTransfersRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => QueryHelpers.AddQueryString($"/accounts/{this.ApiKey}/credit-transfers",
+    public string GetEndpointPath() => QueryHelpers.AddQueryString($"/accounts/{this.ApiKey}/{this.Endpoint}",
         this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
@@ -55,5 +56,7 @@ public readonly struct GetCreditTransfersRequest : IVonageRequest
         return parameters;
     }
 
-    internal GetCreditTransfersRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
+    internal GetTransfersRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
+
+    internal GetTransfersRequest WithEndpoint(string endpoint) => this with {Endpoint = endpoint};
 }

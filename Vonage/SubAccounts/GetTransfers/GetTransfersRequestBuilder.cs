@@ -3,18 +3,18 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
-namespace Vonage.SubAccounts.GetCreditTransfers;
+namespace Vonage.SubAccounts.GetTransfers;
 
-internal class GetCreditTransfersRequestBuilder : IBuilderForOptional, IBuilderForStartDate
+internal class GetTransfersRequestBuilder : IBuilderForOptional, IBuilderForStartDate
 {
     private DateTimeOffset startDate;
     private Maybe<DateTimeOffset> endDate;
     private Maybe<string> subAccountKey;
 
     /// <inheritdoc />
-    public Result<GetCreditTransfersRequest> Create() =>
-        Result<GetCreditTransfersRequest>
-            .FromSuccess(new GetCreditTransfersRequest
+    public Result<GetTransfersRequest> Create() =>
+        Result<GetTransfersRequest>
+            .FromSuccess(new GetTransfersRequest
             {
                 StartDate = this.startDate,
                 EndDate = this.endDate,
@@ -43,7 +43,7 @@ internal class GetCreditTransfersRequestBuilder : IBuilderForOptional, IBuilderF
         return this;
     }
 
-    private static Result<GetCreditTransfersRequest> VerifySubAccountKey(GetCreditTransfersRequest request) =>
+    private static Result<GetTransfersRequest> VerifySubAccountKey(GetTransfersRequest request) =>
         request.SubAccountKey.Match(key => InputValidation.VerifyNotEmpty(request, key, nameof(request.SubAccountKey)),
             () => request);
 }
@@ -64,7 +64,7 @@ public interface IBuilderForStartDate
 /// <summary>
 ///     Represents a builder for optional values.
 /// </summary>
-public interface IBuilderForOptional : IVonageRequestBuilder<GetCreditTransfersRequest>
+public interface IBuilderForOptional : IVonageRequestBuilder<GetTransfersRequest>
 {
     /// <summary>
     ///     Sets the EndDate.

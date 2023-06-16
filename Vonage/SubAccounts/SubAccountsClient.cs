@@ -3,9 +3,9 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.SubAccounts.CreateSubAccount;
-using Vonage.SubAccounts.GetCreditTransfers;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
+using Vonage.SubAccounts.GetTransfers;
 using Vonage.SubAccounts.TransferAmount;
 using Vonage.SubAccounts.TransferNumber;
 using Vonage.SubAccounts.UpdateSubAccount;
@@ -36,12 +36,21 @@ public class SubAccountsClient : ISubAccountsClient
                 this.vonageClient.SendWithResponseAsync<CreateSubAccountRequest, Account>(completeRequest));
 
     /// <inheritdoc />
-    public Task<Result<Transfer[]>> GetCreditTransfersAsync(Result<GetCreditTransfersRequest> request) =>
+    public Task<Result<Transfer[]>> GetBalanceTransfersAsync(Result<GetTransfersRequest> request) =>
         request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .Map(incompleteRequest => incompleteRequest.WithEndpoint(GetTransfersRequest.BalanceTransfer))
             .BindAsync(completeRequest =>
-                this.vonageClient
-                    .SendWithResponseAsync<GetCreditTransfersRequest, EmbeddedResponse<GetCreditTransfersResponse>>(
-                        completeRequest))
+                this.vonageClient.SendWithResponseAsync<GetTransfersRequest, EmbeddedResponse<GetTransfersResponse>>(
+                    completeRequest))
+            .Map(value => value.Content.BalanceTransfers);
+
+    /// <inheritdoc />
+    public Task<Result<Transfer[]>> GetCreditTransfersAsync(Result<GetTransfersRequest> request) =>
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .Map(incompleteRequest => incompleteRequest.WithEndpoint(GetTransfersRequest.CreditTransfer))
+            .BindAsync(completeRequest =>
+                this.vonageClient.SendWithResponseAsync<GetTransfersRequest, EmbeddedResponse<GetTransfersResponse>>(
+                    completeRequest))
             .Map(value => value.Content.CreditTransfers);
 
     /// <inheritdoc />
@@ -59,16 +68,14 @@ public class SubAccountsClient : ISubAccountsClient
 
     /// <inheritdoc />
     public Task<Result<Transfer>> TransferBalanceAsync(Result<TransferAmountRequest> request) =>
-        request
-            .Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
             .Map(incompleteRequest => incompleteRequest.WithEndpoint(TransferAmountRequest.BalanceTransfer))
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<TransferAmountRequest, Transfer>(completeRequest));
 
     /// <inheritdoc />
     public Task<Result<Transfer>> TransferCreditAsync(Result<TransferAmountRequest> request) =>
-        request
-            .Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
             .Map(incompleteRequest => incompleteRequest.WithEndpoint(TransferAmountRequest.CreditTransfer))
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<TransferAmountRequest, Transfer>(completeRequest));

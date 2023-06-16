@@ -2,7 +2,7 @@
 using AutoFixture;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.SubAccounts.GetCreditTransfers;
+using Vonage.SubAccounts.GetTransfers;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
@@ -23,7 +23,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 
         [Fact]
         public void Build_ShouldHaveNoSubAccountKey_GivenDefault() =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .Create()
@@ -33,7 +33,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 
         [Fact]
         public void Build_ShouldHavNoEndDate_GivenDefault() =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .Create()
@@ -45,7 +45,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
         [InlineData("")]
         [InlineData(" ")]
         public void Build_ShouldReturnFailure_GivenSubAccountKeyIsEmptyOrWhitespace(string invalidKey) =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .WithSubAccountKey(invalidKey)
@@ -55,7 +55,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 
         [Fact]
         public void Build_ShouldSetEndDate() =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .WithEndDate(this.endDate)
@@ -66,7 +66,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 
         [Fact]
         public void Build_ShouldSetStartDate() =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .Create()
@@ -76,7 +76,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 
         [Fact]
         public void Build_ShouldSetSubAccountKey() =>
-            GetCreditTransfersRequest
+            GetTransfersRequest
                 .Build()
                 .WithStartDate(this.startDate)
                 .WithSubAccountKey(this.subAccountKey)

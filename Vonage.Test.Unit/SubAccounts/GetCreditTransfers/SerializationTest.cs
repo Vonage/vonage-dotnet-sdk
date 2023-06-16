@@ -4,7 +4,7 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts;
-using Vonage.SubAccounts.GetCreditTransfers;
+using Vonage.SubAccounts.GetTransfers;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
-                .DeserializeObject<EmbeddedResponse<GetCreditTransfersResponse>>(this.helper.GetResponseJson())
+                .DeserializeObject<EmbeddedResponse<GetTransfersResponse>>(this.helper.GetResponseJson())
                 .Should()
                 .BeSuccess(success =>
                     success.Content.CreditTransfers.Should().BeEquivalentTo(new[]
