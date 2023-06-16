@@ -1,5 +1,6 @@
 ﻿{
-  "balance_transfer_id": "297016aa-4061-430d-b805-a4d00522bb00",
+  "masterAccountId": "273eb8ed",
+  "id": "297016aa-4061-430d-b805-a4d00522bb00",
   "amount": 123.45,
   "from": "7c9738e6",
   "to": "ad6dc56f",

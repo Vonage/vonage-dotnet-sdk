@@ -5,7 +5,7 @@ using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.Transfer.Credit
+namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Balance
 {
     public class SerializationTest
     {
@@ -19,9 +19,9 @@ namespace Vonage.Test.Unit.SubAccounts.Transfer.Credit
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
-                .DeserializeObject<CreditTransfer>(this.helper.GetResponseJson())
+                .DeserializeObject<Transfer>(this.helper.GetResponseJson())
                 .Should()
-                .BeSuccess(new CreditTransfer(
+                .BeSuccess(new Transfer(
                     new Guid("297016aa-4061-430d-b805-a4d00522bb00"),
                     (decimal) 123.45,
                     "7c9738e6",

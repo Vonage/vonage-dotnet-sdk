@@ -26,7 +26,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
                 .BeSuccess(success =>
                     success.Content.CreditTransfers.Should().BeEquivalentTo(new[]
                     {
-                        new CreditTransfer(
+                        new Transfer(
                             new Guid("297016aa-4061-430d-b805-a4d00522bb00"),
                             (decimal) 123.45,
                             "7c9738e6",

@@ -1,10 +1,10 @@
 ﻿using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.SubAccounts.Transfer;
+using Vonage.SubAccounts.TransferAmount;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.Transfer
+namespace Vonage.Test.Unit.SubAccounts.TransferAmount
 {
     public class SerializationTest
     {
@@ -17,7 +17,7 @@ namespace Vonage.Test.Unit.SubAccounts.Transfer
 
         [Fact]
         public void ShouldSerialize() =>
-            TransferRequest.Build()
+            TransferAmountRequest.Build()
                 .WithFrom("7c9738e6")
                 .WithTo("ad6dc56f")
                 .WithAmount((decimal) 123.45)

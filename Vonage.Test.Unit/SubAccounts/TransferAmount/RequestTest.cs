@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.SubAccounts.Transfer;
+using Vonage.SubAccounts.TransferAmount;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.Transfer
+namespace Vonage.Test.Unit.SubAccounts.TransferAmount
 {
     public class RequestTest
     {
@@ -12,35 +12,35 @@ namespace Vonage.Test.Unit.SubAccounts.Transfer
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_GivenBalanceTransfer() =>
-            TransferRequest
+            TransferAmountRequest
                 .Build()
                 .WithFrom(this.fixture.Create<string>())
                 .WithTo(this.fixture.Create<string>())
                 .WithAmount(this.fixture.Create<decimal>())
                 .Create()
                 .Map(request => request.WithApiKey("489dsSS564652"))
-                .Map(request => request.WithEndpoint(TransferRequest.BalanceTransfer))
+                .Map(request => request.WithEndpoint(TransferAmountRequest.BalanceTransfer))
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess("/accounts/489dsSS564652/balance-transfers");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_GivenCreditTransfer() =>
-            TransferRequest
+            TransferAmountRequest
                 .Build()
                 .WithFrom(this.fixture.Create<string>())
                 .WithTo(this.fixture.Create<string>())
                 .WithAmount(this.fixture.Create<decimal>())
                 .Create()
                 .Map(request => request.WithApiKey("489dsSS564652"))
-                .Map(request => request.WithEndpoint(TransferRequest.CreditTransfer))
+                .Map(request => request.WithEndpoint(TransferAmountRequest.CreditTransfer))
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess("/accounts/489dsSS564652/credit-transfers");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint_GivenKeyAndEndpointAreMissing() =>
-            TransferRequest
+            TransferAmountRequest
                 .Build()
                 .WithFrom(this.fixture.Create<string>())
                 .WithTo(this.fixture.Create<string>())

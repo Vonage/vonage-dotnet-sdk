@@ -23,7 +23,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 {
     public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<CreditTransfer[]>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<Transfer[]>>> Operation =>
             configuration => new SubAccountsClient(configuration, ApiKey).GetCreditTransfersAsync(this.request);
 
         private readonly Result<GetCreditTransfersRequest> request;
@@ -52,7 +52,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetCreditTransfers
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetCreditTransfersRequest, CreditTransfer[]>(
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<GetCreditTransfersRequest, Transfer[]>(
                 (configuration, failureRequest) =>
                     new SubAccountsClient(configuration, ApiKey).GetCreditTransfersAsync(failureRequest));
 

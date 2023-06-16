@@ -2,9 +2,9 @@
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
-namespace Vonage.SubAccounts.Transfer;
+namespace Vonage.SubAccounts.TransferAmount;
 
-internal class TransferRequestBuilder : IBuilderForFrom, IBuilderForAmount, IBuilderForTo, IBuilderForOptional
+internal class TransferAmountRequestBuilder : IBuilderForFrom, IBuilderForAmount, IBuilderForTo, IBuilderForOptional
 {
     private decimal amount;
     private Maybe<string> reference;
@@ -12,9 +12,9 @@ internal class TransferRequestBuilder : IBuilderForFrom, IBuilderForAmount, IBui
     private string to;
 
     /// <inheritdoc />
-    public Result<TransferRequest> Create() =>
-        Result<TransferRequest>
-            .FromSuccess(new TransferRequest
+    public Result<TransferAmountRequest> Create() =>
+        Result<TransferAmountRequest>
+            .FromSuccess(new TransferAmountRequest
             {
                 From = this.from,
                 To = this.to,
@@ -53,14 +53,14 @@ internal class TransferRequestBuilder : IBuilderForFrom, IBuilderForAmount, IBui
         return this;
     }
 
-    private static Result<TransferRequest> VerifyAmount(TransferRequest request) =>
-        InputValidation.VerifyNotNegative(request, request.Amount, nameof(request.Amount));
+    private static Result<TransferAmountRequest> VerifyAmount(TransferAmountRequest amountRequest) =>
+        InputValidation.VerifyNotNegative(amountRequest, amountRequest.Amount, nameof(amountRequest.Amount));
 
-    private static Result<TransferRequest> VerifyFrom(TransferRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.From, nameof(request.From));
+    private static Result<TransferAmountRequest> VerifyFrom(TransferAmountRequest amountRequest) =>
+        InputValidation.VerifyNotEmpty(amountRequest, amountRequest.From, nameof(amountRequest.From));
 
-    private static Result<TransferRequest> VerifyTo(TransferRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.To, nameof(request.To));
+    private static Result<TransferAmountRequest> VerifyTo(TransferAmountRequest amountRequest) =>
+        InputValidation.VerifyNotEmpty(amountRequest, amountRequest.To, nameof(amountRequest.To));
 }
 
 /// <summary>
@@ -105,7 +105,7 @@ public interface IBuilderForAmount
 /// <summary>
 ///     Represents a builder for optional values.
 /// </summary>
-public interface IBuilderForOptional : IVonageRequestBuilder<TransferRequest>
+public interface IBuilderForOptional : IVonageRequestBuilder<TransferAmountRequest>
 {
     /// <summary>
     ///     Sets the reference.

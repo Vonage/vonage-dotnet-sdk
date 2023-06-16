@@ -6,10 +6,10 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 
-namespace Vonage.SubAccounts.Transfer;
+namespace Vonage.SubAccounts.TransferAmount;
 
 /// <inheritdoc />
-public readonly struct TransferRequest : IVonageRequest
+public readonly struct TransferAmountRequest : IVonageRequest
 {
     internal const string BalanceTransfer = "balance-transfers";
     internal const string CreditTransfer = "credit-transfers";
@@ -47,7 +47,7 @@ public readonly struct TransferRequest : IVonageRequest
     ///     Initializes a builder for a transfer request.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForFrom Build() => new TransferRequestBuilder();
+    public static IBuilderForFrom Build() => new TransferAmountRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -62,7 +62,7 @@ public readonly struct TransferRequest : IVonageRequest
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
-    internal TransferRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
+    internal TransferAmountRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
 
-    internal TransferRequest WithEndpoint(string endpoint) => this with {Endpoint = endpoint};
+    internal TransferAmountRequest WithEndpoint(string endpoint) => this with {Endpoint = endpoint};
 }

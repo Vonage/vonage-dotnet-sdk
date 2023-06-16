@@ -11,17 +11,17 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.SubAccounts;
-using Vonage.SubAccounts.Transfer;
+using Vonage.SubAccounts.TransferAmount;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.Transfer.Credit
+namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Credit
 {
     public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<CreditTransfer>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<Transfer>>> Operation =>
             configuration => new SubAccountsClient(configuration, ApiKey).TransferCreditAsync(this.request);
 
-        private readonly Result<TransferRequest> request;
+        private readonly Result<TransferAmountRequest> request;
 
         public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
@@ -40,7 +40,7 @@ namespace Vonage.Test.Unit.SubAccounts.Transfer.Credit
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<TransferRequest, CreditTransfer>(
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<TransferAmountRequest, Transfer>(
                 (configuration, failureRequest) =>
                     new SubAccountsClient(configuration, ApiKey).TransferCreditAsync(failureRequest));
 
@@ -61,13 +61,14 @@ namespace Vonage.Test.Unit.SubAccounts.Transfer.Credit
                     new Uri(
                         UseCaseHelper.GetPathFromRequest(this.request
                             .Map(incompleteRequest => incompleteRequest.WithApiKey(ApiKey))
-                            .Map(incompleteRequest => incompleteRequest.WithEndpoint(TransferRequest.CreditTransfer))),
+                            .Map(incompleteRequest =>
+                                incompleteRequest.WithEndpoint(TransferAmountRequest.CreditTransfer))),
                         UriKind.Relative),
                 Content = this.request.GetStringContent().IfFailure(string.Empty),
             };
 
-        private static Result<TransferRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            TransferRequest.Build()
+        private static Result<TransferAmountRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            TransferAmountRequest.Build()
                 .WithFrom(fixture.Create<string>())
                 .WithTo(fixture.Create<string>())
                 .WithAmount(fixture.Create<decimal>())
