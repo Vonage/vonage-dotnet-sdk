@@ -14,12 +14,12 @@ using Vonage.SubAccounts;
 using Vonage.SubAccounts.Transfer;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.TransferCredit
+namespace Vonage.Test.Unit.SubAccounts.Transfer.Balance
 {
     public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<CreditTransfer>>> Operation =>
-            configuration => new SubAccountsClient(configuration, ApiKey).TransferCreditAsync(this.request);
+        private Func<VonageHttpClientConfiguration, Task<Result<BalanceTransfer>>> Operation =>
+            configuration => new SubAccountsClient(configuration, ApiKey).TransferBalanceAsync(this.request);
 
         private readonly Result<TransferRequest> request;
 
@@ -40,9 +40,9 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<TransferRequest, CreditTransfer>(
+            await this.helper.VerifyReturnsFailureGivenRequestIsFailure<TransferRequest, BalanceTransfer>(
                 (configuration, failureRequest) =>
-                    new SubAccountsClient(configuration, ApiKey).TransferCreditAsync(failureRequest));
+                    new SubAccountsClient(configuration, ApiKey).TransferBalanceAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
@@ -61,7 +61,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferCredit
                     new Uri(
                         UseCaseHelper.GetPathFromRequest(this.request
                             .Map(incompleteRequest => incompleteRequest.WithApiKey(ApiKey))
-                            .Map(incompleteRequest => incompleteRequest.WithEndpoint(TransferRequest.CreditTransfer))),
+                            .Map(incompleteRequest => incompleteRequest.WithEndpoint(TransferRequest.BalanceTransfer))),
                         UriKind.Relative),
                 Content = this.request.GetStringContent().IfFailure(string.Empty),
             };

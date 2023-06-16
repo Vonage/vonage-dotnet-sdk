@@ -6,7 +6,7 @@ using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.Transfer;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.TransferCredit
+namespace Vonage.Test.Unit.SubAccounts.Transfer
 {
     public class RequestBuilderTest
     {
