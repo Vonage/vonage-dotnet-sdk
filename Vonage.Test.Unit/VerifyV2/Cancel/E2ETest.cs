@@ -30,7 +30,7 @@ namespace Vonage.Test.Unit.VerifyV2.Cancel
         }
 
         [Fact]
-        public async Task SomeEndToEndTest1()
+        public async Task CancelVerificationRequest()
         {
             var requestId = Guid.NewGuid();
             this.server.Given(WireMock.RequestBuilders.Request.Create()
