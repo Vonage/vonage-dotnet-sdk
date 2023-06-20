@@ -3,6 +3,7 @@ using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
 using Vonage.Conversions;
 using Vonage.Messages;
 using Vonage.Messaging;
@@ -24,6 +25,7 @@ namespace Vonage;
 public class VonageClient
 {
     private Credentials credentials;
+    private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
 
     public IAccountClient AccountClient { get; private set; }
 
@@ -75,6 +77,14 @@ public class VonageClient
     /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
     public VonageClient(Credentials credentials) => this.Credentials = credentials;
 
+    internal VonageClient(Credentials credentials, Configuration configuration)
+    {
+        this.configuration = configuration;
+        this.Credentials = credentials;
+    }
+
+    private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
+
     private static HttpClient InitializeHttpClient(Uri baseUri)
     {
         var client = new HttpClient(new HttpClientHandler())
@@ -100,7 +110,7 @@ public class VonageClient
         this.PricingClient = new PricingClient(this.Credentials);
         this.MessagesClient = new MessagesClient(this.Credentials);
         var nexmoConfiguration = new VonageHttpClientConfiguration(
-            InitializeHttpClient(Configuration.Instance.NexmoApiUrl),
+            InitializeHttpClient(this.GetConfiguration().NexmoApiUrl),
             this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
         this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
