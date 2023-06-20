@@ -12,6 +12,7 @@ using Vonage.Pricing;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
+using Vonage.SubAccounts;
 using Vonage.Verify;
 using Vonage.VerifyV2;
 using Vonage.Voice;
@@ -60,6 +61,11 @@ public class VonageClient
 
     public ISmsClient SmsClient { get; private set; }
 
+    /// <summary>
+    ///     Exposes SubAccounts features.
+    /// </summary>
+    public SubAccountsClient SubAccountsClient { get; private set; }
+
     public IVerifyClient VerifyClient { get; private set; }
 
     /// <summary>
@@ -104,5 +110,6 @@ public class VonageClient
             this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
         this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
+        this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
     }
 }

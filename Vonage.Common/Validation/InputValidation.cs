@@ -168,7 +168,7 @@ public static class InputValidation
     /// <param name="name">The display name.</param>
     /// <typeparam name="T">The request type.</typeparam>
     /// <returns>Success or Failure.</returns>
-    public static Result<T> VerifyNotNegative<T>(T request, int value, string name) =>
+    public static Result<T> VerifyNotNegative<T>(T request, decimal value, string name) =>
         value < 0
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {IntCannotBeNegative}"))

@@ -1,0 +1,14 @@
+﻿{
+  "_embedded": {
+    "balance_transfers": [
+      {
+        "from": "7c9738e6",
+        "to": "ad6dc56f",
+        "amount": 1.00000000,
+        "reference": "Test from SDK",
+        "id": "c268d4a0-bff5-4865-a0c2-a8dbab781c3a",
+        "created_at": "2023-06-16T13:28:34.000Z"
+      }
+    ]
+  }
+}
