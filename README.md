@@ -28,6 +28,10 @@ Sign up [for free at vonage.com][signup].
         * [v5.0.0+](#v500-)
         * [3.1.x, 5.0.0](#-31x-500-)
         * [2.2.0, 3.0.x](#220---30x)
+* [Monads](#monads)
+    * [Result](#result)
+    * [Maybe](#maybe)
+    * [What if you don't want to use Monads?](#what-if-you-dont-want-to-use-monads)
 * [Examples](#examples)
 * [Supported APIs](#supported-apis)
 * [FAQ](#faq)
@@ -250,6 +254,141 @@ errors:
 ```
 
 You may specify other types of logging (file, etc.).
+
+## Monads
+
+Most recent features expose responses/results
+using [Monads](https://www.adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html#just-what-is-a-functor,-really?).
+While the name may be scary at first, this is just another data structure that offers various benefits.
+We can picture them as a `box` containing our value, and we manipulate the box instead of manipulating a value.
+
+Their purpose is to provide a value that can have multiple states, and deal with each state using a similar workflow.
+This is a alternative to exception handling -
+see [Railway Oriented Programming](https://fsharpforfunandprofit.com/posts/recipe-part2/).
+
+### Result
+
+The `Result<T>` monad represents a value that can have one of the following states:
+
+- `Success` - indicates the process was a success
+- `Failure` - indicates the process failed
+
+The goal is to provide an `exception-free` process.
+
+- Transparency - the signature is fully transparent about the possible outputs (aka. a method **can** fail)
+- Less intrusive - no `try-catch` required
+
+```csharp
+// This method allows to Divide a number
+private static Result<decimal> Divide(decimal value, decimal divider) =>
+    divider == 0
+        // If divider is 0, failure is returned
+        ? Result<decimal>.FromFailure(ResultFailure.FromErrorMessage("Cannot divide by 0."))
+        // If divider is allowed, success is returned
+        : Result<decimal>.FromSuccess(value / divider);
+```
+
+### Maybe
+
+The `Maybe<T>` monad represents a value that can have one of the following states:
+
+- `Some` - indicates the presence of a value
+- `None` - indicates the absence of a value
+
+The goal is to mitigate the 'billion-dollar mistake': `null`.
+
+```csharp
+// This method allows to retrieve phone number
+private static Maybe<PhoneNumber> Find(string number) =>
+    this.numbers.FirstOrDefault(phoneNumber => phoneNumber.Number.Equals(number)) 
+    ?? Maybe<PhoneNumber>.None;
+```
+
+### How to extract the value from the Monad
+
+Given we cannot predict the state at build-time, we need to provide a process for each scenario.
+
+The following methods are all available for both `Result<T>` and `Maybe<T>`, but examples will focus on `Result<T>`.
+
+#### Match
+
+`.Match()` expects two operations, and will evaluate the one corresponding to the current state.
+It supports transformation, and can be used with both `Actions` and `Functions`.
+
+```csharp
+Result<int> monad = ...
+// Supports transformation    
+string result = monad.Match(
+    // Will be executed if Result<int>.IsSuccess
+    some => $"The process is a success: {some}.",
+    // Will be executed if Result<int>.IsFailure 
+    failure => $"The process is a failure: {failure.GetFailureMessage()}");
+
+// Using Actions    
+monad.Match(
+    some => Console.WriteLine($"The process is a success: {some}."),
+    failure => Console.WriteLine($"The process is a failure: {failure.GetFailureMessage()}"));
+```
+
+#### IfFailure / IfNone
+
+If you want to retrieve the value without transforming it, you can use `.IfFailure()` which expects a fallback value in
+case the state is `Failure`.
+
+```csharp
+Result<int> monad = ...
+// Using the failure reason (recommended)
+string result = monad.IfFailure(failure => $"The process is a failure: {failure.GetFailureMessage()}");
+// Using a default value
+string result = monad.IfFailure("Something failed.");
+// Using an Action
+monad.IfFailure(failure => Console.WriteLine($"The process is a failure: {failure.GetFailureMessage()}"));    
+```
+
+### Features
+
+#### Map
+
+#### Bind
+
+#### Implicit conversion
+
+#### Async Support
+
+### What if you don't want to use Monads?
+
+You can use `GetUnsafe()` if you prefer having an exception thrown when a Monad is not in the desired state.
+
+```csharp
+Result<int> result = ...
+try
+{
+    int output = result.GetSuccessUnsafe();
+}
+// The exception type cannot be defined at build-time
+// It depends of the failure reason:
+// - Authentication failure
+// - Serialization/Deserialization failure
+// - Http failure
+// - Validation failure
+// - etc.
+catch (Exception exception)
+{
+    ...
+}
+```
+
+```csharp
+Maybe<int> maybe = ...
+try
+{
+    int output = maybe.GetUnsafe();
+}
+catch (NoneStateException exception)
+{
+    ...
+}
+```
 
 ## Examples
 
