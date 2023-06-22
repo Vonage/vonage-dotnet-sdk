@@ -304,9 +304,9 @@ private static Maybe<PhoneNumber> Find(string number) =>
     ?? Maybe<PhoneNumber>.None;
 ```
 
-### How to extract the value from the Monad
+### How to extract a value from a Monad?
 
-Given we cannot predict the state at build-time, we need to provide a process for each scenario.
+Given we cannot predict the state at build-time, we need to provide an operation for **each** scenario.
 
 The following methods are all available for both `Result<T>` and `Maybe<T>`, but examples will focus on `Result<T>`.
 
@@ -347,13 +347,19 @@ monad.IfFailure(failure => Console.WriteLine($"The process is a failure: {failur
 
 ### Features
 
-#### Map
+Both `Result<T>` and `Maybe<T>` also exposes more capabilities:
 
-#### Bind
+- `Map`: transforms the value (if success/some) that will wrap the result into a new Monad.
+- `Bind`: transforms the value (if success/some) that will return a new Monad.
+- `Merge`: merges (or flatten) two monads.
+- `IfSuccess` / `IfSome`: provide an operation that will be executed if the Monad is in the expected state.
+- `IfFailure` / `IfNone`: provide an operation that will be executed if the Monad is in the expected state.
+- Implicit operators
+- Async support
+- etc.
 
-#### Implicit conversion
-
-#### Async Support
+You can see how to benefit from these capabilities
+in [our Tests](https://github.com/Vonage/vonage-dotnet-sdk/tree/main/Vonage.Common.Test/Monads).
 
 ### What if you don't want to use Monads?
 
