@@ -20,6 +20,7 @@ Sign up [for free at vonage.com][signup].
 * [Configuration](#configuration)
     * [Setup](#setup)
         * [Provide credentials](#provide-credentials)
+        * [Service registration](#service-registration)
         * [Set credentials in settings file](#set-credentials-in-settings-file)
         * [Override values on Configuration singleton](#override-values-in-configuration-singleton)
     * [Configuration reference](#configuration-reference)
@@ -122,6 +123,27 @@ var credentials = Credentials.FromApiKeyAndSecret(
 
 var vonageClient = new VonageClient(credentials);
 ```
+
+### Service registration
+
+You can also register a client in your `IServiceCollection` using the following extension methods:
+
+- `AddVonageClientScoped`: registers using Scoped registration.
+- `AddVonageClientTransient`: registers using Transient registration.
+
+``` csharp
+builder.Services.AddVonageClientScoped(credentials);
+// or
+builder.Services.AddVonageClientTransient(credentials);
+```
+
+It will register the main `VonageClient`, but also all sub client interfaces:
+
+- IMessagesClient
+- IVerifyV2Client
+- IMeetingsClient
+- IVoiceClient
+- etc.
 
 ### Set credentials in settings file
 
