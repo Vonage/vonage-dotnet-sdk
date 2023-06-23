@@ -9,16 +9,6 @@ namespace Vonage.Test.Unit.Meetings.GetRooms
 {
     public class RequestBuilderTest
     {
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void Build_ShouldReturnFailure_GivenEndIdIsNullOrWhitespace(string emptyValue) =>
-            GetRoomsRequest.Build()
-                .WithEndId(emptyValue)
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("EndId cannot be null or whitespace."));
-
         [Property]
         public Property Build_ShouldReturnFailure_GivenPageSizeIsLowerThanZero() =>
             Prop.ForAll(
@@ -28,16 +18,6 @@ namespace Vonage.Test.Unit.Meetings.GetRooms
                     .Create()
                     .Should()
                     .BeFailure(ResultFailure.FromErrorMessage("PageSize cannot be lower than 1.")));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void Build_ShouldReturnFailure_GivenStartIdIsNullOrWhitespace(string emptyValue) =>
-            GetRoomsRequest.Build()
-                .WithStartId(emptyValue)
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("StartId cannot be null or whitespace."));
 
         [Fact]
         public void Build_ShouldReturnNoEndId_GivenDefault() =>
@@ -66,11 +46,11 @@ namespace Vonage.Test.Unit.Meetings.GetRooms
         [Fact]
         public void Build_ShouldSetEndId() =>
             GetRoomsRequest.Build()
-                .WithEndId("abc123")
+                .WithEndId(123)
                 .Create()
                 .Map(request => request.EndId)
                 .Should()
-                .BeSuccess("abc123");
+                .BeSuccess(123);
 
         [Fact]
         public void Build_ShouldSetPageSize() =>
@@ -84,10 +64,10 @@ namespace Vonage.Test.Unit.Meetings.GetRooms
         [Fact]
         public void Build_ShouldSetStartId() =>
             GetRoomsRequest.Build()
-                .WithStartId("abc123")
+                .WithStartId(123)
                 .Create()
                 .Map(request => request.StartId)
                 .Should()
-                .BeSuccess("abc123");
+                .BeSuccess(123);
     }
 }

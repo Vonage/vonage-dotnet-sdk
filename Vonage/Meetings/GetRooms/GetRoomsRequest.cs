@@ -16,7 +16,7 @@ public readonly struct GetRoomsRequest : IVonageRequest
     /// <summary>
     ///     The ID to end returning events at (excluding end_id itself).
     /// </summary>
-    public Maybe<string> EndId { get; init; }
+    public Maybe<int> EndId { get; init; }
 
     /// <summary>
     ///     The maximum number of rooms in the current page.
@@ -26,7 +26,7 @@ public readonly struct GetRoomsRequest : IVonageRequest
     /// <summary>
     ///     The ID to start returning events at.
     /// </summary>
-    public Maybe<string> StartId { get; init; }
+    public Maybe<int> StartId { get; init; }
 
     /// <summary>
     ///     Build the request with default values.
@@ -46,9 +46,9 @@ public readonly struct GetRoomsRequest : IVonageRequest
     private Dictionary<string, string> GetQueryStringParameters()
     {
         var parameters = new Dictionary<string, string>();
-        this.StartId.Bind(VerifyIfNotEmpty).IfSome(value => parameters.Add("start_id", value));
-        this.EndId.Bind(VerifyIfNotEmpty).IfSome(value => parameters.Add("end_id", value));
-        this.PageSize.IfSome(value => parameters.Add("page_size", value.ToString()));
+        this.StartId.Map(value => value.ToString()).IfSome(value => parameters.Add("start_id", value));
+        this.EndId.Map(value => value.ToString()).IfSome(value => parameters.Add("end_id", value));
+        this.PageSize.Map(value => value.ToString()).IfSome(value => parameters.Add("page_size", value));
         return parameters;
     }
 

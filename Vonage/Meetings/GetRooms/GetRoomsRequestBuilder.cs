@@ -8,51 +8,43 @@ internal class GetRoomsRequestBuilder : IOptionalBuilder
 {
     private const int MinPageSize = 1;
     private Maybe<int> pageSize = Maybe<int>.None;
-    private Maybe<string> endId = Maybe<string>.None;
-    private Maybe<string> startId = Maybe<string>.None;
+    private Maybe<int> endId = Maybe<int>.None;
+    private Maybe<int> startId = Maybe<int>.None;
 
+    /// <inheritdoc />
     public Result<GetRoomsRequest> Create() => Result<GetRoomsRequest>.FromSuccess(new GetRoomsRequest
         {
             EndId = this.endId,
             StartId = this.startId,
             PageSize = this.pageSize,
         })
-        .Bind(VerifyStartId)
-        .Bind(VerifyEndId)
         .Bind(VerifyPageSize);
 
-    public IOptionalBuilder WithEndId(string value)
+    /// <inheritdoc />
+    public IOptionalBuilder WithEndId(int value)
     {
         this.endId = value;
         return this;
     }
 
+    /// <inheritdoc />
     public IOptionalBuilder WithPageSize(int value)
     {
         this.pageSize = value;
         return this;
     }
 
-    public IOptionalBuilder WithStartId(string value)
+    /// <inheritdoc />
+    public IOptionalBuilder WithStartId(int value)
     {
         this.startId = value;
         return this;
     }
 
-    private static Result<GetRoomsRequest> VerifyEndId(GetRoomsRequest request) =>
-        request.EndId.Match(
-            value => InputValidation.VerifyNotEmpty(request, value, nameof(GetRoomsRequest.EndId)),
-            () => request);
-
     private static Result<GetRoomsRequest> VerifyPageSize(GetRoomsRequest request) =>
         request.PageSize.Match(
             value => InputValidation.VerifyHigherOrEqualThan(request, value, MinPageSize,
                 nameof(GetRoomsRequest.PageSize)),
-            () => request);
-
-    private static Result<GetRoomsRequest> VerifyStartId(GetRoomsRequest request) =>
-        request.StartId.Match(
-            value => InputValidation.VerifyNotEmpty(request, value, nameof(GetRoomsRequest.StartId)),
             () => request);
 }
 
@@ -66,7 +58,7 @@ public interface IOptionalBuilder : IVonageRequestBuilder<GetRoomsRequest>
     /// </summary>
     /// <param name="value">The ID to end returning events at (excluding end_id itself).</param>
     /// <returns>The builder.</returns>
-    public IOptionalBuilder WithEndId(string value);
+    public IOptionalBuilder WithEndId(int value);
 
     /// <summary>
     ///     Sets the page size on the builder.
@@ -80,5 +72,5 @@ public interface IOptionalBuilder : IVonageRequestBuilder<GetRoomsRequest>
     /// </summary>
     /// <param name="value"> The ID to start returning events at.</param>
     /// <returns>The builder.</returns>
-    public IOptionalBuilder WithStartId(string value);
+    public IOptionalBuilder WithStartId(int value);
 }
