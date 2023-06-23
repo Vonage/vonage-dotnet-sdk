@@ -1,10 +1,10 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Meetings.GetAvailableRooms;
+using Vonage.Meetings.GetRooms;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
+namespace Vonage.Test.Unit.Meetings.GetRooms
 {
     public class RequestTest
     {
@@ -17,24 +17,24 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
 
         [Fact]
         public void Build_ShouldInitializeValues_GivenEndIdIsNull() =>
-            GetAvailableRoomsRequest.Build(this.fixture.Create<string>(), null).EndId.Should().BeNone();
+            GetRoomsRequest.Build(this.fixture.Create<string>(), null).EndId.Should().BeNone();
 
         [Fact]
         public void Build_ShouldInitializeValues_GivenEndIdIsSome() =>
-            GetAvailableRoomsRequest.Build(this.fixture.Create<string>(), "Hello").EndId.Should().BeSome("Hello");
+            GetRoomsRequest.Build(this.fixture.Create<string>(), "Hello").EndId.Should().BeSome("Hello");
 
         [Fact]
         public void Build_ShouldInitializeValues_GivenStartIdIsNull() =>
-            GetAvailableRoomsRequest.Build(null, this.fixture.Create<string>()).StartId.Should().BeNone();
+            GetRoomsRequest.Build(null, this.fixture.Create<string>()).StartId.Should().BeNone();
 
         [Fact]
         public void Build_ShouldInitializeValues_GivenStartIdIsSome() =>
-            GetAvailableRoomsRequest.Build("Hello", this.fixture.Create<string>()).StartId.Should().BeSome("Hello");
+            GetRoomsRequest.Build("Hello", this.fixture.Create<string>()).StartId.Should().BeSome("Hello");
 
         [Fact]
         public void Build_ShouldReturnDefaultValues_GivenNoValuesAreProvided()
         {
-            var request = GetAvailableRoomsRequest.Build();
+            var request = GetRoomsRequest.Build();
             request.StartId.Should().BeNone();
             request.EndId.Should().BeNone();
         }
@@ -47,6 +47,6 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
         [InlineData(null, "EndId", "/meetings/rooms?end_id=EndId")]
         [InlineData("Start Id", "End Id", "/meetings/rooms?start_id=Start%20Id&end_id=End%20Id")]
         public void GetEndpointPath_ShouldReturnApiEndpoint(string startId, string endId, string expectedEndpoint) =>
-            GetAvailableRoomsRequest.Build(startId, endId).GetEndpointPath().Should().Be(expectedEndpoint);
+            GetRoomsRequest.Build(startId, endId).GetEndpointPath().Should().Be(expectedEndpoint);
     }
 }

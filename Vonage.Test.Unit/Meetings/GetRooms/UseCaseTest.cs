@@ -8,18 +8,18 @@ using FsCheck.Xunit;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
-using Vonage.Meetings.GetAvailableRooms;
+using Vonage.Meetings.GetRooms;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
+namespace Vonage.Test.Unit.Meetings.GetRooms
 {
     public class UseCaseTest : BaseUseCase
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<GetAvailableRoomsResponse>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<GetRoomsResponse>>> Operation =>
             configuration =>
-                MeetingsClientFactory.Create(configuration).GetAvailableRoomsAsync(this.request);
+                MeetingsClientFactory.Create(configuration).GetRoomsAsync(this.request);
 
-        private readonly GetAvailableRoomsRequest request;
+        private readonly GetRoomsRequest request;
 
         public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
@@ -52,7 +52,7 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
                 RequestUri = new Uri(this.request.GetEndpointPath(), UriKind.Relative),
             };
 
-        private static GetAvailableRoomsRequest BuildRequest(ISpecimenBuilder fixture) =>
-            GetAvailableRoomsRequest.Build(fixture.Create<string>(), fixture.Create<string>());
+        private static GetRoomsRequest BuildRequest(ISpecimenBuilder fixture) =>
+            GetRoomsRequest.Build(fixture.Create<string>(), fixture.Create<string>());
     }
 }

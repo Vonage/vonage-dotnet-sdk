@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
-namespace Vonage.Meetings.GetAvailableRooms;
+namespace Vonage.Meetings.GetRooms;
 
 /// <summary>
-///     Represents a request to retrieve all available rooms.
+///     Represents a request to retrieve all rooms.
 /// </summary>
-public readonly struct GetAvailableRoomsRequest : IVonageRequest
+public readonly struct GetRoomsRequest : IVonageRequest
 {
     private const string DefaultEndpoint = "/meetings/rooms";
 
@@ -18,7 +18,7 @@ public readonly struct GetAvailableRoomsRequest : IVonageRequest
     /// </summary>
     /// <param name="startId">The ID to start returning events at.</param>
     /// <param name="endId">The ID to end returning events at (excluding end_id itself).</param>
-    private GetAvailableRoomsRequest(Maybe<string> startId, Maybe<string> endId)
+    private GetRoomsRequest(Maybe<string> startId, Maybe<string> endId)
     {
         this.StartId = startId;
         this.EndId = endId;
@@ -38,7 +38,7 @@ public readonly struct GetAvailableRoomsRequest : IVonageRequest
     ///     Build the request with default values.
     /// </summary>
     /// <returns>The request.</returns>
-    public static GetAvailableRoomsRequest Build() => new(Maybe<string>.None, Maybe<string>.None);
+    public static GetRoomsRequest Build() => new(Maybe<string>.None, Maybe<string>.None);
 
     /// <summary>
     ///     Build the request with the specified values.
@@ -46,7 +46,7 @@ public readonly struct GetAvailableRoomsRequest : IVonageRequest
     /// <param name="startId">The ID to start returning events at.</param>
     /// <param name="endId">The ID to end returning events at (excluding end_id itself).</param>
     /// <returns>The request</returns>
-    public static GetAvailableRoomsRequest Build(string startId, string endId) =>
+    public static GetRoomsRequest Build(string startId, string endId) =>
         new(startId ?? Maybe<string>.None, endId ?? Maybe<string>.None);
 
     /// <inheritdoc />

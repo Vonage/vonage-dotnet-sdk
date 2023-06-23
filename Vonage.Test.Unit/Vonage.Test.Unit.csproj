@@ -207,7 +207,7 @@
         <None Update="Data\ShortCodeTests\SendAlert.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Meetings\GetAvailableRooms\Data\ShouldDeserialize200-response.json">
+        <None Include="Meetings\GetRooms\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">

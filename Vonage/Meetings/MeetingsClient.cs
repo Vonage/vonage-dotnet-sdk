@@ -8,11 +8,11 @@ using Vonage.Meetings.CreateRoom;
 using Vonage.Meetings.CreateTheme;
 using Vonage.Meetings.DeleteRecording;
 using Vonage.Meetings.DeleteTheme;
-using Vonage.Meetings.GetAvailableRooms;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
+using Vonage.Meetings.GetRooms;
 using Vonage.Meetings.GetRoomsByTheme;
 using Vonage.Meetings.GetTheme;
 using Vonage.Meetings.GetThemes;
@@ -61,10 +61,6 @@ public class MeetingsClient : IMeetingsClient
         this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>
-        this.vonageClient.SendWithResponseAsync<GetAvailableRoomsRequest, GetAvailableRoomsResponse>(request);
-
-    /// <inheritdoc />
     public Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync() =>
         this.vonageClient.SendWithResponseAsync<GetDialNumbersRequest, GetDialNumbersResponse[]>(GetDialNumbersRequest
             .Default);
@@ -80,6 +76,10 @@ public class MeetingsClient : IMeetingsClient
     /// <inheritdoc />
     public Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetRoomRequest, Room>(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetRoomsResponse>> GetRoomsAsync(GetRoomsRequest request) =>
+        this.vonageClient.SendWithResponseAsync<GetRoomsRequest, GetRoomsResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<GetRoomsByThemeResponse>> GetRoomsByThemeAsync(Result<GetRoomsByThemeRequest> request) =>
