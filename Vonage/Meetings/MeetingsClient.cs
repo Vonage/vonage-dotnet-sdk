@@ -76,7 +76,7 @@ public class MeetingsClient : IMeetingsClient
         this.vonageClient.SendWithResponseAsync<GetRoomRequest, Room>(request);
 
     /// <inheritdoc />
-    public Task<Result<GetRoomsResponse>> GetRoomsAsync(GetRoomsRequest request) =>
+    public Task<Result<GetRoomsResponse>> GetRoomsAsync(Result<GetRoomsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetRoomsRequest, GetRoomsResponse>(request);
 
     /// <inheritdoc />

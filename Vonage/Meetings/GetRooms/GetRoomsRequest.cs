@@ -14,40 +14,25 @@ public readonly struct GetRoomsRequest : IVonageRequest
     private const string DefaultEndpoint = "/meetings/rooms";
 
     /// <summary>
-    ///     Constructor.
-    /// </summary>
-    /// <param name="startId">The ID to start returning events at.</param>
-    /// <param name="endId">The ID to end returning events at (excluding end_id itself).</param>
-    private GetRoomsRequest(Maybe<string> startId, Maybe<string> endId)
-    {
-        this.StartId = startId;
-        this.EndId = endId;
-    }
-
-    /// <summary>
     ///     The ID to end returning events at (excluding end_id itself).
     /// </summary>
-    public Maybe<string> EndId { get; }
+    public Maybe<string> EndId { get; init; }
+
+    /// <summary>
+    ///     The maximum number of rooms in the current page.
+    /// </summary>
+    public Maybe<int> PageSize { get; init; }
 
     /// <summary>
     ///     The ID to start returning events at.
     /// </summary>
-    public Maybe<string> StartId { get; }
+    public Maybe<string> StartId { get; init; }
 
     /// <summary>
     ///     Build the request with default values.
     /// </summary>
     /// <returns>The request.</returns>
-    public static GetRoomsRequest Build() => new(Maybe<string>.None, Maybe<string>.None);
-
-    /// <summary>
-    ///     Build the request with the specified values.
-    /// </summary>
-    /// <param name="startId">The ID to start returning events at.</param>
-    /// <param name="endId">The ID to end returning events at (excluding end_id itself).</param>
-    /// <returns>The request</returns>
-    public static GetRoomsRequest Build(string startId, string endId) =>
-        new(startId ?? Maybe<string>.None, endId ?? Maybe<string>.None);
+    public static IOptionalBuilder Build() => new GetRoomsRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -63,6 +48,7 @@ public readonly struct GetRoomsRequest : IVonageRequest
         var parameters = new Dictionary<string, string>();
         this.StartId.Bind(VerifyIfNotEmpty).IfSome(value => parameters.Add("start_id", value));
         this.EndId.Bind(VerifyIfNotEmpty).IfSome(value => parameters.Add("end_id", value));
+        this.PageSize.IfSome(value => parameters.Add("page_size", value.ToString()));
         return parameters;
     }
 

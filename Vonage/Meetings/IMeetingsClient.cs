@@ -84,7 +84,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
-    Task<Result<GetRoomsResponse>> GetRoomsAsync(GetRoomsRequest request);
+    Task<Result<GetRoomsResponse>> GetRoomsAsync(Result<GetRoomsRequest> request);
 
     /// <summary>
     ///     Retrieves rooms by theme.
