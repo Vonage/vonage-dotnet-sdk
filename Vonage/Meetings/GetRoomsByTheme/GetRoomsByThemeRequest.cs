@@ -39,7 +39,7 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => QueryHelpers.AddQueryString($"/beta/meetings/themes/{this.ThemeId}/rooms",
+    public string GetEndpointPath() => QueryHelpers.AddQueryString($"/meetings/themes/{this.ThemeId}/rooms",
         this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()

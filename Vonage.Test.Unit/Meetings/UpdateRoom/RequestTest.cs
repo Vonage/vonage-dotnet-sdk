@@ -24,6 +24,6 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/beta/meetings/rooms/{this.roomId}");
+                .BeSuccess($"/meetings/rooms/{this.roomId}");
     }
 }

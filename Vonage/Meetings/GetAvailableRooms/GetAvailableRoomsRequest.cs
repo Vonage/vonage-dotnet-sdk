@@ -11,7 +11,7 @@ namespace Vonage.Meetings.GetAvailableRooms;
 /// </summary>
 public readonly struct GetAvailableRoomsRequest : IVonageRequest
 {
-    private const string DefaultEndpoint = "/beta/meetings/rooms";
+    private const string DefaultEndpoint = "/meetings/rooms";
 
     /// <summary>
     ///     Constructor.

@@ -22,7 +22,7 @@ namespace Vonage.Test.Unit.Meetings.GetRecordings
             GetRecordingsRequest.Parse(this.sessionId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/beta/meetings/sessions/{this.sessionId}/recordings");
+                .BeSuccess($"/meetings/sessions/{this.sessionId}/recordings");
 
         [Theory]
         [InlineData("")]

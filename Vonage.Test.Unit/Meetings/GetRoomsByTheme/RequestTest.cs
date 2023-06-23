@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/beta/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms");
+                .BeSuccess("/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithEndId() =>
@@ -24,7 +24,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/beta/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms?end_id=1234");
+                .BeSuccess("/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms?end_id=1234");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithStartId() =>
@@ -34,7 +34,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/beta/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms?start_id=1234");
+                .BeSuccess("/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms?start_id=1234");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithStartIdAndEndId() =>
@@ -46,6 +46,6 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
-                    "/beta/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms?start_id=1234&end_id=5678");
+                    "/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms?start_id=1234&end_id=5678");
     }
 }
