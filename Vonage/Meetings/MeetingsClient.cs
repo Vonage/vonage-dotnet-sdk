@@ -26,7 +26,6 @@ namespace Vonage.Meetings;
 /// <inheritdoc />
 public class MeetingsClient : IMeetingsClient
 {
-    private readonly GetThemesUseCase getThemesUseCase;
     private readonly UpdateThemeLogoUseCase updateThemeLogoUseCase;
     private readonly VonageHttpClient vonageClient;
 
@@ -39,7 +38,6 @@ public class MeetingsClient : IMeetingsClient
     {
         this.vonageClient =
             new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
-        this.getThemesUseCase = new GetThemesUseCase(this.vonageClient);
         this.updateThemeLogoUseCase =
             new UpdateThemeLogoUseCase(this.vonageClient, fileSystem.File.Exists, fileSystem.File.ReadAllBytes);
     }
@@ -91,7 +89,7 @@ public class MeetingsClient : IMeetingsClient
 
     /// <inheritdoc />
     public Task<Result<Theme[]>> GetThemesAsync() =>
-        this.getThemesUseCase.GetThemesAsync();
+        this.vonageClient.SendWithResponseAsync<GetThemesRequest, Theme[]>(GetThemesRequest.Default);
 
     /// <inheritdoc />
     public Task<Result<UpdateApplicationResponse>> UpdateApplicationAsync(Result<UpdateApplicationRequest> request) =>
