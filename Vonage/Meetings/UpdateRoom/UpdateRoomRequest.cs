@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
-using Vonage.Common.Serialization;
 using Vonage.Meetings.Common;
 
 namespace Vonage.Meetings.UpdateRoom;
@@ -17,7 +16,9 @@ public readonly struct UpdateRoomRequest : IVonageRequest
 {
     /// <summary>
     /// </summary>
-    public Room.Features AvailableFeatures { get; internal init; }
+    [JsonConverter(typeof(VonageMaybeJsonConverter<Room.Features>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<Room.Features> AvailableFeatures { get; internal init; }
 
     /// <summary>
     /// </summary>
@@ -28,7 +29,9 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     /// <summary>
     /// Close the room after a session ends. Only relevant for long_term rooms.
     /// </summary>
-    public bool ExpireAfterUse { get; internal init; }
+    [JsonConverter(typeof(VonageMaybeJsonConverter<bool>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<bool> ExpireAfterUse { get; internal init; }
 
     /// <summary>
     /// The time for when the room will be expired, expressed in ISO 8601 format.
@@ -39,13 +42,16 @@ public readonly struct UpdateRoomRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
-    public Room.JoinOptions InitialJoinOptions { get; internal init; }
+    [JsonConverter(typeof(VonageMaybeJsonConverter<Room.JoinOptions>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<Room.JoinOptions> InitialJoinOptions { get; internal init; }
 
     /// <summary>
     /// The level of approval needed to join the meeting in the room. When set to "after_owner_only" the participants will join the meeting only after the host joined. When set to "explicit_approval" the participants will join the waiting room and the host will deny/approve them.
     /// </summary>
-    [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomApprovalLevel>))]
-    public RoomApprovalLevel JoinApprovalLevel { get; internal init; }
+    [JsonConverter(typeof(VonageMaybeJsonConverter<RoomApprovalLevel>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<RoomApprovalLevel> JoinApprovalLevel { get; internal init; }
 
     /// <summary>
     /// The room id.
@@ -59,6 +65,14 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     [JsonConverter(typeof(VonageMaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<string> ThemeId { get; internal init; }
+
+    /// <summary>
+    ///     Provides options to customize the user interface.
+    /// </summary>
+    [JsonPropertyName("ui_settings")]
+    [JsonConverter(typeof(VonageMaybeJsonConverter<UiSettings>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<UiSettings> UserInterfaceSettings { get; internal init; }
 
     /// <summary>
     ///     Initializes a builder for UpdateRoomRequest.

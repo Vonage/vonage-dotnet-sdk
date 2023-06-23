@@ -21,6 +21,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
             UpdateRoomRequest
                 .Build()
                 .WithRoomId(this.roomId)
+                .WithThemeId("Some value")
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()

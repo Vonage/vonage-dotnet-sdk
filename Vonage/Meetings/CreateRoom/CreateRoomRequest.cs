@@ -66,6 +66,11 @@ public readonly struct CreateRoomRequest : IVonageRequest
     public RoomType Type { get; internal init; }
 
     /// <summary>
+    ///     Provides options to customize the user interface.
+    /// </summary>
+    public UiSettings UserInterfaceSettings { get; internal init; }
+
+    /// <summary>
     ///     Initializes a builder for CreateRoomRequest.
     /// </summary>
     /// <returns>The builder.</returns>
@@ -99,6 +104,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
         this.RecordingOptions.IfSome(value => values.Add("recording_options", value));
         this.ThemeId.IfSome(value => values.Add("theme_id", value));
         values.Add("type", this.Type);
+        values.Add("ui_settings", this.UserInterfaceSettings);
         return new StringContent(JsonSerializer
                 .BuildWithSnakeCase()
                 .WithConverter(new EnumDescriptionJsonConverter<RoomApprovalLevel>())

@@ -51,7 +51,4 @@ public readonly struct GetRoomsRequest : IVonageRequest
         this.PageSize.Map(value => value.ToString()).IfSome(value => parameters.Add("page_size", value));
         return parameters;
     }
-
-    private static Maybe<string> VerifyIfNotEmpty(string value) =>
-        string.IsNullOrWhiteSpace(value) ? Maybe<string>.None : value;
 }
