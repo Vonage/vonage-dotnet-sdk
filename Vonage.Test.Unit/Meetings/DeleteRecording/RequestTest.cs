@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteRecording
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
-                    $"/beta/meetings/recordings/{this.recordingId}");
+                    $"/meetings/recordings/{this.recordingId}");
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenRecordingIdIsNullOrWhitespace() =>

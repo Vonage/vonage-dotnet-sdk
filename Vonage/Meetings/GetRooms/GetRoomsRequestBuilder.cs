@@ -1,30 +1,24 @@
-﻿using System;
-using Vonage.Common.Client;
+﻿using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
-namespace Vonage.Meetings.GetRoomsByTheme;
+namespace Vonage.Meetings.GetRooms;
 
-internal class GetRoomsByThemeRequestBuilder : IBuilderForThemeId, IOptionalBuilder
+internal class GetRoomsRequestBuilder : IOptionalBuilder
 {
     private const int MinPageSize = 1;
-    private Guid themeId;
-    private Maybe<int> startId = Maybe<int>.None;
-    private Maybe<int> endId = Maybe<int>.None;
     private Maybe<int> pageSize = Maybe<int>.None;
+    private Maybe<int> endId = Maybe<int>.None;
+    private Maybe<int> startId = Maybe<int>.None;
 
     /// <inheritdoc />
-    public Result<GetRoomsByThemeRequest> Create() =>
-        Result<GetRoomsByThemeRequest>
-            .FromSuccess(new GetRoomsByThemeRequest
-            {
-                ThemeId = this.themeId,
-                EndId = this.endId,
-                StartId = this.startId,
-                PageSize = this.pageSize,
-            })
-            .Bind(VerifyThemeId)
-            .Bind(VerifyPageSize);
+    public Result<GetRoomsRequest> Create() => Result<GetRoomsRequest>.FromSuccess(new GetRoomsRequest
+        {
+            EndId = this.endId,
+            StartId = this.startId,
+            PageSize = this.pageSize,
+        })
+        .Bind(VerifyPageSize);
 
     /// <inheritdoc />
     public IOptionalBuilder WithEndId(int value)
@@ -47,41 +41,17 @@ internal class GetRoomsByThemeRequestBuilder : IBuilderForThemeId, IOptionalBuil
         return this;
     }
 
-    /// <inheritdoc />
-    public IOptionalBuilder WithThemeId(Guid value)
-    {
-        this.themeId = value;
-        return this;
-    }
-
-    private static Result<GetRoomsByThemeRequest> VerifyPageSize(GetRoomsByThemeRequest request) =>
+    private static Result<GetRoomsRequest> VerifyPageSize(GetRoomsRequest request) =>
         request.PageSize.Match(
             value => InputValidation.VerifyHigherOrEqualThan(request, value, MinPageSize,
-                nameof(GetRoomsByThemeRequest.PageSize)),
+                nameof(GetRoomsRequest.PageSize)),
             () => request);
-
-    private static Result<GetRoomsByThemeRequest> VerifyThemeId(GetRoomsByThemeRequest request) =>
-        InputValidation
-            .VerifyNotEmpty(request, request.ThemeId, nameof(request.ThemeId));
-}
-
-/// <summary>
-///     Represents a builder for ThemeId.
-/// </summary>
-public interface IBuilderForThemeId
-{
-    /// <summary>
-    ///     Sets the ThemeId.
-    /// </summary>
-    /// <param name="value">The theme Id.</param>
-    /// <returns>The builder.</returns>
-    IOptionalBuilder WithThemeId(Guid value);
 }
 
 /// <summary>
 ///     Represents a builder for optional values.
 /// </summary>
-public interface IOptionalBuilder : IVonageRequestBuilder<GetRoomsByThemeRequest>
+public interface IOptionalBuilder : IVonageRequestBuilder<GetRoomsRequest>
 {
     /// <summary>
     ///     Sets the end id on the builder.

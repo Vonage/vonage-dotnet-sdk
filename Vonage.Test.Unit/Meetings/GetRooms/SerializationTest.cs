@@ -4,10 +4,10 @@ using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
-using Vonage.Meetings.GetAvailableRooms;
+using Vonage.Meetings.GetRooms;
 using Xunit;
 
-namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
+namespace Vonage.Test.Unit.Meetings.GetRooms
 {
     public class SerializationTest
     {
@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.Meetings.GetAvailableRooms
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
-                .DeserializeObject<GetAvailableRoomsResponse>(this.helper.GetResponseJson())
+                .DeserializeObject<GetRoomsResponse>(this.helper.GetResponseJson())
                 .Should()
                 .BeSuccess(success =>
                 {

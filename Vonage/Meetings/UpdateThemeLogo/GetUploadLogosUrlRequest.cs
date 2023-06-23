@@ -12,7 +12,7 @@ internal readonly struct GetUploadLogosUrlRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/beta/meetings/themes/logos-upload-urls";
+    public string GetEndpointPath() => "/meetings/themes/logos-upload-urls";
 
     internal static GetUploadLogosUrlRequest Default => new();
 }

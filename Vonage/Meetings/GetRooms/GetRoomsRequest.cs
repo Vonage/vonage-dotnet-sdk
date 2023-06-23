@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
-namespace Vonage.Meetings.GetRoomsByTheme;
+namespace Vonage.Meetings.GetRooms;
 
 /// <summary>
-///     Represents a request to get all rooms associated with a theme.
+///     Represents a request to retrieve all rooms.
 /// </summary>
-public readonly struct GetRoomsByThemeRequest : IVonageRequest
+public readonly struct GetRoomsRequest : IVonageRequest
 {
+    private const string DefaultEndpoint = "/meetings/rooms";
+
     /// <summary>
     ///     The ID to end returning events at (excluding end_id itself).
     /// </summary>
-    public Maybe<int> EndId { get; internal init; }
+    public Maybe<int> EndId { get; init; }
 
     /// <summary>
     ///     The maximum number of rooms in the current page.
@@ -25,17 +26,13 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
     /// <summary>
     ///     The ID to start returning events at.
     /// </summary>
-    public Maybe<int> StartId { get; internal init; }
+    public Maybe<int> StartId { get; init; }
 
     /// <summary>
+    ///     Build the request with default values.
     /// </summary>
-    public Guid ThemeId { get; internal init; }
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForThemeId Build() => new GetRoomsByThemeRequestBuilder();
+    /// <returns>The request.</returns>
+    public static IOptionalBuilder Build() => new GetRoomsRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -44,8 +41,7 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => QueryHelpers.AddQueryString($"/meetings/themes/{this.ThemeId}/rooms",
-        this.GetQueryStringParameters());
+    public string GetEndpointPath() => QueryHelpers.AddQueryString(DefaultEndpoint, this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
     {

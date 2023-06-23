@@ -8,11 +8,11 @@ using Vonage.Meetings.CreateRoom;
 using Vonage.Meetings.CreateTheme;
 using Vonage.Meetings.DeleteRecording;
 using Vonage.Meetings.DeleteTheme;
-using Vonage.Meetings.GetAvailableRooms;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
+using Vonage.Meetings.GetRooms;
 using Vonage.Meetings.GetRoomsByTheme;
 using Vonage.Meetings.GetTheme;
 using Vonage.Meetings.GetThemes;
@@ -26,7 +26,6 @@ namespace Vonage.Meetings;
 /// <inheritdoc />
 public class MeetingsClient : IMeetingsClient
 {
-    private readonly GetThemesUseCase getThemesUseCase;
     private readonly UpdateThemeLogoUseCase updateThemeLogoUseCase;
     private readonly VonageHttpClient vonageClient;
 
@@ -39,7 +38,6 @@ public class MeetingsClient : IMeetingsClient
     {
         this.vonageClient =
             new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
-        this.getThemesUseCase = new GetThemesUseCase(this.vonageClient);
         this.updateThemeLogoUseCase =
             new UpdateThemeLogoUseCase(this.vonageClient, fileSystem.File.Exists, fileSystem.File.ReadAllBytes);
     }
@@ -61,10 +59,6 @@ public class MeetingsClient : IMeetingsClient
         this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request) =>
-        this.vonageClient.SendWithResponseAsync<GetAvailableRoomsRequest, GetAvailableRoomsResponse>(request);
-
-    /// <inheritdoc />
     public Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync() =>
         this.vonageClient.SendWithResponseAsync<GetDialNumbersRequest, GetDialNumbersResponse[]>(GetDialNumbersRequest
             .Default);
@@ -82,6 +76,10 @@ public class MeetingsClient : IMeetingsClient
         this.vonageClient.SendWithResponseAsync<GetRoomRequest, Room>(request);
 
     /// <inheritdoc />
+    public Task<Result<GetRoomsResponse>> GetRoomsAsync(Result<GetRoomsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetRoomsRequest, GetRoomsResponse>(request);
+
+    /// <inheritdoc />
     public Task<Result<GetRoomsByThemeResponse>> GetRoomsByThemeAsync(Result<GetRoomsByThemeRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetRoomsByThemeRequest, GetRoomsByThemeResponse>(request);
 
@@ -91,7 +89,7 @@ public class MeetingsClient : IMeetingsClient
 
     /// <inheritdoc />
     public Task<Result<Theme[]>> GetThemesAsync() =>
-        this.getThemesUseCase.GetThemesAsync();
+        this.vonageClient.SendWithResponseAsync<GetThemesRequest, Theme[]>(GetThemesRequest.Default);
 
     /// <inheritdoc />
     public Task<Result<UpdateApplicationResponse>> UpdateApplicationAsync(Result<UpdateApplicationRequest> request) =>

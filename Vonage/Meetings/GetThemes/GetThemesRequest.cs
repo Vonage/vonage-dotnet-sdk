@@ -20,5 +20,5 @@ public struct GetThemesRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/beta/meetings/themes";
+    public string GetEndpointPath() => "/meetings/themes";
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Vonage.Common.Client;
+using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Meetings.Common;
@@ -8,17 +10,15 @@ namespace Vonage.Meetings.UpdateRoom;
 
 internal class UpdateRoomRequestBuilder : IBuilderForRoomId, IBuilderForOptional
 {
-    private bool expireAfterUse;
-
-    private Room.Features features = new()
-        {IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true};
-
     private Guid roomId;
-    private Room.JoinOptions joinOptions = new() {MicrophoneState = RoomMicrophoneState.Default};
+    private Maybe<bool> expireAfterUse = Maybe<bool>.None;
     private Maybe<Room.Callback> callback;
     private Maybe<DateTime> expiresAt;
+    private Maybe<Room.Features> features = Maybe<Room.Features>.None;
+    private Maybe<Room.JoinOptions> joinOptions = Maybe<Room.JoinOptions>.None;
+    private Maybe<RoomApprovalLevel> approvalLevel = Maybe<RoomApprovalLevel>.None;
     private Maybe<string> themeId;
-    private RoomApprovalLevel approvalLevel = RoomApprovalLevel.None;
+    private Maybe<UiSettings> uiSettings = Maybe<UiSettings>.None;
 
     /// <summary>
     ///     Creates the request.
@@ -36,7 +36,9 @@ internal class UpdateRoomRequestBuilder : IBuilderForRoomId, IBuilderForOptional
                 ExpiresAt = this.expiresAt,
                 InitialJoinOptions = this.joinOptions,
                 JoinApprovalLevel = this.approvalLevel,
+                UserInterfaceSettings = this.uiSettings,
             })
+            .Bind(VerifyAtLeastOneValue)
             .Bind(VerifyRoomId);
 
     /// <inheritdoc />
@@ -94,6 +96,29 @@ internal class UpdateRoomRequestBuilder : IBuilderForRoomId, IBuilderForOptional
         this.themeId = theme;
         return this;
     }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithUserInterfaceSettings(UiSettings value)
+    {
+        this.uiSettings = value;
+        return this;
+    }
+
+    private static Result<UpdateRoomRequest> VerifyAtLeastOneValue(UpdateRoomRequest request) =>
+        new[]
+        {
+            request.AvailableFeatures.IsSome,
+            request.CallbackUrls.IsSome,
+            request.ExpireAfterUse.IsSome,
+            request.ExpiresAt.IsSome,
+            request.ThemeId.IsSome,
+            request.InitialJoinOptions.IsSome,
+            request.JoinApprovalLevel.IsSome,
+            request.UserInterfaceSettings.IsSome,
+        }.Any(_ => _)
+            ? request
+            : Result<UpdateRoomRequest>.FromFailure(
+                ResultFailure.FromErrorMessage("At least one property must be updated."));
 
     private static Result<UpdateRoomRequest> VerifyRoomId(UpdateRoomRequest request) =>
         InputValidation
@@ -164,4 +189,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<UpdateRoomRequest>
     /// <param name="theme">The theme identifier.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithThemeId(string theme);
+
+    /// <summary>
+    ///     Sets the options to customize the user interface.
+    /// </summary>
+    /// <param name="value">The options to customize the user interface.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithUserInterfaceSettings(UiSettings value);
 }

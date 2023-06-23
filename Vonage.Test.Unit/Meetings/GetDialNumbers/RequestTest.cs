@@ -11,6 +11,6 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
             new GetDialNumbersRequest()
                 .GetEndpointPath()
                 .Should()
-                .Be("/beta/meetings/dial-in-numbers");
+                .Be("/meetings/dial-in-numbers");
     }
 }

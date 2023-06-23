@@ -6,14 +6,17 @@ using Vonage.Common.Serialization;
 namespace Vonage.Meetings.Common;
 
 /// <summary>
+///     Represents a Room.
 /// </summary>
 public struct Room
 {
     /// <summary>
+    ///     Provides options to customize the room
     /// </summary>
     public Features AvailableFeatures { get; set; }
 
     /// <summary>
+    ///     Provides callback URLs to listen to events
     /// </summary>
     public Callback CallbackUrls { get; set; }
 
@@ -23,6 +26,7 @@ public struct Room
     public DateTime CreatedAt { get; set; }
 
     /// <summary>
+    ///     The name of the meeting room
     /// </summary>
     public string DisplayName { get; set; }
 
@@ -37,10 +41,12 @@ public struct Room
     public DateTime ExpiresAt { get; set; }
 
     /// <summary>
+    ///     The room UUID
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
+    ///     Sets the default options for participants
     /// </summary>
     public JoinOptions InitialJoinOptions { get; set; }
 
@@ -58,11 +64,13 @@ public struct Room
     public RoomApprovalLevel JoinApprovalLevel { get; set; }
 
     /// <summary>
+    ///     Represents HAL links for navigation purposes
     /// </summary>
     [JsonPropertyName("_links")]
     public RoomLinks Links { get; set; }
 
     /// <summary>
+    ///     The meeting PIN number
     /// </summary>
     public string MeetingCode { get; set; }
 
@@ -73,6 +81,7 @@ public struct Room
     public string Metadata { get; set; }
 
     /// <summary>
+    ///     An object containing various meeting recording options
     /// </summary>
     public RecordingOptions Recording { get; set; }
 
@@ -82,11 +91,20 @@ public struct Room
     public string ThemeId { get; set; }
 
     /// <summary>
+    ///     The type of meeting which can be instant or long term. An instant is active for 10 minutes until the first
+    ///     participant joins the roo, and remains active for 10 minutes after the last participant leaves. A long term room
+    ///     expires after a specific date
     /// </summary>
     [JsonConverter(typeof(EnumDescriptionJsonConverter<RoomType>))]
     public RoomType Type { get; set; }
 
     /// <summary>
+    ///     Provides options to customize the user interface
+    /// </summary>
+    public UiSettings UserInterfaceSettings { get; set; }
+
+    /// <summary>
+    ///     An object containing various meeting recording options
     /// </summary>
     public struct RecordingOptions
     {
@@ -102,6 +120,7 @@ public struct Room
     }
 
     /// <summary>
+    ///     Sets the default options for participants
     /// </summary>
     public struct JoinOptions
     {
@@ -113,6 +132,7 @@ public struct Room
     }
 
     /// <summary>
+    ///     Provides callback URLs to listen to events
     /// </summary>
     public struct Callback
     {
@@ -133,13 +153,24 @@ public struct Room
     }
 
     /// <summary>
+    ///     Provides options to customize the room
     /// </summary>
     public struct Features
     {
         /// <summary>
+        ///     Determine if captions are available in the UI.
+        /// </summary>
+        public bool IsCaptionsAvailable { get; set; }
+
+        /// <summary>
         ///     Determine if chat feature is available in the UI.
         /// </summary>
         public bool IsChatAvailable { get; set; }
+
+        /// <summary>
+        ///     Determine if the locale switcher is available in the UI.
+        /// </summary>
+        public bool IsLocaleSwitcherAvailable { get; set; }
 
         /// <summary>
         ///     Determine if recording feature is available in the UI.
@@ -153,14 +184,17 @@ public struct Room
     }
 
     /// <summary>
+    ///     Provides links to join the meeting room
     /// </summary>
     public struct RoomLinks
     {
         /// <summary>
+        ///     The link to join the meeting as participant, using the meeting code
         /// </summary>
         public HalLink GuestUrl { get; set; }
 
         /// <summary>
+        ///     The link to join the meeting as host, using the meeting code
         /// </summary>
         public HalLink HostUrl { get; set; }
     }
