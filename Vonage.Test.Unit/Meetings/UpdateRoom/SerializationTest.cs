@@ -61,12 +61,16 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                 .WithApprovalLevel(RoomApprovalLevel.None)
                 .WithInitialJoinOptions(new Room.JoinOptions {MicrophoneState = RoomMicrophoneState.Default})
                 .WithFeatures(new Room.Features
-                    {IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true})
+                {
+                    IsChatAvailable = false, IsRecordingAvailable = false, IsWhiteboardAvailable = false,
+                    IsCaptionsAvailable = true, IsLocaleSwitcherAvailable = false,
+                })
                 .WithCallback(new Room.Callback
                 {
                     RecordingsCallbackUrl = "https://example.com", SessionsCallbackUrl = "https://example.com",
                     RoomsCallbackUrl = "https://example.com",
                 })
+                .WithUserInterfaceSettings(new UiSettings(UiSettings.UserInterfaceLanguage.De))
                 .Create()
                 .GetStringContent()
                 .Should()

@@ -1,6 +1,8 @@
 ﻿{
   "available_features": {
+    "is_captions_available": false,
     "is_chat_available": true,
+    "is_locale_switcher_available": true,
     "is_recording_available": true,
     "is_whiteboard_available": true
   },
@@ -8,5 +10,8 @@
   "initial_join_options": {
     "microphone_state": "default"
   },
-  "type": "instant"
+  "type": "instant",
+  "ui_settings": {
+    "language": "en"
+  }
 }

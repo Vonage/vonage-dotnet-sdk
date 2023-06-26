@@ -1,0 +1,10 @@
+﻿{
+  "api_key": "aze1243v",
+  "name": "SubAccount department A",
+  "primary_account_api_key": "bbe6222f",
+  "use_primary_account_balance": false,
+  "created_at": "2018-03-02T17:34:49Z",
+  "suspended": true,
+  "balance": 1.25,
+  "credit_limit": 15
+}

@@ -1,9 +1,11 @@
 ﻿{
   "update_details": {
     "available_features": {
-      "is_chat_available": true,
-      "is_recording_available": true,
-      "is_whiteboard_available": true
+      "is_captions_available": true,
+      "is_chat_available": false,
+      "is_locale_switcher_available": false,
+      "is_recording_available": false,
+      "is_whiteboard_available": false
     },
     "callback_urls": {
       "recordings_callback_url": "https://example.com",
@@ -16,6 +18,9 @@
       "microphone_state": "default"
     },
     "join_approval_level": "none",
-    "theme_id": "ef2b46f3-8ebb-437e-a671-272e4990fbc8"
+    "theme_id": "ef2b46f3-8ebb-437e-a671-272e4990fbc8",
+    "ui_settings": {
+      "language": "de"
+    }
   }
 }

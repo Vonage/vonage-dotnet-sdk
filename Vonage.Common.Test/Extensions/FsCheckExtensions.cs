@@ -21,8 +21,15 @@ namespace Vonage.Common.Test.Extensions
         ///     Retrieves a HttpStatusCode generator that produces only invalid codes.
         /// </summary>
         /// <returns>An Arbitrary of status codes.</returns>
-        public static Arbitrary<HttpStatusCode> GetInvalidStatusCodes() => GetAny<HttpStatusCode>()
-            .MapFilter(_ => _, code => (int) code >= 400 && (int) code < 600);
+        public static Arbitrary<HttpStatusCode> GetInvalidStatusCodes() =>
+            Gen.Choose(400, 599).Select(value => (HttpStatusCode) value).ToArbitrary();
+
+        /// <summary>
+        ///     Retrieves a generator that produces negative decimals.
+        /// </summary>
+        /// <returns>An Arbitrary of decimal.</returns>
+        public static Arbitrary<int> GetNegativeNumbers() =>
+            Gen.Choose(-1, -int.MaxValue).ToArbitrary();
 
         /// <summary>
         ///     Retrieves a string generator that produces only non-null/non-empty string.
@@ -37,6 +44,6 @@ namespace Vonage.Common.Test.Extensions
         /// </summary>
         /// <typeparam name="T">Type of the value.</typeparam>
         /// <returns>An Arbitrary.</returns>
-        internal static Arbitrary<T> GetAny<T>() => Arb.From<T>();
+        private static Arbitrary<T> GetAny<T>() => Arb.From<T>();
     }
 }

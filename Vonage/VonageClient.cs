@@ -1,10 +1,12 @@
 using System;
+using System.IO.Abstractions;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Conversions;
+using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
@@ -13,6 +15,7 @@ using Vonage.Pricing;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
+using Vonage.SubAccounts;
 using Vonage.Verify;
 using Vonage.VerifyV2;
 using Vonage.Voice;
@@ -48,6 +51,11 @@ public class VonageClient
         }
     }
 
+    /// <summary>
+    ///     Exposes Meetings features.
+    /// </summary>
+    public IMeetingsClient MeetingsClient { get; private set; }
+
     public IMessagesClient MessagesClient { get; private set; }
 
     public INumberInsightClient NumberInsightClient { get; private set; }
@@ -61,6 +69,11 @@ public class VonageClient
     public IShortCodesClient ShortCodesClient { get; private set; }
 
     public ISmsClient SmsClient { get; private set; }
+
+    /// <summary>
+    ///     Exposes SubAccounts features.
+    /// </summary>
+    public SubAccountsClient SubAccountsClient { get; private set; }
 
     public IVerifyClient VerifyClient { get; private set; }
 
@@ -114,5 +127,11 @@ public class VonageClient
             this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
         this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
+        this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
+        var meetingsConfiguration = new VonageHttpClientConfiguration(
+            InitializeHttpClient(Configuration.Instance.MeetingsApiUrl),
+            this.Credentials.GetAuthenticationHeader(),
+            this.Credentials.GetUserAgent());
+        this.MeetingsClient = new MeetingsClient(meetingsConfiguration, new FileSystem());
     }
 }

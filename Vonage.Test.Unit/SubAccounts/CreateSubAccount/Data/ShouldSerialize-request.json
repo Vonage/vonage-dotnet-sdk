@@ -1,0 +1,5 @@
+﻿{
+  "name": "My SubAccount",
+  "use_primary_account_balance": false,
+  "secret": "123456789AbcDef"
+}

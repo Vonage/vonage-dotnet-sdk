@@ -1,3 +1,16 @@
+# v6.5.0 (2023-06-22)
+
+* feat: subaccounts
+* refactor: move AuthenticationHeader creation on Credentials
+* refactor: use case enhancement
+* release: v6.5.0
+* doc: changelog update
+* doc: readme update
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.4.0...v6.5.0
+
+---
+
 # v6.4.0 (2023-06-09)
 
 * fix: SubAccounts implementation

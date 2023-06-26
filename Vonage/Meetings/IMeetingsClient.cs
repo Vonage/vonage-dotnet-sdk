@@ -5,11 +5,11 @@ using Vonage.Meetings.CreateRoom;
 using Vonage.Meetings.CreateTheme;
 using Vonage.Meetings.DeleteRecording;
 using Vonage.Meetings.DeleteTheme;
-using Vonage.Meetings.GetAvailableRooms;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
 using Vonage.Meetings.GetRecordings;
 using Vonage.Meetings.GetRoom;
+using Vonage.Meetings.GetRooms;
 using Vonage.Meetings.GetRoomsByTheme;
 using Vonage.Meetings.GetTheme;
 using Vonage.Meetings.UpdateApplication;
@@ -53,13 +53,6 @@ public interface IMeetingsClient
     Task<Result<Unit>> DeleteThemeAsync(Result<DeleteThemeRequest> request);
 
     /// <summary>
-    ///     Retrieves all available rooms.
-    /// </summary>
-    /// <param name="request">The request.</param>
-    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
-    Task<Result<GetAvailableRoomsResponse>> GetAvailableRoomsAsync(GetAvailableRoomsRequest request);
-
-    /// <summary>
     ///     Retrieves numbers that can be used to dial into a meeting.
     /// </summary>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
@@ -85,6 +78,13 @@ public interface IMeetingsClient
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
     Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request);
+
+    /// <summary>
+    ///     Retrieves all rooms.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    Task<Result<GetRoomsResponse>> GetRoomsAsync(Result<GetRoomsRequest> request);
 
     /// <summary>
     ///     Retrieves rooms by theme.

@@ -2,7 +2,6 @@
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
 
 namespace Vonage.Meetings.GetRecordings;
 
@@ -23,7 +22,7 @@ public readonly struct GetRecordingsRequest : IVonageRequest, IHasSessionId
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/beta/meetings/sessions/{this.SessionId}/recordings";
+    public string GetEndpointPath() => $"/meetings/sessions/{this.SessionId}/recordings";
 
     /// <summary>
     ///     Parses the input into a GetRecordingsRequest.

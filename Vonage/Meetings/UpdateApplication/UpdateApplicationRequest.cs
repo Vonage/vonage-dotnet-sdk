@@ -27,7 +27,7 @@ public readonly struct UpdateApplicationRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/beta/meetings/applications";
+    public string GetEndpointPath() => "/meetings/applications";
 
     /// <summary>
     ///     Parses the input into a UpdateApplicationRequest.
