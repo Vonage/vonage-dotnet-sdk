@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Common;
+using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Request;
@@ -39,76 +40,43 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [Fact]
         public async Task StartEmailVerification()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
-                    .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerializeEmailWorkflow)))
-                    .UsingPost())
-                .RespondWith(Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeEmailWorkflow));
             var result = await this.helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
                 .Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(EmailWorkflow.Parse("alice@company.com"))
                 .Create());
-            result.Should().BeSuccess(success =>
-                success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+            VerifyResponseBody(result);
         }
 
         [Fact]
         public async Task StartSilentAuthVerification()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
-                    .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest
-                        .ShouldSerializeSilentAuthWorkflow)))
-                    .UsingPost())
-                .RespondWith(Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeSilentAuthWorkflow));
             var result = await this.helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
                 .Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(SilentAuthWorkflow.Parse("447700900000"))
                 .Create());
-            result.Should().BeSuccess(success =>
-                success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+            VerifyResponseBody(result);
         }
 
         [Fact]
         public async Task StartSmsVerification()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
-                    .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerializeSmsWorkflow)))
-                    .UsingPost())
-                .RespondWith(Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeSmsWorkflow));
             var result = await this.helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
                 .Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(SmsWorkflow.Parse("447700900000"))
                 .Create());
-            result.Should().BeSuccess(success =>
-                success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+            VerifyResponseBody(result);
         }
 
         [Fact]
         public async Task StartVerificationWithFallbackWorkflows()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
-                    .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest
-                        .ShouldSerializeFallbackWorkflows)))
-                    .UsingPost())
-                .RespondWith(Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeFallbackWorkflows));
             var result = await this.helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
                 .Build()
                 .WithBrand("ACME, Inc")
@@ -116,70 +84,57 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .WithFallbackWorkflow(WhatsAppWorkflow.Parse("447700900000"))
                 .WithFallbackWorkflow(VoiceWorkflow.Parse("447700900000"))
                 .Create());
-            result.Should().BeSuccess(success =>
-                success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+            VerifyResponseBody(result);
         }
 
         [Fact]
         public async Task StartVoiceVerification()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
-                    .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerializeVoiceWorkflow)))
-                    .UsingPost())
-                .RespondWith(Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeVoiceWorkflow));
             var result = await this.helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
                 .Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(VoiceWorkflow.Parse("447700900000"))
                 .Create());
-            result.Should().BeSuccess(success =>
-                success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+            VerifyResponseBody(result);
         }
 
         [Fact]
         public async Task StartWhatsAppInteractiveVerification()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
-                    .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest
-                        .ShouldSerializeWhatsAppInteractiveWorkflow)))
-                    .UsingPost())
-                .RespondWith(Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeWhatsAppInteractiveWorkflow));
             var result = await this.helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
                 .Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("447700900000"))
                 .Create());
-            result.Should().BeSuccess(success =>
-                success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+            VerifyResponseBody(result);
         }
 
         [Fact]
         public async Task StartWhatsAppVerification()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
-                    .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(
-                        nameof(SerializationTest.ShouldSerializeWhatsAppWorkflow)))
-                    .UsingPost())
-                .RespondWith(Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeWhatsAppWorkflow));
             var result = await this.helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
                 .Build()
                 .WithBrand("ACME, Inc")
                 .WithWorkflow(WhatsAppWorkflow.Parse("447700900000"))
                 .Create());
-            result.Should().BeSuccess(success =>
-                success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+            VerifyResponseBody(result);
         }
+
+        private void InitializeWireMock(string bodyScenario) =>
+            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
+                    .WithHeader("Authorization", "Bearer *")
+                    .WithBody(this.serialization.GetRequestJson(bodyScenario))
+                    .UsingPost())
+                .RespondWith(Response.Create()
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+
+        private static void VerifyResponseBody(Result<StartVerificationResponse> response) =>
+            response.Should().BeSuccess(success =>
+                success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
     }
 }
