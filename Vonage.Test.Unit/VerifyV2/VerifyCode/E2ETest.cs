@@ -30,12 +30,13 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
         }
 
         [Fact]
-        public async Task CancelVerificationRequest()
+        public async Task VerifyCodeVerificationRequest()
         {
             var requestId = Guid.NewGuid();
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithUrl($"{this.helper.Server.Url}/v2/verify/{requestId}")
                     .WithHeader("Authorization", "Bearer *")
+                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
             var result = await this.helper.VonageClient.VerifyV2Client.VerifyCodeAsync(VerifyCodeRequest.Build()
