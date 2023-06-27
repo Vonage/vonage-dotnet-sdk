@@ -12,8 +12,7 @@ namespace Vonage.Common.Test.Extensions
         {
         }
 
-        public AndConstraint<ResultAssertionExtensions<T>> BeFailure(Action<IResultFailure> action, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<ResultAssertionExtensions<T>> BeFailure(Action<IResultFailure> action)
         {
             Execute.Assertion
                 .WithExpectation("Expected {context:result} to be Failure{reason}, ")
@@ -24,7 +23,7 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<ResultAssertionExtensions<T>> BeFailure(string because = "", params object[] becauseArgs)
+        public AndConstraint<ResultAssertionExtensions<T>> BeFailure()
         {
             Execute.Assertion
                 .WithExpectation("Expected {context:result} to be Failure{reason}, ")
@@ -34,8 +33,7 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<ResultAssertionExtensions<T>> BeFailure(IResultFailure expected, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<ResultAssertionExtensions<T>> BeFailure(IResultFailure expected)
         {
             Execute.Assertion
                 .WithExpectation("Expected {context:result} to be Failure {0}, ", expected.GetFailureMessage())
@@ -48,7 +46,7 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<ResultAssertionExtensions<T>> BeSuccess(string because = "", params object[] becauseArgs)
+        public AndConstraint<ResultAssertionExtensions<T>> BeSuccess()
         {
             Execute.Assertion
                 .WithExpectation("Expected {context:result} to be Success{reason}, ")
@@ -58,8 +56,7 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<ResultAssertionExtensions<T>> BeSuccess(Action<T> action, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<ResultAssertionExtensions<T>> BeSuccess(Action<T> action)
         {
             Execute.Assertion
                 .WithExpectation("Expected {context:result} to be Success{reason}, ")
@@ -70,8 +67,7 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<ResultAssertionExtensions<T>> BeSuccess(T expected, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<ResultAssertionExtensions<T>> BeSuccess(T expected)
         {
             Execute.Assertion
                 .WithExpectation("Expected {context:result} to be Success {0}, ", expected.ToString())

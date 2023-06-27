@@ -11,11 +11,9 @@ namespace Vonage.Common.Test.Extensions
         {
         }
 
-        public AndConstraint<MaybeAssertionExtensions<T>> Be(Maybe<T> expected, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<MaybeAssertionExtensions<T>> Be(Maybe<T> expected)
         {
             Execute.Assertion
-                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:option} to be {0}{reason}, ", expected)
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.Equals(expected))
@@ -23,10 +21,9 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<MaybeAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<MaybeAssertionExtensions<T>> BeNone(string because = "", params object[] becauseArgs)
+        public AndConstraint<MaybeAssertionExtensions<T>> BeNone()
         {
             Execute.Assertion
-                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:option} to be None{reason}, ")
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsNone)
@@ -34,11 +31,9 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<MaybeAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<MaybeAssertionExtensions<T>> BeSome(Action<T> action, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<MaybeAssertionExtensions<T>> BeSome(Action<T> action)
         {
             Execute.Assertion
-                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:option} to be Some{reason}, ")
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsSome)
@@ -47,11 +42,9 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<MaybeAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<MaybeAssertionExtensions<T>> BeSome(T expected, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<MaybeAssertionExtensions<T>> BeSome(T expected)
         {
             Execute.Assertion
-                .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:option} to be Some {0}{reason}, ", expected)
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsSome)
