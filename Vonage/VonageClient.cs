@@ -12,6 +12,7 @@ using Vonage.Messaging;
 using Vonage.NumberInsights;
 using Vonage.Numbers;
 using Vonage.Pricing;
+using Vonage.ProactiveConnect;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
@@ -63,6 +64,11 @@ public class VonageClient
     public INumbersClient NumbersClient { get; private set; }
 
     public IPricingClient PricingClient { get; private set; }
+
+    /// <summary>
+    ///     Exposes ProactiveConnect features.
+    /// </summary>
+    public IProactiveConnectClient ProactiveConnectClient { get; private set; }
 
     public IRedactClient RedactClient { get; private set; }
 
@@ -133,5 +139,6 @@ public class VonageClient
             this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
         this.MeetingsClient = new MeetingsClient(meetingsConfiguration, new FileSystem());
+        this.ProactiveConnectClient = new ProactiveConnectClient(meetingsConfiguration);
     }
 }
