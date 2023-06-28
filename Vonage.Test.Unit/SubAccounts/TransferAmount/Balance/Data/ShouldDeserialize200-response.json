@@ -1,0 +1,9 @@
+﻿{
+  "masterAccountId": "273eb8ed",
+  "id": "297016aa-4061-430d-b805-a4d00522bb00",
+  "amount": 123.45,
+  "from": "7c9738e6",
+  "to": "ad6dc56f",
+  "reference": "This gets added to the audit log",
+  "created_at": "2019-03-02T16:34:49Z"
+}

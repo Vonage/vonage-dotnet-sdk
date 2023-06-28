@@ -25,52 +25,6 @@ public sealed class Configuration
     {
     }
 
-    private Configuration()
-    {
-        var logger = LogProvider.GetLogger(LoggerCategory);
-        var builder = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
-                {
-                    {"appSettings:Vonage.Url.Rest", "https://rest.nexmo.com"},
-                    {"appSettings:Vonage.Url.Api", "https://api.nexmo.com"},
-                    {"appSettings:Vonage.Meetings.Url.Api", "https://api-eu.vonage.com"},
-                    {"appSettings:Vonage.Video.Url.Api", "https://video.api.vonage.com"},
-                    {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
-                })
-                .AddJsonFile("settings.json", true, true)
-                .AddJsonFile("appsettings.json", true, true)
-            ;
-        this.Settings = builder.Build();
-
-        // verify we have a minimum amount of configuration
-        var authCapabilities = new List<string>();
-        if (!string.IsNullOrWhiteSpace(this.ApiKey) &&
-            !string.IsNullOrWhiteSpace(this.ApiSecret))
-        {
-            authCapabilities.Add("Key/Secret");
-        }
-
-        if (!string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.security_secret"]))
-        {
-            authCapabilities.Add("Security/Signing");
-        }
-
-        if (!string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.Application.Id"]) &&
-            !string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.Application.Key"]))
-        {
-            authCapabilities.Add("Application");
-        }
-
-        if (authCapabilities.Count == 0)
-        {
-            logger.LogInformation("No authentication found via configuration. Remember to provide your own.");
-        }
-        else
-        {
-            logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
-        }
-    }
-
     /// <summary>
     ///     Retrieves the Api secret.
     /// </summary>
@@ -149,6 +103,52 @@ public sealed class Configuration
     ///     Retrieves the Video Api Url.
     /// </summary>
     public Uri VideoApiUrl => new(this.Settings["appSettings:Vonage.Video.Url.Api"] ?? string.Empty);
+
+    internal Configuration()
+    {
+        var logger = LogProvider.GetLogger(LoggerCategory);
+        var builder = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    {"appSettings:Vonage.Url.Rest", "https://rest.nexmo.com"},
+                    {"appSettings:Vonage.Url.Api", "https://api.nexmo.com"},
+                    {"appSettings:Vonage.Meetings.Url.Api", "https://api-eu.vonage.com"},
+                    {"appSettings:Vonage.Video.Url.Api", "https://video.api.vonage.com"},
+                    {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
+                })
+                .AddJsonFile("settings.json", true, true)
+                .AddJsonFile("appsettings.json", true, true)
+            ;
+        this.Settings = builder.Build();
+
+        // verify we have a minimum amount of configuration
+        var authCapabilities = new List<string>();
+        if (!string.IsNullOrWhiteSpace(this.ApiKey) &&
+            !string.IsNullOrWhiteSpace(this.ApiSecret))
+        {
+            authCapabilities.Add("Key/Secret");
+        }
+
+        if (!string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.security_secret"]))
+        {
+            authCapabilities.Add("Security/Signing");
+        }
+
+        if (!string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.Application.Id"]) &&
+            !string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.Application.Key"]))
+        {
+            authCapabilities.Add("Application");
+        }
+
+        if (authCapabilities.Count == 0)
+        {
+            logger.LogInformation("No authentication found via configuration. Remember to provide your own.");
+        }
+        else
+        {
+            logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
+        }
+    }
 
     private HttpClient BuildDefaultClient() =>
         this.ClientHandler == null

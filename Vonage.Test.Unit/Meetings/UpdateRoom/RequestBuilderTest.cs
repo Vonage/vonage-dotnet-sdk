@@ -1,6 +1,5 @@
 ﻿using System;
 using AutoFixture;
-using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
@@ -13,11 +12,12 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
     {
         private readonly Room.Callback callback;
         private readonly DateTime expiresAt;
-        private readonly Room.Features features;
+        private readonly Room.Features value;
         private readonly Guid roomId;
         private readonly Room.JoinOptions joinOptions;
         private readonly RoomApprovalLevel approvalLevel;
         private readonly string themeId;
+        private readonly UiSettings uiSettings;
 
         public RequestBuilderTest()
         {
@@ -30,42 +30,33 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
             this.approvalLevel = fixture.Create<RoomApprovalLevel>();
             fixture.Create<Room.RecordingOptions>();
             this.joinOptions = fixture.Create<Room.JoinOptions>();
-            this.features = fixture.Create<Room.Features>();
+            this.value = fixture.Create<Room.Features>();
             this.callback = fixture.Create<Room.Callback>();
             this.themeId = fixture.Create<string>();
+            this.uiSettings = fixture.Create<UiSettings>();
         }
 
         [Fact]
-        public void Build_ShouldHaveDefaultValues() =>
+        public void Build_ShouldReturnFailure_GivenNoValueHasBeenModified() =>
             UpdateRoomRequest
                 .Build()
                 .WithRoomId(this.roomId)
                 .Create()
                 .Should()
-                .BeSuccess(success =>
-                {
-                    success.ExpiresAt.Should().BeNone();
-                    success.JoinApprovalLevel.Should().Be(RoomApprovalLevel.None);
-                    success.ExpireAfterUse.Should().BeFalse();
-                    success.ThemeId.Should().BeNone();
-                    success.CallbackUrls.Should().BeNone();
-                    success.AvailableFeatures.IsChatAvailable.Should().BeTrue();
-                    success.AvailableFeatures.IsRecordingAvailable.Should().BeTrue();
-                    success.AvailableFeatures.IsWhiteboardAvailable.Should().BeTrue();
-                    success.InitialJoinOptions.MicrophoneState.Should().Be(RoomMicrophoneState.Default);
-                });
+                .BeFailure(ResultFailure.FromErrorMessage("At least one property must be updated."));
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace() =>
             UpdateRoomRequest
                 .Build()
                 .WithRoomId(Guid.Empty)
+                .WithExpiresAt(this.expiresAt)
                 .Create()
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("RoomId cannot be empty."));
 
         [Fact]
-        public void Build_ShouldReturnSuccess_() =>
+        public void Build_ShouldSetValues() =>
             UpdateRoomRequest
                 .Build()
                 .WithRoomId(this.roomId)
@@ -74,19 +65,21 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                 .WithThemeId(this.themeId)
                 .WithApprovalLevel(this.approvalLevel)
                 .WithInitialJoinOptions(this.joinOptions)
-                .WithFeatures(this.features)
+                .WithFeatures(this.value)
                 .WithCallback(this.callback)
+                .WithUserInterfaceSettings(this.uiSettings)
                 .Create()
                 .Should()
                 .BeSuccess(success =>
                 {
                     success.ExpiresAt.Should().BeSome(this.expiresAt);
-                    success.ExpireAfterUse.Should().BeTrue();
+                    success.ExpireAfterUse.Should().BeSome(true);
                     success.ThemeId.Should().BeSome(this.themeId);
                     success.JoinApprovalLevel.Should().Be(this.approvalLevel);
                     success.InitialJoinOptions.Should().Be(this.joinOptions);
-                    success.AvailableFeatures.Should().Be(this.features);
+                    success.AvailableFeatures.Should().Be(this.value);
                     success.CallbackUrls.Should().BeSome(this.callback);
+                    success.UserInterfaceSettings.Should().BeSome(this.uiSettings);
                 });
     }
 }

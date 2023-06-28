@@ -24,7 +24,7 @@ internal readonly struct FinalizeLogoRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/beta/meetings/themes/{this.themeId}/finalizeLogos";
+    public string GetEndpointPath() => $"/meetings/themes/{this.themeId}/finalizeLogos";
 
     private StringContent GetRequestContent() => new(
         JsonSerializer.BuildWithSnakeCase().SerializeObject(new {Keys = new[] {this.key}}),

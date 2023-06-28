@@ -1,9 +1,12 @@
 using System;
+using System.IO.Abstractions;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
 using Vonage.Conversions;
+using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
@@ -12,6 +15,7 @@ using Vonage.Pricing;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
+using Vonage.SubAccounts;
 using Vonage.Verify;
 using Vonage.VerifyV2;
 using Vonage.Voice;
@@ -24,6 +28,7 @@ namespace Vonage;
 public class VonageClient
 {
     private Credentials credentials;
+    private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
 
     public IAccountClient AccountClient { get; private set; }
 
@@ -46,6 +51,11 @@ public class VonageClient
         }
     }
 
+    /// <summary>
+    ///     Exposes Meetings features.
+    /// </summary>
+    public IMeetingsClient MeetingsClient { get; private set; }
+
     public IMessagesClient MessagesClient { get; private set; }
 
     public INumberInsightClient NumberInsightClient { get; private set; }
@@ -59,6 +69,11 @@ public class VonageClient
     public IShortCodesClient ShortCodesClient { get; private set; }
 
     public ISmsClient SmsClient { get; private set; }
+
+    /// <summary>
+    ///     Exposes SubAccounts features.
+    /// </summary>
+    public SubAccountsClient SubAccountsClient { get; private set; }
 
     public IVerifyClient VerifyClient { get; private set; }
 
@@ -74,6 +89,14 @@ public class VonageClient
     /// </summary>
     /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
     public VonageClient(Credentials credentials) => this.Credentials = credentials;
+
+    internal VonageClient(Credentials credentials, Configuration configuration)
+    {
+        this.configuration = configuration;
+        this.Credentials = credentials;
+    }
+
+    private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
 
     private static HttpClient InitializeHttpClient(Uri baseUri)
     {
@@ -100,9 +123,15 @@ public class VonageClient
         this.PricingClient = new PricingClient(this.Credentials);
         this.MessagesClient = new MessagesClient(this.Credentials);
         var nexmoConfiguration = new VonageHttpClientConfiguration(
-            InitializeHttpClient(Configuration.Instance.NexmoApiUrl),
+            InitializeHttpClient(this.GetConfiguration().NexmoApiUrl),
             this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
         this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
+        this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
+        var meetingsConfiguration = new VonageHttpClientConfiguration(
+            InitializeHttpClient(Configuration.Instance.MeetingsApiUrl),
+            this.Credentials.GetAuthenticationHeader(),
+            this.Credentials.GetUserAgent());
+        this.MeetingsClient = new MeetingsClient(meetingsConfiguration, new FileSystem());
     }
 }

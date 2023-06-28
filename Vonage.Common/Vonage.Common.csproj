@@ -11,7 +11,7 @@
         <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-        <Version>6.4.0</Version>
+        <Version>6.6.0</Version>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseExpression />
         <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
@@ -22,11 +22,11 @@
     <ItemGroup>
         <PackageReference Include="Enums.NET" Version="4.0.1" />
         <PackageReference Include="Handy.DotNETCore-Compatibility.ColorTranslations" Version="0.2.1" />
-        <PackageReference Include="PolySharp" Version="1.13.1">
+        <PackageReference Include="PolySharp" Version="1.13.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="System.Text.Json" Version="7.0.2" />
+        <PackageReference Include="System.Text.Json" Version="7.0.3"/>
         <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0" />
         <PackageReference Update="NETStandard.Library" Version="2.0.3"/>
     </ItemGroup>

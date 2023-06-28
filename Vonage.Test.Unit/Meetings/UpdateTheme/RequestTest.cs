@@ -24,6 +24,6 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/beta/meetings/themes/{this.themeId}");
+                .BeSuccess($"/meetings/themes/{this.themeId}");
     }
 }

@@ -23,7 +23,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
             UpdateApplicationRequest.Parse(this.themeId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/beta/meetings/applications");
+                .BeSuccess("/meetings/applications");
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenThemeIdIsEmpty() =>

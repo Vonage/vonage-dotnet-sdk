@@ -18,6 +18,11 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
     public Maybe<int> EndId { get; internal init; }
 
     /// <summary>
+    ///     The maximum number of rooms in the current page.
+    /// </summary>
+    public Maybe<int> PageSize { get; init; }
+
+    /// <summary>
     ///     The ID to start returning events at.
     /// </summary>
     public Maybe<int> StartId { get; internal init; }
@@ -39,7 +44,7 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => QueryHelpers.AddQueryString($"/beta/meetings/themes/{this.ThemeId}/rooms",
+    public string GetEndpointPath() => QueryHelpers.AddQueryString($"/meetings/themes/{this.ThemeId}/rooms",
         this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
@@ -47,6 +52,7 @@ public readonly struct GetRoomsByThemeRequest : IVonageRequest
         var parameters = new Dictionary<string, string>();
         this.StartId.Map(value => value.ToString()).IfSome(value => parameters.Add("start_id", value));
         this.EndId.Map(value => value.ToString()).IfSome(value => parameters.Add("end_id", value));
+        this.PageSize.Map(value => value.ToString()).IfSome(value => parameters.Add("page_size", value));
         return parameters;
     }
 }

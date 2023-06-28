@@ -23,7 +23,7 @@ namespace Vonage.Test.Unit.Meetings.GetRecording
             GetRecordingRequest.Parse(this.recordingId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/beta/meetings/recordings/{this.recordingId}");
+                .BeSuccess($"/meetings/recordings/{this.recordingId}");
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace() =>

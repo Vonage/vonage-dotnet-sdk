@@ -7,9 +7,11 @@ namespace Vonage.Meetings.GetRoomsByTheme;
 
 internal class GetRoomsByThemeRequestBuilder : IBuilderForThemeId, IOptionalBuilder
 {
+    private const int MinPageSize = 1;
     private Guid themeId;
     private Maybe<int> startId = Maybe<int>.None;
     private Maybe<int> endId = Maybe<int>.None;
+    private Maybe<int> pageSize = Maybe<int>.None;
 
     /// <inheritdoc />
     public Result<GetRoomsByThemeRequest> Create() =>
@@ -19,13 +21,22 @@ internal class GetRoomsByThemeRequestBuilder : IBuilderForThemeId, IOptionalBuil
                 ThemeId = this.themeId,
                 EndId = this.endId,
                 StartId = this.startId,
+                PageSize = this.pageSize,
             })
-            .Bind(VerifyThemeId);
+            .Bind(VerifyThemeId)
+            .Bind(VerifyPageSize);
 
     /// <inheritdoc />
     public IOptionalBuilder WithEndId(int value)
     {
         this.endId = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IOptionalBuilder WithPageSize(int value)
+    {
+        this.pageSize = value;
         return this;
     }
 
@@ -42,6 +53,12 @@ internal class GetRoomsByThemeRequestBuilder : IBuilderForThemeId, IOptionalBuil
         this.themeId = value;
         return this;
     }
+
+    private static Result<GetRoomsByThemeRequest> VerifyPageSize(GetRoomsByThemeRequest request) =>
+        request.PageSize.Match(
+            value => InputValidation.VerifyHigherOrEqualThan(request, value, MinPageSize,
+                nameof(GetRoomsByThemeRequest.PageSize)),
+            () => request);
 
     private static Result<GetRoomsByThemeRequest> VerifyThemeId(GetRoomsByThemeRequest request) =>
         InputValidation
@@ -69,14 +86,21 @@ public interface IOptionalBuilder : IVonageRequestBuilder<GetRoomsByThemeRequest
     /// <summary>
     ///     Sets the end id on the builder.
     /// </summary>
-    /// <param name="value">The end id.</param>
+    /// <param name="value">The ID to end returning events at (excluding end_id itself).</param>
     /// <returns>The builder.</returns>
     public IOptionalBuilder WithEndId(int value);
 
     /// <summary>
+    ///     Sets the page size on the builder.
+    /// </summary>
+    /// <param name="value">The maximum number of rooms in the current page.</param>
+    /// <returns>The builder.</returns>
+    public IOptionalBuilder WithPageSize(int value);
+
+    /// <summary>
     ///     Sets the start id on the builder.
     /// </summary>
-    /// <param name="value">The start id.</param>
+    /// <param name="value"> The ID to start returning events at.</param>
     /// <returns>The builder.</returns>
     public IOptionalBuilder WithStartId(int value);
 }

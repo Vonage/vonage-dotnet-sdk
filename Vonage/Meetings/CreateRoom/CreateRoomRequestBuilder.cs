@@ -13,7 +13,10 @@ internal class CreateRoomRequestBuilder : IBuilderForDisplayName, IBuilderForOpt
     private bool expireAfterUse;
 
     private Room.Features features = new()
-        {IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true};
+    {
+        IsChatAvailable = true, IsRecordingAvailable = true, IsWhiteboardAvailable = true,
+        IsLocaleSwitcherAvailable = true,
+    };
 
     private Room.JoinOptions joinOptions = new() {MicrophoneState = RoomMicrophoneState.Default};
     private Maybe<Room.Callback> callback;
@@ -24,6 +27,7 @@ internal class CreateRoomRequestBuilder : IBuilderForDisplayName, IBuilderForOpt
     private Maybe<string> themeId;
     private RoomType roomType = RoomType.Instant;
     private string displayName;
+    private UiSettings uiSettings = new(UiSettings.UserInterfaceLanguage.En);
 
     /// <inheritdoc />
     public IBuilderForOptional AsLongTermRoom(DateTime expiration)
@@ -49,6 +53,7 @@ internal class CreateRoomRequestBuilder : IBuilderForDisplayName, IBuilderForOpt
                 InitialJoinOptions = this.joinOptions,
                 CallbackUrls = this.callback,
                 AvailableFeatures = this.features,
+                UserInterfaceSettings = this.uiSettings,
             })
             .Bind(VerifyDisplayName)
             .Bind(VerifyDisplayNameLength)
@@ -114,6 +119,13 @@ internal class CreateRoomRequestBuilder : IBuilderForDisplayName, IBuilderForOpt
     public IBuilderForOptional WithThemeId(string theme)
     {
         this.themeId = theme;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithUserInterfaceSettings(UiSettings value)
+    {
+        this.uiSettings = value;
         return this;
     }
 
@@ -214,4 +226,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateRoomRequest>
     /// <param name="theme">The theme identifier.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithThemeId(string theme);
+
+    /// <summary>
+    ///     Sets the options to customize the user interface.
+    /// </summary>
+    /// <param name="value">The options to customize the user interface.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithUserInterfaceSettings(UiSettings value);
 }

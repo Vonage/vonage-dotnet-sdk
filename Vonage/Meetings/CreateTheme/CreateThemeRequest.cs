@@ -49,7 +49,7 @@ public readonly struct CreateThemeRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/beta/meetings/themes";
+    public string GetEndpointPath() => "/meetings/themes";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),

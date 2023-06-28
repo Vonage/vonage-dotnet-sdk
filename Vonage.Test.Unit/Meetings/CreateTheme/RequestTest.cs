@@ -27,6 +27,6 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/beta/meetings/themes");
+                .BeSuccess("/meetings/themes");
     }
 }
