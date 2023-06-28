@@ -22,5 +22,11 @@ namespace Vonage.Common.Test.Failures
         public void ToResult_ShouldReturnFailure() =>
             ResultFailure.FromErrorMessage("Some error.").ToResult<int>().Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Some error."));
+
+        [Fact]
+        public void Type_ShouldReturnResultFailure() => ResultFailure.FromErrorMessage("Some error.")
+            .Type
+            .Should()
+            .Be(typeof(ResultFailure));
     }
 }

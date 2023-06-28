@@ -8,6 +8,9 @@ namespace Vonage.Common.Failures;
 public struct AuthenticationFailure : IResultFailure
 {
     /// <inheritdoc />
+    public Type Type => typeof(AuthenticationFailure);
+
+    /// <inheritdoc />
     public string GetFailureMessage() => VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey().Message;
 
     /// <inheritdoc />

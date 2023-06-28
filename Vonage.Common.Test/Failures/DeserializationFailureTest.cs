@@ -19,4 +19,11 @@ public class DeserializationFailureTest
         exception.Message.Should().Be("Unable to deserialize 'serialized text' into 'DeserializationFailureTest'.");
         exception.Json.Should().Be("serialized text");
     }
+
+    [Fact]
+    public void Type_ShouldReturnDeserializationFailure() => DeserializationFailure
+        .From(typeof(DeserializationFailureTest), "serialized text")
+        .Type
+        .Should()
+        .Be(typeof(DeserializationFailure));
 }

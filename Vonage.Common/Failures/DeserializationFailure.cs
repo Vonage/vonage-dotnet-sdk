@@ -18,6 +18,9 @@ public readonly struct DeserializationFailure : IResultFailure
     /// </summary>
     public string SerializedContent { get; }
 
+    /// <inheritdoc />
+    public Type Type => typeof(DeserializationFailure);
+
     /// <summary>
     ///     Creates a DeserializationFailure.
     /// </summary>
