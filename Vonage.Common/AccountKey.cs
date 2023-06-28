@@ -10,7 +10,7 @@ namespace Vonage.Common;
 /// </summary>
 public readonly struct AccountKey
 {
-    private const string AlphaNumericError = "ApiKey should only contain alphanumeric characters.";
+    private const string AlphaNumericError = $"{nameof(AccountKey)} should only contain alphanumeric characters.";
 
     private static readonly Regex AlphaNumericRegex = new("^[a-zA-Z0-9]+$");
     private AccountKey(string apiKey) => this.ApiKey = apiKey;

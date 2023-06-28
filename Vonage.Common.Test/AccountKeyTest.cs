@@ -15,7 +15,7 @@ public class AccountKeyTest
     public void Parse_ShouldReturnFailure_GivenApiKeyContainsNonAlphaNumericCharacters(string invalidApiKey) =>
         AccountKey.Parse(invalidApiKey)
             .Should()
-            .BeFailure(ResultFailure.FromErrorMessage("ApiKey should only contain alphanumeric characters."));
+            .BeFailure(ResultFailure.FromErrorMessage("AccountKey should only contain alphanumeric characters."));
 
     [Theory]
     [InlineData("")]
@@ -24,7 +24,7 @@ public class AccountKeyTest
     public void Parse_ShouldReturnFailure_GivenApiKeyIsNullOrWhitespace(string invalidApiKey) =>
         AccountKey.Parse(invalidApiKey)
             .Should()
-            .BeFailure(ResultFailure.FromErrorMessage("ApiKey cannot be null or whitespace."));
+            .BeFailure(ResultFailure.FromErrorMessage("AccountKey cannot be null or whitespace."));
 
     [Property]
     public Property Parse_ShouldReturnFailure_GivenApiKeyLengthIsDifferentThan8() =>
@@ -32,5 +32,5 @@ public class AccountKeyTest
             Arb.From<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value) && value.Length != 8),
             invalidApiKey => AccountKey.Parse(invalidApiKey)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApiKey length should be 8.")));
+                .BeFailure(ResultFailure.FromErrorMessage("AccountKey length should be 8.")));
 }
