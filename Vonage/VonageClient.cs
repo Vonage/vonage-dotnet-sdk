@@ -73,7 +73,7 @@ public class VonageClient
     /// <summary>
     ///     Exposes SubAccounts features.
     /// </summary>
-    public SubAccountsClient SubAccountsClient { get; private set; }
+    public ISubAccountsClient SubAccountsClient { get; private set; }
 
     public IVerifyClient VerifyClient { get; private set; }
 

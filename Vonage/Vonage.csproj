@@ -80,11 +80,6 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="ProactiveConnect\Actions\"/>
-        <Folder Include="ProactiveConnect\Jobs\"/>
-        <Folder Include="ProactiveConnect\Runs\"/>
-    </ItemGroup>
-    <ItemGroup>
         <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" PrivateAssets="All"/>
     </ItemGroup>
     <ItemGroup>
