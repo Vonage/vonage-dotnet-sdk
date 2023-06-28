@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -12,7 +13,9 @@ public readonly struct AccountKey
 {
     private const string AlphaNumericError = $"{nameof(AccountKey)} should only contain alphanumeric characters.";
 
-    private static readonly Regex AlphaNumericRegex = new("^[a-zA-Z0-9]+$");
+    private static readonly Regex
+        AlphaNumericRegex = new("^[a-zA-Z0-9]+$", RegexOptions.None, TimeSpan.FromTicks(5000));
+
     private AccountKey(string apiKey) => this.ApiKey = apiKey;
 
     /// <summary>
@@ -30,6 +33,12 @@ public readonly struct AccountKey
             .Bind(VerifyNotEmpty)
             .Bind(VerifyLength)
             .Bind(VerifyAlphaNumericOnly);
+
+    /// <summary>
+    ///     Returns the account ApiKey.
+    /// </summary>
+    /// <returns>The account ApiKey.</returns>
+    public override string ToString() => this.ApiKey;
 
     private static Result<AccountKey> VerifyAlphaNumericOnly(AccountKey key) =>
         AlphaNumericRegex.IsMatch(key.ApiKey)

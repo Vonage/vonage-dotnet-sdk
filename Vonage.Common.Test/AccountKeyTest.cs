@@ -33,4 +33,18 @@ public class AccountKeyTest
             invalidApiKey => AccountKey.Parse(invalidApiKey)
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("AccountKey length should be 8.")));
+
+    [Fact]
+    public void Parse_ShouldReturnSuccess_GivenApiKeyMatchesCriteria() =>
+        AccountKey.Parse("1E34s6QQ")
+            .Map(key => key.ApiKey)
+            .Should()
+            .BeSuccess("1E34s6QQ");
+
+    [Fact]
+    public void ToString_ShouldReturnApiKey() =>
+        AccountKey.Parse("1E34s6QQ")
+            .Map(key => key.ToString())
+            .Should()
+            .BeSuccess("1E34s6QQ");
 }
