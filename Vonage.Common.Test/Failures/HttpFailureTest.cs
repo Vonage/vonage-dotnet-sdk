@@ -26,5 +26,11 @@ namespace Vonage.Common.Test.Failures
             exception.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
             exception.Json.Should().Be("json data");
         }
+
+        [Fact]
+        public void Type_ShouldReturnHttpFailure() => HttpFailure.From(HttpStatusCode.NotFound)
+            .Type
+            .Should()
+            .Be(typeof(HttpFailure));
     }
 }

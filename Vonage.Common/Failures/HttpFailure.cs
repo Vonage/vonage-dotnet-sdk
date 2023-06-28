@@ -26,6 +26,9 @@ public readonly struct HttpFailure : IResultFailure
     /// <remarks>Mandatory for deserialization.</remarks>
     public string Message { get; }
 
+    /// <inheritdoc />
+    public Type Type => typeof(HttpFailure);
+
     /// <summary>
     ///     Create a HttpFailure.
     /// </summary>

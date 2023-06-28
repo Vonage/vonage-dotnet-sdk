@@ -10,6 +10,9 @@ public readonly struct ResultFailure : IResultFailure
     private readonly string error;
     private ResultFailure(string error) => this.error = error;
 
+    /// <inheritdoc />
+    public Type Type => typeof(ResultFailure);
+
     /// <summary>
     ///     Creates a failure from an error message.
     /// </summary>

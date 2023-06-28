@@ -9,6 +9,11 @@ namespace Vonage.Common.Failures;
 public interface IResultFailure
 {
     /// <summary>
+    ///     The type of failure.
+    /// </summary>
+    Type Type { get; }
+
+    /// <summary>
     ///     Returns the error message defined in the failure.
     /// </summary>
     /// <returns>The error message.</returns>
