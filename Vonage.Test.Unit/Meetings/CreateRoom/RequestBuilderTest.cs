@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.Meetings.Common;
@@ -67,7 +66,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .WithDisplayName(StringHelper.GenerateString(201))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("DisplayName length cannot be higher than 200."));
+                .BeParsingFailure("DisplayName length cannot be higher than 200.");
 
         [Theory]
         [InlineData("")]
@@ -79,7 +78,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .WithDisplayName(invalidDisplayName)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("DisplayName cannot be null or whitespace."));
+                .BeParsingFailure("DisplayName cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenMetadataExceeds500Length() =>
@@ -89,7 +88,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .WithMetadata(StringHelper.GenerateString(501))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Metadata length cannot be higher than 500."));
+                .BeParsingFailure("Metadata length cannot be higher than 500.");
 
         [Fact]
         public void Build_ShouldReturnSuccess_() =>

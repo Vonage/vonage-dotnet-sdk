@@ -46,6 +46,35 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
+        public AndConstraint<ResultAssertionExtensions<T>> BeParsingFailure(params string[] failureMessages)
+        {
+            Execute.Assertion
+                .WithExpectation("Expected {context:result} to be Failure {reason}, ")
+                .Given(() => this.Subject)
+                .ForCondition(subject => subject.IsFailure)
+                .FailWith($"but found to be Success '{this.GetResultSuccess()}'.")
+                .Then
+                .ForCondition(subject =>
+                    subject.Equals(Result<T>.FromFailure(
+                        ParsingFailure.FromFailures(failureMessages.Select(ResultFailure.FromErrorMessage).ToArray()))))
+                .FailWith($"but found to be Failure '{this.GetResultFailure()}'.");
+            return new AndConstraint<ResultAssertionExtensions<T>>(this);
+        }
+
+        public AndConstraint<ResultAssertionExtensions<T>> BeResultFailure(string expectedMessage)
+        {
+            Execute.Assertion
+                .WithExpectation("Expected {context:result} to be Failure {reason}, ")
+                .Given(() => this.Subject)
+                .ForCondition(subject => subject.IsFailure)
+                .FailWith($"but found to be Success '{this.GetResultSuccess()}'.")
+                .Then
+                .ForCondition(subject =>
+                    subject.Equals(Result<T>.FromFailure(ResultFailure.FromErrorMessage(expectedMessage))))
+                .FailWith($"but found to be Failure '{this.GetResultFailure()}'.");
+            return new AndConstraint<ResultAssertionExtensions<T>>(this);
+        }
+
         public AndConstraint<ResultAssertionExtensions<T>> BeSuccess()
         {
             Execute.Assertion
