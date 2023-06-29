@@ -9,7 +9,7 @@ using Vonage.Common.Monads;
 namespace Vonage.Common.Client;
 
 /// <summary>
-///     Represents a custom http client for Vonage's APIs.
+///     Represents a custom http client for Vonage APIs.
 /// </summary>
 public class VonageHttpClient
 {
@@ -69,6 +69,13 @@ public class VonageHttpClient
         await this.SendRequest(request, this.BuildHttpRequestMessage, this.ParseFailure<TResponse>,
             this.ParseSuccess<TResponse>);
 
+    private Result<HttpRequestMessage> BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
+        this.requestOptions
+            .Map(options => value
+                .BuildRequestMessage()
+                .WithAuthenticationHeader(options.AuthenticationHeader)
+                .WithUserAgent(options.UserAgent));
+
     private HttpFailure CreateFailureResult(HttpStatusCode code, string responseContent) =>
         this.jsonSerializer
             .DeserializeObject<ErrorResponse>(responseContent)
@@ -102,13 +109,6 @@ public class VonageHttpClient
             .MapAsync(value => this.client.SendAsync(value))
             .MapAsync(ExtractResponseData)
             .Bind(response => !response.IsSuccessStatusCode ? failure(response) : success(response));
-
-    protected virtual Result<HttpRequestMessage> BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
-        this.requestOptions
-            .Map(options => value
-                .BuildRequestMessage()
-                .WithAuthenticationHeader(options.AuthenticationHeader)
-                .WithUserAgent(options.UserAgent));
 
     private sealed record ResponseData(HttpStatusCode Code, bool IsSuccessStatusCode, string Content);
 
