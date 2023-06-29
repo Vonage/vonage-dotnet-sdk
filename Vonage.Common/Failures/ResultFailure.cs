@@ -24,7 +24,7 @@ public readonly struct ResultFailure : IResultFailure
     public string GetFailureMessage() => this.error;
 
     /// <inheritdoc />
-    public Exception ToException() => new VonageException(this.error);
+    public Exception ToException() => new VonageException(this.GetFailureMessage());
 
     /// <inheritdoc />
     public Result<T> ToResult<T>() => Result<T>.FromFailure(this);
