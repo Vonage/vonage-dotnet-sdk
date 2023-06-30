@@ -32,8 +32,8 @@ public readonly struct CancelRequest : IVonageRequest
     public static Result<CancelRequest> Parse(Guid requestId) =>
         Result<CancelRequest>
             .FromSuccess(new CancelRequest(requestId))
-            .Bind(VerifyRoomId);
+            .Bind(request => InputValidation.Evaluate(request, VerifyRequestId));
 
-    private static Result<CancelRequest> VerifyRoomId(CancelRequest request) =>
+    private static Result<CancelRequest> VerifyRequestId(CancelRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.RequestId, nameof(RequestId));
 }
