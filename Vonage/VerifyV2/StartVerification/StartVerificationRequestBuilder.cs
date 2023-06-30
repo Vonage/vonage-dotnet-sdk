@@ -38,12 +38,14 @@ internal class StartVerificationRequestBuilder :
                     FraudCheck = this.fraudCheck,
                     Code = this.code,
                 }))
-            .Bind(VerifyWorkflowsNotEmpty)
-            .Bind(VerifyBrandNotEmpty)
-            .Bind(VerifyChannelTimeoutHigherThanMinimum)
-            .Bind(VerifyChannelTimeoutLowerThanMaximum)
-            .Bind(VerifyCodeLengthHigherThanMinimum)
-            .Bind(VerifyCodeLengthLowerThanMaximum);
+            .Map(InputEvaluation<StartVerificationRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(
+                VerifyWorkflowsNotEmpty,
+                VerifyBrandNotEmpty,
+                VerifyChannelTimeoutHigherThanMinimum,
+                VerifyChannelTimeoutLowerThanMaximum,
+                VerifyCodeLengthHigherThanMinimum,
+                VerifyCodeLengthLowerThanMaximum));
 
     /// <inheritdoc />
     public IOptionalBuilder SkipFraudCheck()

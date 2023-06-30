@@ -1,7 +1,6 @@
 using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.VerifyCode;
 using Xunit;
@@ -24,7 +23,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
                 .WithCode(value)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Code cannot be null or whitespace."));
+                .BeParsingFailure("Code cannot be null or whitespace.");
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenRequestIdIsEmpty() =>
@@ -33,7 +32,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
                 .WithCode(this.fixture.Create<string>())
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("RequestId cannot be empty."));
+                .BeParsingFailure("RequestId cannot be empty.");
 
         [Fact]
         public void Create_ShouldReturnSuccess() =>
