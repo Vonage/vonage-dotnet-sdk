@@ -15,12 +15,9 @@ public readonly struct ParsingFailure : IResultFailure
     /// <inheritdoc />
     public Type Type => typeof(ParsingFailure);
 
-    public override bool Equals(object obj)
-    {
-        return obj is ParsingFailure test && this.failures.SequenceEqual(test.failures);
-    }
-
-    public bool Equals(ParsingFailure other) => Equals(this.failures, other.failures);
+    /// <inheritdoc />
+    public override bool Equals(object obj) =>
+        obj is ParsingFailure failure && this.failures.SequenceEqual(failure.failures);
 
     /// <summary>
     ///     Creates a ParsingFailure from a list of failures.
@@ -32,8 +29,6 @@ public readonly struct ParsingFailure : IResultFailure
     /// <inheritdoc />
     public string GetFailureMessage() =>
         $"Parsing failed with the following errors: {string.Join(", ", this.failures.Select(failure => failure.GetFailureMessage()))}.";
-
-    public override int GetHashCode() => this.failures != null ? this.failures.GetHashCode() : 0;
 
     /// <inheritdoc />
     public Exception ToException() => new VonageException(this.GetFailureMessage());
