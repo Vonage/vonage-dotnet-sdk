@@ -55,8 +55,8 @@ internal class CreateRoomRequestBuilder : IBuilderForDisplayName, IBuilderForOpt
                 AvailableFeatures = this.features,
                 UserInterfaceSettings = this.uiSettings,
             })
-            .Bind(request =>
-                InputValidation.Evaluate(request, VerifyDisplayName, VerifyDisplayNameLength, VerifyMetadataLength));
+            .Map(InputEvaluation<CreateRoomRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyDisplayName, VerifyDisplayNameLength, VerifyMetadataLength));
 
     /// <inheritdoc />
     public IBuilderForOptional ExpireAfterUse()

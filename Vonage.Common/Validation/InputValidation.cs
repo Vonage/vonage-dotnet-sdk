@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
@@ -19,19 +18,6 @@ public static class InputValidation
     private const string IntCannotBeNegative = "cannot be negative.";
     private const string StringCannotBeNullOrWhitespace = "cannot be null or whitespace.";
     private const string UnexpectedLength = "length should be {value}.";
-
-    public static Result<T> Evaluate<T>(T request, params Func<T, Result<T>>[] parsingRules) where T : IVonageRequest
-    {
-        var failures = parsingRules
-            .Select(rule => rule(request))
-            .Where(result => result.IsFailure)
-            .Select(result =>
-                ResultFailure.FromErrorMessage(result.Match(_ => string.Empty, failure => failure.GetFailureMessage())))
-            .ToArray();
-        return failures.Length == 0
-            ? Result<T>.FromSuccess(request)
-            : Result<T>.FromFailure(ParsingFailure.FromFailures(failures));
-    }
 
     /// <summary>
     ///     Verifies if count lower or equal than specified threshold.

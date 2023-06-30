@@ -32,7 +32,8 @@ public readonly struct CancelRequest : IVonageRequest
     public static Result<CancelRequest> Parse(Guid requestId) =>
         Result<CancelRequest>
             .FromSuccess(new CancelRequest(requestId))
-            .Bind(request => InputValidation.Evaluate(request, VerifyRequestId));
+            .Map(InputEvaluation<CancelRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyRequestId));
 
     private static Result<CancelRequest> VerifyRequestId(CancelRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.RequestId, nameof(RequestId));
