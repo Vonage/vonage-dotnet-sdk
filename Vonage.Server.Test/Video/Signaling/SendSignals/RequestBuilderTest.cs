@@ -1,7 +1,6 @@
 using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Signaling;
 using Vonage.Server.Video.Signaling.SendSignals;
@@ -32,7 +31,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
                 .WithContent(this.content)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+                .BeParsingFailure("ApplicationId cannot be empty.");
 
         [Theory]
         [InlineData("")]
@@ -45,7 +44,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
                 .WithContent(new SignalContent(this.fixture.Create<string>(), value))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Data cannot be null or whitespace."));
+                .BeParsingFailure("Data cannot be null or whitespace.");
 
         [Theory]
         [InlineData("")]
@@ -58,7 +57,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
                 .WithContent(new SignalContent(value, this.fixture.Create<string>()))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Type cannot be null or whitespace."));
+                .BeParsingFailure("Type cannot be null or whitespace.");
 
         [Theory]
         [InlineData("")]
@@ -71,7 +70,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignals
                 .WithContent(this.content)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeParsingFailure("SessionId cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnSuccess_GivenValuesAreProvided() =>

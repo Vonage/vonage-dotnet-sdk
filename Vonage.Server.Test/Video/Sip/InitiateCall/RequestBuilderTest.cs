@@ -1,7 +1,6 @@
 using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Sip.InitiateCall;
 using Xunit;
@@ -92,7 +91,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
                 .WithSipUri(this.uri)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+                .BeParsingFailure("ApplicationId cannot be empty.");
 
         [Theory]
         [InlineData("")]
@@ -106,7 +105,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
                 .WithSipUri(this.uri)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeParsingFailure("SessionId cannot be null or whitespace.");
 
         [Theory]
         [InlineData("")]
@@ -120,7 +119,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
                 .WithSipUri(this.uri)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Token cannot be null or whitespace."));
+                .BeParsingFailure("Token cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnSuccess_GivenMandatoryValuesAreProvided() =>

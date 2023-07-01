@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Archives.GetArchives;
 using Xunit;
@@ -51,7 +50,7 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
                 .WithApplicationId(Guid.Empty)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+                .BeParsingFailure("ApplicationId cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenCountIsHigherThanThreshold() =>
@@ -60,7 +59,7 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
                 .WithCount(1001)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Count cannot be higher than 1000."));
+                .BeParsingFailure("Count cannot be higher than 1000.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenCountIsNegative() =>
@@ -69,7 +68,7 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
                 .WithCount(-1)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Count cannot be negative."));
+                .BeParsingFailure("Count cannot be negative.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenOffsetIsNegative() =>
@@ -78,7 +77,7 @@ namespace Vonage.Server.Test.Video.Archives.GetArchives
                 .WithOffset(-1)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Offset cannot be negative."));
+                .BeParsingFailure("Offset cannot be negative.");
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithDefaultValues() =>

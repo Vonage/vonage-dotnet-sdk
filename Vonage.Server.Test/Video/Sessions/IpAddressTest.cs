@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Sessions;
 using Xunit;
@@ -27,7 +26,7 @@ namespace Vonage.Server.Test.Video.Sessions
             IpAddress
                 .Parse("0.0.1.2.3.45.5")
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Unable to parse location '0.0.1.2.3.45.5'."));
+                .BeParsingFailure("Unable to parse location '0.0.1.2.3.45.5'.");
 
         [Fact]
         public void Parse_ShouldReturnSome_GivenAddressCanBeParsed() =>

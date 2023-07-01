@@ -41,8 +41,9 @@ public readonly struct IpAddress
         || IsLocalhost(location)
         || CanBeParsed(location)
             ? Result<IpAddress>.FromSuccess(new IpAddress(location))
-            : Result<IpAddress>.FromFailure(
-                ResultFailure.FromErrorMessage(ParseFailedMessage.Replace("{location}", location)));
+            : ParsingFailure
+                .FromFailures(ResultFailure.FromErrorMessage(ParseFailedMessage.Replace("{location}", location)))
+                .ToResult<IpAddress>();
 
     private static bool CanBeParsed(string location) => IPAddress.TryParse(location, out _);
 

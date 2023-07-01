@@ -1,7 +1,6 @@
 using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Sip.PlayToneIntoCall;
 using Xunit;
@@ -30,7 +29,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
                 .WithDigits(this.digits)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+                .BeParsingFailure("ApplicationId cannot be empty.");
 
         [Theory]
         [InlineData("")]
@@ -43,7 +42,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
                 .WithDigits(value)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Digits cannot be null or whitespace."));
+                .BeParsingFailure("Digits cannot be null or whitespace.");
 
         [Theory]
         [InlineData("")]
@@ -56,7 +55,7 @@ namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall
                 .WithDigits(this.digits)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeParsingFailure("SessionId cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnSuccess_GivenAllValuesAreProvided() =>

@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Linq;
-using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
 namespace Vonage.Common.Validation;
 
-public readonly struct InputEvaluation<T> where T : IVonageRequest
+public readonly struct InputEvaluation<T>
 {
-    private readonly T request;
-    private InputEvaluation(T request) => this.request = request;
+    private readonly T source;
+    private InputEvaluation(T source) => this.source = source;
 
-    public static InputEvaluation<T> Evaluate(T request) => new(request);
+    public static InputEvaluation<T> Evaluate(T source) => new(source);
 
     public Result<T> WithRules(params Func<T, Result<T>>[] parsingRules)
     {
-        var copy = this.request;
+        var copy = this.source;
         var failures = parsingRules
             .Select(rule => rule(copy))
             .Select(result => result.Match(_ => string.Empty, failure => failure.GetFailureMessage()))
@@ -23,7 +22,7 @@ public readonly struct InputEvaluation<T> where T : IVonageRequest
             .Select(ResultFailure.FromErrorMessage)
             .ToArray();
         return failures.Length == 0
-            ? Result<T>.FromSuccess(this.request)
+            ? Result<T>.FromSuccess(this.source)
             : Result<T>.FromFailure(ParsingFailure.FromFailures(failures));
     }
 }

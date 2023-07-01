@@ -59,7 +59,8 @@ public readonly struct TokenAdditionalClaims : IHasSessionId
         Role role = Role.Publisher)
         => Result<TokenAdditionalClaims>
             .FromSuccess(new TokenAdditionalClaims(scope, sessionId, role))
-            .Bind(VerifySessionId);
+            .Map(InputEvaluation<TokenAdditionalClaims>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifySessionId));
 
     /// <summary>
     ///     Converts claims to a dictionary.

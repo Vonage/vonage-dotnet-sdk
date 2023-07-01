@@ -62,7 +62,8 @@ internal class CreateSessionRequestBuilder :
                 MediaMode = mediaMode,
                 Location = ipAddress,
             })
-            : ResultFailure.FromErrorMessage(IncompatibleMediaAndArchive).ToResult<CreateSessionRequest>();
+            : ParsingFailure.FromFailures(ResultFailure.FromErrorMessage(IncompatibleMediaAndArchive))
+                .ToResult<CreateSessionRequest>();
 }
 
 /// <summary>
