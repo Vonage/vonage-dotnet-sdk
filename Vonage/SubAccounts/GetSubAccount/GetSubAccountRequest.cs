@@ -37,7 +37,8 @@ public readonly struct GetSubAccountRequest : IVonageRequest
     public static Result<GetSubAccountRequest> Parse(string subAccountKey) =>
         Result<GetSubAccountRequest>
             .FromSuccess(new GetSubAccountRequest(string.Empty, subAccountKey))
-            .Bind(VerifySubAccountKey);
+            .Map(InputEvaluation<GetSubAccountRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifySubAccountKey));
 
     private static Result<GetSubAccountRequest> VerifySubAccountKey(GetSubAccountRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SubAccountKey, nameof(SubAccountKey));

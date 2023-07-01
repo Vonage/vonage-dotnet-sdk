@@ -22,11 +22,12 @@ internal class TransferNumberRequestBuilder : IBuilderForNumber, IBuilderForCoun
             Number = this.number,
             To = this.to,
         })
-        .Bind(VerifyFrom)
-        .Bind(VerifyTo)
-        .Bind(VerifyNumber)
-        .Bind(VerifyCountry)
-        .Bind(VerifyCountryLength);
+        .Map(InputEvaluation<TransferNumberRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(
+            VerifyFrom,
+            VerifyTo,
+            VerifyNumber,
+            VerifyCountry));
 
     /// <inheritdoc />
     public IVonageRequestBuilder<TransferNumberRequest> WithCountry(string value)
@@ -57,7 +58,8 @@ internal class TransferNumberRequestBuilder : IBuilderForNumber, IBuilderForCoun
     }
 
     private static Result<TransferNumberRequest> VerifyCountry(TransferNumberRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.Country, nameof(request.Country));
+        InputValidation.VerifyNotEmpty(request, request.Country, nameof(request.Country))
+            .Bind(VerifyCountryLength);
 
     private static Result<TransferNumberRequest> VerifyCountryLength(TransferNumberRequest request) =>
         InputValidation.VerifyLength(request, request.Country, CountryLength, nameof(request.Country));

@@ -23,10 +23,12 @@ internal class UpdateSubAccountRequestBuilder : IBuilderForOptional, IBuilderFor
                 UsePrimaryAccountBalance = this.useSharedBalance,
                 Suspended = this.isSuspended,
             })
-            .Bind(VerifySubAccountKey)
-            .Bind(VerifyName)
-            .Bind(VerifyNameLength)
-            .Bind(VerifyAtLeastOneUpdate);
+            .Map(InputEvaluation<UpdateSubAccountRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(
+                VerifySubAccountKey,
+                VerifyName,
+                VerifyNameLength,
+                VerifyAtLeastOneUpdate));
 
     /// <inheritdoc />
     public IBuilderForOptional DisableSharedAccountBalance()

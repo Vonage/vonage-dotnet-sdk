@@ -21,9 +21,8 @@ internal class TransferAmountRequestBuilder : IBuilderForFrom, IBuilderForAmount
                 Amount = this.amount,
                 Reference = this.reference,
             })
-            .Bind(VerifyFrom)
-            .Bind(VerifyTo)
-            .Bind(VerifyAmount);
+            .Map(InputEvaluation<TransferAmountRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyFrom, VerifyTo, VerifyAmount));
 
     /// <inheritdoc />
     public IBuilderForOptional WithAmount(decimal value)

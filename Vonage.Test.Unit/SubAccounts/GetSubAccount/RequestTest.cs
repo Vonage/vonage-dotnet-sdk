@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.GetSubAccount;
 using Xunit;
@@ -30,7 +29,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccount
         public void Parse_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace(string value) =>
             GetSubAccountRequest.Parse(value)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SubAccountKey cannot be null or whitespace."));
+                .BeParsingFailure("SubAccountKey cannot be null or whitespace.");
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

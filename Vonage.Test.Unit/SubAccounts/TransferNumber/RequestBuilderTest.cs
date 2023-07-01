@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.SubAccounts.TransferNumber;
@@ -38,7 +37,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
                 .WithCountry(invalidValue)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Country cannot be null or whitespace."));
+                .BeParsingFailure("Country cannot be null or whitespace.");
 
         [Property]
         public Property Build_ShouldReturnFailure_GivenCountryLengthIsDifferentThanTwo() =>
@@ -52,7 +51,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
                     .WithCountry(invalidCountry)
                     .Create()
                     .Should()
-                    .BeFailure(ResultFailure.FromErrorMessage("Country length should be 2.")));
+                    .BeParsingFailure("Country length should be 2."));
 
         [Theory]
         [InlineData("")]
@@ -67,7 +66,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
                 .WithCountry(this.country)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("From cannot be null or whitespace."));
+                .BeParsingFailure("From cannot be null or whitespace.");
 
         [Theory]
         [InlineData("")]
@@ -82,7 +81,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
                 .WithCountry(this.country)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
+                .BeParsingFailure("Number cannot be null or whitespace.");
 
         [Theory]
         [InlineData("")]
@@ -97,7 +96,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
                 .WithCountry(this.country)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("To cannot be null or whitespace."));
+                .BeParsingFailure("To cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldSetCountry() =>
