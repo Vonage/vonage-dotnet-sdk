@@ -59,7 +59,7 @@ public readonly struct TokenAdditionalClaims : IHasSessionId
         Role role = Role.Publisher)
         => Result<TokenAdditionalClaims>
             .FromSuccess(new TokenAdditionalClaims(scope, sessionId, role))
-            .Bind(BuilderExtensions.VerifySessionId);
+            .Bind(VerifySessionId);
 
     /// <summary>
     ///     Converts claims to a dictionary.
@@ -71,4 +71,7 @@ public readonly struct TokenAdditionalClaims : IHasSessionId
         {"session_id", this.SessionId},
         {"scope", this.Scope},
     };
+
+    private static Result<TokenAdditionalClaims> VerifySessionId(TokenAdditionalClaims request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }

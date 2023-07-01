@@ -2,6 +2,7 @@
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Meetings.GetRecordings;
 
@@ -32,5 +33,8 @@ public readonly struct GetRecordingsRequest : IVonageRequest, IHasSessionId
     public static Result<GetRecordingsRequest> Parse(string sessionId) =>
         Result<GetRecordingsRequest>
             .FromSuccess(new GetRecordingsRequest(sessionId))
-            .Bind(BuilderExtensions.VerifySessionId);
+            .Bind(VerifySessionId);
+
+    private static Result<GetRecordingsRequest> VerifySessionId(GetRecordingsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
