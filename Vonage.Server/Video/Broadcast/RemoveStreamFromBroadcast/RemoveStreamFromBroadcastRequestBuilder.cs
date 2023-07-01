@@ -1,7 +1,7 @@
 ﻿using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.RemoveStreamFromBroadcast;
 
@@ -23,9 +23,8 @@ internal class RemoveStreamFromBroadcastRequestBuilder :
                 BroadcastId = this.broadcastId,
                 StreamId = this.streamId,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifyBroadcastId)
-            .Bind(BuilderExtensions.VerifyStreamId);
+            .Map(InputEvaluation<RemoveStreamFromBroadcastRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifyStreamId, VerifyBroadcastId));
 
     /// <inheritdoc />
     public IBuilderForBroadcastId WithApplicationId(Guid value)
@@ -47,6 +46,17 @@ internal class RemoveStreamFromBroadcastRequestBuilder :
         this.streamId = value;
         return this;
     }
+
+    private static Result<RemoveStreamFromBroadcastRequest> VerifyApplicationId(
+        RemoveStreamFromBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<RemoveStreamFromBroadcastRequest>
+        VerifyBroadcastId(RemoveStreamFromBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
+
+    private static Result<RemoveStreamFromBroadcastRequest> VerifyStreamId(RemoveStreamFromBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
 }
 
 /// <summary>

@@ -1,6 +1,5 @@
 using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -24,9 +23,8 @@ internal class PlayToneIntoCallRequestBuilder :
                 Digits = this.digits,
                 SessionId = this.sessionId,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(VerifyDigits);
+            .Map(InputEvaluation<PlayToneIntoCallRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifySessionId, VerifyDigits));
 
     /// <inheritdoc />
     public IBuilderForSessionId WithApplicationId(Guid value)
@@ -49,8 +47,14 @@ internal class PlayToneIntoCallRequestBuilder :
         return this;
     }
 
+    private static Result<PlayToneIntoCallRequest> VerifyApplicationId(PlayToneIntoCallRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
     private static Result<PlayToneIntoCallRequest> VerifyDigits(PlayToneIntoCallRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Digits, nameof(request.Digits));
+
+    private static Result<PlayToneIntoCallRequest> VerifySessionId(PlayToneIntoCallRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

@@ -1,6 +1,5 @@
 ﻿using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -22,9 +21,8 @@ internal class GetBroadcastsRequestBuilder : IBuilderForApplicationId, IBuilderF
             ApplicationId = this.applicationId,
             SessionId = this.sessionId,
         })
-        .Bind(BuilderExtensions.VerifyApplicationId)
-        .Bind(VerifyCount)
-        .Bind(VerifyOffset);
+        .Map(InputEvaluation<GetBroadcastsRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifyCount, VerifyOffset));
 
     /// <inheritdoc />
     public IBuilderForOptional WithApplicationId(Guid value)
@@ -53,6 +51,9 @@ internal class GetBroadcastsRequestBuilder : IBuilderForApplicationId, IBuilderF
         this.sessionId = value;
         return this;
     }
+
+    private static Result<GetBroadcastsRequest> VerifyApplicationId(GetBroadcastsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
     private static Result<GetBroadcastsRequest> VerifyCount(GetBroadcastsRequest request) =>
         InputValidation.VerifyNotNegative(request, request.Count, nameof(request.Count))

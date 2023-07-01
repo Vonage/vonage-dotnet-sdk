@@ -1,7 +1,7 @@
 ﻿using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.GetBroadcast;
 
@@ -20,8 +20,8 @@ internal class GetBroadcastRequestBuilder :
                 ApplicationId = this.applicationId,
                 BroadcastId = this.broadcastId,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifyBroadcastId);
+            .Map(InputEvaluation<GetBroadcastRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifyBroadcastId));
 
     /// <inheritdoc />
     public IBuilderForBroadcastId WithApplicationId(Guid value)
@@ -36,6 +36,12 @@ internal class GetBroadcastRequestBuilder :
         this.broadcastId = value;
         return this;
     }
+
+    private static Result<GetBroadcastRequest> VerifyApplicationId(GetBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<GetBroadcastRequest> VerifyBroadcastId(GetBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 }
 
 /// <summary>

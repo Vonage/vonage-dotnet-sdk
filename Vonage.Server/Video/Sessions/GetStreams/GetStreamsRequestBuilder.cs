@@ -1,7 +1,7 @@
 using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Sessions.GetStreams;
 
@@ -20,8 +20,8 @@ internal class GetStreamsRequestBuilder :
                 ApplicationId = this.applicationId,
                 SessionId = this.sessionId,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId);
+            .Map(InputEvaluation<GetStreamsRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifySessionId));
 
     /// <inheritdoc />
     public IBuilderForSessionId WithApplicationId(Guid value)
@@ -36,6 +36,12 @@ internal class GetStreamsRequestBuilder :
         this.sessionId = value;
         return this;
     }
+
+    private static Result<GetStreamsRequest> VerifyApplicationId(GetStreamsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<GetStreamsRequest> VerifySessionId(GetStreamsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

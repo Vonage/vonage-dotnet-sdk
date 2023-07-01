@@ -1,6 +1,5 @@
 using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -24,9 +23,8 @@ internal class MuteStreamRequestBuilder :
                 StreamId = this.streamId,
                 SessionId = this.sessionId,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(VerifyStreamId);
+            .Map(InputEvaluation<MuteStreamRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyStreamId, VerifyApplicationId, VerifySessionId));
 
     /// <inheritdoc />
     public IBuilderForSessionId WithApplicationId(Guid value)
@@ -48,6 +46,12 @@ internal class MuteStreamRequestBuilder :
         this.streamId = value;
         return this;
     }
+
+    private static Result<MuteStreamRequest> VerifyApplicationId(MuteStreamRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<MuteStreamRequest> VerifySessionId(MuteStreamRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 
     private static Result<MuteStreamRequest> VerifyStreamId(MuteStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(MuteStreamRequest.StreamId));
