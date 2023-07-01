@@ -38,8 +38,8 @@ internal class UpdateRoomRequestBuilder : IBuilderForRoomId, IBuilderForOptional
                 JoinApprovalLevel = this.approvalLevel,
                 UserInterfaceSettings = this.uiSettings,
             })
-            .Bind(VerifyAtLeastOneValue)
-            .Bind(VerifyRoomId);
+            .Map(InputEvaluation<UpdateRoomRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyAtLeastOneValue, VerifyRoomId));
 
     /// <inheritdoc />
     public IBuilderForOptional ExpireAfterUse()
