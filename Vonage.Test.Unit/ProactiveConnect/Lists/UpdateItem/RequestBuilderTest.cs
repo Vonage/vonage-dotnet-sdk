@@ -1,6 +1,5 @@
 using System;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.UpdateList;
@@ -31,7 +30,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
                 })
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Attributes Alias length cannot be higher than 50."));
+                .BeParsingFailure("Attributes Alias length cannot be higher than 50.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenAttributeNameLengthIsHigherThan50Characters() =>
@@ -45,7 +44,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
                 })
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Attributes Name length cannot be higher than 50."));
+                .BeParsingFailure("Attributes Name length cannot be higher than 50.");
 
         [Theory]
         [InlineData("")]
@@ -61,10 +60,11 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
                 {
                     Type = ListDataSourceType.Salesforce,
                     IntegrationId = value,
+                    Soql = "Random value",
                 })
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("DataSource IntegrationId cannot be null or whitespace."));
+                .BeParsingFailure("DataSource IntegrationId cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenDescriptionLengthIsHigherThan1024Characters() =>
@@ -75,7 +75,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
                 .WithDescription(new string('a', 1025))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Description length cannot be higher than 1024."));
+                .BeParsingFailure("Description length cannot be higher than 1024.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenIdIsEmpty() =>
@@ -85,7 +85,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
                 .WithName(this.name)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Id cannot be empty."));
+                .BeParsingFailure("Id cannot be empty.");
 
         [Theory]
         [InlineData("")]
@@ -98,7 +98,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
                 .WithName(value)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Name cannot be null or whitespace."));
+                .BeParsingFailure("Name cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenNameLengthIsHigherThan255Characters() =>
@@ -108,7 +108,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
                 .WithName(new string('a', 256))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Name length cannot be higher than 255."));
+                .BeParsingFailure("Name length cannot be higher than 255.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenTagsContainMoreThan10Elements() =>
@@ -129,7 +129,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
                 .WithTag("tag11")
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Tags count cannot be higher than 10."));
+                .BeParsingFailure("Tags count cannot be higher than 10.");
 
         [Fact]
         public void Build_ShouldShouldSetAttributes() =>

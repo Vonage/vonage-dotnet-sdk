@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Items.UpdateItem;
 using Xunit;
@@ -32,7 +31,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.UpdateItem
                 .WithItemId(this.itemId)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Data cannot be empty."));
+                .BeParsingFailure("Data cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenItemIdIsEmpty() =>
@@ -40,9 +39,10 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.UpdateItem
                 .Build()
                 .WithListId(this.listId)
                 .WithItemId(Guid.Empty)
+                .WithCustomData(new KeyValuePair<string, object>("value1", "value"))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ItemId cannot be empty."));
+                .BeParsingFailure("ItemId cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenListIdIsEmpty() =>
@@ -50,9 +50,10 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.UpdateItem
                 .Build()
                 .WithListId(Guid.Empty)
                 .WithItemId(this.itemId)
+                .WithCustomData(new KeyValuePair<string, object>("value1", "value"))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ListId cannot be empty."));
+                .BeParsingFailure("ListId cannot be empty.");
 
         [Fact]
         public void Build_ShouldSetData() =>

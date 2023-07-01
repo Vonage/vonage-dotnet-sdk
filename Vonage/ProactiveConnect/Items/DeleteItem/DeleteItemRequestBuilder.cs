@@ -18,8 +18,8 @@ internal class DeleteItemRequestBuilder : IBuilderForListId, IBuilderForItemId, 
                 ListId = this.listId,
                 ItemId = this.itemId,
             })
-            .Bind(VerifyListId)
-            .Bind(VerifyItemId);
+            .Map(InputEvaluation<DeleteItemRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyListId, VerifyItemId));
 
     /// <inheritdoc />
     public IVonageRequestBuilder<DeleteItemRequest> WithItemId(Guid value)

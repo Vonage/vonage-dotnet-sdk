@@ -1,6 +1,5 @@
 using System;
 using AutoFixture;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Items.DeleteItem;
 using Xunit;
@@ -27,7 +26,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.DeleteItem
                 .WithItemId(Guid.Empty)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ItemId cannot be empty."));
+                .BeParsingFailure("ItemId cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenListIdIsEmpty() =>
@@ -37,7 +36,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.DeleteItem
                 .WithItemId(this.itemId)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ListId cannot be empty."));
+                .BeParsingFailure("ListId cannot be empty.");
 
         [Fact]
         public void Build_ShouldSetItemId() =>

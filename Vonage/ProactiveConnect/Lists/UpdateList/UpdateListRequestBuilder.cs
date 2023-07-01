@@ -26,15 +26,18 @@ internal class UpdateListRequestBuilder : IBuilderForListId, IBuilderForName, IB
             Tags = this.tags.Any() ? this.tags.ToList() : Maybe<IEnumerable<string>>.None,
             DataSource = this.dataSource,
         })
-        .Bind(VerifyListId)
-        .Bind(VerifyNameNotEmpty)
-        .Bind(VerifyNameLength)
-        .Bind(VerifyDescriptionLength)
-        .Bind(VerifyTagsCount)
-        .Bind(VerifyAttributesNameLength)
-        .Bind(VerifyAttributesAliasLength)
-        .Bind(VerifyIntegrationIdNotEmptyWhenSalesforce)
-        .Bind(VerifySoqlNotEmptyWhenSalesforce);
+        .Map(InputEvaluation<UpdateListRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(
+            VerifyListId,
+            VerifyNameNotEmpty,
+            VerifyNameLength,
+            VerifyDescriptionLength,
+            VerifyTagsCount,
+            VerifyAttributesNameLength,
+            VerifyAttributesAliasLength,
+            VerifyIntegrationIdNotEmptyWhenSalesforce,
+            VerifySoqlNotEmptyWhenSalesforce
+        ));
 
     /// <inheritdoc />
     public IBuilderForOptional WithAttribute(ListAttribute value)

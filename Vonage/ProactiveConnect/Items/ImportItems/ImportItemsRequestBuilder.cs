@@ -22,8 +22,8 @@ internal class ImportItemsRequestBuilder : IBuilderForListId, IBuilderForFile, I
                 ListId = this.listId,
                 File = this.file,
             })
-            .Bind(VerifyListId)
-            .Bind(VerifyFile);
+            .Map(InputEvaluation<ImportItemsRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyListId, VerifyFile));
 
     /// <inheritdoc />
     public IVonageRequestBuilder<ImportItemsRequest> WithFileData(byte[] value)

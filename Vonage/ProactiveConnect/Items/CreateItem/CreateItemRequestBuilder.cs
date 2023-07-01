@@ -20,8 +20,8 @@ internal class CreateItemRequestBuilder : IBuilderForListId, IBuilderForCustomDa
                 ListId = this.listId,
                 Data = new ReadOnlyDictionary<string, object>(this.data),
             })
-            .Bind(VerifyListId)
-            .Bind(VerifyData);
+            .Map(InputEvaluation<CreateItemRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyListId, VerifyData));
 
     /// <inheritdoc />
     public IBuilderForCustomData WithCustomData(KeyValuePair<string, object> value)
