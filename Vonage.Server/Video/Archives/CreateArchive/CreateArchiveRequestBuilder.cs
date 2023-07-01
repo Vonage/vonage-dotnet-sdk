@@ -1,7 +1,7 @@
 ﻿using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.CreateArchive;
 
@@ -31,8 +31,8 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
                 Name = this.name,
                 Resolution = this.resolution,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId);
+            .Map(InputEvaluation<CreateArchiveRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifySessionId, VerifyApplicationId));
 
     /// <inheritdoc />
     public IBuilderForOptional DisableAudio()
@@ -96,6 +96,12 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
         this.streamMode = value;
         return this;
     }
+
+    private static Result<CreateArchiveRequest> VerifyApplicationId(CreateArchiveRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<CreateArchiveRequest> VerifySessionId(CreateArchiveRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

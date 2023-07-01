@@ -1,7 +1,7 @@
 ﻿using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.AddStream;
 
@@ -24,9 +24,8 @@ internal class AddStreamRequestBuilder : IBuilderForArchiveId, IBuilderForApplic
             HasVideo = this.hasVideo,
             StreamId = this.streamId,
         })
-        .Bind(BuilderExtensions.VerifyApplicationId)
-        .Bind(BuilderExtensions.VerifyArchiveId)
-        .Bind(BuilderExtensions.VerifyStreamId);
+        .Map(InputEvaluation<AddStreamRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifyStreamId, VerifyArchiveId));
 
     /// <summary>
     ///     Disables the audio on the request.
@@ -68,6 +67,15 @@ internal class AddStreamRequestBuilder : IBuilderForArchiveId, IBuilderForApplic
         this.streamId = value;
         return this;
     }
+
+    private static Result<AddStreamRequest> VerifyApplicationId(AddStreamRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<AddStreamRequest> VerifyArchiveId(AddStreamRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(request.ArchiveId));
+
+    private static Result<AddStreamRequest> VerifyStreamId(AddStreamRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
 }
 
 /// <summary>

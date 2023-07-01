@@ -1,5 +1,6 @@
 using System;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Common.Client.Builders;
 
@@ -32,8 +33,8 @@ public class ArchiveRequestBuilder<T> :
     public Result<T> Create() => Result<T>
         .FromSuccess(
             this.requestInitializer(new Tuple<Guid, Guid>(this.applicationId, this.archiveId)))
-        .Bind(BuilderExtensions.VerifyApplicationId)
-        .Bind(BuilderExtensions.VerifyArchiveId);
+        .Map(InputEvaluation<T>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifyArchiveId));
 
     /// <inheritdoc />
     public IBuilderForArchiveId WithApplicationId(Guid value)
@@ -48,6 +49,12 @@ public class ArchiveRequestBuilder<T> :
         this.archiveId = value;
         return this;
     }
+
+    private static Result<T> VerifyApplicationId(T request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<T> VerifyArchiveId(T request) =>
+        InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(request.ArchiveId));
 
     /// <summary>
     ///     Represents a builder for ArchiveId.

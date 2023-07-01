@@ -1,7 +1,7 @@
 using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Archives.GetArchive;
 
@@ -18,8 +18,8 @@ internal class GetArchiveRequestBuilder : IBuilderForApplicationId, IBuilderForA
             ApplicationId = this.applicationId,
             ArchiveId = this.archiveId,
         })
-        .Bind(BuilderExtensions.VerifyApplicationId)
-        .Bind(BuilderExtensions.VerifyArchiveId);
+        .Map(InputEvaluation<GetArchiveRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifyArchiveId));
 
     /// <inheritdoc />
     public IBuilderForArchiveId WithApplicationId(Guid value)
@@ -34,6 +34,12 @@ internal class GetArchiveRequestBuilder : IBuilderForApplicationId, IBuilderForA
         this.archiveId = value;
         return this;
     }
+
+    private static Result<GetArchiveRequest> VerifyApplicationId(GetArchiveRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<GetArchiveRequest> VerifyArchiveId(GetArchiveRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(request.ArchiveId));
 }
 
 /// <summary>

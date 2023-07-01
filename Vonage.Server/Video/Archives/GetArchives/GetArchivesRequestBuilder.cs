@@ -1,6 +1,5 @@
 ﻿using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -22,9 +21,8 @@ internal class GetArchivesRequestBuilder : IBuilderForApplicationId, IBuilderFor
             ApplicationId = this.applicationId,
             SessionId = this.sessionId,
         })
-        .Bind(BuilderExtensions.VerifyApplicationId)
-        .Bind(VerifyCount)
-        .Bind(VerifyOffset);
+        .Map(InputEvaluation<GetArchivesRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifyOffset, VerifyCount));
 
     /// <inheritdoc />
     public IBuilderForOptional WithApplicationId(Guid value)
@@ -53,6 +51,9 @@ internal class GetArchivesRequestBuilder : IBuilderForApplicationId, IBuilderFor
         this.sessionId = value;
         return this;
     }
+
+    private static Result<GetArchivesRequest> VerifyApplicationId(GetArchivesRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
     private static Result<GetArchivesRequest> VerifyCount(GetArchivesRequest request) =>
         InputValidation.VerifyNotNegative(request, request.Count, nameof(request.Count))

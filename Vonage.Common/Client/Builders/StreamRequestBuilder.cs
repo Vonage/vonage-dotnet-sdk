@@ -1,5 +1,6 @@
 using System;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Common.Client.Builders;
 
@@ -34,9 +35,8 @@ public class StreamRequestBuilder<T> :
     public Result<T> Create() => Result<T>
         .FromSuccess(
             this.requestInitializer(new Tuple<Guid, Guid, Guid>(this.applicationId, this.archiveId, this.streamId)))
-        .Bind(BuilderExtensions.VerifyApplicationId)
-        .Bind(BuilderExtensions.VerifyArchiveId)
-        .Bind(BuilderExtensions.VerifyStreamId);
+        .Map(InputEvaluation<T>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifyStreamId, VerifyArchiveId));
 
     /// <inheritdoc />
     public IBuilderForArchiveId WithApplicationId(Guid value)
@@ -58,6 +58,15 @@ public class StreamRequestBuilder<T> :
         this.streamId = value;
         return this;
     }
+
+    private static Result<T> VerifyApplicationId(T request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<T> VerifyArchiveId(T request) =>
+        InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(request.ArchiveId));
+
+    private static Result<T> VerifyStreamId(T request) =>
+        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
 
     /// <summary>
     ///     Represents a builder for ArchiveId.
