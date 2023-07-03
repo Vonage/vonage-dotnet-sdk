@@ -24,7 +24,8 @@ internal class UpdateThemeRequestBuilder : IBuilderForThemeId, IBuilderForOption
             ShortCompanyUrl = this.shortCompanyUrl,
             ThemeName = this.themeName,
         })
-        .Bind(VerifyThemeId);
+        .Map(InputEvaluation<UpdateThemeRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyThemeId));
 
     /// <summary>
     ///     Sets the brand text on the builder.

@@ -18,7 +18,8 @@ internal class GetRoomsRequestBuilder : IOptionalBuilder
             StartId = this.startId,
             PageSize = this.pageSize,
         })
-        .Bind(VerifyPageSize);
+        .Map(InputEvaluation<GetRoomsRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyPageSize));
 
     /// <inheritdoc />
     public IOptionalBuilder WithEndId(int value)

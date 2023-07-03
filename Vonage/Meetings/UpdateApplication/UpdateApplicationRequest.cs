@@ -37,7 +37,8 @@ public readonly struct UpdateApplicationRequest : IVonageRequest
     public static Result<UpdateApplicationRequest> Parse(Guid themeId) =>
         Result<UpdateApplicationRequest>
             .FromSuccess(new UpdateApplicationRequest(themeId))
-            .Bind(VerifyDefaultThemeId);
+            .Map(InputEvaluation<UpdateApplicationRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyDefaultThemeId));
 
     private StringContent GetRequestContent() =>
         new(JsonSerializer.BuildWithSnakeCase().SerializeObject(new {UpdateDetails = this}),

@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.GetRoom;
 using Xunit;
@@ -29,7 +28,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
         public void Parse_ShouldReturnFailure_GivenRoomIdIsEmpty() =>
             GetRoomRequest.Parse(Guid.Empty)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("RoomId cannot be empty."));
+                .BeParsingFailure("RoomId cannot be empty.");
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

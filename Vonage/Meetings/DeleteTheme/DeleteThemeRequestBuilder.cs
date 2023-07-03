@@ -17,7 +17,8 @@ internal class DeleteThemeRequestBuilder : IBuilderForThemeId, IOptionalBuilder
                 ThemeId = this.themeId,
                 ForceDelete = this.forceDelete,
             })
-            .Bind(VerifyThemeId);
+            .Map(InputEvaluation<DeleteThemeRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyThemeId));
 
     /// <inheritdoc />
     public IOptionalBuilder WithForceDelete()

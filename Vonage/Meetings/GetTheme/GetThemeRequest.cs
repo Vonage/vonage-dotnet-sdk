@@ -35,7 +35,8 @@ public readonly struct GetThemeRequest : IVonageRequest
     public static Result<GetThemeRequest> Parse(Guid themeId) =>
         Result<GetThemeRequest>
             .FromSuccess(new GetThemeRequest(themeId))
-            .Bind(VerifyThemeId);
+            .Map(InputEvaluation<GetThemeRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyThemeId));
 
     private static Result<GetThemeRequest> VerifyThemeId(GetThemeRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ThemeId, nameof(ThemeId));

@@ -33,7 +33,8 @@ public readonly struct GetRecordingsRequest : IVonageRequest, IHasSessionId
     public static Result<GetRecordingsRequest> Parse(string sessionId) =>
         Result<GetRecordingsRequest>
             .FromSuccess(new GetRecordingsRequest(sessionId))
-            .Bind(VerifySessionId);
+            .Map(InputEvaluation<GetRecordingsRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifySessionId));
 
     private static Result<GetRecordingsRequest> VerifySessionId(GetRecordingsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));

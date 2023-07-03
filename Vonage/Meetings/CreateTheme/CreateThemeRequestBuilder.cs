@@ -23,7 +23,8 @@ internal class CreateThemeRequestBuilder : IBuilderForBrand, IBuilderForColor, I
                 ThemeName = this.themeName,
                 ShortCompanyUrl = this.shortCompanyUrl,
             })
-            .Bind(VerifyBrandText);
+            .Map(InputEvaluation<CreateThemeRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyBrandText));
 
     /// <inheritdoc />
     public IBuilderForColor WithBrand(string value)
