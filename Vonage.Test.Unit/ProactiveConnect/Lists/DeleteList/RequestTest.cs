@@ -1,5 +1,4 @@
 using System;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Lists.DeleteList;
 using Xunit;
@@ -19,7 +18,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.DeleteList
         public void Parse_ShouldReturnFailure_GivenIdIsEmpty() =>
             DeleteListRequest.Parse(Guid.Empty)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Id cannot be empty."));
+                .BeParsingFailure("Id cannot be empty.");
 
         [Fact]
         public void Parse_ShouldReturnSuccess() =>

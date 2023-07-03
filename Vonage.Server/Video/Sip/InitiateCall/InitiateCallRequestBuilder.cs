@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -43,9 +42,8 @@ internal class InitiateCallRequestBuilder :
                     HasForceMute = this.hasForceMute,
                 },
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(VerifyToken);
+            .Map(InputEvaluation<InitiateCallRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifySessionId, VerifyToken));
 
     /// <inheritdoc />
     public IBuilderForOptionalSip EnableEncryptedMedia()
@@ -118,6 +116,12 @@ internal class InitiateCallRequestBuilder :
         this.token = value;
         return this;
     }
+
+    private static Result<InitiateCallRequest> VerifyApplicationId(InitiateCallRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<InitiateCallRequest> VerifySessionId(InitiateCallRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 
     private static Result<InitiateCallRequest> VerifyToken(InitiateCallRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Token, nameof(request.Token));

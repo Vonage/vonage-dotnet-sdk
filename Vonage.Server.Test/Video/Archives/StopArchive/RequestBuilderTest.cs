@@ -1,7 +1,6 @@
 using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Archives.StopArchive;
 using Xunit;
@@ -27,7 +26,7 @@ namespace Vonage.Server.Test.Video.Archives.StopArchive
                 .WithArchiveId(this.archiveId)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+                .BeParsingFailure("ApplicationId cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenArchiveIdIsEmpty() =>
@@ -36,7 +35,7 @@ namespace Vonage.Server.Test.Video.Archives.StopArchive
                 .WithArchiveId(Guid.Empty)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ArchiveId cannot be empty."));
+                .BeParsingFailure("ArchiveId cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnSuccess_GivenValuesAreProvided() =>

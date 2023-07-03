@@ -31,7 +31,8 @@ public readonly struct ClearListRequest : IVonageRequest
     /// <returns>Success or Failure.</returns>
     public static Result<ClearListRequest> Parse(Guid id) => Result<ClearListRequest>
         .FromSuccess(new ClearListRequest {Id = id})
-        .Bind(VerifyListId);
+        .Map(InputEvaluation<ClearListRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyListId));
 
     private static Result<ClearListRequest> VerifyListId(ClearListRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Id, nameof(request.Id));

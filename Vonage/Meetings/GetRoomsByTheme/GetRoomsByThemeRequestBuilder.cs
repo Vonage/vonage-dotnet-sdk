@@ -23,8 +23,8 @@ internal class GetRoomsByThemeRequestBuilder : IBuilderForThemeId, IOptionalBuil
                 StartId = this.startId,
                 PageSize = this.pageSize,
             })
-            .Bind(VerifyThemeId)
-            .Bind(VerifyPageSize);
+            .Map(InputEvaluation<GetRoomsByThemeRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyThemeId, VerifyPageSize));
 
     /// <inheritdoc />
     public IOptionalBuilder WithEndId(int value)

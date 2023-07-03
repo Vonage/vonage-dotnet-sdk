@@ -1,6 +1,5 @@
 ﻿using System;
 using AutoFixture;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.GetTransfers;
 using Xunit;
@@ -51,7 +50,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetTransfers
                 .WithSubAccountKey(invalidKey)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SubAccountKey cannot be null or whitespace."));
+                .BeParsingFailure("SubAccountKey cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldSetEndDate() =>

@@ -2,7 +2,6 @@
 using System.Drawing;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.CreateTheme;
 using Xunit;
@@ -53,7 +52,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
                 .WithColor(this.mainColor)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("BrandText cannot be null or whitespace."));
+                .BeParsingFailure("BrandText cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnSuccess() =>

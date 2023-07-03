@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.SubAccounts.CreateSubAccount;
@@ -50,7 +49,7 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
                 .WithName(invalidName)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Name cannot be null or whitespace."));
+                .BeParsingFailure("Name cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenNameExceeds80Length() =>
@@ -59,7 +58,7 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
                 .WithName(StringHelper.GenerateString(81))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Name length cannot be higher than 80."));
+                .BeParsingFailure("Name length cannot be higher than 80.");
 
         [Fact]
         public void Build_ShouldSetName() =>

@@ -1,5 +1,4 @@
 using System;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.Cancel;
 using Xunit;
@@ -12,7 +11,7 @@ namespace Vonage.Test.Unit.VerifyV2.Cancel
         public void Create_ShouldReturnFailure_GivenRequestIsEmpty() =>
             CancelRequest.Parse(Guid.Empty)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("RequestId cannot be empty."));
+                .BeParsingFailure("RequestId cannot be empty.");
 
         [Fact]
         public void Create_ShouldReturnSuccess() =>

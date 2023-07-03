@@ -31,7 +31,8 @@ public readonly struct GetListRequest : IVonageRequest
     /// <returns>Success or Failure.</returns>
     public static Result<GetListRequest> Parse(Guid id) => Result<GetListRequest>
         .FromSuccess(new GetListRequest {Id = id})
-        .Bind(VerifyListId);
+        .Map(InputEvaluation<GetListRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyListId));
 
     private static Result<GetListRequest> VerifyListId(GetListRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Id, nameof(request.Id));

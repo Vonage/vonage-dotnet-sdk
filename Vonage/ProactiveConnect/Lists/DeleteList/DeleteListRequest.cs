@@ -31,7 +31,8 @@ public readonly struct DeleteListRequest : IVonageRequest
     /// <returns>Success or Failure.</returns>
     public static Result<DeleteListRequest> Parse(Guid id) => Result<DeleteListRequest>
         .FromSuccess(new DeleteListRequest {Id = id})
-        .Bind(VerifyListId);
+        .Map(InputEvaluation<DeleteListRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyListId));
 
     private static Result<DeleteListRequest> VerifyListId(DeleteListRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Id, nameof(request.Id));

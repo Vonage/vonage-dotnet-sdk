@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Broadcast.GetBroadcast;
 using Xunit;
@@ -27,7 +26,7 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
                 .WithBroadcastId(this.broadcastId)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+                .BeParsingFailure("ApplicationId cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenBroadcastIdIsEmpty() =>
@@ -36,7 +35,7 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast
                 .WithBroadcastId(Guid.Empty)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("BroadcastId cannot be empty."));
+                .BeParsingFailure("BroadcastId cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnSuccess_GivenValuesAreProvided() =>

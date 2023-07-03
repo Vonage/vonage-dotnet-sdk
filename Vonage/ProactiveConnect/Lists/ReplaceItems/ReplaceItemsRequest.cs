@@ -31,7 +31,8 @@ public readonly struct ReplaceItemsRequest : IVonageRequest
     /// <returns>Success or Failure.</returns>
     public static Result<ReplaceItemsRequest> Parse(Guid id) => Result<ReplaceItemsRequest>
         .FromSuccess(new ReplaceItemsRequest {Id = id})
-        .Bind(VerifyListId);
+        .Map(InputEvaluation<ReplaceItemsRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyListId));
 
     private static Result<ReplaceItemsRequest> VerifyListId(ReplaceItemsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Id, nameof(request.Id));

@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Sessions;
 using Vonage.Server.Video.Sessions.CreateSession;
@@ -17,7 +16,7 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
                 .WithArchiveMode(ArchiveMode.Always)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Unable to parse location '1.2.3.4.5'."));
+                .BeParsingFailure("Unable to parse location '1.2.3.4.5'.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenMediaRouteIsNotRoutedWhenArchiveModeIsAlways() =>
@@ -27,8 +26,8 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
                 .WithArchiveMode(ArchiveMode.Always)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage(
-                    "A session with always archive mode must also have the routed media mode."));
+                .BeParsingFailure(
+                    "A session with always archive mode must also have the routed media mode.");
 
         [Fact]
         public void
@@ -39,8 +38,8 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
                 .WithArchiveMode(ArchiveMode.Always)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage(
-                    "A session with always archive mode must also have the routed media mode."));
+                .BeParsingFailure(
+                    "A session with always archive mode must also have the routed media mode.");
 
         [Fact]
         public void Build_ShouldReturnSuccess() =>

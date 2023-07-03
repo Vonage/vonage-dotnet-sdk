@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using EnumsNET;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Authentication;
 using Xunit;
@@ -29,7 +28,7 @@ namespace Vonage.Server.Test.Authentication
         public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
             TokenAdditionalClaims.Parse(value, this.scope, this.role)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeParsingFailure("SessionId cannot be null or whitespace.");
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenAllValuesAreProvided() =>

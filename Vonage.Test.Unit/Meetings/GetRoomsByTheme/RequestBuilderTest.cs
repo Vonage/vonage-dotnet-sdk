@@ -3,7 +3,6 @@ using AutoFixture;
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.GetRoomsByTheme;
 using Xunit;
@@ -51,7 +50,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
                     .WithPageSize(invalidPageSize)
                     .Create()
                     .Should()
-                    .BeFailure(ResultFailure.FromErrorMessage("PageSize cannot be lower than 1.")));
+                    .BeParsingFailure("PageSize cannot be lower than 1."));
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenThemeIdIsNullOrWhitespace() =>
@@ -60,7 +59,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
                 .WithThemeId(Guid.Empty)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ThemeId cannot be empty."));
+                .BeParsingFailure("ThemeId cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnSuccess() =>

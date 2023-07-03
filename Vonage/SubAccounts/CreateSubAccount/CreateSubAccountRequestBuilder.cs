@@ -20,8 +20,8 @@ internal class CreateSubAccountRequestBuilder : IBuilderForName, IBuilderForOpti
                 Secret = this.secret,
                 UsePrimaryAccountBalance = this.useSharedBalance,
             })
-            .Bind(VerifyName)
-            .Bind(VerifyNameLength);
+            .Map(InputEvaluation<CreateSubAccountRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyName, VerifyNameLength));
 
     /// <inheritdoc />
     public IBuilderForOptional DisableSharedAccountBalance()

@@ -1,6 +1,5 @@
 using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -27,10 +26,9 @@ internal class PlayToneIntoConnectionRequestBuilder :
                 SessionId = this.sessionId,
                 Digits = this.digits,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(BuilderExtensions.VerifyConnectionId)
-            .Bind(VerifyDigits);
+            .Map(InputEvaluation<PlayToneIntoConnectionRequest>.Evaluate)
+            .Bind(evaluation =>
+                evaluation.WithRules(VerifyApplicationId, VerifySessionId, VerifyDigits, VerifyConnectionId));
 
     /// <inheritdoc />
     public IBuilderForSessionId WithApplicationId(Guid value)
@@ -60,8 +58,17 @@ internal class PlayToneIntoConnectionRequestBuilder :
         return this;
     }
 
+    private static Result<PlayToneIntoConnectionRequest> VerifyApplicationId(PlayToneIntoConnectionRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<PlayToneIntoConnectionRequest> VerifyConnectionId(PlayToneIntoConnectionRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(request.ConnectionId));
+
     private static Result<PlayToneIntoConnectionRequest> VerifyDigits(PlayToneIntoConnectionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Digits, nameof(request.Digits));
+
+    private static Result<PlayToneIntoConnectionRequest> VerifySessionId(PlayToneIntoConnectionRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

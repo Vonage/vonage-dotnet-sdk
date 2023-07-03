@@ -1,6 +1,5 @@
 using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -27,11 +26,9 @@ internal class SendSignalRequestBuilder :
                 SessionId = this.sessionId,
                 Content = this.content,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(BuilderExtensions.VerifyConnectionId)
-            .Bind(VerifyContentType)
-            .Bind(VerifyContentData);
+            .Map(InputEvaluation<SendSignalRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifySessionId, VerifyContentData,
+                VerifyContentType, VerifyConnectionId));
 
     /// <inheritdoc />
     public IBuilderForSessionId WithApplicationId(Guid value)
@@ -61,11 +58,20 @@ internal class SendSignalRequestBuilder :
         return this;
     }
 
+    private static Result<SendSignalRequest> VerifyApplicationId(SendSignalRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<SendSignalRequest> VerifyConnectionId(SendSignalRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(request.ConnectionId));
+
     private static Result<SendSignalRequest> VerifyContentData(SendSignalRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Data, nameof(SignalContent.Data));
 
     private static Result<SendSignalRequest> VerifyContentType(SendSignalRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Type, nameof(SignalContent.Type));
+
+    private static Result<SendSignalRequest> VerifySessionId(SendSignalRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

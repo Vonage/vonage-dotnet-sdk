@@ -35,7 +35,8 @@ public readonly struct GetRoomRequest : IVonageRequest
     public static Result<GetRoomRequest> Parse(Guid roomId) =>
         Result<GetRoomRequest>
             .FromSuccess(new GetRoomRequest(roomId))
-            .Bind(VerifyRoomId);
+            .Map(InputEvaluation<GetRoomRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyRoomId));
 
     private static Result<GetRoomRequest> VerifyRoomId(GetRoomRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.RoomId, nameof(RoomId));

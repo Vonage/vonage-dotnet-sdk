@@ -1,6 +1,5 @@
 ﻿using System;
 using AutoFixture;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.UpdateRoom;
@@ -43,7 +42,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                 .WithRoomId(this.roomId)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("At least one property must be updated."));
+                .BeParsingFailure("At least one property must be updated.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenRoomIdIsNullOrWhitespace() =>
@@ -53,7 +52,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                 .WithExpiresAt(this.expiresAt)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("RoomId cannot be empty."));
+                .BeParsingFailure("RoomId cannot be empty.");
 
         [Fact]
         public void Build_ShouldSetValues() =>

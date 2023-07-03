@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.DeleteRecording;
 using Xunit;
@@ -26,7 +25,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteRecording
         public void Parse_ShouldReturnFailure_GivenRecordingIdIsNullOrWhitespace() =>
             DeleteRecordingRequest.Parse(Guid.Empty)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("RecordingId cannot be empty."));
+                .BeParsingFailure("RecordingId cannot be empty.");
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

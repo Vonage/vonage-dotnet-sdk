@@ -1,6 +1,5 @@
 ﻿using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
@@ -37,11 +36,9 @@ internal class StartBroadcastRequestBuilder : IBuilderForApplicationId, IBuilder
                 MaxDuration = this.maxDuration,
                 MultiBroadcastTag = this.multiBroadcastTag,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(VerifyMaxDuration)
-            .Bind(VerifyHls)
-            .Bind(VerifyLayout);
+            .Map(InputEvaluation<StartBroadcastRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifySessionId, VerifyHls, VerifyLayout,
+                VerifyMaxDuration));
 
     /// <inheritdoc />
     public IBuilderForSessionId WithApplicationId(Guid value)
@@ -106,6 +103,9 @@ internal class StartBroadcastRequestBuilder : IBuilderForApplicationId, IBuilder
         return this;
     }
 
+    private static Result<StartBroadcastRequest> VerifyApplicationId(StartBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
     private static Result<StartBroadcastRequest> VerifyHls(StartBroadcastRequest request) =>
         request.Outputs.Hls
             .Map(value => value.LowLatency && value.Dvr)
@@ -144,6 +144,9 @@ internal class StartBroadcastRequestBuilder : IBuilderForApplicationId, IBuilder
             .VerifyHigherOrEqualThan(request, request.MaxDuration, MinimumMaxDuration, nameof(request.MaxDuration))
             .Bind(_ => InputValidation.VerifyLowerOrEqualThan(request, request.MaxDuration, MaximumMaxDuration,
                 nameof(request.MaxDuration)));
+
+    private static Result<StartBroadcastRequest> VerifySessionId(StartBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

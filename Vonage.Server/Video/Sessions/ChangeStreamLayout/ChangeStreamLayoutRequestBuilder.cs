@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Sessions.ChangeStreamLayout;
 
@@ -25,8 +25,8 @@ internal class ChangeStreamLayoutRequestBuilder : IBuilderForApplicationId,
                 SessionId = this.sessionId,
                 Items = this.items,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId);
+            .Map(InputEvaluation<ChangeStreamLayoutRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifySessionId));
 
     /// <inheritdoc />
     public IBuilderForSessionId WithApplicationId(Guid value)
@@ -48,6 +48,12 @@ internal class ChangeStreamLayoutRequestBuilder : IBuilderForApplicationId,
         this.sessionId = value;
         return this;
     }
+
+    private static Result<ChangeStreamLayoutRequest> VerifyApplicationId(ChangeStreamLayoutRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<ChangeStreamLayoutRequest> VerifySessionId(ChangeStreamLayoutRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

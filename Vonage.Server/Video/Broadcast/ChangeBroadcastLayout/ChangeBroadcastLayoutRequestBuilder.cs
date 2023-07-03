@@ -1,7 +1,7 @@
 ﻿using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Broadcast.ChangeBroadcastLayout;
 
@@ -23,8 +23,8 @@ internal class ChangeBroadcastLayoutRequestBuilder :
                 BroadcastId = this.broadcastId,
                 Layout = this.layout,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifyBroadcastId);
+            .Map(InputEvaluation<ChangeBroadcastLayoutRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifyBroadcastId));
 
     /// <inheritdoc />
     public IBuilderForBroadcastId WithApplicationId(Guid value)
@@ -46,6 +46,12 @@ internal class ChangeBroadcastLayoutRequestBuilder :
         this.layout = value;
         return this;
     }
+
+    private static Result<ChangeBroadcastLayoutRequest> VerifyApplicationId(ChangeBroadcastLayoutRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<ChangeBroadcastLayoutRequest> VerifyBroadcastId(ChangeBroadcastLayoutRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 }
 
 /// <summary>

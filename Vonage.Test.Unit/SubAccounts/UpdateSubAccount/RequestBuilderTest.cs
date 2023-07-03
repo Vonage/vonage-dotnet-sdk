@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.UpdateSubAccount;
 using Xunit;
@@ -92,9 +91,10 @@ namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
             UpdateSubAccountRequest
                 .Build()
                 .WithSubAccountKey(invalidKey)
+                .SuspendAccount()
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SubAccountKey cannot be null or whitespace."));
+                .BeParsingFailure("SubAccountKey cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenNoPropertyWasChanged() =>
@@ -103,7 +103,7 @@ namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
                 .WithSubAccountKey(this.subAccountKey)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("No property was modified."));
+                .BeParsingFailure("No property was modified.");
 
         [Fact]
         public void Build_ShouldSetName() =>

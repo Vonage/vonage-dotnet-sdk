@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Moderation.MuteStreams;
 using Xunit;
@@ -43,7 +42,7 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
                 .WithConfiguration(this.configuration)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+                .BeParsingFailure("ApplicationId cannot be empty.");
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenExcludedStreamsIdsAreNull() =>
@@ -53,7 +52,7 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
                 .WithConfiguration(new MuteStreamsRequest.MuteStreamsConfiguration(this.fixture.Create<bool>(), null))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ExcludedStreamIds cannot be null."));
+                .BeParsingFailure("ExcludedStreamIds cannot be null.");
 
         [Theory]
         [InlineData("")]
@@ -66,7 +65,7 @@ namespace Vonage.Server.Test.Video.Moderation.MuteStreams
                 .WithConfiguration(this.configuration)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeParsingFailure("SessionId cannot be null or whitespace.");
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

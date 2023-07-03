@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.TransferAmount;
 using Xunit;
@@ -45,7 +44,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount
                     .WithAmount(negativeAmount)
                     .Create()
                     .Should()
-                    .BeFailure(ResultFailure.FromErrorMessage("Amount cannot be negative.")));
+                    .BeParsingFailure("Amount cannot be negative."));
 
         [Theory]
         [InlineData("")]
@@ -59,7 +58,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount
                 .WithAmount(this.amount)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("From cannot be null or whitespace."));
+                .BeParsingFailure("From cannot be null or whitespace.");
 
         [Theory]
         [InlineData("")]
@@ -73,7 +72,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount
                 .WithAmount(this.amount)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("To cannot be null or whitespace."));
+                .BeParsingFailure("To cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldSetAmount() =>

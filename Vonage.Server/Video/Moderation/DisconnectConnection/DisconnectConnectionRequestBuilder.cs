@@ -1,7 +1,7 @@
 using System;
 using Vonage.Common.Client;
-using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 
 namespace Vonage.Server.Video.Moderation.DisconnectConnection;
 
@@ -23,9 +23,8 @@ internal class DisconnectConnectionRequestBuilder :
                 ConnectionId = this.connectionId,
                 SessionId = this.sessionId,
             })
-            .Bind(BuilderExtensions.VerifyApplicationId)
-            .Bind(BuilderExtensions.VerifySessionId)
-            .Bind(BuilderExtensions.VerifyConnectionId);
+            .Map(InputEvaluation<DisconnectConnectionRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyApplicationId, VerifySessionId, VerifyConnectionId));
 
     /// <inheritdoc />
     public IBuilderForSessionId WithApplicationId(Guid value)
@@ -47,6 +46,15 @@ internal class DisconnectConnectionRequestBuilder :
         this.sessionId = value;
         return this;
     }
+
+    private static Result<DisconnectConnectionRequest> VerifyApplicationId(DisconnectConnectionRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<DisconnectConnectionRequest> VerifyConnectionId(DisconnectConnectionRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(request.ConnectionId));
+
+    private static Result<DisconnectConnectionRequest> VerifySessionId(DisconnectConnectionRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
 
 /// <summary>

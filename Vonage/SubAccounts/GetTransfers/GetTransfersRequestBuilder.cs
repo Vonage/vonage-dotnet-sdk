@@ -20,7 +20,8 @@ internal class GetTransfersRequestBuilder : IBuilderForOptional, IBuilderForStar
                 EndDate = this.endDate,
                 SubAccountKey = this.subAccountKey,
             })
-            .Bind(VerifySubAccountKey);
+            .Map(InputEvaluation<GetTransfersRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifySubAccountKey));
 
     /// <inheritdoc />
     public IBuilderForOptional WithEndDate(DateTimeOffset value)

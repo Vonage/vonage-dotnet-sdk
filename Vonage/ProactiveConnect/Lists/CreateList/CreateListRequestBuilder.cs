@@ -23,14 +23,17 @@ internal class CreateListRequestBuilder : IBuilderForName, IBuilderForOptional
             Tags = this.tags.ToList(),
             DataSource = this.dataSource,
         })
-        .Bind(VerifyNameNotEmpty)
-        .Bind(VerifyNameLength)
-        .Bind(VerifyDescriptionLength)
-        .Bind(VerifyTagsCount)
-        .Bind(VerifyAttributesNameLength)
-        .Bind(VerifyAttributesAliasLength)
-        .Bind(VerifyIntegrationIdNotEmptyWhenSalesforce)
-        .Bind(VerifySoqlNotEmptyWhenSalesforce);
+        .Map(InputEvaluation<CreateListRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(
+            VerifyNameNotEmpty,
+            VerifyNameLength,
+            VerifyDescriptionLength,
+            VerifyTagsCount,
+            VerifyAttributesNameLength,
+            VerifyAttributesAliasLength,
+            VerifyIntegrationIdNotEmptyWhenSalesforce,
+            VerifySoqlNotEmptyWhenSalesforce
+        ));
 
     /// <inheritdoc />
     public IBuilderForOptional WithAttribute(ListAttribute value)

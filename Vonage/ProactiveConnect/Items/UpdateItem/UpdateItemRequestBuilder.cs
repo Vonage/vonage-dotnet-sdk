@@ -22,9 +22,8 @@ internal class UpdateItemRequestBuilder : IBuilderForListId, IBuilderForItemId, 
                 ItemId = this.itemId,
                 Data = new ReadOnlyDictionary<string, object>(this.data),
             })
-            .Bind(VerifyListId)
-            .Bind(VerifyItemId)
-            .Bind(VerifyData);
+            .Map(InputEvaluation<UpdateItemRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyListId, VerifyItemId, VerifyData));
 
     /// <inheritdoc />
     public IBuilderForCustomData WithCustomData(KeyValuePair<string, object> value)

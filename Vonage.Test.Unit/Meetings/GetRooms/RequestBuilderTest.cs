@@ -1,6 +1,5 @@
 ﻿using FsCheck;
 using FsCheck.Xunit;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.GetRooms;
 using Xunit;
@@ -17,7 +16,7 @@ namespace Vonage.Test.Unit.Meetings.GetRooms
                     .WithPageSize(invalidPageSize)
                     .Create()
                     .Should()
-                    .BeFailure(ResultFailure.FromErrorMessage("PageSize cannot be lower than 1.")));
+                    .BeParsingFailure("PageSize cannot be lower than 1."));
 
         [Fact]
         public void Build_ShouldReturnNoEndId_GivenDefault() =>

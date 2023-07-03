@@ -42,7 +42,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Brand cannot be null or whitespace."));
+                .BeParsingFailure("Brand cannot be null or whitespace.");
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenChannelTimeoutIsHigherThanMaximum() =>
@@ -52,7 +52,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .WithChannelTimeout(901)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ChannelTimeout cannot be higher than 900."));
+                .BeParsingFailure("ChannelTimeout cannot be higher than 900.");
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenChannelTimeoutIsLowerThanMinimum() =>
@@ -62,7 +62,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .WithChannelTimeout(59)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ChannelTimeout cannot be lower than 60."));
+                .BeParsingFailure("ChannelTimeout cannot be lower than 60.");
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenCodeLengthIsHigherThanMaximum() =>
@@ -72,7 +72,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .WithCodeLength(11)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("CodeLength cannot be higher than 10."));
+                .BeParsingFailure("CodeLength cannot be higher than 10.");
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenCodeLengthIsLowerThanMinimum() =>
@@ -82,7 +82,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .WithCodeLength(3)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("CodeLength cannot be lower than 4."));
+                .BeParsingFailure("CodeLength cannot be lower than 4.");
 
         [Theory]
         [InlineData("")]

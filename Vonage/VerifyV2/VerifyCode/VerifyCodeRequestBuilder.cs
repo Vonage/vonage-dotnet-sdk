@@ -17,8 +17,8 @@ internal class VerifyCodeRequestBuilder : IVonageRequestBuilder<VerifyCodeReques
             Code = this.code,
             RequestId = this.requestId,
         })
-        .Bind(VerifyRequestIdNotEmpty)
-        .Bind(VerifyCodeNotEmpty);
+        .Map(InputEvaluation<VerifyCodeRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyRequestIdNotEmpty, VerifyCodeNotEmpty));
 
     /// <inheritdoc />
     public IVonageRequestBuilder<VerifyCodeRequest> WithCode(string value)

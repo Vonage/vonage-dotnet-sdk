@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.GetRecordings;
 using Xunit;
@@ -31,7 +30,7 @@ namespace Vonage.Test.Unit.Meetings.GetRecordings
         public void Parse_ShouldReturnFailure_GivenSessionIdIsNullOrWhitespace(string value) =>
             GetRecordingsRequest.Parse(value)
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeParsingFailure("SessionId cannot be null or whitespace.");
 
         [Fact]
         public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>

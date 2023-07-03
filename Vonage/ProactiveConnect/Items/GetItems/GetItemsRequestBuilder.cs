@@ -22,7 +22,8 @@ internal class GetItemsRequestBuilder : IBuilderForListId, IBuilderForPage, IBui
                 PageSize = this.pageSize,
                 Order = this.order,
             })
-            .Bind(VerifyListId);
+            .Map(InputEvaluation<GetItemsRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyListId));
 
     /// <inheritdoc />
     public IVonageRequestBuilder<GetItemsRequest> OrderByDescending()

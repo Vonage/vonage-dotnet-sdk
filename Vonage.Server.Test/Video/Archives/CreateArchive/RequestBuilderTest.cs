@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Archives.CreateArchive;
 using Xunit;
@@ -108,7 +107,7 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
                 .WithSessionId(this.sessionId)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+                .BeParsingFailure("ApplicationId cannot be empty.");
 
         [Theory]
         [InlineData("")]
@@ -120,7 +119,7 @@ namespace Vonage.Server.Test.Video.Archives.CreateArchive
                 .WithSessionId(value)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeParsingFailure("SessionId cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithDefaultValues() =>

@@ -2,7 +2,6 @@
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Video.Broadcast.StartBroadcast;
 using Xunit;
@@ -93,7 +92,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithOutputs(this.outputs)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ApplicationId cannot be empty."));
+                .BeParsingFailure("ApplicationId cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenDvrAndLowLatencyAreBothTrue() =>
@@ -107,7 +106,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 })
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Dvr and LowLatency cannot be both set to true."));
+                .BeParsingFailure("Dvr and LowLatency cannot be both set to true.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenLayoutScreenshareTypeIsSetAndStylesheetIsFilled() =>
@@ -118,7 +117,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithOutputs(this.outputs)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Stylesheet should be null when screenshare type is set."));
+                .BeParsingFailure("Stylesheet should be null when screenshare type is set.");
 
         [Theory]
         [InlineData(LayoutType.Pip)]
@@ -132,7 +131,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithOutputs(this.outputs)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Type should be BestFit when screenshare type is set."));
+                .BeParsingFailure("Type should be BestFit when screenshare type is set.");
 
         [Theory]
         [InlineData("")]
@@ -146,8 +145,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithOutputs(this.outputs)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage(
-                    "Stylesheet cannot be null or whitespace when type is Custom."));
+                .BeParsingFailure(
+                    "Stylesheet cannot be null or whitespace when type is Custom.");
 
         [Theory]
         [InlineData(LayoutType.BestFit)]
@@ -162,8 +161,8 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithOutputs(this.outputs)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage(
-                    "Stylesheet should be null or whitespace when type is not Custom."));
+                .BeParsingFailure(
+                    "Stylesheet should be null or whitespace when type is not Custom.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenMaxDurationIsHigherThanMaximumValue() =>
@@ -171,7 +170,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithMaxDuration(59)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("MaxDuration cannot be lower than 60."));
+                .BeParsingFailure("MaxDuration cannot be lower than 60.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenMaxDurationIsLowerThanMinimumValue() =>
@@ -179,7 +178,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithMaxDuration(59)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("MaxDuration cannot be lower than 60."));
+                .BeParsingFailure("MaxDuration cannot be lower than 60.");
 
         [Theory]
         [InlineData("")]
@@ -193,7 +192,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithOutputs(this.outputs)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("SessionId cannot be null or whitespace."));
+                .BeParsingFailure("SessionId cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldReturnSuccess_WithDefaultValues() =>

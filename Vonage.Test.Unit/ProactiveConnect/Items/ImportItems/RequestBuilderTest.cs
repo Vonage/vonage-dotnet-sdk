@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Items.ImportItems;
 using Xunit;
@@ -37,7 +36,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.ImportItems
                 .WithFileData(Array.Empty<byte>())
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("File cannot be empty."));
+                .BeParsingFailure("File cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenFilePathIsIncorrect() =>
@@ -46,7 +45,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.ImportItems
                 .WithFilePath(this.fixture.Create<string>())
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("File cannot be empty."));
+                .BeParsingFailure("File cannot be empty.");
 
         [Fact]
         public void Build_ShouldReturnFailure_GivenListIdIsEmpty() =>
@@ -55,7 +54,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.ImportItems
                 .WithFilePath(this.filePath)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ListId cannot be empty."));
+                .BeParsingFailure("ListId cannot be empty.");
 
         [Fact]
         public void Build_ShouldSetFile_GivenFileIsProvided() =>
