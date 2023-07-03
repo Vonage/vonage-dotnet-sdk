@@ -31,7 +31,8 @@ public readonly struct ExtractItemsRequest : IVonageRequest
     /// <returns>Success or Failure.</returns>
     public static Result<ExtractItemsRequest> Parse(Guid id) => Result<ExtractItemsRequest>
         .FromSuccess(new ExtractItemsRequest {ListId = id})
-        .Bind(VerifyListId);
+        .Map(InputEvaluation<ExtractItemsRequest>.Evaluate)
+        .Bind(evaluation => evaluation.WithRules(VerifyListId));
 
     private static Result<ExtractItemsRequest> VerifyListId(ExtractItemsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ListId, nameof(request.ListId));

@@ -1,6 +1,5 @@
 using System;
 using AutoFixture;
-using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Items.GetItems;
@@ -31,7 +30,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItems
                 .WithPageSize(this.pageSize)
                 .Create()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("ListId cannot be empty."));
+                .BeParsingFailure("ListId cannot be empty.");
 
         [Fact]
         public void Build_ShouldSetListId() =>
