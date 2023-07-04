@@ -21,10 +21,12 @@ public static class ServiceCollectionExtensions
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().MeetingsClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumbersClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SmsClient);
@@ -47,10 +49,12 @@ public static class ServiceCollectionExtensions
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().MeetingsClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumbersClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SmsClient);
