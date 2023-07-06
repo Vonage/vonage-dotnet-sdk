@@ -1,3 +1,30 @@
+# v6.7.0 (2023-07-05)
+
+* feat: add specific object for ApiKey
+* feat: add Type property on Failures
+* feat: proactive connect
+* feat: add MeetingsApi and ProactiveConnectApi clients on service injection
+* refactor: failure extensions
+* build: packages update
+* doc: update supported apis
+* release: v6.7.0
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.6.0...v6.7.0
+
+---
+
+# v6.6.0 (2023-06-27)
+
+* feat: meetings Api
+* refactor: e2e testing
+* doc: changelog update
+* doc: add service registration in readme
+* release: upgrade version
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.5.0...v6.6.0
+
+---
+
 # v6.5.0 (2023-06-22)
 
 * feat: subaccounts
