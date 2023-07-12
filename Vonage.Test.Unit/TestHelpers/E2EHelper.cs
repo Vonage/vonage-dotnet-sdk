@@ -6,15 +6,7 @@ namespace Vonage.Test.Unit.TestHelpers
 {
     internal class E2EHelper : IDisposable
     {
-        public WireMockServer Server { get; }
-        public VonageClient VonageClient { get; }
-
-        /// <summary>
-        ///     Initializes a helper for E2E testing.
-        /// </summary>
-        /// <param name="appSettingsKey">The appSettings key to override with Wiremock's server url.</param>
-        /// <param name="credentials">Expected credentials.</param>
-        public E2EHelper(string appSettingsKey, Credentials credentials)
+        private E2EHelper(string appSettingsKey, Credentials credentials)
         {
             this.Server = WireMockServer.Start();
             var configuration = new Configuration
@@ -27,10 +19,25 @@ namespace Vonage.Test.Unit.TestHelpers
             this.VonageClient = new VonageClient(credentials, configuration);
         }
 
+        public WireMockServer Server { get; }
+        public VonageClient VonageClient { get; }
+
         public void Dispose()
         {
             this.Server.Stop();
             this.Server.Dispose();
         }
+
+        public static E2EHelper WithBasicCredentials(string appSettingsKey) =>
+            new E2EHelper(appSettingsKey, CreateBasicCredentials());
+
+        public static E2EHelper WithBearerCredentials(string appSettingsKey) =>
+            new E2EHelper(appSettingsKey, CreateBearerCredentials());
+
+        private static Credentials CreateBasicCredentials() => Credentials.FromApiKeyAndSecret("790fc5e5", "Aa3456789");
+
+        private static Credentials CreateBearerCredentials() => Credentials.FromAppIdAndPrivateKey(
+            Guid.NewGuid().ToString(),
+            Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey"));
     }
 }

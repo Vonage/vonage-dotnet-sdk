@@ -42,7 +42,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="SubAccounts\GetBalanceTransfers\"/>
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

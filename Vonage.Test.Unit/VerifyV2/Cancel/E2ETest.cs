@@ -2,7 +2,6 @@
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.Request;
 using Vonage.Test.Unit.TestHelpers;
 using Vonage.VerifyV2.Cancel;
 using WireMock.ResponseBuilders;
@@ -15,13 +14,10 @@ namespace Vonage.Test.Unit.VerifyV2.Cancel
     {
         private readonly E2EHelper helper;
 
-        public E2ETest() => this.helper = new E2EHelper(
-            "Vonage.Url.Api",
-            Credentials.FromAppIdAndPrivateKey(Guid.NewGuid().ToString(),
-                Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey")));
+        public E2ETest() => this.helper = E2EHelper.WithBearerCredentials("Vonage.Url.Api");
 
         [Fact]
-        public async Task CancelVerificationRequest()
+        public async Task CancelVerification()
         {
             var requestId = Guid.NewGuid();
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
