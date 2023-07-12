@@ -6,7 +6,6 @@ using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.Request;
 using Vonage.Test.Unit.TestHelpers;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Email;
@@ -28,10 +27,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         public E2ETest()
         {
-            this.helper = new E2EHelper(
-                "Vonage.Url.Api",
-                Credentials.FromAppIdAndPrivateKey(Guid.NewGuid().ToString(),
-                    Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey")));
+            this.helper = E2EHelper.WithBearerCredentials("Vonage.Url.Api");
             this.serialization = new SerializationTestHelper(
                 typeof(SerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
@@ -125,7 +121,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         private void InitializeWireMock(string bodyScenario) =>
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
+                    .WithPath("/v2/verify")
                     .WithHeader("Authorization", "Bearer *")
                     .WithBody(this.serialization.GetRequestJson(bodyScenario))
                     .UsingPost())

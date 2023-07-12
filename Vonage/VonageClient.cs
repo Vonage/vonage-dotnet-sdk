@@ -135,7 +135,7 @@ public class VonageClient
         this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
         this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
         var meetingsConfiguration = new VonageHttpClientConfiguration(
-            InitializeHttpClient(Configuration.Instance.MeetingsApiUrl),
+            InitializeHttpClient(this.GetConfiguration().MeetingsApiUrl),
             this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
         this.MeetingsClient = new MeetingsClient(meetingsConfiguration, new FileSystem());
