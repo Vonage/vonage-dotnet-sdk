@@ -121,7 +121,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         private void InitializeWireMock(string bodyScenario) =>
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify")
+                    .WithPath("/v2/verify")
                     .WithHeader("Authorization", "Bearer *")
                     .WithBody(this.serialization.GetRequestJson(bodyScenario))
                     .UsingPost())

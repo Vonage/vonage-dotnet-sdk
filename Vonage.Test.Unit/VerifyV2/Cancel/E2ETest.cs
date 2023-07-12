@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit.VerifyV2.Cancel
         {
             var requestId = Guid.NewGuid();
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/v2/verify/{requestId}")
+                    .WithPath($"/v2/verify/{requestId}")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
