@@ -1,12 +1,14 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.SubAccounts.GetTransfers;
 using Vonage.Test.Unit.TestHelpers;
 using WireMock.ResponseBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
+namespace Vonage.Test.Unit.SubAccounts.GetTransfers.Credit
 {
     [Trait("Category", "E2E")]
     public class E2ETest
@@ -21,15 +23,19 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
         }
 
         [Fact]
-        public async Task GetSubAccount()
+        public async Task GetCreditTransfers()
         {
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/accounts/790fc5e5/subaccounts")
+                    .WithPath("/accounts/790fc5e5/credit-transfers")
+                    .WithParam("start_date", "2018-03-02T17:34:49Z")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.SubAccountsClient.GetSubAccountsAsync();
+            var result = await this.helper.VonageClient.SubAccountsClient.GetCreditTransfersAsync(GetTransfersRequest
+                .Build()
+                .WithStartDate(DateTimeOffset.Parse("2018-03-02T17:34:49Z"))
+                .Create());
             result.Should().BeSuccess();
         }
     }

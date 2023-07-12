@@ -25,7 +25,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccount
         public async Task GetSubAccount()
         {
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/accounts/790fc5e5/subaccounts/456iFuDL099")
+                    .WithPath("/accounts/790fc5e5/subaccounts/456iFuDL099")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

@@ -25,7 +25,7 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
         public async Task CreateSubAccount()
         {
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithUrl($"{this.helper.Server.Url}/accounts/790fc5e5/subaccounts")
+                    .WithPath("/accounts/790fc5e5/subaccounts")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
                     .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
