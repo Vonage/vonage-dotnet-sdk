@@ -28,15 +28,14 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
         [Fact]
         public async Task VerifyCode()
         {
-            var requestId = Guid.NewGuid();
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath($"/v2/verify/{requestId}")
+                    .WithPath("/v2/verify/68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb")
                     .WithHeader("Authorization", "Bearer *")
                     .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
             var result = await this.helper.VonageClient.VerifyV2Client.VerifyCodeAsync(VerifyCodeRequest.Build()
-                .WithRequestId(requestId)
+                .WithRequestId(Guid.Parse("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb"))
                 .WithCode("123456789")
                 .Create());
             result.Should().BeSuccess();

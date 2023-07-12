@@ -19,13 +19,14 @@ namespace Vonage.Test.Unit.VerifyV2.Cancel
         [Fact]
         public async Task CancelVerification()
         {
-            var requestId = Guid.NewGuid();
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath($"/v2/verify/{requestId}")
+                    .WithPath("/v2/verify/68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            var result = await this.helper.VonageClient.VerifyV2Client.CancelAsync(CancelRequest.Parse(requestId));
+            var result =
+                await this.helper.VonageClient.VerifyV2Client.CancelAsync(
+                    CancelRequest.Parse(Guid.Parse("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb")));
             result.Should().BeSuccess();
         }
     }
