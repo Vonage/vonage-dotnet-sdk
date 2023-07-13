@@ -155,8 +155,8 @@ Provide the vonage URLs, API key, secret, and application credentials (for JWT) 
     "Vonage.UserAgent": "myApp/1.0",
     "Vonage.Url.Rest": "https://rest.nexmo.com",
     "Vonage.Url.Api": "https://api.nexmo.com",
-    "Vonage.Meetings.Url.Api": "https://api-eu.vonage.com",
-    "Vonage.Video.Url.Api": "https://video.api.vonage.com",
+    "Vonage.Url.Api.Europe": "https://api-eu.vonage.com",
+    "Vonage.Url.Api.Video": "https://video.api.vonage.com",
     "Vonage_key": "VONAGE-API-KEY",
     "Vonage_secret": "VONAGE-API-SECRET",    
     "Vonage.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
@@ -175,7 +175,7 @@ Access the Configuration instance and set the appropriate key in your code for e
 ```cshap
 Configuration.Instance.Settings["appSettings:Vonage.Url.Api"] = "https://www.example.com/api";
 Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"] = "https://www.example.com/rest";
-Configuration.Instance.Settings["appSettings:Vonage.Meetings.Url.Api"] = "https://www.meetings.example.com/api";
+Configuration.Instance.Settings["appSettings:Vonage.Url.Api.Europe"] = "https://www.meetings.example.com/api";
 Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://www.video.example.com/rest";
 ```
 
@@ -193,8 +193,8 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
 | Vonage.signing_method    | Optional. This is the method used for signing SMS messages                                                                       |
 | Vonage.Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           |
 | Vonage.Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 |
-| Vonage.Meetings.Url.Api  | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                |
-| Vonage.Video.Url.Api     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
+| Vonage.Url.Api.Europe    | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                |
+| Vonage.Url.Api.Video     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
 | Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             |
 | Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
 

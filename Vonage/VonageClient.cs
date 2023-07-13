@@ -134,11 +134,11 @@ public class VonageClient
             this.Credentials.GetUserAgent());
         this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
         this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
-        var meetingsConfiguration = new VonageHttpClientConfiguration(
-            InitializeHttpClient(this.GetConfiguration().MeetingsApiUrl),
+        var europeApiConfiguration = new VonageHttpClientConfiguration(
+            InitializeHttpClient(this.GetConfiguration().EuropeApiUrl),
             this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
-        this.MeetingsClient = new MeetingsClient(meetingsConfiguration, new FileSystem());
-        this.ProactiveConnectClient = new ProactiveConnectClient(meetingsConfiguration);
+        this.MeetingsClient = new MeetingsClient(europeApiConfiguration, new FileSystem());
+        this.ProactiveConnectClient = new ProactiveConnectClient(europeApiConfiguration);
     }
 }
