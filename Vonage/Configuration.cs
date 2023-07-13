@@ -60,14 +60,14 @@ public sealed class Configuration
     public HttpMessageHandler ClientHandler { get; set; }
 
     /// <summary>
+    ///     Retrieves the Europe Api Url.
+    /// </summary>
+    public Uri EuropeApiUrl => new(this.Settings["appSettings:Vonage.Url.Api.Europe"] ?? string.Empty);
+
+    /// <summary>
     ///     Retrieves the unique instance (Singleton).
     /// </summary>
     public static Configuration Instance { get; } = new();
-
-    /// <summary>
-    ///     Retrieves the Meetings Api Url.
-    /// </summary>
-    public Uri MeetingsApiUrl => new(this.Settings["appSettings:Vonage.Meetings.Url.Api"] ?? string.Empty);
 
     /// <summary>
     ///     Retrieves the Nexmo Api Url.
@@ -112,7 +112,7 @@ public sealed class Configuration
                 {
                     {"appSettings:Vonage.Url.Rest", "https://rest.nexmo.com"},
                     {"appSettings:Vonage.Url.Api", "https://api.nexmo.com"},
-                    {"appSettings:Vonage.Meetings.Url.Api", "https://api-eu.vonage.com"},
+                    {"appSettings:Vonage.Url.Api.Europe", "https://api-eu.vonage.com"},
                     {"appSettings:Vonage.Video.Url.Api", "https://video.api.vonage.com"},
                     {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
                 })
