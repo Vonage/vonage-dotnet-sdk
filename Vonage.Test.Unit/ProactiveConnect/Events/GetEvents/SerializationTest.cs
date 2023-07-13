@@ -9,7 +9,7 @@ using Vonage.ProactiveConnect.Events;
 using Vonage.ProactiveConnect.Events.GetEvents;
 using Xunit;
 
-namespace Vonage.Test.Unit.ProactiveConnect.Events
+namespace Vonage.Test.Unit.ProactiveConnect.Events.GetEvents
 {
     public class SerializationTest
     {
