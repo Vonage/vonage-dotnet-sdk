@@ -24,7 +24,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItems
                     .WithParam("page_size", "50")
                     .WithParam("order", "asc")
                     .WithHeader("Authorization", "Bearer *")
-                    .UsingPost())
+                    .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
             var result = await this.helper.VonageClient.ProactiveConnectClient.GetItemsAsync(GetItemsRequest.Build()
