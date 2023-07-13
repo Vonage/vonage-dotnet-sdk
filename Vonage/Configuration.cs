@@ -102,7 +102,7 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Video Api Url.
     /// </summary>
-    public Uri VideoApiUrl => new(this.Settings["appSettings:Vonage.Video.Url.Api"] ?? string.Empty);
+    public Uri VideoApiUrl => new(this.Settings["appSettings:Vonage.Url.Api.Video"] ?? string.Empty);
 
     internal Configuration()
     {
@@ -113,7 +113,7 @@ public sealed class Configuration
                     {"appSettings:Vonage.Url.Rest", "https://rest.nexmo.com"},
                     {"appSettings:Vonage.Url.Api", "https://api.nexmo.com"},
                     {"appSettings:Vonage.Url.Api.Europe", "https://api-eu.vonage.com"},
-                    {"appSettings:Vonage.Video.Url.Api", "https://video.api.vonage.com"},
+                    {"appSettings:Vonage.Url.Api.Video", "https://video.api.vonage.com"},
                     {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
                 })
                 .AddJsonFile("settings.json", true, true)
