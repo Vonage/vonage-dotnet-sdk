@@ -7,7 +7,7 @@ using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.UpdateList;
 using Xunit;
 
-namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
+namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateList
 {
     public class SerializationTest
     {

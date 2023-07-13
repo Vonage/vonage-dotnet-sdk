@@ -10,18 +10,17 @@ using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.ProactiveConnect;
-using Vonage.ProactiveConnect.Lists;
-using Vonage.ProactiveConnect.Lists.UpdateList;
+using Vonage.ProactiveConnect.Events.GetEvents;
 using Xunit;
 
-namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
+namespace Vonage.Test.Unit.ProactiveConnect.Events.GetEvents
 {
     public class UseCaseTest : BaseUseCase, IUseCaseWithResponse
     {
-        private Func<VonageHttpClientConfiguration, Task<Result<List>>> Operation =>
-            configuration => new ProactiveConnectClient(configuration).UpdateListAsync(this.request);
+        private Func<VonageHttpClientConfiguration, Task<Result<PaginationResult<EmbeddedEvents>>>> Operation =>
+            configuration => new ProactiveConnectClient(configuration).GetEventsAsync(this.request);
 
-        private readonly Result<UpdateListRequest> request;
+        private readonly Result<GetEventsRequest> request;
 
         public UseCaseTest() => this.request = BuildRequest(this.helper.Fixture);
 
@@ -41,9 +40,9 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
             await this.helper
-                .VerifyReturnsFailureGivenRequestIsFailure<UpdateListRequest, List>(
+                .VerifyReturnsFailureGivenRequestIsFailure<GetEventsRequest, PaginationResult<EmbeddedEvents>>(
                     (configuration, failureRequest) =>
-                        new ProactiveConnectClient(configuration).UpdateListAsync(failureRequest));
+                        new ProactiveConnectClient(configuration).GetEventsAsync(failureRequest));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
@@ -57,14 +56,11 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateItem
         private ExpectedRequest BuildExpectedRequest() =>
             new ExpectedRequest
             {
-                Method = HttpMethod.Put,
+                Method = HttpMethod.Get,
                 RequestUri = new Uri(UseCaseHelper.GetPathFromRequest(this.request), UriKind.Relative),
-                Content = this.request
-                    .Map(value => this.helper.Serializer.SerializeObject(value))
-                    .IfFailure(string.Empty),
             };
 
-        private static Result<UpdateListRequest> BuildRequest(ISpecimenBuilder fixture) =>
-            UpdateListRequest.Build().WithListId(fixture.Create<Guid>()).WithName(fixture.Create<string>()).Create();
+        private static Result<GetEventsRequest> BuildRequest(ISpecimenBuilder fixture) =>
+            GetEventsRequest.Build().WithPage(fixture.Create<int>()).WithPageSize(fixture.Create<int>()).Create();
     }
 }

@@ -655,16 +655,16 @@
         <None Include="ProactiveConnect\Lists\GetLists\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="ProactiveConnect\Lists\UpdateItem\Data\ShouldDeserialize200-response.json">
+        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="ProactiveConnect\Lists\UpdateItem\Data\ShouldSerializeWithMandatoryValues-request.json">
+        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldSerializeWithMandatoryValues-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="ProactiveConnect\Lists\UpdateItem\Data\ShouldSerializeWithManualDataSource-request.json">
+        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldSerializeWithManualDataSource-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="ProactiveConnect\Lists\UpdateItem\Data\ShouldSerializeWithSalesforceDataSource-request.json">
+        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldSerializeWithSalesforceDataSource-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="ProactiveConnect\Items\GetItems\Data\ShouldDeserialize200-response.json">
@@ -833,6 +833,12 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="SubAccounts\GetTransfers\Credit\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ProactiveConnect\Events\GetEvents\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ProactiveConnect\Items\ImportItems\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

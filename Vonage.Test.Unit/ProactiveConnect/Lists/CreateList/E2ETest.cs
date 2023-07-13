@@ -1,13 +1,12 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.SubAccounts.CreateSubAccount;
+using Vonage.ProactiveConnect.Lists.CreateList;
 using WireMock.ResponseBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
+namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
 {
-    [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
         public E2ETest() : base(typeof(SerializationTest).Namespace)
@@ -15,20 +14,19 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
         }
 
         [Fact]
-        public async Task CreateSubAccount()
+        public async Task CreateLists()
         {
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/accounts/790fc5e5/subaccounts")
-                    .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
+                    .WithPath("/v0.1/bulk/lists")
+                    .WithHeader("Authorization", "Bearer *")
+                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest
+                        .ShouldSerializeWithMandatoryValues)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.SubAccountsClient.CreateSubAccountAsync(CreateSubAccountRequest
+            var result = await this.helper.VonageClient.ProactiveConnectClient.CreateListAsync(CreateListRequest
                 .Build()
-                .WithName("My SubAccount")
-                .WithSecret("123456789AbcDef")
-                .DisableSharedAccountBalance()
+                .WithName("my name")
                 .Create());
             result.Should().BeSuccess();
         }

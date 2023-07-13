@@ -2,13 +2,12 @@
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.SubAccounts.GetTransfers;
+using Vonage.ProactiveConnect.Items.GetItem;
 using WireMock.ResponseBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.SubAccounts.GetTransfers.Balance
+namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
 {
-    [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
         public E2ETest() : base(typeof(SerializationTest).Namespace)
@@ -16,18 +15,19 @@ namespace Vonage.Test.Unit.SubAccounts.GetTransfers.Balance
         }
 
         [Fact]
-        public async Task GetBalanceTransfers()
+        public async Task GetItem()
         {
             this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/accounts/790fc5e5/balance-transfers")
-                    .WithParam("start_date", "2018-03-02T17:34:49Z")
-                    .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
+                    .WithPath(
+                        "/v0.1/bulk/lists/95a462d3-ed87-4aa5-9d91-098e08093b0b/items/0f3e672d-e60e-4869-9eac-fce9047532b5")
+                    .WithHeader("Authorization", "Bearer *")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.SubAccountsClient.GetBalanceTransfersAsync(GetTransfersRequest
+            var result = await this.helper.VonageClient.ProactiveConnectClient.GetItemAsync(GetItemRequest
                 .Build()
-                .WithStartDate(DateTimeOffset.Parse("2018-03-02T17:34:49Z"))
+                .WithListId(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b"))
+                .WithItemId(new Guid("0f3e672d-e60e-4869-9eac-fce9047532b5"))
                 .Create());
             result.Should().BeSuccess();
         }

@@ -1,28 +1,23 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.TransferAmount;
-using Vonage.Test.Unit.TestHelpers;
 using WireMock.ResponseBuilders;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Credit
 {
     [Trait("Category", "E2E")]
-    public class E2ETest
+    public class E2ETest : E2EBase
     {
-        private readonly E2EHelper helper;
-        private readonly SerializationTestHelper serialization;
         private readonly SerializationTestHelper serializationRequest;
 
-        public E2ETest()
+        public E2ETest() : base(typeof(SerializationTest).Namespace)
         {
-            this.helper = SubAccountsHelper.BuildTestHelper();
-            this.serialization = SubAccountsHelper.BuildSerializationHelper(typeof(SerializationTest).Namespace);
-            this.serializationRequest =
-                SubAccountsHelper.BuildSerializationHelper(
-                    typeof(TransferAmount.SerializationTest).Namespace);
+            this.serializationRequest = new SerializationTestHelper(typeof(TransferAmount.SerializationTest).Namespace,
+                JsonSerializer.BuildWithSnakeCase());
         }
 
         [Fact]
