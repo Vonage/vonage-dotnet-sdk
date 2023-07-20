@@ -23,15 +23,15 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Balance
         [Fact]
         public async Task TransferAmount()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/balance-transfers")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
                     .WithBody(this.serializationRequest.GetRequestJson(nameof(SubAccounts.TransferAmount
                         .SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.SubAccountsClient.TransferBalanceAsync(TransferAmountRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.SubAccountsClient.TransferBalanceAsync(TransferAmountRequest
                 .Build()
                 .WithFrom("7c9738e6")
                 .WithTo("ad6dc56f")

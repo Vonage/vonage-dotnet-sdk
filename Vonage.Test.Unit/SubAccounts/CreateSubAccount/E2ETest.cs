@@ -17,14 +17,14 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
         [Fact]
         public async Task CreateSubAccount()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/subaccounts")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
+                    .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.SubAccountsClient.CreateSubAccountAsync(CreateSubAccountRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.SubAccountsClient.CreateSubAccountAsync(CreateSubAccountRequest
                 .Build()
                 .WithName("My SubAccount")
                 .WithSecret("123456789AbcDef")

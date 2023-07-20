@@ -16,13 +16,13 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
         [Fact]
         public async Task GetSubAccount()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/subaccounts")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.SubAccountsClient.GetSubAccountsAsync();
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.SubAccountsClient.GetSubAccountsAsync();
             result.Should().BeSuccess();
         }
     }

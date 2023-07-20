@@ -18,13 +18,13 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.ClearList
         [Fact]
         public async Task ClearList()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists/de51fd37-551c-45f1-8eaf-0fcd75c0bbc8/clear")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
             var result =
-                await this.helper.VonageClient.ProactiveConnectClient.ClearListAsync(
+                await this.Helper.VonageClient.ProactiveConnectClient.ClearListAsync(
                     ClearListRequest.Parse(new Guid("de51fd37-551c-45f1-8eaf-0fcd75c0bbc8")));
             result.Should().BeSuccess();
         }

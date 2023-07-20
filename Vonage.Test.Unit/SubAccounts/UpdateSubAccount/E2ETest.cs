@@ -17,14 +17,14 @@ namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
         [Fact]
         public async Task UpdateSubAccount()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/subaccounts/RandomKey")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
+                    .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.SubAccountsClient.UpdateSubAccountAsync(UpdateSubAccountRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.SubAccountsClient.UpdateSubAccountAsync(UpdateSubAccountRequest
                 .Build()
                 .WithSubAccountKey("RandomKey")
                 .WithName("Subaccount department B")

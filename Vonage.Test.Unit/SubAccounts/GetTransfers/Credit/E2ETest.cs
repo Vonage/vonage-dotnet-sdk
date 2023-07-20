@@ -18,14 +18,14 @@ namespace Vonage.Test.Unit.SubAccounts.GetTransfers.Credit
         [Fact]
         public async Task GetCreditTransfers()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/credit-transfers")
                     .WithParam("start_date", "2018-03-02T17:34:49Z")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.SubAccountsClient.GetCreditTransfersAsync(GetTransfersRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.SubAccountsClient.GetCreditTransfersAsync(GetTransfersRequest
                 .Build()
                 .WithStartDate(DateTimeOffset.Parse("2018-03-02T17:34:49Z"))
                 .Create());

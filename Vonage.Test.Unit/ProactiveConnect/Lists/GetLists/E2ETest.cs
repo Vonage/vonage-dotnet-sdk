@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
         [Fact]
         public async Task GetLists()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists")
                     .WithParam("page", "25")
                     .WithParam("page_size", "50")
@@ -24,8 +24,8 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
                     .WithHeader("Authorization", "Bearer *")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.ProactiveConnectClient.GetListsAsync(GetListsRequest.Build()
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.ProactiveConnectClient.GetListsAsync(GetListsRequest.Build()
                 .WithPage(25)
                 .WithPageSize(50)
                 .Create());

@@ -16,15 +16,15 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
         [Fact]
         public async Task CreateLists()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists")
                     .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest
+                    .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerializeWithMandatoryValues)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.ProactiveConnectClient.CreateListAsync(CreateListRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.ProactiveConnectClient.CreateListAsync(CreateListRequest
                 .Build()
                 .WithName("my name")
                 .Create());

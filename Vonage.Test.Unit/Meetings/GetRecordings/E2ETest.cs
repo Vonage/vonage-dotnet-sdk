@@ -1,31 +1,30 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.ProactiveConnect.Lists.GetList;
+using Vonage.Meetings.GetRecordings;
 using WireMock.ResponseBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetList
+namespace Vonage.Test.Unit.Meetings.GetRecordings
 {
     public class E2ETest : E2EBase
     {
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
         }
 
         [Fact]
-        public async Task GetList()
+        public async Task GetRecordings()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/v0.1/bulk/lists/de51fd37-551c-45f1-8eaf-0fcd75c0bbc8")
+                    .WithPath(
+                        "/meetings/sessions/2_MX40NjMwODczMn5-MTU3NTgyODEwNzQ2MH5OZDJrVmdBRUNDbG5MUzNqNXgya20yQ1Z-fg/recordings")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result =
-                await this.Helper.VonageClient.ProactiveConnectClient.GetListAsync(
-                    GetListRequest.Parse(new Guid("de51fd37-551c-45f1-8eaf-0fcd75c0bbc8")));
+            var result = await this.Helper.VonageClient.MeetingsClient.GetRecordingsAsync(
+                GetRecordingsRequest.Parse("2_MX40NjMwODczMn5-MTU3NTgyODEwNzQ2MH5OZDJrVmdBRUNDbG5MUzNqNXgya20yQ1Z-fg"));
             result.Should().BeSuccess();
         }
     }

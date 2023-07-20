@@ -18,15 +18,15 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.UpdateItem
         [Fact]
         public async Task UpdateItem()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath(
                         "/v0.1/bulk/lists/95a462d3-ed87-4aa5-9d91-098e08093b0b/items/0f3e672d-e60e-4869-9eac-fce9047532b5")
                     .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
+                    .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPut())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.ProactiveConnectClient.UpdateItemAsync(UpdateItemRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.ProactiveConnectClient.UpdateItemAsync(UpdateItemRequest
                 .Build()
                 .WithListId(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b"))
                 .WithItemId(new Guid("0f3e672d-e60e-4869-9eac-fce9047532b5"))

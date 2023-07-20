@@ -2,30 +2,29 @@
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.ProactiveConnect.Lists.DeleteList;
-using Vonage.Test.Unit.ProactiveConnect.Items.CreateItem;
+using Vonage.Meetings.DeleteRecording;
 using WireMock.ResponseBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.ProactiveConnect.Lists.DeleteList
+namespace Vonage.Test.Unit.Meetings.DeleteRecording
 {
     public class E2ETest : E2EBase
     {
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
         }
 
         [Fact]
-        public async Task DeleteList()
+        public async Task DeleteRecording()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/v0.1/bulk/lists/de51fd37-551c-45f1-8eaf-0fcd75c0bbc8")
+                    .WithPath("/meetings/recordings/48a355bf-924d-4d4d-8e98-78575cf212dd")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
             var result =
-                await this.Helper.VonageClient.ProactiveConnectClient.DeleteListAsync(
-                    DeleteListRequest.Parse(new Guid("de51fd37-551c-45f1-8eaf-0fcd75c0bbc8")));
+                await this.Helper.VonageClient.MeetingsClient.DeleteRecordingAsync(
+                    DeleteRecordingRequest.Parse(new Guid("48a355bf-924d-4d4d-8e98-78575cf212dd")));
             result.Should().BeSuccess();
         }
     }

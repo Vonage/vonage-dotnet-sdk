@@ -17,14 +17,14 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
         [Fact]
         public async Task TransferNumber()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/transfer-number")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
+                    .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.SubAccountsClient.TransferNumberAsync(TransferNumberRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.SubAccountsClient.TransferNumberAsync(TransferNumberRequest
                 .Build()
                 .WithFrom("7c9738e6")
                 .WithTo("ad6dc56f")
