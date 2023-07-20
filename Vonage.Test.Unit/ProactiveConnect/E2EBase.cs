@@ -8,12 +8,12 @@ namespace Vonage.Test.Unit.ProactiveConnect
     {
         protected E2EBase(string serializationNamespace)
         {
-            this.helper = E2EHelper.WithBearerCredentials("Vonage.Url.Api.Europe");
-            this.serialization =
+            this.Helper = E2EHelper.WithBearerCredentials("Vonage.Url.Api.Europe");
+            this.Serialization =
                 new SerializationTestHelper(serializationNamespace, JsonSerializer.BuildWithSnakeCase());
         }
 
-        internal readonly E2EHelper helper;
-        internal readonly SerializationTestHelper serialization;
+        internal readonly E2EHelper Helper;
+        internal readonly SerializationTestHelper Serialization;
     }
 }

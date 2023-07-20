@@ -18,14 +18,14 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.CreateItem
         [Fact]
         public async Task CreateItem()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists/95a462d3-ed87-4aa5-9d91-098e08093b0b/items")
                     .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
+                    .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.ProactiveConnectClient.CreateItemAsync(CreateItemRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.ProactiveConnectClient.CreateItemAsync(CreateItemRequest
                 .Build()
                 .WithListId(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b"))
                 .WithCustomData(new KeyValuePair<string, object>("value1", "value"))

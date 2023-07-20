@@ -19,13 +19,13 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.ImportItems
         [Fact]
         public async Task ImportItems()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists/95a462d3-ed87-4aa5-9d91-098e08093b0b/items/import")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.ProactiveConnectClient.ImportItemsAsync(ImportItemsRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.ProactiveConnectClient.ImportItemsAsync(ImportItemsRequest
                 .Build()
                 .WithListId(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b"))
                 .WithFileData(new Fixture().CreateMany<byte>().ToArray())

@@ -9,12 +9,12 @@ using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateRoom
 {
-    public class UpdateRoomDeserializationTest
+    public class SerializationTest
     {
         private readonly SerializationTestHelper helper;
 
-        public UpdateRoomDeserializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(UpdateRoomDeserializationTest).Namespace,
+        public SerializationTest() =>
+            this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
         [Fact]

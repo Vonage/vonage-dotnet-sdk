@@ -17,15 +17,15 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateList
         [Fact]
         public async Task UpdateList()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists/8ef94367-3a18-47a7-b59e-e98835194dcb")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingPut())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
             ;
             var result =
-                await this.helper.VonageClient.ProactiveConnectClient.UpdateListAsync(
+                await this.Helper.VonageClient.ProactiveConnectClient.UpdateListAsync(
                     UpdateListRequest.Build()
                         .WithListId(new Guid("8ef94367-3a18-47a7-b59e-e98835194dcb"))
                         .WithName("Random name")

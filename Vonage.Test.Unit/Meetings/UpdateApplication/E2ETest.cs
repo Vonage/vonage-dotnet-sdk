@@ -1,11 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.ProactiveConnect.Lists.CreateList;
+using Vonage.Meetings.UpdateApplication;
 using WireMock.ResponseBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
+namespace Vonage.Test.Unit.Meetings.UpdateApplication
 {
     public class E2ETest : E2EBase
     {
@@ -14,20 +15,18 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
         }
 
         [Fact]
-        public async Task CreateLists()
+        public async Task CreateRoomWithDefaultValues()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/v0.1/bulk/lists")
+                    .WithPath("/meetings/applications")
                     .WithHeader("Authorization", "Bearer *")
-                    .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
-                        .ShouldSerializeWithMandatoryValues)))
-                    .UsingPost())
+                    .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
+                    .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.ProactiveConnectClient.CreateListAsync(CreateListRequest
-                .Build()
-                .WithName("my name")
-                .Create());
+            var result =
+                await this.Helper.VonageClient.MeetingsClient.UpdateApplicationAsync(
+                    UpdateApplicationRequest.Parse(new Guid("e86a7335-35fe-45e1-b961-5777d4748022")));
             result.Should().BeSuccess();
         }
     }

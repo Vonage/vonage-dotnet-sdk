@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Events.GetEvents
         [Fact]
         public async Task GetEvents()
         {
-            this.helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/events")
                     .WithParam("page", "25")
                     .WithParam("page_size", "50")
@@ -24,8 +24,8 @@ namespace Vonage.Test.Unit.ProactiveConnect.Events.GetEvents
                     .WithHeader("Authorization", "Bearer *")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.helper.VonageClient.ProactiveConnectClient.GetEventsAsync(GetEventsRequest
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            var result = await this.Helper.VonageClient.ProactiveConnectClient.GetEventsAsync(GetEventsRequest
                 .Build()
                 .WithPage(25)
                 .WithPageSize(50)
