@@ -26,8 +26,6 @@ jobs:
         run: |
           dotnet tool install --global dotnet-coverage
       - uses: actions/checkout@v3
-      - name: Clean
-        run: dotnet clean Vonage.sln --configuration Release && dotnet nuget locals all --clear
       - name: Begin SonarScanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
