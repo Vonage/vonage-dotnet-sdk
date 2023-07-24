@@ -10,16 +10,16 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: |
             7.0.x
             6.0.x
             3.1.x
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: dotnet build --configuration Release
       - name: Test
-        run: dotnet test  --configuration Release --no-build --filter Category!=Integration
+        run: dotnet test  --configuration Release --no-build
         env:
           Vonage.Test.RsaPrivateKey: ${{ secrets.VONAGE_RSA_PRIVATE_KEY }}
