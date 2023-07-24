@@ -12,7 +12,6 @@
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
         <Version>6.7.0</Version>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseExpression />
         <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
         <LangVersion>latest</LangVersion>
