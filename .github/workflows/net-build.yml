@@ -15,7 +15,7 @@ jobs:
         with:
           java-version: 1.11
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
       - name: Install SonarScanner
@@ -25,9 +25,7 @@ jobs:
         id: install-coverlet
         run: |
           dotnet tool install --global dotnet-coverage
-      - uses: actions/checkout@v2
-      - name: Clean
-        run: dotnet clean Vonage.sln --configuration Release && dotnet nuget locals all --clear
+      - uses: actions/checkout@v3
       - name: Begin SonarScanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
