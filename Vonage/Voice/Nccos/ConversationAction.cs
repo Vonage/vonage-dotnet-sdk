@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using Vonage.Serialization;
 
 namespace Vonage.Voice.Nccos;
@@ -28,6 +29,7 @@ public class ConversationAction : NccoAction
     /// </summary>
     [JsonProperty("startOnEnter")]
     [JsonConverter(typeof(StringBoolConverter))]
+    [DefaultValue(true)]
     public bool StartOnEnter { get; set; }
 
     /// <summary>
