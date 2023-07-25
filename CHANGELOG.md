@@ -1,3 +1,19 @@
+# v6.7.1 (2023-07-25)
+
+* fix: conversation StartOnEnter
+* doc: changelog update
+* refactor: naming update
+* refactor: package update
+* refactor: proactive connect e2e
+* refactor: meetings Api e2e
+* refactor: subaccounts e2e
+* ci: improve performance
+* ci: upgrade
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.7.0...v6.7.1
+
+---
+
 # v6.7.0 (2023-07-05)
 
 * feat: add specific object for ApiKey
