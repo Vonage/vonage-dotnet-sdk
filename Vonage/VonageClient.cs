@@ -17,6 +17,7 @@ using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
 using Vonage.SubAccounts;
+using Vonage.Users;
 using Vonage.Verify;
 using Vonage.VerifyV2;
 using Vonage.Voice;
@@ -81,6 +82,11 @@ public class VonageClient
     /// </summary>
     public ISubAccountsClient SubAccountsClient { get; private set; }
 
+    /// <summary>
+    ///     Exposes User management features.
+    /// </summary>
+    public IUsersClient UsersClient { get; set; }
+
     public IVerifyClient VerifyClient { get; private set; }
 
     /// <summary>
@@ -101,6 +107,12 @@ public class VonageClient
         this.configuration = configuration;
         this.Credentials = credentials;
     }
+
+    private VonageHttpClientConfiguration BuildConfiguration(Uri baseUri) =>
+        new(
+            InitializeHttpClient(baseUri),
+            this.Credentials.GetAuthenticationHeader(),
+            this.Credentials.GetUserAgent());
 
     private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
 
@@ -128,17 +140,13 @@ public class VonageClient
         this.SmsClient = new SmsClient(this.Credentials);
         this.PricingClient = new PricingClient(this.Credentials);
         this.MessagesClient = new MessagesClient(this.Credentials);
-        var nexmoConfiguration = new VonageHttpClientConfiguration(
-            InitializeHttpClient(this.GetConfiguration().NexmoApiUrl),
-            this.Credentials.GetAuthenticationHeader(),
-            this.Credentials.GetUserAgent());
-        this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
-        this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
-        var europeApiConfiguration = new VonageHttpClientConfiguration(
-            InitializeHttpClient(this.GetConfiguration().EuropeApiUrl),
-            this.Credentials.GetAuthenticationHeader(),
-            this.Credentials.GetUserAgent());
-        this.MeetingsClient = new MeetingsClient(europeApiConfiguration, new FileSystem());
-        this.ProactiveConnectClient = new ProactiveConnectClient(europeApiConfiguration);
+        this.VerifyV2Client = new VerifyV2Client(this.BuildConfiguration(this.GetConfiguration().NexmoApiUrl));
+        this.SubAccountsClient = new SubAccountsClient(this.BuildConfiguration(this.GetConfiguration().NexmoApiUrl),
+            this.Credentials.ApiKey);
+        this.UsersClient = new UsersClient(this.BuildConfiguration(this.GetConfiguration().NexmoApiUrl));
+        this.MeetingsClient = new MeetingsClient(this.BuildConfiguration(this.GetConfiguration().EuropeApiUrl),
+            new FileSystem());
+        this.ProactiveConnectClient =
+            new ProactiveConnectClient(this.BuildConfiguration(this.GetConfiguration().EuropeApiUrl));
     }
 }

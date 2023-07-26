@@ -87,4 +87,10 @@
             <PackagePath>lib\netstandard2.0</PackagePath>
         </_PackageFiles>
     </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Users\CreateUser\"/>
+        <Folder Include="Users\GetUsers\"/>
+        <Folder Include="Users\GetUser\"/>
+        <Folder Include="Users\UpdateUser\"/>
+    </ItemGroup>
 </Project>
