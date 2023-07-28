@@ -51,6 +51,57 @@ public class VonageHttpClientTest
         await this.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
             configuration => new VonageHttpClient(configuration, this.serializer).SendAsync(this.request));
 
+    [Property]
+    public Property SendWithoutHeaderAsync_VerifyReturnsFailureGivenApiResponseIsError() =>
+        this.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(),
+            configuration => new VonageHttpClient(configuration, this.serializer).SendAsync(this.request));
+
+    [Property]
+    public Property SendWithoutHeaderAsync_VerifyReturnsFailureGivenErrorCannotBeParsed() =>
+        this.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(),
+            configuration =>
+                new VonageHttpClient(configuration, this.serializer).SendWithoutHeadersAsync(this.request));
+
+    [Fact]
+    public async Task SendWithoutHeaderAsync_VerifyReturnsFailureGivenRequestIsFailure() =>
+        await this.VerifyReturnsFailureGivenRequestIsFailure((configuration, failureRequest) =>
+            new VonageHttpClient(configuration, this.serializer).SendWithoutHeadersAsync(failureRequest));
+
+    [Fact]
+    public async Task SendWithoutHeaderAsync_VerifyReturnsUnitGivenApiResponseIsSuccess() =>
+        await this.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
+            configuration =>
+                new VonageHttpClient(configuration, this.serializer).SendWithoutHeadersAsync(this.request));
+
+    [Fact]
+    public async Task SendWithRawResponseAsync_VerifyReturnsExpectedValueGivenApiResponseIsSuccess() =>
+        await this.VerifyReturnsRawContentGivenApiResponseIsSuccess(BuildExpectedRequest(),
+            configuration =>
+                new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(this.request));
+
+    [Property]
+    public Property SendWithRawResponseAsync_VerifyReturnsFailureGivenApiResponseIsError() =>
+        this.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(),
+            configuration =>
+                new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(this.request));
+
+    [Property]
+    public Property SendWithRawResponseAsync_VerifyReturnsFailureGivenErrorCannotBeParsed() =>
+        this.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(),
+            configuration =>
+                new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(this.request));
+
+    [Fact]
+    public async Task SendWithRawResponseAsync_VerifyReturnsFailureGivenRequestIsFailure() =>
+        await this.VerifyReturnsFailureGivenRequestIsFailure((configuration, failureRequest) =>
+            new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(failureRequest));
+
+    [Fact]
+    public async Task SendWithRawResponseAsync_VerifyReturnsFailureGivenTokenGenerationFails() =>
+        await this.VerifyReturnsFailureGivenTokenGenerationFails(configuration =>
+            new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(
+                this.request));
+
     [Fact]
     public async Task SendWithResponseAsync_VerifyReturnsExpectedValueGivenApiResponseIsSuccess() =>
         await this.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
@@ -190,6 +241,18 @@ public class VonageHttpClientTest
         result.Should().BeFailure(new AuthenticationFailure());
     }
 
+    private async Task VerifyReturnsRawContentGivenApiResponseIsSuccess(ExpectedRequest expected,
+        Func<VonageHttpClientConfiguration, Task<Result<string>>> operation)
+    {
+        var expectedResponse = this.fixture.Create<string>();
+        var messageHandler = FakeHttpRequestHandler
+            .Build(HttpStatusCode.OK)
+            .WithExpectedRequest(expected)
+            .WithResponseContent(expectedResponse);
+        var result = await operation(this.CreateConfiguration(messageHandler));
+        result.Should().BeSuccess(expectedResponse);
+    }
+
     private struct FakeRequest : IVonageRequest
     {
         public Guid Id { get; set; }
@@ -204,10 +267,5 @@ public class VonageHttpClientTest
         public string GetEndpointPath() => "/my-fake-api/yolo";
     }
 
-    private struct FakeResponse
-    {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-    }
+    private record FakeResponse;
 }
