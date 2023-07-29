@@ -66,8 +66,7 @@ namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
                 .BeSuccessAsync(SerializationTest.GetExpectedAccount());
         }
 
-        private void SetUpServer(string requestBody)
-        {
+        private void SetUpServer(string requestBody) =>
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/subaccounts/RandomKey")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
@@ -75,6 +74,5 @@ namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
                     .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-        }
     }
 }
