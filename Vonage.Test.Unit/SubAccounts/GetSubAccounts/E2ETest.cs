@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Vonage.Common.Test.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
@@ -22,8 +23,13 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.SubAccountsClient.GetSubAccountsAsync();
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.SubAccountsClient.GetSubAccountsAsync()
+                .Should()
+                .BeSuccessAsync(success =>
+                {
+                    success.PrimaryAccount.Should().Be(SerializationTest.GetExpectedPrimaryAccount());
+                    success.SubAccounts.Should().BeEquivalentTo(SerializationTest.GetExpectedSubAccounts());
+                });
         }
     }
 }

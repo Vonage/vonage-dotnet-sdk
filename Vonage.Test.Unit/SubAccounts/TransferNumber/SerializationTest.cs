@@ -15,12 +15,15 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
                 typeof(SerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
+        public static TransferNumberResponse GetExpectedResponse() =>
+            new TransferNumberResponse("235077036", "GB", "7c9738e6", "ad6dc56f");
+
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
                 .DeserializeObject<TransferNumberResponse>(this.helper.GetResponseJson())
                 .Should()
-                .BeSuccess(new TransferNumberResponse("235077036", "GB", "7c9738e6", "ad6dc56f"));
+                .BeSuccess(GetExpectedResponse());
 
         [Fact]
         public void ShouldSerialize() =>

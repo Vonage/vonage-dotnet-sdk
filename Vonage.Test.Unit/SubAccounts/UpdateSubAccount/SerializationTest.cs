@@ -17,21 +17,24 @@ namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
                 typeof(SerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
+        public static Account GetExpectedAccount() =>
+            new Account(
+                "aze1243v",
+                "SubAccount department A",
+                "bbe6222f",
+                false,
+                DateTimeOffset.Parse("2018-03-02T17:34:49Z"),
+                true,
+                (decimal) 1.25,
+                15
+            );
+
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
                 .DeserializeObject<Account>(this.helper.GetResponseJson())
                 .Should()
-                .BeSuccess(new Account(
-                    "aze1243v",
-                    "SubAccount department A",
-                    "bbe6222f",
-                    false,
-                    DateTimeOffset.Parse("2018-03-02T17:34:49Z"),
-                    true,
-                    (decimal) 1.25,
-                    15
-                ));
+                .BeSuccess(GetExpectedAccount());
 
         [Fact]
         public void ShouldSerialize() =>

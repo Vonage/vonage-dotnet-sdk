@@ -23,10 +23,10 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccount
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result =
-                await this.Helper.VonageClient.SubAccountsClient.GetSubAccountAsync(
-                    GetSubAccountRequest.Parse("456iFuDL099"));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.SubAccountsClient.GetSubAccountAsync(
+                    GetSubAccountRequest.Parse("456iFuDL099"))
+                .Should()
+                .BeSuccessAsync();
         }
     }
 }
