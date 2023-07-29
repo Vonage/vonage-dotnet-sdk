@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.GetTransfers;
 using WireMock.ResponseBuilders;
@@ -25,11 +26,13 @@ namespace Vonage.Test.Unit.SubAccounts.GetTransfers.Credit
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.SubAccountsClient.GetCreditTransfersAsync(GetTransfersRequest
-                .Build()
-                .WithStartDate(DateTimeOffset.Parse("2018-03-02T17:34:49Z"))
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.SubAccountsClient.GetCreditTransfersAsync(GetTransfersRequest
+                    .Build()
+                    .WithStartDate(DateTimeOffset.Parse("2018-03-02T17:34:49Z"))
+                    .Create())
+                .Should()
+                .BeSuccessAsync(success =>
+                    success.Should().BeEquivalentTo(SerializationTest.GetExpectedTransfers()));
         }
     }
 }

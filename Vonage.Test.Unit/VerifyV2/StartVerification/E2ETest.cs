@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
@@ -120,7 +119,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
 
         private static void VerifyResponseBody(Result<StartVerificationResponse> response) =>
-            response.Should().BeSuccess(success =>
-                success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+            response.Should()
+                .BeSuccess(new StartVerificationResponse(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
     }
 }
