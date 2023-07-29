@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Events.GetEvents
 {
+    [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
         public E2ETest() : base(typeof(SerializationTest).Namespace)
@@ -25,12 +26,13 @@ namespace Vonage.Test.Unit.ProactiveConnect.Events.GetEvents
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.ProactiveConnectClient.GetEventsAsync(GetEventsRequest
-                .Build()
-                .WithPage(25)
-                .WithPageSize(50)
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.ProactiveConnectClient.GetEventsAsync(GetEventsRequest
+                    .Build()
+                    .WithPage(25)
+                    .WithPageSize(50)
+                    .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyResponse);
         }
     }
 }

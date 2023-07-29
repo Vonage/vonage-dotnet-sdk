@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateList
 {
+    [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
         public E2ETest() : base(typeof(SerializationTest).Namespace)
