@@ -21,8 +21,9 @@ namespace Vonage.Test.Unit.Meetings.GetThemes
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.MeetingsClient.GetThemesAsync();
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.GetThemesAsync()
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyThemes);
         }
     }
 }

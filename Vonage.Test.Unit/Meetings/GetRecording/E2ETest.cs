@@ -23,10 +23,10 @@ namespace Vonage.Test.Unit.Meetings.GetRecording
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result =
-                await this.Helper.VonageClient.MeetingsClient.GetRecordingAsync(
-                    GetRecordingRequest.Parse(new Guid("48a355bf-924d-4d4d-8e98-78575cf212dd")));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.GetRecordingAsync(
+                    GetRecordingRequest.Parse(new Guid("48a355bf-924d-4d4d-8e98-78575cf212dd")))
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyRecording);
         }
     }
 }

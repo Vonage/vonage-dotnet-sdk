@@ -26,27 +26,28 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.MeetingsClient.CreateRoomAsync(CreateRoomRequest
-                .Build()
-                .WithDisplayName("string")
-                .WithMetadata("string")
-                .WithThemeId("ef2b46f3-8ebb-437e-a671-272e4990fbc8")
-                .WithApprovalLevel(RoomApprovalLevel.None)
-                .WithRecordingOptions(new Room.RecordingOptions {AutoRecord = true, RecordOnlyOwner = true})
-                .WithInitialJoinOptions(new Room.JoinOptions {MicrophoneState = RoomMicrophoneState.Default})
-                .WithFeatures(new Room.Features
-                {
-                    IsChatAvailable = false, IsRecordingAvailable = false, IsWhiteboardAvailable = false,
-                    IsCaptionsAvailable = true, IsLocaleSwitcherAvailable = false,
-                })
-                .WithCallback(new Room.Callback
-                {
-                    RecordingsCallbackUrl = "https://example.com", SessionsCallbackUrl = "https://example.com",
-                    RoomsCallbackUrl = "https://example.com",
-                })
-                .WithUserInterfaceSettings(new UiSettings(UiSettings.UserInterfaceLanguage.De))
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.CreateRoomAsync(CreateRoomRequest
+                    .Build()
+                    .WithDisplayName("string")
+                    .WithMetadata("string")
+                    .WithThemeId("ef2b46f3-8ebb-437e-a671-272e4990fbc8")
+                    .WithApprovalLevel(RoomApprovalLevel.None)
+                    .WithRecordingOptions(new Room.RecordingOptions {AutoRecord = true, RecordOnlyOwner = true})
+                    .WithInitialJoinOptions(new Room.JoinOptions {MicrophoneState = RoomMicrophoneState.Default})
+                    .WithFeatures(new Room.Features
+                    {
+                        IsChatAvailable = false, IsRecordingAvailable = false, IsWhiteboardAvailable = false,
+                        IsCaptionsAvailable = true, IsLocaleSwitcherAvailable = false,
+                    })
+                    .WithCallback(new Room.Callback
+                    {
+                        RecordingsCallbackUrl = "https://example.com", SessionsCallbackUrl = "https://example.com",
+                        RoomsCallbackUrl = "https://example.com",
+                    })
+                    .WithUserInterfaceSettings(new UiSettings(UiSettings.UserInterfaceLanguage.De))
+                    .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyRoom);
         }
 
         [Fact]
@@ -60,13 +61,14 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.MeetingsClient.CreateRoomAsync(CreateRoomRequest
-                .Build()
-                .WithDisplayName("string")
-                .AsLongTermRoom(new DateTime(2023, 02, 07, 20, 10, 05))
-                .ExpireAfterUse()
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.CreateRoomAsync(CreateRoomRequest
+                    .Build()
+                    .WithDisplayName("string")
+                    .AsLongTermRoom(new DateTime(2023, 02, 07, 20, 10, 05))
+                    .ExpireAfterUse()
+                    .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyRoom);
         }
 
         [Fact]
@@ -80,11 +82,12 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.MeetingsClient.CreateRoomAsync(CreateRoomRequest
-                .Build()
-                .WithDisplayName("string")
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.CreateRoomAsync(CreateRoomRequest
+                    .Build()
+                    .WithDisplayName("string")
+                    .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyRoom);
         }
     }
 }

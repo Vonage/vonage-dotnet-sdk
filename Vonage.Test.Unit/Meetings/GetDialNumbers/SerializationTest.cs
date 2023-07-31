@@ -20,12 +20,14 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
             this.helper.Serializer
                 .DeserializeObject<GetDialNumbersResponse[]>(this.helper.GetResponseJson())
                 .Should()
-                .BeSuccess(success =>
-                {
-                    success.Should().HaveCount(1);
-                    success[0].DisplayName.Should().Be("United States");
-                    success[0].Locale.Should().Be("en-US");
-                    success[0].Number.Should().Be("17323338801");
-                });
+                .BeSuccess(VerifyNumbers);
+
+        internal static void VerifyNumbers(GetDialNumbersResponse[] success)
+        {
+            success.Should().HaveCount(1);
+            success[0].DisplayName.Should().Be("United States");
+            success[0].Locale.Should().Be("en-US");
+            success[0].Number.Should().Be("17323338801");
+        }
     }
 }
