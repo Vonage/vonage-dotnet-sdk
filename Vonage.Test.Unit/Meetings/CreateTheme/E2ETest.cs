@@ -11,7 +11,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
 {
     public class E2ETest : E2EBase
     {
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
         }
 

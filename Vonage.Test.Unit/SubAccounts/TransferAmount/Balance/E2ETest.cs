@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Balance
     {
         private readonly SerializationTestHelper serializationRequest;
 
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
             this.serializationRequest = new SerializationTestHelper(typeof(TransferAmount.SerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
