@@ -26,7 +26,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Events.GetEvents
                 .Should()
                 .BeSuccess(VerifyResponse);
 
-        public static void VerifyResponse(PaginationResult<EmbeddedEvents> success)
+        internal static void VerifyResponse(PaginationResult<EmbeddedEvents> success)
         {
             success.Page.Should().Be(1);
             success.PageSize.Should().Be(100);
