@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Lists.ReplaceItems
 {
+    [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
         public E2ETest() : base(typeof(SerializationTest).Namespace)
@@ -23,10 +24,10 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.ReplaceItems
                     .WithHeader("Authorization", "Bearer *")
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            var result =
-                await this.Helper.VonageClient.ProactiveConnectClient.ReplaceItemsAsync(
-                    ReplaceItemsRequest.Parse(new Guid("de51fd37-551c-45f1-8eaf-0fcd75c0bbc8")));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.ProactiveConnectClient.ReplaceItemsAsync(
+                    ReplaceItemsRequest.Parse(new Guid("de51fd37-551c-45f1-8eaf-0fcd75c0bbc8")))
+                .Should()
+                .BeSuccessAsync();
         }
     }
 }

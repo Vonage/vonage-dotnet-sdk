@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
 {
+    [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
         public E2ETest() : base(typeof(SerializationTest).Namespace)
@@ -24,12 +25,13 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItem
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.ProactiveConnectClient.GetItemAsync(GetItemRequest
-                .Build()
-                .WithListId(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b"))
-                .WithItemId(new Guid("0f3e672d-e60e-4869-9eac-fce9047532b5"))
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.ProactiveConnectClient.GetItemAsync(GetItemRequest
+                    .Build()
+                    .WithListId(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b"))
+                    .WithItemId(new Guid("0f3e672d-e60e-4869-9eac-fce9047532b5"))
+                    .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyItem);
         }
     }
 }

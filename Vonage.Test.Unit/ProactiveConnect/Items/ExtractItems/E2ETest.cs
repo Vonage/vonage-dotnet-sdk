@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Items.ExtractItems
 {
+    [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
         public E2ETest() : base(typeof(SerializationTest).Namespace)
@@ -24,10 +25,10 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.ExtractItems
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody("CSV content"));
-            var result =
-                await this.Helper.VonageClient.ProactiveConnectClient.ExtractItemsAsync(
-                    ExtractItemsRequest.Parse(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b")));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.ProactiveConnectClient.ExtractItemsAsync(
+                    ExtractItemsRequest.Parse(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b")))
+                .Should()
+                .BeSuccessAsync("CSV content");
         }
     }
 }
