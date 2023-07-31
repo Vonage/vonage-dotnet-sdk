@@ -28,7 +28,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.ExtractItems
             await this.Helper.VonageClient.ProactiveConnectClient.ExtractItemsAsync(
                     ExtractItemsRequest.Parse(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b")))
                 .Should()
-                .BeSuccessAsync();
+                .BeSuccessAsync("CSV content");
         }
     }
 }

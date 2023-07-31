@@ -24,14 +24,13 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateList
                     .UsingPut())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            ;
-            var result =
-                await this.Helper.VonageClient.ProactiveConnectClient.UpdateListAsync(
+            await this.Helper.VonageClient.ProactiveConnectClient.UpdateListAsync(
                     UpdateListRequest.Build()
                         .WithListId(new Guid("8ef94367-3a18-47a7-b59e-e98835194dcb"))
                         .WithName("Random name")
-                        .Create());
-            result.Should().BeSuccess();
+                        .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyList);
         }
     }
 }

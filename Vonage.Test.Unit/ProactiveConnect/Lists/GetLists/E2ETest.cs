@@ -26,11 +26,12 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.ProactiveConnectClient.GetListsAsync(GetListsRequest.Build()
-                .WithPage(25)
-                .WithPageSize(50)
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.ProactiveConnectClient.GetListsAsync(GetListsRequest.Build()
+                    .WithPage(25)
+                    .WithPageSize(50)
+                    .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyLists);
         }
     }
 }

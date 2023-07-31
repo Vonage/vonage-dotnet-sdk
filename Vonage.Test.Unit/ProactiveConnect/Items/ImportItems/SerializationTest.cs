@@ -19,6 +19,6 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.ImportItems
             this.helper.Serializer
                 .DeserializeObject<ImportItemsResponse>(this.helper.GetResponseJson())
                 .Should()
-                .BeSuccess(new ImportItemsResponse(50, 0, 0));
+                .BeSuccess(new ImportItemsResponse(50, 100, 200));
     }
 }
