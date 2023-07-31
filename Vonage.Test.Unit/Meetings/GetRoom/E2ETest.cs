@@ -23,10 +23,10 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result =
-                await this.Helper.VonageClient.MeetingsClient.GetRoomAsync(
-                    GetRoomRequest.Parse(new Guid("934f95c2-28e5-486b-ab8e-1126dbc180f9")));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.GetRoomAsync(
+                    GetRoomRequest.Parse(new Guid("934f95c2-28e5-486b-ab8e-1126dbc180f9")))
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyRoom);
         }
     }
 }

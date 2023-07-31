@@ -10,7 +10,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
 {
     public class E2ETest : E2EBase
     {
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
         }
 
@@ -24,10 +24,10 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
                     .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result =
-                await this.Helper.VonageClient.MeetingsClient.UpdateApplicationAsync(
-                    UpdateApplicationRequest.Parse(new Guid("e86a7335-35fe-45e1-b961-5777d4748022")));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.UpdateApplicationAsync(
+                    UpdateApplicationRequest.Parse(new Guid("e86a7335-35fe-45e1-b961-5777d4748022")))
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyApplication);
         }
     }
 }

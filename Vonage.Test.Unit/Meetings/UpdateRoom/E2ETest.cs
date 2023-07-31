@@ -11,7 +11,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
 {
     public class E2ETest : E2EBase
     {
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
         }
 
@@ -25,8 +25,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                     .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result =
-                await this.Helper.VonageClient.MeetingsClient.UpdateRoomAsync(
+            await this.Helper.VonageClient.MeetingsClient.UpdateRoomAsync(
                     UpdateRoomRequest
                         .Build()
                         .WithRoomId(new Guid("e86a7335-35fe-45e1-b961-5777d4748022"))
@@ -46,8 +45,9 @@ namespace Vonage.Test.Unit.Meetings.UpdateRoom
                             RoomsCallbackUrl = "https://example.com",
                         })
                         .WithUserInterfaceSettings(new UiSettings(UiSettings.UserInterfaceLanguage.De))
-                        .Create());
-            result.Should().BeSuccess();
+                        .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyRoom);
         }
     }
 }

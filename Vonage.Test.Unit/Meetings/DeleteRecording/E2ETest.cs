@@ -22,10 +22,10 @@ namespace Vonage.Test.Unit.Meetings.DeleteRecording
                     .WithHeader("Authorization", "Bearer *")
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            var result =
-                await this.Helper.VonageClient.MeetingsClient.DeleteRecordingAsync(
-                    DeleteRecordingRequest.Parse(new Guid("48a355bf-924d-4d4d-8e98-78575cf212dd")));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.DeleteRecordingAsync(
+                    DeleteRecordingRequest.Parse(new Guid("48a355bf-924d-4d4d-8e98-78575cf212dd")))
+                .Should()
+                .BeSuccessAsync();
         }
     }
 }

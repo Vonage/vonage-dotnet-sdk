@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Lists.ClearList;
-using Vonage.Test.Unit.ProactiveConnect.Items.CreateItem;
 using WireMock.ResponseBuilders;
 using Xunit;
 
@@ -12,7 +11,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.ClearList
     [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
         }
 

@@ -22,12 +22,12 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
                     .WithHeader("Authorization", "Bearer *")
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            var result =
-                await this.Helper.VonageClient.MeetingsClient.DeleteThemeAsync(
+            await this.Helper.VonageClient.MeetingsClient.DeleteThemeAsync(
                     DeleteThemeRequest.Build()
                         .WithThemeId(new Guid("48a355bf-924d-4d4d-8e98-78575cf212dd"))
-                        .Create());
-            result.Should().BeSuccess();
+                        .Create())
+                .Should()
+                .BeSuccessAsync();
         }
 
         [Fact]
@@ -39,13 +39,13 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
                     .WithHeader("Authorization", "Bearer *")
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            var result =
-                await this.Helper.VonageClient.MeetingsClient.DeleteThemeAsync(
+            await this.Helper.VonageClient.MeetingsClient.DeleteThemeAsync(
                     DeleteThemeRequest.Build()
                         .WithThemeId(new Guid("48a355bf-924d-4d4d-8e98-78575cf212dd"))
                         .WithForceDelete()
-                        .Create());
-            result.Should().BeSuccess();
+                        .Create())
+                .Should()
+                .BeSuccessAsync();
         }
     }
 }
