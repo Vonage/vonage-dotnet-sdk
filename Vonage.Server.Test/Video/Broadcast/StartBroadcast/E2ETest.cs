@@ -48,7 +48,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                     .WithMultiBroadcastTag("foo")
                     .Create())
                 .Should()
-                .BeSuccessAsync();
+                .BeSuccessAsync(SerializationTest.VerifyBroadcast);
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                     })
                     .Create())
                 .Should()
-                .BeSuccessAsync();
+                .BeSuccessAsync(SerializationTest.VerifyBroadcast);
         }
     }
 }
