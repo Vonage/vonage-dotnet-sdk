@@ -1,5 +1,7 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
 using Vonage.Request;
 using Vonage.Server.Video.Archives;
 using Vonage.Server.Video.Broadcast;
@@ -14,6 +16,7 @@ namespace Vonage.Server.Video;
 public class VideoClient : IVideoClient
 {
     private Credentials credentials;
+    private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
 
     /// <inheritdoc />
     public ArchiveClient ArchiveClient { get; private set; }
@@ -51,28 +54,36 @@ public class VideoClient : IVideoClient
     /// <param name="credentials">Credentials to be used for further clients.</param>
     public VideoClient(Credentials credentials) => this.Credentials = credentials;
 
+    internal VideoClient(Credentials credentials, Configuration configuration)
+    {
+        this.configuration = configuration;
+        this.Credentials = credentials;
+    }
+
     private VonageHttpClientConfiguration BuildClientConfiguration() =>
         new(
-            InitializeHttpClient(),
+            InitializeHttpClient(this.GetConfiguration().VideoApiUrl),
             this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
 
+    private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
+
     private void InitializeClients()
     {
-        var configuration = this.BuildClientConfiguration();
-        this.SessionClient = new SessionClient(configuration);
-        this.SignalingClient = new SignalingClient(configuration);
-        this.ModerationClient = new ModerationClient(configuration);
-        this.ArchiveClient = new ArchiveClient(configuration);
-        this.BroadcastClient = new BroadcastClient(configuration);
-        this.SipClient = new SipClient(configuration);
+        var videoConfiguration = this.BuildClientConfiguration();
+        this.SessionClient = new SessionClient(videoConfiguration);
+        this.SignalingClient = new SignalingClient(videoConfiguration);
+        this.ModerationClient = new ModerationClient(videoConfiguration);
+        this.ArchiveClient = new ArchiveClient(videoConfiguration);
+        this.BroadcastClient = new BroadcastClient(videoConfiguration);
+        this.SipClient = new SipClient(videoConfiguration);
     }
 
-    private static HttpClient InitializeHttpClient()
+    private static HttpClient InitializeHttpClient(Uri baseUri)
     {
         var client = new HttpClient(new HttpClientHandler())
         {
-            BaseAddress = Configuration.Instance.VideoApiUrl,
+            BaseAddress = baseUri,
         };
         client.DefaultRequestHeaders.Add("Accept", "application/json");
         return client;
