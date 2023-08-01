@@ -50,8 +50,9 @@
         <DelaySign>false</DelaySign>
     </PropertyGroup>
     <ItemGroup>
+        <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
         <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" PrivateAssets="All"/>
-        <ProjectReference Include="..\Vonage\Vonage.csproj" />
+        <ProjectReference Include="..\Vonage\Vonage.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <None Include="VonageLogo_Symbol_Black.png">
@@ -74,5 +75,8 @@
             <BuildAction>None</BuildAction>
             <PackagePath>lib\netstandard2.0</PackagePath>
         </_PackageFiles>
+    </ItemGroup>
+    <ItemGroup>
+        <InternalsVisibleTo Include="Vonage.Server.Test"/>
     </ItemGroup>
 </Project>

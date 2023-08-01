@@ -87,4 +87,7 @@
             <PackagePath>lib\netstandard2.0</PackagePath>
         </_PackageFiles>
     </ItemGroup>
+    <ItemGroup>
+        <InternalsVisibleTo Include="Vonage.Server.Test"/>
+    </ItemGroup>
 </Project>

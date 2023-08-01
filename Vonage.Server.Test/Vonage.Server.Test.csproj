@@ -127,6 +127,15 @@
         <Content Include="Video\Broadcast\ChangeBroadcastLayout\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <None Update="Video\Archives\AddStream\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Archives\AddStream\Data\ShouldSerializeWithoutAudio-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Archives\AddStream\Data\ShouldSerializeWithoutVideo-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
