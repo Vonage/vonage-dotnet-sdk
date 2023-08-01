@@ -136,6 +136,9 @@
         <None Update="Video\Archives\AddStream\Data\ShouldSerializeWithoutVideo-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Video\Archives\ChangeLayout\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

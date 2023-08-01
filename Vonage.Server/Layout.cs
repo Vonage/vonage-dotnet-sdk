@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace Vonage.Server;
 
@@ -22,9 +23,9 @@ namespace Vonage.Server;
 ///     stylesheet property.).
 /// </param>
 public record Layout(
-    LayoutType? ScreenshareType,
-    string Stylesheet,
-    LayoutType Type);
+    [property: JsonPropertyOrder(2)] LayoutType? ScreenshareType,
+    [property: JsonPropertyOrder(1)] string Stylesheet,
+    [property: JsonPropertyOrder(0)] LayoutType Type);
 
 /// <summary>
 ///     Represents the layout type.
