@@ -1,0 +1,7 @@
+﻿{
+  "active": true,
+  "excludedStreamIds": [
+    "excludedStream1",
+    "excludedStream2"
+  ]
+}

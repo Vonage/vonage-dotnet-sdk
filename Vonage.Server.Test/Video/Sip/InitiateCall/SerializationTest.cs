@@ -21,12 +21,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
             this.helper.Serializer
                 .DeserializeObject<InitiateCallResponse>(this.helper.GetResponseJson())
                 .Should()
-                .BeSuccess(success =>
-                {
-                    success.Id.Should().Be("8d78f9ca-c336-497e-9264-05aa2a442dcc");
-                    success.ConnectionId.Should().Be(new Guid("5fb383d1-a70f-4153-b009-2ef0429bf08f"));
-                    success.StreamId.Should().Be("1b934954-f1b4-406a-8bb8-7cde7a8be2a3");
-                });
+                .BeSuccess(VerifyCall);
 
         [Fact]
         public void ShouldSerialize() =>
@@ -57,5 +52,12 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
+
+        internal static void VerifyCall(InitiateCallResponse success)
+        {
+            success.Id.Should().Be("8d78f9ca-c336-497e-9264-05aa2a442dcc");
+            success.ConnectionId.Should().Be(new Guid("5fb383d1-a70f-4153-b009-2ef0429bf08f"));
+            success.StreamId.Should().Be("1b934954-f1b4-406a-8bb8-7cde7a8be2a3");
+        }
     }
 }
