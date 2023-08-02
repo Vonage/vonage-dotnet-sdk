@@ -23,9 +23,11 @@ namespace Vonage.Test.Unit.Meetings.GetRecordings
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.MeetingsClient.GetRecordingsAsync(
-                GetRecordingsRequest.Parse("2_MX40NjMwODczMn5-MTU3NTgyODEwNzQ2MH5OZDJrVmdBRUNDbG5MUzNqNXgya20yQ1Z-fg"));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.GetRecordingsAsync(
+                    GetRecordingsRequest.Parse(
+                        "2_MX40NjMwODczMn5-MTU3NTgyODEwNzQ2MH5OZDJrVmdBRUNDbG5MUzNqNXgya20yQ1Z-fg"))
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyRecordings);
         }
     }
 }

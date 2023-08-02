@@ -19,10 +19,10 @@ namespace Vonage.Test.Unit.VerifyV2.Cancel
                     .WithHeader("Authorization", "Bearer *")
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            var result =
-                await this.Helper.VonageClient.VerifyV2Client.CancelAsync(
-                    CancelRequest.Parse(Guid.Parse("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb")));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.VerifyV2Client.CancelAsync(
+                    CancelRequest.Parse(Guid.Parse("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb")))
+                .Should()
+                .BeSuccessAsync();
         }
     }
 }

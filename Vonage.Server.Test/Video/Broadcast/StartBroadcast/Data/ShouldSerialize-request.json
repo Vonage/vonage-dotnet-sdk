@@ -1,8 +1,8 @@
 ﻿{
   "sessionId": "2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4",
   "layout": {
-    "screenshareType": "horizontalPresentation",
-    "type": "bestFit"
+    "type": "bestFit",
+    "screenshareType": "horizontalPresentation"
   },
   "maxDuration": 20000,
   "maxBitrate": 500,

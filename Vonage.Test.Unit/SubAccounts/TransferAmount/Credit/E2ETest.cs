@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Credit
     {
         private readonly SerializationTestHelper serializationRequest;
 
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
             this.serializationRequest = new SerializationTestHelper(typeof(TransferAmount.SerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
@@ -31,14 +31,15 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Credit
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.SubAccountsClient.TransferCreditAsync(TransferAmountRequest
-                .Build()
-                .WithFrom("7c9738e6")
-                .WithTo("ad6dc56f")
-                .WithAmount((decimal) 123.45)
-                .WithReference("This gets added to the audit log")
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.SubAccountsClient.TransferCreditAsync(TransferAmountRequest
+                    .Build()
+                    .WithFrom("7c9738e6")
+                    .WithTo("ad6dc56f")
+                    .WithAmount((decimal) 123.45)
+                    .WithReference("This gets added to the audit log")
+                    .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.GetExpectedTransfer());
         }
     }
 }

@@ -18,21 +18,23 @@ namespace Vonage.Test.Unit.SubAccounts.GetTransfers.Balance
                 typeof(SerializationTest).Namespace,
                 JsonSerializer.BuildWithSnakeCase());
 
+        public static Transfer[] GetExpectedTransfers() => new[]
+        {
+            new Transfer(
+                new Guid("c268d4a0-bff5-4865-a0c2-a8dbab781c3a"),
+                (decimal) 1.0,
+                "7c9738e6",
+                "ad6dc56f",
+                "Test from SDK",
+                DateTimeOffset.Parse("2023-06-16T13:28:34.000Z")),
+        };
+
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
                 .DeserializeObject<EmbeddedResponse<GetTransfersResponse>>(this.helper.GetResponseJson())
                 .Should()
                 .BeSuccess(success =>
-                    success.Content.BalanceTransfers.Should().BeEquivalentTo(new[]
-                    {
-                        new Transfer(
-                            new Guid("c268d4a0-bff5-4865-a0c2-a8dbab781c3a"),
-                            (decimal) 1.0,
-                            "7c9738e6",
-                            "ad6dc56f",
-                            "Test from SDK",
-                            DateTimeOffset.Parse("2023-06-16T13:28:34.000Z")),
-                    }));
+                    success.Content.BalanceTransfers.Should().BeEquivalentTo(GetExpectedTransfers()));
     }
 }

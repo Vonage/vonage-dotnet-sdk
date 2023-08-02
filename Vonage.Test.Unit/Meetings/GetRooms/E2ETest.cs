@@ -25,14 +25,14 @@ namespace Vonage.Test.Unit.Meetings.GetRooms
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result =
-                await this.Helper.VonageClient.MeetingsClient.GetRoomsAsync(
+            await this.Helper.VonageClient.MeetingsClient.GetRoomsAsync(
                     GetRoomsRequest.Build()
                         .WithPageSize(15)
                         .WithStartId(15)
                         .WithEndId(60)
-                        .Create());
-            result.Should().BeSuccess();
+                        .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyRooms);
         }
     }
 }

@@ -40,7 +40,7 @@ public readonly struct ChangeLayoutRequest : IVonageRequest, IHasApplicationId, 
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/layout";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.Build().SerializeObject(new {this.Layout}),
+        new(JsonSerializerBuilder.Build().SerializeObject(this.Layout),
             Encoding.UTF8,
             "application/json");
 }

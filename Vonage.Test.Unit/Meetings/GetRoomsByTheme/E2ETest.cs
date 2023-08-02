@@ -26,15 +26,15 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result =
-                await this.Helper.VonageClient.MeetingsClient.GetRoomsByThemeAsync(
+            await this.Helper.VonageClient.MeetingsClient.GetRoomsByThemeAsync(
                     GetRoomsByThemeRequest.Build()
                         .WithThemeId(new Guid("cf7f7327-c8f3-4575-b113-0598571b499a"))
                         .WithPageSize(15)
                         .WithStartId(15)
                         .WithEndId(60)
-                        .Create());
-            result.Should().BeSuccess();
+                        .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyRooms);
         }
     }
 }

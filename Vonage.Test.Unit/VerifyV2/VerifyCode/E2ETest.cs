@@ -11,7 +11,7 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
     [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
         }
 
@@ -24,11 +24,12 @@ namespace Vonage.Test.Unit.VerifyV2.VerifyCode
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            var result = await this.Helper.VonageClient.VerifyV2Client.VerifyCodeAsync(VerifyCodeRequest.Build()
-                .WithRequestId(Guid.Parse("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb"))
-                .WithCode("123456789")
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.VerifyV2Client.VerifyCodeAsync(VerifyCodeRequest.Build()
+                    .WithRequestId(Guid.Parse("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb"))
+                    .WithCode("123456789")
+                    .Create())
+                .Should()
+                .BeSuccessAsync();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
     [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
         }
 
@@ -24,14 +24,15 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.SubAccountsClient.TransferNumberAsync(TransferNumberRequest
-                .Build()
-                .WithFrom("7c9738e6")
-                .WithTo("ad6dc56f")
-                .WithNumber("23507703696")
-                .WithCountry("GB")
-                .Create());
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.SubAccountsClient.TransferNumberAsync(TransferNumberRequest
+                    .Build()
+                    .WithFrom("7c9738e6")
+                    .WithTo("ad6dc56f")
+                    .WithNumber("23507703696")
+                    .WithCountry("GB")
+                    .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.GetExpectedResponse());
         }
     }
 }

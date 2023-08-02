@@ -21,12 +21,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
             this.helper.Serializer
                 .DeserializeObject<UpdateApplicationResponse>(this.helper.GetResponseJson())
                 .Should()
-                .BeSuccess(success =>
-                {
-                    success.AccountId.Should().Be("string");
-                    success.ApplicationId.Should().Be(new Guid("48ac72d0-a829-4896-a067-dcb1c2b0f30c"));
-                    success.DefaultThemeId.Should().Be(new Guid("e86a7335-35fe-45e1-b961-5777d4748022"));
-                });
+                .BeSuccess(VerifyApplication);
 
         [Fact]
         public void ShouldSerialize() =>
@@ -35,5 +30,12 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
                 .GetStringContent()
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
+
+        internal static void VerifyApplication(UpdateApplicationResponse success)
+        {
+            success.AccountId.Should().Be("string");
+            success.ApplicationId.Should().Be(new Guid("48ac72d0-a829-4896-a067-dcb1c2b0f30c"));
+            success.DefaultThemeId.Should().Be(new Guid("e86a7335-35fe-45e1-b961-5777d4748022"));
+        }
     }
 }

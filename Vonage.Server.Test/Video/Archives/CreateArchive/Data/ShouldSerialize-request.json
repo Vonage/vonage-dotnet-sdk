@@ -1,0 +1,14 @@
+﻿{
+  "sessionId": "flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN",
+  "hasAudio": false,
+  "hasVideo": false,
+  "layout": {
+    "type": "bestFit",
+    "stylesheet": "stream.instructor {position: absolute; width: 100%;  height:50%;}",
+    "screenshareType": "pip"
+  },
+  "name": "Foo",
+  "outputMode": "individual",
+  "resolution": "1280x720",
+  "streamMode": "manual"
+}

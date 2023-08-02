@@ -116,4 +116,41 @@ namespace Vonage.Common.Test.Extensions
 
         protected override string Identifier => "result";
     }
+
+    public class
+        ResultAsyncAssertionExtensions<T> : ReferenceTypeAssertions<Task<Result<T>>, ResultAsyncAssertionExtensions<T>>
+    {
+        public ResultAsyncAssertionExtensions(Task<Result<T>> subject) : base(subject)
+        {
+        }
+
+        public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeFailureAsync(Action<IResultFailure> action) =>
+            (await this.InitializeAssertion()).BeFailure(action);
+
+        public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeFailureAsync() =>
+            (await this.InitializeAssertion()).BeFailure();
+
+        public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeFailureAsync(IResultFailure expected) =>
+            (await this.InitializeAssertion()).BeFailure(expected);
+
+        public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeParsingFailureAsync(
+            params string[] failureMessages) =>
+            (await this.InitializeAssertion()).BeParsingFailure(failureMessages);
+
+        public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeResultFailureAsync(string expectedMessage) =>
+            (await this.InitializeAssertion()).BeResultFailure(expectedMessage);
+
+        public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeSuccessAsync() =>
+            (await this.InitializeAssertion()).BeSuccess();
+
+        public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeSuccessAsync(Action<T> action) =>
+            (await this.InitializeAssertion()).BeSuccess(action);
+
+        public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeSuccessAsync(T expected) =>
+            (await this.InitializeAssertion()).BeSuccess(expected);
+
+        private async Task<ResultAssertionExtensions<T>> InitializeAssertion() => new(await this.Subject);
+
+        protected override string Identifier => "resultAsync";
+    }
 }

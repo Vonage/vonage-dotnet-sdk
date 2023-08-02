@@ -10,7 +10,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccount
     [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
     {
-        public E2ETest() : base(typeof(SerializationTest).Namespace)
+        public E2ETest() : base(typeof(E2ETest).Namespace)
         {
         }
 
@@ -23,10 +23,10 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccount
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result =
-                await this.Helper.VonageClient.SubAccountsClient.GetSubAccountAsync(
-                    GetSubAccountRequest.Parse("456iFuDL099"));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.SubAccountsClient.GetSubAccountAsync(
+                    GetSubAccountRequest.Parse("456iFuDL099"))
+                .Should()
+                .BeSuccessAsync();
         }
     }
 }

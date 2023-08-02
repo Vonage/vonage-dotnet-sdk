@@ -21,8 +21,9 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            var result = await this.Helper.VonageClient.MeetingsClient.GetDialNumbersAsync();
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.MeetingsClient.GetDialNumbersAsync()
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyNumbers);
         }
     }
 }
