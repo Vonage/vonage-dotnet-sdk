@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -18,5 +17,7 @@ internal class UsersClient : IUsersClient
     internal UsersClient(VonageHttpClientConfiguration configuration) =>
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
 
-    public Task<Result<Unit>> DeleteUserAsync(Result<DeleteUserRequest> request) => throw new NotImplementedException();
+    /// <inheritdoc />
+    public Task<Result<Unit>> DeleteUserAsync(Result<DeleteUserRequest> request) =>
+        this.vonageClient.SendAsync(request);
 }

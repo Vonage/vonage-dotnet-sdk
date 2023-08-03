@@ -21,7 +21,7 @@ public readonly struct DeleteUserRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/verify/{this.UserId}";
+    public string GetEndpointPath() => $"/v1/users/{this.UserId}";
 
     /// <summary>
     ///     Parses the input into a DeleteUserRequest.

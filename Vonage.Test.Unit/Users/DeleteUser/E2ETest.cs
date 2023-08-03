@@ -18,10 +18,10 @@ namespace Vonage.Test.Unit.Users.DeleteUser
                     .WithHeader("Authorization", "Bearer *")
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            var result =
-                await this.Helper.VonageClient.UsersClient.DeleteUserAsync(
-                    DeleteUserRequest.Parse("USR-82e028d9-5201-4f1e-8188-604b2d3471ec"));
-            result.Should().BeSuccess();
+            await this.Helper.VonageClient.UsersClient.DeleteUserAsync(
+                    DeleteUserRequest.Parse("USR-82e028d9-5201-4f1e-8188-604b2d3471ec"))
+                .Should()
+                .BeSuccessAsync();
         }
     }
 }
