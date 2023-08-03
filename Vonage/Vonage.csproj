@@ -90,7 +90,6 @@
     <ItemGroup>
         <Folder Include="Users\CreateUser\"/>
         <Folder Include="Users\GetUsers\"/>
-        <Folder Include="Users\GetUser\"/>
         <Folder Include="Users\UpdateUser\"/>
     </ItemGroup>
     <ItemGroup>
