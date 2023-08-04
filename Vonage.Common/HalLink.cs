@@ -11,27 +11,32 @@ public struct HalLinks
     /// <summary>
     ///     Represents the navigation link to the first element.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink First { get; set; }
 
     /// <summary>
     ///     Represents the navigation link to the last element.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink Last { get; set; }
 
     /// <summary>
     ///     Represents the navigation link to the next element.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink Next { get; set; }
 
     /// <summary>
     ///     Represents the navigation link to the previous element.
     /// </summary>
     [JsonPropertyName("prev")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink Previous { get; set; }
 
     /// <summary>
     ///     Represents the navigation link to the current element.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink Self { get; set; }
 }
 

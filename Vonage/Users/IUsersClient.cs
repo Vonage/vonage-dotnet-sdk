@@ -2,6 +2,7 @@
 using Vonage.Common.Monads;
 using Vonage.Users.DeleteUser;
 using Vonage.Users.GetUser;
+using Vonage.Users.GetUsers;
 
 namespace Vonage.Users;
 
@@ -23,4 +24,11 @@ public interface IUsersClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<User>> GetUserAsync(Result<GetUserRequest> request);
+
+    /// <summary>
+    ///     Retrieves users.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetUsersResponse>> GetUsersAsync(Result<GetUsersRequest> request);
 }

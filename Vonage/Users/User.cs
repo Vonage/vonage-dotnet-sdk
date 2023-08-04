@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Vonage.Common;
 
 namespace Vonage.Users;
 
@@ -37,8 +38,6 @@ public record ChannelMMS([property: JsonPropertyName("number")] string Number);
 public record ChannelWhatsApp([property: JsonPropertyName("number")] string Number);
 public record ChannelViber([property: JsonPropertyName("number")] string Number);
 public record ChannelMessenger([property: JsonPropertyName("id")] string Id);
-public record Links([property: JsonPropertyName("self")] Self Self);
-public record Self([property: JsonPropertyName("href")] Uri Href);
 
 public record UserChannels(
     IEnumerable<ChannelPSTN> Pstn,
@@ -73,6 +72,6 @@ public record User([property: JsonPropertyName("id")]
     UserChannels Channels,
     [property: JsonPropertyName("_links")]
     [property: JsonPropertyOrder(6)]
-    Links Links)
+    HalLinks Links)
 {
 };
