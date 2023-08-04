@@ -11,12 +11,7 @@ internal class GetUsersRequestBuilder : IBuilderForOptional
     private Maybe<string> name;
 
     /// <inheritdoc />
-    public Result<GetUsersRequest> Create() => Result<GetUsersRequest>.FromSuccess(new GetUsersRequest
-    {
-        PageSize = this.pageSize,
-        Order = this.order,
-        Name = this.name,
-    });
+    public Result<GetUsersRequest> Create() => Result<GetUsersRequest>.FromSuccess(new GetUsersRequest(Maybe<string>.None, this.name, this.order, this.pageSize));
 
     /// <inheritdoc />
     public IBuilderForOptional WithName(string value)

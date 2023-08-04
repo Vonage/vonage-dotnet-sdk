@@ -1,5 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
+using EnumsNET;
+using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common;
+using Vonage.Common.Monads;
+using Vonage.ProactiveConnect;
 
 namespace Vonage.Users.GetUsers;
 
@@ -10,7 +15,14 @@ public record GetUsersResponse(
     EmbeddedUsers Embedded,
     [property: JsonPropertyName("_links")]
     [property: JsonPropertyOrder(2)]
-    HalLinks Links);
+    HalLinks Links)
+{
+    public Result<GetUsersRequest> BuildRequestForNext()
+    {
+        var a = QueryHelpers.ParseQuery(this.Links.Next.Href.Query);
+        return Result<GetUsersRequest>.FromSuccess(new GetUsersRequest(a["cursor"].ToString(), a["name"].ToString(),Enums.Parse<FetchOrder>(a["order"].ToString(), false, EnumFormat.Description), int.Parse(a["page_size"].ToString()) ));
+    }
+};
 
 public record EmbeddedUsers(UserSummary[] Users);
 
