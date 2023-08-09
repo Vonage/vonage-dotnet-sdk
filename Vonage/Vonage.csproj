@@ -88,9 +88,6 @@
         </_PackageFiles>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Users\UpdateUser\"/>
-    </ItemGroup>
-    <ItemGroup>
         <InternalsVisibleTo Include="Vonage.Server.Test"/>
     </ItemGroup>
 </Project>

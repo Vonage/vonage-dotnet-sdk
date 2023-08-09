@@ -6,6 +6,7 @@ using Vonage.Users.CreateUser;
 using Vonage.Users.DeleteUser;
 using Vonage.Users.GetUser;
 using Vonage.Users.GetUsers;
+using Vonage.Users.UpdateUser;
 
 namespace Vonage.Users;
 
@@ -21,6 +22,10 @@ internal class UsersClient : IUsersClient
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
 
     /// <inheritdoc />
+    public Task<Result<User>> CreateUserAsync(Result<CreateUserRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<CreateUserRequest, User>(request);
+
+    /// <inheritdoc />
     public Task<Result<Unit>> DeleteUserAsync(Result<DeleteUserRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -33,6 +38,6 @@ internal class UsersClient : IUsersClient
         this.vonageClient.SendWithResponseAsync<GetUsersRequest, GetUsersResponse>(request);
 
     /// <inheritdoc />
-    public Task<Result<User>> CreateUserAsync(Result<CreateUserRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<CreateUserRequest, User>(request);
+    public Task<Result<User>> UpdateUserAsync(Result<UpdateUserRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<UpdateUserRequest, User>(request);
 }

@@ -4,11 +4,11 @@ using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
 using Vonage.Users;
-using Vonage.Users.CreateUser;
+using Vonage.Users.UpdateUser;
 using WireMock.ResponseBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.Users.CreateUser
+namespace Vonage.Test.Unit.Users.UpdateUser
 {
     [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
@@ -18,36 +18,38 @@ namespace Vonage.Test.Unit.Users.CreateUser
         }
 
         [Fact]
-        public async Task CreateEmptyUser()
+        public async Task UpdateEmptyUser()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/v1/users")
+                    .WithPath("/v1/users/USR-82e028d9-5201-4f1e-8188-604b2d3471ec")
                     .WithHeader("Authorization", "Bearer *")
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerializeEmpty)))
-                    .UsingPost())
+                    .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
             await this.Helper.VonageClient.UsersClient
-                .CreateUserAsync(CreateUserRequest
+                .UpdateUserAsync(UpdateUserRequest
                     .Build()
+                    .WithId("USR-82e028d9-5201-4f1e-8188-604b2d3471ec")
                     .Create())
                 .Should()
                 .BeSuccessAsync(VerifyUser);
         }
 
         [Fact]
-        public async Task CreateUser()
+        public async Task UpdateUser()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/v1/users")
+                    .WithPath("/v1/users/USR-82e028d9-5201-4f1e-8188-604b2d3471ec")
                     .WithHeader("Authorization", "Bearer *")
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
-                    .UsingPost())
+                    .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
             await this.Helper.VonageClient.UsersClient
-                .CreateUserAsync(CreateUserRequest
+                .UpdateUserAsync(UpdateUserRequest
                     .Build()
+                    .WithId("USR-82e028d9-5201-4f1e-8188-604b2d3471ec")
                     .WithName("my_user_name")
                     .WithDisplayName("My User Name")
                     .WithImageUrl(new Uri("https://example.com/image.png"))

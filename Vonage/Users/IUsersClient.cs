@@ -4,6 +4,7 @@ using Vonage.Users.CreateUser;
 using Vonage.Users.DeleteUser;
 using Vonage.Users.GetUser;
 using Vonage.Users.GetUsers;
+using Vonage.Users.UpdateUser;
 
 namespace Vonage.Users;
 
@@ -39,4 +40,11 @@ public interface IUsersClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<User>> CreateUserAsync(Result<CreateUserRequest> request);
+
+    /// <summary>
+    ///     Updates a user.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<User>> UpdateUserAsync(Result<UpdateUserRequest> request);
 }
