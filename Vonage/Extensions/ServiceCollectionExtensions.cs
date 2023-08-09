@@ -30,6 +30,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SmsClient);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().UsersClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);
@@ -58,6 +59,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SmsClient);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().UsersClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);

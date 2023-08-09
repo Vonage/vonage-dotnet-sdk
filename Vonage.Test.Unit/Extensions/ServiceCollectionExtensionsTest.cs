@@ -16,6 +16,7 @@ using Vonage.ProactiveConnect;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
+using Vonage.Users;
 using Vonage.Verify;
 using Vonage.VerifyV2;
 using Vonage.Voice;
@@ -72,6 +73,7 @@ namespace Vonage.Test.Unit.Extensions
             yield return new object[] {typeof(IRedactClient)};
             yield return new object[] {typeof(IShortCodesClient)};
             yield return new object[] {typeof(ISmsClient)};
+            yield return new object[] {typeof(IUsersClient)};
             yield return new object[] {typeof(IVerifyClient)};
             yield return new object[] {typeof(IVerifyV2Client)};
             yield return new object[] {typeof(IVoiceClient)};
