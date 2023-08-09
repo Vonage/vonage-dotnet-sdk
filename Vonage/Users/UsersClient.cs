@@ -2,6 +2,7 @@
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Users.CreateUser;
 using Vonage.Users.DeleteUser;
 using Vonage.Users.GetUser;
 using Vonage.Users.GetUsers;
@@ -30,4 +31,8 @@ internal class UsersClient : IUsersClient
     /// <inheritdoc />
     public Task<Result<GetUsersResponse>> GetUsersAsync(Result<GetUsersRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetUsersRequest, GetUsersResponse>(request);
+
+    /// <inheritdoc />
+    public Task<Result<User>> CreateUserAsync(Result<CreateUserRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<CreateUserRequest, User>(request);
 }

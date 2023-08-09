@@ -5,12 +5,17 @@ using Vonage.Common;
 
 namespace Vonage.Users;
 
-public record CustomData([property: JsonPropertyName("custom_key")]
-    string CustomKey);
+/// <summary>
+/// </summary>
+/// <param name="Number"></param>
+public record ChannelPstn([property: JsonPropertyName("number")] int Number);
 
-public record ChannelPSTN([property: JsonPropertyName("number")] int Number);
-
-public record ChannelSIP([property: JsonPropertyName("uri")]
+/// <summary>
+/// </summary>
+/// <param name="Uri"></param>
+/// <param name="Username"></param>
+/// <param name="Password"></param>
+public record ChannelSip([property: JsonPropertyName("uri")]
     [property: JsonPropertyOrder(0)]
     string Uri,
     [property: JsonPropertyName("username")]
@@ -20,9 +25,17 @@ public record ChannelSIP([property: JsonPropertyName("uri")]
     [property: JsonPropertyOrder(2)]
     string Password);
 
-public record ChannelVBC([property: JsonPropertyName("extension")]
+/// <summary>
+/// </summary>
+/// <param name="Extension"></param>
+public record ChannelVbc([property: JsonPropertyName("extension")]
     string Extension);
 
+/// <summary>
+/// </summary>
+/// <param name="Uri"></param>
+/// <param name="ContentType"></param>
+/// <param name="Headers"></param>
 public record ChannelWebSocket([property: JsonPropertyName("uri")]
     [property: JsonPropertyOrder(0)]
     string Uri,
@@ -33,25 +46,64 @@ public record ChannelWebSocket([property: JsonPropertyName("uri")]
     [property: JsonPropertyOrder(2)]
     Dictionary<string, string> Headers);
 
-public record ChannelSMS([property: JsonPropertyName("number")] string Number);
-public record ChannelMMS([property: JsonPropertyName("number")] string Number);
+/// <summary>
+/// </summary>
+/// <param name="Number"></param>
+public record ChannelSms([property: JsonPropertyName("number")] string Number);
+
+/// <summary>
+/// </summary>
+/// <param name="Number"></param>
+public record ChannelMms([property: JsonPropertyName("number")] string Number);
+
+/// <summary>
+/// </summary>
+/// <param name="Number"></param>
 public record ChannelWhatsApp([property: JsonPropertyName("number")] string Number);
+
+/// <summary>
+/// </summary>
+/// <param name="Number"></param>
 public record ChannelViber([property: JsonPropertyName("number")] string Number);
+
+/// <summary>
+/// </summary>
+/// <param name="Id"></param>
 public record ChannelMessenger([property: JsonPropertyName("id")] string Id);
 
+/// <summary>
+/// </summary>
+/// <param name="Pstn"></param>
+/// <param name="Sip"></param>
+/// <param name="Vbc"></param>
+/// <param name="WebSocket"></param>
+/// <param name="Sms"></param>
+/// <param name="Mms"></param>
+/// <param name="WhatsApp"></param>
+/// <param name="Viber"></param>
+/// <param name="Messenger"></param>
 public record UserChannels(
-    IEnumerable<ChannelPSTN> Pstn,
-    IEnumerable<ChannelSIP> Sip,
-    IEnumerable<ChannelVBC> Vbc,
+    IEnumerable<ChannelPstn> Pstn,
+    IEnumerable<ChannelSip> Sip,
+    IEnumerable<ChannelVbc> Vbc,
     [property: JsonPropertyName("websocket")]
     IEnumerable<ChannelWebSocket> WebSocket,
-    IEnumerable<ChannelSMS> Sms,
-    IEnumerable<ChannelMMS> Mms,
+    IEnumerable<ChannelSms> Sms,
+    IEnumerable<ChannelMms> Mms,
     [property: JsonPropertyName("whatsapp")]
     IEnumerable<ChannelWhatsApp> WhatsApp,
     IEnumerable<ChannelViber> Viber,
     IEnumerable<ChannelMessenger> Messenger);
 
+/// <summary>
+/// </summary>
+/// <param name="Id"></param>
+/// <param name="Name"></param>
+/// <param name="DisplayName"></param>
+/// <param name="ImageUrl"></param>
+/// <param name="Properties"></param>
+/// <param name="Channels"></param>
+/// <param name="Links"></param>
 public record User([property: JsonPropertyName("id")]
     [property: JsonPropertyOrder(0)]
     string Id,
@@ -72,6 +124,4 @@ public record User([property: JsonPropertyName("id")]
     UserChannels Channels,
     [property: JsonPropertyName("_links")]
     [property: JsonPropertyOrder(6)]
-    HalLinks Links)
-{
-};
+    HalLinks Links);

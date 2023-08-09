@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Vonage.Common.Monads;
+using Vonage.Users.CreateUser;
 using Vonage.Users.DeleteUser;
 using Vonage.Users.GetUser;
 using Vonage.Users.GetUsers;
@@ -31,4 +32,11 @@ public interface IUsersClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<GetUsersResponse>> GetUsersAsync(Result<GetUsersRequest> request);
+
+    /// <summary>
+    ///     Creates a user.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<User>> CreateUserAsync(Result<CreateUserRequest> request);
 }

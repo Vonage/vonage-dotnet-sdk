@@ -1,11 +1,11 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.Users.GetUser;
+using Vonage.Users.CreateUser;
 using WireMock.ResponseBuilders;
 using Xunit;
 
-namespace Vonage.Test.Unit.Users.GetUser
+namespace Vonage.Test.Unit.Users.CreateUser
 {
     [Trait("Category", "E2E")]
     public class E2ETest : E2EBase
@@ -15,16 +15,19 @@ namespace Vonage.Test.Unit.Users.GetUser
         }
 
         [Fact]
-        public async Task GetUser()
+        public async Task CreateEmptyUser()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/v1/users/USR-82e028d9-5201-4f1e-8188-604b2d3471ec")
+                    .WithPath("/v1/users")
                     .WithHeader("Authorization", "Bearer *")
-                    .UsingGet())
+                    .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerializeEmpty)))
+                    .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
             await this.Helper.VonageClient.UsersClient
-                .GetUserAsync(GetUserRequest.Parse("USR-82e028d9-5201-4f1e-8188-604b2d3471ec"))
+                .CreateUserAsync(CreateUserRequest
+                    .Build()
+                    .Create())
                 .Should()
                 .BeSuccessAsync(VerifyUser);
         }

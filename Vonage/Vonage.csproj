@@ -88,7 +88,6 @@
         </_PackageFiles>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Users\CreateUser\"/>
         <Folder Include="Users\UpdateUser\"/>
     </ItemGroup>
     <ItemGroup>
