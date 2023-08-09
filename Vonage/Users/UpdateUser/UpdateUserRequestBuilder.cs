@@ -8,7 +8,7 @@ namespace Vonage.Users.UpdateUser;
 
 internal class UpdateUserRequestBuilder : IBuilderForId, IBuilderForOptional
 {
-    private readonly Dictionary<string, object> userProperties = new();
+    private readonly UserProperty userProperties = new(new Dictionary<string, object>());
     private readonly List<ChannelMessenger> messengerChannels = new();
     private readonly List<ChannelMms> mmsChannels = new();
     private readonly List<ChannelPstn> pstnChannels = new();
@@ -118,7 +118,7 @@ internal class UpdateUserRequestBuilder : IBuilderForId, IBuilderForOptional
 
     public IBuilderForOptional WithUserProperty(string key, object value)
     {
-        this.userProperties.Add(key, value);
+        this.userProperties.CustomData.Add(key, value);
         return this;
     }
 

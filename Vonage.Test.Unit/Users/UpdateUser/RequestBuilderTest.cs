@@ -65,7 +65,7 @@ namespace Vonage.Test.Unit.Users.UpdateUser
                 .Create()
                 .Map(request => request.Properties)
                 .Should()
-                .BeSuccess(properties => properties.Should().BeEmpty());
+                .BeSuccess(properties => properties.CustomData.Should().BeEmpty());
 
         [Theory]
         [InlineData(null)]
@@ -281,7 +281,7 @@ namespace Vonage.Test.Unit.Users.UpdateUser
                 .Create()
                 .Map(request => request.Properties)
                 .Should()
-                .BeSuccess(properties => properties.Should().BeEquivalentTo(new Dictionary<string, object>
+                .BeSuccess(properties => properties.CustomData.Should().BeEquivalentTo(new Dictionary<string, object>
                 {
                     {"key1", "value"},
                     {"key2", true},

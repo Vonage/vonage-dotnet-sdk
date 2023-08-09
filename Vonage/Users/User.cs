@@ -125,3 +125,8 @@ public record User([property: JsonPropertyName("id")]
     [property: JsonPropertyName("_links")]
     [property: JsonPropertyOrder(6)]
     HalLinks Links);
+
+/// <summary>
+/// </summary>
+/// <param name="CustomData"></param>
+public record UserProperty(Dictionary<string, object> CustomData);

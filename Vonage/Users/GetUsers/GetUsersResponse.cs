@@ -9,6 +9,11 @@ using Vonage.ProactiveConnect;
 
 namespace Vonage.Users.GetUsers;
 
+/// <summary>
+/// </summary>
+/// <param name="PageSize"></param>
+/// <param name="Embedded"></param>
+/// <param name="Links"></param>
 public record GetUsersResponse(
     [property: JsonPropertyOrder(0)] int PageSize,
     [property: JsonPropertyName("_embedded")]
@@ -31,8 +36,11 @@ public record GetUsersHalLink(Uri Href)
     public Result<GetUsersRequest> BuildRequest()
     {
         var queryValues = QueryHelpers.ParseQuery(this.Href.Query);
-        var name = queryValues.TryGetValue("name", out var value)
-            ? Maybe<string>.Some(value.ToString())
+        var name = queryValues.TryGetValue("name", out var nameValue)
+            ? Maybe<string>.Some(nameValue.ToString())
+            : Maybe<string>.None;
+        var cursor = queryValues.TryGetValue("cursor", out var cursorValue)
+            ? Maybe<string>.Some(cursorValue.ToString())
             : Maybe<string>.None;
         if (!queryValues.ContainsKey("page_size"))
         {
@@ -44,19 +52,23 @@ public record GetUsersHalLink(Uri Href)
             return Result<GetUsersRequest>.FromFailure(ResultFailure.FromErrorMessage("Order is missing from Uri."));
         }
 
-        if (!queryValues.ContainsKey("cursor"))
-        {
-            return Result<GetUsersRequest>.FromFailure(ResultFailure.FromErrorMessage("Cursor is missing from Uri."));
-        }
-
-        return Result<GetUsersRequest>.FromSuccess(new GetUsersRequest(queryValues["cursor"].ToString(), name,
+        return Result<GetUsersRequest>.FromSuccess(new GetUsersRequest(cursor, name,
             Enums.Parse<FetchOrder>(queryValues["order"].ToString(), false, EnumFormat.Description),
             int.Parse(queryValues["page_size"].ToString())));
     }
 }
 
+/// <summary>
+/// </summary>
+/// <param name="Users"></param>
 public record EmbeddedUsers(UserSummary[] Users);
 
+/// <summary>
+/// </summary>
+/// <param name="Id"></param>
+/// <param name="Name"></param>
+/// <param name="DisplayName"></param>
+/// <param name="Links"></param>
 public record UserSummary(
     [property: JsonPropertyOrder(0)] string Id,
     [property: JsonPropertyName("name")]

@@ -53,7 +53,7 @@ namespace Vonage.Test.Unit.Users.UpdateUser
                     .WithName("my_user_name")
                     .WithDisplayName("My User Name")
                     .WithImageUrl(new Uri("https://example.com/image.png"))
-                    .WithUserProperty("custom_data", new CustomData("custom_value"))
+                    .WithUserProperty("custom_key", "custom_value")
                     .WithChannel(new ChannelPstn(123457))
                     .WithChannel(new ChannelSip("sip:4442138907@sip.example.com;transport=tls", "New SIP", "Password"))
                     .WithChannel(new ChannelVbc("403"))

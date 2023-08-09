@@ -8,7 +8,7 @@ namespace Vonage.Users.CreateUser;
 
 internal class CreateUserRequestBuilder : IBuilderForOptional
 {
-    private readonly Dictionary<string, object> userProperties = new();
+    private readonly UserProperty userProperties = new(new Dictionary<string, object>());
     private readonly List<ChannelPstn> pstnChannels = new();
     private readonly List<ChannelSip> sipChannels = new();
     private Maybe<string> name;
@@ -110,7 +110,7 @@ internal class CreateUserRequestBuilder : IBuilderForOptional
 
     public IBuilderForOptional WithUserProperty(string key, object value)
     {
-        this.userProperties.Add(key, value);
+        this.userProperties.CustomData.Add(key, value);
         return this;
     }
 

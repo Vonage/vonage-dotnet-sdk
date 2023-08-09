@@ -11,12 +11,13 @@ namespace Vonage.Test.Unit.Users.GetUsers
     public class GetUsersHalLinkTest
     {
         [Fact]
-        public void BuildRequestForPrevious_ShouldReturnFailure_WhenCursorIsMissing() =>
+        public void BuildRequestForPrevious_ShouldReturnSuccess_WithoutCursor() =>
             new GetUsersHalLink(new Uri(
-                    "https://api.nexmo.com/v1/users?page_size=10&order=desc"))
+                    "https://api.nexmo.com/v1/users?order=desc&page_size=10&name=Test"))
                 .BuildRequest()
                 .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Cursor is missing from Uri."));
+                .BeSuccess(new GetUsersRequest(Maybe<string>.None, "Test",
+                    FetchOrder.Descending, 10));
 
         [Fact]
         public void BuildRequestForPrevious_ShouldReturnFailure_WhenOrderIsMissing() =>

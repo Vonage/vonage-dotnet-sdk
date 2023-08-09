@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -53,7 +52,7 @@ public readonly struct UpdateUserRequest : IVonageRequest
     ///     User properties.
     /// </summary>
     [JsonPropertyOrder(3)]
-    public Dictionary<string, object> Properties { get; internal init; }
+    public UserProperty Properties { get; internal init; }
 
     /// <summary>
     ///     Initializes a builder.

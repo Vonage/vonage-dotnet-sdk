@@ -1,5 +1,8 @@
 ﻿{
-  "properties": {},
+  "properties": {
+    "custom_data": {
+    }
+  },
   "channels": {
     "pstn": [],
     "sip": [],
