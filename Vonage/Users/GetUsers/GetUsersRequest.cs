@@ -63,6 +63,7 @@ public readonly struct GetUsersRequest : IVonageRequest
             {"order", this.Order.AsString(EnumFormat.Description)},
         };
         this.Name.IfSome(value => parameters.Add("name", value));
+        this.Cursor.IfSome(value => parameters.Add("cursor", value));
         return parameters;
     }
 }
