@@ -6,6 +6,22 @@ on:
   pull_request:
     branches: [ main ]
 
+
+permissions:
+  actions: write
+  checks: write
+  contents: read
+  deployments: read
+  id-token: read
+  issues: write
+  discussions: write
+  packages: read
+  pages: write
+  pull-requests: write
+  repository-projects: none
+  security-events: write
+  statuses: write
+  
 jobs:
   build:
     runs-on: windows-latest
