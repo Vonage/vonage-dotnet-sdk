@@ -8,7 +8,6 @@ using Vonage.VerifyV2.VerifyCode;
 
 namespace Vonage.VerifyV2;
 
-/// <inheritdoc />
 internal class VerifyV2Client : IVerifyV2Client
 {
     private readonly VonageHttpClient vonageClient;

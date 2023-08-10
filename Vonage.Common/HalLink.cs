@@ -11,28 +11,70 @@ public struct HalLinks
     /// <summary>
     ///     Represents the navigation link to the first element.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink First { get; set; }
 
     /// <summary>
     ///     Represents the navigation link to the last element.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink Last { get; set; }
 
     /// <summary>
     ///     Represents the navigation link to the next element.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink Next { get; set; }
 
     /// <summary>
     ///     Represents the navigation link to the previous element.
     /// </summary>
     [JsonPropertyName("prev")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink Previous { get; set; }
 
     /// <summary>
     ///     Represents the navigation link to the current element.
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public HalLink Self { get; set; }
+}
+
+/// <summary>
+///     Represents a set of HAL Links.
+/// </summary>
+public struct HalLinks<T>
+{
+    /// <summary>
+    ///     Represents the navigation link to the first element.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public T First { get; set; }
+
+    /// <summary>
+    ///     Represents the navigation link to the last element.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public T Last { get; set; }
+
+    /// <summary>
+    ///     Represents the navigation link to the next element.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public T Next { get; set; }
+
+    /// <summary>
+    ///     Represents the navigation link to the previous element.
+    /// </summary>
+    [JsonPropertyName("prev")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public T Previous { get; set; }
+
+    /// <summary>
+    ///     Represents the navigation link to the current element.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public T Self { get; set; }
 }
 
 /// <summary>

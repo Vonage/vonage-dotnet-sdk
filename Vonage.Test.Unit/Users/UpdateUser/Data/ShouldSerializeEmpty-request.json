@@ -1,0 +1,17 @@
+﻿{
+  "properties": {
+    "custom_data": {
+    }
+  },
+  "channels": {
+    "pstn": [],
+    "sip": [],
+    "vbc": [],
+    "websocket": [],
+    "sms": [],
+    "mms": [],
+    "whatsapp": [],
+    "viber": [],
+    "messenger": []
+  }
+}

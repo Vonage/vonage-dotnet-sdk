@@ -1,0 +1,69 @@
+﻿{
+  "id": "USR-82e028d9-5201-4f1e-8188-604b2d3471ec",
+  "name": "my_user_name",
+  "display_name": "My User Name",
+  "image_url": "https://example.com/image.png",
+  "properties": {
+    "custom_data": {
+      "custom_key": "custom_value"
+    }
+  },
+  "channels": {
+    "pstn": [
+      {
+        "number": 123457
+      }
+    ],
+    "sip": [
+      {
+        "uri": "sip:4442138907@sip.example.com;transport=tls",
+        "username": "New SIP",
+        "password": "Password"
+      }
+    ],
+    "vbc": [
+      {
+        "extension": "403"
+      }
+    ],
+    "websocket": [
+      {
+        "uri": "wss://example.com/socket",
+        "content-type": "audio/l16;rate=16000",
+        "headers": {
+          "customer_id": "ABC123"
+        }
+      }
+    ],
+    "sms": [
+      {
+        "number": "447700900000"
+      }
+    ],
+    "mms": [
+      {
+        "number": "447700900000"
+      }
+    ],
+    "whatsapp": [
+      {
+        "number": "447700900000"
+      }
+    ],
+    "viber": [
+      {
+        "number": "447700900000"
+      }
+    ],
+    "messenger": [
+      {
+        "id": "12345abcd"
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "https://api.nexmo.com/v1/users/USR-82e028d9-5201-4f1e-8188-604b2d3471ec"
+    }
+  }
+}
