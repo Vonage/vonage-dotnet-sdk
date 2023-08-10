@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ main ]
 
-
 permissions:
   actions: write
   checks: write
@@ -17,7 +16,6 @@ permissions:
   packages: read
   pages: write
   pull-requests: write
-  repository-projects: none
   security-events: write
   statuses: write
   

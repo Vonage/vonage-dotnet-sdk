@@ -13,7 +13,6 @@ permissions:
   packages: read
   pages: write
   pull-requests: write
-  repository-projects: none
   security-events: write
   statuses: write
   
