@@ -1,3 +1,18 @@
+# v6.8.0 (2023-08-11)
+
+* feat: users API
+* refactor: async result extensions
+* refactor: test refactoring
+* refactor: simplify e2e tests
+* refactor: video e2e refactoring
+* refactor: use case helpers
+* ci: increase java version to 17
+* ci: pipelines permissions
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.7.1...v6.8.0
+
+---
+
 # v6.7.1 (2023-07-25)
 
 * fix: conversation StartOnEnter
