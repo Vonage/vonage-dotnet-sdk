@@ -6,11 +6,11 @@ on:
 permissions:
   actions: write
   checks: write
-  contents: read
+  contents: write
   deployments: read
   issues: write
   discussions: write
-  packages: read
+  packages: write
   pages: write
   pull-requests: write
   security-events: write
