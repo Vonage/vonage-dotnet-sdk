@@ -676,6 +676,7 @@
         <None Update="ProactiveConnect\Events\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <Folder Include="ConfigurationData\" />
         <Folder Include="Messages\Messenger\Data" />
         <Folder Include="Messages\Mms\Data" />
         <Folder Include="Messages\Sms\Data" />
