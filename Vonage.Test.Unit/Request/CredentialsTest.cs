@@ -13,7 +13,8 @@ namespace Vonage.Test.Unit.Request
 {
     public class CredentialsTest
     {
-        [Fact] public void FromConfiguration_ShouldLoadEmptyCredentials_GivenConfigurationContainsNoElement()
+        [Fact]
+        public void FromConfiguration_ShouldLoadEmptyCredentials_GivenConfigurationContainsNoElement()
         {
             var credentials = Credentials.FromConfiguration(new ConfigurationBuilder().Build());
             credentials.ApiKey.Should().BeNull();
@@ -24,8 +25,9 @@ namespace Vonage.Test.Unit.Request
             credentials.SecuritySecret.Should().BeNull();
             credentials.AppUserAgent.Should().BeNull();
         }
-        
-        [Fact] public void FromConfiguration_ShouldSetApiKey_GivenConfigurationContainsApiKey() =>
+
+        [Fact]
+        public void FromConfiguration_ShouldSetApiKey_GivenConfigurationContainsApiKey() =>
             Credentials.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -33,7 +35,8 @@ namespace Vonage.Test.Unit.Request
                 })
                 .Build()).ApiKey.Should().Be("testKey");
 
-        [Fact] public void FromConfiguration_ShouldSetApiKSecret_GivenConfigurationContainsApiSecret() =>
+        [Fact]
+        public void FromConfiguration_ShouldSetApiKSecret_GivenConfigurationContainsApiSecret() =>
             Credentials.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -41,7 +44,8 @@ namespace Vonage.Test.Unit.Request
                 })
                 .Build()).ApiSecret.Should().Be("testSecret");
 
-        [Fact] public void FromConfiguration_ShouldSetApplicationId_GivenConfigurationContainsApplicationId() =>
+        [Fact]
+        public void FromConfiguration_ShouldSetApplicationId_GivenConfigurationContainsApplicationId() =>
             Credentials.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -49,7 +53,8 @@ namespace Vonage.Test.Unit.Request
                 })
                 .Build()).ApplicationId.Should().Be("testApplicationId");
 
-        [Fact] public void FromConfiguration_ShouldSetApplicationKey_GivenConfigurationContainsApplicationKey() =>
+        [Fact]
+        public void FromConfiguration_ShouldSetApplicationKey_GivenConfigurationContainsApplicationKey() =>
             Credentials.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -57,7 +62,17 @@ namespace Vonage.Test.Unit.Request
                 })
                 .Build()).ApplicationKey.Should().Be("testApplicationKey");
 
-        [Fact] public void FromConfiguration_ShouldSetSecuritySecret_GivenConfigurationContainsSecuritySecret() =>
+        [Fact]
+        public void FromConfiguration_ShouldSetDefaultSigningMethod_GivenConfigurationContainsInvalidSigningMethod() =>
+            Credentials.FromConfiguration(new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    {"appSettings:Vonage.signing_method", "invalid"},
+                })
+                .Build()).Method.Should().Be(SmsSignatureGenerator.Method.md5hash);
+
+        [Fact]
+        public void FromConfiguration_ShouldSetSecuritySecret_GivenConfigurationContainsSecuritySecret() =>
             Credentials.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -65,15 +80,8 @@ namespace Vonage.Test.Unit.Request
                 })
                 .Build()).SecuritySecret.Should().Be("testSecuritySecret");
 
-        [Fact] public void FromConfiguration_ShouldSetUserAgent_GivenConfigurationContainsUserAgent() =>
-            Credentials.FromConfiguration(new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
-                {
-                    {"appSettings:Vonage.UserAgent", "testUserAgent"},
-                })
-                .Build()).AppUserAgent.Should().Be("testUserAgent");
-
-        [Fact] public void FromConfiguration_ShouldSetSigningMethod_GivenConfigurationContainsSigningMethod() =>
+        [Fact]
+        public void FromConfiguration_ShouldSetSigningMethod_GivenConfigurationContainsSigningMethod() =>
             Credentials.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -81,13 +89,14 @@ namespace Vonage.Test.Unit.Request
                 })
                 .Build()).Method.Should().Be(SmsSignatureGenerator.Method.sha512);
 
-        [Fact] public void FromConfiguration_ShouldSetDefaultSigningMethod_GivenConfigurationContainsInvalidSigningMethod() =>
+        [Fact]
+        public void FromConfiguration_ShouldSetUserAgent_GivenConfigurationContainsUserAgent() =>
             Credentials.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.signing_method", "invalid"},
+                    {"appSettings:Vonage.UserAgent", "testUserAgent"},
                 })
-                .Build()).Method.Should().Be(SmsSignatureGenerator.Method.md5hash);
+                .Build()).AppUserAgent.Should().Be("testUserAgent");
 
         [Fact]
         public void GetAuthenticationHeader_ReturnsBasicScheme_GivenContainsApiKeyAndApiSecret() =>
