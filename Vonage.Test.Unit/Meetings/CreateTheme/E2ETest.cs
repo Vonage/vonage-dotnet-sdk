@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
         public async Task CreateTheme()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/meetings/themes")
+                    .WithPath("/v1/meetings/themes")
                     .WithHeader("Authorization", "Bearer *")
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
@@ -40,7 +40,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
         public async Task CreateThemeWithDefaultValues()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/meetings/themes")
+                    .WithPath("/v1/meetings/themes")
                     .WithHeader("Authorization", "Bearer *")
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerializeWithDefaultValues)))

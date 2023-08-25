@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.Meetings.GetTheme
         public async Task GetTheme()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/meetings/themes/48a355bf-924d-4d4d-8e98-78575cf212dd")
+                    .WithPath("/v1/meetings/themes/48a355bf-924d-4d4d-8e98-78575cf212dd")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

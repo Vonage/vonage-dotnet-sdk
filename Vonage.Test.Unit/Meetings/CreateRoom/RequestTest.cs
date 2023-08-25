@@ -23,6 +23,6 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
                 .Create()
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess("/meetings/rooms");
+                .BeSuccess("/v1/meetings/rooms");
     }
 }

@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.Meetings.GetRecording
         public async Task GetRecording()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/meetings/recordings/48a355bf-924d-4d4d-8e98-78575cf212dd")
+                    .WithPath("/v1/meetings/recordings/48a355bf-924d-4d4d-8e98-78575cf212dd")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

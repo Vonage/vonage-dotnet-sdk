@@ -84,7 +84,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/meetings/rooms";
+    public string GetEndpointPath() => "/v1/meetings/rooms";
 
     private StringContent GetRequestContent()
     {

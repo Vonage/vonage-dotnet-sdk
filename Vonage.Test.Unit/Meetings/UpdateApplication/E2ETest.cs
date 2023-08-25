@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
         public async Task CreateRoomWithDefaultValues()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/meetings/applications")
+                    .WithPath("/v1/meetings/applications")
                     .WithHeader("Authorization", "Bearer *")
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPatch())

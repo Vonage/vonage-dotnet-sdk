@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
         public async Task GetRoom()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/meetings/rooms/934f95c2-28e5-486b-ab8e-1126dbc180f9")
+                    .WithPath("/v1/meetings/rooms/934f95c2-28e5-486b-ab8e-1126dbc180f9")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

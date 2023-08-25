@@ -25,7 +25,7 @@ public readonly struct GetRoomRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/meetings/rooms/{this.RoomId}";
+    public string GetEndpointPath() => $"/v1/meetings/rooms/{this.RoomId}";
 
     /// <summary>
     ///     Parses the input into a GetRoomRequest.

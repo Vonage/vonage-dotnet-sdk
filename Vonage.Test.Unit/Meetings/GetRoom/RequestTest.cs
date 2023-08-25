@@ -22,7 +22,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoom
             GetRoomRequest.Parse(this.roomId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/meetings/rooms/{this.roomId}");
+                .BeSuccess($"/v1/meetings/rooms/{this.roomId}");
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenRoomIdIsEmpty() =>

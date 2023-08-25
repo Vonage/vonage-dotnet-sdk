@@ -22,7 +22,7 @@ namespace Vonage.Test.Unit.Meetings.GetTheme
             GetThemeRequest.Parse(this.themeId)
                 .Map(request => request.GetEndpointPath())
                 .Should()
-                .BeSuccess($"/meetings/themes/{this.themeId}");
+                .BeSuccess($"/v1/meetings/themes/{this.themeId}");
 
         [Fact]
         public void Parse_ShouldReturnFailure_GivenThemeIdIsEmpty() =>
