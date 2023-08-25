@@ -12,22 +12,25 @@
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
         <Version>6.8.0</Version>
-        <PackageLicenseExpression />
+        <PackageLicenseExpression/>
         <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
         <LangVersion>latest</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Enums.NET" Version="4.0.1" />
-        <PackageReference Include="Handy.DotNETCore-Compatibility.ColorTranslations" Version="0.2.1" />
+        <PackageReference Include="Enums.NET" Version="4.0.1"/>
+        <PackageReference Include="Handy.DotNETCore-Compatibility.ColorTranslations" Version="0.2.1"/>
         <PackageReference Include="PolySharp" Version="1.13.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="System.Text.Json" Version="7.0.3"/>
-        <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0" />
+        <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
         <PackageReference Update="NETStandard.Library" Version="2.0.3"/>
     </ItemGroup>
 
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <Exec Command="node ../.scripts/init.js"/>
+    </Target>
 </Project>
