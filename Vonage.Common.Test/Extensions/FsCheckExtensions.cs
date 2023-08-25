@@ -22,7 +22,7 @@ namespace Vonage.Common.Test.Extensions
         /// </summary>
         /// <returns>An Arbitrary of status codes.</returns>
         public static Arbitrary<HttpStatusCode> GetInvalidStatusCodes() =>
-            Gen.Choose(400, 599).Select(value => (HttpStatusCode) value).ToArbitrary();
+            Gen.Choose(300, 599).Select(value => (HttpStatusCode) value).ToArbitrary();
 
         /// <summary>
         ///     Retrieves a generator that produces negative decimals.
