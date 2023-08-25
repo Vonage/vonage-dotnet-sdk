@@ -23,7 +23,7 @@ public readonly struct GetRecordingsRequest : IVonageRequest, IHasSessionId
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/meetings/sessions/{this.SessionId}/recordings";
+    public string GetEndpointPath() => $"/v1/meetings/sessions/{this.SessionId}/recordings";
 
     /// <summary>
     ///     Parses the input into a GetRecordingsRequest.

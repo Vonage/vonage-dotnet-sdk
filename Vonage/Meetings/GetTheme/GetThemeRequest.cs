@@ -25,7 +25,7 @@ public readonly struct GetThemeRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/meetings/themes/{this.ThemeId}";
+    public string GetEndpointPath() => $"/v1/meetings/themes/{this.ThemeId}";
 
     /// <summary>
     ///     Parses the input into a GetThemeRequest.

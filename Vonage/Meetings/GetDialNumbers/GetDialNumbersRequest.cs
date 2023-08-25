@@ -20,5 +20,5 @@ public readonly struct GetDialNumbersRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/meetings/dial-in-numbers";
+    public string GetEndpointPath() => "/v1/meetings/dial-in-numbers";
 }

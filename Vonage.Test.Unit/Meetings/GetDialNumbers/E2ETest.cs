@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.Meetings.GetDialNumbers
         public async Task GetDialNumbers()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/meetings/dial-in-numbers")
+                    .WithPath("/v1/meetings/dial-in-numbers")
                     .WithHeader("Authorization", "Bearer *")
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

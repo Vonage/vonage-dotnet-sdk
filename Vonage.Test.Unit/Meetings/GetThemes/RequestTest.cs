@@ -11,6 +11,6 @@ namespace Vonage.Test.Unit.Meetings.GetThemes
             new GetThemesRequest()
                 .GetEndpointPath()
                 .Should()
-                .Be("/meetings/themes");
+                .Be("/v1/meetings/themes");
     }
 }

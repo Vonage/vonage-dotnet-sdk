@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
         public async Task GetRoomsByTheme()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms")
+                    .WithPath("/v1/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a/rooms")
                     .WithParam("page_size", "15")
                     .WithParam("start_id", "15")
                     .WithParam("end_id", "60")

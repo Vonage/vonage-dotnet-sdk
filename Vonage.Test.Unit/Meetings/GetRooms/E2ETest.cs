@@ -17,7 +17,7 @@ namespace Vonage.Test.Unit.Meetings.GetRooms
         public async Task GetRooms()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/meetings/rooms")
+                    .WithPath("/v1/meetings/rooms")
                     .WithParam("page_size", "15")
                     .WithParam("start_id", "15")
                     .WithParam("end_id", "60")

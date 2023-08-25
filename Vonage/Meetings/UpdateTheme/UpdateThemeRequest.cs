@@ -59,7 +59,7 @@ public readonly struct UpdateThemeRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/meetings/themes/{this.ThemeId}";
+    public string GetEndpointPath() => $"/v1/meetings/themes/{this.ThemeId}";
 
     private StringContent GetRequestContent()
     {

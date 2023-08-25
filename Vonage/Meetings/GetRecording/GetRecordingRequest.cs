@@ -25,7 +25,7 @@ public readonly struct GetRecordingRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/meetings/recordings/{this.RecordingId}";
+    public string GetEndpointPath() => $"/v1/meetings/recordings/{this.RecordingId}";
 
     /// <summary>
     ///     Parses the input into a GetRecordingRequest.

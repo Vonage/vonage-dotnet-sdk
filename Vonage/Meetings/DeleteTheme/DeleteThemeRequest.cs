@@ -35,7 +35,7 @@ public readonly struct DeleteThemeRequest : IVonageRequest
 
     /// <inheritdoc />
     public string GetEndpointPath() =>
-        QueryHelpers.AddQueryString($"/meetings/themes/{this.ThemeId}", this.GetQueryStringParameters());
+        QueryHelpers.AddQueryString($"/v1/meetings/themes/{this.ThemeId}", this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
     {

@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
-                    $"/meetings/themes/{this.themeId}");
+                    $"/v1/meetings/themes/{this.themeId}");
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpointWithForceOption_GivenForceDelete() =>
@@ -31,6 +31,6 @@ namespace Vonage.Test.Unit.Meetings.DeleteTheme
                 .Map(request => request.GetEndpointPath())
                 .Should()
                 .BeSuccess(
-                    $"/meetings/themes/{this.themeId}?force=true");
+                    $"/v1/meetings/themes/{this.themeId}?force=true");
     }
 }

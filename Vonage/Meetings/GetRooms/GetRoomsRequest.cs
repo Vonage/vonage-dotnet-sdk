@@ -11,7 +11,7 @@ namespace Vonage.Meetings.GetRooms;
 /// </summary>
 public readonly struct GetRoomsRequest : IVonageRequest
 {
-    private const string DefaultEndpoint = "/meetings/rooms";
+    private const string DefaultEndpoint = "/v1/meetings/rooms";
 
     /// <summary>
     ///     The ID to end returning events at (excluding end_id itself).
