@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Vonage.Common.Monads;
 using Vonage.Logger;
 using Vonage.Request;
@@ -166,12 +169,15 @@ public sealed class Configuration
             logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
         }
     }
-
+    
     /// <summary>
     /// </summary>
-    /// <param name="configuration"></param>
+    /// <param name="configuration"></param>    
     /// <returns></returns>
-    public static Configuration FromConfiguration(IConfiguration configuration) => new(configuration);
+    public static Configuration FromConfiguration(IConfiguration configuration)
+    {
+        throw new NotImplementedException();
+    }
 
     private HttpClient BuildDefaultClient() =>
         this.ClientHandler == null
