@@ -1,0 +1,4 @@
+-   repo: https://github.com/dotnet/format
+    rev: "pre-commit autoupdate"
+    hooks:
+    -   id: dotnet-format
