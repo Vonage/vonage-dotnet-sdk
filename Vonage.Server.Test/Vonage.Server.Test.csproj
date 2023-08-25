@@ -161,5 +161,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
-
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <Exec Command="node ../.scripts/init.js"/>
+    </Target>
 </Project>
