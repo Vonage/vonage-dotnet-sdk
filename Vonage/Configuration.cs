@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Vonage.Common.Monads;
+using Vonage.Cryptography;
 using Vonage.Logger;
 using Vonage.Request;
 
@@ -35,6 +33,7 @@ public sealed class Configuration
     private Configuration(IConfiguration configuration)
     {
         this.Settings = configuration;
+        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
     }
 
     /// <summary>
@@ -126,7 +125,6 @@ public sealed class Configuration
 
     internal Configuration()
     {
-        var logger = LogProvider.GetLogger(LoggerCategory);
         var builder = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -137,11 +135,13 @@ public sealed class Configuration
                     {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
                 })
                 .AddJsonFile("settings.json", true, true)
-                .AddJsonFile("appsettings.json", true, true)
-            ;
+                .AddJsonFile("appsettings.json", true, true);
         this.Settings = builder.Build();
+        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
+    }
 
-        // verify we have a minimum amount of configuration
+    private void LogAuthenticationCapabilities(ILogger logger)
+    {
         var authCapabilities = new List<string>();
         if (!string.IsNullOrWhiteSpace(this.ApiKey) &&
             !string.IsNullOrWhiteSpace(this.ApiSecret))
@@ -169,15 +169,31 @@ public sealed class Configuration
             logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
         }
     }
-    
+
     /// <summary>
+    /// Builds a Configuration from an IConfiguration.
     /// </summary>
-    /// <param name="configuration"></param>    
-    /// <returns></returns>
-    public static Configuration FromConfiguration(IConfiguration configuration)
+    /// <param name="configuration">The configuration properties.</param>    
+    /// <returns>The Configuration.</returns>
+    public static Configuration FromConfiguration(IConfiguration configuration) => new(configuration);
+
+    /// <summary>
+    ///     Builds a Credentials from the current Configuration.
+    /// </summary>
+    /// <returns>The Credentials.</returns>
+    public Credentials BuildCredentials() => new()
     {
-        throw new NotImplementedException();
-    }
+        ApiKey = this.ApiKey,
+        ApiSecret = this.ApiSecret,
+        ApplicationId = this.ApplicationId,
+        ApplicationKey = this.ApplicationKey,
+        SecuritySecret = this.SecuritySecret,
+        AppUserAgent = this.UserAgent,
+        Method = Enum.TryParse(this.SigningMethod,
+            out SmsSignatureGenerator.Method result)
+            ? result
+            : default,
+    };
 
     private HttpClient BuildDefaultClient() =>
         this.ClientHandler == null
