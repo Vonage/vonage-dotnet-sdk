@@ -19,16 +19,11 @@ Sign up [for free at vonage.com][signup].
     * [Tested frameworks](#tested-frameworks)
 * [Configuration](#configuration)
     * [Setup](#setup)
-        * [Provide credentials](#provide-credentials)
-        * [Service registration](#service-registration)
-        * [Set credentials in settings file](#set-credentials-in-settings-file)
-        * [Override values on Configuration singleton](#override-values-in-configuration-singleton)
+        * [Lazy registration (recommended for .NET Core and above)](#lazy-registration-recommended-for-net-core-and-above)
+        * [Manual initialization (recommended for .NET Framework)](#manual-initialization-recommended-for-net-framework)
     * [Configuration reference](#configuration-reference)
     * [Test configuration](#test-configuration)
     * [Logging](#logging)
-        * [v5.0.0+](#v500-)
-        * [3.1.x, 5.0.0](#-31x-500-)
-        * [2.2.0, 3.0.x](#220---30x)
 * [Monads](#monads)
     * [Result](#result)
     * [Maybe](#maybe)
@@ -108,46 +103,9 @@ Therefore, we ensure complete compatibility no matter the version you are using.
 
 ### Setup
 
-To setup the configuration of the Vonage Client you can do one of the following.
+There are various ways to initialize a `VonageClient` with your custom values.
 
-### Provide credentials
-
-Create a Vonage Client instance and pass in credentials in the constructor - this will only affect the security
-credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id)
-
-```csharp
-var credentials = Credentials.FromApiKeyAndSecret(
-    VONAGE_API_KEY,
-    VONAGE_API_SECRET
-    );
-
-var vonageClient = new VonageClient(credentials);
-```
-
-### Service registration
-
-You can also register a client in your `IServiceCollection` using the following extension methods:
-
-- `AddVonageClientScoped`: registers using Scoped registration.
-- `AddVonageClientTransient`: registers using Transient registration.
-
-``` csharp
-builder.Services.AddVonageClientScoped(credentials);
-// or
-builder.Services.AddVonageClientTransient(credentials);
-```
-
-It will register the main `VonageClient`, but also all sub client interfaces:
-
-- IMessagesClient
-- IVerifyV2Client
-- IMeetingsClient
-- IVoiceClient
-- etc.
-
-### Set credentials in settings file
-
-Provide the vonage URLs, API key, secret, and application credentials (for JWT) in ```appsettings.json```:
+Overall, we encourage you to specify your configuration (Vonage URLs, credentials, etc.) in `appsettings.json`, in an `appsettings` section:
 
 ```json
 {
@@ -165,12 +123,62 @@ Provide the vonage URLs, API key, secret, and application credentials (for JWT) 
 }
 ```
 
-> Note: In the event multiple configuration files are found, the order of precedence is as follows:
-> ```appsettings.json``` which overrides ```settings.json```
+> Note: While the section is currently names `appsettings`, we intend to use a more explicit name like `vonageSettings`.
+> Stay tuned for the next major release.
 
-### Override values in Configuration singleton
+The configuration is automatically loaded in the `Configuration` singleton.
 
-Access the Configuration instance and set the appropriate key in your code for example:
+#### Lazy registration (recommended for .NET Core and above)
+
+> Note: This implementation is not available for .NET Framework usages, given IConfiguration has been introduced in .NET Core. 
+ 
+You can register a client in your `IServiceCollection` using the following extension methods:
+
+- `AddVonageClientScoped`: registers using Scoped registration.
+- `AddVonageClientTransient`: registers using Transient registration.
+
+``` csharp
+// For 'Scoped' lifecycle
+builder.Services.AddVonageClientScoped(builder.Configuration);
+// Foor 'Transient' lifecycle
+builder.Services.AddVonageClientTransient(builder.Configuration);
+```
+
+> Note: Using `builder.Configuration` allow us to use settings you decided to load at runtime, including environment-specific settings.
+
+``` csharp
+var credentials = ...
+// For 'Scoped' lifecycle
+builder.Services.AddVonageClientScoped(credentials);
+// Foor 'Transient' lifecycle
+builder.Services.AddVonageClientTransient(credentials);
+```
+
+It will register the main `VonageClient`, but also all sub client interfaces:
+
+- IMessagesClient
+- IVerifyV2Client
+- IMeetingsClient
+- IVoiceClient
+- etc.
+
+Finally, you can inject them in any of your components.
+
+#### Manual initialization (recommended for .NET Framework)
+
+Create a Vonage Client instance and pass in credentials in the constructor;
+this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id).
+
+```csharp
+var credentials = Credentials.FromApiKeyAndSecret(
+    VONAGE_API_KEY,
+    VONAGE_API_SECRET
+    );
+
+var vonageClient = new VonageClient(credentials);
+```
+
+If required, you can override values directly in the `Configuration` singleton:
 
 ```cshap
 Configuration.Instance.Settings["appSettings:Vonage.Url.Api"] = "https://www.example.com/api";
@@ -179,7 +187,9 @@ Configuration.Instance.Settings["appSettings:Vonage.Url.Api.Europe"] = "https://
 Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://www.video.example.com/rest";
 ```
 
-> NOTE: Private Key is the literal key - not a path to the file containing the key
+> Note: Private Key is the literal key - not a path to the file containing the key
+
+> Note: Modifying the Configuration instance will be deprecated in the upcoming release, to keep the configuration immutable.
 
 ### Configuration Reference
 
@@ -207,8 +217,6 @@ For security reasons, not RSA Private Key is hardcoded in the repository.
 
 ### Logging
 
-#### v5.0.0 +
-
 The Library uses Microsoft.Extensions.Logging to preform all of it's logging tasks. To configure logging for you app
 simply create a new `ILoggerFactory` and call the `LogProvider.SetLogFactory()` method to tell the Vonage library how to
 log. For example, to log to the console with serilog you can do the following:
@@ -227,55 +235,6 @@ var factory = new LoggerFactory();
 factory.AddSerilog(log);
 LogProvider.SetLogFactory(factory);
 ```
-
-#### [3.1.x, 5.0.0)
-
-The library makes use of [LibLog](https://github.com/damianh/LibLog/wiki) to facilitate logging.
-
-Your application controls if and how logging occurs. Example using [Serilog](https://serilog.net/)
-and [Serilog.Sinks.Console](https://www.nuget.org/packages/Serilog.Sinks.Console) v3.x:
-
-```C#
-using Vonage.Request;
-using Serilog;
-
-// set up logging at startup
-var log = new LoggerConfiguration()
-  .MinimumLevel.Debug()
-  .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm} [{Level}] ({Name:l}) {Message}")
-  .CreateLogger();
-Log.Logger = log;
-
-Log.Logger.Debug("start");
-var client = new Vonage.VonageClient(new Credentials("example", "password"));
-client.Account.GetBalance();
-Log.Logger.Debug("end");
-```
-
-#### 2.2.0 - 3.0.x
-
-You can request console logging by placing a ```logging.json``` file alongside your ```appsettings.json```
-configuration.
-
-Note that logging Vonage messages will very likely expose your key and secret to the console as they can be part of the
-query string.
-
-Example ```logging.json``` contents that would log all requests as well as major configuration and authentication
-errors:
-
-```json
-{
-  "IncludeScopes": "true",
-  "LogLevel": {
-    "Default": "Debug",
-    "Vonage": "Debug",
-    "Vonage.Authentication": "Error",
-    "Vonage.Configuration": "Error"
-  }
-}
-```
-
-You may specify other types of logging (file, etc.).
 
 ## Monads
 
