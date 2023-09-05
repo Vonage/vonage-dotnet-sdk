@@ -4,6 +4,7 @@ using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Vonage.Common.Monads;
+using Vonage.Cryptography;
 using Vonage.Logger;
 using Vonage.Request;
 
@@ -14,6 +15,10 @@ namespace Vonage;
 /// </summary>
 public sealed class Configuration
 {
+    private const string DefaultEuropeApiUrl = "https://api-eu.vonage.com";
+    private const string DefaultNexmoApiUrl = "https://api.nexmo.com";
+    private const string DefaultRestApiUrl = "https://rest.nexmo.com";
+    private const string DefaultVideoApiUrl = "https://video.api.vonage.com";
     private const string LoggerCategory = "Vonage.Configuration";
 
     private static Maybe<double> RequestsPerSecond =>
@@ -23,6 +28,12 @@ public sealed class Configuration
 
     static Configuration()
     {
+    }
+
+    private Configuration(IConfiguration configuration)
+    {
+        this.Settings = configuration;
+        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
     }
 
     /// <summary>
@@ -62,7 +73,9 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Europe Api Url.
     /// </summary>
-    public Uri EuropeApiUrl => new(this.Settings["appSettings:Vonage.Url.Api.Europe"] ?? string.Empty);
+    public Uri EuropeApiUrl => this.Settings["appSettings:Vonage.Url.Api.Europe"] is null
+        ? new Uri(DefaultEuropeApiUrl)
+        : new Uri(this.Settings["appSettings:Vonage.Url.Api.Europe"]);
 
     /// <summary>
     ///     Retrieves the unique instance (Singleton).
@@ -72,12 +85,16 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Nexmo Api Url.
     /// </summary>
-    public Uri NexmoApiUrl => new(this.Settings["appSettings:Vonage.Url.Api"] ?? string.Empty);
+    public Uri NexmoApiUrl => this.Settings["appSettings:Vonage.Url.Api"] is null
+        ? new Uri(DefaultNexmoApiUrl)
+        : new Uri(this.Settings["appSettings:Vonage.Url.Api"]);
 
     /// <summary>
     ///     Retrieves the Rest Api Url.
     /// </summary>
-    public Uri RestApiUrl => new(this.Settings["appSettings:Vonage.Url.Rest"] ?? string.Empty);
+    public Uri RestApiUrl => this.Settings["appSettings:Vonage.Url.Rest"] is null
+        ? new Uri(DefaultRestApiUrl)
+        : new Uri(this.Settings["appSettings:Vonage.Url.Rest"]);
 
     /// <summary>
     ///     Retrieves the Security Secret.
@@ -102,26 +119,29 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Video Api Url.
     /// </summary>
-    public Uri VideoApiUrl => new(this.Settings["appSettings:Vonage.Url.Api.Video"] ?? string.Empty);
+    public Uri VideoApiUrl => this.Settings["appSettings:Vonage.Url.Api.Video"] is null
+        ? new Uri(DefaultVideoApiUrl)
+        : new Uri(this.Settings["appSettings:Vonage.Url.Api.Video"]);
 
     internal Configuration()
     {
-        var logger = LogProvider.GetLogger(LoggerCategory);
         var builder = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.Url.Rest", "https://rest.nexmo.com"},
-                    {"appSettings:Vonage.Url.Api", "https://api.nexmo.com"},
-                    {"appSettings:Vonage.Url.Api.Europe", "https://api-eu.vonage.com"},
-                    {"appSettings:Vonage.Url.Api.Video", "https://video.api.vonage.com"},
+                    {"appSettings:Vonage.Url.Rest", DefaultRestApiUrl},
+                    {"appSettings:Vonage.Url.Api", DefaultNexmoApiUrl},
+                    {"appSettings:Vonage.Url.Api.Europe", DefaultEuropeApiUrl},
+                    {"appSettings:Vonage.Url.Api.Video", DefaultVideoApiUrl},
                     {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
                 })
                 .AddJsonFile("settings.json", true, true)
-                .AddJsonFile("appsettings.json", true, true)
-            ;
+                .AddJsonFile("appsettings.json", true, true);
         this.Settings = builder.Build();
+        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
+    }
 
-        // verify we have a minimum amount of configuration
+    private void LogAuthenticationCapabilities(ILogger logger)
+    {
         var authCapabilities = new List<string>();
         if (!string.IsNullOrWhiteSpace(this.ApiKey) &&
             !string.IsNullOrWhiteSpace(this.ApiSecret))
@@ -149,6 +169,31 @@ public sealed class Configuration
             logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
         }
     }
+
+    /// <summary>
+    /// Builds a Configuration from an IConfiguration.
+    /// </summary>
+    /// <param name="configuration">The configuration properties.</param>    
+    /// <returns>The Configuration.</returns>
+    public static Configuration FromConfiguration(IConfiguration configuration) => new(configuration);
+
+    /// <summary>
+    ///     Builds a Credentials from the current Configuration.
+    /// </summary>
+    /// <returns>The Credentials.</returns>
+    public Credentials BuildCredentials() => new()
+    {
+        ApiKey = this.ApiKey,
+        ApiSecret = this.ApiSecret,
+        ApplicationId = this.ApplicationId,
+        ApplicationKey = this.ApplicationKey,
+        SecuritySecret = this.SecuritySecret,
+        AppUserAgent = this.UserAgent,
+        Method = Enum.TryParse(this.SigningMethod,
+            out SmsSignatureGenerator.Method result)
+            ? result
+            : default,
+    };
 
     private HttpClient BuildDefaultClient() =>
         this.ClientHandler == null

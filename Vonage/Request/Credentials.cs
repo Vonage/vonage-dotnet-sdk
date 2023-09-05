@@ -149,26 +149,6 @@ namespace Vonage.Request
         }
 
         /// <summary>
-        ///     Initializes a Credentials from configuration.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        /// <returns>The Credentials.</returns>
-        public static Credentials FromConfiguration(IConfiguration configuration) =>
-            new()
-            {
-                ApiKey = configuration["appSettings:Vonage_key"],
-                ApiSecret = configuration["appSettings:Vonage_secret"],
-                ApplicationId = configuration["appSettings:Vonage.Application.Id"],
-                ApplicationKey = configuration["appSettings:Vonage.Application.Key"],
-                SecuritySecret = configuration["appSettings:Vonage.security_secret"],
-                AppUserAgent = configuration["appSettings:Vonage.UserAgent"],
-                Method = Enum.TryParse(configuration["appSettings:Vonage.signing_method"],
-                    out SmsSignatureGenerator.Method result)
-                    ? result
-                    : default,
-            };
-
-        /// <summary>
         ///     Provides the preferred authentication based on authentication type.
         /// </summary>
         /// <returns>The authentication header if it matches any criteria. A AuthenticationFailure otherwise.</returns>

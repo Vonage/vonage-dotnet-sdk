@@ -107,6 +107,12 @@ public class VonageClient
         this.configuration = configuration;
         this.Credentials = credentials;
     }
+    
+    internal VonageClient(Configuration configuration)
+    {
+        this.configuration = configuration;
+        this.Credentials = configuration.BuildCredentials();
+    }
 
     private VonageHttpClientConfiguration BuildConfiguration(Uri baseUri) =>
         new(
