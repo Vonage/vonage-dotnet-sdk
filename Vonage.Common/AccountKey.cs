@@ -14,7 +14,7 @@ public readonly struct AccountKey
     private const string AlphaNumericError = $"{nameof(AccountKey)} should only contain alphanumeric characters.";
 
     private static readonly Regex
-        AlphaNumericRegex = new("^[a-zA-Z0-9]+$", RegexOptions.None, TimeSpan.FromTicks(10000));
+        AlphaNumericRegex = new("^[a-zA-Z0-9]+$", RegexOptions.None, TimeSpan.FromSeconds(1));
 
     private AccountKey(string apiKey) => this.ApiKey = apiKey;
 
