@@ -34,13 +34,11 @@ jobs:
           cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
           if_true: "Vonage.Server"
           if_false: "Vonage"
-      - name: Parse version
-        uses: actions/github-script@v4
-        id: parse_version
+      - uses: bhowell2/github-substring-action@1.0.2
+        id: extract_version
         with:
-          script: |
-            const version = ${{ github.event.release.tag_name }}.replace('v', '')
-            core.setOutput('no-version', version)
+          value: ${{ github.event.release.tag_name }}
+          index_of_str: "v"
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -54,6 +52,6 @@ jobs:
       - name: Pack Signed
         run: dotnet pack -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal --no-build
       - name: NuGet Push
-        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/Release/Vonage.${{ steps.parse_version.outputs.version }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/Release/Vonage.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
       - name: NuGet Push Signed
-        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/ReleaseSigned/Vonage.Signed.${{ steps.parse_version.outputs.version }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/ReleaseSigned/Vonage.Signed.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
