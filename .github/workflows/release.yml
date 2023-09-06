@@ -49,33 +49,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.release.target_commitish }}
-      - name: Parse version
-        uses: actions/github-script@v4
-        id: set_version
-        with:
-          script: |
-            const version = ${{ github.event.release.tag_name }}.replace('v', '')
-            core.setOutput('no-version', version)
-      - name: LOG version
-        run: |
-          echo "${{ steps.set_version.outputs.version }}"
-      - name: Update project version
-        id: update
-        uses: vers-one/dotnet-project-version-updater@v1.3
-        with:
-          file: "${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}"
-          version: ${{ steps.set_version.outputs.version }}
-      - name: LOG new version
-        run: |
-          echo "${{ steps.set_version.outputs.newVersion }}"
-      - name: Commit bump
-        run: |
-          git config user.name "NexmoDev"
-          git config user.email "44278943+NexmoDev@users.noreply.github.com"
-          git add .
-          git commit -m "Bump version to ${{ steps.update.outputs.newVersion }}"
-          git push
-      - name: Bump version and push tag
+      - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.0
         with:
