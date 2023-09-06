@@ -39,7 +39,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.release.target_commitish }
+          ref: ${{ github.event.release.target_commitish }}
       - name: Build
         run: dotnet build -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal
       - name: Build Signed
@@ -47,4 +47,4 @@ jobs:
       - name: Pack
         run: dotnet pack -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal --no-build
       - name: Pack Signed
-        run: dotnet pack -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal --no-build
+        run: dotnet pack -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal --no-build
