@@ -1,6 +1,7 @@
 name: Nuget Release Experiment
 on:
   workflow_dispatch:
+  pull_request:
 
 permissions:
   actions: write
