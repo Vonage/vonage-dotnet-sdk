@@ -88,6 +88,7 @@ public static class ServiceCollectionExtensions
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);
+        services.AddScoped<ITokenGenerator>(_ => new Jwt());
 	}
 
 	private static void RegisterTransientServices(IServiceCollection services)
@@ -109,5 +110,6 @@ public static class ServiceCollectionExtensions
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);
+        services.AddTransient<ITokenGenerator>(_ => new Jwt());
 	}
 }
