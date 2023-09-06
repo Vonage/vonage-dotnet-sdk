@@ -34,6 +34,9 @@ jobs:
           cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
           if_true: "Vonage.Server"
           if_false: "Vonage"
+      - name: LOG tag name
+        run: |
+          echo "${{ github.event.release.tag_name }}"
       - name: LOG project_file
         run: |
           echo "${{ steps.project_file.outputs.value }}"
@@ -51,12 +54,18 @@ jobs:
           script: |
             const version = ${{ github.event.release.tag_name }}.replace('v', '')
             core.setOutput('no-version', version)
+      - name: LOG version
+        run: |
+          echo "${{ steps.set_version.outputs.version }}"
       - name: Update project version
         id: update
         uses: vers-one/dotnet-project-version-updater@v1.3
         with:
           file: "${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}"
           version: ${{ steps.set_version.outputs.version }}
+      - name: LOG new version
+        run: |
+          echo "${{ steps.set_version.outputs.newVersion }}"
       - name: Commit bump
         run: |
           git config user.name "NexmoDev"
