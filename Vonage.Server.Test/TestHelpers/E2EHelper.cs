@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using Vonage.Request;
 using Vonage.Server.Video;
 using WireMock.Server;
@@ -10,13 +12,11 @@ namespace Vonage.Server.Test.TestHelpers
         private E2EHelper(string appSettingsKey, Credentials credentials)
         {
             this.Server = WireMockServer.Start();
-            var configuration = new Configuration
-            {
-                Settings =
+            var configuration = Configuration.FromConfiguration(new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    [$"appSettings:{appSettingsKey}"] = this.Server.Url,
-                },
-            };
+                    {$"appSettings:{appSettingsKey}", this.Server.Url},
+                }).Build());
             this.VonageClient = new VideoClient(credentials, configuration);
         }
 
