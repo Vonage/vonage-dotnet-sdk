@@ -1,4 +1,4 @@
-name: Nuget Release Experiment
+name: Release
 on:
   workflow_dispatch:
   pull_request:
