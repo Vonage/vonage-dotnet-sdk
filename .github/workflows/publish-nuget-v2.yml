@@ -1,0 +1,77 @@
+name: Nuget Release Experiment
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: read
+  issues: write
+  discussions: write
+  packages: write
+  pages: write
+  pull-requests: write
+  security-events: write
+  statuses: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Define project file
+        uses: haya14busa/action-cond@v1
+        id: project_file
+        with:
+          cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
+          if_true: "Vonage.Server.csproj"
+          if_false: "Vonage.csproj"
+      - name: Define project folder
+        uses: haya14busa/action-cond@v1
+        id: project_folder
+        with:
+          cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
+          if_true: "Vonage.Server"
+          if_false: "Vonage"
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.release.target_commitish }}
+      - name: Parse version
+        uses: actions/github-script@v4
+        id: set_version
+        with:
+          script: |
+            const version = ${{ github.event.release.tag_name }}.replace('v', '')
+            core.setOutput('no-version', version)
+      - name: Update project version
+        id: update
+        uses: vers-one/dotnet-project-version-updater@v1.3
+        with:
+          file: "${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}"
+          version: ${{ steps.set_version.outputs.version }}
+      - name: Commit bump
+        run: |
+          git config user.name "NexmoDev"
+          git config user.email "44278943+NexmoDev@users.noreply.github.com"
+          git add .
+          git commit -m "Bump version to ${{ steps.update.outputs.newVersion }}"
+          git push
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ github.event.release.tag_name }}
+      - name: Build
+        run: dotnet build -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
+      - name: Build Signed
+        run: dotnet build -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
+      - name: Pack
+        run: dotnet pack -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
+      - name: Pack Signed
+        run: dotnet pack -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
+      - name: Release NuGet
+        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/Release/*.${{ steps.tag_version.outputs.new_version }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
+      - name: Release NuGet Signed
+        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/ReleaseSigned/*.${{ steps.tag_version.outputs.new_version }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
