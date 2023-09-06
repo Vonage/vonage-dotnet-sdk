@@ -81,12 +81,14 @@ public static class ServiceCollectionExtensions
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
-		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
+		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SubAccountsClient);
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SmsClient);
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().UsersClient);
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
 		services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);
+        services.AddScoped<ITokenGenerator>(_ => new Jwt());
 	}
 
 	private static void RegisterTransientServices(IServiceCollection services)
@@ -102,10 +104,12 @@ public static class ServiceCollectionExtensions
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SubAccountsClient);
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SmsClient);
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().UsersClient);
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
 		services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);
+        services.AddTransient<ITokenGenerator>(_ => new Jwt());
 	}
 }
