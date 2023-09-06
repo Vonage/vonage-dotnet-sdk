@@ -36,30 +36,15 @@ jobs:
           cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
           if_true: "Vonage.Server"
           if_false: "Vonage"
-      - name: LOG tag name
-        run: |
-          echo "${{ github.event.release.tag_name }}"
-      - name: LOG project_file
-        run: |
-          echo "${{ steps.project_file.outputs.value }}"
-      - name: LOG project_folder
-        run: |
-          echo "${{ steps.project_folder.outputs.value }}"
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.release.target_commitish }}
-      - name: Push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ github.event.release.tag_name }}
+          ref: ${{ github.event.release.target_commitish }
       - name: Build
-        run: dotnet build -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
+        run: dotnet build -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal
       - name: Build Signed
-        run: dotnet build -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
+        run: dotnet build -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal
       - name: Pack
-        run: dotnet pack -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
+        run: dotnet pack -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal --no-build
       - name: Pack Signed
-        run: dotnet pack -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
+        run: dotnet pack -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal --no-build
