@@ -87,7 +87,3 @@ jobs:
         run: dotnet pack -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
       - name: Pack Signed
         run: dotnet pack -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}
-      - name: Release NuGet
-        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/Release/*.${{ steps.tag_version.outputs.new_version }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
-      - name: Release NuGet Signed
-        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/ReleaseSigned/*.${{ steps.tag_version.outputs.new_version }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
