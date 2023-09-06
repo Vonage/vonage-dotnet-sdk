@@ -1,7 +1,5 @@
 name: Release
 on:
-  workflow_dispatch:
-  pull_request:
   release:
     types: [ published ]
 
@@ -36,15 +34,26 @@ jobs:
           cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
           if_true: "Vonage.Server"
           if_false: "Vonage"
+      - name: Parse version
+        uses: actions/github-script@v4
+        id: parse_version
+        with:
+          script: |
+            const version = ${{ github.event.release.tag_name }}.replace('v', '')
+            core.setOutput('no-version', version)
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.release.target_commitish }}
       - name: Build
-        run: dotnet build -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal
+        run: dotnet build -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal
       - name: Build Signed
-        run: dotnet build -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal
+        run: dotnet build -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal
       - name: Pack
-        run: dotnet pack -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }}  -v minimal --no-build
+        run: dotnet pack -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal --no-build
       - name: Pack Signed
         run: dotnet pack -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal --no-build
+      - name: NuGet Push
+        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/Release/Vonage.${{ steps.parse_version.outputs.version }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
+      - name: NuGet Push Signed
+        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/ReleaseSigned/Vonage.Signed.${{ steps.parse_version.outputs.version }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
