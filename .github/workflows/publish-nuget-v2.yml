@@ -34,6 +34,12 @@ jobs:
           cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
           if_true: "Vonage.Server"
           if_false: "Vonage"
+      - name: LOG project_file
+        run: |
+          echo "${{ steps.project_file.outputs.value }}"
+      - name: LOG project_folder
+        run: |
+          echo "${{ steps.project_folder.outputs.value }}"
       - name: Checkout
         uses: actions/checkout@v3
         with:
