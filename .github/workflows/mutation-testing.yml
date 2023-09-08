@@ -22,7 +22,7 @@ jobs:
     name: Vonage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Stryker
         run: dotnet tool install -g dotnet-stryker
       - name: Run mutation testing
@@ -33,7 +33,7 @@ jobs:
     name: Vonage.Common
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Stryker
         run: dotnet tool install -g dotnet-stryker
       - name: Run mutation testing
@@ -44,7 +44,7 @@ jobs:
     name: Vonage.Server
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Stryker
         run: dotnet tool install -g dotnet-stryker
       - name: Run mutation testing
