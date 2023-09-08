@@ -1,3 +1,26 @@
+# v6.9.0 (2023-09-07)
+
+* feat: initialize credentials from Configuration
+* feat: add versioning on Meetings API Uri
+* fix: version substring in release pipeline
+* refactor: update error status codes in PBT for VonageClient
+* refactor: configuration improvement
+* refactor: extend regex timeout
+* refactor: remove InternalsVisibleTo property
+* ci: pipelines permissions
+* ci: release
+* ci: pipeline permissions
+* ci: add .editorconfig to solution
+* ci: add pre-commit-config
+* ci: release pipeline
+* release: v6.9.0
+* doc: changelog update
+* doc: readme update
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.8.1...v6.9.0
+
+---
+
 # v6.8.0 (2023-08-11)
 
 * feat: users API
