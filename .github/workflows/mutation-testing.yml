@@ -1,5 +1,8 @@
 name: Mutation testing
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ main ]
 
 permissions:
   actions: write
@@ -15,8 +18,8 @@ permissions:
   statuses: write
   
 jobs:
-  mutation:
-    name: Run mutation analysis
+  vonage:
+    name: Vonage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,9 +27,27 @@ jobs:
         run: dotnet tool install -g dotnet-stryker
       - name: Run mutation testing
         run: |
-          cd Vonage.Test.Unit
-          dotnet stryker
-      - uses: actions/upload-artifact@v3
-        with:
-          name: mutation-report
-          path: Vonage.Test.Unit/StrykerOutput/**/reports/mutation-report.html     
+          cd Vonage
+          dotnet stryker --reporter "dashboard" --dashboard-api-key "${{ secrets.STRYKER_API_KEY }}"
+  vonage-common:
+    name: Vonage.Common
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Stryker
+        run: dotnet tool install -g dotnet-stryker
+      - name: Run mutation testing
+        run: |
+          cd Vonage.Common
+          dotnet stryker --reporter "dashboard" --dashboard-api-key "${{ secrets.STRYKER_API_KEY }}"
+  vonage-server:
+    name: Vonage.Server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Stryker
+        run: dotnet tool install -g dotnet-stryker
+      - name: Run mutation testing
+        run: |
+          cd Vonage.Server
+          dotnet stryker --reporter "dashboard" --dashboard-api-key "${{ secrets.STRYKER_API_KEY }}"

@@ -1,0 +1,15 @@
+﻿{
+  "stryker-config":
+  {
+    "project": "Vonage.csproj",
+    "project-info": {
+      "name":  "github.com/Vonage/vonage-dotnet-sdk/Vonage",
+      "version": "main",
+      "module": "Vonage"
+    },
+    "test-projects": 
+    [
+      "../Vonage.Test.Unit/Vonage.Test.Unit.csproj"
+    ]
+  }
+}
