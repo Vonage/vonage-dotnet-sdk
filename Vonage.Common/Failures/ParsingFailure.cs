@@ -17,7 +17,10 @@ public readonly struct ParsingFailure : IResultFailure
 
     /// <inheritdoc />
     public override bool Equals(object obj) =>
-        obj is ParsingFailure failure && this.failures.SequenceEqual(failure.failures);
+        obj is ParsingFailure failure && this.GetHashCode().Equals(failure.GetHashCode());
+
+    /// <inheritdoc />
+    public override int GetHashCode() => this.GetFailureMessage().GetHashCode();
 
     /// <summary>
     ///     Creates a ParsingFailure from a list of failures.
