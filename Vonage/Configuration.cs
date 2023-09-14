@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using OneDriveRestAPI.Http;
+using OneDriveRestAPI.Util;
 using Vonage.Common.Monads;
 using Vonage.Cryptography;
 using Vonage.Logger;
@@ -209,6 +211,6 @@ public sealed class Configuration
 
     private ThrottlingMessageHandler GetThrottlingMessageHandler(TimeSpanSemaphore semaphore) =>
         this.ClientHandler != null
-            ? new ThrottlingMessageHandler(semaphore, this.ClientHandler)
-            : new ThrottlingMessageHandler(semaphore);
+            ? new ThrottlingMessageHandler(semaphore, semaphore, this.ClientHandler)
+            : new ThrottlingMessageHandler(semaphore, semaphore);
 }
