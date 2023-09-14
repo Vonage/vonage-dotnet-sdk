@@ -80,7 +80,7 @@ internal class PemParse
         if (!(isPkcs1 || isPkcs8))
         {
             logger.LogError("App private key is not in PKCS#1 or PKCS#8 format!");
-                
+
             return null;
         }
 
@@ -259,7 +259,7 @@ internal class PemParse
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                     RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    RSA = new RSACryptoServiceProvider();
+                    RSA = new RSACryptoServiceProvider(2048);
                 }
                 else
                 {
@@ -306,7 +306,7 @@ internal class PemParse
         {
             highbyte = binr.ReadByte(); // data size in next 2 bytes
             lowbyte = binr.ReadByte();
-            byte[] modint = {lowbyte, highbyte, 0x00, 0x00};
+            byte[] modint = { lowbyte, highbyte, 0x00, 0x00 };
             count = BitConverter.ToInt32(modint, 0);
         }
         else
