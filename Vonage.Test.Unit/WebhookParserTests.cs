@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using FluentAssertions;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Xunit;
@@ -61,7 +62,8 @@ namespace Vonage.Test.Unit
         {
             var queryArgs = new List<KeyValuePair<string, StringValues>>();
             queryArgs.Add(new KeyValuePair<string, StringValues>("foo-bar", "foo"));
-            Utility.WebhookParser.ParseQuery<Foo>(queryArgs);
+            var value = Utility.WebhookParser.ParseQuery<Foo>(queryArgs);
+            value.FooBar.Should().Be("foo");
         }
 
         [Fact]
