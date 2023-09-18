@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Request;
@@ -34,7 +34,7 @@ public class AccountClient : IAccountClient
             AuthType.Basic
         );
 
-    public Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey, Credentials creds = null) =>
+    public Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey = null, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<Secret>(
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
@@ -86,7 +86,7 @@ public class AccountClient : IAccountClient
             AuthType.Basic
         );
 
-    public Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey, Credentials creds = null) =>
+    public Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<Secret>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
             AuthType.Basic
@@ -98,7 +98,7 @@ public class AccountClient : IAccountClient
             AuthType.Basic
         );
 
-    public Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey, Credentials creds = null) =>
+    public Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey = null, Credentials creds = null) =>
         new ApiRequest(creds ?? this.Credentials).DoGetRequestWithQueryParametersAsync<SecretsRequestResult>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
             AuthType.Basic
@@ -137,7 +137,7 @@ public class AccountClient : IAccountClient
         return true;
     }
 
-    public async Task<bool> RevokeApiSecretAsync(string secretId, string apiKey, Credentials creds = null)
+    public async Task<bool> RevokeApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null)
     {
         await new ApiRequest(creds ?? this.Credentials).DoDeleteRequestWithUrlContentAsync(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
