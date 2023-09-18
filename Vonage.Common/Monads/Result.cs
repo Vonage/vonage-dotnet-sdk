@@ -204,7 +204,9 @@ public readonly struct Result<T>
     public Result<TB> Merge<TB>(Result<T> other, Func<T, T, TB> merge) =>
         this.IsSuccess && other.IsSuccess
             ? Result<TB>.FromSuccess(merge(this.success, other.success))
-            : Result<TB>.FromFailure(this.IsFailure ? this.failure : other.failure);
+            : Result<TB>.FromFailure(this.FetchFailure(other));
+
+    private IResultFailure FetchFailure(Result<T> other) => this.IsFailure ? this.failure : other.failure;
 
     /// <summary>
     ///     Implicit operator from TA to Result of TA.
