@@ -2,8 +2,14 @@
 
 namespace Vonage.Serialization;
 
-public class VonageSerialization
+/// <summary>
+/// Exposes serialization settings
+/// </summary>
+public static class VonageSerialization
 {
+    /// <summary>
+    /// The custom serialization settings.
+    /// </summary>
     public static JsonSerializerSettings SerializerSettings
     {
         get
