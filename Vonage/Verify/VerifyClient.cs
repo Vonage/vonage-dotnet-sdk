@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Request;
 
 namespace Vonage.Verify;
@@ -15,7 +15,7 @@ public class VerifyClient : IVerifyClient
         {
             throw new VonageVerifyResponseException(
                     $"Verify Request Failed with status: {response.Status} and Error Text: {response.ErrorText}")
-                {Response = response};
+            { Response = response };
         }
     }
 
@@ -93,7 +93,7 @@ public class VerifyClient : IVerifyClient
         return response;
     }
 
-    public async Task<VerifyResponse> VerifyRequestWithPSD2Async(Psd2Request request, Credentials creds)
+    public async Task<VerifyResponse> VerifyRequestWithPSD2Async(Psd2Request request, Credentials creds = null)
     {
         var response = await new ApiRequest(creds ?? this.Credentials)
             .DoPostRequestUrlContentFromObjectAsync<VerifyResponse>(
