@@ -36,10 +36,9 @@ internal partial class ApiRequest
         this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.GetUserAgent());
     }
     
-    public ApiRequest(Credentials credentials, Configuration configuration) : this(credentials)
-    {
-        this.configuration = configuration;
-    }
+    private ApiRequest(Credentials credentials, Configuration configuration) : this(credentials) => this.configuration = configuration;
+
+    internal static ApiRequest Build(Credentials credentials, Configuration configuration) => new ApiRequest(credentials, configuration);
 
     private Configuration GetConfiguration() => this.configuration ?? Configuration.Instance;
 

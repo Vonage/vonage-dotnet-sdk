@@ -20,24 +20,25 @@ public class SmsClient : ISmsClient
         this.configuration = configuration;
     }
 
+    /// <inheritdoc/>
     public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
     {
-        var result = new ApiRequest(creds ?? this.Credentials, this.configuration).DoPostRequestUrlContentFromObject<SendSmsResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
-            request
-        );
+        var result = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoPostRequestUrlContentFromObject<SendSmsResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
+                request
+            );
         ValidSmsResponse(result);
         return result;
     }
 
+    /// <inheritdoc/>
     public SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.Text,
-        Credentials creds = null)
-    {
-        return this.SendAnSms(new SendSmsRequest {From = from, To = to, Type = type, Text = text}, creds);
-    }
+        Credentials creds = null) =>
+        this.SendAnSms(new SendSmsRequest {From = from, To = to, Type = type, Text = text}, creds);
 
     /// <summary>
-    /// Send a SMS message.
+    ///     Send a SMS message.
     /// </summary>
     /// <param name="request">The SMS message request</param>
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
@@ -45,7 +46,7 @@ public class SmsClient : ISmsClient
     /// <returns></returns>
     public async Task<SendSmsResponse> SendAnSmsAsync(SendSmsRequest request, Credentials creds = null)
     {
-        var result = await new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var result = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObjectAsync<SendSmsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
                 request
@@ -54,11 +55,12 @@ public class SmsClient : ISmsClient
         return result;
     }
 
+    /// <inheritdoc/>
     public Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.Text,
-        Credentials creds = null)
-    {
-        return this.SendAnSmsAsync(new SendSmsRequest {From = from, To = to, Type = type, Text = text}, creds);
-    }
+        Credentials creds = null) =>
+        this.SendAnSmsAsync(new SendSmsRequest {From = from, To = to, Type = type, Text = text}, creds);
+
+    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 
     private static void ValidSmsResponse(SendSmsResponse smsResponse)
     {
