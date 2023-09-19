@@ -55,16 +55,12 @@ namespace Vonage.Test.Unit
         }
 
         protected void Setup(string uri, string responseContent, string requestContent = null,
-            HttpStatusCode expectedCode = HttpStatusCode.OK)
-        {
+            HttpStatusCode expectedCode = HttpStatusCode.OK) =>
             this.Setup(uri, new StringContent(responseContent, Encoding.UTF8, "application/json"), expectedCode,
                 requestContent);
-        }
 
-        protected void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
-        {
+        protected void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK) =>
             this.Setup(uri, new StreamContent(new MemoryStream(responseContent)), expectedCode);
-        }
 
         private void Setup(string uri, HttpContent httpContent, HttpStatusCode expectedCode,
             string requestContent = null)
@@ -116,12 +112,8 @@ namespace Vonage.Test.Unit
             return string.Empty;
         }
 
-        protected string GetResponseJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null)
-        {
-            var response = this.GetResponseJson(name);
-            response = TokenReplacementRegEx.Replace(response, match => parameters[match.Groups[1].Value]);
-            return response;
-        }
+        protected string GetResponseJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null) =>
+            TokenReplacementRegEx.Replace(this.GetResponseJson(name), match => parameters[match.Groups[1].Value]);
 
         protected string GetRequestJson([CallerMemberName] string name = null)
         {
