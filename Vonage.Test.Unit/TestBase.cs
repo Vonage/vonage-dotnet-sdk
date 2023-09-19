@@ -20,16 +20,14 @@ namespace Vonage.Test.Unit
     {
         private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
         private const string MockedMethod = "SendAsync";
-        protected string ApiUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Api"];
-        protected string RestUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"];
-        protected string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
-        protected string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
-
-        protected string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID") ??
-                                 "afed99d2-ae38-487c-bb5a-fe2518febd44";
-
-        protected string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
-                                      Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
+        protected readonly string ApiUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Api"];
+        protected readonly string RestUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"];
+        protected readonly string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
+        protected readonly string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
+        protected readonly string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID") ??
+                                          "afed99d2-ae38-487c-bb5a-fe2518febd44";
+        protected readonly string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
+                                               Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
 
 #if NETCOREAPP2_0_OR_GREATER
         private static readonly Assembly ThisAssembly = typeof(TestBase).GetTypeInfo().Assembly;
