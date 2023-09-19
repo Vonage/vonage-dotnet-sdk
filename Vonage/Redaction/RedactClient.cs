@@ -6,13 +6,24 @@ namespace Vonage.Redaction;
 
 public class RedactClient : IRedactClient
 {
+    private readonly Configuration configuration;
     public Credentials Credentials { get; set; }
 
-    public RedactClient(Credentials creds = null) => this.Credentials = creds;
+    public RedactClient(Credentials creds = null)
+    {
+        this.Credentials = creds;
+        this.configuration = Configuration.Instance;
+    }
+
+    internal RedactClient(Credentials credentials, Configuration configuration)
+    {
+        this.Credentials = credentials;
+        this.configuration = configuration;
+    }
 
     public bool Redact(RedactRequest request, Credentials creds = null)
     {
-        new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContent<object>
+        new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContent<object>
         (
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
@@ -24,7 +35,7 @@ public class RedactClient : IRedactClient
 
     public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
     {
-        await new ApiRequest(creds ?? this.Credentials).DoRequestWithJsonContentAsync<object>
+        await new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContentAsync<object>
         (
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),

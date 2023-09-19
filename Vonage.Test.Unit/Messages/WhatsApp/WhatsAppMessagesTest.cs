@@ -25,7 +25,7 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
             this.helper = new SerializationTestHelper(typeof(WhatsAppMessagesTest).Namespace,
                 JsonSerializer.BuildWithCamelCase());
             this.operation = request =>
-                new VonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
+            this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
                     .MessagesClient
                     .SendAsync(request);
         }

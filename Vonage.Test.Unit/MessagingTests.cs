@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
+using FluentAssertions.Types;
 using Newtonsoft.Json;
 using Vonage.Cryptography;
 using Vonage.Messaging;
@@ -20,7 +21,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = new VonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
+            var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
             var exception = Assert.Throws<VonageSmsResponseException>(() =>
                 client.SmsClient.SendAnSms(new SendSmsRequest
                     {From = "AcmeInc", To = "447700900000", Text = "Hello World!"}));
@@ -36,7 +37,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = new VonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
+            var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
             var exception = await Assert.ThrowsAsync<VonageSmsResponseException>(async () =>
                 await client.SmsClient.SendAnSmsAsync(new SendSmsRequest
                     {From = "AcmeInc", To = "447700900000", Text = "Hello World!"}));
@@ -78,7 +79,7 @@ namespace Vonage.Test.Unit
             };
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var response = passCreds
                 ? await client.SmsClient.SendAnSmsAsync(request, creds)
                 : await client.SmsClient.SendAnSmsAsync(request);
@@ -99,7 +100,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = new VonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
+            var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
             var exception = Assert.Throws<VonageSmsResponseException>(() =>
                 client.SmsClient.SendAnSms(new SendSmsRequest
                     {From = "AcmeInc", To = "447700900000", Text = "Hello World!"}));
@@ -131,7 +132,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = new VonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
+            var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
             var response = client.SmsClient.SendAnSms(new SendSmsRequest
                 {From = "AcmeInc", To = "447700900000", Text = "Hello World!"});
             Assert.Equal("1", response.MessageCount);
@@ -165,7 +166,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&type=text&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = new VonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
+            var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
             var response = client.SmsClient.SendAnSms("AcmeInc", "447700900000", "Hello World!");
             Assert.Equal("1", response.MessageCount);
             Assert.Equal("447700900000", response.Messages[0].To);
@@ -185,7 +186,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&type=text&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = new VonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
+            var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
             var response = await client.SmsClient.SendAnSmsAsync("AcmeInc", "447700900000", "Hello World!");
             Assert.Equal("1", response.MessageCount);
             Assert.Equal("447700900000", response.Messages[0].To);
@@ -218,7 +219,7 @@ namespace Vonage.Test.Unit
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("こんにちは世界")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = new VonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
+            var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
             var response = client.SmsClient.SendAnSms(new SendSmsRequest
                 {From = "AcmeInc", To = "447700900000", Text = "こんにちは世界"});
             Assert.Equal("1", response.MessageCount);
@@ -262,7 +263,7 @@ namespace Vonage.Test.Unit
             };
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var response = passCreds
                 ? client.SmsClient.SendAnSms(request, creds)
                 : client.SmsClient.SendAnSms(request);

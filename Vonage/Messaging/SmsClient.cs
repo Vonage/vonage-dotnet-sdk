@@ -5,16 +5,24 @@ namespace Vonage.Messaging;
 
 public class SmsClient : ISmsClient
 {
+    private readonly Configuration configuration;
     public Credentials Credentials { get; set; }
 
     public SmsClient(Credentials creds = null)
     {
         this.Credentials = creds;
+        this.configuration = Configuration.Instance;
+    }
+
+    public SmsClient(Credentials credentials, Configuration configuration)
+    {
+        this.Credentials = credentials;
+        this.configuration = configuration;
     }
 
     public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
     {
-        var result = new ApiRequest(creds ?? this.Credentials).DoPostRequestUrlContentFromObject<SendSmsResponse>(
+        var result = new ApiRequest(creds ?? this.Credentials, this.configuration).DoPostRequestUrlContentFromObject<SendSmsResponse>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
             request
         );
@@ -37,7 +45,7 @@ public class SmsClient : ISmsClient
     /// <returns></returns>
     public async Task<SendSmsResponse> SendAnSmsAsync(SendSmsRequest request, Credentials creds = null)
     {
-        var result = await new ApiRequest(creds ?? this.Credentials)
+        var result = await new ApiRequest(creds ?? this.Credentials, this.configuration)
             .DoPostRequestUrlContentFromObjectAsync<SendSmsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
                 request

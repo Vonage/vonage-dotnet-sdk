@@ -20,8 +20,8 @@ namespace Vonage.Test.Unit
     {
         private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
         private const string MockedMethod = "SendAsync";
-        protected readonly string ApiUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Api"];
-        protected readonly string RestUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"];
+        protected string ApiUrl => this.Configuration.Settings["appSettings:Vonage.Url.Api"];
+        protected string RestUrl => this.Configuration.Settings["appSettings:Vonage.Url.Rest"];
         protected readonly string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
         protected readonly string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
 
@@ -31,6 +31,11 @@ namespace Vonage.Test.Unit
         protected readonly string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
                                                Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
 
+        protected TestBase()
+        {
+            this.Configuration = new Configuration();
+        }
+
 #if NETCOREAPP2_0_OR_GREATER
         private static readonly Assembly ThisAssembly = typeof(TestBase).GetTypeInfo().Assembly;
 #else
@@ -38,6 +43,10 @@ namespace Vonage.Test.Unit
 #endif
 
         private static readonly string TestAssemblyName = ThisAssembly.GetName().Name;
+        public Configuration Configuration { get; }
+
+        protected VonageClient BuildVonageClient(Credentials credentials) =>
+            new VonageClient(credentials, this.Configuration);
 
         protected Credentials BuildCredentialsForBasicAuthentication() =>
             Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
@@ -64,8 +73,6 @@ namespace Vonage.Test.Unit
         private void Setup(string uri, HttpContent httpContent, HttpStatusCode expectedCode,
             string requestContent = null)
         {
-            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)
-                ?.SetValue(Configuration.Instance, null);
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler
                 .Protected()
@@ -87,7 +94,7 @@ namespace Vonage.Test.Unit
                     Content = httpContent,
                 })
                 .Verifiable();
-            Configuration.Instance.ClientHandler = mockHandler.Object;
+            this.Configuration.ClientHandler = mockHandler.Object;
         }
 
         protected string GetResponseJson([CallerMemberName] string name = null)

@@ -27,7 +27,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.Secret secret;
             if (passCreds)
             {
@@ -70,7 +70,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.Secret secret;
             if (passCreds)
             {
@@ -99,7 +99,7 @@ namespace Vonage.Test.Unit
             var expectedResponseContent = @"{""value"": 3.14159, ""autoReload"": false }";
             this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.Balance balance;
             if (passCreds)
             {
@@ -125,7 +125,7 @@ namespace Vonage.Test.Unit
             var expectedResponseContent = @"{""value"": 3.14159, ""autoReload"": false }";
             this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.Balance balance;
             if (passCreds)
             {
@@ -141,69 +141,7 @@ namespace Vonage.Test.Unit
             Assert.False(balance.AutoReload);
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void GetNumbers(bool passCreds)
-        {
-            //ARRANGE
-            var expectedUri = $"{this.RestUrl}/account/numbers?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            var expectedResponseContent =
-                @"{""count"":1,""numbers"":[{""country"":""US"",""msisdn"":""17775551212"",""type"":""mobile-lvn"",""features"":[""VOICE"",""SMS""]}]}";
-            this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
-
-            //Act
-            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
-            Numbers.NumbersSearchResponse numbers;
-            if (passCreds)
-            {
-                numbers = client.NumbersClient.GetOwnedNumbers(new Numbers.NumberSearchRequest(), creds);
-            }
-            else
-            {
-                numbers = client.NumbersClient.GetOwnedNumbers(new Numbers.NumberSearchRequest());
-            }
-
-            //ASSERT
-            Assert.Equal(1, numbers.Count);
-            Assert.Equal("17775551212", numbers.Numbers[0].Msisdn);
-            Assert.Equal("US", numbers.Numbers[0].Country);
-            Assert.Equal("mobile-lvn", numbers.Numbers[0].Type);
-            Assert.Equal("VOICE", numbers.Numbers[0].Features.First());
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public async void GetNumbersAsync(bool passCreds)
-        {
-            //ARRANGE
-            var expectedUri = $"{this.RestUrl}/account/numbers?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            var expectedResponseContent =
-                @"{""count"":1,""numbers"":[{""country"":""US"",""msisdn"":""17775551212"",""type"":""mobile-lvn"",""features"":[""VOICE"",""SMS""]}]}";
-            this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
-
-            //Act
-            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
-            Numbers.NumbersSearchResponse numbers;
-            if (passCreds)
-            {
-                numbers = await client.NumbersClient.GetOwnedNumbersAsync(new Numbers.NumberSearchRequest(), creds);
-            }
-            else
-            {
-                numbers = await client.NumbersClient.GetOwnedNumbersAsync(new Numbers.NumberSearchRequest());
-            }
-
-            //ASSERT
-            Assert.Equal(1, numbers.Count);
-            Assert.Equal("17775551212", numbers.Numbers[0].Msisdn);
-            Assert.Equal("US", numbers.Numbers[0].Country);
-            Assert.Equal("mobile-lvn", numbers.Numbers[0].Type);
-            Assert.Equal("VOICE", numbers.Numbers[0].Features.First());
-        }
+     
 
         [Theory]
         [InlineData(false)]
@@ -236,7 +174,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.SecretsRequestResult secrets;
             if (passCreds)
             {
@@ -285,7 +223,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.SecretsRequestResult secrets;
             if (passCreds)
             {
@@ -324,7 +262,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.Secret secret;
             if (passCreds)
             {
@@ -362,7 +300,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.Secret secret;
             if (passCreds)
             {
@@ -392,7 +330,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             bool response;
             if (passCreds)
             {
@@ -420,7 +358,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             bool response;
             if (passCreds)
             {
@@ -451,7 +389,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.AccountSettingsResult result;
             if (passCreds)
             {
@@ -495,7 +433,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.AccountSettingsResult result;
             if (passCreds)
             {
@@ -536,7 +474,7 @@ namespace Vonage.Test.Unit
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
 
             //Act
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.TopUpResult response;
             if (passCreds)
             {
@@ -565,7 +503,7 @@ namespace Vonage.Test.Unit
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
 
             //Act
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Accounts.TopUpResult response;
             if (passCreds)
             {
