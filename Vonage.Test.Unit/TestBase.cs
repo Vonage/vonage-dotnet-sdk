@@ -24,8 +24,10 @@ namespace Vonage.Test.Unit
         protected readonly string RestUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"];
         protected readonly string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
         protected readonly string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
+
         protected readonly string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID") ??
                                           "afed99d2-ae38-487c-bb5a-fe2518febd44";
+
         protected readonly string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
                                                Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
 
@@ -43,15 +45,12 @@ namespace Vonage.Test.Unit
         protected Credentials BuildCredentialsForBearerAuthentication() =>
             Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
 
-        private static string AssemblyDirectory
+        private static string GetAssemblyDirectory()
         {
-            get
-            {
-                var codeBase = ThisAssembly.CodeBase;
-                var uri = new UriBuilder(codeBase);
-                var path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
+            var codeBase = ThisAssembly.CodeBase;
+            var uri = new UriBuilder(codeBase);
+            var path = Uri.UnescapeDataString(uri.Path);
+            return Path.GetDirectoryName(path);
         }
 
         protected void Setup(string uri, string responseContent, string requestContent = null,
@@ -98,7 +97,7 @@ namespace Vonage.Test.Unit
             if (ns != null)
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);
-                var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, $"{name}-response.json");
+                var path = Path.Combine(GetAssemblyDirectory(), projectFolder, "Data", type, $"{name}-response.json");
                 if (!File.Exists(path))
                 {
                     throw new FileNotFoundException($"File not found at {path}.");
@@ -112,7 +111,8 @@ namespace Vonage.Test.Unit
             return string.Empty;
         }
 
-        protected string GetResponseJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null) =>
+        protected string GetResponseJson(Dictionary<string, string> parameters,
+            [CallerMemberName] string name = null) =>
             TokenReplacementRegEx.Replace(this.GetResponseJson(name), match => parameters[match.Groups[1].Value]);
 
         protected string GetRequestJson([CallerMemberName] string name = null)
@@ -122,7 +122,7 @@ namespace Vonage.Test.Unit
             if (ns != null)
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);
-                var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, $"{name}-request.json");
+                var path = Path.Combine(GetAssemblyDirectory(), projectFolder, "Data", type, $"{name}-request.json");
                 if (!File.Exists(path))
                 {
                     throw new FileNotFoundException($"File not found at {path}.");
