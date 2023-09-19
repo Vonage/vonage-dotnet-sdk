@@ -34,7 +34,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"&status-report-req={request.StatusReportReq}&client-ref={request.ClientRef}&template={HttpUtility.UrlEncode(request.Template)}&type={request.Type}";
             }
 
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             expectedUri += $"&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponseContent);
 
@@ -81,7 +81,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"&status-report-req={request.StatusReportReq}&client-ref={request.ClientRef}&template={HttpUtility.UrlEncode(request.Template)}&type={request.Type}";
             }
 
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             expectedUri += $"&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponseContent);
 
@@ -114,7 +114,7 @@ namespace Vonage.Test.Unit
                 Msisdn = "15559301529",
             };
 
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             var expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn={request.Msisdn}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponseContent);
 
@@ -142,7 +142,7 @@ namespace Vonage.Test.Unit
                 Msisdn = "15559301529",
             };
 
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             var expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn={request.Msisdn}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponseContent);
 
@@ -179,7 +179,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"page-size={request.PageSize}&page={request.Page}&";
             }
 
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             expectedUri += $"api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponseContent);
 
@@ -213,7 +213,7 @@ namespace Vonage.Test.Unit
                 expectedUri += $"page-size={request.PageSize}&page={request.Page}&";
             }
 
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             expectedUri += $"api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             this.Setup(expectedUri, expectedResponseContent);
 
@@ -236,7 +236,7 @@ namespace Vonage.Test.Unit
             var request = new TwoFactorAuthRequest();
 
             var expectedUri = $"{this.RestUrl}/sc/us/2fa/json?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
@@ -258,7 +258,7 @@ namespace Vonage.Test.Unit
             var request = new TwoFactorAuthRequest();
 
             var expectedUri = $"{this.RestUrl}/sc/us/2fa/json?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             this.Setup(expectedUri, expectedResponseContent);
 
             //ACT
