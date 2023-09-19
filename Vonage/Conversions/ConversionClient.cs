@@ -20,6 +20,7 @@ public class ConversionClient : IConversionClient
         this.configuration = configuration;
     }
 
+    /// <inheritdoc/>
     public bool SmsConversion(ConversionRequest request, Credentials creds = null)
     {
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoPostRequestUrlContentFromObject<object>
@@ -30,6 +31,7 @@ public class ConversionClient : IConversionClient
         return true;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null)
     {
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -41,6 +43,7 @@ public class ConversionClient : IConversionClient
         return true;
     }
 
+    /// <inheritdoc/>
     public bool VoiceConversion(ConversionRequest request, Credentials creds = null)
     {
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoPostRequestUrlContentFromObject<object>
@@ -51,6 +54,7 @@ public class ConversionClient : IConversionClient
         return true;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> VoiceConversionAsync(ConversionRequest request, Credentials creds = null)
     {
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration)

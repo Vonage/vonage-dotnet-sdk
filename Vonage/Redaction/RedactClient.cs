@@ -23,6 +23,7 @@ public class RedactClient : IRedactClient
     
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 
+    /// <inheritdoc/>
     public bool Redact(RedactRequest request, Credentials creds = null)
     {
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<object>
@@ -35,6 +36,7 @@ public class RedactClient : IRedactClient
         return true;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
     {
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<object>

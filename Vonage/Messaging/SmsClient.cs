@@ -20,6 +20,7 @@ public class SmsClient : ISmsClient
         this.configuration = configuration;
     }
 
+    /// <inheritdoc/>
     public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
     {
         var result = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -31,6 +32,7 @@ public class SmsClient : ISmsClient
         return result;
     }
 
+    /// <inheritdoc/>
     public SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.Text,
         Credentials creds = null) =>
         this.SendAnSms(new SendSmsRequest {From = from, To = to, Type = type, Text = text}, creds);
@@ -53,6 +55,7 @@ public class SmsClient : ISmsClient
         return result;
     }
 
+    /// <inheritdoc/>
     public Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.Text,
         Credentials creds = null) =>
         this.SendAnSmsAsync(new SendSmsRequest {From = from, To = to, Type = type, Text = text}, creds);

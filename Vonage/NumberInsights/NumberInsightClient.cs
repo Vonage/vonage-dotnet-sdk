@@ -20,6 +20,7 @@ public class NumberInsightClient : INumberInsightClient
         this.configuration = configuration;
     }
 
+    /// <inheritdoc/>
     public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
         Credentials creds = null)
     {
@@ -33,6 +34,7 @@ public class NumberInsightClient : INumberInsightClient
         return response;
     }
 
+    /// <inheritdoc/>
     public async Task<AdvancedInsightsResponse> GetNumberInsightAdvancedAsync(AdvancedNumberInsightRequest request,
         Credentials creds = null)
     {
@@ -46,6 +48,7 @@ public class NumberInsightClient : INumberInsightClient
         return response;
     }
 
+    /// <inheritdoc/>
     public AdvancedInsightsAsynchronousResponse GetNumberInsightAsynchronous(
         AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
     {
@@ -59,6 +62,7 @@ public class NumberInsightClient : INumberInsightClient
         return response;
     }
 
+    /// <inheritdoc/>
     public async Task<AdvancedInsightsAsynchronousResponse> GetNumberInsightAsynchronousAsync(
         AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
     {
@@ -72,6 +76,7 @@ public class NumberInsightClient : INumberInsightClient
         return response;
     }
 
+    /// <inheritdoc/>
     public BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -84,6 +89,7 @@ public class NumberInsightClient : INumberInsightClient
         return response;
     }
 
+    /// <inheritdoc/>
     public async Task<BasicInsightResponse> GetNumberInsightBasicAsync(BasicNumberInsightRequest request,
         Credentials creds = null)
     {
@@ -97,6 +103,7 @@ public class NumberInsightClient : INumberInsightClient
         return response;
     }
 
+    /// <inheritdoc/>
     public StandardInsightResponse GetNumberInsightStandard(StandardNumberInsightRequest request,
         Credentials creds = null)
     {
@@ -110,6 +117,7 @@ public class NumberInsightClient : INumberInsightClient
         return response;
     }
 
+    /// <inheritdoc/>
     public async Task<StandardInsightResponse> GetNumberInsightStandardAsync(StandardNumberInsightRequest request,
         Credentials creds = null)
     {

@@ -20,6 +20,7 @@ public class PricingClient : IPricingClient
         this.configuration = configuration;
     }
 
+    /// <inheritdoc/>
     public PricingResult RetrievePrefixPricing(string type, PricingPrefixRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<PricingResult>
         (
@@ -28,6 +29,7 @@ public class PricingClient : IPricingClient
             request
         );
 
+    /// <inheritdoc/>
     public Task<PricingResult> RetrievePrefixPricingAsync(string type, PricingPrefixRequest request,
         Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -38,6 +40,7 @@ public class PricingClient : IPricingClient
                 request
             );
 
+    /// <inheritdoc/>
     public PricingResult RetrievePricingAllCountries(string type, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<PricingResult>
         (
@@ -45,6 +48,7 @@ public class PricingClient : IPricingClient
             AuthType.Query
         );
 
+    /// <inheritdoc/>
     public Task<PricingResult> RetrievePricingAllCountriesAsync(string type, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoGetRequestWithQueryParametersAsync<PricingResult>
@@ -53,6 +57,7 @@ public class PricingClient : IPricingClient
                 AuthType.Query
             );
 
+    /// <inheritdoc/>
     public Country RetrievePricingCountry(string type, PricingCountryRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<Country>
         (
@@ -61,6 +66,7 @@ public class PricingClient : IPricingClient
             request
         );
 
+    /// <inheritdoc/>
     public Task<Country> RetrievePricingCountryAsync(string type, PricingCountryRequest request,
         Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParametersAsync<Country>

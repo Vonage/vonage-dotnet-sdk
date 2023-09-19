@@ -30,6 +30,7 @@ public class VerifyClient : IVerifyClient
         }
     }
 
+    /// <inheritdoc/>
     public VerifyCheckResponse VerifyCheck(VerifyCheckRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -41,6 +42,7 @@ public class VerifyClient : IVerifyClient
         return response;
     }
 
+    /// <inheritdoc/>
     public async Task<VerifyCheckResponse> VerifyCheckAsync(VerifyCheckRequest request, Credentials creds = null)
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -52,6 +54,7 @@ public class VerifyClient : IVerifyClient
         return response;
     }
 
+    /// <inheritdoc/>
     public VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -63,6 +66,7 @@ public class VerifyClient : IVerifyClient
         return response;
     }
 
+    /// <inheritdoc/>
     public async Task<VerifyControlResponse> VerifyControlAsync(VerifyControlRequest request, Credentials creds = null)
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -74,6 +78,7 @@ public class VerifyClient : IVerifyClient
         return response;
     }
 
+    /// <inheritdoc/>
     public VerifyResponse VerifyRequest(VerifyRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -85,6 +90,7 @@ public class VerifyClient : IVerifyClient
         return response;
     }
 
+    /// <inheritdoc/>
     public async Task<VerifyResponse> VerifyRequestAsync(VerifyRequest request, Credentials creds = null)
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -96,6 +102,7 @@ public class VerifyClient : IVerifyClient
         return response;
     }
 
+    /// <inheritdoc/>
     public VerifyResponse VerifyRequestWithPSD2(Psd2Request request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -107,6 +114,7 @@ public class VerifyClient : IVerifyClient
         return response;
     }
 
+    /// <inheritdoc/>
     public async Task<VerifyResponse> VerifyRequestWithPSD2Async(Psd2Request request, Credentials creds = null)
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -118,6 +126,7 @@ public class VerifyClient : IVerifyClient
         return response;
     }
 
+    /// <inheritdoc/>
     public VerifySearchResponse VerifySearch(VerifySearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoGetRequestWithQueryParameters<VerifySearchResponse>(
@@ -126,6 +135,7 @@ public class VerifyClient : IVerifyClient
                 request
             );
 
+    /// <inheritdoc/>
     public Task<VerifySearchResponse> VerifySearchAsync(VerifySearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoGetRequestWithQueryParametersAsync<VerifySearchResponse>(

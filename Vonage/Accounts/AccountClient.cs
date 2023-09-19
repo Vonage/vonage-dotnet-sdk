@@ -22,6 +22,7 @@ public class AccountClient : IAccountClient
         this.configuration = configuration;
     }
 
+    /// <inheritdoc/>
     public AccountSettingsResult ChangeAccountSettings(AccountSettingsRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObject<AccountSettingsResult>
@@ -30,6 +31,7 @@ public class AccountClient : IAccountClient
                 request
             );
 
+    /// <inheritdoc/>
     public Task<AccountSettingsResult> ChangeAccountSettingsAsync(AccountSettingsRequest request,
         Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration)
@@ -39,6 +41,7 @@ public class AccountClient : IAccountClient
                 request
             );
 
+    /// <inheritdoc/>
     public Secret CreateApiSecret(CreateSecretRequest request, string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<Secret>(
             HttpMethod.Post,
@@ -47,6 +50,7 @@ public class AccountClient : IAccountClient
             AuthType.Basic
         );
 
+    /// <inheritdoc/>
     public Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey = null,
         Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<Secret>(
@@ -56,6 +60,7 @@ public class AccountClient : IAccountClient
             AuthType.Basic
         );
 
+    /// <inheritdoc/>
     [Obsolete("Use SubAccountsClient instead.")]
     public SubAccount CreateSubAccount(CreateSubAccountRequest request, string apiKey = null,
         Credentials creds = null)
@@ -70,6 +75,7 @@ public class AccountClient : IAccountClient
         );
     }
 
+    /// <inheritdoc/>
     [Obsolete("Use SubAccountsClient instead.")]
     public Task<SubAccount> CreateSubAccountAsync(CreateSubAccountRequest request, string apiKey = null,
         Credentials creds = null)
@@ -85,28 +91,33 @@ public class AccountClient : IAccountClient
             );
     }
 
+    /// <inheritdoc/>
     public Balance GetAccountBalance(Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<Balance>(
             ApiRequest.GetBaseUriFor("/account/get-balance"),
             AuthType.Query);
 
+    /// <inheritdoc/>
     public Task<Balance> GetAccountBalanceAsync(Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParametersAsync<Balance>(
             ApiRequest.GetBaseUriFor("/account/get-balance"),
             AuthType.Query);
 
+    /// <inheritdoc/>
     public Secret RetrieveApiSecret(string secretId, string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<Secret>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
             AuthType.Basic
         );
 
+    /// <inheritdoc/>
     public Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParametersAsync<Secret>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
             AuthType.Basic
         );
 
+    /// <inheritdoc/>
     public SecretsRequestResult RetrieveApiSecrets(string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoGetRequestWithQueryParameters<SecretsRequestResult>(
@@ -114,6 +125,7 @@ public class AccountClient : IAccountClient
                 AuthType.Basic
             );
 
+    /// <inheritdoc/>
     public Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoGetRequestWithQueryParametersAsync<SecretsRequestResult>(
@@ -121,6 +133,7 @@ public class AccountClient : IAccountClient
                 AuthType.Basic
             );
 
+    /// <inheritdoc/>
     [Obsolete("Use SubAccountsClient instead.")]
     public SubAccount RetrieveSubAccount(string subAccountKey, string apiKey = null, Credentials creds = null)
     {
@@ -133,6 +146,7 @@ public class AccountClient : IAccountClient
             );
     }
 
+    /// <inheritdoc/>
     [Obsolete("Use SubAccountsClient instead.")]
     public Task<SubAccount> RetrieveSubAccountAsync(string subAccountKey, string apiKey = null,
         Credentials creds = null)
@@ -146,6 +160,7 @@ public class AccountClient : IAccountClient
             );
     }
 
+    /// <inheritdoc/>
     public bool RevokeApiSecret(string secretId, string apiKey = null, Credentials creds = null)
     {
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoDeleteRequestWithUrlContent(
@@ -155,7 +170,8 @@ public class AccountClient : IAccountClient
         );
         return true;
     }
-
+    
+    /// <inheritdoc/>
     public async Task<bool> RevokeApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null)
     {
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoDeleteRequestWithUrlContentAsync(
@@ -166,6 +182,7 @@ public class AccountClient : IAccountClient
         return true;
     }
 
+    /// <inheritdoc/>
     public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<TopUpResult>(
             ApiRequest.GetBaseUriFor("/account/top-up"),
@@ -173,6 +190,7 @@ public class AccountClient : IAccountClient
             request
         );
 
+    /// <inheritdoc/>
     public Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoGetRequestWithQueryParametersAsync<TopUpResult>(
