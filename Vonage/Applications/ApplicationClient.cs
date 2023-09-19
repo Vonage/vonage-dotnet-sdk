@@ -22,7 +22,7 @@ public class ApplicationClient : IApplicationClient
     }
 
     public Application CreateApplicaiton(CreateApplicationRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContent<Application>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<Application>(
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             request,
@@ -30,7 +30,7 @@ public class ApplicationClient : IApplicationClient
         );
 
     public Task<Application> CreateApplicaitonAsync(CreateApplicationRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContentAsync<Application>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<Application>(
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
             request,
@@ -39,7 +39,7 @@ public class ApplicationClient : IApplicationClient
 
     public bool DeleteApplication(string id, Credentials creds = null)
     {
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoDeleteRequestWithUrlContent(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoDeleteRequestWithUrlContent(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             null,
             AuthType.Basic
@@ -49,7 +49,7 @@ public class ApplicationClient : IApplicationClient
 
     public async Task<bool> DeleteApplicationAsync(string id, Credentials creds = null)
     {
-        await new ApiRequest(creds ?? this.Credentials, this.configuration).DoDeleteRequestWithUrlContentAsync(
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoDeleteRequestWithUrlContentAsync(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             null,
             AuthType.Basic
@@ -58,33 +58,36 @@ public class ApplicationClient : IApplicationClient
     }
 
     public Application GetApplication(string id, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParameters<Application>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<Application>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             AuthType.Basic
         );
 
     public Task<Application> GetApplicationAsync(string id, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParametersAsync<Application>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
-            AuthType.Basic
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParametersAsync<Application>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
+                AuthType.Basic
+            );
 
     public ApplicationPage ListApplications(ListApplicationsRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParameters<ApplicationPage>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
-            AuthType.Basic,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParameters<ApplicationPage>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
+                AuthType.Basic,
+                request
+            );
 
     public Task<ApplicationPage> ListApplicationsAsync(ListApplicationsRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParametersAsync<ApplicationPage>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
-            AuthType.Basic,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParametersAsync<ApplicationPage>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
+                AuthType.Basic,
+                request
+            );
 
     public Application UpdateApplication(string id, CreateApplicationRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContent<Application>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<Application>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             request,
@@ -93,10 +96,12 @@ public class ApplicationClient : IApplicationClient
 
     public Task<Application> UpdateApplicationAsync(string id, CreateApplicationRequest request,
         Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContentAsync<Application>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<Application>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
             request,
             AuthType.Basic
         );
+
+    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 }

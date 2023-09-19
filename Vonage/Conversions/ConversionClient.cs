@@ -22,7 +22,7 @@ public class ConversionClient : IConversionClient
 
     public bool SmsConversion(ConversionRequest request, Credentials creds = null)
     {
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoPostRequestUrlContentFromObject<object>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoPostRequestUrlContentFromObject<object>
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
             request
@@ -32,17 +32,18 @@ public class ConversionClient : IConversionClient
 
     public async Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null)
     {
-        await new ApiRequest(creds ?? this.Credentials, this.configuration).DoPostRequestUrlContentFromObjectAsync<object>
-        (
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
-            request
-        );
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoPostRequestUrlContentFromObjectAsync<object>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
+                request
+            );
         return true;
     }
 
     public bool VoiceConversion(ConversionRequest request, Credentials creds = null)
     {
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoPostRequestUrlContentFromObject<object>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoPostRequestUrlContentFromObject<object>
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
             request
@@ -52,11 +53,14 @@ public class ConversionClient : IConversionClient
 
     public async Task<bool> VoiceConversionAsync(ConversionRequest request, Credentials creds = null)
     {
-        await new ApiRequest(creds ?? this.Credentials, this.configuration).DoPostRequestUrlContentFromObjectAsync<object>
-        (
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
-            request
-        );
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoPostRequestUrlContentFromObjectAsync<object>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
+                request
+            );
         return true;
     }
+
+    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 }

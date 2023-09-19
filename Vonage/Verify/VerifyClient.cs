@@ -26,23 +26,24 @@ public class VerifyClient : IVerifyClient
         {
             throw new VonageVerifyResponseException(
                     $"Verify Request Failed with status: {response.Status} and Error Text: {response.ErrorText}")
-            { Response = response };
+                {Response = response};
         }
     }
 
     public VerifyCheckResponse VerifyCheck(VerifyCheckRequest request, Credentials creds = null)
     {
-        var response = new ApiRequest(creds ?? this.Credentials, this.configuration).DoPostRequestUrlContentFromObject<VerifyCheckResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
-            request
-        );
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoPostRequestUrlContentFromObject<VerifyCheckResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
+                request
+            );
         this.ValidateVerifyResponse(response);
         return response;
     }
 
     public async Task<VerifyCheckResponse> VerifyCheckAsync(VerifyCheckRequest request, Credentials creds = null)
     {
-        var response = await new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObjectAsync<VerifyCheckResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
                 request
@@ -53,7 +54,7 @@ public class VerifyClient : IVerifyClient
 
     public VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null)
     {
-        var response = new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObject<VerifyControlResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
                 request
@@ -64,7 +65,7 @@ public class VerifyClient : IVerifyClient
 
     public async Task<VerifyControlResponse> VerifyControlAsync(VerifyControlRequest request, Credentials creds = null)
     {
-        var response = await new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObjectAsync<VerifyControlResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
                 request
@@ -75,17 +76,18 @@ public class VerifyClient : IVerifyClient
 
     public VerifyResponse VerifyRequest(VerifyRequest request, Credentials creds = null)
     {
-        var response = new ApiRequest(creds ?? this.Credentials, this.configuration).DoPostRequestUrlContentFromObject<VerifyResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
-            request
-        );
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoPostRequestUrlContentFromObject<VerifyResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
+                request
+            );
         this.ValidateVerifyResponse(response);
         return response;
     }
 
     public async Task<VerifyResponse> VerifyRequestAsync(VerifyRequest request, Credentials creds = null)
     {
-        var response = await new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObjectAsync<VerifyResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
                 request
@@ -96,17 +98,18 @@ public class VerifyClient : IVerifyClient
 
     public VerifyResponse VerifyRequestWithPSD2(Psd2Request request, Credentials creds = null)
     {
-        var response = new ApiRequest(creds ?? this.Credentials, this.configuration).DoPostRequestUrlContentFromObject<VerifyResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
-            request
-        );
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoPostRequestUrlContentFromObject<VerifyResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
+                request
+            );
         this.ValidateVerifyResponse(response);
         return response;
     }
 
     public async Task<VerifyResponse> VerifyRequestWithPSD2Async(Psd2Request request, Credentials creds = null)
     {
-        var response = await new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObjectAsync<VerifyResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
                 request
@@ -116,16 +119,20 @@ public class VerifyClient : IVerifyClient
     }
 
     public VerifySearchResponse VerifySearch(VerifySearchRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParameters<VerifySearchResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParameters<VerifySearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
+                AuthType.Query,
+                request
+            );
 
     public Task<VerifySearchResponse> VerifySearchAsync(VerifySearchRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParametersAsync<VerifySearchResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParametersAsync<VerifySearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
+                AuthType.Query,
+                request
+            );
+
+    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 }

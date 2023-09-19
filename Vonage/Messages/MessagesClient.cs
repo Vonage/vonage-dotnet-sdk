@@ -11,9 +11,9 @@ namespace Vonage.Messages;
 public class MessagesClient : IMessagesClient
 {
     private const string Url = "/v1/messages";
+    private readonly Configuration configuration;
     private readonly Credentials credentials;
     private readonly Uri uri;
-    private readonly Configuration configuration;
 
     /// <summary>
     /// </summary>
@@ -40,7 +40,7 @@ public class MessagesClient : IMessagesClient
     {
         var authType = this.credentials.GetPreferredAuthenticationType()
             .IfFailure(failure => throw failure.ToException());
-        return new ApiRequest(this.credentials, this.configuration).DoRequestWithJsonContentAsync(
+        return ApiRequest.Build(this.credentials, this.configuration).DoRequestWithJsonContentAsync(
             HttpMethod.Post, this.uri,
             message,
             authType,

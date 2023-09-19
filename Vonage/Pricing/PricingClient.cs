@@ -21,7 +21,7 @@ public class PricingClient : IPricingClient
     }
 
     public PricingResult RetrievePrefixPricing(string type, PricingPrefixRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParameters<PricingResult>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<PricingResult>
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
             AuthType.Query,
@@ -30,29 +30,31 @@ public class PricingClient : IPricingClient
 
     public Task<PricingResult> RetrievePrefixPricingAsync(string type, PricingPrefixRequest request,
         Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParametersAsync<PricingResult>
-        (
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParametersAsync<PricingResult>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
+                AuthType.Query,
+                request
+            );
 
     public PricingResult RetrievePricingAllCountries(string type, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParameters<PricingResult>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<PricingResult>
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
             AuthType.Query
         );
 
     public Task<PricingResult> RetrievePricingAllCountriesAsync(string type, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParametersAsync<PricingResult>
-        (
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
-            AuthType.Query
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParametersAsync<PricingResult>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
+                AuthType.Query
+            );
 
     public Country RetrievePricingCountry(string type, PricingCountryRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParameters<Country>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<Country>
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
             AuthType.Query,
@@ -61,10 +63,12 @@ public class PricingClient : IPricingClient
 
     public Task<Country> RetrievePricingCountryAsync(string type, PricingCountryRequest request,
         Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParametersAsync<Country>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParametersAsync<Country>
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
             AuthType.Query,
             request
         );
+
+    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 }
