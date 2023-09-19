@@ -13,6 +13,7 @@ public class MessagesClient : IMessagesClient
     private const string Url = "/v1/messages";
     private readonly Credentials credentials;
     private readonly Uri uri;
+    private readonly Configuration configuration;
 
     /// <summary>
     /// </summary>
@@ -20,7 +21,15 @@ public class MessagesClient : IMessagesClient
     public MessagesClient(Credentials credentials)
     {
         this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, Url);
+        this.configuration = Configuration.Instance;
         this.credentials = credentials;
+    }
+
+    public MessagesClient(Credentials credentials, Configuration configuration)
+    {
+        this.credentials = credentials;
+        this.configuration = configuration;
+        this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, Url);
     }
 
     /// <summary>
@@ -31,7 +40,7 @@ public class MessagesClient : IMessagesClient
     {
         var authType = this.credentials.GetPreferredAuthenticationType()
             .IfFailure(failure => throw failure.ToException());
-        return new ApiRequest(this.credentials).DoRequestWithJsonContentAsync(
+        return new ApiRequest(this.credentials, this.configuration).DoRequestWithJsonContentAsync(
             HttpMethod.Post, this.uri,
             message,
             authType,

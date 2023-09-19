@@ -36,7 +36,7 @@ namespace Vonage.Test.Unit.Messages.Sms
             };
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest, HttpStatusCode.Unauthorized);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var exception =
                 await Assert.ThrowsAsync<VonageHttpRequestException>(async () =>
                     await client.MessagesClient.SendAsync(request));
@@ -58,7 +58,7 @@ namespace Vonage.Test.Unit.Messages.Sms
             };
             var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
             this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var response = await client.MessagesClient.SendAsync(request);
             Assert.NotNull(response);
             Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);

@@ -17,20 +17,17 @@ using Vonage.Serialization;
 
 namespace Vonage.Request;
 
-/// <summary>
-///     Responsible for sending all Vonage API requests that do not make use of Application authentication.
-///     For application authentication, see VersionedApiRequest.
-/// </summary>
 internal partial class ApiRequest
 {
     private readonly Credentials credentials;
     private readonly ILogger logger;
     private readonly string userAgent;
+    private readonly Configuration configuration;
 
     private ApiRequest()
     {
         this.logger = LogProvider.GetLogger("Vonage.Request.ApiRequest");
-        this.userAgent = UserAgentProvider.GetFormattedUserAgent(Configuration.Instance.UserAgent);
+        this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.GetConfiguration().UserAgent);
     }
 
     public ApiRequest(Credentials credentials) : this()
@@ -38,6 +35,13 @@ internal partial class ApiRequest
         this.credentials = credentials;
         this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.GetUserAgent());
     }
+    
+    public ApiRequest(Credentials credentials, Configuration configuration) : this(credentials)
+    {
+        this.configuration = configuration;
+    }
+
+    private Configuration GetConfiguration() => this.configuration ?? Configuration.Instance;
 
     public async Task<VonageResponse> DoDeleteRequestWithUrlContentAsync(Uri uri,
         Dictionary<string, string> parameters, AuthType authType = AuthType.Query) =>
@@ -48,7 +52,7 @@ internal partial class ApiRequest
         var req = this.BuildMessage(uri, HttpMethod.Get);
         req.Headers.Authorization = this.BuildBearerAuth();
         this.logger.LogDebug("GET {Uri}", uri);
-        var result = await Configuration.Instance.Client.SendAsync(req);
+        var result = await this.GetConfiguration().Client.SendAsync(req);
         try
         {
             result.EnsureSuccessStatusCode();
@@ -123,7 +127,7 @@ internal partial class ApiRequest
         {
             method = this.credentials.Method;
         }
-        else if (Enum.TryParse(Configuration.Instance.SigningMethod, out method))
+        else if (Enum.TryParse(this.GetConfiguration().SigningMethod, out method))
         {
             //left blank intentionally
         }
@@ -217,13 +221,13 @@ internal partial class ApiRequest
         return await this.SendHttpRequestAsync(req);
     }
 
-    private string GetApiKey() => this.credentials?.ApiKey ?? Configuration.Instance.ApiKey;
+    private string GetApiKey() => this.credentials?.ApiKey ?? this.GetConfiguration().ApiKey;
 
-    private string GetApiSecret() => this.credentials?.ApiSecret ?? Configuration.Instance.ApiSecret;
+    private string GetApiSecret() => this.credentials?.ApiSecret ?? this.GetConfiguration().ApiSecret;
 
-    private string GetApplicationId() => this.credentials?.ApplicationId ?? Configuration.Instance.ApplicationId;
+    private string GetApplicationId() => this.credentials?.ApplicationId ?? this.GetConfiguration().ApplicationId;
 
-    private string GetApplicationKey() => this.credentials?.ApplicationKey ?? Configuration.Instance.ApplicationKey;
+    private string GetApplicationKey() => this.credentials?.ApplicationKey ?? this.GetConfiguration().ApplicationKey;
 
     private static Dictionary<string, string> GetParameters(object parameters)
     {
@@ -250,9 +254,9 @@ internal partial class ApiRequest
         return sb;
     }
 
-    private string GetSecuritySecret() => this.credentials?.SecuritySecret ?? Configuration.Instance.SecuritySecret;
+    private string GetSecuritySecret() => this.credentials?.SecuritySecret ?? this.GetConfiguration().SecuritySecret;
 
-    private string GetUserAgent() => this.credentials?.AppUserAgent ?? Configuration.Instance.UserAgent;
+    private string GetUserAgent() => this.credentials?.AppUserAgent ?? this.GetConfiguration().UserAgent;
 
     private async Task<T> SendGetRequestAsync<T>(Uri uri, AuthType authType)
     {
@@ -278,7 +282,7 @@ internal partial class ApiRequest
 
     private async Task<VonageResponse> SendHttpRequestAsync(HttpRequestMessage req)
     {
-        var response = await Configuration.Instance.Client.SendAsync(req).ConfigureAwait(false);
+        var response = await this.GetConfiguration().Client.SendAsync(req).ConfigureAwait(false);
         var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
         string json;
         using (var sr = new StreamReader(stream))
@@ -324,7 +328,7 @@ internal partial class ApiRequest
     }
 
     internal static Uri GetBaseUriFor(string url = null) =>
-        string.IsNullOrEmpty(url) ? Configuration.Instance.RestApiUrl : new Uri(Configuration.Instance.RestApiUrl, url);
+        string.IsNullOrEmpty(url) ? Configuration.Instance.RestApiUrl : new Uri( Configuration.Instance.RestApiUrl, url);
 
     internal async Task<T> DoRequestWithJsonContentAsync<T>(HttpMethod method, Uri uri, object payload,
         AuthType authType, Func<object, string> payloadSerialization,

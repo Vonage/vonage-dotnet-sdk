@@ -41,7 +41,7 @@ namespace Vonage.Test.Unit
             //ACT
             BasicInsightResponse response;
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             if (passCreds)
             {
                 response = client.NumberInsightClient.GetNumberInsightBasic(request, creds);
@@ -96,7 +96,7 @@ namespace Vonage.Test.Unit
             //ACT
             BasicInsightResponse response;
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             if (passCreds)
             {
                 response = await client.NumberInsightClient.GetNumberInsightBasicAsync(request, creds);
@@ -145,7 +145,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
             {
@@ -218,7 +218,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
             {
@@ -325,7 +325,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
             {
@@ -395,7 +395,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             StandardInsightResponse response;
             if (passCreds)
             {
@@ -471,7 +471,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             AdvancedInsightsResponse response;
             if (passCreds)
             {
@@ -556,7 +556,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var response = client.NumberInsightClient.GetNumberInsightAdvanced(request);
 
             //ASSERT
@@ -598,7 +598,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             AdvancedInsightsResponse response;
             if (passCreds)
             {
@@ -679,7 +679,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             AdvancedInsightsResponse response;
             if (passCreds)
             {
@@ -760,7 +760,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             AdvancedInsightsAsynchronousResponse response;
             if (passCreds)
             {
@@ -812,7 +812,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             AdvancedInsightsAsynchronousResponse response;
             if (passCreds)
             {
@@ -846,7 +846,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             try
             {
                 client.NumberInsightClient.GetNumberInsightAsynchronous(request);
@@ -870,7 +870,7 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             try
             {
                 client.NumberInsightClient.GetNumberInsightAdvanced(request);
@@ -900,7 +900,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             AdvancedInsightsResponse response;
 
             response = client.NumberInsightClient.GetNumberInsightAdvanced(request);

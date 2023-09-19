@@ -18,7 +18,7 @@ namespace Vonage.Test.Unit
             var request = new Conversions.ConversionRequest
                 {Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00"};
             var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(credentials);
+            var client = this.BuildVonageClient(credentials);
             bool response;
             if (passCreds)
             {
@@ -45,7 +45,7 @@ namespace Vonage.Test.Unit
             var request = new Conversions.ConversionRequest
                 {Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00"};
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             bool response;
             if (passCreds)
             {
@@ -72,7 +72,7 @@ namespace Vonage.Test.Unit
             var request = new Conversions.ConversionRequest
                 {Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00"};
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             bool response;
             if (passCreds)
             {
@@ -99,7 +99,7 @@ namespace Vonage.Test.Unit
             var request = new Conversions.ConversionRequest
                 {Delivered = true, MessageId = "00A0B0C0", TimeStamp = "2020-01-01 12:00:00"};
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             bool response;
             if (passCreds)
             {

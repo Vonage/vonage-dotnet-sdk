@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit
         public NumbersTests()
         {
             this.credentials = this.BuildCredentials();
-            this.client = new VonageClient(this.credentials);
+            this.client = this.BuildVonageClient(credentials);
         }
 
         [Fact]

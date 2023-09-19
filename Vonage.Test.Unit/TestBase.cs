@@ -20,16 +20,21 @@ namespace Vonage.Test.Unit
     {
         private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
         private const string MockedMethod = "SendAsync";
-        protected string ApiUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Api"];
-        protected string RestUrl = Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"];
-        protected string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
-        protected string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
+        protected string ApiUrl => this.Configuration.Settings["appSettings:Vonage.Url.Api"];
+        protected string RestUrl => this.Configuration.Settings["appSettings:Vonage.Url.Rest"];
+        protected readonly string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
+        protected readonly string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
 
-        protected string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID") ??
-                                 "afed99d2-ae38-487c-bb5a-fe2518febd44";
+        protected readonly string AppId = Environment.GetEnvironmentVariable("APPLICATION_ID") ??
+                                          "afed99d2-ae38-487c-bb5a-fe2518febd44";
 
-        protected string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
-                                      Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
+        protected readonly string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
+                                               Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
+
+        protected TestBase()
+        {
+            this.Configuration = new Configuration();
+        }
 
 #if NETCOREAPP2_0_OR_GREATER
         private static readonly Assembly ThisAssembly = typeof(TestBase).GetTypeInfo().Assembly;
@@ -38,6 +43,10 @@ namespace Vonage.Test.Unit
 #endif
 
         private static readonly string TestAssemblyName = ThisAssembly.GetName().Name;
+        public Configuration Configuration { get; }
+
+        protected VonageClient BuildVonageClient(Credentials credentials) =>
+            new VonageClient(credentials, this.Configuration);
 
         protected Credentials BuildCredentialsForBasicAuthentication() =>
             Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
@@ -45,34 +54,25 @@ namespace Vonage.Test.Unit
         protected Credentials BuildCredentialsForBearerAuthentication() =>
             Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
 
-        private static string AssemblyDirectory
+        private static string GetAssemblyDirectory()
         {
-            get
-            {
-                var codeBase = ThisAssembly.CodeBase;
-                var uri = new UriBuilder(codeBase);
-                var path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
+            var codeBase = ThisAssembly.CodeBase;
+            var uri = new UriBuilder(codeBase);
+            var path = Uri.UnescapeDataString(uri.Path);
+            return Path.GetDirectoryName(path);
         }
 
         protected void Setup(string uri, string responseContent, string requestContent = null,
-            HttpStatusCode expectedCode = HttpStatusCode.OK)
-        {
+            HttpStatusCode expectedCode = HttpStatusCode.OK) =>
             this.Setup(uri, new StringContent(responseContent, Encoding.UTF8, "application/json"), expectedCode,
                 requestContent);
-        }
 
-        protected void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK)
-        {
+        protected void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK) =>
             this.Setup(uri, new StreamContent(new MemoryStream(responseContent)), expectedCode);
-        }
 
         private void Setup(string uri, HttpContent httpContent, HttpStatusCode expectedCode,
             string requestContent = null)
         {
-            typeof(Configuration).GetField("_client", BindingFlags.Instance | BindingFlags.NonPublic)
-                ?.SetValue(Configuration.Instance, null);
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler
                 .Protected()
@@ -94,7 +94,7 @@ namespace Vonage.Test.Unit
                     Content = httpContent,
                 })
                 .Verifiable();
-            Configuration.Instance.ClientHandler = mockHandler.Object;
+            this.Configuration.ClientHandler = mockHandler.Object;
         }
 
         protected string GetResponseJson([CallerMemberName] string name = null)
@@ -104,7 +104,7 @@ namespace Vonage.Test.Unit
             if (ns != null)
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);
-                var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, $"{name}-response.json");
+                var path = Path.Combine(GetAssemblyDirectory(), projectFolder, "Data", type, $"{name}-response.json");
                 if (!File.Exists(path))
                 {
                     throw new FileNotFoundException($"File not found at {path}.");
@@ -118,12 +118,9 @@ namespace Vonage.Test.Unit
             return string.Empty;
         }
 
-        protected string GetResponseJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null)
-        {
-            var response = this.GetResponseJson(name);
-            response = TokenReplacementRegEx.Replace(response, match => parameters[match.Groups[1].Value]);
-            return response;
-        }
+        protected string GetResponseJson(Dictionary<string, string> parameters,
+            [CallerMemberName] string name = null) =>
+            TokenReplacementRegEx.Replace(this.GetResponseJson(name), match => parameters[match.Groups[1].Value]);
 
         protected string GetRequestJson([CallerMemberName] string name = null)
         {
@@ -132,7 +129,7 @@ namespace Vonage.Test.Unit
             if (ns != null)
             {
                 var projectFolder = ns.Substring(TestAssemblyName.Length);
-                var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, $"{name}-request.json");
+                var path = Path.Combine(GetAssemblyDirectory(), projectFolder, "Data", type, $"{name}-request.json");
                 if (!File.Exists(path))
                 {
                     throw new FileNotFoundException($"File not found at {path}.");

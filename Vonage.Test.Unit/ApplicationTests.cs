@@ -60,7 +60,7 @@ namespace Vonage.Test.Unit
                 Name = "My Application",
             };
             var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(credentials);
+            var client = this.BuildVonageClient(credentials);
             Application response;
             if (passCreds)
             {
@@ -181,7 +181,7 @@ namespace Vonage.Test.Unit
             var request = new CreateApplicationRequest
                 {Capabilities = capabilities, Keys = keys, Name = "My Application"};
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Application response;
             if (passCreds)
             {
@@ -224,7 +224,7 @@ namespace Vonage.Test.Unit
             var expectedResponse = "";
             this.Setup(uri, expectedResponse);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             bool result;
             if (passCreds)
             {
@@ -248,7 +248,7 @@ namespace Vonage.Test.Unit
             var expectedResponse = "";
             this.Setup(uri, expectedResponse);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             bool result;
             if (passCreds)
             {
@@ -318,7 +318,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{this.ApiUrl}/v2/applications/{id}";
             this.Setup(expectedUri, expectedResponse);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Application application;
             if (passCreds)
             {
@@ -407,7 +407,7 @@ namespace Vonage.Test.Unit
             var expectedUri = $"{this.ApiUrl}/v2/applications/{id}";
             this.Setup(expectedUri, expectedResponse);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Application application;
             if (passCreds)
             {
@@ -515,7 +515,7 @@ namespace Vonage.Test.Unit
 
             //Act
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             ApplicationPage applications;
             if (passCreds)
             {
@@ -628,7 +628,7 @@ namespace Vonage.Test.Unit
 
             //Act
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             ApplicationPage applications;
             if (passCreds)
             {
@@ -754,7 +754,7 @@ namespace Vonage.Test.Unit
             var application = new CreateApplicationRequest
                 {Capabilities = capabilities, Keys = keys, Name = "My Application"};
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Application response;
             if (passCredentials)
             {
@@ -875,7 +875,7 @@ namespace Vonage.Test.Unit
             var application = new CreateApplicationRequest
                 {Capabilities = capabilities, Keys = keys, Name = "My Application"};
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Application response;
             if (passCredentials)
             {

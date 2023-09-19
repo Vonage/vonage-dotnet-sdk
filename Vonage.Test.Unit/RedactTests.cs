@@ -38,7 +38,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var response = client.RedactClient.Redact(request, passCredentials ? creds : null);
 
             //ASSERT
@@ -74,7 +74,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var response = await client.RedactClient.RedactAsync(request, passCredentials ? creds : null);
 
             //ASSERT
@@ -97,7 +97,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
             //ASSERT
@@ -121,7 +121,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
             //ASSERT
@@ -145,7 +145,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
             //ASSERT
@@ -171,7 +171,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
 
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 
@@ -197,7 +197,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
 
             var exception = Assert.Throws<VonageHttpRequestException>(() => client.RedactClient.Redact(request));
 

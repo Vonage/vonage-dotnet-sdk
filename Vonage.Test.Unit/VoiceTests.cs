@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit
         public VoiceTests()
         {
             this.fixture = new Fixture();
-            this.client = new VonageClient(this.BuildCredentialsForBearerAuthentication());
+            this.client = this.BuildVonageClient(BuildCredentialsForBearerAuthentication()); 
         }
 
         [Theory]

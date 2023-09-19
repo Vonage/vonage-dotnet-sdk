@@ -22,7 +22,7 @@ namespace Vonage.Test.Unit.Messages.Viber
             this.helper = new SerializationTestHelper(typeof(ViberMessagesTest).Namespace,
                 JsonSerializer.BuildWithCamelCase());
             this.operation = request =>
-                new VonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
+              this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
                     .MessagesClient
                     .SendAsync(request);
         }

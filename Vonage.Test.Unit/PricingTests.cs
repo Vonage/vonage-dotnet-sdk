@@ -40,7 +40,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
             {
@@ -102,7 +102,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
             {
@@ -160,7 +160,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Pricing.Country country;
             if (passCreds)
             {
@@ -220,7 +220,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Pricing.Country country;
             if (passCreds)
             {
@@ -284,7 +284,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
             {
@@ -348,7 +348,7 @@ namespace Vonage.Test.Unit
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            var client = new VonageClient(creds);
+            var client = this.BuildVonageClient(creds);
             Pricing.PricingResult pricing;
             if (passCreds)
             {
