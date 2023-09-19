@@ -42,6 +42,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Properties\" />
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
