@@ -97,22 +97,6 @@ namespace Vonage.Test.Unit
             Configuration.Instance.ClientHandler = mockHandler.Object;
         }
 
-        [Obsolete("Use GetResponseJson")]
-        protected string GetExpectedJson([CallerMemberName] string name = null)
-        {
-            var type = this.GetType().Name;
-            var projectFolder = this.GetType().Namespace.Substring(TestAssemblyName.Length);
-            var path = Path.Combine(AssemblyDirectory, projectFolder, "Data", type, name + ".json");
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException($"File not found at {path}.");
-            }
-
-            var jsonContent = File.ReadAllText(path);
-            jsonContent = Regex.Replace(jsonContent, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
-            return jsonContent;
-        }
-
         protected string GetResponseJson([CallerMemberName] string name = null)
         {
             var type = this.GetType().Name;

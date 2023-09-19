@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit
             //ARRANGE
             var expectedUri = $"{this.ApiUrl}/ni/basic/json";
             BasicNumberInsightRequest request;
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
 
             if (kitchenSink)
             {
@@ -71,7 +71,7 @@ namespace Vonage.Test.Unit
             //ARRANGE
             var expectedUri = $"{this.ApiUrl}/ni/basic/json";
             BasicNumberInsightRequest request;
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
 
             if (kitchenSink)
             {
@@ -124,7 +124,7 @@ namespace Vonage.Test.Unit
         public void TestStandardNIRequest(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/ni/standard/json";
             StandardNumberInsightRequest request;
             if (kitchenSink)
@@ -197,7 +197,7 @@ namespace Vonage.Test.Unit
         public void TestStandardNIRequestWithoutRoaming(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/ni/standard/json";
             StandardNumberInsightRequest request;
             if (kitchenSink)
@@ -374,7 +374,7 @@ namespace Vonage.Test.Unit
         public async void TestStandardNIRequestAsync(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/ni/standard/json";
             StandardNumberInsightRequest request;
             if (kitchenSink)
@@ -447,7 +447,7 @@ namespace Vonage.Test.Unit
         public void TestAdvancedNIRequestSync(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
 
             var expectedUri = $"{this.ApiUrl}/ni/advanced/json";
             AdvancedNumberInsightRequest request;
@@ -574,7 +574,7 @@ namespace Vonage.Test.Unit
         public async void TestAdvancedNIRequestSyncAsync(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
 
             var expectedUri = $"{this.ApiUrl}/ni/advanced/json";
             AdvancedNumberInsightRequest request;
@@ -655,7 +655,7 @@ namespace Vonage.Test.Unit
         public void TestAdvancedNIRequestSyncWithNullableValues(bool passCreds, bool kitchenSink)
         {
             //ARRANGE
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
 
             var expectedUri = $"{this.ApiUrl}/ni/advanced/json";
             AdvancedNumberInsightRequest request;
@@ -732,7 +732,7 @@ namespace Vonage.Test.Unit
         [InlineData(false, false)]
         public void TestAdvancedAsync(bool passCreds, bool kitchenSink)
         {
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/ni/advanced/async/json";
             AdvancedNumberInsightAsynchronousRequest request;
             if (kitchenSink)
@@ -784,7 +784,7 @@ namespace Vonage.Test.Unit
         [InlineData(false, false)]
         public async void TestAdvancedAsyncAsync(bool passCreds, bool kitchenSink)
         {
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/ni/advanced/async/json";
             AdvancedNumberInsightAsynchronousRequest request;
             if (kitchenSink)
@@ -835,7 +835,7 @@ namespace Vonage.Test.Unit
         public void TestFailedAsyncRequest()
         {
             //ARRANGE
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri =
                 $"{this.ApiUrl}/ni/advanced/async/json?callback={HttpUtility.UrlEncode("https://example.com/callback")}&ip={HttpUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var request = new AdvancedNumberInsightAsynchronousRequest
@@ -864,7 +864,7 @@ namespace Vonage.Test.Unit
         public void TestFailedAdvancedRequest()
         {
             //ARRANGE
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/ni/advanced/json?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var request = new AdvancedNumberInsightRequest {Number = "15555551212"};
             this.Setup(expectedUri, expectedResponse);
@@ -889,7 +889,7 @@ namespace Vonage.Test.Unit
         public void AdvancedNIRequestSyncWithNotRoamingStatus()
         {
             //ARRANGE
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
 
             var expectedUri = $"{this.ApiUrl}/ni/advanced/json?number=971639946111&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var request = new AdvancedNumberInsightRequest

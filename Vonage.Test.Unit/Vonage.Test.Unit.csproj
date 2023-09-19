@@ -90,121 +90,121 @@
         <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncRealTimeData-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\MessagingTests\SendSmsAsyncBadResponse.json">
+        <None Update="Data\MessagingTests\SendSmsAsyncBadResponse-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\MessagingTests\SendSmsBadResponse.json">
+        <None Update="Data\MessagingTests\SendSmsBadResponse-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\MessagingTests\SendSmsAsyncWithAllPropertiesSet.json">
+        <None Update="Data\MessagingTests\SendSmsAsyncWithAllPropertiesSet-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\MessagingTests\SendSmsWithAllPropertiesSet.json">
+        <None Update="Data\MessagingTests\SendSmsWithAllPropertiesSet-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\MessagingTests\SendSmsWrongCredentialsThrowsException.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\MessagingTests\SendSmsTypicalUsageSimplifiedAsync.json">
+        <None Update="Data\MessagingTests\SendSmsTypicalUsageSimplifiedAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\MultiInputTests\TestWebhookSerializationSpeechOveridden.json">
+        <None Update="Data\MultiInputTests\TestWebhookSerializationSpeechOverridden-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\MultiInputTests\TestWebhookSerialization.json">
+        <None Update="Data\MultiInputTests\TestWebhookSerialization-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\MultiInputTests\TestSerializeNccoAllPropertiesEmpty.json">
+        <None Update="Data\MultiInputTests\TestSerializeNccoAllPropertiesEmpty-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\MultiInputTests\TestSerializeNccoAllProperties.json">
+        <None Update="Data\MultiInputTests\TestSerializeNccoAllProperties-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedAsyncAsync.json">
+        <None Update="Data\NumberInsightsTests\TestAdvancedAsyncAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncAsync.json">
+        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestFailedAdvancedRequest.json">
+        <None Update="Data\NumberInsightsTests\TestFailedAdvancedRequest-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncWithNullableValues.json">
+        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncWithNullableValues-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedAsync.json">
+        <None Update="Data\NumberInsightsTests\TestAdvancedAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestFailedAsyncRequest.json">
+        <None Update="Data\NumberInsightsTests\TestFailedAsyncRequest-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequestAsync.json">
+        <None Update="Data\NumberInsightsTests\TestStandardNIRequestAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSync.json">
+        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequestWithoutRoaming.json">
+        <None Update="Data\NumberInsightsTests\TestStandardNIRequestWithoutRoaming-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequest.json">
+        <None Update="Data\NumberInsightsTests\TestStandardNIRequest-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestBasicNIRequestAsync.json">
+        <None Update="Data\NumberInsightsTests\TestBasicNIRequestAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestBasicNIRequest.json">
+        <None Update="Data\NumberInsightsTests\TestBasicNIRequest-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\AdvancedNIRequestSyncWithNotRoamingStatus.json">
+        <None Update="Data\NumberInsightsTests\AdvancedNIRequestSyncWithNotRoamingStatus-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\VoiceTests\CreateCall-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\RedactTests\RedactReturns429.json">
+        <None Update="Data\RedactTests\RedactReturns429-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\RedactTests\RedactReturns422.json">
+        <None Update="Data\RedactTests\RedactReturns422-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\RedactTests\RedactReturns404.json">
+        <None Update="Data\RedactTests\RedactReturns404-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\RedactTests\RedactReturns403.json">
+        <None Update="Data\RedactTests\RedactReturns403-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\RedactTests\RedactReturns401.json">
+        <None Update="Data\RedactTests\RedactReturns401-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\RedactTests\RedactAsync.json">
+        <None Update="Data\RedactTests\RedactAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\RedactTests\Redact.json">
+        <None Update="Data\RedactTests\Redact-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ShortCodeTests\SendTwoFactorAuthAsync.json">
+        <None Update="Data\ShortCodeTests\SendTwoFactorAuthAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ShortCodeTests\SendTwoFactorAuth.json">
+        <None Update="Data\ShortCodeTests\SendTwoFactorAuth-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ShortCodeTests\QueryOptInsAsync.json">
+        <None Update="Data\ShortCodeTests\QueryOptInsAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ShortCodeTests\QueryOptIns.json">
+        <None Update="Data\ShortCodeTests\QueryOptIns-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ShortCodeTests\ManageOptInAsync.json">
+        <None Update="Data\ShortCodeTests\ManageOptInAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ShortCodeTests\ManageOptIn.json">
+        <None Update="Data\ShortCodeTests\ManageOptIn-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ShortCodeTests\SendAlertAsync.json">
+        <None Update="Data\ShortCodeTests\SendAlertAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ShortCodeTests\SendAlert.json">
+        <None Update="Data\ShortCodeTests\SendAlert-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Meetings\GetRooms\Data\ShouldDeserialize200-response.json">

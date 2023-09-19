@@ -10,8 +10,8 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestSerializeNccoAllProperties()
         {
-            // arrage
-            var expected = this.GetExpectedJson();
+            // arrange
+            var expected = this.GetResponseJson();
             var settings = new SpeechSettings
             {
                 Uuid = new[] { "aaaaaaaa-bbbb-cccc-dddd-0123456789ab" },
@@ -44,8 +44,8 @@ namespace Vonage.Test.Unit
         [Fact]
         public void TestSerializeNccoAllPropertiesEmpty()
         {
-            // arrage
-            var expected = this.GetExpectedJson();
+            // arrange
+            var expected = this.GetResponseJson();
             var settings = new SpeechSettings
             {
                 Uuid = new[] { "aaaaaaaa-bbbb-cccc-dddd-0123456789ab" },
@@ -64,7 +64,7 @@ namespace Vonage.Test.Unit
         public void TestWebhookSerialization()
         {
             //ARRANGE
-            var inboundString = this.GetExpectedJson();
+            var inboundString = this.GetResponseJson();
 
             var serialized = JsonConvert.DeserializeObject<MultiInput>(inboundString);
 
@@ -79,10 +79,10 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
-        public void TestWebhookSerializationSpeechOveridden()
+        public void TestWebhookSerializationSpeechOverridden()
         {
             //ARRANGE
-            var inboundString = this.GetExpectedJson();
+            var inboundString = this.GetResponseJson();
 
             var serialized = JsonConvert.DeserializeObject<MultiInput>(inboundString);
 

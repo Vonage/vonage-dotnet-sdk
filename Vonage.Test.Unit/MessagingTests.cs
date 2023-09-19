@@ -31,7 +31,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task SendSmsAsyncBadResponse()
         {
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.RestUrl}/sms/json";
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
@@ -52,7 +52,7 @@ namespace Vonage.Test.Unit
         [InlineData(true)]
         public async Task SendSmsAsyncWithAllPropertiesSet(bool passCreds)
         {
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}" +
                                          $"&ttl=900000&status-report-req=true&callback={HttpUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
@@ -94,7 +94,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public void SendSmsBadResponse()
         {
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.RestUrl}/sms/json";
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
@@ -180,7 +180,7 @@ namespace Vonage.Test.Unit
         [Fact]
         public async Task SendSmsTypicalUsageSimplifiedAsync()
         {
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.RestUrl}/sms/json";
             var expectedRequestContent =
                 $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}&type=text&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
@@ -236,7 +236,7 @@ namespace Vonage.Test.Unit
         [InlineData(true)]
         public void SendSmsWithAllPropertiesSet(bool passCreds)
         {
-            var expectedResponse = this.GetExpectedJson();
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.RestUrl}/sms/json";
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={HttpUtility.UrlEncode("Hello World!")}" +
                                          $"&ttl=900000&status-report-req=true&callback={HttpUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +

@@ -32,7 +32,7 @@ namespace Vonage.Test.Unit
                 Product = product,
                 Type = type,
             };
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent);
 
@@ -68,7 +68,7 @@ namespace Vonage.Test.Unit
                 Product = product,
                 Type = type,
             };
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent);
 
@@ -91,7 +91,7 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound,
             };
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Unauthorized);
 
@@ -115,7 +115,7 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound,
             };
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Forbidden);
 
@@ -139,7 +139,7 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound,
             };
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.NotFound);
 
@@ -164,7 +164,7 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound,
             };
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
 
             var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.UnprocessableEntity);
@@ -190,7 +190,7 @@ namespace Vonage.Test.Unit
                 Product = RedactionProduct.Sms,
                 Type = RedactionType.Inbound,
             };
-            var expectedResponseContent = this.GetExpectedJson();
+            var expectedResponseContent = this.GetResponseJson();
 
             var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
             this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.TooManyRequests);
