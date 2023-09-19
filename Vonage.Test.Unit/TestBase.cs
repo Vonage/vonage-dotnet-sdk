@@ -20,8 +20,9 @@ namespace Vonage.Test.Unit
     {
         private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
         private const string MockedMethod = "SendAsync";
-        protected string ApiUrl => this.Configuration.Settings["appSettings:Vonage.Url.Api"];
-        protected string RestUrl => this.Configuration.Settings["appSettings:Vonage.Url.Rest"];
+        private const string JsonRegexPattern = "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+";
+        protected string ApiUrl => this.configuration.Settings["appSettings:Vonage.Url.Api"];
+        protected string RestUrl => this.configuration.Settings["appSettings:Vonage.Url.Rest"];
         protected readonly string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
         protected readonly string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
 
@@ -31,10 +32,7 @@ namespace Vonage.Test.Unit
         protected readonly string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
                                                Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
 
-        protected TestBase()
-        {
-            this.Configuration = new Configuration();
-        }
+        protected TestBase() => this.configuration = new Configuration();
 
 #if NETCOREAPP2_0_OR_GREATER
         private static readonly Assembly ThisAssembly = typeof(TestBase).GetTypeInfo().Assembly;
@@ -43,10 +41,10 @@ namespace Vonage.Test.Unit
 #endif
 
         private static readonly string TestAssemblyName = ThisAssembly.GetName().Name;
-        public Configuration Configuration { get; }
+        private readonly Configuration configuration;
 
         protected VonageClient BuildVonageClient(Credentials credentials) =>
-            new VonageClient(credentials, this.Configuration);
+            new VonageClient(credentials, this.configuration);
 
         protected Credentials BuildCredentialsForBasicAuthentication() =>
             Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
@@ -56,9 +54,7 @@ namespace Vonage.Test.Unit
 
         private static string GetAssemblyDirectory()
         {
-            var codeBase = ThisAssembly.CodeBase;
-            var uri = new UriBuilder(codeBase);
-            var path = Uri.UnescapeDataString(uri.Path);
+            var path = Uri.UnescapeDataString(new UriBuilder(ThisAssembly.CodeBase).Path);
             return Path.GetDirectoryName(path);
         }
 
@@ -94,60 +90,40 @@ namespace Vonage.Test.Unit
                     Content = httpContent,
                 })
                 .Verifiable();
-            this.Configuration.ClientHandler = mockHandler.Object;
+            this.configuration.ClientHandler = mockHandler.Object;
         }
 
-        protected string GetResponseJson([CallerMemberName] string name = null)
-        {
-            var type = this.GetType().Name;
-            var ns = this.GetType().Namespace;
-            if (ns != null)
-            {
-                var projectFolder = ns.Substring(TestAssemblyName.Length);
-                var path = Path.Combine(GetAssemblyDirectory(), projectFolder, "Data", type, $"{name}-response.json");
-                if (!File.Exists(path))
-                {
-                    throw new FileNotFoundException($"File not found at {path}.");
-                }
+        protected string GetResponseJson([CallerMemberName] string name = null) => this.ReadJsonFile(name, "response");
 
-                var jsonContent = File.ReadAllText(path);
-                jsonContent = Regex.Replace(jsonContent, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
-                return jsonContent;
+        protected string GetRequestJson([CallerMemberName] string name = null) => this.ReadJsonFile(name, "request");
+
+        private string ReadJsonFile(string name, string fileType)
+        {
+            var typeNamespace = this.GetType().Namespace;
+            if (typeNamespace is null)
+            {
+                return string.Empty;
             }
 
-            return string.Empty;
+            var path = Path.Combine(
+                GetAssemblyDirectory(),
+                typeNamespace.Substring(TestAssemblyName.Length),
+                "Data",
+                this.GetType().Name,
+                $"{name}-{fileType}.json");
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"File not found at {path}.");
+            }
+
+            return Regex.Replace(File.ReadAllText(path), JsonRegexPattern, "$1");
         }
 
         protected string GetResponseJson(Dictionary<string, string> parameters,
             [CallerMemberName] string name = null) =>
             TokenReplacementRegEx.Replace(this.GetResponseJson(name), match => parameters[match.Groups[1].Value]);
 
-        protected string GetRequestJson([CallerMemberName] string name = null)
-        {
-            var type = this.GetType().Name;
-            var ns = this.GetType().Namespace;
-            if (ns != null)
-            {
-                var projectFolder = ns.Substring(TestAssemblyName.Length);
-                var path = Path.Combine(GetAssemblyDirectory(), projectFolder, "Data", type, $"{name}-request.json");
-                if (!File.Exists(path))
-                {
-                    throw new FileNotFoundException($"File not found at {path}.");
-                }
-
-                var jsonContent = File.ReadAllText(path);
-                jsonContent = Regex.Replace(jsonContent, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
-                return jsonContent;
-            }
-
-            return string.Empty;
-        }
-
-        protected string GetRequestJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null)
-        {
-            var response = this.GetRequestJson(name);
-            response = TokenReplacementRegEx.Replace(response, match => parameters[match.Groups[1].Value]);
-            return response;
-        }
+        protected string GetRequestJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null) =>
+            TokenReplacementRegEx.Replace(this.GetRequestJson(name), match => parameters[match.Groups[1].Value]);
     }
 }
