@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Exceptions;
@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit
         public VoiceTests()
         {
             this.fixture = new Fixture();
-            this.client = this.BuildVonageClient(BuildCredentialsForBearerAuthentication()); 
+            this.client = this.BuildVonageClient(BuildCredentialsForBearerAuthentication());
         }
 
         [Theory]
@@ -439,7 +439,7 @@ namespace Vonage.Test.Unit
                 Status = "started",
             };
             this.Setup(
-                $"{BaseUri}?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&",
+                $"{BaseUri}?status=started&date_start={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&",
                 this.GetResponseJson(nameof(this.ListCalls)));
             var callList =
                 await this.client.VoiceClient.GetCallsAsync(filter, this.BuildCredentialsForBearerAuthentication());
@@ -482,7 +482,7 @@ namespace Vonage.Test.Unit
                 Status = "started",
             };
             this.Setup(
-                $"{BaseUri}?status=started&date_start={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={HttpUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&",
+                $"{BaseUri}?status=started&date_start={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&",
                 this.GetResponseJson(nameof(this.ListCalls)));
             var callList = this.client.VoiceClient.GetCalls(filter, this.BuildCredentialsForBearerAuthentication());
             var callRecord = callList.Embedded.Calls[0];
