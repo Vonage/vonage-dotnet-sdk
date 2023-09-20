@@ -20,10 +20,13 @@ public class RedactClient : IRedactClient
         this.Credentials = credentials;
         this.configuration = configuration;
     }
+    
+    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 
+    /// <inheritdoc/>
     public bool Redact(RedactRequest request, Credentials creds = null)
     {
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContent<object>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<object>
         (
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
@@ -33,9 +36,10 @@ public class RedactClient : IRedactClient
         return true;
     }
 
+    /// <inheritdoc/>
     public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
     {
-        await new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContentAsync<object>
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<object>
         (
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),

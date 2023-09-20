@@ -7,8 +7,8 @@ namespace Vonage.Numbers;
 /// <inheritdoc />
 public class NumbersClient : INumbersClient
 {
-    private readonly Configuration configuration;
     private const string SuccessStatusCode = "200";
+    private readonly Configuration configuration;
 
     /// <summary>
     ///     Gets or sets credentials to be used in further requests.
@@ -34,7 +34,7 @@ public class NumbersClient : INumbersClient
     /// <inheritdoc />
     public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
     {
-        var response = new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
                     $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
@@ -49,7 +49,7 @@ public class NumbersClient : INumbersClient
     public async Task<NumberTransactionResponse> BuyANumberAsync(NumberTransactionRequest request,
         Credentials creds = null)
     {
-        var response = await new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
                     $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
@@ -63,7 +63,7 @@ public class NumbersClient : INumbersClient
     /// <inheritdoc />
     public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
     {
-        var response = new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
                     $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
@@ -78,7 +78,7 @@ public class NumbersClient : INumbersClient
     public async Task<NumberTransactionResponse> CancelANumberAsync(NumberTransactionRequest request,
         Credentials creds = null)
     {
-        var response = await new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
                     $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
@@ -91,62 +91,68 @@ public class NumbersClient : INumbersClient
 
     /// <inheritdoc />
     public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParameters<NumbersSearchResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParameters<NumbersSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
+                AuthType.Query,
+                request
+            );
 
     /// <inheritdoc />
     public Task<NumbersSearchResponse> GetAvailableNumbersAsync(NumberSearchRequest request,
         Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
+                AuthType.Query,
+                request
+            );
 
     /// <inheritdoc />
     public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParameters<NumbersSearchResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParameters<NumbersSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
+                AuthType.Query,
+                request
+            );
 
     /// <inheritdoc />
     public Task<NumbersSearchResponse>
         GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
+                AuthType.Query,
+                request
+            );
 
     /// <inheritdoc />
     public NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey,
         Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContent<NumberTransferResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
-            request,
-            AuthType.Basic
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoRequestWithJsonContent<NumberTransferResponse>(
+                HttpMethod.Post,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                request,
+                AuthType.Basic
+            );
 
     /// <inheritdoc />
     public Task<NumberTransferResponse> TransferANumberAsync(NumberTransferRequest request, string apiKey,
         Credentials creds = null) =>
-        new ApiRequest(creds ?? this.Credentials, this.configuration).DoRequestWithJsonContentAsync<NumberTransferResponse>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
-            request,
-            AuthType.Basic
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+            .DoRequestWithJsonContentAsync<NumberTransferResponse>(
+                HttpMethod.Post,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                request,
+                AuthType.Basic
+            );
 
     /// <inheritdoc />
     public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
     {
-        var response = new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
                     $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
@@ -161,7 +167,7 @@ public class NumbersClient : INumbersClient
     public async Task<NumberTransactionResponse> UpdateANumberAsync(UpdateNumberRequest request,
         Credentials creds = null)
     {
-        var response = await new ApiRequest(creds ?? this.Credentials, this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
                     $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
@@ -174,6 +180,8 @@ public class NumbersClient : INumbersClient
 
     private static string FormatQueryStringCredentials(Credentials credentials) =>
         $"api_key={credentials.ApiKey}&api_secret={credentials.ApiSecret}";
+
+    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 
     private static void ValidateNumbersResponse(NumberTransactionResponse response)
     {
