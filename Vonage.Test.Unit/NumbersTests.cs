@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using FluentAssertions;
 using Vonage.Numbers;
 using Vonage.Request;
@@ -350,8 +350,8 @@ namespace Vonage.Test.Unit
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             var expectedUri = $"{this.RestUrl}/number/update?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
             var expectedRequestContent =
-                $"country=GB&msisdn=447700900000&app_id=aaaaaaaa-bbbb-cccc-dddd-0123456789abc&moHttpUrl={HttpUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&" +
-                $"moSmppSysType=inbound&voiceCallbackType=tel&voiceCallbackValue=447700900000&voiceStatusCallback={HttpUtility.UrlEncode("https://example.com/webhooks/status")}&";
+                $"country=GB&msisdn=447700900000&app_id=aaaaaaaa-bbbb-cccc-dddd-0123456789abc&moHttpUrl={WebUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&" +
+                $"moSmppSysType=inbound&voiceCallbackType=tel&voiceCallbackValue=447700900000&voiceStatusCallback={WebUtility.UrlEncode("https://example.com/webhooks/status")}&";
             var request = new UpdateNumberRequest
             {
                 Country = "GB",
@@ -375,8 +375,8 @@ namespace Vonage.Test.Unit
             const string expectedResponse = @"{""error-code"": ""200"",""error-code-label"": ""success""}";
             var expectedUri = $"{this.RestUrl}/number/update?api_key={this.ApiKey}&api_secret={this.ApiSecret}";
             var expectedRequestContent =
-                $"country=GB&msisdn=447700900000&app_id=aaaaaaaa-bbbb-cccc-dddd-0123456789abc&moHttpUrl={HttpUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&" +
-                $"moSmppSysType=inbound&voiceCallbackType=tel&voiceCallbackValue=447700900000&voiceStatusCallback={HttpUtility.UrlEncode("https://example.com/webhooks/status")}&";
+                $"country=GB&msisdn=447700900000&app_id=aaaaaaaa-bbbb-cccc-dddd-0123456789abc&moHttpUrl={WebUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&" +
+                $"moSmppSysType=inbound&voiceCallbackType=tel&voiceCallbackValue=447700900000&voiceStatusCallback={WebUtility.UrlEncode("https://example.com/webhooks/status")}&";
             var request = new UpdateNumberRequest
             {
                 Country = "GB",

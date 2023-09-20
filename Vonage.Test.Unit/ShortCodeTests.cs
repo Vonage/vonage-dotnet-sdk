@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using Vonage.Request;
 using Vonage.ShortCodes;
 using Xunit;
@@ -31,7 +31,7 @@ namespace Vonage.Test.Unit
                 request.Template = "Test Template";
                 request.Type = "text";
 
-                expectedUri += $"&status-report-req={request.StatusReportReq}&client-ref={request.ClientRef}&template={HttpUtility.UrlEncode(request.Template)}&type={request.Type}";
+                expectedUri += $"&status-report-req={request.StatusReportReq}&client-ref={request.ClientRef}&template={WebUtility.UrlEncode(request.Template)}&type={request.Type}";
             }
 
             var expectedResponseContent = this.GetResponseJson();
@@ -78,7 +78,7 @@ namespace Vonage.Test.Unit
                 request.Template = "Test Template";
                 request.Type = "text";
 
-                expectedUri += $"&status-report-req={request.StatusReportReq}&client-ref={request.ClientRef}&template={HttpUtility.UrlEncode(request.Template)}&type={request.Type}";
+                expectedUri += $"&status-report-req={request.StatusReportReq}&client-ref={request.ClientRef}&template={WebUtility.UrlEncode(request.Template)}&type={request.Type}";
             }
 
             var expectedResponseContent = this.GetResponseJson();

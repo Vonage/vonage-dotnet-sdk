@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web;
+﻿using System.Net;
 using Vonage.Request;
 using Xunit;
 
@@ -381,7 +380,7 @@ namespace Vonage.Test.Unit
             //ARRANGE
             var expectedUri = $"{this.RestUrl}/account/settings";
             var expectedRequestContents =
-                $"moCallBackUrl={HttpUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&drCallBackUrl={HttpUtility.UrlEncode("https://example.com/webhooks/delivery-receipt")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                $"moCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&drCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/delivery-receipt")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent =
                 @"{""mo-callback-url"": ""https://example.com/webhooks/inbound-sms"",""dr-callback-url"": ""https://example.com/webhooks/delivery-receipt"",""max-outbound-request"": 15,""max-inbound-request"": 30,""max-calls-per-second"": 4}";
             this.Setup(uri: expectedUri, responseContent: expectedResponseContent,
@@ -425,7 +424,7 @@ namespace Vonage.Test.Unit
             //ARRANGE
             var expectedUri = $"{this.RestUrl}/account/settings";
             var expectedRequestContents =
-                $"moCallBackUrl={HttpUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&drCallBackUrl={HttpUtility.UrlEncode("https://example.com/webhooks/delivery-receipt")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                $"moCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&drCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/delivery-receipt")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent =
                 @"{""mo-callback-url"": ""https://example.com/webhooks/inbound-sms"",""dr-callback-url"": ""https://example.com/webhooks/delivery-receipt"",""max-outbound-request"": 15,""max-inbound-request"": 30,""max-calls-per-second"": 4}";
             this.Setup(uri: expectedUri, responseContent: expectedResponseContent,

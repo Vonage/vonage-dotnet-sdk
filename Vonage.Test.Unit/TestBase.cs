@@ -54,7 +54,9 @@ namespace Vonage.Test.Unit
 
         private static string GetAssemblyDirectory()
         {
-            var path = Uri.UnescapeDataString(new UriBuilder(ThisAssembly.CodeBase).Path);
+            var location = ThisAssembly.Location;
+            var uri = new UriBuilder(location);
+            var path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
         }
 

@@ -1,6 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Text;
-using System.Web;
 using Vonage.Common.Client;
 
 namespace Vonage.Server.Video.Sessions.CreateSession;
@@ -65,11 +65,11 @@ public readonly struct CreateSessionRequest : IVonageRequest
     {
         var builder = new StringBuilder();
         builder.Append("location=");
-        builder.Append(HttpUtility.UrlEncode(this.Location.Address));
+        builder.Append(WebUtility.UrlEncode(this.Location.Address));
         builder.Append("&archiveMode=");
-        builder.Append(HttpUtility.UrlEncode(this.ArchiveMode.ToString().ToLowerInvariant()));
+        builder.Append(WebUtility.UrlEncode(this.ArchiveMode.ToString().ToLowerInvariant()));
         builder.Append("&p2p.preference=");
-        builder.Append(HttpUtility.UrlEncode(GetMediaPreference(this.MediaMode)));
+        builder.Append(WebUtility.UrlEncode(GetMediaPreference(this.MediaMode)));
         return builder.ToString();
     }
 
