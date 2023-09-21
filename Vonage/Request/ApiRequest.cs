@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Vonage.Common.Client;
 using Vonage.Common.Exceptions;
+using Vonage.Common.Monads;
 using Vonage.Cryptography;
 using Vonage.Logger;
 using Vonage.Serialization;
@@ -22,7 +23,7 @@ internal partial class ApiRequest
     private readonly Credentials credentials;
     private readonly ILogger logger;
     private readonly string userAgent;
-    private readonly Configuration configuration;
+    private readonly Maybe<Configuration> configuration;
 
     private ApiRequest()
     {
@@ -30,17 +31,17 @@ internal partial class ApiRequest
         this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.GetConfiguration().UserAgent);
     }
 
-    public ApiRequest(Credentials credentials) : this()
+    private ApiRequest(Credentials credentials) : this()
     {
         this.credentials = credentials;
         this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.GetUserAgent());
     }
-    
+
     private ApiRequest(Credentials credentials, Configuration configuration) : this(credentials) => this.configuration = configuration;
 
     internal static ApiRequest Build(Credentials credentials, Configuration configuration) => new ApiRequest(credentials, configuration);
 
-    private Configuration GetConfiguration() => this.configuration ?? Configuration.Instance;
+    private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
 
     public async Task<VonageResponse> DoDeleteRequestWithUrlContentAsync(Uri uri,
         Dictionary<string, string> parameters, AuthType authType = AuthType.Query) =>
@@ -60,7 +61,7 @@ internal partial class ApiRequest
         catch (HttpRequestException ex)
         {
             this.logger.LogError("FAIL: {StatusCode}", result.StatusCode);
-            throw new VonageHttpRequestException(ex) {HttpStatusCode = result.StatusCode};
+            throw new VonageHttpRequestException(ex) { HttpStatusCode = result.StatusCode };
         }
     }
 
@@ -327,7 +328,7 @@ internal partial class ApiRequest
     }
 
     internal static Uri GetBaseUriFor(string url = null) =>
-        string.IsNullOrEmpty(url) ? Configuration.Instance.RestApiUrl : new Uri( Configuration.Instance.RestApiUrl, url);
+        string.IsNullOrEmpty(url) ? Configuration.Instance.RestApiUrl : new Uri(Configuration.Instance.RestApiUrl, url);
 
     internal async Task<T> DoRequestWithJsonContentAsync<T>(HttpMethod method, Uri uri, object payload,
         AuthType authType, Func<object, string> payloadSerialization,
