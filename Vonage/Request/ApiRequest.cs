@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -30,12 +30,12 @@ internal partial class ApiRequest
         this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.GetConfiguration().UserAgent);
     }
 
-    public ApiRequest(Credentials credentials) : this()
+    private ApiRequest(Credentials credentials) : this()
     {
         this.credentials = credentials;
         this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.GetUserAgent());
     }
-    
+
     private ApiRequest(Credentials credentials, Configuration configuration) : this(credentials) => this.configuration = configuration;
 
     internal static ApiRequest Build(Credentials credentials, Configuration configuration) => new ApiRequest(credentials, configuration);
@@ -60,7 +60,7 @@ internal partial class ApiRequest
         catch (HttpRequestException ex)
         {
             this.logger.LogError("FAIL: {StatusCode}", result.StatusCode);
-            throw new VonageHttpRequestException(ex) {HttpStatusCode = result.StatusCode};
+            throw new VonageHttpRequestException(ex) { HttpStatusCode = result.StatusCode };
         }
     }
 
@@ -327,7 +327,7 @@ internal partial class ApiRequest
     }
 
     internal static Uri GetBaseUriFor(string url = null) =>
-        string.IsNullOrEmpty(url) ? Configuration.Instance.RestApiUrl : new Uri( Configuration.Instance.RestApiUrl, url);
+        string.IsNullOrEmpty(url) ? Configuration.Instance.RestApiUrl : new Uri(Configuration.Instance.RestApiUrl, url);
 
     internal async Task<T> DoRequestWithJsonContentAsync<T>(HttpMethod method, Uri uri, object payload,
         AuthType authType, Func<object, string> payloadSerialization,
