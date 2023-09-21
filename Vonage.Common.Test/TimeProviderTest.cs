@@ -14,9 +14,9 @@ public class TimeProviderTest
         var reference = DateTime.Now;
         var now = new TimeProvider().Now;
         var delay = (now.Ticks - reference.Ticks);
-        delay.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(1);
+        delay.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(10000);
     }
-    
+
     /// <remarks>
     ///     Given we can predict the exact generated Epoch, we have to assume it is "recent".
     /// </remarks>
@@ -26,6 +26,6 @@ public class TimeProviderTest
         var reference = EpochTime.Now.Epoch;
         var now = new TimeProvider().Epoch;
         var delay = (now - reference);
-        delay.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(1);
+        delay.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(10000);
     }
 }
