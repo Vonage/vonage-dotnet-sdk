@@ -21,7 +21,7 @@ namespace Vonage.Request;
 
 internal partial class ApiRequest
 {
-    private readonly Credentials credentials;
+    private readonly Maybe<Credentials> credentials;
     private readonly ILogger logger;
     private readonly string userAgent;
     private readonly Maybe<Configuration> configuration;
@@ -124,20 +124,7 @@ internal partial class ApiRequest
 
     private StringBuilder BuildQueryString(IDictionary<string, string> parameters, bool withCredentials = true)
     {
-        SmsSignatureGenerator.Method method;
-        if (this.credentials?.Method != null)
-        {
-            method = this.credentials.Method;
-        }
-        else if (Enum.TryParse(this.GetConfiguration().SigningMethod, out method))
-        {
-            //left blank intentionally
-        }
-        else
-        {
-            method = SmsSignatureGenerator.Method.md5hash;
-        }
-
+        var method = this.credentials.Map(value => value.Method).IfNone(Enum.TryParse(this.GetConfiguration().SigningMethod, out SmsSignatureGenerator.Method output) ? output : SmsSignatureGenerator.Method.md5hash);
         var sb = new StringBuilder();
         var signatureSb = new StringBuilder();
 
@@ -223,13 +210,17 @@ internal partial class ApiRequest
         return await this.SendHttpRequestAsync(req);
     }
 
-    private string GetApiKey() => this.credentials?.ApiKey ?? this.GetConfiguration().ApiKey;
+    private string GetApiKey() => this.credentials.Bind(value => value.ApiKey ?? Maybe<string>.None)
+        .IfNone(this.GetConfiguration().ApiKey);
 
-    private string GetApiSecret() => this.credentials?.ApiSecret ?? this.GetConfiguration().ApiSecret;
+    private string GetApiSecret() => this.credentials.Bind(value => value.ApiSecret ?? Maybe<string>.None)
+        .IfNone(this.GetConfiguration().ApiSecret);
 
-    private string GetApplicationId() => this.credentials?.ApplicationId ?? this.GetConfiguration().ApplicationId;
+    private string GetApplicationId() => this.credentials.Bind(value => value.ApplicationId ?? Maybe<string>.None)
+        .IfNone(this.GetConfiguration().ApplicationId);
 
-    private string GetApplicationKey() => this.credentials?.ApplicationKey ?? this.GetConfiguration().ApplicationKey;
+    private string GetApplicationKey() => this.credentials.Bind(value => value.ApplicationKey ?? Maybe<string>.None)
+        .IfNone(this.GetConfiguration().ApplicationKey);
 
     private static Dictionary<string, string> GetParameters(object parameters)
     {
@@ -256,9 +247,9 @@ internal partial class ApiRequest
         return sb;
     }
 
-    private string GetSecuritySecret() => this.credentials?.SecuritySecret ?? this.GetConfiguration().SecuritySecret;
+    private string GetSecuritySecret() => this.credentials.Bind(value => value.SecuritySecret ?? Maybe<string>.None).IfNone(this.GetConfiguration().SecuritySecret);
 
-    private string GetUserAgent() => this.credentials?.AppUserAgent ?? this.GetConfiguration().UserAgent;
+    private string GetUserAgent() => this.credentials.Bind(value => value.AppUserAgent ?? Maybe<string>.None).IfNone(this.GetConfiguration().UserAgent);
 
     private async Task<T> SendGetRequestAsync<T>(Uri uri, AuthType authType)
     {
