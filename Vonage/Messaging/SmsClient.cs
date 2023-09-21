@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Request;
 
 namespace Vonage.Messaging;
@@ -6,6 +7,7 @@ namespace Vonage.Messaging;
 public class SmsClient : ISmsClient
 {
     private readonly Configuration configuration;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
     public Credentials Credentials { get; set; }
 
     public SmsClient(Credentials creds = null)
@@ -14,16 +16,17 @@ public class SmsClient : ISmsClient
         this.configuration = Configuration.Instance;
     }
 
-    public SmsClient(Credentials credentials, Configuration configuration)
+    public SmsClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.Credentials = credentials;
         this.configuration = configuration;
+        this.timeProvider = timeProvider;
     }
 
     /// <inheritdoc/>
     public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
     {
-        var result = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var result = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObject<SendSmsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
                 request
@@ -46,7 +49,7 @@ public class SmsClient : ISmsClient
     /// <returns></returns>
     public async Task<SendSmsResponse> SendAnSmsAsync(SendSmsRequest request, Credentials creds = null)
     {
-        var result = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var result = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<SendSmsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
                 request

@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Request;
 
 namespace Vonage.Redaction;
@@ -7,6 +8,7 @@ namespace Vonage.Redaction;
 public class RedactClient : IRedactClient
 {
     private readonly Configuration configuration;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
     public Credentials Credentials { get; set; }
 
     public RedactClient(Credentials creds = null)
@@ -15,10 +17,11 @@ public class RedactClient : IRedactClient
         this.configuration = Configuration.Instance;
     }
 
-    internal RedactClient(Credentials credentials, Configuration configuration)
+    internal RedactClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.Credentials = credentials;
         this.configuration = configuration;
+        this.timeProvider = timeProvider;
     }
     
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
@@ -26,7 +29,7 @@ public class RedactClient : IRedactClient
     /// <inheritdoc/>
     public bool Redact(RedactRequest request, Credentials creds = null)
     {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<object>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<object>
         (
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
@@ -39,7 +42,7 @@ public class RedactClient : IRedactClient
     /// <inheritdoc/>
     public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
     {
-        await ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<object>
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<object>
         (
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),

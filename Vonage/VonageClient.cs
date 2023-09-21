@@ -137,18 +137,18 @@ public class VonageClient
 
     private void PropagateCredentials()
     {
-        this.AccountClient = new AccountClient(this.Credentials, this.GetConfiguration());
-        this.ApplicationClient = new ApplicationClient(this.Credentials, this.GetConfiguration());
-        this.VoiceClient = new VoiceClient(this.Credentials, this.GetConfiguration());
-        this.ConversionClient = new ConversionClient(this.Credentials, this.GetConfiguration());
-        this.NumbersClient = new NumbersClient(this.Credentials, this.GetConfiguration());
-        this.NumberInsightClient = new NumberInsightClient(this.Credentials, this.GetConfiguration());
-        this.VerifyClient = new VerifyClient(this.Credentials, this.GetConfiguration());
-        this.ShortCodesClient = new ShortCodesClient(this.Credentials, this.GetConfiguration());
-        this.RedactClient = new RedactClient(this.Credentials, this.GetConfiguration());
-        this.SmsClient = new SmsClient(this.Credentials, this.GetConfiguration());
-        this.PricingClient = new PricingClient(this.Credentials, this.GetConfiguration());
-        this.MessagesClient = new MessagesClient(this.Credentials, this.GetConfiguration());
+        this.AccountClient = new AccountClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.ApplicationClient = new ApplicationClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.VoiceClient = new VoiceClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.ConversionClient = new ConversionClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.NumbersClient = new NumbersClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.NumberInsightClient = new NumberInsightClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.VerifyClient = new VerifyClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.ShortCodesClient = new ShortCodesClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.RedactClient = new RedactClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.SmsClient = new SmsClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.PricingClient = new PricingClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.MessagesClient = new MessagesClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.VerifyV2Client = new VerifyV2Client(this.BuildConfiguration(this.GetConfiguration().NexmoApiUrl));
         this.SubAccountsClient = new SubAccountsClient(this.BuildConfiguration(this.GetConfiguration().NexmoApiUrl),
             this.Credentials.ApiKey);

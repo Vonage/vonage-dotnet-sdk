@@ -41,7 +41,7 @@ internal partial class ApiRequest
 
     private ApiRequest(Credentials credentials, Configuration configuration) : this(credentials) => this.configuration = configuration;
 
-    internal static ApiRequest Build(Credentials credentials, Configuration configuration) => new ApiRequest(credentials, configuration);
+    internal static ApiRequest Build(Credentials credentials, Configuration configuration, ITimeProvider provider) => new ApiRequest(credentials, configuration);
 
     private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
 

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Request;
 
 namespace Vonage.Conversions;
@@ -6,6 +7,7 @@ namespace Vonage.Conversions;
 public class ConversionClient : IConversionClient
 {
     private readonly Configuration configuration;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
     public Credentials Credentials { get; set; }
 
     public ConversionClient(Credentials creds = null)
@@ -14,16 +16,17 @@ public class ConversionClient : IConversionClient
         this.configuration = Configuration.Instance;
     }
 
-    internal ConversionClient(Credentials credentials, Configuration configuration)
+    internal ConversionClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.Credentials = credentials;
         this.configuration = configuration;
+        this.timeProvider = timeProvider;
     }
 
     /// <inheritdoc/>
     public bool SmsConversion(ConversionRequest request, Credentials creds = null)
     {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoPostRequestUrlContentFromObject<object>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoPostRequestUrlContentFromObject<object>
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
             request
@@ -34,7 +37,7 @@ public class ConversionClient : IConversionClient
     /// <inheritdoc/>
     public async Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null)
     {
-        await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<object>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
@@ -46,7 +49,7 @@ public class ConversionClient : IConversionClient
     /// <inheritdoc/>
     public bool VoiceConversion(ConversionRequest request, Credentials creds = null)
     {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoPostRequestUrlContentFromObject<object>
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoPostRequestUrlContentFromObject<object>
         (
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
             request
@@ -57,7 +60,7 @@ public class ConversionClient : IConversionClient
     /// <inheritdoc/>
     public async Task<bool> VoiceConversionAsync(ConversionRequest request, Credentials creds = null)
     {
-        await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<object>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
