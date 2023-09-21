@@ -122,20 +122,7 @@ internal partial class ApiRequest
 
     private StringBuilder BuildQueryString(IDictionary<string, string> parameters, bool withCredentials = true)
     {
-        SmsSignatureGenerator.Method method;
-        if (this.credentials.IsSome)
-        {
-            method = this.credentials.GetUnsafe().Method;
-        }
-        else if (Enum.TryParse(this.GetConfiguration().SigningMethod, out method))
-        {
-            //left blank intentionally
-        }
-        else
-        {
-            method = SmsSignatureGenerator.Method.md5hash;
-        }
-
+        var method = this.credentials.Map(value => value.Method).IfNone(Enum.TryParse(this.GetConfiguration().SigningMethod, out SmsSignatureGenerator.Method output) ? output : SmsSignatureGenerator.Method.md5hash);
         var sb = new StringBuilder();
         var signatureSb = new StringBuilder();
 
