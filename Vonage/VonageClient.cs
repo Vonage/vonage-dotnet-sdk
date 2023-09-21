@@ -3,6 +3,7 @@ using System.IO.Abstractions;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Conversions;
@@ -31,6 +32,7 @@ public class VonageClient
 {
     private Credentials credentials;
     private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
 
     public IAccountClient AccountClient { get; private set; }
 
@@ -85,7 +87,7 @@ public class VonageClient
     /// <summary>
     ///     Exposes User management features.
     /// </summary>
-    public IUsersClient UsersClient { get; set; }
+    public IUsersClient UsersClient { get; private set; }
 
     public IVerifyClient VerifyClient { get; private set; }
 
@@ -102,10 +104,11 @@ public class VonageClient
     /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
     public VonageClient(Credentials credentials) => this.Credentials = credentials;
 
-    internal VonageClient(Credentials credentials, Configuration configuration)
+    internal VonageClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.configuration = configuration;
         this.Credentials = credentials;
+        this.timeProvider = timeProvider;
     }
     
     internal VonageClient(Configuration configuration)

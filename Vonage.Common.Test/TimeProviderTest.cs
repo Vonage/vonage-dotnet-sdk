@@ -11,8 +11,8 @@ public class TimeProviderTest
     [Fact]
     public void Now_ShouldReturnCurrentDateTime()
     {
-        var reference = DateTime.Now;
-        var now = new TimeProvider().Now;
+        var reference = DateTime.UtcNow;
+        var now = new TimeProvider().UtcNow;
         var delay = (now.Ticks - reference.Ticks);
         delay.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(10000);
     }

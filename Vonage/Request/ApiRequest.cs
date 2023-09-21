@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Monads;
@@ -24,6 +25,7 @@ internal partial class ApiRequest
     private readonly ILogger logger;
     private readonly string userAgent;
     private readonly Maybe<Configuration> configuration;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
 
     private ApiRequest()
     {
@@ -176,7 +178,7 @@ internal partial class ApiRequest
         }
 
         parameters.Add("timestamp",
-            ((int) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds).ToString(
+            ((int) (this.timeProvider.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds).ToString(
                 CultureInfo.InvariantCulture));
         var sortedParams = new SortedDictionary<string, string>(parameters);
         BuildStringFromParams(sortedParams, sb);

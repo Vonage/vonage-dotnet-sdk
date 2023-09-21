@@ -10,7 +10,7 @@ public interface ITimeProvider
     /// <summary>
     /// Returns the current date and time.
     /// </summary>
-    DateTime Now { get; }
+    DateTime UtcNow { get; }
     
     /// <summary>
     /// Returns the current epoch value.
