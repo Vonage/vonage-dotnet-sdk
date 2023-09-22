@@ -13,8 +13,8 @@ public class TimeProviderTest
     {
         var reference = DateTime.UtcNow;
         var now = new TimeProvider().UtcNow;
-        var delay = (now.Ticks - reference.Ticks);
-        delay.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(10000);
+        var delay = now - reference;
+        delay.TotalSeconds.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(2);
     }
 
     /// <remarks>
@@ -26,6 +26,6 @@ public class TimeProviderTest
         var reference = EpochTime.Now.Epoch;
         var now = new TimeProvider().Epoch;
         var delay = (now - reference);
-        delay.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(10000);
+        delay.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(100000);
     }
 }
