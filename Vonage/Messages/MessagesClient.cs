@@ -27,7 +27,7 @@ public class MessagesClient : IMessagesClient
         this.credentials = credentials;
     }
 
-    public MessagesClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
+    internal MessagesClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.credentials = credentials;
         this.configuration = configuration;

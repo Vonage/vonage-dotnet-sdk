@@ -16,7 +16,7 @@ public class SmsClient : ISmsClient
         this.configuration = Configuration.Instance;
     }
 
-    public SmsClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
+    internal SmsClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.Credentials = credentials;
         this.configuration = configuration;
