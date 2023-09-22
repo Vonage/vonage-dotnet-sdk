@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Request;
 
 namespace Vonage.NumberInsights;
@@ -6,6 +7,7 @@ namespace Vonage.NumberInsights;
 public class NumberInsightClient : INumberInsightClient
 {
     private readonly Configuration configuration;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
     public Credentials Credentials { get; set; }
 
     public NumberInsightClient(Credentials creds = null)
@@ -14,17 +16,18 @@ public class NumberInsightClient : INumberInsightClient
         this.configuration = Configuration.Instance;
     }
 
-    internal NumberInsightClient(Credentials credentials, Configuration configuration)
+    internal NumberInsightClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.Credentials = credentials;
         this.configuration = configuration;
+        this.timeProvider = timeProvider;
     }
 
     /// <inheritdoc/>
     public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
         Credentials creds = null)
     {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<AdvancedInsightsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
                 AuthType.Query,
@@ -38,7 +41,7 @@ public class NumberInsightClient : INumberInsightClient
     public async Task<AdvancedInsightsResponse> GetNumberInsightAdvancedAsync(AdvancedNumberInsightRequest request,
         Credentials creds = null)
     {
-        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<AdvancedInsightsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
                 AuthType.Query,
@@ -52,7 +55,7 @@ public class NumberInsightClient : INumberInsightClient
     public AdvancedInsightsAsynchronousResponse GetNumberInsightAsynchronous(
         AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
     {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<AdvancedInsightsAsynchronousResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
                 AuthType.Query,
@@ -66,7 +69,7 @@ public class NumberInsightClient : INumberInsightClient
     public async Task<AdvancedInsightsAsynchronousResponse> GetNumberInsightAsynchronousAsync(
         AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
     {
-        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<AdvancedInsightsAsynchronousResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
                 AuthType.Query,
@@ -79,7 +82,7 @@ public class NumberInsightClient : INumberInsightClient
     /// <inheritdoc/>
     public BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null)
     {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<BasicInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
                 AuthType.Query,
@@ -93,7 +96,7 @@ public class NumberInsightClient : INumberInsightClient
     public async Task<BasicInsightResponse> GetNumberInsightBasicAsync(BasicNumberInsightRequest request,
         Credentials creds = null)
     {
-        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<BasicInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
                 AuthType.Query,
@@ -107,7 +110,7 @@ public class NumberInsightClient : INumberInsightClient
     public StandardInsightResponse GetNumberInsightStandard(StandardNumberInsightRequest request,
         Credentials creds = null)
     {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<StandardInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
                 AuthType.Query,
@@ -121,7 +124,7 @@ public class NumberInsightClient : INumberInsightClient
     public async Task<StandardInsightResponse> GetNumberInsightStandardAsync(StandardNumberInsightRequest request,
         Credentials creds = null)
     {
-        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration)
+        var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<StandardInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
                 AuthType.Query,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Request;
 using Vonage.Serialization;
 
@@ -14,6 +15,7 @@ public class MessagesClient : IMessagesClient
     private readonly Configuration configuration;
     private readonly Credentials credentials;
     private readonly Uri uri;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
 
     /// <summary>
     /// </summary>
@@ -25,11 +27,12 @@ public class MessagesClient : IMessagesClient
         this.credentials = credentials;
     }
 
-    public MessagesClient(Credentials credentials, Configuration configuration)
+    internal MessagesClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.credentials = credentials;
         this.configuration = configuration;
         this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, Url);
+        this.timeProvider = timeProvider;
     }
 
     /// <summary>
@@ -40,7 +43,7 @@ public class MessagesClient : IMessagesClient
     {
         var authType = this.credentials.GetPreferredAuthenticationType()
             .IfFailure(failure => throw failure.ToException());
-        return ApiRequest.Build(this.credentials, this.configuration).DoRequestWithJsonContentAsync(
+        return ApiRequest.Build(this.credentials, this.configuration, this.timeProvider).DoRequestWithJsonContentAsync(
             HttpMethod.Post, this.uri,
             message,
             authType,

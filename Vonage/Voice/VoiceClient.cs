@@ -15,6 +15,7 @@ public class VoiceClient : IVoiceClient
     private const string CallsEndpoint = "v1/calls";
     private readonly Credentials credentials;
     private readonly Configuration configuration;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
 
     /// <summary>
     ///     Initializes a VoiceClient.
@@ -26,15 +27,16 @@ public class VoiceClient : IVoiceClient
         this.configuration = Configuration.Instance;
     }
 
-    internal VoiceClient(Credentials credentials, Configuration configuration)
+    internal VoiceClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.credentials = credentials;
         this.configuration = configuration;
+        this.timeProvider = timeProvider;
     }
 
     /// <inheritdoc />
     public CallResponse CreateCall(CallCommand command, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<CallResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<CallResponse>(
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
             command,
@@ -84,7 +86,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<CallResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<CallResponse>(
             HttpMethod.Post,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
             command,
@@ -134,21 +136,21 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public CallRecord GetCall(string id, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<CallRecord>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParameters<CallRecord>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}"),
             AuthType.Bearer
         );
 
     /// <inheritdoc />
     public Task<CallRecord> GetCallAsync(string id, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParametersAsync<CallRecord>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParametersAsync<CallRecord>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}"),
             AuthType.Bearer
         );
 
     /// <inheritdoc />
     public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParameters<PageResponse<CallList>>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParameters<PageResponse<CallList>>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
             AuthType.Bearer,
             filter
@@ -156,7 +158,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<PageResponse<CallList>> GetCallsAsync(CallSearchFilter filter, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithQueryParametersAsync<PageResponse<CallList>>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParametersAsync<PageResponse<CallList>>(
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
             AuthType.Bearer,
             filter
@@ -165,7 +167,7 @@ public class VoiceClient : IVoiceClient
     /// <inheritdoc />
     public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
     {
-        using var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithJwt(new Uri(recordingUrl));
+        using var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithJwt(new Uri(recordingUrl));
         return new GetRecordingResponse
         {
             ResultStream = ReadContent(response.Content).Result,
@@ -177,7 +179,7 @@ public class VoiceClient : IVoiceClient
     public async Task<GetRecordingResponse> GetRecordingAsync(string recordingUrl, Credentials creds = null)
     {
         using var response =
-            await ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoGetRequestWithJwtAsync(new Uri(recordingUrl));
+            await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithJwtAsync(new Uri(recordingUrl));
         return new GetRecordingResponse
         {
             ResultStream = await ReadContent(response.Content),
@@ -187,7 +189,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/dtmf"),
             cmd,
@@ -196,7 +198,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/dtmf"),
             cmd,
@@ -205,7 +207,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
             command,
@@ -214,7 +216,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallCommandResponse> StartStreamAsync(string id, StreamCommand command, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
             command,
@@ -223,7 +225,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/talk"),
             cmd,
@@ -232,7 +234,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallCommandResponse> StartTalkAsync(string id, TalkCommand cmd, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<CallCommandResponse>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/talk"),
             cmd,
@@ -241,7 +243,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public CallCommandResponse StopStream(string id, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<CallCommandResponse>(
             HttpMethod.Delete,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
             new { },
@@ -250,7 +252,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallCommandResponse> StopStreamAsync(string id, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<CallCommandResponse>(
             HttpMethod.Delete,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
             new { },
@@ -259,7 +261,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public CallCommandResponse StopTalk(string id, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<CallCommandResponse>(
             HttpMethod.Delete,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/talk"),
             new { },
@@ -268,7 +270,7 @@ public class VoiceClient : IVoiceClient
 
     /// <inheritdoc />
     public Task<CallCommandResponse> StopTalkAsync(string id, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<CallCommandResponse>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<CallCommandResponse>(
             HttpMethod.Delete,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/talk"),
             new { },
@@ -278,7 +280,7 @@ public class VoiceClient : IVoiceClient
     /// <inheritdoc />
     public bool UpdateCall(string id, CallEditCommand command, Credentials creds = null)
     {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContent<CallRecord>(
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<CallRecord>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}"),
             command,
@@ -290,7 +292,7 @@ public class VoiceClient : IVoiceClient
     /// <inheritdoc />
     public async Task<bool> UpdateCallAsync(string id, CallEditCommand command, Credentials creds = null)
     {
-        await ApiRequest.Build(this.GetCredentials(creds), this.configuration).DoRequestWithJsonContentAsync<CallRecord>(
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<CallRecord>(
             HttpMethod.Put,
             ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}"),
             command,

@@ -1,4 +1,5 @@
 ﻿using System;
+using Vonage.Common;
 using Vonage.Request;
 using WireMock.Server;
 
@@ -16,7 +17,7 @@ namespace Vonage.Test.Unit.TestHelpers
                     [$"appSettings:{appSettingsKey}"] = this.Server.Url,
                 },
             };
-            this.VonageClient = new VonageClient(credentials, configuration);
+            this.VonageClient = new VonageClient(credentials, configuration, new TimeProvider());
         }
 
         public WireMockServer Server { get; }

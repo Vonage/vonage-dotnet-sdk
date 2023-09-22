@@ -7,14 +7,17 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Epoch.net;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Monads;
 using Vonage.Cryptography;
 using Vonage.Logger;
 using Vonage.Serialization;
+using ITimeProvider = Vonage.Common.ITimeProvider;
 
 namespace Vonage.Request;
 
@@ -24,11 +27,13 @@ internal partial class ApiRequest
     private readonly ILogger logger;
     private readonly string userAgent;
     private readonly Maybe<Configuration> configuration;
+    private readonly ITimeProvider timeProvider;
 
     private ApiRequest()
     {
         this.logger = LogProvider.GetLogger("Vonage.Request.ApiRequest");
         this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.GetConfiguration().UserAgent);
+        this.timeProvider = new TimeProvider();
     }
 
     private ApiRequest(Credentials credentials) : this()
@@ -37,9 +42,13 @@ internal partial class ApiRequest
         this.userAgent = UserAgentProvider.GetFormattedUserAgent(this.GetUserAgent());
     }
 
-    private ApiRequest(Credentials credentials, Configuration configuration) : this(credentials) => this.configuration = configuration;
+    private ApiRequest(Credentials credentials, Configuration configuration, ITimeProvider provider) : this(credentials)
+    {
+        this.configuration = configuration;
+        this.timeProvider = provider;
+    }
 
-    internal static ApiRequest Build(Credentials credentials, Configuration configuration) => new ApiRequest(credentials, configuration);
+    internal static ApiRequest Build(Credentials credentials, Configuration configuration, ITimeProvider provider) => new ApiRequest(credentials, configuration, provider);
 
     private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
 
@@ -125,26 +134,6 @@ internal partial class ApiRequest
         var method = this.credentials.Map(value => value.Method).IfNone(Enum.TryParse(this.GetConfiguration().SigningMethod, out SmsSignatureGenerator.Method output) ? output : SmsSignatureGenerator.Method.md5hash);
         var sb = new StringBuilder();
         var signatureSb = new StringBuilder();
-
-        void BuildStringFromParams(IDictionary<string, string> param, StringBuilder strings)
-        {
-            foreach (var kvp in param)
-            {
-                //Special Case for ids from MessagesSearch API which needs a series of ID's with unescaped &/=
-                strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key),
-                    kvp.Key == "ids" ? kvp.Value : WebUtility.UrlEncode(kvp.Value));
-            }
-        }
-
-        void BuildSignatureStringFromParams(IDictionary<string, string> param, StringBuilder strings)
-        {
-            foreach (var kvp in param)
-            {
-                strings.AppendFormat("{0}={1}&", kvp.Key.Replace('=', '_').Replace('&', '_'),
-                    kvp.Value.Replace('=', '_').Replace('&', '_'));
-            }
-        }
-
         if (withCredentials)
         {
             parameters.Add("api_key", this.GetApiKey());
@@ -162,9 +151,7 @@ internal partial class ApiRequest
             return sb;
         }
 
-        parameters.Add("timestamp",
-            ((int) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds).ToString(
-                CultureInfo.InvariantCulture));
+        parameters.Add("timestamp", this.timeProvider.Epoch.ToString(CultureInfo.InvariantCulture));
         var sortedParams = new SortedDictionary<string, string>(parameters);
         BuildStringFromParams(sortedParams, sb);
         BuildSignatureStringFromParams(sortedParams, signatureSb);
@@ -173,6 +160,25 @@ internal partial class ApiRequest
         var signature = SmsSignatureGenerator.GenerateSignature(queryToSign, this.GetSecuritySecret(), method);
         sb.AppendFormat("sig={0}", signature);
         return sb;
+
+        void BuildSignatureStringFromParams(IDictionary<string, string> param, StringBuilder strings)
+        {
+            foreach (var kvp in param)
+            {
+                strings.AppendFormat("{0}={1}&", kvp.Key.Replace('=', '_').Replace('&', '_'),
+                    kvp.Value.Replace('=', '_').Replace('&', '_'));
+            }
+        }
+
+        void BuildStringFromParams(IDictionary<string, string> param, StringBuilder strings)
+        {
+            foreach (var kvp in param)
+            {
+                //Special Case for ids from MessagesSearch API which needs a series of ID's with unescaped &/=
+                strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key),
+                    kvp.Key == "ids" ? kvp.Value : WebUtility.UrlEncode(kvp.Value));
+            }
+        }
     }
 
     private async Task<T> DoPostRequestWithUrlContentAsync<T>(Uri uri, Dictionary<string, string> parameters,
