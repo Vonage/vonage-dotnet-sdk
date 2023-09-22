@@ -1,4 +1,7 @@
 ﻿using System.Net;
+using Moq;
+using Vonage.Accounts;
+using Vonage.Common;
 using Vonage.Request;
 using Xunit;
 
@@ -27,15 +30,15 @@ namespace Vonage.Test.Unit
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.Secret secret;
+            Secret secret;
             if (passCreds)
             {
-                secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest {Secret = "password"},
+                secret = client.AccountClient.CreateApiSecret(new CreateSecretRequest {Secret = "password"},
                     this.ApiKey, creds);
             }
             else
             {
-                secret = client.AccountClient.CreateApiSecret(new Accounts.CreateSecretRequest {Secret = "password"},
+                secret = client.AccountClient.CreateApiSecret(new CreateSecretRequest {Secret = "password"},
                     this.ApiKey);
             }
 
@@ -70,16 +73,16 @@ namespace Vonage.Test.Unit
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.Secret secret;
+            Secret secret;
             if (passCreds)
             {
                 secret = await client.AccountClient.CreateApiSecretAsync(
-                    new Accounts.CreateSecretRequest {Secret = "password"}, this.ApiKey, creds);
+                    new CreateSecretRequest {Secret = "password"}, this.ApiKey, creds);
             }
             else
             {
                 secret = await client.AccountClient.CreateApiSecretAsync(
-                    new Accounts.CreateSecretRequest {Secret = "password"}, this.ApiKey);
+                    new CreateSecretRequest {Secret = "password"}, this.ApiKey);
             }
 
             //ASSERT
@@ -96,10 +99,10 @@ namespace Vonage.Test.Unit
             //ARRANGE
             var expectedUri = $"{this.RestUrl}/account/get-balance?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent = @"{""value"": 3.14159, ""autoReload"": false }";
-            this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
+            this.Setup(expectedUri, expectedResponseContent);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.Balance balance;
+            Balance balance;
             if (passCreds)
             {
                 balance = client.AccountClient.GetAccountBalance(creds);
@@ -122,10 +125,10 @@ namespace Vonage.Test.Unit
             //ARRANGE
             var expectedUri = $"{this.RestUrl}/account/get-balance?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent = @"{""value"": 3.14159, ""autoReload"": false }";
-            this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
+            this.Setup(expectedUri, expectedResponseContent);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.Balance balance;
+            Balance balance;
             if (passCreds)
             {
                 balance = await client.AccountClient.GetAccountBalanceAsync(creds);
@@ -140,7 +143,22 @@ namespace Vonage.Test.Unit
             Assert.False(balance.AutoReload);
         }
 
-     
+        [Fact]
+        public async void GetAccountBalanceAsync_ShouldReturnbalance_GivenCredentialsContainSecuritySecret()
+        {
+            var mockTimeProvider = new Mock<ITimeProvider>();
+            mockTimeProvider.Setup(provider => provider.Epoch).Returns(10);
+            var expectedUri =
+                $"{this.RestUrl}/account/get-balance?api_key={this.ApiKey}&timestamp=10&sig=1b692bddcdbb74dcafaa0a036a1200c2";
+            const string expectedResponseContent = @"{""value"": 3.14159, ""autoReload"": false }";
+            this.Setup(expectedUri, expectedResponseContent);
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            credentials.SecuritySecret = "yolo";
+            var client = new VonageClient(credentials, this.configuration, mockTimeProvider.Object);
+            var balance = await client.AccountClient.GetAccountBalanceAsync();
+            Assert.Equal(3.14159m, balance.Value);
+            Assert.False(balance.AutoReload);
+        }
 
         [Theory]
         [InlineData(false)]
@@ -174,7 +192,7 @@ namespace Vonage.Test.Unit
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.SecretsRequestResult secrets;
+            SecretsRequestResult secrets;
             if (passCreds)
             {
                 secrets = client.AccountClient.RetrieveApiSecrets(this.ApiKey, creds);
@@ -223,7 +241,7 @@ namespace Vonage.Test.Unit
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.SecretsRequestResult secrets;
+            SecretsRequestResult secrets;
             if (passCreds)
             {
                 secrets = await client.AccountClient.RetrieveApiSecretsAsync(this.ApiKey, creds);
@@ -262,7 +280,7 @@ namespace Vonage.Test.Unit
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.Secret secret;
+            Secret secret;
             if (passCreds)
             {
                 secret = client.AccountClient.RetrieveApiSecret(secretId, this.ApiKey, creds);
@@ -300,7 +318,7 @@ namespace Vonage.Test.Unit
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.Secret secret;
+            Secret secret;
             if (passCreds)
             {
                 secret = await client.AccountClient.RetrieveApiSecretAsync(secretId, this.ApiKey, creds);
@@ -383,28 +401,28 @@ namespace Vonage.Test.Unit
                 $"moCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&drCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/delivery-receipt")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent =
                 @"{""mo-callback-url"": ""https://example.com/webhooks/inbound-sms"",""dr-callback-url"": ""https://example.com/webhooks/delivery-receipt"",""max-outbound-request"": 15,""max-inbound-request"": 30,""max-calls-per-second"": 4}";
-            this.Setup(uri: expectedUri, responseContent: expectedResponseContent,
-                requestContent: expectedRequestContents);
+            this.Setup(expectedUri, expectedResponseContent,
+                expectedRequestContents);
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.AccountSettingsResult result;
+            AccountSettingsResult result;
             if (passCreds)
             {
                 result = client.AccountClient.ChangeAccountSettings(
-                    new Accounts.AccountSettingsRequest
+                    new AccountSettingsRequest
                     {
                         MoCallBackUrl = "https://example.com/webhooks/inbound-sms",
-                        DrCallBackUrl = "https://example.com/webhooks/delivery-receipt"
+                        DrCallBackUrl = "https://example.com/webhooks/delivery-receipt",
                     }, creds);
             }
             else
             {
-                result = client.AccountClient.ChangeAccountSettings(new Accounts.AccountSettingsRequest
+                result = client.AccountClient.ChangeAccountSettings(new AccountSettingsRequest
                 {
                     MoCallBackUrl = "https://example.com/webhooks/inbound-sms",
-                    DrCallBackUrl = "https://example.com/webhooks/delivery-receipt"
+                    DrCallBackUrl = "https://example.com/webhooks/delivery-receipt",
                 });
             }
 
@@ -427,28 +445,28 @@ namespace Vonage.Test.Unit
                 $"moCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&drCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/delivery-receipt")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent =
                 @"{""mo-callback-url"": ""https://example.com/webhooks/inbound-sms"",""dr-callback-url"": ""https://example.com/webhooks/delivery-receipt"",""max-outbound-request"": 15,""max-inbound-request"": 30,""max-calls-per-second"": 4}";
-            this.Setup(uri: expectedUri, responseContent: expectedResponseContent,
-                requestContent: expectedRequestContents);
+            this.Setup(expectedUri, expectedResponseContent,
+                expectedRequestContents);
 
             //ACT
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Accounts.AccountSettingsResult result;
+            AccountSettingsResult result;
             if (passCreds)
             {
                 result = await client.AccountClient.ChangeAccountSettingsAsync(
-                    new Accounts.AccountSettingsRequest
+                    new AccountSettingsRequest
                     {
                         MoCallBackUrl = "https://example.com/webhooks/inbound-sms",
-                        DrCallBackUrl = "https://example.com/webhooks/delivery-receipt"
+                        DrCallBackUrl = "https://example.com/webhooks/delivery-receipt",
                     }, creds);
             }
             else
             {
-                result = await client.AccountClient.ChangeAccountSettingsAsync(new Accounts.AccountSettingsRequest
+                result = await client.AccountClient.ChangeAccountSettingsAsync(new AccountSettingsRequest
                 {
                     MoCallBackUrl = "https://example.com/webhooks/inbound-sms",
-                    DrCallBackUrl = "https://example.com/webhooks/delivery-receipt"
+                    DrCallBackUrl = "https://example.com/webhooks/delivery-receipt",
                 });
             }
 
@@ -469,20 +487,20 @@ namespace Vonage.Test.Unit
             var expectedUri =
                 $"{this.RestUrl}/account/top-up?trx=00X123456Y7890123Z&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent = @"{""response"":""abc123""}";
-            this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
+            this.Setup(expectedUri, expectedResponseContent);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
 
             //Act
             var client = this.BuildVonageClient(creds);
-            Accounts.TopUpResult response;
+            TopUpResult response;
             if (passCreds)
             {
                 response = client.AccountClient.TopUpAccountBalance(
-                    new Accounts.TopUpRequest {Trx = "00X123456Y7890123Z"}, creds);
+                    new TopUpRequest {Trx = "00X123456Y7890123Z"}, creds);
             }
             else
             {
-                response = client.AccountClient.TopUpAccountBalance(new Accounts.TopUpRequest
+                response = client.AccountClient.TopUpAccountBalance(new TopUpRequest
                     {Trx = "00X123456Y7890123Z"});
             }
 
@@ -498,20 +516,20 @@ namespace Vonage.Test.Unit
             var expectedUri =
                 $"{this.RestUrl}/account/top-up?trx=00X123456Y7890123Z&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var expectedResponseContent = @"{""response"":""abc123""}";
-            this.Setup(uri: expectedUri, responseContent: expectedResponseContent);
+            this.Setup(expectedUri, expectedResponseContent);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
 
             //Act
             var client = this.BuildVonageClient(creds);
-            Accounts.TopUpResult response;
+            TopUpResult response;
             if (passCreds)
             {
                 response = await client.AccountClient.TopUpAccountBalanceAsync(
-                    new Accounts.TopUpRequest {Trx = "00X123456Y7890123Z"}, creds);
+                    new TopUpRequest {Trx = "00X123456Y7890123Z"}, creds);
             }
             else
             {
-                response = await client.AccountClient.TopUpAccountBalanceAsync(new Accounts.TopUpRequest
+                response = await client.AccountClient.TopUpAccountBalanceAsync(new TopUpRequest
                     {Trx = "00X123456Y7890123Z"});
             }
 

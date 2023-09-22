@@ -31,8 +31,8 @@ namespace Vonage;
 public class VonageClient
 {
     private Credentials credentials;
-    private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
     private readonly ITimeProvider timeProvider = new TimeProvider();
+    private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
 
     public IAccountClient AccountClient { get; private set; }
 
@@ -106,11 +106,11 @@ public class VonageClient
 
     internal VonageClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
+        this.timeProvider = timeProvider;
         this.configuration = configuration;
         this.Credentials = credentials;
-        this.timeProvider = timeProvider;
     }
-    
+
     internal VonageClient(Configuration configuration)
     {
         this.configuration = this.GetConfiguration();
@@ -142,7 +142,8 @@ public class VonageClient
         this.VoiceClient = new VoiceClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.ConversionClient = new ConversionClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.NumbersClient = new NumbersClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.NumberInsightClient = new NumberInsightClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        this.NumberInsightClient =
+            new NumberInsightClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.VerifyClient = new VerifyClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.ShortCodesClient = new ShortCodesClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.RedactClient = new RedactClient(this.Credentials, this.GetConfiguration(), this.timeProvider);

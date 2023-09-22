@@ -42,7 +42,7 @@ namespace Vonage.Test.Unit
 #endif
 
         private static readonly string TestAssemblyName = ThisAssembly.GetName().Name;
-        private readonly Configuration configuration;
+        protected readonly Configuration configuration;
 
         protected VonageClient BuildVonageClient(Credentials credentials) =>
             new VonageClient(credentials, this.configuration, new TimeProvider());
