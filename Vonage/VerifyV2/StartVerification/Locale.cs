@@ -78,6 +78,11 @@ public readonly struct Locale
     ///     The ru-ru locale.
     /// </summary>
     public static Locale RuRu => new("ru-ru");
+    
+    /// <summary>
+    /// The ja-jp locale.
+    /// </summary>
+    public static Locale JaJp => new("ja-jp");
 
     internal Locale(string language) => this.Language = language;
 }

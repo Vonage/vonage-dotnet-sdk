@@ -22,6 +22,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
             yield return new object[] {Locale.PtBr, "pt-br"};
             yield return new object[] {Locale.PtPt, "pt-pt"};
             yield return new object[] {Locale.IdId, "id-id"};
+            yield return new object[] {Locale.JaJp, "ja-jp"};
         }
 
         [Theory]
