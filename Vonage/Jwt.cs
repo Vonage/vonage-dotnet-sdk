@@ -86,7 +86,7 @@ public class Jwt : ITokenGenerator
             _ = JWT.Decode(token, rsa, JwsAlgorithm.RS256);
             return true;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return false;
         }
