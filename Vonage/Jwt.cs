@@ -71,4 +71,24 @@ public class Jwt : ITokenGenerator
         var rsa = PemParse.DecodePEMKey(privateKey);
         return JWT.Encode(payload, rsa, JwsAlgorithm.RS256);
     }
+
+    /// <summary>
+    /// Verifies if a token has been generated using the provided private key.
+    /// </summary>
+    /// <param name="token">The token to verify.</param>
+    /// <param name="privateKey">The private key.</param>
+    /// <returns>Whether the token signature is valid.</returns>
+    public static bool VerifySignature(string token, string privateKey)
+    {
+        try
+        {
+            var rsa = PemParse.DecodePEMKey(privateKey);
+            _ = JWT.Decode(token, rsa, JwsAlgorithm.RS256);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 }
