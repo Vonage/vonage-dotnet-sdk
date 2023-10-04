@@ -1,3 +1,37 @@
+# v6.10.0 (2023-10-04)
+
+* feat: add ja-jp locale to VerifyV2
+* feat: add feature to verify Jwt signature
+* feat: extend registration with missing clients and token generator
+* refactor: Remove unused class ResponseBase
+* refactor: replace TimeSpamSemaphore anf ThrottlingMessageHandler by proper dependency
+* refactor: implement GetHashCode for ParsingFailure
+* refactor: use a 2048 bits key for Linux and MacOs platforms
+* refactor: use sonar.token instead of deprecated sonar.login
+* refactor: add missing assertion in parser test
+* refactor: align method signatures for async/sync methods on AccountsClient
+* refactor: add missing optional parameter for VerifyClient
+* refactor: make NonStateException compliant to ISerializable
+* refactor: simplify ternary operator in Result
+* refactor: update serialization settings
+* refactor: remove obsolete method on TestBase
+* refactor: enable parallelized tests on Vonage.Test.Unit
+* refactor: update TestBase
+* refactor: update sub clients
+* refactor: replace null by optional values in ApiRequest
+* refactor: simplify ApiRequest
+* refactor: cover signature in query string
+* ci: fix some build warnings
+* ci: restore tests parallelism for Vonage.Test.Unit
+* ci: remove old workflow 'publish-nuget'
+* ci: mutation testing improvement
+* ci: upgrade actions/checkout to v3 for mutation testing
+* docs: update changelog with v6.9.0
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.9.0...v6.10.0
+
+---
+
 # v6.9.0 (2023-09-07)
 
 * feat: initialize credentials from Configuration
