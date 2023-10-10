@@ -1,3 +1,11 @@
+# v6.10.1 (2023-10-10)
+
+fix: application deserialization with Meetings custom webhooks
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.10.0...v6.10.1
+
+---
+
 # v6.10.0 (2023-10-04)
 
 * feat: add ja-jp locale to VerifyV2
