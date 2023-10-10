@@ -268,53 +268,7 @@ namespace Vonage.Test.Unit
         public void GetApplication(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
-            var expectedResponse = @"{
-                  ""id"": ""78d335fa323d01149c3dd6f0d48968cf"",
-                  ""name"": ""My Application"",
-                  ""capabilities"": {
-                                ""voice"": {
-                                    ""webhooks"": {
-                                        ""answer_url"": {
-                                            ""address"": ""https://example.com/webhooks/answer"",
-                          ""http_method"": ""GET""
-                                        },
-                        ""fallback_answer_url"": {
-                                            ""address"": ""https://fallback.example.com/webhooks/answer"",
-                          ""http_method"": ""GET""
-                        },
-                        ""event_url"": {
-                                            ""address"": ""https://example.com/webhooks/event"",
-                          ""http_method"": ""POST""
-                        }
-                                    }
-                                },
-                    ""messages"": {
-                                    ""webhooks"": {
-                                        ""inbound_url"": {
-                                            ""address"": ""https://example.com/webhooks/inbound"",
-                          ""http_method"": ""POST""
-                                        },
-                        ""status_url"": {
-                                            ""address"": ""https://example.com/webhooks/status"",
-                          ""http_method"": ""POST""
-                        }
-                                    }
-                                },
-                    ""rtc"": {
-                                    ""webhooks"": {
-                                        ""event_url"": {
-                                            ""address"": ""https://example.com/webhooks/event"",
-                          ""http_method"": ""POST""
-                                        }
-                                    }
-                                },
-                    ""vbc"": { }
-                            },
-                  ""keys"": {
-                                ""public_key"": ""some public key"",
-                    ""private_key"": ""some private key""
-                  }
-                        }";
+            var expectedResponse = this.GetResponseJson();
             var expectedUri = $"{this.ApiUrl}/v2/applications/{id}";
             this.Setup(expectedUri, expectedResponse);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);

@@ -32,6 +32,15 @@ public class Webhook
 
         [EnumMember(Value = "Unknown")]
         Unknown = 6,
+        
+        [EnumMember(Value = "room_changed")]
+        RoomChanged =7,
+        
+        [EnumMember(Value = "session_changed")]
+        SessionChanged=8,
+        
+        [EnumMember(Value = "recording_changed")]
+        RecordingChanged = 9,
     }
 
 }
