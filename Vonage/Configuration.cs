@@ -59,11 +59,18 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves a configured HttpClient.
     /// </summary>
-    public HttpClient Client =>
-        RequestsPerSecond
-            .Map(BuildSemaphore)
-            .Map(this.GetThrottlingMessageHandler)
-            .Match(some => new HttpClient(some), this.BuildDefaultClient);
+    public HttpClient Client
+    {
+        get
+        {
+            var client = RequestsPerSecond
+                .Map(BuildSemaphore)
+                .Map(this.GetThrottlingMessageHandler)
+                .Match(some => new HttpClient(some), this.BuildDefaultClient);
+            this.RequestTimeout.IfSome(value => client.Timeout = value);
+            return client;
+        }
+    }
 
     /// <summary>
     ///     Exposes an HttpMessageHandler.
@@ -88,6 +95,14 @@ public sealed class Configuration
     public Uri NexmoApiUrl => this.Settings["appSettings:Vonage.Url.Api"] is null
         ? new Uri(DefaultNexmoApiUrl)
         : new Uri(this.Settings["appSettings:Vonage.Url.Api"]);
+
+    /// <summary>
+    ///     The timeout (in seconds) applied to every requests. If not provided, the default timeout will be applied.
+    /// </summary>
+    public Maybe<TimeSpan> RequestTimeout =>
+        int.TryParse(this.Settings["appSettings:Vonage.RequestsTimeout"], out var timeout)
+            ? Maybe<TimeSpan>.Some(TimeSpan.FromSeconds(timeout))
+            : Maybe<TimeSpan>.None;
 
     /// <summary>
     ///     Retrieves the Rest Api Url.
@@ -126,19 +141,61 @@ public sealed class Configuration
     internal Configuration()
     {
         var builder = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
-                {
-                    {"appSettings:Vonage.Url.Rest", DefaultRestApiUrl},
-                    {"appSettings:Vonage.Url.Api", DefaultNexmoApiUrl},
-                    {"appSettings:Vonage.Url.Api.Europe", DefaultEuropeApiUrl},
-                    {"appSettings:Vonage.Url.Api.Video", DefaultVideoApiUrl},
-                    {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
-                })
-                .AddJsonFile("settings.json", true, true)
-                .AddJsonFile("appsettings.json", true, true);
+            .AddInMemoryCollection(new Dictionary<string, string>
+            {
+                {"appSettings:Vonage.Url.Rest", DefaultRestApiUrl},
+                {"appSettings:Vonage.Url.Api", DefaultNexmoApiUrl},
+                {"appSettings:Vonage.Url.Api.Europe", DefaultEuropeApiUrl},
+                {"appSettings:Vonage.Url.Api.Video", DefaultVideoApiUrl},
+                {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
+            })
+            .AddJsonFile("settings.json", true, true)
+            .AddJsonFile("appsettings.json", true, true);
         this.Settings = builder.Build();
         this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
     }
+
+    /// <summary>
+    ///     Builds a Credentials from the current Configuration.
+    /// </summary>
+    /// <returns>The Credentials.</returns>
+    public Credentials BuildCredentials() => new()
+    {
+        ApiKey = this.ApiKey,
+        ApiSecret = this.ApiSecret,
+        ApplicationId = this.ApplicationId,
+        ApplicationKey = this.ApplicationKey,
+        SecuritySecret = this.SecuritySecret,
+        AppUserAgent = this.UserAgent,
+        Method = Enum.TryParse(this.SigningMethod,
+            out SmsSignatureGenerator.Method result)
+            ? result
+            : default,
+    };
+
+    /// <summary>
+    ///     Builds a Configuration from an IConfiguration.
+    /// </summary>
+    /// <param name="configuration">The configuration properties.</param>
+    /// <returns>The Configuration.</returns>
+    public static Configuration FromConfiguration(IConfiguration configuration) => new(configuration);
+
+    private HttpClient BuildDefaultClient() =>
+        this.ClientHandler == null
+            ? new HttpClient()
+            : new HttpClient(this.ClientHandler);
+
+    private static TimeSpanSemaphore BuildSemaphore(double requestsPerSecond)
+    {
+        var delay = 1 / requestsPerSecond;
+        var execTimeSpanSemaphore = new TimeSpanSemaphore(1, TimeSpan.FromSeconds(delay));
+        return execTimeSpanSemaphore;
+    }
+
+    private ThrottlingMessageHandler GetThrottlingMessageHandler(TimeSpanSemaphore semaphore) =>
+        this.ClientHandler != null
+            ? new ThrottlingMessageHandler(semaphore, this.ClientHandler)
+            : new ThrottlingMessageHandler(semaphore);
 
     private void LogAuthenticationCapabilities(ILogger logger)
     {
@@ -169,46 +226,4 @@ public sealed class Configuration
             logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
         }
     }
-
-    /// <summary>
-    /// Builds a Configuration from an IConfiguration.
-    /// </summary>
-    /// <param name="configuration">The configuration properties.</param>    
-    /// <returns>The Configuration.</returns>
-    public static Configuration FromConfiguration(IConfiguration configuration) => new(configuration);
-
-    /// <summary>
-    ///     Builds a Credentials from the current Configuration.
-    /// </summary>
-    /// <returns>The Credentials.</returns>
-    public Credentials BuildCredentials() => new()
-    {
-        ApiKey = this.ApiKey,
-        ApiSecret = this.ApiSecret,
-        ApplicationId = this.ApplicationId,
-        ApplicationKey = this.ApplicationKey,
-        SecuritySecret = this.SecuritySecret,
-        AppUserAgent = this.UserAgent,
-        Method = Enum.TryParse(this.SigningMethod,
-            out SmsSignatureGenerator.Method result)
-            ? result
-            : default,
-    };
-
-    private HttpClient BuildDefaultClient() =>
-        this.ClientHandler == null
-            ? new HttpClient()
-            : new HttpClient(this.ClientHandler);
-
-    private static TimeSpanSemaphore BuildSemaphore(double requestsPerSecond)
-    {
-        var delay = 1 / requestsPerSecond;
-        var execTimeSpanSemaphore = new TimeSpanSemaphore(1, TimeSpan.FromSeconds(delay));
-        return execTimeSpanSemaphore;
-    }
-
-    private ThrottlingMessageHandler GetThrottlingMessageHandler(TimeSpanSemaphore semaphore) =>
-        this.ClientHandler != null
-            ? new ThrottlingMessageHandler(semaphore, this.ClientHandler)
-            : new ThrottlingMessageHandler(semaphore);
 }

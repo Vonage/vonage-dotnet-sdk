@@ -11,6 +11,7 @@ namespace Vonage.Common.Test.TestHelpers
         private readonly HttpStatusCode statusCode;
         private Maybe<ExpectedRequest> expectedRequest = Maybe<ExpectedRequest>.None;
         private Maybe<string> responseContent = Maybe<string>.None;
+        private Maybe<TimeSpan> responseDelay;
         private readonly Uri baseUri = new("http://fake-host/api");
 
         private FakeHttpRequestHandler(HttpStatusCode code) => this.statusCode = code;
@@ -21,6 +22,12 @@ namespace Vonage.Common.Test.TestHelpers
         {
             BaseAddress = this.baseUri,
         };
+
+        public FakeHttpRequestHandler WithDelay(TimeSpan delay)
+        {
+            this.responseDelay = delay;
+            return this;
+        }
 
         public FakeHttpRequestHandler WithExpectedRequest(ExpectedRequest expected)
         {
@@ -72,6 +79,7 @@ namespace Vonage.Common.Test.TestHelpers
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
+            await Task.Delay(this.responseDelay.IfNone(TimeSpan.Zero), cancellationToken);
             var incomingRequest = await ParseIncomingRequest(request);
             this.expectedRequest.IfSome(expected => this.CompareRequests(incomingRequest, expected));
             return this.CreateResponseMessage();

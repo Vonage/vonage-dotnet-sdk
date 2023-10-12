@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using AutoFixture;
+using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common.Client;
@@ -25,6 +26,10 @@ public class VonageHttpClientTest
         this.fixture.Customize(new SupportMutableValueTypesCustomization());
         this.request = BuildRequest();
     }
+
+    [Fact]
+    public async Task SendAsync_ShouldThrowException_GivenOperationExceedsTimeout() =>
+        await this.VerifyReturnsFailureGivenOperationExceedsTimeout(client => client.SendAsync(this.request));
 
     [Property]
     public Property SendAsync_VerifyReturnsFailureGivenApiResponseIsError() =>
@@ -51,6 +56,11 @@ public class VonageHttpClientTest
         await this.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
             configuration => new VonageHttpClient(configuration, this.serializer).SendAsync(this.request));
 
+    [Fact]
+    public async Task SendWithoutHeaderAsync_ShouldThrowException_GivenOperationExceedsTimeout() =>
+        await this.VerifyReturnsFailureGivenOperationExceedsTimeout(client =>
+            client.SendWithoutHeadersAsync(this.request));
+
     [Property]
     public Property SendWithoutHeaderAsync_VerifyReturnsFailureGivenApiResponseIsError() =>
         this.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(),
@@ -72,6 +82,11 @@ public class VonageHttpClientTest
         await this.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
             configuration =>
                 new VonageHttpClient(configuration, this.serializer).SendWithoutHeadersAsync(this.request));
+
+    [Fact]
+    public async Task SendWithRawResponseAsync_ShouldThrowException_GivenOperationExceedsTimeout() =>
+        await this.VerifyReturnsFailureGivenOperationExceedsTimeout(client =>
+            client.SendWithRawResponseAsync(this.request));
 
     [Fact]
     public async Task SendWithRawResponseAsync_VerifyReturnsExpectedValueGivenApiResponseIsSuccess() =>
@@ -101,6 +116,11 @@ public class VonageHttpClientTest
         await this.VerifyReturnsFailureGivenTokenGenerationFails(configuration =>
             new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(
                 this.request));
+
+    [Fact]
+    public async Task SendWithResponseAsync_ShouldThrowException_GivenOperationExceedsTimeout() =>
+        await this.VerifyReturnsFailureGivenOperationExceedsTimeout(client =>
+            client.SendWithResponseAsync<FakeRequest, FakeResponse>(this.request));
 
     [Fact]
     public async Task SendWithResponseAsync_VerifyReturnsExpectedValueGivenApiResponseIsSuccess() =>
@@ -219,6 +239,20 @@ public class VonageHttpClientTest
                         DeserializationFailure.From(typeof(ErrorResponse), jsonError).GetFailureMessage(),
                         jsonError));
             });
+
+    private async Task VerifyReturnsFailureGivenOperationExceedsTimeout<TResponse>(
+        Func<VonageHttpClient, Task<Result<TResponse>>> operation)
+    {
+        var httpClient = FakeHttpRequestHandler.Build(HttpStatusCode.OK).WithDelay(TimeSpan.FromMilliseconds(500))
+            .ToHttpClient();
+        httpClient.Timeout = TimeSpan.FromMilliseconds(250);
+        var client =
+            new VonageHttpClient(
+                new VonageHttpClientConfiguration(httpClient, new AuthenticationHeaderValue("Anonymous"),
+                    this.fixture.Create<string>()), this.serializer);
+        var act = () => operation(client);
+        await act.Should().ThrowAsync<Exception>();
+    }
 
     private async Task VerifyReturnsFailureGivenRequestIsFailure<TRes>(
         Func<VonageHttpClientConfiguration, Result<FakeRequest>, Task<Result<TRes>>> operation)
