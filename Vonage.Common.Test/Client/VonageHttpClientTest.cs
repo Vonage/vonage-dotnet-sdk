@@ -8,6 +8,7 @@ using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
+using FluentAssertions;
 
 namespace Vonage.Common.Test.Client;
 
@@ -35,6 +36,18 @@ public class VonageHttpClientTest
     public Property SendAsync_VerifyReturnsFailureGivenErrorCannotBeParsed() =>
         this.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(),
             configuration => new VonageHttpClient(configuration, this.serializer).SendAsync(this.request));
+
+    [Fact]
+    public async Task SendAsync_ShouldThrowException_GivenOperationExceedsTimeout()
+    {
+        var messageHandler = FakeHttpRequestHandler.Build(HttpStatusCode.OK).WithDelay(TimeSpan.FromSeconds(2));
+        var httpClient = messageHandler.ToHttpClient();
+        httpClient.Timeout = TimeSpan.FromSeconds(1);
+        var configuration = new VonageHttpClientConfiguration(httpClient, new AuthenticationHeaderValue("Anonymous"), this.fixture.Create<string>());
+        var client = new VonageHttpClient(configuration, this.serializer);
+        var act = () => client.SendAsync(this.request);
+        await act.Should().ThrowAsync<Exception>();
+    }
 
     [Fact]
     public async Task SendAsync_VerifyReturnsFailureGivenRequestIsFailure() =>

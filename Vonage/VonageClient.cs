@@ -117,20 +117,18 @@ public class VonageClient
         this.Credentials = configuration.BuildCredentials();
     }
 
-    private VonageHttpClientConfiguration BuildConfiguration(Uri baseUri) =>
-        new(
-            InitializeHttpClient(baseUri),
-            this.Credentials.GetAuthenticationHeader(),
-            this.Credentials.GetUserAgent());
+    private VonageHttpClientConfiguration BuildConfiguration(HttpClient client) =>
+        new(client, this.Credentials.GetAuthenticationHeader(), this.Credentials.GetUserAgent());
 
     private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
 
-    private static HttpClient InitializeHttpClient(Uri baseUri)
+    private HttpClient InitializeHttpClient(Uri baseUri)
     {
         var client = new HttpClient(new HttpClientHandler())
         {
             BaseAddress = baseUri,
         };
+        this.GetConfiguration().RequestTimeout.IfSome(value => client.Timeout = value);
         client.DefaultRequestHeaders.Add("Accept", "application/json");
         return client;
     }
@@ -150,13 +148,18 @@ public class VonageClient
         this.SmsClient = new SmsClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.PricingClient = new PricingClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.MessagesClient = new MessagesClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.VerifyV2Client = new VerifyV2Client(this.BuildConfiguration(this.GetConfiguration().NexmoApiUrl));
-        this.SubAccountsClient = new SubAccountsClient(this.BuildConfiguration(this.GetConfiguration().NexmoApiUrl),
+        this.VerifyV2Client =
+            new VerifyV2Client(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
+        this.SubAccountsClient = new SubAccountsClient(
+            this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)),
             this.Credentials.ApiKey);
-        this.UsersClient = new UsersClient(this.BuildConfiguration(this.GetConfiguration().NexmoApiUrl));
-        this.MeetingsClient = new MeetingsClient(this.BuildConfiguration(this.GetConfiguration().EuropeApiUrl),
+        this.UsersClient =
+            new UsersClient(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
+        this.MeetingsClient = new MeetingsClient(
+            this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)),
             new FileSystem());
         this.ProactiveConnectClient =
-            new ProactiveConnectClient(this.BuildConfiguration(this.GetConfiguration().EuropeApiUrl));
+            new ProactiveConnectClient(
+                this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)));
     }
 }
