@@ -250,8 +250,7 @@ public class VonageHttpClientTest
             new VonageHttpClient(
                 new VonageHttpClientConfiguration(httpClient, new AuthenticationHeaderValue("Anonymous"),
                     this.fixture.Create<string>()), this.serializer);
-        var act = () => operation(client);
-        await act.Should().ThrowAsync<Exception>();
+        await operation(client).Should().BeFailureAsync();
     }
 
     private async Task VerifyReturnsFailureGivenRequestIsFailure<TRes>(
