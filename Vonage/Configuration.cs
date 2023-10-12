@@ -37,6 +37,13 @@ public sealed class Configuration
     }
 
     /// <summary>
+    /// The timeout (in seconds) applied to every requests. If not provided, the default timeout will be applied.
+    /// </summary>
+    public Maybe<TimeSpan> RequestTimeout => int.TryParse(this.Settings["appSettings:Vonage.RequestsTimeout"], out var timeout) 
+            ? Maybe<TimeSpan>.Some(TimeSpan.FromSeconds(timeout))
+            : Maybe<TimeSpan>.None;
+
+    /// <summary>
     ///     Retrieves the Api secret.
     /// </summary>
     public string ApiKey => this.Settings["appSettings:Vonage_key"] ?? string.Empty;
