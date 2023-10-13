@@ -321,6 +321,20 @@ namespace Vonage.Common.Test.Monads
                 .Map(Increment)
                 .Should()
                 .BeFailure(CreateResultFailure());
+        
+        [Fact]
+        public void Map_ShouldReturnFailure_GivenOperationThrowsException()
+        {
+            var expectedException = new Exception("Error");
+            CreateSuccess(5)
+                .Map(value =>
+                {
+                    throw expectedException;
+                    return value;
+                })
+                .Should()
+                .BeFailure(SystemFailure.FromException(expectedException));
+        }
 
         [Fact]
         public void Map_ShouldReturnSuccess_GivenValueIsSuccess() =>
@@ -346,6 +360,20 @@ namespace Vonage.Common.Test.Monads
                 .MapAsync(IncrementAsync))
             .Should()
             .BeFailure(CreateResultFailure());
+        
+        [Fact]
+        public async Task MapAsync_ShouldReturnFailure_GivenOperationThrowsException()
+        {
+            var expectedException = new Exception("Error");
+            (await CreateSuccess(5)
+                .MapAsync(value =>
+                {
+                    throw expectedException;
+                    return Task.FromResult(value);
+                }))
+                .Should()
+                .BeFailure(SystemFailure.FromException(expectedException));
+        }
 
         [Fact]
         public async Task MapAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
@@ -368,9 +396,7 @@ namespace Vonage.Common.Test.Monads
         public void Match_ShouldExecuteFailureOperation_GivenValueIsSuccess()
         {
             var value = 0;
-            void Success(int a) => value++;
-            void Failure(IResultFailure failure) => value--;
-            CreateFailure().Match(Success, Failure);
+            CreateFailure().Match(success => value = success, _ => value = -1);
             value.Should().Be(-1);
         }
 
@@ -378,10 +404,8 @@ namespace Vonage.Common.Test.Monads
         public void Match_ShouldExecuteSuccessOperation_GivenValueIsSuccess()
         {
             var value = 0;
-            void Success(int a) => value++;
-            void Failure(IResultFailure failure) => value--;
-            CreateSuccess(5).Match(Success, Failure);
-            value.Should().Be(1);
+            CreateSuccess(5).Match(success => value = success, _ => value = -1);
+            value.Should().Be(5);
         }
 
         [Fact]

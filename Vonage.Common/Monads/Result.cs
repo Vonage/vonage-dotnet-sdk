@@ -152,9 +152,19 @@ public readonly struct Result<T>
     /// <param name="map">Projection function.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Mapped functor.</returns>
-    public Result<TB> Map<TB>(Func<T, TB> map) => this.IsFailure
-        ? Result<TB>.FromFailure(this.failure)
-        : Result<TB>.FromSuccess(map(this.success));
+    public Result<TB> Map<TB>(Func<T, TB> map)
+    {
+        try
+        {
+            return this.IsFailure
+                ? Result<TB>.FromFailure(this.failure)
+                : Result<TB>.FromSuccess(map(this.success));
+        }
+        catch (Exception exception)
+        {
+            return SystemFailure.FromException(exception).ToResult<TB>();
+        }
+    }
 
     /// <summary>
     ///     Projects from one value to another.
@@ -162,10 +172,19 @@ public readonly struct Result<T>
     /// <param name="map">Asynchronous projection function.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Asynchronous mapped functor.</returns>
-    public async Task<Result<TB>> MapAsync<TB>(Func<T, Task<TB>> map) =>
-        this.IsFailure
-            ? Result<TB>.FromFailure(this.failure)
-            : Result<TB>.FromSuccess(await map(this.success));
+    public async Task<Result<TB>> MapAsync<TB>(Func<T, Task<TB>> map)
+    {
+        try
+        {
+            return this.IsFailure
+                ? Result<TB>.FromFailure(this.failure)
+                : Result<TB>.FromSuccess(await map(this.success));
+        }
+        catch (Exception exception)
+        {
+            return SystemFailure.FromException(exception).ToResult<TB>();
+        }
+    }
 
     /// <summary>
     ///     Match the two states of the Result and return a non-null TB.
