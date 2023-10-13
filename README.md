@@ -207,6 +207,7 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
 | Vonage.Url.Api.Europe    | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                |
 | Vonage.Url.Api.Video     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
 | Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             |
+| Vonage.RequestTimeout    | Optional.  The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.              |
 | Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
 
 ### Test configuration
