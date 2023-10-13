@@ -99,7 +99,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.RequestsTimeout", "100"},
+                    {"appSettings:Vonage.RequestTimeout", "100"},
                 })
                 .Build()).RequestTimeout.Should().BeSome(TimeSpan.FromSeconds(100));
 

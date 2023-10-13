@@ -97,10 +97,10 @@ public sealed class Configuration
         : new Uri(this.Settings["appSettings:Vonage.Url.Api"]);
 
     /// <summary>
-    ///     The timeout (in seconds) applied to every requests. If not provided, the default timeout will be applied.
+    ///     The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.
     /// </summary>
     public Maybe<TimeSpan> RequestTimeout =>
-        int.TryParse(this.Settings["appSettings:Vonage.RequestsTimeout"], out var timeout)
+        int.TryParse(this.Settings["appSettings:Vonage.RequestTimeout"], out var timeout)
             ? Maybe<TimeSpan>.Some(TimeSpan.FromSeconds(timeout))
             : Maybe<TimeSpan>.None;
 
