@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using AutoFixture;
-using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Common.Client;

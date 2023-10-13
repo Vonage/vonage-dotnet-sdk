@@ -10,7 +10,7 @@ public readonly struct SystemFailure : IResultFailure
     private SystemFailure(Exception exception) => this.exception = exception;
 
     /// <inheritdoc />
-    public Type Type => typeof(ResultFailure);
+    public Type Type => typeof(SystemFailure);
 
     /// <summary>
     ///     Creates a failure from an exception.
