@@ -20,8 +20,11 @@ public class SystemFailureTest
             .Which.Message.Should().Be("Some error");
 
     [Fact]
-    public void ToResult_ShouldReturnFailure() =>
-        SystemFailure.FromException(new Exception("Test")).ToResult<int>().Should().BeFailure();
+    public void ToResult_ShouldReturnFailure()
+    {
+        var expectedException = new Exception("Test");
+        SystemFailure.FromException(expectedException).ToResult<int>().Should().BeFailure(SystemFailure.FromException(expectedException));
+    }
 
     [Fact]
     public void Type_ShouldReturnResultFailure() => SystemFailure.FromException(new Exception())
