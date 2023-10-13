@@ -1,6 +1,15 @@
+# v6.11.0 (2023-10-13)
+
+* feat: enable custom timeout on HttpClient
+* refactor: transform httpclient timeout into failure
+
+**Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.10.1...v6.11.0
+
+---
+
 # v6.10.1 (2023-10-10)
 
-fix: application deserialization with Meetings custom webhooks
+* fix: application deserialization with Meetings custom webhooks
 
 **Full Changelog**: https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.10.0...v6.10.1
 
