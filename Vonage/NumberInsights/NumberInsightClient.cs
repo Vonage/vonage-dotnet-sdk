@@ -1,3 +1,4 @@
+﻿using System;
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
@@ -24,6 +25,7 @@ public class NumberInsightClient : INumberInsightClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
         Credentials creds = null)
     {
@@ -52,6 +54,7 @@ public class NumberInsightClient : INumberInsightClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public AdvancedInsightsAsynchronousResponse GetNumberInsightAsynchronous(
         AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
     {
@@ -80,6 +83,7 @@ public class NumberInsightClient : INumberInsightClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -107,6 +111,7 @@ public class NumberInsightClient : INumberInsightClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public StandardInsightResponse GetNumberInsightStandard(StandardNumberInsightRequest request,
         Credentials creds = null)
     {
@@ -143,11 +148,11 @@ public class NumberInsightClient : INumberInsightClient
                 case AdvancedInsightsAsynchronousResponse asyncResponse:
                     throw new VonageNumberInsightResponseException(
                             $"Advanced Insights Async response failed with status: {asyncResponse.Status}")
-                        {Response = response};
+                    { Response = response };
                 case BasicInsightResponse basicInsightResponse:
                     throw new VonageNumberInsightResponseException(
                             $"Number insight request failed with status: {basicInsightResponse.Status} and error message: {basicInsightResponse.StatusMessage}")
-                        {Response = response};
+                    { Response = response };
             }
         }
     }
