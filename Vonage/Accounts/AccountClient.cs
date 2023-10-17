@@ -26,6 +26,7 @@ public class AccountClient : IAccountClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public AccountSettingsResult ChangeAccountSettings(AccountSettingsRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObject<AccountSettingsResult>
@@ -45,23 +46,26 @@ public class AccountClient : IAccountClient
             );
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public Secret CreateApiSecret(CreateSecretRequest request, string apiKey = null, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<Secret>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
-            request,
-            AuthType.Basic
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoRequestWithJsonContent<Secret>(
+                HttpMethod.Post,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
+                request,
+                AuthType.Basic
+            );
 
     /// <inheritdoc/>
     public Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey = null,
         Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<Secret>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
-            request,
-            AuthType.Basic
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoRequestWithJsonContentAsync<Secret>(
+                HttpMethod.Post,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
+                request,
+                AuthType.Basic
+            );
 
     /// <inheritdoc/>
     [Obsolete("Use SubAccountsClient instead.")]
@@ -70,12 +74,13 @@ public class AccountClient : IAccountClient
     {
         var credentials = this.GetCredentials(creds);
         var accountId = apiKey ?? credentials.ApiKey;
-        return ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<SubAccount>(
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts"),
-            request,
-            AuthType.Basic
-        );
+        return ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoRequestWithJsonContent<SubAccount>(
+                HttpMethod.Post,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts"),
+                request,
+                AuthType.Basic
+            );
     }
 
     /// <inheritdoc/>
@@ -95,32 +100,39 @@ public class AccountClient : IAccountClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public Balance GetAccountBalance(Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParameters<Balance>(
-            ApiRequest.GetBaseUriFor("/account/get-balance"),
-            AuthType.Query);
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParameters<Balance>(
+                ApiRequest.GetBaseUriFor("/account/get-balance"),
+                AuthType.Query);
 
     /// <inheritdoc/>
     public Task<Balance> GetAccountBalanceAsync(Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParametersAsync<Balance>(
-            ApiRequest.GetBaseUriFor("/account/get-balance"),
-            AuthType.Query);
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParametersAsync<Balance>(
+                ApiRequest.GetBaseUriFor("/account/get-balance"),
+                AuthType.Query);
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public Secret RetrieveApiSecret(string secretId, string apiKey = null, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParameters<Secret>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
-            AuthType.Basic
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParameters<Secret>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
+                AuthType.Basic
+            );
 
     /// <inheritdoc/>
     public Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParametersAsync<Secret>(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
-            AuthType.Basic
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParametersAsync<Secret>(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
+                AuthType.Basic
+            );
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public SecretsRequestResult RetrieveApiSecrets(string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<SecretsRequestResult>(
@@ -164,34 +176,39 @@ public class AccountClient : IAccountClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public bool RevokeApiSecret(string secretId, string apiKey = null, Credentials creds = null)
     {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoDeleteRequestWithUrlContent(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
-            null,
-            AuthType.Basic
-        );
-        return true;
-    }
-    
-    /// <inheritdoc/>
-    public async Task<bool> RevokeApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null)
-    {
-        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoDeleteRequestWithUrlContentAsync(
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
-            null,
-            AuthType.Basic
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoDeleteRequestWithUrlContent(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
+                null,
+                AuthType.Basic
+            );
         return true;
     }
 
     /// <inheritdoc/>
+    public async Task<bool> RevokeApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null)
+    {
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoDeleteRequestWithUrlContentAsync(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
+                null,
+                AuthType.Basic
+            );
+        return true;
+    }
+
+    /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParameters<TopUpResult>(
-            ApiRequest.GetBaseUriFor("/account/top-up"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParameters<TopUpResult>(
+                ApiRequest.GetBaseUriFor("/account/top-up"),
+                AuthType.Query,
+                request
+            );
 
     /// <inheritdoc/>
     public Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null) =>
