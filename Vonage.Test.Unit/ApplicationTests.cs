@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Newtonsoft.Json;
 using Vonage.Applications;
 using Vonage.Applications.Capabilities;
@@ -18,30 +20,35 @@ namespace Vonage.Test.Unit
         [InlineData(true)]
         public void CreateApplication(bool passCreds)
         {
-            //ARRANGE
-            var uri = $"{this.ApiUrl}/v2/applications";
             var expectedResponseContent = this.GetResponseJson();
             var expectedRequestContent = this.GetRequestJson();
-            this.Setup(uri, expectedResponseContent, expectedRequestContent);
-
-            //ACT
-            var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            messagesWebhooks.Add(Webhook.Type.InboundUrl,
-                new Webhook { Address = "https://example.com/webhooks/inbound", Method = "POST" });
-            messagesWebhooks.Add(Webhook.Type.StatusUrl,
-                new Webhook { Address = "https://example.com/webhooks/status", Method = "POST" });
+            this.Setup($"{this.ApiUrl}/v2/applications", expectedResponseContent, expectedRequestContent);
+            var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {
+                    Webhook.Type.InboundUrl,
+                    new Webhook {Address = "https://example.com/webhooks/inbound", Method = "POST"}
+                },
+                {
+                    Webhook.Type.StatusUrl,
+                    new Webhook {Address = "https://example.com/webhooks/status", Method = "POST"}
+                },
+            };
             var messagesCapability = new Applications.Capabilities.Messages(messagesWebhooks);
-            var rtcWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            rtcWebhooks.Add(Webhook.Type.EventUrl,
-                new Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
+            var rtcWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
+            };
             var rtcCapability = new Rtc(rtcWebhooks);
-            var voiceWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            voiceWebhooks.Add(Webhook.Type.AnswerUrl,
-                new Webhook { Address = "https://example.com/webhooks/answer", Method = "GET" });
-            voiceWebhooks.Add(Webhook.Type.EventUrl,
-                new Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
-            voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
-                new Webhook { Address = "https://fallback.example.com/webhooks/answer", Method = "GET" });
+            var voiceWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {Webhook.Type.AnswerUrl, new Webhook {Address = "https://example.com/webhooks/answer", Method = "GET"}},
+                {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
+                {
+                    Webhook.Type.FallbackAnswerUrl,
+                    new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"}
+                },
+            };
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
             JsonConvert.SerializeObject(voiceCapability, VonageSerialization.SerializerSettings);
             var vbcCapability = new Vbc();
@@ -61,16 +68,9 @@ namespace Vonage.Test.Unit
             };
             var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(credentials);
-            Application response;
-            if (passCreds)
-            {
-                response = client.ApplicationClient.CreateApplicaiton(request);
-            }
-            else
-            {
-                response = client.ApplicationClient.CreateApplicaiton(request, credentials);
-            }
-
+            var response = passCreds
+                ? client.ApplicationClient.CreateApplicaiton(request)
+                : client.ApplicationClient.CreateApplicaiton(request, credentials);
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", response.Id);
             Assert.Equal("https://example.com/webhooks/answer",
                 response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
@@ -96,7 +96,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public async void CreateApplicationAsync(bool passCreds)
+        public async Task CreateApplicationAsync(bool passCreds)
         {
             //ARRANGE
             var uri = $"{this.ApiUrl}/v2/applications";
@@ -149,26 +149,35 @@ namespace Vonage.Test.Unit
                         }";
             var expectedRequestContent =
                 @"{""name"":""My Application"",""capabilities"":{""voice"":{""webhooks"":{""answer_url"":{""http_method"":""GET"",""address"":""https://example.com/webhooks/answer""},""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""},""fallback_answer_url"":{""http_method"":""GET"",""address"":""https://fallback.example.com/webhooks/answer""}}},""rtc"":{""webhooks"":{""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""}}},""vbc"":{},""messages"":{""webhooks"":{""inbound_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/inbound""},""status_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/status""}}}},""keys"":{""public_key"":""some public key""}}";
-            this.Setup(uri: uri, responseContent: expectedResponse, requestContent: expectedRequestContent);
+            this.Setup(uri, expectedResponse, expectedRequestContent);
 
             //ACT
-            var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            messagesWebhooks.Add(Webhook.Type.InboundUrl,
-                new Webhook { Address = "https://example.com/webhooks/inbound", Method = "POST" });
-            messagesWebhooks.Add(Webhook.Type.StatusUrl,
-                new Webhook { Address = "https://example.com/webhooks/status", Method = "POST" });
+            var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {
+                    Webhook.Type.InboundUrl,
+                    new Webhook {Address = "https://example.com/webhooks/inbound", Method = "POST"}
+                },
+                {
+                    Webhook.Type.StatusUrl,
+                    new Webhook {Address = "https://example.com/webhooks/status", Method = "POST"}
+                },
+            };
             var messagesCapability = new Applications.Capabilities.Messages(messagesWebhooks);
-            var rtcWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            rtcWebhooks.Add(Webhook.Type.EventUrl,
-                new Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
+            var rtcWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
+            };
             var rtcCapability = new Rtc(rtcWebhooks);
-            var voiceWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            voiceWebhooks.Add(Webhook.Type.AnswerUrl,
-                new Webhook { Address = "https://example.com/webhooks/answer", Method = "GET" });
-            voiceWebhooks.Add(Webhook.Type.EventUrl,
-                new Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
-            voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
-                new Webhook { Address = "https://fallback.example.com/webhooks/answer", Method = "GET" });
+            var voiceWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {Webhook.Type.AnswerUrl, new Webhook {Address = "https://example.com/webhooks/answer", Method = "GET"}},
+                {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
+                {
+                    Webhook.Type.FallbackAnswerUrl,
+                    new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"}
+                },
+            };
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
             JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
@@ -214,6 +223,33 @@ namespace Vonage.Test.Unit
             Assert.Equal("My Application", response.Name);
         }
 
+        [Fact]
+        public async Task CreateApplicationWithMeetingsCapabilities()
+        {
+            var expectedResponseContent = this.GetResponseJson();
+            var expectedRequestContent = this.GetRequestJson();
+            this.Setup($"{this.ApiUrl}/v2/applications", expectedResponseContent, expectedRequestContent);
+            var request = new CreateApplicationRequest
+            {
+                Capabilities = new ApplicationCapabilities
+                {
+                    Meetings = new Applications.Capabilities.Meetings(new Dictionary<Webhook.Type, Webhook>
+                    {
+                        {Webhook.Type.RoomChanged, new Webhook {Address = "http://example.com", Method = "POST"}},
+                        {Webhook.Type.SessionChanged, new Webhook {Address = "http://example.com", Method = "POST"}},
+                        {
+                            Webhook.Type.RecordingChanged,
+                            new Webhook {Address = "https://54eba990d025.ngrok.app/recordings", Method = "POST"}
+                        },
+                    }),
+                },
+            };
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = this.BuildVonageClient(credentials);
+            var response = await client.ApplicationClient.CreateApplicaitonAsync(request);
+            response.Capabilities.Meetings.Webhooks.Should().BeEquivalentTo(response.Capabilities.Meetings.Webhooks);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -225,23 +261,16 @@ namespace Vonage.Test.Unit
             this.Setup(uri, expectedResponse);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            bool result;
-            if (passCreds)
-            {
-                result = client.ApplicationClient.DeleteApplication(id, creds);
-            }
-            else
-            {
-                result = client.ApplicationClient.DeleteApplication(id);
-            }
-
+            var result = passCreds
+                ? client.ApplicationClient.DeleteApplication(id, creds)
+                : client.ApplicationClient.DeleteApplication(id);
             Assert.True(result);
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public async void DeleteApplicationAsync(bool passCreds)
+        public async Task DeleteApplicationAsync(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{this.ApiUrl}/v2/applications/{id}";
@@ -273,16 +302,9 @@ namespace Vonage.Test.Unit
             this.Setup(expectedUri, expectedResponse);
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Application application;
-            if (passCreds)
-            {
-                application = client.ApplicationClient.GetApplication(id, creds);
-            }
-            else
-            {
-                application = client.ApplicationClient.GetApplication(id);
-            }
-
+            var application = passCreds
+                ? client.ApplicationClient.GetApplication(id, creds)
+                : client.ApplicationClient.GetApplication(id);
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal("https://example.com/webhooks/answer",
                 application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
@@ -303,18 +325,21 @@ namespace Vonage.Test.Unit
                 application.Capabilities.Rtc.Webhooks[Webhook.Type.EventUrl].Address);
             Assert.Equal("POST", application.Capabilities.Rtc.Webhooks[Webhook.Type.EventUrl].Method);
             Assert.Equal("My Application", application.Name);
-            Assert.Equal("http://example.com", application.Capabilities.Meetings.Webhooks[Webhook.Type.RoomChanged].Address);
+            Assert.Equal("http://example.com",
+                application.Capabilities.Meetings.Webhooks[Webhook.Type.RoomChanged].Address);
             Assert.Equal("POST", application.Capabilities.Meetings.Webhooks[Webhook.Type.RoomChanged].Method);
-            Assert.Equal("http://example.com", application.Capabilities.Meetings.Webhooks[Webhook.Type.SessionChanged].Address);
+            Assert.Equal("http://example.com",
+                application.Capabilities.Meetings.Webhooks[Webhook.Type.SessionChanged].Address);
             Assert.Equal("POST", application.Capabilities.Meetings.Webhooks[Webhook.Type.SessionChanged].Method);
-            Assert.Equal("https://54eba990d025.ngrok.app/recordings", application.Capabilities.Meetings.Webhooks[Webhook.Type.RecordingChanged].Address);
+            Assert.Equal("https://54eba990d025.ngrok.app/recordings",
+                application.Capabilities.Meetings.Webhooks[Webhook.Type.RecordingChanged].Address);
             Assert.Equal("POST", application.Capabilities.Meetings.Webhooks[Webhook.Type.RecordingChanged].Method);
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public async void GetApplicationAsync(bool passCreds)
+        public async Task GetApplicationAsync(bool passCreds)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var expectedResponse = @"{
@@ -476,16 +501,9 @@ namespace Vonage.Test.Unit
             //Act
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            ApplicationPage applications;
-            if (passCreds)
-            {
-                applications = client.ApplicationClient.ListApplications(request, creds);
-            }
-            else
-            {
-                applications = client.ApplicationClient.ListApplications(request);
-            }
-
+            var applications = passCreds
+                ? client.ApplicationClient.ListApplications(request, creds)
+                : client.ApplicationClient.ListApplications(request);
             var application = applications.Embedded.Applications[0];
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal("https://example.com/webhooks/answer",
@@ -516,7 +534,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false, false)]
         [InlineData(true, true)]
-        public async void ListApplicationsAsync(bool passCreds, bool passParameters)
+        public async Task ListApplicationsAsync(bool passCreds, bool passParameters)
         {
             var expectedResult = @"{
                   ""page_size"": 10,
@@ -682,26 +700,35 @@ namespace Vonage.Test.Unit
                         }";
             var expectedRequestContent =
                 @"{""name"":""My Application"",""capabilities"":{""voice"":{""webhooks"":{""answer_url"":{""http_method"":""GET"",""address"":""https://example.com/webhooks/answer""},""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""},""fallback_answer_url"":{""http_method"":""GET"",""address"":""https://fallback.example.com/webhooks/answer""}}},""rtc"":{""webhooks"":{""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""}}},""vbc"":{},""messages"":{""webhooks"":{""inbound_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/inbound""},""status_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/status""}}}},""keys"":{""public_key"":""some public key""}}";
-            this.Setup(uri: uri, responseContent: expectedResponse, requestContent: expectedRequestContent);
+            this.Setup(uri, expectedResponse, expectedRequestContent);
 
             //ACT
-            var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            messagesWebhooks.Add(Webhook.Type.InboundUrl,
-                new Webhook { Address = "https://example.com/webhooks/inbound", Method = "POST" });
-            messagesWebhooks.Add(Webhook.Type.StatusUrl,
-                new Webhook { Address = "https://example.com/webhooks/status", Method = "POST" });
+            var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {
+                    Webhook.Type.InboundUrl,
+                    new Webhook {Address = "https://example.com/webhooks/inbound", Method = "POST"}
+                },
+                {
+                    Webhook.Type.StatusUrl,
+                    new Webhook {Address = "https://example.com/webhooks/status", Method = "POST"}
+                },
+            };
             var messagesCapability = new Applications.Capabilities.Messages(messagesWebhooks);
-            var rtcWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            rtcWebhooks.Add(Webhook.Type.EventUrl,
-                new Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
+            var rtcWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
+            };
             var rtcCapability = new Rtc(rtcWebhooks);
-            var voiceWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            voiceWebhooks.Add(Webhook.Type.AnswerUrl,
-                new Webhook { Address = "https://example.com/webhooks/answer", Method = "GET" });
-            voiceWebhooks.Add(Webhook.Type.EventUrl,
-                new Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
-            voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
-                new Webhook { Address = "https://fallback.example.com/webhooks/answer", Method = "GET" });
+            var voiceWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {Webhook.Type.AnswerUrl, new Webhook {Address = "https://example.com/webhooks/answer", Method = "GET"}},
+                {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
+                {
+                    Webhook.Type.FallbackAnswerUrl,
+                    new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"}
+                },
+            };
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
             JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
@@ -715,16 +742,9 @@ namespace Vonage.Test.Unit
             { Capabilities = capabilities, Keys = keys, Name = "My Application" };
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
-            Application response;
-            if (passCredentials)
-            {
-                response = client.ApplicationClient.UpdateApplication(id, application);
-            }
-            else
-            {
-                response = client.ApplicationClient.UpdateApplication(id, application, creds);
-            }
-
+            var response = passCredentials
+                ? client.ApplicationClient.UpdateApplication(id, application)
+                : client.ApplicationClient.UpdateApplication(id, application, creds);
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", response.Id);
             Assert.Equal("https://example.com/webhooks/answer",
                 response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
@@ -750,7 +770,7 @@ namespace Vonage.Test.Unit
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public async void UpdateApplicationAsync(bool passCredentials)
+        public async Task UpdateApplicationAsync(bool passCredentials)
         {
             var id = "78d335fa323d01149c3dd6f0d48968cf";
             var uri = $"{this.ApiUrl}/v2/applications/{id}";
@@ -803,26 +823,35 @@ namespace Vonage.Test.Unit
                         }";
             var expectedRequestContent =
                 @"{""name"":""My Application"",""capabilities"":{""voice"":{""webhooks"":{""answer_url"":{""http_method"":""GET"",""address"":""https://example.com/webhooks/answer""},""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""},""fallback_answer_url"":{""http_method"":""GET"",""address"":""https://fallback.example.com/webhooks/answer""}}},""rtc"":{""webhooks"":{""event_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/events""}}},""vbc"":{},""messages"":{""webhooks"":{""inbound_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/inbound""},""status_url"":{""http_method"":""POST"",""address"":""https://example.com/webhooks/status""}}}},""keys"":{""public_key"":""some public key""}}";
-            this.Setup(uri: uri, responseContent: expectedResponse, requestContent: expectedRequestContent);
+            this.Setup(uri, expectedResponse, expectedRequestContent);
 
             //ACT
-            var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            messagesWebhooks.Add(Webhook.Type.InboundUrl,
-                new Webhook { Address = "https://example.com/webhooks/inbound", Method = "POST" });
-            messagesWebhooks.Add(Webhook.Type.StatusUrl,
-                new Webhook { Address = "https://example.com/webhooks/status", Method = "POST" });
+            var messagesWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {
+                    Webhook.Type.InboundUrl,
+                    new Webhook {Address = "https://example.com/webhooks/inbound", Method = "POST"}
+                },
+                {
+                    Webhook.Type.StatusUrl,
+                    new Webhook {Address = "https://example.com/webhooks/status", Method = "POST"}
+                },
+            };
             var messagesCapability = new Applications.Capabilities.Messages(messagesWebhooks);
-            var rtcWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            rtcWebhooks.Add(Webhook.Type.EventUrl,
-                new Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
+            var rtcWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
+            };
             var rtcCapability = new Rtc(rtcWebhooks);
-            var voiceWebhooks = new Dictionary<Webhook.Type, Webhook>();
-            voiceWebhooks.Add(Webhook.Type.AnswerUrl,
-                new Webhook { Address = "https://example.com/webhooks/answer", Method = "GET" });
-            voiceWebhooks.Add(Webhook.Type.EventUrl,
-                new Webhook { Address = "https://example.com/webhooks/events", Method = "POST" });
-            voiceWebhooks.Add(Webhook.Type.FallbackAnswerUrl,
-                new Webhook { Address = "https://fallback.example.com/webhooks/answer", Method = "GET" });
+            var voiceWebhooks = new Dictionary<Webhook.Type, Webhook>
+            {
+                {Webhook.Type.AnswerUrl, new Webhook {Address = "https://example.com/webhooks/answer", Method = "GET"}},
+                {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
+                {
+                    Webhook.Type.FallbackAnswerUrl,
+                    new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"}
+                },
+            };
             var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
             JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();

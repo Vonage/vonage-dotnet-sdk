@@ -16,4 +16,12 @@ public class Meetings : Capability
         this.Type = CapabilityType.Meetings;
         this.Webhooks = new Dictionary<Webhook.Type, Webhook>();
     }
+
+    /// <summary>
+    ///     Constructor.
+    /// </summary>
+    public Meetings(IDictionary<Webhook.Type, Webhook> webhooks) : this()
+    {
+        this.Webhooks = webhooks;
+    }
 }
