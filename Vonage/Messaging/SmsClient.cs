@@ -1,3 +1,4 @@
+﻿using System;
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
@@ -24,6 +25,7 @@ public class SmsClient : ISmsClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
     {
         var result = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -36,9 +38,10 @@ public class SmsClient : ISmsClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.Text,
         Credentials creds = null) =>
-        this.SendAnSms(new SendSmsRequest {From = from, To = to, Type = type, Text = text}, creds);
+        this.SendAnSms(new SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
 
     /// <summary>
     ///     Send a SMS message.
@@ -61,7 +64,7 @@ public class SmsClient : ISmsClient
     /// <inheritdoc/>
     public Task<SendSmsResponse> SendAnSmsAsync(string from, string to, string text, SmsType type = SmsType.Text,
         Credentials creds = null) =>
-        this.SendAnSmsAsync(new SendSmsRequest {From = from, To = to, Type = type, Text = text}, creds);
+        this.SendAnSmsAsync(new SendSmsRequest { From = from, To = to, Type = type, Text = text }, creds);
 
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 
@@ -76,7 +79,7 @@ public class SmsClient : ISmsClient
         {
             throw new VonageSmsResponseException(
                     $"SMS Request Failed with status: {smsResponse.Messages[0].Status} and error message: {smsResponse.Messages[0].ErrorText}")
-                {Response = smsResponse};
+            { Response = smsResponse };
         }
     }
 }
