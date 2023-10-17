@@ -15,7 +15,8 @@ Sign up [for free at vonage.com][signup].
 
 * [Installation](#installation)
     * [Migration guides](#migration-guides)
-        * [Upgrading 5.x => 6.x](#upgrading-5x--6x)
+        * [Upgrading from v6.x.x to v7.0.0](#upgrading-from-v6xx-to-v700)
+        * [Upgrading from v5.x.x to v6.0.0](#upgrading-from-v5xx-to-v600)
     * [Targeted frameworks](#targeted-frameworks)
     * [Tested frameworks](#tested-frameworks)
 * [Configuration](#configuration)
@@ -70,9 +71,27 @@ If you would prefer to run directly from source:
 
 ### Migration guides
 
-#### Upgrading 5.x > 6.x
+#### Upgrading from v6.x.x to v7.0.0
 
-Changes in version 6.x
+Changes in version 7.0.0
+
+* Everything flagged with an `Obsolete` annotation will be removed
+    * Synchronous methods: So far, a lot of features are available with both synchronous/asynchronous implementation. In
+      v7.0.0, all synchronous methods will be removed. If you still require to call a Vonage API in a synchronous
+      context, you will have to call the asynchronous version with either `.Result` or `.Wait()` to wait for the result
+      synchronously.
+    * SubAccounts features on `AccountClient`: SubAccounts features have initially been implemented by a contributor on
+      the `AccountClient`, while the product was still in beta. With the GA release, all SubAccounts features are
+      available on the `SubAccountsClient`, which makes previous features obsolete.
+    * `CreateApplicaitonAsync` on `ApplicationClient`: This method contains an obvious typo.
+    * `CreateCall` on `VoiceClient`: This method offers 3 different signatures. Only the one with a `CallCommand`
+      parameter will remain in order to avoid primitive obsession, and rely on a proper ValueObject.
+    * Constructors on `Credentials`: Creating a Credentials instance should be done by a factory method or from a
+      Configuration instance. Constructors will be hidden and the object will remain immutable.
+
+#### Upgrading from v5.x.x to v6.0.0
+
+Changes in version 6.0.0
 
 * Enum values are now caplitalised in alignment with accepted coding practices and are Pascal Case
 * All classes that were marked as deprecated in 5.x are now removed
