@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
 
@@ -34,6 +35,7 @@ public class VerifyClient : IVerifyClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public VerifyCheckResponse VerifyCheck(VerifyCheckRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -58,6 +60,7 @@ public class VerifyClient : IVerifyClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public VerifyControlResponse VerifyControl(VerifyControlRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -82,6 +85,7 @@ public class VerifyClient : IVerifyClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public VerifyResponse VerifyRequest(VerifyRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -106,6 +110,7 @@ public class VerifyClient : IVerifyClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public VerifyResponse VerifyRequestWithPSD2(Psd2Request request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -130,6 +135,7 @@ public class VerifyClient : IVerifyClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public VerifySearchResponse VerifySearch(VerifySearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<VerifySearchResponse>(

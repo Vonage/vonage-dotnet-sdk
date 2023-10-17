@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Common;
@@ -35,6 +36,7 @@ public class NumbersClient : INumbersClient
     }
 
     /// <inheritdoc />
+    [Obsolete("Favor asynchronous version instead.")]
     public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -64,6 +66,7 @@ public class NumbersClient : INumbersClient
     }
 
     /// <inheritdoc />
+    [Obsolete("Favor asynchronous version instead.")]
     public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -93,6 +96,7 @@ public class NumbersClient : INumbersClient
     }
 
     /// <inheritdoc />
+    [Obsolete("Favor asynchronous version instead.")]
     public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<NumbersSearchResponse>(
@@ -112,6 +116,7 @@ public class NumbersClient : INumbersClient
             );
 
     /// <inheritdoc />
+    [Obsolete("Favor asynchronous version instead.")]
     public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<NumbersSearchResponse>(
@@ -131,6 +136,7 @@ public class NumbersClient : INumbersClient
             );
 
     /// <inheritdoc />
+    [Obsolete("Favor asynchronous version instead.")]
     public NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey,
         Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -153,6 +159,7 @@ public class NumbersClient : INumbersClient
             );
 
     /// <inheritdoc />
+    [Obsolete("Favor asynchronous version instead.")]
     public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
     {
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)

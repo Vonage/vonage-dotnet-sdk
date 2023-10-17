@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
@@ -24,13 +25,15 @@ public class PricingClient : IPricingClient
     }
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public PricingResult RetrievePrefixPricing(string type, PricingPrefixRequest request, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParameters<PricingResult>
-        (
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParameters<PricingResult>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
+                AuthType.Query,
+                request
+            );
 
     /// <inheritdoc/>
     public Task<PricingResult> RetrievePrefixPricingAsync(string type, PricingPrefixRequest request,
@@ -44,12 +47,14 @@ public class PricingClient : IPricingClient
             );
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public PricingResult RetrievePricingAllCountries(string type, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParameters<PricingResult>
-        (
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
-            AuthType.Query
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParameters<PricingResult>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
+                AuthType.Query
+            );
 
     /// <inheritdoc/>
     public Task<PricingResult> RetrievePricingAllCountriesAsync(string type, Credentials creds = null) =>
@@ -61,23 +66,26 @@ public class PricingClient : IPricingClient
             );
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public Country RetrievePricingCountry(string type, PricingCountryRequest request, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParameters<Country>
-        (
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParameters<Country>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
+                AuthType.Query,
+                request
+            );
 
     /// <inheritdoc/>
     public Task<Country> RetrievePricingCountryAsync(string type, PricingCountryRequest request,
         Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoGetRequestWithQueryParametersAsync<Country>
-        (
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
-            AuthType.Query,
-            request
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParametersAsync<Country>
+            (
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
+                AuthType.Query,
+                request
+            );
 
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 }
