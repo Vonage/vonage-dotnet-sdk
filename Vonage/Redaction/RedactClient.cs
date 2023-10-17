@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Common;
@@ -23,32 +24,35 @@ public class RedactClient : IRedactClient
         this.configuration = configuration;
         this.timeProvider = timeProvider;
     }
-    
-    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 
     /// <inheritdoc/>
+    [Obsolete("Favor asynchronous version instead.")]
     public bool Redact(RedactRequest request, Credentials creds = null)
     {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContent<object>
-        (
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
-            request,
-            AuthType.Basic
-        );
+        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoRequestWithJsonContent<object>
+            (
+                HttpMethod.Post,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
+                request,
+                AuthType.Basic
+            );
         return true;
     }
 
     /// <inheritdoc/>
     public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
     {
-        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider).DoRequestWithJsonContentAsync<object>
-        (
-            HttpMethod.Post,
-            ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
-            request,
-            AuthType.Basic
-        );
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoRequestWithJsonContentAsync<object>
+            (
+                HttpMethod.Post,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
+                request,
+                AuthType.Basic
+            );
         return true;
     }
+
+    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 }
