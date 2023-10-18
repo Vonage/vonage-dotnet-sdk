@@ -120,6 +120,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         private static void VerifyResponseBody(Result<StartVerificationResponse> response) =>
             response.Should()
-                .BeSuccess(new StartVerificationResponse(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+                .BeSuccess(new StartVerificationResponse(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315"),
+                    Maybe<Uri>.None));
     }
 }
