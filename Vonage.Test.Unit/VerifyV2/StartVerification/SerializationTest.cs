@@ -1,6 +1,6 @@
 using System;
-using FluentAssertions;
 using Vonage.Common;
+using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
@@ -16,19 +16,26 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 {
     public class SerializationTest
     {
-        private readonly SerializationTestHelper helper;
-
-        public SerializationTest() =>
-            this.helper = new SerializationTestHelper(
-                typeof(SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+        private readonly SerializationTestHelper helper = new SerializationTestHelper(
+            typeof(SerializationTest).Namespace,
+            JsonSerializer.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
                 .DeserializeObject<StartVerificationResponse>(this.helper.GetResponseJson())
                 .Should()
-                .BeSuccess(success => success.RequestId.Should().Be(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315")));
+                .BeSuccess(new StartVerificationResponse(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315"),
+                    Maybe<Uri>.None));
+
+        [Fact]
+        public void ShouldDeserialize200WithCheckUrl() =>
+            this.helper.Serializer
+                .DeserializeObject<StartVerificationResponse>(this.helper.GetResponseJson())
+                .Should()
+                .BeSuccess(new StartVerificationResponse(new Guid("c11236f4-00bf-4b89-84ba-88b25df97315"),
+                    new Uri(
+                        "https://api.nexmo.com/v2/verify/c11236f4-00bf-4b89-84ba-88b25df97315/silent-auth/redirect")));
 
         [Fact]
         public void ShouldSerialize() =>

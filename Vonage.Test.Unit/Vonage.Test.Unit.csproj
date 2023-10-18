@@ -871,6 +871,9 @@
         <None Update="Data\ApplicationTests\CreateApplicationWithMeetingsCapabilities-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="VerifyV2\StartVerification\Data\ShouldDeserialize200WithCheckUrl-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
