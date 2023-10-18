@@ -16,6 +16,7 @@
     <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.18.0"/>
         <PackageReference Include="FluentAssertions" Version="6.11.0"/>
+        <PackageReference Include="Meziantou.Xunit.ParallelTestFramework" Version="2.1.0"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3"/>
         <PackageReference Include="Moq" Version="4.18.4"/>
         <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="19.2.29"/>
@@ -38,6 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Properties\"/>
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
