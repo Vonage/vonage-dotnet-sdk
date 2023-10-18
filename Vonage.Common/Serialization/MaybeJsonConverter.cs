@@ -11,19 +11,16 @@ namespace Vonage.Common.Serialization;
 /// <typeparam name="T">The underlying type.</typeparam>
 public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
 {
-    public MaybeJsonConverter() => this.serializer = new JsonSerializer();
-
     /// <inheritdoc />
     public override Maybe<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
-        this.serializer
-            .DeserializeObject<T>(reader.GetString())
+        this.Serializer.DeserializeObject<T>($"\"{reader.GetString()}\"")
             .Match(Maybe<T>.Some, _ => Maybe<T>.None);
 
     /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, Maybe<T> value, JsonSerializerOptions options) =>
         value
-            .Map(some => this.serializer.SerializeObject(some))
+            .Map(some => this.Serializer.SerializeObject(some))
             .IfSome(some => writer.WriteRawValue(some));
 
-    protected JsonSerializer serializer;
+    protected JsonSerializer Serializer = new();
 }
