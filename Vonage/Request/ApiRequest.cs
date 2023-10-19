@@ -19,7 +19,7 @@ using Vonage.Serialization;
 
 namespace Vonage.Request;
 
-internal record VonageResponse(string JsonResponse, HttpStatusCode Status);
+internal record VonageResponse(string JsonResponse);
 
 internal partial class ApiRequest
 {
@@ -250,7 +250,7 @@ internal partial class ApiRequest
         {
             this.logger.LogDebug("{Json}", json);
             response.EnsureSuccessStatusCode();
-            return new VonageResponse(json, response.StatusCode);
+            return new VonageResponse(json);
         }
         catch (HttpRequestException exception)
         {
@@ -281,7 +281,7 @@ internal partial class ApiRequest
         catch (HttpRequestException ex)
         {
             this.logger.LogError("FAIL: {StatusCode}", result.StatusCode);
-            throw new VonageHttpRequestException(ex) {HttpStatusCode = result.StatusCode};
+            throw new VonageHttpRequestException(ex) { HttpStatusCode = result.StatusCode };
         }
     }
 
