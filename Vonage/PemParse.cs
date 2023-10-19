@@ -50,7 +50,6 @@ THE SOFTWARE.
 //**************************************************************************************
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -59,28 +58,24 @@ using Microsoft.Extensions.Logging;
 
 namespace Vonage;
 
-[ExcludeFromCodeCoverage]
 internal class PemParse
 {
-    private const string pkcs1privheader = "-----BEGIN RSA PRIVATE KEY-----";
+    private const string LOGGER_CATEGORY = "Vonage.PemParse";
     private const string pkcs1privfooter = "-----END RSA PRIVATE KEY-----";
-
-    private const string pkcs8privheader = "-----BEGIN PRIVATE KEY-----";
+    private const string pkcs1privheader = "-----BEGIN RSA PRIVATE KEY-----";
     private const string pkcs8privfooter = "-----END PRIVATE KEY-----";
 
-    private const string LOGGER_CATEGORY = "Vonage.PemParse";
+    private const string pkcs8privheader = "-----BEGIN PRIVATE KEY-----";
 
     public static RSA DecodePEMKey(string pemstr)
     {
         var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
         pemstr = pemstr.Trim();
-
         var isPkcs1 = pemstr.StartsWith(pkcs1privheader) && pemstr.EndsWith(pkcs1privfooter);
         var isPkcs8 = pemstr.StartsWith(pkcs8privheader) && pemstr.EndsWith(pkcs8privfooter);
         if (!(isPkcs1 || isPkcs8))
         {
             logger.LogError("App private key is not in PKCS#1 or PKCS#8 format!");
-
             return null;
         }
 
@@ -88,8 +83,119 @@ internal class PemParse
         if (pemprivatekey != null)
             return DecodeRSAPrivateKey(pemprivatekey, isPkcs8);
         logger.LogError("App private key failed decode!");
-
         return null;
+    }
+
+    public static RSA DecodeRSAPrivateKey(byte[] privkey, bool isPkcs8)
+    {
+        var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
+        byte[] MODULUS, E, D, P, Q, DP, DQ, IQ;
+
+        // ---------  Set up stream to decode the asn.1 encoded RSA private key  ------
+        using (var mem = new MemoryStream(privkey))
+        using (var binr = new BinaryReader(mem)) //wrap Memory Stream with BinaryReader for easy reading
+        {
+            byte bt = 0;
+            ushort twobytes = 0;
+            var elems = 0;
+            try
+            {
+                twobytes = binr.ReadUInt16();
+                if (twobytes == 0x8130) //data read as little endian order (actual data order for Sequence is 30 81)
+                    binr.ReadByte(); //advance 1 byte
+                else if (twobytes == 0x8230)
+                    binr.ReadInt16(); //advance 2 bytes
+                else
+                {
+                    logger.LogError("RSA decode fail: Expected sequence");
+                    return null;
+                }
+
+                twobytes = binr.ReadUInt16();
+                if (twobytes != 0x0102) //version number
+                {
+                    logger.LogError("RSA decode fail: Version number mismatch");
+                    return null;
+                }
+
+                bt = binr.ReadByte();
+                if (bt != 0x00)
+                {
+                    logger.LogError("RSA decode fail: 00 read fail");
+                    return null;
+                }
+
+                if (isPkcs8)
+                {
+                    // if pkcs#8, we need to remove the key from the container
+                    bt = binr.ReadByte();
+                    if (bt != 0x30)
+                    {
+                        logger.LogError("RSA decode fail: PKCS#8 expected sequence");
+                        return null;
+                    }
+
+                    bt = binr.ReadByte(); // length in octets, should be 0x0d
+
+                    // skip the container so we can continue with the key
+                    // we also skip 11 bytes because that is the pkcs#1 preamble and we're going to assume it's valid
+                    binr.BaseStream.Seek(bt + 11, SeekOrigin.Current);
+                }
+
+                //------  all private key components are Integer sequences ----
+                elems = GetIntegerSize(binr);
+                MODULUS = binr.ReadBytes(elems);
+                elems = GetIntegerSize(binr);
+                E = binr.ReadBytes(elems);
+                elems = GetIntegerSize(binr);
+                D = binr.ReadBytes(elems);
+                elems = GetIntegerSize(binr);
+                P = binr.ReadBytes(elems);
+                elems = GetIntegerSize(binr);
+                Q = binr.ReadBytes(elems);
+                elems = GetIntegerSize(binr);
+                DP = binr.ReadBytes(elems);
+                elems = GetIntegerSize(binr);
+                DQ = binr.ReadBytes(elems);
+                elems = GetIntegerSize(binr);
+                IQ = binr.ReadBytes(elems);
+
+                // ------- create RSACryptoServiceProvider instance and initialize with public key -----
+#if NET452
+                    // TODO: throwing "Bad Data" exception even though RSACng is fine
+                    var RSA = new RSACryptoServiceProvider();
+#else
+                RSA RSA;
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+                    RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    RSA = new RSACryptoServiceProvider(2048);
+                }
+                else
+                {
+                    RSA = new RSACng();
+                }
+#endif
+                var RSAparams = new RSAParameters
+                {
+                    Modulus = MODULUS,
+                    Exponent = E,
+                    D = D,
+                    P = P,
+                    Q = Q,
+                    DP = DP,
+                    DQ = DQ,
+                    InverseQ = IQ,
+                };
+                RSA.ImportParameters(RSAparams);
+                return RSA;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"DecodeRSAPrivateKey fail: {ex.Message}, {ex.InnerException?.Message}");
+                return null;
+            }
+        }
     }
 
     private static byte[] DecodeOpenSSLPrivateKey(string instr)
@@ -97,14 +203,13 @@ internal class PemParse
         // note: assuming instr is already trimmed and validated as pkcs1 or pkcs8
         byte[] binkey;
         var sb = new StringBuilder(instr);
+
         // remove headers/footers, if present
         sb.Replace(pkcs1privheader, "");
         sb.Replace(pkcs1privfooter, "");
         sb.Replace(pkcs8privheader, "");
         sb.Replace(pkcs8privfooter, "");
-
         var pvkstr = sb.ToString().Trim(); //get string after removing leading/trailing whitespace
-
         try
         {
             // if there are no PEM encryption info lines, this is an UNencrypted PEM private key
@@ -116,6 +221,7 @@ internal class PemParse
             //if can't b64 decode, it must be an encrypted private key
             //Console.WriteLine("Not an unencrypted OpenSSL PEM private key");  
         }
+
         throw new NotSupportedException("Encrypted key not supported");
 
         //var str = new StringReader(pvkstr);
@@ -167,128 +273,6 @@ internal class PemParse
         //////////}
     }
 
-    public static RSA DecodeRSAPrivateKey(byte[] privkey, bool isPkcs8)
-    {
-        var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
-        byte[] MODULUS, E, D, P, Q, DP, DQ, IQ;
-
-        // ---------  Set up stream to decode the asn.1 encoded RSA private key  ------
-        using (var mem = new MemoryStream(privkey))
-        using (var binr = new BinaryReader(mem)) //wrap Memory Stream with BinaryReader for easy reading
-        {
-            byte bt = 0;
-            ushort twobytes = 0;
-            var elems = 0;
-            try
-            {
-                twobytes = binr.ReadUInt16();
-                if (twobytes == 0x8130) //data read as little endian order (actual data order for Sequence is 30 81)
-                    binr.ReadByte(); //advance 1 byte
-                else if (twobytes == 0x8230)
-                    binr.ReadInt16(); //advance 2 bytes
-                else
-                {
-                    logger.LogError("RSA decode fail: Expected sequence");
-
-                    return null;
-                }
-
-                twobytes = binr.ReadUInt16();
-                if (twobytes != 0x0102) //version number
-                {
-
-                    logger.LogError("RSA decode fail: Version number mismatch");
-
-                    return null;
-                }
-                bt = binr.ReadByte();
-                if (bt != 0x00)
-                {
-                    logger.LogError("RSA decode fail: 00 read fail");
-
-                    return null;
-                }
-
-                if (isPkcs8)
-                {
-                    // if pkcs#8, we need to remove the key from the container
-                    bt = binr.ReadByte();
-                    if (bt != 0x30)
-                    {
-                        logger.LogError("RSA decode fail: PKCS#8 expected sequence");
-
-                        return null;
-                    }
-                    bt = binr.ReadByte(); // length in octets, should be 0x0d
-                    // skip the container so we can continue with the key
-                    // we also skip 11 bytes because that is the pkcs#1 preamble and we're going to assume it's valid
-                    binr.BaseStream.Seek(bt + 11, SeekOrigin.Current);
-                }
-
-                //------  all private key components are Integer sequences ----
-                elems = GetIntegerSize(binr);
-                MODULUS = binr.ReadBytes(elems);
-
-                elems = GetIntegerSize(binr);
-                E = binr.ReadBytes(elems);
-
-                elems = GetIntegerSize(binr);
-                D = binr.ReadBytes(elems);
-
-                elems = GetIntegerSize(binr);
-                P = binr.ReadBytes(elems);
-
-                elems = GetIntegerSize(binr);
-                Q = binr.ReadBytes(elems);
-
-                elems = GetIntegerSize(binr);
-                DP = binr.ReadBytes(elems);
-
-                elems = GetIntegerSize(binr);
-                DQ = binr.ReadBytes(elems);
-
-                elems = GetIntegerSize(binr);
-                IQ = binr.ReadBytes(elems);
-
-                // ------- create RSACryptoServiceProvider instance and initialize with public key -----
-#if NET452
-                    // TODO: throwing "Bad Data" exception even though RSACng is fine
-                    var RSA = new RSACryptoServiceProvider();
-#else
-                RSA RSA;
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-                    RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    RSA = new RSACryptoServiceProvider(2048);
-                }
-                else
-                {
-                    RSA = new RSACng();
-                }
-#endif
-                var RSAparams = new RSAParameters
-                {
-                    Modulus = MODULUS,
-                    Exponent = E,
-                    D = D,
-                    P = P,
-                    Q = Q,
-                    DP = DP,
-                    DQ = DQ,
-                    InverseQ = IQ,
-                };
-                RSA.ImportParameters(RSAparams);
-                return RSA;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError($"DecodeRSAPrivateKey fail: {ex.Message}, {ex.InnerException?.Message}");
-
-                return null;
-            }
-        }
-    }
-
     private static int GetIntegerSize(BinaryReader binr)
     {
         byte bt = 0;
@@ -299,7 +283,6 @@ internal class PemParse
         if (bt != 0x02) //expect integer
             return 0;
         bt = binr.ReadByte();
-
         if (bt == 0x81)
             count = binr.ReadByte(); // data size in next byte
         else if (bt == 0x82)
