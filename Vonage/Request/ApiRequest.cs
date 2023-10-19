@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Epoch.net;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Vonage.Common;
@@ -17,17 +16,18 @@ using Vonage.Common.Monads;
 using Vonage.Cryptography;
 using Vonage.Logger;
 using Vonage.Serialization;
-using ITimeProvider = Vonage.Common.ITimeProvider;
 
 namespace Vonage.Request;
 
+internal record VonageResponse(string JsonResponse);
+
 internal partial class ApiRequest
 {
-    private readonly Maybe<Credentials> credentials;
     private readonly ILogger logger;
-    private readonly string userAgent;
-    private readonly Maybe<Configuration> configuration;
     private readonly ITimeProvider timeProvider;
+    private readonly Maybe<Configuration> configuration;
+    private readonly Maybe<Credentials> credentials;
+    private readonly string userAgent;
 
     private ApiRequest()
     {
@@ -47,54 +47,6 @@ internal partial class ApiRequest
         this.configuration = configuration;
         this.timeProvider = provider;
     }
-
-    internal static ApiRequest Build(Credentials credentials, Configuration configuration, ITimeProvider provider) => new ApiRequest(credentials, configuration, provider);
-
-    private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
-
-    public async Task<VonageResponse> DoDeleteRequestWithUrlContentAsync(Uri uri,
-        Dictionary<string, string> parameters, AuthType authType = AuthType.Query) =>
-        await this.DoRequestWithUrlContentAsync(HttpMethod.Delete, uri, parameters, authType);
-
-    public async Task<HttpResponseMessage> DoGetRequestWithJwtAsync(Uri uri)
-    {
-        var req = this.BuildMessage(uri, HttpMethod.Get);
-        req.Headers.Authorization = this.BuildBearerAuth();
-        this.logger.LogDebug("GET {Uri}", uri);
-        var result = await this.GetConfiguration().Client.SendAsync(req);
-        try
-        {
-            result.EnsureSuccessStatusCode();
-            return result;
-        }
-        catch (HttpRequestException ex)
-        {
-            this.logger.LogError("FAIL: {StatusCode}", result.StatusCode);
-            throw new VonageHttpRequestException(ex) { HttpStatusCode = result.StatusCode };
-        }
-    }
-
-    public async Task<T> DoGetRequestWithQueryParametersAsync<T>(Uri uri, AuthType authType,
-        object parameters = null)
-    {
-        parameters ??= new Dictionary<string, string>();
-        var sb = this.GetQueryStringBuilderFor(parameters, authType);
-        var requestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
-        return await this.SendGetRequestAsync<T>(requestUri, authType);
-    }
-
-    public async Task<T> DoPostRequestUrlContentFromObjectAsync<T>(Uri uri, object parameters,
-        bool withCredentials = true) =>
-        await this.DoPostRequestWithUrlContentAsync<T>(uri, GetParameters(parameters), withCredentials);
-
-    public Task<T> DoRequestWithJsonContentAsync<T>(HttpMethod method, Uri uri, object payload,
-        AuthType authType) =>
-        this.DoRequestWithJsonContentAsync(method, uri, payload, authType,
-            value => JsonConvert.SerializeObject(value, VonageSerialization.SerializerSettings),
-            JsonConvert.DeserializeObject<T>);
-
-    public static Uri GetBaseUri(UriType uriType, string url = null) =>
-        string.IsNullOrEmpty(url) ? BuildBaseUri(uriType) : new Uri(BuildBaseUri(uriType), url);
 
     private static Uri BuildBaseUri(UriType uriType) =>
         uriType switch
@@ -131,7 +83,10 @@ internal partial class ApiRequest
 
     private StringBuilder BuildQueryString(IDictionary<string, string> parameters, bool withCredentials = true)
     {
-        var method = this.credentials.Map(value => value.Method).IfNone(Enum.TryParse(this.GetConfiguration().SigningMethod, out SmsSignatureGenerator.Method output) ? output : SmsSignatureGenerator.Method.md5hash);
+        var method = this.credentials.Map(value => value.Method).IfNone(
+            Enum.TryParse(this.GetConfiguration().SigningMethod, out SmsSignatureGenerator.Method output)
+                ? output
+                : SmsSignatureGenerator.Method.md5hash);
         var sb = new StringBuilder();
         var signatureSb = new StringBuilder();
         if (withCredentials)
@@ -226,6 +181,8 @@ internal partial class ApiRequest
     private string GetApplicationKey() => this.credentials.Bind(value => value.ApplicationKey ?? Maybe<string>.None)
         .IfNone(this.GetConfiguration().ApplicationKey);
 
+    private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
+
     private static Dictionary<string, string> GetParameters(object parameters)
     {
         var json = JsonConvert.SerializeObject(parameters, VonageSerialization.SerializerSettings);
@@ -251,9 +208,11 @@ internal partial class ApiRequest
         return sb;
     }
 
-    private string GetSecuritySecret() => this.credentials.Bind(value => value.SecuritySecret ?? Maybe<string>.None).IfNone(this.GetConfiguration().SecuritySecret);
+    private string GetSecuritySecret() => this.credentials.Bind(value => value.SecuritySecret ?? Maybe<string>.None)
+        .IfNone(this.GetConfiguration().SecuritySecret);
 
-    private string GetUserAgent() => this.credentials.Bind(value => value.AppUserAgent ?? Maybe<string>.None).IfNone(this.GetConfiguration().UserAgent);
+    private string GetUserAgent() => this.credentials.Bind(value => value.AppUserAgent ?? Maybe<string>.None)
+        .IfNone(this.GetConfiguration().UserAgent);
 
     private async Task<T> SendGetRequestAsync<T>(Uri uri, AuthType authType)
     {
@@ -291,11 +250,7 @@ internal partial class ApiRequest
         {
             this.logger.LogDebug("{Json}", json);
             response.EnsureSuccessStatusCode();
-            return new VonageResponse
-            {
-                Status = response.StatusCode,
-                JsonResponse = json,
-            };
+            return new VonageResponse(json);
         }
         catch (HttpRequestException exception)
         {
@@ -307,6 +262,53 @@ internal partial class ApiRequest
             };
         }
     }
+
+    internal async Task<VonageResponse> DoDeleteRequestWithUrlContentAsync(Uri uri,
+        Dictionary<string, string> parameters, AuthType authType = AuthType.Query) =>
+        await this.DoRequestWithUrlContentAsync(HttpMethod.Delete, uri, parameters, authType);
+
+    internal async Task<HttpResponseMessage> DoGetRequestWithJwtAsync(Uri uri)
+    {
+        var req = this.BuildMessage(uri, HttpMethod.Get);
+        req.Headers.Authorization = this.BuildBearerAuth();
+        this.logger.LogDebug("GET {Uri}", uri);
+        var result = await this.GetConfiguration().Client.SendAsync(req);
+        try
+        {
+            result.EnsureSuccessStatusCode();
+            return result;
+        }
+        catch (HttpRequestException ex)
+        {
+            this.logger.LogError("FAIL: {StatusCode}", result.StatusCode);
+            throw new VonageHttpRequestException(ex) { HttpStatusCode = result.StatusCode };
+        }
+    }
+
+    internal async Task<T> DoGetRequestWithQueryParametersAsync<T>(Uri uri, AuthType authType,
+        object parameters = null)
+    {
+        parameters ??= new Dictionary<string, string>();
+        var sb = this.GetQueryStringBuilderFor(parameters, authType);
+        var requestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
+        return await this.SendGetRequestAsync<T>(requestUri, authType);
+    }
+
+    internal async Task<T> DoPostRequestUrlContentFromObjectAsync<T>(Uri uri, object parameters,
+        bool withCredentials = true) =>
+        await this.DoPostRequestWithUrlContentAsync<T>(uri, GetParameters(parameters), withCredentials);
+
+    internal Task<T> DoRequestWithJsonContentAsync<T>(HttpMethod method, Uri uri, object payload,
+        AuthType authType) =>
+        this.DoRequestWithJsonContentAsync(method, uri, payload, authType,
+            value => JsonConvert.SerializeObject(value, VonageSerialization.SerializerSettings),
+            JsonConvert.DeserializeObject<T>);
+
+    internal static Uri GetBaseUri(UriType uriType, string url = null) =>
+        string.IsNullOrEmpty(url) ? BuildBaseUri(uriType) : new Uri(BuildBaseUri(uriType), url);
+
+    internal static ApiRequest Build(Credentials credentials, Configuration configuration, ITimeProvider provider) =>
+        new(credentials, configuration, provider);
 
     /// <summary>
     ///     Type of the Uri.
