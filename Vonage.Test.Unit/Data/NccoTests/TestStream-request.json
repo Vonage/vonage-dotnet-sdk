@@ -5,7 +5,7 @@
       "https://acme.com/streams/music.mp3"
     ],
     "level": "0",
-    "bargeIn": "true",
+    "bargeIn": true,
     "loop": "2"
   }
 ]
