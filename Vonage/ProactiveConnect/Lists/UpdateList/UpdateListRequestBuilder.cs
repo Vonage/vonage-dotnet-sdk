@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vonage.Common.Client;
@@ -18,14 +18,14 @@ internal class UpdateListRequestBuilder : IBuilderForListId, IBuilderForName, IB
 
     /// <inheritdoc />
     public Result<UpdateListRequest> Create() => Result<UpdateListRequest>.FromSuccess(new UpdateListRequest
-        {
-            Id = this.id,
-            Attributes = this.attributes.Any() ? this.attributes.ToList() : Maybe<IEnumerable<ListAttribute>>.None,
-            Description = this.description,
-            Name = this.name,
-            Tags = this.tags.Any() ? this.tags.ToList() : Maybe<IEnumerable<string>>.None,
-            DataSource = this.dataSource,
-        })
+    {
+        Id = this.id,
+        Attributes = this.attributes.Any() ? this.attributes.ToList() : Maybe<IEnumerable<ListAttribute>>.None,
+        Description = this.description,
+        Name = this.name,
+        Tags = this.tags.Any() ? this.tags.ToList() : Maybe<IEnumerable<string>>.None,
+        DataSource = this.dataSource,
+    })
         .Map(InputEvaluation<UpdateListRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(
             VerifyListId,
@@ -81,29 +81,24 @@ internal class UpdateListRequestBuilder : IBuilderForListId, IBuilderForName, IB
         return this;
     }
 
-    private static Result<UpdateListRequest> VerifyAttributesAliasLength(UpdateListRequest request)
+    private static Result<UpdateListRequest> VerifyAttributeLength(UpdateListRequest request,
+        Func<ListAttribute, string> valueMapping, Func<ListAttribute, string> nameMapping)
     {
         var results = request.Attributes
             .IfNone(Enumerable.Empty<ListAttribute>())
             .Select(attribute =>
-                InputValidation.VerifyLengthLowerOrEqualThan(request, attribute.Alias, 50,
-                    $"{nameof(request.Attributes)} {nameof(attribute.Alias)}"))
+                InputValidation.VerifyLengthLowerOrEqualThan(request, valueMapping(attribute), 50,
+                    $"{nameof(request.Attributes)} {nameMapping(attribute)}"))
             .Where(result => result.IsFailure)
             .ToArray();
         return results.Any() ? results[0] : request;
     }
 
-    private static Result<UpdateListRequest> VerifyAttributesNameLength(UpdateListRequest request)
-    {
-        var results = request.Attributes
-            .IfNone(Enumerable.Empty<ListAttribute>())
-            .Select(attribute =>
-                InputValidation.VerifyLengthLowerOrEqualThan(request, attribute.Name, 50,
-                    $"{nameof(request.Attributes)} {nameof(attribute.Name)}"))
-            .Where(result => result.IsFailure)
-            .ToArray();
-        return results.Any() ? results[0] : request;
-    }
+    private static Result<UpdateListRequest> VerifyAttributesAliasLength(UpdateListRequest request) =>
+        VerifyAttributeLength(request, attribute => attribute.Alias, attribute => nameof(attribute.Alias));
+
+    private static Result<UpdateListRequest> VerifyAttributesNameLength(UpdateListRequest request) =>
+        VerifyAttributeLength(request, attribute => attribute.Name, attribute => nameof(attribute.Name));
 
     private static Result<UpdateListRequest> VerifyDescriptionLength(UpdateListRequest request) =>
         request.Description.Match(
@@ -112,7 +107,7 @@ internal class UpdateListRequestBuilder : IBuilderForListId, IBuilderForName, IB
 
     private static Result<UpdateListRequest> VerifyIntegrationIdNotEmptyWhenSalesforce(UpdateListRequest request)
     {
-        var value = request.DataSource.IfNone(new ListDataSource {Type = ListDataSourceType.Manual});
+        var value = request.DataSource.IfNone(new ListDataSource { Type = ListDataSourceType.Manual });
         return value.Type == ListDataSourceType.Salesforce
             ? InputValidation.VerifyNotEmpty(request, value.IntegrationId,
                 $"{nameof(request.DataSource)} {nameof(value.IntegrationId)}")
@@ -131,7 +126,7 @@ internal class UpdateListRequestBuilder : IBuilderForListId, IBuilderForName, IB
 
     private static Result<UpdateListRequest> VerifySoqlNotEmptyWhenSalesforce(UpdateListRequest request)
     {
-        var value = request.DataSource.IfNone(new ListDataSource {Type = ListDataSourceType.Manual});
+        var value = request.DataSource.IfNone(new ListDataSource { Type = ListDataSourceType.Manual });
         return value.Type == ListDataSourceType.Salesforce
             ? InputValidation.VerifyNotEmpty(request, value.Soql,
                 $"{nameof(request.DataSource)} {nameof(value.Soql)}")
