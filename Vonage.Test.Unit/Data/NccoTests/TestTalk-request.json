@@ -2,7 +2,7 @@
   {
     "action": "talk",
     "text": "Hello World",
-    "bargeIn": "true",
+    "bargeIn": true,
     "loop": "2",
     "level": "0",
     "voiceName": "kimberly",

@@ -7,7 +7,7 @@
     "endOnSilence": "3",
     "endOnKey": "#",
     "timeOut": "60",
-    "beepStart": "true",
+    "beepStart": true,
     "eventUrl": [
       "https://example.com/record",
       "https://test.com/record"
