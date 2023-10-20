@@ -26,11 +26,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         public async Task StartEmailVerification()
         {
             this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeEmailWorkflow));
-            var result = await this.Helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
-                .Build()
-                .WithBrand("ACME, Inc")
-                .WithWorkflow(EmailWorkflow.Parse("alice@company.com"))
-                .Create());
+            var result = await this.StartVerificationAsyncWithWorkflow(EmailWorkflow.Parse("alice@company.com"));
             VerifyResponseBody(result);
         }
 
@@ -38,11 +34,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         public async Task StartSilentAuthVerification()
         {
             this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeSilentAuthWorkflow));
-            var result = await this.Helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
-                .Build()
-                .WithBrand("ACME, Inc")
-                .WithWorkflow(SilentAuthWorkflow.Parse("447700900000"))
-                .Create());
+            var result = await this.StartVerificationAsyncWithWorkflow(SilentAuthWorkflow.Parse("447700900000"));
             VerifyResponseBody(result);
         }
 
@@ -50,11 +42,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         public async Task StartSmsVerification()
         {
             this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeSmsWorkflow));
-            var result = await this.Helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
-                .Build()
-                .WithBrand("ACME, Inc")
-                .WithWorkflow(SmsWorkflow.Parse("447700900000"))
-                .Create());
+            var result = await this.StartVerificationAsyncWithWorkflow(SmsWorkflow.Parse("447700900000"));
             VerifyResponseBody(result);
         }
 
@@ -76,11 +64,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         public async Task StartVoiceVerification()
         {
             this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeVoiceWorkflow));
-            var result = await this.Helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
-                .Build()
-                .WithBrand("ACME, Inc")
-                .WithWorkflow(VoiceWorkflow.Parse("447700900000"))
-                .Create());
+            var result = await this.StartVerificationAsyncWithWorkflow(VoiceWorkflow.Parse("447700900000"));
             VerifyResponseBody(result);
         }
 
@@ -88,11 +72,8 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         public async Task StartWhatsAppInteractiveVerification()
         {
             this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeWhatsAppInteractiveWorkflow));
-            var result = await this.Helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
-                .Build()
-                .WithBrand("ACME, Inc")
-                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("447700900000"))
-                .Create());
+            var result =
+                await this.StartVerificationAsyncWithWorkflow(WhatsAppInteractiveWorkflow.Parse("447700900000"));
             VerifyResponseBody(result);
         }
 
@@ -100,11 +81,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         public async Task StartWhatsAppVerification()
         {
             this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeWhatsAppWorkflow));
-            var result = await this.Helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
-                .Build()
-                .WithBrand("ACME, Inc")
-                .WithWorkflow(WhatsAppWorkflow.Parse("447700900000"))
-                .Create());
+            var result = await this.StartVerificationAsyncWithWorkflow(WhatsAppWorkflow.Parse("447700900000"));
             VerifyResponseBody(result);
         }
 
@@ -117,6 +94,14 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .RespondWith(Response.Create()
                     .WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+
+        private Task<Result<StartVerificationResponse>> StartVerificationAsyncWithWorkflow<T>(Result<T> workflow)
+            where T : IVerificationWorkflow =>
+            this.Helper.VonageClient.VerifyV2Client.StartVerificationAsync(StartVerificationRequest
+                .Build()
+                .WithBrand("ACME, Inc")
+                .WithWorkflow(workflow)
+                .Create());
 
         private static void VerifyResponseBody(Result<StartVerificationResponse> response) =>
             response.Should()
