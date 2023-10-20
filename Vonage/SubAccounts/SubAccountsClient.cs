@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -16,6 +17,15 @@ namespace Vonage.SubAccounts;
 public class SubAccountsClient : ISubAccountsClient
 {
     private readonly string apiKey;
+
+    private readonly TransferMapping balanceTransferMapping =
+        new(GetTransfersRequest.BalanceTransfer, TransferAmountRequest.BalanceTransfer,
+            response => response.BalanceTransfers);
+
+    private readonly TransferMapping creditTransferMapping =
+        new(GetTransfersRequest.CreditTransfer, TransferAmountRequest.CreditTransfer,
+            response => response.CreditTransfers);
+
     private readonly VonageHttpClient vonageClient;
 
     /// <summary>
@@ -37,21 +47,11 @@ public class SubAccountsClient : ISubAccountsClient
 
     /// <inheritdoc />
     public Task<Result<Transfer[]>> GetBalanceTransfersAsync(Result<GetTransfersRequest> request) =>
-        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
-            .Map(incompleteRequest => incompleteRequest.WithEndpoint(GetTransfersRequest.BalanceTransfer))
-            .BindAsync(completeRequest =>
-                this.vonageClient.SendWithResponseAsync<GetTransfersRequest, EmbeddedResponse<GetTransfersResponse>>(
-                    completeRequest))
-            .Map(value => value.Content.BalanceTransfers);
+        this.MapTransfersAsync(request, this.balanceTransferMapping);
 
     /// <inheritdoc />
     public Task<Result<Transfer[]>> GetCreditTransfersAsync(Result<GetTransfersRequest> request) =>
-        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
-            .Map(incompleteRequest => incompleteRequest.WithEndpoint(GetTransfersRequest.CreditTransfer))
-            .BindAsync(completeRequest =>
-                this.vonageClient.SendWithResponseAsync<GetTransfersRequest, EmbeddedResponse<GetTransfersResponse>>(
-                    completeRequest))
-            .Map(value => value.Content.CreditTransfers);
+        this.MapTransfersAsync(request, this.creditTransferMapping);
 
     /// <inheritdoc />
     public Task<Result<Account>> GetSubAccountAsync(Result<GetSubAccountRequest> request) =>
@@ -68,17 +68,11 @@ public class SubAccountsClient : ISubAccountsClient
 
     /// <inheritdoc />
     public Task<Result<Transfer>> TransferBalanceAsync(Result<TransferAmountRequest> request) =>
-        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
-            .Map(incompleteRequest => incompleteRequest.WithEndpoint(TransferAmountRequest.BalanceTransfer))
-            .BindAsync(completeRequest =>
-                this.vonageClient.SendWithResponseAsync<TransferAmountRequest, Transfer>(completeRequest));
+        this.MapTransfersAsync(request, this.balanceTransferMapping);
 
     /// <inheritdoc />
     public Task<Result<Transfer>> TransferCreditAsync(Result<TransferAmountRequest> request) =>
-        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
-            .Map(incompleteRequest => incompleteRequest.WithEndpoint(TransferAmountRequest.CreditTransfer))
-            .BindAsync(completeRequest =>
-                this.vonageClient.SendWithResponseAsync<TransferAmountRequest, Transfer>(completeRequest));
+        this.MapTransfersAsync(request, this.creditTransferMapping);
 
     /// <inheritdoc />
     public Task<Result<TransferNumberResponse>> TransferNumberAsync(Result<TransferNumberRequest> request) =>
@@ -92,4 +86,21 @@ public class SubAccountsClient : ISubAccountsClient
         request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<UpdateSubAccountRequest, Account>(completeRequest));
+
+    private Task<Result<Transfer[]>> MapTransfersAsync(Result<GetTransfersRequest> request, TransferMapping ete) =>
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .Map(incompleteRequest => incompleteRequest.WithEndpoint(ete.GetEndpointKey))
+            .BindAsync(completeRequest =>
+                this.vonageClient.SendWithResponseAsync<GetTransfersRequest, EmbeddedResponse<GetTransfersResponse>>(
+                    completeRequest))
+            .Map(value => ete.GetMapping(value.Content));
+
+    private Task<Result<Transfer>> MapTransfersAsync(Result<TransferAmountRequest> request, TransferMapping ete) =>
+        request.Map(incompleteRequest => incompleteRequest.WithApiKey(this.apiKey))
+            .Map(incompleteRequest => incompleteRequest.WithEndpoint(ete.UpdateEndpointKey))
+            .BindAsync(completeRequest =>
+                this.vonageClient.SendWithResponseAsync<TransferAmountRequest, Transfer>(completeRequest));
+
+    private sealed record TransferMapping(string GetEndpointKey, string UpdateEndpointKey,
+        Func<GetTransfersResponse, Transfer[]> GetMapping);
 }
