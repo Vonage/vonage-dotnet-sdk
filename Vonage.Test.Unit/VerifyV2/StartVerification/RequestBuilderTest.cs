@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
@@ -17,7 +16,6 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
     public class RequestBuilderTest
     {
         private const string ValidEmail = "alice@company.com";
-        private readonly Fixture fixture = new Fixture();
 
         [Fact]
         public void Create_ShouldEnableFraudCheck_ByDefault() =>
