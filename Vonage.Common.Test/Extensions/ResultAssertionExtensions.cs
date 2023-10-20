@@ -14,100 +14,86 @@ namespace Vonage.Common.Test.Extensions
 
         public AndConstraint<ResultAssertionExtensions<T>> BeFailure(Action<IResultFailure> action)
         {
-            Execute.Assertion
-                .WithExpectation("Expected {context:result} to be Failure{reason}, ")
-                .Given(() => this.Subject)
-                .ForCondition(subject => subject.IsFailure)
-                .FailWith($"but found to be Success '{this.GetResultSuccess()}'.");
+            this.BuildFailureExpectation();
             this.Subject.IfFailure(action);
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
         public AndConstraint<ResultAssertionExtensions<T>> BeFailure()
         {
-            Execute.Assertion
-                .WithExpectation("Expected {context:result} to be Failure{reason}, ")
-                .Given(() => this.Subject)
-                .ForCondition(subject => subject.IsFailure)
-                .FailWith($"but found to be Success '{this.GetResultSuccess()}'.");
+            this.BuildFailureExpectation();
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
         public AndConstraint<ResultAssertionExtensions<T>> BeFailure(IResultFailure expected)
         {
-            Execute.Assertion
-                .WithExpectation("Expected {context:result} to be Failure {0}, ", expected.GetFailureMessage())
-                .Given(() => this.Subject)
-                .ForCondition(subject => subject.IsFailure)
-                .FailWith($"but found to be Success '{this.GetResultSuccess()}'.")
+            this.BuildFailureExpectation()
                 .Then
                 .ForCondition(subject => subject.Equals(Result<T>.FromFailure(expected)))
-                .FailWith($"but found to be Failure '{this.GetResultFailure()}'.");
+                .FailWith(this.BuildResultFailureMessage());
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
         public AndConstraint<ResultAssertionExtensions<T>> BeParsingFailure(params string[] failureMessages)
         {
-            Execute.Assertion
-                .WithExpectation("Expected {context:result} to be Failure {reason}, ")
-                .Given(() => this.Subject)
-                .ForCondition(subject => subject.IsFailure)
-                .FailWith($"but found to be Success '{this.GetResultSuccess()}'.")
+            this.BuildFailureExpectation()
                 .Then
                 .ForCondition(subject =>
                     subject.Equals(Result<T>.FromFailure(
                         ParsingFailure.FromFailures(failureMessages.Select(ResultFailure.FromErrorMessage).ToArray()))))
-                .FailWith($"but found to be Failure '{this.GetResultFailure()}'.");
+                .FailWith(this.BuildResultFailureMessage());
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
         public AndConstraint<ResultAssertionExtensions<T>> BeResultFailure(string expectedMessage)
         {
-            Execute.Assertion
-                .WithExpectation("Expected {context:result} to be Failure {reason}, ")
-                .Given(() => this.Subject)
-                .ForCondition(subject => subject.IsFailure)
-                .FailWith($"but found to be Success '{this.GetResultSuccess()}'.")
+            this.BuildFailureExpectation()
                 .Then
                 .ForCondition(subject =>
                     subject.Equals(Result<T>.FromFailure(ResultFailure.FromErrorMessage(expectedMessage))))
-                .FailWith($"but found to be Failure '{this.GetResultFailure()}'.");
+                .FailWith(this.BuildResultFailureMessage());
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
         public AndConstraint<ResultAssertionExtensions<T>> BeSuccess()
         {
-            Execute.Assertion
-                .WithExpectation("Expected {context:result} to be Success{reason}, ")
-                .Given(() => this.Subject)
-                .ForCondition(subject => subject.IsSuccess)
-                .FailWith($"but found to be Failure '{this.GetResultFailure()}'.");
+            this.BuildSuccessExpectation();
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
         public AndConstraint<ResultAssertionExtensions<T>> BeSuccess(Action<T> action)
         {
-            Execute.Assertion
-                .WithExpectation("Expected {context:result} to be Success{reason}, ")
-                .Given(() => this.Subject)
-                .ForCondition(subject => subject.IsSuccess)
-                .FailWith($"but found to be Failure '{this.GetResultFailure()}'.");
+            this.BuildSuccessExpectation();
             this.Subject.IfSuccess(action);
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
         public AndConstraint<ResultAssertionExtensions<T>> BeSuccess(T expected)
         {
-            Execute.Assertion
-                .WithExpectation("Expected {context:result} to be Success {0}, ", expected.ToString())
-                .Given(() => this.Subject)
-                .ForCondition(subject => subject.IsSuccess)
-                .FailWith($"but found to be Failure '{this.GetResultFailure()}'.")
+            this.BuildSuccessExpectation()
                 .Then
                 .ForCondition(subject => subject.Equals(Result<T>.FromSuccess(expected)))
-                .FailWith($"but found to be Success '{this.GetResultSuccess()}'.");
+                .FailWith(this.BuildResultSuccessMessage());
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
+
+        private ContinuationOfGiven<Result<T>> BuildFailureExpectation() =>
+            Execute.Assertion
+                .WithExpectation("Expected {context:result} to be Failure{reason}, ")
+                .Given(() => this.Subject)
+                .ForCondition(subject => subject.IsFailure)
+                .FailWith(this.BuildResultFailureMessage());
+
+        private string BuildResultFailureMessage() => $"but found to be Failure '{this.GetResultFailure()}'.";
+
+        private string BuildResultSuccessMessage() => $"but found to be Success '{this.GetResultSuccess()}'.";
+
+        private ContinuationOfGiven<Result<T>> BuildSuccessExpectation() =>
+            Execute.Assertion
+                .WithExpectation("Expected {context:result} to be Success{reason}, ")
+                .Given(() => this.Subject)
+                .ForCondition(subject => subject.IsSuccess)
+                .FailWith(this.BuildResultSuccessMessage());
 
         private string GetResultFailure() =>
             this.Subject.Match(_ => string.Empty, failure => failure.GetFailureMessage());
