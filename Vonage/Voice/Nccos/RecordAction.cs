@@ -6,12 +6,12 @@ namespace Vonage.Voice.Nccos;
 
 public class RecordAction : NccoAction
 {
-    public override ActionType Action => ActionType.Record;
+    [JsonProperty("action", Order = 0)] public override ActionType Action => ActionType.Record;
 
     /// <summary>
     /// Set to true to play a beep when a recording starts
     /// </summary>
-    [JsonProperty("beepStart")]
+    [JsonProperty("beepStart", Order = 8)]
     public bool BeepStart { get; set; }
 
     /// <summary>
@@ -19,13 +19,13 @@ public class RecordAction : NccoAction
     /// If the number of participants exceeds channels any additional participants 
     /// will be added to the last channel in file. split conversation must also be enabled
     /// </summary>
-    [JsonProperty("channels")]
+    [JsonProperty("channels", Order = 3)]
     public uint? Channels { get; set; }
 
     /// <summary>
     /// Stop recording when a digit is pressed on the handset. Possible values are: *, # or any single digit e.g. 9
     /// </summary>
-    [JsonProperty("endOnKey")]
+    [JsonProperty("endOnKey", Order = 5)]
     public string EndOnKey { get; set; }
 
     /// <summary>
@@ -33,13 +33,13 @@ public class RecordAction : NccoAction
     /// Once the recording is stopped the recording data is sent to event_url. 
     /// The range of possible values is 3&lt;=endOnSilence&lt;=10.
     /// </summary>
-    [JsonProperty("endOnSilence")]
+    [JsonProperty("endOnSilence", Order = 4)]
     public string EndOnSilence { get; set; }
 
     /// <summary>
     /// The HTTP method used to make the request to eventUrl. The default value is POST.
     /// </summary>
-    [JsonProperty("eventMethod")]
+    [JsonProperty("eventMethod", Order = 10)]
     public string EventMethod { get; set; }
 
     /// <summary>
@@ -47,21 +47,21 @@ public class RecordAction : NccoAction
     /// If the message recording is hosted by Vonage, this webhook contains the URL you need to download 
     /// the recording and other meta data.
     /// </summary>
-    [JsonProperty("eventUrl")]
+    [JsonProperty("eventUrl", Order = 9)]
     public string[] EventUrl { get; set; }
 
     /// <summary>
     /// Record the Call in a specific format.
     /// The default value is mp3, or wav when recording more than 2 channels.
     /// </summary>
-    [JsonProperty("format")]
+    [JsonProperty("format", Order = 1)]
     public AudioFormat? Format { get; set; }
 
     /// <summary>
     /// Record the sent and received audio in separate channels of a stereo 
     /// recording—set to conversation to enable this.
     /// </summary>
-    [JsonProperty("split")]
+    [JsonProperty("split", Order = 2)]
     public string Split { get; set; }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class RecordAction : NccoAction
     /// data is sent to event_url. The range of possible values 
     /// is between 3 seconds and 7200 seconds (2 hours)
     /// </summary>
-    [JsonProperty("timeOut")]
+    [JsonProperty("timeOut", Order = 6)]
     public string TimeOut { get; set; }
 
     [JsonConverter(typeof(StringEnumConverter))]
