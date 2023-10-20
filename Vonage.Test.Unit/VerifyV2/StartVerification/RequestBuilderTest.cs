@@ -1,5 +1,4 @@
-using System.Linq;
-using AutoFixture;
+﻿using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
@@ -18,14 +17,11 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
     public class RequestBuilderTest
     {
         private const string ValidEmail = "alice@company.com";
-        private readonly Fixture fixture;
-
-        public RequestBuilderTest() => this.fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
 
         [Fact]
         public void Create_ShouldEnableFraudCheck_ByDefault() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .Create()
                 .Map(request => request.FraudCheck)
@@ -46,8 +42,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenChannelTimeoutIsHigherThanMaximum() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .WithChannelTimeout(901)
                 .Create()
@@ -56,8 +51,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenChannelTimeoutIsLowerThanMinimum() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .WithChannelTimeout(59)
                 .Create()
@@ -66,8 +60,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenCodeLengthIsHigherThanMaximum() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .WithCodeLength(11)
                 .Create()
@@ -76,8 +69,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenCodeLengthIsLowerThanMinimum() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .WithCodeLength(3)
                 .Create()
@@ -89,8 +81,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData(" ")]
         [InlineData(null)]
         public void Create_ShouldReturnFailure_GivenEmailWorkflowToIsNullOrWhitespace(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(value))
                 .Create()
                 .Should()
@@ -98,8 +89,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldReturnFailure_GivenFallbackWorkflowIsFailure() =>
-            StartVerificationRequest.Build()
-                .WithBrand("some brand")
+            this.BuildBaseRequest()
                 .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
                 .WithFallbackWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithFallbackWorkflow(
@@ -113,8 +103,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData("")]
         [InlineData(" ")]
         public void Create_ShouldReturnFailure_GivenFromIsProvidedButEmpty(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail, value))
                 .Create()
                 .Should()
@@ -125,8 +114,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData(" ")]
         [InlineData(null)]
         public void Create_ShouldReturnFailure_GivenSilentAuthWorkflowToIsNullOrWhitespace(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(SilentAuthWorkflow.Parse(value))
                 .Create()
                 .Should()
@@ -136,8 +124,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData("")]
         [InlineData(" ")]
         public void Create_ShouldReturnFailure_GivenSmsWorkflowHashIsProvidedButEmpty(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(SmsWorkflow.Parse("123456789", value))
                 .Create()
                 .Should()
@@ -147,8 +134,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData("1234567890")]
         [InlineData("123456789012")]
         public void Create_ShouldReturnFailure_GivenSmsWorkflowHashIsProvidedButLengthIsNot11(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(SmsWorkflow.Parse("123456789", value))
                 .Create()
                 .Should()
@@ -159,8 +145,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData(" ")]
         [InlineData(null)]
         public void Create_ShouldReturnFailure_GivenSmsWorkflowToIsNullOrWhitespace(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(SmsWorkflow.Parse(value))
                 .Create()
                 .Should()
@@ -171,8 +156,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData(" ")]
         [InlineData(null)]
         public void Create_ShouldReturnFailure_GivenVoiceWorkflowToIsNullOrWhitespace(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(VoiceWorkflow.Parse(value))
                 .Create()
                 .Should()
@@ -183,8 +167,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData(" ")]
         [InlineData(null)]
         public void Create_ShouldReturnFailure_GivenWhatsAppInteractiveWorkflowToIsNullOrWhitespace(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(WhatsAppInteractiveWorkflow.Parse(value))
                 .Create()
                 .Should()
@@ -194,8 +177,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData("")]
         [InlineData(" ")]
         public void Create_ShouldReturnFailure_GivenWhatsAppWorkflowFromIsProvidedButEmpty(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(WhatsAppWorkflow.Parse("123456789", value))
                 .Create()
                 .Should()
@@ -206,8 +188,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData(" ")]
         [InlineData(null)]
         public void Create_ShouldReturnFailure_GivenWhatsAppWorkflowToIsNullOrWhitespace(string value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(WhatsAppWorkflow.Parse(value))
                 .Create()
                 .Should()
@@ -215,8 +196,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetBrand() =>
-            StartVerificationRequest.Build()
-                .WithBrand("some brand")
+            this.BuildBaseRequest()
                 .WithWorkflow(SilentAuthWorkflow.Parse("123456789"))
                 .Create()
                 .Map(request => request.Brand)
@@ -227,8 +207,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData(60)]
         [InlineData(900)]
         public void Create_ShouldSetChannelTimeout(int value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .WithChannelTimeout(value)
                 .Create()
@@ -238,8 +217,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetClientReference() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .WithClientReference("client ref")
                 .Create()
@@ -249,8 +227,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetCode() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .WithCode("123456")
                 .Create()
@@ -262,8 +239,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [InlineData(4)]
         [InlineData(10)]
         public void Create_ShouldSetCodeLength(int value) =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .WithCodeLength(value)
                 .Create()
@@ -273,8 +249,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetEmailWorkflow() =>
-            StartVerificationRequest.Build()
-                .WithBrand("some brand")
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .Create()
                 .Map(request => request.Workflows)
@@ -290,21 +265,19 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetEmailWorkflowFrom() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail, "bob@company.com"))
                 .WithLocale(Locale.FrFr)
                 .Create()
                 .Map(request =>
-                    (request.Workflows.First() is EmailWorkflow ? (EmailWorkflow) request.Workflows.First() : default)
+                    (request.Workflows[0] as EmailWorkflow? ?? default)
                     .From.Map(address => address.Address))
                 .Should()
                 .BeSuccess("bob@company.com");
 
         [Fact]
         public void Create_ShouldSetFallbackWorkflows() =>
-            StartVerificationRequest.Build()
-                .WithBrand("some brand")
+            this.BuildBaseRequest()
                 .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
                 .WithFallbackWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .WithFallbackWorkflow(VoiceWorkflow.Parse("123456789"))
@@ -328,8 +301,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetLocale() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .WithLocale(Locale.FrFr)
                 .Create()
@@ -339,8 +311,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetSilentAuthWorkflow() =>
-            StartVerificationRequest.Build()
-                .WithBrand("some brand")
+            this.BuildBaseRequest()
                 .WithWorkflow(SilentAuthWorkflow.Parse("123456789"))
                 .Create()
                 .Map(request => request.Workflows)
@@ -355,8 +326,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetSmsWorkflow() =>
-            StartVerificationRequest.Build()
-                .WithBrand("some brand")
+            this.BuildBaseRequest()
                 .WithWorkflow(SmsWorkflow.Parse("123456789", "12345678901"))
                 .Create()
                 .Map(request => request.Workflows)
@@ -372,8 +342,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetVoiceWorkflow() =>
-            StartVerificationRequest.Build()
-                .WithBrand("some brand")
+            this.BuildBaseRequest()
                 .WithWorkflow(VoiceWorkflow.Parse("123456789"))
                 .Create()
                 .Map(request => request.Workflows)
@@ -388,8 +357,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetWhatsAppInteractiveWorkflow() =>
-            StartVerificationRequest.Build()
-                .WithBrand("some brand")
+            this.BuildBaseRequest()
                 .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
                 .Create()
                 .Map(request => request.Workflows)
@@ -404,8 +372,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSetWhatsAppWorkflow() =>
-            StartVerificationRequest.Build()
-                .WithBrand("some brand")
+            this.BuildBaseRequest()
                 .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
                 .Create()
                 .Map(request => request.Workflows)
@@ -421,13 +388,16 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 
         [Fact]
         public void Create_ShouldSkipFraudCheck_GivenSkipFraudCheckIsUsed() =>
-            StartVerificationRequest.Build()
-                .WithBrand(this.fixture.Create<string>())
+            this.BuildBaseRequest()
                 .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
                 .SkipFraudCheck()
                 .Create()
                 .Map(request => request.FraudCheck)
                 .Should()
                 .BeSuccess(false);
+
+        private IBuilderForWorkflow BuildBaseRequest() =>
+            StartVerificationRequest.Build()
+                .WithBrand("some brand");
     }
 }
