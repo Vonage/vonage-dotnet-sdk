@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
@@ -30,11 +30,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public void Build_ShouldEnableEncryptedMedia_GivenEnableEncryptedMediaIsUsed() =>
-            InitiateCallRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .WithToken(this.token)
-                .WithSipUri(this.uri)
+            this.BuildBaseRequest()
                 .EnableEncryptedMedia()
                 .Create()
                 .Map(request => request.Sip)
@@ -43,11 +39,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public void Build_ShouldEnableForceMute_GivenEnableForceMuteIsUsed() =>
-            InitiateCallRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .WithToken(this.token)
-                .WithSipUri(this.uri)
+            this.BuildBaseRequest()
                 .EnableForceMute()
                 .Create()
                 .Map(request => request.Sip)
@@ -56,11 +48,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public void Build_ShouldEnableVideo_GivenEnableVideoIsUsed() =>
-            InitiateCallRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .WithToken(this.token)
-                .WithSipUri(this.uri)
+            this.BuildBaseRequest()
                 .EnableVideo()
                 .Create()
                 .Map(request => request.Sip)
@@ -69,11 +57,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public void Build_ShouldOverrideCustomHeaderKey_GivenWithHeaderKeyIsUsedOnExistingKey() =>
-            InitiateCallRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .WithToken(this.token)
-                .WithSipUri(this.uri)
+            this.BuildBaseRequest()
                 .WithHeader("key1", "value1")
                 .WithHeader("key1", "value2")
                 .Create()
@@ -123,11 +107,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public void Build_ShouldReturnSuccess_GivenMandatoryValuesAreProvided() =>
-            InitiateCallRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .WithToken(this.token)
-                .WithSipUri(this.uri)
+            this.BuildBaseRequest()
                 .Create()
                 .Should()
                 .BeSuccess(request =>
@@ -145,11 +125,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public void Build_ShouldSetAuthentication_GivenWithAuthenticationIsUsed() =>
-            InitiateCallRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .WithToken(this.token)
-                .WithSipUri(this.uri)
+            this.BuildBaseRequest()
                 .WithAuthentication(this.authentication)
                 .Create()
                 .Map(request => request.Sip)
@@ -158,11 +134,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public void Build_ShouldSetCustomHeaderKey_GivenWithHeaderKeyIsUsed() =>
-            InitiateCallRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .WithToken(this.token)
-                .WithSipUri(this.uri)
+            this.BuildBaseRequest()
                 .WithHeader("key1", "value1")
                 .Create()
                 .Map(request => request.Sip)
@@ -172,15 +144,18 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
 
         [Fact]
         public void Build_ShouldSetFrom_GivenWithFromIsUsed() =>
-            InitiateCallRequest.Build()
-                .WithApplicationId(this.applicationId)
-                .WithSessionId(this.sessionId)
-                .WithToken(this.token)
-                .WithSipUri(this.uri)
+            this.BuildBaseRequest()
                 .WithFrom(this.from)
                 .Create()
                 .Map(request => request.Sip)
                 .Should()
                 .BeSuccess(success => success.From.Should().BeSome(this.from));
+
+        private IBuilderForOptionalSip BuildBaseRequest() =>
+            InitiateCallRequest.Build()
+                .WithApplicationId(this.applicationId)
+                .WithSessionId(this.sessionId)
+                .WithToken(this.token)
+                .WithSipUri(this.uri);
     }
 }
