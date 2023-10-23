@@ -157,6 +157,19 @@ namespace Vonage.Test.Unit
         }
 
         [Fact]
+        public async Task CreateCallWithPremiumTalkActionAsync()
+        {
+            this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
+            var response = await this.client.VoiceClient.CreateCallAsync(
+                new PhoneEndpoint {Number = "14155550100"}, "14155550100",
+                new Ncco(new TalkAction {Text = "Hello World", Premium = true}));
+            Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+            Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
+            Assert.Equal("outbound", response.Direction);
+            Assert.Equal("started", response.Status);
+        }
+
+        [Fact]
         public void CreateCallWithRandomFromNumber()
         {
             this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
