@@ -37,6 +37,13 @@ public class TalkAction : NccoAction
     public string Loop { get; set; }
 
     /// <summary>
+    ///     Set to true to use the premium version of the specified style if available, otherwise the standard version will be
+    ///     used. The default value is false.
+    /// </summary>
+    [JsonProperty("premium", Order = 8)]
+    public bool Premium { get; set; }
+
+    /// <summary>
     /// The vocal style (vocal range, tessitura and timbre). Default: 0. Possible values are listed in the <see href="https://developer.nexmo.com/voice/voice-api/guides/text-to-speech#supported-languages">Text-To-Speech guide</see>.
     /// </summary>
     [JsonProperty("style", Order = 7)]
