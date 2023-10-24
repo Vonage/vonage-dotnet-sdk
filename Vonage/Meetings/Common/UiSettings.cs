@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
 
@@ -35,7 +36,13 @@ public record UiSettings(
         /// <summary>
         ///     Portuguese language.
         /// </summary>
-        [Description("pt")] Pt,
+        [Obsolete("Use Portuguese-Brazilian instead.")] [Description("pt")]
+        Pt,
+
+        /// <summary>
+        ///     Portuguese-Brazilian language.
+        /// </summary>
+        [Description("pt-br")] PtBr,
 
         /// <summary>
         ///     Italian language.
@@ -43,7 +50,7 @@ public record UiSettings(
         [Description("it")] It,
 
         /// <summary>
-        ///     Canadian language.
+        ///     Catalan language.
         /// </summary>
         [Description("ca")] Ca,
 
@@ -56,5 +63,15 @@ public record UiSettings(
         ///     German language.
         /// </summary>
         [Description("de")] De,
+
+        /// <summary>
+        ///     Chinese-Taiwan language.
+        /// </summary>
+        [Description("zh-tw")] ZhTw,
+
+        /// <summary>
+        ///     Chinese-Mainland language.
+        /// </summary>
+        [Description("zh-cn")] ZhCn,
     }
 }

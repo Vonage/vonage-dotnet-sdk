@@ -24,7 +24,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
     {
         private readonly Fixture fixture;
 
-        private Func<VonageHttpClientConfiguration, Task<Result<Common.Monads.Unit>>> Operation =>
+        private Func<VonageHttpClientConfiguration, Task<Result<Vonage.Common.Monads.Unit>>> Operation =>
             configuration => new MeetingsClient(configuration, InitializeFileSystem()).UpdateThemeLogoAsync(
                 this.request);
 
@@ -53,14 +53,14 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
 
         [Fact]
         public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-            await VerifyReturnsFailureGivenRequestIsFailure<UpdateThemeLogoRequest, Common.Monads.Unit>(
+            await this.VerifyReturnsFailureGivenRequestIsFailure<UpdateThemeLogoRequest, Vonage.Common.Monads.Unit>(
                 (_, failureRequest) =>
                     new MeetingsClient(this.BuildConfiguration(), new MockFileSystem()).UpdateThemeLogoAsync(
                         failureRequest));
 
         [Fact]
         public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
-            await VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
+            await this.VerifyReturnsFailureGivenTokenGenerationFails(this.Operation);
 
         [Fact]
         public void ShouldReturnFailureWhenFinalizingLogo_GivenApiErrorCannotBeParsed()
