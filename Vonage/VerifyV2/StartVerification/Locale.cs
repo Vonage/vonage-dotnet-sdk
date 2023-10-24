@@ -60,6 +60,11 @@ public readonly struct Locale
     public static Locale ItIt => new("it-it");
 
     /// <summary>
+    ///     The ja-jp locale.
+    /// </summary>
+    public static Locale JaJp => new("ja-jp");
+
+    /// <summary>
     ///     The language.
     /// </summary>
     public string Language { get; }
@@ -78,13 +83,22 @@ public readonly struct Locale
     ///     The ru-ru locale.
     /// </summary>
     public static Locale RuRu => new("ru-ru");
-    
-    /// <summary>
-    /// The ja-jp locale.
-    /// </summary>
-    public static Locale JaJp => new("ja-jp");
 
     internal Locale(string language) => this.Language = language;
+
+    /// <summary>
+    ///     Implicit conversion from string to Locale.
+    /// </summary>
+    /// <param name="value">The locale value.</param>
+    /// <returns>The locale.</returns>
+    public static implicit operator Locale(string value) => new(value);
+
+    /// <summary>
+    ///     Implicit conversion from Locale to string.
+    /// </summary>
+    /// <param name="value">The locale.</param>
+    /// <returns>The locale value.</returns>
+    public static implicit operator string(Locale value) => value.Language;
 }
 
 /// <summary>

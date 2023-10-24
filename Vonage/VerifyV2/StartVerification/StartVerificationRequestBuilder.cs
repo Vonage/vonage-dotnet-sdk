@@ -94,7 +94,7 @@ internal class StartVerificationRequestBuilder :
         this.SetWorkflow(value);
 
     /// <inheritdoc />
-    public IOptionalBuilder WithLocale(Locale value)
+    public IOptionalBuilder WithLocale(string value)
     {
         this.locale = value;
         return this;
@@ -167,7 +167,7 @@ public interface IOptionalOptionalBuilderForLocale
     /// </summary>
     /// <param name="value">The Locale.</param>
     /// <returns>The builder.</returns>
-    IOptionalBuilder WithLocale(Locale value);
+    IOptionalBuilder WithLocale(string value);
 }
 
 /// <summary>
