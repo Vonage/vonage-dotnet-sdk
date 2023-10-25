@@ -15,7 +15,10 @@
           "http_method": "GET",
           "address": "https://fallback.example.com/webhooks/answer"
         }
-      }
+      },
+      "signed_callbacks": true,
+      "conversations_ttl": 12,
+      "region": "eu-west"
     },
     "rtc": {
       "webhooks": {

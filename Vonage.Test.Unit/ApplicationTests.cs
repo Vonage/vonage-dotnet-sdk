@@ -6,7 +6,6 @@ using Vonage.Applications;
 using Vonage.Applications.Capabilities;
 using Vonage.Common;
 using Vonage.Request;
-using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit
@@ -49,8 +48,12 @@ namespace Vonage.Test.Unit
                     new Webhook {Address = "https://fallback.example.com/webhooks/answer", Method = "GET"}
                 },
             };
-            var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
-            JsonConvert.SerializeObject(voiceCapability, VonageSerialization.SerializerSettings);
+            var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks)
+            {
+                Region = "eu-west",
+                SignedCallbacks = true,
+                ConversationsTimeToLive = 12,
+            };
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
             {
@@ -72,6 +75,9 @@ namespace Vonage.Test.Unit
                 ? client.ApplicationClient.CreateApplicaiton(request)
                 : client.ApplicationClient.CreateApplicaiton(request, credentials);
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", response.Id);
+            Assert.True(response.Capabilities.Voice.SignedCallbacks);
+            Assert.Equal(12, response.Capabilities.Voice.ConversationsTimeToLive);
+            Assert.Equal("eu-west", response.Capabilities.Voice.Region);
             Assert.Equal("https://example.com/webhooks/answer",
                 response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
             Assert.Equal("GET", response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Method);
