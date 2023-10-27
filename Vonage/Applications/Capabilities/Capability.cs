@@ -11,7 +11,7 @@ public abstract class Capability
 
     [JsonIgnore] protected CapabilityType Type { get; set; }
 
-    protected enum CapabilityType
+    public enum CapabilityType
     {
         [Description("voice")] Voice,
         [Description("rtc")] Rtc,

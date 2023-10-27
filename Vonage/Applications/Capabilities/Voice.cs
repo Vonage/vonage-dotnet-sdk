@@ -4,7 +4,7 @@ using Vonage.Common;
 
 namespace Vonage.Applications.Capabilities;
 
-public class Voice : Capability
+public class Voice
 {
     /// <summary>
     ///     The length of time named conversations will remain active for after creation, in hours. 0 means infinite. Maximum
@@ -28,9 +28,13 @@ public class Voice : Capability
     [JsonProperty("signed_callbacks", Order = 1)]
     public bool SignedCallbacks { get; set; }
 
+    [JsonIgnore] public Capability.CapabilityType Type { get; set; }
+
+    [JsonProperty("webhooks")] public IDictionary<Webhook.Type, Webhook> Webhooks { get; set; }
+
     public Voice(IDictionary<Webhook.Type, Webhook> webhooks)
     {
         this.Webhooks = webhooks;
-        this.Type = CapabilityType.Voice;
+        this.Type = Capability.CapabilityType.Voice;
     }
 }
