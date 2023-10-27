@@ -1,0 +1,11 @@
+{
+  "name": "My Application",
+  "capabilities": {
+  },
+  "keys": {
+    "public_key": "some public key"
+  },
+  "privacy": {
+    "improve_ai": true
+  }
+}

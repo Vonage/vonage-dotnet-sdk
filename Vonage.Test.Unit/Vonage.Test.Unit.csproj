@@ -880,6 +880,12 @@
         <None Update="Data\VoiceTests\CreateCallWithPremiumTalkActionAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithPrivacySettings-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithPrivacySettings-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

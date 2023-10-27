@@ -27,4 +27,10 @@ public class Application
     /// </summary>
     [JsonProperty("name")]
     public string Name { get; set; }
+
+    /// <summary>
+    ///     Application privacy config
+    /// </summary>
+    [JsonProperty("privacy")]
+    public PrivacySettings Privacy { get; set; }
 }

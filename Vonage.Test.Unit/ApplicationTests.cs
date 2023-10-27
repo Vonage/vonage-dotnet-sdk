@@ -188,13 +188,13 @@ namespace Vonage.Test.Unit
             JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
-            { Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability };
+                {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
             var keys = new Keys
             {
                 PublicKey = PublicKey,
             };
             var request = new CreateApplicationRequest
-            { Capabilities = capabilities, Keys = keys, Name = "My Application" };
+                {Capabilities = capabilities, Keys = keys, Name = "My Application"};
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
             Application response;
@@ -227,6 +227,34 @@ namespace Vonage.Test.Unit
                 response.Capabilities.Rtc.Webhooks[Webhook.Type.EventUrl].Address);
             Assert.Equal("POST", response.Capabilities.Rtc.Webhooks[Webhook.Type.EventUrl].Method);
             Assert.Equal("My Application", response.Name);
+        }
+
+        [Fact]
+        public async Task CreateApplicationAsyncWithPrivacySettings()
+        {
+            var expectedResponseContent = this.GetResponseJson();
+            var expectedRequestContent = this.GetRequestJson();
+            this.Setup($"{this.ApiUrl}/v2/applications", expectedResponseContent, expectedRequestContent);
+            var request = new CreateApplicationRequest
+            {
+                Capabilities = new ApplicationCapabilities(),
+                Name = "My Application",
+                Keys = new Keys
+                {
+                    PublicKey = PublicKey,
+                },
+                Privacy = new PrivacySettings(true),
+            };
+            var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+            var client = this.BuildVonageClient(credentials);
+            var response = await client.ApplicationClient.CreateApplicaitonAsync(request);
+            response.Privacy.Should().Be(new PrivacySettings(true));
+            response.Capabilities.Should().BeEquivalentTo(new ApplicationCapabilities());
+            response.Keys.Should().BeEquivalentTo(new Keys
+            {
+                PublicKey = PublicKey,
+            });
+            response.Name.Should().Be("My Application");
         }
 
         [Fact]
@@ -494,7 +522,7 @@ namespace Vonage.Test.Unit
             if (passParameters)
             {
                 expectedUri = $"{this.ApiUrl}/v2/applications?page_size=10&page=1&";
-                request = new ListApplicationsRequest { Page = 1, PageSize = 10 };
+                request = new ListApplicationsRequest {Page = 1, PageSize = 10};
             }
             else
             {
@@ -600,7 +628,7 @@ namespace Vonage.Test.Unit
             if (passParameters)
             {
                 expectedUri = $"{this.ApiUrl}/v2/applications?page_size=10&page=1&";
-                request = new ListApplicationsRequest { Page = 1, PageSize = 10 };
+                request = new ListApplicationsRequest {Page = 1, PageSize = 10};
             }
             else
             {
@@ -739,13 +767,13 @@ namespace Vonage.Test.Unit
             JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
-            { Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability };
+                {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
             var keys = new Keys
             {
                 PublicKey = PublicKey,
             };
             var application = new CreateApplicationRequest
-            { Capabilities = capabilities, Keys = keys, Name = "My Application" };
+                {Capabilities = capabilities, Keys = keys, Name = "My Application"};
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
             var response = passCredentials
@@ -862,13 +890,13 @@ namespace Vonage.Test.Unit
             JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
-            { Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability };
+                {Messages = messagesCapability, Rtc = rtcCapability, Voice = voiceCapability, Vbc = vbcCapability};
             var keys = new Keys
             {
                 PublicKey = PublicKey,
             };
             var application = new CreateApplicationRequest
-            { Capabilities = capabilities, Keys = keys, Name = "My Application" };
+                {Capabilities = capabilities, Keys = keys, Name = "My Application"};
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(creds);
             Application response;
