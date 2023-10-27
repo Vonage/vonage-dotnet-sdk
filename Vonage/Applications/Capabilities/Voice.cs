@@ -42,11 +42,12 @@ public class Voice
     }
 
     /// <summary>
+    /// Represents a webhook for Voice API.
     /// </summary>
-    /// <param name="Address"></param>
-    /// <param name="Method"></param>
-    /// <param name="ConnectionTimeout"></param>
-    /// <param name="SocketTimeout"></param>
+    /// <param name="Address">The webhook address.</param>
+    /// <param name="Method">Must be one of GET or POST.</param>
+    /// <param name="ConnectionTimeout">If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.</param>
+    /// <param name="SocketTimeout">If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.</param>
     public record VoiceWebhook(
         [property: JsonProperty("address", Order = 1)]
         Uri Address,
@@ -54,7 +55,7 @@ public class Voice
         [property: JsonConverter(typeof(HttpMethodConverter))]
         HttpMethod Method,
         [property: JsonProperty("connection_timeout", Order = 2)]
-        int ConnectionTimeout,
+        int ConnectionTimeout = 0,
         [property: JsonProperty("socket_timeout", Order = 3)]
-        int SocketTimeout);
+        int SocketTimeout = 0);
 }
