@@ -6,9 +6,10 @@ namespace Vonage.Common;
 
 public class Webhook
 {
-    [JsonProperty("address")] public string Address { get; set; }
+    [JsonProperty("address", Order = 1)] public string Address { get; set; }
 
-    [JsonProperty("http_method")] public string Method { get; set; }
+    [JsonProperty("http_method", Order = 0)]
+    public string Method { get; set; }
 
     [JsonConverter(typeof(StringEnumConverter))]
     public enum Type
