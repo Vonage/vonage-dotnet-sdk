@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Vonage.Common;
+using Vonage.Serialization;
 
 namespace Vonage.Applications.Capabilities;
 
@@ -30,11 +33,28 @@ public class Voice
 
     [JsonIgnore] public Capability.CapabilityType Type { get; set; }
 
-    [JsonProperty("webhooks")] public IDictionary<Webhook.Type, Webhook> Webhooks { get; set; }
+    [JsonProperty("webhooks")] public IDictionary<Webhook.Type, VoiceWebhook> Webhooks { get; set; }
 
-    public Voice(IDictionary<Webhook.Type, Webhook> webhooks)
+    public Voice(IDictionary<Webhook.Type, VoiceWebhook> webhooks)
     {
         this.Webhooks = webhooks;
         this.Type = Capability.CapabilityType.Voice;
     }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="Address"></param>
+    /// <param name="Method"></param>
+    /// <param name="ConnectionTimeout"></param>
+    /// <param name="SocketTimeout"></param>
+    public record VoiceWebhook(
+        [property: JsonProperty("address", Order = 1)]
+        Uri Address,
+        [property: JsonProperty("http_method", Order = 0)]
+        [property: JsonConverter(typeof(HttpMethodConverter))]
+        HttpMethod Method,
+        [property: JsonProperty("connection_timeout", Order = 2)]
+        int ConnectionTimeout,
+        [property: JsonProperty("socket_timeout", Order = 3)]
+        int SocketTimeout);
 }
