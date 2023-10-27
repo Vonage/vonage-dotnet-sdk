@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Vonage.Common;
+using Newtonsoft.Json.Converters;
 using Vonage.Serialization;
 
 namespace Vonage.Applications.Capabilities;
 
+/// <summary>
+///     Represents Voice capabilities.
+/// </summary>
 public class Voice
 {
     /// <summary>
@@ -31,15 +35,11 @@ public class Voice
     [JsonProperty("signed_callbacks", Order = 1)]
     public bool SignedCallbacks { get; set; }
 
-    [JsonIgnore] public Capability.CapabilityType Type { get; set; }
-
-    [JsonProperty("webhooks")] public IDictionary<Webhook.Type, VoiceWebhook> Webhooks { get; set; }
-
-    public Voice(IDictionary<Webhook.Type, VoiceWebhook> webhooks)
-    {
-        this.Webhooks = webhooks;
-        this.Type = Capability.CapabilityType.Voice;
-    }
+    /// <summary>
+    ///     Represents the collection of Webhook URLs with their configuration.
+    /// </summary>
+    [JsonProperty("webhooks")]
+    public IDictionary<VoiceWebhookType, VoiceWebhook> Webhooks { get; set; }
 
     /// <summary>
     /// Represents a webhook for Voice API.
@@ -58,4 +58,23 @@ public class Voice
         int ConnectionTimeout = 0,
         [property: JsonProperty("socket_timeout", Order = 3)]
         int SocketTimeout = 0);
+}
+
+/// <summary>
+/// </summary>
+[JsonConverter(typeof(StringEnumConverter))]
+public enum VoiceWebhookType
+{
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "answer_url")] AnswerUrl = 1,
+
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "event_url")] EventUrl = 2,
+
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "fallback_answer_url")]
+    FallbackAnswerUrl = 5,
 }

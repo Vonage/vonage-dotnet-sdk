@@ -41,29 +41,30 @@ namespace Vonage.Test.Unit
                 {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
             };
             var rtcCapability = new Rtc(rtcWebhooks);
-            var voiceWebhooks = new Dictionary<Webhook.Type, Applications.Capabilities.Voice.VoiceWebhook>
+            var voiceWebhooks = new Dictionary<VoiceWebhookType, Applications.Capabilities.Voice.VoiceWebhook>
             {
                 {
-                    Webhook.Type.AnswerUrl,
+                    VoiceWebhookType.AnswerUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/answer"),
                         HttpMethod.Get)
                 },
                 {
-                    Webhook.Type.EventUrl,
+                    VoiceWebhookType.EventUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/events"),
                         HttpMethod.Post)
                 },
                 {
-                    Webhook.Type.FallbackAnswerUrl,
+                    VoiceWebhookType.FallbackAnswerUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(
                         new Uri("https://fallback.example.com/webhooks/answer"), HttpMethod.Get)
                 },
             };
-            var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks)
+            var voiceCapability = new Applications.Capabilities.Voice
             {
                 Region = "eu-west",
                 SignedCallbacks = true,
                 ConversationsTimeToLive = 12,
+                Webhooks = voiceWebhooks,
             };
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
@@ -90,14 +91,15 @@ namespace Vonage.Test.Unit
             Assert.Equal(12, response.Capabilities.Voice.ConversationsTimeToLive);
             Assert.Equal("eu-west", response.Capabilities.Voice.Region);
             Assert.Equal(new Uri("https://example.com/webhooks/answer"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Method);
             Assert.Equal(new Uri("https://fallback.example.com/webhooks/answer"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get,
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Method);
             Assert.Equal(new Uri("https://example.com/webhooks/event"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Address);
-            Assert.Equal(HttpMethod.Post, response.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Address);
+            Assert.Equal(HttpMethod.Post, response.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Method);
             Assert.Equal("https://example.com/webhooks/inbound",
                 response.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Address);
             Assert.Equal("POST", response.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Method);
@@ -186,25 +188,28 @@ namespace Vonage.Test.Unit
                 {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
             };
             var rtcCapability = new Rtc(rtcWebhooks);
-            var voiceWebhooks = new Dictionary<Webhook.Type, Applications.Capabilities.Voice.VoiceWebhook>
+            var voiceWebhooks = new Dictionary<VoiceWebhookType, Applications.Capabilities.Voice.VoiceWebhook>
             {
                 {
-                    Webhook.Type.AnswerUrl,
+                    VoiceWebhookType.AnswerUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/answer"),
                         HttpMethod.Get)
                 },
                 {
-                    Webhook.Type.EventUrl,
+                    VoiceWebhookType.EventUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/events"),
                         HttpMethod.Post)
                 },
                 {
-                    Webhook.Type.FallbackAnswerUrl,
+                    VoiceWebhookType.FallbackAnswerUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(
                         new Uri("https://fallback.example.com/webhooks/answer"), HttpMethod.Get)
                 },
             };
-            var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
+            var voiceCapability = new Applications.Capabilities.Voice
+            {
+                Webhooks = voiceWebhooks,
+            };
             JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
@@ -229,14 +234,15 @@ namespace Vonage.Test.Unit
 
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", response.Id);
             Assert.Equal(new Uri("https://example.com/webhooks/answer"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Method);
             Assert.Equal(new Uri("https://fallback.example.com/webhooks/answer"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get,
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Method);
             Assert.Equal(new Uri("https://example.com/webhooks/event"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Address);
-            Assert.Equal(HttpMethod.Post, response.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Address);
+            Assert.Equal(HttpMethod.Post, response.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Method);
             Assert.Equal("https://example.com/webhooks/inbound",
                 response.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Address);
             Assert.Equal("POST", response.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Method);
@@ -295,21 +301,23 @@ namespace Vonage.Test.Unit
             {
                 Capabilities = new ApplicationCapabilities
                 {
-                    Voice = new Applications.Capabilities.Voice(
-                        new Dictionary<Webhook.Type, Applications.Capabilities.Voice.VoiceWebhook>
+                    Voice = new Applications.Capabilities.Voice
+                    {
+                        Webhooks = new Dictionary<VoiceWebhookType, Applications.Capabilities.Voice.VoiceWebhook>
                         {
-                            {Webhook.Type.AnswerUrl, answerWebhook},
-                            {Webhook.Type.EventUrl, eventWebhook},
-                            {Webhook.Type.FallbackAnswerUrl, fallbackWebhook},
-                        }),
+                            {VoiceWebhookType.AnswerUrl, answerWebhook},
+                            {VoiceWebhookType.EventUrl, eventWebhook},
+                            {VoiceWebhookType.FallbackAnswerUrl, fallbackWebhook},
+                        },
+                    },
                 },
             };
             var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             var client = this.BuildVonageClient(credentials);
             var response = await client.ApplicationClient.CreateApplicaitonAsync(request);
-            response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Should().Be(answerWebhook);
-            response.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Should().Be(eventWebhook);
-            response.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Should().Be(fallbackWebhook);
+            response.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Should().Be(answerWebhook);
+            response.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Should().Be(eventWebhook);
+            response.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Should().Be(fallbackWebhook);
         }
 
         [Fact]
@@ -396,15 +404,15 @@ namespace Vonage.Test.Unit
                 : client.ApplicationClient.GetApplication(id);
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal(new Uri("https://example.com/webhooks/answer"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get, application.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Method);
             Assert.Equal(new Uri("https://fallback.example.com/webhooks/answer"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Address);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Address);
             Assert.Equal(HttpMethod.Get,
-                application.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Method);
             Assert.Equal(new Uri("https://example.com/webhooks/event"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Address);
-            Assert.Equal(HttpMethod.Post, application.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Address);
+            Assert.Equal(HttpMethod.Post, application.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Method);
             Assert.Equal("https://example.com/webhooks/inbound",
                 application.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Address);
             Assert.Equal("POST", application.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Method);
@@ -495,15 +503,15 @@ namespace Vonage.Test.Unit
 
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal(new Uri("https://example.com/webhooks/answer"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get, application.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Method);
             Assert.Equal(new Uri("https://fallback.example.com/webhooks/answer"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Address);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Address);
             Assert.Equal(HttpMethod.Get,
-                application.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Method);
             Assert.Equal(new Uri("https://example.com/webhooks/event"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Address);
-            Assert.Equal(HttpMethod.Post, application.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Address);
+            Assert.Equal(HttpMethod.Post, application.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Method);
             Assert.Equal("https://example.com/webhooks/inbound",
                 application.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Address);
             Assert.Equal("POST", application.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Method);
@@ -598,15 +606,15 @@ namespace Vonage.Test.Unit
             var application = applications.Embedded.Applications[0];
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal(new Uri("https://example.com/webhooks/answer"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get, application.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Method);
             Assert.Equal(new Uri("https://fallback.example.com/webhooks/answer"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Address);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Address);
             Assert.Equal(HttpMethod.Get,
-                application.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Method);
             Assert.Equal(new Uri("https://example.com/webhooks/event"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Address);
-            Assert.Equal(HttpMethod.Post, application.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Address);
+            Assert.Equal(HttpMethod.Post, application.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Method);
             Assert.Equal("https://example.com/webhooks/inbound",
                 application.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Address);
             Assert.Equal("POST", application.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Method);
@@ -712,15 +720,15 @@ namespace Vonage.Test.Unit
             var application = applications.Embedded.Applications[0];
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", application.Id);
             Assert.Equal(new Uri("https://example.com/webhooks/answer"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, application.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get, application.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Method);
             Assert.Equal(new Uri("https://fallback.example.com/webhooks/answer"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Address);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Address);
             Assert.Equal(HttpMethod.Get,
-                application.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Method);
             Assert.Equal(new Uri("https://example.com/webhooks/event"),
-                application.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Address);
-            Assert.Equal(HttpMethod.Post, application.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Method);
+                application.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Address);
+            Assert.Equal(HttpMethod.Post, application.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Method);
             Assert.Equal("https://example.com/webhooks/inbound",
                 application.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Address);
             Assert.Equal("POST", application.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Method);
@@ -813,25 +821,28 @@ namespace Vonage.Test.Unit
                 {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
             };
             var rtcCapability = new Rtc(rtcWebhooks);
-            var voiceWebhooks = new Dictionary<Webhook.Type, Applications.Capabilities.Voice.VoiceWebhook>
+            var voiceWebhooks = new Dictionary<VoiceWebhookType, Applications.Capabilities.Voice.VoiceWebhook>
             {
                 {
-                    Webhook.Type.AnswerUrl,
+                    VoiceWebhookType.AnswerUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/answer"),
                         HttpMethod.Get)
                 },
                 {
-                    Webhook.Type.EventUrl,
+                    VoiceWebhookType.EventUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/events"),
                         HttpMethod.Post)
                 },
                 {
-                    Webhook.Type.FallbackAnswerUrl,
+                    VoiceWebhookType.FallbackAnswerUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(
                         new Uri("https://fallback.example.com/webhooks/answer"), HttpMethod.Get)
                 },
             };
-            var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
+            var voiceCapability = new Applications.Capabilities.Voice
+            {
+                Webhooks = voiceWebhooks,
+            };
             JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
@@ -849,14 +860,15 @@ namespace Vonage.Test.Unit
                 : client.ApplicationClient.UpdateApplication(id, application, creds);
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", response.Id);
             Assert.Equal(new Uri("https://example.com/webhooks/answer"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Method);
             Assert.Equal(new Uri("https://fallback.example.com/webhooks/answer"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get,
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Method);
             Assert.Equal(new Uri("https://example.com/webhooks/event"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Address);
-            Assert.Equal(HttpMethod.Post, response.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Address);
+            Assert.Equal(HttpMethod.Post, response.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Method);
             Assert.Equal("https://example.com/webhooks/inbound",
                 response.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Address);
             Assert.Equal("POST", response.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Method);
@@ -945,25 +957,28 @@ namespace Vonage.Test.Unit
                 {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
             };
             var rtcCapability = new Rtc(rtcWebhooks);
-            var voiceWebhooks = new Dictionary<Webhook.Type, Applications.Capabilities.Voice.VoiceWebhook>
+            var voiceWebhooks = new Dictionary<VoiceWebhookType, Applications.Capabilities.Voice.VoiceWebhook>
             {
                 {
-                    Webhook.Type.AnswerUrl,
+                    VoiceWebhookType.AnswerUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/answer"),
                         HttpMethod.Get)
                 },
                 {
-                    Webhook.Type.EventUrl,
+                    VoiceWebhookType.EventUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/events"),
                         HttpMethod.Post)
                 },
                 {
-                    Webhook.Type.FallbackAnswerUrl,
+                    VoiceWebhookType.FallbackAnswerUrl,
                     new Applications.Capabilities.Voice.VoiceWebhook(
                         new Uri("https://fallback.example.com/webhooks/answer"), HttpMethod.Get)
                 },
             };
-            var voiceCapability = new Applications.Capabilities.Voice(voiceWebhooks);
+            var voiceCapability = new Applications.Capabilities.Voice
+            {
+                Webhooks = voiceWebhooks,
+            };
             JsonConvert.SerializeObject(voiceCapability);
             var vbcCapability = new Vbc();
             var capabilities = new ApplicationCapabilities
@@ -988,14 +1003,15 @@ namespace Vonage.Test.Unit
 
             Assert.Equal("78d335fa323d01149c3dd6f0d48968cf", response.Id);
             Assert.Equal(new Uri("https://example.com/webhooks/answer"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[Webhook.Type.AnswerUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl].Method);
             Assert.Equal(new Uri("https://fallback.example.com/webhooks/answer"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Address);
-            Assert.Equal(HttpMethod.Get, response.Capabilities.Voice.Webhooks[Webhook.Type.FallbackAnswerUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Address);
+            Assert.Equal(HttpMethod.Get,
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl].Method);
             Assert.Equal(new Uri("https://example.com/webhooks/event"),
-                response.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Address);
-            Assert.Equal(HttpMethod.Post, response.Capabilities.Voice.Webhooks[Webhook.Type.EventUrl].Method);
+                response.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Address);
+            Assert.Equal(HttpMethod.Post, response.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl].Method);
             Assert.Equal("https://example.com/webhooks/inbound",
                 response.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Address);
             Assert.Equal("POST", response.Capabilities.Messages.Webhooks[Webhook.Type.InboundUrl].Method);
