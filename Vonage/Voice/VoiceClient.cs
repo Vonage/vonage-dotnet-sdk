@@ -35,58 +35,6 @@ public class VoiceClient : IVoiceClient
     }
 
     /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public CallResponse CreateCall(CallCommand command, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContent<CallResponse>(
-                HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-                command,
-                AuthType.Bearer
-            );
-
-    /// <inheritdoc />
-    [Obsolete("Favor 'CreateCall(CallCommand) instead.'")]
-    public CallResponse CreateCall(string toNumber, string fromNumber, Ncco ncco)
-    {
-        var command = new CallCommand
-        {
-            To = new Endpoint[]
-            {
-                new PhoneEndpoint
-                {
-                    Number = toNumber,
-                },
-            },
-            From = new PhoneEndpoint
-            {
-                Number = fromNumber,
-            },
-            Ncco = ncco,
-        };
-        return this.CreateCall(command);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("Favor 'CreateCall(CallCommand) instead.'")]
-    public CallResponse CreateCall(Endpoint toEndPoint, string fromNumber, Ncco ncco)
-    {
-        var command = new CallCommand
-        {
-            To = new[]
-            {
-                toEndPoint,
-            },
-            From = new PhoneEndpoint
-            {
-                Number = fromNumber,
-            },
-            Ncco = ncco,
-        };
-        return this.CreateCall(command);
-    }
-
-    /// <inheritdoc />
     public Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallResponse>(
@@ -138,30 +86,11 @@ public class VoiceClient : IVoiceClient
     }
 
     /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public CallRecord GetCall(string id, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParameters<CallRecord>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}"),
-                AuthType.Bearer
-            );
-
-    /// <inheritdoc />
     public Task<CallRecord> GetCallAsync(string id, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<CallRecord>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}"),
                 AuthType.Bearer
-            );
-
-    /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public PageResponse<CallList> GetCalls(CallSearchFilter filter, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParameters<PageResponse<CallList>>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, CallsEndpoint),
-                AuthType.Bearer,
-                filter
             );
 
     /// <inheritdoc />
@@ -172,19 +101,6 @@ public class VoiceClient : IVoiceClient
                 AuthType.Bearer,
                 filter
             );
-
-    /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public GetRecordingResponse GetRecording(string recordingUrl, Credentials creds = null)
-    {
-        using var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithJwt(new Uri(recordingUrl));
-        return new GetRecordingResponse
-        {
-            ResultStream = ReadContent(response.Content).Result,
-            Status = response.StatusCode,
-        };
-    }
 
     /// <inheritdoc />
     public async Task<GetRecordingResponse> GetRecordingAsync(string recordingUrl, Credentials creds = null)
@@ -200,34 +116,12 @@ public class VoiceClient : IVoiceClient
     }
 
     /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public CallCommandResponse StartDtmf(string id, DtmfCommand cmd, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContent<CallCommandResponse>(
-                HttpMethod.Put,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/dtmf"),
-                cmd,
-                AuthType.Bearer
-            );
-
-    /// <inheritdoc />
     public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallCommandResponse>(
                 HttpMethod.Put,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/dtmf"),
                 cmd,
-                AuthType.Bearer
-            );
-
-    /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public CallCommandResponse StartStream(string id, StreamCommand command, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContent<CallCommandResponse>(
-                HttpMethod.Put,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
-                command,
                 AuthType.Bearer
             );
 
@@ -242,34 +136,12 @@ public class VoiceClient : IVoiceClient
             );
 
     /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public CallCommandResponse StartTalk(string id, TalkCommand cmd, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContent<CallCommandResponse>(
-                HttpMethod.Put,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/talk"),
-                cmd,
-                AuthType.Bearer
-            );
-
-    /// <inheritdoc />
     public Task<CallCommandResponse> StartTalkAsync(string id, TalkCommand cmd, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallCommandResponse>(
                 HttpMethod.Put,
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/talk"),
                 cmd,
-                AuthType.Bearer
-            );
-
-    /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public CallCommandResponse StopStream(string id, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContent<CallCommandResponse>(
-                HttpMethod.Delete,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
-                new { },
                 AuthType.Bearer
             );
 
@@ -284,17 +156,6 @@ public class VoiceClient : IVoiceClient
             );
 
     /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public CallCommandResponse StopTalk(string id, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContent<CallCommandResponse>(
-                HttpMethod.Delete,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/talk"),
-                new { },
-                AuthType.Bearer
-            );
-
-    /// <inheritdoc />
     public Task<CallCommandResponse> StopTalkAsync(string id, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallCommandResponse>(
@@ -303,20 +164,6 @@ public class VoiceClient : IVoiceClient
                 new { },
                 AuthType.Bearer
             );
-
-    /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public bool UpdateCall(string id, CallEditCommand command, Credentials creds = null)
-    {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContent<CallRecord>(
-                HttpMethod.Put,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}"),
-                command,
-                AuthType.Bearer
-            );
-        return true;
-    }
 
     /// <inheritdoc />
     public async Task<bool> UpdateCallAsync(string id, CallEditCommand command, Credentials creds = null)
