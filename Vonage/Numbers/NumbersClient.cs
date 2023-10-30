@@ -1,4 +1,3 @@
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Common;
@@ -36,21 +35,6 @@ public class NumbersClient : INumbersClient
     }
 
     /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
-    {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
-                request,
-                false
-            );
-        ValidateNumbersResponse(response);
-        return response;
-    }
-
-    /// <inheritdoc />
     public async Task<NumberTransactionResponse> BuyANumberAsync(NumberTransactionRequest request,
         Credentials creds = null)
     {
@@ -58,21 +42,6 @@ public class NumbersClient : INumbersClient
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
                     $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
-                request,
-                false
-            );
-        ValidateNumbersResponse(response);
-        return response;
-    }
-
-    /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public NumberTransactionResponse CancelANumber(NumberTransactionRequest request, Credentials creds = null)
-    {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
                 false
             );
@@ -96,31 +65,11 @@ public class NumbersClient : INumbersClient
     }
 
     /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParameters<NumbersSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
-                AuthType.Query,
-                request
-            );
-
-    /// <inheritdoc />
     public Task<NumbersSearchResponse> GetAvailableNumbersAsync(NumberSearchRequest request,
         Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
-                AuthType.Query,
-                request
-            );
-
-    /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParameters<NumbersSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
                 AuthType.Query,
                 request
             );
@@ -136,18 +85,6 @@ public class NumbersClient : INumbersClient
             );
 
     /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public NumberTransferResponse TransferANumber(NumberTransferRequest request, string apiKey,
-        Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContent<NumberTransferResponse>(
-                HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
-                request,
-                AuthType.Basic
-            );
-
-    /// <inheritdoc />
     public Task<NumberTransferResponse> TransferANumberAsync(NumberTransferRequest request, string apiKey,
         Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -157,21 +94,6 @@ public class NumbersClient : INumbersClient
                 request,
                 AuthType.Basic
             );
-
-    /// <inheritdoc />
-    [Obsolete("Favor asynchronous version instead.")]
-    public NumberTransactionResponse UpdateANumber(UpdateNumberRequest request, Credentials creds = null)
-    {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
-                request,
-                false
-            );
-        ValidateNumbersResponse(response);
-        return response;
-    }
 
     /// <inheritdoc />
     public async Task<NumberTransactionResponse> UpdateANumberAsync(UpdateNumberRequest request,
