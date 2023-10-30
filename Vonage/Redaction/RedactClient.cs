@@ -1,4 +1,3 @@
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Common;
@@ -23,21 +22,6 @@ public class RedactClient : IRedactClient
         this.Credentials = credentials;
         this.configuration = configuration;
         this.timeProvider = timeProvider;
-    }
-
-    /// <inheritdoc/>
-    [Obsolete("Favor asynchronous version instead.")]
-    public bool Redact(RedactRequest request, Credentials creds = null)
-    {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContent<object>
-            (
-                HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
-                request,
-                AuthType.Basic
-            );
-        return true;
     }
 
     /// <inheritdoc/>
