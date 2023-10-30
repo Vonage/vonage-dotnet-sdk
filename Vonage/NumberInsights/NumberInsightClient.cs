@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
 
@@ -25,42 +24,12 @@ public class NumberInsightClient : INumberInsightClient
     }
 
     /// <inheritdoc/>
-    [Obsolete("Favor asynchronous version instead.")]
-    public AdvancedInsightsResponse GetNumberInsightAdvanced(AdvancedNumberInsightRequest request,
-        Credentials creds = null)
-    {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParameters<AdvancedInsightsResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
-                AuthType.Query,
-                request
-            );
-        this.ValidateNumberInsightResponse(response);
-        return response;
-    }
-
-    /// <inheritdoc/>
     public async Task<AdvancedInsightsResponse> GetNumberInsightAdvancedAsync(AdvancedNumberInsightRequest request,
         Credentials creds = null)
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<AdvancedInsightsResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
-                AuthType.Query,
-                request
-            );
-        this.ValidateNumberInsightResponse(response);
-        return response;
-    }
-
-    /// <inheritdoc/>
-    [Obsolete("Favor asynchronous version instead.")]
-    public AdvancedInsightsAsynchronousResponse GetNumberInsightAsynchronous(
-        AdvancedNumberInsightAsynchronousRequest request, Credentials creds = null)
-    {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParameters<AdvancedInsightsAsynchronousResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
                 AuthType.Query,
                 request
             );
@@ -83,41 +52,12 @@ public class NumberInsightClient : INumberInsightClient
     }
 
     /// <inheritdoc/>
-    [Obsolete("Favor asynchronous version instead.")]
-    public BasicInsightResponse GetNumberInsightBasic(BasicNumberInsightRequest request, Credentials creds = null)
-    {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParameters<BasicInsightResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
-                AuthType.Query,
-                request
-            );
-        this.ValidateNumberInsightResponse(response);
-        return response;
-    }
-
-    /// <inheritdoc/>
     public async Task<BasicInsightResponse> GetNumberInsightBasicAsync(BasicNumberInsightRequest request,
         Credentials creds = null)
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<BasicInsightResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
-                AuthType.Query,
-                request
-            );
-        this.ValidateNumberInsightResponse(response);
-        return response;
-    }
-
-    /// <inheritdoc/>
-    [Obsolete("Favor asynchronous version instead.")]
-    public StandardInsightResponse GetNumberInsightStandard(StandardNumberInsightRequest request,
-        Credentials creds = null)
-    {
-        var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParameters<StandardInsightResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
                 AuthType.Query,
                 request
             );
@@ -148,11 +88,11 @@ public class NumberInsightClient : INumberInsightClient
                 case AdvancedInsightsAsynchronousResponse asyncResponse:
                     throw new VonageNumberInsightResponseException(
                             $"Advanced Insights Async response failed with status: {asyncResponse.Status}")
-                    { Response = response };
+                        {Response = response};
                 case BasicInsightResponse basicInsightResponse:
                     throw new VonageNumberInsightResponseException(
                             $"Number insight request failed with status: {basicInsightResponse.Status} and error message: {basicInsightResponse.StatusMessage}")
-                    { Response = response };
+                        {Response = response};
             }
         }
     }
