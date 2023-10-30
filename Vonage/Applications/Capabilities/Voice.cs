@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.Serialization;
@@ -61,20 +61,21 @@ public class Voice
 }
 
 /// <summary>
+/// Represents various Webhook urls.
 /// </summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum VoiceWebhookType
 {
     /// <summary>
     /// </summary>
-    [EnumMember(Value = "answer_url")] AnswerUrl = 1,
+    [EnumMember(Value = "answer_url")] AnswerUrl = 0,
 
     /// <summary>
     /// </summary>
-    [EnumMember(Value = "event_url")] EventUrl = 2,
+    [EnumMember(Value = "event_url")] EventUrl = 1,
 
     /// <summary>
     /// </summary>
     [EnumMember(Value = "fallback_answer_url")]
-    FallbackAnswerUrl = 5,
+    FallbackAnswerUrl = 2,
 }
