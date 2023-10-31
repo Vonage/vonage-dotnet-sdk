@@ -22,7 +22,7 @@ public sealed class Configuration
     private const string LoggerCategory = "Vonage.Configuration";
 
     private static Maybe<double> RequestsPerSecond =>
-        double.TryParse(Instance.Settings["appSettings:Vonage.RequestsPerSecond"], out var requestsPerSecond)
+        double.TryParse(Instance.Settings["vonage:Vonage.RequestsPerSecond"], out var requestsPerSecond)
             ? requestsPerSecond
             : Maybe<double>.None;
 
@@ -39,22 +39,22 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Api secret.
     /// </summary>
-    public string ApiKey => this.Settings["appSettings:Vonage_key"] ?? string.Empty;
+    public string ApiKey => this.Settings["vonage:Vonage_key"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the Api secret.
     /// </summary>
-    public string ApiSecret => this.Settings["appSettings:Vonage_secret"] ?? string.Empty;
+    public string ApiSecret => this.Settings["vonage:Vonage_secret"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the Application Id.
     /// </summary>
-    public string ApplicationId => this.Settings["appSettings:Vonage.Application.Id"] ?? string.Empty;
+    public string ApplicationId => this.Settings["vonage:Vonage.Application.Id"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the Application Key.
     /// </summary>
-    public string ApplicationKey => this.Settings["appSettings:Vonage.Application.Key"] ?? string.Empty;
+    public string ApplicationKey => this.Settings["vonage:Vonage.Application.Key"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves a configured HttpClient.
@@ -80,9 +80,9 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Europe Api Url.
     /// </summary>
-    public Uri EuropeApiUrl => this.Settings["appSettings:Vonage.Url.Api.Europe"] is null
+    public Uri EuropeApiUrl => this.Settings["vonage:Vonage.Url.Api.Europe"] is null
         ? new Uri(DefaultEuropeApiUrl)
-        : new Uri(this.Settings["appSettings:Vonage.Url.Api.Europe"]);
+        : new Uri(this.Settings["vonage:Vonage.Url.Api.Europe"]);
 
     /// <summary>
     ///     Retrieves the unique instance (Singleton).
@@ -92,29 +92,29 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Nexmo Api Url.
     /// </summary>
-    public Uri NexmoApiUrl => this.Settings["appSettings:Vonage.Url.Api"] is null
+    public Uri NexmoApiUrl => this.Settings["vonage:Vonage.Url.Api"] is null
         ? new Uri(DefaultNexmoApiUrl)
-        : new Uri(this.Settings["appSettings:Vonage.Url.Api"]);
+        : new Uri(this.Settings["vonage:Vonage.Url.Api"]);
 
     /// <summary>
     ///     The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.
     /// </summary>
     public Maybe<TimeSpan> RequestTimeout =>
-        int.TryParse(this.Settings["appSettings:Vonage.RequestTimeout"], out var timeout)
+        int.TryParse(this.Settings["vonage:Vonage.RequestTimeout"], out var timeout)
             ? Maybe<TimeSpan>.Some(TimeSpan.FromSeconds(timeout))
             : Maybe<TimeSpan>.None;
 
     /// <summary>
     ///     Retrieves the Rest Api Url.
     /// </summary>
-    public Uri RestApiUrl => this.Settings["appSettings:Vonage.Url.Rest"] is null
+    public Uri RestApiUrl => this.Settings["vonage:Vonage.Url.Rest"] is null
         ? new Uri(DefaultRestApiUrl)
-        : new Uri(this.Settings["appSettings:Vonage.Url.Rest"]);
+        : new Uri(this.Settings["vonage:Vonage.Url.Rest"]);
 
     /// <summary>
     ///     Retrieves the Security Secret.
     /// </summary>
-    public string SecuritySecret => this.Settings["appSettings:Vonage.security_secret"] ?? string.Empty;
+    public string SecuritySecret => this.Settings["vonage:Vonage.security_secret"] ?? string.Empty;
 
     /// <summary>
     ///     Exposes the configuration's content.
@@ -124,30 +124,30 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the SigningMethod.
     /// </summary>
-    public string SigningMethod => this.Settings["appSettings:Vonage.signing_method"] ?? string.Empty;
+    public string SigningMethod => this.Settings["vonage:Vonage.signing_method"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the User Agent.
     /// </summary>
-    public string UserAgent => this.Settings["appSettings:Vonage.UserAgent"] ?? string.Empty;
+    public string UserAgent => this.Settings["vonage:Vonage.UserAgent"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the Video Api Url.
     /// </summary>
-    public Uri VideoApiUrl => this.Settings["appSettings:Vonage.Url.Api.Video"] is null
+    public Uri VideoApiUrl => this.Settings["vonage:Vonage.Url.Api.Video"] is null
         ? new Uri(DefaultVideoApiUrl)
-        : new Uri(this.Settings["appSettings:Vonage.Url.Api.Video"]);
+        : new Uri(this.Settings["vonage:Vonage.Url.Api.Video"]);
 
     internal Configuration()
     {
         var builder = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
             {
-                {"appSettings:Vonage.Url.Rest", DefaultRestApiUrl},
-                {"appSettings:Vonage.Url.Api", DefaultNexmoApiUrl},
-                {"appSettings:Vonage.Url.Api.Europe", DefaultEuropeApiUrl},
-                {"appSettings:Vonage.Url.Api.Video", DefaultVideoApiUrl},
-                {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
+                {"vonage:Vonage.Url.Rest", DefaultRestApiUrl},
+                {"vonage:Vonage.Url.Api", DefaultNexmoApiUrl},
+                {"vonage:Vonage.Url.Api.Europe", DefaultEuropeApiUrl},
+                {"vonage:Vonage.Url.Api.Video", DefaultVideoApiUrl},
+                {"vonage:Vonage.EnsureSuccessStatusCode", "false"},
             })
             .AddJsonFile("settings.json", true, true)
             .AddJsonFile("appsettings.json", true, true);
@@ -206,13 +206,13 @@ public sealed class Configuration
             authCapabilities.Add("Key/Secret");
         }
 
-        if (!string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.security_secret"]))
+        if (!string.IsNullOrWhiteSpace(this.Settings["vonage:Vonage.security_secret"]))
         {
             authCapabilities.Add("Security/Signing");
         }
 
-        if (!string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.Application.Id"]) &&
-            !string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.Application.Key"]))
+        if (!string.IsNullOrWhiteSpace(this.Settings["vonage:Vonage.Application.Id"]) &&
+            !string.IsNullOrWhiteSpace(this.Settings["vonage:Vonage.Application.Key"]))
         {
             authCapabilities.Add("Application");
         }

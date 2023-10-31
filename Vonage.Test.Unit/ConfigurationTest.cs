@@ -45,7 +45,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage_key", "RandomValue"},
+                    {"vonage:Vonage_key", "RandomValue"},
                 })
                 .Build()).ApiKey.Should().Be("RandomValue");
 
@@ -54,7 +54,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage_secret", "RandomValue"},
+                    {"vonage:Vonage_secret", "RandomValue"},
                 })
                 .Build()).ApiSecret.Should().Be("RandomValue");
 
@@ -63,7 +63,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.Application.Id", "RandomValue"},
+                    {"vonage:Vonage.Application.Id", "RandomValue"},
                 })
                 .Build()).ApplicationId.Should().Be("RandomValue");
 
@@ -72,7 +72,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.Application.Key", "RandomValue"},
+                    {"vonage:Vonage.Application.Key", "RandomValue"},
                 })
                 .Build()).ApplicationKey.Should().Be("RandomValue");
 
@@ -81,7 +81,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.Url.Api.Europe", "https://api.vonage.com"},
+                    {"vonage:Vonage.Url.Api.Europe", "https://api.vonage.com"},
                 })
                 .Build()).EuropeApiUrl.Should().Be(new Uri("https://api.vonage.com"));
 
@@ -90,7 +90,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.Url.Api", "https://api.vonage.com"},
+                    {"vonage:Vonage.Url.Api", "https://api.vonage.com"},
                 })
                 .Build()).NexmoApiUrl.Should().Be(new Uri("https://api.vonage.com"));
 
@@ -99,7 +99,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.RequestTimeout", "100"},
+                    {"vonage:Vonage.RequestTimeout", "100"},
                 })
                 .Build()).RequestTimeout.Should().BeSome(TimeSpan.FromSeconds(100));
 
@@ -108,7 +108,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.Url.Rest", "https://api.vonage.com"},
+                    {"vonage:Vonage.Url.Rest", "https://api.vonage.com"},
                 })
                 .Build()).RestApiUrl.Should().Be(new Uri("https://api.vonage.com"));
 
@@ -117,7 +117,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.security_secret", "RandomValue"},
+                    {"vonage:Vonage.security_secret", "RandomValue"},
                 })
                 .Build()).SecuritySecret.Should().Be("RandomValue");
 
@@ -126,7 +126,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.signing_method", "sha512"},
+                    {"vonage:Vonage.signing_method", "sha512"},
                 })
                 .Build()).SigningMethod.Should().Be("sha512");
 
@@ -135,7 +135,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.UserAgent", "RandomValue"},
+                    {"vonage:Vonage.UserAgent", "RandomValue"},
                 })
                 .Build()).UserAgent.Should().Be("RandomValue");
 
@@ -144,7 +144,7 @@ namespace Vonage.Test.Unit
             Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {"appSettings:Vonage.Url.Api.Video", "https://api.vonage.com"},
+                    {"vonage:Vonage.Url.Api.Video", "https://api.vonage.com"},
                 })
                 .Build()).VideoApiUrl.Should().Be(new Uri("https://api.vonage.com"));
     }

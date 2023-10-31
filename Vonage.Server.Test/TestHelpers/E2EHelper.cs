@@ -15,7 +15,7 @@ namespace Vonage.Server.Test.TestHelpers
             var configuration = Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    {$"appSettings:{appSettingsKey}", this.Server.Url},
+                    {$"vonage:{appSettingsKey}", this.Server.Url},
                 }).Build());
             this.VonageClient = new VideoClient(credentials, configuration);
         }
