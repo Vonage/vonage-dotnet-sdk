@@ -5,6 +5,7 @@
         <NoWarn>1701;1702;0618</NoWarn>
         <IsPackable>false</IsPackable>
         <Configurations>Debug;Release;ReleaseSigned</Configurations>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseSigned|netstandard2.0|AnyCPU'">
