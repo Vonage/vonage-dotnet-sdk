@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Monads;
+﻿using System.Net.Http;
+using Vonage.Common.Monads;
 
 namespace Vonage.Common.Test
 {

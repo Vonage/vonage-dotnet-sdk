@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Net.Http;
+using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Client;
 
