@@ -13,7 +13,7 @@
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
         <Version>6.12.0</Version>
         <PackageLicenseExpression/>
-        <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <LangVersion>latest</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
