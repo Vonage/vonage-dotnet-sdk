@@ -10,6 +10,7 @@
         <Authors>Vonage.Server.Test</Authors>
         <Company>Vonage.Server.Test</Company>
         <Product>Vonage.Server.Test</Product>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
 
     <ItemGroup>

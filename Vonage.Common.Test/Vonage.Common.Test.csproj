@@ -3,12 +3,10 @@
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
-
         <IsPackable>false</IsPackable>
-
         <LangVersion>latest</LangVersion>
-
         <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows;net7.0;net7.0-windows;net481</TargetFrameworks>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
 
     <ItemGroup>
