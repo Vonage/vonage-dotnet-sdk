@@ -52,8 +52,19 @@ public readonly struct Result<T>
     /// <param name="bind">Bind operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>Bound functor.</returns>
-    public Result<TB> Bind<TB>(Func<T, Result<TB>> bind) =>
-        this.IsFailure ? Result<TB>.FromFailure(this.failure) : bind(this.success);
+    public Result<TB> Bind<TB>(Func<T, Result<TB>> bind)
+    {
+        try
+        {
+            return this.IsFailure
+                ? Result<TB>.FromFailure(this.failure)
+                : bind(this.success);
+        }
+        catch (Exception exception)
+        {
+            return SystemFailure.FromException(exception).ToResult<TB>();
+        }
+    }
 
     /// <summary>
     ///     Monadic bind operation.
@@ -61,8 +72,19 @@ public readonly struct Result<T>
     /// <param name="bind">Asynchronous bind operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>Asynchronous bound functor.</returns>
-    public async Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind) =>
-        this.IsFailure ? Result<TB>.FromFailure(this.failure) : await bind(this.success);
+    public async Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind) 
+    {
+        try
+        {
+            return this.IsFailure
+                ? Result<TB>.FromFailure(this.failure)
+                : await bind(this.success);
+        }
+        catch (Exception exception)
+        {
+            return SystemFailure.FromException(exception).ToResult<TB>();
+        }
+    }
 
     /// <inheritdoc />
     public override bool Equals(object obj) => obj is Result<T> result && this.Equals(result);
