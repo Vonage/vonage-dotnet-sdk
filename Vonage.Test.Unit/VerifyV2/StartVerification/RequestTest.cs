@@ -8,9 +8,7 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
 {
     public class RequestTest
     {
-        private readonly Fixture fixture;
-
-        public RequestTest() => this.fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
 
         [Fact]
         public void GetEndpointPath_ShouldReturnApiEndpoint() =>

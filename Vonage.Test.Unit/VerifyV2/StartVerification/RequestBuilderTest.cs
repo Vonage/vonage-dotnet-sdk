@@ -110,17 +110,6 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
-        [InlineData(null)]
-        public void Create_ShouldReturnFailure_GivenSilentAuthWorkflowToIsNullOrWhitespace(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(SilentAuthWorkflow.Parse(value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
         public void Create_ShouldReturnFailure_GivenSmsWorkflowHashIsProvidedButEmpty(string value) =>
             BuildBaseRequest()
                 .WithWorkflow(SmsWorkflow.Parse("123456789", value))
@@ -330,6 +319,41 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                     var workflow = workflows[0] as SilentAuthWorkflow? ?? default;
                     workflow.Channel.Should().Be("silent_auth");
                     workflow.To.Number.Should().Be("123456789");
+                });
+        
+        [Fact]
+        public void Create_ShouldSetSilentAuthWorkflowWithRedirect() =>
+            BuildBaseRequest()
+                .WithWorkflow(SilentAuthWorkflow.Parse("123456789", "https://example.com"))
+                .Create()
+                .Map(request => request.Workflows)
+                .Should()
+                .BeSuccess(workflows =>
+                {
+                    workflows.Should().HaveCount(1);
+                    var workflow = workflows[0] as SilentAuthWorkflow? ?? default;
+                    workflow.Channel.Should().Be("silent_auth");
+                    workflow.To.Number.Should().Be("123456789");
+                    workflow.RedirectUrl.Should().BeSome("https://example.com");
+                });
+        
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public void Create_ShouldSetSilentAuthWorkflowWithoutRedirect_GivenRedirectIsNullOrWhitespace(string value) =>
+            BuildBaseRequest()
+                .WithWorkflow(SilentAuthWorkflow.Parse("123456789", value))
+                .Create()
+                .Map(request => request.Workflows)
+                .Should()
+                .BeSuccess(workflows =>
+                {
+                    workflows.Should().HaveCount(1);
+                    var workflow = workflows[0] as SilentAuthWorkflow? ?? default;
+                    workflow.Channel.Should().Be("silent_auth");
+                    workflow.To.Number.Should().Be("123456789");
+                    workflow.RedirectUrl.Should().BeNone();
                 });
 
         [Fact]
