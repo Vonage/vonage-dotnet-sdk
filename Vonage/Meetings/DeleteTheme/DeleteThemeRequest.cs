@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using Microsoft.AspNetCore.WebUtilities;
+using Vonage.Common;
 using Vonage.Common.Client;
 
 namespace Vonage.Meetings.DeleteTheme;
@@ -35,7 +35,7 @@ public readonly struct DeleteThemeRequest : IVonageRequest
 
     /// <inheritdoc />
     public string GetEndpointPath() =>
-        QueryHelpers.AddQueryString($"/v1/meetings/themes/{this.ThemeId}", this.GetQueryStringParameters());
+        UriHelpers.BuildUri($"/v1/meetings/themes/{this.ThemeId}", this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
     {

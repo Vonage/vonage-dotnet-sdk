@@ -23,8 +23,7 @@ public interface IVerifyV2Client
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>The response.</returns>
-    Task<Result<StartVerificationResponse>> StartVerificationAsync<T>(Result<T> request)
-        where T : IStartVerificationRequest;
+    Task<Result<StartVerificationResponse>> StartVerificationAsync(Result<StartVerificationRequest> request);
 
     /// <summary>
     ///     Allows a code to be checked against an existing Verification request.

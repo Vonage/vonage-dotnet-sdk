@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using Microsoft.AspNetCore.WebUtilities;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
@@ -41,7 +41,7 @@ public readonly struct GetRoomsRequest : IVonageRequest
             .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => QueryHelpers.AddQueryString(DefaultEndpoint, this.GetQueryStringParameters());
+    public string GetEndpointPath() => UriHelpers.BuildUri(DefaultEndpoint, this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
     {

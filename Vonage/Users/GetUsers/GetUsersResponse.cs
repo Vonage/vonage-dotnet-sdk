@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using System.Web;
 using EnumsNET;
-using Microsoft.AspNetCore.WebUtilities;
 using Vonage.Common;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
@@ -12,7 +12,11 @@ namespace Vonage.Users.GetUsers;
 /// <summary>
 /// </summary>
 /// <param name="PageSize">The amount of records returned in this response.</param>
-/// <param name="Embedded">A list of user objects. See <see href="https://developer.vonage.com/en/api/application.v2#getUser">the get details</see> of a specific user response fields for a description of the nested objects</param>
+/// <param name="Embedded">
+///     A list of user objects. See
+///     <see href="https://developer.vonage.com/en/api/application.v2#getUser">the get details</see> of a specific user
+///     response fields for a description of the nested objects
+/// </param>
 /// <param name="Links">A series of links between resources in this API in the http://stateless.co/hal_specification.html.</param>
 public record GetUsersResponse(
     [property: JsonPropertyOrder(0)] int PageSize,
@@ -35,37 +39,34 @@ public record GetUsersHalLink(Uri Href)
     /// <returns></returns>
     public Result<GetUsersRequest> BuildRequest()
     {
-        var queryValues = QueryHelpers.ParseQuery(this.Href.Query);
-        var name = queryValues.TryGetValue("name", out var nameValue)
-            ? Maybe<string>.Some(nameValue.ToString())
-            : Maybe<string>.None;
-        var cursor = queryValues.TryGetValue("cursor", out var cursorValue)
-            ? Maybe<string>.Some(cursorValue.ToString())
-            : Maybe<string>.None;
-        if (!queryValues.ContainsKey("page_size"))
+        var queryParameters = HttpUtility.ParseQueryString(this.Href.Query);
+        var name = queryParameters["name"] ?? Maybe<string>.None;
+        var cursor = queryParameters["cursor"] ?? Maybe<string>.None;
+        var pageSize = queryParameters["page_size"];
+        var order = queryParameters["order"];
+        if (pageSize is null)
         {
             return Result<GetUsersRequest>.FromFailure(ResultFailure.FromErrorMessage("PageSize is missing from Uri."));
         }
 
-        if (!queryValues.ContainsKey("order"))
+        if (order is null)
         {
             return Result<GetUsersRequest>.FromFailure(ResultFailure.FromErrorMessage("Order is missing from Uri."));
         }
 
         return Result<GetUsersRequest>.FromSuccess(new GetUsersRequest(cursor, name,
-            Enums.Parse<FetchOrder>(queryValues["order"].ToString(), false, EnumFormat.Description),
-            int.Parse(queryValues["page_size"].ToString())));
+            Enums.Parse<FetchOrder>(order, false, EnumFormat.Description), int.Parse(pageSize)));
     }
 }
 
 /// <summary>
-/// Represents a list of user objects.
+///     Represents a list of user objects.
 /// </summary>
 /// <param name="Users">List of users matching the provided filter.</param>
 public record EmbeddedUsers(UserSummary[] Users);
 
 /// <summary>
-/// Represents a user summary.
+///     Represents a user summary.
 /// </summary>
 /// <param name="Id">User ID</param>
 /// <param name="Name">Unique name for a user</param>
