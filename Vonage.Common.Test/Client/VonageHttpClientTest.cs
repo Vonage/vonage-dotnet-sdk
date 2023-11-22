@@ -164,13 +164,13 @@ public class VonageHttpClientTest
     private static ExpectedRequest BuildExpectedRequest() =>
         new()
         {
-            Method = HttpMethod.Post,
+            Method = System.Net.Http.HttpMethod.Post,
             RequestUri = new Uri("/my-fake-api/yolo", UriKind.Relative),
             Content = "{\"id\":\"foo bar\",\"name\":\"My fake request\"}",
         };
 
     private static Result<FakeRequest> BuildRequest() =>
-        new FakeRequest {Id = Guid.Parse("ceb2b201-2143-48f5-8890-c58369394eba"), Name = "My fake request"};
+        new FakeRequest { Id = Guid.Parse("ceb2b201-2143-48f5-8890-c58369394eba"), Name = "My fake request" };
 
     private VonageHttpClientConfiguration CreateConfiguration(FakeHttpRequestHandler handler) =>
         new(handler.ToHttpClient(), new AuthenticationHeaderValue("Anonymous"), this.fixture.Create<string>());
@@ -242,9 +242,9 @@ public class VonageHttpClientTest
     private async Task VerifyReturnsFailureGivenOperationExceedsTimeout<TResponse>(
         Func<VonageHttpClient, Task<Result<TResponse>>> operation)
     {
-        var httpClient = FakeHttpRequestHandler.Build(HttpStatusCode.OK).WithDelay(TimeSpan.FromMilliseconds(500))
+        var httpClient = FakeHttpRequestHandler.Build(HttpStatusCode.OK).WithDelay(TimeSpan.FromSeconds(5))
             .ToHttpClient();
-        httpClient.Timeout = TimeSpan.FromMilliseconds(250);
+        httpClient.Timeout = TimeSpan.FromMilliseconds(100);
         var client =
             new VonageHttpClient(
                 new VonageHttpClientConfiguration(httpClient, new AuthenticationHeaderValue("Anonymous"),
@@ -291,9 +291,9 @@ public class VonageHttpClientTest
 
         public string Name { get; set; }
 
-        public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .WithContent(new StringContent("{\"id\":\"foo bar\",\"name\":\"My fake request\"}"))
+        public System.Net.Http.HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+            .Initialize(System.Net.Http.HttpMethod.Post, this.GetEndpointPath())
+            .WithContent(new System.Net.Http.StringContent("{\"id\":\"foo bar\",\"name\":\"My fake request\"}"))
             .Build();
 
         public string GetEndpointPath() => "/my-fake-api/yolo";

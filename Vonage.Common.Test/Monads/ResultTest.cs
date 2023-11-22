@@ -8,6 +8,20 @@ namespace Vonage.Common.Test.Monads
     public class ResultTest
     {
         [Fact]
+        public void Bind_ShouldReturnFailure_GivenOperationThrowsException()
+        {
+            var expectedException = new Exception("Error");
+            CreateSuccess(5)
+                .Bind(value =>
+                {
+                    throw expectedException;
+                    return Result<int>.FromSuccess(value);
+                })
+                .Should()
+                .BeFailure(SystemFailure.FromException(expectedException));
+        }
+
+        [Fact]
         public void Bind_ShouldReturnFailure_GivenValueIsFailure() =>
             CreateFailure()
                 .Bind(IncrementBind)
@@ -20,6 +34,20 @@ namespace Vonage.Common.Test.Monads
                 .Bind(IncrementBind)
                 .Should()
                 .BeSuccess(6);
+
+        [Fact]
+        public async Task BindAsync_ShouldReturnFailure_GivenOperationThrowsException()
+        {
+            var expectedException = new Exception("Error");
+            (await CreateSuccess(5)
+                    .BindAsync(value =>
+                    {
+                        throw expectedException;
+                        return Task.FromResult(Result<int>.FromSuccess(value));
+                    }))
+                .Should()
+                .BeFailure(SystemFailure.FromException(expectedException));
+        }
 
         [Fact]
         public async Task BindAsync_ShouldReturnFailure_GivenValueBecomesFailure() =>
@@ -316,13 +344,6 @@ namespace Vonage.Common.Test.Monads
         }
 
         [Fact]
-        public void Map_ShouldReturnFailure_GivenValueIsFailure() =>
-            CreateFailure()
-                .Map(Increment)
-                .Should()
-                .BeFailure(CreateResultFailure());
-        
-        [Fact]
         public void Map_ShouldReturnFailure_GivenOperationThrowsException()
         {
             var expectedException = new Exception("Error");
@@ -337,11 +358,32 @@ namespace Vonage.Common.Test.Monads
         }
 
         [Fact]
+        public void Map_ShouldReturnFailure_GivenValueIsFailure() =>
+            CreateFailure()
+                .Map(Increment)
+                .Should()
+                .BeFailure(CreateResultFailure());
+
+        [Fact]
         public void Map_ShouldReturnSuccess_GivenValueIsSuccess() =>
             CreateSuccess(5)
                 .Map(Increment)
                 .Should()
                 .BeSuccess(6);
+
+        [Fact]
+        public async Task MapAsync_ShouldReturnFailure_GivenOperationThrowsException()
+        {
+            var expectedException = new Exception("Error");
+            (await CreateSuccess(5)
+                    .MapAsync(value =>
+                    {
+                        throw expectedException;
+                        return Task.FromResult(value);
+                    }))
+                .Should()
+                .BeFailure(SystemFailure.FromException(expectedException));
+        }
 
         [Fact]
         public async Task MapAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
@@ -360,20 +402,6 @@ namespace Vonage.Common.Test.Monads
                 .MapAsync(IncrementAsync))
             .Should()
             .BeFailure(CreateResultFailure());
-        
-        [Fact]
-        public async Task MapAsync_ShouldReturnFailure_GivenOperationThrowsException()
-        {
-            var expectedException = new Exception("Error");
-            (await CreateSuccess(5)
-                .MapAsync(value =>
-                {
-                    throw expectedException;
-                    return Task.FromResult(value);
-                }))
-                .Should()
-                .BeFailure(SystemFailure.FromException(expectedException));
-        }
 
         [Fact]
         public async Task MapAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>

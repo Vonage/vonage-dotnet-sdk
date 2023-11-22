@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using EnumsNET;
-using Microsoft.AspNetCore.WebUtilities;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.ProactiveConnect;
@@ -52,8 +52,7 @@ public readonly struct GetUsersRequest : IVonageRequest
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => QueryHelpers.AddQueryString("/v1/users",
-        this.GetQueryStringParameters());
+    public string GetEndpointPath() => UriHelpers.BuildUri("/v1/users", this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
     {

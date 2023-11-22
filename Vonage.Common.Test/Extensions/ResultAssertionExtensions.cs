@@ -82,7 +82,7 @@ namespace Vonage.Common.Test.Extensions
                 .WithExpectation("Expected {context:result} to be Failure{reason}, ")
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsFailure)
-                .FailWith(this.BuildResultFailureMessage());
+                .FailWith(this.BuildResultSuccessMessage());
 
         private string BuildResultFailureMessage() => $"but found to be Failure '{this.GetResultFailure()}'.";
 
@@ -93,7 +93,7 @@ namespace Vonage.Common.Test.Extensions
                 .WithExpectation("Expected {context:result} to be Success{reason}, ")
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsSuccess)
-                .FailWith(this.BuildResultSuccessMessage());
+                .FailWith(this.BuildResultFailureMessage());
 
         private string GetResultFailure() =>
             this.Subject.Match(_ => string.Empty, failure => failure.GetFailureMessage());
