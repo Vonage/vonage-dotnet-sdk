@@ -24,9 +24,8 @@ internal class VerifyV2Client : IVerifyV2Client
         this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
-    public Task<Result<StartVerificationResponse>>
-        StartVerificationAsync<T>(Result<T> request) where T : IStartVerificationRequest =>
-        this.vonageClient.SendWithResponseAsync<T, StartVerificationResponse>(request);
+    public Task<Result<StartVerificationResponse>> StartVerificationAsync(Result<StartVerificationRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<StartVerificationRequest, StartVerificationResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<Unit>> VerifyCodeAsync(Result<VerifyCodeRequest> request) =>

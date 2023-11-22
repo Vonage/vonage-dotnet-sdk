@@ -14,7 +14,7 @@ using JsonSerializer = Vonage.Common.JsonSerializer;
 namespace Vonage.VerifyV2.StartVerification;
 
 /// <inheritdoc />
-public readonly struct StartVerificationRequest : IStartVerificationRequest
+public readonly struct StartVerificationRequest : IVonageRequest
 {
     /// <summary>
     ///     Gets the brand that is sending the verification request.

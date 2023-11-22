@@ -2,6 +2,7 @@ using System;
 using System.Text.Json.Serialization;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.VerifyV2.VerifyCode;
 
 namespace Vonage.VerifyV2.StartVerification;
 
@@ -15,4 +16,13 @@ public record StartVerificationResponse(
     [property: JsonPropertyOrder(1)]
     [property: JsonConverter(typeof(MaybeJsonConverter<Uri>))]
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    Maybe<Uri> CheckUrl);
+    Maybe<Uri> CheckUrl)
+{
+    /// <summary>
+    ///     Builds a VerifyCodeRequest based on the current request.
+    /// </summary>
+    /// <param name="verificationCode">The verification code.</param>
+    /// <returns>A request to verify the code for the current process.</returns>
+    public Result<VerifyCodeRequest> BuildVerificationRequest(string verificationCode) => VerifyCodeRequest.Build()
+        .WithRequestId(this.RequestId).WithCode(verificationCode).Create();
+}
