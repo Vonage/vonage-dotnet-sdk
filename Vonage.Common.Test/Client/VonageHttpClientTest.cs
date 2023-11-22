@@ -164,7 +164,7 @@ public class VonageHttpClientTest
     private static ExpectedRequest BuildExpectedRequest() =>
         new()
         {
-            Method = HttpMethod.Post,
+            Method = System.Net.Http.HttpMethod.Post,
             RequestUri = new Uri("/my-fake-api/yolo", UriKind.Relative),
             Content = "{\"id\":\"foo bar\",\"name\":\"My fake request\"}",
         };
@@ -291,9 +291,9 @@ public class VonageHttpClientTest
 
         public string Name { get; set; }
 
-        public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .WithContent(new StringContent("{\"id\":\"foo bar\",\"name\":\"My fake request\"}"))
+        public System.Net.Http.HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+            .Initialize(System.Net.Http.HttpMethod.Post, this.GetEndpointPath())
+            .WithContent(new System.Net.Http.StringContent("{\"id\":\"foo bar\",\"name\":\"My fake request\"}"))
             .Build();
 
         public string GetEndpointPath() => "/my-fake-api/yolo";
