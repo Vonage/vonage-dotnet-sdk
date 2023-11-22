@@ -11,7 +11,7 @@
         <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-        <Version>6.12.0</Version>
+        <Version>6.12.1</Version>
         <PackageLicenseExpression/>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <LangVersion>latest</LangVersion>
