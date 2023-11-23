@@ -77,9 +77,6 @@
             <PackagePath>lib\netstandard2.0</PackagePath>
         </_PackageFiles>
     </ItemGroup>
-    <ItemGroup>
-        <InternalsVisibleTo Include="Vonage.Server.Test"/>
-    </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
     </Target>
