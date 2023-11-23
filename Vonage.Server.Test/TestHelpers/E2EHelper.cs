@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
 using Vonage.Server.Video;
 using WireMock.Server;
@@ -32,8 +33,7 @@ namespace Vonage.Server.Test.TestHelpers
         public static E2EHelper WithBearerCredentials(string appSettingsKey) =>
             new E2EHelper(appSettingsKey, CreateBearerCredentials());
 
-        private static Credentials CreateBearerCredentials() => Credentials.FromAppIdAndPrivateKey(
-            Guid.NewGuid().ToString(),
-            Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey"));
+        private static Credentials CreateBearerCredentials() =>
+            Credentials.FromAppIdAndPrivateKey(Guid.NewGuid().ToString(), TokenHelper.GetKey());
     }
 }

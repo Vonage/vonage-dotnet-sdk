@@ -25,7 +25,6 @@ Sign up [for free at vonage.com][signup].
         * [Lazy registration (recommended for .NET Core and above)](#lazy-registration-recommended-for-net-core-and-above)
         * [Manual initialization (recommended for .NET Framework)](#manual-initialization-recommended-for-net-framework)
     * [Configuration reference](#configuration-reference)
-    * [Test configuration](#test-configuration)
     * [Logging](#logging)
 * [Monads](#monads)
     * [Result](#result)
@@ -238,13 +237,6 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
 | Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             |
 | Vonage.RequestTimeout    | Optional.  The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.              |
 | Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
-
-### Test configuration
-
-Make sure to set `Vonage.Test.RsaPrivateKey` (with a RSA Private Key) in your environment variables.
-Some tests rely on that to verify a token can be created.
-
-For security reasons, not RSA Private Key is hardcoded in the repository.
 
 ### Logging
 

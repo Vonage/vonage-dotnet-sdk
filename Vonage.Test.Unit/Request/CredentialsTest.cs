@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
-using Vonage.Cryptography;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
 using Xunit;
 
@@ -85,6 +84,6 @@ namespace Vonage.Test.Unit.Request
         private static Credentials BuildBasicCredentials() => Credentials.FromApiKeyAndSecret("apiKey", "apiSecret");
 
         private static Credentials BuildBearerCredentials() => Credentials.FromAppIdAndPrivateKey("appId",
-            Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey"));
+            TokenHelper.GetKey());
     }
 }
