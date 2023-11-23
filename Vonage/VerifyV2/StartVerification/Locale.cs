@@ -107,13 +107,8 @@ public readonly struct Locale
 public class LocaleJsonConverter : JsonConverter<Locale>
 {
     /// <inheritdoc />
-    public override Locale Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var value = reader.GetString();
-        return value != null
-            ? new Locale(value)
-            : default;
-    }
+    public override Locale Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
+        new(reader.GetString());
 
     /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, Locale value, JsonSerializerOptions options) =>
