@@ -17,7 +17,7 @@
       <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PackageLicenseExpression/>
     <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.4-beta</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.5-beta</PackageReleaseNotes>
     <Configurations>Debug;Release;ReleaseSigned</Configurations>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -30,7 +30,7 @@
       <PackageIconUrl />
     <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.
         </Description>
-      <Version>7.0.4-beta</Version>
+      <Version>7.0.5-beta</Version>
     <Authors>Vonage</Authors>
     <PackageTags>Video Vonage</PackageTags>
     <AssemblyName>Vonage.Server</AssemblyName>
