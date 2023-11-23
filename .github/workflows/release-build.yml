@@ -1,0 +1,47 @@
+name: Release Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  actions: write
+  checks: write
+  contents: read
+  deployments: read
+  issues: write
+  discussions: write
+  packages: read
+  pages: write
+  pull-requests: write
+  security-events: write
+  statuses: write
+
+jobs:
+  Vonage:
+    name: Vonage
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Try build Release configuration
+        run: dotnet build --configuration Release .\Vonage\Vonage.csproj -v minimal
+      - name: Try build ReleaseSigned configuration
+        run: dotnet build --configuration ReleaseSigned .\Vonage\Vonage.csproj -v minimal
+      - name: Try create Release package
+        run: dotnet pack -c Release .\Vonage\Vonage.csproj -v minimal --no-build
+      - name: Try create ReleaseSigned package
+        run: dotnet pack -c ReleaseSigned .\Vonage\Vonage.csproj -v minimal --no-build
+  VonageServer:
+    name: Vonage.Server
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Try build Release configuration
+        run: dotnet build --configuration Release .\Vonage.Server\Vonage.Server.csproj -v minimal
+      - name: Try build ReleaseSigned configuration
+        run: dotnet build --configuration ReleaseSigned .\Vonage.Server\Vonage.Server.csproj -v minimal
+      - name: Try create Release package
+        run: dotnet pack -c Release .\Vonage.Server\Vonage.Server.csproj -v minimal --no-build
+      - name: Try create ReleaseSigned package
+        run: dotnet pack -c ReleaseSigned .\Vonage.Server\Vonage.Server.csproj -v minimal --no-build
