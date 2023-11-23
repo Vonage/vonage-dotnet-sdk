@@ -16,13 +16,12 @@ namespace Vonage.Server.Video;
 public class VideoClient : IVideoClient
 {
     private Credentials credentials;
-    private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
 
     /// <inheritdoc />
-    public ArchiveClient ArchiveClient { get; private set; }
+    public ArchiveClient ArchiveClient => new(this.BuildClientConfiguration());
 
     /// <inheritdoc />
-    public BroadcastClient BroadcastClient { get; private set; }
+    public BroadcastClient BroadcastClient => new(this.BuildClientConfiguration());
 
     /// <inheritdoc />
     public Credentials Credentials
@@ -32,21 +31,20 @@ public class VideoClient : IVideoClient
         {
             if (value is null) return;
             this.credentials = value;
-            this.InitializeClients();
         }
     }
 
     /// <inheritdoc />
-    public ModerationClient ModerationClient { get; private set; }
+    public ModerationClient ModerationClient => new(this.BuildClientConfiguration());
 
     /// <inheritdoc />
-    public SessionClient SessionClient { get; private set; }
+    public SessionClient SessionClient => new(this.BuildClientConfiguration());
 
     /// <inheritdoc />
-    public SignalingClient SignalingClient { get; private set; }
+    public SignalingClient SignalingClient => new(this.BuildClientConfiguration());
 
     /// <inheritdoc />
-    public SipClient SipClient { get; private set; }
+    public SipClient SipClient => new(this.BuildClientConfiguration());
 
     /// <summary>
     ///     Creates a new client.
@@ -54,30 +52,13 @@ public class VideoClient : IVideoClient
     /// <param name="credentials">Credentials to be used for further clients.</param>
     public VideoClient(Credentials credentials) => this.Credentials = credentials;
 
-    internal VideoClient(Credentials credentials, Configuration configuration)
-    {
-        this.configuration = configuration;
-        this.Credentials = credentials;
-    }
-
     private VonageHttpClientConfiguration BuildClientConfiguration() =>
         new(
             InitializeHttpClient(this.GetConfiguration().VideoApiUrl),
             this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
 
-    private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
-
-    private void InitializeClients()
-    {
-        var videoConfiguration = this.BuildClientConfiguration();
-        this.SessionClient = new SessionClient(videoConfiguration);
-        this.SignalingClient = new SignalingClient(videoConfiguration);
-        this.ModerationClient = new ModerationClient(videoConfiguration);
-        this.ArchiveClient = new ArchiveClient(videoConfiguration);
-        this.BroadcastClient = new BroadcastClient(videoConfiguration);
-        this.SipClient = new SipClient(videoConfiguration);
-    }
+    private Configuration GetConfiguration() => this.Configuration.IfNone(Vonage.Configuration.Instance);
 
     private static HttpClient InitializeHttpClient(Uri baseUri)
     {
@@ -88,4 +69,9 @@ public class VideoClient : IVideoClient
         client.DefaultRequestHeaders.Add("Accept", "application/json");
         return client;
     }
+
+    /// <summary>
+    ///     The instance of Configuration used by the client.
+    /// </summary>
+    protected Maybe<Configuration> Configuration = Maybe<Configuration>.None;
 }

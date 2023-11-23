@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
-using Vonage.Server.Video;
 using WireMock.Server;
 
 namespace Vonage.Server.Test.TestHelpers
 {
-    public class E2EHelper : IDisposable
+    internal class E2EHelper : IDisposable
     {
         private E2EHelper(string appSettingsKey, Credentials credentials)
         {
@@ -18,11 +17,10 @@ namespace Vonage.Server.Test.TestHelpers
                 {
                     {$"appSettings:{appSettingsKey}", this.Server.Url},
                 }).Build());
-            this.VonageClient = new VideoClient(credentials, configuration);
+            this.VonageClient = new TestVideoClient(credentials, configuration);
         }
 
         public WireMockServer Server { get; }
-        public VideoClient VonageClient { get; }
 
         public void Dispose()
         {
@@ -35,5 +33,7 @@ namespace Vonage.Server.Test.TestHelpers
 
         private static Credentials CreateBearerCredentials() =>
             Credentials.FromAppIdAndPrivateKey(Guid.NewGuid().ToString(), TokenHelper.GetKey());
+
+        internal TestVideoClient VonageClient { get; }
     }
 }
