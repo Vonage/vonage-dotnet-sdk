@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification.SilentAuth;
@@ -32,12 +33,9 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Workflows
                     workflow.RedirectUrl.Should().BeNone();
                 });
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Parse_ShouldReturnSuccess_GivenRedirectIsNullOrWhitespace(string value) =>
-            SilentAuthWorkflow.Parse(ValidNumber, value)
+        [Fact]
+        public void Parse_ShouldReturnSuccess_GivenRedirectIsNull() =>
+            SilentAuthWorkflow.Parse(ValidNumber, null)
                 .Should()
                 .BeSuccess(workflow =>
                 {
@@ -47,14 +45,14 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification.Workflows
                 });
 
         [Fact]
-        public void Parse_ShouldreturnSuccessWithRedirect() =>
-            SilentAuthWorkflow.Parse(ValidNumber, ValidRedirectUrl)
+        public void Parse_ShouldReturnSuccessWithRedirect() =>
+            SilentAuthWorkflow.Parse(ValidNumber, new Uri(ValidRedirectUrl))
                 .Should()
                 .BeSuccess(workflow =>
                 {
                     workflow.Channel.Should().Be(ExpectedChannel);
                     workflow.To.Number.Should().Be(ValidNumber);
-                    workflow.RedirectUrl.Should().BeSome(ValidRedirectUrl);
+                    workflow.RedirectUrl.Should().BeSome(new Uri(ValidRedirectUrl));
                 });
     }
 }
