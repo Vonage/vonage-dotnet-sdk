@@ -26,10 +26,15 @@ jobs:
       - uses: actions/checkout@v3
       - name: Try build Release configuration
         run: dotnet build --configuration Release .\Vonage\Vonage.csproj -v minimal
-      - name: Try build ReleaseSigned configuration
-        run: dotnet build --configuration ReleaseSigned .\Vonage\Vonage.csproj -v minimal
       - name: Try create Release package
         run: dotnet pack -c Release .\Vonage\Vonage.csproj -v minimal --no-build
+  VonageSigned:
+    name: Vonage Signed
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Try build ReleaseSigned configuration
+        run: dotnet build --configuration ReleaseSigned .\Vonage\Vonage.csproj -v minimal
       - name: Try create ReleaseSigned package
         run: dotnet pack -c ReleaseSigned .\Vonage\Vonage.csproj -v minimal --no-build
   VonageServer:
@@ -39,9 +44,14 @@ jobs:
       - uses: actions/checkout@v3
       - name: Try build Release configuration
         run: dotnet build --configuration Release .\Vonage.Server\Vonage.Server.csproj -v minimal
-      - name: Try build ReleaseSigned configuration
-        run: dotnet build --configuration ReleaseSigned .\Vonage.Server\Vonage.Server.csproj -v minimal
       - name: Try create Release package
         run: dotnet pack -c Release .\Vonage.Server\Vonage.Server.csproj -v minimal --no-build
+  VonageServerSigned:
+    name: Vonage.Server Signed
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Try build ReleaseSigned configuration
+        run: dotnet build --configuration ReleaseSigned .\Vonage.Server\Vonage.Server.csproj -v minimal
       - name: Try create ReleaseSigned package
         run: dotnet pack -c ReleaseSigned .\Vonage.Server\Vonage.Server.csproj -v minimal --no-build
