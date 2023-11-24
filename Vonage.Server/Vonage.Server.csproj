@@ -51,7 +51,6 @@
         <DelaySign>false</DelaySign>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
         <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" PrivateAssets="All"/>
         <ProjectReference Include="..\Vonage\Vonage.csproj"/>
     </ItemGroup>
