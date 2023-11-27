@@ -66,6 +66,12 @@
         <PackageReference Update="NETStandard.Library" Version="2.0.3"/>
         <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
     </ItemGroup>
+    <ItemGroup>
+        <_PackageFiles Include="$(OutputPath)\Vonage.Common.dll">
+            <BuildAction>None</BuildAction>
+            <PackagePath>lib\netstandard2.0</PackagePath>
+        </_PackageFiles>
+    </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
     </Target>
