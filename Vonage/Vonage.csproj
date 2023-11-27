@@ -53,7 +53,6 @@
         <DelaySign>false</DelaySign>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" PrivateAssets="All"/>
         <PackageReference Include="Epoch.net" Version="4.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0"/>
@@ -73,10 +72,21 @@
         <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
         <PackageReference Include="System.Text.Json" Version="8.0.0"/>
         <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
+    </ItemGroup>
+    <ItemGroup>
         <None Include="VonageLogo_Symbol_Black.png">
             <Pack>True</Pack>
             <PackagePath/>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" PrivateAssets="All"/>
+    </ItemGroup>
+    <ItemGroup>
+        <_PackageFiles Include="$(OutputPath)\Vonage.Common.dll">
+            <BuildAction>None</BuildAction>
+            <PackagePath>lib\netstandard2.0</PackagePath>
+        </_PackageFiles>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
