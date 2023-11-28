@@ -1,6 +1,8 @@
 name: Changelog Update
 on:
   workflow_dispatch:
+  push:
+    branches: [ main ]
 
 permissions:
   actions: read
@@ -14,9 +16,9 @@ permissions:
   pull-requests: read
   security-events: read
   statuses: read
-  
+
 jobs:
-  vonage:
+  changelog:
     name: Vonage
     runs-on: ubuntu-latest
     steps:
@@ -24,21 +26,18 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ env.GH_TOKEN }}
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate a changelog
+      - name: Update changelog
         uses: orhun/git-cliff-action@v2
         id: git-cliff
         with:
           config: cliff.toml
-          args: --verbose
         env:
           OUTPUT: CHANGELOG.md
 
-      - name: Print the changelog
-        run: cat "${{ steps.git-cliff.outputs.changelog }}"
-
-      - name: 🚀 changelog
+      - name: Commit changelog
         run: |
           git config --local user.name NexmoDev
           git config --local user.email 44278943+NexmoDev@users.noreply.github.com
