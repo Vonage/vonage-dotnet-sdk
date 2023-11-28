@@ -34,5 +34,3 @@ jobs:
         run: dotnet build --configuration Release
       - name: Test
         run: dotnet test  --configuration Release --no-build
-        env:
-          Vonage.Test.RsaPrivateKey: ${{ secrets.VONAGE_RSA_PRIVATE_KEY }}

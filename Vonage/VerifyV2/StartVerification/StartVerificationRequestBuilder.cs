@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
@@ -40,7 +39,6 @@ internal class StartVerificationRequestBuilder :
                 }))
             .Map(InputEvaluation<StartVerificationRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(
-                VerifyWorkflowsNotEmpty,
                 VerifyBrandNotEmpty,
                 VerifyChannelTimeoutHigherThanMinimum,
                 VerifyChannelTimeoutLowerThanMaximum,
@@ -149,12 +147,6 @@ internal class StartVerificationRequestBuilder :
         StartVerificationRequest request) =>
         InputValidation
             .VerifyLowerOrEqualThan(request, request.CodeLength, 10, nameof(request.CodeLength));
-
-    private static Result<StartVerificationRequest> VerifyWorkflowsNotEmpty(StartVerificationRequest request) =>
-        request.Workflows.Any()
-            ? request
-            : Result<StartVerificationRequest>.FromFailure(
-                ResultFailure.FromErrorMessage("Workflows should contain at least one element."));
 }
 
 /// <summary>
