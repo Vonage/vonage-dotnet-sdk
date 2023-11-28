@@ -20,16 +20,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Define project file
+      - name: Define package
         uses: haya14busa/action-cond@v1
-        id: project_file
-        with:
-          cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
-          if_true: "Vonage.Server.csproj"
-          if_false: "Vonage.csproj"
-      - name: Define project folder
-        uses: haya14busa/action-cond@v1
-        id: project_folder
+        id: package
         with:
           cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
           if_true: "Vonage.Server"
@@ -44,14 +37,14 @@ jobs:
         with:
           ref: ${{ github.event.release.target_commitish }}
       - name: Build
-        run: dotnet build -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal
+        run: dotnet build -c Release ${{ steps.package.outputs.value }}/${{ steps.package.outputs.value }}.csproj -v minimal
       - name: Build Signed
-        run: dotnet build -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal
+        run: dotnet build -c ReleaseSigned ${{ steps.package.outputs.value }}/${{ steps.package.outputs.value }}.csproj -v minimal
       - name: Pack
-        run: dotnet pack -c Release ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal --no-build
+        run: dotnet pack -c Release ${{ steps.package.outputs.value }}/${{ steps.package.outputs.value }}.csproj -v minimal --no-build
       - name: Pack Signed
-        run: dotnet pack -c ReleaseSigned ${{ steps.project_folder.outputs.value }}/${{ steps.project_file.outputs.value }} -v minimal --no-build
+        run: dotnet pack -c ReleaseSigned ${{ steps.package.outputs.value }}/${{ steps.package.outputs.value }}.csproj -v minimal --no-build
       - name: NuGet Push
-        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/Release/Vonage.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push ${{ steps.package.outputs.value }}/bin/Release/${{ steps.package.outputs.value }}.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
       - name: NuGet Push Signed
-        run: dotnet nuget push ${{ steps.project_folder.outputs.value }}/bin/ReleaseSigned/Vonage.Signed.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push ${{ steps.package.outputs.value }}/bin/ReleaseSigned/${{ steps.package.outputs.value }}.Signed.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}

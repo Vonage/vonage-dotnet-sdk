@@ -1,5 +1,6 @@
 ﻿using System;
 using Vonage.Common;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
 using WireMock.Server;
 
@@ -39,6 +40,6 @@ namespace Vonage.Test.Unit.TestHelpers
 
         private static Credentials CreateBearerCredentials() => Credentials.FromAppIdAndPrivateKey(
             Guid.NewGuid().ToString(),
-            Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey"));
+            TokenHelper.GetKey());
     }
 }

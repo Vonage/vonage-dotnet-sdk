@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Monads;
@@ -10,11 +11,23 @@ namespace Vonage.VerifyV2.StartVerification.SilentAuth;
 /// </summary>
 public readonly struct SilentAuthWorkflow : IVerificationWorkflow
 {
-    private SilentAuthWorkflow(PhoneNumber to) => this.To = to;
+    private SilentAuthWorkflow(PhoneNumber to, Uri redirectUrl = null)
+    {
+        this.To = to;
+        this.RedirectUrl = redirectUrl ?? Maybe<Uri>.None;
+    }
 
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
     public string Channel => "silent_auth";
+
+    /// <summary>
+    /// Final redirect added at the end of the check_url request/response lifecycle. See the documentation for integrations. Will contain the request_id and code as a url fragment after the URL.
+    /// </summary>
+    [JsonPropertyOrder(2)]
+    [JsonConverter(typeof(MaybeJsonConverter<Uri>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<Uri> RedirectUrl { get; }
 
     /// <summary>
     ///     The phone number to use for authentication, in the E.164 format. Don't use a leading + or 00 when entering a phone
@@ -31,6 +44,15 @@ public readonly struct SilentAuthWorkflow : IVerificationWorkflow
     /// <returns>Success or failure.</returns>
     public static Result<SilentAuthWorkflow> Parse(string to) =>
         PhoneNumber.Parse(to).Map(phoneNumber => new SilentAuthWorkflow(phoneNumber));
+
+    /// <summary>
+    ///  Parses the input into a SilentAuthWorkflow.
+    /// </summary>
+    /// <param name="to">The phone number to use for authentication.</param>
+    /// <param name="redirectUrl">The final redirect added at the end of the check_url request/response lifecycle</param>
+    /// <returns>Success or failure.</returns>
+    public static Result<SilentAuthWorkflow> Parse(string to, Uri redirectUrl) =>
+        PhoneNumber.Parse(to).Map(phoneNumber => new SilentAuthWorkflow(phoneNumber, redirectUrl));
 
     /// <inheritdoc />
     public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);

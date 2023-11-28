@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using Microsoft.AspNetCore.WebUtilities;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
@@ -49,7 +49,7 @@ public readonly struct GetBroadcastsRequest : IVonageRequest, IHasApplicationId
 
     /// <inheritdoc />
     public string GetEndpointPath() =>
-        QueryHelpers.AddQueryString($"/v2/project/{this.ApplicationId}/broadcast", this.GetQueryStringParameters());
+        UriHelpers.BuildUri($"/v2/project/{this.ApplicationId}/broadcast", this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
     {

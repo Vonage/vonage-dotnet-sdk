@@ -86,6 +86,16 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .BeSuccess(this.helper.GetRequestJson());
 
         [Fact]
+        public void ShouldSerializeSilentAuthWorkflowWithRedirectUrl() =>
+            StartVerificationRequest.Build()
+                .WithBrand("ACME, Inc")
+                .WithWorkflow(SilentAuthWorkflow.Parse("447700900000", new Uri("https://acme-app.com/sa/redirect")))
+                .Create()
+                .GetStringContent()
+                .Should()
+                .BeSuccess(this.helper.GetRequestJson());
+
+        [Fact]
         public void ShouldSerializeSmsWorkflow() =>
             StartVerificationRequest.Build()
                 .WithBrand("ACME, Inc")

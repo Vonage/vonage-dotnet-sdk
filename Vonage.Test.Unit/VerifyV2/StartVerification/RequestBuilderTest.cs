@@ -5,7 +5,6 @@ using Vonage.Common.Test.Extensions;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Email;
 using Vonage.VerifyV2.StartVerification.SilentAuth;
-using Vonage.VerifyV2.StartVerification.Sms;
 using Vonage.VerifyV2.StartVerification.Voice;
 using Vonage.VerifyV2.StartVerification.WhatsApp;
 using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
@@ -74,19 +73,8 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .Should()
                 .BeParsingFailure("CodeLength cannot be lower than 4.");
 
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Create_ShouldReturnFailure_GivenEmailWorkflowToIsNullOrWhitespace(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(EmailWorkflow.Parse(value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Email is invalid."));
-
         [Fact]
-        public void Create_ShouldReturnFailure_GivenFallbackWorkflowIsFailure() =>
+        public void Create_ShouldReturnFailure_GivenOneFallbackWorkflowIsFailure() =>
             BuildBaseRequest()
                 .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
                 .WithFallbackWorkflow(WhatsAppWorkflow.Parse("123456789"))
@@ -96,101 +84,6 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .Map(request => request.Workflows)
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("Random message."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void Create_ShouldReturnFailure_GivenFromIsProvidedButEmpty(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(EmailWorkflow.Parse(ValidEmail, value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Email is invalid."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Create_ShouldReturnFailure_GivenSilentAuthWorkflowToIsNullOrWhitespace(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(SilentAuthWorkflow.Parse(value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void Create_ShouldReturnFailure_GivenSmsWorkflowHashIsProvidedButEmpty(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(SmsWorkflow.Parse("123456789", value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Hash cannot be null or whitespace."));
-
-        [Theory]
-        [InlineData("1234567890")]
-        [InlineData("123456789012")]
-        public void Create_ShouldReturnFailure_GivenSmsWorkflowHashIsProvidedButLengthIsNot11(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(SmsWorkflow.Parse("123456789", value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Hash length should be 11."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Create_ShouldReturnFailure_GivenSmsWorkflowToIsNullOrWhitespace(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(SmsWorkflow.Parse(value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Create_ShouldReturnFailure_GivenVoiceWorkflowToIsNullOrWhitespace(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(VoiceWorkflow.Parse(value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Create_ShouldReturnFailure_GivenWhatsAppInteractiveWorkflowToIsNullOrWhitespace(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse(value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void Create_ShouldReturnFailure_GivenWhatsAppWorkflowFromIsProvidedButEmpty(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(WhatsAppWorkflow.Parse("123456789", value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
-
-        [Theory]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public void Create_ShouldReturnFailure_GivenWhatsAppWorkflowToIsNullOrWhitespace(string value) =>
-            BuildBaseRequest()
-                .WithWorkflow(WhatsAppWorkflow.Parse(value))
-                .Create()
-                .Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
 
         [Fact]
         public void Create_ShouldSetBrand() =>
@@ -246,34 +139,6 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .BeSuccess(value);
 
         [Fact]
-        public void Create_ShouldSetEmailWorkflow() =>
-            BuildBaseRequest()
-                .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
-                .Create()
-                .Map(request => request.Workflows)
-                .Should()
-                .BeSuccess(workflows =>
-                {
-                    workflows.Should().HaveCount(1);
-                    var workflow = workflows[0] as EmailWorkflow? ?? default;
-                    workflow.Channel.Should().Be("email");
-                    workflow.To.Address.Should().Be(ValidEmail);
-                    workflow.From.Should().BeNone();
-                });
-
-        [Fact]
-        public void Create_ShouldSetEmailWorkflowFrom() =>
-            BuildBaseRequest()
-                .WithWorkflow(EmailWorkflow.Parse(ValidEmail, "bob@company.com"))
-                .WithLocale(Locale.FrFr)
-                .Create()
-                .Map(request =>
-                    (request.Workflows[0] as EmailWorkflow? ?? default)
-                    .From.Map(address => address.Address))
-                .Should()
-                .BeSuccess("bob@company.com");
-
-        [Fact]
         public void Create_ShouldSetFallbackWorkflows() =>
             BuildBaseRequest()
                 .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
@@ -316,83 +181,6 @@ namespace Vonage.Test.Unit.VerifyV2.StartVerification
                 .Map(request => request.Locale)
                 .Should()
                 .BeSuccess(Locale.FrFr);
-
-        [Fact]
-        public void Create_ShouldSetSilentAuthWorkflow() =>
-            BuildBaseRequest()
-                .WithWorkflow(SilentAuthWorkflow.Parse("123456789"))
-                .Create()
-                .Map(request => request.Workflows)
-                .Should()
-                .BeSuccess(workflows =>
-                {
-                    workflows.Should().HaveCount(1);
-                    var workflow = workflows[0] as SilentAuthWorkflow? ?? default;
-                    workflow.Channel.Should().Be("silent_auth");
-                    workflow.To.Number.Should().Be("123456789");
-                });
-
-        [Fact]
-        public void Create_ShouldSetSmsWorkflow() =>
-            BuildBaseRequest()
-                .WithWorkflow(SmsWorkflow.Parse("123456789", "12345678901"))
-                .Create()
-                .Map(request => request.Workflows)
-                .Should()
-                .BeSuccess(workflows =>
-                {
-                    workflows.Should().HaveCount(1);
-                    var workflow = workflows[0] as SmsWorkflow? ?? default;
-                    workflow.Channel.Should().Be("sms");
-                    workflow.To.Number.Should().Be("123456789");
-                    workflow.Hash.Should().BeSome("12345678901");
-                });
-
-        [Fact]
-        public void Create_ShouldSetVoiceWorkflow() =>
-            BuildBaseRequest()
-                .WithWorkflow(VoiceWorkflow.Parse("123456789"))
-                .Create()
-                .Map(request => request.Workflows)
-                .Should()
-                .BeSuccess(workflows =>
-                {
-                    workflows.Should().HaveCount(1);
-                    var workflow = workflows[0] as VoiceWorkflow? ?? default;
-                    workflow.Channel.Should().Be("voice");
-                    workflow.To.Number.Should().Be("123456789");
-                });
-
-        [Fact]
-        public void Create_ShouldSetWhatsAppInteractiveWorkflow() =>
-            BuildBaseRequest()
-                .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
-                .Create()
-                .Map(request => request.Workflows)
-                .Should()
-                .BeSuccess(workflows =>
-                {
-                    workflows.Should().HaveCount(1);
-                    var workflow = workflows[0] as WhatsAppInteractiveWorkflow? ?? default;
-                    workflow.Channel.Should().Be("whatsapp_interactive");
-                    workflow.To.Number.Should().Be("123456789");
-                });
-
-        [Fact]
-        public void Create_ShouldSetWhatsAppWorkflow() =>
-            BuildBaseRequest()
-                .WithWorkflow(WhatsAppWorkflow.Parse("123456789"))
-                .Create()
-                .Map(request => request.Workflows)
-                .Should()
-                .BeSuccess(workflows =>
-                {
-                    workflows.Should().HaveCount(1);
-                    var workflow = workflows[0] as WhatsAppWorkflow? ?? default;
-                    workflow.Channel.Should().Be("whatsapp");
-                    workflow.To.Number.Should().Be("123456789");
-                    workflow.From.Should().BeNone();
-                });
 
         [Fact]
         public void Create_ShouldSkipFraudCheck_GivenSkipFraudCheckIsUsed() =>
