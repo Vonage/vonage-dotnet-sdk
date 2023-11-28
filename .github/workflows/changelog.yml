@@ -27,7 +27,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-          token: ${{ secrets.CHANGELOG_AUTH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update changelog
         uses: orhun/git-cliff-action@v2
