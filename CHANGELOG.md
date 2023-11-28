@@ -4,14 +4,15 @@
 ### Documentation
 
 - Add git-cliff for changelog generation
+- Generate changelog using git-cliff
 
-## [[v7.1.0-beta](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.1.0-beta)] - 2023-11-27
+## [v7.1.0-beta](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.1.0-beta) (2023-11-27)
 
 ### Releases
 
 - Include package Vonage.Common
 
-## [[v6.12.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.3)] - 2023-11-27
+## [v6.12.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.3) (2023-11-27)
 
 ### Documentation
 
@@ -33,7 +34,7 @@
 This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 
-## [[v6.12.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.1)] - 2023-11-24
+## [v6.12.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.1) (2023-11-24)
 
 ### Bug Fixes
 
@@ -86,7 +87,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 - Bump video beta to v7.0.5-beta
 - Bump Vonage.Server version to v7.0.5-beta
 
-## [[v6.12.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.0)] - 2023-10-23
+## [v6.12.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.0) (2023-10-23)
 
 ### Bug Fixes
 
@@ -139,7 +140,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Bump version to v6.12.0
 
-## [[v6.11.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.11.0)] - 2023-10-13
+## [v6.11.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.11.0) (2023-10-13)
 
 ### Documentation
 
@@ -163,7 +164,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Bump version to v6.11.0
 
-## [[v6.10.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.10.1)] - 2023-10-10
+## [v6.10.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.10.1) (2023-10-10)
 
 ### Bug Fixes
 
@@ -177,7 +178,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Bump version to v6.10.1
 
-## [[v6.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.10.0)] - 2023-10-04
+## [v6.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.10.0) (2023-10-04)
 
 ### Documentation
 
@@ -222,7 +223,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Bump version to v6.10.0
 
-## [[v6.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.9.0)] - 2023-09-06
+## [v6.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.9.0) (2023-09-06)
 
 ### Bug Fixes
 
@@ -401,7 +402,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 This reverts commit 1ec8fce1053a53579a4f43974d311bac85349483.
 
 
-## [[v7.0.2-beta](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.2-beta)] - 2023-03-16
+## [v7.0.2-beta](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.2-beta) (2023-03-16)
 
 ### Other
 
@@ -1359,7 +1360,7 @@ Co-authored-by: Karl Lingiah <karl@superchilled.co.uk>
 
 * Add missing Serializable attribute
 
-## [[v6.0.2-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.2-rc)] - 2022-05-31
+## [v6.0.2-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.2-rc) (2022-05-31)
 
 ### Merges
 
@@ -1374,7 +1375,7 @@ Adding RealTimeData option for AdvancedNumberInsights
 - 'Bumping version to 6.0.2-rc'
 
 
-## [[v6.0.1-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.1-rc)] - 2022-05-25
+## [v6.0.1-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.1-rc) (2022-05-25)
 
 ### Merges
 
@@ -1400,7 +1401,7 @@ Dev into Main for release
 Making Serialisation Settings public
 
 
-## [[v6.0.0-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.0-rc)] - 2022-05-24
+## [v6.0.0-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.0-rc) (2022-05-24)
 
 ### Merges
 
@@ -1478,7 +1479,7 @@ Tests that use NCCO refactored
 - 'Bumping version to 6.0.0-rc'
 
 
-## [[v5.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.10.0)] - 2022-04-20
+## [v5.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.10.0) (2022-04-20)
 
 ### Merges
 
@@ -1520,14 +1521,14 @@ Adding issues templates
 - Preparing for next release and adding real time data to advanced number insights
 
 
-## [[v5.9.5](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.5)] - 2022-01-17
+## [v5.9.5](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.5) (2022-01-17)
 
 ### Other
 
 - Bumping to version 5.9.5
 
 
-## [[v5.9.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.4)] - 2022-01-17
+## [v5.9.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.4) (2022-01-17)
 
 ### Merges
 
@@ -1554,7 +1555,7 @@ Devx 1999
 - 'Bumping version to 5.9.4'
 
 
-## [[v5.9.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.3)] - 2021-11-23
+## [v5.9.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.3) (2021-11-23)
 
 ### Merges
 
@@ -1571,7 +1572,7 @@ Fixing an issue caused by the usage of a non thread safe Dictionary.
 - 'Bumping version to 5.9.3'
 
 
-## [[v5.9.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.2)] - 2021-11-04
+## [v5.9.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.2) (2021-11-04)
 
 ### Merges
 
@@ -1596,7 +1597,7 @@ Fixing bug with roaming being `not_roaming` and cleaning up some tests
 - Removing logger tests
 
 
-## [[v5.9.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.1)] - 2021-10-27
+## [v5.9.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.1) (2021-10-27)
 
 ### Merges
 
@@ -1632,7 +1633,7 @@ Strong-name Package
 - 'Bumping version to 5.9.1'
 
 
-## [[v5.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.0)] - 2021-05-27
+## [v5.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.0) (2021-05-27)
 
 ### Merges
 
@@ -1647,7 +1648,7 @@ adding random from number feature to .NET SDK
 - 'Bumping version to 5.9.0'
 
 
-## [[v5.8.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.8.0)] - 2021-04-28
+## [v5.8.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.8.0) (2021-04-28)
 
 ### Merges
 
@@ -1671,7 +1672,7 @@ Support for NI Null values
 - 'Bumping version to 5.8.0'
 
 
-## [[v5.7.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.7.0)] - 2021-03-09
+## [v5.7.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.7.0) (2021-03-09)
 
 ### Merges
 
@@ -1693,7 +1694,7 @@ adding detail to status-webhooks
 - 'Bumping version to 5.7.0'
 
 
-## [[v5.6.5](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.5)] - 2021-02-22
+## [v5.6.5](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.5) (2021-02-22)
 
 ### Merges
 
@@ -1710,7 +1711,7 @@ setting Channels parameter to nullable
 - 'Bumping version to 5.6.5'
 
 
-## [[v5.6.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.4)] - 2021-02-03
+## [v5.6.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.4) (2021-02-03)
 
 ### Bug Fixes
 
@@ -1742,7 +1743,7 @@ moving nexmo GHA -> main
 - 'Bumping version to 5.6.4'
 
 
-## [[v5.6.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.3)] - 2021-01-19
+## [v5.6.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.3) (2021-01-19)
 
 ### Merges
 
@@ -1755,7 +1756,7 @@ Ignoring status for Vonage.Messaging.DeliveryReceipt.
 - 'Bumping version to 5.6.3'
 
 
-## [[v5.6.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.2)] - 2021-01-15
+## [v5.6.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.2) (2021-01-15)
 
 ### Other
 
@@ -1763,14 +1764,14 @@ Ignoring status for Vonage.Messaging.DeliveryReceipt.
 - 'Bumping version to 5.6.2'
 
 
-## [[v5.6.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.1)] - 2021-01-15
+## [v5.6.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.1) (2021-01-15)
 
 ### Other
 
 - 'Bumping version to 5.6.1'
 
 
-## [[v5.6.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.0)] - 2021-01-15
+## [v5.6.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.0) (2021-01-15)
 
 ### Bug Fixes
 
@@ -1798,7 +1799,7 @@ adding Nuget release workflow - removing nuspec file.
 - Adding Nuget release workflow - removing nuspec file.
 
 
-## [[v5.5.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.5.0)] - 2020-11-19
+## [v5.5.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.5.0) (2020-11-19)
 
 ### Bug Fixes
 
@@ -1817,7 +1818,7 @@ Adding Language and style, marking VoiceName as obsolete
 - Revving nuspec version
 
 
-## [[v5.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.4.0)] - 2020-11-12
+## [v5.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.4.0) (2020-11-12)
 
 ### Merges
 
@@ -1907,7 +1908,7 @@ query null check issue to InboundSms.cs
 - Readying for 5.4.0 release.
 
 
-## [[v5.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.3.0)] - 2020-09-02
+## [v5.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.3.0) (2020-09-02)
 
 ### Merges
 
@@ -1968,7 +1969,7 @@ removing config file, removing redudant internal utility classes
 - Fixing codecov badge
 - Fixing licence nuspec tag.
 
-## [[v5.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.2.0)] - 2020-08-07
+## [v5.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.2.0) (2020-08-07)
 
 ### Merges
 
@@ -1990,7 +1991,7 @@ Fixing issue with ParseEvent for multiinput
 - Bumping version to 5.2.0
 
 
-## [[v5.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.1.0)] - 2020-07-01
+## [v5.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.1.0) (2020-07-01)
 
 ### Bug Fixes
 
@@ -2013,7 +2014,7 @@ Adding Psd2 functionality
 - Updating tests for correct path
 
 
-## [[v5.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.0.0)] - 2020-06-22
+## [v5.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.0.0) (2020-06-22)
 
 ### Bug Fixes
 
@@ -2035,7 +2036,7 @@ Merging 5.0.0 PR for release.
 - Revving version
 
 
-## [[v4.4.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.4.1)] - 2020-06-17
+## [v4.4.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.4.1) (2020-06-17)
 
 ### Merges
 
@@ -2060,7 +2061,7 @@ changing payload encoding to utf8
 - Changing payload encoding to utf8
 
 
-## [[v4.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.4.0)] - 2020-06-05
+## [v4.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.4.0) (2020-06-05)
 
 ### Bug Fixes
 
@@ -2174,7 +2175,7 @@ adding ASR webhook and input items
 - Updating release notes in nuspec
 
 
-## [[v4.3.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.2)] - 2020-04-08
+## [v4.3.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.2) (2020-04-08)
 
 ### Bug Fixes
 
@@ -2250,7 +2251,7 @@ changing headers type to object to allow it to serialize cleanly.
 - Updating for 4.3.2 release
 
 
-## [[v4.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.1)] - 2020-02-18
+## [v4.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.1) (2020-02-18)
 
 ### Bug Fixes
 
@@ -2351,7 +2352,7 @@ Fix error handling so that well formed exceptions are thrown explicity.
 - Updating release notes for nuget package
 
 
-## [[v4.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.0)] - 2020-01-17
+## [v4.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.0) (2020-01-17)
 
 ### Bug Fixes
 
@@ -2413,7 +2414,7 @@ making has_application nullable
 
 - Update README.md
 
-## [[v4.2.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.2.1)] - 2019-11-11
+## [v4.2.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.2.1) (2019-11-11)
 
 ### Merges
 
@@ -2452,7 +2453,7 @@ Fixing Ncco serialization bug
 - Adding auth string encoding for application gets
 
 
-## [[v4.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.2.0)] - 2019-10-21
+## [v4.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.2.0) (2019-10-21)
 
 ### Merges
 
@@ -2467,7 +2468,7 @@ Adding type-safe webhooks and NCCOs. Adding application_id and has_application t
 - Adding NccoObj field to CallCommand, creating CallCommandConverter to explicitly handle callCommand json serialization, fixing nuspec, creating Ncco converter to serialize NCCOs decorating Ncco field in CallCommand to obsolete
 
 
-## [[v4.1.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.1.2)] - 2019-10-11
+## [v4.1.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.1.2) (2019-10-11)
 
 ### Bug Fixes
 
@@ -2561,7 +2562,7 @@ This PR adds a Github action which is triggered when a release is published. The
 - Changing data type to IDictionary and adding release notes to nuspec
 
 
-## [[v4.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.0.0)] - 2019-06-11
+## [v4.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.0.0) (2019-06-11)
 
 ### Bug Fixes
 
@@ -2593,7 +2594,7 @@ Application v2 - READY TO MERGE
 - API was fixed
 
 
-## [[v3.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.4.0)] - 2019-05-10
+## [v3.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.4.0) (2019-05-10)
 
 ### Bug Fixes
 
@@ -2623,7 +2624,7 @@ Feature completion
 This reverts commit 6546e31afad4fc190cdc2ab442fee2de25654818.
 
 
-## [[v3.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.3.1)] - 2019-04-23
+## [v3.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.3.1) (2019-04-23)
 
 ### Bug Fixes
 
@@ -2688,7 +2689,7 @@ Added a dot to the end of the License-section and removed an unused Create Accou
 This reverts commit 5582b1b26c84362243fdbc598e313646997f9048.
 
 
-## [[v3.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.2.0)] - 2018-09-28
+## [v3.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.2.0) (2018-09-28)
 
 ### Merges
 
@@ -2703,7 +2704,7 @@ Implement API Secret calls
 - Renamed methods to meet specs
 
 
-## [[v3.1.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.1.1)] - 2018-08-30
+## [v3.1.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.1.1) (2018-08-30)
 
 ### Merges
 
@@ -2718,7 +2719,7 @@ adding default constructor to credentials class
 - Updated CHANGELOG and Client Lib version for release
 
 
-## [[v3.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.1.0)] - 2018-08-17
+## [v3.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.1.0) (2018-08-17)
 
 ### Merges
 
@@ -2749,7 +2750,7 @@ Switch to LibLog
 - Renaming some methods
 
 
-## [[v3.0.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.0.1)] - 2018-03-05
+## [v3.0.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.0.1) (2018-03-05)
 
 ### Bug Fixes
 
@@ -2764,7 +2765,7 @@ Switch to LibLog
 - 3.0.1
 
 
-## [[v3.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.0.0)] - 2018-02-24
+## [v3.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.0.0) (2018-02-24)
 
 ### Bug Fixes
 
@@ -2832,7 +2833,7 @@ Switch to LibLog
 
 - Correct v3.0 date
 
-## [[v2.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.3.1)] - 2017-11-24
+## [v2.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.3.1) (2017-11-24)
 
 ### Other
 
@@ -2843,7 +2844,7 @@ Switch to LibLog
 
 - V2.3.1 changelog
 
-## [[v2.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.3.0)] - 2017-11-09
+## [v2.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.3.0) (2017-11-09)
 
 ### Other
 
@@ -2896,7 +2897,7 @@ Switch to LibLog
 - Attribution to @RabebOthmani for NI!
 
 
-## [[v2.2.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.2)] - 2017-06-19
+## [v2.2.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.2) (2017-06-19)
 
 ### Other
 
@@ -2916,7 +2917,7 @@ Changed Call API to Voice API and other stylistic improvements
 - V2.2.2; Updated jose-jwt to 2.3.0 which is reported to address key loading issues.
 
 
-## [[v2.2.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.1)] - 2017-03-21
+## [v2.2.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.1) (2017-03-21)
 
 ### Other
 
@@ -2927,7 +2928,7 @@ Changed Call API to Voice API and other stylistic improvements
 - Fixed NuGet dependencies
 
 
-## [[v2.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.0)] - 2017-03-10
+## [v2.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.0) (2017-03-10)
 
 ### Other
 
@@ -2936,7 +2937,7 @@ Changed Call API to Voice API and other stylistic improvements
 - 2.2.0
 
 
-## [[v2.2.0-rc2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.0-rc2)] - 2017-01-28
+## [v2.2.0-rc2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.0-rc2) (2017-01-28)
 
 ### Other
 
@@ -2945,7 +2946,7 @@ Changed Call API to Voice API and other stylistic improvements
 - 2.2.0-rc2
 
 
-## [[v2.2.0-rc1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.0-rc1)] - 2017-01-13
+## [v2.2.0-rc1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.0-rc1) (2017-01-13)
 
 ### Other
 
@@ -2976,7 +2977,7 @@ Changed Call API to Voice API and other stylistic improvements
 - Push 2.2.0-rc1
 
 
-## [[v2.1.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.1.2)] - 2016-12-07
+## [v2.1.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.1.2) (2016-12-07)
 
 ### Other
 
@@ -2985,7 +2986,7 @@ Changed Call API to Voice API and other stylistic improvements
 * Gracefully ignore elements with key attribute but not value attribute.
 
 
-## [[v2.1.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.1.1)] - 2016-12-07
+## [v2.1.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.1.1) (2016-12-07)
 
 ### Other
 
@@ -2994,7 +2995,7 @@ Changed Call API to Voice API and other stylistic improvements
 - 2.1.1 - look for legacy app.config convention of [exec process].exe.config
 
 
-## [[v2.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.1.0)] - 2016-11-18
+## [v2.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.1.0) (2016-11-18)
 
 ### Other
 
@@ -3007,7 +3008,7 @@ Changed Call API to Voice API and other stylistic improvements
 - 2.1.0 version bump and doc changes
 
 
-## [[v2.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.0.0)] - 2016-10-24
+## [v2.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.0.0) (2016-10-24)
 
 ### Merges
 
@@ -3050,7 +3051,7 @@ Changed Call API to Voice API and other stylistic improvements
 - Dependency marking for netstandard1.6; dep cleanup
 
 
-## [[v1.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v1.0.0)] - 2016-03-19
+## [v1.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v1.0.0) (2016-03-19)
 
 ### Merges
 
