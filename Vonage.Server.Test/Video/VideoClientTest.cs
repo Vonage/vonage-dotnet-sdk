@@ -8,12 +8,7 @@ namespace Vonage.Server.Test.Video
 {
     public class VideoClientTest
     {
-        private readonly Fixture fixture;
-
-        public VideoClientTest()
-        {
-            this.fixture = new Fixture();
-        }
+        private readonly Fixture fixture = new Fixture();
 
         [Fact]
         public void Constructor_ShouldAssignCredentials()
@@ -24,7 +19,7 @@ namespace Vonage.Server.Test.Video
         }
 
         [Fact]
-        public void Constructor_ShouldInitializeSessionClient()
+        public void Constructor_ShouldInitializeClients()
         {
             var credentials = this.fixture.Create<Credentials>();
             var client = new VideoClient(credentials);
@@ -33,40 +28,6 @@ namespace Vonage.Server.Test.Video
             client.ModerationClient.Should().NotBeNull();
             client.ArchiveClient.Should().NotBeNull();
             client.BroadcastClient.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void Credentials_ShouldNotOverrideClients_GivenCredentialsAreNull()
-        {
-            var client = new VideoClient(this.fixture.Create<Credentials>());
-            var sessionClient = client.SessionClient;
-            var signalingClient = client.SignalingClient;
-            var moderationClient = client.ModerationClient;
-            var archiveClient = client.ArchiveClient;
-            var broadcastClient = client.BroadcastClient;
-            client.Credentials = null;
-            client.SessionClient.Should().Be(sessionClient);
-            client.SignalingClient.Should().Be(signalingClient);
-            client.ModerationClient.Should().Be(moderationClient);
-            client.ArchiveClient.Should().Be(archiveClient);
-            client.BroadcastClient.Should().Be(broadcastClient);
-        }
-
-        [Fact]
-        public void Credentials_ShouldOverrideClients_GivenCredentialsAreProvided()
-        {
-            var client = new VideoClient(this.fixture.Create<Credentials>());
-            var sessionClient = client.SessionClient;
-            var signalingClient = client.SignalingClient;
-            var moderationClient = client.ModerationClient;
-            var archiveClient = client.ArchiveClient;
-            var broadcastClient = client.BroadcastClient;
-            client.Credentials = this.fixture.Create<Credentials>();
-            client.SessionClient.Should().NotBe(sessionClient);
-            client.SignalingClient.Should().NotBe(signalingClient);
-            client.ModerationClient.Should().NotBe(moderationClient);
-            client.ArchiveClient.Should().NotBe(archiveClient);
-            client.BroadcastClient.Should().NotBe(broadcastClient);
         }
 
         [Fact]

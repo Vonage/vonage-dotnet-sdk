@@ -1,7 +1,7 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
 using Vonage.Server.Authentication;
 using Xunit;
@@ -11,7 +11,7 @@ namespace Vonage.Server.Test.Authentication
     public class VideoTokenGeneratorTest
     {
         private const string ApplicationId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-        private readonly string privateKey = Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
+        private readonly string privateKey = TokenHelper.GetKey();
 
         [Fact]
         public void GenerateToken_ShouldReturnFailure_GivenTokenGenerationFails() =>

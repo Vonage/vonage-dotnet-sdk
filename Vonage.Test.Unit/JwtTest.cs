@@ -1,7 +1,7 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Test.Extensions;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
 using Xunit;
 
@@ -10,7 +10,7 @@ namespace Vonage.Test.Unit
     public class JwtTest
     {
         private const string ApplicationId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-        private readonly string privateKey = Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
+        private readonly string privateKey = TokenHelper.GetKey();
 
         [Theory]
         [InlineData("")]
@@ -59,6 +59,7 @@ namespace Vonage.Test.Unit
             Jwt.VerifySignature(emptyToken, this.privateKey).Should().BeFalse();
 
         [Fact]
-        public void VerifySignature_ShouldReturnTrue_GivenTokenIsValid() => Jwt.VerifySignature(Jwt.CreateToken(ApplicationId, this.privateKey), this.privateKey).Should().BeTrue();
+        public void VerifySignature_ShouldReturnTrue_GivenTokenIsValid() => Jwt
+            .VerifySignature(Jwt.CreateToken(ApplicationId, this.privateKey), this.privateKey).Should().BeTrue();
     }
 }

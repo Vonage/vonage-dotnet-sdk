@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
 using Vonage.Common;
+using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
 using Xunit;
 
@@ -31,7 +32,7 @@ namespace Vonage.Test.Unit
                                           "afed99d2-ae38-487c-bb5a-fe2518febd44";
 
         protected readonly string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
-                                               Environment.GetEnvironmentVariable("Vonage.Test.RsaPrivateKey");
+                                               TokenHelper.GetKey();
 
         protected TestBase() => this.configuration = new Configuration();
 
