@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		CONTRIBUTING.md = CONTRIBUTING.md
 		CHANGELOG.md = CHANGELOG.md
-		VIDEO_BETA_CHANGELOG.md = VIDEO_BETA_CHANGELOG.md
 		.editorconfig = .editorconfig
 		.scripts\init.js = .scripts\init.js
 		.scripts\git_hooks\pre-commit = .scripts\git_hooks\pre-commit
