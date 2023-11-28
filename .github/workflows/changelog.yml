@@ -1,0 +1,47 @@
+name: Changelog Update
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  checks: read
+  contents: write
+  deployments: read
+  issues: read
+  discussions: read
+  packages: read
+  pages: read
+  pull-requests: read
+  security-events: read
+  statuses: read
+  
+jobs:
+  vonage:
+    name: Vonage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ env.GH_TOKEN }}
+
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v2
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: --verbose
+        env:
+          OUTPUT: CHANGELOG.md
+
+      - name: Print the changelog
+        run: cat "${{ steps.git-cliff.outputs.changelog }}"
+
+      - name: 🚀 changelog
+        run: |
+          git config --local user.name NexmoDev
+          git config --local user.email 44278943+NexmoDev@users.noreply.github.com
+          git add CHANGELOG.md
+          git commit -m "docs: update changelog"
+          git push
