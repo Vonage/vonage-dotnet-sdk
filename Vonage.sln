@@ -29,6 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\net-build.yml = .github\workflows\net-build.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 		.github\workflows\release-build.yml = .github\workflows\release-build.yml
+		.github\workflows\changelog.yml = .github\workflows\changelog.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vonage.Server", "Vonage.Server\Vonage.Server.csproj", "{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}"
