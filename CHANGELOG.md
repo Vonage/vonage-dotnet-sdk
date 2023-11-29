@@ -1,10 +1,42 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+- Mutation testing ignoring test value for private key
+- Mutation testing ignoring test value for private key
+- Mutation testing ignoring test value for private key
+
 ### Documentation
 
 - Add git-cliff for changelog generation
 - Generate changelog using git-cliff
+- Update changelog format
+- Update changelog
+- Update changelog
+- Update changelog
+
+### Pipelines
+
+- Add changelog workflow
+- Setup changelog auto update
+- Use auth token for changelog workflow
+- Use PAT for changelog auto update
+
+### Reverts
+
+- Revert "ci: use auth token for changelog workflow"
+
+This reverts commit 35bff74dd2c2693485ad46db99fb49babc62facd.
+
+- Revert "fix: mutation testing ignoring test value for private key"
+
+This reverts commit b861905a438cfe47a0c627375d170ebfdcd7cbbf.
+
+- Revert "fix: mutation testing ignoring test value for private key"
+
+This reverts commit 00d89a309f02dbf0ac5720dbff379a22892bb3f7.
+
 
 ## [v7.1.0-beta](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.1.0-beta) (2023-11-27)
 
