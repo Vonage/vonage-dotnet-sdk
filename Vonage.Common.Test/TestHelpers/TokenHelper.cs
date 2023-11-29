@@ -2,7 +2,7 @@
 
 public static class TokenHelper
 {
-    private const string FilePath = "./../../../../key.txt";
+    private const string FilePath = "./TestHelpers/key.txt";
 
     /// <summary>
     ///     Loads the key from the text file.
