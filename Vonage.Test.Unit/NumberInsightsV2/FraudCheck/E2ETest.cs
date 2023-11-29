@@ -15,19 +15,24 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
         }
 
         [Fact]
-        public async Task CreateEmptyUser()
+        public async Task PerformFraudCheck_WithFraudScoreAndSimSwap()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v2/ni")
                     .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
-                        .ShouldDeserialize200WithFraudScoreAndSimSwap)))
+                        .ShouldSerializeWithFraudScoreAndSimSwap)))
                     .UsingPost())
-                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
+                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
             await this.Helper.VonageClient.NumberInsightV2Client
-                .PerformFraudCheckAsync(FraudCheckRequest.Build())
+                .PerformFraudCheckAsync(FraudCheckRequest.Build()
+                    .WithPhone("447009000000")
+                    .WithFraudScore()
+                    .WithSimSwap()
+                    .Create())
                 .Should()
-                .BeSuccessAsync();
+                .BeSuccessAsync(SerializationTest.GetExpectedFraudCheckResponse());
         }
     }
 }

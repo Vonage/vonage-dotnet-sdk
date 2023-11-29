@@ -890,7 +890,10 @@
         <None Update="VerifyV2\StartVerification\Data\ShouldSerializeSilentAuthWorkflowWithRedirectUrl-request.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="NumberInsightsV2\FraudCheck\Data\ShouldDeserialize200WithFraudScoreAndSimSwap-response.json">
+        <None Update="NumberInsightsV2\FraudCheck\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="NumberInsightsV2\FraudCheck\Data\ShouldSerializeWithFraudScoreAndSimSwap-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

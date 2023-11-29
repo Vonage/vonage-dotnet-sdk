@@ -1,13 +1,12 @@
 using System;
 using System.Net.Http;
 using Vonage.Common.Client;
-using Vonage.Common.Monads;
 
 namespace Vonage.NumberInsightV2.FraudCheck;
 
 public struct FraudCheckRequest : IVonageRequest
 {
-    public static Result<FraudCheckRequest> Build()
+    public static IBuilderForPhone Build()
     {
         throw new NotImplementedException();
     }
