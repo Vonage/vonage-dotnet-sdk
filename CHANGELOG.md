@@ -12,6 +12,7 @@
 - Add git-cliff for changelog generation
 - Generate changelog using git-cliff
 - Update changelog format
+- Update changelog
 
 ### Pipelines
 
