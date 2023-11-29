@@ -60,9 +60,6 @@
         <Content Include="Failures\Data\ShouldDeserializeError413-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Update="TestHelpers\Key.txt">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
