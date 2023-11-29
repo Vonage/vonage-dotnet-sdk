@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Vonage.Common;
 using Vonage.Common.Client;
+using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -8,15 +10,13 @@ namespace Vonage.NumberInsightV2.FraudCheck;
 internal class FraudCheckRequestBuilder : IBuilderForPhone, IBuilderForOptional
 {
     private readonly HashSet<string> insights = new();
-    private string phone;
+    private Result<PhoneNumber> phone;
 
     /// <inheritdoc />
-    public Result<FraudCheckRequest> Create() => Result<FraudCheckRequest>.FromSuccess(new FraudCheckRequest
-        {
-            Phone = this.phone, Insights = this.insights,
-        })
-        .Map(InputEvaluation<FraudCheckRequest>.Evaluate)
-        .Bind(evaluation => evaluation.WithRules(VerifyPhone, VerifyInsights));
+    public Result<FraudCheckRequest> Create() =>
+        this.phone.Match(this.ToSuccess, ToFailure)
+            .Map(InputEvaluation<FraudCheckRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyInsights));
 
     /// <inheritdoc />
     public IBuilderForOptional WithFraudScore()
@@ -28,7 +28,7 @@ internal class FraudCheckRequestBuilder : IBuilderForPhone, IBuilderForOptional
     /// <inheritdoc />
     public IBuilderForOptional WithPhone(string value)
     {
-        this.phone = value;
+        this.phone = PhoneNumber.Parse(value);
         return this;
     }
 
@@ -39,11 +39,18 @@ internal class FraudCheckRequestBuilder : IBuilderForPhone, IBuilderForOptional
         return this;
     }
 
+    private static Result<FraudCheckRequest> ToFailure(IResultFailure failure) =>
+        Result<FraudCheckRequest>.FromFailure(
+            ParsingFailure.FromFailures(ResultFailure.FromErrorMessage(failure.GetFailureMessage())));
+
+    private Result<FraudCheckRequest> ToSuccess(PhoneNumber number) =>
+        Result<FraudCheckRequest>.FromSuccess(new FraudCheckRequest
+        {
+            Phone = number, Insights = this.insights,
+        });
+
     private static Result<FraudCheckRequest> VerifyInsights(FraudCheckRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Insights, nameof(request.Insights));
-
-    private static Result<FraudCheckRequest> VerifyPhone(FraudCheckRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.Phone, nameof(request.Phone));
 }
 
 /// <summary>

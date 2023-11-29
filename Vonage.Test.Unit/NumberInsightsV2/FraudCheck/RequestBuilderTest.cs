@@ -60,7 +60,7 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
                 .WithSimSwap()
                 .Create()
                 .Should()
-                .BeParsingFailure("Phone cannot be null or whitespace.");
+                .BeParsingFailure("Number cannot be null or whitespace.");
 
         [Fact]
         public void Build_ShouldSetPhone() =>
@@ -68,7 +68,7 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
                 .WithFraudScore()
                 .WithSimSwap()
                 .Create()
-                .Map(request => request.Phone)
+                .Map(request => request.Phone.Number)
                 .Should()
                 .BeSuccess(ValidPhone);
 

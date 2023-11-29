@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Vonage.Common;
 using Vonage.Common.Client;
 
 namespace Vonage.NumberInsightV2.FraudCheck;
@@ -17,7 +18,7 @@ public readonly struct FraudCheckRequest : IVonageRequest
     ///     A single phone number that you need insight about in the E.164 format. Don't use a leading + or 00 when entering a
     ///     phone number, start with the country code, e.g. 447700900000.
     /// </summary>
-    public string Phone { get; internal init; }
+    public PhoneNumber Phone { get; internal init; }
 
     /// <summary>
     ///     Accepted value is “phone” when a phone number is provided.
