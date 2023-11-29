@@ -25,8 +25,6 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install Stryker
         run: dotnet tool install -g dotnet-stryker
-      - name: Build
-        run: dotnet build
       - name: Run mutation testing
         run: |
           cd Vonage
@@ -38,8 +36,6 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install Stryker
         run: dotnet tool install -g dotnet-stryker
-      - name: Build
-        run: dotnet build
       - name: Run mutation testing
         run: |
           cd Vonage.Common
@@ -51,8 +47,6 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install Stryker
         run: dotnet tool install -g dotnet-stryker
-      - name: Build
-        run: dotnet build
       - name: Run mutation testing
         run: |
           cd Vonage.Server
