@@ -1,0 +1,80 @@
+﻿using FluentAssertions;
+using Vonage.Common.Test.Extensions;
+using Vonage.NumberInsightV2.FraudCheck;
+using Xunit;
+
+namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
+{
+    public class RequestBuilderTest
+    {
+        private const string FraudScoreInsight = "fraud_score";
+        private const string SimSwapInsight = "sim_swap";
+        private const string ValidPhone = "447009000000";
+
+        [Fact]
+        public void Build_ShouldAddFraudScoreInsight() =>
+            BuildValidRequest()
+                .WithFraudScore()
+                .Create()
+                .Map(request => request.Insights)
+                .Should()
+                .BeSuccess(insights => insights.Should().BeEquivalentTo(FraudScoreInsight));
+
+        [Fact]
+        public void Build_ShouldAddSimSwapInsight() =>
+            BuildValidRequest()
+                .WithSimSwap()
+                .Create()
+                .Map(request => request.Insights)
+                .Should()
+                .BeSuccess(insights => insights.Should().BeEquivalentTo(SimSwapInsight));
+
+        [Fact]
+        public void Build_ShouldNotDuplicateInsights() =>
+            BuildValidRequest()
+                .WithFraudScore()
+                .WithFraudScore()
+                .WithSimSwap()
+                .WithSimSwap()
+                .Create()
+                .Map(request => request.Insights)
+                .Should()
+                .BeSuccess(insights => insights.Should().BeEquivalentTo(FraudScoreInsight, SimSwapInsight));
+
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenNoInsightHasBeenSelected() =>
+            BuildValidRequest()
+                .Create()
+                .Should()
+                .BeParsingFailure("Insights cannot be empty.");
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public void Build_ShouldReturnFailure_GivenPhoneIsNullOrWhitespace(string invalidPhoneNumber) =>
+            FraudCheckRequest
+                .Build()
+                .WithPhone(invalidPhoneNumber)
+                .WithFraudScore()
+                .WithSimSwap()
+                .Create()
+                .Should()
+                .BeParsingFailure("Phone cannot be null or whitespace.");
+
+        [Fact]
+        public void Build_ShouldSetPhone() =>
+            BuildValidRequest()
+                .WithFraudScore()
+                .WithSimSwap()
+                .Create()
+                .Map(request => request.Phone)
+                .Should()
+                .BeSuccess(ValidPhone);
+
+        private static IBuilderForOptional BuildValidRequest() =>
+            FraudCheckRequest
+                .Build()
+                .WithPhone(ValidPhone);
+    }
+}
