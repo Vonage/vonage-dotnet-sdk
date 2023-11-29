@@ -11,6 +11,7 @@ using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
+using Vonage.NumberInsightV2;
 using Vonage.Numbers;
 using Vonage.Pricing;
 using Vonage.ProactiveConnect;
@@ -63,6 +64,11 @@ public class VonageClient
     public IMessagesClient MessagesClient { get; private set; }
 
     public INumberInsightClient NumberInsightClient { get; private set; }
+
+    /// <summary>
+    ///     Exposes Number Insight V2 features.
+    /// </summary>
+    public INumberInsightV2Client NumberInsightV2Client { get; private set; }
 
     public INumbersClient NumbersClient { get; private set; }
 
@@ -153,6 +159,8 @@ public class VonageClient
         this.SubAccountsClient = new SubAccountsClient(
             this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)),
             this.Credentials.ApiKey);
+        this.NumberInsightV2Client = new NumberInsightV2Client(
+            this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
         this.UsersClient =
             new UsersClient(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
         this.MeetingsClient = new MeetingsClient(

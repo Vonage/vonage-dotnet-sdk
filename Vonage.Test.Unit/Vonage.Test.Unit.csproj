@@ -890,6 +890,9 @@
         <None Update="VerifyV2\StartVerification\Data\ShouldSerializeSilentAuthWorkflowWithRedirectUrl-request.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="NumberInsightsV2\FraudCheck\Data\ShouldDeserialize200WithFraudScoreAndSimSwap-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
