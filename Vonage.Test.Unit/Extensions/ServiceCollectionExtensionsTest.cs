@@ -11,6 +11,7 @@ using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
+using Vonage.NumberInsightV2;
 using Vonage.Numbers;
 using Vonage.Pricing;
 using Vonage.ProactiveConnect;
@@ -78,25 +79,26 @@ namespace Vonage.Test.Unit.Extensions
 
         public static IEnumerable<object[]> GetSpecificVonageClients()
         {
-            yield return new object[] { typeof(VonageClient) };
-            yield return new object[] { typeof(IAccountClient) };
-            yield return new object[] { typeof(IApplicationClient) };
-            yield return new object[] { typeof(IConversionClient) };
-            yield return new object[] { typeof(IMeetingsClient) };
-            yield return new object[] { typeof(IMessagesClient) };
-            yield return new object[] { typeof(INumberInsightClient) };
-            yield return new object[] { typeof(INumbersClient) };
-            yield return new object[] { typeof(IPricingClient) };
-            yield return new object[] { typeof(IProactiveConnectClient) };
-            yield return new object[] { typeof(IRedactClient) };
-            yield return new object[] { typeof(IShortCodesClient) };
-            yield return new object[] { typeof(ISubAccountsClient) };
-            yield return new object[] { typeof(ISmsClient) };
-            yield return new object[] { typeof(IUsersClient) };
-            yield return new object[] { typeof(IVerifyClient) };
-            yield return new object[] { typeof(IVerifyV2Client) };
-            yield return new object[] { typeof(IVoiceClient) };
-            yield return new object[] { typeof(ITokenGenerator) };
+            yield return new object[] {typeof(VonageClient)};
+            yield return new object[] {typeof(IAccountClient)};
+            yield return new object[] {typeof(IApplicationClient)};
+            yield return new object[] {typeof(IConversionClient)};
+            yield return new object[] {typeof(IMeetingsClient)};
+            yield return new object[] {typeof(IMessagesClient)};
+            yield return new object[] {typeof(INumberInsightClient)};
+            yield return new object[] {typeof(INumberInsightV2Client)};
+            yield return new object[] {typeof(INumbersClient)};
+            yield return new object[] {typeof(IPricingClient)};
+            yield return new object[] {typeof(IProactiveConnectClient)};
+            yield return new object[] {typeof(IRedactClient)};
+            yield return new object[] {typeof(IShortCodesClient)};
+            yield return new object[] {typeof(ISubAccountsClient)};
+            yield return new object[] {typeof(ISmsClient)};
+            yield return new object[] {typeof(IUsersClient)};
+            yield return new object[] {typeof(IVerifyClient)};
+            yield return new object[] {typeof(IVerifyV2Client)};
+            yield return new object[] {typeof(IVoiceClient)};
+            yield return new object[] {typeof(ITokenGenerator)};
         }
 
         private static ServiceProvider BuildScopedProviderWithConfiguration(IConfiguration configuration) =>
