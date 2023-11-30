@@ -65,6 +65,27 @@ public readonly struct Result<T>
             return SystemFailure.FromException(exception).ToResult<TB>();
         }
     }
+    
+    /// <summary>
+    ///     Projects from one value to another for each state of the Monad.
+    /// </summary>
+    /// <param name="successMap">Projection function for success state.</param>
+    /// <param name="failureMap">Projection function for failure state.</param>
+    /// <typeparam name="TB">Resulting functor value type.</typeparam>
+    /// <returns>Mapped functor.</returns>
+    public Result<TB> BiMap<TB>(Func<T, TB> successMap, Func<IResultFailure, IResultFailure> failureMap)
+    {
+        try
+        {
+            return this.IsFailure
+                ? Result<TB>.FromFailure(failureMap(this.failure))
+                : Result<TB>.FromSuccess(successMap(this.success));
+        }
+        catch (Exception exception)
+        {
+            return SystemFailure.FromException(exception).ToResult<TB>();
+        }
+    }
 
     /// <summary>
     ///     Monadic bind operation.
