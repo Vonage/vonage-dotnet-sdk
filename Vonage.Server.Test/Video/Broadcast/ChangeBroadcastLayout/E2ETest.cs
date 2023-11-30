@@ -21,7 +21,7 @@ namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath(
                         "/v2/project/5e782e3b-9f63-426f-bd2e-b7d618d546cd/broadcast/97425ae1-4722-4dbf-b395-6169f08ebab3/layout")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));

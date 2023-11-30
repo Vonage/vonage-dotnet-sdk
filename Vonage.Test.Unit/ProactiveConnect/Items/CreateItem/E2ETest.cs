@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.CreateItem
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists/95a462d3-ed87-4aa5-9d91-098e08093b0b/items")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
@@ -42,7 +42,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.CreateItem
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists/95a462d3-ed87-4aa5-9d91-098e08093b0b/items")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerializeComplexObject)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

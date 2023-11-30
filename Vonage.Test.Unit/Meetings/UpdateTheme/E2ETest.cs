@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateTheme
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v1/meetings/themes/cf7f7327-c8f3-4575-b113-0598571b499a")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

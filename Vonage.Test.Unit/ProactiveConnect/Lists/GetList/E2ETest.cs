@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetList
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists/de51fd37-551c-45f1-8eaf-0fcd75c0bbc8")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));

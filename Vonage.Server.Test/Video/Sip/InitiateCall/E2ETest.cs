@@ -52,7 +52,7 @@ namespace Vonage.Server.Test.Video.Sip.InitiateCall
         private void SetUpServer(string requestNamespace) =>
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v2/project/5e782e3b-9f63-426f-bd2e-b7d618d546cd/dial")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(requestNamespace))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

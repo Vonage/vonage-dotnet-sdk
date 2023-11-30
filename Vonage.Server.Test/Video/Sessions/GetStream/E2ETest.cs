@@ -21,7 +21,7 @@ namespace Vonage.Server.Test.Video.Sessions.GetStream
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath(
                         "/v2/project/5e782e3b-9f63-426f-bd2e-b7d618d546cd/session/flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN/stream/stream99")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));

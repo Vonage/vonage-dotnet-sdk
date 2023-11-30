@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerializeWithMandatoryValues)))
                     .UsingPost())
@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerializeWithManualDataSource)))
                     .UsingPost())
@@ -70,7 +70,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.CreateList
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerializeWithSalesforceDataSource)))
                     .UsingPost())

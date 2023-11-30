@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/subaccounts")
-                    .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit.SubAccounts.CreateSubAccount
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/subaccounts")
-                    .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerializeWithDefaultValues)))
                     .UsingPost())

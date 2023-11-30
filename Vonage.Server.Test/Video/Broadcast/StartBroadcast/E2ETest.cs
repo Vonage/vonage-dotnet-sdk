@@ -21,7 +21,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v2/project/5e782e3b-9f63-426f-bd2e-b7d618d546cd/broadcast")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
@@ -56,7 +56,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v2/project/5e782e3b-9f63-426f-bd2e-b7d618d546cd/broadcast")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerializeWithDefaultValues)))
                     .UsingPost())

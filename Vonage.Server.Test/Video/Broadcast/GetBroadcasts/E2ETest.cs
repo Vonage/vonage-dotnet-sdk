@@ -24,7 +24,7 @@ namespace Vonage.Server.Test.Video.Broadcast.GetBroadcasts
                     .WithParam("offset", "1000")
                     .WithParam("count", "100")
                     .WithParam("sessionId", "flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));

@@ -22,7 +22,7 @@ namespace Vonage.Test.Unit.Meetings.GetRoomsByTheme
                     .WithParam("page_size", "15")
                     .WithParam("start_id", "15")
                     .WithParam("end_id", "60")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));

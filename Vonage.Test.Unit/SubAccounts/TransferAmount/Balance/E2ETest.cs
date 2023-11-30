@@ -25,7 +25,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Balance
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/balance-transfers")
-                    .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.serializationRequest.GetRequestJson(nameof(SubAccounts.TransferAmount
                         .SerializationTest.ShouldSerialize)))
                     .UsingPost())

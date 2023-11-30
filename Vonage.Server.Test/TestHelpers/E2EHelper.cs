@@ -9,8 +9,9 @@ namespace Vonage.Server.Test.TestHelpers
 {
     internal class E2EHelper : IDisposable
     {
-        private E2EHelper(string appSettingsKey, Credentials credentials)
+        private E2EHelper(string appSettingsKey, Credentials credentials, string authorizationHeaderValue)
         {
+            this.ExpectedAuthorizationHeaderValue = authorizationHeaderValue;
             this.Server = WireMockServer.Start();
             var configuration = Configuration.FromConfiguration(new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
@@ -19,6 +20,8 @@ namespace Vonage.Server.Test.TestHelpers
                 }).Build());
             this.VonageClient = new TestVideoClient(credentials, configuration);
         }
+
+        public string ExpectedAuthorizationHeaderValue { get; }
 
         public WireMockServer Server { get; }
 
@@ -29,7 +32,7 @@ namespace Vonage.Server.Test.TestHelpers
         }
 
         public static E2EHelper WithBearerCredentials(string appSettingsKey) =>
-            new E2EHelper(appSettingsKey, CreateBearerCredentials());
+            new E2EHelper(appSettingsKey, CreateBearerCredentials(), "Bearer *");
 
         private static Credentials CreateBearerCredentials() =>
             Credentials.FromAppIdAndPrivateKey(Guid.NewGuid().ToString(), TokenHelper.GetKey());

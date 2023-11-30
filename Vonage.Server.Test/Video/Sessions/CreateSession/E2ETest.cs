@@ -36,7 +36,7 @@ namespace Vonage.Server.Test.Video.Sessions.CreateSession
         private void SetUpServer(string requestNamespace) =>
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/session/create")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody("location=&archiveMode=manual&p2p.preference=enabled")
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

@@ -22,7 +22,7 @@ namespace Vonage.Server.Test.Video.Signaling.SendSignal
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath(
                         "/v2/project/5e782e3b-9f63-426f-bd2e-b7d618d546cd/session/flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN/connection/f0f01910-8797-4a22-aeb3-fcd5edb55ebe/signal")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
