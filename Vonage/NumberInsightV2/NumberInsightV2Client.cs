@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -15,5 +14,5 @@ internal class NumberInsightV2Client : INumberInsightV2Client
         new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
 
     public Task<Result<FraudCheckResponse>> PerformFraudCheckAsync(Result<FraudCheckRequest> request) =>
-        throw new NotImplementedException();
+        this.vonageClient.SendWithResponseAsync<FraudCheckRequest, FraudCheckResponse>(request);
 }
