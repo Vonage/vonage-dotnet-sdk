@@ -6,9 +6,9 @@ using WireMock.Server;
 
 namespace Vonage.Test.Unit.TestHelpers
 {
-    internal class E2EHelper : IDisposable
+    internal class TestingContext : IDisposable
     {
-        private E2EHelper(string appSettingsKey, Credentials credentials, string authorizationHeaderValue)
+        private TestingContext(string appSettingsKey, Credentials credentials, string authorizationHeaderValue)
         {
             this.ExpectedAuthorizationHeaderValue = authorizationHeaderValue;
             this.Server = WireMockServer.Start();
@@ -23,26 +23,36 @@ namespace Vonage.Test.Unit.TestHelpers
         }
 
         public string ExpectedAuthorizationHeaderValue { get; }
-
         public WireMockServer Server { get; }
         public VonageClient VonageClient { get; }
 
         public void Dispose()
         {
-            this.Server.Stop();
-            this.Server.Dispose();
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        public static E2EHelper WithBasicCredentials(string appSettingsKey) =>
-            new E2EHelper(appSettingsKey, CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5");
+        public static TestingContext WithBasicCredentials(string appSettingsKey) =>
+            new TestingContext(appSettingsKey, CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5");
 
-        public static E2EHelper WithBearerCredentials(string appSettingsKey) =>
-            new E2EHelper(appSettingsKey, CreateBearerCredentials(), "Bearer *");
+        public static TestingContext WithBearerCredentials(string appSettingsKey) =>
+            new TestingContext(appSettingsKey, CreateBearerCredentials(), "Bearer *");
 
         private static Credentials CreateBasicCredentials() => Credentials.FromApiKeyAndSecret("790fc5e5", "Aa3456789");
 
         private static Credentials CreateBearerCredentials() => Credentials.FromAppIdAndPrivateKey(
             Guid.NewGuid().ToString(),
             TokenHelper.GetKey());
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            this.Server.Stop();
+            this.Server.Dispose();
+        }
     }
 }

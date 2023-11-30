@@ -13,12 +13,14 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
     [Trait("Category", "E2E")]
     public class E2ETest
     {
-        private readonly E2EHelper helperWithBasicCredentials = E2EHelper.WithBasicCredentials("Vonage.Url.Api");
-
-        private readonly E2EHelper helperWithBearerCredentials = E2EHelper.WithBearerCredentials("Vonage.Url.Api");
-
         private readonly SerializationTestHelper serialization =
             new SerializationTestHelper(typeof(E2ETest).Namespace, JsonSerializer.BuildWithSnakeCase());
+
+        private readonly TestingContext helperWithBasicCredentials =
+            TestingContext.WithBasicCredentials("Vonage.Url.Api");
+
+        private readonly TestingContext helperWithBearerCredentials =
+            TestingContext.WithBearerCredentials("Vonage.Url.Api");
 
         [Fact]
         public async Task PerformFraudCheck_WithFraudScoreAndSimSwap_UsingBasicCredentials() =>
@@ -28,7 +30,7 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
         public async Task PerformFraudCheck_WithFraudScoreAndSimSwap_UsingBearerCredentials() =>
             await this.PerformFraudCheckWithFraudScoreAndSimSwap(this.helperWithBearerCredentials);
 
-        private async Task PerformFraudCheckWithFraudScoreAndSimSwap(E2EHelper helper)
+        private async Task PerformFraudCheckWithFraudScoreAndSimSwap(TestingContext helper)
         {
             helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v2/ni")

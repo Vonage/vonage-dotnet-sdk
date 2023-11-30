@@ -8,12 +8,12 @@ namespace Vonage.Test.Unit.SubAccounts
     {
         protected E2EBase(string serializationNamespace)
         {
-            this.Helper = E2EHelper.WithBasicCredentials("Vonage.Url.Api");
+            this.Helper = TestingContext.WithBasicCredentials("Vonage.Url.Api");
             this.Serialization =
                 new SerializationTestHelper(serializationNamespace, JsonSerializer.BuildWithSnakeCase());
         }
 
-        internal readonly E2EHelper Helper;
+        internal readonly TestingContext Helper;
         internal readonly SerializationTestHelper Serialization;
     }
 }
