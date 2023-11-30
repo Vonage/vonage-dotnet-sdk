@@ -13,10 +13,18 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
             typeof(SerializationTest).Namespace,
             JsonSerializer.BuildWithSnakeCase());
 
-        public static FraudCheckResponse GetExpectedFraudCheckResponse() => throw new NotImplementedException();
+        public static FraudCheckResponse GetExpectedFraudCheckResponse() => new FraudCheckResponse(
+            new Guid("6cb4c489-0fc8-4c40-8c3d-95e7e74f9450"),
+            "phone",
+            new PhoneData("16197363066", "Orange France", "MOBILE"),
+            new FraudScore("54", "flag", "medium", "completed"),
+            new SimSwap("failed", true, "Mobile Network Operator Not Supported"));
 
         [Fact]
-        public void ShouldDeserialize200() => throw new NotImplementedException();
+        public void ShouldDeserialize200() => this.helper.Serializer
+            .DeserializeObject<FraudCheckResponse>(this.helper.GetResponseJson())
+            .Should()
+            .BeSuccess(GetExpectedFraudCheckResponse());
 
         [Fact]
         public void ShouldSerializeWithFraudScore() => FraudCheckRequest.Build()
