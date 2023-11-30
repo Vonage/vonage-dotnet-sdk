@@ -896,6 +896,12 @@
         <None Update="NumberInsightsV2\FraudCheck\Data\ShouldSerializeWithFraudScoreAndSimSwap-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="NumberInsightsV2\FraudCheck\Data\ShouldSerializeWithFraudScore-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="NumberInsightsV2\FraudCheck\Data\ShouldSerializeWithSimSwap-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
