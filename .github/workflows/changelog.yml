@@ -1,8 +1,6 @@
 name: Changelog Update
 on:
   workflow_dispatch:
-  release:
-    types: [ published ]
 
 permissions:
   actions: read
