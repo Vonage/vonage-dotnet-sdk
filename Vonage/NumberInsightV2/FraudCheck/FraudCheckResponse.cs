@@ -57,7 +57,8 @@ public record FraudScore(
     [property: JsonPropertyName("risk_score")]
     string RiskScore,
     [property: JsonPropertyName("risk_recommendation")]
-    string RiskRecommendation,
+    [property: JsonConverter(typeof(EnumDescriptionJsonConverter<RiskRecommendation>))]
+    RiskRecommendation RiskRecommendation,
     [property: JsonPropertyName("label")]
     [property: JsonConverter(typeof(EnumDescriptionJsonConverter<FraudScoreLabel>))]
     FraudScoreLabel Label,
@@ -79,6 +80,24 @@ public enum FraudScoreLabel
     /// <summary>
     /// </summary>
     [Description("high")] High,
+}
+
+/// <summary>
+///     Represents the recommended action based on the risk_score.
+/// </summary>
+public enum RiskRecommendation
+{
+    /// <summary>
+    /// </summary>
+    [Description("allow")] Allow,
+
+    /// <summary>
+    /// </summary>
+    [Description("flag")] Flag,
+
+    /// <summary>
+    /// </summary>
+    [Description("block")] Block,
 }
 
 /// <summary>
