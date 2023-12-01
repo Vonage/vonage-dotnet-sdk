@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 
 namespace Vonage.NumberInsightV2.FraudCheck;
@@ -23,7 +24,13 @@ namespace Vonage.NumberInsightV2.FraudCheck;
 ///     sim was swapped in the last 7 days. The sim_swap object will only be returned if you specified sim_swap as a value
 ///     in the insights array when the request was made.
 /// </param>
-public record FraudCheckResponse(Guid RequestId, string Type, PhoneData Phone, FraudScore FraudScore, SimSwap SimSwap);
+public record FraudCheckResponse(Guid RequestId, string Type, PhoneData Phone,
+    [property: JsonConverter(typeof(MaybeJsonConverter<FraudScore>))]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    Maybe<FraudScore> FraudScore,
+    [property: JsonConverter(typeof(MaybeJsonConverter<SimSwap>))]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    Maybe<SimSwap> SimSwap);
 
 /// <summary>
 ///     Represents an object containing at least the phone number that was used in the fraud check.
@@ -46,9 +53,15 @@ public record PhoneData(string Phone, string Carrier, string Type);
 /// <param name="RiskRecommendation">Recommended action based on the risk_score.</param>
 /// <param name="Label">Mapping of risk score to a verbose description.</param>
 /// <param name="Status">The status of the fraud_score call.</param>
-public record FraudScore(string RiskScore, string RiskRecommendation,
+public record FraudScore(
+    [property: JsonPropertyName("risk_score")]
+    string RiskScore,
+    [property: JsonPropertyName("risk_recommendation")]
+    string RiskRecommendation,
+    [property: JsonPropertyName("label")]
     [property: JsonConverter(typeof(EnumDescriptionJsonConverter<FraudScoreLabel>))]
-    FraudScoreLabel Label, string Status);
+    FraudScoreLabel Label,
+    [property: JsonPropertyName("status")] string Status);
 
 /// <summary>
 ///     Represents the mapping of risk score to a verbose description.
@@ -77,4 +90,8 @@ public enum FraudScoreLabel
 ///     check succeeds.
 /// </param>
 /// <param name="Reason">The reason for a sim swap error response. Returned only if the sim swap check fails.</param>
-public record SimSwap(string Status, bool Swapped, string Reason);
+public record SimSwap(
+    [property: JsonPropertyName("status")] string Status,
+    [property: JsonPropertyName("swapped")]
+    bool Swapped,
+    [property: JsonPropertyName("reason")] string Reason);

@@ -1,6 +1,7 @@
 using Vonage.Common;
 using Vonage.Common.Serialization;
 using Vonage.Messages;
+using Vonage.NumberInsightV2.FraudCheck;
 
 namespace Vonage.Serialization;
 
@@ -15,5 +16,6 @@ public static class JsonSerializerBuilder
     /// <returns>A serializer.</returns>
     public static JsonSerializer Build() => JsonSerializer.BuildWithSnakeCase()
         .WithConverter(new EnumDescriptionJsonConverter<MessagesChannel>())
-        .WithConverter(new EnumDescriptionJsonConverter<MessagesMessageType>());
+        .WithConverter(new EnumDescriptionJsonConverter<MessagesMessageType>())
+        .WithConverter(new EnumDescriptionJsonConverter<FraudScoreLabel>());
 }
