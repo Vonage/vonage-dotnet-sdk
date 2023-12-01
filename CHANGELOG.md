@@ -1,4 +1,10 @@
 # Changelog
+## [unreleased]
+
+### Documentation
+
+- Update changelog after v6.13.0 tag ([a89ee57](https://github.com/Vonage/vonage-dotnet-sdk/commit/a89ee57cb323db0b28b73c93e1292b4b3ac84429))
+
 
 ## [v6.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.13.0) (2023-12-01)
 
@@ -31,8 +37,7 @@
 
 - Add commit hash in changelog ([505329c](https://github.com/Vonage/vonage-dotnet-sdk/commit/505329c62bc80e3d582e4df601f64ff064f2790e))
 
-- Update
-  changelog ([88c2112](https://github.com/Vonage/vonage-dotnet-sdk/commit/88c211248e48d0b6f5662642dcb179ffb97e3aab))
+- Update changelog ([88c2112](https://github.com/Vonage/vonage-dotnet-sdk/commit/88c211248e48d0b6f5662642dcb179ffb97e3aab))
 
 
 ### Features
@@ -55,17 +60,13 @@
 
 - Add NumberInsights V2 client in services registration ([abf4af3](https://github.com/Vonage/vonage-dotnet-sdk/commit/abf4af36642af3bb25c884efa5be73ea2d51bcb6))
 
-- Change FraudScoreLabel into an
-  enum ([f45bf94](https://github.com/Vonage/vonage-dotnet-sdk/commit/f45bf94d5eaafe71c15770660e21830c27c58066))
+- Change FraudScoreLabel into an enum ([f45bf94](https://github.com/Vonage/vonage-dotnet-sdk/commit/f45bf94d5eaafe71c15770660e21830c27c58066))
 
-- Change RiskRecommendation to an
-  enum ([b0da643](https://github.com/Vonage/vonage-dotnet-sdk/commit/b0da6435896ea2560eb4a9c10a1ec055e8e854a0))
+- Change RiskRecommendation to an enum ([b0da643](https://github.com/Vonage/vonage-dotnet-sdk/commit/b0da6435896ea2560eb4a9c10a1ec055e8e854a0))
 
-- Change SimSwap status to an
-  enum ([e82ac73](https://github.com/Vonage/vonage-dotnet-sdk/commit/e82ac73f80837d71efcd288241a68af671118256))
+- Change SimSwap status to an enum ([e82ac73](https://github.com/Vonage/vonage-dotnet-sdk/commit/e82ac73f80837d71efcd288241a68af671118256))
 
-- FraudCheck without FraudScore or
-  SimSwap ([4309d11](https://github.com/Vonage/vonage-dotnet-sdk/commit/4309d110dc9eed4c911d76f74a8839df9873b373))
+- FraudCheck without FraudScore or SimSwap ([4309d11](https://github.com/Vonage/vonage-dotnet-sdk/commit/4309d110dc9eed4c911d76f74a8839df9873b373))
 
 
 ### Merges
@@ -74,7 +75,7 @@
  ([0e25394](https://github.com/Vonage/vonage-dotnet-sdk/commit/0e253943f74fdc1034e881d32e027be84fec9c0c))
 
 - Merge remote-tracking branch 'origin/main'
-  ([4ae4dda](https://github.com/Vonage/vonage-dotnet-sdk/commit/4ae4ddacdf995168539f50396201cef00d16c93d))
+ ([4ae4dda](https://github.com/Vonage/vonage-dotnet-sdk/commit/4ae4ddacdf995168539f50396201cef00d16c93d))
 
 
 ### Pipelines
@@ -100,13 +101,12 @@
 
 - E2E tests for FraudCheck ([9a27e8f](https://github.com/Vonage/vonage-dotnet-sdk/commit/9a27e8f1aa0139d7d0b77bda51ae6416294e19ce))
 
-- Use Maybe on both optionals SimSwap and
-  FraudScore ([7767886](https://github.com/Vonage/vonage-dotnet-sdk/commit/776788680ef7d6a8d30e9018d5fd929234272b4e))
+- Use Maybe on both optionals SimSwap and FraudScore ([7767886](https://github.com/Vonage/vonage-dotnet-sdk/commit/776788680ef7d6a8d30e9018d5fd929234272b4e))
+
 
 ### Releases
 
-- Bump version to
-  v6.13.0 ([fc17ed9](https://github.com/Vonage/vonage-dotnet-sdk/commit/fc17ed90a8de7c02d500e85ad2f0a5363ea41363))
+- Bump version to v6.13.0 ([fc17ed9](https://github.com/Vonage/vonage-dotnet-sdk/commit/fc17ed90a8de7c02d500e85ad2f0a5363ea41363))
 
 
 ### Reverts
