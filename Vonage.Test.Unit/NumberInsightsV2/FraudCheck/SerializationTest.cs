@@ -10,7 +10,7 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
 {
     public class SerializationTest
     {
-        private readonly SerializationTestHelper helper = new SerializationTestHelper( 
+        private readonly SerializationTestHelper helper = new SerializationTestHelper(
             typeof(SerializationTest).Namespace,
             JsonSerializer.BuildWithSnakeCase());
 
@@ -56,7 +56,7 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
             "phone",
             new PhoneData("16197363066", "Orange France", "MOBILE"),
             Maybe<FraudScore>.Some(new FraudScore("54", RiskRecommendation.Flag, FraudScoreLabel.Medium, "completed")),
-            Maybe<SimSwap>.Some(new SimSwap("failed", true, "Mobile Network Operator Not Supported")));
+            Maybe<SimSwap>.Some(new SimSwap(SimSwapStatus.Failed, true, "Mobile Network Operator Not Supported")));
 
         internal static Result<FraudCheckRequest> BuildRequestWithFraudScore() =>
             FraudCheckRequest.Build()

@@ -101,6 +101,20 @@ public enum RiskRecommendation
 }
 
 /// <summary>
+///     Represents the status of the sim_swap call.
+/// </summary>
+public enum SimSwapStatus
+{
+    /// <summary>
+    /// </summary>
+    [Description("completed")] Completed,
+
+    /// <summary>
+    /// </summary>
+    [Description("failed")] Failed,
+}
+
+/// <summary>
 ///     Represents the result of the sim_swap insight operation.
 /// </summary>
 /// <param name="Status">The status of the sim_swap call.</param>
@@ -110,7 +124,9 @@ public enum RiskRecommendation
 /// </param>
 /// <param name="Reason">The reason for a sim swap error response. Returned only if the sim swap check fails.</param>
 public record SimSwap(
-    [property: JsonPropertyName("status")] string Status,
+    [property: JsonPropertyName("status")]
+    [property: JsonConverter(typeof(EnumDescriptionJsonConverter<SimSwapStatus>))]
+    SimSwapStatus Status,
     [property: JsonPropertyName("swapped")]
     bool Swapped,
     [property: JsonPropertyName("reason")] string Reason);
