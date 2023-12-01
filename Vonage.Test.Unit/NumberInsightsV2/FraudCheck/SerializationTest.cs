@@ -55,7 +55,7 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
             new Guid("6cb4c489-0fc8-4c40-8c3d-95e7e74f9450"),
             "phone",
             new PhoneData("16197363066", "Orange France", "MOBILE"),
-            new FraudScore("54", "flag", "medium", "completed"),
+            new FraudScore("54", "flag", FraudScoreLabel.Medium, "completed"),
             new SimSwap("failed", true, "Mobile Network Operator Not Supported"));
 
         internal static Result<FraudCheckRequest> BuildRequestWithFraudScore() =>

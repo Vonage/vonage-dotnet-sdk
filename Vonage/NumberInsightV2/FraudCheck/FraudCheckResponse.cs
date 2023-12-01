@@ -1,4 +1,7 @@
 using System;
+using System.ComponentModel;
+using System.Text.Json.Serialization;
+using Vonage.Common.Serialization;
 
 namespace Vonage.NumberInsightV2.FraudCheck;
 
@@ -43,7 +46,27 @@ public record PhoneData(string Phone, string Carrier, string Type);
 /// <param name="RiskRecommendation">Recommended action based on the risk_score.</param>
 /// <param name="Label">Mapping of risk score to a verbose description.</param>
 /// <param name="Status">The status of the fraud_score call.</param>
-public record FraudScore(string RiskScore, string RiskRecommendation, string Label, string Status);
+public record FraudScore(string RiskScore, string RiskRecommendation,
+    [property: JsonConverter(typeof(EnumDescriptionJsonConverter<FraudScoreLabel>))]
+    FraudScoreLabel Label, string Status);
+
+/// <summary>
+///     Represents the mapping of risk score to a verbose description.
+/// </summary>
+public enum FraudScoreLabel
+{
+    /// <summary>
+    /// </summary>
+    [Description("low")] Low,
+
+    /// <summary>
+    /// </summary>
+    [Description("medium")] Medium,
+
+    /// <summary>
+    /// </summary>
+    [Description("high")] High,
+}
 
 /// <summary>
 ///     Represents the result of the sim_swap insight operation.
