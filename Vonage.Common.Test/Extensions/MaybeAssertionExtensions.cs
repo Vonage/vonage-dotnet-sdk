@@ -21,6 +21,21 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<MaybeAssertionExtensions<T>>(this);
         }
 
+        public AndConstraint<MaybeAssertionExtensions<T>> BeEquivalentTo(Maybe<T> expected)
+        {
+            Execute.Assertion
+                .WithExpectation($"Expected {this.Subject} to be equivalent to {expected}, ")
+                .Given(() => new {this.Subject, Expected = expected})
+                .ForCondition(data => data.Subject.IsSome == data.Subject.IsSome)
+                .FailWith($"States differs between {this.Subject} and {expected}.")
+                .Then
+                .Given(data => data.Subject.Merge(data.Expected, (s, e) => new {Subject = s, Expected = e}))
+                .ForCondition(
+                    data => data.Match(some => EvaluateValueEquality(some.Subject, some.Expected), () => true))
+                .FailWith($"Value equality failed between {this.Subject} and {expected}.");
+            return new AndConstraint<MaybeAssertionExtensions<T>>(this);
+        }
+
         public AndConstraint<MaybeAssertionExtensions<T>> BeNone()
         {
             Execute.Assertion
@@ -53,6 +68,19 @@ namespace Vonage.Common.Test.Extensions
                 .ForCondition(subject => subject.Equals(Maybe<T>.Some(expected)))
                 .FailWith("but found Some {0}.", this.Subject);
             return new AndConstraint<MaybeAssertionExtensions<T>>(this);
+        }
+
+        private static bool EvaluateValueEquality(T subject, T expected)
+        {
+            try
+            {
+                subject.Should().BeEquivalentTo(expected);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         protected override string Identifier => "maybe";

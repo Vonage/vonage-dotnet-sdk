@@ -12,6 +12,28 @@ namespace Vonage.Common.Test.Extensions
         {
         }
 
+        public AndConstraint<ResultAssertionExtensions<T>> BeEquivalentTo(Result<T> expected)
+        {
+            Execute.Assertion
+                .WithExpectation($"Expected {this.Subject} to be equivalent to {expected}, ")
+                .Given(() => new {this.Subject, Expected = expected})
+                .ForCondition(data => data.Subject.IsSuccess == data.Subject.IsSuccess)
+                .FailWith($"States differs between {this.Subject} and {expected}.")
+                .Then
+                .Given(data => new
+                {
+                    IsSuccess = data.Subject.IsSuccess && data.Expected.IsSuccess,
+                    data.Subject,
+                    data.Expected,
+                })
+                .ForCondition(data =>
+                    data.IsSuccess
+                        ? EvaluateValueEquality(data.Subject.GetSuccessUnsafe(), data.Expected.GetSuccessUnsafe())
+                        : EvaluateValueEquality(data.Subject.GetFailureUnsafe(), data.Expected.GetFailureUnsafe()))
+                .FailWith($"Value equality failed between {this.Subject} and {expected}.");
+            return new AndConstraint<ResultAssertionExtensions<T>>(this);
+        }
+
         public AndConstraint<ResultAssertionExtensions<T>> BeFailure(Action<IResultFailure> action)
         {
             this.BuildFailureExpectation();
@@ -94,6 +116,19 @@ namespace Vonage.Common.Test.Extensions
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsSuccess)
                 .FailWith(this.BuildResultFailureMessage());
+
+        private static bool EvaluateValueEquality<TA>(TA subject, TA expected)
+        {
+            try
+            {
+                subject.Should().BeEquivalentTo(expected);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         private string GetResultFailure() =>
             this.Subject.Match(_ => string.Empty, failure => failure.GetFailureMessage());
