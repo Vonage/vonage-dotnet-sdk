@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Monads;
@@ -29,9 +30,9 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 response.State.Should().Be("ACTIVE");
                 response.SequenceNumber.Should().Be(0);
                 response.Timestamp.Should().Be(new Timestamp(
-                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z"),
-                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z"),
-                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z")));
+                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture),
+                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture),
+                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture)));
                 response.Properties.Should().BeEquivalentTo(new Properties(60, "string",
                     "string", new Dictionary<string, string>
                     {
@@ -55,7 +56,8 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 response.ImageUrl.Should().BeNone();
                 response.State.Should().Be("ACTIVE");
                 response.SequenceNumber.Should().Be(0);
-                response.Timestamp.Should().Be(new Timestamp(DateTimeOffset.Parse("2023-12-06T06:45:10.390Z"),
+                response.Timestamp.Should().Be(new Timestamp(
+                    DateTimeOffset.Parse("2023-12-06T06:45:10.390Z", CultureInfo.InvariantCulture),
                     Maybe<DateTimeOffset>.None, Maybe<DateTimeOffset>.None));
                 response.Properties.Should().BeNone();
                 response.Links.Should()
