@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Client;
+﻿using System;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -10,12 +11,14 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
     private const int NameMaxLength = 100;
     private Maybe<string> name;
     private Maybe<string> displayName;
+    private Maybe<Uri> uri;
 
     public Result<CreateConversationRequest> Create() => Result<CreateConversationRequest>.FromSuccess(
             new CreateConversationRequest
             {
                 Name = this.name,
                 DisplayName = this.displayName,
+                Uri = this.uri,
             })
         .Map(InputEvaluation<CreateConversationRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(
@@ -33,6 +36,12 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
     public IBuilderForOptional WithName(string value)
     {
         this.name = value;
+        return this;
+    }
+
+    public IBuilderForOptional WithUri(Uri value)
+    {
+        this.uri = value;
         return this;
     }
 
@@ -76,4 +85,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateConversationR
     /// <param name="value">The name.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithName(string value);
+
+    /// <summary>
+    ///     Sets the Uri
+    /// </summary>
+    /// <param name="value">The uri.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithUri(Uri value);
 }

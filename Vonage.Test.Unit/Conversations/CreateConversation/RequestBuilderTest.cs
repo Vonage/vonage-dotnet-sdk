@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Test.Extensions;
+﻿using System;
+using Vonage.Common.Test.Extensions;
 using Vonage.Conversations.CreateConversation;
 using Xunit;
 
@@ -70,5 +71,14 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 .Map(request => request.Name)
                 .Should()
                 .BeSuccess(new string('a', 100));
+
+        [Fact]
+        public void Build_ShouldSetUri() =>
+            CreateConversationRequest.Build()
+                .WithUri(new Uri("https://example.com"))
+                .Create()
+                .Map(request => request.Uri)
+                .Should()
+                .BeSuccess(new Uri("https://example.com"));
     }
 }
