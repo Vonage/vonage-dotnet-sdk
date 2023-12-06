@@ -8,6 +8,34 @@ namespace Vonage.Common.Test.Monads
     public class ResultTest
     {
         [Fact]
+        public void BiMap_ShouldReturnFailure_GivenOperationThrowsException()
+        {
+            var expectedException = new Exception("Error");
+            CreateSuccess(5)
+                .BiMap(value =>
+                {
+                    throw expectedException;
+                    return value;
+                }, _ => _)
+                .Should()
+                .BeFailure(SystemFailure.FromException(expectedException));
+        }
+
+        [Fact]
+        public void BiMap_ShouldReturnFailure_GivenValueIsFailure() =>
+            CreateFailure()
+                .BiMap(Increment, f => ResultFailure.FromErrorMessage("New Failure"))
+                .Should()
+                .BeFailure(ResultFailure.FromErrorMessage("New Failure"));
+
+        [Fact]
+        public void BiMap_ShouldReturnSuccess_GivenValueIsSuccess() =>
+            CreateSuccess(5)
+                .BiMap(Increment, _ => _)
+                .Should()
+                .BeSuccess(6);
+
+        [Fact]
         public void Bind_ShouldReturnFailure_GivenOperationThrowsException()
         {
             var expectedException = new Exception("Error");
@@ -130,6 +158,18 @@ namespace Vonage.Common.Test.Monads
             var result = CreateSuccess(0);
             result.IsFailure.Should().BeFalse();
             result.IsSuccess.Should().BeTrue();
+        }
+
+        [Fact]
+        public void GetFailureUnsafe_ShouldReturn_GivenFailure() =>
+            CreateFailure().GetFailureUnsafe().Should().Be(CreateResultFailure());
+
+        [Fact]
+        public void GetFailureUnsafe_ShouldThrowResultException_GivenFailure()
+        {
+            Action act = () => CreateSuccess(5).GetFailureUnsafe();
+            act.Should().Throw<InvalidOperationException>().Which.Message.Should()
+                .Be("Result is not in Failure state.");
         }
 
         [Fact]
@@ -356,20 +396,6 @@ namespace Vonage.Common.Test.Monads
                 .Should()
                 .BeFailure(SystemFailure.FromException(expectedException));
         }
-        
-        [Fact]
-        public void BiMap_ShouldReturnFailure_GivenOperationThrowsException()
-        {
-            var expectedException = new Exception("Error");
-            CreateSuccess(5)
-                .BiMap(value =>
-                {
-                    throw expectedException;
-                    return value;
-                }, _ => _)
-                .Should()
-                .BeFailure(SystemFailure.FromException(expectedException));
-        }
 
         [Fact]
         public void Map_ShouldReturnFailure_GivenValueIsFailure() =>
@@ -377,25 +403,11 @@ namespace Vonage.Common.Test.Monads
                 .Map(Increment)
                 .Should()
                 .BeFailure(CreateResultFailure());
-        
-        [Fact]
-        public void BiMap_ShouldReturnFailure_GivenValueIsFailure() =>
-            CreateFailure()
-                .BiMap(Increment, f => ResultFailure.FromErrorMessage("New Failure"))
-                .Should()
-                .BeFailure( ResultFailure.FromErrorMessage("New Failure"));
 
         [Fact]
         public void Map_ShouldReturnSuccess_GivenValueIsSuccess() =>
             CreateSuccess(5)
                 .Map(Increment)
-                .Should()
-                .BeSuccess(6);
-        
-        [Fact]
-        public void BiMap_ShouldReturnSuccess_GivenValueIsSuccess() =>
-            CreateSuccess(5)
-                .BiMap(Increment, _ => _)
                 .Should()
                 .BeSuccess(6);
 
