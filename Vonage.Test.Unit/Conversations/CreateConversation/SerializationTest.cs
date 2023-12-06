@@ -32,12 +32,12 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                     DateTimeOffset.Parse("2019-09-03T18:40:24.324Z"),
                     DateTimeOffset.Parse("2019-09-03T18:40:24.324Z"),
                     DateTimeOffset.Parse("2019-09-03T18:40:24.324Z")));
-                response.Properties.Should().BeSome(some => some.Should().BeEquivalentTo(new Properties(60, "string",
+                response.Properties.Should().BeEquivalentTo(new Properties(60, "string",
                     "string", new Dictionary<string, string>
                     {
                         {"property1", "string"},
                         {"property2", "string"},
-                    })));
+                    }));
                 response.Links.Should()
                     .Be(new Links(new HalLink(
                         new Uri("https://api.nexmo.com/v1/conversations/CON-d66d47de-5bcb-4300-94f0-0c9d4b948e9a"))));
