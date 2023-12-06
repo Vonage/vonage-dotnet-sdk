@@ -163,6 +163,12 @@ namespace Vonage.Common.Test.Monads
             act.Should().Throw<InvalidOperationException>().WithMessage(Maybe<int>.NullValueMessage);
         }
 
+        [Fact]
+        public void ToString_ShouldReturnNone_GivenValueIsNone() => Maybe<int>.None.ToString().Should().Be("None");
+
+        [Fact]
+        public void ToString_ShouldReturnSome_GivenValueIsSome() => CreateSome(10).ToString().Should().Be("Some(10)");
+
         private static Maybe<string> BindToString<T>(T value) => Maybe<string>.Some(value.ToString());
 
         private static Maybe<T> CreateSome<T>(T value) => Maybe<T>.Some(value);

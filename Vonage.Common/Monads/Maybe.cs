@@ -126,6 +126,9 @@ public readonly struct Maybe<TA>
         ? throw new InvalidOperationException(NullValueMessage)
         : new Maybe<TB>(value);
 
+    /// <inheritdoc />
+    public override string ToString() => this.IsSome ? $"Some({this.value.ToString()})" : "None";
+
     /// <summary>
     ///     Verifies of both Maybes are either None or Some with the same values.
     /// </summary>
