@@ -9,6 +9,7 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
 {
     private const int DisplayNameMaxLength = 50;
     private const int NameMaxLength = 100;
+    private Maybe<Properties> properties;
     private Maybe<string> name;
     private Maybe<string> displayName;
     private Maybe<Uri> uri;
@@ -18,7 +19,8 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
             {
                 Name = this.name,
                 DisplayName = this.displayName,
-                Uri = this.uri,
+                ImageUrl = this.uri,
+                Properties = this.properties,
             })
         .Map(InputEvaluation<CreateConversationRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(
@@ -33,15 +35,21 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
         return this;
     }
 
+    public IBuilderForOptional WithImageUrl(Uri value)
+    {
+        this.uri = value;
+        return this;
+    }
+
     public IBuilderForOptional WithName(string value)
     {
         this.name = value;
         return this;
     }
 
-    public IBuilderForOptional WithUri(Uri value)
+    public IBuilderForOptional WithProperties(Properties value)
     {
-        this.uri = value;
+        this.properties = value;
         return this;
     }
 
@@ -80,6 +88,13 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateConversationR
     IBuilderForOptional WithDisplayName(string value);
 
     /// <summary>
+    ///     Sets the Image Url.
+    /// </summary>
+    /// <param name="value">The Image Url.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithImageUrl(Uri value);
+
+    /// <summary>
     ///     Sets the Name
     /// </summary>
     /// <param name="value">The name.</param>
@@ -87,9 +102,9 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateConversationR
     IBuilderForOptional WithName(string value);
 
     /// <summary>
-    ///     Sets the Uri
+    /// Sets the Properties.
     /// </summary>
-    /// <param name="value">The uri.</param>
+    /// <param name="value">The properties.</param>
     /// <returns>The builder.</returns>
-    IBuilderForOptional WithUri(Uri value);
+    IBuilderForOptional WithProperties(Properties value);
 }

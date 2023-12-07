@@ -33,7 +33,7 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                     DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture),
                     DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture),
                     DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture)));
-                response.Properties.Should().BeEquivalentTo(new Properties(60, "string",
+                response.Properties.Should().BeSome(new Properties(60, "string",
                     "string", new Dictionary<string, string>
                     {
                         {"property1", "string"},

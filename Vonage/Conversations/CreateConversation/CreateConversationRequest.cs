@@ -14,11 +14,15 @@ public readonly struct CreateConversationRequest : IVonageRequest
 
     /// <summary>
     /// </summary>
+    public Maybe<Uri> ImageUrl { get; internal init; }
+
+    /// <summary>
+    /// </summary>
     public Maybe<string> Name { get; internal init; }
 
     /// <summary>
     /// </summary>
-    public Maybe<Uri> Uri { get; internal init; }
+    public Maybe<Properties> Properties { get; internal init; }
 
     /// <summary>
     ///     Initializes a builder for CreateConversationRequest.

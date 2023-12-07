@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Vonage.Common.Test.Extensions;
 using Vonage.Conversations.CreateConversation;
 using Xunit;
@@ -64,6 +65,15 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 .BeSuccess(new string('a', 50));
 
         [Fact]
+        public void Build_ShouldSetImageUrl() =>
+            CreateConversationRequest.Build()
+                .WithImageUrl(new Uri("https://example.com"))
+                .Create()
+                .Map(request => request.ImageUrl)
+                .Should()
+                .BeSuccess(new Uri("https://example.com"));
+
+        [Fact]
         public void Build_ShouldSetName() =>
             CreateConversationRequest.Build()
                 .WithName(new string('a', 100))
@@ -73,12 +83,15 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 .BeSuccess(new string('a', 100));
 
         [Fact]
-        public void Build_ShouldSetUri() =>
+        public void Build_ShouldSetProperties() =>
             CreateConversationRequest.Build()
-                .WithUri(new Uri("https://example.com"))
+                .WithProperties(new Properties(55, "Fake", "hello-there",
+                    new Dictionary<string, string> {{"temp1", "123"}, {"temp12", "456"}}))
                 .Create()
-                .Map(request => request.Uri)
+                .Map(request => request.Properties)
                 .Should()
-                .BeSuccess(new Uri("https://example.com"));
+                .BeSuccess(properties =>
+                    properties.Should().BeSome(new Properties(55, "Fake", "hello-there",
+                        new Dictionary<string, string> {{"temp1", "123"}, {"temp12", "456"}})));
     }
 }

@@ -21,21 +21,6 @@ namespace Vonage.Common.Test.Extensions
             return new AndConstraint<MaybeAssertionExtensions<T>>(this);
         }
 
-        public AndConstraint<MaybeAssertionExtensions<T>> BeEquivalentTo(Maybe<T> expected)
-        {
-            Execute.Assertion
-                .WithExpectation($"Expected {this.Subject} to be equivalent to {expected}, ")
-                .Given(() => new {this.Subject, Expected = expected})
-                .ForCondition(data => data.Subject.IsSome == data.Subject.IsSome)
-                .FailWith($"States differs between {this.Subject} and {expected}.")
-                .Then
-                .Given(data => data.Subject.Merge(data.Expected, (s, e) => new {Subject = s, Expected = e}))
-                .ForCondition(
-                    data => data.Match(some => EvaluateValueEquality(some.Subject, some.Expected), () => true))
-                .FailWith($"Value equality failed between {this.Subject} and {expected}.");
-            return new AndConstraint<MaybeAssertionExtensions<T>>(this);
-        }
-
         public AndConstraint<MaybeAssertionExtensions<T>> BeNone()
         {
             Execute.Assertion
@@ -60,13 +45,18 @@ namespace Vonage.Common.Test.Extensions
         public AndConstraint<MaybeAssertionExtensions<T>> BeSome(T expected)
         {
             Execute.Assertion
-                .WithExpectation("Expected {context:option} to be Some {0}{reason}, ", expected)
-                .Given(() => this.Subject)
-                .ForCondition(subject => subject.IsSome)
+                .WithExpectation($"Expected {this.Subject} to be equivalent to {expected}, ")
+                .Given(() => new {this.Subject, Expected = expected})
+                .ForCondition(data => data.Subject.IsSome)
                 .FailWith("but found to be None.")
                 .Then
-                .ForCondition(subject => subject.Equals(Maybe<T>.Some(expected)))
-                .FailWith("but found Some {0}.", this.Subject);
+                .Given(data => new
+                {
+                    Subject = data.Subject.GetUnsafe(),
+                    data.Expected,
+                })
+                .ForCondition(data => EvaluateValueEquality(data.Subject, data.Expected))
+                .FailWith($"but value equality failed between {this.Subject} and {expected}.");
             return new AndConstraint<MaybeAssertionExtensions<T>>(this);
         }
 
