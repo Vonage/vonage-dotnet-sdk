@@ -10,6 +10,10 @@ public readonly struct CreateConversationRequest : IVonageRequest
 {
     /// <summary>
     /// </summary>
+    public Maybe<Callback> Callback { get; internal init; }
+
+    /// <summary>
+    /// </summary>
     public Maybe<string> DisplayName { get; internal init; }
 
     /// <summary>

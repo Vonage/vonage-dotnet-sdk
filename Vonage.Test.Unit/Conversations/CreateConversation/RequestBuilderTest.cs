@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Vonage.Common.Test.Extensions;
 using Vonage.Conversations.CreateConversation;
 using Xunit;
@@ -36,6 +37,23 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 .BeParsingFailure("DisplayName length cannot be higher than 50.");
 
         [Theory]
+        [InlineData("PUT")]
+        [InlineData("DELETE")]
+        [InlineData("HEAD")]
+        [InlineData("OPTIONS")]
+        [InlineData("TRACE")]
+        [InlineData("PATCH")]
+        [InlineData("CONNECT")]
+        public void Build_ShouldReturnFailure_GivenHttpMethodIsNotGetOrPost(string method) =>
+            CreateConversationRequest.Build()
+                .WithCallback(new Callback(new Uri("https://example.com"), "mask",
+                    new CallbackParameters("appId", new Uri("https://example.com")), new HttpMethod(method)))
+                .Create()
+                .Map(request => request.Callback)
+                .Should()
+                .BeParsingFailure("Callback HttpMethod must be GET or POST.");
+
+        [Theory]
         [InlineData("")]
         [InlineData(" ")]
         public void Build_ShouldReturnFailure_GivenNameIsProvidedButEmpty(string invalidName) =>
@@ -54,6 +72,17 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 .Map(request => request.Name)
                 .Should()
                 .BeParsingFailure("Name length cannot be higher than 100.");
+
+        [Fact]
+        public void Build_ShouldSetCallback() =>
+            CreateConversationRequest.Build()
+                .WithCallback(new Callback(new Uri("https://example.com"), "mask",
+                    new CallbackParameters("appId", new Uri("https://example.com")), HttpMethod.Get))
+                .Create()
+                .Map(request => request.Callback)
+                .Should()
+                .BeSuccess(new Callback(new Uri("https://example.com"), "mask",
+                    new CallbackParameters("appId", new Uri("https://example.com")), HttpMethod.Get));
 
         [Fact]
         public void Build_ShouldSetDisplayName() =>

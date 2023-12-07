@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using Vonage.Common.Client;
+using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
@@ -9,6 +13,9 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
 {
     private const int DisplayNameMaxLength = 50;
     private const int NameMaxLength = 100;
+
+    private readonly IEnumerable<HttpMethod> allowedMethods = new[] {HttpMethod.Get, HttpMethod.Post};
+    private Maybe<Callback> callback;
     private Maybe<Properties> properties;
     private Maybe<string> name;
     private Maybe<string> displayName;
@@ -21,13 +28,20 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
                 DisplayName = this.displayName,
                 ImageUrl = this.uri,
                 Properties = this.properties,
+                Callback = this.callback,
             })
         .Map(InputEvaluation<CreateConversationRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(
             VerifyName,
             VerifyNameLength,
             VerifyDisplayName,
-            VerifyDisplayNameLength));
+            VerifyDisplayNameLength, this.VerifyCallbackHttpMethod));
+
+    public IBuilderForOptional WithCallback(Callback value)
+    {
+        this.callback = value;
+        return this;
+    }
 
     public IBuilderForOptional WithDisplayName(string value)
     {
@@ -52,6 +66,14 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
         this.properties = value;
         return this;
     }
+
+    private Result<CreateConversationRequest> VerifyCallbackHttpMethod(CreateConversationRequest request) =>
+        request.Callback.Match(
+            some => this.allowedMethods.Contains(some.Method)
+                ? Result<CreateConversationRequest>.FromSuccess(request)
+                : ResultFailure.FromErrorMessage("Callback HttpMethod must be GET or POST.")
+                    .ToResult<CreateConversationRequest>(),
+            () => request);
 
     private static Result<CreateConversationRequest> VerifyDisplayName(CreateConversationRequest request) =>
         request.DisplayName.Match(
@@ -80,6 +102,13 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
 /// </summary>
 public interface IBuilderForOptional : IVonageRequestBuilder<CreateConversationRequest>
 {
+    /// <summary>
+    ///     Sets the Callback.
+    /// </summary>
+    /// <param name="value">The callback.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithCallback(Callback value);
+
     /// <summary>
     ///     Sets the Display Name.
     /// </summary>

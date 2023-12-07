@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Monads;
@@ -26,12 +25,5 @@ public record Timestamp(DateTimeOffset Created,
     Maybe<DateTimeOffset> Updated,
     [property: JsonConverter(typeof(MaybeJsonConverter<DateTimeOffset>))]
     Maybe<DateTimeOffset> Destroyed);
-
-public record Properties(
-    [property: JsonPropertyName("ttl")] int TimeToLive, string Type,
-    [property: JsonPropertyName("custom_sort_key")]
-    string CustomSortKey,
-    [property: JsonPropertyName("custom_data")]
-    Dictionary<string, string> CustomData);
 
 public record Links(HalLink Self);
