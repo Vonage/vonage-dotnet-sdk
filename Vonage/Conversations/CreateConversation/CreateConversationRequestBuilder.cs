@@ -23,6 +23,7 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
     private Maybe<string> name;
     private Maybe<string> displayName;
     private Maybe<Uri> uri;
+    private readonly List<INumber> numbers = new();
 
     public Result<CreateConversationRequest> Create() => Result<CreateConversationRequest>.FromSuccess(
             new CreateConversationRequest
@@ -32,6 +33,7 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
                 ImageUrl = this.uri,
                 Properties = this.properties,
                 Callback = this.callback,
+                Numbers = this.numbers.Any() ? this.numbers : Maybe<IEnumerable<INumber>>.None,
             })
         .Map(InputEvaluation<CreateConversationRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(
@@ -71,6 +73,12 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
     public IBuilderForOptional WithProperties(Properties value)
     {
         this.properties = value;
+        return this;
+    }
+
+    public IBuilderForOptional WithNumber(INumber value)
+    {
+        this.numbers.Add(value);
         return this;
     }
 
@@ -163,4 +171,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateConversationR
     /// <param name="value">The properties.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithProperties(Properties value);
+
+    /// <summary>
+    /// Set a Number to the conversation.
+    /// </summary>
+    /// <param name="value">The number.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithNumber(INumber value);
 }

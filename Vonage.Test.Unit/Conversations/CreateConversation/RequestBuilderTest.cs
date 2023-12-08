@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using FluentAssertions;
 using Vonage.Common.Test.Extensions;
 using Vonage.Conversations.CreateConversation;
 using Xunit;
@@ -9,13 +10,6 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
 {
     public class RequestBuilderTest
     {
-        [Fact]
-        public void Build_ShouldReturnDefaultValues_GivenNoValuesHaveBeenSet() =>
-            CreateConversationRequest.Build()
-                .Create()
-                .Should()
-                .BeSuccess();
-
         [Fact]
         public void Build_ShouldReturnFailure_GivenCallbackEventMaskLengthIsAbove200Characters() =>
             CreateConversationRequest.Build()
@@ -130,6 +124,16 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 .Map(request => request.Name)
                 .Should()
                 .BeSuccess(new string('a', 100));
+        
+        [Fact]
+        public void Build_ShouldSetNumbers() =>
+            CreateConversationRequest.Build()
+                .WithNumber(new PhoneNumber("447700900000"))
+                .WithNumber(new AppNumber("John Doe"))
+                .Create()
+                .Map(request => request.Numbers)
+                .Should()
+                .BeSuccess(numbers => numbers.Should().BeSome(new  List<INumber> {new PhoneNumber("447700900000"), new AppNumber("John Doe")}));
 
         [Fact]
         public void Build_ShouldSetProperties() =>
@@ -142,5 +146,53 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 .BeSuccess(properties =>
                     properties.Should().BeSome(new Properties(55, new string('a', 200), "hello-there",
                         new Dictionary<string, string> {{"temp1", "123"}, {"temp12", "456"}})));
+        
+        [Fact]
+        public void Build_ShouldHaveNoProperties_GivenDefault() =>
+            CreateConversationRequest.Build()
+                .Create()
+                .Map(request => request.Properties)
+                .Should()
+                .BeSuccess(value => value.Should().BeNone());
+        
+        [Fact]
+        public void Build_ShouldHaveNoCallback_GivenDefault() =>
+            CreateConversationRequest.Build()
+                .Create()
+                .Map(request => request.Callback)
+                .Should()
+                .BeSuccess(value => value.Should().BeNone());
+        
+        [Fact]
+        public void Build_ShouldHaveNoNumbers_GivenDefault() =>
+            CreateConversationRequest.Build()
+                .Create()
+                .Map(request => request.Numbers)
+                .Should()
+                .BeSuccess(value => value.Should().BeNone());
+        
+        [Fact]
+        public void Build_ShouldHaveNoName_GivenDefault() =>
+            CreateConversationRequest.Build()
+                .Create()
+                .Map(request => request.Name)
+                .Should()
+                .BeSuccess(value => value.Should().BeNone());
+        
+        [Fact]
+        public void Build_ShouldHaveNoDisplayName_GivenDefault() =>
+            CreateConversationRequest.Build()
+                .Create()
+                .Map(request => request.DisplayName)
+                .Should()
+                .BeSuccess(value => value.Should().BeNone());
+        
+        [Fact]
+        public void Build_ShouldHaveNoUri_GivenDefault() =>
+            CreateConversationRequest.Build()
+                .Create()
+                .Map(request => request.ImageUrl)
+                .Should()
+                .BeSuccess(value => value.Should().BeNone());
     }
 }
