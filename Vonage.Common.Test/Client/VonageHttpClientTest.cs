@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using AutoFixture;
 using FsCheck;
@@ -174,7 +175,7 @@ namespace Vonage.Common.Test.Client
             };
 
         private static Result<FakeRequest> BuildRequest() =>
-            new FakeRequest {Id = Guid.Parse("ceb2b201-2143-48f5-8890-c58369394eba"), Name = "My fake request"};
+            new FakeRequest { Id = Guid.Parse("ceb2b201-2143-48f5-8890-c58369394eba"), Name = "My fake request" };
 
         private VonageHttpClientConfiguration CreateConfiguration(FakeHttpRequestHandler handler) =>
             new(handler.ToHttpClient(), new AuthenticationHeaderValue("Anonymous"), this.fixture.Create<string>());
