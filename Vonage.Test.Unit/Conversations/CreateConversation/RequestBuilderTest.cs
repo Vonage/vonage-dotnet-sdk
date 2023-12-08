@@ -16,6 +16,15 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 .Should()
                 .BeSuccess();
 
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenCallbackEventMaskLengthIsAbove200Characters() =>
+            CreateConversationRequest.Build()
+                .WithCallback(new Callback(new Uri("https://example.com"), new string('a', 201),
+                    new CallbackParameters("appId", new Uri("https://example.com")), HttpMethod.Get))
+                .Create()
+                .Should()
+                .BeParsingFailure("Callback EventMask length cannot be higher than 200.");
+
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
@@ -23,7 +32,6 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
             CreateConversationRequest.Build()
                 .WithDisplayName(invalidDisplayName)
                 .Create()
-                .Map(request => request.DisplayName)
                 .Should()
                 .BeParsingFailure("DisplayName cannot be null or whitespace.");
 
@@ -32,7 +40,6 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
             CreateConversationRequest.Build()
                 .WithDisplayName(new string('a', 51))
                 .Create()
-                .Map(request => request.DisplayName)
                 .Should()
                 .BeParsingFailure("DisplayName length cannot be higher than 50.");
 
@@ -49,7 +56,6 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 .WithCallback(new Callback(new Uri("https://example.com"), "mask",
                     new CallbackParameters("appId", new Uri("https://example.com")), new HttpMethod(method)))
                 .Create()
-                .Map(request => request.Callback)
                 .Should()
                 .BeParsingFailure("Callback HttpMethod must be GET or POST.");
 
@@ -60,7 +66,6 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
             CreateConversationRequest.Build()
                 .WithName(invalidName)
                 .Create()
-                .Map(request => request.Name)
                 .Should()
                 .BeParsingFailure("Name cannot be null or whitespace.");
 
@@ -69,9 +74,24 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
             CreateConversationRequest.Build()
                 .WithName(new string('a', 101))
                 .Create()
-                .Map(request => request.Name)
                 .Should()
                 .BeParsingFailure("Name length cannot be higher than 100.");
+
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenPropertiesCustomSortKeyLengthIsAbove200Characters() =>
+            CreateConversationRequest.Build()
+                .WithProperties(new Properties(10, "type", new string('a', 201), new Dictionary<string, string>()))
+                .Create()
+                .Should()
+                .BeParsingFailure("Properties CustomSortKey length cannot be higher than 200.");
+
+        [Fact]
+        public void Build_ShouldReturnFailure_GivenPropertiesTypeLengthIsAbove200Characters() =>
+            CreateConversationRequest.Build()
+                .WithProperties(new Properties(10, new string('a', 201), "key", new Dictionary<string, string>()))
+                .Create()
+                .Should()
+                .BeParsingFailure("Properties Type length cannot be higher than 200.");
 
         [Fact]
         public void Build_ShouldSetCallback() =>
@@ -114,13 +134,13 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
         [Fact]
         public void Build_ShouldSetProperties() =>
             CreateConversationRequest.Build()
-                .WithProperties(new Properties(55, "Fake", "hello-there",
+                .WithProperties(new Properties(55, new string('a', 200), "hello-there",
                     new Dictionary<string, string> {{"temp1", "123"}, {"temp12", "456"}}))
                 .Create()
                 .Map(request => request.Properties)
                 .Should()
                 .BeSuccess(properties =>
-                    properties.Should().BeSome(new Properties(55, "Fake", "hello-there",
+                    properties.Should().BeSome(new Properties(55, new string('a', 200), "hello-there",
                         new Dictionary<string, string> {{"temp1", "123"}, {"temp12", "456"}})));
     }
 }

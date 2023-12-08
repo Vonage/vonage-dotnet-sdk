@@ -11,8 +11,11 @@ namespace Vonage.Conversations.CreateConversation;
 
 internal class CreateConversationRequestBuilder : IBuilderForOptional
 {
+    private const int CallbackEventMask = 200;
     private const int DisplayNameMaxLength = 50;
     private const int NameMaxLength = 100;
+    private const int PropertiesCustomSortKeyMaxLength = 200;
+    private const int PropertiesTypeMaxLength = 200;
 
     private readonly IEnumerable<HttpMethod> allowedMethods = new[] {HttpMethod.Get, HttpMethod.Post};
     private Maybe<Callback> callback;
@@ -35,7 +38,11 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
             VerifyName,
             VerifyNameLength,
             VerifyDisplayName,
-            VerifyDisplayNameLength, this.VerifyCallbackHttpMethod));
+            VerifyDisplayNameLength,
+            this.VerifyCallbackHttpMethod,
+            VerifyPropertiesTypeLength,
+            VerifyPropertiesCustomSortKeyLength,
+            VerifyCallbackEventMaskLength));
 
     public IBuilderForOptional WithCallback(Callback value)
     {
@@ -67,6 +74,12 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
         return this;
     }
 
+    private static Result<CreateConversationRequest> VerifyCallbackEventMaskLength(CreateConversationRequest request) =>
+        request.Callback.Match(
+            some => InputValidation.VerifyLengthLowerOrEqualThan(request, some.EventMask, CallbackEventMask,
+                $"{nameof(request.Callback)} {nameof(some.EventMask)}"),
+            () => request);
+
     private Result<CreateConversationRequest> VerifyCallbackHttpMethod(CreateConversationRequest request) =>
         request.Callback.Match(
             some => this.allowedMethods.Contains(some.Method)
@@ -94,6 +107,20 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
     private static Result<CreateConversationRequest> VerifyNameLength(CreateConversationRequest request) =>
         request.Name.Match(
             some => InputValidation.VerifyLengthLowerOrEqualThan(request, some, NameMaxLength, nameof(request.Name)),
+            () => request);
+
+    private static Result<CreateConversationRequest> VerifyPropertiesCustomSortKeyLength(
+        CreateConversationRequest request) =>
+        request.Properties.Match(
+            some => InputValidation.VerifyLengthLowerOrEqualThan(request, some.CustomSortKey,
+                PropertiesCustomSortKeyMaxLength,
+                $"{nameof(request.Properties)} {nameof(some.CustomSortKey)}"),
+            () => request);
+
+    private static Result<CreateConversationRequest> VerifyPropertiesTypeLength(CreateConversationRequest request) =>
+        request.Properties.Match(
+            some => InputValidation.VerifyLengthLowerOrEqualThan(request, some.Type, PropertiesTypeMaxLength,
+                $"{nameof(request.Properties)} {nameof(some.Type)}"),
             () => request);
 }
 
