@@ -914,6 +914,9 @@
         <None Update="Conversations\CreateConversation\Data\ShouldDeserialize200Minimal-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Conversations\CreateConversation\Data\ShouldSerializeDefault-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

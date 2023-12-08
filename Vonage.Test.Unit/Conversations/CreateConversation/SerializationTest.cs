@@ -64,5 +64,12 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                     .Be(new Links(new HalLink(new Uri(
                         "https://api-us-3.vonage.com/v1/conversations/CON-dd7ca47d-0e2f-4118-adc4-905e96431459"))));
             });
+        
+        [Fact]
+        public void ShouldSerializeDefault() => CreateConversationRequest.Build()
+            .Create()
+            .GetStringContent()
+            .Should()
+            .BeSuccess(this.helper.GetRequestJson());
     }
 }
