@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.Video.Sip.InitiateCall
         public async Task InitiateCall()
         {
             this.SetUpServer(nameof(SerializationTest.ShouldSerialize));
-            await this.Helper.VonageClient.SipClient.InitiateCallAsync(InitiateCallRequest.Build()
+            await this.Helper.VonageClient.VideoClient.SipClient.InitiateCallAsync(InitiateCallRequest.Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithSessionId("b40ef09b-3811-4726-b508-e41a0f96c68f")
                     .WithToken("78d335fa-323d-0114-9c3d-d6f0d48968cf")
@@ -39,7 +39,7 @@ namespace Vonage.Test.Unit.Video.Sip.InitiateCall
         public async Task InitiateDefaultCall()
         {
             this.SetUpServer(nameof(SerializationTest.ShouldSerializeWithDefaultValues));
-            await this.Helper.VonageClient.SipClient.InitiateCallAsync(InitiateCallRequest.Build()
+            await this.Helper.VonageClient.VideoClient.SipClient.InitiateCallAsync(InitiateCallRequest.Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithSessionId("b40ef09b-3811-4726-b508-e41a0f96c68f")
                     .WithToken("78d335fa-323d-0114-9c3d-d6f0d48968cf")

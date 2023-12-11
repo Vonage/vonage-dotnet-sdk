@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.Video.Archives.AddStream
         public async Task AddStream()
         {
             this.SetUpServer(nameof(SerializationTest.ShouldSerialize));
-            await this.Helper.VonageClient.ArchiveClient.AddStreamAsync(GetRequestBuilder().Create())
+            await this.Helper.VonageClient.VideoClient.ArchiveClient.AddStreamAsync(GetRequestBuilder().Create())
                 .Should()
                 .BeSuccessAsync();
         }
@@ -28,7 +28,7 @@ namespace Vonage.Test.Unit.Video.Archives.AddStream
         public async Task AddStreamWithoutAudio()
         {
             this.SetUpServer(nameof(SerializationTest.ShouldSerializeWithoutAudio));
-            await this.Helper.VonageClient.ArchiveClient.AddStreamAsync(GetRequestBuilder().DisableAudio().Create())
+            await this.Helper.VonageClient.VideoClient.ArchiveClient.AddStreamAsync(GetRequestBuilder().DisableAudio().Create())
                 .Should()
                 .BeSuccessAsync();
         }
@@ -37,7 +37,7 @@ namespace Vonage.Test.Unit.Video.Archives.AddStream
         public async Task AddStreamWithoutVideo()
         {
             this.SetUpServer(nameof(SerializationTest.ShouldSerializeWithoutVideo));
-            await this.Helper.VonageClient.ArchiveClient.AddStreamAsync(GetRequestBuilder().DisableVideo().Create())
+            await this.Helper.VonageClient.VideoClient.ArchiveClient.AddStreamAsync(GetRequestBuilder().DisableVideo().Create())
                 .Should()
                 .BeSuccessAsync();
         }

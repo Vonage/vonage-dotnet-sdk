@@ -24,7 +24,7 @@ namespace Vonage.Test.Unit.Video.Moderation.DisconnectConnection
                     .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            await this.Helper.VonageClient.ModerationClient.DisconnectConnectionAsync(DisconnectConnectionRequest
+            await this.Helper.VonageClient.VideoClient.ModerationClient.DisconnectConnectionAsync(DisconnectConnectionRequest
                     .Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")

@@ -24,11 +24,6 @@ public interface IVideoClient
     BroadcastClient BroadcastClient { get; }
 
     /// <summary>
-    ///     Credentials to be used for further sessions.
-    /// </summary>
-    Credentials Credentials { get; set; }
-
-    /// <summary>
     ///     Client for moderating connections.
     /// </summary>
     ModerationClient ModerationClient { get; }

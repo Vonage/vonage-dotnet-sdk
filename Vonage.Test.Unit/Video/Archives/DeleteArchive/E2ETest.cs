@@ -24,7 +24,7 @@ namespace Vonage.Test.Unit.Video.Archives.DeleteArchive
                     .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            await this.Helper.VonageClient.ArchiveClient.DeleteArchiveAsync(DeleteArchiveRequest.Build()
+            await this.Helper.VonageClient.VideoClient.ArchiveClient.DeleteArchiveAsync(DeleteArchiveRequest.Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithArchiveId(Guid.Parse("97425ae1-4722-4dbf-b395-6169f08ebab3"))
                     .Create())

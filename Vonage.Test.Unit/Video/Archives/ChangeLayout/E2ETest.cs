@@ -26,7 +26,7 @@ namespace Vonage.Test.Unit.Video.Archives.ChangeLayout
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPut())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            await this.Helper.VonageClient.ArchiveClient.ChangeLayoutAsync(ChangeLayoutRequest
+            await this.Helper.VonageClient.VideoClient.ArchiveClient.ChangeLayoutAsync(ChangeLayoutRequest
                     .Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithArchiveId(Guid.Parse("97425ae1-4722-4dbf-b395-6169f08ebab3"))

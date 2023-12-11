@@ -25,7 +25,7 @@ namespace Vonage.Test.Unit.Video.Sip.PlayToneIntoConnection
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            await this.Helper.VonageClient.SipClient.PlayToneIntoConnectionAsync(PlayToneIntoConnectionRequest.Build()
+            await this.Helper.VonageClient.VideoClient.SipClient.PlayToneIntoConnectionAsync(PlayToneIntoConnectionRequest.Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
                     .WithConnectionId("414ac9c2-9a6f-4f4b-aad4-202dbe7b1d8d")

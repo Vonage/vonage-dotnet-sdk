@@ -26,7 +26,7 @@ namespace Vonage.Test.Unit.Video.Signaling.SendSignal
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            await this.Helper.VonageClient.SignalingClient.SendSignalAsync(SendSignalRequest.Build()
+            await this.Helper.VonageClient.VideoClient.SignalingClient.SendSignalAsync(SendSignalRequest.Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
                     .WithConnectionId("f0f01910-8797-4a22-aeb3-fcd5edb55ebe")

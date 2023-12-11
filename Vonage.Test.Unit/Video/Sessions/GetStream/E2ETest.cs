@@ -25,7 +25,7 @@ namespace Vonage.Test.Unit.Video.Sessions.GetStream
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            await this.Helper.VonageClient.SessionClient.GetStreamAsync(GetStreamRequest.Build()
+            await this.Helper.VonageClient.VideoClient.SessionClient.GetStreamAsync(GetStreamRequest.Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
                     .WithStreamId("stream99")

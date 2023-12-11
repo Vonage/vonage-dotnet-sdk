@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using Vonage.Common.Client;
-using Vonage.Common.Monads;
-using Vonage.Request;
+﻿using Vonage.Common.Client;
 using Vonage.Video.Archives;
 using Vonage.Video.Broadcast;
 using Vonage.Video.Moderation;
@@ -15,63 +11,25 @@ namespace Vonage.Video;
 /// <inheritdoc />
 public class VideoClient : IVideoClient
 {
-    private Credentials credentials;
+    private readonly VonageHttpClientConfiguration configuration;
 
     /// <inheritdoc />
-    public ArchiveClient ArchiveClient => new(this.BuildClientConfiguration());
+    public ArchiveClient ArchiveClient => new(this.configuration);
 
     /// <inheritdoc />
-    public BroadcastClient BroadcastClient => new(this.BuildClientConfiguration());
+    public BroadcastClient BroadcastClient => new(this.configuration);
 
     /// <inheritdoc />
-    public Credentials Credentials
-    {
-        get => this.credentials;
-        set
-        {
-            if (value is null) return;
-            this.credentials = value;
-        }
-    }
+    public ModerationClient ModerationClient => new(this.configuration);
 
     /// <inheritdoc />
-    public ModerationClient ModerationClient => new(this.BuildClientConfiguration());
+    public SessionClient SessionClient => new(this.configuration);
 
     /// <inheritdoc />
-    public SessionClient SessionClient => new(this.BuildClientConfiguration());
+    public SignalingClient SignalingClient => new(this.configuration);
 
     /// <inheritdoc />
-    public SignalingClient SignalingClient => new(this.BuildClientConfiguration());
+    public SipClient SipClient => new(this.configuration);
 
-    /// <inheritdoc />
-    public SipClient SipClient => new(this.BuildClientConfiguration());
-
-    /// <summary>
-    ///     Creates a new client.
-    /// </summary>
-    /// <param name="credentials">Credentials to be used for further clients.</param>
-    public VideoClient(Credentials credentials) => this.Credentials = credentials;
-
-    private VonageHttpClientConfiguration BuildClientConfiguration() =>
-        new(
-            InitializeHttpClient(this.GetConfiguration().VideoApiUrl),
-            this.Credentials.GetAuthenticationHeader(),
-            this.Credentials.GetUserAgent());
-
-    private Configuration GetConfiguration() => this.Configuration.IfNone(Vonage.Configuration.Instance);
-
-    private static HttpClient InitializeHttpClient(Uri baseUri)
-    {
-        var client = new HttpClient(new HttpClientHandler())
-        {
-            BaseAddress = baseUri,
-        };
-        client.DefaultRequestHeaders.Add("Accept", "application/json");
-        return client;
-    }
-
-    /// <summary>
-    ///     The instance of Configuration used by the client.
-    /// </summary>
-    protected Maybe<Configuration> Configuration = Maybe<Configuration>.None;
+    internal VideoClient(VonageHttpClientConfiguration configuration) => this.configuration = configuration;
 }

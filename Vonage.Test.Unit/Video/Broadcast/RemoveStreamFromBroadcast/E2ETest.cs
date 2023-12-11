@@ -25,7 +25,7 @@ namespace Vonage.Test.Unit.Video.Broadcast.RemoveStreamFromBroadcast
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            await this.Helper.VonageClient.BroadcastClient.RemoveStreamFromBroadcastAsync(
+            await this.Helper.VonageClient.VideoClient.BroadcastClient.RemoveStreamFromBroadcastAsync(
                     RemoveStreamFromBroadcastRequest.Build()
                         .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                         .WithBroadcastId(Guid.Parse("97425ae1-4722-4dbf-b395-6169f08ebab3"))

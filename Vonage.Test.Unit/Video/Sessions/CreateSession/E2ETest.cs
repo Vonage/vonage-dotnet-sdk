@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.Video.Sessions.CreateSession
         public async Task CreateDefaultSession()
         {
             this.SetUpServer(nameof(SerializationTest.ShouldDeserialize200));
-            await this.Helper.VonageClient.SessionClient.CreateSessionAsync(CreateSessionRequest.Default)
+            await this.Helper.VonageClient.VideoClient.SessionClient.CreateSessionAsync(CreateSessionRequest.Default)
                 .Should()
                 .BeSuccessAsync(session => SerializationTest.VerifySessions(new[] {session}));
         }
@@ -28,7 +28,7 @@ namespace Vonage.Test.Unit.Video.Sessions.CreateSession
         public async Task CreateSession_ShouldReturnFailure_GivenResponseContainsNoSession()
         {
             this.SetUpServer(nameof(SerializationTest.ShouldDeserialize200_GivenEmptyArray));
-            await this.Helper.VonageClient.SessionClient.CreateSessionAsync(CreateSessionRequest.Default)
+            await this.Helper.VonageClient.VideoClient.SessionClient.CreateSessionAsync(CreateSessionRequest.Default)
                 .Should()
                 .BeFailureAsync(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
         }

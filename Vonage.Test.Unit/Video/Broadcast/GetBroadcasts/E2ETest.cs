@@ -28,7 +28,7 @@ namespace Vonage.Test.Unit.Video.Broadcast.GetBroadcasts
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            await this.Helper.VonageClient.BroadcastClient.GetBroadcastsAsync(GetBroadcastsRequest
+            await this.Helper.VonageClient.VideoClient.BroadcastClient.GetBroadcastsAsync(GetBroadcastsRequest
                     .Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithCount(100)
