@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Serialization;
@@ -49,7 +50,7 @@ public readonly struct AddStreamRequest : IVonageRequest, IHasApplicationId, IHa
 
     private StringContent GetRequestContent() =>
         new(
-            JsonSerializerBuilder.Build()
+            JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase)
                 .SerializeObject(new {AddStream = this.StreamId, this.HasAudio, this.HasVideo}),
             Encoding.UTF8,
             "application/json");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Serialization;
@@ -47,7 +48,7 @@ public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId, I
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/signal";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.Build().SerializeObject(this.Content),
+        new(JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase).SerializeObject(this.Content),
             Encoding.UTF8,
             "application/json");
 }

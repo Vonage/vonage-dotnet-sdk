@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
@@ -49,5 +50,6 @@ public class PlayToneIntoConnectionRequest : IVonageRequest, IHasApplicationId, 
         $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}/play-dtmf";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8, "application/json");
+        new(JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase).SerializeObject(this), Encoding.UTF8,
+            "application/json");
 }

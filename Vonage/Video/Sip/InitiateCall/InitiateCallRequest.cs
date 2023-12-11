@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
@@ -50,5 +51,6 @@ public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId, 
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/dial";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.Build().SerializeObject(this), Encoding.UTF8, "application/json");
+        new(JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase).SerializeObject(this), Encoding.UTF8,
+            "application/json");
 }

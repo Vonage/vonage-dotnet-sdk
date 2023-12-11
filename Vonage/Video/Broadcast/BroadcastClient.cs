@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -24,7 +25,7 @@ public class BroadcastClient
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     public BroadcastClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.Build());
+        new VonageHttpClient(configuration, JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
 
     /// <summary>
     ///     Adds a stream to a live streaming broadcast.

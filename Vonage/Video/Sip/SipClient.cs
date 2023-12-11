@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
-using Vonage.Common;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Serialization;
 using Vonage.Video.Sip.InitiateCall;
 using Vonage.Video.Sip.PlayToneIntoCall;
 using Vonage.Video.Sip.PlayToneIntoConnection;
@@ -20,7 +21,7 @@ public class SipClient
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     public SipClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializer.BuildWithCamelCase());
+        new VonageHttpClient(configuration, JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
 
     /// <summary>
     ///     Connects your SIP platform to an OpenTok session.

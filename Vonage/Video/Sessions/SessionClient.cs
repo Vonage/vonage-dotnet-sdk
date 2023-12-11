@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
@@ -23,7 +24,8 @@ public class SessionClient
     /// <param name="configuration">The client configuration.</param>
     public SessionClient(VonageHttpClientConfiguration configuration)
     {
-        this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.Build());
+        this.vonageClient =
+            new VonageHttpClient(configuration, JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
         this.createSessionUseCase = new CreateSessionUseCase(this.vonageClient);
     }
 

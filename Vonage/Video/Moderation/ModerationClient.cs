@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -20,7 +21,7 @@ public class ModerationClient
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     public ModerationClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.Build());
+        new VonageHttpClient(configuration, JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
 
     /// <summary>
     ///     Forces a client to disconnect from a session
