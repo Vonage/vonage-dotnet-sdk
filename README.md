@@ -650,15 +650,18 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Meetings API          | General Availability |     ✅      |
 | Messages API          | General Availability |     ✅      |
 | Number Insight API    | General Availability |     ✅      |
+| Number Insight V2 API | General Availability |     ✅      |
 | Number Management API | General Availability |     ✅      |
 | Pricing API           | General Availability |     ✅      |
 | Proactive Connect API | General Availability |     ✅      |
 | Redact API            |  Developer Preview   |     ✅      |
 | Reports API           |         Beta         |     ❌      |
 | SMS API               | General Availability |     ✅      |
+| SubAccounts API       | General Availability |     ✅      |
+| Users API             | General Availability |     ✅      |
 | Verify API            | General Availability |     ✅      |
 | Verify V2 API         | General Availability |     ✅      |
-| Video API             |         Beta         |     ✅      |
+| Video API             | General Availability |     ✅      |
 | Voice API             | General Availability |     ✅      |
 
 ## FAQ
