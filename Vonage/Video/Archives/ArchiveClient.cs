@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -26,7 +25,7 @@ public class ArchiveClient
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     public ArchiveClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
+        new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
     ///     Adds the stream included in a composed archive that was started with the streamMode set to "manual".

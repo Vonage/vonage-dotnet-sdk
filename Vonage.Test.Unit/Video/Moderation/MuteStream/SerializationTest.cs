@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Serialization;
@@ -15,7 +14,7 @@ namespace Vonage.Test.Unit.Video.Moderation.MuteStream
         public SerializationTest()
         {
             this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
+                JsonSerializerBuilder.BuildWithCamelCase());
         }
 
         [Fact]

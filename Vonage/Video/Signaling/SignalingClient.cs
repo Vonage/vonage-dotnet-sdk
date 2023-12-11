@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -20,7 +19,7 @@ public class SignalingClient
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     public SignalingClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
+        new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
     ///     Sends signals to a single participant in an active Vonage Video session.

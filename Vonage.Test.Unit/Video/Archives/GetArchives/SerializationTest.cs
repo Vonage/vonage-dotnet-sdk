@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Serialization;
@@ -11,11 +10,9 @@ namespace Vonage.Test.Unit.Video.Archives.GetArchives
 {
     public class SerializationTest
     {
-        private readonly SerializationTestHelper helper;
-
-        public SerializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
+        private readonly SerializationTestHelper helper = new SerializationTestHelper(
+            typeof(SerializationTest).Namespace,
+            JsonSerializerBuilder.BuildWithCamelCase());
 
         [Fact]
         public void ShouldDeserialize200() =>

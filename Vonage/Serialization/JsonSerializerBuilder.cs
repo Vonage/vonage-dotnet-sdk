@@ -17,22 +17,27 @@ public static class JsonSerializerBuilder
     ///     Build a serializer.
     /// </summary>
     /// <returns>A serializer.</returns>
-    public static JsonSerializer Build() => JsonSerializer.BuildWithSnakeCase()
-        .WithConverter(new EnumDescriptionJsonConverter<MessagesChannel>())
-        .WithConverter(new EnumDescriptionJsonConverter<MessagesMessageType>())
-        .WithConverter(new EnumDescriptionJsonConverter<FraudScoreLabel>())
-        .WithConverter(new EnumDescriptionJsonConverter<LayoutType>())
-        .WithConverter(new EnumDescriptionJsonConverter<RenderResolution>())
-        .WithConverter(new EnumDescriptionJsonConverter<OutputMode>())
-        .WithConverter(new EnumDescriptionJsonConverter<StreamMode>())
-        .WithConverter(new EnumDescriptionJsonConverter<Broadcast.BroadcastStatus>())
-        .WithConverter(new EnumDescriptionJsonConverter<Broadcast.RtmpStatus>());
+    public static JsonSerializer Build() => BuildSerializer(JsonNamingPolicy.SnakeCaseLower);
 
     /// <summary>
     ///     Build a serializer.
     /// </summary>
     /// <returns>A serializer.</returns>
-    public static JsonSerializer Build(JsonNamingPolicy policy) => new JsonSerializer(policy)
+    public static JsonSerializer Build(JsonNamingPolicy policy) => BuildSerializer(policy);
+
+    /// <summary>
+    ///     Build a serializer.
+    /// </summary>
+    /// <returns>A serializer.</returns>
+    public static JsonSerializer BuildWithCamelCase() => BuildSerializer(JsonNamingPolicy.CamelCase);
+
+    /// <summary>
+    ///     Build a serializer.
+    /// </summary>
+    /// <returns>A serializer.</returns>
+    public static JsonSerializer BuildWithSnakeCase() => BuildSerializer(JsonNamingPolicy.SnakeCaseLower);
+
+    private static JsonSerializer BuildSerializer(JsonNamingPolicy policy) => new JsonSerializer(policy)
         .WithConverter(new EnumDescriptionJsonConverter<MessagesChannel>())
         .WithConverter(new EnumDescriptionJsonConverter<MessagesMessageType>())
         .WithConverter(new EnumDescriptionJsonConverter<FraudScoreLabel>())

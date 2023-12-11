@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json;
 using FluentAssertions;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
@@ -11,11 +10,9 @@ namespace Vonage.Test.Unit.Video.Sip.InitiateCall
 {
     public class SerializationTest
     {
-        private readonly SerializationTestHelper helper;
-
-        public SerializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
+        private readonly SerializationTestHelper helper = new SerializationTestHelper(
+            typeof(SerializationTest).Namespace,
+            JsonSerializerBuilder.BuildWithCamelCase());
 
         [Fact]
         public void ShouldDeserialize200() =>

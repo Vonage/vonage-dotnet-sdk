@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Serialization;
@@ -15,7 +14,7 @@ namespace Vonage.Test.Unit.Video.Signaling.SendSignal
 
         public SerializationTest() => this.helper =
             new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
+                JsonSerializerBuilder.BuildWithCamelCase());
 
         [Fact]
         public void ShouldSerialize() =>
