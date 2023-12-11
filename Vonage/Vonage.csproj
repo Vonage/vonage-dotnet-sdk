@@ -64,11 +64,11 @@
         <PackageReference Include="Enums.NET" Version="4.0.1"/>
         <PackageReference Include="Handy.DotNETCore-Compatibility.ColorTranslations" Version="0.2.1"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0"/>
-        <PackageReference Include="PolySharp" Version="1.13.2">
+        <PackageReference Include="PolySharp" Version="1.14.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="System.IO.Abstractions" Version="19.2.87"/>
+        <PackageReference Include="System.IO.Abstractions" Version="20.0.4"/>
         <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
         <PackageReference Include="System.Text.Json" Version="8.0.0"/>
         <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
