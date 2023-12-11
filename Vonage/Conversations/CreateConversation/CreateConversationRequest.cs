@@ -7,6 +7,7 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Serialization;
 
 namespace Vonage.Conversations.CreateConversation;
 
@@ -64,7 +65,7 @@ public readonly struct CreateConversationRequest : IVonageRequest
     /// <inheritdoc />
     public string GetEndpointPath() => "/v1/conversations";
 
-    private StringContent GetRequestContent() => new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
+    private StringContent GetRequestContent() => new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
         Encoding.UTF8, "application/json");
 }
 

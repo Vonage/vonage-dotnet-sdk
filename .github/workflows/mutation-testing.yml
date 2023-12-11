@@ -40,14 +40,3 @@ jobs:
         run: |
           cd Vonage.Common
           dotnet stryker --reporter "dashboard" --dashboard-api-key "${{ secrets.STRYKER_API_KEY }}"
-  vonage-server:
-    name: Vonage.Server
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Stryker
-        run: dotnet tool install -g dotnet-stryker
-      - name: Run mutation testing
-        run: |
-          cd Vonage.Server
-          dotnet stryker --reporter "dashboard" --dashboard-api-key "${{ secrets.STRYKER_API_KEY }}"

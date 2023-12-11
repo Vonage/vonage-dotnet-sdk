@@ -8,6 +8,7 @@ using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Conversations.CreateConversation;
+using Vonage.Serialization;
 using Xunit;
 using PhoneNumber = Vonage.Conversations.CreateConversation.PhoneNumber;
 
@@ -17,7 +18,7 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
     {
         private readonly SerializationTestHelper helper = new SerializationTestHelper(
             typeof(SerializationTest).Namespace,
-            JsonSerializer.BuildWithSnakeCase());
+            JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() => this.helper.Serializer

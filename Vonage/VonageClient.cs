@@ -22,6 +22,7 @@ using Vonage.SubAccounts;
 using Vonage.Users;
 using Vonage.Verify;
 using Vonage.VerifyV2;
+using Vonage.Video;
 using Vonage.Voice;
 
 namespace Vonage;
@@ -105,6 +106,11 @@ public class VonageClient
     public IVoiceClient VoiceClient { get; private set; }
 
     /// <summary>
+    /// Exposes Video features.
+    /// </summary>
+    public IVideoClient VideoClient { get; private set; }
+
+    /// <summary>
     ///     Constructor for VonageClient.
     /// </summary>
     /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
@@ -169,5 +175,7 @@ public class VonageClient
         this.ProactiveConnectClient =
             new ProactiveConnectClient(
                 this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)));
+        this.VideoClient =
+            new VideoClient(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VideoApiUrl)));
     }
 }

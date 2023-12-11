@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.NumberInsightV2.FraudCheck;
+using Vonage.Serialization;
 using Vonage.Test.Unit.TestHelpers;
 using WireMock.ResponseBuilders;
 using Xunit;
@@ -17,7 +17,7 @@ namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck
         private const string ApiUrl = "Vonage.Url.Api";
 
         private readonly SerializationTestHelper serialization =
-            new SerializationTestHelper(typeof(E2ETest).Namespace, JsonSerializer.BuildWithSnakeCase());
+            new SerializationTestHelper(typeof(E2ETest).Namespace, JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public async Task PerformFraudCheck_WithFraudScore_UsingBasicCredentials() =>

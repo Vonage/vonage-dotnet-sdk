@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vonage.Request;
+using Vonage.Video.Authentication;
 
 namespace Vonage.Extensions;
 
@@ -88,8 +89,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().UsersClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VideoClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);
         services.AddScoped<ITokenGenerator>(_ => new Jwt());
+        services.AddScoped<IVideoTokenGenerator>(_ => new VideoTokenGenerator());
     }
 
     private static void RegisterTransientServices(IServiceCollection services)
@@ -111,7 +114,9 @@ public static class ServiceCollectionExtensions
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().UsersClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VideoClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);
         services.AddTransient<ITokenGenerator>(_ => new Jwt());
+        services.AddTransient<IVideoTokenGenerator>(_ => new VideoTokenGenerator());
     }
 }

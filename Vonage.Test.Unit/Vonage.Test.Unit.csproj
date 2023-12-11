@@ -39,6 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Video\TestHelpers\" />
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -919,6 +920,129 @@
         </None>
         <None Update="Conversations\CreateConversation\Data\ShouldSerialize-request.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <Content Include="Video\Sessions\GetStream\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Sessions\CreateSession\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Sessions\CreateSession\Data\ShouldDeserialize200_GivenEmptyArray-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Sessions\GetStreams\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Moderation\MuteStream\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Moderation\MuteStreams\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Archives\GetArchives\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Archives\GetArchive\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Archives\CreateArchive\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Archives\StopArchive\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Broadcast\GetBroadcasts\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\Data\ShouldSerializeWithDefaultValues-request.json"/>
+        <None Remove="Video\Sip\Data\ShouldSerialize-request.json"/>
+        <None Remove="Video\Sip\InitiateCall\Data\ShouldSerialize-request.json"/>
+        <Content Include="Video\Sip\InitiateCall\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\InitiateCall\Data\ShouldSerializeWithDefaultValues-request.json"/>
+        <Content Include="Video\Sip\InitiateCall\Data\ShouldSerializeWithDefaultValues-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\InitiateCall\Data\ShouldDeserialize200-request.json"/>
+        <Content Include="Video\Sip\InitiateCall\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\PlayToneIntoCall\Data\ShouldSerialize-request.json"/>
+        <Content Include="Video\Sip\PlayToneIntoCall\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Sip\PlayToneIntoConnection\Data\ShouldSerialize-request.json"/>
+        <Content Include="Video\Sip\PlayToneIntoConnection\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Broadcast\StartBroadcast\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Video\Broadcast\StartBroadcast\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Broadcast\StartBroadcast\Data\ShouldSerialize-request.json"/>
+        <Content Include="Video\Broadcast\StartBroadcast\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Broadcast\StartBroadcast\Data\ShouldSerializeWithDefaultValues-request.json"/>
+        <Content Include="Video\Broadcast\StartBroadcast\Data\ShouldSerializeWithDefaultValues-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Broadcast\GetBroadcast\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Video\Broadcast\GetBroadcast\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Broadcast\StopBroadcast\Data\ShouldDeserialize200-response.json"/>
+        <Content Include="Video\Broadcast\StopBroadcast\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Video\Broadcast\AddStreamToBroadcast\Data\ShouldSerializeWithDefaultValues-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Broadcast\AddStreamToBroadcast\Data\ShouldSerialize-request.json"/>
+        <Content Include="Video\Broadcast\AddStreamToBroadcast\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Broadcast\RemoveStreamFromBroadcast\Data\ShouldSerialize-request.json"/>
+        <Content Include="Video\Broadcast\RemoveStreamFromBroadcast\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Video\Broadcast\ChangeBroadcastLayout\Data\ShouldSerialize-request.json"/>
+        <Content Include="Video\Broadcast\ChangeBroadcastLayout\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Update="Video\Archives\AddStream\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Archives\AddStream\Data\ShouldSerializeWithoutAudio-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Archives\AddStream\Data\ShouldSerializeWithoutVideo-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Archives\ChangeLayout\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Archives\CreateArchive\Data\ShouldSerializeDefault-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Archives\CreateArchive\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Archives\RemoveStream\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Moderation\MuteStreams\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Sessions\ChangeStreamLayout\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Signaling\SendSignal\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\Signaling\SendSignals\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Serialization;
+using Vonage.Serialization;
 
 namespace Vonage.NumberInsightV2.FraudCheck;
 
@@ -46,6 +47,6 @@ public readonly struct FraudCheckRequest : IVonageRequest
     /// <inheritdoc />
     public string GetEndpointPath() => "/v2/ni";
 
-    private StringContent GetRequestContent() => new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
+    private StringContent GetRequestContent() => new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
         Encoding.UTF8, "application/json");
 }

@@ -14,8 +14,8 @@ public class MessagesClient : IMessagesClient
     private const string Url = "/v1/messages";
     private readonly Configuration configuration;
     private readonly Credentials credentials;
-    private readonly Uri uri;
     private readonly ITimeProvider timeProvider = new TimeProvider();
+    private readonly Uri uri;
 
     /// <summary>
     /// </summary>
@@ -47,7 +47,8 @@ public class MessagesClient : IMessagesClient
             HttpMethod.Post, this.uri,
             message,
             authType,
-            value => JsonSerializerBuilder.Build().SerializeObject(value),
-            value => JsonSerializerBuilder.Build().DeserializeObject<MessagesResponse>(value).GetSuccessUnsafe());
+            value => JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(value),
+            value => JsonSerializerBuilder.BuildWithSnakeCase().DeserializeObject<MessagesResponse>(value)
+                .GetSuccessUnsafe());
     }
 }
