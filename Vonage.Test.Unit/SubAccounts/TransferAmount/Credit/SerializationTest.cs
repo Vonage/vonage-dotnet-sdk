@@ -1,7 +1,7 @@
 ﻿using System;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Serialization;
 using Vonage.SubAccounts;
 using Xunit;
 
@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Credit
         public SerializationTest() =>
             this.helper = new SerializationTestHelper(
                 typeof(SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+                JsonSerializerBuilder.BuildWithSnakeCase());
 
         public static Transfer GetExpectedTransfer() =>
             new Transfer(

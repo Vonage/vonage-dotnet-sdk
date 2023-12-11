@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Serialization;
@@ -42,7 +41,7 @@ public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId, I
         $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/mute";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase).SerializeObject(this.Configuration),
+        new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this.Configuration),
             Encoding.UTF8,
             "application/json");
 

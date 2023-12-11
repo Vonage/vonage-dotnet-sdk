@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
-using Vonage.Common;
 using Vonage.Common.Client;
+using Vonage.Serialization;
 
 namespace Vonage.ProactiveConnect.Items.UpdateItem;
 
@@ -46,7 +46,7 @@ public readonly struct UpdateItemRequest : IVonageRequest
     public string GetEndpointPath() => $"/v0.1/bulk/lists/{this.ListId}/items/{this.ItemId}";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
+        new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
             Encoding.UTF8,
             "application/json");
 }

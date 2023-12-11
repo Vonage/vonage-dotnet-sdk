@@ -1,10 +1,10 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Serialization;
 
 namespace Vonage.SubAccounts.TransferAmount;
 
@@ -59,7 +59,7 @@ public readonly struct TransferAmountRequest : IVonageRequest
     public string GetEndpointPath() => $"/accounts/{this.ApiKey}/{this.Endpoint}";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
+        new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
     internal TransferAmountRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};

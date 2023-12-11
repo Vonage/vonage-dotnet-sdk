@@ -14,25 +14,13 @@ namespace Vonage.Serialization;
 public static class JsonSerializerBuilder
 {
     /// <summary>
-    ///     Build a serializer.
-    /// </summary>
-    /// <returns>A serializer.</returns>
-    public static JsonSerializer Build() => BuildSerializer(JsonNamingPolicy.SnakeCaseLower);
-
-    /// <summary>
-    ///     Build a serializer.
-    /// </summary>
-    /// <returns>A serializer.</returns>
-    public static JsonSerializer Build(JsonNamingPolicy policy) => BuildSerializer(policy);
-
-    /// <summary>
-    ///     Build a serializer.
+    ///     Build a serializer with a Camel case policy.
     /// </summary>
     /// <returns>A serializer.</returns>
     public static JsonSerializer BuildWithCamelCase() => BuildSerializer(JsonNamingPolicy.CamelCase);
 
     /// <summary>
-    ///     Build a serializer.
+    ///     Build a serializer with a Snake case policy.
     /// </summary>
     /// <returns>A serializer.</returns>
     public static JsonSerializer BuildWithSnakeCase() => BuildSerializer(JsonNamingPolicy.SnakeCaseLower);

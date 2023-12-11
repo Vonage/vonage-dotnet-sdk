@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Serialization;
@@ -46,7 +45,7 @@ public readonly struct RemoveStreamRequest : IVonageRequest, IHasApplicationId, 
 
     private StringContent GetRequestContent() =>
         new(
-            JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase).SerializeObject(new {RemoveStream = this.StreamId}),
+            JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(new {RemoveStream = this.StreamId}),
             Encoding.UTF8,
             "application/json");
 }

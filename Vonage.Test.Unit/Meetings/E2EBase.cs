@@ -1,5 +1,5 @@
-﻿using Vonage.Common;
-using Vonage.Common.Test;
+﻿using Vonage.Common.Test;
+using Vonage.Serialization;
 using Vonage.Test.Unit.TestHelpers;
 
 namespace Vonage.Test.Unit.Meetings
@@ -10,7 +10,7 @@ namespace Vonage.Test.Unit.Meetings
         {
             this.Helper = TestingContext.WithBearerCredentials("Vonage.Url.Api.Europe");
             this.Serialization =
-                new SerializationTestHelper(serializationNamespace, JsonSerializer.BuildWithSnakeCase());
+                new SerializationTestHelper(serializationNamespace, JsonSerializerBuilder.BuildWithSnakeCase());
         }
 
         internal readonly TestingContext Helper;

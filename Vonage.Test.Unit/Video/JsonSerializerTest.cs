@@ -13,7 +13,7 @@ namespace Vonage.Test.Unit.Video
         private const string DummyString = @"{""code"":200,""id"":10,""name"":""Hello World""}";
         private readonly JsonSerializer serializer;
 
-        public JsonSerializerTest() => this.serializer = JsonSerializerBuilder.Build();
+        public JsonSerializerTest() => this.serializer = JsonSerializerBuilder.BuildWithSnakeCase();
 
         [Theory]
         [InlineData("Something")]

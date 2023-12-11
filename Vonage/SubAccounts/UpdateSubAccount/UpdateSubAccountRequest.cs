@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Serialization;
 
 namespace Vonage.SubAccounts.UpdateSubAccount;
 
@@ -56,7 +56,7 @@ public readonly struct UpdateSubAccountRequest : IVonageRequest
         this.Name.IfSome(value => values.Add("name", value));
         this.UsePrimaryAccountBalance.IfSome(value => values.Add("use_primary_account_balance", value));
         this.Suspended.IfSome(value => values.Add("suspended", value));
-        return new StringContent(JsonSerializer.BuildWithSnakeCase().SerializeObject(values), Encoding.UTF8,
+        return new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(values), Encoding.UTF8,
             "application/json");
     }
 

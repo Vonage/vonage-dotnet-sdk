@@ -3,10 +3,10 @@ using System.Drawing;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Serialization;
 
 namespace Vonage.Meetings.CreateTheme;
 
@@ -52,7 +52,7 @@ public readonly struct CreateThemeRequest : IVonageRequest
     public string GetEndpointPath() => "/v1/meetings/themes";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
+        new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
             Encoding.UTF8,
             "application/json");
 }
