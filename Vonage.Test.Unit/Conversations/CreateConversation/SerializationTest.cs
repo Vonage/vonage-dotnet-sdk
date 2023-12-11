@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net.Http;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Monads;
@@ -8,6 +9,7 @@ using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Conversations.CreateConversation;
 using Xunit;
+using PhoneNumber = Vonage.Conversations.CreateConversation.PhoneNumber;
 
 namespace Vonage.Test.Unit.Conversations.CreateConversation
 {
@@ -64,7 +66,30 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                     .Be(new Links(new HalLink(new Uri(
                         "https://api-us-3.vonage.com/v1/conversations/CON-dd7ca47d-0e2f-4118-adc4-905e96431459"))));
             });
-        
+
+        [Fact(Skip = "Not implemented")]
+        public void ShouldSerialize() => CreateConversationRequest.Build()
+            .WithName("customer_chat")
+            .WithDisplayName("Customer Chat")
+            .WithImageUrl(new Uri("https://example.com/image.png"))
+            .WithProperties(new Properties(60, "string",
+                "string", new Dictionary<string, string>
+                {
+                    {"property1", "string"},
+                    {"property2", "string"},
+                }))
+            .WithCallback(new Callback(new Uri("https://example.com"), "string",
+                new CallbackParameters("string", new Uri("https://example.com")), HttpMethod.Post))
+            .WithNumber(new PhoneNumber("447700900000"))
+            .WithNumber(new SipNumber("sip:+Htg;:xa", "string", "string"))
+            .WithNumber(new AppNumber("string"))
+            .WithNumber(new WebSocketNumber("ws://example.com:8080", "string"))
+            .WithNumber(new VbcNumber("447700900000"))
+            .Create()
+            .GetStringContent()
+            .Should()
+            .BeSuccess(this.helper.GetRequestJson());
+
         [Fact]
         public void ShouldSerializeDefault() => CreateConversationRequest.Build()
             .Create()
