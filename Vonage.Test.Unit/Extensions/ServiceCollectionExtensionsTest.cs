@@ -22,6 +22,8 @@ using Vonage.SubAccounts;
 using Vonage.Users;
 using Vonage.Verify;
 using Vonage.VerifyV2;
+using Vonage.Video;
+using Vonage.Video.Authentication;
 using Vonage.Voice;
 using Xunit;
 
@@ -97,8 +99,10 @@ namespace Vonage.Test.Unit.Extensions
             yield return new object[] {typeof(IUsersClient)};
             yield return new object[] {typeof(IVerifyClient)};
             yield return new object[] {typeof(IVerifyV2Client)};
+            yield return new object[] {typeof(IVideoClient)};
             yield return new object[] {typeof(IVoiceClient)};
             yield return new object[] {typeof(ITokenGenerator)};
+            yield return new object[] {typeof(IVideoTokenGenerator)};
         }
 
         private static ServiceProvider BuildScopedProviderWithConfiguration(IConfiguration configuration) =>
