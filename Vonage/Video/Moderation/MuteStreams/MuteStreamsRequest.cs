@@ -25,7 +25,7 @@ public readonly struct MuteStreamsRequest : IVonageRequest, IHasApplicationId, I
     public string SessionId { get; internal init; }
 
     /// <summary>
-    /// Initializes a builder.
+    ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
     public static IBuilderForApplicationId Build() => new MuteStreamsRequestBuilder();

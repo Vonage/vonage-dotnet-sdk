@@ -17,7 +17,7 @@ public readonly struct GetArchiveRequest : IVonageRequest, IHasApplicationId, IH
     public Guid ArchiveId { get; internal init; }
 
     /// <summary>
-    /// Initializes a builder.
+    ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
     public static ArchiveRequestBuilder<GetArchiveRequest>.IBuilderForApplicationId Build() =>

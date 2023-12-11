@@ -17,7 +17,7 @@ public readonly struct DeleteArchiveRequest : IVonageRequest, IHasApplicationId,
     public Guid ArchiveId { get; private init; }
 
     /// <summary>
-    /// Initializes a builder.
+    ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
     public static ArchiveRequestBuilder<DeleteArchiveRequest>.IBuilderForApplicationId Build() =>

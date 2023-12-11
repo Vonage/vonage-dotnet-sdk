@@ -22,7 +22,7 @@ public readonly struct MuteStreamRequest : IVonageRequest, IHasApplicationId, IH
     public string StreamId { get; internal init; }
 
     /// <summary>
-    /// Initializes a builder.
+    ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
     public static IBuilderForApplicationId Build() => new MuteStreamRequestBuilder();

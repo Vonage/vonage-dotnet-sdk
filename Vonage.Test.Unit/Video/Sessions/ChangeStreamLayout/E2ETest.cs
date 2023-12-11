@@ -25,7 +25,8 @@ namespace Vonage.Test.Unit.Video.Sessions.ChangeStreamLayout
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPut())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            await this.Helper.VonageClient.VideoClient.SessionClient.ChangeStreamLayoutAsync(ChangeStreamLayoutRequest.Build()
+            await this.Helper.VonageClient.VideoClient.SessionClient.ChangeStreamLayoutAsync(ChangeStreamLayoutRequest
+                    .Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
                     .WithItem(new ChangeStreamLayoutRequest.LayoutItem("8b732909-0a06-46a2-8ea8-074e64d43422",

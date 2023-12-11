@@ -26,11 +26,12 @@ namespace Vonage.Test.Unit.Video.Broadcast.AddStreamToBroadcast
                         .ShouldSerializeWithDefaultValues)))
                     .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            await this.Helper.VonageClient.VideoClient.BroadcastClient.AddStreamToBroadcastAsync(AddStreamToBroadcastRequest.Build()
-                    .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
-                    .WithBroadcastId(Guid.Parse("97425ae1-4722-4dbf-b395-6169f08ebab3"))
-                    .WithStreamId(Guid.Parse("12312312-3811-4726-b508-e41a0f96c68f"))
-                    .Create())
+            await this.Helper.VonageClient.VideoClient.BroadcastClient.AddStreamToBroadcastAsync(
+                    AddStreamToBroadcastRequest.Build()
+                        .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
+                        .WithBroadcastId(Guid.Parse("97425ae1-4722-4dbf-b395-6169f08ebab3"))
+                        .WithStreamId(Guid.Parse("12312312-3811-4726-b508-e41a0f96c68f"))
+                        .Create())
                 .Should()
                 .BeSuccessAsync();
         }
@@ -45,13 +46,14 @@ namespace Vonage.Test.Unit.Video.Broadcast.AddStreamToBroadcast
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest.ShouldSerialize)))
                     .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-            await this.Helper.VonageClient.VideoClient.BroadcastClient.AddStreamToBroadcastAsync(AddStreamToBroadcastRequest.Build()
-                    .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
-                    .WithBroadcastId(Guid.Parse("97425ae1-4722-4dbf-b395-6169f08ebab3"))
-                    .WithStreamId(Guid.Parse("12312312-3811-4726-b508-e41a0f96c68f"))
-                    .WithDisabledAudio()
-                    .WithDisabledVideo()
-                    .Create())
+            await this.Helper.VonageClient.VideoClient.BroadcastClient.AddStreamToBroadcastAsync(
+                    AddStreamToBroadcastRequest.Build()
+                        .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
+                        .WithBroadcastId(Guid.Parse("97425ae1-4722-4dbf-b395-6169f08ebab3"))
+                        .WithStreamId(Guid.Parse("12312312-3811-4726-b508-e41a0f96c68f"))
+                        .WithDisabledAudio()
+                        .WithDisabledVideo()
+                        .Create())
                 .Should()
                 .BeSuccessAsync();
         }

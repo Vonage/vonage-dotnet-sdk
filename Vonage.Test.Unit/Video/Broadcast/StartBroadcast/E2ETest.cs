@@ -27,7 +27,8 @@ namespace Vonage.Test.Unit.Video.Broadcast.StartBroadcast
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            await this.Helper.VonageClient.VideoClient.BroadcastClient.StartBroadcastsAsync(StartBroadcastRequest.Build()
+            await this.Helper.VonageClient.VideoClient.BroadcastClient.StartBroadcastsAsync(StartBroadcastRequest
+                    .Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithSessionId("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4")
                     .WithLayout(new Layout(LayoutType.HorizontalPresentation,
@@ -63,7 +64,8 @@ namespace Vonage.Test.Unit.Video.Broadcast.StartBroadcast
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            await this.Helper.VonageClient.VideoClient.BroadcastClient.StartBroadcastsAsync(StartBroadcastRequest.Build()
+            await this.Helper.VonageClient.VideoClient.BroadcastClient.StartBroadcastsAsync(StartBroadcastRequest
+                    .Build()
                     .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                     .WithSessionId("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4")
                     .WithLayout(new Layout(null,

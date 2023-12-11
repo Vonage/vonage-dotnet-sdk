@@ -17,7 +17,7 @@ public readonly struct GetStreamsRequest : IVonageRequest, IHasApplicationId, IH
     public string SessionId { get; internal init; }
 
     /// <summary>
-    /// Initializes a builder.
+    ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
     public static IBuilderForApplicationId Build() => new GetStreamsRequestBuilder();

@@ -58,7 +58,7 @@ public readonly struct CreateSessionRequest : IVonageRequest
     public string GetEndpointPath() => "/session/create";
 
     /// <summary>
-    /// Retrieves the encoded Url.
+    ///     Retrieves the encoded Url.
     /// </summary>
     /// <returns>The encoded Url.</returns>
     public string GetUrlEncoded()

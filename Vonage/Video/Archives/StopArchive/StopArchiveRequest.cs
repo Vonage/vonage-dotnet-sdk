@@ -17,7 +17,7 @@ public readonly struct StopArchiveRequest : IVonageRequest, IHasApplicationId, I
     public Guid ArchiveId { get; private init; }
 
     /// <summary>
-    /// Initializes a builder.
+    ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
     public static ArchiveRequestBuilder<StopArchiveRequest>.IBuilderForApplicationId Build() =>

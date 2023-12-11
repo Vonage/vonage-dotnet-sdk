@@ -16,6 +16,7 @@ namespace Vonage.Test.Unit.Video.Signaling.SendSignals
         public SerializationTest() => this.helper =
             new SerializationTestHelper(typeof(SerializationTest).Namespace,
                 JsonSerializerBuilder.Build(JsonNamingPolicy.CamelCase));
+
         [Fact]
         public void ShouldSerialize() =>
             SendSignalsRequest.Build()

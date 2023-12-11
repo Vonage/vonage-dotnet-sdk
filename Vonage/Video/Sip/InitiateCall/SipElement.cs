@@ -77,9 +77,15 @@ public readonly struct SipElement
     public Uri Uri { get; internal init; }
 
     /// <summary>
-    /// Represents the authentication for the SIP call.
+    ///     Represents the authentication for the SIP call.
     /// </summary>
-    /// <param name="Username">Contains the username to be used in the the SIP INVITE request for HTTP digest authentication, if it is required by your SIP platform.</param>
-    /// <param name="Password">Contains the password to be used in the the SIP INVITE request for HTTP digest authentication, if it is required by your SIP platform.</param>
+    /// <param name="Username">
+    ///     Contains the username to be used in the the SIP INVITE request for HTTP digest authentication,
+    ///     if it is required by your SIP platform.
+    /// </param>
+    /// <param name="Password">
+    ///     Contains the password to be used in the the SIP INVITE request for HTTP digest authentication,
+    ///     if it is required by your SIP platform.
+    /// </param>
     public record SipAuthentication(string Username, string Password);
 }

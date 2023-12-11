@@ -1,5 +1,4 @@
-﻿using Vonage.Request;
-using Vonage.Video.Archives;
+﻿using Vonage.Video.Archives;
 using Vonage.Video.Broadcast;
 using Vonage.Video.Moderation;
 using Vonage.Video.Sessions;

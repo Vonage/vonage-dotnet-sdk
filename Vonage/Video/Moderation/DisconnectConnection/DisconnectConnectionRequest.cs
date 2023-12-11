@@ -20,7 +20,7 @@ public readonly struct DisconnectConnectionRequest : IVonageRequest, IHasApplica
     public string SessionId { get; internal init; }
 
     /// <summary>
-    /// Initializes a builder.
+    ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
     public static IBuilderForApplicationId Build() => new DisconnectConnectionRequestBuilder();
