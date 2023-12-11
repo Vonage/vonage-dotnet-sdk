@@ -1,10 +1,104 @@
 # Changelog
-## [unreleased]
+
+## [v6.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.14.0) (2023-12-11)
+
+### Bug Fixes
+
+- Add specific System.Net.Http for Vonage.Common.Test to avoid mismatch when building with
+  .NetFramework ([aa6a2d1](https://github.com/Vonage/vonage-dotnet-sdk/commit/aa6a2d1bd9b2b58bee0bc1833142f9978993df1f))
+
+- Add explicit reference to System.Net.Http for
+  .NetFramework4.6.2 ([5d151b6](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d151b6170723bbf337d79773fe6ec85a7753111))
 
 ### Documentation
 
 - Update changelog after v6.13.0 tag ([a89ee57](https://github.com/Vonage/vonage-dotnet-sdk/commit/a89ee57cb323db0b28b73c93e1292b4b3ac84429))
 
+- Update
+  changelog ([ea21a0c](https://github.com/Vonage/vonage-dotnet-sdk/commit/ea21a0c838a9226c148f774b67c49e5493ea0080))
+
+- Update readme with available
+  APIs ([13875a8](https://github.com/Vonage/vonage-dotnet-sdk/commit/13875a835a51519edc78b4c3682e5ca060871b5d))
+
+### Features
+
+- Base structure for CreateConversation in Conversations
+  API ([b401dc7](https://github.com/Vonage/vonage-dotnet-sdk/commit/b401dc7220775f7b965f83b93ceec7ef42bc142d))
+
+- Implement CreateConversationResponse
+  deserialization ([98b6539](https://github.com/Vonage/vonage-dotnet-sdk/commit/98b6539125f774a2e58114aea2ea7c701590761a))
+
+- Override .ToString() on
+  Maybe<T> ([09133a0](https://github.com/Vonage/vonage-dotnet-sdk/commit/09133a05fe517e0dddaf21b0bf50a7733535e06a))
+
+- Implement Merge capability on
+  Maybe<T> ([f961208](https://github.com/Vonage/vonage-dotnet-sdk/commit/f96120835c58d657f3cc722f6ee0d92da9a5db70))
+
+- Implement GetFailureUnsafe on
+  Result<T> ([038c24e](https://github.com/Vonage/vonage-dotnet-sdk/commit/038c24e3b3c6a00b94181dde28a08ce6fb637250))
+
+- Add BeEquivalentTo assertions to Maybe<T> and
+  Result<T> ([364d43d](https://github.com/Vonage/vonage-dotnet-sdk/commit/364d43ddf75b19c5ac55740fe918b0fa60017314))
+
+- Implement builder for Name & DisplayName in
+  CreateConversation ([5b1b575](https://github.com/Vonage/vonage-dotnet-sdk/commit/5b1b57502f77e1b0fdebcbf734cc284c9e052de9))
+
+- Implement builder for Uri in
+  CreateConversation ([4d012dd](https://github.com/Vonage/vonage-dotnet-sdk/commit/4d012dd8774f3f304fee04af5c5ba97d8bf14a54))
+
+- Implement builder for Properties in
+  CreateConversation ([7a8c4c1](https://github.com/Vonage/vonage-dotnet-sdk/commit/7a8c4c13d0adcfe2b79b716b41e6e074cd720c8c))
+
+- Implement builder for Callback in
+  CreateConversation ([61511f3](https://github.com/Vonage/vonage-dotnet-sdk/commit/61511f3320887f2423ad7589ebaea9c32f29efe5))
+
+- Implement request validation for
+  CreateConversation ([4250e09](https://github.com/Vonage/vonage-dotnet-sdk/commit/4250e09a11b6e4210ae92f3a5264a89854420d7d))
+
+- Implement default serialization for
+  CreateConversation ([5d92598](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d92598504d1dc0c9022be7c76bc310497fec6b5))
+
+- Implement builder for Numbers in
+  CreateConversation ([51cddd7](https://github.com/Vonage/vonage-dotnet-sdk/commit/51cddd79f2a553db5cde504bf03488d06ea77123))
+
+- Support serialization for
+  CreateConversation ([6e6cc78](https://github.com/Vonage/vonage-dotnet-sdk/commit/6e6cc78536589549e19b961acdde2806e421deda))
+
+- Video integration (
+  #558) ([2e5c46e](https://github.com/Vonage/vonage-dotnet-sdk/commit/2e5c46e18c22be8eb73c1daa9614feb0a36e5df6))
+
+### Merges
+
+- Merge branch 'main' of https://github.com/Vonage/vonage-dotnet-sdk
+  ([0573876](https://github.com/Vonage/vonage-dotnet-sdk/commit/057387692544222bc958c558c45bf44d4c0367d4))
+
+### Pipelines
+
+- Make changelog workflow dispatch
+  only ([f9466fa](https://github.com/Vonage/vonage-dotnet-sdk/commit/f9466fa14383181a7b6f9386e24fbf72634a23c9))
+
+### Refactoring
+
+- Use value equality when asserting
+  properties ([68ff008](https://github.com/Vonage/vonage-dotnet-sdk/commit/68ff008312e7f5e488a31accb7afc79d12956912))
+
+- Add invariant culture when parsing
+  DateTimeOffset ([16bcd1b](https://github.com/Vonage/vonage-dotnet-sdk/commit/16bcd1b9114720510551535d613a3f1211112010))
+
+- Update
+  dependencies ([128712c](https://github.com/Vonage/vonage-dotnet-sdk/commit/128712c5c9c9290f491ec17c27f00c23b9b9cf9e))
+
+### Releases
+
+- Bump version to
+  v6.14.0 ([50cca55](https://github.com/Vonage/vonage-dotnet-sdk/commit/50cca55c7495f6fc8bdc5d62126cf62412fd8587))
+
+### Reverts
+
+- Revert "fix: add specific System.Net.Http for Vonage.Common.Test to avoid mismatch when building with .NetFramework"
+
+This reverts commit aa6a2d1bd9b2b58bee0bc1833142f9978993df1f.
+([3a39d06](https://github.com/Vonage/vonage-dotnet-sdk/commit/3a39d06200340c7a71623a872e576841c04a327d))
 
 ## [v6.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.13.0) (2023-12-01)
 
