@@ -3,7 +3,7 @@ using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Broadcast.StartBroadcast;
+using Vonage.Video.Broadcast.StartBroadcast;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
@@ -24,7 +24,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
             this.layout = new Layout(null, null, LayoutType.HorizontalPresentation);
             this.outputs = new StartBroadcastRequest.BroadcastOutput
             {
-                Hls = new Server.Video.Broadcast.Broadcast.HlsSettings(false, false),
+                Hls = new Vonage.Video.Broadcast.Broadcast.HlsSettings(false, false),
                 Streams = fixture.CreateMany<StartBroadcastRequest.BroadcastOutput.Stream>().ToArray(),
             };
         }
@@ -102,7 +102,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .WithLayout(this.layout)
                 .WithOutputs(new StartBroadcastRequest.BroadcastOutput
                 {
-                    Hls = new Server.Video.Broadcast.Broadcast.HlsSettings(true, true),
+                    Hls = new Vonage.Video.Broadcast.Broadcast.HlsSettings(true, true),
                 })
                 .Create()
                 .Should()

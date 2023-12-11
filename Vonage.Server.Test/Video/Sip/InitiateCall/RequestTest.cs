@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Sip.InitiateCall;
+using Vonage.Video.Sip.InitiateCall;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sip.InitiateCall

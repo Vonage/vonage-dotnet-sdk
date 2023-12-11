@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Sip.PlayToneIntoCall;
+using Vonage.Video.Sip.PlayToneIntoCall;
 using WireMock.ResponseBuilders;
 using Xunit;
 

@@ -40,7 +40,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Vonage.Common.Test\Vonage.Common.Test.csproj"/>
-        <ProjectReference Include="..\Vonage.Server\Vonage.Server.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

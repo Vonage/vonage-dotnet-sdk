@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Archives.RemoveStream;
+using Vonage.Video.Archives.RemoveStream;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.RemoveStream

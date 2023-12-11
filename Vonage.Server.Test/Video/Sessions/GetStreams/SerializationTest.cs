@@ -2,7 +2,7 @@
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Sessions.GetStreams;
+using Vonage.Video.Sessions.GetStreams;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sessions.GetStreams

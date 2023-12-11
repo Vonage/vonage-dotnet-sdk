@@ -2,7 +2,7 @@
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Sip.PlayToneIntoCall;
+using Vonage.Video.Sip.PlayToneIntoCall;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sip.PlayToneIntoCall

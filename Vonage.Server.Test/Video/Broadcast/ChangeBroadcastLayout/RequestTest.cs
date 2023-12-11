@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Broadcast.ChangeBroadcastLayout;
+using Vonage.Video.Broadcast.ChangeBroadcastLayout;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Broadcast.ChangeBroadcastLayout

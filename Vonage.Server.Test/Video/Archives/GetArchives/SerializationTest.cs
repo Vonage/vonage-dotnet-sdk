@@ -2,7 +2,7 @@
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Archives.GetArchives;
+using Vonage.Video.Archives.GetArchives;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.GetArchives

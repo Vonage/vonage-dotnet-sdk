@@ -2,8 +2,8 @@ using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Signaling;
-using Vonage.Server.Video.Signaling.SendSignal;
+using Vonage.Video.Signaling;
+using Vonage.Video.Signaling.SendSignal;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Signaling.SendSignal

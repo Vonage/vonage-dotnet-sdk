@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Sessions.GetStream;
+using Vonage.Video.Sessions.GetStream;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sessions.GetStream

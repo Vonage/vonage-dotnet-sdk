@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Broadcast.GetBroadcasts;
+using Vonage.Video.Broadcast.GetBroadcasts;
 using WireMock.ResponseBuilders;
 using Xunit;
 

@@ -3,7 +3,7 @@ using Vonage.Common.Monads;
 using Vonage.Common.Test.Extensions;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
-using Vonage.Server.Authentication;
+using Vonage.Video.Authentication;
 using Xunit;
 
 namespace Vonage.Server.Test.Authentication

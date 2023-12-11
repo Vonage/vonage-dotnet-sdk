@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Archives.CreateArchive;
+using Vonage.Video.Archives.CreateArchive;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.CreateArchive

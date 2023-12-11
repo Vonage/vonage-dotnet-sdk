@@ -2,7 +2,7 @@ using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Sip.PlayToneIntoConnection;
+using Vonage.Video.Sip.PlayToneIntoConnection;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sip.PlayToneIntoConnection

@@ -2,8 +2,8 @@
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Signaling;
-using Vonage.Server.Video.Signaling.SendSignals;
+using Vonage.Video.Signaling;
+using Vonage.Video.Signaling.SendSignals;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Signaling.SendSignals

@@ -2,7 +2,7 @@
 using EnumsNET;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Authentication;
+using Vonage.Video.Authentication;
 using Xunit;
 
 namespace Vonage.Server.Test.Authentication

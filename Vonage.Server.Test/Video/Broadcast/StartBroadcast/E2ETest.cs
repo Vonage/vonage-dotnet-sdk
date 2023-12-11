@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Broadcast.StartBroadcast;
+using Vonage.Video.Broadcast.StartBroadcast;
 using WireMock.ResponseBuilders;
 using Xunit;
 
@@ -33,7 +33,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                         null, LayoutType.BestFit))
                     .WithOutputs(new StartBroadcastRequest.BroadcastOutput
                     {
-                        Hls = new Server.Video.Broadcast.Broadcast.HlsSettings(false, true),
+                        Hls = new Vonage.Video.Broadcast.Broadcast.HlsSettings(false, true),
                         Streams = new List<StartBroadcastRequest.BroadcastOutput.Stream>
                         {
                             new StartBroadcastRequest.BroadcastOutput.Stream(

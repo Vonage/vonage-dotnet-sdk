@@ -2,7 +2,7 @@
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Moderation.MuteStream;
+using Vonage.Video.Moderation.MuteStream;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Moderation.MuteStream

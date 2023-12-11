@@ -2,7 +2,7 @@
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Sessions.CreateSession;
+using Vonage.Video.Sessions.CreateSession;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sessions.CreateSession

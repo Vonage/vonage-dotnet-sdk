@@ -2,7 +2,7 @@ using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Archives.GetArchive;
+using Vonage.Video.Archives.GetArchive;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.GetArchive

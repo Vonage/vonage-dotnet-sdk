@@ -2,7 +2,7 @@
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Broadcast.RemoveStreamFromBroadcast;
+using Vonage.Video.Broadcast.RemoveStreamFromBroadcast;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast

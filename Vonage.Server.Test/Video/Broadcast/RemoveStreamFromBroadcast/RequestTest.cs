@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Broadcast.RemoveStreamFromBroadcast;
+using Vonage.Video.Broadcast.RemoveStreamFromBroadcast;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Broadcast.RemoveStreamFromBroadcast

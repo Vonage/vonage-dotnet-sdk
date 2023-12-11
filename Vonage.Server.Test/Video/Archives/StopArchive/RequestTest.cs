@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Archives.StopArchive;
+using Vonage.Video.Archives.StopArchive;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.StopArchive

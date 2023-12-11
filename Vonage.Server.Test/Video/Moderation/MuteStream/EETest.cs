@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Moderation.MuteStream;
+using Vonage.Video.Moderation.MuteStream;
 using WireMock.ResponseBuilders;
 using Xunit;
 

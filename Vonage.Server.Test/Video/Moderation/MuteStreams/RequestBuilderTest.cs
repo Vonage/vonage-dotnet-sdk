@@ -2,7 +2,7 @@
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Moderation.MuteStreams;
+using Vonage.Video.Moderation.MuteStreams;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Moderation.MuteStreams

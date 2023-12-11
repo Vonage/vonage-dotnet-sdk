@@ -4,7 +4,7 @@ using FluentAssertions;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Server.Serialization;
-using Vonage.Server.Video.Broadcast.StartBroadcast;
+using Vonage.Video.Broadcast.StartBroadcast;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
@@ -20,7 +20,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
         [Fact]
         public void ShouldDeserialize200() =>
             this.helper.Serializer
-                .DeserializeObject<Server.Video.Broadcast.Broadcast>(this.helper.GetResponseJson())
+                .DeserializeObject<Vonage.Video.Broadcast.Broadcast>(this.helper.GetResponseJson())
                 .Should()
                 .BeSuccess(VerifyBroadcast);
 
@@ -33,7 +33,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                     null, LayoutType.BestFit))
                 .WithOutputs(new StartBroadcastRequest.BroadcastOutput
                 {
-                    Hls = new Server.Video.Broadcast.Broadcast.HlsSettings(false, true),
+                    Hls = new Vonage.Video.Broadcast.Broadcast.HlsSettings(false, true),
                     Streams = new List<StartBroadcastRequest.BroadcastOutput.Stream>
                     {
                         new StartBroadcastRequest.BroadcastOutput.Stream(
@@ -72,7 +72,7 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
                 .Should()
                 .BeSuccess(this.helper.GetRequestJson());
 
-        internal static void VerifyBroadcast(Server.Video.Broadcast.Broadcast success)
+        internal static void VerifyBroadcast(Vonage.Video.Broadcast.Broadcast success)
         {
             success.Id.Should().Be(new Guid("6c2bc486-0f4c-49cd-877c-7b609ec5dd19"));
             success.SessionId.Should().Be("2_MX4xMDBfjE0Mzc2NzY1NDgwMTJ-TjMzfn4");
@@ -86,13 +86,13 @@ namespace Vonage.Server.Test.Video.Broadcast.StartBroadcast
             success.HasAudio.Should().Be(true);
             success.HasVideo.Should().Be(true);
             success.StreamMode.Should().Be("manual");
-            success.Status.Should().Be(Server.Video.Broadcast.Broadcast.BroadcastStatus.Started);
+            success.Status.Should().Be(Vonage.Video.Broadcast.Broadcast.BroadcastStatus.Started);
             success.BroadcastUrls.Hls.Should()
                 .Be(new Uri("http://server/fakepath/playlist.m3u8"));
             success.BroadcastUrls.Rtmp.Should().HaveCount(1);
             success.BroadcastUrls.Rtmp[0].Id.Should().Be(new Guid("432c916e-22fb-492e-b45b-b96ef3b90297"));
             success.BroadcastUrls.Rtmp[0].Status.Should()
-                .Be(Server.Video.Broadcast.Broadcast.RtmpStatus.Live);
+                .Be(Vonage.Video.Broadcast.Broadcast.RtmpStatus.Live);
             success.BroadcastUrls.Rtmp[0].StreamName.Should().Be("myfooapp");
             success.BroadcastUrls.Rtmp[0].ServerUrl.Should().Be("rtmps://myfooserver/myfooapp");
             success.Settings.Hls.Dvr.Should().BeTrue();

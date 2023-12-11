@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using Vonage.Server.Video.Sessions;
-using Vonage.Server.Video.Sessions.CreateSession;
+using Vonage.Video.Sessions;
+using Vonage.Video.Sessions.CreateSession;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sessions.CreateSession

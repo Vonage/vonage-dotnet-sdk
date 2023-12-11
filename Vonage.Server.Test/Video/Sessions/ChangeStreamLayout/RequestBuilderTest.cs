@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Sessions.ChangeStreamLayout;
+using Vonage.Video.Sessions.ChangeStreamLayout;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Sessions.ChangeStreamLayout

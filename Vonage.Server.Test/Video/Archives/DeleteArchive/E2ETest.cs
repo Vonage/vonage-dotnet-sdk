@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Archives.DeleteArchive;
+using Vonage.Video.Archives.DeleteArchive;
 using WireMock.ResponseBuilders;
 using Xunit;
 

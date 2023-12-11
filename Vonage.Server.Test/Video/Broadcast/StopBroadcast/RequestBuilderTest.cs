@@ -2,7 +2,7 @@
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Broadcast.StopBroadcast;
+using Vonage.Video.Broadcast.StopBroadcast;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Broadcast.StopBroadcast

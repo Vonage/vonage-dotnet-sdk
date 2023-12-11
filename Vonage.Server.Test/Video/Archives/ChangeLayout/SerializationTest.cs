@@ -2,7 +2,7 @@
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Archives.ChangeLayout;
+using Vonage.Video.Archives.ChangeLayout;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Archives.ChangeLayout

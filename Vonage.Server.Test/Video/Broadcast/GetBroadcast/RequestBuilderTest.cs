@@ -2,7 +2,7 @@
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Broadcast.GetBroadcast;
+using Vonage.Video.Broadcast.GetBroadcast;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Broadcast.GetBroadcast

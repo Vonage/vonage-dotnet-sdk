@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using Vonage.Common.Test.Extensions;
-using Vonage.Server.Video.Moderation.DisconnectConnection;
+using Vonage.Video.Moderation.DisconnectConnection;
 using Xunit;
 
 namespace Vonage.Server.Test.Video.Moderation.DisconnectConnection
