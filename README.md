@@ -18,6 +18,7 @@ Sign up [for free at vonage.com][signup].
     * [Migration guides](#migration-guides)
         * [Upgrading from v6.x.x to v7.0.0](#upgrading-from-v6xx-to-v700)
         * [Upgrading from v5.x.x to v6.0.0](#upgrading-from-v5xx-to-v600)
+        * [Migrating from OpenTok for Video API](#migrating-from-opentok-for-video-api)
     * [Targeted frameworks](#targeted-frameworks)
     * [Tested frameworks](#tested-frameworks)
 * [Configuration](#configuration)
