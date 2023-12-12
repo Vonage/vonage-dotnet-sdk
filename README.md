@@ -107,6 +107,10 @@ Changes in version 6.0.0
 * Ncco now inherits from List, it no longer has the `Actions` property, to add an action use `ncco.Add(action);`
 * Strings with values "true" or "false" are now represented as `bool` in code
 
+### Migrating from OpenTok for Video API
+
+If you are migrating from the OpenTok .NET SDK to the Vonage .NET SDK, please see the dedicated [migration guide](OPENTOK_TO_VONAGE_MIGRATION.md).
+
 ### Targeted frameworks
 
 The SDK targets towards `netstandard2.0`.
