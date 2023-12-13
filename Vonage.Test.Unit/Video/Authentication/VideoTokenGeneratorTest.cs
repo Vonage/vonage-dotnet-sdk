@@ -15,10 +15,7 @@ namespace Vonage.Test.Unit.Video.Authentication
 
         [Fact]
         public void GenerateToken_ShouldReturnFailure_GivenTokenGenerationFails() =>
-            CreateClaims()
-                .Bind(claims =>
-                    new VideoTokenGenerator().GenerateToken(Credentials.FromAppIdAndPrivateKey("123", "random"),
-                        claims))
+            new VideoTokenGenerator().GenerateToken(Credentials.FromAppIdAndPrivateKey("123", "random"), CreateClaims())
                 .Should()
                 .BeFailure(failure =>
                     failure.GetFailureMessage().Should()
@@ -26,8 +23,7 @@ namespace Vonage.Test.Unit.Video.Authentication
 
         [Fact]
         public void GenerateToken_ShouldReturnSuccess_GivenCredentialsAreProvided() =>
-            CreateClaims()
-                .Bind(claims => new VideoTokenGenerator().GenerateToken(this.GetCredentials(), claims))
+            new VideoTokenGenerator().GenerateToken(this.GetCredentials(), CreateClaims())
                 .Should()
                 .BeSuccess(token =>
                 {

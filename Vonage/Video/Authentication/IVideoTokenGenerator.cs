@@ -14,5 +14,5 @@ public interface IVideoTokenGenerator
     /// <param name="credentials">The application credentials.</param>
     /// <param name="claims">Additional claims for the token.</param>
     /// <returns>A success state with the token if the parsing succeeded. A failure state with an error if it failed.</returns>
-    Result<VideoToken> GenerateToken(Credentials credentials, TokenAdditionalClaims claims);
+    Result<VideoToken> GenerateToken(Credentials credentials, Result<TokenAdditionalClaims> claims);
 }

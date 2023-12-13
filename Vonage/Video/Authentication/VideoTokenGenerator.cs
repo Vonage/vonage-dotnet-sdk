@@ -1,6 +1,4 @@
-﻿using System;
-using Vonage.Common.Failures;
-using Vonage.Common.Monads;
+﻿using Vonage.Common.Monads;
 using Vonage.Request;
 
 namespace Vonage.Video.Authentication;
@@ -9,17 +7,10 @@ namespace Vonage.Video.Authentication;
 public class VideoTokenGenerator : Jwt, IVideoTokenGenerator
 {
     /// <inheritdoc />
-    public Result<VideoToken> GenerateToken(Credentials credentials, TokenAdditionalClaims claims)
-    {
-        try
-        {
-            var tokenValue = CreateTokenWithClaims(credentials.ApplicationId, credentials.ApplicationKey,
-                claims.ToDataDictionary());
-            return Result<VideoToken>.FromSuccess(new VideoToken(claims.SessionId, tokenValue));
-        }
-        catch (Exception exception)
-        {
-            return Result<VideoToken>.FromFailure(ResultFailure.FromErrorMessage(exception.Message));
-        }
-    }
+    public Result<VideoToken> GenerateToken(Credentials credentials, Result<TokenAdditionalClaims> claims) =>
+        claims.Bind(validClaim => this.BuildVideoToken(credentials, validClaim));
+
+    private Result<VideoToken> BuildVideoToken(Credentials credentials, TokenAdditionalClaims validClaim) =>
+        this.GenerateToken(credentials, validClaim.ToDataDictionary())
+            .Map(token => new VideoToken(validClaim.SessionId, token));
 }
