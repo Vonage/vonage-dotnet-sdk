@@ -38,7 +38,7 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
             await this.Helper.VonageClient.ConversationsClient
                 .CreateConversationAsync(request)
                 .Should()
-                .BeSuccessAsync(SerializationTest.VerifyExpectedResponse);
+                .BeSuccessAsync(ConversationTests.VerifyExpectedResponse);
         }
     }
 }
