@@ -2,6 +2,7 @@
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Conversations.CreateConversation;
+using Vonage.Conversations.DeleteConversation;
 using Vonage.Serialization;
 
 namespace Vonage.Conversations;
@@ -17,6 +18,13 @@ public interface IConversationsClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<CreateConversationResponse>> CreateConversationAsync(Result<CreateConversationRequest> request);
+
+    /// <summary>
+    ///     Deletes a conversation.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Unit>> DeleteConversationAsync(Result<DeleteConversationRequest> request);
 }
 
 internal class ConversationsClient : IConversationsClient
@@ -34,4 +42,8 @@ internal class ConversationsClient : IConversationsClient
     public Task<Result<CreateConversationResponse>>
         CreateConversationAsync(Result<CreateConversationRequest> request) =>
         this.vonageClient.SendWithResponseAsync<CreateConversationRequest, CreateConversationResponse>(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> DeleteConversationAsync(Result<DeleteConversationRequest> request) =>
+        this.vonageClient.SendAsync(request);
 }
