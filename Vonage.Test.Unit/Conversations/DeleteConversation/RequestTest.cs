@@ -6,6 +6,13 @@ namespace Vonage.Test.Unit.Conversations.DeleteConversation
 {
     public class RequestTest
     {
+        [Fact]
+        public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+            DeleteConversationRequest.Parse("CON-123")
+                .Map(request => request.GetEndpointPath())
+                .Should()
+                .BeSuccess("/v1/conversations/CON-123");
+
         [Theory]
         [InlineData("")]
         [InlineData(" ")]

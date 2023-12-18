@@ -1,25 +1,37 @@
-using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
-namespace Vonage.Conversations.DeleteConversation
+namespace Vonage.Conversations.DeleteConversation;
+
+/// <inheritdoc />
+public readonly struct DeleteConversationRequest : IVonageRequest
 {
-    public readonly struct DeleteConversationRequest : IVonageRequest
-    {
-        public string ConversationId { get; private init; }
-        public HttpRequestMessage BuildRequestMessage() => throw new NotImplementedException();
+    /// <summary>
+    ///     The conversation Id.
+    /// </summary>
+    public string ConversationId { get; private init; }
 
-        public string GetEndpointPath() => throw new NotImplementedException();
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Delete, this.GetEndpointPath())
+        .Build();
 
-        public static Result<DeleteConversationRequest> Parse(string conversationId) =>
-            Result<DeleteConversationRequest>
-                .FromSuccess(new DeleteConversationRequest {ConversationId = conversationId})
-                .Map(InputEvaluation<DeleteConversationRequest>.Evaluate)
-                .Bind(evaluation => evaluation.WithRules(VerifyConversationId));
+    /// <inheritdoc />
+    public string GetEndpointPath() => $"/v1/conversations/{this.ConversationId}";
 
-        private static Result<DeleteConversationRequest> VerifyConversationId(DeleteConversationRequest request) =>
-            InputValidation.VerifyNotEmpty(request, request.ConversationId, nameof(ConversationId));
-    }
+    /// <summary>
+    ///     Parses the input into a DeleteConversationRequest.
+    /// </summary>
+    /// <param name="conversationId">The conversation Id.</param>
+    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
+    public static Result<DeleteConversationRequest> Parse(string conversationId) =>
+        Result<DeleteConversationRequest>
+            .FromSuccess(new DeleteConversationRequest { ConversationId = conversationId })
+            .Map(InputEvaluation<DeleteConversationRequest>.Evaluate)
+            .Bind(evaluation => evaluation.WithRules(VerifyConversationId));
+
+    private static Result<DeleteConversationRequest> VerifyConversationId(DeleteConversationRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ConversationId, nameof(ConversationId));
 }
