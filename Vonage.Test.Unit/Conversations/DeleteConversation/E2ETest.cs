@@ -18,12 +18,12 @@ namespace Vonage.Test.Unit.Conversations.DeleteConversation
         public async Task DeleteConversation()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/v1/conversations")
+                    .WithPath("/v1/conversations/CON-123")
                     .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
-                    .UsingPost())
+                    .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
             await this.Helper.VonageClient.ConversationsClient
-                .DeleteConversationAsync(DeleteConversationRequest.Parse(""))
+                .DeleteConversationAsync(DeleteConversationRequest.Parse("CON-123"))
                 .Should()
                 .BeSuccessAsync();
         }
