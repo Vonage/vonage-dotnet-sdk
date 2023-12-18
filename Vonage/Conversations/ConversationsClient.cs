@@ -17,7 +17,7 @@ public interface IConversationsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
-    Task<Result<CreateConversationResponse>> CreateConversationAsync(Result<CreateConversationRequest> request);
+    Task<Result<Conversation>> CreateConversationAsync(Result<CreateConversationRequest> request);
 
     /// <summary>
     ///     Deletes a conversation.
@@ -39,9 +39,9 @@ internal class ConversationsClient : IConversationsClient
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
-    public Task<Result<CreateConversationResponse>>
+    public Task<Result<Conversation>>
         CreateConversationAsync(Result<CreateConversationRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<CreateConversationRequest, CreateConversationResponse>(request);
+        this.vonageClient.SendWithResponseAsync<CreateConversationRequest, Conversation>(request);
 
     /// <inheritdoc />
     public Task<Result<Unit>> DeleteConversationAsync(Result<DeleteConversationRequest> request) =>

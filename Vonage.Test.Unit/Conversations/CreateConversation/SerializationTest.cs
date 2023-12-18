@@ -7,6 +7,7 @@ using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Conversations;
 using Vonage.Conversations.CreateConversation;
 using Vonage.Serialization;
 using Xunit;
@@ -22,13 +23,13 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
 
         [Fact]
         public void ShouldDeserialize200() => this.helper.Serializer
-            .DeserializeObject<CreateConversationResponse>(this.helper.GetResponseJson())
+            .DeserializeObject<Conversation>(this.helper.GetResponseJson())
             .Should()
             .BeSuccess(VerifyExpectedResponse);
 
         [Fact]
         public void ShouldDeserialize200Minimal() => this.helper.Serializer
-            .DeserializeObject<CreateConversationResponse>(this.helper.GetResponseJson())
+            .DeserializeObject<Conversation>(this.helper.GetResponseJson())
             .Should()
             .BeSuccess(response =>
             {
@@ -59,8 +60,8 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
 
-        private static CreateConversationResponse GetExpectedResponse() =>
-            new CreateConversationResponse(
+        private static Conversation GetExpectedResponse() =>
+            new Conversation(
                 "CON-d66d47de-5bcb-4300-94f0-0c9d4b948e9a",
                 "customer_chat",
                 "Customer Chat",
@@ -80,7 +81,7 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                 new Links(new HalLink(
                     new Uri("https://api.nexmo.com/v1/conversations/CON-d66d47de-5bcb-4300-94f0-0c9d4b948e9a"))));
 
-        internal static void VerifyExpectedResponse(CreateConversationResponse response)
+        internal static void VerifyExpectedResponse(Conversation response)
         {
             var expectedResponse = GetExpectedResponse();
             response.Id.Should().Be(expectedResponse.Id);
