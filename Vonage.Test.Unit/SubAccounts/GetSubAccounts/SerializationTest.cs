@@ -3,6 +3,7 @@ using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Serialization;
 using Vonage.SubAccounts;
 using Vonage.SubAccounts.GetSubAccounts;
 using Xunit;
@@ -16,7 +17,7 @@ namespace Vonage.Test.Unit.SubAccounts.GetSubAccounts
         public SerializationTest() =>
             this.helper = new SerializationTestHelper(
                 typeof(SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+                JsonSerializerBuilder.BuildWithSnakeCase());
 
         public static Account GetExpectedPrimaryAccount() =>
             new Account(

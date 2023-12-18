@@ -15,6 +15,7 @@ using Vonage.Common;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
 using Xunit;
+using TimeProvider = Vonage.Common.TimeProvider;
 
 namespace Vonage.Test.Unit
 {

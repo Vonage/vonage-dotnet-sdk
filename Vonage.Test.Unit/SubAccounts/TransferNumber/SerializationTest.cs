@@ -1,6 +1,6 @@
-﻿using Vonage.Common;
-using Vonage.Common.Test;
+﻿using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Serialization;
 using Vonage.SubAccounts.TransferNumber;
 using Xunit;
 
@@ -13,7 +13,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferNumber
         public SerializationTest() =>
             this.helper = new SerializationTestHelper(
                 typeof(SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+                JsonSerializerBuilder.BuildWithSnakeCase());
 
         public static TransferNumberResponse GetExpectedResponse() =>
             new TransferNumberResponse("235077036", "GB", "7c9738e6", "ad6dc56f");

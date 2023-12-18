@@ -20,13 +20,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Define package
-        uses: haya14busa/action-cond@v1
-        id: package
-        with:
-          cond: ${{ contains(github.event.release.target_commitish, 'release/video/') }}
-          if_true: "Vonage.Server"
-          if_false: "Vonage"
       - uses: bhowell2/github-substring-action@1.0.2
         id: extract_version
         with:
@@ -37,14 +30,14 @@ jobs:
         with:
           ref: ${{ github.event.release.target_commitish }}
       - name: Build
-        run: dotnet build -c Release ${{ steps.package.outputs.value }}/${{ steps.package.outputs.value }}.csproj -v minimal
+        run: dotnet build -c Release Vonage/Vonage.csproj -v minimal
       - name: Build Signed
-        run: dotnet build -c ReleaseSigned ${{ steps.package.outputs.value }}/${{ steps.package.outputs.value }}.csproj -v minimal
+        run: dotnet build -c ReleaseSigned Vonage/Vonage.csproj -v minimal
       - name: Pack
-        run: dotnet pack -c Release ${{ steps.package.outputs.value }}/${{ steps.package.outputs.value }}.csproj -v minimal --no-build
+        run: dotnet pack -c Release Vonage/Vonage.csproj -v minimal --no-build
       - name: Pack Signed
-        run: dotnet pack -c ReleaseSigned ${{ steps.package.outputs.value }}/${{ steps.package.outputs.value }}.csproj -v minimal --no-build
+        run: dotnet pack -c ReleaseSigned Vonage/Vonage.csproj -v minimal --no-build
       - name: NuGet Push
-        run: dotnet nuget push ${{ steps.package.outputs.value }}/bin/Release/${{ steps.package.outputs.value }}.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push Vonage/bin/Release/Vonage.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
       - name: NuGet Push Signed
-        run: dotnet nuget push ${{ steps.package.outputs.value }}/bin/ReleaseSigned/${{ steps.package.outputs.value }}.Signed.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push Vonage/bin/ReleaseSigned/Vonage.Signed.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}

@@ -1,9 +1,9 @@
 using System;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Messages.Webhooks;
+using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit.Messages.Webhooks
@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit.Messages.Webhooks
 
         public SerializationTest() =>
             this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+                JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserializeMessengerAudio() =>
@@ -436,6 +436,39 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                 });
 
         [Fact]
+        public void ShouldDeserializeWhatsAppLocation() =>
+            this.helper.Serializer
+                .DeserializeObject<MessageWebhookResponse>(this.helper.GetResponseJson())
+                .Should()
+                .BeSuccess(new MessageWebhookResponse
+                {
+                    Channel = "whatsapp",
+                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
+                    Context = new ContextDetails
+                    {
+                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                        MessageFrom = "447700900000",
+                    },
+                    Profile = new ProfileDetails
+                    {
+                        Name = "Jane Smith",
+                    },
+                    To = "447700900000",
+                    From = "447700900001",
+                    ProviderMessage = "string",
+                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                    ClientReference = "string",
+                    MessageType = "location",
+                    Location = new LocationDetails
+                    {
+                        Latitude = 40.34772m,
+                        Longitude = -74.18847m,
+                        Name = "Vonage",
+                        Address = "23 Main St, Holmdel, NJ 07733, USA",
+                    },
+                });
+
+        [Fact]
         public void ShouldDeserializeWhatsAppOrder() =>
             this.helper.Serializer
                 .DeserializeObject<MessageWebhookResponse>(this.helper.GetResponseJson())
@@ -507,39 +540,6 @@ namespace Vonage.Test.Unit.Messages.Webhooks
                         Id = "row1",
                         Title = "9am",
                         Description = "Select 9am appointment time",
-                    },
-                });
-        
-        [Fact]
-        public void ShouldDeserializeWhatsAppLocation() =>
-            this.helper.Serializer
-                .DeserializeObject<MessageWebhookResponse>(this.helper.GetResponseJson())
-                .Should()
-                .BeSuccess(new MessageWebhookResponse
-                {
-                    Channel = "whatsapp",
-                    MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
-                    Context = new ContextDetails
-                    {
-                        MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                        MessageFrom = "447700900000",
-                    },
-                    Profile = new ProfileDetails
-                    {
-                        Name = "Jane Smith",
-                    },
-                    To = "447700900000",
-                    From = "447700900001",
-                    ProviderMessage = "string",
-                    Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
-                    ClientReference = "string",
-                    MessageType = "location",
-                    Location = new LocationDetails
-                    {
-                        Latitude = 40.34772m,
-                        Longitude = -74.18847m,
-                        Name = "Vonage",
-                        Address = "23 Main St, Holmdel, NJ 07733, USA",
                     },
                 });
 

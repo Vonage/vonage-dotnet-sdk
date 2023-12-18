@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.VerifyV2.Cancel
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v2/verify/68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
             await this.Helper.VonageClient.VerifyV2Client.CancelAsync(

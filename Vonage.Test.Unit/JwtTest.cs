@@ -17,7 +17,8 @@ namespace Vonage.Test.Unit
         [InlineData(" ")]
         [InlineData(null)]
         public void GenerateToken_ShouldReturnAuthenticationFailure_GivenPrivateKeyIsNullOrWhitespace(string key) =>
-            new Jwt().GenerateToken(ApplicationId, key).Should().BeFailure(new AuthenticationFailure());
+            new Jwt().GenerateToken(ApplicationId, key).Should()
+                .BeFailure(new AuthenticationFailure("AppId or Private Key Path missing."));
 
         [Fact]
         public void GenerateToken_ShouldReturnSuccess_GivenCredentialsAreProvided() =>

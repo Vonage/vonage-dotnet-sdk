@@ -6,6 +6,7 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
+using Vonage.Serialization;
 
 namespace Vonage.Meetings.UpdateRoom;
 
@@ -91,7 +92,7 @@ public readonly struct UpdateRoomRequest : IVonageRequest
     public string GetEndpointPath() => $"/v1/meetings/rooms/{this.RoomId}";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializer.BuildWithSnakeCase().SerializeObject(new {UpdateDetails = this}),
+        new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(new {UpdateDetails = this}),
             Encoding.UTF8,
             "application/json");
 }

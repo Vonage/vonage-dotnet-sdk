@@ -22,7 +22,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Events.GetEvents
                     .WithParam("page", "25")
                     .WithParam("page_size", "50")
                     .WithParam("order", "asc")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));

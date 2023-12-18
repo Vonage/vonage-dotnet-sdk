@@ -47,6 +47,27 @@ public readonly struct Result<T>
     public bool IsSuccess => this.state == ResultState.Success;
 
     /// <summary>
+    ///     Projects from one value to another for each state of the Monad.
+    /// </summary>
+    /// <param name="successMap">Projection function for success state.</param>
+    /// <param name="failureMap">Projection function for failure state.</param>
+    /// <typeparam name="TB">Resulting functor value type.</typeparam>
+    /// <returns>Mapped functor.</returns>
+    public Result<TB> BiMap<TB>(Func<T, TB> successMap, Func<IResultFailure, IResultFailure> failureMap)
+    {
+        try
+        {
+            return this.IsFailure
+                ? Result<TB>.FromFailure(failureMap(this.failure))
+                : Result<TB>.FromSuccess(successMap(this.success));
+        }
+        catch (Exception exception)
+        {
+            return SystemFailure.FromException(exception).ToResult<TB>();
+        }
+    }
+
+    /// <summary>
     ///     Monadic bind operation.
     /// </summary>
     /// <param name="bind">Bind operation.</param>
@@ -72,7 +93,7 @@ public readonly struct Result<T>
     /// <param name="bind">Asynchronous bind operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>Asynchronous bound functor.</returns>
-    public async Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind) 
+    public async Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind)
     {
         try
         {
@@ -102,6 +123,15 @@ public readonly struct Result<T>
     /// <param name="value">Success value.</param>
     /// <returns>Success Result.</returns>
     public static Result<T> FromSuccess(T value) => new(value);
+
+    /// <summary>
+    ///     Retrieves the Failure value. This method is unsafe and will throw an exception if in Success state.
+    /// </summary>
+    /// <returns>The Failure value if in Failure state.</returns>
+    /// <exception cref="InvalidOperationException">When Result is not in Failure state.</exception>
+    public IResultFailure GetFailureUnsafe() => this.IsFailure
+        ? this.failure
+        : throw new InvalidOperationException("Result is not in Failure state.");
 
     /// <inheritdoc />
     public override int GetHashCode() => this.IsSuccess ? this.success.GetHashCode() : this.failure.GetHashCode();
@@ -247,8 +277,6 @@ public readonly struct Result<T>
             ? Result<TB>.FromSuccess(merge(this.success, other.success))
             : Result<TB>.FromFailure(this.FetchFailure(other));
 
-    private IResultFailure FetchFailure(Result<T> other) => this.IsFailure ? this.failure : other.failure;
-
     /// <summary>
     ///     Implicit operator from TA to Result of TA.
     /// </summary>
@@ -283,6 +311,8 @@ public readonly struct Result<T>
         this.IsSuccess
             ? this.success.Equals(other.success)
             : other.IsFailure;
+
+    private IResultFailure FetchFailure(Result<T> other) => this.IsFailure ? this.failure : other.failure;
 
     /// <summary>
     ///     Enum representing the state of Result.

@@ -2,14 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
-using Vonage.Common.Serialization;
-using Yoh.Text.Json.NamingPolicies;
-using JsonSerializer = Vonage.Common.JsonSerializer;
+using Vonage.Serialization;
 
 namespace Vonage.VerifyV2.StartVerification;
 
@@ -73,20 +68,7 @@ public readonly struct StartVerificationRequest : IVonageRequest
 
     private StringContent GetRequestContent()
     {
-        var options = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicies.SnakeCaseLower,
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            Converters =
-            {
-                new MaybeJsonConverter<string>(),
-                new PhoneNumberJsonConverter(),
-                new EmailJsonConverter(),
-                new LocaleJsonConverter(),
-            },
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
-        };
-        var serializer = new JsonSerializer(options);
+        var serializer = JsonSerializerBuilder.BuildWithSnakeCase();
         var values = new Dictionary<string, object>();
         values.Add("locale", this.Locale);
         values.Add("channel_timeout", this.ChannelTimeout);

@@ -21,7 +21,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.DeleteItem
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath(
                         "/v0.1/bulk/lists/95a462d3-ed87-4aa5-9d91-098e08093b0b/items/0f3e672d-e60e-4869-9eac-fce9047532b5")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
             await this.Helper.VonageClient.ProactiveConnectClient.DeleteItemAsync(DeleteItemRequest

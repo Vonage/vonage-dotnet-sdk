@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
-using Vonage.Common;
 using Vonage.Common.Client;
+using Vonage.Serialization;
 
 namespace Vonage.Meetings.UpdateThemeLogo;
 
@@ -27,6 +27,6 @@ internal readonly struct FinalizeLogoRequest : IVonageRequest
     public string GetEndpointPath() => $"/v1/meetings/themes/{this.themeId}/finalizeLogos";
 
     private StringContent GetRequestContent() => new(
-        JsonSerializer.BuildWithSnakeCase().SerializeObject(new {Keys = new[] {this.key}}),
+        JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(new {Keys = new[] {this.key}}),
         Encoding.UTF8, "application/json");
 }

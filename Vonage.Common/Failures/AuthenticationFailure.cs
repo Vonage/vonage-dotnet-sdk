@@ -5,13 +5,17 @@ using Vonage.Common.Monads;
 namespace Vonage.Common.Failures;
 
 /// <inheritdoc />
-public struct AuthenticationFailure : IResultFailure
+public readonly struct AuthenticationFailure : IResultFailure
 {
+    private readonly string failure;
+
+    public AuthenticationFailure(string failure) => this.failure = failure;
+
     /// <inheritdoc />
     public Type Type => typeof(AuthenticationFailure);
 
     /// <inheritdoc />
-    public string GetFailureMessage() => VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey().Message;
+    public string GetFailureMessage() => this.failure;
 
     /// <inheritdoc />
     public Exception ToException() => VonageAuthenticationException.FromMissingApplicationIdOrPrivateKey();

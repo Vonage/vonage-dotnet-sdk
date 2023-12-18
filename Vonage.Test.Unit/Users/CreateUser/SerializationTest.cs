@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Serialization;
 using Vonage.Users;
 using Vonage.Users.CreateUser;
 using Xunit;
@@ -13,7 +13,7 @@ namespace Vonage.Test.Unit.Users.CreateUser
     {
         private readonly SerializationTestHelper helper = new SerializationTestHelper(
             typeof(SerializationTest).Namespace,
-            JsonSerializer.BuildWithSnakeCase());
+            JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>
