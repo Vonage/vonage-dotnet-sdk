@@ -1,8 +1,8 @@
 ﻿using System;
-using Vonage.Common;
 using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
 using WireMock.Server;
+using TimeProvider = Vonage.Common.TimeProvider;
 
 namespace Vonage.Test.Unit.TestHelpers
 {
