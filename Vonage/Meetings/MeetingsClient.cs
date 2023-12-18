@@ -1,6 +1,5 @@
 ﻿using System.IO.Abstractions;
 using System.Threading.Tasks;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
@@ -20,6 +19,7 @@ using Vonage.Meetings.UpdateApplication;
 using Vonage.Meetings.UpdateRoom;
 using Vonage.Meetings.UpdateTheme;
 using Vonage.Meetings.UpdateThemeLogo;
+using Vonage.Serialization;
 
 namespace Vonage.Meetings;
 
@@ -37,7 +37,7 @@ public class MeetingsClient : IMeetingsClient
     public MeetingsClient(VonageHttpClientConfiguration configuration, IFileSystem fileSystem)
     {
         this.vonageClient =
-            new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
+            new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
         this.updateThemeLogoUseCase =
             new UpdateThemeLogoUseCase(this.vonageClient, fileSystem.File.Exists, fileSystem.File.ReadAllBytes);
     }

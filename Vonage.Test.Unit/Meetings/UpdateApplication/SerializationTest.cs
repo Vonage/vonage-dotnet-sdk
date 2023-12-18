@@ -1,9 +1,9 @@
 ﻿using System;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.UpdateApplication;
+using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateApplication
@@ -14,7 +14,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateApplication
 
         public SerializationTest() =>
             this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+                JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>

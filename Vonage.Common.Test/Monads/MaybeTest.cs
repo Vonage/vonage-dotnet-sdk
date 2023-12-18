@@ -141,6 +141,31 @@ namespace Vonage.Common.Test.Monads
             CreateSome(10).Match(MapToString, GetStaticString).Should().Be("10");
 
         [Fact]
+        public void Merge_ShouldReturnNone_GivenFirstLegIsNone() =>
+            Maybe<int>.None
+                .Merge(CreateSome(5), (first, second) => new {First = first, Second = second})
+                .Should()
+                .BeNone();
+
+        [Fact]
+        public void Merge_ShouldReturnNone_GivenSecondLegIsNone() =>
+            CreateSome(5)
+                .Merge(Maybe<int>.None, (first, second) => new {First = first, Second = second})
+                .Should()
+                .BeNone();
+
+        [Fact]
+        public void Merge_ShouldReturnSome_GivenBothAreSome() =>
+            CreateSome(5)
+                .Merge(CreateSome(10), (first, second) => new {First = first, Second = second})
+                .Should()
+                .BeSome(some =>
+                {
+                    some.First.Should().Be(5);
+                    some.Second.Should().Be(10);
+                });
+
+        [Fact]
         public void None_ShouldReturnNone()
         {
             var maybe = Maybe<int>.None;
@@ -162,6 +187,12 @@ namespace Vonage.Common.Test.Monads
             Action act = () => Maybe<int?>.Some<int?>(null);
             act.Should().Throw<InvalidOperationException>().WithMessage(Maybe<int>.NullValueMessage);
         }
+
+        [Fact]
+        public void ToString_ShouldReturnNone_GivenValueIsNone() => Maybe<int>.None.ToString().Should().Be("None");
+
+        [Fact]
+        public void ToString_ShouldReturnSome_GivenValueIsSome() => CreateSome(10).ToString().Should().Be("Some(Vonage.Common.Monads.Maybe`1[System.Int32])");
 
         private static Maybe<string> BindToString<T>(T value) => Maybe<string>.Some(value.ToString());
 

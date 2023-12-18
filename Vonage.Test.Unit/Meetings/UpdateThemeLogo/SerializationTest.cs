@@ -1,11 +1,11 @@
 ﻿using System;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.UpdateThemeLogo;
+using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo
 
         public SerializationTest() =>
             this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+                JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public void FinalizeLogo_ShouldSerialize() =>

@@ -5,22 +5,22 @@
         <Nullable>disable</Nullable>
         <IsPackable>false</IsPackable>
         <LangVersion>latest</LangVersion>
-        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows;net7.0;net7.0-windows;net481</TargetFrameworks>
+        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows;net7.0;net7.0-windows;net481;net8.0;net8.0-windows</TargetFrameworks>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="4.18.0"/>
+        <PackageReference Include="AutoFixture" Version="4.18.1"/>
         <PackageReference Include="FluentAssertions" Version="6.12.0"/>
         <PackageReference Include="FsCheck" Version="2.16.6"/>
         <PackageReference Include="FsCheck.Xunit" Version="2.16.6"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
-        <PackageReference Include="Moq" Version="4.20.69"/>
+        <PackageReference Include="Moq" Version="4.20.70"/>
         <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
         <PackageReference Include="System.Text.Json" Version="8.0.0"/>
-        <PackageReference Include="WireMock.Net" Version="1.5.40"/>
-        <PackageReference Include="xunit" Version="2.6.2"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.4">
+        <PackageReference Include="WireMock.Net" Version="1.5.43"/>
+        <PackageReference Include="xunit" Version="2.6.3"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
@@ -60,9 +60,6 @@
         <Content Include="Failures\Data\ShouldDeserializeError413-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <None Update="TestHelpers\Key.txt">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

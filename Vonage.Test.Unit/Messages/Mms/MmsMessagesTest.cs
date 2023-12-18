@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Messages;
 using Vonage.Messages.Mms;
 using Vonage.Request;
+using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit.Messages.Mms
@@ -18,7 +18,8 @@ namespace Vonage.Test.Unit.Messages.Mms
         {
             this.expectedUri = $"{this.ApiUrl}/v1/messages";
             this.helper =
-                new SerializationTestHelper(typeof(MmsMessagesTest).Namespace, JsonSerializer.BuildWithCamelCase());
+                new SerializationTestHelper(typeof(MmsMessagesTest).Namespace,
+                    JsonSerializerBuilder.BuildWithCamelCase());
         }
 
         [Fact]

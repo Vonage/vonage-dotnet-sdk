@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.CreateTheme;
+using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.CreateTheme
@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.Meetings.CreateTheme
 
         public SerializationTest() =>
             this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+                JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>

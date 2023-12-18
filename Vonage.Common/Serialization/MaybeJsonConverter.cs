@@ -12,9 +12,12 @@ namespace Vonage.Common.Serialization;
 public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
 {
     /// <inheritdoc />
-    public override Maybe<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
-        this.Serializer.DeserializeObject<T>($"\"{reader.GetString()}\"")
+    public override Maybe<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        using var jsonDoc = JsonDocument.ParseValue(ref reader);
+        return this.Serializer.DeserializeObject<T>(jsonDoc.RootElement.GetRawText())
             .Match(Maybe<T>.Some, _ => Maybe<T>.None);
+    }
 
     /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, Maybe<T> value, JsonSerializerOptions options) =>

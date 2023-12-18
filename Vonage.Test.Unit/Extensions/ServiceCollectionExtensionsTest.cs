@@ -11,6 +11,7 @@ using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
+using Vonage.NumberInsightV2;
 using Vonage.Numbers;
 using Vonage.Pricing;
 using Vonage.ProactiveConnect;
@@ -21,6 +22,8 @@ using Vonage.SubAccounts;
 using Vonage.Users;
 using Vonage.Verify;
 using Vonage.VerifyV2;
+using Vonage.Video;
+using Vonage.Video.Authentication;
 using Vonage.Voice;
 using Xunit;
 
@@ -85,6 +88,7 @@ namespace Vonage.Test.Unit.Extensions
             yield return new object[] {typeof(IMeetingsClient)};
             yield return new object[] {typeof(IMessagesClient)};
             yield return new object[] {typeof(INumberInsightClient)};
+            yield return new object[] {typeof(INumberInsightV2Client)};
             yield return new object[] {typeof(INumbersClient)};
             yield return new object[] {typeof(IPricingClient)};
             yield return new object[] {typeof(IProactiveConnectClient)};
@@ -95,8 +99,10 @@ namespace Vonage.Test.Unit.Extensions
             yield return new object[] {typeof(IUsersClient)};
             yield return new object[] {typeof(IVerifyClient)};
             yield return new object[] {typeof(IVerifyV2Client)};
+            yield return new object[] {typeof(IVideoClient)};
             yield return new object[] {typeof(IVoiceClient)};
             yield return new object[] {typeof(ITokenGenerator)};
+            yield return new object[] {typeof(IVideoTokenGenerator)};
         }
 
         private static ServiceProvider BuildScopedProviderWithConfiguration(IConfiguration configuration) =>

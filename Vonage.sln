@@ -10,12 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		CONTRIBUTING.md = CONTRIBUTING.md
 		CHANGELOG.md = CHANGELOG.md
-		VIDEO_BETA_CHANGELOG.md = VIDEO_BETA_CHANGELOG.md
 		.editorconfig = .editorconfig
 		.scripts\init.js = .scripts\init.js
 		.scripts\git_hooks\pre-commit = .scripts\git_hooks\pre-commit
 		pull_request_template.md = pull_request_template.md
 		.whitesource = .whitesource
+		cliff.toml = cliff.toml
+		OPENTOK_TO_VONAGE_MIGRATION.md = OPENTOK_TO_VONAGE_MIGRATION.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vonage", "Vonage\Vonage.csproj", "{41EF17C9-8D2E-4C7B-B2EE-3BD1A4CC1A1B}"
@@ -29,19 +30,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\net-build.yml = .github\workflows\net-build.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 		.github\workflows\release-build.yml = .github\workflows\release-build.yml
+		.github\workflows\changelog.yml = .github\workflows\changelog.yml
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vonage.Server", "Vonage.Server\Vonage.Server.csproj", "{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vonage.Server.Test", "Vonage.Server.Test\Vonage.Server.Test.csproj", "{0141EA41-433A-4D48-8C1C-43E7D5D0697B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vonage.Common", "Vonage.Common\Vonage.Common.csproj", "{B242389C-4D44-4794-B21B-5A5D648D9B5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vonage.Common.Test", "Vonage.Common.Test\Vonage.Common.Test.csproj", "{AAABDE2D-DB39-4CFC-BA42-3C3F2B9F8801}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vonage", "Vonage", "{A6874F74-A631-4DDC-901B-1D3219FAA50F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vonage.Server", "Vonage.Server", "{3B1A87D6-5DE0-475C-B559-25E49EE33A26}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vonage.Common", "Vonage.Common", "{C902E0A9-711A-4C89-BC69-18B5CADC16E6}"
 EndProject
@@ -94,42 +90,6 @@ Global
 		{8BEFC27E-003A-49C3-B399-DDD40D37F024}.Release461|Any CPU.Build.0 = Release|Any CPU
 		{8BEFC27E-003A-49C3-B399-DDD40D37F024}.ReleaseSigned|Any CPU.ActiveCfg = Debug|Any CPU
 		{8BEFC27E-003A-49C3-B399-DDD40D37F024}.ReleaseSigned|Any CPU.Build.0 = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.net452|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.net452|Any CPU.Build.0 = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.net46|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.net46|Any CPU.Build.0 = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.net461|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.net461|Any CPU.Build.0 = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Release452|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Release452|Any CPU.Build.0 = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Release46|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Release46|Any CPU.Build.0 = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Release461|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Release461|Any CPU.Build.0 = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.ReleaseSigned|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.ReleaseSigned|Any CPU.Build.0 = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.net452|Any CPU.ActiveCfg = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.net452|Any CPU.Build.0 = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.net46|Any CPU.ActiveCfg = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.net46|Any CPU.Build.0 = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.net461|Any CPU.ActiveCfg = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.net461|Any CPU.Build.0 = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Release452|Any CPU.ActiveCfg = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Release452|Any CPU.Build.0 = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Release46|Any CPU.ActiveCfg = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Release46|Any CPU.Build.0 = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Release461|Any CPU.ActiveCfg = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.Release461|Any CPU.Build.0 = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.ReleaseSigned|Any CPU.ActiveCfg = Debug|Any CPU
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B}.ReleaseSigned|Any CPU.Build.0 = Debug|Any CPU
 		{B242389C-4D44-4794-B21B-5A5D648D9B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B242389C-4D44-4794-B21B-5A5D648D9B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B242389C-4D44-4794-B21B-5A5D648D9B5D}.net452|Any CPU.ActiveCfg = Debug|Any CPU
@@ -176,9 +136,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{41EF17C9-8D2E-4C7B-B2EE-3BD1A4CC1A1B} = {A6874F74-A631-4DDC-901B-1D3219FAA50F}
 		{B242389C-4D44-4794-B21B-5A5D648D9B5D} = {C902E0A9-711A-4C89-BC69-18B5CADC16E6}
-		{AC22C44D-AE7A-4FA1-8EA3-479578D6E3C6} = {3B1A87D6-5DE0-475C-B559-25E49EE33A26}
 		{AAABDE2D-DB39-4CFC-BA42-3C3F2B9F8801} = {C902E0A9-711A-4C89-BC69-18B5CADC16E6}
-		{0141EA41-433A-4D48-8C1C-43E7D5D0697B} = {3B1A87D6-5DE0-475C-B559-25E49EE33A26}
 		{8BEFC27E-003A-49C3-B399-DDD40D37F024} = {A6874F74-A631-4DDC-901B-1D3219FAA50F}
 	EndGlobalSection
 EndGlobal

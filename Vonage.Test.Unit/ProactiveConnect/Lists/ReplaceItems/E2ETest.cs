@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Lists.ReplaceItems
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v0.1/bulk/lists/de51fd37-551c-45f1-8eaf-0fcd75c0bbc8/fetch")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
             await this.Helper.VonageClient.ProactiveConnectClient.ReplaceItemsAsync(

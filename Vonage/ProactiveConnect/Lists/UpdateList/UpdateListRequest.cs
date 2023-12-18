@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Serialization;
 
 namespace Vonage.ProactiveConnect.Lists.UpdateList;
 
@@ -78,7 +78,7 @@ public readonly struct UpdateListRequest : IVonageRequest
     public string GetEndpointPath() => $"/v0.1/bulk/lists/{this.Id}";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
+        new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
             Encoding.UTF8,
             "application/json");
 }

@@ -3,10 +3,10 @@ using System.Drawing;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Serialization;
 
 namespace Vonage.Meetings.UpdateTheme;
 
@@ -65,8 +65,8 @@ public readonly struct UpdateThemeRequest : IVonageRequest
     {
         var serialized =
             this.HasUpdateContent()
-                ? JsonSerializer.BuildWithSnakeCase().SerializeObject(new {UpdateDetails = this})
-                : JsonSerializer.BuildWithSnakeCase().SerializeObject(new { });
+                ? JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(new {UpdateDetails = this})
+                : JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(new { });
         return new StringContent(serialized, Encoding.UTF8, "application/json");
     }
 

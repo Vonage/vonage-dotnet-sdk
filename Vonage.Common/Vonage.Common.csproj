@@ -11,7 +11,7 @@
         <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-        <Version>6.12.1</Version>
+        <Version>6.13.0</Version>
         <PackageLicenseExpression/>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <LangVersion>latest</LangVersion>
@@ -22,7 +22,7 @@
         <PackageReference Include="Enums.NET" Version="4.0.1"/>
         <PackageReference Include="Epoch.net" Version="4.0.0"/>
         <PackageReference Include="Handy.DotNETCore-Compatibility.ColorTranslations" Version="0.2.1"/>
-        <PackageReference Include="PolySharp" Version="1.13.2">
+        <PackageReference Include="PolySharp" Version="1.14.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

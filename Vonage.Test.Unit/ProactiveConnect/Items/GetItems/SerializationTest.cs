@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Items.GetItems;
+using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItems
@@ -16,7 +16,7 @@ namespace Vonage.Test.Unit.ProactiveConnect.Items.GetItems
 
         public SerializationTest() =>
             this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+                JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>

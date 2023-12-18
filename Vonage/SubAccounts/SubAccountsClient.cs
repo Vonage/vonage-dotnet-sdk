@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Serialization;
 using Vonage.SubAccounts.CreateSubAccount;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.SubAccounts.GetSubAccounts;
@@ -35,7 +36,7 @@ public class SubAccountsClient : ISubAccountsClient
     /// <param name="apiKey">The account Id.</param>
     public SubAccountsClient(VonageHttpClientConfiguration configuration, string apiKey)
     {
-        this.vonageClient = new VonageHttpClient(configuration, JsonSerializer.BuildWithSnakeCase());
+        this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
         this.apiKey = apiKey;
     }
 
@@ -101,6 +102,8 @@ public class SubAccountsClient : ISubAccountsClient
             .BindAsync(completeRequest =>
                 this.vonageClient.SendWithResponseAsync<TransferAmountRequest, Transfer>(completeRequest));
 
-    private sealed record TransferMapping(string GetEndpointKey, string UpdateEndpointKey,
+    private sealed record TransferMapping(
+        string GetEndpointKey,
+        string UpdateEndpointKey,
         Func<GetTransfersResponse, Transfer[]> GetMapping);
 }

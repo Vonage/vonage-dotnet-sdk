@@ -19,7 +19,7 @@ namespace Vonage.Test.Unit.Meetings.DeleteRecording
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v1/meetings/recordings/48a355bf-924d-4d4d-8e98-78575cf212dd")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingDelete())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
             await this.Helper.VonageClient.MeetingsClient.DeleteRecordingAsync(

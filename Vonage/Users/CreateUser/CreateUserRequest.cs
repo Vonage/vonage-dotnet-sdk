@@ -2,10 +2,10 @@
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Serialization;
 
 namespace Vonage.Users.CreateUser;
 
@@ -64,7 +64,7 @@ public readonly struct CreateUserRequest : IVonageRequest
     public string GetEndpointPath() => "/v1/users";
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
+        new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
             Encoding.UTF8,
             "application/json");
 }

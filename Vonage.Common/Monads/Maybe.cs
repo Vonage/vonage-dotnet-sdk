@@ -109,6 +109,18 @@ public readonly struct Maybe<TA>
     public TB Match<TB>(Func<TA, TB> some, Func<TB> none) => !this.IsSome ? none() : some(this.value);
 
     /// <summary>
+    ///     Merge two maybes together. The merge operation will be used if they're both in a Some state.
+    /// </summary>
+    /// <param name="other">The other maybe.</param>
+    /// <param name="merge">The operation used if they're both in a Some state.</param>
+    /// <typeparam name="TB">The return type.</typeparam>
+    /// <returns>A Maybe.</returns>
+    public Maybe<TB> Merge<TB>(Maybe<TA> other, Func<TA, TA, TB> merge) =>
+        this.IsSome && other.IsSome
+            ? Maybe<TB>.Some(merge(this.value, other.value))
+            : Maybe<TB>.None;
+
+    /// <summary>
     ///     Implicit operator from TA to Maybe of TA.
     /// </summary>
     /// <param name="value">Value to be converted.</param>
@@ -125,6 +137,9 @@ public readonly struct Maybe<TA>
     public static Maybe<TB> Some<TB>(TB value) => value is null
         ? throw new InvalidOperationException(NullValueMessage)
         : new Maybe<TB>(value);
+
+    /// <inheritdoc />
+    public override string ToString() => this.IsSome ? $"Some({base.ToString()})" : "None";
 
     /// <summary>
     ///     Verifies of both Maybes are either None or Some with the same values.

@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
-using Vonage.Common;
 using Vonage.Common.Client;
+using Vonage.Serialization;
 
 namespace Vonage.SubAccounts.TransferNumber;
 
@@ -53,7 +53,7 @@ public readonly struct TransferNumberRequest : IVonageRequest
     /// <inheritdoc />
     public string GetEndpointPath() => $"/accounts/{this.ApiKey}/transfer-number";
 
-    private StringContent GetRequestContent() => new(JsonSerializer.BuildWithSnakeCase().SerializeObject(this),
+    private StringContent GetRequestContent() => new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
         Encoding.UTF8,
         "application/json");
 

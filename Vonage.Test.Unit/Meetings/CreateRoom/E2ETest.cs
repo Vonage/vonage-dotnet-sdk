@@ -20,7 +20,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v1/meetings/rooms")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerialize)))
                     .UsingPost())
@@ -55,7 +55,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v1/meetings/rooms")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerializeWithLongTermRoom)))
                     .UsingPost())
@@ -76,7 +76,7 @@ namespace Vonage.Test.Unit.Meetings.CreateRoom
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/v1/meetings/rooms")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(nameof(SerializationTest
                         .ShouldSerializeWithDefaultValues)))
                     .UsingPost())

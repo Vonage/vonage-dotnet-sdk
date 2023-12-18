@@ -1,0 +1,20 @@
+﻿{
+  "request_id": "6cb4c489-0fc8-4c40-8c3d-95e7e74f9450",
+  "type": "phone",
+  "phone": {
+    "phone": "16197363066",
+    "carrier": "Orange France",
+    "type": "MOBILE"
+  },
+  "fraud_score": {
+    "risk_score": "54",
+    "risk_recommendation": "flag",
+    "label": "medium",
+    "status": "completed"
+  },
+  "sim_swap": {
+    "status": "failed",
+    "swapped": true,
+    "reason": "Mobile Network Operator Not Supported"
+  }
+}

@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Messages;
 using Vonage.Messages.WhatsApp;
 using Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
 using Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 using Vonage.Request;
+using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit.Messages.WhatsApp
@@ -23,9 +23,9 @@ namespace Vonage.Test.Unit.Messages.WhatsApp
         {
             this.expectedUri = $"{this.ApiUrl}/v1/messages";
             this.helper = new SerializationTestHelper(typeof(WhatsAppMessagesTest).Namespace,
-                JsonSerializer.BuildWithCamelCase());
+                JsonSerializerBuilder.BuildWithCamelCase());
             this.operation = request =>
-            this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
+                this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
                     .MessagesClient
                     .SendAsync(request);
         }
