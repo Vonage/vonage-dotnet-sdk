@@ -6,6 +6,7 @@ using Vonage.Applications;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Conversations;
 using Vonage.Conversions;
 using Vonage.Meetings;
 using Vonage.Messages;
@@ -39,6 +40,11 @@ public class VonageClient
     public IAccountClient AccountClient { get; private set; }
 
     public IApplicationClient ApplicationClient { get; private set; }
+
+    /// <summary>
+    ///     Exposes Conversations features.
+    /// </summary>
+    public IConversationsClient ConversationsClient { get; private set; }
 
     public IConversionClient ConversionClient { get; private set; }
 
@@ -103,12 +109,12 @@ public class VonageClient
     /// </summary>
     public IVerifyV2Client VerifyV2Client { get; private set; }
 
-    public IVoiceClient VoiceClient { get; private set; }
-
     /// <summary>
-    /// Exposes Video features.
+    ///     Exposes Video features.
     /// </summary>
     public IVideoClient VideoClient { get; private set; }
+
+    public IVoiceClient VoiceClient { get; private set; }
 
     /// <summary>
     ///     Constructor for VonageClient.
@@ -169,6 +175,9 @@ public class VonageClient
             this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
         this.UsersClient =
             new UsersClient(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
+        this.ConversationsClient =
+            new ConversationsClient(
+                this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
         this.MeetingsClient = new MeetingsClient(
             this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)),
             new FileSystem());

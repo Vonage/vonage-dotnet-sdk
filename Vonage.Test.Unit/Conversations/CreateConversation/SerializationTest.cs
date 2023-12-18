@@ -24,28 +24,7 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
         public void ShouldDeserialize200() => this.helper.Serializer
             .DeserializeObject<CreateConversationResponse>(this.helper.GetResponseJson())
             .Should()
-            .BeSuccess(response =>
-            {
-                response.Id.Should().Be("CON-d66d47de-5bcb-4300-94f0-0c9d4b948e9a");
-                response.Name.Should().Be("customer_chat");
-                response.DisplayName.Should().Be("Customer Chat");
-                response.ImageUrl.Should().Be(new Uri("https://example.com/image.png"));
-                response.State.Should().Be("ACTIVE");
-                response.SequenceNumber.Should().Be(0);
-                response.Timestamp.Should().Be(new Timestamp(
-                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture),
-                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture),
-                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture)));
-                response.Properties.Should().BeSome(new Properties(60, "string",
-                    "string", new Dictionary<string, string>
-                    {
-                        {"property1", "string"},
-                        {"property2", "string"},
-                    }));
-                response.Links.Should()
-                    .Be(new Links(new HalLink(
-                        new Uri("https://api.nexmo.com/v1/conversations/CON-d66d47de-5bcb-4300-94f0-0c9d4b948e9a"))));
-            });
+            .BeSuccess(VerifyExpectedResponse);
 
         [Fact]
         public void ShouldDeserialize200Minimal() => this.helper.Serializer
@@ -69,33 +48,74 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
             });
 
         [Fact]
-        public void ShouldSerialize() => CreateConversationRequest.Build()
-            .WithName("customer_chat")
-            .WithDisplayName("Customer Chat")
-            .WithImageUrl(new Uri("https://example.com/image.png"))
-            .WithProperties(new Properties(60, "string",
-                "string", new Dictionary<string, string>
-                {
-                    {"property1", "string"},
-                    {"property2", "string"},
-                }))
-            .WithCallback(new Callback(new Uri("http://example.com"), "string",
-                new CallbackParameters("string", new Uri("http://example.com")), HttpMethod.Post))
-            .WithNumber(new PhoneNumber("447700900000"))
-            .WithNumber(new SipNumber("sip:+Htg:;xa", "string", "string"))
-            .WithNumber(new AppNumber("string"))
-            .WithNumber(new WebSocketNumber("ws://example.com:8080", "string"))
-            .WithNumber(new VbcNumber("447700900000"))
-            .Create()
+        public void ShouldSerialize() => BuildRequest()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
 
         [Fact]
-        public void ShouldSerializeEmpty() => CreateConversationRequest.Build()
-            .Create()
+        public void ShouldSerializeEmpty() => BuildEmptyRequest()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
+
+        private static CreateConversationResponse GetExpectedResponse() =>
+            new CreateConversationResponse(
+                "CON-d66d47de-5bcb-4300-94f0-0c9d4b948e9a",
+                "customer_chat",
+                "Customer Chat",
+                new Uri("https://example.com/image.png"),
+                "ACTIVE",
+                0,
+                new Timestamp(
+                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture),
+                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture),
+                    DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture)),
+                new Properties(60, "string",
+                    "string", new Dictionary<string, string>
+                    {
+                        {"property1", "string"},
+                        {"property2", "string"},
+                    }),
+                new Links(new HalLink(
+                    new Uri("https://api.nexmo.com/v1/conversations/CON-d66d47de-5bcb-4300-94f0-0c9d4b948e9a"))));
+
+        internal static void VerifyExpectedResponse(CreateConversationResponse response)
+        {
+            var expectedResponse = GetExpectedResponse();
+            response.Id.Should().Be(expectedResponse.Id);
+            response.Name.Should().Be(expectedResponse.Name);
+            response.DisplayName.Should().Be(expectedResponse.DisplayName);
+            response.ImageUrl.Should().Be(expectedResponse.ImageUrl);
+            response.State.Should().Be(expectedResponse.State);
+            response.SequenceNumber.Should().Be(expectedResponse.SequenceNumber);
+            response.Timestamp.Should().Be(expectedResponse.Timestamp);
+            response.Properties.Should().BeSome(expectedResponse.Properties.GetUnsafe());
+            response.Links.Should().Be(expectedResponse.Links);
+        }
+
+        internal static Result<CreateConversationRequest> BuildRequest() =>
+            CreateConversationRequest.Build()
+                .WithName("customer_chat")
+                .WithDisplayName("Customer Chat")
+                .WithImageUrl(new Uri("https://example.com/image.png"))
+                .WithProperties(new Properties(60, "string",
+                    "string", new Dictionary<string, string>
+                    {
+                        {"property1", "string"},
+                        {"property2", "string"},
+                    }))
+                .WithCallback(new Callback(new Uri("http://example.com"), "string",
+                    new CallbackParameters("string", new Uri("http://example.com")), HttpMethod.Post))
+                .WithNumber(new PhoneNumber("447700900000"))
+                .WithNumber(new SipNumber("sip:+Htg:;xa", "string", "string"))
+                .WithNumber(new AppNumber("string"))
+                .WithNumber(new WebSocketNumber("ws://example.com:8080", "string"))
+                .WithNumber(new VbcNumber("447700900000"))
+                .Create();
+
+        internal static Result<CreateConversationRequest> BuildEmptyRequest() =>
+            CreateConversationRequest.Build()
+                .Create();
     }
 }
