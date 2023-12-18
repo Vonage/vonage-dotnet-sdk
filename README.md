@@ -132,6 +132,8 @@ Therefore, we ensure complete compatibility no matter the version you are using.
 * .NET 6.0-Windows
 * .NET 7.0
 * .NET 7.0-Windows
+* .NET 8.0
+* .NET 8.0-Windows
 
 ## Configuration
 
