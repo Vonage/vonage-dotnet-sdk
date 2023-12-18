@@ -3,6 +3,7 @@ using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Serialization;
 using Vonage.Users.GetUsers;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace Vonage.Test.Unit.Users.GetUsers
     {
         private readonly SerializationTestHelper helper = new SerializationTestHelper(
             typeof(SerializationTest).Namespace,
-            JsonSerializer.BuildWithSnakeCase());
+            JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserialize200() =>

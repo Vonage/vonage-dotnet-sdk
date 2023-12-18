@@ -69,7 +69,7 @@ namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount
         private void SetUpServer(string requestBody) =>
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/subaccounts/RandomKey")
-                    .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.Serialization.GetRequestJson(requestBody))
                     .UsingPatch())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)

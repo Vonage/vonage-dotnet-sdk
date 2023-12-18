@@ -32,9 +32,9 @@ public class Jwt : ITokenGenerator
         {
             return CreateToken(applicationId, privateKey);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            return Result<string>.FromFailure(new AuthenticationFailure());
+            return Result<string>.FromFailure(new AuthenticationFailure(exception.Message));
         }
     }
 

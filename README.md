@@ -18,6 +18,7 @@ Sign up [for free at vonage.com][signup].
     * [Migration guides](#migration-guides)
         * [Upgrading from v6.x.x to v7.0.0](#upgrading-from-v6xx-to-v700)
         * [Upgrading from v5.x.x to v6.0.0](#upgrading-from-v5xx-to-v600)
+        * [Migrating from OpenTok for Video API](#migrating-from-opentok-for-video-api)
     * [Targeted frameworks](#targeted-frameworks)
     * [Tested frameworks](#tested-frameworks)
 * [Configuration](#configuration)
@@ -107,6 +108,10 @@ Changes in version 6.0.0
 * Ncco now inherits from List, it no longer has the `Actions` property, to add an action use `ncco.Add(action);`
 * Strings with values "true" or "false" are now represented as `bool` in code
 
+### Migrating from OpenTok for Video API
+
+If you are migrating from the OpenTok .NET SDK to the Vonage .NET SDK, please see the dedicated [migration guide](OPENTOK_TO_VONAGE_MIGRATION.md).
+
 ### Targeted frameworks
 
 The SDK targets towards `netstandard2.0`.
@@ -127,6 +132,8 @@ Therefore, we ensure complete compatibility no matter the version you are using.
 * .NET 6.0-Windows
 * .NET 7.0
 * .NET 7.0-Windows
+* .NET 8.0
+* .NET 8.0-Windows
 
 ## Configuration
 
@@ -650,15 +657,18 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Meetings API          | General Availability |     ✅      |
 | Messages API          | General Availability |     ✅      |
 | Number Insight API    | General Availability |     ✅      |
+| Number Insight V2 API | General Availability |     ✅      |
 | Number Management API | General Availability |     ✅      |
 | Pricing API           | General Availability |     ✅      |
 | Proactive Connect API | General Availability |     ✅      |
 | Redact API            |  Developer Preview   |     ✅      |
 | Reports API           |         Beta         |     ❌      |
 | SMS API               | General Availability |     ✅      |
+| SubAccounts API       | General Availability |     ✅      |
+| Users API             | General Availability |     ✅      |
 | Verify API            | General Availability |     ✅      |
 | Verify V2 API         | General Availability |     ✅      |
-| Video API             |         Beta         |     ✅      |
+| Video API             | General Availability |     ✅      |
 | Voice API             | General Availability |     ✅      |
 
 ## FAQ

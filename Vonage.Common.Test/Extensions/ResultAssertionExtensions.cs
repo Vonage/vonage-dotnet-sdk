@@ -70,10 +70,14 @@ namespace Vonage.Common.Test.Extensions
 
         public AndConstraint<ResultAssertionExtensions<T>> BeSuccess(T expected)
         {
-            this.BuildSuccessExpectation()
+            Execute.Assertion
+                .WithExpectation("Expected to be Success {0}, ", expected)
+                .Given(() => new {this.Subject, Expected = expected})
+                .ForCondition(data => data.Subject.IsSuccess)
+                .FailWith(this.BuildResultFailureMessage())
                 .Then
-                .ForCondition(subject => subject.Equals(Result<T>.FromSuccess(expected)))
-                .FailWith(this.BuildResultSuccessMessage());
+                .ForCondition(data => EvaluateValueEquality(data.Subject.GetSuccessUnsafe(), expected))
+                .FailWith("but found to be Success {0}.", this.Subject.GetSuccessUnsafe());
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 
@@ -94,6 +98,19 @@ namespace Vonage.Common.Test.Extensions
                 .Given(() => this.Subject)
                 .ForCondition(subject => subject.IsSuccess)
                 .FailWith(this.BuildResultFailureMessage());
+
+        private static bool EvaluateValueEquality<TA>(TA subject, TA expected)
+        {
+            try
+            {
+                subject.Should().BeEquivalentTo(expected);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         private string GetResultFailure() =>
             this.Subject.Match(_ => string.Empty, failure => failure.GetFailureMessage());

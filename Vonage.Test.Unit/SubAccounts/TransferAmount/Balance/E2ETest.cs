@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Vonage.Serialization;
 using Vonage.SubAccounts.TransferAmount;
 using WireMock.ResponseBuilders;
 using Xunit;
@@ -17,7 +17,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Balance
         public E2ETest() : base(typeof(E2ETest).Namespace)
         {
             this.serializationRequest = new SerializationTestHelper(typeof(TransferAmount.SerializationTest).Namespace,
-                JsonSerializer.BuildWithSnakeCase());
+                JsonSerializerBuilder.BuildWithSnakeCase());
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Balance
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/balance-transfers")
-                    .WithHeader("Authorization", "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .WithBody(this.serializationRequest.GetRequestJson(nameof(SubAccounts.TransferAmount
                         .SerializationTest.ShouldSerialize)))
                     .UsingPost())

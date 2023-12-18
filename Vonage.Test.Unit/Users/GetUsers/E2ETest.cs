@@ -16,23 +16,6 @@ namespace Vonage.Test.Unit.Users.GetUsers
         }
 
         [Fact]
-        public async Task GetUsersWithDefaultRequest()
-        {
-            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                    .WithPath("/v1/users")
-                    .WithParam("page_size", "10")
-                    .WithParam("order", "asc")
-                    .WithHeader("Authorization", "Bearer *")
-                    .UsingGet())
-                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-            await this.Helper.VonageClient.UsersClient
-                .GetUsersAsync(GetUsersRequest.Build().Create())
-                .Should()
-                .BeSuccessAsync(SerializationTest.VerifyResponse);
-        }
-
-        [Fact]
         public async Task GetUsers()
         {
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
@@ -40,7 +23,7 @@ namespace Vonage.Test.Unit.Users.GetUsers
                     .WithParam("page_size", "100")
                     .WithParam("order", "desc")
                     .WithParam("name", "Test")
-                    .WithHeader("Authorization", "Bearer *")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                     .UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
@@ -50,6 +33,23 @@ namespace Vonage.Test.Unit.Users.GetUsers
                     .WithOrder(FetchOrder.Descending)
                     .WithPageSize(100)
                     .Create())
+                .Should()
+                .BeSuccessAsync(SerializationTest.VerifyResponse);
+        }
+
+        [Fact]
+        public async Task GetUsersWithDefaultRequest()
+        {
+            this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+                    .WithPath("/v1/users")
+                    .WithParam("page_size", "10")
+                    .WithParam("order", "asc")
+                    .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
+                    .UsingGet())
+                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
+                    .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+            await this.Helper.VonageClient.UsersClient
+                .GetUsersAsync(GetUsersRequest.Build().Create())
                 .Should()
                 .BeSuccessAsync(SerializationTest.VerifyResponse);
         }

@@ -1,0 +1,44 @@
+name: Changelog Update
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  checks: read
+  contents: write
+  deployments: read
+  issues: read
+  discussions: read
+  packages: read
+  pages: read
+  pull-requests: read
+  security-events: read
+  statuses: read
+
+jobs:
+  changelog:
+    name: Vonage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: main
+          token: ${{ secrets.CHANGELOG_TOKEN }}
+
+      - name: Update changelog
+        uses: orhun/git-cliff-action@v2
+        id: git-cliff
+        with:
+          config: cliff.toml
+        env:
+          OUTPUT: CHANGELOG.md
+
+      - name: Commit changelog
+        run: |
+          git config --local user.name NexmoDev
+          git config --local user.email 44278943+NexmoDev@users.noreply.github.com
+          git add CHANGELOG.md
+          git commit -m "docs: update changelog"
+          git push

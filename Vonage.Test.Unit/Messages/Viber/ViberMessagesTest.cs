@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Vonage.Common;
 using Vonage.Common.Test;
 using Vonage.Messages;
 using Vonage.Messages.Viber;
 using Vonage.Request;
+using Vonage.Serialization;
 using Xunit;
 
 namespace Vonage.Test.Unit.Messages.Viber
@@ -20,9 +20,9 @@ namespace Vonage.Test.Unit.Messages.Viber
         {
             this.expectedUri = $"{this.ApiUrl}/v1/messages";
             this.helper = new SerializationTestHelper(typeof(ViberMessagesTest).Namespace,
-                JsonSerializer.BuildWithCamelCase());
+                JsonSerializerBuilder.BuildWithCamelCase());
             this.operation = request =>
-              this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
+                this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
                     .MessagesClient
                     .SendAsync(request);
         }

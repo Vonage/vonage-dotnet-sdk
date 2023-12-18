@@ -6,11 +6,13 @@ using Vonage.Applications;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Conversations;
 using Vonage.Conversions;
 using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
+using Vonage.NumberInsightV2;
 using Vonage.Numbers;
 using Vonage.Pricing;
 using Vonage.ProactiveConnect;
@@ -21,6 +23,7 @@ using Vonage.SubAccounts;
 using Vonage.Users;
 using Vonage.Verify;
 using Vonage.VerifyV2;
+using Vonage.Video;
 using Vonage.Voice;
 
 namespace Vonage;
@@ -37,6 +40,11 @@ public class VonageClient
     public IAccountClient AccountClient { get; private set; }
 
     public IApplicationClient ApplicationClient { get; private set; }
+
+    /// <summary>
+    ///     Exposes Conversations features.
+    /// </summary>
+    public IConversationsClient ConversationsClient { get; private set; }
 
     public IConversionClient ConversionClient { get; private set; }
 
@@ -63,6 +71,11 @@ public class VonageClient
     public IMessagesClient MessagesClient { get; private set; }
 
     public INumberInsightClient NumberInsightClient { get; private set; }
+
+    /// <summary>
+    ///     Exposes Number Insight V2 features.
+    /// </summary>
+    public INumberInsightV2Client NumberInsightV2Client { get; private set; }
 
     public INumbersClient NumbersClient { get; private set; }
 
@@ -95,6 +108,11 @@ public class VonageClient
     ///     Exposes VerifyV2 features.
     /// </summary>
     public IVerifyV2Client VerifyV2Client { get; private set; }
+
+    /// <summary>
+    ///     Exposes Video features.
+    /// </summary>
+    public IVideoClient VideoClient { get; private set; }
 
     public IVoiceClient VoiceClient { get; private set; }
 
@@ -153,13 +171,20 @@ public class VonageClient
         this.SubAccountsClient = new SubAccountsClient(
             this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)),
             this.Credentials.ApiKey);
+        this.NumberInsightV2Client = new NumberInsightV2Client(
+            this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
         this.UsersClient =
             new UsersClient(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
+        this.ConversationsClient =
+            new ConversationsClient(
+                this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
         this.MeetingsClient = new MeetingsClient(
             this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)),
             new FileSystem());
         this.ProactiveConnectClient =
             new ProactiveConnectClient(
                 this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)));
+        this.VideoClient =
+            new VideoClient(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VideoApiUrl)));
     }
 }

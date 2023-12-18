@@ -31,7 +31,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
       - name: Install SonarScanner
         run: |
           dotnet tool update --global dotnet-sonarscanner
@@ -49,10 +49,8 @@ jobs:
         run: |
           dotnet build --configuration Release .\Vonage.Common\Vonage.Common.csproj
           dotnet build --configuration Release .\Vonage\Vonage.csproj
-          dotnet build --configuration Release .\Vonage.Server\Vonage.Server.csproj
           dotnet build --configuration Release .\Vonage.Common.Test\Vonage.Common.Test.csproj -f net7.0
           dotnet build --configuration Release .\Vonage.Test.Unit\Vonage.Test.Unit.csproj -f net7.0
-          dotnet build --configuration Release .\Vonage.Server.Test\Vonage.Server.Test.csproj -f net7.0
       - name: Test
         run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net7.0 --filter Category!=Integration' -f xml  -o 'coverage.xml'
       - name: End SonarScanner

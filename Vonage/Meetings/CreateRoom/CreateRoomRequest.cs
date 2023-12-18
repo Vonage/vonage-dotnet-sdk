@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.Meetings.Common;
+using Vonage.Serialization;
 
 namespace Vonage.Meetings.CreateRoom;
 
@@ -105,7 +105,7 @@ public readonly struct CreateRoomRequest : IVonageRequest
         this.ThemeId.IfSome(value => values.Add("theme_id", value));
         values.Add("type", this.Type);
         values.Add("ui_settings", this.UserInterfaceSettings);
-        return new StringContent(JsonSerializer
+        return new StringContent(JsonSerializerBuilder
                 .BuildWithSnakeCase()
                 .WithConverter(new EnumDescriptionJsonConverter<RoomApprovalLevel>())
                 .WithConverter(new EnumDescriptionJsonConverter<RecordingStatus>())

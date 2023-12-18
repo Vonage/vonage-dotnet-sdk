@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
-using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+using Vonage.Serialization;
 
 namespace Vonage.Meetings.UpdateApplication;
 
@@ -41,7 +41,7 @@ public readonly struct UpdateApplicationRequest : IVonageRequest
             .Bind(evaluation => evaluation.WithRules(VerifyDefaultThemeId));
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializer.BuildWithSnakeCase().SerializeObject(new {UpdateDetails = this}),
+        new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(new {UpdateDetails = this}),
             Encoding.UTF8,
             "application/json");
 
