@@ -5,7 +5,7 @@
         <Nullable>disable</Nullable>
         <IsPackable>false</IsPackable>
         <LangVersion>latest</LangVersion>
-        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows;net7.0;net7.0-windows;net481</TargetFrameworks>
+        <TargetFrameworks>net462;net47;net471;net472;net48;net6.0;net6.0-windows;net7.0;net7.0-windows;net481;net8.0;net8.0-windows</TargetFrameworks>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
 
