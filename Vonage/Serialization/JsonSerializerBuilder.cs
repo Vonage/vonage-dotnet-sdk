@@ -3,6 +3,7 @@ using Vonage.Common.Serialization;
 using Vonage.Messages;
 using Vonage.NumberInsightV2.FraudCheck;
 using Vonage.Server;
+using Vonage.VerifyV2.StartVerification;
 using Vonage.Video.Broadcast;
 using JsonSerializer = Vonage.Common.JsonSerializer;
 
@@ -26,6 +27,7 @@ public static class JsonSerializerBuilder
     public static JsonSerializer BuildWithSnakeCase() => BuildSerializer(JsonNamingPolicy.SnakeCaseLower);
 
     private static JsonSerializer BuildSerializer(JsonNamingPolicy policy) => new JsonSerializer(policy)
+        .WithConverter(new MaybeJsonConverter<string>())
         .WithConverter(new EnumDescriptionJsonConverter<MessagesChannel>())
         .WithConverter(new EnumDescriptionJsonConverter<MessagesMessageType>())
         .WithConverter(new EnumDescriptionJsonConverter<FraudScoreLabel>())
@@ -34,5 +36,9 @@ public static class JsonSerializerBuilder
         .WithConverter(new EnumDescriptionJsonConverter<OutputMode>())
         .WithConverter(new EnumDescriptionJsonConverter<StreamMode>())
         .WithConverter(new EnumDescriptionJsonConverter<Broadcast.BroadcastStatus>())
-        .WithConverter(new EnumDescriptionJsonConverter<Broadcast.RtmpStatus>());
+        .WithConverter(new EnumDescriptionJsonConverter<Broadcast.RtmpStatus>())
+        .WithConverter(new HttpMethodJsonConverter())
+        .WithConverter(new PhoneNumberJsonConverter())
+        .WithConverter(new EmailJsonConverter())
+        .WithConverter(new LocaleJsonConverter());
 }

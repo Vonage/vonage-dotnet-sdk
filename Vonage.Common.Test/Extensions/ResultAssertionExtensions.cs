@@ -71,13 +71,13 @@ namespace Vonage.Common.Test.Extensions
         public AndConstraint<ResultAssertionExtensions<T>> BeSuccess(T expected)
         {
             Execute.Assertion
-                .WithExpectation($"Expected {this.Subject} to be equivalent to success, ")
+                .WithExpectation("Expected to be Success {0}, ", expected)
                 .Given(() => new {this.Subject, Expected = expected})
                 .ForCondition(data => data.Subject.IsSuccess)
                 .FailWith(this.BuildResultFailureMessage())
                 .Then
                 .ForCondition(data => EvaluateValueEquality(data.Subject.GetSuccessUnsafe(), expected))
-                .FailWith($"Value equality failed between subject and expectation.");
+                .FailWith("but found to be Success {0}.", this.Subject.GetSuccessUnsafe());
             return new AndConstraint<ResultAssertionExtensions<T>>(this);
         }
 

@@ -915,7 +915,7 @@
         <None Update="Conversations\CreateConversation\Data\ShouldDeserialize200Minimal-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Conversations\CreateConversation\Data\ShouldSerializeDefault-request.json">
+        <None Update="Conversations\CreateConversation\Data\ShouldSerializeEmpty-request.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Conversations\CreateConversation\Data\ShouldSerialize-request.json">

@@ -68,7 +68,7 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                         "https://api-us-3.vonage.com/v1/conversations/CON-dd7ca47d-0e2f-4118-adc4-905e96431459"))));
             });
 
-        [Fact(Skip = "Not implemented")]
+        [Fact]
         public void ShouldSerialize() => CreateConversationRequest.Build()
             .WithName("customer_chat")
             .WithDisplayName("Customer Chat")
@@ -79,10 +79,10 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
                     {"property1", "string"},
                     {"property2", "string"},
                 }))
-            .WithCallback(new Callback(new Uri("https://example.com"), "string",
-                new CallbackParameters("string", new Uri("https://example.com")), HttpMethod.Post))
+            .WithCallback(new Callback(new Uri("http://example.com"), "string",
+                new CallbackParameters("string", new Uri("http://example.com")), HttpMethod.Post))
             .WithNumber(new PhoneNumber("447700900000"))
-            .WithNumber(new SipNumber("sip:+Htg;:xa", "string", "string"))
+            .WithNumber(new SipNumber("sip:+Htg:;xa", "string", "string"))
             .WithNumber(new AppNumber("string"))
             .WithNumber(new WebSocketNumber("ws://example.com:8080", "string"))
             .WithNumber(new VbcNumber("447700900000"))
@@ -92,7 +92,7 @@ namespace Vonage.Test.Unit.Conversations.CreateConversation
             .BeSuccess(this.helper.GetRequestJson());
 
         [Fact]
-        public void ShouldSerializeDefault() => CreateConversationRequest.Build()
+        public void ShouldSerializeEmpty() => CreateConversationRequest.Build()
             .Create()
             .GetStringContent()
             .Should()
