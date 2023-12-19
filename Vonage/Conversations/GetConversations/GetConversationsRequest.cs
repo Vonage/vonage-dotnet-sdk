@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
+using EnumsNET;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
@@ -44,5 +48,20 @@ public readonly struct GetConversationsRequest : IVonageRequest
     public HttpRequestMessage BuildRequestMessage() => throw new NotImplementedException();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => throw new NotImplementedException();
+    public string GetEndpointPath() => UriHelpers.BuildUri("/v1/conversations", this.GetQueryStringParameters());
+
+    private Dictionary<string, string> GetQueryStringParameters()
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            {"page_size", this.PageSize.ToString()},
+            {"order", this.Order.AsString(EnumFormat.Description)},
+        };
+        this.StartDate.IfSome(value =>
+            parameters.Add("date_start", value.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)));
+        this.EndDate.IfSome(value =>
+            parameters.Add("date_end", value.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)));
+        this.Cursor.IfSome(value => parameters.Add("cursor", value));
+        return parameters;
+    }
 }
