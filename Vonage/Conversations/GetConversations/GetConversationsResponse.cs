@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.Json.Serialization;
 using System.Web;
+using EnumsNET;
 using Vonage.Common;
 using Vonage.Common.Monads;
 
@@ -41,22 +43,16 @@ public record GetConversationsHalLink(Uri Href)
     public Result<GetConversationsRequest> BuildRequest()
     {
         var queryParameters = HttpUtility.ParseQueryString(this.Href.Query);
-        var name = queryParameters["name"] ?? Maybe<string>.None;
-        var cursor = queryParameters["cursor"] ?? Maybe<string>.None;
         var pageSize = queryParameters["page_size"];
         var order = queryParameters["order"];
-        if (pageSize is null)
-        {
-            //return Result<GetConversationsRequest>.FromFailure(ResultFailure.FromErrorMessage("PageSize is missing from Uri."));
-        }
-
-        if (order is null)
-        {
-            //return Result<GetConversationsRequest>.FromFailure(ResultFailure.FromErrorMessage("Order is missing from Uri."));
-        }
-
-        //return Result<GetConversationsRequest>.FromSuccess(new GetUsersRequest(cursor, name,
-        //  Enums.Parse<FetchOrder>(order, false, EnumFormat.Description), int.Parse(pageSize)));
-        throw new NotImplementedException();
+        var cursor = queryParameters["cursor"] ?? Maybe<string>.None;
+        var startDate = queryParameters["date_start"] ?? Maybe<string>.None;
+        var endDate = queryParameters["date_end"] ?? Maybe<string>.None;
+        return Result<GetConversationsRequest>.FromSuccess(new GetConversationsRequest(
+            cursor,
+            endDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)),
+            Enums.Parse<FetchOrder>(order, false, EnumFormat.Description),
+            int.Parse(pageSize),
+            startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))));
     }
 }

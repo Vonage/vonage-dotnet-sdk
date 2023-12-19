@@ -17,13 +17,8 @@ internal class GetConversationsRequestBuilder : IBuilderForOptional
 
     /// <inheritdoc />
     public Result<GetConversationsRequest> Create() => Result<GetConversationsRequest>.FromSuccess(
-            new GetConversationsRequest
-            {
-                PageSize = this.pageSize,
-                Order = this.fetchOrder,
-                StartDate = this.startDate,
-                EndDate = this.endDate,
-            })
+            new GetConversationsRequest(Maybe<string>.None, this.endDate, this.fetchOrder, this.pageSize,
+                this.startDate))
         .Map(InputEvaluation<GetConversationsRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(VerifyMinimumPageSize, VerifyMaximumPageSize));
 

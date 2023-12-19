@@ -23,22 +23,32 @@ public readonly struct GetConversationsRequest : IVonageRequest
     /// <summary>
     ///     Filter records that occurred before this point in time.
     /// </summary>
-    public Maybe<DateTimeOffset> EndDate { get; internal init; }
+    public Maybe<DateTimeOffset> EndDate { get; }
 
     /// <summary>
     ///     Defines the data ordering.
     /// </summary>
-    public FetchOrder Order { get; internal init; }
+    public FetchOrder Order { get; }
 
     /// <summary>
     ///     Number of results per page.
     /// </summary>
-    public int PageSize { get; internal init; }
+    public int PageSize { get; }
 
     /// <summary>
     ///     Filter records that occurred after this point in time.
     /// </summary>
-    public Maybe<DateTimeOffset> StartDate { get; internal init; }
+    public Maybe<DateTimeOffset> StartDate { get; }
+
+    internal GetConversationsRequest(Maybe<string> cursor, Maybe<DateTimeOffset> endDate, FetchOrder order,
+        int pageSize, Maybe<DateTimeOffset> startDate)
+    {
+        this.Cursor = cursor;
+        this.EndDate = endDate;
+        this.Order = order;
+        this.PageSize = pageSize;
+        this.StartDate = startDate;
+    }
 
     /// <summary>
     ///     Initializes a builder.
