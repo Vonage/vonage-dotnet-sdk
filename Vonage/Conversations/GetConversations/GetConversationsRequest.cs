@@ -12,6 +12,8 @@ namespace Vonage.Conversations.GetConversations;
 /// <inheritdoc />
 public readonly struct GetConversationsRequest : IVonageRequest
 {
+    private const string ExpectedDateFormat = "yyyy-MM-ddTHH:mm:ssZ";
+
     /// <summary>
     ///     The cursor to start returning results from. You are not expected to provide this manually, but to follow the url
     ///     provided in _links.next.href or _links.prev.href in the response which contains a cursor value.
@@ -45,7 +47,9 @@ public readonly struct GetConversationsRequest : IVonageRequest
     public static IBuilderForOptional Build() => new GetConversationsRequestBuilder();
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => throw new NotImplementedException();
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Get, this.GetEndpointPath())
+        .Build();
 
     /// <inheritdoc />
     public string GetEndpointPath() => UriHelpers.BuildUri("/v1/conversations", this.GetQueryStringParameters());
@@ -58,9 +62,9 @@ public readonly struct GetConversationsRequest : IVonageRequest
             {"order", this.Order.AsString(EnumFormat.Description)},
         };
         this.StartDate.IfSome(value =>
-            parameters.Add("date_start", value.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)));
+            parameters.Add("date_start", value.ToString(ExpectedDateFormat, CultureInfo.InvariantCulture)));
         this.EndDate.IfSome(value =>
-            parameters.Add("date_end", value.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)));
+            parameters.Add("date_end", value.ToString(ExpectedDateFormat, CultureInfo.InvariantCulture)));
         this.Cursor.IfSome(value => parameters.Add("cursor", value));
         return parameters;
     }

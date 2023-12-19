@@ -4,6 +4,7 @@ using Vonage.Common.Monads;
 using Vonage.Conversations.CreateConversation;
 using Vonage.Conversations.DeleteConversation;
 using Vonage.Conversations.GetConversation;
+using Vonage.Conversations.GetConversations;
 using Vonage.Serialization;
 
 namespace Vonage.Conversations;
@@ -33,6 +34,13 @@ public interface IConversationsClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Conversation>> GetConversationAsync(Result<GetConversationRequest> request);
+
+    /// <summary>
+    ///     Retrieves conversations.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetConversationsResponse>> GetConversationsAsync(Result<GetConversationsRequest> request);
 }
 
 internal class ConversationsClient : IConversationsClient
@@ -58,4 +66,8 @@ internal class ConversationsClient : IConversationsClient
     /// <inheritdoc />
     public Task<Result<Conversation>> GetConversationAsync(Result<GetConversationRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetConversationRequest, Conversation>(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetConversationsResponse>> GetConversationsAsync(Result<GetConversationsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetConversationsRequest, GetConversationsResponse>(request);
 }
