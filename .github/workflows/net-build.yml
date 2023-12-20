@@ -48,7 +48,7 @@ jobs:
       - name: Build
         run: |
           dotnet build --configuration Release .\Vonage\Vonage.csproj
-          dotnet build --configuration Release .\Vonage.Test.Unit\Vonage.Test.Unit.csproj -f net7.0
+          dotnet build --configuration Release .\Vonage.Test\Vonage.Test.csproj -f net7.0
       - name: Test
         run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net7.0 --filter Category!=Integration' -f xml  -o 'coverage.xml'
       - name: End SonarScanner
