@@ -1,10 +1,10 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Test.Extensions;
-using Vonage.Common.Test.TestHelpers;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.CreateRoom;
+using Vonage.Test.Unit.Common.Extensions;
+using Vonage.Test.Unit.Common.TestHelpers;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.CreateRoom

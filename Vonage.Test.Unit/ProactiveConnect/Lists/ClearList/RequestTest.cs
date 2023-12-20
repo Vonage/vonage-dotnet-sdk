@@ -1,6 +1,6 @@
 using System;
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Lists.ClearList;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Lists.ClearList

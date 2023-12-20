@@ -1,7 +1,7 @@
 ﻿using System;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Serialization;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Video.Broadcast.AddStreamToBroadcast;
 using Xunit;
 

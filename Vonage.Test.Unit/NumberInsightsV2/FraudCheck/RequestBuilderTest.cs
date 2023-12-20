@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using Vonage.Common.Test.Extensions;
 using Vonage.NumberInsightV2.FraudCheck;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.NumberInsightsV2.FraudCheck

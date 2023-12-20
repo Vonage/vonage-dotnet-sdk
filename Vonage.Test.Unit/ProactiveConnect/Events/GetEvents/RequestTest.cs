@@ -1,5 +1,5 @@
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Events.GetEvents;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Events.GetEvents

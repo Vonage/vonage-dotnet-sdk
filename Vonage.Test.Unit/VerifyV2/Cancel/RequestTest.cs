@@ -1,5 +1,5 @@
 using System;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.VerifyV2.Cancel;
 using Xunit;
 

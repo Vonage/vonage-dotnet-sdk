@@ -10,12 +10,12 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
-using Vonage.Common.Test.TestHelpers;
 using Vonage.Meetings;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.UpdateThemeLogo;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
+using Vonage.Test.Unit.Common.TestHelpers;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo

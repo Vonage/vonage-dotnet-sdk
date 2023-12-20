@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Video.Sessions.ChangeStreamLayout;
 using Xunit;
 

@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Vonage.Common.Test;
 using Vonage.Messages;
 using Vonage.Messages.WhatsApp;
 using Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
 using Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 using Vonage.Request;
 using Vonage.Serialization;
+using Vonage.Test.Unit.Common;
 using Xunit;
 
 namespace Vonage.Test.Unit.Messages.WhatsApp

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Lists.GetLists;
+using Vonage.Test.Unit.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
 

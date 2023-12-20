@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
-using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.TransferAmount;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.TransferAmount

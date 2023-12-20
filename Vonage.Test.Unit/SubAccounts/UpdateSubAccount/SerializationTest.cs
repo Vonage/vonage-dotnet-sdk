@@ -1,9 +1,9 @@
 ﻿using System;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Serialization;
 using Vonage.SubAccounts;
 using Vonage.SubAccounts.UpdateSubAccount;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.UpdateSubAccount

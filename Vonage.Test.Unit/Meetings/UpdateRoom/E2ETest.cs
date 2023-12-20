@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.UpdateRoom;
+using Vonage.Test.Unit.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
 

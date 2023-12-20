@@ -1,4 +1,4 @@
-﻿using Vonage.Common.Test.Extensions;
+﻿using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Users.CreateUser;
 using Xunit;
 

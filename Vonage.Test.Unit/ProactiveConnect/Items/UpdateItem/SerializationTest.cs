@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Items;
 using Vonage.ProactiveConnect.Items.UpdateItem;
 using Vonage.Serialization;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Items.UpdateItem

@@ -1,7 +1,7 @@
 using System;
 using AutoFixture;
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Items.DeleteItem;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Items.DeleteItem

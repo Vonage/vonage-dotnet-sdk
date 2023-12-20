@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
-using Vonage.Common.Test.Extensions;
 using Vonage.Conversations.GetConversations;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Conversations.GetConversations

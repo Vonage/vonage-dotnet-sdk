@@ -1,11 +1,11 @@
 ﻿using System;
 using FluentAssertions;
 using Vonage.Common.Monads;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.UpdateThemeLogo;
 using Vonage.Serialization;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.UpdateThemeLogo

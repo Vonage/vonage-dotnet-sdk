@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using Vonage.Common.Test.Extensions;
 using Vonage.Server;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Video.Archives.ChangeLayout;
 using WireMock.ResponseBuilders;
 using Xunit;

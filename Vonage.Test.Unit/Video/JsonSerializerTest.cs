@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using FluentAssertions;
 using Vonage.Common;
-using Vonage.Common.Test.Extensions;
 using Vonage.Serialization;
 using Vonage.Server;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Video

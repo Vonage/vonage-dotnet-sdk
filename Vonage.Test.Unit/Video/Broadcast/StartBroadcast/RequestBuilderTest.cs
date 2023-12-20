@@ -2,8 +2,8 @@
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Test.Extensions;
 using Vonage.Server;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Video.Broadcast.StartBroadcast;
 using Xunit;
 

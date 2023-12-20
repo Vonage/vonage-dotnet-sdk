@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
 using Vonage.Common;
-using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
+using Vonage.Test.Unit.Common.TestHelpers;
 using Xunit;
 using TimeProvider = Vonage.Common.TimeProvider;
 

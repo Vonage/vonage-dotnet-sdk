@@ -1,7 +1,7 @@
-﻿using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
-using Vonage.Serialization;
+﻿using Vonage.Serialization;
 using Vonage.SubAccounts.TransferNumber;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.SubAccounts.TransferNumber

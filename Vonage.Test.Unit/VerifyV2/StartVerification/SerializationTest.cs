@@ -1,8 +1,8 @@
 using System;
 using Vonage.Common.Monads;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Serialization;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Email;
 using Vonage.VerifyV2.StartVerification.SilentAuth;

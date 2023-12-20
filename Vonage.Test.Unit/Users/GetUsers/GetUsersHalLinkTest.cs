@@ -1,8 +1,8 @@
 ﻿using System;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Users.GetUsers;
 using Xunit;
 

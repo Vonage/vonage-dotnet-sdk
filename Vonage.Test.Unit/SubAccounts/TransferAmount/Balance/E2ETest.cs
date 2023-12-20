@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Serialization;
 using Vonage.SubAccounts.TransferAmount;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
 
@@ -26,8 +26,7 @@ namespace Vonage.Test.Unit.SubAccounts.TransferAmount.Balance
             this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                     .WithPath("/accounts/790fc5e5/balance-transfers")
                     .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
-                    .WithBody(this.serializationRequest.GetRequestJson(nameof(SubAccounts.TransferAmount
-                        .SerializationTest.ShouldSerialize)))
+                    .WithBody(this.serializationRequest.GetRequestJson(nameof(SubAccounts.TransferAmount.SerializationTest.ShouldSerialize)))
                     .UsingPost())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                     .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));

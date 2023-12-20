@@ -1,5 +1,5 @@
-﻿using Vonage.Common.Test.Extensions;
-using Vonage.Conversations.UpdateConversation;
+﻿using Vonage.Conversations.UpdateConversation;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Conversations.UpdateConversation
