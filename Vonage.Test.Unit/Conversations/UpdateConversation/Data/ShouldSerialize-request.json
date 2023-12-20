@@ -1,0 +1,48 @@
+﻿{
+  "name": "customer_chat",
+  "display_name": "Customer Chat",
+  "image_url": "https://example.com/image.png",
+  "properties": {
+    "ttl": 60,
+    "type": "string",
+    "custom_sort_key": "string",
+    "custom_data": {
+      "property1": "string",
+      "property2": "string"
+    }
+  },
+  "numbers": [
+    {
+      "type": "phone",
+      "number": "447700900000"
+    },
+    {
+      "type": "sip",
+      "uri": "sip:+Htg:;xa",
+      "username": "string",
+      "password": "string"
+    },
+    {
+      "type": "app",
+      "user": "string"
+    },
+    {
+      "type": "websocket",
+      "uri": "ws://example.com:8080",
+      "content_type": "string"
+    },
+    {
+      "type": "vbc",
+      "extension": "447700900000"
+    }
+  ],
+  "callback": {
+    "url": "http://example.com",
+    "event_mask": "string",
+    "params": {
+      "applicationId": "string",
+      "ncco_url": "http://example.com"
+    },
+    "method": "POST"
+  }
+}

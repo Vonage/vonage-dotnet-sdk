@@ -39,7 +39,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Conversations\UpdateConversation\Data\"/>
         <Folder Include="Video\TestHelpers\" />
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1052,6 +1051,18 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Conversations\GetConversations\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\UpdateConversation\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\UpdateConversation\Data\ShouldDeserialize200Minimal-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\UpdateConversation\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\UpdateConversation\Data\ShouldSerializeEmpty-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
