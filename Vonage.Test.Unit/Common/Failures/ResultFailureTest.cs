@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Failures;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
-namespace Vonage.Common.Test.Failures
+namespace Vonage.Test.Unit.Common.Failures
 {
     public class ResultFailureTest
     {

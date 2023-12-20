@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using AutoFixture;
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Items.CreateItem;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Items.CreateItem

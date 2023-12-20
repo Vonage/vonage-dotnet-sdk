@@ -2,8 +2,8 @@
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Vonage.Common.Test.Extensions;
 using Vonage.SubAccounts.GetTransfers;
+using Vonage.Test.Unit.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
 

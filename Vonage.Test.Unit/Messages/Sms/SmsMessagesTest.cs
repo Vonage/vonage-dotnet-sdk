@@ -2,10 +2,10 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Exceptions;
-using Vonage.Common.Test;
 using Vonage.Messages.Sms;
 using Vonage.Request;
 using Vonage.Serialization;
+using Vonage.Test.Unit.Common;
 using Xunit;
 
 namespace Vonage.Test.Unit.Messages.Sms

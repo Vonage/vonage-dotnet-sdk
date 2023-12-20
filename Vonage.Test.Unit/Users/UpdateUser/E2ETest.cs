@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Users;
 using Vonage.Users.UpdateUser;
 using WireMock.ResponseBuilders;

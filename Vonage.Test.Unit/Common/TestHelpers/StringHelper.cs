@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Vonage.Common.Test.TestHelpers
+namespace Vonage.Test.Unit.Common.TestHelpers
 {
     public static class StringHelper
     {

@@ -2,8 +2,9 @@
 using Epoch.net;
 using FluentAssertions;
 using Xunit;
+using TimeProvider = Vonage.Common.TimeProvider;
 
-namespace Vonage.Common.Test
+namespace Vonage.Test.Unit.Common
 {
     public class TimeProviderTest
     {

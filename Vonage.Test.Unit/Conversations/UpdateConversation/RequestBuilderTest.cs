@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using Vonage.Common.Test.Extensions;
 using Vonage.Conversations;
 using Vonage.Conversations.UpdateConversation;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Conversations.UpdateConversation

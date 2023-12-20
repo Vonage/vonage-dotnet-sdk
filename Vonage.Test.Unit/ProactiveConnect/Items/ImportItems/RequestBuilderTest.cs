@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using AutoFixture;
 using FluentAssertions;
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Items.ImportItems;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Items.ImportItems

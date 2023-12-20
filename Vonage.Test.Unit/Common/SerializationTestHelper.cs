@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Vonage.Common;
 
-namespace Vonage.Common.Test
+namespace Vonage.Test.Unit.Common
 {
     public class SerializationTestHelper
     {

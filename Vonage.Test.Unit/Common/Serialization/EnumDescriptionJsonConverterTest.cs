@@ -2,7 +2,7 @@
 using Vonage.Common.Serialization;
 using Xunit;
 
-namespace Vonage.Common.Test.Serialization
+namespace Vonage.Test.Unit.Common.Serialization
 {
     public class EnumDescriptionJsonConverterTest
     {

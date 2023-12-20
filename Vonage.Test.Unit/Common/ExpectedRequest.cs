@@ -2,7 +2,7 @@
 using System.Net.Http;
 using Vonage.Common.Monads;
 
-namespace Vonage.Common.Test
+namespace Vonage.Test.Unit.Common
 {
     public struct ExpectedRequest
     {

@@ -2,10 +2,10 @@
 using System.Text;
 using System.Text.Json;
 using Vonage.Common.Serialization;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
-namespace Vonage.Common.Test.Serialization
+namespace Vonage.Test.Unit.Common.Serialization
 {
     public class MaybeJsonConverterTest
     {

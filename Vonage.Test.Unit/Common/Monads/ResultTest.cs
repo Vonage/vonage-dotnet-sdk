@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
-namespace Vonage.Common.Test.Monads
+namespace Vonage.Test.Unit.Common.Monads
 {
     public class ResultTest
     {

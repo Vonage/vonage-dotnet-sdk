@@ -1,7 +1,7 @@
 ﻿using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
-namespace Vonage.Common.Test.Extensions
+namespace Vonage.Test.Unit.Common.Extensions
 {
     public static class SerializationExtensions
     {

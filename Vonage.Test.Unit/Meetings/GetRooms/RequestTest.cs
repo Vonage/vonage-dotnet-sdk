@@ -1,5 +1,5 @@
-﻿using Vonage.Common.Test.Extensions;
-using Vonage.Meetings.GetRooms;
+﻿using Vonage.Meetings.GetRooms;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetRooms

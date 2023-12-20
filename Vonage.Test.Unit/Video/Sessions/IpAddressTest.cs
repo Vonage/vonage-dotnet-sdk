@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Video.Sessions;
 using Xunit;
 

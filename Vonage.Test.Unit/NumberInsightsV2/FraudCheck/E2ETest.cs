@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.NumberInsightV2.FraudCheck;
 using Vonage.Serialization;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Test.Unit.TestHelpers;
 using WireMock.ResponseBuilders;
 using Xunit;

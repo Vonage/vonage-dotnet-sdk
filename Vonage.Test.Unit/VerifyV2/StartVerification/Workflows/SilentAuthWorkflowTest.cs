@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Vonage.Common.Failures;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.VerifyV2.StartVerification.SilentAuth;
 using Xunit;
 

@@ -4,8 +4,8 @@ using System.Globalization;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Monads;
-using Vonage.Common.Test.Extensions;
 using Vonage.Conversations;
+using Vonage.Test.Unit.Common.Extensions;
 
 namespace Vonage.Test.Unit.Conversations
 {

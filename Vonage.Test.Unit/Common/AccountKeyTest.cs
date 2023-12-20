@@ -1,10 +1,11 @@
 ﻿using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common;
 using Vonage.Common.Failures;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
-namespace Vonage.Common.Test
+namespace Vonage.Test.Unit.Common
 {
     public class AccountKeyTest
     {

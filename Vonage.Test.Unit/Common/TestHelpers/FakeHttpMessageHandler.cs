@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Common.Monads;
 
-namespace Vonage.Common.Test.TestHelpers
+namespace Vonage.Test.Unit.Common.TestHelpers
 {
     public class FakeHttpRequestHandler : HttpMessageHandler
     {

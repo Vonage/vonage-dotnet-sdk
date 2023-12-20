@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Vonage.Common.Monads;
 
-namespace Vonage.Common.Test.Extensions
+namespace Vonage.Test.Unit.Common.Extensions
 {
     public static class FluentAssertionExtensions
     {

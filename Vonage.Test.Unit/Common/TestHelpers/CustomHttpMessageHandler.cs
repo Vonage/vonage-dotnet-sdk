@@ -13,7 +13,7 @@ using AutoFixture.Kernel;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
-namespace Vonage.Common.Test.TestHelpers
+namespace Vonage.Test.Unit.Common.TestHelpers
 {
     /// <summary>
     ///     Custom message handler for CustomHttpMessageHandler.

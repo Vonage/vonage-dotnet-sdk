@@ -1,8 +1,8 @@
 using System;
 using FluentAssertions;
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect.Lists;
 using Vonage.ProactiveConnect.Lists.UpdateList;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Lists.UpdateList

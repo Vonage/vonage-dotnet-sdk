@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Video.Moderation.DisconnectConnection;
 using WireMock.ResponseBuilders;
 using Xunit;

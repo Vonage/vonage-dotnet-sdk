@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Vonage.Common.Test.Extensions;
 using Vonage.Server;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Video.Broadcast.StartBroadcast;
 using WireMock.ResponseBuilders;
 using Xunit;

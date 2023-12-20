@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using AutoFixture;
-using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.CreateTheme;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.CreateTheme

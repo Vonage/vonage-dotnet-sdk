@@ -7,7 +7,7 @@ using FluentAssertions.Primitives;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 
-namespace Vonage.Common.Test.Extensions
+namespace Vonage.Test.Unit.Common.Extensions
 {
     public class ResultAssertionExtensions<T> : ReferenceTypeAssertions<Result<T>, ResultAssertionExtensions<T>>
     {

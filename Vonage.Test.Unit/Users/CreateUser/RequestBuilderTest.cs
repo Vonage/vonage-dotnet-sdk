@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using Vonage.Common.Monads;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Users;
 using Vonage.Users.CreateUser;
 using Xunit;

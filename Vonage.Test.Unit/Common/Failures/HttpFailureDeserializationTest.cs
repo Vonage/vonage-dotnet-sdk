@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using Vonage.Common.Failures;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Common.Failures

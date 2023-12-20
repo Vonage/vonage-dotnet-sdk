@@ -4,7 +4,7 @@ using Vonage.Common.Exceptions;
 using Vonage.Common.Failures;
 using Xunit;
 
-namespace Vonage.Common.Test.Failures
+namespace Vonage.Test.Unit.Common.Failures
 {
     public class HttpFailureTest
     {

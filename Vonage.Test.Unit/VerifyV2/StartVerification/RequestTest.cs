@@ -1,5 +1,5 @@
 using AutoFixture;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Sms;
 using Xunit;

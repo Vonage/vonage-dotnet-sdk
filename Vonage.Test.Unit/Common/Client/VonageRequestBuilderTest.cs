@@ -6,7 +6,7 @@ using FluentAssertions;
 using Vonage.Common.Client;
 using Xunit;
 
-namespace Vonage.Common.Test.Client
+namespace Vonage.Test.Unit.Common.Client
 {
     public class VonageRequestBuilderTest
     {

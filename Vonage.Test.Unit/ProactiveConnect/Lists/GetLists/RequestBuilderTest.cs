@@ -1,7 +1,7 @@
 using AutoFixture;
-using Vonage.Common.Test.Extensions;
 using Vonage.ProactiveConnect;
 using Vonage.ProactiveConnect.Lists.GetLists;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.ProactiveConnect.Lists.GetLists

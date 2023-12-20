@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using EnumsNET;
 using FluentAssertions;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Video.Authentication;
 using Xunit;
 

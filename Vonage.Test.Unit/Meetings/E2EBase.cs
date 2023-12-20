@@ -1,5 +1,5 @@
-﻿using Vonage.Common.Test;
-using Vonage.Serialization;
+﻿using Vonage.Serialization;
+using Vonage.Test.Unit.Common;
 using Vonage.Test.Unit.TestHelpers;
 
 namespace Vonage.Test.Unit.Meetings

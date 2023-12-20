@@ -2,8 +2,8 @@
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
-using Vonage.Common.Test.Extensions;
 using Vonage.Meetings.GetRecording;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Meetings.GetRecording

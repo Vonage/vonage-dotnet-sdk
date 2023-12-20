@@ -4,7 +4,7 @@ using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Vonage.Common.Monads;
 
-namespace Vonage.Common.Test.Extensions
+namespace Vonage.Test.Unit.Common.Extensions
 {
     public class MaybeAssertionExtensions<T> : ReferenceTypeAssertions<Maybe<T>, MaybeAssertionExtensions<T>>
     {

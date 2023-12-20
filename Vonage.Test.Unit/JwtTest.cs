@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Failures;
-using Vonage.Common.Test.Extensions;
-using Vonage.Common.Test.TestHelpers;
 using Vonage.Request;
+using Vonage.Test.Unit.Common.Extensions;
+using Vonage.Test.Unit.Common.TestHelpers;
 using Xunit;
 
 namespace Vonage.Test.Unit

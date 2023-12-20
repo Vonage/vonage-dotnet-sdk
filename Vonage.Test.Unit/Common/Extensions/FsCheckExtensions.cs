@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using System.Net;
 using FsCheck;
+using Vonage.Common;
 
-namespace Vonage.Common.Test.Extensions
+namespace Vonage.Test.Unit.Common.Extensions
 {
     /// <summary>
     ///     Extensions for FsCheck.

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using Vonage.Common.Monads;
-using Vonage.Common.Test;
-using Vonage.Common.Test.Extensions;
 using Vonage.Conversations;
 using Vonage.Conversations.CreateConversation;
 using Vonage.Serialization;
+using Vonage.Test.Unit.Common;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 using PhoneNumber = Vonage.Conversations.PhoneNumber;
 

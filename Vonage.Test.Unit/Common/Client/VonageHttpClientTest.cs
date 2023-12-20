@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FsCheck;
 using FsCheck.Xunit;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
-using Vonage.Common.Test.Extensions;
-using Vonage.Common.Test.TestHelpers;
+using Vonage.Test.Unit.Common.Extensions;
+using Vonage.Test.Unit.Common.TestHelpers;
 using Xunit;
 
-namespace Vonage.Common.Test.Client
+namespace Vonage.Test.Unit.Common.Client
 {
     public class VonageHttpClientTest
     {

@@ -1,5 +1,5 @@
-﻿using Vonage.Common.Test.Extensions;
-using Vonage.Conversations.GetConversation;
+﻿using Vonage.Conversations.GetConversation;
+using Vonage.Test.Unit.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.Unit.Conversations.GetConversation

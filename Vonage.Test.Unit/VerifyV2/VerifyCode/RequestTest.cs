@@ -1,6 +1,6 @@
 using System;
 using AutoFixture;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.VerifyV2.VerifyCode;
 using Xunit;
 

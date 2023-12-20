@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Failures;
-using Vonage.Common.Test.Extensions;
+using Vonage.Test.Unit.Common.Extensions;
 using Vonage.Video.Sessions.CreateSession;
 using WireMock.ResponseBuilders;
 using Xunit;
