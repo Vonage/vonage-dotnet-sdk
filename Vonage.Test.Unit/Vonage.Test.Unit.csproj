@@ -39,6 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Conversations\UpdateConversation\Data\"/>
         <Folder Include="Video\TestHelpers\" />
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

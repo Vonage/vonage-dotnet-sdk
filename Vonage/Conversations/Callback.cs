@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Text.Json.Serialization;
 
-namespace Vonage.Conversations.CreateConversation;
+namespace Vonage.Conversations;
 
 /// <summary>
 ///     Represents the Callback information.

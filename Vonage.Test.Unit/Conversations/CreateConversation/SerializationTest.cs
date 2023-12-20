@@ -8,7 +8,7 @@ using Vonage.Conversations;
 using Vonage.Conversations.CreateConversation;
 using Vonage.Serialization;
 using Xunit;
-using PhoneNumber = Vonage.Conversations.CreateConversation.PhoneNumber;
+using PhoneNumber = Vonage.Conversations.PhoneNumber;
 
 namespace Vonage.Test.Unit.Conversations.CreateConversation
 {

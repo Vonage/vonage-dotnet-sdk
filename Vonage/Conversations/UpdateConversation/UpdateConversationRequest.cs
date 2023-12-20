@@ -7,14 +7,18 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
 
-namespace Vonage.Conversations.CreateConversation;
+namespace Vonage.Conversations.UpdateConversation;
 
 /// <inheritdoc />
-public readonly struct CreateConversationRequest : IVonageRequest
+public readonly struct UpdateConversationRequest : IVonageRequest
 {
     /// <summary>
     /// </summary>
     public Maybe<Callback> Callback { get; internal init; }
+
+    /// <summary>
+    /// </summary>
+    public string ConversationId { get; internal init; }
 
     /// <summary>
     /// </summary>
@@ -37,19 +41,19 @@ public readonly struct CreateConversationRequest : IVonageRequest
     public Maybe<Properties> Properties { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder for CreateConversationRequest.
+    ///     Initializes a builder for UpdateConversationRequest.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForOptional Build() => new CreateConversationRequestBuilder();
+    public static IBuilderForConversationId Build() => new UpdateConversationRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
+        .Initialize(HttpMethod.Put, this.GetEndpointPath())
         .WithContent(this.GetRequestContent())
         .Build();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => "/v1/conversations";
+    public string GetEndpointPath() => $"/v1/conversations/{this.ConversationId}";
 
     private StringContent GetRequestContent()
     {

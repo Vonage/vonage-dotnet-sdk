@@ -7,9 +7,9 @@ using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
-namespace Vonage.Conversations.CreateConversation;
+namespace Vonage.Conversations.UpdateConversation;
 
-internal class CreateConversationRequestBuilder : IBuilderForOptional
+internal class UpdateConversationRequestBuilder : IBuilderForConversationId, IBuilderForOptional
 {
     private const int CallbackEventMask = 200;
     private const int DisplayNameMaxLength = 50;
@@ -24,11 +24,13 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
     private Maybe<string> name;
     private Maybe<string> displayName;
     private Maybe<Uri> uri;
+    private string conversationId;
 
     /// <inheritdoc />
-    public Result<CreateConversationRequest> Create() => Result<CreateConversationRequest>.FromSuccess(
-            new CreateConversationRequest
+    public Result<UpdateConversationRequest> Create() => Result<UpdateConversationRequest>.FromSuccess(
+            new UpdateConversationRequest
             {
+                ConversationId = this.conversationId,
                 Name = this.name,
                 DisplayName = this.displayName,
                 ImageUrl = this.uri,
@@ -36,8 +38,9 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
                 Callback = this.callback,
                 Numbers = this.numbers.Any() ? this.numbers : Maybe<IEnumerable<INumber>>.None,
             })
-        .Map(InputEvaluation<CreateConversationRequest>.Evaluate)
+        .Map(InputEvaluation<UpdateConversationRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(
+            VerifyConversationId,
             VerifyName,
             VerifyNameLength,
             VerifyDisplayName,
@@ -51,6 +54,13 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
     public IBuilderForOptional WithCallback(Callback value)
     {
         this.callback = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithConversationId(string value)
+    {
+        this.conversationId = value;
         return this;
     }
 
@@ -89,50 +99,53 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
         return this;
     }
 
-    private static Result<CreateConversationRequest> VerifyCallbackEventMaskLength(CreateConversationRequest request) =>
+    private static Result<UpdateConversationRequest> VerifyCallbackEventMaskLength(UpdateConversationRequest request) =>
         request.Callback.Match(
             some => InputValidation.VerifyLengthLowerOrEqualThan(request, some.EventMask, CallbackEventMask,
                 $"{nameof(request.Callback)} {nameof(some.EventMask)}"),
             () => request);
 
-    private Result<CreateConversationRequest> VerifyCallbackHttpMethod(CreateConversationRequest request) =>
+    private Result<UpdateConversationRequest> VerifyCallbackHttpMethod(UpdateConversationRequest request) =>
         request.Callback.Match(
             some => this.allowedMethods.Contains(some.Method)
-                ? Result<CreateConversationRequest>.FromSuccess(request)
+                ? Result<UpdateConversationRequest>.FromSuccess(request)
                 : ResultFailure.FromErrorMessage("Callback HttpMethod must be GET or POST.")
-                    .ToResult<CreateConversationRequest>(),
+                    .ToResult<UpdateConversationRequest>(),
             () => request);
 
-    private static Result<CreateConversationRequest> VerifyDisplayName(CreateConversationRequest request) =>
+    private static Result<UpdateConversationRequest> VerifyConversationId(UpdateConversationRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ConversationId, nameof(request.ConversationId));
+
+    private static Result<UpdateConversationRequest> VerifyDisplayName(UpdateConversationRequest request) =>
         request.DisplayName.Match(
             some => InputValidation.VerifyNotEmpty(request, some, nameof(request.DisplayName)),
             () => request);
 
-    private static Result<CreateConversationRequest> VerifyDisplayNameLength(CreateConversationRequest request) =>
+    private static Result<UpdateConversationRequest> VerifyDisplayNameLength(UpdateConversationRequest request) =>
         request.DisplayName.Match(
             some => InputValidation.VerifyLengthLowerOrEqualThan(request, some, DisplayNameMaxLength,
                 nameof(request.DisplayName)),
             () => request);
 
-    private static Result<CreateConversationRequest> VerifyName(CreateConversationRequest request) =>
+    private static Result<UpdateConversationRequest> VerifyName(UpdateConversationRequest request) =>
         request.Name.Match(
             some => InputValidation.VerifyNotEmpty(request, some, nameof(request.Name)),
             () => request);
 
-    private static Result<CreateConversationRequest> VerifyNameLength(CreateConversationRequest request) =>
+    private static Result<UpdateConversationRequest> VerifyNameLength(UpdateConversationRequest request) =>
         request.Name.Match(
             some => InputValidation.VerifyLengthLowerOrEqualThan(request, some, NameMaxLength, nameof(request.Name)),
             () => request);
 
-    private static Result<CreateConversationRequest> VerifyPropertiesCustomSortKeyLength(
-        CreateConversationRequest request) =>
+    private static Result<UpdateConversationRequest> VerifyPropertiesCustomSortKeyLength(
+        UpdateConversationRequest request) =>
         request.Properties.Match(
             some => InputValidation.VerifyLengthLowerOrEqualThan(request, some.CustomSortKey,
                 PropertiesCustomSortKeyMaxLength,
                 $"{nameof(request.Properties)} {nameof(some.CustomSortKey)}"),
             () => request);
 
-    private static Result<CreateConversationRequest> VerifyPropertiesTypeLength(CreateConversationRequest request) =>
+    private static Result<UpdateConversationRequest> VerifyPropertiesTypeLength(UpdateConversationRequest request) =>
         request.Properties.Match(
             some => InputValidation.VerifyLengthLowerOrEqualThan(request, some.Type, PropertiesTypeMaxLength,
                 $"{nameof(request.Properties)} {nameof(some.Type)}"),
@@ -140,9 +153,22 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
 }
 
 /// <summary>
+///     Represents a builder for the ConversationId.
+/// </summary>
+public interface IBuilderForConversationId
+{
+    /// <summary>
+    ///     Sets the Conversation Id.
+    /// </summary>
+    /// <param name="value">The conversation id.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithConversationId(string value);
+}
+
+/// <summary>
 ///     Represents a builder for optional values.
 /// </summary>
-public interface IBuilderForOptional : IVonageRequestBuilder<CreateConversationRequest>
+public interface IBuilderForOptional : IVonageRequestBuilder<UpdateConversationRequest>
 {
     /// <summary>
     ///     Sets the Callback.
