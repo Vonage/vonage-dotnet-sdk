@@ -7,8 +7,8 @@ namespace Vonage.Common;
 public class TimeProvider : ITimeProvider
 {
     /// <inheritdoc />
-    public DateTime UtcNow => DateTime.UtcNow;
+    public int Epoch => EpochTime.Now.Epoch;
 
     /// <inheritdoc />
-    public int Epoch => EpochTime.Now.Epoch;
+    public DateTime UtcNow => DateTime.UtcNow;
 }

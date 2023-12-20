@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using FsCheck;
 
 namespace Vonage.Common.Test.Extensions
 {

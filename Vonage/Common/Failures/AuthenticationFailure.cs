@@ -9,10 +9,10 @@ public readonly struct AuthenticationFailure : IResultFailure
 {
     private readonly string failure;
 
-    public AuthenticationFailure(string failure) => this.failure = failure;
-
     /// <inheritdoc />
     public Type Type => typeof(AuthenticationFailure);
+
+    public AuthenticationFailure(string failure) => this.failure = failure;
 
     /// <inheritdoc />
     public string GetFailureMessage() => this.failure;

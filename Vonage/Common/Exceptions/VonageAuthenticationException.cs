@@ -12,6 +12,14 @@ public class VonageAuthenticationException : Exception
     }
 
     /// <summary>
+    /// Creates an exception indicating the ApplicationId or PrivateKeyPath are missing.
+    /// </summary>
+    /// <param name="failure">The failure.</param>
+    /// <returns>The exception.</returns>
+    public static VonageAuthenticationException FromError(string failure) =>
+        new(failure);
+
+    /// <summary>
     ///     Creates an exception indicating the ApiKey or ApiSecret are missing.
     /// </summary>
     /// <returns>The exception.</returns>
@@ -24,12 +32,4 @@ public class VonageAuthenticationException : Exception
     /// <returns>The exception.</returns>
     public static VonageAuthenticationException FromMissingApplicationIdOrPrivateKey() =>
         new("AppId or Private Key Path missing.");
-    
-    /// <summary>
-    /// Creates an exception indicating the ApplicationId or PrivateKeyPath are missing.
-    /// </summary>
-    /// <param name="failure">The failure.</param>
-    /// <returns>The exception.</returns>
-    public static VonageAuthenticationException FromError(string failure) =>
-        new(failure);
 }

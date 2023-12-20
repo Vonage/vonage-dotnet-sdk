@@ -192,7 +192,8 @@ namespace Vonage.Common.Test.Monads
         public void ToString_ShouldReturnNone_GivenValueIsNone() => Maybe<int>.None.ToString().Should().Be("None");
 
         [Fact]
-        public void ToString_ShouldReturnSome_GivenValueIsSome() => CreateSome(10).ToString().Should().Be("Some(Vonage.Common.Monads.Maybe`1[System.Int32])");
+        public void ToString_ShouldReturnSome_GivenValueIsSome() => CreateSome(10).ToString().Should()
+            .Be("Some(Vonage.Common.Monads.Maybe`1[System.Int32])");
 
         private static Maybe<string> BindToString<T>(T value) => Maybe<string>.Some(value.ToString());
 
