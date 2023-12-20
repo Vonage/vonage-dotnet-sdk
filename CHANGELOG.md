@@ -499,7 +499,8 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Fix some build warnings (#525) ([ab9e28d](https://github.com/Vonage/vonage-dotnet-sdk/commit/ab9e28d7c49c4d417c3bae4500ef06147694e919))
 
-- Restore tests parallelism for Vonage.Test.Unit (#526) ([9d5239e](https://github.com/Vonage/vonage-dotnet-sdk/commit/9d5239e40fb7b7d20d91047a3ea1bbc7d3f01b11))
+- Restore tests parallelism for Vonage.Test (
+  #526) ([9d5239e](https://github.com/Vonage/vonage-dotnet-sdk/commit/9d5239e40fb7b7d20d91047a3ea1bbc7d3f01b11))
 
 
 ### Refactoring
@@ -528,7 +529,8 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Remove obsolete method on TestBase (#521) ([5fa633d](https://github.com/Vonage/vonage-dotnet-sdk/commit/5fa633de67cc97e184abea1f59688ee8de497c82))
 
-- Enable parallelized tests on Vonage.Test.Unit (#522) ([0ed7896](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ed7896ffc3c00c109e39ced4e741451cfdf2fb2))
+- Enable parallelized tests on Vonage.Test (
+  #522) ([0ed7896](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ed7896ffc3c00c109e39ced4e741451cfdf2fb2))
 
 - Update TestBase (#523) ([88a198d](https://github.com/Vonage/vonage-dotnet-sdk/commit/88a198deed03822261efb2e76d49f17f53188730))
 
@@ -1439,7 +1441,7 @@ Co-authored-by: NexmoDev <44278943+NexmoDev@users.noreply.github.com> ([87296e3]
 
 * Fix reference mismatch
 
-* Update warnings for Vonage and Vonage.Test.Unit
+* Update warnings for Vonage and Vonage.Test
 
 * Adapt solution folders
 
@@ -1467,7 +1469,8 @@ Co-authored-by: NexmoDev <44278943+NexmoDev@users.noreply.github.com> ([87296e3]
 
 * Reduce duplication when testing the success scenario
 
-* Remove netcoreapp3.1 from Vonage.Test.Unit ([dcb6ce9](https://github.com/Vonage/vonage-dotnet-sdk/commit/dcb6ce9078fb89c1093f409ef7b6e0c959dc9bbf))
+* Remove netcoreapp3.1 from
+  Vonage.Test ([dcb6ce9](https://github.com/Vonage/vonage-dotnet-sdk/commit/dcb6ce9078fb89c1093f409ef7b6e0c959dc9bbf))
 
 - Use builder for HttpRequestMessage (#337)
 
@@ -1954,19 +1957,19 @@ Pulling dev into main ready for release ([0ead3a3](https://github.com/Vonage/von
 - Changing the auth type
  ([8924588](https://github.com/Vonage/vonage-dotnet-sdk/commit/8924588c41d451a52d0aac0fa7da800fcf9e7e7c))
 
-- Update Vonage.Test.Unit/Data/MessagesTests/SendMmsVcardAsyncReturnsOk-request.json
+- Update Vonage.Test/Data/MessagesTests/SendMmsVcardAsyncReturnsOk-request.json
 
 Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([4264700](https://github.com/Vonage/vonage-dotnet-sdk/commit/42647005e9a66ff0510be4a906254d529094e260))
 
-- Update Vonage.Test.Unit/Data/MessagesTests/SendMmsVideoAsyncReturnsOk-request.json
+- Update Vonage.Test/Data/MessagesTests/SendMmsVideoAsyncReturnsOk-request.json
 
 Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([c72d822](https://github.com/Vonage/vonage-dotnet-sdk/commit/c72d822d8d9439d6b09a26fe0a6bc17011b1e783))
 
-- Update Vonage.Test.Unit/MessagesTests.cs
+- Update Vonage.Test/MessagesTests.cs
 
 Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([780fc80](https://github.com/Vonage/vonage-dotnet-sdk/commit/780fc807110120bd70f4dd3d3788948f73574ad0))
 
-- Update Vonage.Test.Unit/MessagesTests.cs
+- Update Vonage.Test/MessagesTests.cs
 
 Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([3f6c7f4](https://github.com/Vonage/vonage-dotnet-sdk/commit/3f6c7f4ba0a3db1cffa3747f485a9f883d11fa05))
 

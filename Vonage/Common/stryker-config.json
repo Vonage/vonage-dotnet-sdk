@@ -10,7 +10,7 @@
     "test-projects":
     [
       "../Vonage.Common.Test/Vonage.Common.Test.csproj",
-      "../Vonage.Test.Unit/Vonage.Test.Unit.csproj"
+      "../Vonage.Test/Vonage.Test.csproj"
     ]
   }
 }
