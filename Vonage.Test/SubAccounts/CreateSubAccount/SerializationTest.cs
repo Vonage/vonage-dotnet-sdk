@@ -18,7 +18,7 @@ namespace Vonage.Test.SubAccounts.CreateSubAccount
                 JsonSerializerBuilder.BuildWithSnakeCase());
 
         public static Account GetExpectedAccount() =>
-            new(
+            new Account(
                 "aze1243v",
                 "SubAccount department A",
                 "bbe6222f",

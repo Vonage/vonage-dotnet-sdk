@@ -31,7 +31,7 @@ namespace Vonage.Test.Common.TestHelpers
     {
         private readonly ReadOnlyCollection<Mapping> requestMappings;
 
-        public Uri BaseUri => new("http://fake-host/api");
+        public Uri BaseUri => new Uri("http://fake-host/api");
 
         public CustomHttpMessageHandler(IEnumerable<Mapping> requestMappings) =>
             this.requestMappings = new ReadOnlyCollection<Mapping>(requestMappings.ToList());
@@ -43,15 +43,15 @@ namespace Vonage.Test.Common.TestHelpers
             new CustomHttpMessageHandlerExpectsResponse(this.requestMappings, this.CreateMappingRequest(request));
 
         public VonageHttpClientConfiguration ToConfiguration(ISpecimenBuilder builder) =>
-            new(
+            new VonageHttpClientConfiguration(
                 new HttpClient(this, false) {BaseAddress = this.BaseUri},
                 new AuthenticationHeaderValue("Bearer", builder.Create<string>()),
                 builder.Create<string>());
 
-        public HttpClient ToHttpClient() => new(this, false) {BaseAddress = this.BaseUri};
+        public HttpClient ToHttpClient() => new HttpClient(this, false) {BaseAddress = this.BaseUri};
 
         private MappingRequest CreateMappingRequest(ExpectedRequest request) =>
-            new()
+            new MappingRequest
             {
                 Method = request.Method,
                 RequestUri = new Uri(this.BaseUri, request.RequestUri),
@@ -63,7 +63,7 @@ namespace Vonage.Test.Common.TestHelpers
                 mapping.Request.Method == incomingRequest.Method;
 
         private static MappingRequest ParseIncomingRequest(HttpRequestMessage request) =>
-            new()
+            new MappingRequest
             {
                 RequestUri = request.RequestUri,
                 Method = request.Method,

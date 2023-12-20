@@ -8,7 +8,7 @@ namespace Vonage.Test.Users.GetUser
 {
     public class SerializationTest
     {
-        private readonly SerializationTestHelper helper = new(
+        private readonly SerializationTestHelper helper = new SerializationTestHelper(
             typeof(SerializationTest).Namespace,
             JsonSerializerBuilder.BuildWithSnakeCase());
 

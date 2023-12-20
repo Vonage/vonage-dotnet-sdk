@@ -224,7 +224,7 @@ namespace Vonage.Test.Meetings.UpdateThemeLogo
             this.customHandler.ToConfiguration(this.fixture);
 
         private ExpectedRequest BuildExpectedRequestForFinalizing() =>
-            new()
+            new ExpectedRequest
             {
                 Method = HttpMethod.Put,
                 RequestUri = new Uri(GetPathFromRequest<FinalizeLogoRequest>(new FinalizeLogoRequest(
@@ -233,7 +233,7 @@ namespace Vonage.Test.Meetings.UpdateThemeLogo
             };
 
         private ExpectedRequest BuildExpectedRequestForUploading() =>
-            new()
+            new ExpectedRequest
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri(this.CreateLogosUrlResponse()[0].Url.AbsoluteUri),
@@ -242,7 +242,7 @@ namespace Vonage.Test.Meetings.UpdateThemeLogo
             };
 
         private static ExpectedRequest BuildExpectedRequestForUrlRetrieval() =>
-            new()
+            new ExpectedRequest
             {
                 Method = HttpMethod.Get,
                 RequestUri =
@@ -252,7 +252,7 @@ namespace Vonage.Test.Meetings.UpdateThemeLogo
             };
 
         private VonageHttpClientConfiguration CreateConfiguration(FakeHttpRequestHandler handler) =>
-            new(handler.ToHttpClient(), new AuthenticationHeaderValue("Anonymous"),
+            new VonageHttpClientConfiguration(handler.ToHttpClient(), new AuthenticationHeaderValue("Anonymous"),
                 this.fixture.Create<string>());
 
         private GetUploadLogosUrlResponse[] CreateLogosUrlResponse() => new[]
@@ -319,7 +319,7 @@ namespace Vonage.Test.Meetings.UpdateThemeLogo
             request.Match(value => value.GetEndpointPath(), _ => string.Empty);
 
         private static MockFileSystem InitializeFileSystem() =>
-            new(new Dictionary<string, MockFileData>
+            new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 {@"C:\ThisIsATest.txt", new MockFileData("Bla bla bla.")},
             });

@@ -171,7 +171,7 @@ namespace Vonage.Test.Common.Client
                     this.request));
 
         private static ExpectedRequest BuildExpectedRequest() =>
-            new()
+            new ExpectedRequest
             {
                 Method = HttpMethod.Post,
                 RequestUri = new Uri("/my-fake-api/yolo", UriKind.Relative),
@@ -182,7 +182,7 @@ namespace Vonage.Test.Common.Client
             new FakeRequest {Id = Guid.Parse("ceb2b201-2143-48f5-8890-c58369394eba"), Name = "My fake request"};
 
         private VonageHttpClientConfiguration CreateConfiguration(FakeHttpRequestHandler handler) =>
-            new(handler.ToHttpClient(), new AuthenticationHeaderValue("Anonymous"),
+            new VonageHttpClientConfiguration(handler.ToHttpClient(), new AuthenticationHeaderValue("Anonymous"),
                 this.fixture.Create<string>());
 
         private async Task VerifyReturnsExpectedValueGivenApiResponseIsSuccess<TResponse>(ExpectedRequest expected,

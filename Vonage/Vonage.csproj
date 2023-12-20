@@ -12,7 +12,7 @@
         <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-        <Version>6.14.0</Version>
+        <Version>6.16.0-beta</Version>
         <PackageLicenseExpression/>
         <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
         <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.14.0</PackageReleaseNotes>

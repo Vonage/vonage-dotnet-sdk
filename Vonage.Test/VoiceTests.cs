@@ -841,10 +841,11 @@ namespace Vonage.Test
             Assert.True(this.client.VoiceClient.UpdateCall(uuid, request));
         }
 
-        private VonageClient BuildClientWithBasicAuthentication() => new(this.BuildCredentialsForBasicAuthentication());
+        private VonageClient BuildClientWithBasicAuthentication() =>
+            new VonageClient(this.BuildCredentialsForBasicAuthentication());
 
         private static CallCommand BuildCreateCallCommand() =>
-            new()
+            new CallCommand
             {
                 To = new Endpoint[]
                 {

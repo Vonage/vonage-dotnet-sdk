@@ -9,7 +9,7 @@ namespace Vonage.Test.VerifyV2.VerifyCode
 {
     public class RequestBuilderTest
     {
-        private readonly Fixture fixture = new();
+        private readonly Fixture fixture = new Fixture();
 
         [Theory]
         [InlineData("")]

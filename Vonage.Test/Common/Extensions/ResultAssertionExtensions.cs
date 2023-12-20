@@ -155,7 +155,8 @@ namespace Vonage.Test.Common.Extensions
         public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeSuccessAsync(T expected) =>
             (await this.InitializeAssertion()).BeSuccess(expected);
 
-        private async Task<ResultAssertionExtensions<T>> InitializeAssertion() => new(await this.Subject);
+        private async Task<ResultAssertionExtensions<T>> InitializeAssertion() =>
+            new ResultAssertionExtensions<T>(await this.Subject);
 
         protected override string Identifier => "resultAsync";
     }

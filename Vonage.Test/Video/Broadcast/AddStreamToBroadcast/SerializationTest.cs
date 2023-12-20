@@ -9,7 +9,7 @@ namespace Vonage.Test.Video.Broadcast.AddStreamToBroadcast
 {
     public class SerializationTest
     {
-        private readonly SerializationTestHelper helper = new(
+        private readonly SerializationTestHelper helper = new SerializationTestHelper(
             typeof(SerializationTest).Namespace,
             JsonSerializerBuilder.BuildWithCamelCase());
 

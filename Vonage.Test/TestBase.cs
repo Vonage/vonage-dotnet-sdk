@@ -21,7 +21,7 @@ namespace Vonage.Test
 {
     public class TestBase
     {
-        private static readonly Regex TokenReplacementRegEx = new(@"\$(\w+)\$", RegexOptions.Compiled);
+        private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
         private const string MockedMethod = "SendAsync";
         private const string JsonRegexPattern = "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+";
         protected string ApiUrl => this.configuration.Settings["appSettings:Vonage.Url.Api"];
@@ -47,10 +47,10 @@ namespace Vonage.Test
         protected readonly Configuration configuration;
 
         protected VonageClient BuildVonageClient(Credentials credentials) =>
-            new(credentials, this.configuration, new TimeProvider());
+            new VonageClient(credentials, this.configuration, new TimeProvider());
 
         protected VonageClient BuildVonageClient(Credentials credentials, ITimeProvider timeProvider) =>
-            new(credentials, this.configuration, timeProvider);
+            new VonageClient(credentials, this.configuration, timeProvider);
 
         protected Credentials BuildCredentialsForBasicAuthentication() =>
             Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);

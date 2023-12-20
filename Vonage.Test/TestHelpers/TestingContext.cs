@@ -33,10 +33,10 @@ namespace Vonage.Test.TestHelpers
         }
 
         public static TestingContext WithBasicCredentials(string appSettingsKey) =>
-            new(appSettingsKey, CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5");
+            new TestingContext(appSettingsKey, CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5");
 
         public static TestingContext WithBearerCredentials(string appSettingsKey) =>
-            new(appSettingsKey, CreateBearerCredentials(), "Bearer *");
+            new TestingContext(appSettingsKey, CreateBearerCredentials(), "Bearer *");
 
         private static Credentials CreateBasicCredentials() => Credentials.FromApiKeyAndSecret("790fc5e5", "Aa3456789");
 

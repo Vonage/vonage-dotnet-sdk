@@ -7,10 +7,9 @@ namespace Vonage.Test.Meetings
     public static class MeetingsClientFactory
     {
         public static MeetingsClient Create(VonageHttpClientConfiguration configuration) =>
-            new(configuration, new MockFileSystem());
+            new MeetingsClient(configuration, new MockFileSystem());
 
         public static MeetingsClient Create(VonageHttpClientConfiguration configuration,
-            MockFileSystem mockFileSystem) =>
-            new(configuration, mockFileSystem);
+            MockFileSystem mockFileSystem) => new MeetingsClient(configuration, mockFileSystem);
     }
 }

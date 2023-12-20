@@ -10,7 +10,7 @@ namespace Vonage.Test.NumberInsightsV2.FraudCheck
 {
     public class SerializationTest
     {
-        private readonly SerializationTestHelper helper = new(
+        private readonly SerializationTestHelper helper = new SerializationTestHelper(
             typeof(SerializationTest).Namespace,
             JsonSerializerBuilder.BuildWithSnakeCase());
 
@@ -50,14 +50,14 @@ namespace Vonage.Test.NumberInsightsV2.FraudCheck
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
 
-        private static FraudCheckResponse GetExpectedFraudCheckResponseWithoutFraudScore() => new(
+        private static FraudCheckResponse GetExpectedFraudCheckResponseWithoutFraudScore() => new FraudCheckResponse(
             new Guid("6cb4c489-0fc8-4c40-8c3d-95e7e74f9450"),
             "phone",
             new PhoneData("16197363066", "Orange France", "MOBILE"),
             Maybe<FraudScore>.None,
             Maybe<SimSwap>.Some(new SimSwap(SimSwapStatus.Completed, true, "Mobile Network Operator Not Supported")));
 
-        private static FraudCheckResponse GetExpectedFraudCheckResponseWithoutSimSwap() => new(
+        private static FraudCheckResponse GetExpectedFraudCheckResponseWithoutSimSwap() => new FraudCheckResponse(
             new Guid("6cb4c489-0fc8-4c40-8c3d-95e7e74f9450"),
             "phone",
             new PhoneData("16197363066", "Orange France", "MOBILE"),
@@ -83,7 +83,7 @@ namespace Vonage.Test.NumberInsightsV2.FraudCheck
                 .WithSimSwap()
                 .Create();
 
-        internal static FraudCheckResponse GetExpectedFraudCheckResponse() => new(
+        internal static FraudCheckResponse GetExpectedFraudCheckResponse() => new FraudCheckResponse(
             new Guid("6cb4c489-0fc8-4c40-8c3d-95e7e74f9450"),
             "phone",
             new PhoneData("16197363066", "Orange France", "MOBILE"),

@@ -38,7 +38,7 @@ namespace Vonage.Test.Video.Broadcast.StartBroadcast
                         Hls = new Vonage.Video.Broadcast.Broadcast.HlsSettings(false, true),
                         Streams = new List<StartBroadcastRequest.BroadcastOutput.Stream>
                         {
-                            new(
+                            new StartBroadcastRequest.BroadcastOutput.Stream(
                                 new Guid("feab5ea7-951f-4dbb-b2f6-3195c3b4b062"), "rtmps://myfooserver/myfooapp",
                                 "myfoostream"),
                         }.ToArray(),
@@ -74,7 +74,7 @@ namespace Vonage.Test.Video.Broadcast.StartBroadcast
                     {
                         Streams = new List<StartBroadcastRequest.BroadcastOutput.Stream>
                         {
-                            new(
+                            new StartBroadcastRequest.BroadcastOutput.Stream(
                                 new Guid("feab5ea7-951f-4dbb-b2f6-3195c3b4b062"), "rtmps://myfooserver/myfooapp",
                                 "myfoostream"),
                         }.ToArray(),

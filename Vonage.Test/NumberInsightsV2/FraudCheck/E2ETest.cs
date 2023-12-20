@@ -17,7 +17,7 @@ namespace Vonage.Test.NumberInsightsV2.FraudCheck
         private const string ApiUrl = "Vonage.Url.Api";
 
         private readonly SerializationTestHelper serialization =
-            new(typeof(E2ETest).Namespace, JsonSerializerBuilder.BuildWithSnakeCase());
+            new SerializationTestHelper(typeof(E2ETest).Namespace, JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public async Task PerformFraudCheck_WithFraudScore_UsingBasicCredentials() =>

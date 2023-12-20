@@ -15,7 +15,8 @@ namespace Vonage.Test.SubAccounts.TransferNumber
                 typeof(SerializationTest).Namespace,
                 JsonSerializerBuilder.BuildWithSnakeCase());
 
-        public static TransferNumberResponse GetExpectedResponse() => new("235077036", "GB", "7c9738e6", "ad6dc56f");
+        public static TransferNumberResponse GetExpectedResponse() =>
+            new TransferNumberResponse("235077036", "GB", "7c9738e6", "ad6dc56f");
 
         [Fact]
         public void ShouldDeserialize200() =>

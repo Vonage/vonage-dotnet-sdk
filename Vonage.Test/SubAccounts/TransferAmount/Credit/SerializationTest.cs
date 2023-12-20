@@ -17,7 +17,7 @@ namespace Vonage.Test.SubAccounts.TransferAmount.Credit
                 JsonSerializerBuilder.BuildWithSnakeCase());
 
         public static Transfer GetExpectedTransfer() =>
-            new(
+            new Transfer(
                 new Guid("297016aa-4061-430d-b805-a4d00522bb00"),
                 (decimal) 123.45,
                 "7c9738e6",
