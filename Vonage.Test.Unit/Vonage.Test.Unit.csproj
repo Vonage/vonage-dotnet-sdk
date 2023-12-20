@@ -17,6 +17,8 @@
     <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.18.1"/>
         <PackageReference Include="FluentAssertions" Version="6.12.0"/>
+        <PackageReference Include="FsCheck" Version="2.16.6"/>
+        <PackageReference Include="FsCheck.Xunit" Version="2.16.6"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
         <PackageReference Include="Moq" Version="4.20.70"/>
         <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="20.0.4"/>
@@ -673,7 +675,6 @@
         <None Update="ProactiveConnect\Events\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <Folder Include="ConfigurationData\"/>
         <Folder Include="Messages\Messenger\Data"/>
         <Folder Include="Messages\Mms\Data"/>
         <Folder Include="Messages\Sms\Data"/>
@@ -1063,6 +1064,24 @@
         </None>
         <None Update="Conversations\UpdateConversation\Data\ShouldSerializeEmpty-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Common\Failures\Data\ShouldDeserializeError400-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Common\Failures\Data\ShouldDeserializeError403-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Common\Failures\Data\ShouldDeserializeError404-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Common\Failures\Data\ShouldDeserializeError408-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Common\Failures\Data\ShouldDeserializeError409-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Common\Failures\Data\ShouldDeserializeError413-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

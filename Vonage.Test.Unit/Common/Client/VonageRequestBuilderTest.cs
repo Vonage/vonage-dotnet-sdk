@@ -1,7 +1,10 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Client;
+using Xunit;
 
 namespace Vonage.Common.Test.Client
 {

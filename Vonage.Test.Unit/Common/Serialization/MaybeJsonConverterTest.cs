@@ -1,6 +1,9 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text;
+using System.Text.Json;
 using Vonage.Common.Serialization;
 using Vonage.Common.Test.Extensions;
+using Xunit;
 
 namespace Vonage.Common.Test.Serialization
 {
@@ -10,9 +13,8 @@ namespace Vonage.Common.Test.Serialization
         public void Read_ShouldDeserializeUri_GivenJsonIsUriString()
         {
             var reader =
-                new Utf8JsonReader(
-                    "\"https://api.nexmo.com/v2/verify/c11236f4-00bf-4b89-84ba-88b25df97315/silent-auth/redirect\""u8
-                        .ToArray().AsSpan());
+                new Utf8JsonReader(Encoding.Default.GetBytes(
+                    "\"https://api.nexmo.com/v2/verify/c11236f4-00bf-4b89-84ba-88b25df97315/silent-auth/redirect\""));
             reader.Read();
             new MaybeJsonConverter<Uri>().Read(ref reader, typeof(Uri), new JsonSerializerOptions())
                 .Should()

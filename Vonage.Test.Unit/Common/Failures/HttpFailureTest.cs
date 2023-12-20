@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Failures;
+using Xunit;
 
 namespace Vonage.Common.Test.Failures
 {

@@ -1,5 +1,7 @@
-﻿using Epoch.net;
+﻿using System;
+using Epoch.net;
 using FluentAssertions;
+using Xunit;
 
 namespace Vonage.Common.Test
 {

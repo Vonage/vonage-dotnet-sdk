@@ -1,4 +1,6 @@
-﻿namespace Vonage.Common.Test.TestHelpers
+﻿using System.Linq;
+
+namespace Vonage.Common.Test.TestHelpers
 {
     public static class StringHelper
     {

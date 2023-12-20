@@ -1,8 +1,10 @@
 ﻿using System.Net;
 using Vonage.Common.Failures;
+using Vonage.Common.Test;
 using Vonage.Common.Test.Extensions;
+using Xunit;
 
-namespace Vonage.Common.Test.Failures
+namespace Vonage.Test.Unit.Common.Failures
 {
     public class HttpFailureDeserializationTest
     {

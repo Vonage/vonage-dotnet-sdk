@@ -1,7 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Common.Monads;
 
@@ -13,13 +16,13 @@ namespace Vonage.Common.Test.TestHelpers
         private Maybe<ExpectedRequest> expectedRequest = Maybe<ExpectedRequest>.None;
         private Maybe<string> responseContent = Maybe<string>.None;
         private Maybe<TimeSpan> responseDelay;
-        private readonly Uri baseUri = new("http://fake-host/api");
+        private readonly Uri baseUri = new Uri("http://fake-host/api");
 
         private FakeHttpRequestHandler(HttpStatusCode code) => this.statusCode = code;
 
-        public static FakeHttpRequestHandler Build(HttpStatusCode code) => new(code);
+        public static FakeHttpRequestHandler Build(HttpStatusCode code) => new FakeHttpRequestHandler(code);
 
-        public HttpClient ToHttpClient() => new(this, false)
+        public HttpClient ToHttpClient() => new HttpClient(this, false)
         {
             BaseAddress = this.baseUri,
         };
@@ -51,7 +54,7 @@ namespace Vonage.Common.Test.TestHelpers
         }
 
         private HttpResponseMessage CreateResponseMessage() =>
-            new(this.statusCode)
+            new HttpResponseMessage(this.statusCode)
             {
                 Content = new StringContent(this.responseContent.IfNone(string.Empty), Encoding.UTF8,
                     "application/json"),
@@ -69,7 +72,7 @@ namespace Vonage.Common.Test.TestHelpers
         }
 
         private static async Task<ReceivedRequest> ParseIncomingRequest(HttpRequestMessage request) =>
-            new()
+            new ReceivedRequest
             {
                 RequestUri = request.RequestUri,
                 Method = request.Method,

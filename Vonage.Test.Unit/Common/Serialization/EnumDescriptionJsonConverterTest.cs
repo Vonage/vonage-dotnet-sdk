@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Serialization;
+using Xunit;
 
 namespace Vonage.Common.Test.Serialization
 {

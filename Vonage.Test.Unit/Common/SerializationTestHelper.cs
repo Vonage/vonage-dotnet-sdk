@@ -1,12 +1,11 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace Vonage.Common.Test
 {
     public class SerializationTestHelper
     {
-        private const string ExcludeCommonNamespace = "Vonage.Common.Test.";
-        private const string ExcludeServerNamespace = "Vonage.Server.Test.";
         private const string ExcludeVonageNamespace = "Vonage.Test.Unit.";
         private readonly string callerNamespace;
 
@@ -41,11 +40,7 @@ namespace Vonage.Common.Test
             $"/Data/{caller}{statusCode}-{type.ToString().ToLowerInvariant()}.json";
 
         private string GetUseCaseFolder() =>
-            this.callerNamespace
-                .Replace(ExcludeCommonNamespace, string.Empty)
-                .Replace(ExcludeServerNamespace, string.Empty)
-                .Replace(ExcludeVonageNamespace, string.Empty)
-                .Replace('.', '/');
+            this.callerNamespace.Replace(ExcludeVonageNamespace, string.Empty).Replace('.', '/');
 
         private static string ReadFile(string filePath) =>
             File.Exists(filePath)
