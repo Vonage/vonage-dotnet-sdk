@@ -13,26 +13,32 @@ namespace Vonage.Conversations.CreateConversation;
 public readonly struct CreateConversationRequest : IVonageRequest
 {
     /// <summary>
+    /// Conversation callback
     /// </summary>
     public Maybe<Callback> Callback { get; internal init; }
 
     /// <summary>
+    /// The public facing name of the conversation
     /// </summary>
     public Maybe<string> DisplayName { get; internal init; }
 
     /// <summary>
+    /// An image URL that you associate with the conversation
     /// </summary>
     public Maybe<Uri> ImageUrl { get; internal init; }
 
     /// <summary>
+    /// Your internal conversation name. Must be unique
     /// </summary>
     public Maybe<string> Name { get; internal init; }
 
     /// <summary>
+    /// Conversation numbers
     /// </summary>
     public Maybe<IEnumerable<INumber>> Numbers { get; internal init; }
 
     /// <summary>
+    /// Conversation properties
     /// </summary>
     public Maybe<Properties> Properties { get; internal init; }
 

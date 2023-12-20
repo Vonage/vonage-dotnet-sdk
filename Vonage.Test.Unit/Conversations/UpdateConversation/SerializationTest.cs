@@ -43,7 +43,7 @@ namespace Vonage.Test.Unit.Conversations.UpdateConversation
 
         internal static Result<UpdateConversationRequest> BuildRequest() =>
             UpdateConversationRequest.Build()
-                .WithConversationId("not relevant")
+                .WithConversationId("CON-1234")
                 .WithName("customer_chat")
                 .WithDisplayName("Customer Chat")
                 .WithImageUrl(new Uri("https://example.com/image.png"))
@@ -64,7 +64,7 @@ namespace Vonage.Test.Unit.Conversations.UpdateConversation
 
         internal static Result<UpdateConversationRequest> BuildEmptyRequest() =>
             UpdateConversationRequest.Build()
-                .WithConversationId("not relevant")
+                .WithConversationId("CON-1234")
                 .Create();
     }
 }
