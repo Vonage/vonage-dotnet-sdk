@@ -115,25 +115,20 @@ If you are migrating from the OpenTok .NET SDK to the Vonage .NET SDK, please se
 ### Targeted frameworks
 
 The SDK targets towards `netstandard2.0`.
-It is compatible with every [supported version](#tested-frameworks).
+It is compatible with any .NET projects targeting a [supported version](https://learn.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0).
 
 ### Tested frameworks
 
-We test the SDK against every supported version of the framework.
-Therefore, we ensure complete compatibility no matter the version you are using.
-
-* .NET Framework 4.6.2
-* .NET Framework 4.7.0
-* .NET Framework 4.7.1
-* .NET Framework 4.7.2
-* .NET Framework 4.8.0
-* .NET Framework 4.8.1
 * .NET 6.0
-* .NET 6.0-Windows
 * .NET 7.0
-* .NET 7.0-Windows
 * .NET 8.0
-* .NET 8.0-Windows
+
+For accessibility reasons, we removed all `.NET Framework` versions from our target frameworks.
+we don't want to discourage people from contributing as Windows isn't the only development environment for .NET anymore.
+
+Also, targeting older frameworks prevents us from using features from recent .NET and C# releases in our test project.
+
+Nonetheless, it doesn't compromise our test results nor the compatibility with `.NET Framework` versions.
 
 ## Configuration
 
