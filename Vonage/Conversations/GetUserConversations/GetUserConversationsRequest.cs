@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Net.Http;
+using EnumsNET;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 
@@ -13,7 +17,30 @@ public readonly struct GetUserConversationsRequest : IVonageRequest
     public HttpRequestMessage BuildRequestMessage() => throw new NotImplementedException();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v1/users/{this.UserId}/conversations";
+    public string GetEndpointPath() =>
+        UriHelpers.BuildUri($"/v1/users/{this.UserId}/conversations", this.GetQueryStringParameters());
+
+    private const string ExpectedDateFormat = "yyyy-MM-ddTHH:mm:ssZ";
+
+    private Dictionary<string, string> GetQueryStringParameters()
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            {"page_size", this.PageSize.ToString()},
+            {"order", this.Order.AsString(EnumFormat.Description)},
+            {"order_by", this.OrderBy},
+        };
+        this.StartDate.IfSome(value =>
+            parameters.Add("date_start", value.ToString(ExpectedDateFormat, CultureInfo.InvariantCulture)));
+        if (this.IncludeCustomData)
+        {
+            parameters.Add("include_custom_data", "true");
+        }
+
+        this.State.IfSome(value => parameters.Add("state", value.AsString(EnumFormat.Description)));
+        this.Cursor.IfSome(value => parameters.Add("cursor", value));
+        return parameters;
+    }
 
     /// <summary>
     ///     The User ID.
@@ -70,13 +97,13 @@ public enum State
 {
     /// <summary>
     /// </summary>
-    [Description("asc")] Invited,
+    [Description("invited")] Invited,
 
     /// <summary>
     /// </summary>
-    [Description("desc")] Joined,
+    [Description("joined")] Joined,
 
     /// <summary>
     /// </summary>
-    [Description("desc")] Left,
+    [Description("left")] Left,
 }
