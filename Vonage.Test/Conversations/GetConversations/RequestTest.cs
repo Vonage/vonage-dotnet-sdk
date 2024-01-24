@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Vonage.Conversations;
 using Vonage.Conversations.GetConversations;
 using Vonage.Test.Common.Extensions;
 using Xunit;

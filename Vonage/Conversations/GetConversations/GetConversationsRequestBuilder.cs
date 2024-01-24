@@ -8,11 +8,10 @@ namespace Vonage.Conversations.GetConversations;
 internal class GetConversationsRequestBuilder : IBuilderForOptional
 {
     private const int MaximumPageSize = 100;
-
     private const int MinimumPageSize = 1;
+    private Maybe<DateTimeOffset> endDate;
     private FetchOrder fetchOrder = FetchOrder.Ascending;
     private int pageSize = 10;
-    private Maybe<DateTimeOffset> endDate;
     private Maybe<DateTimeOffset> startDate;
 
     /// <inheritdoc />

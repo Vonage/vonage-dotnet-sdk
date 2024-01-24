@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
+using Vonage.Conversations;
 using Vonage.Conversations.GetConversations;
 using Vonage.Test.Common.Extensions;
 using WireMock.ResponseBuilders;

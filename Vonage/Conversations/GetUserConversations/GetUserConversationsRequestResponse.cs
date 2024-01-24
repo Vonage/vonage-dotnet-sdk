@@ -1,0 +1,3 @@
+﻿namespace Vonage.Conversations.GetUserConversations;
+
+public record GetUserConversationsRequestResponse;

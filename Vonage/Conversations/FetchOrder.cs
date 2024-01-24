@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Vonage.Conversations.GetConversations;
+namespace Vonage.Conversations;
 
 /// <summary>
 ///     Defines the ordering when fetching data.
