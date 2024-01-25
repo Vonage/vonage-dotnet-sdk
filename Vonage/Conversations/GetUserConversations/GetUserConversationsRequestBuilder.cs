@@ -7,9 +7,10 @@ namespace Vonage.Conversations.GetUserConversations;
 
 internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderForOptional
 {
-    public const string DefaultOrderBy = "created";
+    private const string DefaultOrderBy = "created";
     private const int MaximumPageSize = 100;
     private const int MinimumPageSize = 1;
+    private readonly Maybe<string> cursor;
     private bool includeCustomData;
     private FetchOrder order = FetchOrder.Ascending;
     private string orderBy = DefaultOrderBy;
@@ -17,6 +18,8 @@ internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderF
     private Maybe<DateTimeOffset> startDate;
     private Maybe<State> state;
     private string userId;
+
+    internal GetUserConversationsRequestBuilder(Maybe<string> cursor) => this.cursor = cursor;
 
     public Result<GetUserConversationsRequest> Create() => Result<GetUserConversationsRequest>.FromSuccess(
             new GetUserConversationsRequest
@@ -28,6 +31,7 @@ internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderF
                 Order = this.order,
                 OrderBy = this.orderBy,
                 State = this.state,
+                Cursor = this.cursor,
             })
         .Map(InputEvaluation<GetUserConversationsRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(
@@ -43,9 +47,9 @@ internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderF
     }
 
     /// <inheritdoc />
-    public IBuilderForOptional WithOrderBy(string value)
+    public IBuilderForOptional WithOrderBy(Maybe<string> value)
     {
-        this.orderBy = value;
+        this.orderBy = value.IfNone(DefaultOrderBy);
         return this;
     }
 
@@ -124,7 +128,7 @@ public interface IBuilderForOptional : IVonageRequestBuilder<GetUserConversation
     /// </summary>
     /// <param name="value">The order by.</param>
     /// <returns>The builder.</returns>
-    IBuilderForOptional WithOrderBy(string value);
+    IBuilderForOptional WithOrderBy(Maybe<string> value);
 
     /// <summary>
     ///     Sets the state on the builder.

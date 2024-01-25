@@ -29,16 +29,20 @@ public record GetUserConversationsHalLink(Uri Href)
         var startDate = queryParameters["date_start"] ?? Maybe<string>.None;
         var includeCustomData = queryParameters["include_custom_data"] ?? Maybe<string>.None;
         var state = queryParameters["state"] ?? Maybe<string>.None;
-        return Result<GetUserConversationsRequest>.FromSuccess(new GetUserConversationsRequest
+        var builder = new GetUserConversationsRequestBuilder(cursor)
+            .WithUserId(userId)
+            .WithPageSize(int.Parse(pageSize))
+            .WithOrder(Enums.Parse<FetchOrder>(order, false, EnumFormat.Description))
+            .WithOrderBy(orderBy);
+        startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))
+            .IfSome(value => builder.WithStartDate(value));
+        state.Map(value => Enums.Parse<State>(value, false, EnumFormat.Description))
+            .IfSome(value => builder.WithState(value));
+        if (includeCustomData.Match(bool.Parse, () => false))
         {
-            Cursor = cursor,
-            IncludeCustomData = includeCustomData.Match(bool.Parse, () => false),
-            Order = Enums.Parse<FetchOrder>(order, false, EnumFormat.Description),
-            OrderBy = orderBy.IfNone(GetUserConversationsRequestBuilder.DefaultOrderBy),
-            PageSize = int.Parse(pageSize),
-            StartDate = startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)),
-            State = state.Map(value => Enums.Parse<State>(value, false, EnumFormat.Description)),
-            UserId = userId,
-        });
+            builder.IncludeCustomData();
+        }
+
+        return builder.Create();
     }
 }

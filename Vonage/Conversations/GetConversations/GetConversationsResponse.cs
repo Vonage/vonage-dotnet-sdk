@@ -48,11 +48,13 @@ public record GetConversationsHalLink(Uri Href)
         var cursor = queryParameters["cursor"] ?? Maybe<string>.None;
         var startDate = queryParameters["date_start"] ?? Maybe<string>.None;
         var endDate = queryParameters["date_end"] ?? Maybe<string>.None;
-        return Result<GetConversationsRequest>.FromSuccess(new GetConversationsRequest(
-            cursor,
-            endDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)),
-            Enums.Parse<FetchOrder>(order, false, EnumFormat.Description),
-            int.Parse(pageSize),
-            startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))));
+        var builder = new GetConversationsRequestBuilder(cursor)
+            .WithOrder(Enums.Parse<FetchOrder>(order, false, EnumFormat.Description))
+            .WithPageSize(int.Parse(pageSize));
+        startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))
+            .IfSome(value => builder.WithStartDate(value));
+        endDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))
+            .IfSome(value => builder.WithEndDate(value));
+        return builder.Create();
     }
 }

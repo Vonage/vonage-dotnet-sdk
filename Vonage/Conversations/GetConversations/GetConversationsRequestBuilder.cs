@@ -9,15 +9,24 @@ internal class GetConversationsRequestBuilder : IBuilderForOptional
 {
     private const int MaximumPageSize = 100;
     private const int MinimumPageSize = 1;
+    private readonly Maybe<string> cursor;
     private Maybe<DateTimeOffset> endDate;
     private FetchOrder fetchOrder = FetchOrder.Ascending;
     private int pageSize = 10;
     private Maybe<DateTimeOffset> startDate;
 
+    internal GetConversationsRequestBuilder(Maybe<string> cursor) => this.cursor = cursor;
+
     /// <inheritdoc />
     public Result<GetConversationsRequest> Create() => Result<GetConversationsRequest>.FromSuccess(
-            new GetConversationsRequest(Maybe<string>.None, this.endDate, this.fetchOrder, this.pageSize,
-                this.startDate))
+            new GetConversationsRequest
+            {
+                StartDate = this.startDate,
+                Order = this.fetchOrder,
+                PageSize = this.pageSize,
+                Cursor = this.cursor,
+                EndDate = this.endDate,
+            })
         .Map(InputEvaluation<GetConversationsRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(VerifyMinimumPageSize, VerifyMaximumPageSize));
 

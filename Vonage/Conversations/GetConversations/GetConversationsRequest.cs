@@ -18,43 +18,33 @@ public readonly struct GetConversationsRequest : IVonageRequest
     ///     The cursor to start returning results from. You are not expected to provide this manually, but to follow the url
     ///     provided in _links.next.href or _links.prev.href in the response which contains a cursor value.
     /// </summary>
-    public Maybe<string> Cursor { get; }
+    public Maybe<string> Cursor { get; internal init; }
 
     /// <summary>
     ///     Filter records that occurred before this point in time.
     /// </summary>
-    public Maybe<DateTimeOffset> EndDate { get; }
+    public Maybe<DateTimeOffset> EndDate { get; internal init; }
 
     /// <summary>
     ///     Defines the data ordering.
     /// </summary>
-    public FetchOrder Order { get; }
+    public FetchOrder Order { get; internal init; }
 
     /// <summary>
     ///     Number of results per page.
     /// </summary>
-    public int PageSize { get; }
+    public int PageSize { get; internal init; }
 
     /// <summary>
     ///     Filter records that occurred after this point in time.
     /// </summary>
-    public Maybe<DateTimeOffset> StartDate { get; }
-
-    internal GetConversationsRequest(Maybe<string> cursor, Maybe<DateTimeOffset> endDate, FetchOrder order,
-        int pageSize, Maybe<DateTimeOffset> startDate)
-    {
-        this.Cursor = cursor;
-        this.EndDate = endDate;
-        this.Order = order;
-        this.PageSize = pageSize;
-        this.StartDate = startDate;
-    }
+    public Maybe<DateTimeOffset> StartDate { get; internal init; }
 
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForOptional Build() => new GetConversationsRequestBuilder();
+    public static IBuilderForOptional Build() => new GetConversationsRequestBuilder(Maybe<string>.None);
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder

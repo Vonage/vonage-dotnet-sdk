@@ -87,7 +87,7 @@ public readonly struct GetUserConversationsRequest : IVonageRequest
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForUserId Build() => new GetUserConversationsRequestBuilder();
+    public static IBuilderForUserId Build() => new GetUserConversationsRequestBuilder(Maybe<string>.None);
 }
 
 /// <summary>

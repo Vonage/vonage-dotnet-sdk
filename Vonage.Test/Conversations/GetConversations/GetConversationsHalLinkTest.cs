@@ -15,8 +15,14 @@ namespace Vonage.Test.Conversations.GetConversations
             new GetConversationsHalLink(new Uri("https://api.nexmo.com/v1/users?order=desc&page_size=10"))
                 .BuildRequest()
                 .Should()
-                .BeSuccess(new GetConversationsRequest(Maybe<string>.None, Maybe<DateTimeOffset>.None,
-                    FetchOrder.Descending, 10, Maybe<DateTimeOffset>.None));
+                .BeSuccess(new GetConversationsRequest
+                {
+                    StartDate = Maybe<DateTimeOffset>.None,
+                    Cursor = Maybe<string>.None,
+                    EndDate = Maybe<DateTimeOffset>.None,
+                    PageSize = 10,
+                    Order = FetchOrder.Descending,
+                });
 
         [Fact]
         public void BuildRequestForPrevious_ShouldReturnSuccess_WithCursor() =>
