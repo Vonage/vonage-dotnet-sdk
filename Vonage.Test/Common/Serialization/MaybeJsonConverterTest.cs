@@ -5,21 +5,20 @@ using Vonage.Common.Serialization;
 using Vonage.Test.Common.Extensions;
 using Xunit;
 
-namespace Vonage.Test.Common.Serialization
+namespace Vonage.Test.Common.Serialization;
+
+public class MaybeJsonConverterTest
 {
-    public class MaybeJsonConverterTest
+    [Fact]
+    public void Read_ShouldDeserializeUri_GivenJsonIsUriString()
     {
-        [Fact]
-        public void Read_ShouldDeserializeUri_GivenJsonIsUriString()
-        {
-            var reader =
-                new Utf8JsonReader(Encoding.Default.GetBytes(
-                    "\"https://api.nexmo.com/v2/verify/c11236f4-00bf-4b89-84ba-88b25df97315/silent-auth/redirect\""));
-            reader.Read();
-            new MaybeJsonConverter<Uri>().Read(ref reader, typeof(Uri), new JsonSerializerOptions())
-                .Should()
-                .BeSome(new Uri(
-                    "https://api.nexmo.com/v2/verify/c11236f4-00bf-4b89-84ba-88b25df97315/silent-auth/redirect"));
-        }
+        var reader =
+            new Utf8JsonReader(Encoding.Default.GetBytes(
+                "\"https://api.nexmo.com/v2/verify/c11236f4-00bf-4b89-84ba-88b25df97315/silent-auth/redirect\""));
+        reader.Read();
+        new MaybeJsonConverter<Uri>().Read(ref reader, typeof(Uri), new JsonSerializerOptions())
+            .Should()
+            .BeSome(new Uri(
+                "https://api.nexmo.com/v2/verify/c11236f4-00bf-4b89-84ba-88b25df97315/silent-auth/redirect"));
     }
 }

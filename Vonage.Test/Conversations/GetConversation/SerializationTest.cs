@@ -4,24 +4,23 @@ using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
 
-namespace Vonage.Test.Conversations.GetConversation
+namespace Vonage.Test.Conversations.GetConversation;
+
+public class SerializationTest
 {
-    public class SerializationTest
-    {
-        private readonly SerializationTestHelper helper = new SerializationTestHelper(
-            typeof(SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithSnakeCase());
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(
+        typeof(SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithSnakeCase());
 
-        [Fact]
-        public void ShouldDeserialize200() => this.helper.Serializer
-            .DeserializeObject<Conversation>(this.helper.GetResponseJson())
-            .Should()
-            .BeSuccess(ConversationTests.VerifyExpectedResponse);
+    [Fact]
+    public void ShouldDeserialize200() => this.helper.Serializer
+        .DeserializeObject<Conversation>(this.helper.GetResponseJson())
+        .Should()
+        .BeSuccess(ConversationTests.VerifyExpectedResponse);
 
-        [Fact]
-        public void ShouldDeserialize200Minimal() => this.helper.Serializer
-            .DeserializeObject<Conversation>(this.helper.GetResponseJson())
-            .Should()
-            .BeSuccess(ConversationTests.VerifyMinimalResponse);
-    }
+    [Fact]
+    public void ShouldDeserialize200Minimal() => this.helper.Serializer
+        .DeserializeObject<Conversation>(this.helper.GetResponseJson())
+        .Should()
+        .BeSuccess(ConversationTests.VerifyMinimalResponse);
 }

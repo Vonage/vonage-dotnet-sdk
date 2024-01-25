@@ -7,112 +7,111 @@ using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
 
-namespace Vonage.Test.ProactiveConnect.Lists.UpdateList
+namespace Vonage.Test.ProactiveConnect.Lists.UpdateList;
+
+public class SerializationTest
 {
-    public class SerializationTest
-    {
-        private readonly SerializationTestHelper helper;
+    private readonly SerializationTestHelper helper;
 
-        public SerializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializerBuilder.BuildWithSnakeCase());
+    public SerializationTest() =>
+        this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
+            JsonSerializerBuilder.BuildWithSnakeCase());
 
-        [Fact]
-        public void ShouldDeserialize200() =>
-            this.helper.Serializer
-                .DeserializeObject<List>(this.helper.GetResponseJson())
-                .Should()
-                .BeSuccess(VerifyList);
+    [Fact]
+    public void ShouldDeserialize200() =>
+        this.helper.Serializer
+            .DeserializeObject<List>(this.helper.GetResponseJson())
+            .Should()
+            .BeSuccess(VerifyList);
 
-        [Fact]
-        public void ShouldSerializeWithMandatoryValues() =>
-            UpdateListRequest
-                .Build()
-                .WithListId(Guid.NewGuid())
-                .WithName("my name")
-                .Create()
-                .GetStringContent()
-                .Should()
-                .BeSuccess(this.helper.GetRequestJson());
+    [Fact]
+    public void ShouldSerializeWithMandatoryValues() =>
+        UpdateListRequest
+            .Build()
+            .WithListId(Guid.NewGuid())
+            .WithName("my name")
+            .Create()
+            .GetStringContent()
+            .Should()
+            .BeSuccess(this.helper.GetRequestJson());
 
-        [Fact]
-        public void ShouldSerializeWithManualDataSource() =>
-            UpdateListRequest
-                .Build()
-                .WithListId(Guid.NewGuid())
-                .WithName("my name")
-                .WithDescription("my description")
-                .WithTag("vip")
-                .WithTag("sport")
-                .WithAttribute(new ListAttribute
-                {
-                    Name = "phone_number",
-                    Alias = "phone",
-                })
-                .WithDataSource(new ListDataSource
-                {
-                    Type = ListDataSourceType.Manual,
-                })
-                .Create()
-                .GetStringContent()
-                .Should()
-                .BeSuccess(this.helper.GetRequestJson());
-
-        [Fact]
-        public void ShouldSerializeWithSalesforceDataSource() =>
-            UpdateListRequest
-                .Build()
-                .WithListId(Guid.NewGuid())
-                .WithName("my name")
-                .WithDescription("my description")
-                .WithTag("vip")
-                .WithTag("sport")
-                .WithAttribute(new ListAttribute
-                {
-                    Name = "phone_number",
-                    Alias = "phone",
-                })
-                .WithDataSource(new ListDataSource
-                {
-                    Type = ListDataSourceType.Salesforce,
-                    Soql = "some sql",
-                    IntegrationId = "123456789",
-                })
-                .Create()
-                .GetStringContent()
-                .Should()
-                .BeSuccess(this.helper.GetRequestJson());
-
-        internal static void VerifyList(List success)
-        {
-            success.Name.Should().Be("my name");
-            success.Description.Should().Be("my description");
-            success.Tags.Should().BeEquivalentTo("vip", "sport");
-            success.Attributes.Should().BeEquivalentTo(new[]
+    [Fact]
+    public void ShouldSerializeWithManualDataSource() =>
+        UpdateListRequest
+            .Build()
+            .WithListId(Guid.NewGuid())
+            .WithName("my name")
+            .WithDescription("my description")
+            .WithTag("vip")
+            .WithTag("sport")
+            .WithAttribute(new ListAttribute
             {
-                new ListAttribute
-                {
-                    Name = "phone_number",
-                    Alias = "phone",
-                },
-            });
-            success.DataSource.Should().Be(new ListDataSource
+                Name = "phone_number",
+                Alias = "phone",
+            })
+            .WithDataSource(new ListDataSource
+            {
+                Type = ListDataSourceType.Manual,
+            })
+            .Create()
+            .GetStringContent()
+            .Should()
+            .BeSuccess(this.helper.GetRequestJson());
+
+    [Fact]
+    public void ShouldSerializeWithSalesforceDataSource() =>
+        UpdateListRequest
+            .Build()
+            .WithListId(Guid.NewGuid())
+            .WithName("my name")
+            .WithDescription("my description")
+            .WithTag("vip")
+            .WithTag("sport")
+            .WithAttribute(new ListAttribute
+            {
+                Name = "phone_number",
+                Alias = "phone",
+            })
+            .WithDataSource(new ListDataSource
             {
                 Type = ListDataSourceType.Salesforce,
-                IntegrationId = "salesforce_credentials",
                 Soql = "some sql",
-            });
-            success.Id.Should().Be(new Guid("29192c4a-4058-49da-86c2-3e349d1065b7"));
-            success.CreatedAt.Should().Be(DateTimeOffset.Parse("2022-06-19T17:59:28.085Z"));
-            success.UpdatedAt.Should().Be(DateTimeOffset.Parse("2022-06-19T17:59:28.085Z"));
-            success.SyncStatus.Should().Be(new SyncStatus
+                IntegrationId = "123456789",
+            })
+            .Create()
+            .GetStringContent()
+            .Should()
+            .BeSuccess(this.helper.GetRequestJson());
+
+    internal static void VerifyList(List success)
+    {
+        success.Name.Should().Be("my name");
+        success.Description.Should().Be("my description");
+        success.Tags.Should().BeEquivalentTo("vip", "sport");
+        success.Attributes.Should().BeEquivalentTo(new[]
+        {
+            new ListAttribute
             {
-                Value = SyncStatus.Status.Configured,
-                Details = "Not found",
-                DataModified = true,
-                Dirty = true,
-            });
-            success.ItemsCount.Should().Be(500);
-        }
+                Name = "phone_number",
+                Alias = "phone",
+            },
+        });
+        success.DataSource.Should().Be(new ListDataSource
+        {
+            Type = ListDataSourceType.Salesforce,
+            IntegrationId = "salesforce_credentials",
+            Soql = "some sql",
+        });
+        success.Id.Should().Be(new Guid("29192c4a-4058-49da-86c2-3e349d1065b7"));
+        success.CreatedAt.Should().Be(DateTimeOffset.Parse("2022-06-19T17:59:28.085Z"));
+        success.UpdatedAt.Should().Be(DateTimeOffset.Parse("2022-06-19T17:59:28.085Z"));
+        success.SyncStatus.Should().Be(new SyncStatus
+        {
+            Value = SyncStatus.Status.Configured,
+            Details = "Not found",
+            DataModified = true,
+            Dirty = true,
+        });
+        success.ItemsCount.Should().Be(500);
     }
 }

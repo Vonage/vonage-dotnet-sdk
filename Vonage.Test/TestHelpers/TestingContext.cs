@@ -4,55 +4,54 @@ using Vonage.Test.Common.TestHelpers;
 using WireMock.Server;
 using TimeProvider = Vonage.Common.TimeProvider;
 
-namespace Vonage.Test.TestHelpers
+namespace Vonage.Test.TestHelpers;
+
+internal class TestingContext : IDisposable
 {
-    internal class TestingContext : IDisposable
+    private TestingContext(string appSettingsKey, Credentials credentials, string authorizationHeaderValue)
     {
-        private TestingContext(string appSettingsKey, Credentials credentials, string authorizationHeaderValue)
+        this.ExpectedAuthorizationHeaderValue = authorizationHeaderValue;
+        this.Server = WireMockServer.Start();
+        var configuration = new Configuration
         {
-            this.ExpectedAuthorizationHeaderValue = authorizationHeaderValue;
-            this.Server = WireMockServer.Start();
-            var configuration = new Configuration
+            Settings =
             {
-                Settings =
-                {
-                    [$"appSettings:{appSettingsKey}"] = this.Server.Url,
-                },
-            };
-            this.VonageClient = new VonageClient(credentials, configuration, new TimeProvider());
-        }
+                [$"appSettings:{appSettingsKey}"] = this.Server.Url,
+            },
+        };
+        this.VonageClient = new VonageClient(credentials, configuration, new TimeProvider());
+    }
 
-        public string ExpectedAuthorizationHeaderValue { get; }
-        public WireMockServer Server { get; }
-        public VonageClient VonageClient { get; }
+    public string ExpectedAuthorizationHeaderValue { get; }
+    public WireMockServer Server { get; }
+    public VonageClient VonageClient { get; }
 
-        public void Dispose()
+    public void Dispose()
+    {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    public static TestingContext WithBasicCredentials(string appSettingsKey) =>
+        new TestingContext(appSettingsKey, CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5");
+
+    public static TestingContext WithBearerCredentials(string appSettingsKey) =>
+        new TestingContext(appSettingsKey, CreateBearerCredentials(), "Bearer *");
+
+    private static Credentials CreateBasicCredentials() => Credentials.FromApiKeyAndSecret("790fc5e5", "Aa3456789");
+
+    private static Credentials CreateBearerCredentials() => Credentials.FromAppIdAndPrivateKey(
+        Guid.NewGuid().ToString(),
+        TokenHelper.GetKey());
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposing)
         {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
+            return;
         }
 
-        public static TestingContext WithBasicCredentials(string appSettingsKey) =>
-            new TestingContext(appSettingsKey, CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5");
-
-        public static TestingContext WithBearerCredentials(string appSettingsKey) =>
-            new TestingContext(appSettingsKey, CreateBearerCredentials(), "Bearer *");
-
-        private static Credentials CreateBasicCredentials() => Credentials.FromApiKeyAndSecret("790fc5e5", "Aa3456789");
-
-        private static Credentials CreateBearerCredentials() => Credentials.FromAppIdAndPrivateKey(
-            Guid.NewGuid().ToString(),
-            TokenHelper.GetKey());
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-            {
-                return;
-            }
-
-            this.Server.Stop();
-            this.Server.Dispose();
-        }
+        this.Server.Stop();
+        this.Server.Dispose();
     }
 }

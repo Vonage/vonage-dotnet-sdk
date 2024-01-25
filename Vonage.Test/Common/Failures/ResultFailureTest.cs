@@ -4,30 +4,29 @@ using Vonage.Common.Failures;
 using Vonage.Test.Common.Extensions;
 using Xunit;
 
-namespace Vonage.Test.Common.Failures
+namespace Vonage.Test.Common.Failures;
+
+public class ResultFailureTest
 {
-    public class ResultFailureTest
-    {
-        [Fact]
-        public void FromErrorMessage_ShouldReturnFailure() =>
-            ResultFailure.FromErrorMessage("Some error.").GetFailureMessage().Should().Be("Some error.");
+    [Fact]
+    public void FromErrorMessage_ShouldReturnFailure() =>
+        ResultFailure.FromErrorMessage("Some error.").GetFailureMessage().Should().Be("Some error.");
 
-        [Fact]
-        public void ToException_ShouldReturnVonageException() =>
-            ResultFailure.FromErrorMessage("Some error.").ToException()
-                .Should()
-                .BeOfType<VonageException>()
-                .Which.Message.Should().Be("Some error.");
-
-        [Fact]
-        public void ToResult_ShouldReturnFailure() =>
-            ResultFailure.FromErrorMessage("Some error.").ToResult<int>().Should()
-                .BeFailure(ResultFailure.FromErrorMessage("Some error."));
-
-        [Fact]
-        public void Type_ShouldReturnResultFailure() => ResultFailure.FromErrorMessage("Some error.")
-            .Type
+    [Fact]
+    public void ToException_ShouldReturnVonageException() =>
+        ResultFailure.FromErrorMessage("Some error.").ToException()
             .Should()
-            .Be(typeof(ResultFailure));
-    }
+            .BeOfType<VonageException>()
+            .Which.Message.Should().Be("Some error.");
+
+    [Fact]
+    public void ToResult_ShouldReturnFailure() =>
+        ResultFailure.FromErrorMessage("Some error.").ToResult<int>().Should()
+            .BeFailure(ResultFailure.FromErrorMessage("Some error."));
+
+    [Fact]
+    public void Type_ShouldReturnResultFailure() => ResultFailure.FromErrorMessage("Some error.")
+        .Type
+        .Should()
+        .Be(typeof(ResultFailure));
 }

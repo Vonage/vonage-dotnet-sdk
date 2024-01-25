@@ -2,17 +2,16 @@
 using Vonage.Users.CreateUser;
 using Xunit;
 
-namespace Vonage.Test.Users.CreateUser
+namespace Vonage.Test.Users.CreateUser;
+
+public class RequestTest
 {
-    public class RequestTest
-    {
-        [Fact]
-        public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            CreateUserRequest
-                .Build()
-                .Create()
-                .Map(request => request.GetEndpointPath())
-                .Should()
-                .BeSuccess("/v1/users");
-    }
+    [Fact]
+    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+        CreateUserRequest
+            .Build()
+            .Create()
+            .Map(request => request.GetEndpointPath())
+            .Should()
+            .BeSuccess("/v1/users");
 }

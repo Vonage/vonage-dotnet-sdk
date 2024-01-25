@@ -2,15 +2,14 @@
 using Vonage.Meetings.GetThemes;
 using Xunit;
 
-namespace Vonage.Test.Meetings.GetThemes
+namespace Vonage.Test.Meetings.GetThemes;
+
+public class RequestTest
 {
-    public class RequestTest
-    {
-        [Fact]
-        public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            new GetThemesRequest()
-                .GetEndpointPath()
-                .Should()
-                .Be("/v1/meetings/themes");
-    }
+    [Fact]
+    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+        new GetThemesRequest()
+            .GetEndpointPath()
+            .Should()
+            .Be("/v1/meetings/themes");
 }

@@ -3,22 +3,21 @@ using Vonage.Video.Sessions;
 using Vonage.Video.Sessions.CreateSession;
 using Xunit;
 
-namespace Vonage.Test.Video.Sessions.CreateSession
-{
-    public class RequestTest
-    {
-        [Fact]
-        public void Default_ShouldReturnRequest()
-        {
-            CreateSessionRequest.Default.Location.Should().Be(IpAddress.Empty);
-            CreateSessionRequest.Default.MediaMode.Should().Be(MediaMode.Relayed);
-            CreateSessionRequest.Default.ArchiveMode.Should().Be(ArchiveMode.Manual);
-        }
+namespace Vonage.Test.Video.Sessions.CreateSession;
 
-        [Fact]
-        public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            CreateSessionRequest.Default.GetEndpointPath()
-                .Should()
-                .Be("/session/create");
+public class RequestTest
+{
+    [Fact]
+    public void Default_ShouldReturnRequest()
+    {
+        CreateSessionRequest.Default.Location.Should().Be(IpAddress.Empty);
+        CreateSessionRequest.Default.MediaMode.Should().Be(MediaMode.Relayed);
+        CreateSessionRequest.Default.ArchiveMode.Should().Be(ArchiveMode.Manual);
     }
+
+    [Fact]
+    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+        CreateSessionRequest.Default.GetEndpointPath()
+            .Should()
+            .Be("/session/create");
 }

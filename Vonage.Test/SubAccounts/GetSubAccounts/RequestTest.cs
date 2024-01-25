@@ -2,15 +2,14 @@
 using Vonage.SubAccounts.GetSubAccounts;
 using Xunit;
 
-namespace Vonage.Test.SubAccounts.GetSubAccounts
+namespace Vonage.Test.SubAccounts.GetSubAccounts;
+
+public class RequestTest
 {
-    public class RequestTest
-    {
-        [Fact]
-        public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-            GetSubAccountsRequest.Build("123abCD")
-                .GetEndpointPath()
-                .Should()
-                .Be("/accounts/123abCD/subaccounts");
-    }
+    [Fact]
+    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+        GetSubAccountsRequest.Build("123abCD")
+            .GetEndpointPath()
+            .Should()
+            .Be("/accounts/123abCD/subaccounts");
 }
