@@ -7,11 +7,12 @@ namespace Vonage.Conversations.GetUserConversations;
 
 internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderForOptional
 {
+    public const string DefaultOrderBy = "created";
     private const int MaximumPageSize = 100;
     private const int MinimumPageSize = 1;
     private bool includeCustomData;
     private FetchOrder order = FetchOrder.Ascending;
-    private string orderBy = "created";
+    private string orderBy = DefaultOrderBy;
     private int pageSize = 10;
     private Maybe<DateTimeOffset> startDate;
     private Maybe<State> state;
