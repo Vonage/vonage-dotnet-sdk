@@ -40,53 +40,95 @@ internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderF
             VerifyMaximumPageSize));
 
     /// <inheritdoc />
-    public IBuilderForOptional WithOrder(FetchOrder value)
-    {
-        this.order = value;
-        return this;
-    }
+    public IBuilderForOptional WithOrder(FetchOrder value) =>
+        new GetUserConversationsRequestBuilder(this.cursor)
+        {
+            includeCustomData = this.includeCustomData,
+            orderBy = this.orderBy,
+            order = value,
+            state = this.state,
+            pageSize = this.pageSize,
+            startDate = this.startDate,
+            userId = this.userId,
+        };
 
     /// <inheritdoc />
-    public IBuilderForOptional WithOrderBy(Maybe<string> value)
-    {
-        this.orderBy = value.IfNone(DefaultOrderBy);
-        return this;
-    }
+    public IBuilderForOptional WithOrderBy(Maybe<string> value) =>
+        new GetUserConversationsRequestBuilder(this.cursor)
+        {
+            includeCustomData = this.includeCustomData,
+            orderBy = value.IfNone(DefaultOrderBy),
+            order = this.order,
+            state = this.state,
+            pageSize = this.pageSize,
+            startDate = this.startDate,
+            userId = this.userId,
+        };
 
     /// <inheritdoc />
-    public IBuilderForOptional WithState(State value)
-    {
-        this.state = value;
-        return this;
-    }
+    public IBuilderForOptional WithState(State value) =>
+        new GetUserConversationsRequestBuilder(this.cursor)
+        {
+            includeCustomData = this.includeCustomData,
+            orderBy = this.orderBy,
+            order = this.order,
+            state = value,
+            pageSize = this.pageSize,
+            startDate = this.startDate,
+            userId = this.userId,
+        };
 
     /// <inheritdoc />
-    public IBuilderForOptional IncludeCustomData()
-    {
-        this.includeCustomData = true;
-        return this;
-    }
+    public IBuilderForOptional IncludeCustomData() =>
+        new GetUserConversationsRequestBuilder(this.cursor)
+        {
+            includeCustomData = true,
+            orderBy = this.orderBy,
+            order = this.order,
+            state = this.state,
+            pageSize = this.pageSize,
+            startDate = this.startDate,
+            userId = this.userId,
+        };
 
     /// <inheritdoc />
-    public IBuilderForOptional WithPageSize(int value)
-    {
-        this.pageSize = value;
-        return this;
-    }
+    public IBuilderForOptional WithPageSize(int value) =>
+        new GetUserConversationsRequestBuilder(this.cursor)
+        {
+            includeCustomData = this.includeCustomData,
+            orderBy = this.orderBy,
+            order = this.order,
+            state = this.state,
+            pageSize = value,
+            startDate = this.startDate,
+            userId = this.userId,
+        };
 
     /// <inheritdoc />
-    public IBuilderForOptional WithStartDate(DateTimeOffset value)
-    {
-        this.startDate = value;
-        return this;
-    }
+    public IBuilderForOptional WithStartDate(DateTimeOffset value) =>
+        new GetUserConversationsRequestBuilder(this.cursor)
+        {
+            includeCustomData = this.includeCustomData,
+            orderBy = this.orderBy,
+            order = this.order,
+            state = this.state,
+            pageSize = this.pageSize,
+            startDate = value,
+            userId = this.userId,
+        };
 
     /// <inheritdoc />
-    public IBuilderForOptional WithUserId(string value)
-    {
-        this.userId = value;
-        return this;
-    }
+    public IBuilderForOptional WithUserId(string value) =>
+        new GetUserConversationsRequestBuilder(this.cursor)
+        {
+            includeCustomData = this.includeCustomData,
+            orderBy = this.orderBy,
+            order = this.order,
+            state = this.state,
+            pageSize = this.pageSize,
+            startDate = this.startDate,
+            userId = value,
+        };
 
     private static Result<GetUserConversationsRequest> VerifyMaximumPageSize(GetUserConversationsRequest request) =>
         InputValidation.VerifyLowerOrEqualThan(request, request.PageSize, MaximumPageSize, nameof(request.PageSize));

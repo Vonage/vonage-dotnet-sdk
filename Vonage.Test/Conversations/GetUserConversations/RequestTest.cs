@@ -38,32 +38,32 @@ public class RequestTest
         var builder = GetUserConversationsRequest.Build().WithUserId("US-123");
         if (pageSize.HasValue)
         {
-            builder.WithPageSize(pageSize.Value);
+            builder = builder.WithPageSize(pageSize.Value);
         }
 
         if (order.HasValue)
         {
-            builder.WithOrder(order.Value);
+            builder = builder.WithOrder(order.Value);
         }
 
         if (!string.IsNullOrWhiteSpace(orderBy))
         {
-            builder.WithOrderBy(orderBy);
+            builder = builder.WithOrderBy(orderBy);
         }
 
         if (!string.IsNullOrWhiteSpace(startDate))
         {
-            builder.WithStartDate(DateTimeOffset.Parse(startDate, CultureInfo.InvariantCulture));
+            builder = builder.WithStartDate(DateTimeOffset.Parse(startDate, CultureInfo.InvariantCulture));
         }
 
         if (includeCustomData)
         {
-            builder.IncludeCustomData();
+            builder = builder.IncludeCustomData();
         }
 
         if (state.HasValue)
         {
-            builder.WithState(state.Value);
+            builder = builder.WithState(state.Value);
         }
 
         builder.Create().Map(request => request.GetEndpointPath()).Should().BeSuccess(expectedEndpoint);

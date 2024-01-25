@@ -52,9 +52,9 @@ public record GetConversationsHalLink(Uri Href)
             .WithOrder(Enums.Parse<FetchOrder>(order, false, EnumFormat.Description))
             .WithPageSize(int.Parse(pageSize));
         startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))
-            .IfSome(value => builder.WithStartDate(value));
+            .IfSome(value => builder = builder.WithStartDate(value));
         endDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))
-            .IfSome(value => builder.WithEndDate(value));
+            .IfSome(value => builder = builder.WithEndDate(value));
         return builder.Create();
     }
 }

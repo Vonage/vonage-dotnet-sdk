@@ -28,22 +28,22 @@ namespace Vonage.Test.Conversations.GetConversations
             var builder = GetConversationsRequest.Build();
             if (pageSize.HasValue)
             {
-                builder.WithPageSize(pageSize.Value);
+                builder = builder.WithPageSize(pageSize.Value);
             }
 
             if (order.HasValue)
             {
-                builder.WithOrder(order.Value);
+                builder = builder.WithOrder(order.Value);
             }
 
             if (!string.IsNullOrWhiteSpace(startDate))
             {
-                builder.WithStartDate(DateTimeOffset.Parse(startDate, CultureInfo.InvariantCulture));
+                builder = builder.WithStartDate(DateTimeOffset.Parse(startDate, CultureInfo.InvariantCulture));
             }
 
             if (!string.IsNullOrWhiteSpace(endDate))
             {
-                builder.WithEndDate(DateTimeOffset.Parse(endDate, CultureInfo.InvariantCulture));
+                builder = builder.WithEndDate(DateTimeOffset.Parse(endDate, CultureInfo.InvariantCulture));
             }
 
             builder.Create().Map(request => request.GetEndpointPath()).Should().BeSuccess(expectedEndpoint);

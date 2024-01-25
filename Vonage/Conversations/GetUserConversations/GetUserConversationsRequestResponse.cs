@@ -35,12 +35,12 @@ public record GetUserConversationsHalLink(Uri Href)
             .WithOrder(Enums.Parse<FetchOrder>(order, false, EnumFormat.Description))
             .WithOrderBy(orderBy);
         startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))
-            .IfSome(value => builder.WithStartDate(value));
+            .IfSome(value => builder = builder.WithStartDate(value));
         state.Map(value => Enums.Parse<State>(value, false, EnumFormat.Description))
-            .IfSome(value => builder.WithState(value));
+            .IfSome(value => builder = builder.WithState(value));
         if (includeCustomData.Match(bool.Parse, () => false))
         {
-            builder.IncludeCustomData();
+            builder = builder.IncludeCustomData();
         }
 
         return builder.Create();

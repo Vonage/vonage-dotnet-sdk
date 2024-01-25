@@ -31,32 +31,44 @@ internal class GetConversationsRequestBuilder : IBuilderForOptional
         .Bind(evaluation => evaluation.WithRules(VerifyMinimumPageSize, VerifyMaximumPageSize));
 
     /// <inheritdoc />
-    public IBuilderForOptional WithEndDate(DateTimeOffset value)
-    {
-        this.endDate = value;
-        return this;
-    }
+    public IBuilderForOptional WithEndDate(DateTimeOffset value) =>
+        new GetConversationsRequestBuilder(this.cursor)
+        {
+            startDate = this.startDate,
+            pageSize = this.pageSize,
+            endDate = value,
+            fetchOrder = this.fetchOrder,
+        };
 
     /// <inheritdoc />
-    public IBuilderForOptional WithOrder(FetchOrder value)
-    {
-        this.fetchOrder = value;
-        return this;
-    }
+    public IBuilderForOptional WithOrder(FetchOrder value) =>
+        new GetConversationsRequestBuilder(this.cursor)
+        {
+            startDate = this.startDate,
+            pageSize = this.pageSize,
+            endDate = this.endDate,
+            fetchOrder = value,
+        };
 
     /// <inheritdoc />
-    public IBuilderForOptional WithPageSize(int value)
-    {
-        this.pageSize = value;
-        return this;
-    }
+    public IBuilderForOptional WithPageSize(int value) =>
+        new GetConversationsRequestBuilder(this.cursor)
+        {
+            startDate = this.startDate,
+            pageSize = value,
+            endDate = this.endDate,
+            fetchOrder = this.fetchOrder,
+        };
 
     /// <inheritdoc />
-    public IBuilderForOptional WithStartDate(DateTimeOffset value)
-    {
-        this.startDate = value;
-        return this;
-    }
+    public IBuilderForOptional WithStartDate(DateTimeOffset value) =>
+        new GetConversationsRequestBuilder(this.cursor)
+        {
+            startDate = value,
+            pageSize = this.pageSize,
+            endDate = this.endDate,
+            fetchOrder = this.fetchOrder,
+        };
 
     private static Result<GetConversationsRequest> VerifyMaximumPageSize(GetConversationsRequest request) =>
         InputValidation.VerifyLowerOrEqualThan(request, request.PageSize, MaximumPageSize, nameof(request.PageSize));
