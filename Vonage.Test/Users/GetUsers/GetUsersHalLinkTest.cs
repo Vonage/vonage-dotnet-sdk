@@ -16,8 +16,13 @@ namespace Vonage.Test.Users.GetUsers
                     "https://api.nexmo.com/v1/users?order=desc&page_size=10&name=Test"))
                 .BuildRequest()
                 .Should()
-                .BeSuccess(new GetUsersRequest(Maybe<string>.None, "Test",
-                    FetchOrder.Descending, 10));
+                .BeSuccess(new GetUsersRequest
+                {
+                    PageSize = 10,
+                    Order = FetchOrder.Descending,
+                    Cursor = Maybe<string>.None,
+                    Name = "Test",
+                });
 
         [Fact]
         public void BuildRequestForPrevious_ShouldReturnFailure_WhenOrderIsMissing() =>
@@ -41,8 +46,13 @@ namespace Vonage.Test.Users.GetUsers
                     "https://api.nexmo.com/v1/users?order=desc&page_size=10&cursor=7EjDNQrAcipmOnc0HCzpQRkhBULzY44ljGUX4lXKyUIVfiZay5pv9wg%3D&name=Test"))
                 .BuildRequest()
                 .Should()
-                .BeSuccess(new GetUsersRequest("7EjDNQrAcipmOnc0HCzpQRkhBULzY44ljGUX4lXKyUIVfiZay5pv9wg=", "Test",
-                    FetchOrder.Descending, 10));
+                .BeSuccess(new GetUsersRequest
+                {
+                    PageSize = 10,
+                    Order = FetchOrder.Descending,
+                    Cursor = "7EjDNQrAcipmOnc0HCzpQRkhBULzY44ljGUX4lXKyUIVfiZay5pv9wg=",
+                    Name = "Test",
+                });
 
         [Fact]
         public void BuildRequestForPrevious_ShouldReturnSuccess_WithoutName() =>
@@ -50,7 +60,12 @@ namespace Vonage.Test.Users.GetUsers
                     "https://api.nexmo.com/v1/users?order=desc&page_size=10&cursor=7EjDNQrAcipmOnc0HCzpQRkhBULzY44ljGUX4lXKyUIVfiZay5pv9wg%3D"))
                 .BuildRequest()
                 .Should()
-                .BeSuccess(new GetUsersRequest("7EjDNQrAcipmOnc0HCzpQRkhBULzY44ljGUX4lXKyUIVfiZay5pv9wg=",
-                    Maybe<string>.None, FetchOrder.Descending, 10));
+                .BeSuccess(new GetUsersRequest
+                {
+                    PageSize = 10,
+                    Order = FetchOrder.Descending,
+                    Cursor = "7EjDNQrAcipmOnc0HCzpQRkhBULzY44ljGUX4lXKyUIVfiZay5pv9wg=",
+                    Name = Maybe<string>.None,
+                });
     }
 }
