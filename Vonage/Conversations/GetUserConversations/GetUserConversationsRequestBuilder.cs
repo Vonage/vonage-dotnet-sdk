@@ -13,7 +13,7 @@ internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderF
     private readonly Maybe<string> cursor;
     private bool includeCustomData;
     private FetchOrder order = FetchOrder.Ascending;
-    private string orderBy = DefaultOrderBy;
+    private Maybe<string> orderBy;
     private int pageSize = 10;
     private Maybe<DateTimeOffset> startDate;
     private Maybe<State> state;
@@ -29,7 +29,7 @@ internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderF
                 IncludeCustomData = this.includeCustomData,
                 StartDate = this.startDate,
                 Order = this.order,
-                OrderBy = this.orderBy,
+                OrderBy = this.orderBy.IfNone(DefaultOrderBy),
                 State = this.state,
                 Cursor = this.cursor,
             })
@@ -53,11 +53,11 @@ internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderF
         };
 
     /// <inheritdoc />
-    public IBuilderForOptional WithOrderBy(Maybe<string> value) =>
+    public IBuilderForOptional WithOrderBy(string value) =>
         new GetUserConversationsRequestBuilder(this.cursor)
         {
             includeCustomData = this.includeCustomData,
-            orderBy = value.IfNone(DefaultOrderBy),
+            orderBy = value,
             order = this.order,
             state = this.state,
             pageSize = this.pageSize,
@@ -170,7 +170,7 @@ public interface IBuilderForOptional : IVonageRequestBuilder<GetUserConversation
     /// </summary>
     /// <param name="value">The order by.</param>
     /// <returns>The builder.</returns>
-    IBuilderForOptional WithOrderBy(Maybe<string> value);
+    IBuilderForOptional WithOrderBy(string value);
 
     /// <summary>
     ///     Sets the state on the builder.

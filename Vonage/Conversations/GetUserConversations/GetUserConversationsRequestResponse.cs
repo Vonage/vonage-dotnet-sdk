@@ -20,29 +20,57 @@ public record GetUserConversationsHalLink(Uri Href)
     /// <returns></returns>
     public Result<GetUserConversationsRequest> BuildRequest()
     {
-        var queryParameters = HttpUtility.ParseQueryString(this.Href.Query);
-        var userId = this.Href.AbsolutePath.Replace("/v1/users/", string.Empty).Replace("/conversations", string.Empty);
-        var pageSize = queryParameters["page_size"];
-        var order = queryParameters["order"];
-        var orderBy = queryParameters["order_by"] ?? Maybe<string>.None;
-        var cursor = queryParameters["cursor"] ?? Maybe<string>.None;
+        var parameters = ExtractQueryParameters(this.Href);
+        var builder = new GetUserConversationsRequestBuilder(parameters.Cursor)
+            .WithUserId(parameters.UserId)
+            .WithPageSize(parameters.PageSize)
+            .WithOrder(parameters.Order);
+        builder = ApplyOptionalOrderBy(parameters, builder);
+        builder = ApplyOptionalStartDate(parameters, builder);
+        builder = ApplyOptionalState(parameters, builder);
+        builder = ApplyOptionalIncludeCustomData(parameters, builder);
+        return builder.Create();
+    }
+
+    private static IBuilderForOptional
+        ApplyOptionalIncludeCustomData(QueryParameters parameters, IBuilderForOptional builder) =>
+        parameters.IncludeCustomData.IfNone(false) ? builder.IncludeCustomData() : builder;
+
+    private static IBuilderForOptional ApplyOptionalState(QueryParameters parameters, IBuilderForOptional builder) =>
+        parameters.State.Match(builder.WithState, () => builder);
+
+    private static IBuilderForOptional
+        ApplyOptionalStartDate(QueryParameters parameters, IBuilderForOptional builder) =>
+        parameters.StartDate.Match(builder.WithStartDate, () => builder);
+
+    private static IBuilderForOptional ApplyOptionalOrderBy(QueryParameters parameters, IBuilderForOptional builder) =>
+        parameters.OrderBy.Match(builder.WithOrderBy, () => builder);
+
+    private static QueryParameters ExtractQueryParameters(Uri uri)
+    {
+        var queryParameters = HttpUtility.ParseQueryString(uri.Query);
+        var userId = uri.AbsolutePath.Replace("/v1/users/", string.Empty).Replace("/conversations", string.Empty);
         var startDate = queryParameters["date_start"] ?? Maybe<string>.None;
         var includeCustomData = queryParameters["include_custom_data"] ?? Maybe<string>.None;
         var state = queryParameters["state"] ?? Maybe<string>.None;
-        var builder = new GetUserConversationsRequestBuilder(cursor)
-            .WithUserId(userId)
-            .WithPageSize(int.Parse(pageSize))
-            .WithOrder(Enums.Parse<FetchOrder>(order, false, EnumFormat.Description))
-            .WithOrderBy(orderBy);
-        startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))
-            .IfSome(value => builder = builder.WithStartDate(value));
-        state.Map(value => Enums.Parse<State>(value, false, EnumFormat.Description))
-            .IfSome(value => builder = builder.WithState(value));
-        if (includeCustomData.Match(bool.Parse, () => false))
-        {
-            builder = builder.IncludeCustomData();
-        }
-
-        return builder.Create();
+        return new QueryParameters(
+            userId,
+            queryParameters["cursor"],
+            int.Parse(queryParameters["page_size"]),
+            Enums.Parse<FetchOrder>(queryParameters["order"], false, EnumFormat.Description),
+            queryParameters["order_by"],
+            startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)),
+            includeCustomData.Match(bool.Parse, () => false),
+            state.Map(value => Enums.Parse<State>(value, false, EnumFormat.Description)));
     }
+
+    private record QueryParameters(
+        string UserId,
+        Maybe<string> Cursor,
+        int PageSize,
+        FetchOrder Order,
+        Maybe<string> OrderBy,
+        Maybe<DateTimeOffset> StartDate,
+        Maybe<bool> IncludeCustomData,
+        Maybe<State> State);
 }

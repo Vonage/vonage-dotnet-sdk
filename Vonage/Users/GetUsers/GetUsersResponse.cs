@@ -41,7 +41,7 @@ public record GetUsersHalLink(Uri Href)
     {
         var queryParameters = HttpUtility.ParseQueryString(this.Href.Query);
         var name = queryParameters["name"] ?? Maybe<string>.None;
-        var cursor = queryParameters["cursor"] ?? Maybe<string>.None;
+        var cursor = queryParameters["cursor"];
         var pageSize = queryParameters["page_size"];
         var order = queryParameters["order"];
         if (pageSize is null)

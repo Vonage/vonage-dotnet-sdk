@@ -42,19 +42,40 @@ public record GetConversationsHalLink(Uri Href)
     /// <returns></returns>
     public Result<GetConversationsRequest> BuildRequest()
     {
-        var queryParameters = HttpUtility.ParseQueryString(this.Href.Query);
-        var pageSize = queryParameters["page_size"];
-        var order = queryParameters["order"];
-        var cursor = queryParameters["cursor"] ?? Maybe<string>.None;
-        var startDate = queryParameters["date_start"] ?? Maybe<string>.None;
-        var endDate = queryParameters["date_end"] ?? Maybe<string>.None;
-        var builder = new GetConversationsRequestBuilder(cursor)
-            .WithOrder(Enums.Parse<FetchOrder>(order, false, EnumFormat.Description))
-            .WithPageSize(int.Parse(pageSize));
-        startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))
-            .IfSome(value => builder = builder.WithStartDate(value));
-        endDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture))
-            .IfSome(value => builder = builder.WithEndDate(value));
+        var parameters = ExtractQueryParameters(this.Href);
+        var builder = new GetConversationsRequestBuilder(parameters.Cursor)
+            .WithPageSize(parameters.PageSize)
+            .WithOrder(parameters.Order);
+        builder = ApplyOptionalStartDate(parameters, builder);
+        builder = ApplyOptionalEndDate(parameters, builder);
         return builder.Create();
     }
+
+    private static IBuilderForOptional
+        ApplyOptionalStartDate(QueryParameters parameters, IBuilderForOptional builder) =>
+        parameters.StartDate.Match(builder.WithStartDate, () => builder);
+
+    private static IBuilderForOptional
+        ApplyOptionalEndDate(QueryParameters parameters, IBuilderForOptional builder) =>
+        parameters.EndDate.Match(builder.WithEndDate, () => builder);
+
+    private static QueryParameters ExtractQueryParameters(Uri uri)
+    {
+        var queryParameters = HttpUtility.ParseQueryString(uri.Query);
+        var startDate = queryParameters["date_start"] ?? Maybe<string>.None;
+        var endDate = queryParameters["date_end"] ?? Maybe<string>.None;
+        return new QueryParameters(
+            queryParameters["cursor"],
+            int.Parse(queryParameters["page_size"]),
+            Enums.Parse<FetchOrder>(queryParameters["order"], false, EnumFormat.Description),
+            startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)),
+            endDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)));
+    }
+
+    private record QueryParameters(
+        Maybe<string> Cursor,
+        int PageSize,
+        FetchOrder Order,
+        Maybe<DateTimeOffset> StartDate,
+        Maybe<DateTimeOffset> EndDate);
 }
