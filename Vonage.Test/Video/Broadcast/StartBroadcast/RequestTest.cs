@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Broadcast.StartBroadcast;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly Guid applicationId;

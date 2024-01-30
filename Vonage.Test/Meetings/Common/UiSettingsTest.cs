@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.Common;
 
+[Trait("Category", "Unit")]
 public class UiSettingsTest
 {
     public static IEnumerable<object[]> GetSupportedLanguages()

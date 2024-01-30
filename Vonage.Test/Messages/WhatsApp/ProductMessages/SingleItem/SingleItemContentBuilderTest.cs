@@ -6,11 +6,10 @@ using Xunit;
 
 namespace Vonage.Test.Messages.WhatsApp.ProductMessages.SingleItem
 {
+    [Trait("Category", "Request")]
     public class SingleItemContentBuilderTest
     {
-        private readonly IOptionalBuilderForBody builder;
-
-        public SingleItemContentBuilderTest() => this.builder = SingleItemContentBuilder.Initialize();
+        private readonly IOptionalBuilderForBody builder = SingleItemContentBuilder.Initialize();
 
         [Fact]
         public void Build_WithAllInformation() =>

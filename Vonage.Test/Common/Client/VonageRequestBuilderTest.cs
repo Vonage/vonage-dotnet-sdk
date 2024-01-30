@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Common.Client;
 
+[Trait("Category", "Request")]
 public class VonageRequestBuilderTest
 {
     private readonly Uri endpointUri;
@@ -38,7 +39,7 @@ public class VonageRequestBuilderTest
         VonageRequestBuilder
             .Initialize(this.method, this.endpointUri)
             .Build()
-            .RequestUri
+            .RequestUri!
             .IsAbsoluteUri
             .Should()
             .BeTrue();

@@ -20,7 +20,8 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.UpdateThemeLogo;
 
-public class UseCaseTest
+[Trait("Category", "E2E")]
+public class E2ETest
 {
     private readonly Fixture fixture;
 
@@ -29,7 +30,7 @@ public class UseCaseTest
 
     private ICustomHandlerExpectsRequest customHandler;
 
-    public UseCaseTest()
+    public E2ETest()
     {
         this.fixture = new Fixture();
         this.serializer = new JsonSerializer();

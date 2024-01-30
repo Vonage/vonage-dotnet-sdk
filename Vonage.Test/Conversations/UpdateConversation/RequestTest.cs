@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Vonage.Test.Conversations.UpdateConversation;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     [Fact]

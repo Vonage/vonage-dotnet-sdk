@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test
 {
+    [Trait("Category", "Unit")]
     public class ConfigurationTest
     {
         [Fact]

@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.VerifyV2.StartVerification;
 
+[Trait("Category", "Request")]
 public class StartVerificationResponseTest
 {
     [Theory]

@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Common.Serialization;
 
+[Trait("Category", "Serialization")]
 public class MaybeJsonConverterTest
 {
     [Fact]

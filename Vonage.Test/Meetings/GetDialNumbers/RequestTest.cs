@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.GetDialNumbers;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     [Fact]

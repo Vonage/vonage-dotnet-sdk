@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Vonage.Test.VerifyV2.StartVerification.Workflows;
 
+[Trait("Category", "Request")]
 public class WhatsAppWorkflowTest
 {
     private const string ExpectedChannel = "whatsapp";

@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Broadcast.ChangeBroadcastLayout;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

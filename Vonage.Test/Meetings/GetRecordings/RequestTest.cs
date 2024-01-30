@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.GetRecordings;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly string sessionId;

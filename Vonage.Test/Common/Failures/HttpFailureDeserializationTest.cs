@@ -5,12 +5,11 @@ using Xunit;
 
 namespace Vonage.Test.Common.Failures;
 
+[Trait("Category", "Unit")]
 public class HttpFailureDeserializationTest
 {
-    private readonly SerializationTestHelper helper;
-
-    public HttpFailureDeserializationTest() =>
-        this.helper = new SerializationTestHelper(typeof(HttpFailureDeserializationTest).Namespace);
+    private readonly SerializationTestHelper helper =
+        new SerializationTestHelper(typeof(HttpFailureDeserializationTest).Namespace);
 
     [Theory]
     [InlineData("400", HttpStatusCode.BadRequest,

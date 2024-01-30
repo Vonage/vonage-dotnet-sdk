@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.UpdateTheme;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly string brandText;

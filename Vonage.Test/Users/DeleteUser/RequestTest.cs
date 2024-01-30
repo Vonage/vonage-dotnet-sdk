@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Vonage.Test.Users.DeleteUser;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     [Fact]

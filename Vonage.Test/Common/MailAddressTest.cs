@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vonage.Test.Common;
 
+[Trait("Category", "Unit")]
 public class MailAddressTest
 {
     [Theory]

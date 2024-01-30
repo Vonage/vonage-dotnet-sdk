@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.DeleteTheme;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly Guid themeId;

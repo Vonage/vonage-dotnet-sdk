@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.CreateRoom;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly string displayName;

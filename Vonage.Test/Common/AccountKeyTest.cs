@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Common;
 
+[Trait("Category", "Unit")]
 public class AccountKeyTest
 {
     [Theory]

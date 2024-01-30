@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.ProactiveConnect.Items.GetItems;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly Guid listId;

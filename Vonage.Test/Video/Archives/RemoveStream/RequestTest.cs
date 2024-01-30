@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Archives.RemoveStream;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly Guid applicationId;

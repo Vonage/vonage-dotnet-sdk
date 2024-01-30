@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.UpdateThemeLogo;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly string filePath;

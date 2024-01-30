@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Vonage.Test.SubAccounts.GetTransfers;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly DateTimeOffset endDate;

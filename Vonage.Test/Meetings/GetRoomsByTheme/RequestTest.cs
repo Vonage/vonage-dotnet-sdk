@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.GetRoomsByTheme;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly Guid themeId;

@@ -9,6 +9,8 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.CreateTheme;
 
+[Trait("Category", "E2E")]
+[Trait("Category", "E2E")]
 public class E2ETest : E2EBase
 {
     public E2ETest() : base(typeof(E2ETest).Namespace)

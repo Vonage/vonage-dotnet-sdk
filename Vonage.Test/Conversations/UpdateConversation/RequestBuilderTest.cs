@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Conversations.UpdateConversation;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private const string ConversationId = "CON-1234";

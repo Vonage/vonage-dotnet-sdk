@@ -29,16 +29,17 @@ using Xunit;
 
 namespace Vonage.Test.Extensions
 {
+    [Trait("Category", "ServicesRegistration")]
     public class ServiceCollectionExtensionsTest
     {
-        private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
-
         private readonly IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
             {
                 {"appSettings:Vonage_key", "RandomValue"},
             })
             .Build();
+
+        private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
 
         [Theory]
         [MemberData(nameof(GetSpecificVonageClients))]

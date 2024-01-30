@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vonage.Test.VerifyV2.Cancel;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     [Fact]

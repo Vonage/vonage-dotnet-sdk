@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Signaling.SendSignals;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

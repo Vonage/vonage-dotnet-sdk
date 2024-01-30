@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.SubAccounts.TransferNumber;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly string country;

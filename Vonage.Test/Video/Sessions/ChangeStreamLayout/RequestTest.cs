@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Sessions.ChangeStreamLayout;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly Guid applicationId;

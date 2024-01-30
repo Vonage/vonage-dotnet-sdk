@@ -6,11 +6,12 @@ using Xunit;
 
 namespace Vonage.Test
 {
+    [Trait("Category", "Unit")]
     public class VonageClientTest
     {
+        private readonly VonageClient client;
         private readonly Credentials credentials;
         private readonly Fixture fixture;
-        private readonly VonageClient client;
 
         public VonageClientTest()
         {

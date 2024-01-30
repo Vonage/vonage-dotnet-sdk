@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Sip.InitiateCall;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

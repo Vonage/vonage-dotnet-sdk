@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.UpdateRoom;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly RoomApprovalLevel approvalLevel;

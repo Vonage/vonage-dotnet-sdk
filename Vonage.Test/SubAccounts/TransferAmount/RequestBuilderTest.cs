@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.SubAccounts.TransferAmount;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly decimal amount;

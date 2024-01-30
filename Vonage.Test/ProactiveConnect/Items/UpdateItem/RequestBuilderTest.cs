@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Vonage.Test.ProactiveConnect.Items.UpdateItem;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly KeyValuePair<string, object> element;

@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Broadcast.StopBroadcast;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

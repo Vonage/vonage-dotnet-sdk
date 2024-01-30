@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Sessions;
 
+[Trait("Category", "Unit")]
 public class IpAddressTest
 {
     [Fact]

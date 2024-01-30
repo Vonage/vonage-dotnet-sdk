@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Archives.CreateArchive;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

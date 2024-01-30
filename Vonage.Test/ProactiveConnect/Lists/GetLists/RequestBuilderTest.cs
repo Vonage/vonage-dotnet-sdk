@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Vonage.Test.ProactiveConnect.Lists.GetLists;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly int page;

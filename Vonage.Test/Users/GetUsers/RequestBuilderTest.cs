@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vonage.Test.Users.GetUsers;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     [Fact]

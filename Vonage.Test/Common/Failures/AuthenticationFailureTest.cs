@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Vonage.Test.Common.Failures;
 
+[Trait("Category", "Unit")]
 public class AuthenticationFailureTest
 {
     [Fact]

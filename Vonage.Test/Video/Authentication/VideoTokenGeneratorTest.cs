@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Authentication;
 
+[Trait("Category", "Unit")]
 public class VideoTokenGeneratorTest
 {
     private const string ApplicationId = "ffffffff-ffff-ffff-ffff-ffffffffffff";

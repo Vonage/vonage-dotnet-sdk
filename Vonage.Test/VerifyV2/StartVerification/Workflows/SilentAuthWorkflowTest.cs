@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.VerifyV2.StartVerification.Workflows;
 
+[Trait("Category", "Request")]
 public class SilentAuthWorkflowTest
 {
     private const string ExpectedChannel = "silent_auth";

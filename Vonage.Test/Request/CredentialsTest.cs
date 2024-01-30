@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Vonage.Test.Request;
 
+[Trait("Category", "Unit")]
 public class CredentialsTest
 {
     [Fact]

@@ -3,7 +3,6 @@ using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.CreateRoom;
 using Vonage.Meetings.CreateTheme;
-using Vonage.Meetings.DeleteRecording;
 using Vonage.Meetings.DeleteTheme;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
@@ -43,7 +42,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
-    Task<Result<Unit>> DeleteRecordingAsync(Result<DeleteRecordingRequest> request);
+    Task<Result<Unit>> DeleteRecordingAsync(Result<DeleteRecording.Request> request);
 
     /// <summary>
     ///     Deletes a theme.

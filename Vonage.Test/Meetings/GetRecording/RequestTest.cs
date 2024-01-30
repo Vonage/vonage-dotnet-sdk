@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.GetRecording;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly Guid recordingId;

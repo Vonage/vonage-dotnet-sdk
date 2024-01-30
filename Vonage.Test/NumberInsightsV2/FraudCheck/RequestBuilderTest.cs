@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vonage.Test.NumberInsightsV2.FraudCheck;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private const string FraudScoreInsight = "fraud_score";

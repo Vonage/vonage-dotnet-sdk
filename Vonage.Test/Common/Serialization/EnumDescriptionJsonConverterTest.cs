@@ -4,11 +4,10 @@ using Xunit;
 
 namespace Vonage.Test.Common.Serialization;
 
+[Trait("Category", "Serialization")]
 public class EnumDescriptionJsonConverterTest
 {
-    private readonly EnumDescriptionJsonConverter<DummyEnum> converter;
-
-    public EnumDescriptionJsonConverterTest() => this.converter = new EnumDescriptionJsonConverter<DummyEnum>();
+    private readonly EnumDescriptionJsonConverter<DummyEnum> converter = new EnumDescriptionJsonConverter<DummyEnum>();
 
     [Fact]
     public void HandleNull_ShouldReturnTrue() => this.converter.HandleNull.Should().BeTrue();

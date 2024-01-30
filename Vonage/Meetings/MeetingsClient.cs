@@ -5,7 +5,6 @@ using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.CreateRoom;
 using Vonage.Meetings.CreateTheme;
-using Vonage.Meetings.DeleteRecording;
 using Vonage.Meetings.DeleteTheme;
 using Vonage.Meetings.GetDialNumbers;
 using Vonage.Meetings.GetRecording;
@@ -51,7 +50,7 @@ public class MeetingsClient : IMeetingsClient
         this.vonageClient.SendWithResponseAsync<CreateThemeRequest, Theme>(request);
 
     /// <inheritdoc />
-    public Task<Result<Unit>> DeleteRecordingAsync(Result<DeleteRecordingRequest> request) =>
+    public Task<Result<Unit>> DeleteRecordingAsync(Result<DeleteRecording.Request> request) =>
         this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />

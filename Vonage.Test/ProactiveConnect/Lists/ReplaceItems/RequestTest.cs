@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vonage.Test.ProactiveConnect.Lists.ReplaceItems;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     [Fact]

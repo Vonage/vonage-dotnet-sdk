@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Authentication;
 
+[Trait("Category", "Unit")]
 public class TokenAdditionalInformationTest
 {
     private readonly Role role;

@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.Common.Monads;
 
+[Trait("Category", "Unit")]
 public class ResultTest
 {
     [Fact]

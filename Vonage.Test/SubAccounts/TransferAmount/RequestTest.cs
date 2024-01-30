@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vonage.Test.SubAccounts.TransferAmount;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly Fixture fixture;

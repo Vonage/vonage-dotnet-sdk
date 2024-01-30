@@ -16,6 +16,7 @@ using Xunit;
 
 namespace Vonage.Test.Common.Client;
 
+[Trait("Category", "Unit")]
 public class VonageHttpClientTest
 {
     private readonly Fixture fixture;

@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.GetRoomsByTheme;
 
+[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
     private readonly int endId;

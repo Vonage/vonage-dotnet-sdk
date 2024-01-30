@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.GetRooms;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     [Theory]

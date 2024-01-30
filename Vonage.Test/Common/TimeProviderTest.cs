@@ -6,6 +6,7 @@ using TimeProvider = Vonage.Common.TimeProvider;
 
 namespace Vonage.Test.Common;
 
+[Trait("Category", "Unit")]
 public class TimeProviderTest
 {
     /// <remarks>

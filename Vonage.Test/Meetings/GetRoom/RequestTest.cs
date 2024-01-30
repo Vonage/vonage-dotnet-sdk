@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.GetRoom;
 
+[Trait("Category", "Request")]
 public class RequestTest
 {
     private readonly Guid roomId;

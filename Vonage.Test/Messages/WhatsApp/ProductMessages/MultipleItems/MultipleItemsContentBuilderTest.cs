@@ -9,16 +9,11 @@ using Xunit;
 
 namespace Vonage.Test.Messages.WhatsApp.ProductMessages.MultipleItems
 {
+    [Trait("Category", "Request")]
     public class MultipleItemsContentBuilderTest
     {
-        private readonly Fixture fixture;
-        private readonly IBuilderForHeader builder;
-
-        public MultipleItemsContentBuilderTest()
-        {
-            this.builder = MultipleItemsContentBuilder.Initialize();
-            this.fixture = new Fixture();
-        }
+        private readonly IBuilderForHeader builder = MultipleItemsContentBuilder.Initialize();
+        private readonly Fixture fixture = new Fixture();
 
         [Fact]
         public void Build_ShouldThrowVonageException_GivenAllSectionsContainMoreThan30Products()

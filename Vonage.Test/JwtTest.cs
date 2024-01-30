@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test
 {
+    [Trait("Category", "Unit")]
     public class JwtTest
     {
         private const string ApplicationId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
