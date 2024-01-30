@@ -47,8 +47,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Properties\"/>
-        <Folder Include="Video\TestHelpers\"/>
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -1090,6 +1088,9 @@
         </None>
         <None Update="Common\Failures\Data\ShouldDeserializeError413-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetUserConversations\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
