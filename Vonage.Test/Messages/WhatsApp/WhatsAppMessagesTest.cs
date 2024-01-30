@@ -13,11 +13,12 @@ using Xunit;
 
 namespace Vonage.Test.Messages.WhatsApp
 {
+    [Trait("Category", "Legacy")]
     public class WhatsAppMessagesTest : TestBase
     {
-        private readonly Func<IMessage, Task<MessagesResponse>> operation;
-        private readonly SerializationTestHelper helper;
         private readonly string expectedUri;
+        private readonly SerializationTestHelper helper;
+        private readonly Func<IMessage, Task<MessagesResponse>> operation;
 
         public WhatsAppMessagesTest()
         {

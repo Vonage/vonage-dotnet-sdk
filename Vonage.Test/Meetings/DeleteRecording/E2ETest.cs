@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Vonage.Meetings.DeleteRecording;
 using Vonage.Test.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
@@ -23,7 +24,7 @@ public class E2ETest : E2EBase
                 .UsingDelete())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
         await this.Helper.VonageClient.MeetingsClient.DeleteRecordingAsync(
-                Vonage.Meetings.DeleteRecording.Request.Parse(new Guid("48a355bf-924d-4d4d-8e98-78575cf212dd")))
+                DeleteRecordingRequest.Parse(new Guid("48a355bf-924d-4d4d-8e98-78575cf212dd")))
             .Should()
             .BeSuccessAsync();
     }

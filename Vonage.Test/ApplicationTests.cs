@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Vonage.Test
 {
+    [Trait("Category", "Legacy")]
     public class ApplicationTests : TestBase
     {
         private const string PublicKey = "some public key";

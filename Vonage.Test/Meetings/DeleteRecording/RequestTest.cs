@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
+using Vonage.Meetings.DeleteRecording;
 using Vonage.Test.Common.Extensions;
 using Xunit;
 
@@ -13,7 +14,7 @@ public class RequestTest
 
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        Vonage.Meetings.DeleteRecording.Request.Parse(this.recordingId)
+        DeleteRecordingRequest.Parse(this.recordingId)
             .Map(request => request.GetEndpointPath())
             .Should()
             .BeSuccess(
@@ -21,13 +22,13 @@ public class RequestTest
 
     [Fact]
     public void Parse_ShouldReturnFailure_GivenRecordingIdIsNullOrWhitespace() =>
-        Vonage.Meetings.DeleteRecording.Request.Parse(Guid.Empty)
+        DeleteRecordingRequest.Parse(Guid.Empty)
             .Should()
             .BeParsingFailure("RecordingId cannot be empty.");
 
     [Fact]
     public void Parse_ShouldReturnSuccess_GivenValuesAreProvided() =>
-        Vonage.Meetings.DeleteRecording.Request.Parse(this.recordingId)
+        DeleteRecordingRequest.Parse(this.recordingId)
             .Should()
             .BeSuccess(request => request.RecordingId.Should().Be(this.recordingId));
 }
