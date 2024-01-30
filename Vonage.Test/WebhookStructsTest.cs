@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using FluentAssertions;
 using Newtonsoft.Json;
 using Vonage.Voice.AnswerWebhooks;
 using Vonage.Voice.EventWebhooks;
@@ -389,8 +390,9 @@ public class WebhookStructsTest
     public void ShouldDeserializedAnswered_GivenStartTimeIsNull()
     {
         var deserializedEvent =
-            EventBase.ParseEvent(
+            (Answered) EventBase.ParseEvent(
                 File.ReadAllText("Data/Webhooks/ShouldDeserializedAnswered_GivenStartTimeIsNull.json"));
+        deserializedEvent.StartTime.Should().BeNull();
     }
 
     public class Foo
