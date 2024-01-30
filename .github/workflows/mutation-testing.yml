@@ -24,19 +24,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install Stryker
-        run: dotnet tool install -g dotnet-stryker
+        run: dotnet tool install -g dotnet-stryker --version 3.12.0
       - name: Run mutation testing
         run: |
           cd Vonage
-          dotnet stryker --reporter "dashboard" --dashboard-api-key "${{ secrets.STRYKER_API_KEY }}"
-  vonage-common:
-    name: Vonage.Common
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Stryker
-        run: dotnet tool install -g dotnet-stryker
-      - name: Run mutation testing
-        run: |
-          cd Vonage.Common
           dotnet stryker --reporter "dashboard" --dashboard-api-key "${{ secrets.STRYKER_API_KEY }}"

@@ -18,13 +18,14 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
     private const int PropertiesTypeMaxLength = 200;
 
     private readonly IEnumerable<HttpMethod> allowedMethods = new[] {HttpMethod.Get, HttpMethod.Post};
+    private readonly List<INumber> numbers = new();
     private Maybe<Callback> callback;
     private Maybe<Properties> properties;
     private Maybe<string> name;
     private Maybe<string> displayName;
     private Maybe<Uri> uri;
-    private readonly List<INumber> numbers = new();
 
+    /// <inheritdoc />
     public Result<CreateConversationRequest> Create() => Result<CreateConversationRequest>.FromSuccess(
             new CreateConversationRequest
             {
@@ -46,39 +47,45 @@ internal class CreateConversationRequestBuilder : IBuilderForOptional
             VerifyPropertiesCustomSortKeyLength,
             VerifyCallbackEventMaskLength));
 
+    /// <inheritdoc />
     public IBuilderForOptional WithCallback(Callback value)
     {
         this.callback = value;
         return this;
     }
 
+    /// <inheritdoc />
     public IBuilderForOptional WithDisplayName(string value)
     {
         this.displayName = value;
         return this;
     }
 
+    /// <inheritdoc />
     public IBuilderForOptional WithImageUrl(Uri value)
     {
         this.uri = value;
         return this;
     }
 
+    /// <inheritdoc />
     public IBuilderForOptional WithName(string value)
     {
         this.name = value;
         return this;
     }
 
-    public IBuilderForOptional WithProperties(Properties value)
-    {
-        this.properties = value;
-        return this;
-    }
-
+    /// <inheritdoc />
     public IBuilderForOptional WithNumber(INumber value)
     {
         this.numbers.Add(value);
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithProperties(Properties value)
+    {
+        this.properties = value;
         return this;
     }
 
@@ -166,16 +173,16 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateConversationR
     IBuilderForOptional WithName(string value);
 
     /// <summary>
-    /// Sets the Properties.
-    /// </summary>
-    /// <param name="value">The properties.</param>
-    /// <returns>The builder.</returns>
-    IBuilderForOptional WithProperties(Properties value);
-
-    /// <summary>
-    /// Set a Number to the conversation.
+    ///     Set a Number to the conversation.
     /// </summary>
     /// <param name="value">The number.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithNumber(INumber value);
+
+    /// <summary>
+    ///     Sets the Properties.
+    /// </summary>
+    /// <param name="value">The properties.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithProperties(Properties value);
 }

@@ -3,6 +3,10 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Conversations.CreateConversation;
 using Vonage.Conversations.DeleteConversation;
+using Vonage.Conversations.GetConversation;
+using Vonage.Conversations.GetConversations;
+using Vonage.Conversations.GetUserConversations;
+using Vonage.Conversations.UpdateConversation;
 using Vonage.Serialization;
 
 namespace Vonage.Conversations;
@@ -17,7 +21,7 @@ public interface IConversationsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
-    Task<Result<CreateConversationResponse>> CreateConversationAsync(Result<CreateConversationRequest> request);
+    Task<Result<Conversation>> CreateConversationAsync(Result<CreateConversationRequest> request);
 
     /// <summary>
     ///     Deletes a conversation.
@@ -25,6 +29,34 @@ public interface IConversationsClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Unit>> DeleteConversationAsync(Result<DeleteConversationRequest> request);
+
+    /// <summary>
+    ///     Retrieves a conversation.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Conversation>> GetConversationAsync(Result<GetConversationRequest> request);
+
+    /// <summary>
+    ///     Retrieves conversations.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetConversationsResponse>> GetConversationsAsync(Result<GetConversationsRequest> request);
+
+    /// <summary>
+    ///     Retrieves conversations for a user.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetUserConversationsResponse>> GetUserConversationsAsync(Result<GetUserConversationsRequest> request);
+
+    /// <summary>
+    ///     Updates a conversation.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Conversation>> UpdateConversationAsync(Result<UpdateConversationRequest> request);
 }
 
 internal class ConversationsClient : IConversationsClient
@@ -39,11 +71,28 @@ internal class ConversationsClient : IConversationsClient
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
-    public Task<Result<CreateConversationResponse>>
+    public Task<Result<Conversation>>
         CreateConversationAsync(Result<CreateConversationRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<CreateConversationRequest, CreateConversationResponse>(request);
+        this.vonageClient.SendWithResponseAsync<CreateConversationRequest, Conversation>(request);
 
     /// <inheritdoc />
     public Task<Result<Unit>> DeleteConversationAsync(Result<DeleteConversationRequest> request) =>
         this.vonageClient.SendAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Conversation>> GetConversationAsync(Result<GetConversationRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetConversationRequest, Conversation>(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetConversationsResponse>> GetConversationsAsync(Result<GetConversationsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetConversationsRequest, GetConversationsResponse>(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetUserConversationsResponse>> GetUserConversationsAsync(
+        Result<GetUserConversationsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetUserConversationsRequest, GetUserConversationsResponse>(request);
+
+    /// <inheritdoc />
+    public Task<Result<Conversation>> UpdateConversationAsync(Result<UpdateConversationRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<UpdateConversationRequest, Conversation>(request);
 }

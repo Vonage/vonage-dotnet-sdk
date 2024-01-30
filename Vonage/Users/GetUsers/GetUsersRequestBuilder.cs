@@ -6,12 +6,21 @@ namespace Vonage.Users.GetUsers;
 
 internal class GetUsersRequestBuilder : IBuilderForOptional
 {
-    private int pageSize = 10;
-    private FetchOrder order = FetchOrder.Ascending;
+    private readonly Maybe<string> cursor;
     private Maybe<string> name;
+    private FetchOrder order = FetchOrder.Ascending;
+    private int pageSize = 10;
+
+    internal GetUsersRequestBuilder(Maybe<string> cursor) => this.cursor = cursor;
 
     /// <inheritdoc />
-    public Result<GetUsersRequest> Create() => Result<GetUsersRequest>.FromSuccess(new GetUsersRequest(Maybe<string>.None, this.name, this.order, this.pageSize));
+    public Result<GetUsersRequest> Create() => Result<GetUsersRequest>.FromSuccess(new GetUsersRequest
+    {
+        Cursor = this.cursor,
+        PageSize = this.pageSize,
+        Order = this.order,
+        Name = this.name,
+    });
 
     /// <inheritdoc />
     public IBuilderForOptional WithName(string value)
