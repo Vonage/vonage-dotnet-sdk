@@ -9,9 +9,9 @@ namespace Vonage.Meetings.DeleteRecording;
 /// <summary>
 ///     Represents a request to delete a recording.
 /// </summary>
-public class Request : IVonageRequest
+public class DeleteRecordingRequest : IVonageRequest
 {
-    private Request(Guid recordingId) => this.RecordingId = recordingId;
+    private DeleteRecordingRequest(Guid recordingId) => this.RecordingId = recordingId;
 
     /// <summary>
     ///     The recording id.
@@ -32,12 +32,12 @@ public class Request : IVonageRequest
     /// </summary>
     /// <param name="recordingId">The recording id.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<Request> Parse(Guid recordingId) =>
-        Result<Request>
-            .FromSuccess(new Request(recordingId))
-            .Map(InputEvaluation<Request>.Evaluate)
+    public static Result<DeleteRecordingRequest> Parse(Guid recordingId) =>
+        Result<DeleteRecordingRequest>
+            .FromSuccess(new DeleteRecordingRequest(recordingId))
+            .Map(InputEvaluation<DeleteRecordingRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyRecordingId));
 
-    private static Result<Request> VerifyRecordingId(Request request) =>
+    private static Result<DeleteRecordingRequest> VerifyRecordingId(DeleteRecordingRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.RecordingId, nameof(RecordingId));
 }
