@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using Newtonsoft.Json;
 using Vonage.Voice.AnswerWebhooks;
 using Vonage.Voice.EventWebhooks;
@@ -382,6 +383,14 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), transferWebhook.TimeStamp);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", transferWebhook.Uuid);
+    }
+
+    [Fact]
+    public void ShouldDeserializedAnswered_GivenStartTimeIsNull()
+    {
+        var deserializedEvent =
+            EventBase.ParseEvent(
+                File.ReadAllText("Data/Webhooks/ShouldDeserializedAnswered_GivenStartTimeIsNull.json"));
     }
 
     public class Foo
