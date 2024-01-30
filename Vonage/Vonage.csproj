@@ -12,10 +12,10 @@
         <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-        <Version>6.14.0</Version>
+        <Version>6.15.0</Version>
         <PackageLicenseExpression/>
         <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
-        <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.14.0</PackageReleaseNotes>
+        <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.0</PackageReleaseNotes>
         <PackageTags>SMS voice telephony phone Vonage</PackageTags>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <NoWarn>701;1702;1572</NoWarn>
@@ -78,15 +78,6 @@
             <Pack>True</Pack>
             <PackagePath/>
         </None>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Vonage.Common\Vonage.Common.csproj" PrivateAssets="All"/>
-    </ItemGroup>
-    <ItemGroup>
-        <_PackageFiles Include="$(OutputPath)\Vonage.Common.dll">
-            <BuildAction>None</BuildAction>
-            <PackagePath>lib\netstandard2.0</PackagePath>
-        </_PackageFiles>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

@@ -47,10 +47,8 @@ jobs:
         run: dotnet-sonarscanner begin /k:"Vonage_vonage-dotnet-sdk" /o:"vonage" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
       - name: Build
         run: |
-          dotnet build --configuration Release .\Vonage.Common\Vonage.Common.csproj
           dotnet build --configuration Release .\Vonage\Vonage.csproj
-          dotnet build --configuration Release .\Vonage.Common.Test\Vonage.Common.Test.csproj -f net7.0
-          dotnet build --configuration Release .\Vonage.Test.Unit\Vonage.Test.Unit.csproj -f net7.0
+          dotnet build --configuration Release .\Vonage.Test\Vonage.Test.csproj -f net7.0
       - name: Test
         run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net7.0 --filter Category!=Integration' -f xml  -o 'coverage.xml'
       - name: End SonarScanner

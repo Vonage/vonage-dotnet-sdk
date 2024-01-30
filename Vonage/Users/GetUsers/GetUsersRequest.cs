@@ -15,36 +15,28 @@ public readonly struct GetUsersRequest : IVonageRequest
     ///     The cursor to start returning results from. You are not expected to provide this manually, but to follow the url
     ///     provided in _links.next.href or _links.prev.href in the response which contains a cursor value.
     /// </summary>
-    public Maybe<string> Cursor { get; }
+    public Maybe<string> Cursor { get; internal init; }
 
     /// <summary>
     ///     Unique name for a user
     /// </summary>
-    public Maybe<string> Name { get; }
+    public Maybe<string> Name { get; internal init; }
 
     /// <summary>
     ///     Defines the data ordering.
     /// </summary>
-    public FetchOrder Order { get; }
+    public FetchOrder Order { get; internal init; }
 
     /// <summary>
     ///     Number of results per page.
     /// </summary>
-    public int PageSize { get; }
-
-    internal GetUsersRequest(Maybe<string> cursor, Maybe<string> name, FetchOrder order, int pageSize)
-    {
-        this.Cursor = cursor;
-        this.Name = name;
-        this.Order = order;
-        this.PageSize = pageSize;
-    }
+    public int PageSize { get; internal init; }
 
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
-    public static IBuilderForOptional Build() => new GetUsersRequestBuilder();
+    public static IBuilderForOptional Build() => new GetUsersRequestBuilder(Maybe<string>.None);
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder

@@ -41,7 +41,7 @@ public record GetUsersHalLink(Uri Href)
     {
         var queryParameters = HttpUtility.ParseQueryString(this.Href.Query);
         var name = queryParameters["name"] ?? Maybe<string>.None;
-        var cursor = queryParameters["cursor"] ?? Maybe<string>.None;
+        var cursor = queryParameters["cursor"];
         var pageSize = queryParameters["page_size"];
         var order = queryParameters["order"];
         if (pageSize is null)
@@ -54,8 +54,11 @@ public record GetUsersHalLink(Uri Href)
             return Result<GetUsersRequest>.FromFailure(ResultFailure.FromErrorMessage("Order is missing from Uri."));
         }
 
-        return Result<GetUsersRequest>.FromSuccess(new GetUsersRequest(cursor, name,
-            Enums.Parse<FetchOrder>(order, false, EnumFormat.Description), int.Parse(pageSize)));
+        var builder = new GetUsersRequestBuilder(cursor)
+            .WithPageSize(int.Parse(pageSize))
+            .WithOrder(Enums.Parse<FetchOrder>(order, false, EnumFormat.Description));
+        name.IfSome(value => builder.WithName(value));
+        return builder.Create();
     }
 }
 

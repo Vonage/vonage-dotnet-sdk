@@ -19,9 +19,9 @@ using System.Runtime.InteropServices;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 #if(RELEASESIGNED)
-[assembly: InternalsVisibleTo("Vonage.Test.Unit, PublicKey=dc6dad05b9ecb75a")]
+[assembly: InternalsVisibleTo("Vonage.Test, PublicKey=dc6dad05b9ecb75a")]
 #else
-[assembly: InternalsVisibleTo("Vonage.Test.Unit")]
+[assembly: InternalsVisibleTo("Vonage.Test")]
 #endif
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM

@@ -1,5 +1,101 @@
 # Changelog
 
+## [v6.15.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.0) (2023-12-20)
+
+### Bug Fixes
+
+- Remove Vonage.Common from
+  workflows ([45b1d70](https://github.com/Vonage/vonage-dotnet-sdk/commit/45b1d70c8717095701444b2731d32b7a12d42357))
+
+- Broken test due to incompatible target-typed
+  new ([5ba9500](https://github.com/Vonage/vonage-dotnet-sdk/commit/5ba9500a92b254dc34f1dea1e0e7302697849ee1))
+
+### Documentation
+
+- Update
+  changelog ([b8d4a5f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b8d4a5ff01747f889d44da1ffd2a72355e7bbe4f))
+
+- Add migration guide for Video
+  API ([1b2bc1f](https://github.com/Vonage/vonage-dotnet-sdk/commit/1b2bc1f7dcedbbed92d4b282333258f41f807140))
+
+- Add missing header link in
+  migrations ([8af1d00](https://github.com/Vonage/vonage-dotnet-sdk/commit/8af1d0063cad4812e5ac40cbce9f8392563908d7))
+
+### Features
+
+- Extend support for
+  VideoTokenGenerator ([8716a7a](https://github.com/Vonage/vonage-dotnet-sdk/commit/8716a7a5ff97b9caa719646d8025d615ce7af1df))
+
+- Implement serialization for
+  CreateConversation ([a871912](https://github.com/Vonage/vonage-dotnet-sdk/commit/a8719129fe28d19ddb4ddc50e3d92aae2fc8391e))
+
+- Implement
+  CreateConversation ([d1e2d9e](https://github.com/Vonage/vonage-dotnet-sdk/commit/d1e2d9ee97d7d92b8e2132ef4a573140c895681a))
+
+- Add net8.0 as target-framework for test projects (
+  #560) ([3da8df5](https://github.com/Vonage/vonage-dotnet-sdk/commit/3da8df5a75492ad7be17118cda15545214fbbfa7))
+
+- Implement parsing for
+  DeleteConversation ([e36996a](https://github.com/Vonage/vonage-dotnet-sdk/commit/e36996ae4919f39b5d4263bf8c8c738d2f1dff41))
+
+- Implement
+  DeleteConversationRequest ([77cf0ce](https://github.com/Vonage/vonage-dotnet-sdk/commit/77cf0ce9d6543eff40386247e0d6cd29d7f85933))
+
+- Implement
+  DeleteConversation ([f4e1396](https://github.com/Vonage/vonage-dotnet-sdk/commit/f4e1396004c9b1c016166e9c85300074362c8208))
+
+- Implement
+  GetConversationRequest ([90cd652](https://github.com/Vonage/vonage-dotnet-sdk/commit/90cd652d1b71c5a021768ab8d404ac1ac5b285ca))
+
+- Implement serialization for
+  GetConversation ([2b29193](https://github.com/Vonage/vonage-dotnet-sdk/commit/2b29193544c054fe9dd974882b6a9c5080cd4c03))
+
+- Implement
+  GetConversation ([f890405](https://github.com/Vonage/vonage-dotnet-sdk/commit/f8904051dfdfab9805c6c354688ed9554e0191e9))
+
+- Implement builder for
+  GetConversations ([cee1ff6](https://github.com/Vonage/vonage-dotnet-sdk/commit/cee1ff6fc9a331904d82d23ce31069db6ebc91db))
+
+- Implement GetEndpointPath for
+  GetConversations ([1edd9e9](https://github.com/Vonage/vonage-dotnet-sdk/commit/1edd9e998b2ff9572a48a41ac60d61ac082beb88))
+
+- Implement serialization for
+  GetConversations ([e519ca9](https://github.com/Vonage/vonage-dotnet-sdk/commit/e519ca98338a9c8ec6e94d69be551257acdbc43a))
+
+- Implement
+  GetConversations ([d53529f](https://github.com/Vonage/vonage-dotnet-sdk/commit/d53529ff9734052873529be0a3bd5f6ea14041d3))
+
+- Implement BuildRequest on hal link for
+  GetConversations ([5008bd0](https://github.com/Vonage/vonage-dotnet-sdk/commit/5008bd0b69a05e6bf933db6757c3b299f1b85f87))
+
+- Implement request builder for
+  UpdateConversation ([46ff578](https://github.com/Vonage/vonage-dotnet-sdk/commit/46ff578d816df0a82eb2c0062eb28a40a961efe7))
+
+- Implement serialization for
+  UpdateConversation ([5c683e2](https://github.com/Vonage/vonage-dotnet-sdk/commit/5c683e251604fce6f002d4a13d0377f5a55b666e))
+
+- Implement request for
+  UpdateConversation ([53a7ee9](https://github.com/Vonage/vonage-dotnet-sdk/commit/53a7ee9d087f003c7fc86f66713eeb927b5e976a))
+
+- Implement
+  UpdateConversation ([e60d8de](https://github.com/Vonage/vonage-dotnet-sdk/commit/e60d8de6a978a598acb16b03ebe0365c53cac3c5))
+
+### Refactoring
+
+- Move Conversation to enable
+  reusability ([d6740d7](https://github.com/Vonage/vonage-dotnet-sdk/commit/d6740d7fcadc18e7ff3f6941725615052d4ded7d))
+
+- Remove Vonage.Common (
+  #562) ([93bba4b](https://github.com/Vonage/vonage-dotnet-sdk/commit/93bba4b35973e345638761d71ec46b2bfa435401))
+
+- Rename Vonage.Test.Unit into Vonage.Test (
+  #563) ([b9c565d](https://github.com/Vonage/vonage-dotnet-sdk/commit/b9c565df6cd288e931cb802dc33d9f68061c8259))
+
+### Releases
+
+- Bump version to
+  v6.15.0 ([e311974](https://github.com/Vonage/vonage-dotnet-sdk/commit/e31197412a2b203e62a4dbe5370bbbb229f33efd))
+
 ## [v6.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.14.0) (2023-12-11)
 
 ### Bug Fixes
@@ -72,6 +168,7 @@
 - Merge branch 'main' of https://github.com/Vonage/vonage-dotnet-sdk
   ([0573876](https://github.com/Vonage/vonage-dotnet-sdk/commit/057387692544222bc958c558c45bf44d4c0367d4))
 
+
 ### Pipelines
 
 - Make changelog workflow dispatch
@@ -99,6 +196,7 @@
 
 This reverts commit aa6a2d1bd9b2b58bee0bc1833142f9978993df1f.
 ([3a39d06](https://github.com/Vonage/vonage-dotnet-sdk/commit/3a39d06200340c7a71623a872e576841c04a327d))
+
 
 ## [v6.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.13.0) (2023-12-01)
 
@@ -499,7 +597,8 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Fix some build warnings (#525) ([ab9e28d](https://github.com/Vonage/vonage-dotnet-sdk/commit/ab9e28d7c49c4d417c3bae4500ef06147694e919))
 
-- Restore tests parallelism for Vonage.Test.Unit (#526) ([9d5239e](https://github.com/Vonage/vonage-dotnet-sdk/commit/9d5239e40fb7b7d20d91047a3ea1bbc7d3f01b11))
+- Restore tests parallelism for Vonage.Test.Unit (
+  #526) ([9d5239e](https://github.com/Vonage/vonage-dotnet-sdk/commit/9d5239e40fb7b7d20d91047a3ea1bbc7d3f01b11))
 
 
 ### Refactoring
@@ -528,7 +627,8 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Remove obsolete method on TestBase (#521) ([5fa633d](https://github.com/Vonage/vonage-dotnet-sdk/commit/5fa633de67cc97e184abea1f59688ee8de497c82))
 
-- Enable parallelized tests on Vonage.Test.Unit (#522) ([0ed7896](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ed7896ffc3c00c109e39ced4e741451cfdf2fb2))
+- Enable parallelized tests on Vonage.Test.Unit (
+  #522) ([0ed7896](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ed7896ffc3c00c109e39ced4e741451cfdf2fb2))
 
 - Update TestBase (#523) ([88a198d](https://github.com/Vonage/vonage-dotnet-sdk/commit/88a198deed03822261efb2e76d49f17f53188730))
 
@@ -1467,7 +1567,8 @@ Co-authored-by: NexmoDev <44278943+NexmoDev@users.noreply.github.com> ([87296e3]
 
 * Reduce duplication when testing the success scenario
 
-* Remove netcoreapp3.1 from Vonage.Test.Unit ([dcb6ce9](https://github.com/Vonage/vonage-dotnet-sdk/commit/dcb6ce9078fb89c1093f409ef7b6e0c959dc9bbf))
+* Remove netcoreapp3.1 from
+  Vonage.Test.Unit ([dcb6ce9](https://github.com/Vonage/vonage-dotnet-sdk/commit/dcb6ce9078fb89c1093f409ef7b6e0c959dc9bbf))
 
 - Use builder for HttpRequestMessage (#337)
 

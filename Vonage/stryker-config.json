@@ -9,7 +9,7 @@
     },
     "test-projects": 
     [
-      "../Vonage.Test.Unit/Vonage.Test.Unit.csproj"
+      "../Vonage.Test/Vonage.Test.csproj"
     ]
   }
 }
