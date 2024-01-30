@@ -41,7 +41,8 @@ public class SerializationTest
                     DateTimeOffset.Parse("2019-09-03T18:40:24.324Z", CultureInfo.InvariantCulture)),
                 Maybe<Properties>.None,
                 new Links(new HalLink(new Uri(
-                    "https://api.nexmo.com/v1/conversations/CON-d66d47de-5bcb-4300-94f0-0c9d4b948e9a")))),
+                    "https://api.nexmo.com/v1/conversations/CON-d66d47de-5bcb-4300-94f0-0c9d4b948e9a"))),
+                Maybe<EmbeddedData>.None),
         });
         response.Links.First.Href.Should()
             .Be(new Uri("https://api.nexmo.com/v1/conversations?order=desc&page_size=10"));

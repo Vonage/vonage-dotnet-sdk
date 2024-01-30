@@ -1,12 +1,30 @@
 ﻿using System;
 using System.Globalization;
+using System.Text.Json.Serialization;
 using System.Web;
 using EnumsNET;
+using Vonage.Common;
 using Vonage.Common.Monads;
+using Vonage.Conversations.GetConversations;
 
 namespace Vonage.Conversations.GetUserConversations;
 
-public record GetUserConversationsRequestResponse;
+public record GetUserConversationsResponse(
+    [property: JsonPropertyName("page_size")]
+    [property: JsonPropertyOrder(0)]
+    int PageSize,
+    [property: JsonPropertyName("_embedded")]
+    [property: JsonPropertyOrder(1)]
+    EmbeddedConversations Embedded,
+    [property: JsonPropertyName("_links")]
+    [property: JsonPropertyOrder(2)]
+    HalLinks<GetConversationsHalLink> Links);
+
+/// <summary>
+///     Represents a list of conversations.
+/// </summary>
+/// <param name="Conversations">List of conversations matching the provided filter.</param>
+public record EmbeddedConversations(Conversation[] Conversations);
 
 /// <summary>
 ///     Represents a link to another resource.

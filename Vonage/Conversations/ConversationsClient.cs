@@ -5,6 +5,7 @@ using Vonage.Conversations.CreateConversation;
 using Vonage.Conversations.DeleteConversation;
 using Vonage.Conversations.GetConversation;
 using Vonage.Conversations.GetConversations;
+using Vonage.Conversations.GetUserConversations;
 using Vonage.Conversations.UpdateConversation;
 using Vonage.Serialization;
 
@@ -44,6 +45,13 @@ public interface IConversationsClient
     Task<Result<GetConversationsResponse>> GetConversationsAsync(Result<GetConversationsRequest> request);
 
     /// <summary>
+    ///     Retrieves conversations for a user.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetUserConversationsResponse>> GetUserConversationsAsync(Result<GetUserConversationsRequest> request);
+
+    /// <summary>
     ///     Updates a conversation.
     /// </summary>
     /// <param name="request">The request.</param>
@@ -78,6 +86,11 @@ internal class ConversationsClient : IConversationsClient
     /// <inheritdoc />
     public Task<Result<GetConversationsResponse>> GetConversationsAsync(Result<GetConversationsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetConversationsRequest, GetConversationsResponse>(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetUserConversationsResponse>> GetUserConversationsAsync(
+        Result<GetUserConversationsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetUserConversationsRequest, GetUserConversationsResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<Conversation>> UpdateConversationAsync(Result<UpdateConversationRequest> request) =>

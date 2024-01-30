@@ -14,7 +14,9 @@ namespace Vonage.Conversations.GetUserConversations;
 public readonly struct GetUserConversationsRequest : IVonageRequest
 {
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => throw new NotImplementedException();
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Get, this.GetEndpointPath())
+        .Build();
 
     /// <inheritdoc />
     public string GetEndpointPath() =>

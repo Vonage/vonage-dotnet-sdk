@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Monads;
@@ -31,7 +32,10 @@ public record Conversation(
     Timestamp Timestamp,
     [property: JsonConverter(typeof(MaybeJsonConverter<Properties>))]
     Maybe<Properties> Properties,
-    [property: JsonPropertyName("_links")] Links Links);
+    [property: JsonPropertyName("_links")] Links Links,
+    [property: JsonPropertyName("_embedded")]
+    [property: JsonConverter(typeof(MaybeJsonConverter<EmbeddedData>))]
+    Maybe<EmbeddedData> Embedded);
 
 /// <summary>
 ///     Represents the conversation history
@@ -72,3 +76,38 @@ public record Properties(
     [property: JsonPropertyName("custom_data")]
     [property: JsonPropertyOrder(3)]
     Dictionary<string, string> CustomData);
+
+/// <summary>
+///     Represents the conversation's embedded data.
+/// </summary>
+/// <param name="MemberId">The Member Id.</param>
+/// <param name="MemberState">The state that the member is in.</param>
+public record EmbeddedData(
+    [property: JsonPropertyName("id")]
+    [property: JsonPropertyOrder(0)]
+    string MemberId,
+    [property: JsonPropertyName("state")]
+    [property: JsonPropertyOrder(1)]
+    [property: JsonConverter(typeof(EnumDescriptionJsonConverter<MemberState>))]
+    MemberState MemberState);
+
+/// <summary>
+/// </summary>
+public enum MemberState
+{
+    /// <summary>
+    /// </summary>
+    [Description("UNKNOWN")] Unknown,
+
+    /// <summary>
+    /// </summary>
+    [Description("INVITED")] Invited,
+
+    /// <summary>
+    /// </summary>
+    [Description("JOINED")] Joined,
+
+    /// <summary>
+    /// </summary>
+    [Description("LEFT")] Left,
+}
