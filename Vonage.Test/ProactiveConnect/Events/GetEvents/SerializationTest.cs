@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Vonage.Test.ProactiveConnect.Events.GetEvents;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper;

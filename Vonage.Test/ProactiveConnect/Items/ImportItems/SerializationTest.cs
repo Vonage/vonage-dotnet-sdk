@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Vonage.Test.ProactiveConnect.Items.ImportItems;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper;

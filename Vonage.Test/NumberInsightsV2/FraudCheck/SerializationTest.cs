@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Vonage.Test.NumberInsightsV2.FraudCheck;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

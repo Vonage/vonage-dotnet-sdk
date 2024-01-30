@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Broadcast.GetBroadcast;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper;

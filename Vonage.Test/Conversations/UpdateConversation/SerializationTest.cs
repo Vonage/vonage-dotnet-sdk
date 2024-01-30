@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Vonage.Test.Conversations.UpdateConversation;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

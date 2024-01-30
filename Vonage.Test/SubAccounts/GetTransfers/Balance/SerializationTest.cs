@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Vonage.Test.SubAccounts.GetTransfers.Balance;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper;

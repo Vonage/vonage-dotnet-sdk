@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Sessions.GetStreams;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper;

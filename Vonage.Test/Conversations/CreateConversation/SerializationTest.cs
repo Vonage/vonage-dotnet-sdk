@@ -12,6 +12,7 @@ using PhoneNumber = Vonage.Conversations.PhoneNumber;
 
 namespace Vonage.Test.Conversations.CreateConversation;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

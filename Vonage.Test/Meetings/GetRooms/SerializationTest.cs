@@ -9,6 +9,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.GetRooms;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper;

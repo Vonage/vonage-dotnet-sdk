@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.VerifyV2.VerifyCode;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper;

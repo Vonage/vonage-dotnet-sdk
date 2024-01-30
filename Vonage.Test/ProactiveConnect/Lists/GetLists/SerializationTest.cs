@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Vonage.Test.ProactiveConnect.Lists.GetLists;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper;

@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Vonage.Test.Meetings.UpdateThemeLogo;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper;

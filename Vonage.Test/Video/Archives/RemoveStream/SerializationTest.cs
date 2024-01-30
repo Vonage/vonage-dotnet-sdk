@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Vonage.Test.Video.Archives.RemoveStream;
 
+[Trait("Category", "Serialization")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(
