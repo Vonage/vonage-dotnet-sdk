@@ -14,11 +14,6 @@ public class NumbersClient : INumbersClient
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
     /// <summary>
-    ///     Gets or sets credentials to be used in further requests.
-    /// </summary>
-    public Credentials Credentials { get; set; }
-
-    /// <summary>
     ///     Constructor for NumbersClients.
     /// </summary>
     /// <param name="credentials">Credentials to be used in further requests.</param>
@@ -35,6 +30,11 @@ public class NumbersClient : INumbersClient
         this.timeProvider = timeProvider;
     }
 
+    /// <summary>
+    ///     Gets or sets credentials to be used in further requests.
+    /// </summary>
+    public Credentials Credentials { get; set; }
+
     /// <inheritdoc />
     [Obsolete("Favor asynchronous version instead.")]
     public NumberTransactionResponse BuyANumber(NumberTransactionRequest request, Credentials creds = null)
@@ -42,7 +42,7 @@ public class NumbersClient : INumbersClient
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                    this.configuration, $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
                 false
             );
@@ -57,7 +57,7 @@ public class NumbersClient : INumbersClient
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                    this.configuration, $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
                 false
             );
@@ -72,7 +72,7 @@ public class NumbersClient : INumbersClient
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                    this.configuration, $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
                 false
             );
@@ -87,7 +87,7 @@ public class NumbersClient : INumbersClient
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                    this.configuration, $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
                 false
             );
@@ -100,7 +100,7 @@ public class NumbersClient : INumbersClient
     public NumbersSearchResponse GetAvailableNumbers(NumberSearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<NumbersSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/number/search"),
                 AuthType.Query,
                 request
             );
@@ -110,7 +110,7 @@ public class NumbersClient : INumbersClient
         Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/number/search"),
                 AuthType.Query,
                 request
             );
@@ -120,7 +120,7 @@ public class NumbersClient : INumbersClient
     public NumbersSearchResponse GetOwnedNumbers(NumberSearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<NumbersSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/account/numbers"),
                 AuthType.Query,
                 request
             );
@@ -130,7 +130,7 @@ public class NumbersClient : INumbersClient
         GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/account/numbers"),
                 AuthType.Query,
                 request
             );
@@ -142,7 +142,8 @@ public class NumbersClient : INumbersClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContent<NumberTransferResponse>(
                 HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+                    $"/accounts/{apiKey}/transfer-number"),
                 request,
                 AuthType.Basic
             );
@@ -153,7 +154,8 @@ public class NumbersClient : INumbersClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<NumberTransferResponse>(
                 HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+                    $"/accounts/{apiKey}/transfer-number"),
                 request,
                 AuthType.Basic
             );
@@ -165,7 +167,7 @@ public class NumbersClient : INumbersClient
         var response = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObject<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                    this.configuration, $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
                 false
             );
@@ -180,7 +182,7 @@ public class NumbersClient : INumbersClient
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                    this.configuration, $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
                 request,
                 false
             );

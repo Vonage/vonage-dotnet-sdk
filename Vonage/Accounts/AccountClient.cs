@@ -10,7 +10,6 @@ public class AccountClient : IAccountClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
-    public Credentials Credentials { get; set; }
 
     public AccountClient(Credentials creds = null)
     {
@@ -25,13 +24,15 @@ public class AccountClient : IAccountClient
         this.timeProvider = timeProvider;
     }
 
+    public Credentials Credentials { get; set; }
+
     /// <inheritdoc/>
     [Obsolete("Favor asynchronous version instead.")]
     public AccountSettingsResult ChangeAccountSettings(AccountSettingsRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObject<AccountSettingsResult>
             (
-                ApiRequest.GetBaseUriFor("/account/settings"),
+                ApiRequest.GetBaseUriFor(this.configuration, "/account/settings"),
                 request
             );
 
@@ -41,7 +42,7 @@ public class AccountClient : IAccountClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<AccountSettingsResult>
             (
-                ApiRequest.GetBaseUriFor("/account/settings"),
+                ApiRequest.GetBaseUriFor(this.configuration, "/account/settings"),
                 request
             );
 
@@ -51,7 +52,7 @@ public class AccountClient : IAccountClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContent<Secret>(
                 HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"/accounts/{apiKey}/secrets"),
                 request,
                 AuthType.Basic
             );
@@ -62,7 +63,7 @@ public class AccountClient : IAccountClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<Secret>(
                 HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"/accounts/{apiKey}/secrets"),
                 request,
                 AuthType.Basic
             );
@@ -77,7 +78,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContent<SubAccount>(
                 HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"/accounts/{accountId}/subaccounts"),
                 request,
                 AuthType.Basic
             );
@@ -93,7 +94,7 @@ public class AccountClient : IAccountClient
         return ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<SubAccount>(
                 HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"/accounts/{accountId}/subaccounts"),
                 request,
                 AuthType.Basic
             );
@@ -104,14 +105,14 @@ public class AccountClient : IAccountClient
     public Balance GetAccountBalance(Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<Balance>(
-                ApiRequest.GetBaseUriFor("/account/get-balance"),
+                ApiRequest.GetBaseUriFor(this.configuration, "/account/get-balance"),
                 AuthType.Query);
 
     /// <inheritdoc/>
     public Task<Balance> GetAccountBalanceAsync(Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<Balance>(
-                ApiRequest.GetBaseUriFor("/account/get-balance"),
+                ApiRequest.GetBaseUriFor(this.configuration, "/account/get-balance"),
                 AuthType.Query);
 
     /// <inheritdoc/>
@@ -119,7 +120,8 @@ public class AccountClient : IAccountClient
     public Secret RetrieveApiSecret(string secretId, string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<Secret>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+                    $"/accounts/{apiKey}/secrets/{secretId}"),
                 AuthType.Basic
             );
 
@@ -127,7 +129,8 @@ public class AccountClient : IAccountClient
     public Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<Secret>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+                    $"/accounts/{apiKey}/secrets/{secretId}"),
                 AuthType.Basic
             );
 
@@ -136,7 +139,7 @@ public class AccountClient : IAccountClient
     public SecretsRequestResult RetrieveApiSecrets(string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<SecretsRequestResult>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"/accounts/{apiKey}/secrets"),
                 AuthType.Basic
             );
 
@@ -144,7 +147,7 @@ public class AccountClient : IAccountClient
     public Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey = null, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<SecretsRequestResult>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"/accounts/{apiKey}/secrets"),
                 AuthType.Basic
             );
 
@@ -156,7 +159,8 @@ public class AccountClient : IAccountClient
         var accountId = apiKey ?? credentials.ApiKey;
         return ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<SubAccount>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts/{subAccountKey}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+                    $"/accounts/{accountId}/subaccounts/{subAccountKey}"),
                 AuthType.Basic
             );
     }
@@ -170,7 +174,8 @@ public class AccountClient : IAccountClient
         var accountId = apiKey ?? credentials.ApiKey;
         return ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<SubAccount>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{accountId}/subaccounts/{subAccountKey}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+                    $"/accounts/{accountId}/subaccounts/{subAccountKey}"),
                 AuthType.Basic
             );
     }
@@ -181,7 +186,8 @@ public class AccountClient : IAccountClient
     {
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoDeleteRequestWithUrlContent(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+                    $"/accounts/{apiKey}/secrets/{secretId}"),
                 null,
                 AuthType.Basic
             );
@@ -193,7 +199,8 @@ public class AccountClient : IAccountClient
     {
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoDeleteRequestWithUrlContentAsync(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets/{secretId}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+                    $"/accounts/{apiKey}/secrets/{secretId}"),
                 null,
                 AuthType.Basic
             );
@@ -205,7 +212,7 @@ public class AccountClient : IAccountClient
     public TopUpResult TopUpAccountBalance(TopUpRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<TopUpResult>(
-                ApiRequest.GetBaseUriFor("/account/top-up"),
+                ApiRequest.GetBaseUriFor(this.configuration, "/account/top-up"),
                 AuthType.Query,
                 request
             );
@@ -214,7 +221,7 @@ public class AccountClient : IAccountClient
     public Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<TopUpResult>(
-                ApiRequest.GetBaseUriFor("/account/top-up"),
+                ApiRequest.GetBaseUriFor(this.configuration, "/account/top-up"),
                 AuthType.Query,
                 request
             );
