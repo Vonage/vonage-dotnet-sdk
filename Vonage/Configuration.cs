@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net.Http;
+using EnumsNET;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Vonage.Common.Monads;
@@ -15,7 +17,9 @@ namespace Vonage;
 /// </summary>
 public sealed class Configuration
 {
-    private const string DefaultEuropeApiUrl = "https://api-eu.vonage.com";
+    private const string DefaultApiUrlApac = "https://api-ap.vonage.com";
+    private const string DefaultApiUrlEu = "https://api-eu.vonage.com";
+    private const string DefaultApiUrlUs = "https://api-us.vonage.com";
     private const string DefaultNexmoApiUrl = "https://api.nexmo.com";
     private const string DefaultRestApiUrl = "https://rest.nexmo.com";
     private const string DefaultVideoApiUrl = "https://video.api.vonage.com";
@@ -80,14 +84,13 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Europe Api Url.
     /// </summary>
-    public Uri EuropeApiUrl => this.Settings["appSettings:Vonage.Url.Api.Europe"] is null
-        ? new Uri(DefaultEuropeApiUrl)
-        : new Uri(this.Settings["appSettings:Vonage.Url.Api.Europe"]);
+    [Obsolete("Favor the Urls property instead.")]
+    public Uri EuropeApiUrl => this.FetchApiUrlEurope();
 
     /// <summary>
     ///     Retrieves the unique instance (Singleton).
     /// </summary>
-    public static Configuration Instance { get; } = new();
+    public static Configuration Instance { get; } = new Configuration();
 
     /// <summary>
     ///     Retrieves the Nexmo Api Url.
@@ -138,6 +141,11 @@ public sealed class Configuration
         ? new Uri(DefaultVideoApiUrl)
         : new Uri(this.Settings["appSettings:Vonage.Url.Api.Video"]);
 
+    /// <summary>
+    ///     Provide urls to all Vonage APIs.
+    /// </summary>
+    public VonageUrls VonageUrls => VonageUrls.FromConfiguration(this.Settings);
+
     internal Configuration()
     {
         var builder = new ConfigurationBuilder()
@@ -145,7 +153,9 @@ public sealed class Configuration
             {
                 {"appSettings:Vonage.Url.Rest", DefaultRestApiUrl},
                 {"appSettings:Vonage.Url.Api", DefaultNexmoApiUrl},
-                {"appSettings:Vonage.Url.Api.Europe", DefaultEuropeApiUrl},
+                {"appSettings:Vonage.Url.Api.Europe", DefaultApiUrlEu},
+                {"appSettings:Vonage.Url.Api.US", DefaultApiUrlUs},
+                {"appSettings:Vonage.Url.Api.APAC", DefaultApiUrlApac},
                 {"appSettings:Vonage.Url.Api.Video", DefaultVideoApiUrl},
                 {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
             })
@@ -159,26 +169,27 @@ public sealed class Configuration
     ///     Builds a Credentials from the current Configuration.
     /// </summary>
     /// <returns>The Credentials.</returns>
-    public Credentials BuildCredentials() => new()
-    {
-        ApiKey = this.ApiKey,
-        ApiSecret = this.ApiSecret,
-        ApplicationId = this.ApplicationId,
-        ApplicationKey = this.ApplicationKey,
-        SecuritySecret = this.SecuritySecret,
-        AppUserAgent = this.UserAgent,
-        Method = Enum.TryParse(this.SigningMethod,
-            out SmsSignatureGenerator.Method result)
-            ? result
-            : default,
-    };
+    public Credentials BuildCredentials() =>
+        new Credentials
+        {
+            ApiKey = this.ApiKey,
+            ApiSecret = this.ApiSecret,
+            ApplicationId = this.ApplicationId,
+            ApplicationKey = this.ApplicationKey,
+            SecuritySecret = this.SecuritySecret,
+            AppUserAgent = this.UserAgent,
+            Method = Enum.TryParse(this.SigningMethod,
+                out SmsSignatureGenerator.Method result)
+                ? result
+                : default,
+        };
 
     /// <summary>
     ///     Builds a Configuration from an IConfiguration.
     /// </summary>
     /// <param name="configuration">The configuration properties.</param>
     /// <returns>The Configuration.</returns>
-    public static Configuration FromConfiguration(IConfiguration configuration) => new(configuration);
+    public static Configuration FromConfiguration(IConfiguration configuration) => new Configuration(configuration);
 
     private HttpClient BuildDefaultClient() =>
         this.ClientHandler == null
@@ -191,6 +202,11 @@ public sealed class Configuration
         var execTimeSpanSemaphore = new TimeSpanSemaphore(1, TimeSpan.FromSeconds(delay));
         return execTimeSpanSemaphore;
     }
+
+    private Uri FetchApiUrlEurope() =>
+        this.Settings["appSettings:Vonage.Url.Api.Europe"] is null
+            ? new Uri(DefaultApiUrlEu)
+            : new Uri(this.Settings["appSettings:Vonage.Url.Api.Europe"]);
 
     private ThrottlingMessageHandler GetThrottlingMessageHandler(TimeSpanSemaphore semaphore) =>
         this.ClientHandler != null
@@ -225,5 +241,83 @@ public sealed class Configuration
         {
             logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
         }
+    }
+}
+
+/// <summary>
+///     Represents Vonage API Urls.
+/// </summary>
+public readonly struct VonageUrls
+{
+    private const string DefaultApiUrlApac = "https://api-ap.vonage.com";
+    private const string DefaultApiUrlEu = "https://api-eu.vonage.com";
+    private const string DefaultApiUrlUs = "https://api-us.vonage.com";
+    private const string DefaultNexmoApiUrl = "https://api.nexmo.com";
+    private const string DefaultRestApiUrl = "https://rest.nexmo.com";
+    private const string DefaultVideoApiUrl = "https://video.api.vonage.com";
+    private const string NexmoApiKey = "appSettings:Vonage.Url.Api";
+    private const string NexmoRestKey = "appSettings:Vonage.Url.Rest";
+    private const string VideoApiKey = "appSettings:Vonage.Url.Api.Video";
+
+    private readonly Dictionary<Region, string> regions = new Dictionary<Region, string>
+    {
+        {Region.US, DefaultApiUrlUs},
+        {Region.EU, DefaultApiUrlEu},
+        {Region.APAC, DefaultApiUrlApac},
+    };
+
+    private readonly IConfiguration configuration;
+
+    private VonageUrls(IConfiguration configuration) => this.configuration = configuration;
+
+    /// <summary>
+    ///     The Nexmo Api Url.
+    /// </summary>
+    public Uri Nexmo => this.Evaluate(NexmoApiKey, DefaultNexmoApiUrl);
+
+    /// <summary>
+    ///     The Nexmo REST Url.
+    /// </summary>
+    public Uri Rest => this.Evaluate(NexmoRestKey, DefaultRestApiUrl);
+
+    /// <summary>
+    ///     The Video Api Url.
+    /// </summary>
+    public Uri Video => this.Evaluate(VideoApiKey, DefaultVideoApiUrl);
+
+    /// <summary>
+    ///     Creates a set of urls from configuration.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns>A set of Urls.</returns>
+    public static VonageUrls FromConfiguration(IConfiguration configuration) => new VonageUrls(configuration);
+
+    /// <summary>
+    ///     Retrieves a region-specific Url.
+    /// </summary>
+    /// <param name="region">The selected region.</param>
+    /// <returns>The Url.</returns>
+    public Uri Get(Region region) =>
+        this.Evaluate(string.Concat(NexmoApiKey, ".", region.AsString(EnumFormat.Description)), this.regions[region]);
+
+    private Uri Evaluate(string key, string defaultValue) => this.configuration[key] is null
+        ? new Uri(defaultValue)
+        : new Uri(this.configuration[key]);
+
+    /// <summary>
+    /// </summary>
+    public enum Region
+    {
+        /// <summary>
+        /// </summary>
+        [Description("Us")] US,
+
+        /// <summary>
+        /// </summary>
+        [Description("Eu")] EU,
+
+        /// <summary>
+        /// </summary>
+        [Description("Apac")] APAC,
     }
 }
