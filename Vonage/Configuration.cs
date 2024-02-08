@@ -78,7 +78,7 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Europe Api Url.
     /// </summary>
-    [Obsolete("Favor the Urls property instead.")]
+    [Obsolete("Favor the VonageUrls property instead.")]
     public Uri EuropeApiUrl => this.FetchApiUrlEurope();
 
     /// <summary>
@@ -89,6 +89,7 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Nexmo Api Url.
     /// </summary>
+    [Obsolete("Favor the VonageUrls property instead.")]
     public Uri NexmoApiUrl => this.Settings["appSettings:Vonage.Url.Api"] is null
         ? this.VonageUrls.Nexmo
         : new Uri(this.Settings["appSettings:Vonage.Url.Api"]);
@@ -104,6 +105,7 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Rest Api Url.
     /// </summary>
+    [Obsolete("Favor the VonageUrls property instead.")]
     public Uri RestApiUrl => this.Settings["appSettings:Vonage.Url.Rest"] is null
         ? this.VonageUrls.Rest
         : new Uri(this.Settings["appSettings:Vonage.Url.Rest"]);
@@ -131,6 +133,7 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the Video Api Url.
     /// </summary>
+    [Obsolete("Favor the VonageUrls property instead.")]
     public Uri VideoApiUrl => this.Settings["appSettings:Vonage.Url.Api.Video"] is null
         ? this.VonageUrls.Video
         : new Uri(this.Settings["appSettings:Vonage.Url.Api.Video"]);
