@@ -17,12 +17,6 @@ namespace Vonage;
 /// </summary>
 public sealed class Configuration
 {
-    private const string DefaultApiUrlApac = "https://api-ap.vonage.com";
-    private const string DefaultApiUrlEu = "https://api-eu.vonage.com";
-    private const string DefaultApiUrlUs = "https://api-us.vonage.com";
-    private const string DefaultNexmoApiUrl = "https://api.nexmo.com";
-    private const string DefaultRestApiUrl = "https://rest.nexmo.com";
-    private const string DefaultVideoApiUrl = "https://video.api.vonage.com";
     private const string LoggerCategory = "Vonage.Configuration";
 
     private static Maybe<double> RequestsPerSecond =>
@@ -96,7 +90,7 @@ public sealed class Configuration
     ///     Retrieves the Nexmo Api Url.
     /// </summary>
     public Uri NexmoApiUrl => this.Settings["appSettings:Vonage.Url.Api"] is null
-        ? new Uri(DefaultNexmoApiUrl)
+        ? this.VonageUrls.Nexmo
         : new Uri(this.Settings["appSettings:Vonage.Url.Api"]);
 
     /// <summary>
@@ -111,7 +105,7 @@ public sealed class Configuration
     ///     Retrieves the Rest Api Url.
     /// </summary>
     public Uri RestApiUrl => this.Settings["appSettings:Vonage.Url.Rest"] is null
-        ? new Uri(DefaultRestApiUrl)
+        ? this.VonageUrls.Rest
         : new Uri(this.Settings["appSettings:Vonage.Url.Rest"]);
 
     /// <summary>
@@ -138,7 +132,7 @@ public sealed class Configuration
     ///     Retrieves the Video Api Url.
     /// </summary>
     public Uri VideoApiUrl => this.Settings["appSettings:Vonage.Url.Api.Video"] is null
-        ? new Uri(DefaultVideoApiUrl)
+        ? this.VonageUrls.Video
         : new Uri(this.Settings["appSettings:Vonage.Url.Api.Video"]);
 
     /// <summary>
@@ -151,12 +145,6 @@ public sealed class Configuration
         var builder = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
             {
-                {"appSettings:Vonage.Url.Rest", DefaultRestApiUrl},
-                {"appSettings:Vonage.Url.Api", DefaultNexmoApiUrl},
-                {"appSettings:Vonage.Url.Api.Europe", DefaultApiUrlEu},
-                {"appSettings:Vonage.Url.Api.US", DefaultApiUrlUs},
-                {"appSettings:Vonage.Url.Api.APAC", DefaultApiUrlApac},
-                {"appSettings:Vonage.Url.Api.Video", DefaultVideoApiUrl},
                 {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
             })
             .AddJsonFile("settings.json", true, true)
@@ -205,7 +193,7 @@ public sealed class Configuration
 
     private Uri FetchApiUrlEurope() =>
         this.Settings["appSettings:Vonage.Url.Api.Europe"] is null
-            ? new Uri(DefaultApiUrlEu)
+            ? this.VonageUrls.Get(VonageUrls.Region.EU)
             : new Uri(this.Settings["appSettings:Vonage.Url.Api.Europe"]);
 
     private ThrottlingMessageHandler GetThrottlingMessageHandler(TimeSpanSemaphore semaphore) =>
