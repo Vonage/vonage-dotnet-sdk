@@ -93,13 +93,17 @@ Changes in version 7.0.0
       parameter will remain in order to avoid primitive obsession, and rely on a proper ValueObject.
     * Constructors on `Credentials`: Creating a Credentials instance should be done by a factory method or from a
       Configuration instance. Constructors will be hidden and the object will remain immutable.
-  * Access to Vonage URLs: All URLs have been moved to a nested object (`VonageUrls`) to "de-bloat" the `Configuration`
-    class, and allow multi-region URLs.
+  * Access to Vonage URLs: All URLs have been moved to a nested object (`VonageUrls`) to "de-bloat"
+    the `Configuration`
+    class, and allow multi-region URLs - [link](https://github.com/Vonage/vonage-dotnet-sdk/issues/569)
 * Add new timeouts on Voice Webhooks in Application
   API - [Pull Request](https://github.com/Vonage/vonage-dotnet-sdk/pull/548): Adding new timeouts requested to break
   inheritance and create a specific structure.
 * Rename settings key from `appsettings` to `vonage`: In order to make the settings more explicit and reduce chances
   of conflict with other libraries, the base key needs to be updated.
+* Make StartTime nullable on Answered Webhook - [link](https://github.com/Vonage/vonage-dotnet-sdk/issues/569).
+* Remove `EventUrl` and `EventMethod` from `ConversationAction` to comply with
+  the [documentation](https://developer.vonage.com/en/voice/voice-api/ncco-reference#conversation).
 
 #### Upgrading from v5.x.x to v6.0.0
 
@@ -112,12 +116,14 @@ Changes in version 6.0.0
 
 ### Migrating from OpenTok for Video API
 
-If you are migrating from the OpenTok .NET SDK to the Vonage .NET SDK, please see the dedicated [migration guide](OPENTOK_TO_VONAGE_MIGRATION.md).
+If you are migrating from the OpenTok .NET SDK to the Vonage .NET SDK, please see the
+dedicated [migration guide](OPENTOK_TO_VONAGE_MIGRATION.md).
 
 ### Targeted frameworks
 
 The SDK targets towards `netstandard2.0`.
-It is compatible with any .NET projects targeting a [supported version](https://learn.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0).
+It is compatible with any .NET projects targeting
+a [supported version](https://learn.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0).
 
 ### Tested frameworks
 
@@ -138,7 +144,8 @@ Nonetheless, it doesn't compromise our test results nor the compatibility with `
 
 There are various ways to initialize a `VonageClient` with your custom values.
 
-Overall, we encourage you to specify your configuration (Vonage URLs, credentials, etc.) in `appsettings.json`, in an `appsettings` section:
+Overall, we encourage you to specify your configuration (Vonage URLs, credentials, etc.) in `appsettings.json`, in
+an `appsettings` section:
 
 ```json
 {
@@ -163,8 +170,9 @@ The configuration is automatically loaded in the `Configuration` singleton.
 
 #### Lazy registration (recommended for .NET Core and above)
 
-> Note: This implementation is not available for .NET Framework usages, given IConfiguration has been introduced in .NET Core. 
- 
+> Note: This implementation is not available for .NET Framework usages, given IConfiguration has been introduced in .NET
+> Core.
+
 You can register a client in your `IServiceCollection` using the following extension methods:
 
 - `AddVonageClientScoped`: registers using Scoped registration.
@@ -177,7 +185,8 @@ builder.Services.AddVonageClientScoped(builder.Configuration);
 builder.Services.AddVonageClientTransient(builder.Configuration);
 ```
 
-> Note: Using `builder.Configuration` allow us to use settings you decided to load at runtime, including environment-specific settings.
+> Note: Using `builder.Configuration` allow us to use settings you decided to load at runtime, including
+> environment-specific settings.
 
 ``` csharp
 var credentials = ...
@@ -200,7 +209,8 @@ Finally, you can inject them in any of your components.
 #### Manual initialization (recommended for .NET Framework)
 
 Create a Vonage Client instance and pass in credentials in the constructor;
-this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App Id).
+this will only affect the security credentials (Api Key, Api Secret, Signing Secret, Signing Method Private Key, App
+Id).
 
 ```csharp
 var credentials = Credentials.FromApiKeyAndSecret(
@@ -222,7 +232,8 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
 
 > Note: Private Key is the literal key - not a path to the file containing the key
 
-> Note: Modifying the Configuration instance will be deprecated in the upcoming release, to keep the configuration immutable.
+> Note: Modifying the Configuration instance will be deprecated in the upcoming release, to keep the configuration
+> immutable.
 
 ### Configuration Reference
 
