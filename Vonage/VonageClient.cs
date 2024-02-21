@@ -33,9 +33,28 @@ namespace Vonage;
 /// </summary>
 public class VonageClient
 {
-    private Credentials credentials;
-    private readonly ITimeProvider timeProvider = new TimeProvider();
     private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
+    private Credentials credentials;
+
+    /// <summary>
+    ///     Constructor for VonageClient.
+    /// </summary>
+    /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
+    public VonageClient(Credentials credentials) => this.Credentials = credentials;
+
+    internal VonageClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
+    {
+        this.timeProvider = timeProvider;
+        this.configuration = configuration;
+        this.Credentials = credentials;
+    }
+
+    internal VonageClient(Configuration configuration)
+    {
+        this.configuration = this.GetConfiguration();
+        this.Credentials = configuration.BuildCredentials();
+    }
 
     public IAccountClient AccountClient { get; private set; }
 
@@ -116,25 +135,6 @@ public class VonageClient
 
     public IVoiceClient VoiceClient { get; private set; }
 
-    /// <summary>
-    ///     Constructor for VonageClient.
-    /// </summary>
-    /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
-    public VonageClient(Credentials credentials) => this.Credentials = credentials;
-
-    internal VonageClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
-    {
-        this.timeProvider = timeProvider;
-        this.configuration = configuration;
-        this.Credentials = credentials;
-    }
-
-    internal VonageClient(Configuration configuration)
-    {
-        this.configuration = this.GetConfiguration();
-        this.Credentials = configuration.BuildCredentials();
-    }
-
     private VonageHttpClientConfiguration BuildConfiguration(HttpClient client) =>
         new(client, this.Credentials.GetAuthenticationHeader(), this.Credentials.GetUserAgent());
 
@@ -185,6 +185,7 @@ public class VonageClient
             new ProactiveConnectClient(
                 this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)));
         this.VideoClient =
-            new VideoClient(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VideoApiUrl)));
+            new VideoClient(
+                this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Video)));
     }
 }

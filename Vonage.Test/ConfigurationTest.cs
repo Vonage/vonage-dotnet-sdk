@@ -37,7 +37,7 @@ namespace Vonage.Test
             configuration.EuropeApiUrl.Should().Be(new Uri("https://api-eu.vonage.com"));
             configuration.NexmoApiUrl.Should().Be(new Uri("https://api.nexmo.com"));
             configuration.RestApiUrl.Should().Be(new Uri("https://rest.nexmo.com"));
-            configuration.VideoApiUrl.Should().Be(new Uri("https://video.api.vonage.com"));
+            configuration.VonageUrls.Video.Should().Be(new Uri("https://video.api.vonage.com"));
             configuration.RequestTimeout.Should().BeNone();
         }
 
@@ -147,7 +147,7 @@ namespace Vonage.Test
                 {
                     {"appSettings:Vonage.Url.Api.Video", "https://api.vonage.com"},
                 })
-                .Build()).VideoApiUrl.Should().Be(new Uri("https://api.vonage.com"));
+                .Build()).VonageUrls.Video.Should().Be(new Uri("https://api.vonage.com"));
 
         [Theory]
         [InlineData(VonageUrls.Region.US, "appSettings:Vonage.Url.Api.Us")]
