@@ -167,17 +167,19 @@ public class VonageClient
         this.PricingClient = new PricingClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.MessagesClient = new MessagesClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
         this.VerifyV2Client =
-            new VerifyV2Client(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
+            new VerifyV2Client(
+                this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Nexmo)));
         this.SubAccountsClient = new SubAccountsClient(
-            this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)),
+            this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Nexmo)),
             this.Credentials.ApiKey);
         this.NumberInsightV2Client = new NumberInsightV2Client(
-            this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
+            this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Nexmo)));
         this.UsersClient =
-            new UsersClient(this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
+            new UsersClient(
+                this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Nexmo)));
         this.ConversationsClient =
             new ConversationsClient(
-                this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().NexmoApiUrl)));
+                this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Nexmo)));
         this.MeetingsClient = new MeetingsClient(
             this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)),
             new FileSystem());

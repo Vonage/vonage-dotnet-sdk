@@ -67,7 +67,7 @@ internal partial class ApiRequest
     private static Uri BuildBaseUri(UriType uriType, Configuration configuration) =>
         uriType switch
         {
-            UriType.Api => configuration.NexmoApiUrl,
+            UriType.Api => configuration.VonageUrls.Nexmo,
             UriType.Rest => configuration.VonageUrls.Rest,
             _ => throw new Exception("Unknown Uri Type Detected"),
         };

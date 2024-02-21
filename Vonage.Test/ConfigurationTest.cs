@@ -35,7 +35,7 @@ namespace Vonage.Test
             configuration.SigningMethod.Should().BeEmpty();
             configuration.UserAgent.Should().BeEmpty();
             configuration.EuropeApiUrl.Should().Be(new Uri("https://api-eu.vonage.com"));
-            configuration.NexmoApiUrl.Should().Be(new Uri("https://api.nexmo.com"));
+            configuration.VonageUrls.Nexmo.Should().Be(new Uri("https://api.nexmo.com"));
             configuration.VonageUrls.Rest.Should().Be(new Uri("https://rest.nexmo.com"));
             configuration.VonageUrls.Video.Should().Be(new Uri("https://video.api.vonage.com"));
             configuration.RequestTimeout.Should().BeNone();
@@ -93,7 +93,7 @@ namespace Vonage.Test
                 {
                     {"appSettings:Vonage.Url.Api", "https://api.vonage.com"},
                 })
-                .Build()).NexmoApiUrl.Should().Be(new Uri("https://api.vonage.com"));
+                .Build()).VonageUrls.Nexmo.Should().Be(new Uri("https://api.vonage.com"));
 
         [Fact]
         public void FromConfiguration_ShouldSetRequestTimeout_GivenConfigurationContainsRequestTimeout() =>
