@@ -68,7 +68,7 @@ internal partial class ApiRequest
         uriType switch
         {
             UriType.Api => configuration.NexmoApiUrl,
-            UriType.Rest => configuration.RestApiUrl,
+            UriType.Rest => configuration.VonageUrls.Rest,
             _ => throw new Exception("Unknown Uri Type Detected"),
         };
 
@@ -329,7 +329,7 @@ internal partial class ApiRequest
         new(credentials, configuration, provider);
 
     internal static Uri GetBaseUriFor(Configuration configuration, string url = null) =>
-        string.IsNullOrEmpty(url) ? configuration.RestApiUrl : new Uri(configuration.RestApiUrl, url);
+        string.IsNullOrEmpty(url) ? configuration.VonageUrls.Rest : new Uri(configuration.VonageUrls.Rest, url);
 
     internal async Task<T> DoRequestWithJsonContentAsync<T>(HttpMethod method, Uri uri, object payload,
         AuthType authType, Func<object, string> payloadSerialization,

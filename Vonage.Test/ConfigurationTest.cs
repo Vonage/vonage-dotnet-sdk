@@ -36,7 +36,7 @@ namespace Vonage.Test
             configuration.UserAgent.Should().BeEmpty();
             configuration.EuropeApiUrl.Should().Be(new Uri("https://api-eu.vonage.com"));
             configuration.NexmoApiUrl.Should().Be(new Uri("https://api.nexmo.com"));
-            configuration.RestApiUrl.Should().Be(new Uri("https://rest.nexmo.com"));
+            configuration.VonageUrls.Rest.Should().Be(new Uri("https://rest.nexmo.com"));
             configuration.VonageUrls.Video.Should().Be(new Uri("https://video.api.vonage.com"));
             configuration.RequestTimeout.Should().BeNone();
         }
@@ -111,7 +111,7 @@ namespace Vonage.Test
                 {
                     {"appSettings:Vonage.Url.Rest", "https://api.vonage.com"},
                 })
-                .Build()).RestApiUrl.Should().Be(new Uri("https://api.vonage.com"));
+                .Build()).VonageUrls.Rest.Should().Be(new Uri("https://api.vonage.com"));
 
         [Fact]
         public void FromConfiguration_ShouldSetSecuritySecret_GivenConfigurationContainsSecuritySecret() =>
