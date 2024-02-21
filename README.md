@@ -93,6 +93,8 @@ Changes in version 7.0.0
       parameter will remain in order to avoid primitive obsession, and rely on a proper ValueObject.
     * Constructors on `Credentials`: Creating a Credentials instance should be done by a factory method or from a
       Configuration instance. Constructors will be hidden and the object will remain immutable.
+  * Access to Vonage URLs: All URLs have been moved to a nested object (`VonageUrls`) to "de-bloat" the `Configuration`
+    class, and allow multi-region URLs.
 * Add new timeouts on Voice Webhooks in Application
   API - [Pull Request](https://github.com/Vonage/vonage-dotnet-sdk/pull/548): Adding new timeouts requested to break
   inheritance and create a specific structure.
