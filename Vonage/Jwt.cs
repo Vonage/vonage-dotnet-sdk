@@ -7,13 +7,30 @@ using Vonage.Common.Exceptions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Request;
-using Vonage.Voice;
 
 namespace Vonage;
 
 /// <inheritdoc />
 public class Jwt : ITokenGenerator
 {
+    /// <inheritdoc />
+    public Result<string> GenerateToken(string applicationId, string privateKey,
+        Dictionary<string, object> claims = null)
+    {
+        try
+        {
+            return CreateToken(applicationId, privateKey, claims);
+        }
+        catch (Exception exception)
+        {
+            return Result<string>.FromFailure(new AuthenticationFailure(exception.Message));
+        }
+    }
+
+    /// <inheritdoc />
+    public Result<string> GenerateToken(Credentials credentials, Dictionary<string, object> claims = null) =>
+        this.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey, claims);
+
     /// <summary>
     ///     Creates a token from application id and private key.
     /// </summary>
@@ -24,24 +41,6 @@ public class Jwt : ITokenGenerator
     public static string CreateToken(string appId, string privateKey, Dictionary<string, object> claims = null) =>
         CreateTokenWithClaims(appId, privateKey, claims);
 
-    /// <inheritdoc />
-    public Result<string> GenerateToken(string applicationId, string privateKey,
-        Dictionary<string, object> claims = null)
-    {
-        try
-        {
-            return CreateToken(applicationId, privateKey);
-        }
-        catch (Exception exception)
-        {
-            return Result<string>.FromFailure(new AuthenticationFailure(exception.Message));
-        }
-    }
-
-    /// <inheritdoc />
-    public Result<string> GenerateToken(Credentials credentials, Dictionary<string, object> claims = null) =>
-        this.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey);
-
     /// <summary>
     ///     Creates a token with custom claims.
     /// </summary>
@@ -50,7 +49,7 @@ public class Jwt : ITokenGenerator
     /// <param name="claims">The custom claims.</param>
     /// <returns>The token.</returns>
     /// <exception cref="VonageAuthenticationException">When the private key is null or whitespace.</exception>
-    protected static string CreateTokenWithClaims(string appId, string privateKey, Dictionary<string, object> claims)
+    private static string CreateTokenWithClaims(string appId, string privateKey, Dictionary<string, object> claims)
     {
         if (string.IsNullOrWhiteSpace(appId) || string.IsNullOrWhiteSpace(privateKey))
         {
