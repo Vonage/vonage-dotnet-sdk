@@ -1,6 +1,26 @@
 # Changelog
 
-## [unreleased]
+## [v6.15.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.2) (2024-02-22)
+
+### Bug Fixes
+
+- Pass claims for VideoToken
+  serialization ([1a42173](https://github.com/Vonage/vonage-dotnet-sdk/commit/1a421738336226f0a9c3e19c583323b24d7f3e31))
+
+### Documentation
+
+- Update readme about next major
+  version ([d619f2c](https://github.com/Vonage/vonage-dotnet-sdk/commit/d619f2ce1a6a9d9c58b03e30d5c09da0118bac27))
+
+- Update readme with latest breaking
+  changes ([331938c](https://github.com/Vonage/vonage-dotnet-sdk/commit/331938c1b2b34eeb1ba69e36362e119c87c39d6c))
+
+### Releases
+
+- Bump version to
+  v6.15.2 ([145d545](https://github.com/Vonage/vonage-dotnet-sdk/commit/145d5456748c0eb8d23e0a4a2b17a4c10f5dbae0))
+
+## [v6.15.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.1) (2024-02-21)
 
 ### Bug Fixes
 
@@ -17,6 +37,9 @@
 
 - Generate changelog for
   v6.15.0 ([46187e1](https://github.com/Vonage/vonage-dotnet-sdk/commit/46187e1848a5f04b957a69f23adc924c2fe9ec64))
+
+- Generate changelog for
+  v6.15.1 ([7484324](https://github.com/Vonage/vonage-dotnet-sdk/commit/748432400fa7833c436cdd9435fdd0b28cff8552))
 
 ### Features
 
