@@ -1,5 +1,25 @@
 # Changelog
 
+## [v6.15.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.3) (2024-02-23)
+
+### Documentation
+
+- Generate changelog for
+  v6.15.2 ([40b6792](https://github.com/Vonage/vonage-dotnet-sdk/commit/40b6792553caa94e914dccf8f9e8b8c9bf212a99))
+
+### Features
+
+- Register Credentials in service collection
+  extensions ([7d7d7a9](https://github.com/Vonage/vonage-dotnet-sdk/commit/7d7d7a96d59c6b0edbdf597eeab97c8735514e63))
+
+- Enable custom claims for Video
+  token ([a6cbb5c](https://github.com/Vonage/vonage-dotnet-sdk/commit/a6cbb5c6c819f010915b8abeef69162ca07c27aa))
+
+### Releases
+
+- Bump version to
+  v6.15.3 ([ad94cbe](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad94cbed2966b30c4bb534efce4ad53d3866ca51))
+
 ## [v6.15.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.2) (2024-02-22)
 
 ### Bug Fixes
