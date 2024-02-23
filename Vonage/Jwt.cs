@@ -13,6 +13,10 @@ namespace Vonage;
 /// <inheritdoc />
 public class Jwt : ITokenGenerator
 {
+    internal const string ReservedClaimIssuedAt = "iat";
+    internal const string ReservedClaimApplicationId = "application_id";
+    internal const string ReservedClaimTokenId = "jti";
+
     /// <inheritdoc />
     public Result<string> GenerateToken(string applicationId, string privateKey,
         Dictionary<string, object> claims = null)
@@ -62,9 +66,12 @@ public class Jwt : ITokenGenerator
         var jwtTokenId = Convert.ToBase64String(tokenData);
         var payload = new Dictionary<string, object>
         {
-            {"iat", (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds},
-            {"application_id", appId},
-            {"jti", jwtTokenId},
+            {
+                ReservedClaimIssuedAt,
+                (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds
+            },
+            {ReservedClaimApplicationId, appId},
+            {ReservedClaimTokenId, jwtTokenId},
         };
         claims?.ToList().ForEach(claim => payload.Add(claim.Key, claim.Value));
         var rsa = PemParse.DecodePEMKey(privateKey);

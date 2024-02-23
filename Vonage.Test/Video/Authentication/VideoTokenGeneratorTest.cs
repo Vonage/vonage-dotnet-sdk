@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Collections.Generic;
+using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Request;
 using Vonage.Test.Common.Extensions;
@@ -34,7 +36,11 @@ public class VideoTokenGeneratorTest
 
     private static Result<TokenAdditionalClaims> CreateClaims() =>
         TokenAdditionalClaims
-            .Parse("sessionValue");
+            .Parse("sessionValue", role: Role.Subscriber, claims: new Dictionary<string, object>
+            {
+                {"custom_id", Guid.NewGuid()},
+                {"custom_date", DateTimeOffset.Now},
+            });
 
     private Credentials GetCredentials() => Credentials.FromAppIdAndPrivateKey(ApplicationId, this.privateKey);
 }
