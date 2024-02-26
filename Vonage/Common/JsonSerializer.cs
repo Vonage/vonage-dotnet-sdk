@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Server;
 
 namespace Vonage.Common;
 
@@ -29,6 +30,7 @@ public class JsonSerializer : IJsonSerializer
         this.settings.Converters.Add(new ColorJsonConverter());
         this.settings.Converters.Add(new PhoneNumberJsonConverter());
         this.settings.Converters.Add(new EmailJsonConverter());
+        this.settings.Converters.Add(new EnumDescriptionJsonConverter<RenderResolution>());
     }
 
     /// <summary>

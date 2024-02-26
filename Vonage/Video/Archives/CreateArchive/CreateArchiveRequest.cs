@@ -63,7 +63,9 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     ///     outputMode property to "individual", the call to the REST method results in an error.
     /// </summary>
     [JsonPropertyOrder(6)]
-    public RenderResolution Resolution { get; internal init; }
+    [JsonConverter(typeof(MaybeJsonConverter<RenderResolution>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<RenderResolution> Resolution { get; internal init; }
 
     /// <inheritdoc />
     [JsonPropertyOrder(0)]

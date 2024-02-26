@@ -138,7 +138,7 @@ public class RequestBuilderTest
                 request.HasVideo.Should().BeTrue();
                 request.Name.Should().BeNone();
                 request.OutputMode.Should().Be(OutputMode.Composed);
-                request.Resolution.Should().Be(RenderResolution.StandardDefinitionLandscape);
+                request.Resolution.Should().BeNone();
                 request.StreamMode.Should().Be(StreamMode.Auto);
                 request.Layout.Should().Be(default(Layout));
             });

@@ -8,15 +8,22 @@ namespace Vonage.Video.Archives.CreateArchive;
 
 internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForApplicationId, IBuilderForOptional
 {
+    private Guid applicationId;
     private bool hasAudio = true;
     private bool hasVideo = true;
-    private Guid applicationId;
     private Layout layout;
-    private Maybe<string> name = Maybe<string>.None;
+    private Maybe<string> name;
     private OutputMode outputMode = OutputMode.Composed;
-    private RenderResolution resolution = RenderResolution.StandardDefinitionLandscape;
-    private StreamMode streamMode = StreamMode.Auto;
+    private Maybe<RenderResolution> resolution;
     private string sessionId;
+    private StreamMode streamMode = StreamMode.Auto;
+
+    /// <inheritdoc />
+    public IBuilderForSessionId WithApplicationId(Guid value)
+    {
+        this.applicationId = value;
+        return this;
+    }
 
     /// <inheritdoc />
     public Result<CreateArchiveRequest> Create() =>
@@ -50,13 +57,6 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
     }
 
     /// <inheritdoc />
-    public IBuilderForSessionId WithApplicationId(Guid value)
-    {
-        this.applicationId = value;
-        return this;
-    }
-
-    /// <inheritdoc />
     public IBuilderForOptional WithArchiveLayout(Layout value)
     {
         this.layout = value;
@@ -85,16 +85,16 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
     }
 
     /// <inheritdoc />
-    public IBuilderForOptional WithSessionId(string value)
+    public IBuilderForOptional WithStreamMode(StreamMode value)
     {
-        this.sessionId = value;
+        this.streamMode = value;
         return this;
     }
 
     /// <inheritdoc />
-    public IBuilderForOptional WithStreamMode(StreamMode value)
+    public IBuilderForOptional WithSessionId(string value)
     {
-        this.streamMode = value;
+        this.sessionId = value;
         return this;
     }
 
