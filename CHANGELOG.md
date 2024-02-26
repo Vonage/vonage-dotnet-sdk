@@ -1,5 +1,22 @@
 # Changelog
 
+## [v6.15.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.4) (2024-02-26)
+
+### Bug Fixes
+
+- Remove default resolution when creating an
+  archive ([6570363](https://github.com/Vonage/vonage-dotnet-sdk/commit/657036338792e37bcb0fa1a11fb20510c6700d4e))
+
+### Documentation
+
+- Generate changelog for
+  v6.15.3 ([dad79a5](https://github.com/Vonage/vonage-dotnet-sdk/commit/dad79a5659ea0577b2ec1195d71130ec7ed5cd7d))
+
+### Releases
+
+- Bump version to
+  v6.15.4 ([080e68f](https://github.com/Vonage/vonage-dotnet-sdk/commit/080e68f35478453b94a86271992af1388247fdea))
+
 ## [v6.15.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.3) (2024-02-23)
 
 ### Documentation
