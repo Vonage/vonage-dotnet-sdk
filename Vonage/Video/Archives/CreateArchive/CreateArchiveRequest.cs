@@ -82,6 +82,17 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     public StreamMode StreamMode { get; internal init; }
 
     /// <summary>
+    ///     Set this to support recording multiple archives for the same session simultaneously. Set this to a unique string
+    ///     for each simultaneous archive of an ongoing session. You must also set this option when manually starting an
+    ///     archive in a session that is automatically archived. If you do not specify a unique multiArchiveTag, you can only
+    ///     record one archive at a time for a given session.
+    /// </summary>
+    [JsonPropertyOrder(8)]
+    [JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<string> MultiArchiveTag { get; internal init; }
+
+    /// <summary>
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>

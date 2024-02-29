@@ -12,6 +12,7 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
     private bool hasAudio = true;
     private bool hasVideo = true;
     private Layout layout;
+    private Maybe<string> multiArchiveTag;
     private Maybe<string> name;
     private OutputMode outputMode = OutputMode.Composed;
     private Maybe<RenderResolution> resolution;
@@ -38,6 +39,7 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
                 Layout = this.layout,
                 Name = this.name,
                 Resolution = this.resolution,
+                MultiArchiveTag = this.multiArchiveTag,
             })
             .Map(InputEvaluation<CreateArchiveRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifySessionId, VerifyApplicationId));
@@ -88,6 +90,13 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
     public IBuilderForOptional WithStreamMode(StreamMode value)
     {
         this.streamMode = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithMultiArchiveTag(string value)
+    {
+        this.multiArchiveTag = value;
         return this;
     }
 
@@ -182,4 +191,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateArchiveReques
     /// <param name="value">The value.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithStreamMode(StreamMode value);
+
+    /// <summary>
+    ///     Sets the multi-archive tag.
+    /// </summary>
+    /// <param name="value">The tag/</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithMultiArchiveTag(string value);
 }

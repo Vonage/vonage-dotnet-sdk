@@ -10,5 +10,6 @@
   "name": "Foo",
   "outputMode": "individual",
   "resolution": "1280x720",
-  "streamMode": "manual"
+  "streamMode": "manual",
+  "multiArchiveTag": "custom-tag"
 }

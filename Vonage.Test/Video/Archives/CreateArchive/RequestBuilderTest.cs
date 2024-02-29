@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoFixture;
 using FluentAssertions;
+using Vonage.Common.Monads;
 using Vonage.Server;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives.CreateArchive;
@@ -142,4 +143,25 @@ public class RequestBuilderTest
                 request.StreamMode.Should().Be(StreamMode.Auto);
                 request.Layout.Should().Be(default(Layout));
             });
+
+    [Fact]
+    public void Build_ShouldHaveNoMultiArchiveTag_GivenDefault() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .Create()
+            .Map(request => request.MultiArchiveTag)
+            .Should()
+            .BeSuccess(Maybe<string>.None);
+
+    [Fact]
+    public void Build_ShouldSetMultiArchiveTag() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithMultiArchiveTag("custom-tag")
+            .Create()
+            .Map(request => request.MultiArchiveTag)
+            .Should()
+            .BeSuccess("custom-tag");
 }
