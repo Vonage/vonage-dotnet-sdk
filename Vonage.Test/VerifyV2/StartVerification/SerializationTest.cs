@@ -100,11 +100,26 @@ public class SerializationTest
     public void ShouldSerializeSmsWorkflow() =>
         StartVerificationRequest.Build()
             .WithBrand("ACME, Inc")
-            .WithWorkflow(SmsWorkflow.Parse("447700900000"))
+            .WithWorkflow(BuildSmsWorkflow())
             .Create()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
+
+    internal static Result<SmsWorkflow> BuildSmsWorkflow() => SmsWorkflow.Parse("447700900000");
+
+    [Fact]
+    public void ShouldSerializeSmsWorkflowWithOptionalValues() =>
+        StartVerificationRequest.Build()
+            .WithBrand("ACME, Inc")
+            .WithWorkflow(BuildSmsWorkflowWithOptionalValues())
+            .Create()
+            .GetStringContent()
+            .Should()
+            .BeSuccess(this.helper.GetRequestJson());
+
+    internal static Result<SmsWorkflow> BuildSmsWorkflowWithOptionalValues() =>
+        SmsWorkflow.Parse("447700900000", "12345678901", "entity", "content");
 
     [Fact]
     public void ShouldSerializeVoiceWorkflow() =>
