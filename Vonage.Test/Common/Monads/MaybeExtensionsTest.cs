@@ -74,7 +74,7 @@ public class MaybeExtensionsTest
     [Fact]
     public async Task Match_ShouldReturnSome_GivenValueIsSome()
     {
-        var result = await CreateNoneAsync<int>().Match(_ => "some", () => "none");
+        var result = await CreateSomeAsync(10).Match(_ => "some", () => "none");
         result.Should().Be("some");
     }
 
