@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Common.Monads.Exceptions;
@@ -20,6 +21,20 @@ public class MaybeTest
     [InlineData(true, "True")]
     public void Bind_ShouldReturnSome_GivenValueIsSome<T>(T value, string expected) =>
         CreateSome(value).Bind(BindToString).Should().BeSome(expected);
+
+    [Fact]
+    public async Task BindAsync_ShouldReturnNone_GivenValueIsNone()
+    {
+        var result = await Maybe<int>.None.BindAsync(_ => Task.FromResult(Maybe<string>.Some(string.Empty)));
+        result.Should().BeNone();
+    }
+
+    [Fact]
+    public async Task BindAsync_ShouldReturnSome_GivenValueIsSome()
+    {
+        var result = await CreateSome(10).BindAsync(_ => Task.FromResult(Maybe<string>.Some("Success")));
+        result.Should().BeSome("Success");
+    }
 
     [Fact]
     public void Constructor_ShouldReturnNone() => new Maybe<int>().Should().BeNone();
@@ -96,16 +111,36 @@ public class MaybeTest
     public void IfSome_ShouldBeExecuted_GivenValueIsSome()
     {
         var test = 10;
-        CreateSome(10).IfSome(value => test += value);
+        var result = CreateSome(10).IfSome(value => test += value);
         test.Should().Be(20);
+        result.Should().Be(CreateSome(10));
     }
 
     [Fact]
     public void IfSome_ShouldNotBeExecuted_GivenValueIsNone()
     {
         var test = 10;
-        Maybe<int>.None.IfSome(value => test += value);
+        var result = Maybe<int>.None.IfSome(value => test += value);
         test.Should().Be(10);
+        result.Should().Be(Maybe<int>.None);
+    }
+
+    [Fact]
+    public async Task IfSomeAsync_ShouldBeExecuted_GivenValueIsSome()
+    {
+        var test = 10;
+        var result = await CreateSome(10).IfSomeAsync(value => Task.FromResult(test += value));
+        test.Should().Be(20);
+        result.Should().Be(CreateSome(10));
+    }
+
+    [Fact]
+    public async Task IfSomeAsync_ShouldNotBeExecuted_GivenValueIsNone()
+    {
+        var test = 10;
+        var result = await Maybe<int>.None.IfSomeAsync(value => Task.FromResult(test += value));
+        test.Should().Be(10);
+        result.Should().Be(Maybe<int>.None);
     }
 
     [Fact]
@@ -126,13 +161,27 @@ public class MaybeTest
 
     [Fact]
     public void Map_ShouldReturnNone_GivenValueIsNone() =>
-        Maybe<int>.None.Should().BeNone();
+        Maybe<int>.None.Map(MapToString).Should().BeNone();
 
     [Theory]
     [InlineData(10, "10")]
     [InlineData("10", "10")]
     [InlineData(true, "True")]
     public void Map_ShouldReturnSome_GivenValueIsSome<T>(T value, string expected) =>
+        CreateSome(value).Map(MapToString).Should().BeSome(expected);
+
+    [Fact]
+    public async Task MapAsync_ShouldReturnNone_GivenValueIsNone()
+    {
+        var result = await Maybe<int>.None.MapAsync(_ => Task.FromResult("Success"));
+        result.Should().BeNone();
+    }
+
+    [Theory]
+    [InlineData(10, "10")]
+    [InlineData("10", "10")]
+    [InlineData(true, "True")]
+    public void MapAsync_ShouldReturnSome_GivenValueIsSome<T>(T value, string expected) =>
         CreateSome(value).Map(MapToString).Should().BeSome(expected);
 
     [Fact]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Vonage.Common.Monads.Exceptions;
 
 namespace Vonage.Common.Monads;
@@ -49,6 +50,15 @@ public readonly struct Maybe<TA>
     /// <returns>Bound functor.</returns>
     public Maybe<TB> Bind<TB>(Func<TA, Maybe<TB>> bind) => !this.IsSome ? Maybe<TB>.None : bind(this.value);
 
+    /// <summary>
+    ///     Monadic bind operation.
+    /// </summary>
+    /// <param name="bind">Bind operation.</param>
+    /// <typeparam name="TB">Return type.</typeparam>
+    /// <returns>Bound functor.</returns>
+    public Task<Maybe<TB>> BindAsync<TB>(Func<TA, Task<Maybe<TB>>> bind) =>
+        !this.IsSome ? Task.FromResult(Maybe<TB>.None) : bind(this.value);
+
     /// <inheritdoc />
     public override bool Equals(object obj) => obj is Maybe<TA> maybe && this.Equals(maybe);
 
@@ -81,14 +91,29 @@ public readonly struct Maybe<TA>
     /// </summary>
     /// <param name="some">Action to invoke</param>
     /// <returns>Unit.</returns>
-    public Unit IfSome(Action<TA> some)
+    public Maybe<TA> IfSome(Action<TA> some)
     {
         if (this.IsSome)
         {
             some(this.value);
         }
 
-        return Unit.Default;
+        return this;
+    }
+
+    /// <summary>
+    ///     Invokes the action if Maybe is in the Some state, otherwise nothing happens.
+    /// </summary>
+    /// <param name="some">Action to invoke</param>
+    /// <returns>Unit.</returns>
+    public async Task<Maybe<TA>> IfSomeAsync(Func<TA, Task> some)
+    {
+        if (this.IsSome)
+        {
+            await some(this.value);
+        }
+
+        return this;
     }
 
     /// <summary>
@@ -98,6 +123,15 @@ public readonly struct Maybe<TA>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Mapped functor.</returns>
     public Maybe<TB> Map<TB>(Func<TA, TB> map) => !this.IsSome ? Maybe<TB>.None : Some(map(this.value));
+
+    /// <summary>
+    ///     Projects from one value to another.
+    /// </summary>
+    /// <param name="map">Projection function.</param>
+    /// <typeparam name="TB">Resulting functor value type.</typeparam>
+    /// <returns>Mapped functor.</returns>
+    public async Task<Maybe<TB>> MapAsync<TB>(Func<TA, Task<TB>> map) =>
+        !this.IsSome ? Maybe<TB>.None : await map(this.value);
 
     /// <summary>
     ///     Match the two states of the Maybe and return a non-null TB.
