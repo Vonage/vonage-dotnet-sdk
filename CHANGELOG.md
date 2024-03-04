@@ -1,5 +1,36 @@
 # Changelog
 
+## [v6.15.5](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.5) (2024-02-29)
+
+### Dependencies upgrade
+
+- Update
+  packages ([28701c2](https://github.com/Vonage/vonage-dotnet-sdk/commit/28701c201ca6f8cfc7034d6efdb91623d862276a))
+
+### Documentation
+
+- Generate changelog for
+  v6.15.4 ([f9c7b06](https://github.com/Vonage/vonage-dotnet-sdk/commit/f9c7b066e4f5112fa5bab4aff06dba6ae5d048b1))
+
+- Add new category in cliff
+  configuration ([5380bd3](https://github.com/Vonage/vonage-dotnet-sdk/commit/5380bd3a379849004f37bf04a930364ae879c1c9))
+
+### Features
+
+- Add EntityId and ContentId on
+  SmsWorkflow ([197513c](https://github.com/Vonage/vonage-dotnet-sdk/commit/197513c837f2b31792c1f52aba6d71e07896a61a))
+
+- Support multiArchiveTag when creating an
+  archive ([142c988](https://github.com/Vonage/vonage-dotnet-sdk/commit/142c988e44721a3f370edf11626bd334fd13a153))
+
+- Support multiArchiveTag on archive
+  responses ([d9b38c2](https://github.com/Vonage/vonage-dotnet-sdk/commit/d9b38c24420a39e40c441222e19bb5d8620c3eb3))
+
+### Releases
+
+- Bump version to
+  v6.15.5 ([0b6decb](https://github.com/Vonage/vonage-dotnet-sdk/commit/0b6decbc8110a2fa4a2200fa9dd84822c703358f))
+
 ## [v6.15.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.4) (2024-02-26)
 
 ### Bug Fixes
