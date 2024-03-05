@@ -113,4 +113,18 @@ public class ResultExtensionsTest
         this.value = input;
         return Task.CompletedTask;
     }
+
+    [Fact]
+    public async Task Match_ShouldReturnFallback_GivenFailure()
+    {
+        var result = await TestBehaviors.CreateFailureAsync<int>().Match(_ => "some", _ => "none");
+        result.Should().Be("none");
+    }
+
+    [Fact]
+    public async Task Match_ShouldReturnValue_GivenSuccess()
+    {
+        var result = await TestBehaviors.CreateSuccessAsync(10).Match(_ => "some", _ => "none");
+        result.Should().Be("some");
+    }
 }
