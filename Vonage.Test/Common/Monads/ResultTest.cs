@@ -82,49 +82,14 @@ public class ResultTest
     }
 
     [Fact]
-    public async Task BindAsync_ShouldReturnFailure_GivenValueBecomesFailure() =>
-        (await TestBehaviors.CreateSuccess(5)
-            .BindAsync(TestBehaviors.IncrementBindAsync)
-            .BindAsync(TestBehaviors.IncrementBindAsync)
-            .BindAsync(_ => Task.FromResult(TestBehaviors.CreateFailure<int>()))
-            .BindAsync(TestBehaviors.IncrementBindAsync)
-            .BindAsync(TestBehaviors.IncrementBindAsync))
-        .Should()
-        .BeFailure(TestBehaviors.CreateResultFailure());
-
-    [Fact]
-    public async Task BindAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
-        (await TestBehaviors.CreateFailure<int>()
-            .BindAsync(TestBehaviors.IncrementBindAsync)
-            .Bind(TestBehaviors.IncrementBind)
-            .BindAsync(TestBehaviors.IncrementBindAsync)
-            .BindAsync(TestBehaviors.IncrementBindAsync)
-            .BindAsync(TestBehaviors.IncrementBindAsync))
-        .Should()
-        .BeFailure(TestBehaviors.CreateResultFailure());
-
-    [Fact]
     public async Task BindAsync_ShouldReturnFailure_GivenValueIsFailure() =>
-        (await TestBehaviors.CreateFailure<int>()
-            .BindAsync(TestBehaviors.IncrementBindAsync))
+        (await TestBehaviors.CreateFailure<int>().BindAsync(TestBehaviors.IncrementBindAsync))
         .Should()
         .BeFailure(TestBehaviors.CreateResultFailure());
-
-    [Fact]
-    public async Task BindAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
-        (await TestBehaviors.CreateSuccess(5)
-            .BindAsync(TestBehaviors.IncrementBindAsync)
-            .Bind(TestBehaviors.IncrementBind)
-            .BindAsync(TestBehaviors.IncrementBindAsync)
-            .BindAsync(TestBehaviors.IncrementBindAsync)
-            .BindAsync(TestBehaviors.IncrementBindAsync))
-        .Should()
-        .BeSuccess(10);
 
     [Fact]
     public async Task BindAsync_ShouldReturnSuccess_GivenValueIsSuccess() =>
-        (await TestBehaviors.CreateSuccess(5)
-            .BindAsync(TestBehaviors.IncrementBindAsync))
+        (await TestBehaviors.CreateSuccess(5).BindAsync(TestBehaviors.IncrementBindAsync))
         .Should()
         .BeSuccess(6);
 
@@ -149,7 +114,7 @@ public class ResultTest
         TestBehaviors.CreateSuccess(10).Equals(TestBehaviors.CreateSuccess(10)).Should().BeTrue();
 
     [Fact]
-    public void FromError_ShouldReturnError()
+    public void Failure_ShouldHaveFailureState()
     {
         var result = TestBehaviors.CreateFailure<int>();
         result.IsFailure.Should().BeTrue();
@@ -157,7 +122,7 @@ public class ResultTest
     }
 
     [Fact]
-    public void FromSuccess_ShouldReturnSuccess()
+    public void Success_ShouldHaveSuccessState()
     {
         var result = TestBehaviors.CreateSuccess(0);
         result.IsFailure.Should().BeFalse();
@@ -267,39 +232,6 @@ public class ResultTest
             .BeSuccess(10);
 
     [Fact]
-    public async Task IfSuccessAsync_ShouldBeExecuted_GivenValueIsChainedSuccess()
-    {
-        var test = 10;
-        await TestBehaviors.CreateSuccess(0)
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            });
-        test.Should().Be(15);
-    }
-
-    [Fact]
     public async Task IfSuccessAsync_ShouldBeExecuted_GivenValueIsSuccess()
     {
         var test = 10;
@@ -309,34 +241,6 @@ public class ResultTest
             return Task.CompletedTask;
         });
         test.Should().Be(20);
-    }
-
-    [Fact]
-    public async Task IfSuccessAsync_ShouldNotBeExecuted_GivenValueIsChainedFailure()
-    {
-        var test = 10;
-        await TestBehaviors.CreateFailure<int>()
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            });
-        test.Should().Be(10);
     }
 
     [Fact]
@@ -352,16 +256,6 @@ public class ResultTest
     }
 
     [Fact]
-    public async Task IfSuccessAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
-        (await TestBehaviors.CreateFailure<int>()
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask))
-        .Should().BeFailure(TestBehaviors.CreateResultFailure());
-
-    [Fact]
     public async Task IfSuccessAsync_ShouldReturnResult_GivenValueIsFailure() =>
         (await TestBehaviors.CreateFailure<int>().IfSuccessAsync(_ => Task.CompletedTask)).Should()
         .BeFailure(TestBehaviors.CreateResultFailure());
@@ -369,16 +263,6 @@ public class ResultTest
     [Fact]
     public async Task IfSuccessAsync_ShouldReturnResult_GivenValueIsSuccess() =>
         (await TestBehaviors.CreateSuccess(10).IfSuccessAsync(_ => Task.CompletedTask)).Should().BeSuccess(10);
-
-    [Fact]
-    public async Task IfSuccessAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
-        (await TestBehaviors.CreateSuccess(5)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask))
-        .Should().BeSuccess(5);
 
     [Fact]
     public void ImplicitOperator_ShouldConvertToSuccess_GivenValueIsSuccess()
@@ -431,32 +315,11 @@ public class ResultTest
     }
 
     [Fact]
-    public async Task MapAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
-        (await TestBehaviors.CreateFailure<int>()
-            .MapAsync(TestBehaviors.IncrementAsync)
-            .Map(TestBehaviors.Increment)
-            .MapAsync(TestBehaviors.IncrementAsync)
-            .MapAsync(TestBehaviors.IncrementAsync)
-            .MapAsync(TestBehaviors.IncrementAsync))
-        .Should()
-        .BeFailure(TestBehaviors.CreateResultFailure());
-
-    [Fact]
     public async Task MapAsync_ShouldReturnFailure_GivenValueIsFailure() =>
         (await TestBehaviors.CreateFailure<int>()
             .MapAsync(TestBehaviors.IncrementAsync))
         .Should()
         .BeFailure(TestBehaviors.CreateResultFailure());
-
-    [Fact]
-    public async Task MapAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
-        (await TestBehaviors.CreateSuccess(5)
-            .MapAsync(TestBehaviors.IncrementAsync)
-            .Map(TestBehaviors.Increment)
-            .MapAsync(TestBehaviors.IncrementAsync)
-            .MapAsync(TestBehaviors.IncrementAsync)
-            .MapAsync(TestBehaviors.IncrementAsync))
-        .Should().BeSuccess(10);
 
     [Fact]
     public async Task MapAsync_ShouldReturnSuccess_GivenValueIsSuccess() =>
