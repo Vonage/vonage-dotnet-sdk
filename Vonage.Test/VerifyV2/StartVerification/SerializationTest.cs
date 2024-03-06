@@ -69,7 +69,7 @@ public class SerializationTest
         StartVerificationRequest.Build()
             .WithBrand("ACME, Inc")
             .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("447700900000"))
-            .WithFallbackWorkflow(WhatsAppWorkflow.Parse("447700900000"))
+            .WithFallbackWorkflow(WhatsAppWorkflow.Parse("447700900000", "447700900001"))
             .WithFallbackWorkflow(VoiceWorkflow.Parse("447700900000"))
             .Create()
             .GetStringContent()
@@ -145,7 +145,7 @@ public class SerializationTest
     public void ShouldSerializeWhatsAppWorkflow() =>
         StartVerificationRequest.Build()
             .WithBrand("ACME, Inc")
-            .WithWorkflow(WhatsAppWorkflow.Parse("447700900000"))
+            .WithWorkflow(WhatsAppWorkflow.Parse("447700900000", "447700900001"))
             .Create()
             .GetStringContent()
             .Should()

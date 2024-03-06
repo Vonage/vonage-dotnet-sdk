@@ -16,7 +16,8 @@ public class WhatsAppWorkflowTest
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
-    public void Parse_ShouldReturnFailure_GivenFromIsProvidedButEmpty(string value) =>
+    [InlineData(null)]
+    public void Parse_ShouldReturnFailure_GivenFromIsNullOrWhitespace(string value) =>
         WhatsAppWorkflow.Parse(ValidToNumber, value)
             .Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
@@ -26,29 +27,18 @@ public class WhatsAppWorkflowTest
     [InlineData(" ")]
     [InlineData(null)]
     public void Parse_ShouldReturnFailure_GivenToIsNullOrWhitespace(string value) =>
-        WhatsAppWorkflow.Parse(value)
+        WhatsAppWorkflow.Parse(value, ValidFromNumber)
             .Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
 
     [Fact]
     public void Parse_ShouldSetWhatsAppWorkflow() =>
-        WhatsAppWorkflow.Parse(ValidToNumber)
-            .Should()
-            .BeSuccess(workflow =>
-            {
-                workflow.Channel.Should().Be(ExpectedChannel);
-                workflow.To.Number.Should().Be(ValidToNumber);
-                workflow.From.Should().BeNone();
-            });
-
-    [Fact]
-    public void Parse_ShouldSetWhatsAppWorkflowWithFrom() =>
         WhatsAppWorkflow.Parse(ValidToNumber, ValidFromNumber)
             .Should()
             .BeSuccess(workflow =>
             {
                 workflow.Channel.Should().Be(ExpectedChannel);
                 workflow.To.Number.Should().Be(ValidToNumber);
-                workflow.From.Map(from => from.Number).Should().BeSome(ValidFromNumber);
+                workflow.From.Number.Should().Be(ValidFromNumber);
             });
 }
