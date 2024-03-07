@@ -1,85 +1,85 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <AssemblyName>Vonage</AssemblyName>
-        <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard2.0' ">2.0.0</NetStandardImplicitPackageVersion>
-        <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-        <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-        <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-        <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-        <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-        <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-        <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-        <Version>6.15.5</Version>
-        <PackageLicenseExpression/>
-        <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
-        <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.5</PackageReleaseNotes>
-        <PackageTags>SMS voice telephony phone Vonage</PackageTags>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-        <NoWarn>701;1702;1572</NoWarn>
-        <Configurations>Debug;Release;ReleaseSigned</Configurations>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <RepositoryUrl>https://github.com/Vonage/vonage-dotnet-sdk.git</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageIcon>VonageLogo_Symbol_Black.png</PackageIcon>
-        <PackageIconUrl/>
-        <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>Vonage</AssemblyName>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard2.0' ">2.0.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <Version>6.16.0</Version>
+    <PackageLicenseExpression/>
+    <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.16.0</PackageReleaseNotes>
+    <PackageTags>SMS voice telephony phone Vonage</PackageTags>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NoWarn>701;1702;1572</NoWarn>
+    <Configurations>Debug;Release;ReleaseSigned</Configurations>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/Vonage/vonage-dotnet-sdk.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>VonageLogo_Symbol_Black.png</PackageIcon>
+    <PackageIconUrl/>
+    <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.
         </Description>
-        <LangVersion>latest</LangVersion>
-        <TargetFramework>netstandard2.0</TargetFramework>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-        <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseSigned|netstandard2.0|AnyCPU'">
-        <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)'!='ReleaseSigned'">
-        <PackageId>Vonage</PackageId>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)'=='ReleaseSigned'">
-        <PackageId>Vonage.Signed</PackageId>
-        <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>../vonage.snk</AssemblyOriginatorKeyFile>
-        <DelaySign>false</DelaySign>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Epoch.net" Version="4.1.0"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
-        <PackageReference Include="jose-jwt" Version="4.1.0"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
-        <PackageReference Include="Enums.NET" Version="4.0.2"/>
-        <PackageReference Include="Handy.DotNETCore-Compatibility.ColorTranslations" Version="0.2.1"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0"/>
-        <PackageReference Include="PolySharp" Version="1.14.1">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="System.IO.Abstractions" Version="20.0.15"/>
-        <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
-        <PackageReference Include="System.Text.Json" Version="8.0.2"/>
-        <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
-    </ItemGroup>
-    <ItemGroup>
-        <None Include="VonageLogo_Symbol_Black.png">
-            <Pack>True</Pack>
-            <PackagePath/>
-        </None>
-    </ItemGroup>
-    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-        <Exec Command="node ../.scripts/init.js"/>
-    </Target>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseSigned|netstandard2.0|AnyCPU'">
+    <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'!='ReleaseSigned'">
+    <PackageId>Vonage</PackageId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='ReleaseSigned'">
+    <PackageId>Vonage.Signed</PackageId>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../vonage.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Epoch.net" Version="4.1.0"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1"/>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
+    <PackageReference Include="jose-jwt" Version="4.1.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+    <PackageReference Include="Enums.NET" Version="4.0.2"/>
+    <PackageReference Include="Handy.DotNETCore-Compatibility.ColorTranslations" Version="0.2.1"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0"/>
+    <PackageReference Include="PolySharp" Version="1.14.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.IO.Abstractions" Version="20.0.15"/>
+    <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
+    <PackageReference Include="System.Text.Json" Version="8.0.2"/>
+    <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VonageLogo_Symbol_Black.png">
+      <Pack>True</Pack>
+      <PackagePath/>
+    </None>
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="node ../.scripts/init.js"/>
+  </Target>
 </Project>
