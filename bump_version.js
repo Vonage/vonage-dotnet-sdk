@@ -36,6 +36,7 @@ class VersionUpgrade {
                     this._executeCommandWithArgs(`git`, ["commit", "-m", `'docs: bump version to ${this.tag}'`]);
                     this._executeCommand(`git tag -f ${this.tag}`);
                     this._executeCommand(`git cliff -o CHANGELOG.md`);
+                    this._executeCommand(`git add CHANGELOG.md`);
                     this._executeCommandWithArgs(`git`, ["commit", "-m", `'docs: generate changelog for ${this.tag}'`]);
                     this._executeCommand(`git push`);
                     this._executeCommand(`git push origin ${this.tag} --force`);
