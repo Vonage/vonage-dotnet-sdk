@@ -31,11 +31,11 @@ class VersionUpgrade {
                         return;
                     }
 
-                    console.log("Successfully wrote out to xml file");
+                    console.log("Successfully wrote project data");
                     this._executeCommand(`git add ${this.projectFile}`);
                     this._executeCommandWithArgs(`git`, ["commit", "-m", `'docs: bump version to ${this.tag}'`]);
                     this._executeCommand(`git tag -f ${this.tag}`);
-                    this._executeCommand(`git cliff -o CHANGELOG.md `);
+                    this._executeCommand(`git cliff -o CHANGELOG.md`);
                     this._executeCommandWithArgs(`git`, ["commit", "-m", `'docs: generate changelog for ${this.tag}'`]);
                     this._executeCommand(`git push`);
                     this._executeCommand(`git push origin ${this.tag} --force`);
