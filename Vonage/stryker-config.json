@@ -4,8 +4,7 @@
     "project": "Vonage.csproj",
     "project-info": {
       "name":  "github.com/Vonage/vonage-dotnet-sdk/Vonage",
-      "version": "main",
-      "module": "Vonage"
+      "version": "main"
     },
     "test-projects": 
     [

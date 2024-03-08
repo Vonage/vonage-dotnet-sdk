@@ -15,7 +15,7 @@ public class ResultTest
     public void BiMap_ShouldReturnFailure_GivenOperationThrowsException()
     {
         var expectedException = new Exception("Error");
-        CreateSuccess(5)
+        TestBehaviors.CreateSuccess(5)
             .BiMap(value =>
             {
                 throw expectedException;
@@ -27,15 +27,15 @@ public class ResultTest
 
     [Fact]
     public void BiMap_ShouldReturnFailure_GivenValueIsFailure() =>
-        CreateFailure()
-            .BiMap(Increment, f => ResultFailure.FromErrorMessage("New Failure"))
+        TestBehaviors.CreateFailure<int>()
+            .BiMap(TestBehaviors.Increment, f => ResultFailure.FromErrorMessage("New Failure"))
             .Should()
             .BeFailure(ResultFailure.FromErrorMessage("New Failure"));
 
     [Fact]
     public void BiMap_ShouldReturnSuccess_GivenValueIsSuccess() =>
-        CreateSuccess(5)
-            .BiMap(Increment, _ => _)
+        TestBehaviors.CreateSuccess(5)
+            .BiMap(TestBehaviors.Increment, _ => _)
             .Should()
             .BeSuccess(6);
 
@@ -43,7 +43,7 @@ public class ResultTest
     public void Bind_ShouldReturnFailure_GivenOperationThrowsException()
     {
         var expectedException = new Exception("Error");
-        CreateSuccess(5)
+        TestBehaviors.CreateSuccess(5)
             .Bind(value =>
             {
                 throw expectedException;
@@ -55,15 +55,15 @@ public class ResultTest
 
     [Fact]
     public void Bind_ShouldReturnFailure_GivenValueIsFailure() =>
-        CreateFailure()
-            .Bind(IncrementBind)
+        TestBehaviors.CreateFailure<int>()
+            .Bind(TestBehaviors.IncrementBind)
             .Should()
-            .BeFailure(CreateResultFailure());
+            .BeFailure(TestBehaviors.CreateResultFailure());
 
     [Fact]
     public void Bind_ShouldReturnSuccess_GivenValueIsSuccess() =>
-        CreateSuccess(5)
-            .Bind(IncrementBind)
+        TestBehaviors.CreateSuccess(5)
+            .Bind(TestBehaviors.IncrementBind)
             .Should()
             .BeSuccess(6);
 
@@ -71,7 +71,7 @@ public class ResultTest
     public async Task BindAsync_ShouldReturnFailure_GivenOperationThrowsException()
     {
         var expectedException = new Exception("Error");
-        (await CreateSuccess(5)
+        (await TestBehaviors.CreateSuccess(5)
                 .BindAsync(value =>
                 {
                     throw expectedException;
@@ -82,63 +82,28 @@ public class ResultTest
     }
 
     [Fact]
-    public async Task BindAsync_ShouldReturnFailure_GivenValueBecomesFailure() =>
-        (await CreateSuccess(5)
-            .BindAsync(IncrementBindAsync)
-            .BindAsync(IncrementBindAsync)
-            .BindAsync(_ => Task.FromResult(CreateFailure()))
-            .BindAsync(IncrementBindAsync)
-            .BindAsync(IncrementBindAsync))
-        .Should()
-        .BeFailure(CreateResultFailure());
-
-    [Fact]
-    public async Task BindAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
-        (await CreateFailure()
-            .BindAsync(IncrementBindAsync)
-            .Bind(IncrementBind)
-            .BindAsync(IncrementBindAsync)
-            .BindAsync(IncrementBindAsync)
-            .BindAsync(IncrementBindAsync))
-        .Should()
-        .BeFailure(CreateResultFailure());
-
-    [Fact]
     public async Task BindAsync_ShouldReturnFailure_GivenValueIsFailure() =>
-        (await CreateFailure()
-            .BindAsync(IncrementBindAsync))
+        (await TestBehaviors.CreateFailure<int>().BindAsync(TestBehaviors.IncrementBindAsync))
         .Should()
-        .BeFailure(CreateResultFailure());
-
-    [Fact]
-    public async Task BindAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
-        (await CreateSuccess(5)
-            .BindAsync(IncrementBindAsync)
-            .Bind(IncrementBind)
-            .BindAsync(IncrementBindAsync)
-            .BindAsync(IncrementBindAsync)
-            .BindAsync(IncrementBindAsync))
-        .Should()
-        .BeSuccess(10);
+        .BeFailure(TestBehaviors.CreateResultFailure());
 
     [Fact]
     public async Task BindAsync_ShouldReturnSuccess_GivenValueIsSuccess() =>
-        (await CreateSuccess(5)
-            .BindAsync(IncrementBindAsync))
+        (await TestBehaviors.CreateSuccess(5).BindAsync(TestBehaviors.IncrementBindAsync))
         .Should()
         .BeSuccess(6);
 
     [Fact]
     public void Equals_ShouldReturnFalse_GivenBothAreSuccessWithDifferentValue() =>
-        CreateSuccess(5).Equals(CreateSuccess(10)).Should().BeFalse();
+        TestBehaviors.CreateSuccess(5).Equals(TestBehaviors.CreateSuccess(10)).Should().BeFalse();
 
     [Fact]
     public void Equals_ShouldReturnFalse_GivenOneIsFailureAndOtherIsSuccess() =>
-        CreateSuccess(10).Equals(CreateFailure()).Should().BeFalse();
+        TestBehaviors.CreateSuccess(10).Equals(TestBehaviors.CreateFailure<int>()).Should().BeFalse();
 
     [Fact]
     public void Equals_ShouldReturnFalse_GivenOneIsSuccessAndOtherIsFailure() =>
-        CreateFailure().Equals(CreateSuccess(10)).Should().BeFalse();
+        TestBehaviors.CreateFailure<int>().Equals(TestBehaviors.CreateSuccess(10)).Should().BeFalse();
 
     [Fact]
     public void Equals_ShouldReturnTrue_GivenBothAreNone() =>
@@ -146,32 +111,32 @@ public class ResultTest
 
     [Fact]
     public void Equals_ShouldReturnTrue_GivenBothAreSuccessWithSameValue() =>
-        CreateSuccess(10).Equals(CreateSuccess(10)).Should().BeTrue();
+        TestBehaviors.CreateSuccess(10).Equals(TestBehaviors.CreateSuccess(10)).Should().BeTrue();
 
     [Fact]
-    public void FromError_ShouldReturnError()
+    public void Failure_ShouldHaveFailureState()
     {
-        var result = CreateFailure();
+        var result = TestBehaviors.CreateFailure<int>();
         result.IsFailure.Should().BeTrue();
         result.IsSuccess.Should().BeFalse();
     }
 
     [Fact]
-    public void FromSuccess_ShouldReturnSuccess()
+    public void Success_ShouldHaveSuccessState()
     {
-        var result = CreateSuccess(0);
+        var result = TestBehaviors.CreateSuccess(0);
         result.IsFailure.Should().BeFalse();
         result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
     public void GetFailureUnsafe_ShouldReturn_GivenFailure() =>
-        CreateFailure().GetFailureUnsafe().Should().Be(CreateResultFailure());
+        TestBehaviors.CreateFailure<int>().GetFailureUnsafe().Should().Be(TestBehaviors.CreateResultFailure());
 
     [Fact]
     public void GetFailureUnsafe_ShouldThrowResultException_GivenFailure()
     {
-        Action act = () => CreateSuccess(5).GetFailureUnsafe();
+        Action act = () => TestBehaviors.CreateSuccess(5).GetFailureUnsafe();
         act.Should().Throw<InvalidOperationException>().Which.Message.Should()
             .Be("Result is not in Failure state.");
     }
@@ -180,25 +145,25 @@ public class ResultTest
     public void GetHashCode_ShouldReturnValue_GivenFailure()
     {
         const int value = 35;
-        CreateSuccess(value).GetHashCode().Should().Be(value.GetHashCode());
+        TestBehaviors.CreateSuccess(value).GetHashCode().Should().Be(value.GetHashCode());
     }
 
     [Fact]
     public void GetHashCode_ShouldReturnValue_GivenSuccess()
     {
-        var failure = CreateResultFailure();
+        var failure = TestBehaviors.CreateResultFailure();
         Result<int>.FromFailure(failure).GetHashCode().Should().Be(failure.GetHashCode());
     }
 
     [Fact]
     public void GetSuccessUnsafe_ShouldReturn_GivenSuccess() =>
-        CreateSuccess(5).GetSuccessUnsafe().Should().Be(5);
+        TestBehaviors.CreateSuccess(5).GetSuccessUnsafe().Should().Be(5);
 
     [Fact]
     public void GetSuccessUnsafe_ShouldThrowResultException_GivenFailure()
     {
-        var expectedException = CreateResultFailure().ToException();
-        Action act = () => CreateFailure().GetSuccessUnsafe();
+        var expectedException = TestBehaviors.CreateResultFailure().ToException();
+        Action act = () => TestBehaviors.CreateFailure<int>().GetSuccessUnsafe();
         var exception = act.Should().Throw<Exception>().Which;
         exception.Should().BeOfType(expectedException.GetType());
         exception.Message.Should().Be(expectedException.Message);
@@ -208,7 +173,7 @@ public class ResultTest
     public void IfFailure_ShouldBeExecuted_GivenValueIsFailure()
     {
         var test = 10;
-        CreateFailure().IfFailure(_ => test = 0);
+        TestBehaviors.CreateFailure<int>().IfFailure(_ => test = 0);
         test.Should().Be(0);
     }
 
@@ -216,31 +181,31 @@ public class ResultTest
     public void IfFailure_ShouldNotBeExecuted_GivenValueIsSuccess()
     {
         var test = 10;
-        CreateSuccess(50).IfFailure(_ => test = 0);
+        TestBehaviors.CreateSuccess(50).IfFailure(_ => test = 0);
         test.Should().Be(10);
     }
 
     [Fact]
     public void IfFailure_ShouldReturnDefaultValue_GivenValueIsFailure() =>
-        CreateFailure().IfFailure(10).Should().Be(10);
+        TestBehaviors.CreateFailure<int>().IfFailure(10).Should().Be(10);
 
     [Fact]
     public void IfFailure_ShouldReturnFailureOperation_GivenValueIsFailure() =>
-        CreateFailure().IfFailure(_ => 0).Should().Be(0);
+        TestBehaviors.CreateFailure<int>().IfFailure(_ => 0).Should().Be(0);
 
     [Fact]
     public void IfFailure_ShouldReturnSuccess_GivenValueIsSuccess() =>
-        CreateSuccess(50).IfFailure(0).Should().Be(50);
+        TestBehaviors.CreateSuccess(50).IfFailure(0).Should().Be(50);
 
     [Fact]
     public void IfFailure_ShouldReturnSuccessOperation_GivenValueIsSuccess2() =>
-        CreateSuccess(50).IfFailure(_ => 0).Should().Be(50);
+        TestBehaviors.CreateSuccess(50).IfFailure(_ => 0).Should().Be(50);
 
     [Fact]
     public void IfSuccess_ShouldBeExecuted_GivenValueIsSuccess()
     {
         var test = 10;
-        CreateSuccess(10).IfSuccess(value => test += value);
+        TestBehaviors.CreateSuccess(10).IfSuccess(value => test += value);
         test.Should().Be(20);
     }
 
@@ -248,62 +213,29 @@ public class ResultTest
     public void IfSuccess_ShouldNotBeExecuted_GivenValueIsFailure()
     {
         var test = 10;
-        CreateFailure().IfSuccess(_ => test = 0);
+        TestBehaviors.CreateFailure<int>().IfSuccess(_ => test = 0);
         test.Should().Be(10);
     }
 
     [Fact]
     public void IfSuccess_ShouldReturnResult_GivenValueIsFailure() =>
-        CreateFailure()
+        TestBehaviors.CreateFailure<int>()
             .IfSuccess(_ => { })
             .Should()
-            .BeFailure(CreateResultFailure());
+            .BeFailure(TestBehaviors.CreateResultFailure());
 
     [Fact]
     public void IfSuccess_ShouldReturnResult_GivenValueIsSuccess() =>
-        CreateSuccess(10)
+        TestBehaviors.CreateSuccess(10)
             .IfSuccess(_ => { })
             .Should()
             .BeSuccess(10);
 
     [Fact]
-    public async Task IfSuccessAsync_ShouldBeExecuted_GivenValueIsChainedSuccess()
-    {
-        var test = 10;
-        await CreateSuccess(0)
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            });
-        test.Should().Be(15);
-    }
-
-    [Fact]
     public async Task IfSuccessAsync_ShouldBeExecuted_GivenValueIsSuccess()
     {
         var test = 10;
-        await CreateSuccess(10).IfSuccessAsync(value =>
+        await TestBehaviors.CreateSuccess(10).IfSuccessAsync(value =>
         {
             test += value;
             return Task.CompletedTask;
@@ -312,38 +244,10 @@ public class ResultTest
     }
 
     [Fact]
-    public async Task IfSuccessAsync_ShouldNotBeExecuted_GivenValueIsChainedFailure()
-    {
-        var test = 10;
-        await CreateFailure()
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            })
-            .IfSuccessAsync(_ =>
-            {
-                test++;
-                return Task.CompletedTask;
-            });
-        test.Should().Be(10);
-    }
-
-    [Fact]
     public async Task IfSuccessAsync_ShouldNotBeExecuted_GivenValueIsFailure()
     {
         var test = 10;
-        await CreateFailure().IfSuccessAsync(value =>
+        await TestBehaviors.CreateFailure<int>().IfSuccessAsync(value =>
         {
             test += value;
             return Task.CompletedTask;
@@ -352,32 +256,13 @@ public class ResultTest
     }
 
     [Fact]
-    public async Task IfSuccessAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
-        (await CreateFailure()
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask))
-        .Should().BeFailure(CreateResultFailure());
-
-    [Fact]
     public async Task IfSuccessAsync_ShouldReturnResult_GivenValueIsFailure() =>
-        (await CreateFailure().IfSuccessAsync(_ => Task.CompletedTask)).Should().BeFailure(CreateResultFailure());
+        (await TestBehaviors.CreateFailure<int>().IfSuccessAsync(_ => Task.CompletedTask)).Should()
+        .BeFailure(TestBehaviors.CreateResultFailure());
 
     [Fact]
     public async Task IfSuccessAsync_ShouldReturnResult_GivenValueIsSuccess() =>
-        (await CreateSuccess(10).IfSuccessAsync(_ => Task.CompletedTask)).Should().BeSuccess(10);
-
-    [Fact]
-    public async Task IfSuccessAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
-        (await CreateSuccess(5)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask)
-            .IfSuccessAsync(_ => Task.CompletedTask))
-        .Should().BeSuccess(5);
+        (await TestBehaviors.CreateSuccess(10).IfSuccessAsync(_ => Task.CompletedTask)).Should().BeSuccess(10);
 
     [Fact]
     public void ImplicitOperator_ShouldConvertToSuccess_GivenValueIsSuccess()
@@ -391,7 +276,7 @@ public class ResultTest
     public void Map_ShouldReturnFailure_GivenOperationThrowsException()
     {
         var expectedException = new Exception("Error");
-        CreateSuccess(5)
+        TestBehaviors.CreateSuccess(5)
             .Map(value =>
             {
                 throw expectedException;
@@ -403,15 +288,15 @@ public class ResultTest
 
     [Fact]
     public void Map_ShouldReturnFailure_GivenValueIsFailure() =>
-        CreateFailure()
-            .Map(Increment)
+        TestBehaviors.CreateFailure<int>()
+            .Map(TestBehaviors.Increment)
             .Should()
-            .BeFailure(CreateResultFailure());
+            .BeFailure(TestBehaviors.CreateResultFailure());
 
     [Fact]
     public void Map_ShouldReturnSuccess_GivenValueIsSuccess() =>
-        CreateSuccess(5)
-            .Map(Increment)
+        TestBehaviors.CreateSuccess(5)
+            .Map(TestBehaviors.Increment)
             .Should()
             .BeSuccess(6);
 
@@ -419,7 +304,7 @@ public class ResultTest
     public async Task MapAsync_ShouldReturnFailure_GivenOperationThrowsException()
     {
         var expectedException = new Exception("Error");
-        (await CreateSuccess(5)
+        (await TestBehaviors.CreateSuccess(5)
                 .MapAsync(value =>
                 {
                     throw expectedException;
@@ -430,37 +315,16 @@ public class ResultTest
     }
 
     [Fact]
-    public async Task MapAsync_ShouldReturnFailure_GivenValueIsChainedFailure() =>
-        (await CreateFailure()
-            .MapAsync(IncrementAsync)
-            .Map(Increment)
-            .MapAsync(IncrementAsync)
-            .MapAsync(IncrementAsync)
-            .MapAsync(IncrementAsync))
-        .Should()
-        .BeFailure(CreateResultFailure());
-
-    [Fact]
     public async Task MapAsync_ShouldReturnFailure_GivenValueIsFailure() =>
-        (await CreateFailure()
-            .MapAsync(IncrementAsync))
+        (await TestBehaviors.CreateFailure<int>()
+            .MapAsync(TestBehaviors.IncrementAsync))
         .Should()
-        .BeFailure(CreateResultFailure());
-
-    [Fact]
-    public async Task MapAsync_ShouldReturnSuccess_GivenValueIsChainedSuccess() =>
-        (await CreateSuccess(5)
-            .MapAsync(IncrementAsync)
-            .Map(Increment)
-            .MapAsync(IncrementAsync)
-            .MapAsync(IncrementAsync)
-            .MapAsync(IncrementAsync))
-        .Should().BeSuccess(10);
+        .BeFailure(TestBehaviors.CreateResultFailure());
 
     [Fact]
     public async Task MapAsync_ShouldReturnSuccess_GivenValueIsSuccess() =>
-        (await CreateSuccess(5)
-            .MapAsync(IncrementAsync))
+        (await TestBehaviors.CreateSuccess(5)
+            .MapAsync(TestBehaviors.IncrementAsync))
         .Should()
         .BeSuccess(6);
 
@@ -468,7 +332,7 @@ public class ResultTest
     public void Match_ShouldExecuteFailureOperation_GivenValueIsSuccess()
     {
         var value = 0;
-        CreateFailure().Match(success => value = success, _ => value = -1);
+        TestBehaviors.CreateFailure<int>().Match(success => value = success, _ => value = -1);
         value.Should().Be(-1);
     }
 
@@ -476,62 +340,46 @@ public class ResultTest
     public void Match_ShouldExecuteSuccessOperation_GivenValueIsSuccess()
     {
         var value = 0;
-        CreateSuccess(5).Match(success => value = success, _ => value = -1);
+        TestBehaviors.CreateSuccess(5).Match(success => value = success, _ => value = -1);
         value.Should().Be(5);
     }
 
     [Fact]
     public void Match_ShouldReturnFailureOperation_GivenValueIsFailure() =>
-        CreateFailure()
+        TestBehaviors.CreateFailure<int>()
             .Match(value => value.ToString(), failure => failure.GetFailureMessage())
             .Should()
-            .Be("Some error");
+            .Be("Error");
 
     [Fact]
     public void Match_ShouldReturnSuccessOperation_GivenValueIsSuccess() =>
-        CreateSuccess(5)
-            .Match(Increment, _ => 0)
+        TestBehaviors.CreateSuccess(5)
+            .Match(TestBehaviors.Increment, _ => 0)
             .Should()
             .Be(6);
 
     [Fact]
     public void Merge_ShouldReturnFailure_GivenFirstMonadIsFailure() =>
-        CreateFailure()
-            .Merge(CreateSuccess(5), (first, second) => new {First = first, Second = second})
+        TestBehaviors.CreateFailure<int>()
+            .Merge(TestBehaviors.CreateSuccess(5), (first, second) => new {First = first, Second = second})
             .Should()
-            .BeFailure(CreateResultFailure());
+            .BeFailure(TestBehaviors.CreateResultFailure());
 
     [Fact]
     public void Merge_ShouldReturnFailure_GivenSecondMonadIsFailure() =>
-        CreateSuccess(5)
-            .Merge(CreateFailure(), (first, second) => new {First = first, Second = second})
+        TestBehaviors.CreateSuccess(5)
+            .Merge(TestBehaviors.CreateFailure<int>(), (first, second) => new {First = first, Second = second})
             .Should()
-            .BeFailure(CreateResultFailure());
+            .BeFailure(TestBehaviors.CreateResultFailure());
 
     [Fact]
     public void Merge_ShouldReturnSuccess_GivenBothResultsAreSuccess() =>
-        CreateSuccess(5)
-            .Merge(CreateSuccess(10), (first, second) => new {First = first, Second = second})
+        TestBehaviors.CreateSuccess(5)
+            .Merge(TestBehaviors.CreateSuccess(10), (first, second) => new {First = first, Second = second})
             .Should()
             .BeSuccess(success =>
             {
                 success.First.Should().Be(5);
                 success.Second.Should().Be(10);
             });
-
-    private static Result<int> CreateFailure() =>
-        Result<int>.FromFailure(CreateResultFailure());
-
-    private static ResultFailure CreateResultFailure() => ResultFailure.FromErrorMessage("Some error");
-
-    private static Result<int> CreateSuccess(int value) => Result<int>.FromSuccess(value);
-
-    private static int Increment(int value) => value + 1;
-
-    private static Task<int> IncrementAsync(int value) => Task.FromResult(value + 1);
-
-    private static Result<int> IncrementBind(int value) => Result<int>.FromSuccess(value + 1);
-
-    private static Task<Result<int>> IncrementBindAsync(int value) =>
-        Task.FromResult(Result<int>.FromSuccess(value + 1));
 }

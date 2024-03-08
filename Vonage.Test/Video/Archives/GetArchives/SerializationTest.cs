@@ -42,6 +42,7 @@ public class SerializationTest
         success.Items[0].Url.Should()
             .Be(
                 "https://tokbox.com.archive2.s3.amazonaws.com/123456/09141e29-8770-439b-b180-337d7e637545/archive.mp4");
+        success.Items[0].MultiArchiveTag.Should().Be("custom-tag");
         success.Items[0].Streams.Length.Should().Be(1);
         success.Items[0].Streams[0].StreamId.Should().Be("abc123");
         success.Items[0].Streams[0].HasAudio.Should().BeTrue();

@@ -24,8 +24,15 @@ namespace Vonage.Test
         private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
         private const string MockedMethod = "SendAsync";
         private const string JsonRegexPattern = "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+";
-        protected string ApiUrl => this.configuration.Settings["appSettings:Vonage.Url.Api"];
-        protected string RestUrl => this.configuration.Settings["appSettings:Vonage.Url.Rest"];
+
+        protected string ApiUrl =>
+            this.configuration.VonageUrls.Nexmo.AbsoluteUri.Substring(0,
+                this.configuration.VonageUrls.Nexmo.AbsoluteUri.Length - 1);
+
+        protected string RestUrl =>
+            this.configuration.VonageUrls.Rest.AbsoluteUri.Substring(0,
+                this.configuration.VonageUrls.Rest.AbsoluteUri.Length - 1);
+
         protected readonly string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
         protected readonly string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
 

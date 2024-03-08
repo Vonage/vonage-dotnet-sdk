@@ -1,0 +1,17 @@
+{
+  "name": "vonage-dotnet-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bump_version.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vonage/vonage-dotnet-sdk.git"
+  },
+  "private": true,
+  "dependencies": {
+    "xml2js": "^0.6.2"
+  }
+}

@@ -10,7 +10,6 @@ public class RedactClient : IRedactClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
-    public Credentials Credentials { get; set; }
 
     public RedactClient(Credentials creds = null)
     {
@@ -25,6 +24,8 @@ public class RedactClient : IRedactClient
         this.timeProvider = timeProvider;
     }
 
+    public Credentials Credentials { get; set; }
+
     /// <inheritdoc/>
     [Obsolete("Favor asynchronous version instead.")]
     public bool Redact(RedactRequest request, Credentials creds = null)
@@ -33,7 +34,7 @@ public class RedactClient : IRedactClient
             .DoRequestWithJsonContent<object>
             (
                 HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/v1/redact/transaction"),
                 request,
                 AuthType.Basic
             );
@@ -47,7 +48,7 @@ public class RedactClient : IRedactClient
             .DoRequestWithJsonContentAsync<object>
             (
                 HttpMethod.Post,
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/v1/redact/transaction"),
                 request,
                 AuthType.Basic
             );

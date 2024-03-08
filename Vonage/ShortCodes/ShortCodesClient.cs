@@ -9,7 +9,6 @@ public class ShortCodesClient : IShortCodesClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
-    public Credentials Credentials { get; set; }
 
     public ShortCodesClient(Credentials credentials = null)
     {
@@ -24,12 +23,14 @@ public class ShortCodesClient : IShortCodesClient
         this.timeProvider = timeProvider;
     }
 
+    public Credentials Credentials { get; set; }
+
     /// <inheritdoc/>
     [Obsolete("Favor asynchronous version instead.")]
     public OptInRecord ManageOptIn(OptInManageRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<OptInRecord>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/manage/json"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/opt-in/manage/json"),
                 AuthType.Query,
                 request);
 
@@ -37,7 +38,7 @@ public class ShortCodesClient : IShortCodesClient
     public Task<OptInRecord> ManageOptInAsync(OptInManageRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<OptInRecord>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/manage/json"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/opt-in/manage/json"),
                 AuthType.Query,
                 request);
 
@@ -46,7 +47,7 @@ public class ShortCodesClient : IShortCodesClient
     public OptInSearchResponse QueryOptIns(OptInQueryRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<OptInSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/query/json"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/opt-in/query/json"),
                 AuthType.Query,
                 request);
 
@@ -54,7 +55,7 @@ public class ShortCodesClient : IShortCodesClient
     public Task<OptInSearchResponse> QueryOptInsAsync(OptInQueryRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<OptInSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/query/json"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/opt-in/query/json"),
                 AuthType.Query,
                 request);
 
@@ -63,7 +64,7 @@ public class ShortCodesClient : IShortCodesClient
     public AlertResponse SendAlert(AlertRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<AlertResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/json"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/json"),
                 AuthType.Query,
                 request);
 
@@ -71,7 +72,7 @@ public class ShortCodesClient : IShortCodesClient
     public Task<AlertResponse> SendAlertAsync(AlertRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<AlertResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/json"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/json"),
                 AuthType.Query,
                 request);
 
@@ -80,7 +81,7 @@ public class ShortCodesClient : IShortCodesClient
     public TwoFactorAuthResponse SendTwoFactorAuth(TwoFactorAuthRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<TwoFactorAuthResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/2fa/json"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/2fa/json"),
                 AuthType.Query,
                 request);
 
@@ -88,7 +89,7 @@ public class ShortCodesClient : IShortCodesClient
     public Task<TwoFactorAuthResponse> SendTwoFactorAuthAsync(TwoFactorAuthRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<TwoFactorAuthResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/2fa/json"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/2fa/json"),
                 AuthType.Query,
                 request);
 
