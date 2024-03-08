@@ -19,6 +19,7 @@ public static class ServiceCollectionExtensions
     /// <returns>The updated services.</returns>
     public static IServiceCollection AddVonageClientScoped(this IServiceCollection services, Credentials credentials)
     {
+        services.AddScoped(_ => credentials);
         services.AddScoped(_ => new VonageClient(credentials));
         RegisterScopedServices(services);
         return services;
@@ -35,6 +36,7 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         var vonageConfiguration = Configuration.FromConfiguration(configuration);
+        services.AddScoped(_ => vonageConfiguration.BuildCredentials());
         services.AddScoped(_ => new VonageClient(vonageConfiguration));
         RegisterScopedServices(services);
         return services;
@@ -49,6 +51,7 @@ public static class ServiceCollectionExtensions
     /// <returns>The updated services.</returns>
     public static IServiceCollection AddVonageClientTransient(this IServiceCollection services, Credentials credentials)
     {
+        services.AddTransient(_ => credentials);
         services.AddTransient(_ => new VonageClient(credentials));
         RegisterTransientServices(services);
         return services;
@@ -65,6 +68,7 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         var vonageConfiguration = Configuration.FromConfiguration(configuration);
+        services.AddTransient(_ => vonageConfiguration.BuildCredentials());
         services.AddTransient(_ => new VonageClient(vonageConfiguration));
         RegisterTransientServices(services);
         return services;

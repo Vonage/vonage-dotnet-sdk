@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Vonage.Common.Failures;
 
 namespace Vonage.Common.Monads;
 
@@ -92,5 +93,21 @@ public static class ResultExtensions
     {
         var result = await task;
         return await result.MapAsync(map);
+    }
+
+    /// <summary>
+    ///     Match the two states of the Result and return a non-null TB.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="successOperation">Success match operation.</param>
+    /// <param name="failureOperation">Failure match operation.</param>
+    /// <typeparam name="TSource">Source type.</typeparam>
+    /// <typeparam name="TDestination">Return type.</typeparam>
+    /// <returns>A non-null TB.</returns>
+    public static async Task<TDestination> Match<TSource, TDestination>(this Task<Result<TSource>> task,
+        Func<TSource, TDestination> successOperation, Func<IResultFailure, TDestination> failureOperation)
+    {
+        var result = await task;
+        return result.Match(successOperation, failureOperation);
     }
 }

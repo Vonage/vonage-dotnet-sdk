@@ -8,15 +8,23 @@ namespace Vonage.Video.Archives.CreateArchive;
 
 internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForApplicationId, IBuilderForOptional
 {
+    private Guid applicationId;
     private bool hasAudio = true;
     private bool hasVideo = true;
-    private Guid applicationId;
     private Layout layout;
-    private Maybe<string> name = Maybe<string>.None;
+    private Maybe<string> multiArchiveTag;
+    private Maybe<string> name;
     private OutputMode outputMode = OutputMode.Composed;
-    private RenderResolution resolution = RenderResolution.StandardDefinitionLandscape;
-    private StreamMode streamMode = StreamMode.Auto;
+    private Maybe<RenderResolution> resolution;
     private string sessionId;
+    private StreamMode streamMode = StreamMode.Auto;
+
+    /// <inheritdoc />
+    public IBuilderForSessionId WithApplicationId(Guid value)
+    {
+        this.applicationId = value;
+        return this;
+    }
 
     /// <inheritdoc />
     public Result<CreateArchiveRequest> Create() =>
@@ -31,6 +39,7 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
                 Layout = this.layout,
                 Name = this.name,
                 Resolution = this.resolution,
+                MultiArchiveTag = this.multiArchiveTag,
             })
             .Map(InputEvaluation<CreateArchiveRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifySessionId, VerifyApplicationId));
@@ -46,13 +55,6 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
     public IBuilderForOptional DisableVideo()
     {
         this.hasVideo = false;
-        return this;
-    }
-
-    /// <inheritdoc />
-    public IBuilderForSessionId WithApplicationId(Guid value)
-    {
-        this.applicationId = value;
         return this;
     }
 
@@ -85,16 +87,23 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
     }
 
     /// <inheritdoc />
-    public IBuilderForOptional WithSessionId(string value)
+    public IBuilderForOptional WithStreamMode(StreamMode value)
     {
-        this.sessionId = value;
+        this.streamMode = value;
         return this;
     }
 
     /// <inheritdoc />
-    public IBuilderForOptional WithStreamMode(StreamMode value)
+    public IBuilderForOptional WithMultiArchiveTag(string value)
     {
-        this.streamMode = value;
+        this.multiArchiveTag = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithSessionId(string value)
+    {
+        this.sessionId = value;
         return this;
     }
 
@@ -182,4 +191,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateArchiveReques
     /// <param name="value">The value.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithStreamMode(StreamMode value);
+
+    /// <summary>
+    ///     Sets the multi-archive tag.
+    /// </summary>
+    /// <param name="value">The tag/</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithMultiArchiveTag(string value);
 }

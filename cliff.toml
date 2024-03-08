@@ -57,6 +57,7 @@ commit_parsers = [
     { message = "^ci", group = "Pipelines" },
     { message = "^Revert", group = "Reverts" },
     { message = "^Merge", group = "Merges" },
+    { message = "^upgrade", group = "Dependencies upgrade" },
     { message = ".*", group = "Other", default_scope = "other" }
 ]
 # protect breaking changes from being skipped due to matching a skipping commit_parser

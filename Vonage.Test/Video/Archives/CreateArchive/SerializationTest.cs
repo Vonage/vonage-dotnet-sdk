@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions;
+using Vonage.Common.Monads;
 using Vonage.Serialization;
 using Vonage.Server;
 using Vonage.Test.Common;
@@ -26,9 +27,15 @@ public class SerializationTest
 
     [Fact]
     public void ShouldSerialize() =>
+        BuildRequest()
+            .GetStringContent()
+            .Should()
+            .BeSuccess(this.helper.GetRequestJson());
+
+    internal static Result<CreateArchiveRequest> BuildRequest() =>
         CreateArchiveRequest
             .Build()
-            .WithApplicationId(Guid.NewGuid())
+            .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
             .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
             .WithArchiveLayout(new Layout(LayoutType.Pip,
                 "stream.instructor {position: absolute; width: 100%;  height:50%;}", LayoutType.BestFit))
@@ -38,21 +45,22 @@ public class SerializationTest
             .WithStreamMode(StreamMode.Manual)
             .DisableVideo()
             .DisableAudio()
-            .Create()
+            .WithMultiArchiveTag("custom-tag")
+            .Create();
+
+    [Fact]
+    public void ShouldSerializeDefault() =>
+        BuildDefaultRequest()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
 
-    [Fact]
-    public void ShouldSerializeDefault() =>
+    internal static Result<CreateArchiveRequest> BuildDefaultRequest() =>
         CreateArchiveRequest
             .Build()
-            .WithApplicationId(Guid.NewGuid())
+            .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
             .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
-            .Create()
-            .GetStringContent()
-            .Should()
-            .BeSuccess(this.helper.GetRequestJson());
+            .Create();
 
     internal static void VerifyArchive(Archive success)
     {
@@ -72,6 +80,7 @@ public class SerializationTest
         success.Url.Should()
             .Be(
                 "https://tokbox.com.archive2.s3.amazonaws.com/123456/09141e29-8770-439b-b180-337d7e637545/archive.mp4");
+        success.MultiArchiveTag.Should().Be("custom-tag");
         success.Streams.Length.Should().Be(1);
         success.Streams[0].StreamId.Should().Be("abc123");
         success.Streams[0].HasAudio.Should().BeTrue();

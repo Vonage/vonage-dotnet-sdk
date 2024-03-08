@@ -35,9 +35,9 @@ namespace Vonage.Test
             configuration.SigningMethod.Should().BeEmpty();
             configuration.UserAgent.Should().BeEmpty();
             configuration.EuropeApiUrl.Should().Be(new Uri("https://api-eu.vonage.com"));
-            configuration.NexmoApiUrl.Should().Be(new Uri("https://api.nexmo.com"));
-            configuration.RestApiUrl.Should().Be(new Uri("https://rest.nexmo.com"));
-            configuration.VideoApiUrl.Should().Be(new Uri("https://video.api.vonage.com"));
+            configuration.VonageUrls.Nexmo.Should().Be(new Uri("https://api.nexmo.com"));
+            configuration.VonageUrls.Rest.Should().Be(new Uri("https://rest.nexmo.com"));
+            configuration.VonageUrls.Video.Should().Be(new Uri("https://video.api.vonage.com"));
             configuration.RequestTimeout.Should().BeNone();
         }
 
@@ -93,7 +93,7 @@ namespace Vonage.Test
                 {
                     {"appSettings:Vonage.Url.Api", "https://api.vonage.com"},
                 })
-                .Build()).NexmoApiUrl.Should().Be(new Uri("https://api.vonage.com"));
+                .Build()).VonageUrls.Nexmo.Should().Be(new Uri("https://api.vonage.com"));
 
         [Fact]
         public void FromConfiguration_ShouldSetRequestTimeout_GivenConfigurationContainsRequestTimeout() =>
@@ -111,7 +111,7 @@ namespace Vonage.Test
                 {
                     {"appSettings:Vonage.Url.Rest", "https://api.vonage.com"},
                 })
-                .Build()).RestApiUrl.Should().Be(new Uri("https://api.vonage.com"));
+                .Build()).VonageUrls.Rest.Should().Be(new Uri("https://api.vonage.com"));
 
         [Fact]
         public void FromConfiguration_ShouldSetSecuritySecret_GivenConfigurationContainsSecuritySecret() =>
@@ -147,6 +147,65 @@ namespace Vonage.Test
                 {
                     {"appSettings:Vonage.Url.Api.Video", "https://api.vonage.com"},
                 })
-                .Build()).VideoApiUrl.Should().Be(new Uri("https://api.vonage.com"));
+                .Build()).VonageUrls.Video.Should().Be(new Uri("https://api.vonage.com"));
+
+        [Theory]
+        [InlineData(VonageUrls.Region.US, "appSettings:Vonage.Url.Api.Us")]
+        [InlineData(VonageUrls.Region.EU, "appSettings:Vonage.Url.Api.Eu")]
+        [InlineData(VonageUrls.Region.APAC, "appSettings:Vonage.Url.Api.Apac")]
+        public void VonageUrl_ShouldReturnCustomApiUsUrl_GivenConfigurationContainsApiUsUrl(VonageUrls.Region region,
+            string key) =>
+            Configuration.FromConfiguration(new ConfigurationBuilder().AddInMemoryCollection(
+                    new Dictionary<string, string>
+                    {
+                        {key, "https://api.com"},
+                    }).Build())
+                .VonageUrls.Get(region).Should().Be(new Uri("https://api.com"));
+
+        [Fact]
+        public void VonageUrl_ShouldReturnCustomNexmoUrl_GivenConfigurationContainsDefaultUrl() =>
+            Configuration.FromConfiguration(new ConfigurationBuilder()
+                    .AddInMemoryCollection(new Dictionary<string, string>
+                        {{"appSettings:Vonage.Url.Api", "https://api.com"}}).Build())
+                .VonageUrls.Nexmo.Should().Be(new Uri("https://api.com"));
+
+        [Fact]
+        public void VonageUrl_ShouldReturnCustomRestUrl_GivenConfigurationContainsRestUrl() =>
+            Configuration.FromConfiguration(new ConfigurationBuilder().AddInMemoryCollection(
+                    new Dictionary<string, string>
+                    {
+                        {"appSettings:Vonage.Url.Rest", "https://api.com"},
+                    }).Build())
+                .VonageUrls.Rest.Should().Be(new Uri("https://api.com"));
+
+        [Fact]
+        public void VonageUrl_ShouldReturnCustomVideoUrl_GivenConfigurationContainsVideoUrl() =>
+            Configuration.FromConfiguration(new ConfigurationBuilder().AddInMemoryCollection(
+                    new Dictionary<string, string>
+                    {
+                        {"appSettings:Vonage.Url.Api.Video", "https://api.com"},
+                    }).Build())
+                .VonageUrls.Video.Should().Be(new Uri("https://api.com"));
+
+        [Theory]
+        [InlineData(VonageUrls.Region.US, "https://api-us.vonage.com")]
+        public void VonageUrl_ShouldReturnDefaultApiUsUrl(VonageUrls.Region region, string defaultValue) =>
+            Configuration.FromConfiguration(new ConfigurationBuilder().Build())
+                .VonageUrls.Get(region).Should().Be(new Uri(defaultValue));
+
+        [Fact]
+        public void VonageUrl_ShouldReturnDefaultRestUrl() =>
+            Configuration.FromConfiguration(new ConfigurationBuilder().Build())
+                .VonageUrls.Rest.Should().Be(new Uri("https://rest.nexmo.com"));
+
+        [Fact]
+        public void VonageUrl_ShouldReturnDefaultVideoUrl() =>
+            Configuration.FromConfiguration(new ConfigurationBuilder().Build())
+                .VonageUrls.Video.Should().Be(new Uri("https://video.api.vonage.com"));
+
+        [Fact]
+        public void VonageUrl_ShouldReturnNexmoUrl() =>
+            Configuration.FromConfiguration(new ConfigurationBuilder().Build())
+                .VonageUrls.Nexmo.Should().Be(new Uri("https://api.nexmo.com"));
     }
 }

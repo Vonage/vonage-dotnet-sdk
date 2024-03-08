@@ -9,7 +9,6 @@ public class ConversionClient : IConversionClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
-    public Credentials Credentials { get; set; }
 
     public ConversionClient(Credentials creds = null)
     {
@@ -24,6 +23,8 @@ public class ConversionClient : IConversionClient
         this.timeProvider = timeProvider;
     }
 
+    public Credentials Credentials { get; set; }
+
     /// <inheritdoc/>
     [Obsolete("Favor asynchronous version instead.")]
     public bool SmsConversion(ConversionRequest request, Credentials creds = null)
@@ -31,7 +32,7 @@ public class ConversionClient : IConversionClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObject<object>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/conversions/sms"),
                 request
             );
         return true;
@@ -43,7 +44,7 @@ public class ConversionClient : IConversionClient
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<object>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/conversions/sms"),
                 request
             );
         return true;
@@ -56,7 +57,7 @@ public class ConversionClient : IConversionClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObject<object>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/conversions/voice"),
                 request
             );
         return true;
@@ -68,7 +69,7 @@ public class ConversionClient : IConversionClient
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<object>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/conversions/voice"),
                 request
             );
         return true;

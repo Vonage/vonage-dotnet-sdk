@@ -1,201 +1,377 @@
 # Changelog
+## [v6.16.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.16.0) (2024-03-07)
+
+### Bug Fixes
+
+- Wrong setup in test ([e497cf0](https://github.com/Vonage/vonage-dotnet-sdk/commit/e497cf007c4d2d1a5c432ccff78940a100a4db32))
+
+
+### Documentation
+
+- Generate changelog for v6.15.5 ([9b83a1d](https://github.com/Vonage/vonage-dotnet-sdk/commit/9b83a1dff97c3c459eb6fb6f53269d9d037fb631))
+
+- Create migration guide for v7.0.0 ([d9d65f5](https://github.com/Vonage/vonage-dotnet-sdk/commit/d9d65f577d2c84d5bb0b271986707a43302bb221))
+
+
+### Features
+
+- Add async capabilities on Maybe ([9446d9c](https://github.com/Vonage/vonage-dotnet-sdk/commit/9446d9c43e8d3eeec2f0ca9aa1ebd26b1bbff500))
+
+- Implement async extensions on Maybe ([c09d7c0](https://github.com/Vonage/vonage-dotnet-sdk/commit/c09d7c0b26d58b6b6223458da8190307c0fbb0db))
+
+- Support Match extension on async Result ([c6574f8](https://github.com/Vonage/vonage-dotnet-sdk/commit/c6574f828c7f3c3c60324fc99d4bcd9689d23701))
+
+- Support optional From in VerifyV2 Sms worflow ([e1e7900](https://github.com/Vonage/vonage-dotnet-sdk/commit/e1e7900f4acffd04a98a440638febdf042aca129))
+
+
+### Other
+
+- Remove module from stryker config ([64bbd1e](https://github.com/Vonage/vonage-dotnet-sdk/commit/64bbd1e71fd378d37b7347eb9e80e546a4d9b400))
+
+- Upgrade stryker to v4 ([8d1bd74](https://github.com/Vonage/vonage-dotnet-sdk/commit/8d1bd74a2fef0a48770265e2c349b00ef86cb311))
+
+- Add gitignore to solution ([3a4f0d5](https://github.com/Vonage/vonage-dotnet-sdk/commit/3a4f0d539f2c719b8475cfe56d29b1f7f67490b0))
+
+- Add bump_version script to increase the version and generate a changelog ([a902c76](https://github.com/Vonage/vonage-dotnet-sdk/commit/a902c76a603baeffe109a8907a06fbe0110e4df3))
+
+- Fix spacing in bump script ([758aa8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/758aa8d4a5e08f365097a225fb4f79cb7f9fd2ab))
+
+- Bump version to v6.16.0' ([b1dcd1a](https://github.com/Vonage/vonage-dotnet-sdk/commit/b1dcd1aeb4d6176beaf11fe08c657cff3f7523c7))
+
+- Add missing command in bump version script ([f920c2d](https://github.com/Vonage/vonage-dotnet-sdk/commit/f920c2d12976805abad55200e41d389e9ec5e430))
+
+- Fix commands in bump version script ([5a3d1cd](https://github.com/Vonage/vonage-dotnet-sdk/commit/5a3d1cdcb493817153d513b42f9d98dfc36e939d))
+
+
+### Refactoring
+
+- Move Result extensions tests in a specific file ([713c0be](https://github.com/Vonage/vonage-dotnet-sdk/commit/713c0be4bda3e925062edf76974f042ddcb14dde))
+
+- Move tests behaviors for Monads in a specific collection ([f6954b6](https://github.com/Vonage/vonage-dotnet-sdk/commit/f6954b64703c5f66d1bfadd9e929759ee452b1a3))
+
+- Clean duplicates in ResultTest ([6ee846f](https://github.com/Vonage/vonage-dotnet-sdk/commit/6ee846f448ac5042f4be59a5ccf04714a536cf05))
+
+
+## [v6.15.5](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.5) (2024-02-29)
+
+### Dependencies upgrade
+
+- Update packages ([28701c2](https://github.com/Vonage/vonage-dotnet-sdk/commit/28701c201ca6f8cfc7034d6efdb91623d862276a))
+
+
+### Documentation
+
+- Generate changelog for v6.15.4 ([f9c7b06](https://github.com/Vonage/vonage-dotnet-sdk/commit/f9c7b066e4f5112fa5bab4aff06dba6ae5d048b1))
+
+- Add new category in cliff configuration ([5380bd3](https://github.com/Vonage/vonage-dotnet-sdk/commit/5380bd3a379849004f37bf04a930364ae879c1c9))
+
+
+### Features
+
+- Add EntityId and ContentId on SmsWorkflow ([197513c](https://github.com/Vonage/vonage-dotnet-sdk/commit/197513c837f2b31792c1f52aba6d71e07896a61a))
+
+- Support multiArchiveTag when creating an archive ([142c988](https://github.com/Vonage/vonage-dotnet-sdk/commit/142c988e44721a3f370edf11626bd334fd13a153))
+
+- Support multiArchiveTag on archive responses ([d9b38c2](https://github.com/Vonage/vonage-dotnet-sdk/commit/d9b38c24420a39e40c441222e19bb5d8620c3eb3))
+
+
+### Releases
+
+- Bump version to v6.15.5 ([0b6decb](https://github.com/Vonage/vonage-dotnet-sdk/commit/0b6decbc8110a2fa4a2200fa9dd84822c703358f))
+
+
+## [v6.15.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.4) (2024-02-26)
+
+### Bug Fixes
+
+- Remove default resolution when creating an archive ([6570363](https://github.com/Vonage/vonage-dotnet-sdk/commit/657036338792e37bcb0fa1a11fb20510c6700d4e))
+
+
+### Documentation
+
+- Generate changelog for v6.15.3 ([dad79a5](https://github.com/Vonage/vonage-dotnet-sdk/commit/dad79a5659ea0577b2ec1195d71130ec7ed5cd7d))
+
+
+### Releases
+
+- Bump version to v6.15.4 ([080e68f](https://github.com/Vonage/vonage-dotnet-sdk/commit/080e68f35478453b94a86271992af1388247fdea))
+
+
+## [v6.15.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.3) (2024-02-23)
+
+### Documentation
+
+- Generate changelog for v6.15.2 ([40b6792](https://github.com/Vonage/vonage-dotnet-sdk/commit/40b6792553caa94e914dccf8f9e8b8c9bf212a99))
+
+
+### Features
+
+- Register Credentials in service collection extensions ([7d7d7a9](https://github.com/Vonage/vonage-dotnet-sdk/commit/7d7d7a96d59c6b0edbdf597eeab97c8735514e63))
+
+- Enable custom claims for Video token ([a6cbb5c](https://github.com/Vonage/vonage-dotnet-sdk/commit/a6cbb5c6c819f010915b8abeef69162ca07c27aa))
+
+
+### Releases
+
+- Bump version to v6.15.3 ([ad94cbe](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad94cbed2966b30c4bb534efce4ad53d3866ca51))
+
+
+## [v6.15.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.2) (2024-02-22)
+
+### Bug Fixes
+
+- Pass claims for VideoToken serialization ([1a42173](https://github.com/Vonage/vonage-dotnet-sdk/commit/1a421738336226f0a9c3e19c583323b24d7f3e31))
+
+
+### Documentation
+
+- Update readme about next major version ([d619f2c](https://github.com/Vonage/vonage-dotnet-sdk/commit/d619f2ce1a6a9d9c58b03e30d5c09da0118bac27))
+
+- Update readme with latest breaking changes ([331938c](https://github.com/Vonage/vonage-dotnet-sdk/commit/331938c1b2b34eeb1ba69e36362e119c87c39d6c))
+
+
+### Releases
+
+- Bump version to v6.15.2 ([145d545](https://github.com/Vonage/vonage-dotnet-sdk/commit/145d5456748c0eb8d23e0a4a2b17a4c10f5dbae0))
+
+
+## [v6.15.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.1) (2024-02-21)
+
+### Bug Fixes
+
+- Downgrade Stryker to v3.12.0 until v3.13.x is fixed ([e89ee70](https://github.com/Vonage/vonage-dotnet-sdk/commit/e89ee70b34ea1442c7440dfc6f905a3128546b71))
+
+- Downgrade Stryker to v3.12.0 until v3.13.x is fixed ([d978992](https://github.com/Vonage/vonage-dotnet-sdk/commit/d978992c0385472c20f727e664d08f0b5b7f2dd1))
+
+- Use configuration instance instead of singleton in ApiRequest ([779bae0](https://github.com/Vonage/vonage-dotnet-sdk/commit/779bae09e22151247631f29a9e7ea6cabca330c0))
+
+
+### Documentation
+
+- Generate changelog for v6.15.0 ([46187e1](https://github.com/Vonage/vonage-dotnet-sdk/commit/46187e1848a5f04b957a69f23adc924c2fe9ec64))
+
+- Generate changelog for v6.15.1 ([7484324](https://github.com/Vonage/vonage-dotnet-sdk/commit/748432400fa7833c436cdd9435fdd0b28cff8552))
+
+
+### Features
+
+- Implement request for GetUserConversations ([d315f61](https://github.com/Vonage/vonage-dotnet-sdk/commit/d315f617c546f04656760da24003a1a88db246b2))
+
+- Implement endpoint construction for GetUserConversations ([91a6132](https://github.com/Vonage/vonage-dotnet-sdk/commit/91a6132865fca15aa1307daeeb3e6b9b2655bbc4))
+
+- Implement request creation from HalLink for GetUserConversations ([68fbbd5](https://github.com/Vonage/vonage-dotnet-sdk/commit/68fbbd5ebf480b7362ac39659de4a6619582ff70))
+
+- Implement GetUserConversations ([fee8589](https://github.com/Vonage/vonage-dotnet-sdk/commit/fee85899403007d1868c31e5c426ec0a2ccebc31))
+
+- Implement new object VonageUrls to handle multi-region urls ([6ccc249](https://github.com/Vonage/vonage-dotnet-sdk/commit/6ccc249e86beb4407fcf8fd780212921f23ceea3))
+
+
+### Merges
+
+- Merge remote-tracking branch 'origin/main'
+ ([be02e1c](https://github.com/Vonage/vonage-dotnet-sdk/commit/be02e1cb330a348645bf315d1030e9efeb78f633))
+
+
+### Other
+
+- Refactor on Meetings Client ([a37a78f](https://github.com/Vonage/vonage-dotnet-sdk/commit/a37a78f2005a6b684561f50c6a7acd9aae6fbe42))
+
+
+### Refactoring
+
+- Exclude .NET Frameworks from target frameworks ([a0cdb4f](https://github.com/Vonage/vonage-dotnet-sdk/commit/a0cdb4ff9138c7af235f646a4bcfa04809a84dce))
+
+- Use builder when creating request from a HalLink ([78d2b71](https://github.com/Vonage/vonage-dotnet-sdk/commit/78d2b717e786d52b5e73a9ac60841f072301ec5c))
+
+- Use builder when creating request from a HalLink ([f880710](https://github.com/Vonage/vonage-dotnet-sdk/commit/f8807101110fb063d26f0cad3c88a3e05a1246ab))
+
+- Enable test parallelization (#566) ([d87e0e1](https://github.com/Vonage/vonage-dotnet-sdk/commit/d87e0e1c1e7ae6b2a74a0686ad6b9f1ef8cac4e5))
+
+- Make builders immutable for Conversations ([25a7648](https://github.com/Vonage/vonage-dotnet-sdk/commit/25a7648100f1d88c56a229f2988d47af7fa3bba1))
+
+- Code cleanup on tests ([e3b8506](https://github.com/Vonage/vonage-dotnet-sdk/commit/e3b8506dd476154c617396167c95c09dfe517708))
+
+- Clean HalLink builders ([f52d115](https://github.com/Vonage/vonage-dotnet-sdk/commit/f52d1151a9aee76c655ae4ce4dd721d505a5a5ec))
+
+- Clean empty folders ([79ab4d1](https://github.com/Vonage/vonage-dotnet-sdk/commit/79ab4d15d9f1a039f41b26ba759dcc90cc680f7f))
+
+- Add trait on serialization tests ([5d048a6](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d048a6c69e8b98b037b48a7ae312c3e829878e8))
+
+- Add missing traits ([72aff33](https://github.com/Vonage/vonage-dotnet-sdk/commit/72aff33ac46dc7797bd5f7abfa817a09699967b9))
+
+- Add legacy traits on tests ([7a56337](https://github.com/Vonage/vonage-dotnet-sdk/commit/7a5633774f9094346535a01f03b12a812562bd98))
+
+- Remove url information from Configuration ([00197f5](https://github.com/Vonage/vonage-dotnet-sdk/commit/00197f5cba5f84f537cc366bd7f647f8f3f754b3))
+
+- Mark urls obsolete in Configuration, in favor of the VonageUrls property ([55c138a](https://github.com/Vonage/vonage-dotnet-sdk/commit/55c138a06731ff475738f7cec72cdb83f15198a6))
+
+- Remove uses of Configuration.VideoApiUrl ([f02fc6f](https://github.com/Vonage/vonage-dotnet-sdk/commit/f02fc6f757da33cdcf53ba605342202acf2ffadb))
+
+- Remove uses of Configuration.RestApiUrl ([34b5d40](https://github.com/Vonage/vonage-dotnet-sdk/commit/34b5d40cc7f4b71c43aa222f0936b966613c086b))
+
+- Remove uses of Configuration.NexmoApiUrl ([d19fb8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/d19fb8d0836f06edbe5e633fe722c48c2e74c26a))
+
+
+### Releases
+
+- Bump version to v6.15.1 ([25c5d09](https://github.com/Vonage/vonage-dotnet-sdk/commit/25c5d09984a621bc9e8827d2bf5049beed40d9d6))
+
 
 ## [v6.15.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.0) (2023-12-20)
 
 ### Bug Fixes
 
-- Remove Vonage.Common from
-  workflows ([45b1d70](https://github.com/Vonage/vonage-dotnet-sdk/commit/45b1d70c8717095701444b2731d32b7a12d42357))
+- Remove Vonage.Common from workflows ([45b1d70](https://github.com/Vonage/vonage-dotnet-sdk/commit/45b1d70c8717095701444b2731d32b7a12d42357))
 
-- Broken test due to incompatible target-typed
-  new ([5ba9500](https://github.com/Vonage/vonage-dotnet-sdk/commit/5ba9500a92b254dc34f1dea1e0e7302697849ee1))
+- Broken test due to incompatible target-typed new ([5ba9500](https://github.com/Vonage/vonage-dotnet-sdk/commit/5ba9500a92b254dc34f1dea1e0e7302697849ee1))
+
 
 ### Documentation
 
-- Update
-  changelog ([b8d4a5f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b8d4a5ff01747f889d44da1ffd2a72355e7bbe4f))
+- Update changelog ([b8d4a5f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b8d4a5ff01747f889d44da1ffd2a72355e7bbe4f))
 
-- Add migration guide for Video
-  API ([1b2bc1f](https://github.com/Vonage/vonage-dotnet-sdk/commit/1b2bc1f7dcedbbed92d4b282333258f41f807140))
+- Add migration guide for Video API ([1b2bc1f](https://github.com/Vonage/vonage-dotnet-sdk/commit/1b2bc1f7dcedbbed92d4b282333258f41f807140))
 
-- Add missing header link in
-  migrations ([8af1d00](https://github.com/Vonage/vonage-dotnet-sdk/commit/8af1d0063cad4812e5ac40cbce9f8392563908d7))
+- Add missing header link in migrations ([8af1d00](https://github.com/Vonage/vonage-dotnet-sdk/commit/8af1d0063cad4812e5ac40cbce9f8392563908d7))
+
 
 ### Features
 
-- Extend support for
-  VideoTokenGenerator ([8716a7a](https://github.com/Vonage/vonage-dotnet-sdk/commit/8716a7a5ff97b9caa719646d8025d615ce7af1df))
+- Extend support for VideoTokenGenerator ([8716a7a](https://github.com/Vonage/vonage-dotnet-sdk/commit/8716a7a5ff97b9caa719646d8025d615ce7af1df))
 
-- Implement serialization for
-  CreateConversation ([a871912](https://github.com/Vonage/vonage-dotnet-sdk/commit/a8719129fe28d19ddb4ddc50e3d92aae2fc8391e))
+- Implement serialization for CreateConversation ([a871912](https://github.com/Vonage/vonage-dotnet-sdk/commit/a8719129fe28d19ddb4ddc50e3d92aae2fc8391e))
 
-- Implement
-  CreateConversation ([d1e2d9e](https://github.com/Vonage/vonage-dotnet-sdk/commit/d1e2d9ee97d7d92b8e2132ef4a573140c895681a))
+- Implement CreateConversation ([d1e2d9e](https://github.com/Vonage/vonage-dotnet-sdk/commit/d1e2d9ee97d7d92b8e2132ef4a573140c895681a))
 
-- Add net8.0 as target-framework for test projects (
-  #560) ([3da8df5](https://github.com/Vonage/vonage-dotnet-sdk/commit/3da8df5a75492ad7be17118cda15545214fbbfa7))
+- Add net8.0 as target-framework for test projects (#560) ([3da8df5](https://github.com/Vonage/vonage-dotnet-sdk/commit/3da8df5a75492ad7be17118cda15545214fbbfa7))
 
-- Implement parsing for
-  DeleteConversation ([e36996a](https://github.com/Vonage/vonage-dotnet-sdk/commit/e36996ae4919f39b5d4263bf8c8c738d2f1dff41))
+- Implement parsing for DeleteConversation ([e36996a](https://github.com/Vonage/vonage-dotnet-sdk/commit/e36996ae4919f39b5d4263bf8c8c738d2f1dff41))
 
-- Implement
-  DeleteConversationRequest ([77cf0ce](https://github.com/Vonage/vonage-dotnet-sdk/commit/77cf0ce9d6543eff40386247e0d6cd29d7f85933))
+- Implement DeleteConversationRequest ([77cf0ce](https://github.com/Vonage/vonage-dotnet-sdk/commit/77cf0ce9d6543eff40386247e0d6cd29d7f85933))
 
-- Implement
-  DeleteConversation ([f4e1396](https://github.com/Vonage/vonage-dotnet-sdk/commit/f4e1396004c9b1c016166e9c85300074362c8208))
+- Implement DeleteConversation ([f4e1396](https://github.com/Vonage/vonage-dotnet-sdk/commit/f4e1396004c9b1c016166e9c85300074362c8208))
 
-- Implement
-  GetConversationRequest ([90cd652](https://github.com/Vonage/vonage-dotnet-sdk/commit/90cd652d1b71c5a021768ab8d404ac1ac5b285ca))
+- Implement GetConversationRequest ([90cd652](https://github.com/Vonage/vonage-dotnet-sdk/commit/90cd652d1b71c5a021768ab8d404ac1ac5b285ca))
 
-- Implement serialization for
-  GetConversation ([2b29193](https://github.com/Vonage/vonage-dotnet-sdk/commit/2b29193544c054fe9dd974882b6a9c5080cd4c03))
+- Implement serialization for GetConversation ([2b29193](https://github.com/Vonage/vonage-dotnet-sdk/commit/2b29193544c054fe9dd974882b6a9c5080cd4c03))
 
-- Implement
-  GetConversation ([f890405](https://github.com/Vonage/vonage-dotnet-sdk/commit/f8904051dfdfab9805c6c354688ed9554e0191e9))
+- Implement GetConversation ([f890405](https://github.com/Vonage/vonage-dotnet-sdk/commit/f8904051dfdfab9805c6c354688ed9554e0191e9))
 
-- Implement builder for
-  GetConversations ([cee1ff6](https://github.com/Vonage/vonage-dotnet-sdk/commit/cee1ff6fc9a331904d82d23ce31069db6ebc91db))
+- Implement builder for GetConversations ([cee1ff6](https://github.com/Vonage/vonage-dotnet-sdk/commit/cee1ff6fc9a331904d82d23ce31069db6ebc91db))
 
-- Implement GetEndpointPath for
-  GetConversations ([1edd9e9](https://github.com/Vonage/vonage-dotnet-sdk/commit/1edd9e998b2ff9572a48a41ac60d61ac082beb88))
+- Implement GetEndpointPath for GetConversations ([1edd9e9](https://github.com/Vonage/vonage-dotnet-sdk/commit/1edd9e998b2ff9572a48a41ac60d61ac082beb88))
 
-- Implement serialization for
-  GetConversations ([e519ca9](https://github.com/Vonage/vonage-dotnet-sdk/commit/e519ca98338a9c8ec6e94d69be551257acdbc43a))
+- Implement serialization for GetConversations ([e519ca9](https://github.com/Vonage/vonage-dotnet-sdk/commit/e519ca98338a9c8ec6e94d69be551257acdbc43a))
 
-- Implement
-  GetConversations ([d53529f](https://github.com/Vonage/vonage-dotnet-sdk/commit/d53529ff9734052873529be0a3bd5f6ea14041d3))
+- Implement GetConversations ([d53529f](https://github.com/Vonage/vonage-dotnet-sdk/commit/d53529ff9734052873529be0a3bd5f6ea14041d3))
 
-- Implement BuildRequest on hal link for
-  GetConversations ([5008bd0](https://github.com/Vonage/vonage-dotnet-sdk/commit/5008bd0b69a05e6bf933db6757c3b299f1b85f87))
+- Implement BuildRequest on hal link for GetConversations ([5008bd0](https://github.com/Vonage/vonage-dotnet-sdk/commit/5008bd0b69a05e6bf933db6757c3b299f1b85f87))
 
-- Implement request builder for
-  UpdateConversation ([46ff578](https://github.com/Vonage/vonage-dotnet-sdk/commit/46ff578d816df0a82eb2c0062eb28a40a961efe7))
+- Implement request builder for UpdateConversation ([46ff578](https://github.com/Vonage/vonage-dotnet-sdk/commit/46ff578d816df0a82eb2c0062eb28a40a961efe7))
 
-- Implement serialization for
-  UpdateConversation ([5c683e2](https://github.com/Vonage/vonage-dotnet-sdk/commit/5c683e251604fce6f002d4a13d0377f5a55b666e))
+- Implement serialization for UpdateConversation ([5c683e2](https://github.com/Vonage/vonage-dotnet-sdk/commit/5c683e251604fce6f002d4a13d0377f5a55b666e))
 
-- Implement request for
-  UpdateConversation ([53a7ee9](https://github.com/Vonage/vonage-dotnet-sdk/commit/53a7ee9d087f003c7fc86f66713eeb927b5e976a))
+- Implement request for UpdateConversation ([53a7ee9](https://github.com/Vonage/vonage-dotnet-sdk/commit/53a7ee9d087f003c7fc86f66713eeb927b5e976a))
 
-- Implement
-  UpdateConversation ([e60d8de](https://github.com/Vonage/vonage-dotnet-sdk/commit/e60d8de6a978a598acb16b03ebe0365c53cac3c5))
+- Implement UpdateConversation ([e60d8de](https://github.com/Vonage/vonage-dotnet-sdk/commit/e60d8de6a978a598acb16b03ebe0365c53cac3c5))
+
 
 ### Refactoring
 
-- Move Conversation to enable
-  reusability ([d6740d7](https://github.com/Vonage/vonage-dotnet-sdk/commit/d6740d7fcadc18e7ff3f6941725615052d4ded7d))
+- Move Conversation to enable reusability ([d6740d7](https://github.com/Vonage/vonage-dotnet-sdk/commit/d6740d7fcadc18e7ff3f6941725615052d4ded7d))
 
-- Remove Vonage.Common (
-  #562) ([93bba4b](https://github.com/Vonage/vonage-dotnet-sdk/commit/93bba4b35973e345638761d71ec46b2bfa435401))
+- Remove Vonage.Common (#562) ([93bba4b](https://github.com/Vonage/vonage-dotnet-sdk/commit/93bba4b35973e345638761d71ec46b2bfa435401))
 
-- Rename Vonage.Test.Unit into Vonage.Test (
-  #563) ([b9c565d](https://github.com/Vonage/vonage-dotnet-sdk/commit/b9c565df6cd288e931cb802dc33d9f68061c8259))
+- Rename Vonage.Test.Unit into Vonage.Test (#563) ([b9c565d](https://github.com/Vonage/vonage-dotnet-sdk/commit/b9c565df6cd288e931cb802dc33d9f68061c8259))
+
 
 ### Releases
 
-- Bump version to
-  v6.15.0 ([e311974](https://github.com/Vonage/vonage-dotnet-sdk/commit/e31197412a2b203e62a4dbe5370bbbb229f33efd))
+- Bump version to v6.15.0 ([e311974](https://github.com/Vonage/vonage-dotnet-sdk/commit/e31197412a2b203e62a4dbe5370bbbb229f33efd))
+
 
 ## [v6.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.14.0) (2023-12-11)
 
 ### Bug Fixes
 
-- Add specific System.Net.Http for Vonage.Common.Test to avoid mismatch when building with
-  .NetFramework ([aa6a2d1](https://github.com/Vonage/vonage-dotnet-sdk/commit/aa6a2d1bd9b2b58bee0bc1833142f9978993df1f))
+- Add specific System.Net.Http for Vonage.Common.Test to avoid mismatch when building with .NetFramework ([aa6a2d1](https://github.com/Vonage/vonage-dotnet-sdk/commit/aa6a2d1bd9b2b58bee0bc1833142f9978993df1f))
 
-- Add explicit reference to System.Net.Http for
-  .NetFramework4.6.2 ([5d151b6](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d151b6170723bbf337d79773fe6ec85a7753111))
+- Add explicit reference to System.Net.Http for .NetFramework4.6.2 ([5d151b6](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d151b6170723bbf337d79773fe6ec85a7753111))
+
 
 ### Documentation
 
 - Update changelog after v6.13.0 tag ([a89ee57](https://github.com/Vonage/vonage-dotnet-sdk/commit/a89ee57cb323db0b28b73c93e1292b4b3ac84429))
 
-- Update
-  changelog ([ea21a0c](https://github.com/Vonage/vonage-dotnet-sdk/commit/ea21a0c838a9226c148f774b67c49e5493ea0080))
+- Update changelog ([ea21a0c](https://github.com/Vonage/vonage-dotnet-sdk/commit/ea21a0c838a9226c148f774b67c49e5493ea0080))
 
-- Update readme with available
-  APIs ([13875a8](https://github.com/Vonage/vonage-dotnet-sdk/commit/13875a835a51519edc78b4c3682e5ca060871b5d))
+- Update readme with available APIs ([13875a8](https://github.com/Vonage/vonage-dotnet-sdk/commit/13875a835a51519edc78b4c3682e5ca060871b5d))
+
 
 ### Features
 
-- Base structure for CreateConversation in Conversations
-  API ([b401dc7](https://github.com/Vonage/vonage-dotnet-sdk/commit/b401dc7220775f7b965f83b93ceec7ef42bc142d))
+- Base structure for CreateConversation in Conversations API ([b401dc7](https://github.com/Vonage/vonage-dotnet-sdk/commit/b401dc7220775f7b965f83b93ceec7ef42bc142d))
 
-- Implement CreateConversationResponse
-  deserialization ([98b6539](https://github.com/Vonage/vonage-dotnet-sdk/commit/98b6539125f774a2e58114aea2ea7c701590761a))
+- Implement CreateConversationResponse deserialization ([98b6539](https://github.com/Vonage/vonage-dotnet-sdk/commit/98b6539125f774a2e58114aea2ea7c701590761a))
 
-- Override .ToString() on
-  Maybe<T> ([09133a0](https://github.com/Vonage/vonage-dotnet-sdk/commit/09133a05fe517e0dddaf21b0bf50a7733535e06a))
+- Override .ToString() on Maybe<T> ([09133a0](https://github.com/Vonage/vonage-dotnet-sdk/commit/09133a05fe517e0dddaf21b0bf50a7733535e06a))
 
-- Implement Merge capability on
-  Maybe<T> ([f961208](https://github.com/Vonage/vonage-dotnet-sdk/commit/f96120835c58d657f3cc722f6ee0d92da9a5db70))
+- Implement Merge capability on Maybe<T> ([f961208](https://github.com/Vonage/vonage-dotnet-sdk/commit/f96120835c58d657f3cc722f6ee0d92da9a5db70))
 
-- Implement GetFailureUnsafe on
-  Result<T> ([038c24e](https://github.com/Vonage/vonage-dotnet-sdk/commit/038c24e3b3c6a00b94181dde28a08ce6fb637250))
+- Implement GetFailureUnsafe on Result<T> ([038c24e](https://github.com/Vonage/vonage-dotnet-sdk/commit/038c24e3b3c6a00b94181dde28a08ce6fb637250))
 
-- Add BeEquivalentTo assertions to Maybe<T> and
-  Result<T> ([364d43d](https://github.com/Vonage/vonage-dotnet-sdk/commit/364d43ddf75b19c5ac55740fe918b0fa60017314))
+- Add BeEquivalentTo assertions to Maybe<T> and Result<T> ([364d43d](https://github.com/Vonage/vonage-dotnet-sdk/commit/364d43ddf75b19c5ac55740fe918b0fa60017314))
 
-- Implement builder for Name & DisplayName in
-  CreateConversation ([5b1b575](https://github.com/Vonage/vonage-dotnet-sdk/commit/5b1b57502f77e1b0fdebcbf734cc284c9e052de9))
+- Implement builder for Name & DisplayName in CreateConversation ([5b1b575](https://github.com/Vonage/vonage-dotnet-sdk/commit/5b1b57502f77e1b0fdebcbf734cc284c9e052de9))
 
-- Implement builder for Uri in
-  CreateConversation ([4d012dd](https://github.com/Vonage/vonage-dotnet-sdk/commit/4d012dd8774f3f304fee04af5c5ba97d8bf14a54))
+- Implement builder for Uri in CreateConversation ([4d012dd](https://github.com/Vonage/vonage-dotnet-sdk/commit/4d012dd8774f3f304fee04af5c5ba97d8bf14a54))
 
-- Implement builder for Properties in
-  CreateConversation ([7a8c4c1](https://github.com/Vonage/vonage-dotnet-sdk/commit/7a8c4c13d0adcfe2b79b716b41e6e074cd720c8c))
+- Implement builder for Properties in CreateConversation ([7a8c4c1](https://github.com/Vonage/vonage-dotnet-sdk/commit/7a8c4c13d0adcfe2b79b716b41e6e074cd720c8c))
 
-- Implement builder for Callback in
-  CreateConversation ([61511f3](https://github.com/Vonage/vonage-dotnet-sdk/commit/61511f3320887f2423ad7589ebaea9c32f29efe5))
+- Implement builder for Callback in CreateConversation ([61511f3](https://github.com/Vonage/vonage-dotnet-sdk/commit/61511f3320887f2423ad7589ebaea9c32f29efe5))
 
-- Implement request validation for
-  CreateConversation ([4250e09](https://github.com/Vonage/vonage-dotnet-sdk/commit/4250e09a11b6e4210ae92f3a5264a89854420d7d))
+- Implement request validation for CreateConversation ([4250e09](https://github.com/Vonage/vonage-dotnet-sdk/commit/4250e09a11b6e4210ae92f3a5264a89854420d7d))
 
-- Implement default serialization for
-  CreateConversation ([5d92598](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d92598504d1dc0c9022be7c76bc310497fec6b5))
+- Implement default serialization for CreateConversation ([5d92598](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d92598504d1dc0c9022be7c76bc310497fec6b5))
 
-- Implement builder for Numbers in
-  CreateConversation ([51cddd7](https://github.com/Vonage/vonage-dotnet-sdk/commit/51cddd79f2a553db5cde504bf03488d06ea77123))
+- Implement builder for Numbers in CreateConversation ([51cddd7](https://github.com/Vonage/vonage-dotnet-sdk/commit/51cddd79f2a553db5cde504bf03488d06ea77123))
 
-- Support serialization for
-  CreateConversation ([6e6cc78](https://github.com/Vonage/vonage-dotnet-sdk/commit/6e6cc78536589549e19b961acdde2806e421deda))
+- Support serialization for CreateConversation ([6e6cc78](https://github.com/Vonage/vonage-dotnet-sdk/commit/6e6cc78536589549e19b961acdde2806e421deda))
 
-- Video integration (
-  #558) ([2e5c46e](https://github.com/Vonage/vonage-dotnet-sdk/commit/2e5c46e18c22be8eb73c1daa9614feb0a36e5df6))
+- Video integration (#558) ([2e5c46e](https://github.com/Vonage/vonage-dotnet-sdk/commit/2e5c46e18c22be8eb73c1daa9614feb0a36e5df6))
+
 
 ### Merges
 
 - Merge branch 'main' of https://github.com/Vonage/vonage-dotnet-sdk
-  ([0573876](https://github.com/Vonage/vonage-dotnet-sdk/commit/057387692544222bc958c558c45bf44d4c0367d4))
+ ([0573876](https://github.com/Vonage/vonage-dotnet-sdk/commit/057387692544222bc958c558c45bf44d4c0367d4))
 
 
 ### Pipelines
 
-- Make changelog workflow dispatch
-  only ([f9466fa](https://github.com/Vonage/vonage-dotnet-sdk/commit/f9466fa14383181a7b6f9386e24fbf72634a23c9))
+- Make changelog workflow dispatch only ([f9466fa](https://github.com/Vonage/vonage-dotnet-sdk/commit/f9466fa14383181a7b6f9386e24fbf72634a23c9))
+
 
 ### Refactoring
 
-- Use value equality when asserting
-  properties ([68ff008](https://github.com/Vonage/vonage-dotnet-sdk/commit/68ff008312e7f5e488a31accb7afc79d12956912))
+- Use value equality when asserting properties ([68ff008](https://github.com/Vonage/vonage-dotnet-sdk/commit/68ff008312e7f5e488a31accb7afc79d12956912))
 
-- Add invariant culture when parsing
-  DateTimeOffset ([16bcd1b](https://github.com/Vonage/vonage-dotnet-sdk/commit/16bcd1b9114720510551535d613a3f1211112010))
+- Add invariant culture when parsing DateTimeOffset ([16bcd1b](https://github.com/Vonage/vonage-dotnet-sdk/commit/16bcd1b9114720510551535d613a3f1211112010))
 
-- Update
-  dependencies ([128712c](https://github.com/Vonage/vonage-dotnet-sdk/commit/128712c5c9c9290f491ec17c27f00c23b9b9cf9e))
+- Update dependencies ([128712c](https://github.com/Vonage/vonage-dotnet-sdk/commit/128712c5c9c9290f491ec17c27f00c23b9b9cf9e))
+
 
 ### Releases
 
-- Bump version to
-  v6.14.0 ([50cca55](https://github.com/Vonage/vonage-dotnet-sdk/commit/50cca55c7495f6fc8bdc5d62126cf62412fd8587))
+- Bump version to v6.14.0 ([50cca55](https://github.com/Vonage/vonage-dotnet-sdk/commit/50cca55c7495f6fc8bdc5d62126cf62412fd8587))
+
 
 ### Reverts
 
 - Revert "fix: add specific System.Net.Http for Vonage.Common.Test to avoid mismatch when building with .NetFramework"
 
 This reverts commit aa6a2d1bd9b2b58bee0bc1833142f9978993df1f.
-([3a39d06](https://github.com/Vonage/vonage-dotnet-sdk/commit/3a39d06200340c7a71623a872e576841c04a327d))
+ ([3a39d06](https://github.com/Vonage/vonage-dotnet-sdk/commit/3a39d06200340c7a71623a872e576841c04a327d))
 
 
 ## [v6.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.13.0) (2023-12-01)
@@ -298,6 +474,8 @@ This reverts commit aa6a2d1bd9b2b58bee0bc1833142f9978993df1f.
 
 ### Releases
 
+- Include package Vonage.Common ([bce66db](https://github.com/Vonage/vonage-dotnet-sdk/commit/bce66db2288a72cf0ff9350acb82dae33722f2d0))
+
 - Bump version to v6.13.0 ([fc17ed9](https://github.com/Vonage/vonage-dotnet-sdk/commit/fc17ed90a8de7c02d500e85ad2f0a5363ea41363))
 
 
@@ -317,13 +495,6 @@ This reverts commit b861905a438cfe47a0c627375d170ebfdcd7cbbf.
 
 This reverts commit 00d89a309f02dbf0ac5720dbff379a22892bb3f7.
  ([f48fa0a](https://github.com/Vonage/vonage-dotnet-sdk/commit/f48fa0a5097cd9634defcf23ef1c0d4203370249))
-
-
-## [v7.1.0-beta](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.1.0-beta) (2023-11-27)
-
-### Releases
-
-- Include package Vonage.Common ([bce66db](https://github.com/Vonage/vonage-dotnet-sdk/commit/bce66db2288a72cf0ff9350acb82dae33722f2d0))
 
 
 ## [v6.12.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.3) (2023-11-27)
@@ -453,8 +624,6 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 ### Documentation
 
-- Add v6.11.0 in changelog ([c496cb1](https://github.com/Vonage/vonage-dotnet-sdk/commit/c496cb1f6883d1f2cbf0cde46c06a2e297cedf38))
-
 - Detail upcoming major v7.0.0 release ([ba41a7e](https://github.com/Vonage/vonage-dotnet-sdk/commit/ba41a7ed42da5567c51011ef1ffec64980fdfcbe))
 
 - Update code of conduct ([7ca9a2a](https://github.com/Vonage/vonage-dotnet-sdk/commit/7ca9a2a99f298b55181bf16c7362c9862b04817a))
@@ -505,9 +674,9 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Reduce duplication in SubAccountsClient (#545) ([929b331](https://github.com/Vonage/vonage-dotnet-sdk/commit/929b331fec563c6d764efef31f81558a0aad9bea))
 
-- Reduce duplication in ProactiveConnect UpdateList (#546) ([9e51219](https://github.com/Vonage/vonage-dotnet-sdk/commit/9e5121929ac9a584e2db3c2f28932e9bda590ac0))
-
 - Reduce duplication in ResultAssertions ([75bb036](https://github.com/Vonage/vonage-dotnet-sdk/commit/75bb036bd7e6c51ca7b68f96091e8f43f1f77eaa))
+
+- Reduce duplication in ProactiveConnect UpdateList (#546) ([9e51219](https://github.com/Vonage/vonage-dotnet-sdk/commit/9e5121929ac9a584e2db3c2f28932e9bda590ac0))
 
 - Reduce duplication in Sip InitiateCall tests ([b4acd2c](https://github.com/Vonage/vonage-dotnet-sdk/commit/b4acd2ce04faed470a6888427fe901760c37e064))
 
@@ -530,6 +699,8 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 - Update changelog with v6.10.1 ([a550a7b](https://github.com/Vonage/vonage-dotnet-sdk/commit/a550a7b516cc4b88231a82db5786fc7e79550527))
 
 - Add documentation on RequestTimeout configuration in readme ([bba0442](https://github.com/Vonage/vonage-dotnet-sdk/commit/bba04427d8b4b7bd64298e87ba4c6fd9909b1d05))
+
+- Add v6.11.0 in changelog ([c496cb1](https://github.com/Vonage/vonage-dotnet-sdk/commit/c496cb1f6883d1f2cbf0cde46c06a2e297cedf38))
 
 
 ### Features
@@ -597,8 +768,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Fix some build warnings (#525) ([ab9e28d](https://github.com/Vonage/vonage-dotnet-sdk/commit/ab9e28d7c49c4d417c3bae4500ef06147694e919))
 
-- Restore tests parallelism for Vonage.Test.Unit (
-  #526) ([9d5239e](https://github.com/Vonage/vonage-dotnet-sdk/commit/9d5239e40fb7b7d20d91047a3ea1bbc7d3f01b11))
+- Restore tests parallelism for Vonage.Test.Unit (#526) ([9d5239e](https://github.com/Vonage/vonage-dotnet-sdk/commit/9d5239e40fb7b7d20d91047a3ea1bbc7d3f01b11))
 
 
 ### Refactoring
@@ -627,8 +797,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Remove obsolete method on TestBase (#521) ([5fa633d](https://github.com/Vonage/vonage-dotnet-sdk/commit/5fa633de67cc97e184abea1f59688ee8de497c82))
 
-- Enable parallelized tests on Vonage.Test.Unit (
-  #522) ([0ed7896](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ed7896ffc3c00c109e39ced4e741451cfdf2fb2))
+- Enable parallelized tests on Vonage.Test.Unit (#522) ([0ed7896](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ed7896ffc3c00c109e39ced4e741451cfdf2fb2))
 
 - Update TestBase (#523) ([88a198d](https://github.com/Vonage/vonage-dotnet-sdk/commit/88a198deed03822261efb2e76d49f17f53188730))
 
@@ -750,197 +919,6 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Add versioning on Meetings API Uri (#497) ([a6a64b7](https://github.com/Vonage/vonage-dotnet-sdk/commit/a6a64b70e3dc61a9cc0fa021a5f15bf27089e2aa))
 
-
-### Other
-
-- Bump Vonage.Server v7.0.2-beta
- ([bed1b4b](https://github.com/Vonage/vonage-dotnet-sdk/commit/bed1b4b7e08c0d3953160f2e79165b52f0162797))
-
-- [DEVX-7140] Remove hardcoded keys (#373)
-
-* Replace hardcoded RsaPrivateKey by environment variable
-
-* Rename variable
-
-* Remove hardcoded public/private keys
-
-* Amend readme
-
-* Update github actions with environment variable
-
-* Update Readme
-
-* Update Readme ([3c54086](https://github.com/Vonage/vonage-dotnet-sdk/commit/3c54086064050d68418cc9f81a262fdf757b27ce))
-
-- Readme update (#375)
-
-* Fix dead links and badges
-
-* Adapt summary
-
-* Try updated contributors
-
-* Remove contributors ([2fd2256](https://github.com/Vonage/vonage-dotnet-sdk/commit/2fd2256aa536f055b33b6dd5d32844f4376410e6))
-
-- [DEVX-7128] NumbersAPI update (#374)
-
-* Add possibility to exclude credentials from QueryString
-
-* Move ApiKey & ApiSecret in query string for numbers api
-
-* Refactor NumbersTests
-
-* Add missing Xml Docs, refactor query parameters generation ([ea57833](https://github.com/Vonage/vonage-dotnet-sdk/commit/ea57833580b03cf77ffb1164bed6918c817dcf55))
-
-- Unify test class names (#378) ([e31700e](https://github.com/Vonage/vonage-dotnet-sdk/commit/e31700e9fe88d94c643797439eed27f605ca57ae))
-
-- Bump version to v6.3.0
- ([1fb8362](https://github.com/Vonage/vonage-dotnet-sdk/commit/1fb8362a5c8a4474ab846bb283433ba56a266db8))
-
-- Update changelog
- ([fb6c6cc](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb6c6cc30de0c0e2eefe95c324bc1a2a2a3eb810))
-
-- Bump version to v6.3.1
- ([1135897](https://github.com/Vonage/vonage-dotnet-sdk/commit/113589739c5d7b283853151f6aca591e817c3a5f))
-
-- Packages update (#442) ([94dfcc2](https://github.com/Vonage/vonage-dotnet-sdk/commit/94dfcc2a82256399e95967a805eb02690aa19585))
-
-- Add editorconfig file
- ([1ec8fce](https://github.com/Vonage/vonage-dotnet-sdk/commit/1ec8fce1053a53579a4f43974d311bac85349483))
-
-
-### Pipelines
-
-- Bump version to 6.1.0 (#387) ([0d6e98a](https://github.com/Vonage/vonage-dotnet-sdk/commit/0d6e98a8d1117fa78bd1e4c414c9dac55fb11bc4))
-
-- Increase version to v7.0.3-beta (#394) ([980bff4](https://github.com/Vonage/vonage-dotnet-sdk/commit/980bff40a7e514366e79aceb0cc765835b981fb1))
-
-- Update core release script to be usable from main (again) (#405) ([85aaa76](https://github.com/Vonage/vonage-dotnet-sdk/commit/85aaa76e4dca3e7f69d132b4fdd7c12e8b6cf5f7))
-
-- Change negation for coreSDK publish (#408) ([7841ede](https://github.com/Vonage/vonage-dotnet-sdk/commit/7841ede7c49bd9358189e56cebf9a2f8311edec6))
-
-- Fix multiframework pipeline (#425) ([3b56879](https://github.com/Vonage/vonage-dotnet-sdk/commit/3b56879fdd3da8b75c905c3c9e12263d99b821e5))
-
-- Improve performance (#461) ([4e45da2](https://github.com/Vonage/vonage-dotnet-sdk/commit/4e45da2355746c3b4b970cd8c4fd897713e2196b))
-
-- Upgrade & improvements (#462) ([2b5fad7](https://github.com/Vonage/vonage-dotnet-sdk/commit/2b5fad7864c398b703dd796bfe3f5962a7ebaa48))
-
-- Increase java version to 17 (#486) ([ad51973](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad519737239d42b22385f2b01120e5d9a684e8c2))
-
-- Pipelines permissions (#487) ([d37ecc0](https://github.com/Vonage/vonage-dotnet-sdk/commit/d37ecc0ce2622da3cd24e6f37b9789bca07b860f))
-
-- Release (#488) ([97d4503](https://github.com/Vonage/vonage-dotnet-sdk/commit/97d450366077403e3bf63b7bcb59047d5669f975))
-
-- Pipeline permissions (#489) ([556bfba](https://github.com/Vonage/vonage-dotnet-sdk/commit/556bfba8031c92fa134ebe15a0e792a173c189c2))
-
-- Add .editorconfig to solution (#493) ([b7a03c0](https://github.com/Vonage/vonage-dotnet-sdk/commit/b7a03c0821c1947931d695ffc6e69403403f1060))
-
-- Add pre-commit-config (#496) ([5aa6768](https://github.com/Vonage/vonage-dotnet-sdk/commit/5aa676891ea0d46e7484c20f4cd96793c0be739c))
-
-- Release pipeline (#500) ([c91edb3](https://github.com/Vonage/vonage-dotnet-sdk/commit/c91edb3ea397d33cb7451a8e94efcf25432d346f))
-
-
-### Refactoring
-
-- Extend responses and monads capabilities (#377) ([259aba4](https://github.com/Vonage/vonage-dotnet-sdk/commit/259aba4f4fb1365be26495523019852168ba0e7e))
-
-- Remove duplicate code for sync version of methods (#380) ([96c496c](https://github.com/Vonage/vonage-dotnet-sdk/commit/96c496c20d9f184fc4938f73d10ce30a8f2e0419))
-
-- Warnings cleanup (#381) ([fd3d448](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd3d448ec5d72ef0c8c517883f97aa4277d9272a))
-
-- Move builder on request for VerifyV2 (#386) ([99482c8](https://github.com/Vonage/vonage-dotnet-sdk/commit/99482c8e73eb90bd8be280bda6a1535036a2f3ae))
-
-- Make builders internal (#388) ([a3784a8](https://github.com/Vonage/vonage-dotnet-sdk/commit/a3784a8a71efb9dd5e26688032dc6ecf3e75c2b6))
-
-- Refactor builders (#389) ([a56abd3](https://github.com/Vonage/vonage-dotnet-sdk/commit/a56abd301e090512533d4abbb6a769597dd7623c))
-
-- Make builders internal (#390) ([cf4cadf](https://github.com/Vonage/vonage-dotnet-sdk/commit/cf4cadf24495fdc59448d49e7d2ad9e7487c96b0))
-
-- Throw failure exception on Result<>.GetSuccessUnsafe (#404) ([cf5b654](https://github.com/Vonage/vonage-dotnet-sdk/commit/cf5b6540e15893c9bf5de5ceb31f7807ec7705ef))
-
-- Add test use case interface to facilitate new tests (#406) ([c41414d](https://github.com/Vonage/vonage-dotnet-sdk/commit/c41414d223534164a7c6095e421085719f18835a))
-
-- Improving ApiRequest (#410) ([08dd9de](https://github.com/Vonage/vonage-dotnet-sdk/commit/08dd9dee901186671f09159450ad82ebc0722643))
-
-- Make ApiRequest non-static (#411) ([d4bb72f](https://github.com/Vonage/vonage-dotnet-sdk/commit/d4bb72f8cfd4115051ef56f85fae48169c3974c5))
-
-- Clean voice tests (#414) ([d4d0f86](https://github.com/Vonage/vonage-dotnet-sdk/commit/d4d0f860e60263196de986ff4461506c541b89e9))
-
-- Move AuthenticationHeader creation on Credentials (#429) ([7ba8fd1](https://github.com/Vonage/vonage-dotnet-sdk/commit/7ba8fd1c05b67f1412aea858a271be6d24ef298e))
-
-- Use case enhancement (#430) ([851ceac](https://github.com/Vonage/vonage-dotnet-sdk/commit/851ceac2793e5bfe2408799f26731092e9c98290))
-
-- E2e testing experiment (#438) ([6de5370](https://github.com/Vonage/vonage-dotnet-sdk/commit/6de5370f013bbdf6a5489e89446d154d12da705c))
-
-- Failure extensions (#447) ([bd7828c](https://github.com/Vonage/vonage-dotnet-sdk/commit/bd7828cfedd20654699d9386476dece09f50958b))
-
-- Subaccounts e2e (#455) ([aa2a72f](https://github.com/Vonage/vonage-dotnet-sdk/commit/aa2a72fe744e7b25d0f93740623dd825c5f2d7a8))
-
-- Naming update (#456) ([ce14d49](https://github.com/Vonage/vonage-dotnet-sdk/commit/ce14d4976bcd035bc9cc3b04f217b28765415486))
-
-- Package update (#457) ([a90429a](https://github.com/Vonage/vonage-dotnet-sdk/commit/a90429a356d5aef6c6e8e682761f7976cb4df3d6))
-
-- Proactive connect e2e (#459) ([55c977a](https://github.com/Vonage/vonage-dotnet-sdk/commit/55c977a906380bd8d2247fd1e9ba7e1da42e73dd))
-
-- Meetings Api e2e (#460) ([f202f00](https://github.com/Vonage/vonage-dotnet-sdk/commit/f202f009240714dc4efea5bfca0f5710da0098fa))
-
-- Async result extensions (#470) ([edcd78c](https://github.com/Vonage/vonage-dotnet-sdk/commit/edcd78cee330f7f99cdd69af43327d009a4c1942))
-
-- Test refactoring (#469) ([f2e13a2](https://github.com/Vonage/vonage-dotnet-sdk/commit/f2e13a247e8e4823e03ff08c46f2d9c8c1375dc8))
-
-- Simplify e2e tests (#471) ([3ece2e9](https://github.com/Vonage/vonage-dotnet-sdk/commit/3ece2e957544636d03a47d1e98f9767ea21cbb18))
-
-- Simplify e2e tests (#472) ([0358fe5](https://github.com/Vonage/vonage-dotnet-sdk/commit/0358fe5fe7f148787afe3588aec4e8f4c58be2fb))
-
-- Video e2e refactoring (#473) ([2338cf6](https://github.com/Vonage/vonage-dotnet-sdk/commit/2338cf6c6d810bceb91f04cca80090f991e9c65c))
-
-- Video e2e refactoring (#476) ([460ce9e](https://github.com/Vonage/vonage-dotnet-sdk/commit/460ce9e375430b60dfa5bbd8bd4b5870e450ca43))
-
-- Video e2e refactoring (#477) ([5ece90a](https://github.com/Vonage/vonage-dotnet-sdk/commit/5ece90a2ef5ece544e618967b2f72b7a9809aa46))
-
-- Use case helpers (#478) ([bd22c5e](https://github.com/Vonage/vonage-dotnet-sdk/commit/bd22c5e80bc94302bb4bee346fb1ff420595d63b))
-
-- Update error status codes in PBT for VonageClient (#494) ([3be8f8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/3be8f8db710b3bcd27dc4c55141699903f3ceed2))
-
-- Configuration improvement (#495) ([f42def0](https://github.com/Vonage/vonage-dotnet-sdk/commit/f42def0bec653891bb110dce3101ce1e1593f967))
-
-- Extend regex timeout (#498) ([e40a432](https://github.com/Vonage/vonage-dotnet-sdk/commit/e40a4320d4d8a050424135d6a7446de9a4783713))
-
-- Remove InternalsVisibleTo property (#501) ([8b1eb77](https://github.com/Vonage/vonage-dotnet-sdk/commit/8b1eb7715e55cfd9942483c3526c3f9a6d106f88))
-
-
-### Releases
-
-- V6.3.2 (#416) ([fa9482e](https://github.com/Vonage/vonage-dotnet-sdk/commit/fa9482efddf769f74f8c1a7ced69cdf0111e0c3b))
-
-- V6.3.3 (#424) ([da9075a](https://github.com/Vonage/vonage-dotnet-sdk/commit/da9075af12da2f6953e3fb46bcb7f65cc7eb7616))
-
-- V6.5.0 (#434) ([8fd419a](https://github.com/Vonage/vonage-dotnet-sdk/commit/8fd419a30d236553acf0381838bef91c8dd95cf9))
-
-- Upgrade version to v6.6.0 (#441) ([c0a6acf](https://github.com/Vonage/vonage-dotnet-sdk/commit/c0a6acf60602cbf16f5008ce57547a8539e958dc))
-
-- V6.7.0 (#444) ([13bf2c3](https://github.com/Vonage/vonage-dotnet-sdk/commit/13bf2c3c3a2a8024d385d60a165b710e4e659770))
-
-- Upgrade version to v6.8.0 (#450) ([702766b](https://github.com/Vonage/vonage-dotnet-sdk/commit/702766bc76089cddeb0373872053f1d7e0ce8650))
-
-- Upgrade version to v7.0.4-beta (#449) ([d786398](https://github.com/Vonage/vonage-dotnet-sdk/commit/d786398f7b9b2c86fc134340f94ac7fc526e3a91))
-
-- Revert "release: upgrade version to v6.8.0" (#452) ([684362d](https://github.com/Vonage/vonage-dotnet-sdk/commit/684362d3f085ebea21efb8b531f170674ca4b85a))
-
-- V6.7.1 (#467) ([b9e925a](https://github.com/Vonage/vonage-dotnet-sdk/commit/b9e925ad3b0fd5b0a1592755099052b45de2f3ba))
-
-- V6.9.0 (#502) ([f5e03e2](https://github.com/Vonage/vonage-dotnet-sdk/commit/f5e03e24012f56fb2e09c6dcc2c263ffeb0f690d))
-
-
-### Reverts
-
-- Revert "Add editorconfig file"
-
-This reverts commit 1ec8fce1053a53579a4f43974d311bac85349483.
- ([4c56e47](https://github.com/Vonage/vonage-dotnet-sdk/commit/4c56e472eff2d2b9d2fff4669c8ec5404c21f22a))
-
-
-## [v7.0.2-beta](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.2-beta) (2023-03-16)
 
 ### Other
 
@@ -1567,8 +1545,7 @@ Co-authored-by: NexmoDev <44278943+NexmoDev@users.noreply.github.com> ([87296e3]
 
 * Reduce duplication when testing the success scenario
 
-* Remove netcoreapp3.1 from
-  Vonage.Test.Unit ([dcb6ce9](https://github.com/Vonage/vonage-dotnet-sdk/commit/dcb6ce9078fb89c1093f409ef7b6e0c959dc9bbf))
+* Remove netcoreapp3.1 from Vonage.Test.Unit ([dcb6ce9](https://github.com/Vonage/vonage-dotnet-sdk/commit/dcb6ce9078fb89c1093f409ef7b6e0c959dc9bbf))
 
 - Use builder for HttpRequestMessage (#337)
 
@@ -1954,6 +1931,192 @@ Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([8edb64b](https://github
 
 * Add missing Serializable attribute ([b9e8b38](https://github.com/Vonage/vonage-dotnet-sdk/commit/b9e8b3857ac7f03dd67f3b351a71ba7ce0b2f78d))
 
+- Bump Vonage.Server v7.0.2-beta
+ ([bed1b4b](https://github.com/Vonage/vonage-dotnet-sdk/commit/bed1b4b7e08c0d3953160f2e79165b52f0162797))
+
+- [DEVX-7140] Remove hardcoded keys (#373)
+
+* Replace hardcoded RsaPrivateKey by environment variable
+
+* Rename variable
+
+* Remove hardcoded public/private keys
+
+* Amend readme
+
+* Update github actions with environment variable
+
+* Update Readme
+
+* Update Readme ([3c54086](https://github.com/Vonage/vonage-dotnet-sdk/commit/3c54086064050d68418cc9f81a262fdf757b27ce))
+
+- Readme update (#375)
+
+* Fix dead links and badges
+
+* Adapt summary
+
+* Try updated contributors
+
+* Remove contributors ([2fd2256](https://github.com/Vonage/vonage-dotnet-sdk/commit/2fd2256aa536f055b33b6dd5d32844f4376410e6))
+
+- [DEVX-7128] NumbersAPI update (#374)
+
+* Add possibility to exclude credentials from QueryString
+
+* Move ApiKey & ApiSecret in query string for numbers api
+
+* Refactor NumbersTests
+
+* Add missing Xml Docs, refactor query parameters generation ([ea57833](https://github.com/Vonage/vonage-dotnet-sdk/commit/ea57833580b03cf77ffb1164bed6918c817dcf55))
+
+- Unify test class names (#378) ([e31700e](https://github.com/Vonage/vonage-dotnet-sdk/commit/e31700e9fe88d94c643797439eed27f605ca57ae))
+
+- Bump version to v6.3.0
+ ([1fb8362](https://github.com/Vonage/vonage-dotnet-sdk/commit/1fb8362a5c8a4474ab846bb283433ba56a266db8))
+
+- Update changelog
+ ([fb6c6cc](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb6c6cc30de0c0e2eefe95c324bc1a2a2a3eb810))
+
+- Bump version to v6.3.1
+ ([1135897](https://github.com/Vonage/vonage-dotnet-sdk/commit/113589739c5d7b283853151f6aca591e817c3a5f))
+
+- Packages update (#442) ([94dfcc2](https://github.com/Vonage/vonage-dotnet-sdk/commit/94dfcc2a82256399e95967a805eb02690aa19585))
+
+- Add editorconfig file
+ ([1ec8fce](https://github.com/Vonage/vonage-dotnet-sdk/commit/1ec8fce1053a53579a4f43974d311bac85349483))
+
+
+### Pipelines
+
+- Bump version to 6.1.0 (#387) ([0d6e98a](https://github.com/Vonage/vonage-dotnet-sdk/commit/0d6e98a8d1117fa78bd1e4c414c9dac55fb11bc4))
+
+- Increase version to v7.0.3-beta (#394) ([980bff4](https://github.com/Vonage/vonage-dotnet-sdk/commit/980bff40a7e514366e79aceb0cc765835b981fb1))
+
+- Update core release script to be usable from main (again) (#405) ([85aaa76](https://github.com/Vonage/vonage-dotnet-sdk/commit/85aaa76e4dca3e7f69d132b4fdd7c12e8b6cf5f7))
+
+- Change negation for coreSDK publish (#408) ([7841ede](https://github.com/Vonage/vonage-dotnet-sdk/commit/7841ede7c49bd9358189e56cebf9a2f8311edec6))
+
+- Fix multiframework pipeline (#425) ([3b56879](https://github.com/Vonage/vonage-dotnet-sdk/commit/3b56879fdd3da8b75c905c3c9e12263d99b821e5))
+
+- Improve performance (#461) ([4e45da2](https://github.com/Vonage/vonage-dotnet-sdk/commit/4e45da2355746c3b4b970cd8c4fd897713e2196b))
+
+- Upgrade & improvements (#462) ([2b5fad7](https://github.com/Vonage/vonage-dotnet-sdk/commit/2b5fad7864c398b703dd796bfe3f5962a7ebaa48))
+
+- Increase java version to 17 (#486) ([ad51973](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad519737239d42b22385f2b01120e5d9a684e8c2))
+
+- Pipelines permissions (#487) ([d37ecc0](https://github.com/Vonage/vonage-dotnet-sdk/commit/d37ecc0ce2622da3cd24e6f37b9789bca07b860f))
+
+- Release (#488) ([97d4503](https://github.com/Vonage/vonage-dotnet-sdk/commit/97d450366077403e3bf63b7bcb59047d5669f975))
+
+- Pipeline permissions (#489) ([556bfba](https://github.com/Vonage/vonage-dotnet-sdk/commit/556bfba8031c92fa134ebe15a0e792a173c189c2))
+
+- Add .editorconfig to solution (#493) ([b7a03c0](https://github.com/Vonage/vonage-dotnet-sdk/commit/b7a03c0821c1947931d695ffc6e69403403f1060))
+
+- Add pre-commit-config (#496) ([5aa6768](https://github.com/Vonage/vonage-dotnet-sdk/commit/5aa676891ea0d46e7484c20f4cd96793c0be739c))
+
+- Release pipeline (#500) ([c91edb3](https://github.com/Vonage/vonage-dotnet-sdk/commit/c91edb3ea397d33cb7451a8e94efcf25432d346f))
+
+
+### Refactoring
+
+- Extend responses and monads capabilities (#377) ([259aba4](https://github.com/Vonage/vonage-dotnet-sdk/commit/259aba4f4fb1365be26495523019852168ba0e7e))
+
+- Remove duplicate code for sync version of methods (#380) ([96c496c](https://github.com/Vonage/vonage-dotnet-sdk/commit/96c496c20d9f184fc4938f73d10ce30a8f2e0419))
+
+- Warnings cleanup (#381) ([fd3d448](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd3d448ec5d72ef0c8c517883f97aa4277d9272a))
+
+- Move builder on request for VerifyV2 (#386) ([99482c8](https://github.com/Vonage/vonage-dotnet-sdk/commit/99482c8e73eb90bd8be280bda6a1535036a2f3ae))
+
+- Make builders internal (#388) ([a3784a8](https://github.com/Vonage/vonage-dotnet-sdk/commit/a3784a8a71efb9dd5e26688032dc6ecf3e75c2b6))
+
+- Refactor builders (#389) ([a56abd3](https://github.com/Vonage/vonage-dotnet-sdk/commit/a56abd301e090512533d4abbb6a769597dd7623c))
+
+- Make builders internal (#390) ([cf4cadf](https://github.com/Vonage/vonage-dotnet-sdk/commit/cf4cadf24495fdc59448d49e7d2ad9e7487c96b0))
+
+- Throw failure exception on Result<>.GetSuccessUnsafe (#404) ([cf5b654](https://github.com/Vonage/vonage-dotnet-sdk/commit/cf5b6540e15893c9bf5de5ceb31f7807ec7705ef))
+
+- Add test use case interface to facilitate new tests (#406) ([c41414d](https://github.com/Vonage/vonage-dotnet-sdk/commit/c41414d223534164a7c6095e421085719f18835a))
+
+- Improving ApiRequest (#410) ([08dd9de](https://github.com/Vonage/vonage-dotnet-sdk/commit/08dd9dee901186671f09159450ad82ebc0722643))
+
+- Make ApiRequest non-static (#411) ([d4bb72f](https://github.com/Vonage/vonage-dotnet-sdk/commit/d4bb72f8cfd4115051ef56f85fae48169c3974c5))
+
+- Clean voice tests (#414) ([d4d0f86](https://github.com/Vonage/vonage-dotnet-sdk/commit/d4d0f860e60263196de986ff4461506c541b89e9))
+
+- Move AuthenticationHeader creation on Credentials (#429) ([7ba8fd1](https://github.com/Vonage/vonage-dotnet-sdk/commit/7ba8fd1c05b67f1412aea858a271be6d24ef298e))
+
+- Use case enhancement (#430) ([851ceac](https://github.com/Vonage/vonage-dotnet-sdk/commit/851ceac2793e5bfe2408799f26731092e9c98290))
+
+- E2e testing experiment (#438) ([6de5370](https://github.com/Vonage/vonage-dotnet-sdk/commit/6de5370f013bbdf6a5489e89446d154d12da705c))
+
+- Failure extensions (#447) ([bd7828c](https://github.com/Vonage/vonage-dotnet-sdk/commit/bd7828cfedd20654699d9386476dece09f50958b))
+
+- Subaccounts e2e (#455) ([aa2a72f](https://github.com/Vonage/vonage-dotnet-sdk/commit/aa2a72fe744e7b25d0f93740623dd825c5f2d7a8))
+
+- Naming update (#456) ([ce14d49](https://github.com/Vonage/vonage-dotnet-sdk/commit/ce14d4976bcd035bc9cc3b04f217b28765415486))
+
+- Package update (#457) ([a90429a](https://github.com/Vonage/vonage-dotnet-sdk/commit/a90429a356d5aef6c6e8e682761f7976cb4df3d6))
+
+- Proactive connect e2e (#459) ([55c977a](https://github.com/Vonage/vonage-dotnet-sdk/commit/55c977a906380bd8d2247fd1e9ba7e1da42e73dd))
+
+- Meetings Api e2e (#460) ([f202f00](https://github.com/Vonage/vonage-dotnet-sdk/commit/f202f009240714dc4efea5bfca0f5710da0098fa))
+
+- Async result extensions (#470) ([edcd78c](https://github.com/Vonage/vonage-dotnet-sdk/commit/edcd78cee330f7f99cdd69af43327d009a4c1942))
+
+- Test refactoring (#469) ([f2e13a2](https://github.com/Vonage/vonage-dotnet-sdk/commit/f2e13a247e8e4823e03ff08c46f2d9c8c1375dc8))
+
+- Simplify e2e tests (#471) ([3ece2e9](https://github.com/Vonage/vonage-dotnet-sdk/commit/3ece2e957544636d03a47d1e98f9767ea21cbb18))
+
+- Simplify e2e tests (#472) ([0358fe5](https://github.com/Vonage/vonage-dotnet-sdk/commit/0358fe5fe7f148787afe3588aec4e8f4c58be2fb))
+
+- Video e2e refactoring (#473) ([2338cf6](https://github.com/Vonage/vonage-dotnet-sdk/commit/2338cf6c6d810bceb91f04cca80090f991e9c65c))
+
+- Video e2e refactoring (#476) ([460ce9e](https://github.com/Vonage/vonage-dotnet-sdk/commit/460ce9e375430b60dfa5bbd8bd4b5870e450ca43))
+
+- Video e2e refactoring (#477) ([5ece90a](https://github.com/Vonage/vonage-dotnet-sdk/commit/5ece90a2ef5ece544e618967b2f72b7a9809aa46))
+
+- Use case helpers (#478) ([bd22c5e](https://github.com/Vonage/vonage-dotnet-sdk/commit/bd22c5e80bc94302bb4bee346fb1ff420595d63b))
+
+- Update error status codes in PBT for VonageClient (#494) ([3be8f8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/3be8f8db710b3bcd27dc4c55141699903f3ceed2))
+
+- Configuration improvement (#495) ([f42def0](https://github.com/Vonage/vonage-dotnet-sdk/commit/f42def0bec653891bb110dce3101ce1e1593f967))
+
+- Extend regex timeout (#498) ([e40a432](https://github.com/Vonage/vonage-dotnet-sdk/commit/e40a4320d4d8a050424135d6a7446de9a4783713))
+
+- Remove InternalsVisibleTo property (#501) ([8b1eb77](https://github.com/Vonage/vonage-dotnet-sdk/commit/8b1eb7715e55cfd9942483c3526c3f9a6d106f88))
+
+
+### Releases
+
+- V6.3.2 (#416) ([fa9482e](https://github.com/Vonage/vonage-dotnet-sdk/commit/fa9482efddf769f74f8c1a7ced69cdf0111e0c3b))
+
+- V6.3.3 (#424) ([da9075a](https://github.com/Vonage/vonage-dotnet-sdk/commit/da9075af12da2f6953e3fb46bcb7f65cc7eb7616))
+
+- V6.5.0 (#434) ([8fd419a](https://github.com/Vonage/vonage-dotnet-sdk/commit/8fd419a30d236553acf0381838bef91c8dd95cf9))
+
+- Upgrade version to v6.6.0 (#441) ([c0a6acf](https://github.com/Vonage/vonage-dotnet-sdk/commit/c0a6acf60602cbf16f5008ce57547a8539e958dc))
+
+- V6.7.0 (#444) ([13bf2c3](https://github.com/Vonage/vonage-dotnet-sdk/commit/13bf2c3c3a2a8024d385d60a165b710e4e659770))
+
+- Upgrade version to v6.8.0 (#450) ([702766b](https://github.com/Vonage/vonage-dotnet-sdk/commit/702766bc76089cddeb0373872053f1d7e0ce8650))
+
+- Upgrade version to v7.0.4-beta (#449) ([d786398](https://github.com/Vonage/vonage-dotnet-sdk/commit/d786398f7b9b2c86fc134340f94ac7fc526e3a91))
+
+- Revert "release: upgrade version to v6.8.0" (#452) ([684362d](https://github.com/Vonage/vonage-dotnet-sdk/commit/684362d3f085ebea21efb8b531f170674ca4b85a))
+
+- V6.7.1 (#467) ([b9e925a](https://github.com/Vonage/vonage-dotnet-sdk/commit/b9e925ad3b0fd5b0a1592755099052b45de2f3ba))
+
+- V6.9.0 (#502) ([f5e03e2](https://github.com/Vonage/vonage-dotnet-sdk/commit/f5e03e24012f56fb2e09c6dcc2c263ffeb0f690d))
+
+
+### Reverts
+
+- Revert "Add editorconfig file"
+
+This reverts commit 1ec8fce1053a53579a4f43974d311bac85349483.
+ ([4c56e47](https://github.com/Vonage/vonage-dotnet-sdk/commit/4c56e472eff2d2b9d2fff4669c8ec5404c21f22a))
+
 
 ## [v6.0.2-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.2-rc) (2022-05-31)
 
@@ -2055,6 +2218,10 @@ Pulling dev into main ready for release ([0ead3a3](https://github.com/Vonage/von
 - Changing the auth type
  ([8924588](https://github.com/Vonage/vonage-dotnet-sdk/commit/8924588c41d451a52d0aac0fa7da800fcf9e7e7c))
 
+- Changing tests to use bearer auth
+Adjusting templates for array of objects not strings
+ ([604f7f9](https://github.com/Vonage/vonage-dotnet-sdk/commit/604f7f9e373a6220106913ef1678559bec083fa8))
+
 - Update Vonage.Test.Unit/Data/MessagesTests/SendMmsVcardAsyncReturnsOk-request.json
 
 Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([4264700](https://github.com/Vonage/vonage-dotnet-sdk/commit/42647005e9a66ff0510be4a906254d529094e260))
@@ -2070,10 +2237,6 @@ Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([780fc80](https://github
 - Update Vonage.Test.Unit/MessagesTests.cs
 
 Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([3f6c7f4](https://github.com/Vonage/vonage-dotnet-sdk/commit/3f6c7f4ba0a3db1cffa3747f485a9f883d11fa05))
-
-- Changing tests to use bearer auth
-Adjusting templates for array of objects not strings
- ([604f7f9](https://github.com/Vonage/vonage-dotnet-sdk/commit/604f7f9e373a6220106913ef1678559bec083fa8))
 
 - Fixing merge issues
  ([f12136a](https://github.com/Vonage/vonage-dotnet-sdk/commit/f12136a0e41e791bdd45a4afc74ee4a185290b25))
@@ -2141,6 +2304,12 @@ Dev into Main for Release ([cd3c53a](https://github.com/Vonage/vonage-dotnet-sdk
 
 Adding issues templates ([ef3761a](https://github.com/Vonage/vonage-dotnet-sdk/commit/ef3761a69b05f140db9666ae3ba3858abc39891a))
 
+- Merging dev in
+ ([a979d42](https://github.com/Vonage/vonage-dotnet-sdk/commit/a979d42ee2d4a9392e1e971d0df36551897ce630))
+
+- Merging dev
+ ([2f7fc0c](https://github.com/Vonage/vonage-dotnet-sdk/commit/2f7fc0c087a2f8e7ca2d3f30311525fa83fb2586))
+
 - Adding Auth exception
  ([0dd59ae](https://github.com/Vonage/vonage-dotnet-sdk/commit/0dd59aeb0600b01c4ac40cd8aa69a2b818819bea))
 
@@ -2158,12 +2327,6 @@ Adding issues templates ([ef3761a](https://github.com/Vonage/vonage-dotnet-sdk/c
 
 - Removing 461 from nexmo tests
  ([8ebe881](https://github.com/Vonage/vonage-dotnet-sdk/commit/8ebe8817d8bb643e35b9ee2ff08c2e57f731983f))
-
-- Merging dev in
- ([a979d42](https://github.com/Vonage/vonage-dotnet-sdk/commit/a979d42ee2d4a9392e1e971d0df36551897ce630))
-
-- Merging dev
- ([2f7fc0c](https://github.com/Vonage/vonage-dotnet-sdk/commit/2f7fc0c087a2f8e7ca2d3f30311525fa83fb2586))
 
 - Preparing for next release and adding real time data to advanced number insights
  ([3db1a68](https://github.com/Vonage/vonage-dotnet-sdk/commit/3db1a68e1ac956a497b02c17c7cf117993be687c))
@@ -2245,9 +2408,6 @@ Fixing bug with roaming being `not_roaming` and cleaning up some tests ([dfa8be7
 
 ### Other
 
-- Fixing bug with roaming being not_roaming and cleaning up some tests
- ([1e73d21](https://github.com/Vonage/vonage-dotnet-sdk/commit/1e73d213d4ee8a6726fa8b4206452e8f5bc63dbf))
-
 - Adding unit test for Redact and ShortCodes
  ([cb2e0d8](https://github.com/Vonage/vonage-dotnet-sdk/commit/cb2e0d8b63873bf77b8cc24f7b60bab477775574))
 
@@ -2265,6 +2425,9 @@ Fixing bug with roaming being `not_roaming` and cleaning up some tests ([dfa8be7
 
 - Removing logger tests
  ([5dc09c4](https://github.com/Vonage/vonage-dotnet-sdk/commit/5dc09c467750726929bba9057e7bf48bf1759cc8))
+
+- Fixing bug with roaming being not_roaming and cleaning up some tests
+ ([1e73d21](https://github.com/Vonage/vonage-dotnet-sdk/commit/1e73d213d4ee8a6726fa8b4206452e8f5bc63dbf))
 
 
 ## [v5.9.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.1) (2021-10-27)
@@ -2291,11 +2454,11 @@ Strong-name Package ([7a4c3e0](https://github.com/Vonage/vonage-dotnet-sdk/commi
 - Changing package id for singed package
  ([a37758c](https://github.com/Vonage/vonage-dotnet-sdk/commit/a37758c84be58f957b984dde19afa7f3f86266f1))
 
-- Adding switches to create symbol packages
- ([373abf2](https://github.com/Vonage/vonage-dotnet-sdk/commit/373abf266ccb0ba7276999208a4df0c34b7fc3d1))
-
 - Changes to nuget publis action to create signed package
  ([f27aed8](https://github.com/Vonage/vonage-dotnet-sdk/commit/f27aed890054cb0369b9e97fc9656334cead7f39))
+
+- Adding switches to create symbol packages
+ ([373abf2](https://github.com/Vonage/vonage-dotnet-sdk/commit/373abf266ccb0ba7276999208a4df0c34b7fc3d1))
 
 - Adding source link and some repo details for packaging
  ([e6dbd2b](https://github.com/Vonage/vonage-dotnet-sdk/commit/e6dbd2b88c398e4046b4d72ec166086264d6f076))
@@ -2379,14 +2542,14 @@ adding detail to status-webhooks ([9266a31](https://github.com/Vonage/vonage-dot
 
 ### Other
 
+- Adding entity-id and content-id to sms request body
+ ([8c3518d](https://github.com/Vonage/vonage-dotnet-sdk/commit/8c3518dc851d7125ecdad6c9fae471b42cc969e7))
+
 - Adding detail to status-webhooks
  ([b7bc802](https://github.com/Vonage/vonage-dotnet-sdk/commit/b7bc80247b149f5ac1d2ed1d11f236552eb11ff9))
 
 - Adding detail enumeration and parser handling
  ([a4e3c48](https://github.com/Vonage/vonage-dotnet-sdk/commit/a4e3c48cfcdbadf1feed6ce799c6630a22919035))
-
-- Adding entity-id and content-id to sms request body
- ([8c3518d](https://github.com/Vonage/vonage-dotnet-sdk/commit/8c3518dc851d7125ecdad6c9fae471b42cc969e7))
 
 - 'Bumping version to 5.7.0'
  ([da30e6b](https://github.com/Vonage/vonage-dotnet-sdk/commit/da30e6b56dbfa2f5de7f67244a06486d138c6033))
@@ -2465,6 +2628,9 @@ Ignoring status for Vonage.Messaging.DeliveryReceipt. ([d0a1fe1](https://github.
 
 ### Other
 
+- Ignoring status for Vonage.Messaging.DeliveryReceipt.
+ ([54f1bcf](https://github.com/Vonage/vonage-dotnet-sdk/commit/54f1bcf0a9f313d4c2fbbcdeff7f5b647e5e9ac1))
+
 - 'Bumping version to 5.6.3'
  ([ae5816b](https://github.com/Vonage/vonage-dotnet-sdk/commit/ae5816baf746a4054d28cac78e1ee5cdf5cf5b20))
 
@@ -2515,9 +2681,6 @@ adding Nuget release workflow - removing nuspec file. ([58e89aa](https://github.
 
 - Simplified names.
  ([e72a406](https://github.com/Vonage/vonage-dotnet-sdk/commit/e72a40690ba37a1c234bdf993d60193bfd0a3054))
-
-- Ignoring status for Vonage.Messaging.DeliveryReceipt.
- ([54f1bcf](https://github.com/Vonage/vonage-dotnet-sdk/commit/54f1bcf0a9f313d4c2fbbcdeff7f5b647e5e9ac1))
 
 - Adding Nuget release workflow - removing nuspec file.
  ([5d66cc7](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d66cc794489d267c0228062d4a05083dc7f1ff2))
@@ -2593,9 +2756,9 @@ Readying for 5.4.0 release. ([1d75720](https://github.com/Vonage/vonage-dotnet-s
 - Adding compatibility list, fixing nuspec
  ([788dd1c](https://github.com/Vonage/vonage-dotnet-sdk/commit/788dd1c9115c02af62171aed87a8e09fb631be2e))
 
-- Typo fix - Update README.md
+- Query null check issue
 
-fixed spelling of word 'globally'. ([ebe45b3](https://github.com/Vonage/vonage-dotnet-sdk/commit/ebe45b323e4d4d0c2eba52c87d28939166313930))
+query null check issue to InboundSms.cs ([38f2a79](https://github.com/Vonage/vonage-dotnet-sdk/commit/38f2a79c38721741f6bf5537a1fec19c3b112ff7))
 
 - Correcting enumeration ([d3f3870](https://github.com/Vonage/vonage-dotnet-sdk/commit/d3f3870abf1bc63898fe7d3724a5b46ec642fe49))
 
@@ -2605,36 +2768,24 @@ fixed spelling of word 'globally'. ([ebe45b3](https://github.com/Vonage/vonage-d
 
 - Correcting enumeration ([861b8e8](https://github.com/Vonage/vonage-dotnet-sdk/commit/861b8e8191f8ead573d2ff844d340d5cdb84673e))
 
-- Query null check issue
+- Typo fix - Update README.md
 
-query null check issue to InboundSms.cs ([38f2a79](https://github.com/Vonage/vonage-dotnet-sdk/commit/38f2a79c38721741f6bf5537a1fec19c3b112ff7))
+fixed spelling of word 'globally'. ([ebe45b3](https://github.com/Vonage/vonage-dotnet-sdk/commit/ebe45b323e4d4d0c2eba52c87d28939166313930))
 
 - Adding FAQ Section - one question for async at the moment.
  ([24d64c2](https://github.com/Vonage/vonage-dotnet-sdk/commit/24d64c210b72dc29bed1d4be95b84c6826d3893e))
 
-- Async calls implementation
- ([cbf2e85](https://github.com/Vonage/vonage-dotnet-sdk/commit/cbf2e850fd4a701d680e9fa375f26671e5676196))
-
-- Issue 1221 Fix
- ([32537f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/32537f70ca4c2a20cf63afa344e023bd1d5f5efa))
-
-- Add additional methods for non async calls
- ([eeb4d26](https://github.com/Vonage/vonage-dotnet-sdk/commit/eeb4d2672e7678b7bf8fd1590b291071f944f0ca))
-
 - Adding Language and style, marking VoiceName as obsolete, also removing some unnecessary usings
  ([6070d98](https://github.com/Vonage/vonage-dotnet-sdk/commit/6070d986a4a1a00d245ff06124df21fff6026da8))
 
-- Remove async code from unit tests
- ([ac19ef1](https://github.com/Vonage/vonage-dotnet-sdk/commit/ac19ef1e4eb44dc9156c71276126fc83c1ea92c6))
+- Issue 1221 Fix
+ ([32537f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/32537f70ca4c2a20cf63afa344e023bd1d5f5efa))
 
 - Review Pointer : Method signature fixes
  ([bced564](https://github.com/Vonage/vonage-dotnet-sdk/commit/bced564eb2fd3d0579da0b4646eebb53d5d1331c))
 
 - Method implmentation Added
  ([cc21629](https://github.com/Vonage/vonage-dotnet-sdk/commit/cc21629fe2b2bfed33cff464b85e1cc8d2264bf7))
-
-- #126 Use async stream reading method
- ([cc2d180](https://github.com/Vonage/vonage-dotnet-sdk/commit/cc2d18002c713459c83fdd5c5a1988c29f71c7a5))
 
 - Method implementation added
  ([dd7a51d](https://github.com/Vonage/vonage-dotnet-sdk/commit/dd7a51d5162f20dc8850232be02f6f397f4a04f2))
@@ -2645,13 +2796,25 @@ query null check issue to InboundSms.cs ([38f2a79](https://github.com/Vonage/von
 - Code Review pointer added
  ([535b219](https://github.com/Vonage/vonage-dotnet-sdk/commit/535b2195eaa81b4efc74b01ab4145dcc9f5fbda3))
 
+- Async calls implementation
+ ([cbf2e85](https://github.com/Vonage/vonage-dotnet-sdk/commit/cbf2e850fd4a701d680e9fa375f26671e5676196))
+
+- Add additional methods for non async calls
+ ([eeb4d26](https://github.com/Vonage/vonage-dotnet-sdk/commit/eeb4d2672e7678b7bf8fd1590b291071f944f0ca))
+
+- Remove async code from unit tests
+ ([ac19ef1](https://github.com/Vonage/vonage-dotnet-sdk/commit/ac19ef1e4eb44dc9156c71276126fc83c1ea92c6))
+
+- #126 Use async stream reading method
+ ([cc2d180](https://github.com/Vonage/vonage-dotnet-sdk/commit/cc2d18002c713459c83fdd5c5a1988c29f71c7a5))
+
 - Code Review Pointer Implemented
  ([61fbc63](https://github.com/Vonage/vonage-dotnet-sdk/commit/61fbc63e91a371ac52f8adf65f72922f273c7a8c))
 
-- Fixing package name in readme ([491e57f](https://github.com/Vonage/vonage-dotnet-sdk/commit/491e57f24808217460b9c0deae4ddaa54664f0d6))
-
 - Pointer Implemented
  ([dde9aa4](https://github.com/Vonage/vonage-dotnet-sdk/commit/dde9aa447ec1329662c839a37aa9df23c9f25abb))
+
+- Fixing package name in readme ([491e57f](https://github.com/Vonage/vonage-dotnet-sdk/commit/491e57f24808217460b9c0deae4ddaa54664f0d6))
 
 - Code Review Pointer Added
  ([5e4356b](https://github.com/Vonage/vonage-dotnet-sdk/commit/5e4356bfa97e19b37d06e0639c344aa3a4ff692c))
@@ -2697,6 +2860,11 @@ Fix GHA ([9857b8a](https://github.com/Vonage/vonage-dotnet-sdk/commit/9857b8a564
  ([0702bf1](https://github.com/Vonage/vonage-dotnet-sdk/commit/0702bf19afdd90fa3faf482a4dda5e8c10fd1069))
 
 - Removing Nexmo directories, trying github action
+
+removing config file, removing redudant internal utility classes
+ ([98fc815](https://github.com/Vonage/vonage-dotnet-sdk/commit/98fc815e8998699282e20315eae84f2d7bad534f))
+
+- Removing Nexmo directories, trying github action
  ([ab08add](https://github.com/Vonage/vonage-dotnet-sdk/commit/ab08addfd54465682f258bc4b2ecc86beacd8c82))
 
 - Trying choco to install codecov
@@ -2731,11 +2899,6 @@ Fix GHA ([9857b8a](https://github.com/Vonage/vonage-dotnet-sdk/commit/9857b8a564
 
 - Removing RequiredIfAttribute
  ([c4efc98](https://github.com/Vonage/vonage-dotnet-sdk/commit/c4efc98b4be7e91d85a90efab4e90b114685a32c))
-
-- Removing Nexmo directories, trying github action
-
-removing config file, removing redudant internal utility classes
- ([98fc815](https://github.com/Vonage/vonage-dotnet-sdk/commit/98fc815e8998699282e20315eae84f2d7bad534f))
 
 - Adding Status badge
  ([7ff2222](https://github.com/Vonage/vonage-dotnet-sdk/commit/7ff2222f82cea27916ee9d0d579a6fc138088b83))
@@ -2850,10 +3013,6 @@ Merging 5.0.0 PR for release. ([66b393a](https://github.com/Vonage/vonage-dotnet
 
 ### Merges
 
-- Merge pull request #202 from Nexmo/dotnet_standard_summary_docs
-
-.NET standard consolidation, summary docs, couple of enums ([12599da](https://github.com/Vonage/vonage-dotnet-sdk/commit/12599daecdf119845493c468a71e02e47de4a783))
-
 - Merge pull request #206 from Nexmo/fixing_encoding
 
 changing payload encoding to utf8 ([27ec412](https://github.com/Vonage/vonage-dotnet-sdk/commit/27ec412309e921b64b24df059552191a02893954))
@@ -2881,7 +3040,40 @@ changing payload encoding to utf8 ([27ec412](https://github.com/Vonage/vonage-do
 
 ## [v4.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.4.0) (2020-06-05)
 
+### Merges
+
+- Merge pull request #203 from Nexmo/feature/asr_nccos
+
+adding ASR webhook and input items ([71037fd](https://github.com/Vonage/vonage-dotnet-sdk/commit/71037fdab292934d40e2b28ee4c5605924825dc9))
+
+
+### Other
+
+- Adding ASR webhook and input items
+ ([3821b63](https://github.com/Vonage/vonage-dotnet-sdk/commit/3821b63e8da1311567aa58d3821ba2ae7bf020b1))
+
+- Rolling back input updates adding new multiInput class and tests for it
+ ([9f4b30b](https://github.com/Vonage/vonage-dotnet-sdk/commit/9f4b30b27394a0fc089cd33d2e4f276b99a07fa3))
+
+- Apparently first run at switching out ASR with multi-input tests didn't take
+ ([e39127d](https://github.com/Vonage/vonage-dotnet-sdk/commit/e39127d73612d74c2254557746639daf338d7742))
+
+- Adding error field to speech webhook struct
+ ([d9810af](https://github.com/Vonage/vonage-dotnet-sdk/commit/d9810aff5f3ac178e4fa9697721e6cac8faf4b11))
+
+- Updating release notes in nuspec
+ ([59ff4b6](https://github.com/Vonage/vonage-dotnet-sdk/commit/59ff4b6fcf0b8c02f87d1d99273712442110fd2c))
+
+
+## [v4.3.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.2) (2020-04-08)
+
 ### Bug Fixes
+
+- Fixing build issue
+ ([02d38fc](https://github.com/Vonage/vonage-dotnet-sdk/commit/02d38fcf8cf673d834daea1b473adbd3a6fc691c))
+
+- Fixing broken tests - setting optional parameters in application list call to nullable
+ ([a3964e5](https://github.com/Vonage/vonage-dotnet-sdk/commit/a3964e5859923ddd90506bdaded2a99b4241e433))
 
 - Fixing test input
  ([8902e58](https://github.com/Vonage/vonage-dotnet-sdk/commit/8902e58a1ec6621b8a996c8ed5b5c606691103e5))
@@ -2901,6 +3093,12 @@ changing payload encoding to utf8 ([27ec412](https://github.com/Vonage/vonage-do
 
 ### Merges
 
+- Merge branch 'v5.0.0' into unit_test_rework
+ ([c23a015](https://github.com/Vonage/vonage-dotnet-sdk/commit/c23a0156d6386db96abd73c23b0cf8d0b44dae55))
+
+- Merge branch 'conform_to_naming_conventions' of https://github.com/Nexmo/nexmo-dotnet into conform_to_naming_conventions
+ ([27bd158](https://github.com/Vonage/vonage-dotnet-sdk/commit/27bd158e7244873d179e1cf454d1c7677f6298ab))
+
 - Merge pull request #194 from Nexmo/conform_to_naming_conventions
 
 Conforming .NET library to standard .NET naming conventions - adding obsolete tags over old data structures ([38d74b7](https://github.com/Vonage/vonage-dotnet-sdk/commit/38d74b7530003dd7280e8af737514a1fa5e9c458))
@@ -2912,12 +3110,76 @@ Conforming .NET library to standard .NET naming conventions - adding obsolete ta
 
 Unit test rework ([b8e476a](https://github.com/Vonage/vonage-dotnet-sdk/commit/b8e476a88d2a9e922d427bc7ee1f75edefdc46d0))
 
-- Merge pull request #203 from Nexmo/feature/asr_nccos
+- Merge pull request #202 from Nexmo/dotnet_standard_summary_docs
 
-adding ASR webhook and input items ([71037fd](https://github.com/Vonage/vonage-dotnet-sdk/commit/71037fdab292934d40e2b28ee4c5605924825dc9))
+.NET standard consolidation, summary docs, couple of enums ([12599da](https://github.com/Vonage/vonage-dotnet-sdk/commit/12599daecdf119845493c468a71e02e47de4a783))
+
+- Merge pull request #193 from Nexmo/add-code-of-conduct
+
+Create CODE_OF_CONDUCT.md ([7849a3f](https://github.com/Vonage/vonage-dotnet-sdk/commit/7849a3f19f4e48bc2e88d29e42056e86aa611d46))
+
+- Merge pull request #195 from Nexmo/vonage-wordmark
+
+Update branding in README ([b3bd241](https://github.com/Vonage/vonage-dotnet-sdk/commit/b3bd241d68c881fe0b290200ab5297779a80b891))
+
+- Merge pull request #197 from taylus/master
+
+Serialize streamUrl as array per docs to avoid bad request ([b1013b1](https://github.com/Vonage/vonage-dotnet-sdk/commit/b1013b1c769a4e42047b3150b069dc50902361a8))
+
+- Merge pull request #199 from Nexmo/bugfix/websocket_header_serialization
+
+changing headers type to object to allow it to serialize cleanly. ([b8013c6](https://github.com/Vonage/vonage-dotnet-sdk/commit/b8013c6c4ef297ff62dfde8f7e326845e0e3383a))
 
 
 ### Other
+
+- Merging with master
+ ([086d985](https://github.com/Vonage/vonage-dotnet-sdk/commit/086d9852bf76fb8eea52b11556603bbb4ad8b71e))
+
+- Merging
+ ([d174401](https://github.com/Vonage/vonage-dotnet-sdk/commit/d174401c26f65ce6636afe64fd39bf99ee042d37))
+
+- Reforming voice client
+ ([25cabdc](https://github.com/Vonage/vonage-dotnet-sdk/commit/25cabdc9357771f49c8814c673a452b4134386ca))
+
+- Pushing up
+ ([c2d2818](https://github.com/Vonage/vonage-dotnet-sdk/commit/c2d281806c87ab7d7ea037f0c710bb8a5c0b2f44))
+
+- Some preliminary changes to accounts API
+ ([7cca5bf](https://github.com/Vonage/vonage-dotnet-sdk/commit/7cca5bf6fdbb34ec1ca98308439cdde592d97db7))
+
+- Account / secrets names fixed
+ ([8a39abd](https://github.com/Vonage/vonage-dotnet-sdk/commit/8a39abd2128a7e8cfc98a9e6759cdc3b2feb60c9))
+
+- Application renaming
+ ([fbaa6ec](https://github.com/Vonage/vonage-dotnet-sdk/commit/fbaa6ec85dea1a099105a2c805c62347e68a72ec))
+
+- Account renaming
+ ([be09252](https://github.com/Vonage/vonage-dotnet-sdk/commit/be09252ee2bcec343c559f2b9937ee6114fe75ad))
+
+- Pricing numbers and redact
+ ([4d4930d](https://github.com/Vonage/vonage-dotnet-sdk/commit/4d4930d287fe8f38e64793f02e343d07cd61404c))
+
+- Adding back client
+ ([413db19](https://github.com/Vonage/vonage-dotnet-sdk/commit/413db19fb008b8db55a637e17cefc9188731851c))
+
+- Finishing off the actual renaming part
+ ([8fb70fd](https://github.com/Vonage/vonage-dotnet-sdk/commit/8fb70fd73a41a497182ad51a288c807e9e5adfe3))
+
+- Adding obsolete tags
+ ([2b953df](https://github.com/Vonage/vonage-dotnet-sdk/commit/2b953df1d326a7dd6d7be7d44589209c383d8d32))
+
+- Adding factory methods for creating Credentials
+ ([fd97e0a](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd97e0a2f82060d2e6cef110b44c20af9350b84b))
+
+- Various updates made while creating code snippets
+ ([9091d5a](https://github.com/Vonage/vonage-dotnet-sdk/commit/9091d5a7118d74c91542fba08f7294f47e35e5bb))
+
+- Updating naming stuff to make sure they work and work cleanly
+ ([e2b0414](https://github.com/Vonage/vonage-dotnet-sdk/commit/e2b0414352f05ade6ba7d6f888212cbc3b6dc6e4))
+
+- Adding logger to nuspec
+ ([0ba05c4](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ba05c4e07027cb2799b501221597ddc388f13aa))
 
 - Merging naming convention stuff and doing some minor name-space cleanup
  ([251de99](https://github.com/Vonage/vonage-dotnet-sdk/commit/251de99d9aeb166ea8fa0922beb6f519a69ad5e2))
@@ -3024,123 +3286,21 @@ adding ASR webhook and input items ([71037fd](https://github.com/Vonage/vonage-d
 - Adding some extra path testing for missing status
  ([8a56ff6](https://github.com/Vonage/vonage-dotnet-sdk/commit/8a56ff6c3c5220147cfc82696d2e5ad2ce33e891))
 
-- Adding ASR webhook and input items
- ([3821b63](https://github.com/Vonage/vonage-dotnet-sdk/commit/3821b63e8da1311567aa58d3821ba2ae7bf020b1))
-
-- Rolling back input updates adding new multiInput class and tests for it
- ([9f4b30b](https://github.com/Vonage/vonage-dotnet-sdk/commit/9f4b30b27394a0fc089cd33d2e4f276b99a07fa3))
-
-- Apparently first run at switching out ASR with multi-input tests didn't take
- ([e39127d](https://github.com/Vonage/vonage-dotnet-sdk/commit/e39127d73612d74c2254557746639daf338d7742))
-
-- Adding error field to speech webhook struct
- ([d9810af](https://github.com/Vonage/vonage-dotnet-sdk/commit/d9810aff5f3ac178e4fa9697721e6cac8faf4b11))
-
 - Tearing out weird hard-coded path
  ([849d9e5](https://github.com/Vonage/vonage-dotnet-sdk/commit/849d9e5c301b31de11b07653fb4238c16cfd4c21))
-
-- Updating release notes in nuspec
- ([59ff4b6](https://github.com/Vonage/vonage-dotnet-sdk/commit/59ff4b6fcf0b8c02f87d1d99273712442110fd2c))
-
-
-## [v4.3.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.2) (2020-04-08)
-
-### Bug Fixes
-
-- Fixing build issue
- ([02d38fc](https://github.com/Vonage/vonage-dotnet-sdk/commit/02d38fcf8cf673d834daea1b473adbd3a6fc691c))
-
-- Fixing broken tests - setting optional parameters in application list call to nullable
- ([a3964e5](https://github.com/Vonage/vonage-dotnet-sdk/commit/a3964e5859923ddd90506bdaded2a99b4241e433))
-
-
-### Merges
-
-- Merge branch 'v5.0.0' into unit_test_rework
- ([c23a015](https://github.com/Vonage/vonage-dotnet-sdk/commit/c23a0156d6386db96abd73c23b0cf8d0b44dae55))
-
-- Merge pull request #193 from Nexmo/add-code-of-conduct
-
-Create CODE_OF_CONDUCT.md ([7849a3f](https://github.com/Vonage/vonage-dotnet-sdk/commit/7849a3f19f4e48bc2e88d29e42056e86aa611d46))
-
-- Merge branch 'conform_to_naming_conventions' of https://github.com/Nexmo/nexmo-dotnet into conform_to_naming_conventions
- ([27bd158](https://github.com/Vonage/vonage-dotnet-sdk/commit/27bd158e7244873d179e1cf454d1c7677f6298ab))
-
-- Merge pull request #195 from Nexmo/vonage-wordmark
-
-Update branding in README ([b3bd241](https://github.com/Vonage/vonage-dotnet-sdk/commit/b3bd241d68c881fe0b290200ab5297779a80b891))
-
-- Merge pull request #197 from taylus/master
-
-Serialize streamUrl as array per docs to avoid bad request ([b1013b1](https://github.com/Vonage/vonage-dotnet-sdk/commit/b1013b1c769a4e42047b3150b069dc50902361a8))
-
-- Merge pull request #199 from Nexmo/bugfix/websocket_header_serialization
-
-changing headers type to object to allow it to serialize cleanly. ([b8013c6](https://github.com/Vonage/vonage-dotnet-sdk/commit/b8013c6c4ef297ff62dfde8f7e326845e0e3383a))
-
-
-### Other
-
-- Merging with master
- ([086d985](https://github.com/Vonage/vonage-dotnet-sdk/commit/086d9852bf76fb8eea52b11556603bbb4ad8b71e))
-
-- Merging
- ([d174401](https://github.com/Vonage/vonage-dotnet-sdk/commit/d174401c26f65ce6636afe64fd39bf99ee042d37))
 
 - Create CODE_OF_CONDUCT.md ([14f0085](https://github.com/Vonage/vonage-dotnet-sdk/commit/14f00857ac5afdb04e262ee24e13c23b915c64dc))
 
 - Adding badge
  ([a1df6c9](https://github.com/Vonage/vonage-dotnet-sdk/commit/a1df6c9bbc2a28cc5b9f9d3c5fc6fdcd51b9b80f))
 
-- Reforming voice client
- ([25cabdc](https://github.com/Vonage/vonage-dotnet-sdk/commit/25cabdc9357771f49c8814c673a452b4134386ca))
-
-- Pushing up
- ([c2d2818](https://github.com/Vonage/vonage-dotnet-sdk/commit/c2d281806c87ab7d7ea037f0c710bb8a5c0b2f44))
-
-- Some preliminary changes to accounts API
- ([7cca5bf](https://github.com/Vonage/vonage-dotnet-sdk/commit/7cca5bf6fdbb34ec1ca98308439cdde592d97db7))
-
-- Account / secrets names fixed
- ([8a39abd](https://github.com/Vonage/vonage-dotnet-sdk/commit/8a39abd2128a7e8cfc98a9e6759cdc3b2feb60c9))
-
-- Account renaming
- ([be09252](https://github.com/Vonage/vonage-dotnet-sdk/commit/be09252ee2bcec343c559f2b9937ee6114fe75ad))
-
-- Application renaming
- ([fbaa6ec](https://github.com/Vonage/vonage-dotnet-sdk/commit/fbaa6ec85dea1a099105a2c805c62347e68a72ec))
-
-- Pricing numbers and redact
- ([4d4930d](https://github.com/Vonage/vonage-dotnet-sdk/commit/4d4930d287fe8f38e64793f02e343d07cd61404c))
-
-- Adding back client
- ([413db19](https://github.com/Vonage/vonage-dotnet-sdk/commit/413db19fb008b8db55a637e17cefc9188731851c))
-
-- Finishing off the actual renaming part
- ([8fb70fd](https://github.com/Vonage/vonage-dotnet-sdk/commit/8fb70fd73a41a497182ad51a288c807e9e5adfe3))
-
-- Adding obsolete tags
- ([2b953df](https://github.com/Vonage/vonage-dotnet-sdk/commit/2b953df1d326a7dd6d7be7d44589209c383d8d32))
-
-- Adding factory methods for creating Credentials
- ([fd97e0a](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd97e0a2f82060d2e6cef110b44c20af9350b84b))
-
 - Add Vonage wordmark to Nexmo repo
  ([e7b542c](https://github.com/Vonage/vonage-dotnet-sdk/commit/e7b542c0bac43e8795bb177897b5d55f12568666))
-
-- Various updates made while creating code snippets
- ([9091d5a](https://github.com/Vonage/vonage-dotnet-sdk/commit/9091d5a7118d74c91542fba08f7294f47e35e5bb))
 
 - Serialize streamUrl as array per docs to avoid bad request
  ([0d804c9](https://github.com/Vonage/vonage-dotnet-sdk/commit/0d804c91bceee0f92470fd9cc26b968f006c22dc))
 
 - Adding Taylus to the contributors section of the readme ([fc03f32](https://github.com/Vonage/vonage-dotnet-sdk/commit/fc03f32085cd866a828b55fe2da4356d105c47df))
-
-- Updating naming stuff to make sure they work and work cleanly
- ([e2b0414](https://github.com/Vonage/vonage-dotnet-sdk/commit/e2b0414352f05ade6ba7d6f888212cbc3b6dc6e4))
-
-- Adding logger to nuspec
- ([0ba05c4](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ba05c4e07027cb2799b501221597ddc388f13aa))
 
 - Update Release GH Action workflow ([f8ce237](https://github.com/Vonage/vonage-dotnet-sdk/commit/f8ce2379ac388c41a6745842824213db1e6f2568))
 
@@ -3174,6 +3334,10 @@ Add logging extensions ([d733b62](https://github.com/Vonage/vonage-dotnet-sdk/co
 - Merge branch 'v5.0.0' into unit_test_rework
  ([d511b07](https://github.com/Vonage/vonage-dotnet-sdk/commit/d511b07b438d7451d575e199bab3484d9e8c5403))
 
+- Merge pull request #187 from Nexmo/exception_handling
+
+Fix error handling so that well formed exceptions are thrown explicity. ([5972445](https://github.com/Vonage/vonage-dotnet-sdk/commit/59724450bb16fac59433c92ff2f4a76e90300525))
+
 - Merge pull request #191 from Nexmo/bugfix/malformed_user_agents
 
 Fixing malformed user agents ([211055b](https://github.com/Vonage/vonage-dotnet-sdk/commit/211055b8f365b61f6cf6f48e2ad99574276210a1))
@@ -3185,60 +3349,11 @@ Fixing malformed user agents ([211055b](https://github.com/Vonage/vonage-dotnet-
 
 Fixing default serialization of zero's in loop ([a51d9ec](https://github.com/Vonage/vonage-dotnet-sdk/commit/a51d9ec11475c645fbbd7bdd4ffedbb33421d0ba))
 
-- Merge pull request #187 from Nexmo/exception_handling
-
-Fix error handling so that well formed exceptions are thrown explicity. ([5972445](https://github.com/Vonage/vonage-dotnet-sdk/commit/59724450bb16fac59433c92ff2f4a76e90300525))
-
 
 ### Other
 
-- Adding nullable contingencies
- ([00c9583](https://github.com/Vonage/vonage-dotnet-sdk/commit/00c95833099b209b28788b529172fdf7403f8c29))
-
-- Changing exception handling
- ([d0568fb](https://github.com/Vonage/vonage-dotnet-sdk/commit/d0568fb4706e30828b50b1e7f6b1f64d1869be22))
-
-- Further cleanup and exception throwing
- ([c6e458c](https://github.com/Vonage/vonage-dotnet-sdk/commit/c6e458c52e56bcfc92396cf5e9fc5172951845e8))
-
-- Adding VerifyResponseException, moving common response stuff to VerifyResponseBase class, making Verify Request, Check, and Control throw VerifyResponseExceptions when a failure is detected
- ([731f53e](https://github.com/Vonage/vonage-dotnet-sdk/commit/731f53e0d4046b4063b4e7a4754815ee77c9a129))
-
-- Moving all requesting logic to ApiRequest - deleting VersionedApiRequest class pointing everything at the more common methods
- ([9e0e233](https://github.com/Vonage/vonage-dotnet-sdk/commit/9e0e2331193433c3175cd69a324ca2194deb2d83))
-
-- Cleaning up stuff for unit tests
- ([8242b17](https://github.com/Vonage/vonage-dotnet-sdk/commit/8242b1764c2f9378cdee67b6ec3521186146f752))
-
 - Creating branch
  ([f74a027](https://github.com/Vonage/vonage-dotnet-sdk/commit/f74a0275d9008cbc0d5dc8f8dbd8186ed0757a15))
-
-- Switching to xUnit
- ([3c4cc89](https://github.com/Vonage/vonage-dotnet-sdk/commit/3c4cc8928d9cb268fd054668c136bbfc2039aaf5))
-
-- Adding signature and inbound test
- ([9aab50f](https://github.com/Vonage/vonage-dotnet-sdk/commit/9aab50f1843e0721543616426989b04415cc44cf))
-
-- Adding full set of signing tests and dlr test
- ([15462b1](https://github.com/Vonage/vonage-dotnet-sdk/commit/15462b1e66f8c951e17a56a3bf8c115a17d6dc13))
-
-- Adding verify test
- ([8b43fec](https://github.com/Vonage/vonage-dotnet-sdk/commit/8b43fecca2c642fa1e833be55433d16677891e3d))
-
-- Committing unit test work
- ([1aaf0ab](https://github.com/Vonage/vonage-dotnet-sdk/commit/1aaf0abd7b1b1ac95bded5f917c8e6f4b98df8a0))
-
-- Adding logging extension
- ([5ddddbe](https://github.com/Vonage/vonage-dotnet-sdk/commit/5ddddbe6974d24ffadfb935ad80224ce1772f88b))
-
-- Adding Microsoft.Extensions.Logging to cs file - synchonizing extensions at 1.1.2
- ([3c07b8c](https://github.com/Vonage/vonage-dotnet-sdk/commit/3c07b8c9186b31e3917251053c1904c921e6d007))
-
-- Adding nullable contingencies
- ([f7fc6a0](https://github.com/Vonage/vonage-dotnet-sdk/commit/f7fc6a09404f36465156089bc39bfecd50a4a750))
-
-- Removing old LibLog
- ([7bdd7da](https://github.com/Vonage/vonage-dotnet-sdk/commit/7bdd7da8b7ab771f6ad0312d0056bc5cd4c88ab6))
 
 - Switching to xUnit
  ([956cbbe](https://github.com/Vonage/vonage-dotnet-sdk/commit/956cbbe1462842eacaeaa910b45cc242ccf1f7f1))
@@ -3264,11 +3379,77 @@ Fix error handling so that well formed exceptions are thrown explicity. ([597244
 - Adding full set of signing tests and dlr test
  ([e86442c](https://github.com/Vonage/vonage-dotnet-sdk/commit/e86442cd30b11e13418d6258d2e4c7417a15ec6a))
 
+- Switching to xUnit
+ ([3c4cc89](https://github.com/Vonage/vonage-dotnet-sdk/commit/3c4cc8928d9cb268fd054668c136bbfc2039aaf5))
+
+- Adding signature and inbound test
+ ([9aab50f](https://github.com/Vonage/vonage-dotnet-sdk/commit/9aab50f1843e0721543616426989b04415cc44cf))
+
+- Adding full set of signing tests and dlr test
+ ([15462b1](https://github.com/Vonage/vonage-dotnet-sdk/commit/15462b1e66f8c951e17a56a3bf8c115a17d6dc13))
+
+- Adding verify test
+ ([8b43fec](https://github.com/Vonage/vonage-dotnet-sdk/commit/8b43fecca2c642fa1e833be55433d16677891e3d))
+
+- Committing unit test work
+ ([1aaf0ab](https://github.com/Vonage/vonage-dotnet-sdk/commit/1aaf0abd7b1b1ac95bded5f917c8e6f4b98df8a0))
+
+- Switching to xUnit
+ ([5f3c383](https://github.com/Vonage/vonage-dotnet-sdk/commit/5f3c38395eddf26127bbf118a938d26662627809))
+
+- Adding signature and inbound test
+ ([da3f3a1](https://github.com/Vonage/vonage-dotnet-sdk/commit/da3f3a1f5c738bbd08b450cbbbec120806f60d65))
+
+- Adding full set of signing tests and dlr test
+ ([6f02a5e](https://github.com/Vonage/vonage-dotnet-sdk/commit/6f02a5e24f73497cae1a48db3eea33b422ffbf0a))
+
+- Adding verify test
+ ([eea5e41](https://github.com/Vonage/vonage-dotnet-sdk/commit/eea5e418ff9ecddb060113a4aeac5f7da2b98c09))
+
+- Committing unit test work
+ ([028b22a](https://github.com/Vonage/vonage-dotnet-sdk/commit/028b22aabe77604756a654b6f1431f50360698fb))
+
 - Resolving merge conflicts
  ([fb1f64a](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb1f64af2ce1706caee2f2b7135b4a4ef23fed7c))
 
+- Adding logging extension
+ ([5ddddbe](https://github.com/Vonage/vonage-dotnet-sdk/commit/5ddddbe6974d24ffadfb935ad80224ce1772f88b))
+
+- Adding Microsoft.Extensions.Logging to cs file - synchonizing extensions at 1.1.2
+ ([3c07b8c](https://github.com/Vonage/vonage-dotnet-sdk/commit/3c07b8c9186b31e3917251053c1904c921e6d007))
+
+- Adding nullable contingencies
+ ([f7fc6a0](https://github.com/Vonage/vonage-dotnet-sdk/commit/f7fc6a09404f36465156089bc39bfecd50a4a750))
+
+- Adding logging extension
+ ([a0ede24](https://github.com/Vonage/vonage-dotnet-sdk/commit/a0ede2490d31e6f9c1a459470184f79293bbf437))
+
+- Adding Microsoft.Extensions.Logging to cs file - synchonizing extensions at 1.1.2
+ ([132ff4a](https://github.com/Vonage/vonage-dotnet-sdk/commit/132ff4a2ff4fe3faf47baeacdd50e473173c9841))
+
+- Adding nullable contingencies
+ ([00c9583](https://github.com/Vonage/vonage-dotnet-sdk/commit/00c95833099b209b28788b529172fdf7403f8c29))
+
+- Removing old LibLog
+ ([7bdd7da](https://github.com/Vonage/vonage-dotnet-sdk/commit/7bdd7da8b7ab771f6ad0312d0056bc5cd4c88ab6))
+
 - Axing merge flags
  ([07b1644](https://github.com/Vonage/vonage-dotnet-sdk/commit/07b1644a7e1be9fbd4068975b6dd210ed1eeec0e))
+
+- Changing exception handling
+ ([d0568fb](https://github.com/Vonage/vonage-dotnet-sdk/commit/d0568fb4706e30828b50b1e7f6b1f64d1869be22))
+
+- Further cleanup and exception throwing
+ ([c6e458c](https://github.com/Vonage/vonage-dotnet-sdk/commit/c6e458c52e56bcfc92396cf5e9fc5172951845e8))
+
+- Adding VerifyResponseException, moving common response stuff to VerifyResponseBase class, making Verify Request, Check, and Control throw VerifyResponseExceptions when a failure is detected
+ ([731f53e](https://github.com/Vonage/vonage-dotnet-sdk/commit/731f53e0d4046b4063b4e7a4754815ee77c9a129))
+
+- Moving all requesting logic to ApiRequest - deleting VersionedApiRequest class pointing everything at the more common methods
+ ([9e0e233](https://github.com/Vonage/vonage-dotnet-sdk/commit/9e0e2331193433c3175cd69a324ca2194deb2d83))
+
+- Cleaning up stuff for unit tests
+ ([8242b17](https://github.com/Vonage/vonage-dotnet-sdk/commit/8242b1764c2f9378cdee67b6ec3521186146f752))
 
 - Merging with the v5.0.0 branch
  ([40a6481](https://github.com/Vonage/vonage-dotnet-sdk/commit/40a64819659b3958adf7065b975627a634c2dec2))
@@ -3279,14 +3460,14 @@ Fix error handling so that well formed exceptions are thrown explicity. ([597244
 - Adding summary docs to all the client methods indicating the new exception throws
  ([21a9a81](https://github.com/Vonage/vonage-dotnet-sdk/commit/21a9a81dfc3bb608ea3abc5b2ce1b4dfaf190b99))
 
+- Updating for error handling PR
+ ([aea57a6](https://github.com/Vonage/vonage-dotnet-sdk/commit/aea57a6c3060f1dcea8b463160fa62e8da69fc6b))
+
 - Allowing loop for talk and stream and making the seralizer ignore if null and include if zero
  ([51c5019](https://github.com/Vonage/vonage-dotnet-sdk/commit/51c50198b2634a71948fa02bd571c2ae133031b4))
 
 - Removing OS description from User agent - making sure to scrub the runtimeVersion of any parentheses that could cause an error to propogate from the runtime.
  ([597873a](https://github.com/Vonage/vonage-dotnet-sdk/commit/597873a0641c6be8569350bb3465fd14fd4c0b7a))
-
-- Updating for error handling PR
- ([aea57a6](https://github.com/Vonage/vonage-dotnet-sdk/commit/aea57a6c3060f1dcea8b463160fa62e8da69fc6b))
 
 - Revving version for release
  ([e899ae6](https://github.com/Vonage/vonage-dotnet-sdk/commit/e899ae612a744682d2e54ab1b9dd33e095d63150))
@@ -3330,6 +3511,9 @@ making has_application nullable ([3b0d3c7](https://github.com/Vonage/vonage-dotn
 
 ### Other
 
+- Add simple contributing file
+ ([e7bb590](https://github.com/Vonage/vonage-dotnet-sdk/commit/e7bb590ea885b2410b518b35f50fe6e035eeffa4))
+
 - Fixing Nexmo.Application.Key description
  ([c741f4b](https://github.com/Vonage/vonage-dotnet-sdk/commit/c741f4be8e75c909cdf26aa7cc49da8a4cdf84ee))
 
@@ -3339,17 +3523,16 @@ making has_application nullable ([3b0d3c7](https://github.com/Vonage/vonage-dotn
 - Removing extra nuget badge
  ([d7968de](https://github.com/Vonage/vonage-dotnet-sdk/commit/d7968de5c1805d55d2fc9c1069ac8f880296ca5b))
 
-- Switching to xUnit
- ([5f3c383](https://github.com/Vonage/vonage-dotnet-sdk/commit/5f3c38395eddf26127bbf118a938d26662627809))
+- Update README.md ([e952b56](https://github.com/Vonage/vonage-dotnet-sdk/commit/e952b56e3c081c264dbeb8fadc992ccd559df877))
 
-- Adding signature and inbound test
- ([da3f3a1](https://github.com/Vonage/vonage-dotnet-sdk/commit/da3f3a1f5c738bbd08b450cbbbec120806f60d65))
+- Adding list own number request
+ ([bb63bbb](https://github.com/Vonage/vonage-dotnet-sdk/commit/bb63bbbf0854fde0cffad58bd7b3cf85e5fc6529))
 
-- Adding full set of signing tests and dlr test
- ([6f02a5e](https://github.com/Vonage/vonage-dotnet-sdk/commit/6f02a5e24f73497cae1a48db3eea33b422ffbf0a))
+- Removing unecessary class
+ ([50f2d5f](https://github.com/Vonage/vonage-dotnet-sdk/commit/50f2d5f0f597c35f8a9eb25b78b61c6e5450894f))
 
-- Adding verify test
- ([eea5e41](https://github.com/Vonage/vonage-dotnet-sdk/commit/eea5e418ff9ecddb060113a4aeac5f7da2b98c09))
+- Making jwt generation public, reving nuspec to 4.3.0
+ ([e1564be](https://github.com/Vonage/vonage-dotnet-sdk/commit/e1564be68c8ee3c5acf72699acbc826764f7807d))
 
 - Making jwt generation public, reving nuspec to 4.2.2
  ([fbf94f2](https://github.com/Vonage/vonage-dotnet-sdk/commit/fbf94f21fef57e8920e5329a3990016cc0b399e2))
@@ -3357,27 +3540,13 @@ making has_application nullable ([3b0d3c7](https://github.com/Vonage/vonage-dotn
 - Making jwt generation public, reving nuspec to 4.3.0
  ([b43c897](https://github.com/Vonage/vonage-dotnet-sdk/commit/b43c897f8a5aeacc2dbf876d8f3315c11c8a7cdc))
 
-- Making jwt generation public, reving nuspec to 4.3.0
- ([e1564be](https://github.com/Vonage/vonage-dotnet-sdk/commit/e1564be68c8ee3c5acf72699acbc826764f7807d))
-
 - Removing newline
  ([7a1611d](https://github.com/Vonage/vonage-dotnet-sdk/commit/7a1611d09120b750a0a5db14a998cdb1dc2ab6bf))
 
 - Updating assembly version
  ([0d0d8aa](https://github.com/Vonage/vonage-dotnet-sdk/commit/0d0d8aae9a7cb57d2289adf6b9949b1adf608fb1))
 
-- Update README.md ([e952b56](https://github.com/Vonage/vonage-dotnet-sdk/commit/e952b56e3c081c264dbeb8fadc992ccd559df877))
-
 - Making has_application nullable ([aa5b38c](https://github.com/Vonage/vonage-dotnet-sdk/commit/aa5b38c06aec5496ade8f18ea4cdc75ed8b4f9da))
-
-- Committing unit test work
- ([028b22a](https://github.com/Vonage/vonage-dotnet-sdk/commit/028b22aabe77604756a654b6f1431f50360698fb))
-
-- Adding logging extension
- ([a0ede24](https://github.com/Vonage/vonage-dotnet-sdk/commit/a0ede2490d31e6f9c1a459470184f79293bbf437))
-
-- Adding Microsoft.Extensions.Logging to cs file - synchonizing extensions at 1.1.2
- ([132ff4a](https://github.com/Vonage/vonage-dotnet-sdk/commit/132ff4a2ff4fe3faf47baeacdd50e473173c9841))
 
 - Update README.md ([dae26d6](https://github.com/Vonage/vonage-dotnet-sdk/commit/dae26d6d52c294f0f481ca3faed4253f402751e9))
 
@@ -3410,6 +3579,9 @@ Fixing Ncco serialization bug ([f5683be](https://github.com/Vonage/vonage-dotnet
 - Avoiding creating RSACng on non-windows platforms
  ([5ac6d62](https://github.com/Vonage/vonage-dotnet-sdk/commit/5ac6d622001eb18ef8881ae8c32cf0db28c1e1cd))
 
+- Avoiding creating RSACng on non-windows platforms
+ ([2a9f319](https://github.com/Vonage/vonage-dotnet-sdk/commit/2a9f319912e1f053e6dfbf9bde4a927ff9116af9))
+
 - Adding Fauna5 to readme
  ([0b5e93f](https://github.com/Vonage/vonage-dotnet-sdk/commit/0b5e93fff5594fb2f0df72fe8eb47996c9a6c8b8))
 
@@ -3418,12 +3590,6 @@ Fixing Ncco serialization bug ([f5683be](https://github.com/Vonage/vonage-dotnet
 
 - Adding other unit testing frameworks
  ([06efc55](https://github.com/Vonage/vonage-dotnet-sdk/commit/06efc550ebaa69974ec8803ddbe146233e2777ab))
-
-- Adding list own number request
- ([bb63bbb](https://github.com/Vonage/vonage-dotnet-sdk/commit/bb63bbbf0854fde0cffad58bd7b3cf85e5fc6529))
-
-- Removing unecessary class
- ([50f2d5f](https://github.com/Vonage/vonage-dotnet-sdk/commit/50f2d5f0f597c35f8a9eb25b78b61c6e5450894f))
 
 - Updates
  ([69fea1c](https://github.com/Vonage/vonage-dotnet-sdk/commit/69fea1c46ace5d4cd54bc33dc63c79738eade60d))
@@ -3466,6 +3632,9 @@ Adding type-safe webhooks and NCCOs. Adding application_id and has_application t
 - Merge branch 'redact_fixes' into application_fixes
  ([74f4c55](https://github.com/Vonage/vonage-dotnet-sdk/commit/74f4c5555cf5242b13927aefe7aa95ec1a7aa576))
 
+- Merge branch 'refactor' of https://github.com/Nexmo/nexmo-dotnet into refactor
+ ([e84edf7](https://github.com/Vonage/vonage-dotnet-sdk/commit/e84edf74e1d84117c040c6dccd91a1dac4365c51))
+
 - Merge pull request #163 from Nexmo/application_fixes
 
 Application Update / List, Redact, GetRecording fixed or added ([c961129](https://github.com/Vonage/vonage-dotnet-sdk/commit/c961129ed364412305675dc2761c771d1476b9ba))
@@ -3473,9 +3642,6 @@ Application Update / List, Redact, GetRecording fixed or added ([c961129](https:
 - Merge pull request #166 from Nexmo/4_1_1
 
 Harmonizing dependencies  ([79b5551](https://github.com/Vonage/vonage-dotnet-sdk/commit/79b55510e5ce18d57424aab9b7670690596d3877))
-
-- Merge branch 'refactor' of https://github.com/Nexmo/nexmo-dotnet into refactor
- ([e84edf7](https://github.com/Vonage/vonage-dotnet-sdk/commit/e84edf74e1d84117c040c6dccd91a1dac4365c51))
 
 - Merge branch 'master' into refactor ([c8a517f](https://github.com/Vonage/vonage-dotnet-sdk/commit/c8a517f44553ea5c22d0ae152c459808a61a3687))
 
@@ -3493,53 +3659,8 @@ This PR adds a Github action which is triggered when a release is published. The
 - Migrate Github Actions to YAML format
  ([cfb965d](https://github.com/Vonage/vonage-dotnet-sdk/commit/cfb965de4e80c420bbf3fa5955fee8cebe7c9f0d))
 
-- Add simple contributing file
- ([e7bb590](https://github.com/Vonage/vonage-dotnet-sdk/commit/e7bb590ea885b2410b518b35f50fe6e035eeffa4))
-
-- Adding workflow_id to VerifyRequest
- ([fff625e](https://github.com/Vonage/vonage-dotnet-sdk/commit/fff625e8e2970f1fcfca0e1c3a5474decbb70c08))
-
 - Adding workflow_id to VerifyRequest
  ([f50aaff](https://github.com/Vonage/vonage-dotnet-sdk/commit/f50aaffc032e0f45a9fb5b6cb0d73a4a4b695c72))
-
-- Fixing application update structures
- ([dca63d4](https://github.com/Vonage/vonage-dotnet-sdk/commit/dca63d43de50af15ab0250dae60192cc8ab51514))
-
-- Fixing redact api
- ([bdcb161](https://github.com/Vonage/vonage-dotnet-sdk/commit/bdcb16118767d8f9c1042a3ce6b4c8c53e081794))
-
-- Removing api_driver
- ([002d189](https://github.com/Vonage/vonage-dotnet-sdk/commit/002d189d89039e778eae8bfbd6e275d7eba11982))
-
-- Adding getRecordingRequest
- ([e2e1ebe](https://github.com/Vonage/vonage-dotnet-sdk/commit/e2e1ebe8e9fba714bcacd147ec3ab3d6045ae7a8))
-
-- Adding getRecording
- ([9470836](https://github.com/Vonage/vonage-dotnet-sdk/commit/9470836107f09c489c6cbd516fa6afc65b030652))
-
-- Cleanup
- ([1dad5d3](https://github.com/Vonage/vonage-dotnet-sdk/commit/1dad5d3c087f70be9a75186715dd18581f080635))
-
-- Reving version
- ([11be7a9](https://github.com/Vonage/vonage-dotnet-sdk/commit/11be7a94d1416f395e4dc4157f6330213d7d4345))
-
-- Revving version
- ([32b39cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/32b39cb6e3e0ee15c7b372b62d6f6760dcb9ffb5))
-
-- Adding NCCO And Input Classes
- ([acb780f](https://github.com/Vonage/vonage-dotnet-sdk/commit/acb780f466daf4f62ef8a6ea4c5d759c726d5b62))
-
-- Fixing Configuration.Abstractions incorrect assembly loading issue
- ([93eb62e](https://github.com/Vonage/vonage-dotnet-sdk/commit/93eb62ee031eb4bd5e4d8a7dff960799babb9519))
-
-- Harmonizing Dependencies
- ([fb6833a](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb6833afeaa914e7219449ee95930f4f3b358a97))
-
-- Removing aspnetcore from the regular .NET packages
- ([7928779](https://github.com/Vonage/vonage-dotnet-sdk/commit/7928779025aa381ce054bfb49d909becef1d0eb0))
-
-- Fixing indentation
- ([ee63942](https://github.com/Vonage/vonage-dotnet-sdk/commit/ee63942f901cf59d0d2cd271ced9ef49aefa02fe))
 
 - Fixing application update structures
  ([8b16fe2](https://github.com/Vonage/vonage-dotnet-sdk/commit/8b16fe2457e549741e8d07343f9788da8e5e3a2e))
@@ -3568,11 +3689,53 @@ This PR adds a Github action which is triggered when a release is published. The
 - Adding NCCO And Input Classes
  ([90a8c07](https://github.com/Vonage/vonage-dotnet-sdk/commit/90a8c07326218d34652c6614a0ca176ec7a77316))
 
+- Adding workflow_id to VerifyRequest
+ ([fff625e](https://github.com/Vonage/vonage-dotnet-sdk/commit/fff625e8e2970f1fcfca0e1c3a5474decbb70c08))
+
+- Fixing application update structures
+ ([dca63d4](https://github.com/Vonage/vonage-dotnet-sdk/commit/dca63d43de50af15ab0250dae60192cc8ab51514))
+
+- Fixing redact api
+ ([bdcb161](https://github.com/Vonage/vonage-dotnet-sdk/commit/bdcb16118767d8f9c1042a3ce6b4c8c53e081794))
+
+- Removing api_driver
+ ([002d189](https://github.com/Vonage/vonage-dotnet-sdk/commit/002d189d89039e778eae8bfbd6e275d7eba11982))
+
+- Adding getRecordingRequest
+ ([e2e1ebe](https://github.com/Vonage/vonage-dotnet-sdk/commit/e2e1ebe8e9fba714bcacd147ec3ab3d6045ae7a8))
+
+- Adding getRecording
+ ([9470836](https://github.com/Vonage/vonage-dotnet-sdk/commit/9470836107f09c489c6cbd516fa6afc65b030652))
+
+- Cleanup
+ ([1dad5d3](https://github.com/Vonage/vonage-dotnet-sdk/commit/1dad5d3c087f70be9a75186715dd18581f080635))
+
+- Reving version
+ ([11be7a9](https://github.com/Vonage/vonage-dotnet-sdk/commit/11be7a94d1416f395e4dc4157f6330213d7d4345))
+
+- Revving version
+ ([32b39cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/32b39cb6e3e0ee15c7b372b62d6f6760dcb9ffb5))
+
+- Adding NCCO And Input Classes
+ ([acb780f](https://github.com/Vonage/vonage-dotnet-sdk/commit/acb780f466daf4f62ef8a6ea4c5d759c726d5b62))
+
 - Adding has_application and application_id to query for Numbers
  ([1dfc341](https://github.com/Vonage/vonage-dotnet-sdk/commit/1dfc341b6cd44d57117def5a7bd6a6e5ddab51e0))
 
 - Forcing ordinal values to prevent nulled serialization
  ([d851640](https://github.com/Vonage/vonage-dotnet-sdk/commit/d8516406114febcdf2e084d168a4ed99fd50f90d))
+
+- Fixing Configuration.Abstractions incorrect assembly loading issue
+ ([93eb62e](https://github.com/Vonage/vonage-dotnet-sdk/commit/93eb62ee031eb4bd5e4d8a7dff960799babb9519))
+
+- Harmonizing Dependencies
+ ([fb6833a](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb6833afeaa914e7219449ee95930f4f3b358a97))
+
+- Removing aspnetcore from the regular .NET packages
+ ([7928779](https://github.com/Vonage/vonage-dotnet-sdk/commit/7928779025aa381ce054bfb49d909becef1d0eb0))
+
+- Fixing indentation
+ ([ee63942](https://github.com/Vonage/vonage-dotnet-sdk/commit/ee63942f901cf59d0d2cd271ced9ef49aefa02fe))
 
 - Fixing SMS Signing for Hash and adding HMAC SMS signing
  ([929c3bc](https://github.com/Vonage/vonage-dotnet-sdk/commit/929c3bc06bafcecb193ebc8f79a3a4e2c048b8c7))
@@ -3633,6 +3796,9 @@ Application v2 - READY TO MERGE ([369cc93](https://github.com/Vonage/vonage-dotn
 
 ### Bug Fixes
 
+- Fixing code and renaming creds to credentials
+ ([1fdac31](https://github.com/Vonage/vonage-dotnet-sdk/commit/1fdac31aaf3b802d142bb8c6b07c4d75d58170b0))
+
 - Fixed conflict
  ([a9f1d87](https://github.com/Vonage/vonage-dotnet-sdk/commit/a9f1d87834963640be6d3e12596c39f84f782371))
 
@@ -3646,19 +3812,30 @@ Feature completion ([93f41fb](https://github.com/Vonage/vonage-dotnet-sdk/commit
 
 ### Other
 
-- GetRecording ([6546e31](https://github.com/Vonage/vonage-dotnet-sdk/commit/6546e31afad4fc190cdc2ab442fee2de25654818))
-
-- Avoiding creating RSACng on non-windows platforms
- ([2a9f319](https://github.com/Vonage/vonage-dotnet-sdk/commit/2a9f319912e1f053e6dfbf9bde4a927ff9116af9))
-
 - Added package properties
  ([545c479](https://github.com/Vonage/vonage-dotnet-sdk/commit/545c47904b3c0a882942907a183c5075969b0286))
+
+- Added GetPrefixPricing method
+ ([80d4f16](https://github.com/Vonage/vonage-dotnet-sdk/commit/80d4f1627d45e4467f29f6d614e99f21d6e86234))
+
+- Added submitConversion method and tests
+ ([41309f3](https://github.com/Vonage/vonage-dotnet-sdk/commit/41309f3ebf82e373d4fb835b8716b576579b8392))
+
+- Changed creds to credentials based on MAnik's review
+ ([5582b1b](https://github.com/Vonage/vonage-dotnet-sdk/commit/5582b1b26c84362243fdbc598e313646997f9048))
+
+- GetRecording ([6546e31](https://github.com/Vonage/vonage-dotnet-sdk/commit/6546e31afad4fc190cdc2ab442fee2de25654818))
 
 - More merge conflicts
  ([35434a0](https://github.com/Vonage/vonage-dotnet-sdk/commit/35434a0d18088105fe1ed338763e550949645711))
 
 
 ### Reverts
+
+- Revert "changed creds to credentials based on MAnik's review"
+
+This reverts commit 5582b1b26c84362243fdbc598e313646997f9048.
+ ([38c54c2](https://github.com/Vonage/vonage-dotnet-sdk/commit/38c54c2753f2bedded497fddbd6b57c4d3d85a46))
 
 - Revert "WIP: getRecording"
 
@@ -3667,12 +3844,6 @@ This reverts commit 6546e31afad4fc190cdc2ab442fee2de25654818.
 
 
 ## [v3.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.3.1) (2019-04-23)
-
-### Bug Fixes
-
-- Fixing code and renaming creds to credentials
- ([1fdac31](https://github.com/Vonage/vonage-dotnet-sdk/commit/1fdac31aaf3b802d142bb8c6b07c4d75d58170b0))
-
 
 ### Merges
 
@@ -3714,12 +3885,12 @@ Fixing Link for Redacting a message ([edce7ce](https://github.com/Vonage/vonage-
 
  ([921e0f5](https://github.com/Vonage/vonage-dotnet-sdk/commit/921e0f5e02b5ffb48650a8964dd332ae48597691))
 
-- Removed unused App.config from project
- ([b84ab0a](https://github.com/Vonage/vonage-dotnet-sdk/commit/b84ab0a54316c1c19591095b2337c87b06cf91b5))
-
 - Updated readme small text fixes
 
 Added a dot to the end of the License-section and removed an unused Create Account-link. ([4056681](https://github.com/Vonage/vonage-dotnet-sdk/commit/4056681a5bf60117d6061617af7e41d459ebfb8e))
+
+- Removed unused App.config from project
+ ([b84ab0a](https://github.com/Vonage/vonage-dotnet-sdk/commit/b84ab0a54316c1c19591095b2337c87b06cf91b5))
 
 - Fixed Destination in call command
  ([5d52ab6](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d52ab655fcd7a9222e1c41feb9c95a80f52b86d))
@@ -3730,25 +3901,8 @@ Added a dot to the end of the License-section and removed an unused Create Accou
 - Fixed bug 124
  ([56a2481](https://github.com/Vonage/vonage-dotnet-sdk/commit/56a248160f629f7a77550a6db5ccff274261f424))
 
-- Added GetPrefixPricing method
- ([80d4f16](https://github.com/Vonage/vonage-dotnet-sdk/commit/80d4f1627d45e4467f29f6d614e99f21d6e86234))
-
-- Added submitConversion method and tests
- ([41309f3](https://github.com/Vonage/vonage-dotnet-sdk/commit/41309f3ebf82e373d4fb835b8716b576579b8392))
-
-- Changed creds to credentials based on MAnik's review
- ([5582b1b](https://github.com/Vonage/vonage-dotnet-sdk/commit/5582b1b26c84362243fdbc598e313646997f9048))
-
 - Implemented NCCO param for creating a call
  ([4915afc](https://github.com/Vonage/vonage-dotnet-sdk/commit/4915afc2eebbc14a4a5bc7b8c8dfba28c880620f))
-
-
-### Reverts
-
-- Revert "changed creds to credentials based on MAnik's review"
-
-This reverts commit 5582b1b26c84362243fdbc598e313646997f9048.
- ([38c54c2](https://github.com/Vonage/vonage-dotnet-sdk/commit/38c54c2753f2bedded497fddbd6b57c4d3d85a46))
 
 
 ## [v3.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.2.0) (2018-09-28)
@@ -3811,10 +3965,10 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 
 - Update liblog example ([d14b3d1](https://github.com/Vonage/vonage-dotnet-sdk/commit/d14b3d15bc0d754da9692d3ba04da36b5eb95408))
 
+- Add issue template ([bce19aa](https://github.com/Vonage/vonage-dotnet-sdk/commit/bce19aac778b937ea7808586e320ab6c68a85e9d))
+
 - Added redact transaction functionnality
  ([0c770a3](https://github.com/Vonage/vonage-dotnet-sdk/commit/0c770a3e064096fd4d780f6f3dafe487eca5b87a))
-
-- Add issue template ([bce19aa](https://github.com/Vonage/vonage-dotnet-sdk/commit/bce19aac778b937ea7808586e320ab6c68a85e9d))
 
 - Added Redact
  ([7a78cf8](https://github.com/Vonage/vonage-dotnet-sdk/commit/7a78cf8f59516c8e7b01bfd605c146a05eac9c3c))
@@ -3878,8 +4032,6 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 - No samples in 3.0
  ([886635c](https://github.com/Vonage/vonage-dotnet-sdk/commit/886635cced2a566229cd7e675fba7130487416b8))
 
-- Fix silly copy & paste error with request.ip ([234e1e2](https://github.com/Vonage/vonage-dotnet-sdk/commit/234e1e201613de8dd4079e796b96d6e172b31040))
-
 - Ni refresh (#62)
 
 * Work in progress: updating Number insight
@@ -3888,9 +4040,6 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 
 * converting all properties name to follow c# convention + mapping to Json properties
  ([aa7b9bb](https://github.com/Vonage/vonage-dotnet-sdk/commit/aa7b9bb627b86e12a5426e165c54e8c31c27a3da))
-
-- 2018!
- ([988a159](https://github.com/Vonage/vonage-dotnet-sdk/commit/988a159ad71f9d5655a37d5827ed2aa99d1364e0))
 
 - Fix #78 : event_url returns the url and other meta data thus it is a string[] (#81)
 
@@ -3902,6 +4051,11 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 
 * fixed typo
  ([94e81ae](https://github.com/Vonage/vonage-dotnet-sdk/commit/94e81ae40cc4f244c55c0d73f1f2b9b89587ee59))
+
+- Fix silly copy & paste error with request.ip ([234e1e2](https://github.com/Vonage/vonage-dotnet-sdk/commit/234e1e201613de8dd4079e796b96d6e172b31040))
+
+- 2018!
+ ([988a159](https://github.com/Vonage/vonage-dotnet-sdk/commit/988a159ad71f9d5655a37d5827ed2aa99d1364e0))
 
 - Remove deprecated PackageTargetFallback
  ([ac77c2b](https://github.com/Vonage/vonage-dotnet-sdk/commit/ac77c2b0085367e5291d114d456c363ff931d4a1))
@@ -3956,15 +4110,6 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 
 ### Other
 
-- Move unit tests to mstest
- ([542667f](https://github.com/Vonage/vonage-dotnet-sdk/commit/542667fb990ade31ca90e50d4be58697c4674678))
-
-- Instance client
- ([f10bebc](https://github.com/Vonage/vonage-dotnet-sdk/commit/f10bebcb18b9ca01cf8bee98bbbe12a44bc7c0d2))
-
-- Nuget prerelease 1
- ([de63c12](https://github.com/Vonage/vonage-dotnet-sdk/commit/de63c120c74a0fa42e80d72c8eebc8fd34531b01))
-
 - 3.0 pre-release badge ([07a8673](https://github.com/Vonage/vonage-dotnet-sdk/commit/07a8673e2a1d553129ba268eb17ece6f2c9c505d))
 
 - Updated ReadMe to contain more building blocks (#39)
@@ -3975,23 +4120,6 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
  ([1b80649](https://github.com/Vonage/vonage-dotnet-sdk/commit/1b806490a10bc240cf91a7ce14330ca5e539b757))
 
 - Minor formatting ([362a400](https://github.com/Vonage/vonage-dotnet-sdk/commit/362a400879077f25ea7046185c951ffd1f02803c))
-
-- Update jose-jwt to 2.3.0
- ([42a50d2](https://github.com/Vonage/vonage-dotnet-sdk/commit/42a50d2892787e70ae112a0b79776daa76f02cc5))
-
-- Move to .NET Standard 2.0, update deps, release pre2. Closes #37
- ([97aae55](https://github.com/Vonage/vonage-dotnet-sdk/commit/97aae55608b75a08ebb3366892fb131210c048ea))
-
-- Bring back netstandard1.6 support; Remove unused System.Xml.* dependencies; netstandard2.0 should use Microsoft.Extensions.DependencyInjection v2.0
- ([961dddd](https://github.com/Vonage/vonage-dotnet-sdk/commit/961dddd470f4aaa68600ecb19430c8b2542fed10))
-
-- Pass credentials into SetUserAgent so when file config isn't being used the option to send app version is still available
- ([7eba9cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/7eba9cb1e71df935fab2246db4180b5fa5cb44cd))
-
-- Back to keeping standard1.6
- ([660df22](https://github.com/Vonage/vonage-dotnet-sdk/commit/660df22fc4a1fbe64945059e0b28b6b643626069))
-
-- Bring back 1.6 ([e63e26d](https://github.com/Vonage/vonage-dotnet-sdk/commit/e63e26de0b90b7dfdecb751ad375ae5cdfcb0f1a))
 
 - V3.0 note ([ab327be](https://github.com/Vonage/vonage-dotnet-sdk/commit/ab327be272d57b77436a5bf0084ab97f45d23772))
 
@@ -4047,6 +4175,32 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 
 - Move to VS2017
  ([faddc8b](https://github.com/Vonage/vonage-dotnet-sdk/commit/faddc8bef832b40d17d9eed38514968adef4ea7f))
+
+- Move unit tests to mstest
+ ([542667f](https://github.com/Vonage/vonage-dotnet-sdk/commit/542667fb990ade31ca90e50d4be58697c4674678))
+
+- Instance client
+ ([f10bebc](https://github.com/Vonage/vonage-dotnet-sdk/commit/f10bebcb18b9ca01cf8bee98bbbe12a44bc7c0d2))
+
+- Nuget prerelease 1
+ ([de63c12](https://github.com/Vonage/vonage-dotnet-sdk/commit/de63c120c74a0fa42e80d72c8eebc8fd34531b01))
+
+- Update jose-jwt to 2.3.0
+ ([42a50d2](https://github.com/Vonage/vonage-dotnet-sdk/commit/42a50d2892787e70ae112a0b79776daa76f02cc5))
+
+- Move to .NET Standard 2.0, update deps, release pre2. Closes #37
+ ([97aae55](https://github.com/Vonage/vonage-dotnet-sdk/commit/97aae55608b75a08ebb3366892fb131210c048ea))
+
+- Bring back netstandard1.6 support; Remove unused System.Xml.* dependencies; netstandard2.0 should use Microsoft.Extensions.DependencyInjection v2.0
+ ([961dddd](https://github.com/Vonage/vonage-dotnet-sdk/commit/961dddd470f4aaa68600ecb19430c8b2542fed10))
+
+- Pass credentials into SetUserAgent so when file config isn't being used the option to send app version is still available
+ ([7eba9cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/7eba9cb1e71df935fab2246db4180b5fa5cb44cd))
+
+- Back to keeping standard1.6
+ ([660df22](https://github.com/Vonage/vonage-dotnet-sdk/commit/660df22fc4a1fbe64945059e0b28b6b643626069))
+
+- Bring back 1.6 ([e63e26d](https://github.com/Vonage/vonage-dotnet-sdk/commit/e63e26de0b90b7dfdecb751ad375ae5cdfcb0f1a))
 
 - Style improvements (#31)
 

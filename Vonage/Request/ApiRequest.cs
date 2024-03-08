@@ -23,10 +23,26 @@ internal record VonageResponse(string JsonResponse);
 
 internal partial class ApiRequest
 {
-    private readonly ILogger logger;
-    private readonly ITimeProvider timeProvider;
+    /// <summary>
+    ///     Type of the Uri.
+    /// </summary>
+    public enum UriType
+    {
+        /// <summary>
+        ///     Api uri type.
+        /// </summary>
+        Api,
+
+        /// <summary>
+        ///     Rest uri type.
+        /// </summary>
+        Rest,
+    }
+
     private readonly Maybe<Configuration> configuration;
     private readonly Maybe<Credentials> credentials;
+    private readonly ILogger logger;
+    private readonly ITimeProvider timeProvider;
     private readonly string userAgent;
 
     private ApiRequest()
@@ -48,11 +64,11 @@ internal partial class ApiRequest
         this.timeProvider = provider;
     }
 
-    private static Uri BuildBaseUri(UriType uriType) =>
+    private static Uri BuildBaseUri(UriType uriType, Configuration configuration) =>
         uriType switch
         {
-            UriType.Api => Configuration.Instance.NexmoApiUrl,
-            UriType.Rest => Configuration.Instance.RestApiUrl,
+            UriType.Api => configuration.VonageUrls.Nexmo,
+            UriType.Rest => configuration.VonageUrls.Rest,
             _ => throw new Exception("Unknown Uri Type Detected"),
         };
 
@@ -281,7 +297,7 @@ internal partial class ApiRequest
         catch (HttpRequestException ex)
         {
             this.logger.LogError("FAIL: {StatusCode}", result.StatusCode);
-            throw new VonageHttpRequestException(ex) { HttpStatusCode = result.StatusCode };
+            throw new VonageHttpRequestException(ex) {HttpStatusCode = result.StatusCode};
         }
     }
 
@@ -304,30 +320,16 @@ internal partial class ApiRequest
             value => JsonConvert.SerializeObject(value, VonageSerialization.SerializerSettings),
             JsonConvert.DeserializeObject<T>);
 
-    internal static Uri GetBaseUri(UriType uriType, string url = null) =>
-        string.IsNullOrEmpty(url) ? BuildBaseUri(uriType) : new Uri(BuildBaseUri(uriType), url);
+    internal static Uri GetBaseUri(UriType uriType, Configuration configuration, string url = null) =>
+        string.IsNullOrEmpty(url)
+            ? BuildBaseUri(uriType, configuration)
+            : new Uri(BuildBaseUri(uriType, configuration), url);
 
     internal static ApiRequest Build(Credentials credentials, Configuration configuration, ITimeProvider provider) =>
         new(credentials, configuration, provider);
 
-    /// <summary>
-    ///     Type of the Uri.
-    /// </summary>
-    public enum UriType
-    {
-        /// <summary>
-        ///     Api uri type.
-        /// </summary>
-        Api,
-
-        /// <summary>
-        ///     Rest uri type.
-        /// </summary>
-        Rest,
-    }
-
-    internal static Uri GetBaseUriFor(string url = null) =>
-        string.IsNullOrEmpty(url) ? Configuration.Instance.RestApiUrl : new Uri(Configuration.Instance.RestApiUrl, url);
+    internal static Uri GetBaseUriFor(Configuration configuration, string url = null) =>
+        string.IsNullOrEmpty(url) ? configuration.VonageUrls.Rest : new Uri(configuration.VonageUrls.Rest, url);
 
     internal async Task<T> DoRequestWithJsonContentAsync<T>(HttpMethod method, Uri uri, object payload,
         AuthType authType, Func<object, string> payloadSerialization,
