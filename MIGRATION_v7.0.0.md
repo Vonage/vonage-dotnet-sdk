@@ -148,3 +148,16 @@ is actually nullable.
 
 As defined in the [specs](https://developer.vonage.com/en/voice/voice-api/ncco-reference#conversation),
 the `Conversation` action doesn't have an `EventUrl` or an `EventMethod`. 
+
+## Make `From` mandatory in VerifyV2 WhatsApp workflow
+
+The `From` property used to be optional - it is now mandatory.
+
+```csharp
+// Using v6.X.X
+var workflow =  WhatsAppWorkflow.Parse(ValidToNumber);
+var workflow =  WhatsAppWorkflow.Parse(ValidToNumber, ValidFromNumber);
+
+// Using v7.X.X and above
+var workflow =  WhatsAppWorkflow.Parse(ValidToNumber, ValidFromNumber);
+```
