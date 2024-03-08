@@ -270,12 +270,14 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="other">The other result.</param>
     /// <param name="merge">The operation used if they're both in a Success state.</param>
-    /// <typeparam name="TB">The return type.</typeparam>
+    /// <typeparam name="TSource">The secondary result type.</typeparam>
+    /// <typeparam name="TDestination">The return type.</typeparam>
     /// <returns>A result.</returns>
-    public Result<TB> Merge<TB>(Result<T> other, Func<T, T, TB> merge) =>
+    public Result<TDestination> Merge<TSource, TDestination>(Result<TSource> other,
+        Func<T, TSource, TDestination> merge) =>
         this.IsSuccess && other.IsSuccess
-            ? Result<TB>.FromSuccess(merge(this.success, other.success))
-            : Result<TB>.FromFailure(this.FetchFailure(other));
+            ? Result<TDestination>.FromSuccess(merge(this.success, other.success))
+            : Result<TDestination>.FromFailure(this.FetchFailure(other));
 
     /// <summary>
     ///     Implicit operator from TA to Result of TA.
@@ -312,7 +314,8 @@ public readonly struct Result<T>
             ? this.success.Equals(other.success)
             : other.IsFailure;
 
-    private IResultFailure FetchFailure(Result<T> other) => this.IsFailure ? this.failure : other.failure;
+    private IResultFailure FetchFailure<TSource>(Result<TSource> other) =>
+        this.IsFailure ? this.failure : other.failure;
 
     /// <summary>
     ///     Enum representing the state of Result.

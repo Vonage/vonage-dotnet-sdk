@@ -119,7 +119,7 @@ public class SerializationTest
             .BeSuccess(this.helper.GetRequestJson());
 
     internal static Result<SmsWorkflow> BuildSmsWorkflowWithOptionalValues() =>
-        SmsWorkflow.Parse("447700900000", "12345678901", "entity", "content");
+        SmsWorkflow.Parse("447700900000", "12345678901", "entity", "content", "447700900001");
 
     [Fact]
     public void ShouldSerializeVoiceWorkflow() =>

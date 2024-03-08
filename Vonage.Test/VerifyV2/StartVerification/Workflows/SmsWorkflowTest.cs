@@ -1,4 +1,5 @@
-﻿using Vonage.Common.Failures;
+﻿using FluentAssertions;
+using Vonage.Common.Failures;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.Common.TestHelpers;
 using Vonage.VerifyV2.StartVerification.Sms;
@@ -46,6 +47,15 @@ public class SmsWorkflowTest
             .BeFailure(ResultFailure.FromErrorMessage("Hash length should be 11."));
 
     [Theory]
+    [InlineData("1234567abc123", "Number can only contain digits.")]
+    [InlineData("123456", "Number length cannot be lower than 7.")]
+    [InlineData("1234567890123456", "Number length cannot be higher than 15.")]
+    public void Parse_ShouldReturnFailure_GivenFromIsInvalid(string value, string message) =>
+        SmsWorkflow.Parse(ValidNumber, from: value)
+            .Should()
+            .BeFailure(ResultFailure.FromErrorMessage(message));
+
+    [Theory]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
@@ -90,6 +100,13 @@ public class SmsWorkflowTest
             .BeSuccess(ValidHash);
 
     [Fact]
+    public void Parse_ShouldSetFrom() =>
+        SmsWorkflow.Parse(ValidNumber, from: "123456789012345")
+            .Map(workflow => workflow.From)
+            .Should()
+            .BeSuccess(from => from.GetUnsafe().Number.Should().Be("123456789012345"));
+
+    [Fact]
     public void Parse_ShouldHaveEmptyHash_GivenDefault() =>
         SmsWorkflow.Parse(ValidNumber)
             .Map(workflow => workflow.Hash)
@@ -102,6 +119,13 @@ public class SmsWorkflowTest
             .Map(workflow => workflow.EntityId)
             .Should()
             .BeSuccess(hash => hash.Should().BeNone());
+
+    [Fact]
+    public void Parse_ShouldHaveEmptyFrom_GivenDefault() =>
+        SmsWorkflow.Parse(ValidNumber)
+            .Map(workflow => workflow.From)
+            .Should()
+            .BeSuccess(from => from.Should().BeNone());
 
     [Fact]
     public void Parse_ShouldSetEntityId_GivenLengthIsLowerThan200Characters() =>
