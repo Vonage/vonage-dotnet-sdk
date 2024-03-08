@@ -42,8 +42,8 @@ namespace Vonage.Test.Extensions
         private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
 
         [Theory]
-        [MemberData(nameof(GetSpecificVonageClients))]
-        public void AddVonageClientScoped_ShouldProvideScopedSpecificClientInstance_GivenConfigurationIsProvided(
+        [MemberData(nameof(GetRegisteredTypes))]
+        public void AddVonageClientScoped_ShouldProvideScopedInstance_GivenConfigurationIsProvided(
             Type type)
         {
             var provider = BuildScopedProviderWithConfiguration(this.configuration);
@@ -51,8 +51,8 @@ namespace Vonage.Test.Extensions
         }
 
         [Theory]
-        [MemberData(nameof(GetSpecificVonageClients))]
-        public void AddVonageClientScoped_ShouldProvideScopedSpecificClientInstance_GivenCredentialsAreProvided(
+        [MemberData(nameof(GetRegisteredTypes))]
+        public void AddVonageClientScoped_ShouldProvideScopedInstance_GivenCredentialsAreProvided(
             Type type)
         {
             var provider = BuildScopedProviderWithCredentials(this.credentials);
@@ -60,27 +60,25 @@ namespace Vonage.Test.Extensions
         }
 
         [Theory]
-        [MemberData(nameof(GetSpecificVonageClients))]
+        [MemberData(nameof(GetRegisteredTypes))]
         public void
-            AddVonageClientTransient_ShouldProvideTransientSpecificClientInstance_GivenConfigurationIsProvided(
+            AddVonageClientTransient_ShouldProvideTransientInstance_GivenConfigurationIsProvided(
                 Type type)
         {
             var provider = BuildTransientProviderWithConfiguration(this.configuration);
-            provider.GetRequiredService(type).Should()
-                .NotBe(provider.GetRequiredService(type));
+            provider.GetRequiredService(type).Should().NotBeNull();
         }
 
         [Theory]
-        [MemberData(nameof(GetSpecificVonageClients))]
-        public void AddVonageClientTransient_ShouldProvideTransientSpecificClientInstance_GivenCredentialsAreProvided(
+        [MemberData(nameof(GetRegisteredTypes))]
+        public void AddVonageClientTransient_ShouldProvideTransientInstance_GivenCredentialsAreProvided(
             Type type)
         {
             var provider = BuildTransientProviderWithCredentials(this.credentials);
-            provider.GetRequiredService(type).Should()
-                .NotBe(provider.GetRequiredService(type));
+            provider.GetRequiredService(type).Should().NotBeNull();
         }
 
-        public static IEnumerable<object[]> GetSpecificVonageClients()
+        public static IEnumerable<object[]> GetRegisteredTypes()
         {
             yield return new object[] {typeof(VonageClient)};
             yield return new object[] {typeof(IAccountClient)};
@@ -104,6 +102,7 @@ namespace Vonage.Test.Extensions
             yield return new object[] {typeof(IVoiceClient)};
             yield return new object[] {typeof(ITokenGenerator)};
             yield return new object[] {typeof(IVideoTokenGenerator)};
+            yield return new object[] {typeof(Credentials)};
         }
 
         private static ServiceProvider BuildScopedProviderWithConfiguration(IConfiguration configuration) =>

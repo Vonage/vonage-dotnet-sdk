@@ -3,6 +3,5 @@
   "hasAudio": true,
   "hasVideo": true,
   "outputMode": "composed",
-  "resolution": "640x480",
   "streamMode": "auto"
 }

@@ -6,7 +6,6 @@ using Vonage.Test.Common.Extensions;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Email;
 using Vonage.VerifyV2.StartVerification.SilentAuth;
-using Vonage.VerifyV2.StartVerification.Sms;
 using Vonage.VerifyV2.StartVerification.Voice;
 using Vonage.VerifyV2.StartVerification.WhatsApp;
 using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
@@ -42,7 +41,16 @@ public class E2ETest : E2EBase
     public async Task StartSmsVerification()
     {
         this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeSmsWorkflow));
-        var result = await this.StartVerificationAsyncWithWorkflow(SmsWorkflow.Parse("447700900000"));
+        var result = await this.StartVerificationAsyncWithWorkflow(SerializationTest.BuildSmsWorkflow());
+        VerifyResponseBody(result);
+    }
+
+    [Fact]
+    public async Task StartSmsVerificationWithOptionalValues()
+    {
+        this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeSmsWorkflowWithOptionalValues));
+        var result =
+            await this.StartVerificationAsyncWithWorkflow(SerializationTest.BuildSmsWorkflowWithOptionalValues());
         VerifyResponseBody(result);
     }
 

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
-using Vonage.Server;
 using Vonage.Test.Common.Extensions;
-using Vonage.Video.Archives.CreateArchive;
 using WireMock.ResponseBuilders;
 using Xunit;
 
@@ -25,18 +22,7 @@ public class E2ETest : E2EBase
                 .UsingPost())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                 .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-        await this.Helper.VonageClient.VideoClient.ArchiveClient.CreateArchiveAsync(CreateArchiveRequest.Build()
-                .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
-                .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
-                .WithArchiveLayout(new Layout(LayoutType.Pip,
-                    "stream.instructor {position: absolute; width: 100%;  height:50%;}", LayoutType.BestFit))
-                .WithName("Foo")
-                .WithOutputMode(OutputMode.Individual)
-                .WithRenderResolution(RenderResolution.HighDefinitionLandscape)
-                .WithStreamMode(StreamMode.Manual)
-                .DisableVideo()
-                .DisableAudio()
-                .Create())
+        await this.Helper.VonageClient.VideoClient.ArchiveClient.CreateArchiveAsync(SerializationTest.BuildRequest())
             .Should()
             .BeSuccessAsync(SerializationTest.VerifyArchive);
     }
@@ -50,10 +36,8 @@ public class E2ETest : E2EBase
                 .UsingPost())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                 .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-        await this.Helper.VonageClient.VideoClient.ArchiveClient.CreateArchiveAsync(CreateArchiveRequest.Build()
-                .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
-                .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
-                .Create())
+        await this.Helper.VonageClient.VideoClient.ArchiveClient
+            .CreateArchiveAsync(SerializationTest.BuildDefaultRequest())
             .Should()
             .BeSuccessAsync(SerializationTest.VerifyArchive);
     }

@@ -22,8 +22,8 @@ public class MessagesClient : IMessagesClient
     /// <param name="credentials"></param>
     public MessagesClient(Credentials credentials)
     {
-        this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, Url);
         this.configuration = Configuration.Instance;
+        this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, Url);
         this.credentials = credentials;
     }
 
@@ -31,7 +31,7 @@ public class MessagesClient : IMessagesClient
     {
         this.credentials = credentials;
         this.configuration = configuration;
-        this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, Url);
+        this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, Url);
         this.timeProvider = timeProvider;
     }
 

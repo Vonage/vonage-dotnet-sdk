@@ -7,13 +7,34 @@ using Vonage.Common.Exceptions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Request;
-using Vonage.Voice;
 
 namespace Vonage;
 
 /// <inheritdoc />
 public class Jwt : ITokenGenerator
 {
+    internal const string ReservedClaimIssuedAt = "iat";
+    internal const string ReservedClaimApplicationId = "application_id";
+    internal const string ReservedClaimTokenId = "jti";
+
+    /// <inheritdoc />
+    public Result<string> GenerateToken(string applicationId, string privateKey,
+        Dictionary<string, object> claims = null)
+    {
+        try
+        {
+            return CreateToken(applicationId, privateKey, claims);
+        }
+        catch (Exception exception)
+        {
+            return Result<string>.FromFailure(new AuthenticationFailure(exception.Message));
+        }
+    }
+
+    /// <inheritdoc />
+    public Result<string> GenerateToken(Credentials credentials, Dictionary<string, object> claims = null) =>
+        this.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey, claims);
+
     /// <summary>
     ///     Creates a token from application id and private key.
     /// </summary>
@@ -24,24 +45,6 @@ public class Jwt : ITokenGenerator
     public static string CreateToken(string appId, string privateKey, Dictionary<string, object> claims = null) =>
         CreateTokenWithClaims(appId, privateKey, claims);
 
-    /// <inheritdoc />
-    public Result<string> GenerateToken(string applicationId, string privateKey,
-        Dictionary<string, object> claims = null)
-    {
-        try
-        {
-            return CreateToken(applicationId, privateKey);
-        }
-        catch (Exception exception)
-        {
-            return Result<string>.FromFailure(new AuthenticationFailure(exception.Message));
-        }
-    }
-
-    /// <inheritdoc />
-    public Result<string> GenerateToken(Credentials credentials, Dictionary<string, object> claims = null) =>
-        this.GenerateToken(credentials.ApplicationId, credentials.ApplicationKey);
-
     /// <summary>
     ///     Creates a token with custom claims.
     /// </summary>
@@ -50,7 +53,7 @@ public class Jwt : ITokenGenerator
     /// <param name="claims">The custom claims.</param>
     /// <returns>The token.</returns>
     /// <exception cref="VonageAuthenticationException">When the private key is null or whitespace.</exception>
-    protected static string CreateTokenWithClaims(string appId, string privateKey, Dictionary<string, object> claims)
+    private static string CreateTokenWithClaims(string appId, string privateKey, Dictionary<string, object> claims)
     {
         if (string.IsNullOrWhiteSpace(appId) || string.IsNullOrWhiteSpace(privateKey))
         {
@@ -63,9 +66,12 @@ public class Jwt : ITokenGenerator
         var jwtTokenId = Convert.ToBase64String(tokenData);
         var payload = new Dictionary<string, object>
         {
-            {"iat", (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds},
-            {"application_id", appId},
-            {"jti", jwtTokenId},
+            {
+                ReservedClaimIssuedAt,
+                (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds
+            },
+            {ReservedClaimApplicationId, appId},
+            {ReservedClaimTokenId, jwtTokenId},
         };
         claims?.ToList().ForEach(claim => payload.Add(claim.Key, claim.Value));
         var rsa = PemParse.DecodePEMKey(privateKey);

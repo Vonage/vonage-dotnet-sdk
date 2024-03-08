@@ -9,7 +9,6 @@ public class PricingClient : IPricingClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
-    public Credentials Credentials { get; set; }
 
     public PricingClient(Credentials creds = null)
     {
@@ -24,13 +23,16 @@ public class PricingClient : IPricingClient
         this.timeProvider = timeProvider;
     }
 
+    public Credentials Credentials { get; set; }
+
     /// <inheritdoc/>
     [Obsolete("Favor asynchronous version instead.")]
     public PricingResult RetrievePrefixPricing(string type, PricingPrefixRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<PricingResult>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration,
+                    $"/account/get-prefix-pricing/outbound/{type}"),
                 AuthType.Query,
                 request
             );
@@ -41,7 +43,8 @@ public class PricingClient : IPricingClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<PricingResult>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-prefix-pricing/outbound/{type}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration,
+                    $"/account/get-prefix-pricing/outbound/{type}"),
                 AuthType.Query,
                 request
             );
@@ -52,7 +55,8 @@ public class PricingClient : IPricingClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<PricingResult>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration,
+                    $"/account/get-pricing/outbound/{type}"),
                 AuthType.Query
             );
 
@@ -61,7 +65,8 @@ public class PricingClient : IPricingClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<PricingResult>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration,
+                    $"/account/get-pricing/outbound/{type}"),
                 AuthType.Query
             );
 
@@ -71,7 +76,8 @@ public class PricingClient : IPricingClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParameters<Country>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration,
+                    $"/account/get-pricing/outbound/{type}"),
                 AuthType.Query,
                 request
             );
@@ -82,7 +88,8 @@ public class PricingClient : IPricingClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<Country>
             (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, $"/account/get-pricing/outbound/{type}"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration,
+                    $"/account/get-pricing/outbound/{type}"),
                 AuthType.Query,
                 request
             );

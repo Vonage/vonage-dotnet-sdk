@@ -112,6 +112,14 @@ public struct Archive
     public string Url { get; }
 
     /// <summary>
+    ///     Set this to support recording multiple archives for the same session simultaneously. Set this to a unique string
+    ///     for each simultaneous archive of an ongoing session. You must also set this option when manually starting an
+    ///     archive in a session that is automatically archived. If you do not specify a unique multiArchiveTag, you can only
+    ///     record one archive at a time for a given session.
+    /// </summary>
+    public string MultiArchiveTag { get; }
+
+    /// <summary>
     ///     Creates an archive.
     /// </summary>
     /// <param name="createdAt">
@@ -162,10 +170,11 @@ public struct Archive
     ///     The download URL is obfuscated, and the file is only available from the URL for 10 minutes.
     /// </param>
     /// <param name="streams">The collection of streams.</param>
+    /// <param name="multiArchiveTag">Set this to support recording multiple archives for the same session simultaneously. Set this to a unique string for each simultaneous archive of an ongoing session. You must also set this option when manually starting an archive in a session that is automatically archived. If you do not specify a unique multiArchiveTag, you can only record one archive at a time for a given session.</param>
     [JsonConstructor]
     public Archive(long createdAt, int duration, bool hasAudio, bool hasVideo, string id, string name,
         string applicationId, string reason, RenderResolution resolution, string sessionId, int size, string status,
-        string streamMode, string url, Stream[] streams)
+        string streamMode, string url, Stream[] streams, string multiArchiveTag)
     {
         this.CreatedAt = createdAt;
         this.Duration = duration;
@@ -182,6 +191,7 @@ public struct Archive
         this.StreamMode = streamMode;
         this.Url = url;
         this.Streams = streams;
+        this.MultiArchiveTag = multiArchiveTag;
     }
 
     /// <summary>
