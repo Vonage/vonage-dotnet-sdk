@@ -894,6 +894,12 @@
         <None Update="Data\ApplicationTests\CreateApplicationAsyncWithPrivacySettings-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithVoiceTimeouts-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithVoiceTimeouts-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Update="VerifyV2\StartVerification\Data\ShouldSerializeSilentAuthWorkflowWithRedirectUrl-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -1090,6 +1096,9 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Conversations\GetUserConversations\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithVoiceTimeouts-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="VerifyV2\StartVerification\Data\ShouldSerializeSmsWorkflowWithOptionalValues-request.json">

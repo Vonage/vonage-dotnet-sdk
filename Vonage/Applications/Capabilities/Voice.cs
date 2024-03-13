@@ -1,10 +1,17 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Vonage.Common;
+using Newtonsoft.Json.Converters;
+using Vonage.Serialization;
 
 namespace Vonage.Applications.Capabilities;
 
-public class Voice : Capability
+/// <summary>
+///     Represents Voice capabilities.
+/// </summary>
+public class Voice
 {
     /// <summary>
     ///     The length of time named conversations will remain active for after creation, in hours. 0 means infinite. Maximum
@@ -28,9 +35,47 @@ public class Voice : Capability
     [JsonProperty("signed_callbacks", Order = 1)]
     public bool SignedCallbacks { get; set; }
 
-    public Voice(IDictionary<Webhook.Type, Webhook> webhooks)
-    {
-        this.Webhooks = webhooks;
-        this.Type = CapabilityType.Voice;
-    }
+    /// <summary>
+    ///     Represents the collection of Webhook URLs with their configuration.
+    /// </summary>
+    [JsonProperty("webhooks")]
+    public IDictionary<VoiceWebhookType, VoiceWebhook> Webhooks { get; set; }
+
+    /// <summary>
+    /// Represents a webhook for Voice API.
+    /// </summary>
+    /// <param name="Address">The webhook address.</param>
+    /// <param name="Method">Must be one of GET or POST.</param>
+    /// <param name="ConnectionTimeout">If Vonage can't connect to the webhook URL for this specified amount of time, then Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in milliseconds.</param>
+    /// <param name="SocketTimeout">If a response from the webhook URL can't be read for this specified amount of time, then Vonage makes one additional attempt to read the webhook endpoint. This is an integer value specified in milliseconds.</param>
+    public record VoiceWebhook(
+        [property: JsonProperty("address", Order = 1)]
+        Uri Address,
+        [property: JsonProperty("http_method", Order = 0)]
+        [property: JsonConverter(typeof(HttpMethodConverter))]
+        HttpMethod Method,
+        [property: JsonProperty("connection_timeout", Order = 2)]
+        int ConnectionTimeout = 0,
+        [property: JsonProperty("socket_timeout", Order = 3)]
+        int SocketTimeout = 0);
+}
+
+/// <summary>
+/// Represents various Webhook urls.
+/// </summary>
+[JsonConverter(typeof(StringEnumConverter))]
+public enum VoiceWebhookType
+{
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "answer_url")] AnswerUrl = 0,
+
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "event_url")] EventUrl = 1,
+
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "fallback_answer_url")]
+    FallbackAnswerUrl = 2,
 }
