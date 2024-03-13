@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 using Moq;
 using Vonage.Accounts;
 using Vonage.Common;
@@ -13,7 +14,7 @@ public class AccountTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void CreateApiSecretAsync(bool passCreds)
+    public async Task CreateApiSecretAsync(bool passCreds)
     {
         //ARRANGE            
         var expectedUri = $"https://api.nexmo.com/accounts/{this.ApiKey}/secrets";
@@ -52,7 +53,7 @@ public class AccountTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void GetAccountBalanceAsync(bool passCreds)
+    public async Task GetAccountBalanceAsync(bool passCreds)
     {
         //ARRANGE
         var expectedUri = $"{this.RestUrl}/account/get-balance?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
@@ -76,7 +77,7 @@ public class AccountTest : TestBase
     }
 
     [Fact]
-    public async void GetAccountBalanceAsync_ShouldReturnBalance_GivenCredentialsContainSecuritySecret()
+    public async Task GetAccountBalanceAsync_ShouldReturnBalance_GivenCredentialsContainSecuritySecret()
     {
         var mockTimeProvider = new Mock<ITimeProvider>();
         mockTimeProvider.Setup(provider => provider.Epoch).Returns(10);
@@ -95,7 +96,7 @@ public class AccountTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void RetrieveApiSecretsAsync(bool passCreds)
+    public async Task RetrieveApiSecretsAsync(bool passCreds)
     {
         //ARRANGE            
         var expectedResponse = @"{
@@ -144,7 +145,7 @@ public class AccountTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void RetrieveSecretAsync(bool passCreds)
+    public async Task RetrieveSecretAsync(bool passCreds)
     {
         //ARRANGE            
         var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
@@ -182,7 +183,7 @@ public class AccountTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void RevokeSecretAsync(bool passCreds)
+    public async Task RevokeSecretAsync(bool passCreds)
     {
         //ARRANGE            
         var secretId = "ad6dc56f-07b5-46e1-a527-85530e625800";
@@ -210,7 +211,7 @@ public class AccountTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void SetSettingsAsync(bool passCreds)
+    public async Task SetSettingsAsync(bool passCreds)
     {
         //ARRANGE
         var expectedUri = $"{this.RestUrl}/account/settings";
@@ -254,7 +255,7 @@ public class AccountTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void TopUpAsync(bool passCreds)
+    public async Task TopUpAsync(bool passCreds)
     {
         //ARRANGE            
         var expectedUri =

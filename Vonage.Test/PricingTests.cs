@@ -1,4 +1,5 @@
-﻿using Vonage.Pricing;
+﻿using System.Threading.Tasks;
+using Vonage.Pricing;
 using Vonage.Request;
 using Xunit;
 
@@ -72,7 +73,7 @@ public class PricingTests : TestBase
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async void GetPricingAllCountriesAsync(bool passCreds)
+    public async Task GetPricingAllCountriesAsync(bool passCreds)
     {
         //ARRANGE
         var expectedUri =
@@ -194,7 +195,7 @@ public class PricingTests : TestBase
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async void GetPricingForCountryAsync(bool passCreds)
+    public async Task GetPricingForCountryAsync(bool passCreds)
     {
         //ARRANGE
         var expectedUri =
@@ -318,7 +319,7 @@ public class PricingTests : TestBase
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async void GetPricingForPrefixAsync(bool passCreds)
+    public async Task GetPricingForPrefixAsync(bool passCreds)
     {
         //ARRANGE
         var expectedUri =

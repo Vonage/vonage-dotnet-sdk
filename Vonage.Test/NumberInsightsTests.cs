@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using Vonage.NumberInsights;
 using Vonage.Request;
 using Xunit;
@@ -114,7 +115,7 @@ public class NumberInsightsTests : TestBase
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public async void TestAdvancedAsyncAsync(bool passCreds, bool kitchenSink)
+    public async Task TestAdvancedAsyncAsync(bool passCreds, bool kitchenSink)
     {
         var expectedResponse = this.GetResponseJson();
         var expectedUri = $"{this.ApiUrl}/ni/advanced/async/json";
@@ -249,7 +250,7 @@ public class NumberInsightsTests : TestBase
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public async void TestAdvancedNIRequestSyncAsync(bool passCreds, bool kitchenSink)
+    public async Task TestAdvancedNIRequestSyncAsync(bool passCreds, bool kitchenSink)
     {
         //ARRANGE
         var expectedResponse = this.GetResponseJson();
@@ -498,7 +499,7 @@ public class NumberInsightsTests : TestBase
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public async void TestBasicNIRequestAsync(bool passCreds, bool kitchenSink)
+    public async Task TestBasicNIRequestAsync(bool passCreds, bool kitchenSink)
     {
         //ARRANGE
         var expectedUri = $"{this.ApiUrl}/ni/basic/json";
@@ -685,7 +686,7 @@ public class NumberInsightsTests : TestBase
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public async void TestStandardNIRequestAsync(bool passCreds, bool kitchenSink)
+    public async Task TestStandardNIRequestAsync(bool passCreds, bool kitchenSink)
     {
         //ARRANGE
         var expectedResponse = this.GetResponseJson();

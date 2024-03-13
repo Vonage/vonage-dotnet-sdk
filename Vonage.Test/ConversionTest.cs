@@ -1,4 +1,5 @@
-﻿using Vonage.Conversions;
+﻿using System.Threading.Tasks;
+using Vonage.Conversions;
 using Vonage.Request;
 using Xunit;
 
@@ -37,7 +38,7 @@ public class ConversionTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void SmsConversionAsync(bool passCreds)
+    public async Task SmsConversionAsync(bool passCreds)
     {
         var expectedUri = $"{this.ApiUrl}/conversions/sms";
         var expectedContent =
@@ -91,7 +92,7 @@ public class ConversionTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void VoiceConversionAsync(bool passCreds)
+    public async Task VoiceConversionAsync(bool passCreds)
     {
         var expectedUri = $"{this.ApiUrl}/conversions/voice";
         var expectedContent =

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 using Vonage.Request;
 using Vonage.Verify;
 using Xunit;
@@ -150,7 +151,7 @@ public class VerifyTest : TestBase
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public async void RequestVerificationAsync(bool passCreds, bool kitchenSink)
+    public async Task RequestVerificationAsync(bool passCreds, bool kitchenSink)
     {
         var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -246,7 +247,7 @@ public class VerifyTest : TestBase
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public async void TestCheckVerificationAsync(bool passCreds, bool kitchenSink)
+    public async Task TestCheckVerificationAsync(bool passCreds, bool kitchenSink)
     {
         var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
@@ -325,7 +326,7 @@ public class VerifyTest : TestBase
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async void TestControlVerifyAsync(bool passCreds)
+    public async Task TestControlVerifyAsync(bool passCreds)
     {
         var expectedResponse = @"{
               ""status"": ""0"",
@@ -451,7 +452,7 @@ public class VerifyTest : TestBase
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async void TestVerifySearchAsync(bool passCreds)
+    public async Task TestVerifySearchAsync(bool passCreds)
     {
         var expectedResponse = @"{
               ""request_id"": ""abcdef0123456789abcdef0123456789"",
