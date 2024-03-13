@@ -78,7 +78,7 @@ public class RequestBuilderTest
     public void Create_ShouldReturnFailure_GivenOneFallbackWorkflowIsFailure() =>
         BuildBaseRequest()
             .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
-            .WithFallbackWorkflow(WhatsAppWorkflow.Parse("123456789"))
+            .WithFallbackWorkflow(WhatsAppWorkflow.Parse("123456789", "123456789"))
             .WithFallbackWorkflow(
                 Result<VoiceWorkflow>.FromFailure(ResultFailure.FromErrorMessage("Random message.")))
             .Create()
@@ -143,7 +143,7 @@ public class RequestBuilderTest
     public void Create_ShouldSetFallbackWorkflows() =>
         BuildBaseRequest()
             .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("123456789"))
-            .WithFallbackWorkflow(WhatsAppWorkflow.Parse("123456789"))
+            .WithFallbackWorkflow(WhatsAppWorkflow.Parse("123456789", "123456780"))
             .WithFallbackWorkflow(VoiceWorkflow.Parse("123456789"))
             .Create()
             .Map(request => request.Workflows)
@@ -157,7 +157,7 @@ public class RequestBuilderTest
                 var fallbackWorkflowOne = workflows[1] as WhatsAppWorkflow? ?? default;
                 fallbackWorkflowOne.Channel.Should().Be("whatsapp");
                 fallbackWorkflowOne.To.Number.Should().Be("123456789");
-                fallbackWorkflowOne.From.Should().BeNone();
+                fallbackWorkflowOne.From.Number.Should().Be("123456780");
                 var fallbackWorkflowTwo = workflows[2] as VoiceWorkflow? ?? default;
                 fallbackWorkflowTwo.Channel.Should().Be("voice");
                 fallbackWorkflowTwo.To.Number.Should().Be("123456789");

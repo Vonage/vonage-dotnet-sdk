@@ -74,7 +74,7 @@ If you would prefer to run directly from source:
 
 #### Upgrading from v6.x.x to v7.0.0
 
-Changes in version 7.0.0
+Please see the dedicated [migration guide](MIGRATION_v7.0.0.md).
 
 * Everything flagged with an `Obsolete` annotation will be removed
     * Synchronous methods - [Pull Request](https://github.com/Vonage/vonage-dotnet-sdk/pull/549): So far, a lot of
@@ -104,6 +104,8 @@ Changes in version 7.0.0
 * Make StartTime nullable on Answered Webhook - [link](https://github.com/Vonage/vonage-dotnet-sdk/issues/569).
 * Remove `EventUrl` and `EventMethod` from `ConversationAction` to comply with
   the [documentation](https://developer.vonage.com/en/voice/voice-api/ncco-reference#conversation).
+* `From` is now mandatory in VerifyV2 WhatsApp
+  workflow - [Pull Request](https://github.com/Vonage/vonage-dotnet-sdk/pull/572)
 
 #### Upgrading from v5.x.x to v6.0.0
 
