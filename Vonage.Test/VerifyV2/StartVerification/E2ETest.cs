@@ -62,7 +62,7 @@ public class E2ETest : E2EBase
             .Build()
             .WithBrand("ACME, Inc")
             .WithWorkflow(WhatsAppInteractiveWorkflow.Parse("447700900000"))
-            .WithFallbackWorkflow(WhatsAppWorkflow.Parse("447700900000"))
+            .WithFallbackWorkflow(WhatsAppWorkflow.Parse("447700900000", "447700900001"))
             .WithFallbackWorkflow(VoiceWorkflow.Parse("447700900000"))
             .Create());
         VerifyResponseBody(result);
@@ -89,7 +89,8 @@ public class E2ETest : E2EBase
     public async Task StartWhatsAppVerification()
     {
         this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeWhatsAppWorkflow));
-        var result = await this.StartVerificationAsyncWithWorkflow(WhatsAppWorkflow.Parse("447700900000"));
+        var result =
+            await this.StartVerificationAsyncWithWorkflow(WhatsAppWorkflow.Parse("447700900000", "447700900001"));
         VerifyResponseBody(result);
     }
 
