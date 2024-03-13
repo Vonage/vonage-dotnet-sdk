@@ -16,7 +16,7 @@ internal class TestingContext : IDisposable
         {
             Settings =
             {
-                [$"appSettings:{appSettingsKey}"] = this.Server.Url,
+                [$"vonage:{appSettingsKey}"] = this.Server.Url,
             },
         };
         this.VonageClient = new VonageClient(credentials, configuration, new TimeProvider());

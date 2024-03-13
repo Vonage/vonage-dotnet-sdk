@@ -151,22 +151,19 @@ an `appsettings` section:
 
 ```json
 {
-  "appSettings": {
-    "Vonage.UserAgent": "myApp/1.0",
-    "Vonage.Url.Rest": "https://rest.nexmo.com",
-    "Vonage.Url.Api": "https://api.nexmo.com",
-    "Vonage.Url.Api.Europe": "https://api-eu.vonage.com",
-    "Vonage.Url.Api.Video": "https://video.api.vonage.com",
-    "Vonage_key": "VONAGE-API-KEY",
-    "Vonage_secret": "VONAGE-API-SECRET",    
-    "Vonage.Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
-    "Vonage.Application.Key": "VONAGE_APPLICATION_PRIVATE_KEY"
+  "vonage": {
+    "UserAgent": "myApp/1.0",
+    "Url.Rest": "https://rest.nexmo.com",
+    "Url.Api": "https://api.nexmo.com",
+    "Url.Api.Europe": "https://api-eu.vonage.com",
+    "Url.Api.Video": "https://video.api.vonage.com",
+    "Api.Key": "VONAGE-API-KEY",
+    "Api.Secret": "VONAGE-API-SECRET",    
+    "Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+    "Application.Key": "VONAGE_APPLICATION_PRIVATE_KEY"
   }
 }
 ```
-
-> Note: While the section is currently names `appsettings`, we intend to use a more explicit name like `vonageSettings`.
-> Stay tuned for the next major release.
 
 The configuration is automatically loaded in the `Configuration` singleton.
 
@@ -226,10 +223,8 @@ var vonageClient = new VonageClient(credentials);
 If required, you can override values directly in the `Configuration` singleton:
 
 ```cshap
-Configuration.Instance.Settings["appSettings:Vonage.Url.Api"] = "https://www.example.com/api";
-Configuration.Instance.Settings["appSettings:Vonage.Url.Rest"] = "https://www.example.com/rest";
-Configuration.Instance.Settings["appSettings:Vonage.Url.Api.Europe"] = "https://www.meetings.example.com/api";
-Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://www.video.example.com/rest";
+Configuration.Instance.Settings["vonage:Url.Api"] = "https://www.example.com/api";
+Configuration.Instance.Settings["vonage:Url.Rest"] = "https://www.example.com/rest";
 ```
 
 > Note: Private Key is the literal key - not a path to the file containing the key
@@ -239,21 +234,21 @@ Configuration.Instance.Settings["appSettings:Vonage.Video.Url.Rest"] = "https://
 
 ### Configuration Reference
 
-| Key                      | Description                                                                                                                      |
-|--------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| Vonage_key               | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)                                                          |
-| Vonage_secret            | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)                                                       |
-| Vonage.Application.Id    | Your application ID                                                                                                              |
-| Vonage.Application.Key   | Your application's private key                                                                                                   |
-| Vonage.security_secret   | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages) |
-| Vonage.signing_method    | Optional. This is the method used for signing SMS messages                                                                       |
-| Vonage.Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           |
-| Vonage.Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 |
-| Vonage.Url.Api.Europe    | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                |
-| Vonage.Url.Api.Video     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
-| Vonage.RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             |
-| Vonage.RequestTimeout    | Optional.  The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.              |
-| Vonage.UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
+| Key               | Description                                                                                                                      |
+|-------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| Api.Key           | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)                                                          |
+| Api.Secret        | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)                                                       |
+| Application.Id    | Your application ID                                                                                                              |
+| Application.Key   | Your application's private key                                                                                                   |
+| Security_secret   | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages) |
+| Signing_method    | Optional. This is the method used for signing SMS messages                                                                       |
+| Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           |
+| Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 |
+| Url.Api.Europe    | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                |
+| Url.Api.Video     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
+| RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             |
+| RequestTimeout    | Optional.  The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.              |
+| UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
 
 ### Logging
 
@@ -695,9 +690,8 @@ Pick your preferred IDE:
 - Visual Studio Code
 - Jetbrains Rider
 
-Keep in mind the SDK is built on `netstandard2.0` and tested against several framework versions (v4.6.2 & upper, and
-.Net6.0).
-Therefore, they should be installed on your machine to guarantee compatibility with all supported framework versions.
+Keep in mind the SDK is built on `netstandard2.0` and tested against several framework versions (.NET6.0 and above).
+Therefore, they should be installed on your machine for tests to run.
 
 1. Get the latest code either by cloning the repository or downloading a snapshot of the source.
 2. Open "Vonage.sln"

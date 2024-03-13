@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net.Http.Headers;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Cryptography;
@@ -182,7 +181,7 @@ namespace Vonage.Request
         /// </summary>
         /// <returns>The user agent.</returns>
         public string GetUserAgent() =>
-            this.AppUserAgent ?? Configuration.Instance.Settings["appSettings:Vonage.UserAgent"];
+            this.AppUserAgent ?? Configuration.Instance.Settings["vonage:Vonage.UserAgent"];
 
         private Result<AuthenticationHeaderValue> GetPreferredAuthenticationHeader(AuthType authenticationType) =>
             authenticationType switch

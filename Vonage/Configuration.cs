@@ -19,11 +19,6 @@ public sealed class Configuration
 {
     private const string LoggerCategory = "Vonage.Configuration";
 
-    private static Maybe<double> RequestsPerSecond =>
-        double.TryParse(Instance.Settings["appSettings:Vonage.RequestsPerSecond"], out var requestsPerSecond)
-            ? requestsPerSecond
-            : Maybe<double>.None;
-
     static Configuration()
     {
     }
@@ -34,25 +29,43 @@ public sealed class Configuration
         this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
     }
 
-    /// <summary>
-    ///     Retrieves the Api secret.
-    /// </summary>
-    public string ApiKey => this.Settings["appSettings:Vonage_key"] ?? string.Empty;
+    internal Configuration()
+    {
+        var builder = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string>
+            {
+                {"vonage:EnsureSuccessStatusCode", "false"},
+            })
+            .AddJsonFile("settings.json", true, true)
+            .AddJsonFile("appsettings.json", true, true);
+        this.Settings = builder.Build();
+        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
+    }
+
+    private static Maybe<double> RequestsPerSecond =>
+        double.TryParse(Instance.Settings["vonage:RequestsPerSecond"], out var requestsPerSecond)
+            ? requestsPerSecond
+            : Maybe<double>.None;
 
     /// <summary>
     ///     Retrieves the Api secret.
     /// </summary>
-    public string ApiSecret => this.Settings["appSettings:Vonage_secret"] ?? string.Empty;
+    public string ApiKey => this.Settings["vonage:Api.Key"] ?? string.Empty;
+
+    /// <summary>
+    ///     Retrieves the Api secret.
+    /// </summary>
+    public string ApiSecret => this.Settings["vonage:Api.Secret"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the Application Id.
     /// </summary>
-    public string ApplicationId => this.Settings["appSettings:Vonage.Application.Id"] ?? string.Empty;
+    public string ApplicationId => this.Settings["vonage:Application.Id"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the Application Key.
     /// </summary>
-    public string ApplicationKey => this.Settings["appSettings:Vonage.Application.Key"] ?? string.Empty;
+    public string ApplicationKey => this.Settings["vonage:Application.Key"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves a configured HttpClient.
@@ -90,15 +103,15 @@ public sealed class Configuration
     ///     Retrieves the Nexmo Api Url.
     /// </summary>
     [Obsolete("Favor the VonageUrls property instead.")]
-    public Uri NexmoApiUrl => this.Settings["appSettings:Vonage.Url.Api"] is null
+    public Uri NexmoApiUrl => this.Settings["vonage:Url.Api"] is null
         ? this.VonageUrls.Nexmo
-        : new Uri(this.Settings["appSettings:Vonage.Url.Api"]);
+        : new Uri(this.Settings["vonage:Url.Api"]);
 
     /// <summary>
     ///     The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.
     /// </summary>
     public Maybe<TimeSpan> RequestTimeout =>
-        int.TryParse(this.Settings["appSettings:Vonage.RequestTimeout"], out var timeout)
+        int.TryParse(this.Settings["vonage:RequestTimeout"], out var timeout)
             ? Maybe<TimeSpan>.Some(TimeSpan.FromSeconds(timeout))
             : Maybe<TimeSpan>.None;
 
@@ -106,14 +119,14 @@ public sealed class Configuration
     ///     Retrieves the Rest Api Url.
     /// </summary>
     [Obsolete("Favor the VonageUrls property instead.")]
-    public Uri RestApiUrl => this.Settings["appSettings:Vonage.Url.Rest"] is null
+    public Uri RestApiUrl => this.Settings["vonage:Url.Rest"] is null
         ? this.VonageUrls.Rest
-        : new Uri(this.Settings["appSettings:Vonage.Url.Rest"]);
+        : new Uri(this.Settings["vonage:Url.Rest"]);
 
     /// <summary>
     ///     Retrieves the Security Secret.
     /// </summary>
-    public string SecuritySecret => this.Settings["appSettings:Vonage.security_secret"] ?? string.Empty;
+    public string SecuritySecret => this.Settings["vonage:Security_secret"] ?? string.Empty;
 
     /// <summary>
     ///     Exposes the configuration's content.
@@ -123,38 +136,25 @@ public sealed class Configuration
     /// <summary>
     ///     Retrieves the SigningMethod.
     /// </summary>
-    public string SigningMethod => this.Settings["appSettings:Vonage.signing_method"] ?? string.Empty;
+    public string SigningMethod => this.Settings["vonage:Signing_method"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the User Agent.
     /// </summary>
-    public string UserAgent => this.Settings["appSettings:Vonage.UserAgent"] ?? string.Empty;
+    public string UserAgent => this.Settings["vonage:UserAgent"] ?? string.Empty;
 
     /// <summary>
     ///     Retrieves the Video Api Url.
     /// </summary>
     [Obsolete("Favor the VonageUrls property instead.")]
-    public Uri VideoApiUrl => this.Settings["appSettings:Vonage.Url.Api.Video"] is null
+    public Uri VideoApiUrl => this.Settings["vonage:Url.Api.Video"] is null
         ? this.VonageUrls.Video
-        : new Uri(this.Settings["appSettings:Vonage.Url.Api.Video"]);
+        : new Uri(this.Settings["vonage:Url.Api.Video"]);
 
     /// <summary>
     ///     Provide urls to all Vonage APIs.
     /// </summary>
     public VonageUrls VonageUrls => VonageUrls.FromConfiguration(this.Settings);
-
-    internal Configuration()
-    {
-        var builder = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string>
-            {
-                {"appSettings:Vonage.EnsureSuccessStatusCode", "false"},
-            })
-            .AddJsonFile("settings.json", true, true)
-            .AddJsonFile("appsettings.json", true, true);
-        this.Settings = builder.Build();
-        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
-    }
 
     /// <summary>
     ///     Builds a Credentials from the current Configuration.
@@ -195,9 +195,9 @@ public sealed class Configuration
     }
 
     private Uri FetchApiUrlEurope() =>
-        this.Settings["appSettings:Vonage.Url.Api.Europe"] is null
+        this.Settings["vonage:Url.Api.Europe"] is null
             ? this.VonageUrls.Get(VonageUrls.Region.EU)
-            : new Uri(this.Settings["appSettings:Vonage.Url.Api.Europe"]);
+            : new Uri(this.Settings["vonage:Url.Api.Europe"]);
 
     private ThrottlingMessageHandler GetThrottlingMessageHandler(TimeSpanSemaphore semaphore) =>
         this.ClientHandler != null
@@ -213,13 +213,13 @@ public sealed class Configuration
             authCapabilities.Add("Key/Secret");
         }
 
-        if (!string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.security_secret"]))
+        if (!string.IsNullOrWhiteSpace(this.Settings["vonage:Security_secret"]))
         {
             authCapabilities.Add("Security/Signing");
         }
 
-        if (!string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.Application.Id"]) &&
-            !string.IsNullOrWhiteSpace(this.Settings["appSettings:Vonage.Application.Key"]))
+        if (!string.IsNullOrWhiteSpace(this.Settings["vonage:Application.Id"]) &&
+            !string.IsNullOrWhiteSpace(this.Settings["vonage:Application.Key"]))
         {
             authCapabilities.Add("Application");
         }
@@ -246,9 +246,9 @@ public readonly struct VonageUrls
     private const string DefaultNexmoApiUrl = "https://api.nexmo.com";
     private const string DefaultRestApiUrl = "https://rest.nexmo.com";
     private const string DefaultVideoApiUrl = "https://video.api.vonage.com";
-    private const string NexmoApiKey = "appSettings:Vonage.Url.Api";
-    private const string NexmoRestKey = "appSettings:Vonage.Url.Rest";
-    private const string VideoApiKey = "appSettings:Vonage.Url.Api.Video";
+    private const string NexmoApiKey = "vonage:Url.Api";
+    private const string NexmoRestKey = "vonage:Url.Rest";
+    private const string VideoApiKey = "vonage:Url.Api.Video";
 
     private readonly Dictionary<Region, string> regions = new Dictionary<Region, string>
     {

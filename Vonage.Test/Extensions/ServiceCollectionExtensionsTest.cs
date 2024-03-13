@@ -35,7 +35,7 @@ namespace Vonage.Test.Extensions
         private readonly IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
             {
-                {"appSettings:Vonage_key", "RandomValue"},
+                {"vonage:Vonage_key", "RandomValue"},
             })
             .Build();
 
