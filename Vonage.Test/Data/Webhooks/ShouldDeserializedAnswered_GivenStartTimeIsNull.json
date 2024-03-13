@@ -1,0 +1,15 @@
+﻿{
+  "start_time": null,
+  "headers": {
+    "[redacted]": "[redacted]"
+  },
+  "rate": null,
+  "from": "[redacted]",
+  "to": "[redacted]",
+  "uuid": "c8061992c89a65e3790bfa0aaca6f069",
+  "conversation_uuid": "CON-5a0cdebb-0f35-45a4-9b38-a99f9d12d6d7",
+  "status": "answered",
+  "direction": "inbound",
+  "network": null,
+  "timestamp": "2024-01-25T12:16:32.319Z"
+}
