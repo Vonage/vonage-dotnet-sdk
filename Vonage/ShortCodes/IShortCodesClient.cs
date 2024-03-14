@@ -12,12 +12,4 @@ public interface IShortCodesClient
     Task<AlertResponse> SendAlertAsync(AlertRequest request, Credentials creds = null);
 
     Task<TwoFactorAuthResponse> SendTwoFactorAuthAsync(TwoFactorAuthRequest request, Credentials creds = null);
-
-    OptInSearchResponse QueryOptIns(OptInQueryRequest request, Credentials creds = null);
-
-    OptInRecord ManageOptIn(OptInManageRequest request, Credentials creds = null);
-
-    AlertResponse SendAlert(AlertRequest request, Credentials creds = null);
-
-    TwoFactorAuthResponse SendTwoFactorAuth(TwoFactorAuthRequest request, Credentials creds = null);
 }
