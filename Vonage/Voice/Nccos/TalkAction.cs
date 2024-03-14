@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Vonage.Voice.Nccos;
 
@@ -57,15 +56,4 @@ public class TalkAction : NccoAction
     /// </summary>
     [JsonProperty("text", Order = 1)]
     public string Text { get; set; }
-
-    /// <summary>
-    /// The name of the voice used to deliver text. You use the voiceName that has the correct language, 
-    /// gender and accent for the message you are sending. 
-    /// For example, the default voice kimberly is a female who speaks English with an 
-    /// American accent (en-US). Possible values are listed in the Text-To-Speech guide.
-    /// </summary>
-    [JsonProperty("voiceName", Order = 5)]
-    [Obsolete(
-        "This parameter has been made obsolete by the language and style fields. Please see https://developer.nexmo.com/voice/voice-api/guides/text-to-speech#locale for more details")]
-    public string VoiceName { get; set; }
 }

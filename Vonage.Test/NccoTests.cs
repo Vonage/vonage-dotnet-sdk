@@ -220,7 +220,6 @@ public class NccoTests : TestBase
             BargeIn = true,
             Loop = "2",
             Level = "0",
-            VoiceName = "kimberly",
             Language = "en-US",
             Style = 0,
         };
