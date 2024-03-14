@@ -11,7 +11,7 @@ namespace Vonage.Test;
 public class NumberInsightsTests : TestBase
 {
     [Fact]
-    public void AdvancedNIRequestSyncWithNotRoamingStatus()
+    public async Task AdvancedNIRequestSyncWithNotRoamingStatus()
     {
         //ARRANGE
         var expectedResponse = this.GetResponseJson();
@@ -27,7 +27,7 @@ public class NumberInsightsTests : TestBase
         var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
         var client = this.BuildVonageClient(creds);
         AdvancedInsightsResponse response;
-        response = client.NumberInsightClient.GetNumberInsightAdvanced(request);
+        response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
 
         //ASSERT
         Assert.Equal(0, response.Status);
@@ -63,7 +63,7 @@ public class NumberInsightsTests : TestBase
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public void TestAdvancedAsync(bool passCreds, bool kitchenSink)
+    public async Task TestAdvancedAsync(bool passCreds, bool kitchenSink)
     {
         var expectedResponse = this.GetResponseJson();
         var expectedUri = $"{this.ApiUrl}/ni/advanced/async/json";
@@ -97,11 +97,11 @@ public class NumberInsightsTests : TestBase
         AdvancedInsightsAsynchronousResponse response;
         if (passCreds)
         {
-            response = client.NumberInsightClient.GetNumberInsightAsynchronous(request, creds);
+            response = await client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request, creds);
         }
         else
         {
-            response = client.NumberInsightClient.GetNumberInsightAsynchronous(request);
+            response = await client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request);
         }
 
         //ASSERT
@@ -162,89 +162,6 @@ public class NumberInsightsTests : TestBase
         Assert.Equal("1.23456789", response.RemainingBalance);
         Assert.Equal("0.01500000", response.RequestPrice);
         Assert.Equal(0, response.Status);
-    }
-
-    [Theory]
-    [InlineData(true, true)]
-    [InlineData(false, false)]
-    public void TestAdvancedNIRequestSync(bool passCreds, bool kitchenSink)
-    {
-        //ARRANGE
-        var expectedResponse = this.GetResponseJson();
-        var expectedUri = $"{this.ApiUrl}/ni/advanced/json";
-        AdvancedNumberInsightRequest request;
-        if (kitchenSink)
-        {
-            expectedUri +=
-                $"?ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            request = new AdvancedNumberInsightRequest
-                {Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255"};
-        }
-        else
-        {
-            expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            request = new AdvancedNumberInsightRequest
-            {
-                Number = "15555551212",
-            };
-        }
-
-        this.Setup(expectedUri, expectedResponse);
-
-        //ACT
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        AdvancedInsightsResponse response;
-        if (passCreds)
-        {
-            response = client.NumberInsightClient.GetNumberInsightAdvanced(request, creds);
-        }
-        else
-        {
-            response = client.NumberInsightClient.GetNumberInsightAdvanced(request);
-        }
-
-        //ASSERT
-        Assert.Equal(NumberReachability.Reachable, response.Reachable);
-        Assert.Equal(NumberValidity.valid, response.ValidNumber);
-        Assert.Equal("Success", response.LookupOutcomeMessage);
-        Assert.Equal(0, response.LookupOutcome);
-        Assert.Equal("John", response.FirstName);
-        Assert.Equal(CallerType.consumer, response.CallerType);
-        Assert.Equal("Smith", response.LastName);
-        Assert.Equal("John Smith", response.CallerName);
-        Assert.Equal("Smith", response.CallerIdentity.LastName);
-        Assert.Equal("John", response.CallerIdentity.FirstName);
-        Assert.Equal("John Smith", response.CallerIdentity.CallerName);
-        Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
-        Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
-        Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
-        Assert.Equal("US", response.Roaming.RoamingCountryCode);
-        Assert.Equal(RoamingStatus.Roaming, response.Roaming.Status);
-        Assert.Equal(PortedStatus.NotPorted, response.Ported);
-        Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
-        Assert.Equal("GB", response.OriginalCarrier.Country);
-        Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
-        Assert.Equal(0, response.Status);
-        Assert.Equal("Success", response.StatusMessage);
-        Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", response.RequestId);
-        Assert.Equal("447700900000", response.InternationalFormatNumber);
-        Assert.Equal("07700 900000", response.NationalFormatNumber);
-        Assert.Equal("GB", response.CountryCode);
-        Assert.Equal("GBR", response.CountryCodeIso3);
-        Assert.Equal("United Kingdom", response.CountryName);
-        Assert.Equal("44", response.CountryPrefix);
-        Assert.Equal("0.04000000", response.RequestPrice);
-        Assert.Equal("0.01500000", response.RefundPrice);
-        Assert.Equal("1.23456789", response.RemainingBalance);
-        Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("GB", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
-        Assert.NotNull(response.RealTimeData);
-        Assert.True(response.RealTimeData.ActiveStatus);
-        Assert.Equal("on", response.RealTimeData.HandsetStatus);
     }
 
     [Theory]
@@ -330,7 +247,7 @@ public class NumberInsightsTests : TestBase
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void TestAdvancedNIRequestSyncRealTimeData(bool active)
+    public async Task TestAdvancedNIRequestSyncRealTimeData(bool active)
     {
         //ARRANGE
         var activeStatus = active ? "active" : "inactive";
@@ -355,7 +272,7 @@ public class NumberInsightsTests : TestBase
         //ACT
         var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
         var client = this.BuildVonageClient(creds);
-        var response = client.NumberInsightClient.GetNumberInsightAdvanced(request);
+        var response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
 
         //ASSERT
         Assert.Equal(NumberReachability.Reachable, response.Reachable);
@@ -368,7 +285,7 @@ public class NumberInsightsTests : TestBase
     [Theory]
     [InlineData(false, false)]
     [InlineData(true, true)]
-    public void TestAdvancedNIRequestSyncWithNullableValues(bool passCreds, bool kitchenSink)
+    public async Task TestAdvancedNIRequestSyncWithNullableValues(bool passCreds, bool kitchenSink)
     {
         //ARRANGE
         var expectedResponse = this.GetResponseJson();
@@ -398,11 +315,11 @@ public class NumberInsightsTests : TestBase
         AdvancedInsightsResponse response;
         if (passCreds)
         {
-            response = client.NumberInsightClient.GetNumberInsightAdvanced(request, creds);
+            response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request, creds);
         }
         else
         {
-            response = client.NumberInsightClient.GetNumberInsightAdvanced(request);
+            response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
         }
 
         //ASSERT
@@ -440,60 +357,6 @@ public class NumberInsightsTests : TestBase
         Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
         Assert.Equal("GB", response.CurrentCarrier.Country);
         Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
-    }
-
-    [Theory]
-    [InlineData(true, true)]
-    [InlineData(false, false)]
-    public void TestBasicNIRequest(bool passCreds, bool kitchenSink)
-    {
-        //ARRANGE
-        var expectedUri = $"{this.ApiUrl}/ni/basic/json";
-        BasicNumberInsightRequest request;
-        var expectedResponseContent = this.GetResponseJson();
-        if (kitchenSink)
-        {
-            expectedUri += $"?number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            request = new BasicNumberInsightRequest
-            {
-                Country = "GB",
-                Number = "15555551212",
-            };
-        }
-        else
-        {
-            expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            request = new BasicNumberInsightRequest
-            {
-                Number = "15555551212",
-            };
-        }
-
-        this.Setup(expectedUri, expectedResponseContent);
-
-        //ACT
-        BasicInsightResponse response;
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        if (passCreds)
-        {
-            response = client.NumberInsightClient.GetNumberInsightBasic(request, creds);
-        }
-        else
-        {
-            response = client.NumberInsightClient.GetNumberInsightBasic(request);
-        }
-
-        //ASSERT
-        Assert.Equal(0, response.Status);
-        Assert.Equal("Success", response.StatusMessage);
-        Assert.Equal("ca4f82b6-73aa-43fe-8c52-874fd9ffffff", response.RequestId);
-        Assert.Equal("15555551212", response.InternationalFormatNumber);
-        Assert.Equal("(555) 555-1212", response.NationalFormatNumber);
-        Assert.Equal("US", response.CountryCode);
-        Assert.Equal("USA", response.CountryCodeIso3);
-        Assert.Equal("United States of America", response.CountryName);
-        Assert.Equal("1", response.CountryPrefix);
     }
 
     [Theory]
@@ -551,7 +414,7 @@ public class NumberInsightsTests : TestBase
     }
 
     [Fact]
-    public void TestFailedAdvancedRequest()
+    public async Task TestFailedAdvancedRequest()
     {
         //ARRANGE
         var expectedResponse = this.GetResponseJson();
@@ -565,7 +428,7 @@ public class NumberInsightsTests : TestBase
         var client = this.BuildVonageClient(creds);
         try
         {
-            client.NumberInsightClient.GetNumberInsightAdvanced(request);
+            await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
 
             //ASSERT
             Assert.True(false, "Auto fail because request returned without throwing exception");
@@ -579,7 +442,7 @@ public class NumberInsightsTests : TestBase
     }
 
     [Fact]
-    public void TestFailedAsyncRequest()
+    public async Task TestFailedAsyncRequest()
     {
         //ARRANGE
         var expectedResponse = this.GetResponseJson();
@@ -597,7 +460,7 @@ public class NumberInsightsTests : TestBase
         var client = this.BuildVonageClient(creds);
         try
         {
-            client.NumberInsightClient.GetNumberInsightAsynchronous(request);
+            await client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request);
 
             //ASSERT
             Assert.True(false, "Auto fail because request returned without throwing exception");
@@ -607,80 +470,6 @@ public class NumberInsightsTests : TestBase
             //ASSERT
             Assert.Equal(4, ex.Response.Status);
         }
-    }
-
-    [Theory]
-    [InlineData(true, true)]
-    [InlineData(false, false)]
-    public void TestStandardNIRequest(bool passCreds, bool kitchenSink)
-    {
-        //ARRANGE
-        var expectedResponse = this.GetResponseJson();
-        var expectedUri = $"{this.ApiUrl}/ni/standard/json";
-        StandardNumberInsightRequest request;
-        if (kitchenSink)
-        {
-            expectedUri +=
-                $"?cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
-        }
-        else
-        {
-            expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            request = new StandardNumberInsightRequest
-            {
-                Number = "15555551212",
-            };
-        }
-
-        this.Setup(expectedUri, expectedResponse);
-
-        //ACT
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        StandardInsightResponse response;
-        if (passCreds)
-        {
-            response = client.NumberInsightClient.GetNumberInsightStandard(request, creds);
-        }
-        else
-        {
-            response = client.NumberInsightClient.GetNumberInsightStandard(request);
-        }
-
-        Assert.Equal("John", response.FirstName);
-        Assert.Equal(CallerType.consumer, response.CallerType);
-        Assert.Equal("Smith", response.LastName);
-        Assert.Equal("John Smith", response.CallerName);
-        Assert.Equal("Smith", response.CallerIdentity.LastName);
-        Assert.Equal("John", response.CallerIdentity.FirstName);
-        Assert.Equal("John Smith", response.CallerIdentity.CallerName);
-        Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
-        Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
-        Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
-        Assert.Equal("US", response.Roaming.RoamingCountryCode);
-        Assert.Equal(RoamingStatus.Roaming, response.Roaming.Status);
-        Assert.Equal(PortedStatus.NotPorted, response.Ported);
-        Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
-        Assert.Equal("GB", response.OriginalCarrier.Country);
-        Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
-        Assert.Equal(0, response.Status);
-        Assert.Equal("Success", response.StatusMessage);
-        Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", response.RequestId);
-        Assert.Equal("447700900000", response.InternationalFormatNumber);
-        Assert.Equal("07700 900000", response.NationalFormatNumber);
-        Assert.Equal("GB", response.CountryCode);
-        Assert.Equal("GBR", response.CountryCodeIso3);
-        Assert.Equal("United Kingdom", response.CountryName);
-        Assert.Equal("44", response.CountryPrefix);
-        Assert.Equal("0.04000000", response.RequestPrice);
-        Assert.Equal("0.01500000", response.RefundPrice);
-        Assert.Equal("1.23456789", response.RemainingBalance);
-        Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("GB", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
     }
 
     [Theory]
@@ -760,7 +549,7 @@ public class NumberInsightsTests : TestBase
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public void TestStandardNIRequestWithNullCarrier(bool passCreds, bool kitchenSink)
+    public async Task TestStandardNIRequestWithNullCarrier(bool passCreds, bool kitchenSink)
     {
         //ARRANGE
         var expectedResponse = @"{
@@ -826,11 +615,11 @@ public class NumberInsightsTests : TestBase
         StandardInsightResponse response;
         if (passCreds)
         {
-            response = client.NumberInsightClient.GetNumberInsightStandard(request, creds);
+            response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request, creds);
         }
         else
         {
-            response = client.NumberInsightClient.GetNumberInsightStandard(request);
+            response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request);
         }
 
         Assert.Equal("John", response.FirstName);
@@ -868,7 +657,7 @@ public class NumberInsightsTests : TestBase
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
-    public void TestStandardNIRequestWithoutRoaming(bool passCreds, bool kitchenSink)
+    public async Task TestStandardNIRequestWithoutRoaming(bool passCreds, bool kitchenSink)
     {
         //ARRANGE
         var expectedResponse = this.GetResponseJson();
@@ -897,11 +686,11 @@ public class NumberInsightsTests : TestBase
         StandardInsightResponse response;
         if (passCreds)
         {
-            response = client.NumberInsightClient.GetNumberInsightStandard(request, creds);
+            response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request, creds);
         }
         else
         {
-            response = client.NumberInsightClient.GetNumberInsightStandard(request);
+            response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request);
         }
 
         Assert.Equal("John", response.FirstName);
