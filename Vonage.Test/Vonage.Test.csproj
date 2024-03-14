@@ -164,7 +164,7 @@
         <None Update="Data\NumberInsightsTests\AdvancedNIRequestSyncWithNotRoamingStatus-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\CreateCall-request.json">
+        <None Update="Data\VoiceTests\CreateCallAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\RedactTests\RedactReturns429-response.json">
@@ -687,13 +687,7 @@
         <None Update="Data\NccoTests\TestConnectWithAdvancedMachineDetection-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\CreateCall-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\VoiceTests\CreateCallWithEndpointAndNcco-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\VoiceTests\CreateCallWithEndpointAndNcco-request.json">
+        <None Update="Data\VoiceTests\CreateCallAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\VoiceTests\CreateCallWithUnicodeCharacters-request.json">
@@ -702,28 +696,28 @@
         <None Update="Data\VoiceTests\CreateCallWithUnicodeCharacters-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\CreateCallWithStringParameters-response.json">
+        <None Update="Data\VoiceTests\CreateCallWithStringParametersAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\CreateCallWithStringParameters-request.json">
+        <None Update="Data\VoiceTests\CreateCallWithStringParametersAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StopStream-response.json">
+        <None Update="Data\VoiceTests\StopStreamAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StopTalk-response.json">
+        <None Update="Data\VoiceTests\StopTalkAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\CreateCallWithRandomFromNumber-request.json">
+        <None Update="Data\VoiceTests\CreateCallAsyncWithRandomFromNumber-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\CreateCallWithRandomFromNumber-response.json">
+        <None Update="Data\VoiceTests\CreateCallAsyncWithRandomFromNumber-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\GetSpecificCall-response.json">
+        <None Update="Data\VoiceTests\GetSpecificCallAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\ListCalls-response.json">
+        <None Update="Data\VoiceTests\ListCallsAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\VoiceTests\UpdateCallWithActionsType-request.json">
@@ -732,19 +726,19 @@
         <None Update="Data\VoiceTests\UpdateCallWithInlineNcco-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StartDtmf-response.json">
+        <None Update="Data\VoiceTests\StartDtmfAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StartDtmf-request.json">
+        <None Update="Data\VoiceTests\StartDtmfAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StartStream-response.json">
+        <None Update="Data\VoiceTests\StartStreamAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StartStream-request.json">
+        <None Update="Data\VoiceTests\StartStreamAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StartStreamWithCredentials-request.json">
+        <None Update="Data\VoiceTests\StartStreamAsyncWithCredentials-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\VoiceTests\UpdateCallWithCredentials-request.json">
@@ -753,13 +747,13 @@
         <None Update="Data\VoiceTests\UpdateCallAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StartTalk-response.json">
+        <None Update="Data\VoiceTests\StartTalkAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StartTalk-request.json">
+        <None Update="Data\VoiceTests\StartTalkAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\VoiceTests\StartTalkWithCredentials-request.json">
+        <None Update="Data\VoiceTests\StartTalkAsyncWithCredentials-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="SubAccounts\GetSubAccounts\Data\ShouldDeserialize200-response.json">
