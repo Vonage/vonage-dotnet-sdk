@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
 
@@ -26,38 +25,12 @@ public class ConversionClient : IConversionClient
     public Credentials Credentials { get; set; }
 
     /// <inheritdoc/>
-    [Obsolete("Favor asynchronous version instead.")]
-    public bool SmsConversion(ConversionRequest request, Credentials creds = null)
-    {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoPostRequestUrlContentFromObject<object>
-            (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/conversions/sms"),
-                request
-            );
-        return true;
-    }
-
-    /// <inheritdoc/>
     public async Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null)
     {
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<object>
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/conversions/sms"),
-                request
-            );
-        return true;
-    }
-
-    /// <inheritdoc/>
-    [Obsolete("Favor asynchronous version instead.")]
-    public bool VoiceConversion(ConversionRequest request, Credentials creds = null)
-    {
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoPostRequestUrlContentFromObject<object>
-            (
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/conversions/voice"),
                 request
             );
         return true;
