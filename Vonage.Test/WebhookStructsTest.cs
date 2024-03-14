@@ -270,30 +270,6 @@ public class WebhookStructsTest
     }
 
     [Fact]
-    public void TestInputOld()
-    {
-        var json = @"
-                {
-                    ""from"":""442079460000"", 
-                    ""to"":""447700900000"", 
-                    ""uuid"":""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
-                    ""conversation_uuid"":""CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
-                    ""dtmf"":""42"",
-                    ""timed_out"":""true"",
-                    ""timestamp"":""2020-01-01T12:00:00.000Z""
-                }";
-        var inputWebhook = (Input) EventBase.ParseEvent(json);
-        Assert.Equal("442079460000", inputWebhook.From);
-        Assert.Equal("447700900000", inputWebhook.To);
-        Assert.Equal("42", inputWebhook.Dtmf);
-        Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.Uuid);
-        Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", inputWebhook.ConversationUuid);
-        Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-            CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                          DateTimeStyles.AdjustToUniversal), inputWebhook.TimeStamp);
-    }
-
-    [Fact]
     public void TestNotifications()
     {
         var json = @"

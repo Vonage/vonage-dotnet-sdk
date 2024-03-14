@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using Vonage.Serialization;
 
 namespace Vonage.Voice.EventWebhooks;
@@ -15,8 +15,7 @@ public class EventBase
 
     public static EventBase ParseEvent(string json)
     {
-        var data = (JObject)JsonConvert.DeserializeObject(json);
-
+        var data = (JObject) JsonConvert.DeserializeObject(json);
         if (data.Property("status") != null)
         {
             return DeserializeStatus(json, data.Property("status"));
@@ -36,7 +35,7 @@ public class EventBase
         {
             if (data["dtmf"].Type == JTokenType.String)
             {
-                return JsonConvert.DeserializeObject<Input>(json, VonageSerialization.SerializerSettings);
+                return JsonConvert.DeserializeObject<MultiInput>(json, VonageSerialization.SerializerSettings);
             }
 
             return JsonConvert.DeserializeObject<MultiInput>(json, VonageSerialization.SerializerSettings);
@@ -57,7 +56,7 @@ public class EventBase
 
     private static EventBase DeserializeStatus(string json, JProperty statusProperty)
     {
-        var status = ((string)statusProperty.Value).ToLower();
+        var status = ((string) statusProperty.Value).ToLower();
         switch (status)
         {
             case "started":
