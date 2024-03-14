@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
 
@@ -32,12 +31,6 @@ public record UiSettings(
         ///     Spanish language.
         /// </summary>
         [Description("es")] Es,
-
-        /// <summary>
-        ///     Portuguese language.
-        /// </summary>
-        [Obsolete("Use Portuguese-Brazilian instead.")] [Description("pt")]
-        Pt,
 
         /// <summary>
         ///     Portuguese-Brazilian language.
