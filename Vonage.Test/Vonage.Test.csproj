@@ -86,10 +86,10 @@
         <None Update="Data\NccoTests\TestConversationAllTrue-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ApplicationTests\CreateApplication-response.json">
+        <None Update="Data\ApplicationTests\CreateApplicationAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ApplicationTests\CreateApplication-request.json">
+        <None Update="Data\ApplicationTests\CreateApplicationAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncRealTimeData-response.json">
@@ -873,10 +873,10 @@
         <None Update="Data\ApplicationTests\GetApplication-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ApplicationTests\CreateApplicationWithMeetingsCapabilities-request.json">
+        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithMeetingsCapabilities-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ApplicationTests\CreateApplicationWithMeetingsCapabilities-response.json">
+        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithMeetingsCapabilities-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="VerifyV2\StartVerification\Data\ShouldDeserialize200WithCheckUrl-response.json">
