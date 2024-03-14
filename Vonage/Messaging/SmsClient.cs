@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
 
@@ -24,25 +23,6 @@ public class SmsClient : ISmsClient
     }
 
     public Credentials Credentials { get; set; }
-
-    /// <inheritdoc/>
-    [Obsolete("Favor asynchronous version instead.")]
-    public SendSmsResponse SendAnSms(SendSmsRequest request, Credentials creds = null)
-    {
-        var result = ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoPostRequestUrlContentFromObject<SendSmsResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sms/json"),
-                request
-            );
-        ValidSmsResponse(result);
-        return result;
-    }
-
-    /// <inheritdoc/>
-    [Obsolete("Favor asynchronous version instead.")]
-    public SendSmsResponse SendAnSms(string from, string to, string text, SmsType type = SmsType.Text,
-        Credentials creds = null) =>
-        this.SendAnSms(new SendSmsRequest {From = from, To = to, Type = type, Text = text}, creds);
 
     /// <summary>
     ///     Send a SMS message.
