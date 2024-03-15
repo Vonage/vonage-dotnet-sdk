@@ -120,6 +120,32 @@ var url = configuration.VonageUrls.Video;
 var url = configuration.VonageUrls.Get(VonageUrls.Region.US);
 ```
 
+#### Remove 'Input' webhook object
+
+This item has been rendered obsolete due to the new multi-input functionality. Please add the `Dtmf` arguments to your
+input action and use the `MultiInput` object.
+
+More details [here](https://developer.nexmo.com/voice/voice-api/ncco-reference#dtmf-input-settings).
+
+#### Remove 'Portuguese" language in Meetings API
+
+This language has been removed in favor or 'Portuguese-Brazilian'.
+
+```csharp
+// Using v6.X.X
+var language = UserInterfaceLanguage.Pt;
+
+
+// Using v7.X.X and above
+var language = UserInterfaceLanguage.PtBr;
+```
+
+#### Remove 'VoiceName' from 'TalkCommand' and 'TalkAction' in Voice
+
+This parameter has been made obsolete by the language and style fields.
+
+More details [here](https://developer.nexmo.com/voice/voice-api/guides/text-to-speech#locale).
+
 ### Add new timeouts on Voice Webhooks in Application API
 
 Adding new timeouts requested (`connection_timeout`, `socket_timeout`) on Voice Webhooks.
