@@ -76,37 +76,6 @@ If you would prefer to run directly from source:
 
 Please see the dedicated [migration guide](MIGRATION_v7.0.0.md).
 
-* Everything flagged with an `Obsolete` annotation will be removed
-    * Synchronous methods - [Pull Request](https://github.com/Vonage/vonage-dotnet-sdk/pull/549): So far, a lot of
-      features are available with both synchronous/asynchronous implementation. In
-      v7.0.0, all synchronous methods will be removed. If you still require to call a Vonage API in a synchronous
-      context, you will have to call the asynchronous version with either `.Result` or `.Wait()` to wait for the result
-      synchronously.
-    * SubAccounts features on `AccountClient` - [Pull Request](https://github.com/Vonage/vonage-dotnet-sdk/pull/549):
-      SubAccounts features have initially been implemented by a contributor on
-      the `AccountClient`, while the product was still in beta. With the GA release, all SubAccounts features are
-      available on the `SubAccountsClient`, which makes previous features obsolete.
-    * `CreateApplicaitonAsync`
-      on `ApplicationClient` - [Pull Request](https://github.com/Vonage/vonage-dotnet-sdk/pull/549): This method
-      contains an obvious typo.
-    * `CreateCall` on `VoiceClient`: This method offers 3 different signatures. Only the one with a `CallCommand`
-      parameter will remain in order to avoid primitive obsession, and rely on a proper ValueObject.
-    * Constructors on `Credentials`: Creating a Credentials instance should be done by a factory method or from a
-      Configuration instance. Constructors will be hidden and the object will remain immutable.
-  * Access to Vonage URLs: All URLs have been moved to a nested object (`VonageUrls`) to "de-bloat"
-    the `Configuration`
-    class, and allow multi-region URLs - [link](https://github.com/Vonage/vonage-dotnet-sdk/issues/569)
-* Add new timeouts on Voice Webhooks in Application
-  API - [Pull Request](https://github.com/Vonage/vonage-dotnet-sdk/pull/548): Adding new timeouts requested to break
-  inheritance and create a specific structure.
-* Rename settings key from `appsettings` to `vonage`: In order to make the settings more explicit and reduce chances
-  of conflict with other libraries, the base key needs to be updated.
-* Make StartTime nullable on Answered Webhook - [link](https://github.com/Vonage/vonage-dotnet-sdk/issues/569).
-* Remove `EventUrl` and `EventMethod` from `ConversationAction` to comply with
-  the [documentation](https://developer.vonage.com/en/voice/voice-api/ncco-reference#conversation).
-* `From` is now mandatory in VerifyV2 WhatsApp
-  workflow - [Pull Request](https://github.com/Vonage/vonage-dotnet-sdk/pull/572)
-
 #### Upgrading from v5.x.x to v6.0.0
 
 Changes in version 6.0.0
