@@ -1,9 +1,92 @@
 # Changelog
+## [v7.0.0-alpha](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0-alpha) (2024-03-15)
+
+### Bug Fixes
+
+- [breaking] make StartTime nullable on Answered webhook (#568) ([426d91f](https://github.com/Vonage/vonage-dotnet-sdk/commit/426d91f8832adbc9c9f420776cb4e495cc1af3ef))
+
+
+### Documentation
+
+- Generate changelog for v6.16.0 ([2494760](https://github.com/Vonage/vonage-dotnet-sdk/commit/249476030c0fa8a1200ac88ee1912c75451b08e5))
+
+- Update v7.0.0 migration guides with latest breaking changes ([f09a93c](https://github.com/Vonage/vonage-dotnet-sdk/commit/f09a93c0b1d2c100c9034f507cb50eeb27a378a6))
+
+- Update git-cliff configuration ([df6b870](https://github.com/Vonage/vonage-dotnet-sdk/commit/df6b8701aab7a6d44bdafa89d4504cca2453534a))
+
+- Update v7.0.0 migration ([125d2cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/125d2cb904b918a83ebcd4351a5533edd4b1823c))
+
+- Update v7.0.0 migration guide ([9d3715b](https://github.com/Vonage/vonage-dotnet-sdk/commit/9d3715bced06a25ddb4fa684204a692e22901967))
+
+- Remove migration steps from Readme to favor dedicated file ([0cfc6fe](https://github.com/Vonage/vonage-dotnet-sdk/commit/0cfc6fea34483a3c5eac7b3eabaa525f461f6c63))
+
+- Bump version to v7.0.0-alpha ([39cf6ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/39cf6ea1cd7ae22dc6ad62685e2971b44cc5c658))
+
+
+### Features
+
+- [breaking] add connection and socket timeouts on voice application (#548) ([8948ead](https://github.com/Vonage/vonage-dotnet-sdk/commit/8948ead4dba5ec17b7c4ff6d3d706fc3d87a880a))
+
+- [breaking] make WhatsApp 'from' mandatory (#572) ([e473554](https://github.com/Vonage/vonage-dotnet-sdk/commit/e473554732e6106061d6a892687c7efe3a2846f1))
+
+
+### Refactoring
+
+- [breaking] replace 'appSettings' key by 'vonage' (#550) ([d1f245e](https://github.com/Vonage/vonage-dotnet-sdk/commit/d1f245ef99de31b290e2b1e8dc8b2c42037465c9))
+
+- [breaking] remove sync methods from AccountClient, as well as subaccount feature ([aabbb67](https://github.com/Vonage/vonage-dotnet-sdk/commit/aabbb67b2b51b3ed80c7115e5f5985fe82aef9fc))
+
+- Replace "async void" by "async Task" ([09062db](https://github.com/Vonage/vonage-dotnet-sdk/commit/09062db0e7e042a8876f3f7ac9bee2f65be74df1))
+
+- [breaking] remove sync methods from ApplicationClient ([e8f90f6](https://github.com/Vonage/vonage-dotnet-sdk/commit/e8f90f642eb0833e2c8fef4ffe00447e6b4aee8c))
+
+- [breaking] remove sync methods from ConversionClient ([7b5732a](https://github.com/Vonage/vonage-dotnet-sdk/commit/7b5732a09d66b4383dcfb001db7a1fe898671698))
+
+- [breaking] remove sync methods from SmsClient ([52f4822](https://github.com/Vonage/vonage-dotnet-sdk/commit/52f48225aaf3951d0063ba3f47e4912388b41885))
+
+- [breaking] remove sync methods from NumberInsightClient ([a4ba984](https://github.com/Vonage/vonage-dotnet-sdk/commit/a4ba9842d72ec95b565ffff8f0d4c90f4f8f3227))
+
+- [breaking] remove sync methods from NumbersClient ([7779669](https://github.com/Vonage/vonage-dotnet-sdk/commit/77796699cbb5c3588f24de936f31148005fc6be0))
+
+- [breaking] remove sync methods from PricingClient ([fe7a4c1](https://github.com/Vonage/vonage-dotnet-sdk/commit/fe7a4c1723c4ee7796f0f9f047c322f94e900344))
+
+- [breaking] remove sync methods from RedactClient ([6e07991](https://github.com/Vonage/vonage-dotnet-sdk/commit/6e07991e2186905ae93ae33b4f952f0ebc3108e4))
+
+- [breaking] remove sync methods from ShortCodesClient ([d3d7627](https://github.com/Vonage/vonage-dotnet-sdk/commit/d3d7627dfa6c1acbb234cbfb80d14a88c92fa25c))
+
+- [breaking] remove sync methods from VerifyClient ([36fb4f0](https://github.com/Vonage/vonage-dotnet-sdk/commit/36fb4f0167da5a929b56d10e97e74e4c61715bcf))
+
+- [breaking] remove sync methods from VoiceClient ([70428e7](https://github.com/Vonage/vonage-dotnet-sdk/commit/70428e7879311e66ad908e42b6b19f8ed060f813))
+
+- [breaking] remove obsolete Input from webhooks ([d166b59](https://github.com/Vonage/vonage-dotnet-sdk/commit/d166b59297f6837ed52aeb71be062fc4a5c78bcc))
+
+- [breaking] remove obsolete portuguese language in Meetings ([2b64f3c](https://github.com/Vonage/vonage-dotnet-sdk/commit/2b64f3c4dbea43a6d842a1bff8363d55975cc56e))
+
+- [breaking] remove obsolete VoiceName from TalkCommand ([a832a3d](https://github.com/Vonage/vonage-dotnet-sdk/commit/a832a3d0d2774a18c154e7f3162781f62179881f))
+
+- [breaking] remove obsolete VoiceName from TalkAction ([d8a00f9](https://github.com/Vonage/vonage-dotnet-sdk/commit/d8a00f904847647f4d4d3445ca5a4abfcf84759f))
+
+
 ## [v6.16.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.16.0) (2024-03-07)
 
 ### Bug Fixes
 
 - Wrong setup in test ([e497cf0](https://github.com/Vonage/vonage-dotnet-sdk/commit/e497cf007c4d2d1a5c432ccff78940a100a4db32))
+
+
+### Build updates
+
+- Remove module from stryker config ([64bbd1e](https://github.com/Vonage/vonage-dotnet-sdk/commit/64bbd1e71fd378d37b7347eb9e80e546a4d9b400))
+
+- Upgrade stryker to v4 ([8d1bd74](https://github.com/Vonage/vonage-dotnet-sdk/commit/8d1bd74a2fef0a48770265e2c349b00ef86cb311))
+
+- Add bump_version script to increase the version and generate a changelog ([a902c76](https://github.com/Vonage/vonage-dotnet-sdk/commit/a902c76a603baeffe109a8907a06fbe0110e4df3))
+
+- Fix spacing in bump script ([758aa8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/758aa8d4a5e08f365097a225fb4f79cb7f9fd2ab))
+
+- Add missing command in bump version script ([f920c2d](https://github.com/Vonage/vonage-dotnet-sdk/commit/f920c2d12976805abad55200e41d389e9ec5e430))
+
+- Fix commands in bump version script ([5a3d1cd](https://github.com/Vonage/vonage-dotnet-sdk/commit/5a3d1cdcb493817153d513b42f9d98dfc36e939d))
 
 
 ### Documentation
@@ -26,21 +109,9 @@
 
 ### Other
 
-- Remove module from stryker config ([64bbd1e](https://github.com/Vonage/vonage-dotnet-sdk/commit/64bbd1e71fd378d37b7347eb9e80e546a4d9b400))
-
-- Upgrade stryker to v4 ([8d1bd74](https://github.com/Vonage/vonage-dotnet-sdk/commit/8d1bd74a2fef0a48770265e2c349b00ef86cb311))
-
 - Add gitignore to solution ([3a4f0d5](https://github.com/Vonage/vonage-dotnet-sdk/commit/3a4f0d539f2c719b8475cfe56d29b1f7f67490b0))
 
-- Add bump_version script to increase the version and generate a changelog ([a902c76](https://github.com/Vonage/vonage-dotnet-sdk/commit/a902c76a603baeffe109a8907a06fbe0110e4df3))
-
-- Fix spacing in bump script ([758aa8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/758aa8d4a5e08f365097a225fb4f79cb7f9fd2ab))
-
 - Bump version to v6.16.0' ([b1dcd1a](https://github.com/Vonage/vonage-dotnet-sdk/commit/b1dcd1aeb4d6176beaf11fe08c657cff3f7523c7))
-
-- Add missing command in bump version script ([f920c2d](https://github.com/Vonage/vonage-dotnet-sdk/commit/f920c2d12976805abad55200e41d389e9ec5e430))
-
-- Fix commands in bump version script ([5a3d1cd](https://github.com/Vonage/vonage-dotnet-sdk/commit/5a3d1cdcb493817153d513b42f9d98dfc36e939d))
 
 
 ### Refactoring
@@ -838,6 +909,11 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 - Conversation StartOnEnter (#465) ([808a03b](https://github.com/Vonage/vonage-dotnet-sdk/commit/808a03b7d23fd97650cfd7a0060437212b687648))
 
 - Version substring in release pipeline (#503) ([c11e660](https://github.com/Vonage/vonage-dotnet-sdk/commit/c11e66095c9ccdec51ec710e71c484fac89eb044))
+
+
+### Build updates
+
+- Packages update (#442) ([94dfcc2](https://github.com/Vonage/vonage-dotnet-sdk/commit/94dfcc2a82256399e95967a805eb02690aa19585))
 
 
 ### Documentation
@@ -1980,8 +2056,6 @@ Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([8edb64b](https://github
 
 - Bump version to v6.3.1
  ([1135897](https://github.com/Vonage/vonage-dotnet-sdk/commit/113589739c5d7b283853151f6aca591e817c3a5f))
-
-- Packages update (#442) ([94dfcc2](https://github.com/Vonage/vonage-dotnet-sdk/commit/94dfcc2a82256399e95967a805eb02690aa19585))
 
 - Add editorconfig file
  ([1ec8fce](https://github.com/Vonage/vonage-dotnet-sdk/commit/1ec8fce1053a53579a4f43974d311bac85349483))
