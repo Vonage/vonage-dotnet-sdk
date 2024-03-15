@@ -181,11 +181,13 @@ public class VonageClient
             new ConversationsClient(
                 this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Nexmo)));
         this.MeetingsClient = new MeetingsClient(
-            this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)),
+            this.BuildConfiguration(
+                this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Get(VonageUrls.Region.EU))),
             new FileSystem());
         this.ProactiveConnectClient =
             new ProactiveConnectClient(
-                this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().EuropeApiUrl)));
+                this.BuildConfiguration(
+                    this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Get(VonageUrls.Region.EU))));
         this.VideoClient =
             new VideoClient(
                 this.BuildConfiguration(this.InitializeHttpClient(this.GetConfiguration().VonageUrls.Video)));

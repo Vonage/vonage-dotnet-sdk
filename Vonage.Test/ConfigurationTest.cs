@@ -34,10 +34,12 @@ namespace Vonage.Test
             configuration.SecuritySecret.Should().BeEmpty();
             configuration.SigningMethod.Should().BeEmpty();
             configuration.UserAgent.Should().BeEmpty();
-            configuration.EuropeApiUrl.Should().Be(new Uri("https://api-eu.vonage.com"));
             configuration.VonageUrls.Nexmo.Should().Be(new Uri("https://api.nexmo.com"));
             configuration.VonageUrls.Rest.Should().Be(new Uri("https://rest.nexmo.com"));
             configuration.VonageUrls.Video.Should().Be(new Uri("https://video.api.vonage.com"));
+            configuration.VonageUrls.Get(VonageUrls.Region.EU).Should().Be(new Uri("https://api-eu.vonage.com"));
+            configuration.VonageUrls.Get(VonageUrls.Region.APAC).Should().Be(new Uri("https://api-ap.vonage.com"));
+            configuration.VonageUrls.Get(VonageUrls.Region.US).Should().Be(new Uri("https://api-us.vonage.com"));
             configuration.RequestTimeout.Should().BeNone();
         }
 
@@ -76,15 +78,6 @@ namespace Vonage.Test
                     {"vonage:Application.Key", "RandomValue"},
                 })
                 .Build()).ApplicationKey.Should().Be("RandomValue");
-
-        [Fact]
-        public void FromConfiguration_ShouldSetEuropeApiUrl_GivenConfigurationContainsEuropeApiUrl() =>
-            Configuration.FromConfiguration(new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
-                {
-                    {"vonage:Url.Api.Europe", "https://api.vonage.com"},
-                })
-                .Build()).EuropeApiUrl.Should().Be(new Uri("https://api.vonage.com"));
 
         [Fact]
         public void FromConfiguration_ShouldSetNexmoApiUrl_GivenConfigurationContainsNexmoApiUrl() =>
@@ -150,9 +143,9 @@ namespace Vonage.Test
                 .Build()).VonageUrls.Video.Should().Be(new Uri("https://api.vonage.com"));
 
         [Theory]
-        [InlineData(VonageUrls.Region.US, "vonage:Url.Api.Us")]
-        [InlineData(VonageUrls.Region.EU, "vonage:Url.Api.Eu")]
-        [InlineData(VonageUrls.Region.APAC, "vonage:Url.Api.Apac")]
+        [InlineData(VonageUrls.Region.US, "vonage:Url.Api.AMER")]
+        [InlineData(VonageUrls.Region.EU, "vonage:Url.Api.EMEA")]
+        [InlineData(VonageUrls.Region.APAC, "vonage:Url.Api.APAC")]
         public void VonageUrl_ShouldReturnCustomApiUsUrl_GivenConfigurationContainsApiUsUrl(VonageUrls.Region region,
             string key) =>
             Configuration.FromConfiguration(new ConfigurationBuilder().AddInMemoryCollection(

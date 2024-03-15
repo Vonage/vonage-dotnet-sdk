@@ -89,23 +89,9 @@ public sealed class Configuration
     public HttpMessageHandler ClientHandler { get; set; }
 
     /// <summary>
-    ///     Retrieves the Europe Api Url.
-    /// </summary>
-    [Obsolete("Favor the VonageUrls property instead.")]
-    public Uri EuropeApiUrl => this.FetchApiUrlEurope();
-
-    /// <summary>
     ///     Retrieves the unique instance (Singleton).
     /// </summary>
     public static Configuration Instance { get; } = new Configuration();
-
-    /// <summary>
-    ///     Retrieves the Nexmo Api Url.
-    /// </summary>
-    [Obsolete("Favor the VonageUrls property instead.")]
-    public Uri NexmoApiUrl => this.Settings["vonage:Url.Api"] is null
-        ? this.VonageUrls.Nexmo
-        : new Uri(this.Settings["vonage:Url.Api"]);
 
     /// <summary>
     ///     The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.
@@ -114,14 +100,6 @@ public sealed class Configuration
         int.TryParse(this.Settings["vonage:RequestTimeout"], out var timeout)
             ? Maybe<TimeSpan>.Some(TimeSpan.FromSeconds(timeout))
             : Maybe<TimeSpan>.None;
-
-    /// <summary>
-    ///     Retrieves the Rest Api Url.
-    /// </summary>
-    [Obsolete("Favor the VonageUrls property instead.")]
-    public Uri RestApiUrl => this.Settings["vonage:Url.Rest"] is null
-        ? this.VonageUrls.Rest
-        : new Uri(this.Settings["vonage:Url.Rest"]);
 
     /// <summary>
     ///     Retrieves the Security Secret.
@@ -142,14 +120,6 @@ public sealed class Configuration
     ///     Retrieves the User Agent.
     /// </summary>
     public string UserAgent => this.Settings["vonage:UserAgent"] ?? string.Empty;
-
-    /// <summary>
-    ///     Retrieves the Video Api Url.
-    /// </summary>
-    [Obsolete("Favor the VonageUrls property instead.")]
-    public Uri VideoApiUrl => this.Settings["vonage:Url.Api.Video"] is null
-        ? this.VonageUrls.Video
-        : new Uri(this.Settings["vonage:Url.Api.Video"]);
 
     /// <summary>
     ///     Provide urls to all Vonage APIs.
@@ -193,11 +163,6 @@ public sealed class Configuration
         var execTimeSpanSemaphore = new TimeSpanSemaphore(1, TimeSpan.FromSeconds(delay));
         return execTimeSpanSemaphore;
     }
-
-    private Uri FetchApiUrlEurope() =>
-        this.Settings["vonage:Url.Api.Europe"] is null
-            ? this.VonageUrls.Get(VonageUrls.Region.EU)
-            : new Uri(this.Settings["vonage:Url.Api.Europe"]);
 
     private ThrottlingMessageHandler GetThrottlingMessageHandler(TimeSpanSemaphore semaphore) =>
         this.ClientHandler != null
@@ -301,14 +266,14 @@ public readonly struct VonageUrls
     {
         /// <summary>
         /// </summary>
-        [Description("Us")] US,
+        [Description("AMER")] US,
 
         /// <summary>
         /// </summary>
-        [Description("Eu")] EU,
+        [Description("EMEA")] EU,
 
         /// <summary>
         /// </summary>
-        [Description("Apac")] APAC,
+        [Description("APAC")] APAC,
     }
 }

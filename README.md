@@ -124,7 +124,9 @@ an `appsettings` section:
     "UserAgent": "myApp/1.0",
     "Url.Rest": "https://rest.nexmo.com",
     "Url.Api": "https://api.nexmo.com",
-    "Url.Api.Europe": "https://api-eu.vonage.com",
+    "Url.Api.EMEA": "https://api-eu.vonage.com",
+    "Url.Api.AMER": "https://api-us.vonage.com",
+    "Url.Api.APAC": "https://api-ap.vonage.com",
     "Url.Api.Video": "https://video.api.vonage.com",
     "Api.Key": "VONAGE-API-KEY",
     "Api.Secret": "VONAGE-API-SECRET",    
@@ -213,7 +215,9 @@ Configuration.Instance.Settings["vonage:Url.Rest"] = "https://www.example.com/re
 | Signing_method    | Optional. This is the method used for signing SMS messages                                                                       |
 | Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           |
 | Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 |
-| Url.Api.Europe    | Optional. Vonage API base URL for Meetings. Defaults to https://api-eu.vonage.com                                                |
+| Url.Api.EMEA      | Optional. Vonage API base URL for Europe, Middle East and Africa. Defaults to https://api-eu.vonage.com                          |
+| Url.Api.AMER      | Optional. Vonage API base URL for North, Central and South America. Defaults to https://api-us.vonage.com                        |
+| Url.Api.APAC      | Optional. Vonage API base URL for Asia and Pacific. Defaults to https://api-ap.vonage.com                                        |
 | Url.Api.Video     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
 | RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             |
 | RequestTimeout    | Optional.  The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.              |
