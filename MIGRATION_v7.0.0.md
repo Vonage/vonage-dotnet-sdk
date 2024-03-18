@@ -156,12 +156,35 @@ Creating a specific structure, different from other webhooks, required to break 
 In order to make the settings more explicit and reduce chances of conflict with other libraries, the base key has been
 updated.
 
+Also, "Vonage." has been removed from every key to de-clutter the section. Finally, a few keys have been completely
+renamed:
+
+| Old Key                      | New Key      |
+|------------------------------|--------------|
+| Vonage.Vonage_key            | Api.Key      |
+| Vonage.Vonage_secret         | Api.Secret   |
+| Vonage.Vonage.Url.Api.Europe | Url.Api.EMEA |
+| N/A                          | Url.Api.AMER |
+| N/A                          | Url.Api.APAC |
+
 Using v6.X.X
 
 ```json
 {
   "appSettings": {
-    "Vonage.UserAgent": "myApp/1.0"
+    "Vonage.UserAgent": "...",
+    "Vonage.Url.Rest": "...",
+    "Vonage.Url.Api": "...",
+    "Vonage.Url.Api.Europe": "...",
+    "Vonage.Url.Api.Video": "...",
+    "Vonage.Vonage_key": "...",
+    "Vonage.Vonage_secret": "...",
+    "Vonage.Application.Id": "...",
+    "Vonage.Application.Key": "...",
+    "Vonage.Security_secret": "...",
+    "Vonage.Signing_method": "...",
+    "Vonage.RequestsPerSecond": "...",
+    "Vonage.RequestTimeout": "..."
   }
 }
 ```
@@ -171,7 +194,21 @@ Using v7.X.X and above
 ```json
 {
   "vonage": {
-    "Vonage.UserAgent": "myApp/1.0"
+    "UserAgent": "...",
+    "Url.Rest": "...",
+    "Url.Api": "...",
+    "Url.Api.EMEA": "...",
+    "Url.Api.AMER": "...", 
+    "Url.Api.APAC": "...",
+    "Url.Api.Video": "...",
+    "Api.Key": "...",
+    "Api.Secret": "...",
+    "Application.Id": "...",
+    "Application.Key": "...",
+    "Security_secret": "...",
+    "Signing_method": "...",
+    "RequestsPerSecond": "...",
+    "RequestTimeout": "..."
   }
 }
 ```
