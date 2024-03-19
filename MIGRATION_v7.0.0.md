@@ -111,13 +111,13 @@ multi-region URLs.
 var url = configuration.NexmoApiUrl;
 var url = configuration.RestApiUrl;
 var url = configuration.VideoApiUrl;
-
+var url = configuration.EuropeApiUrl;
 
 // Using v7.X.X and above
 var url = configuration.VonageUrls.Nexmo;
 var url = configuration.VonageUrls.Rest;
 var url = configuration.VonageUrls.Video;
-var url = configuration.VonageUrls.Get(VonageUrls.Region.US);
+var url = configuration.VonageUrls.Get(VonageUrls.Region.EMEA);
 ```
 
 #### Remove 'Input' webhook object
