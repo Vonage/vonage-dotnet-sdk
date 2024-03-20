@@ -1,4 +1,24 @@
 # Changelog
+## [v7.0.0-alpha.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0-alpha.1) (2024-03-20)
+
+### Documentation
+
+- Generate changelog for v7.0.0-alpha ([2dfa40d](https://github.com/Vonage/vonage-dotnet-sdk/commit/2dfa40dcea2b68dbcfffd50f252d79ee28e908a3))
+
+- Update v7.0.0 migration guide ([e12a11b](https://github.com/Vonage/vonage-dotnet-sdk/commit/e12a11b8567fba81e329aea1834f50bceac44d7d))
+
+- Update v7.0.0 migration guide ([70ca933](https://github.com/Vonage/vonage-dotnet-sdk/commit/70ca933d54254fbeb5f5625e4655795132e053f5))
+
+- Bump version to v7.0.0-alpha.1 ([7b12df0](https://github.com/Vonage/vonage-dotnet-sdk/commit/7b12df0097ef3df916b924473d26e1cf3eade5d4))
+
+
+### Refactoring
+
+- [breaking] remove URLs on Configuration, in favor or VonageUrls ([8d42b09](https://github.com/Vonage/vonage-dotnet-sdk/commit/8d42b0977f53e48833743e3382c52eccdb79de22))
+
+- [breaking] remove obsolete Credentials constructors, making it read-only. ([e701f21](https://github.com/Vonage/vonage-dotnet-sdk/commit/e701f21a9ee158fa4536b0ee0de2123c56f613f5))
+
+
 ## [v7.0.0-alpha](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0-alpha) (2024-03-15)
 
 ### Bug Fixes
