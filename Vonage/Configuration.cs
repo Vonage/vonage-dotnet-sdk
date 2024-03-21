@@ -32,10 +32,6 @@ public sealed class Configuration
     internal Configuration()
     {
         var builder = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string>
-            {
-                {"vonage:EnsureSuccessStatusCode", "false"},
-            })
             .AddJsonFile("settings.json", true, true)
             .AddJsonFile("appsettings.json", true, true);
         this.Settings = builder.Build();
