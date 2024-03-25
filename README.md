@@ -10,9 +10,11 @@ Vonage Client Library for .NET
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FVonage%2Fvonage-dotnet-sdk%2FVonage%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/Vonage/vonage-dotnet-sdk/Vonage/main)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-You can use this C# client library to integrate [Vonage's APIs](#supported-apis) to your application.
-To use this, you'll need a Vonage API account.
-Sign up [for free at vonage.com][signup].
+This library allows you to integrate feature from [Vonage's APIs](#supported-apis) to your application.
+
+It requires you to create
+a [Vonage account](https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library)
+first.
 
 * [Installation](#installation)
     * [Migration guides](#migration-guides)
@@ -40,36 +42,6 @@ Sign up [for free at vonage.com][signup].
 
 ## Installation
 
-To use the client library you'll need to have [created a Vonage account][signup].
-
-To install the C# client library using NuGet:
-
-* Run the following command from your terminal in your projects directory:
-
-```shell
-dotnet add package Vonage
-```
-
-OR
-
-* Run the following command in the Package Manager Console:
-
-```shell
-Install-Package Vonage
-```
-
-If you would prefer to run directly from source:
-
-* Clone this repository `git clone https://github.com/vonage/vonage-dotnet-sdk`
-* Add the Vonage/Vonage.csproj file to your .sln file
-* Add the Vonage/Vonage.csproj file as a project dependency of you project e.g.
-
-```xml
-<ItemGroup>
-    <ProjectReference Include="..\Vonage\Vonage.csproj" />
-</ItemGroup>
-```
-
 ### Migration guides
 
 #### Upgrading from v6.x.x to v7.0.0
@@ -80,9 +52,9 @@ Please see the dedicated [migration guide](MIGRATION_v7.0.0.md).
 
 Changes in version 6.0.0
 
-* Enum values are now caplitalised in alignment with accepted coding practices and are Pascal Case
+* Enum values are now capitalised in alignment with accepted coding practices and are Pascal Case
 * All classes that were marked as deprecated in 5.x are now removed
-* Ncco now inherits from List, it no longer has the `Actions` property, to add an action use `ncco.Add(action);`
+* NCCO now inherits from List, it no longer has the `Actions` property, to add an action use `ncco.Add(action);`
 * Strings with values "true" or "false" are now represented as `bool` in code
 
 ### Migrating from OpenTok for Video API
@@ -387,8 +359,7 @@ catch (NoneStateException exception)
 
 ## Examples
 
-We are working on a separate repository for .NET
-examples. [Check it out here!](https://github.com/Vonage/vonage-dotnet-code-snippets)
+All snippets are available in a separate [repository](https://github.com/Vonage/vonage-dotnet-code-snippets).
 
 The following examples show how to:
 
@@ -613,11 +584,6 @@ var request = new VerifyCheckRequest() { Code = CODE, RequestId = REQUEST_ID };
 var response = await client.VerifyClient.VerifyCheckAsync(request);
 ```
 
-### Additional Examples
-
-* Check out the sample MVC application and tests for more examples.
-  Make sure to copy appsettings.json.example to appsettings.json and enter your key/secret.
-
 ## Supported APIs
 
 The following is a list of Vonage APIs and whether the Vonage .NET SDK provides support for them:
@@ -648,12 +614,6 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Verify V2 API         | General Availability |     ✅      |
 | Video API             | General Availability |     ✅      |
 | Voice API             | General Availability |     ✅      |
-
-## FAQ
-
-Q: Does the .NET SDK Support the async pattern?
-A: Yes. All methods either support asynchronous behaviours by default or provide specific behaviours for each sync/async
-option.
 
 ## Contributing
 
