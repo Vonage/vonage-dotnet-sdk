@@ -1,4 +1,33 @@
 # Changelog
+## [v7.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0) (2024-03-25)
+
+### Build updates
+
+- Add action to evaluate deployment frequency ([edac971](https://github.com/Vonage/vonage-dotnet-sdk/commit/edac971e77b38f7cdbb621bad513a20b9562a360))
+
+
+### Documentation
+
+- Generate changelog for v7.0.0-alpha.1 ([2cdca34](https://github.com/Vonage/vonage-dotnet-sdk/commit/2cdca3447fed2d49096ef7126a3f79b79281cd3f))
+
+- Declutter readme ([40ac0fc](https://github.com/Vonage/vonage-dotnet-sdk/commit/40ac0fc046363423fd1d68ef4cbad57886f82ce3))
+
+- Bump version to v7.0.0 ([7e0b5da](https://github.com/Vonage/vonage-dotnet-sdk/commit/7e0b5dad1989553c639d9c3e68f81e19947e51fc))
+
+
+### Refactoring
+
+- Remove unused 'EnsureSuccessStatusCode' key in appSettings ([cb8b670](https://github.com/Vonage/vonage-dotnet-sdk/commit/cb8b6703da823f10e4345456ceab742207d12373))
+
+
+### Reverts
+
+- Revert "build: add action to evaluate deployment frequency"
+
+This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
+ ([b82638e](https://github.com/Vonage/vonage-dotnet-sdk/commit/b82638e3670e1da849a7a1de9e4cb9cd87856a9a))
+
+
 ## [v7.0.0-alpha.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0-alpha.1) (2024-03-20)
 
 ### Documentation
