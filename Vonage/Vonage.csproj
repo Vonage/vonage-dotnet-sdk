@@ -59,7 +59,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1"/>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
     <PackageReference Include="jose-jwt" Version="4.1.0"/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0"/>
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     <PackageReference Include="Enums.NET" Version="4.0.2"/>
     <PackageReference Include="Handy.DotNETCore-Compatibility.ColorTranslations" Version="0.2.1"/>
@@ -68,9 +68,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.IO.Abstractions" Version="20.0.15"/>
+      <PackageReference Include="System.IO.Abstractions" Version="21.0.2"/>
     <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
-    <PackageReference Include="System.Text.Json" Version="8.0.2"/>
+      <PackageReference Include="System.Text.Json" Version="8.0.3"/>
     <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
   </ItemGroup>
   <ItemGroup>
