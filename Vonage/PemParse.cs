@@ -55,6 +55,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Vonage.Logger;
 
 namespace Vonage;
 
@@ -69,7 +70,7 @@ internal class PemParse
 
     public static RSA DecodePEMKey(string pemstr)
     {
-        var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
+        var logger = LogProvider.GetLogger(LOGGER_CATEGORY);
         pemstr = pemstr.Trim();
         var isPkcs1 = pemstr.StartsWith(pkcs1privheader) && pemstr.EndsWith(pkcs1privfooter);
         var isPkcs8 = pemstr.StartsWith(pkcs8privheader) && pemstr.EndsWith(pkcs8privfooter);
@@ -88,7 +89,7 @@ internal class PemParse
 
     public static RSA DecodeRSAPrivateKey(byte[] privkey, bool isPkcs8)
     {
-        var logger = Logger.LogProvider.GetLogger(LOGGER_CATEGORY);
+        var logger = LogProvider.GetLogger(LOGGER_CATEGORY);
         byte[] MODULUS, E, D, P, Q, DP, DQ, IQ;
 
         // ---------  Set up stream to decode the asn.1 encoded RSA private key  ------
@@ -162,7 +163,7 @@ internal class PemParse
 
                 // ------- create RSACryptoServiceProvider instance and initialize with public key -----
 #if NET452
-                    // TODO: throwing "Bad Data" exception even though RSACng is fine
+                    // throwing "Bad Data" exception even though RSACng is fine
                     var RSA = new RSACryptoServiceProvider();
 #else
                 RSA RSA;
@@ -289,7 +290,7 @@ internal class PemParse
         {
             highbyte = binr.ReadByte(); // data size in next 2 bytes
             lowbyte = binr.ReadByte();
-            byte[] modint = { lowbyte, highbyte, 0x00, 0x00 };
+            byte[] modint = {lowbyte, highbyte, 0x00, 0x00};
             count = BitConverter.ToInt32(modint, 0);
         }
         else
