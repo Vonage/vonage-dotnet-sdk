@@ -143,6 +143,37 @@ public sealed class Configuration
         };
 
     /// <summary>
+    ///     Build an HttpClient for the Nexmo API.
+    /// </summary>
+    /// <returns>The HttpClient.</returns>
+    public HttpClient BuildHttpClientForNexmo() => this.BuildHttpClient(this.VonageUrls.Nexmo);
+
+    private HttpClient BuildHttpClient(Uri baseUri)
+    {
+        var client = new HttpClient(this.ClientHandler)
+        {
+            BaseAddress = baseUri,
+        };
+        this.RequestTimeout.IfSome(value => client.Timeout = value);
+        client.DefaultRequestHeaders.Add("Accept", "application/json");
+        return client;
+    }
+
+    /// <summary>
+    ///     Build an HttpClient for the Video API.
+    /// </summary>
+    /// <returns>The HttpClient.</returns>
+    public HttpClient BuildHttpClientForVideo() => this.BuildHttpClient(this.VonageUrls.Video);
+
+    /// <summary>
+    ///     Build an HttpClient for a specific region.
+    /// </summary>
+    /// <param name="region">The selected region.</param>
+    /// <returns>The HttpClient.</returns>
+    public HttpClient BuildHttpClientForRegion(VonageUrls.Region region) =>
+        this.BuildHttpClient(this.VonageUrls.Get(region));
+
+    /// <summary>
     ///     Builds a Configuration from an IConfiguration.
     /// </summary>
     /// <param name="configuration">The configuration properties.</param>

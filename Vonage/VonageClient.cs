@@ -140,46 +140,33 @@ public class VonageClient
 
     private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
 
-    private HttpClient InitializeHttpClient(HttpMessageHandler handler, Uri baseUri)
-    {
-        var client = new HttpClient(handler)
-        {
-            BaseAddress = baseUri,
-        };
-        this.GetConfiguration().RequestTimeout.IfSome(value => client.Timeout = value);
-        client.DefaultRequestHeaders.Add("Accept", "application/json");
-        return client;
-    }
-
     private void PropagateCredentials()
     {
-        this.AccountClient = new AccountClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.ApplicationClient = new ApplicationClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.VoiceClient = new VoiceClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.ConversionClient = new ConversionClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.NumbersClient = new NumbersClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
+        var currentConfiguration = this.GetConfiguration();
+        this.AccountClient = new AccountClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.ApplicationClient = new ApplicationClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.VoiceClient = new VoiceClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.ConversionClient = new ConversionClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.NumbersClient = new NumbersClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.NumberInsightClient =
-            new NumberInsightClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.VerifyClient = new VerifyClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.ShortCodesClient = new ShortCodesClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.RedactClient = new RedactClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.SmsClient = new SmsClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.PricingClient = new PricingClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        this.MessagesClient = new MessagesClient(this.Credentials, this.GetConfiguration(), this.timeProvider);
-        var nexmoHttpClient = this.InitializeHttpClient(
-            this.GetConfiguration().ClientHandler ?? new HttpClientHandler(), this.GetConfiguration().VonageUrls.Nexmo);
-        var videoHttpClient = this.InitializeHttpClient(
-            this.GetConfiguration().ClientHandler ?? new HttpClientHandler(), this.GetConfiguration().VonageUrls.Video);
-        var euHttpClient = this.InitializeHttpClient(this.GetConfiguration().ClientHandler ?? new HttpClientHandler(),
-            this.GetConfiguration().VonageUrls.Get(VonageUrls.Region.EU));
-        this.VerifyV2Client = new VerifyV2Client(this.BuildConfiguration(nexmoHttpClient));
-        this.SubAccountsClient =
-            new SubAccountsClient(this.BuildConfiguration(nexmoHttpClient), this.Credentials.ApiKey);
-        this.NumberInsightV2Client = new NumberInsightV2Client(this.BuildConfiguration(nexmoHttpClient));
-        this.UsersClient = new UsersClient(this.BuildConfiguration(nexmoHttpClient));
-        this.ConversationsClient = new ConversationsClient(this.BuildConfiguration(nexmoHttpClient));
-        this.MeetingsClient = new MeetingsClient(this.BuildConfiguration(euHttpClient), new FileSystem());
-        this.ProactiveConnectClient = new ProactiveConnectClient(this.BuildConfiguration(euHttpClient));
-        this.VideoClient = new VideoClient(this.BuildConfiguration(videoHttpClient));
+            new NumberInsightClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.VerifyClient = new VerifyClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.ShortCodesClient = new ShortCodesClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.RedactClient = new RedactClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.SmsClient = new SmsClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.PricingClient = new PricingClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.MessagesClient = new MessagesClient(this.Credentials, currentConfiguration, this.timeProvider);
+        var nexmoConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo());
+        var videoConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForVideo());
+        var euConfiguration =
+            this.BuildConfiguration(currentConfiguration.BuildHttpClientForRegion(VonageUrls.Region.EU));
+        this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
+        this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
+        this.NumberInsightV2Client = new NumberInsightV2Client(nexmoConfiguration);
+        this.UsersClient = new UsersClient(nexmoConfiguration);
+        this.ConversationsClient = new ConversationsClient(nexmoConfiguration);
+        this.MeetingsClient = new MeetingsClient(euConfiguration, new FileSystem());
+        this.ProactiveConnectClient = new ProactiveConnectClient(euConfiguration);
+        this.VideoClient = new VideoClient(videoConfiguration);
     }
 }
