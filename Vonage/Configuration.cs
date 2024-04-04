@@ -70,10 +70,11 @@ public sealed class Configuration
     {
         get
         {
-            var client = RequestsPerSecond
+            var handler = RequestsPerSecond
                 .Map(BuildSemaphore)
                 .Map(this.GetThrottlingMessageHandler)
-                .Match(some => new HttpClient(some), this.BuildDefaultClient);
+                .IfNone(this.ClientHandler);
+            var client = new HttpClient(handler);
             this.RequestTimeout.IfSome(value => client.Timeout = value);
             return client;
         }
@@ -82,7 +83,7 @@ public sealed class Configuration
     /// <summary>
     ///     Exposes an HttpMessageHandler.
     /// </summary>
-    public HttpMessageHandler ClientHandler { get; set; }
+    public HttpMessageHandler ClientHandler { get; set; } = new HttpClientHandler();
 
     /// <summary>
     ///     Retrieves the unique instance (Singleton).
@@ -148,11 +149,6 @@ public sealed class Configuration
     /// <returns>The Configuration.</returns>
     public static Configuration FromConfiguration(IConfiguration configuration) => new Configuration(configuration);
 
-    private HttpClient BuildDefaultClient() =>
-        this.ClientHandler == null
-            ? new HttpClient()
-            : new HttpClient(this.ClientHandler);
-
     private static TimeSpanSemaphore BuildSemaphore(double requestsPerSecond)
     {
         var delay = 1 / requestsPerSecond;
@@ -160,7 +156,7 @@ public sealed class Configuration
         return execTimeSpanSemaphore;
     }
 
-    private ThrottlingMessageHandler GetThrottlingMessageHandler(TimeSpanSemaphore semaphore) =>
+    private HttpMessageHandler GetThrottlingMessageHandler(TimeSpanSemaphore semaphore) =>
         this.ClientHandler != null
             ? new ThrottlingMessageHandler(semaphore, this.ClientHandler)
             : new ThrottlingMessageHandler(semaphore);
