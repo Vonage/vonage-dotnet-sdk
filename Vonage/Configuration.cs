@@ -17,7 +17,9 @@ namespace Vonage;
 /// </summary>
 public sealed class Configuration
 {
+    private const int DefaultPooledConnectionIdleTimeout = 60;
     private const string LoggerCategory = "Vonage.Configuration";
+    private const int DefaultPooledConnectionLifetime = 600;
 
     static Configuration()
     {
@@ -27,6 +29,7 @@ public sealed class Configuration
     {
         this.Settings = configuration;
         this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
+        this.ClientHandler = this.BuildDefaultHandler();
     }
 
     internal Configuration()
@@ -36,6 +39,7 @@ public sealed class Configuration
             .AddJsonFile("appsettings.json", true, true);
         this.Settings = builder.Build();
         this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
+        this.ClientHandler = this.BuildDefaultHandler();
     }
 
     private static Maybe<double> RequestsPerSecond =>
@@ -63,6 +67,16 @@ public sealed class Configuration
     /// </summary>
     public string ApplicationKey => this.Settings["vonage:Application.Key"] ?? string.Empty;
 
+    private TimeSpan PooledConnectionIdleTimeout => TimeSpan.FromSeconds(
+        int.TryParse(this.Settings["vonage:PooledConnectionIdleTimeout"], out var idleTimeout)
+            ? idleTimeout
+            : DefaultPooledConnectionIdleTimeout);
+
+    private TimeSpan PooledConnectionLifetime => TimeSpan.FromSeconds(
+        int.TryParse(this.Settings["vonage:PooledConnectionLifetime"], out var idleTimeout)
+            ? idleTimeout
+            : DefaultPooledConnectionLifetime);
+
     /// <summary>
     ///     Retrieves a configured HttpClient.
     /// </summary>
@@ -83,7 +97,7 @@ public sealed class Configuration
     /// <summary>
     ///     Exposes an HttpMessageHandler.
     /// </summary>
-    public HttpMessageHandler ClientHandler { get; set; } = new HttpClientHandler();
+    public HttpMessageHandler ClientHandler { get; set; }
 
     /// <summary>
     ///     Retrieves the unique instance (Singleton).
@@ -122,6 +136,12 @@ public sealed class Configuration
     ///     Provide urls to all Vonage APIs.
     /// </summary>
     public VonageUrls VonageUrls => VonageUrls.FromConfiguration(this.Settings);
+
+    private StandardSocketsHttpHandler BuildDefaultHandler() => new StandardSocketsHttpHandler
+    {
+        PooledConnectionLifetime = this.PooledConnectionLifetime,
+        PooledConnectionIdleTimeout = this.PooledConnectionIdleTimeout,
+    };
 
     /// <summary>
     ///     Builds a Credentials from the current Configuration.

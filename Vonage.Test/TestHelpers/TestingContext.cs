@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using Vonage.Request;
 using Vonage.Test.Common.TestHelpers;
 using WireMock.Server;
@@ -8,17 +10,14 @@ namespace Vonage.Test.TestHelpers;
 
 internal class TestingContext : IDisposable
 {
-    private TestingContext(string appSettingsKey, Credentials credentials, string authorizationHeaderValue)
+    private TestingContext(string appSettingsKey, Credentials credentials, string authorizationHeaderValue,
+        Dictionary<string, string> settings)
     {
         this.ExpectedAuthorizationHeaderValue = authorizationHeaderValue;
         this.Server = WireMockServer.Start();
-        var configuration = new Configuration
-        {
-            Settings =
-            {
-                [$"vonage:{appSettingsKey}"] = this.Server.Url,
-            },
-        };
+        settings.Add($"vonage:{appSettingsKey}", this.Server.Url);
+        var configuration =
+            Configuration.FromConfiguration(new ConfigurationBuilder().AddInMemoryCollection(settings).Build());
         this.VonageClient = new VonageClient(credentials, configuration, new TimeProvider());
     }
 
@@ -33,10 +32,14 @@ internal class TestingContext : IDisposable
     }
 
     public static TestingContext WithBasicCredentials(string appSettingsKey) =>
-        new TestingContext(appSettingsKey, CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5");
+        new TestingContext(appSettingsKey, CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5",
+            new Dictionary<string, string>());
 
     public static TestingContext WithBearerCredentials(string appSettingsKey) =>
-        new TestingContext(appSettingsKey, CreateBearerCredentials(), "Bearer *");
+        new TestingContext(appSettingsKey, CreateBearerCredentials(), "Bearer *", new Dictionary<string, string>());
+
+    public static TestingContext WithBasicCredentials(string appSettingsKey, Dictionary<string, string> settings) =>
+        new TestingContext(appSettingsKey, CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5", settings);
 
     private static Credentials CreateBasicCredentials() => Credentials.FromApiKeyAndSecret("790fc5e5", "Aa3456789");
 
