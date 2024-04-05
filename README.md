@@ -103,7 +103,9 @@ an `appsettings` section:
     "Api.Key": "VONAGE-API-KEY",
     "Api.Secret": "VONAGE-API-SECRET",    
     "Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
-    "Application.Key": "VONAGE_APPLICATION_PRIVATE_KEY"
+    "Application.Key": "VONAGE_APPLICATION_PRIVATE_KEY",
+    "PooledConnectionIdleTimeout": "60", 
+    "PooledConnectionLifetime": "600"
   }
 }
 ```
@@ -177,23 +179,25 @@ Configuration.Instance.Settings["vonage:Url.Rest"] = "https://www.example.com/re
 
 ### Configuration Reference
 
-| Key               | Description                                                                                                                      |
-|-------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| Api.Key           | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)                                                          |
-| Api.Secret        | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)                                                       |
-| Application.Id    | Your application ID                                                                                                              |
-| Application.Key   | Your application's private key                                                                                                   |
-| Security_secret   | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages) |
-| Signing_method    | Optional. This is the method used for signing SMS messages                                                                       |
-| Url.Rest          | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           |
-| Url.Api           | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 |
-| Url.Api.EMEA      | Optional. Vonage API base URL for Europe, Middle East and Africa. Defaults to https://api-eu.vonage.com                          |
-| Url.Api.AMER      | Optional. Vonage API base URL for North, Central and South America. Defaults to https://api-us.vonage.com                        |
-| Url.Api.APAC      | Optional. Vonage API base URL for Asia and Pacific. Defaults to https://api-ap.vonage.com                                        |
-| Url.Api.Video     | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
-| RequestsPerSecond | Optional. Throttle to specified requests per second.                                                                             |
-| RequestTimeout    | Optional.  The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.              |
-| UserAgent         | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
+| Key                         | Description                                                                                                                      |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| Api.Key                     | Your API key from the [dashboard](https://dashboard.nexmo.com/settings)                                                          |
+| Api.Secret                  | Your API secret from the [dashboard](https://dashboard.nexmo.com/settings)                                                       |
+| Application.Id              | Your application ID                                                                                                              |
+| Application.Key             | Your application's private key                                                                                                   |
+| Security_secret             | Optional. This is the signing secret that's used for [signing SMS](https://developer.nexmo.com/concepts/guides/signing-messages) |
+| Signing_method              | Optional. This is the method used for signing SMS messages                                                                       |
+| Url.Rest                    | Optional. Vonage REST API base URL. Defaults to https://rest.nexmo.com                                                           |
+| Url.Api                     | Optional. Vonage API base URL. Defaults to https://api.nexmo.com                                                                 |
+| Url.Api.EMEA                | Optional. Vonage API base URL for Europe, Middle East and Africa. Defaults to https://api-eu.vonage.com                          |
+| Url.Api.AMER                | Optional. Vonage API base URL for North, Central and South America. Defaults to https://api-us.vonage.com                        |
+| Url.Api.APAC                | Optional. Vonage API base URL for Asia and Pacific. Defaults to https://api-ap.vonage.com                                        |
+| Url.Api.Video               | Optional. Vonage API base URL for Video. Defaults to https://video.api.vonage.com                                                |
+| RequestsPerSecond           | Optional. Throttle to specified requests per second.                                                                             |
+| RequestTimeout              | Optional.  The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.              |
+| UserAgent                   | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
+| PooledConnectionIdleTimeout | Optional. The time (in seconds) that a connection can be idle before it is closed. Defaults to 60 seconds.                       |
+| PooledConnectionLifetime    | Optional. The time (in seconds) that a connection can be alive before it is closed. Defaults to 600 seconds.                     |
 
 ### Logging
 
