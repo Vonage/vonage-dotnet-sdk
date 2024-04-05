@@ -247,7 +247,7 @@ public class ConnectionLifetimeTest
 
     private async Task<int> RefreshConnectionPool(Dictionary<string, string> settings, int timerBuffer, int loops)
     {
-        var spy = new EventSpy(this.output);
+        using var spy = new EventSpy(this.output);
         var helper = TestingContext.WithBasicCredentials("Url.Rest", settings);
         helper.Server.Given(WireMock.RequestBuilders.Request.Create().UsingGet())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
