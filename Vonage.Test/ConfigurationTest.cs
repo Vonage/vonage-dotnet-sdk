@@ -210,6 +210,7 @@ public class ConfigurationTest
 }
 
 [Trait("Category", "HttpConnectionPool")]
+[CollectionDefinition("HttpConnectionPool", DisableParallelization = true)]
 public class ConnectionLifetimeTest
 {
     private readonly ITestOutputHelper output;
