@@ -1,4 +1,43 @@
 # Changelog
+## [v7.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.1.0) (2024-04-08)
+
+### Bug Fixes
+
+- Dispose event listener ([f0a99d8](https://github.com/Vonage/vonage-dotnet-sdk/commit/f0a99d81575066f1f1c8d63896e4502f98d3a2a1))
+
+- Disable parallelization for connection lifetime tests ([38e7bec](https://github.com/Vonage/vonage-dotnet-sdk/commit/38e7becf9c429b78e6ea717e71538137db62ce8e))
+
+- Disable parallelization for connection lifetime tests using NonThreadSafeCollection ([7f9f556](https://github.com/Vonage/vonage-dotnet-sdk/commit/7f9f55674582c8a3f0d5bd70ac06295827e5cd2d))
+
+
+### Dependencies upgrade
+
+- Update packages ([7f6c7a0](https://github.com/Vonage/vonage-dotnet-sdk/commit/7f6c7a00c585a89c262dff50639c9052bfcf21c1))
+
+
+### Documentation
+
+- Generate changelog for v7.0.0 ([df6aa0d](https://github.com/Vonage/vonage-dotnet-sdk/commit/df6aa0d95df60f2f340f890a497be42e73fe4f8a))
+
+- Update readme with connection lifetime configuration ([2699b05](https://github.com/Vonage/vonage-dotnet-sdk/commit/2699b0576e5669df8c23e40859b600c6b5cd2a12))
+
+- Bump version to v7.1.0 ([fefbccf](https://github.com/Vonage/vonage-dotnet-sdk/commit/fefbccfd71ec9bdd1f975262e53d091ac4350230))
+
+
+### Features
+
+- Add SocketsHttpHandler in Configuration to override http connection pool lifetime and idle timeout. ([607b9d7](https://github.com/Vonage/vonage-dotnet-sdk/commit/607b9d766606d4b30b097a25213831cb231a2c31))
+
+
+### Refactoring
+
+- Remove TODOs ([d4ee5e4](https://github.com/Vonage/vonage-dotnet-sdk/commit/d4ee5e4e7f0ad9ad6bf02725c67b22adf66d1814))
+
+- Use single instance for HttpMessageHandler ([ca96110](https://github.com/Vonage/vonage-dotnet-sdk/commit/ca9611042da7b85823f565941b9b3319ebc5a3a2))
+
+- Simplify client initialization ([5779958](https://github.com/Vonage/vonage-dotnet-sdk/commit/5779958816823689c901fedd1da603e87eecbe12))
+
+
 ## [v7.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0) (2024-03-25)
 
 ### Build updates
