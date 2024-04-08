@@ -11,7 +11,6 @@ using Vonage.Test.Common.Extensions;
 using Vonage.Test.TestHelpers;
 using WireMock.ResponseBuilders;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Vonage.Test;
 
@@ -210,13 +209,9 @@ public class ConfigurationTest
 }
 
 [Trait("Category", "HttpConnectionPool")]
-[CollectionDefinition("HttpConnectionPool", DisableParallelization = true)]
+[Collection(nameof(NonThreadSafeCollection))]
 public class ConnectionLifetimeTest
 {
-    private readonly ITestOutputHelper output;
-
-    public ConnectionLifetimeTest(ITestOutputHelper output) => this.output = output;
-
     [Theory]
     [InlineData(5, 2, 1)]
     [InlineData(5, 5, 2)]
@@ -248,7 +243,7 @@ public class ConnectionLifetimeTest
 
     private async Task<int> RefreshConnectionPool(Dictionary<string, string> settings, int timerBuffer, int loops)
     {
-        using var spy = new EventSpy(this.output);
+        using var spy = new EventSpy();
         var helper = TestingContext.WithBasicCredentials("Url.Rest", settings);
         helper.Server.Given(WireMock.RequestBuilders.Request.Create().UsingGet())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
@@ -266,10 +261,6 @@ public class ConnectionLifetimeTest
 
 internal class EventSpy : EventListener
 {
-    private readonly ITestOutputHelper output;
-
-    public EventSpy(ITestOutputHelper output) => this.output = output;
-
     public int RefreshedConnections { get; private set; }
 
     public int ReceivedRequests { get; private set; }
@@ -288,13 +279,9 @@ internal class EventSpy : EventListener
         {
             case "ResolutionStart":
                 this.RefreshedConnections++;
-                this.output.WriteLine($"[{this.RefreshedConnections}] - " + eventData.EventName + " - " +
-                                      DateTime.Now.TimeOfDay);
                 break;
             case "RequestStart":
                 this.ReceivedRequests++;
-                this.output.WriteLine($"[{this.ReceivedRequests}] - " + eventData.EventName + " - " +
-                                      DateTime.Now.TimeOfDay);
                 break;
         }
     }
