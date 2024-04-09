@@ -2,6 +2,7 @@
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Test.Common.Extensions;
+using Vonage.Test.Common.TestHelpers;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Email;
 using Vonage.VerifyV2.StartVerification.SilentAuth;
@@ -37,6 +38,15 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("Brand cannot be null or whitespace.");
+
+    [Fact]
+    public void Create_ShouldReturnFailure_GivenBrandExceeds16Characters() =>
+        StartVerificationRequest.Build()
+            .WithBrand(StringHelper.GenerateString(17))
+            .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+            .Create()
+            .Should()
+            .BeParsingFailure("Brand length cannot be higher than 16.");
 
     [Fact]
     public void Create_ShouldReturnFailure_GivenChannelTimeoutIsHigherThanMaximum() =>
@@ -88,12 +98,13 @@ public class RequestBuilderTest
 
     [Fact]
     public void Create_ShouldSetBrand() =>
-        BuildBaseRequest()
+        StartVerificationRequest.Build()
+            .WithBrand("Brand Custom 123")
             .WithWorkflow(SilentAuthWorkflow.Parse("123456789"))
             .Create()
             .Map(request => request.Brand)
             .Should()
-            .BeSuccess("some brand");
+            .BeSuccess("Brand Custom 123");
 
     [Theory]
     [InlineData(60)]

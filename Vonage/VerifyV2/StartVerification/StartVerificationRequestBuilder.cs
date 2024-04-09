@@ -11,15 +11,26 @@ internal class StartVerificationRequestBuilder :
     IBuilderForBrand,
     IBuilderForWorkflow
 {
-    private bool fraudCheck = true;
+    private const int MaxBrandLength = 16;
+    private readonly List<IVerificationWorkflow> workflows = new List<IVerificationWorkflow>();
+    private string brand;
     private int channelTimeout = 300;
-    private int codeLength = 4;
-    private readonly List<IVerificationWorkflow> workflows = new();
-    private Locale locale = Locale.EnUs;
-    private Maybe<IResultFailure> failure = Maybe<IResultFailure>.None;
     private Maybe<string> clientReference = Maybe<string>.None;
     private Maybe<string> code;
-    private string brand;
+    private int codeLength = 4;
+    private Maybe<IResultFailure> failure = Maybe<IResultFailure>.None;
+    private bool fraudCheck = true;
+    private Locale locale = Locale.EnUs;
+
+    /// <inheritdoc />
+    public IBuilderForWorkflow WithBrand(string value)
+    {
+        this.brand = value;
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IOptionalBuilder WithWorkflow<T>(Result<T> value) where T : IVerificationWorkflow => this.SetWorkflow(value);
 
     /// <inheritdoc />
     public Result<StartVerificationRequest> Create() =>
@@ -40,6 +51,7 @@ internal class StartVerificationRequestBuilder :
             .Map(InputEvaluation<StartVerificationRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(
                 VerifyBrandNotEmpty,
+                VerifyBrandLength,
                 VerifyChannelTimeoutHigherThanMinimum,
                 VerifyChannelTimeoutLowerThanMaximum,
                 VerifyCodeLengthHigherThanMinimum,
@@ -49,13 +61,6 @@ internal class StartVerificationRequestBuilder :
     public IOptionalBuilder SkipFraudCheck()
     {
         this.fraudCheck = false;
-        return this;
-    }
-
-    /// <inheritdoc />
-    public IBuilderForWorkflow WithBrand(string value)
-    {
-        this.brand = value;
         return this;
     }
 
@@ -98,9 +103,6 @@ internal class StartVerificationRequestBuilder :
         return this;
     }
 
-    /// <inheritdoc />
-    public IOptionalBuilder WithWorkflow<T>(Result<T> value) where T : IVerificationWorkflow => this.SetWorkflow(value);
-
     private Unit AddWorkflow<T>(T workflow) where T : IVerificationWorkflow
     {
         this.workflows.Add(workflow);
@@ -127,6 +129,11 @@ internal class StartVerificationRequestBuilder :
         StartVerificationRequest request) =>
         InputValidation
             .VerifyNotEmpty(request, request.Brand, nameof(request.Brand));
+
+    private static Result<StartVerificationRequest> VerifyBrandLength(
+        StartVerificationRequest request) =>
+        InputValidation
+            .VerifyLengthLowerOrEqualThan(request, request.Brand, MaxBrandLength, nameof(request.Brand));
 
     private static Result<StartVerificationRequest> VerifyChannelTimeoutHigherThanMinimum(
         StartVerificationRequest request) =>
