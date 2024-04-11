@@ -3,6 +3,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
 using Vonage.VerifyV2.Cancel;
+using Vonage.VerifyV2.NextWorkflow;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.VerifyCode;
 
@@ -21,6 +22,10 @@ internal class VerifyV2Client : IVerifyV2Client
 
     /// <inheritdoc />
     public Task<Result<Unit>> CancelAsync(Result<CancelRequest> request) =>
+        this.vonageClient.SendAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> NextWorkflowAsync(Result<NextWorkflowRequest> request) =>
         this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
