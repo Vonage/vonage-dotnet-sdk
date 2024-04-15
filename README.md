@@ -46,6 +46,12 @@ first.
 
 #### Upgrading from v6.x.x to v7.0.0
 
+Disclaimer: Due to a forgotten breaking changes,
+versions [v7.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0)
+and [v7.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.1.0) have been unlisted to
+make [v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.0) the logical upgrade when migrating
+towards the new major version.
+
 Please see the dedicated [migration guide](MIGRATION_v7.0.0.md).
 
 #### Upgrading from v5.x.x to v6.0.0
