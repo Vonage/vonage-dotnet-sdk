@@ -1,20 +1,14 @@
 # Changelog
-## [v7.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.3.0) (2024-04-15)
+## [v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.0) (2024-04-15)
 
 ### Documentation
 
-- Generate changelog for v7.2.0 ([73d9366](https://github.com/Vonage/vonage-dotnet-sdk/commit/73d9366ead3f970585bfd514271b6d472b7dddf9))
+- Generate changelog for v7.3.0 ([cb06018](https://github.com/Vonage/vonage-dotnet-sdk/commit/cb06018e155f5440a8da44d72f7f94746542c623))
 
-- Bump version to v7.3.0 ([b7aad8f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b7aad8f86805287d4e88d89fdb0b252abd650369))
-
-
-### Merges
-
-- Merge remote-tracking branch 'origin/main'
- ([2d9aad7](https://github.com/Vonage/vonage-dotnet-sdk/commit/2d9aad7233f7ce12fce34950c658236c572d9bf8))
+- Bump version to v7.2.0 ([1e8dfff](https://github.com/Vonage/vonage-dotnet-sdk/commit/1e8dfffd23d358a704837c38133f85506b202ea9))
 
 
-## [v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.0) (2024-04-11)
+## [v7.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.3.0) (2024-04-15)
 
 ### Documentation
 
@@ -22,12 +16,22 @@
 
 - Bump version to v7.2.0 ([ad37c8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad37c8dc4fb9b6855387879a0e864249f9995b37))
 
+- Generate changelog for v7.2.0 ([73d9366](https://github.com/Vonage/vonage-dotnet-sdk/commit/73d9366ead3f970585bfd514271b6d472b7dddf9))
+
+- Bump version to v7.3.0 ([b7aad8f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b7aad8f86805287d4e88d89fdb0b252abd650369))
+
 
 ### Features
 
 - Brand is now limiter to 16 characters in VerifyV2 ([11bb4ef](https://github.com/Vonage/vonage-dotnet-sdk/commit/11bb4ef8dfd18c8a8c27cdf9af7349ca07561bdf))
 
 - NextWorkflow for VerifyV2 ([46cf5f0](https://github.com/Vonage/vonage-dotnet-sdk/commit/46cf5f02765cb491265f6cbbad530326a989c777))
+
+
+### Merges
+
+- Merge remote-tracking branch 'origin/main'
+ ([2d9aad7](https://github.com/Vonage/vonage-dotnet-sdk/commit/2d9aad7233f7ce12fce34950c658236c572d9bf8))
 
 
 ### Refactoring
