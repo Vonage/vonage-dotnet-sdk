@@ -1,4 +1,25 @@
 # Changelog
+## [v7.2.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.1) (2024-05-06)
+
+### Bug Fixes
+
+- Add ConfigureAwait on async code to avoid potential deadlocks ([a97f908](https://github.com/Vonage/vonage-dotnet-sdk/commit/a97f908a80454c39470048c32580a37450941217))
+
+
+### Build updates
+
+- Remove dotnet7.0 from targeted frameworks given that version reached end-of-support on May 5th ([67ab30f](https://github.com/Vonage/vonage-dotnet-sdk/commit/67ab30fc4809813867ed2153a44b18d156f3d676))
+
+- Remove net7.0 from pipelines ([e458347](https://github.com/Vonage/vonage-dotnet-sdk/commit/e4583478300522d4fcf37ab7ba751222a751c01a))
+
+
+### Documentation
+
+- Generate changelog for v7.2.0 ([a404398](https://github.com/Vonage/vonage-dotnet-sdk/commit/a404398fb38d2808c60b9dcc9545b8a1c812e348))
+
+- Bump version to v7.2.1 ([fd75d49](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd75d496c5d0a44e1fccd59c6d37e4b44d88aa54))
+
+
 ## [v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.0) (2024-04-15)
 
 ### Documentation
