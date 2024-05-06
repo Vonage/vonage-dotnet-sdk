@@ -29,7 +29,7 @@ public class WebhookParser
         var json = JsonConvert.SerializeObject(dict);
         return JsonConvert.DeserializeObject<T>(json);
     }
-
+    
     /// <summary>
     /// Used to Parse Query parameters into a given type
     /// This Method will convert the string pairs into a dictionary and then use
@@ -44,7 +44,7 @@ public class WebhookParser
         var json = JsonConvert.SerializeObject(dict);
         return JsonConvert.DeserializeObject<T>(json);
     }
-
+    
     /// <summary>
     /// Parses URL content into the given object type
     /// This uses Newtonsoft.Json - abnormally named fields should be decorated with the 'JsonPropertyAttribute'
@@ -60,7 +60,7 @@ public class WebhookParser
         var json = JsonConvert.SerializeObject(contentDictionary);
         return JsonConvert.DeserializeObject<T>(json);
     }
-
+    
     /// <summary>
     /// Synchronous Implementation of ParseWebhook
     /// Meant to be called from ASP.NET Core MVC with only the Content of the body
@@ -71,7 +71,7 @@ public class WebhookParser
     /// <returns></returns>
     public static T ParseWebhook<T>(Stream content, string contentType) =>
         ParseWebhookAsync<T>(content, contentType).Result;
-
+    
     /// <summary>
     /// Synchronous implementation of the ParseWebhook method, meant to be called from 
     /// Legacy ASP.NET Web Api with an HttpRequestMessage
@@ -80,7 +80,7 @@ public class WebhookParser
     /// <param name="request"></param>
     /// <returns></returns>
     public static T ParseWebhook<T>(HttpRequestMessage request) => ParseWebhookAsync<T>(request).Result;
-
+    
     /// <summary>
     /// Parses the stream into the given type
     /// This is anticipated to be used by ASP.NET Core MVC/API requests where the content is in the Body of the inbound request
@@ -96,20 +96,20 @@ public class WebhookParser
         if (contentType.Contains("application/json"))
         {
             using var reader = new StreamReader(content);
-            var json = await reader.ReadToEndAsync();
+            var json = await reader.ReadToEndAsync().ConfigureAwait(false);
             return JsonConvert.DeserializeObject<T>(json);
         }
-
+        
         if (contentType.Contains("application/x-www-form-urlencoded"))
         {
             using var reader = new StreamReader(content);
-            var contentString = await reader.ReadToEndAsync();
+            var contentString = await reader.ReadToEndAsync().ConfigureAwait(false);
             return ParseUrlFormString<T>(contentString);
         }
-
+        
         throw new ArgumentException("Invalid Content Type");
     }
-
+    
     /// <summary>
     /// Parses the HttpRequestMessage's content into the given type
     /// </summary>
@@ -121,16 +121,16 @@ public class WebhookParser
     {
         if (request.Content.Headers.GetValues("Content-Type").First().Contains("application/json"))
         {
-            var json = await request.Content.ReadAsStringAsync();
+            var json = await request.Content.ReadAsStringAsync().ConfigureAwait(false);
             return JsonConvert.DeserializeObject<T>(json);
         }
-
+        
         if (request.Content.Headers.GetValues("Content-Type").First().Contains("application/x-www-form-urlencoded"))
         {
-            var contentString = await request.Content.ReadAsStringAsync();
+            var contentString = await request.Content.ReadAsStringAsync().ConfigureAwait(false);
             return ParseUrlFormString<T>(contentString);
         }
-
+        
         throw new ArgumentException("Invalid Content Type");
     }
 }

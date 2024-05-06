@@ -17,7 +17,7 @@ public static class MaybeExtensions
         string.IsNullOrWhiteSpace(value)
             ? Maybe<string>.None
             : Maybe<string>.Some(value);
-
+    
     /// <summary>
     ///     Monadic bind operation.
     /// </summary>
@@ -26,10 +26,10 @@ public static class MaybeExtensions
     public static async Task<Maybe<TDestination>> Bind<TSource, TDestination>(this Task<Maybe<TSource>> task,
         Func<TSource, Maybe<TDestination>> bind)
     {
-        var result = await task;
+        var result = await task.ConfigureAwait(false);
         return result.Bind(bind);
     }
-
+    
     /// <summary>
     ///     Monadic bind operation.
     /// </summary>
@@ -38,10 +38,10 @@ public static class MaybeExtensions
     public static async Task<Maybe<TDestination>> BindAsync<TSource, TDestination>(this Task<Maybe<TSource>> task,
         Func<TSource, Task<Maybe<TDestination>>> bind)
     {
-        var result = await task;
-        return await result.BindAsync(bind);
+        var result = await task.ConfigureAwait(false);
+        return await result.BindAsync(bind).ConfigureAwait(false);
     }
-
+    
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -52,10 +52,10 @@ public static class MaybeExtensions
     public static async Task<Maybe<TDestination>> Map<TSource, TDestination>(this Task<Maybe<TSource>> task,
         Func<TSource, TDestination> map)
     {
-        var result = await task;
+        var result = await task.ConfigureAwait(false);
         return result.Map(map);
     }
-
+    
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -66,10 +66,10 @@ public static class MaybeExtensions
     public static async Task<Maybe<TDestination>> MapAsync<TSource, TDestination>(this Task<Maybe<TSource>> task,
         Func<TSource, Task<TDestination>> map)
     {
-        var result = await task;
-        return await result.MapAsync(map);
+        var result = await task.ConfigureAwait(false);
+        return await result.MapAsync(map).ConfigureAwait(false);
     }
-
+    
     /// <summary>
     ///     Match the two states of the Maybe and return a non-null TDestination.
     /// </summary>
@@ -82,7 +82,7 @@ public static class MaybeExtensions
     public static async Task<TDestination> Match<TSource, TDestination>(this Task<Maybe<TSource>> task,
         Func<TSource, TDestination> some, Func<TDestination> none)
     {
-        var result = await task;
+        var result = await task.ConfigureAwait(false);
         return result.Match(some, none);
     }
 }

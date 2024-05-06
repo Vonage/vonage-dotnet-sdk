@@ -9,22 +9,22 @@ public class ApplicationClient : IApplicationClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
-
+    
     public ApplicationClient(Credentials creds = null)
     {
         this.Credentials = creds;
         this.configuration = Configuration.Instance;
     }
-
+    
     internal ApplicationClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.Credentials = credentials;
         this.configuration = configuration;
         this.timeProvider = timeProvider;
     }
-
+    
     public Credentials Credentials { get; set; }
-
+    
     /// <inheritdoc />
     public Task<Application> CreateApplicationAsync(CreateApplicationRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -34,7 +34,7 @@ public class ApplicationClient : IApplicationClient
                 request,
                 AuthType.Basic
             );
-
+    
     /// <inheritdoc/>
     public async Task<bool> DeleteApplicationAsync(string id, Credentials creds = null)
     {
@@ -43,10 +43,10 @@ public class ApplicationClient : IApplicationClient
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"/v2/applications/{id}"),
                 null,
                 AuthType.Basic
-            );
+            ).ConfigureAwait(false);
         return true;
     }
-
+    
     /// <inheritdoc/>
     public Task<Application> GetApplicationAsync(string id, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -54,7 +54,7 @@ public class ApplicationClient : IApplicationClient
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"/v2/applications/{id}"),
                 AuthType.Basic
             );
-
+    
     /// <inheritdoc/>
     public Task<ApplicationPage> ListApplicationsAsync(ListApplicationsRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -63,7 +63,7 @@ public class ApplicationClient : IApplicationClient
                 AuthType.Basic,
                 request
             );
-
+    
     /// <inheritdoc/>
     public Task<Application> UpdateApplicationAsync(string id, CreateApplicationRequest request,
         Credentials creds = null) =>
@@ -74,6 +74,6 @@ public class ApplicationClient : IApplicationClient
                 request,
                 AuthType.Basic
             );
-
+    
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 }

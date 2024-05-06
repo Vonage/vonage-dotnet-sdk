@@ -9,22 +9,22 @@ public class RedactClient : IRedactClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
-
+    
     public RedactClient(Credentials creds = null)
     {
         this.Credentials = creds;
         this.configuration = Configuration.Instance;
     }
-
+    
     internal RedactClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.Credentials = credentials;
         this.configuration = configuration;
         this.timeProvider = timeProvider;
     }
-
+    
     public Credentials Credentials { get; set; }
-
+    
     /// <inheritdoc/>
     public async Task<bool> RedactAsync(RedactRequest request, Credentials creds = null)
     {
@@ -35,9 +35,9 @@ public class RedactClient : IRedactClient
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/v1/redact/transaction"),
                 request,
                 AuthType.Basic
-            );
+            ).ConfigureAwait(false);
         return true;
     }
-
+    
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 }

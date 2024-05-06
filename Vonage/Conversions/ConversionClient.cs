@@ -8,22 +8,22 @@ public class ConversionClient : IConversionClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
-
+    
     public ConversionClient(Credentials creds = null)
     {
         this.Credentials = creds;
         this.configuration = Configuration.Instance;
     }
-
+    
     internal ConversionClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.Credentials = credentials;
         this.configuration = configuration;
         this.timeProvider = timeProvider;
     }
-
+    
     public Credentials Credentials { get; set; }
-
+    
     /// <inheritdoc/>
     public async Task<bool> SmsConversionAsync(ConversionRequest request, Credentials creds = null)
     {
@@ -32,10 +32,10 @@ public class ConversionClient : IConversionClient
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/conversions/sms"),
                 request
-            );
+            ).ConfigureAwait(false);
         return true;
     }
-
+    
     /// <inheritdoc/>
     public async Task<bool> VoiceConversionAsync(ConversionRequest request, Credentials creds = null)
     {
@@ -44,9 +44,9 @@ public class ConversionClient : IConversionClient
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, "/conversions/voice"),
                 request
-            );
+            ).ConfigureAwait(false);
         return true;
     }
-
+    
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 }

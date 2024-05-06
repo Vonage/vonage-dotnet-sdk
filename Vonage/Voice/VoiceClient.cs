@@ -14,7 +14,7 @@ public class VoiceClient : IVoiceClient
     private readonly Configuration configuration;
     private readonly Credentials credentials;
     private readonly ITimeProvider timeProvider = new TimeProvider();
-
+    
     /// <summary>
     ///     Initializes a VoiceClient.
     /// </summary>
@@ -24,14 +24,14 @@ public class VoiceClient : IVoiceClient
         this.credentials = credentials;
         this.configuration = Configuration.Instance;
     }
-
+    
     internal VoiceClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
     {
         this.credentials = credentials;
         this.configuration = configuration;
         this.timeProvider = timeProvider;
     }
-
+    
     /// <inheritdoc />
     public Task<CallResponse> CreateCallAsync(CallCommand command, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -41,7 +41,7 @@ public class VoiceClient : IVoiceClient
                 command,
                 AuthType.Bearer
             );
-
+    
     /// <inheritdoc />
     public Task<CallRecord> GetCallAsync(string id, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -49,7 +49,7 @@ public class VoiceClient : IVoiceClient
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"{CallsEndpoint}/{id}"),
                 AuthType.Bearer
             );
-
+    
     /// <inheritdoc />
     public Task<PageResponse<CallList>> GetCallsAsync(CallSearchFilter filter, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -58,20 +58,20 @@ public class VoiceClient : IVoiceClient
                 AuthType.Bearer,
                 filter
             );
-
+    
     /// <inheritdoc />
     public async Task<GetRecordingResponse> GetRecordingAsync(string recordingUrl, Credentials creds = null)
     {
         using var response =
             await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-                .DoGetRequestWithJwtAsync(new Uri(recordingUrl));
+                .DoGetRequestWithJwtAsync(new Uri(recordingUrl)).ConfigureAwait(false);
         return new GetRecordingResponse
         {
-            ResultStream = await ReadContent(response.Content),
+            ResultStream = await ReadContent(response.Content).ConfigureAwait(false),
             Status = response.StatusCode,
         };
     }
-
+    
     /// <inheritdoc />
     public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -81,7 +81,7 @@ public class VoiceClient : IVoiceClient
                 cmd,
                 AuthType.Bearer
             );
-
+    
     /// <inheritdoc />
     public Task<CallCommandResponse> StartStreamAsync(string id, StreamCommand command, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -91,7 +91,7 @@ public class VoiceClient : IVoiceClient
                 command,
                 AuthType.Bearer
             );
-
+    
     /// <inheritdoc />
     public Task<CallCommandResponse> StartTalkAsync(string id, TalkCommand cmd, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -101,7 +101,7 @@ public class VoiceClient : IVoiceClient
                 cmd,
                 AuthType.Bearer
             );
-
+    
     /// <inheritdoc />
     public Task<CallCommandResponse> StopStreamAsync(string id, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -111,7 +111,7 @@ public class VoiceClient : IVoiceClient
                 new { },
                 AuthType.Bearer
             );
-
+    
     /// <inheritdoc />
     public Task<CallCommandResponse> StopTalkAsync(string id, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
@@ -121,7 +121,7 @@ public class VoiceClient : IVoiceClient
                 new { },
                 AuthType.Bearer
             );
-
+    
     /// <inheritdoc />
     public async Task<bool> UpdateCallAsync(string id, CallEditCommand command, Credentials creds = null)
     {
@@ -131,17 +131,17 @@ public class VoiceClient : IVoiceClient
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"{CallsEndpoint}/{id}"),
                 command,
                 AuthType.Bearer
-            );
+            ).ConfigureAwait(false);
         return true;
     }
-
+    
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.credentials;
-
+    
     private static async Task<byte[]> ReadContent(HttpContent content)
     {
-        var readTask = await content.ReadAsStreamAsync();
+        var readTask = await content.ReadAsStreamAsync().ConfigureAwait(false);
         using var ms = new MemoryStream();
-        await readTask.CopyToAsync(ms);
+        await readTask.CopyToAsync(ms).ConfigureAwait(false);
         return ms.ToArray();
     }
 }

@@ -20,10 +20,10 @@ public static class ResultExtensions
     public static async Task<Result<TDestination>> Bind<TSource, TDestination>(this Task<Result<TSource>> task,
         Func<TSource, Result<TDestination>> bind)
     {
-        var result = await task;
+        var result = await task.ConfigureAwait(false);
         return result.Bind(bind);
     }
-
+    
     /// <summary>
     ///     Monadic bind operation.
     /// </summary>
@@ -35,10 +35,10 @@ public static class ResultExtensions
     public static async Task<Result<TDestination>> BindAsync<TSource, TDestination>(this Task<Result<TSource>> task,
         Func<TSource, Task<Result<TDestination>>> bind)
     {
-        var result = await task;
-        return await result.BindAsync(bind);
+        var result = await task.ConfigureAwait(false);
+        return await result.BindAsync(bind).ConfigureAwait(false);
     }
-
+    
     /// <summary>
     ///     Returns the default value if the Result is in the Failure state, the success value otherwise.
     /// </summary>
@@ -48,10 +48,10 @@ public static class ResultExtensions
     /// <returns>The default value if the Result is in the Failure state, the success value otherwise.</returns>
     public static async Task<TSource> IfFailure<TSource>(this Task<Result<TSource>> task, TSource defaultValue)
     {
-        var result = await task;
+        var result = await task.ConfigureAwait(false);
         return result.IfFailure(defaultValue);
     }
-
+    
     /// <summary>
     ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
     /// </summary>
@@ -61,10 +61,10 @@ public static class ResultExtensions
     /// <returns>The initial result.</returns>
     public static async Task<Result<T>> IfSuccessAsync<T>(this Task<Result<T>> task, Func<T, Task> action)
     {
-        var result = await task;
-        return await result.IfSuccessAsync(action);
+        var result = await task.ConfigureAwait(false);
+        return await result.IfSuccessAsync(action).ConfigureAwait(false);
     }
-
+    
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -76,10 +76,10 @@ public static class ResultExtensions
     public static async Task<Result<TDestination>> Map<TSource, TDestination>(this Task<Result<TSource>> task,
         Func<TSource, TDestination> map)
     {
-        var result = await task;
+        var result = await task.ConfigureAwait(false);
         return result.Map(map);
     }
-
+    
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -91,10 +91,10 @@ public static class ResultExtensions
     public static async Task<Result<TDestination>> MapAsync<TSource, TDestination>(this Task<Result<TSource>> task,
         Func<TSource, Task<TDestination>> map)
     {
-        var result = await task;
-        return await result.MapAsync(map);
+        var result = await task.ConfigureAwait(false);
+        return await result.MapAsync(map).ConfigureAwait(false);
     }
-
+    
     /// <summary>
     ///     Match the two states of the Result and return a non-null TB.
     /// </summary>
@@ -107,7 +107,7 @@ public static class ResultExtensions
     public static async Task<TDestination> Match<TSource, TDestination>(this Task<Result<TSource>> task,
         Func<TSource, TDestination> successOperation, Func<IResultFailure, TDestination> failureOperation)
     {
-        var result = await task;
+        var result = await task.ConfigureAwait(false);
         return result.Match(successOperation, failureOperation);
     }
 }
