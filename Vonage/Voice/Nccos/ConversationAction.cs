@@ -71,5 +71,5 @@ public class ConversationAction : NccoAction
     ///     joins conversation name. Set to false for attendees in a moderated conversation.
     /// </summary>
     [JsonProperty("startOnEnter", DefaultValueHandling = DefaultValueHandling.Include, Order = 3)]
-    public bool StartOnEnter { get; set; }
+    public bool StartOnEnter { get; set; } = true;
 }
