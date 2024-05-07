@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Newtonsoft.Json;
 using Vonage.Cryptography;
 using Vonage.Messaging;
@@ -28,7 +29,7 @@ namespace Vonage.Test
             Assert.NotNull(exception);
             Assert.Equal("Encountered an Empty SMS response", exception.Message);
         }
-
+        
         [Fact]
         public async Task SendSmsAsyncBadResponse()
         {
@@ -47,7 +48,7 @@ namespace Vonage.Test
                 exception.Message);
             Assert.Equal(SmsStatusCode.InvalidCredentials, exception.Response.Messages[0].StatusCode);
         }
-
+        
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -90,8 +91,9 @@ namespace Vonage.Test
             Assert.Equal("3.14159265", response.Messages[0].RemainingBalance);
             Assert.Equal("12345", response.Messages[0].Network);
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
+            response.Messages[0].ClientRef.Should().Be("my-personal-reference");
         }
-
+        
         [Fact]
         public async Task SendSmsTypicalUsage()
         {
@@ -125,7 +127,7 @@ namespace Vonage.Test
             Assert.Equal("12345", response.Messages[0].Network);
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
         }
-
+        
         [Fact]
         public async Task SendSmsTypicalUsageSimplifiedAsync()
         {
@@ -145,7 +147,7 @@ namespace Vonage.Test
             Assert.Equal("12345", response.Messages[0].Network);
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
         }
-
+        
         [Fact]
         public async Task SendSmsUnicode()
         {
@@ -179,51 +181,7 @@ namespace Vonage.Test
             Assert.Equal("12345", response.Messages[0].Network);
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
         }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public async Task SendSmsWithAllPropertiesSet(bool passCreds)
-        {
-            var expectedResponse = this.GetResponseJson();
-            var expectedUri = $"{this.RestUrl}/sms/json";
-            var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={WebUtility.UrlEncode("Hello World!")}" +
-                                         $"&ttl=900000&status-report-req=true&callback={WebUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
-                                         "&type=text&body=638265253311&udh=06050415811581&protocol-id=127" +
-                                         $"&client-ref=my-personal-reference&account-ref=customer1234&entity-id=testEntity&content-id=testcontent&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-            var request = new SendSmsRequest
-            {
-                AccountRef = "customer1234",
-                Body = "638265253311",
-                Callback = "https://example.com/sms-dlr",
-                ClientRef = "my-personal-reference",
-                From = "AcmeInc",
-                To = "447700900000",
-                MessageClass = 0,
-                ProtocolId = 127,
-                StatusReportReq = true,
-                Text = "Hello World!",
-                Ttl = 900000,
-                Type = SmsType.Text,
-                Udh = "06050415811581",
-                ContentId = "testcontent",
-                EntityId = "testEntity",
-            };
-            var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-            this.Setup(expectedUri, expectedResponse, expectedRequestContent);
-            var client = this.BuildVonageClient(creds);
-            var response = passCreds
-                ? await client.SmsClient.SendAnSmsAsync(request, creds)
-                : await client.SmsClient.SendAnSmsAsync(request);
-            Assert.Equal("1", response.MessageCount);
-            Assert.Equal("447700900000", response.Messages[0].To);
-            Assert.Equal("0A0000000123ABCD1", response.Messages[0].MessageId);
-            Assert.Equal("0", response.Messages[0].Status);
-            Assert.Equal("3.14159265", response.Messages[0].RemainingBalance);
-            Assert.Equal("12345", response.Messages[0].Network);
-            Assert.Equal("customer1234", response.Messages[0].AccountRef);
-        }
-
+        
         [Fact]
         public void TestDlrStruct()
         {
@@ -259,7 +217,7 @@ namespace Vonage.Test
             Assert.Equal("1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C", dlr.Sig);
             Assert.Equal("steve", dlr.ClientRef);
         }
-
+        
         [Fact]
         public void TestDlrStructCamelCaseIgnore()
         {
@@ -296,7 +254,7 @@ namespace Vonage.Test
             Assert.Equal("1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C", dlr.Sig);
             Assert.Equal("steve", dlr.ClientRef);
         }
-
+        
         [Fact]
         public void TestDlrStructNoStatus()
         {
@@ -331,7 +289,7 @@ namespace Vonage.Test
             Assert.Equal("1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C", dlr.Sig);
             Assert.Equal("steve", dlr.ClientRef);
         }
-
+        
         [Fact]
         public void TestInboundSmsStruct()
         {
@@ -371,7 +329,7 @@ namespace Vonage.Test
             Assert.Equal("abc123", inboundSms.Data);
             Assert.Equal("abc123", inboundSms.Udh);
         }
-
+        
         [Fact]
         public void TestValidateSignatureMd5()
         {
@@ -397,7 +355,7 @@ namespace Vonage.Test
                 SmsSignatureGenerator.Method.md5);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, SmsSignatureGenerator.Method.md5));
         }
-
+        
         [Fact]
         public void TestValidateSignatureMd5Hash()
         {
@@ -423,7 +381,7 @@ namespace Vonage.Test
                 SmsSignatureGenerator.Method.md5hash);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, SmsSignatureGenerator.Method.md5hash));
         }
-
+        
         [Fact]
         public void TestValidateSignatureSha1()
         {
@@ -449,7 +407,7 @@ namespace Vonage.Test
                 SmsSignatureGenerator.Method.sha1);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, SmsSignatureGenerator.Method.sha1));
         }
-
+        
         [Fact]
         public void TestValidateSignatureSha256()
         {
@@ -475,7 +433,7 @@ namespace Vonage.Test
                 SmsSignatureGenerator.Method.sha256);
             Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, SmsSignatureGenerator.Method.sha256));
         }
-
+        
         [Fact]
         public void TestValidateSignatureSha512()
         {

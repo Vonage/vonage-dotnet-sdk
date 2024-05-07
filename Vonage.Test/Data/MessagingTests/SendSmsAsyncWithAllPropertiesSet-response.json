@@ -8,7 +8,8 @@
       "remaining-balance": "3.14159265",
       "message-price": "0.03330000",
       "network": "12345",
-      "account-ref": "customer1234"
+      "account-ref": "customer1234",
+      "client-ref": "my-personal-reference"
     }
   ]
 }
