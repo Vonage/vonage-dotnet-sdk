@@ -1,4 +1,22 @@
 # Changelog
+## [v7.2.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.2) (2024-05-10)
+
+### Bug Fixes
+
+- Add missing ClientRef property on SmsResponseMesage ([3051a53](https://github.com/Vonage/vonage-dotnet-sdk/commit/3051a53e008b983d4ac5278aedb9d340528fff70))
+
+- Set StartOnEnter default value to true for ConversationAction ([80a39b1](https://github.com/Vonage/vonage-dotnet-sdk/commit/80a39b12fddb979f2031389355730a3c2dcc5880))
+
+- Make StartTime and EndTime nullable on Completed webhook. ([e8a9b82](https://github.com/Vonage/vonage-dotnet-sdk/commit/e8a9b82be63585446a37f6f619e851e12ed549e5))
+
+
+### Documentation
+
+- Generate changelog for v7.2.1 ([1252147](https://github.com/Vonage/vonage-dotnet-sdk/commit/1252147047cae2e917a5231a52b6c6e9f250fd30))
+
+- Bump version to v7.2.2 ([8e92f13](https://github.com/Vonage/vonage-dotnet-sdk/commit/8e92f13722fe2b3099cb3a382702c4909c335e9b))
+
+
 ## [v7.2.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.1) (2024-05-06)
 
 ### Bug Fixes
