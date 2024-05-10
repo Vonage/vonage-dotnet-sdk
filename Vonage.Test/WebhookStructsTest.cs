@@ -28,7 +28,7 @@ public class WebhookStructsTest
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", answerWebhook.Uuid);
         Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", answerWebhook.ConversationUuid);
     }
-
+    
     [Fact]
     public void TestAnswered()
     {
@@ -61,7 +61,7 @@ public class WebhookStructsTest
         Assert.Equal("1234", answeredWebhook.Network);
         Assert.Equal("0.02", answeredWebhook.Rate);
     }
-
+    
     [Fact]
     public void TestCallbackStatusEventWithUnenumeratedDetail()
     {
@@ -89,7 +89,7 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), callStatusWebhook.TimeStamp);
     }
-
+    
     [Theory]
     [InlineData("disconnected")]
     [InlineData("cancelled")]
@@ -125,7 +125,7 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), callStatusWebhook.TimeStamp);
     }
-
+    
     [Fact]
     public void TestCallStatusEventWithDetail()
     {
@@ -152,7 +152,7 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), callStatusWebhook.TimeStamp);
     }
-
+    
     [Fact]
     public void TestCompleted()
     {
@@ -193,7 +193,53 @@ public class WebhookStructsTest
         Assert.Equal("0.03", completedWebhook.Price);
         Assert.Equal("2", completedWebhook.Duration);
     }
-
+    
+    [Fact]
+    public void TestCompleted_WithNullStartTime()
+    {
+        var json = @"
+                {
+                    ""from"":""442079460000"", 
+                    ""to"":""447700900000"", 
+                    ""uuid"":""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""conversation_uuid"":""CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""status"":""completed"",
+                    ""direction"":""outbound"",
+                    ""timestamp"":""2020-01-01T12:00:00.000Z"",
+                    ""start_time"":null,
+                    ""end_time"":""2020-01-01T12:00:01.000Z"",
+                    ""rate"":""0.02"",
+                    ""price"":""0.03"",
+                    ""network"":""1234"",
+                    ""duration"":""2""
+                }";
+        var completedWebhook = (Completed) EventBase.ParseEvent(json);
+        completedWebhook.StartTime.Should().BeNull();
+    }
+    
+    [Fact]
+    public void TestCompleted_WithNullEndTime()
+    {
+        var json = @"
+                {
+                    ""from"":""442079460000"", 
+                    ""to"":""447700900000"", 
+                    ""uuid"":""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""conversation_uuid"":""CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab"",
+                    ""status"":""completed"",
+                    ""direction"":""outbound"",
+                    ""timestamp"":""2020-01-01T12:00:00.000Z"",
+                   ""start_time"":""2020-01-01T12:00:00.000Z"",
+                    ""end_time"":null,
+                    ""rate"":""0.02"",
+                    ""price"":""0.03"",
+                    ""network"":""1234"",
+                    ""duration"":""2""
+                }";
+        var completedWebhook = (Completed) EventBase.ParseEvent(json);
+        completedWebhook.EndTime.Should().BeNull();
+    }
+    
     [Fact]
     public void TestDtmfMultiInputStruct()
     {
@@ -218,13 +264,13 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), inputWebhook.TimeStamp);
     }
-
+    
     [Fact]
     public void TestEmpty()
     {
         Assert.Null(EventBase.ParseEvent("{}"));
     }
-
+    
     [Fact]
     public void TestError()
     {
@@ -241,7 +287,7 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), errorWebhook.TimeStamp);
     }
-
+    
     [Theory]
     [InlineData("human")]
     [InlineData("machine")]
@@ -268,7 +314,7 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), humanMachineWebhook.TimeStamp);
     }
-
+    
     [Fact]
     public void TestNotifications()
     {
@@ -285,7 +331,7 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), notification.TimeStamp);
     }
-
+    
     [Fact]
     public void TestRecord()
     {
@@ -315,7 +361,7 @@ public class WebhookStructsTest
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", recordWebhook.Uuid);
         Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", recordWebhook.ConversationUuid);
     }
-
+    
     [Fact]
     public void TestSpeechMultiInputStruct()
     {
@@ -342,7 +388,7 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), inputWebhook.TimeStamp);
     }
-
+    
     [Fact]
     public void TestTransfer()
     {
@@ -361,7 +407,7 @@ public class WebhookStructsTest
                                           DateTimeStyles.AdjustToUniversal), transferWebhook.TimeStamp);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", transferWebhook.Uuid);
     }
-
+    
     [Fact]
     public void ShouldDeserializedAnswered_GivenStartTimeIsNull()
     {
@@ -370,7 +416,7 @@ public class WebhookStructsTest
                 File.ReadAllText("Data/Webhooks/ShouldDeserializedAnswered_GivenStartTimeIsNull.json"));
         deserializedEvent.StartTime.Should().BeNull();
     }
-
+    
     public class Foo
     {
         public string bar { get; set; }
