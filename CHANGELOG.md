@@ -1,4 +1,18 @@
 # Changelog
+## [v7.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.3.0) (2024-05-13)
+
+### Documentation
+
+- Generate changelog for v7.2.2 ([942ebdc](https://github.com/Vonage/vonage-dotnet-sdk/commit/942ebdcfdb837af1d8e89e278494cdc2a0b97351))
+
+- Bump version to v7.3.0 ([3ea78ae](https://github.com/Vonage/vonage-dotnet-sdk/commit/3ea78ae784ab55418c1809f6c91c7f9613c92bdf))
+
+
+### Features
+
+- Add PublisherOnly role for Video ([52e5988](https://github.com/Vonage/vonage-dotnet-sdk/commit/52e5988e90e430587049edaf8a2eb2b07271fa28))
+
+
 ## [v7.2.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.2) (2024-05-10)
 
 ### Bug Fixes
