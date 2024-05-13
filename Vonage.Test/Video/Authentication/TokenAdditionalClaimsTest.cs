@@ -14,7 +14,7 @@ public class TokenAdditionalInformationTest
     private readonly Role role;
     private readonly string scope;
     private readonly string sessionId;
-
+    
     public TokenAdditionalInformationTest()
     {
         var fixture = new Fixture();
@@ -22,7 +22,7 @@ public class TokenAdditionalInformationTest
         this.scope = fixture.Create<string>();
         this.role = fixture.Create<Role>();
     }
-
+    
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
@@ -31,7 +31,7 @@ public class TokenAdditionalInformationTest
         TokenAdditionalClaims.Parse(value, this.scope, this.role)
             .Should()
             .BeParsingFailure("SessionId cannot be null or whitespace.");
-
+    
     [Theory]
     [InlineData(TokenAdditionalClaims.ReservedClaimSessionId)]
     [InlineData(TokenAdditionalClaims.ReservedClaimRole)]
@@ -46,56 +46,60 @@ public class TokenAdditionalInformationTest
             })
             .Should()
             .BeParsingFailure($"Claims key '{invalidKey}' is reserved.");
-
+    
     [Fact]
     public void Parse_ShouldSetClaims() =>
         TokenAdditionalClaims.Parse(this.sessionId, claims: new Dictionary<string, object> {{"id", 1}})
             .Map(token => token.Claims)
             .Should()
             .BeSuccess(claims => claims.Should().BeEquivalentTo(new Dictionary<string, object> {{"id", 1}}));
-
+    
     [Fact]
     public void Parse_ShouldSetSessionId() =>
         TokenAdditionalClaims.Parse(this.sessionId)
             .Map(token => token.SessionId)
             .Should()
             .BeSuccess(this.sessionId);
-
-    [Fact]
-    public void Parse_ShouldSetRole() =>
-        TokenAdditionalClaims.Parse(this.sessionId, role: Role.Subscriber)
+    
+    [Theory]
+    [InlineData(Role.Publisher)]
+    [InlineData(Role.PublisherOnly)]
+    [InlineData(Role.Subscriber)]
+    [InlineData(Role.Moderator)]
+    public void Parse_ShouldSetRole(Role input) =>
+        TokenAdditionalClaims.Parse(this.sessionId, role: input)
             .Map(token => token.Role)
             .Should()
-            .BeSuccess(Role.Subscriber);
-
+            .BeSuccess(input);
+    
     [Fact]
     public void Parse_ShouldSetScope() =>
         TokenAdditionalClaims.Parse(this.sessionId, "custom_scope")
             .Map(token => token.Scope)
             .Should()
             .BeSuccess("custom_scope");
-
+    
     [Fact]
     public void Parse_ShouldHaveRole_GivenDefault() =>
         TokenAdditionalClaims.Parse(this.sessionId)
             .Map(token => token.Role)
             .Should()
             .BeSuccess(Role.Publisher);
-
+    
     [Fact]
     public void Parse_ShouldHaveScope_GivenDefault() =>
         TokenAdditionalClaims.Parse(this.sessionId)
             .Map(token => token.Scope)
             .Should()
             .BeSuccess(TokenAdditionalClaims.DefaultScope);
-
+    
     [Fact]
     public void Parse_ShouldHaveEmptyClaims_GivenDefault() =>
         TokenAdditionalClaims.Parse(this.sessionId)
             .Map(token => token.Claims)
             .Should()
             .BeSuccess(claims => claims.Should().BeEmpty());
-
+    
     [Fact]
     public void ToDataDictionary_ShouldReturnDictionaryWithValues() =>
         TokenAdditionalClaims.Parse(this.sessionId, this.scope, this.role,
