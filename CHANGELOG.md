@@ -1,4 +1,13 @@
 # Changelog
+## [v7.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.4.0) (2024-05-13)
+
+### Documentation
+
+- Generate changelog for v7.3.0 ([e6403a7](https://github.com/Vonage/vonage-dotnet-sdk/commit/e6403a70b915738f1c3358338a371249c35cc60a))
+
+- Bump version to v7.4.0 ([763a3f1](https://github.com/Vonage/vonage-dotnet-sdk/commit/763a3f15de42d925b0c4d50b8c0c85691367c51a))
+
+
 ## [v7.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.3.0) (2024-05-13)
 
 ### Documentation
