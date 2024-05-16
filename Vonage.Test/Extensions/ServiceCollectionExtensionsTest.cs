@@ -18,6 +18,7 @@ using Vonage.ProactiveConnect;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
+using Vonage.SimSwap;
 using Vonage.SubAccounts;
 using Vonage.Users;
 using Vonage.Verify;
@@ -38,9 +39,9 @@ namespace Vonage.Test.Extensions
                 {"vonage:Vonage_key", "RandomValue"},
             })
             .Build();
-
+        
         private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
-
+        
         [Theory]
         [MemberData(nameof(GetRegisteredTypes))]
         public void AddVonageClientScoped_ShouldProvideScopedInstance_GivenConfigurationIsProvided(
@@ -49,7 +50,7 @@ namespace Vonage.Test.Extensions
             var provider = BuildScopedProviderWithConfiguration(this.configuration);
             provider.GetRequiredService(type).Should().Be(provider.GetRequiredService(type));
         }
-
+        
         [Theory]
         [MemberData(nameof(GetRegisteredTypes))]
         public void AddVonageClientScoped_ShouldProvideScopedInstance_GivenCredentialsAreProvided(
@@ -58,7 +59,7 @@ namespace Vonage.Test.Extensions
             var provider = BuildScopedProviderWithCredentials(this.credentials);
             provider.GetRequiredService(type).Should().Be(provider.GetRequiredService(type));
         }
-
+        
         [Theory]
         [MemberData(nameof(GetRegisteredTypes))]
         public void
@@ -68,7 +69,7 @@ namespace Vonage.Test.Extensions
             var provider = BuildTransientProviderWithConfiguration(this.configuration);
             provider.GetRequiredService(type).Should().NotBeNull();
         }
-
+        
         [Theory]
         [MemberData(nameof(GetRegisteredTypes))]
         public void AddVonageClientTransient_ShouldProvideTransientInstance_GivenCredentialsAreProvided(
@@ -77,7 +78,7 @@ namespace Vonage.Test.Extensions
             var provider = BuildTransientProviderWithCredentials(this.credentials);
             provider.GetRequiredService(type).Should().NotBeNull();
         }
-
+        
         public static IEnumerable<object[]> GetRegisteredTypes()
         {
             yield return new object[] {typeof(VonageClient)};
@@ -92,6 +93,7 @@ namespace Vonage.Test.Extensions
             yield return new object[] {typeof(IPricingClient)};
             yield return new object[] {typeof(IProactiveConnectClient)};
             yield return new object[] {typeof(IRedactClient)};
+            yield return new object[] {typeof(ISimSwapClient)};
             yield return new object[] {typeof(IShortCodesClient)};
             yield return new object[] {typeof(ISubAccountsClient)};
             yield return new object[] {typeof(ISmsClient)};
@@ -104,16 +106,16 @@ namespace Vonage.Test.Extensions
             yield return new object[] {typeof(IVideoTokenGenerator)};
             yield return new object[] {typeof(Credentials)};
         }
-
+        
         private static ServiceProvider BuildScopedProviderWithConfiguration(IConfiguration configuration) =>
             new ServiceCollection().AddVonageClientScoped(configuration).BuildServiceProvider();
-
+        
         private static ServiceProvider BuildScopedProviderWithCredentials(Credentials credentials) =>
             new ServiceCollection().AddVonageClientScoped(credentials).BuildServiceProvider();
-
+        
         private static ServiceProvider BuildTransientProviderWithConfiguration(IConfiguration configuration) =>
             new ServiceCollection().AddVonageClientTransient(configuration).BuildServiceProvider();
-
+        
         private static ServiceProvider BuildTransientProviderWithCredentials(Credentials credentials) =>
             new ServiceCollection().AddVonageClientTransient(credentials).BuildServiceProvider();
     }
