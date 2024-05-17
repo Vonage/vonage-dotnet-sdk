@@ -14,7 +14,6 @@ internal class SimSwapClient : ISimSwapClient
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
     
     /// <inheritdoc />
-    /// >
     public Task<Result<AuthenticateResponse>> AuthenticateAsync(Result<AuthenticateRequest> request) =>
         request.Map(BuildAuthorizeRequest)
             .BindAsync(this.SendAuthorizeRequest)
