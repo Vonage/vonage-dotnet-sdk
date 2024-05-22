@@ -1,10 +1,12 @@
-﻿using System.Net.Http.Headers;
+﻿using System;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
 using Vonage.SimSwap.Authenticate;
 using Vonage.SimSwap.Check;
+using Vonage.SimSwap.GetSwapDate;
 
 namespace Vonage.SimSwap;
 
@@ -31,6 +33,16 @@ internal class SimSwapClient : ISimSwapClient
             .BindAsync(client => client.SendWithResponseAsync<CheckRequest, CheckResponse>(request))
             .Map(response => response.Swapped);
     
+    /// <inheritdoc />
+    public async Task<Result<DateTimeOffset>> GetSwapDateAsync(Result<GetSwapDateRequest> request)
+    {
+        return await request.BindAsync(this.AuthenticateGetSwapDateRequest)
+            .Map(BuildAuthenticationHeader)
+            .Map(this.BuildClientWithAuthenticationHeader)
+            .BindAsync(client => client.SendWithResponseAsync<GetSwapDateRequest, GetSwapDateResponse>(request))
+            .Map(response => response.LatestSimChange);
+    }
+    
     private VonageHttpClient BuildClientWithAuthenticationHeader(AuthenticationHeaderValue header) =>
         this.vonageClient.WithDifferentHeader(header);
     
@@ -38,6 +50,9 @@ internal class SimSwapClient : ISimSwapClient
         authentication.BuildAuthenticationHeader();
     
     private Task<Result<AuthenticateResponse>> AuthenticateCheckRequest(CheckRequest request) =>
+        this.AuthenticateAsync(request.BuildAuthenticationRequest());
+    
+    private Task<Result<AuthenticateResponse>> AuthenticateGetSwapDateRequest(GetSwapDateRequest request) =>
         this.AuthenticateAsync(request.BuildAuthenticationRequest());
     
     private static AuthenticateResponse BuildAuthenticateResponse(GetTokenResponse response) =>

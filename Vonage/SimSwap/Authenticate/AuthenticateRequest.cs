@@ -37,5 +37,5 @@ public readonly struct AuthenticateRequest
     private static Result<AuthenticateRequest> VerifyScope(AuthenticateRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Scope, nameof(request.Scope));
     
-    internal AuthorizeRequest BuildAuthorizeRequest() => new AuthorizeRequest(this.PhoneNumber);
+    internal AuthorizeRequest BuildAuthorizeRequest() => new AuthorizeRequest(this.PhoneNumber, this.Scope);
 }

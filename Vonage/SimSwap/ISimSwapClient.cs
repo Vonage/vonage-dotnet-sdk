@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.SimSwap.Authenticate;
 using Vonage.SimSwap.Check;
+using Vonage.SimSwap.GetSwapDate;
 
 namespace Vonage.SimSwap;
 
@@ -23,4 +25,11 @@ public interface ISimSwapClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<bool>> CheckAsync(Result<CheckRequest> request);
+    
+    /// <summary>
+    ///     Get timestamp of last MSISDN/IMSI pairing change for a mobile user account provided with MSIDN.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<DateTimeOffset>> GetSwapDateAsync(Result<GetSwapDateRequest> request);
 }

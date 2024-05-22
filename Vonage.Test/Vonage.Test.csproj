@@ -1122,6 +1122,18 @@
         <None Update="SimSwap\Check\Data\ShouldSerializeWithPeriod-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="SimSwap\GetSwapDate\Data\ShouldDeserializeAccessToken-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SimSwap\GetSwapDate\Data\ShouldDeserializeAuthorize-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SimSwap\GetSwapDate\Data\ShouldDeserializeGetSwapDate-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SimSwap\GetSwapDate\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

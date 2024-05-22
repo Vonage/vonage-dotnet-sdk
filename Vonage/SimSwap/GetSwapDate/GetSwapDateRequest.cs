@@ -8,13 +8,12 @@ using Vonage.Common.Serialization;
 using Vonage.Serialization;
 using Vonage.SimSwap.Authenticate;
 
-namespace Vonage.SimSwap.Check;
+namespace Vonage.SimSwap.GetSwapDate;
 
 /// <summary>
-///     Represents a request to check if a SIM swap has been performed.
+///     Represents a request to retrieve a SIM swap date.
 /// </summary>
-public readonly struct CheckRequest : IVonageRequest
-
+public readonly struct GetSwapDateRequest : IVonageRequest
 {
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -27,31 +26,28 @@ public readonly struct CheckRequest : IVonageRequest
             "application/json");
     
     /// <inheritdoc />
-    public string GetEndpointPath() => "camara/sim-swap/v040/check";
+    public string GetEndpointPath() => "camara/sim-swap/v040/retrieve-date";
     
     /// <summary>
     ///     Subscriber number in E.164 format (starting with country code). Optionally prefixed with '+'.
     /// </summary>
     [JsonConverter(typeof(PhoneNumberJsonConverter))]
-    [JsonPropertyOrder(0)]
     [JsonPropertyName("phoneNumber")]
     public PhoneNumber PhoneNumber { get; internal init; }
     
-    /// <summary>
-    ///     Period in hours to be checked for SIM swap.
-    /// </summary>
-    [JsonPropertyOrder(1)]
-    [JsonPropertyName("maxAge")]
-    public int Period { get; internal init; }
-    
-    private static string Scope => "dpv:FraudPreventionAndDetection#check-sim-swap";
+    private static string Scope => "dpv:FraudPreventionAndDetection#retrieve-sim-swap-date";
     
     internal Result<AuthenticateRequest> BuildAuthenticationRequest() =>
         AuthenticateRequest.Parse(this.PhoneNumber.NumberWithInternationalIndicator, Scope);
     
     /// <summary>
-    ///     Initializes a builder.
+    ///     Parses the input into an GetSwapDateRequest.
     /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForPhoneNumber Build() => new CheckRequestBuilder();
+    /// <param name="number">The phone number.</param>
+    /// <returns>Success if the input matches all requirements. Failure otherwise.</returns>
+    public static Result<GetSwapDateRequest> Parse(string number) =>
+        PhoneNumber.Parse(number).Map(phoneNumber => new GetSwapDateRequest
+        {
+            PhoneNumber = phoneNumber,
+        });
 }
