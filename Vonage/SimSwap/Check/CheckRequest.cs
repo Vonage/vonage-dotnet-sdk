@@ -3,8 +3,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.Serialization;
+using Vonage.SimSwap.Authenticate;
 
 namespace Vonage.SimSwap.Check;
 
@@ -41,6 +43,15 @@ public readonly struct CheckRequest : IVonageRequest
     [JsonPropertyOrder(1)]
     [JsonPropertyName("maxAge")]
     public int Period { get; internal init; }
+    
+    /// <summary>
+    ///     The authorization scope for the token.
+    /// </summary>
+    [JsonIgnore]
+    public string Scope => "scope=openid dpv:FraudPreventionAndDetection#check-sim-swap";
+    
+    internal Result<AuthenticateRequest> BuildAuthenticationRequest() =>
+        AuthenticateRequest.Parse(this.PhoneNumber.NumberWithInternationalIndicator, this.Scope);
     
     /// <summary>
     ///     Initializes a builder.

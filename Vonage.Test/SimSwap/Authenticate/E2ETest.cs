@@ -33,7 +33,8 @@ public class E2ETest : E2EBase
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                 .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserializeAccessToken))));
         await this.Helper.VonageClient.SimSwapClient
-            .AuthenticateAsync(Vonage.SimSwap.Authenticate.AuthenticateRequest.Parse("447700900000"))
+            .AuthenticateAsync(AuthenticateRequest.Parse("447700900000",
+                "scope=openid dpv:FraudPreventionAndDetection#check-sim-swap"))
             .Should()
             .BeSuccessAsync(new AuthenticateResponse("ABCDEFG"));
     }

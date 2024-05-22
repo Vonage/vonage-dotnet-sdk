@@ -1,34 +1,45 @@
 ﻿using FluentAssertions;
 using Vonage.Common.Failures;
+using Vonage.SimSwap.Authenticate;
 using Vonage.Test.Common.Extensions;
 using Xunit;
 
 namespace Vonage.Test.SimSwap.Authenticate;
 
 [Trait("Category", "Request")]
-public class AuthenticateRequest
+public class AuthenticateRequestTest
 {
+    private const string ValidScope = "scope=test";
+    
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
     public void Parse_ShouldReturnFailure_GivenNumberIsNullOrWhitespace(string value) =>
-        Vonage.SimSwap.Authenticate.AuthenticateRequest.Parse(value).Should()
+        AuthenticateRequest.Parse(value, ValidScope).Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
+    
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public void Parse_ShouldReturnFailure_GivenScopeIsNullOrWhitespace(string value) =>
+        AuthenticateRequest.Parse("1234567", value).Should()
+            .BeParsingFailure("Scope cannot be null or whitespace.");
     
     [Fact]
     public void Parse_ShouldReturnFailure_GivenNumberContainsNonDigits() =>
-        Vonage.SimSwap.Authenticate.AuthenticateRequest.Parse("1234567abc123").Should()
+        AuthenticateRequest.Parse("1234567abc123", ValidScope).Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number can only contain digits."));
     
     [Fact]
     public void Parse_ShouldReturnFailure_GivenNumberLengthIsHigherThan7() =>
-        Vonage.SimSwap.Authenticate.AuthenticateRequest.Parse("123456").Should()
+        AuthenticateRequest.Parse("123456", ValidScope).Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number length cannot be lower than 7."));
     
     [Fact]
     public void Parse_ShouldReturnFailure_GivenNumberLengthIsLowerThan15() =>
-        Vonage.SimSwap.Authenticate.AuthenticateRequest.Parse("1234567890123456").Should()
+        AuthenticateRequest.Parse("1234567890123456", ValidScope).Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number length cannot be higher than 15."));
     
     [Theory]
@@ -37,14 +48,23 @@ public class AuthenticateRequest
     [InlineData("+1234567890", "1234567890")]
     [InlineData("+123456789012345", "123456789012345")]
     [InlineData("+++1234567890", "1234567890")]
-    public void Parse_ShouldReturnSuccess_GivenNumberIsValid(string value, string expected) =>
-        Vonage.SimSwap.Authenticate.AuthenticateRequest.Parse(value).Map(number => number.PhoneNumber.Number).Should()
+    public void Parse_ShouldSetNumber(string value, string expected) =>
+        AuthenticateRequest.Parse(value, ValidScope)
+            .Map(request => request.PhoneNumber.Number)
+            .Should()
             .BeSuccess(expected);
+    
+    [Fact]
+    public void Parse_ShouldSetScope() =>
+        AuthenticateRequest.Parse("1234567", ValidScope)
+            .Map(request => request.Scope)
+            .Should()
+            .BeSuccess(ValidScope);
     
     [Fact]
     public void BuildAuthorizeRequest()
     {
-        var request = Vonage.SimSwap.Authenticate.AuthenticateRequest.Parse("123456789").GetSuccessUnsafe();
+        var request = AuthenticateRequest.Parse("123456789", ValidScope).GetSuccessUnsafe();
         request.BuildAuthorizeRequest().Number.Should().Be(request.PhoneNumber);
     }
 }

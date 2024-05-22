@@ -37,8 +37,8 @@ internal class SimSwapClient : ISimSwapClient
     private static AuthenticationHeaderValue BuildAuthenticationHeader(AuthenticateResponse authentication) =>
         authentication.BuildAuthenticationHeader();
     
-    private Task<Result<AuthenticateResponse>> AuthenticateCheckRequest(CheckRequest r) =>
-        this.AuthenticateAsync(AuthenticateRequest.Parse(r.PhoneNumber.NumberWithInternationalIndicator));
+    private Task<Result<AuthenticateResponse>> AuthenticateCheckRequest(CheckRequest request) =>
+        this.AuthenticateAsync(request.BuildAuthenticationRequest());
     
     private static AuthenticateResponse BuildAuthenticateResponse(GetTokenResponse response) =>
         new AuthenticateResponse(response.AccessToken);
