@@ -16,6 +16,7 @@ public class VonageHttpClient
     private readonly HttpClient client;
     private readonly IJsonSerializer jsonSerializer;
     private readonly Result<HttpClientOptions> requestOptions;
+    private readonly string userAgent;
     
     /// <summary>
     ///     Creates a custom Http Client for Vonage purposes.
@@ -26,10 +27,15 @@ public class VonageHttpClient
     {
         this.client = configuration.HttpClient;
         this.jsonSerializer = serializer;
+        this.userAgent = configuration.UserAgent;
         this.requestOptions = configuration.AuthenticationHeader
             .Map(header =>
-                new HttpClientOptions(header, UserAgentProvider.GetFormattedUserAgent(configuration.UserAgent)));
+                new HttpClientOptions(header, UserAgentProvider.GetFormattedUserAgent(this.userAgent)));
     }
+    
+    internal VonageHttpClient WithDifferentHeader(Result<AuthenticationHeaderValue> header) =>
+        new VonageHttpClient(new VonageHttpClientConfiguration(this.client, header, this.userAgent),
+            this.jsonSerializer);
     
     /// <summary>
     ///     Sends a HttpRequest.

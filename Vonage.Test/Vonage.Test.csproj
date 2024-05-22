@@ -47,7 +47,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="SimSwap\Check\"/>
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -1106,6 +1105,21 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="SimSwap\Authenticate\Data\ShouldDeserializeAccessToken-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SimSwap\Check\Data\ShouldDeserializeAuthorize-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SimSwap\Check\Data\ShouldDeserializeAccessToken-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SimSwap\Check\Data\ShouldDeserializeCheck-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SimSwap\Check\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SimSwap\Check\Data\ShouldSerializeWithPeriod-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
