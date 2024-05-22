@@ -50,7 +50,7 @@ jobs:
           dotnet build --configuration Release .\Vonage\Vonage.csproj
           dotnet build --configuration Release .\Vonage.Test\Vonage.Test.csproj -f net8.0
       - name: Test
-        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net7.0 --filter Category!=Integration' -f xml  -o 'coverage.xml'
+        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net8.0 --filter Category!=Integration' -f xml  -o 'coverage.xml'
       - name: End SonarScanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
