@@ -27,33 +27,35 @@ internal class SimSwapClient : ISimSwapClient
     
     /// <inheritdoc />
     public async Task<Result<bool>> CheckAsync(Result<CheckRequest> request) =>
-        await request.BindAsync(this.AuthenticateCheckRequest)
+        await request
+            .Map(BuildAuthenticationRequest)
+            .BindAsync(this.AuthenticateAsync)
             .Map(BuildAuthenticationHeader)
             .Map(this.BuildClientWithAuthenticationHeader)
             .BindAsync(client => client.SendWithResponseAsync<CheckRequest, CheckResponse>(request))
             .Map(response => response.Swapped);
     
     /// <inheritdoc />
-    public async Task<Result<DateTimeOffset>> GetSwapDateAsync(Result<GetSwapDateRequest> request)
-    {
-        return await request.BindAsync(this.AuthenticateGetSwapDateRequest)
+    public async Task<Result<DateTimeOffset>> GetSwapDateAsync(Result<GetSwapDateRequest> request) =>
+        await request
+            .Map(BuildAuthenticationRequest)
+            .BindAsync(this.AuthenticateAsync)
             .Map(BuildAuthenticationHeader)
             .Map(this.BuildClientWithAuthenticationHeader)
             .BindAsync(client => client.SendWithResponseAsync<GetSwapDateRequest, GetSwapDateResponse>(request))
             .Map(response => response.LatestSimChange);
-    }
+    
+    private static Result<AuthenticateRequest> BuildAuthenticationRequest(CheckRequest request) =>
+        request.BuildAuthenticationRequest();
+    
+    private static Result<AuthenticateRequest> BuildAuthenticationRequest(GetSwapDateRequest request) =>
+        request.BuildAuthenticationRequest();
     
     private VonageHttpClient BuildClientWithAuthenticationHeader(AuthenticationHeaderValue header) =>
         this.vonageClient.WithDifferentHeader(header);
     
     private static AuthenticationHeaderValue BuildAuthenticationHeader(AuthenticateResponse authentication) =>
         authentication.BuildAuthenticationHeader();
-    
-    private Task<Result<AuthenticateResponse>> AuthenticateCheckRequest(CheckRequest request) =>
-        this.AuthenticateAsync(request.BuildAuthenticationRequest());
-    
-    private Task<Result<AuthenticateResponse>> AuthenticateGetSwapDateRequest(GetSwapDateRequest request) =>
-        this.AuthenticateAsync(request.BuildAuthenticationRequest());
     
     private static AuthenticateResponse BuildAuthenticateResponse(GetTokenResponse response) =>
         new AuthenticateResponse(response.AccessToken);

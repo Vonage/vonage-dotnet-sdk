@@ -20,14 +20,14 @@ public class E2ETest : E2EBase
     {
         this.SetupAuthorization();
         this.SetupToken();
-        this.SetupSimSwap(nameof(SerializationTest.ShouldSerialize));
+        this.SetupGetSwapDate(nameof(SerializationTest.ShouldSerialize));
         await this.Helper.VonageClient.SimSwapClient
             .GetSwapDateAsync(GetSwapDateRequest.Parse("346661113334"))
             .Should()
             .BeSuccessAsync(DateTimeOffset.Parse("2019-08-24T14:15:22Z"));
     }
     
-    private void SetupSimSwap(string expectedOutput) =>
+    private void SetupGetSwapDate(string expectedOutput) =>
         this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                 .WithPath("/camara/sim-swap/v040/retrieve-date")
                 .WithHeader("Authorization", "Bearer ABCDEFG")

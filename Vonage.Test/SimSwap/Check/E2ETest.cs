@@ -19,7 +19,7 @@ public class E2ETest : E2EBase
     {
         this.SetupAuthorization();
         this.SetupToken();
-        this.SetupSimSwap(nameof(SerializationTest.ShouldSerialize));
+        this.SetupCheck(nameof(SerializationTest.ShouldSerialize));
         await this.Helper.VonageClient.SimSwapClient
             .CheckAsync(CheckRequest.Build().WithPhoneNumber("346661113334").Create())
             .Should()
@@ -31,14 +31,14 @@ public class E2ETest : E2EBase
     {
         this.SetupAuthorization();
         this.SetupToken();
-        this.SetupSimSwap(nameof(SerializationTest.ShouldSerializeWithPeriod));
+        this.SetupCheck(nameof(SerializationTest.ShouldSerializeWithPeriod));
         await this.Helper.VonageClient.SimSwapClient
             .CheckAsync(CheckRequest.Build().WithPhoneNumber("346661113334").WithPeriod(15).Create())
             .Should()
             .BeSuccessAsync(true);
     }
     
-    private void SetupSimSwap(string expectedOutput) =>
+    private void SetupCheck(string expectedOutput) =>
         this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                 .WithPath("/camara/sim-swap/v040/check")
                 .WithHeader("Authorization", "Bearer ABCDEFG")
