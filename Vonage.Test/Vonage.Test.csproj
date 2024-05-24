@@ -1134,6 +1134,30 @@
         <None Update="SimSwap\GetSwapDate\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Conversations\GetMember\Data\ShouldDeserializeApp-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetMember\Data\ShouldDeserializePhone-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetMember\Data\ShouldDeserializeSMS-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetMember\Data\ShouldDeserializeMMS-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetMember\Data\ShouldDeserializeWhatsApp-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetMember\Data\ShouldDeserializeViber-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetMember\Data\ShouldDeserializeMessenger-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetMember\Data\ShouldDeserializeInitiatorAdmin-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
