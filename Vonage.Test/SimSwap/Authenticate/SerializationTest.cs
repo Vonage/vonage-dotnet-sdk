@@ -25,7 +25,7 @@ public class SerializationTest
         .Should()
         .BeSuccess(GetExpectedTokenResponse());
     
-    internal static AuthorizeResponse GetExpectedAuthorizeResponse() => new AuthorizeResponse("123456789", "120", "2");
+    internal static AuthorizeResponse GetExpectedAuthorizeResponse() => new AuthorizeResponse("123456789", 120, 2);
     
     internal static GetTokenResponse GetExpectedTokenResponse() => new GetTokenResponse("ABCDEFG", "Bearer", 3600);
 }

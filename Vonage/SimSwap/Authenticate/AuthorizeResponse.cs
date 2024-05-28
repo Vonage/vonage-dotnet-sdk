@@ -6,9 +6,9 @@ internal record AuthorizeResponse(
     [property: JsonPropertyName("auth_req_id")]
     string RequestId,
     [property: JsonPropertyName("expires_in")]
-    string ExpiresIn,
+    int ExpiresIn,
     [property: JsonPropertyName("interval")]
-    string Interval)
+    int Interval)
 {
     internal GetTokenRequest BuildGetTokenRequest() => new GetTokenRequest(this.RequestId);
 }

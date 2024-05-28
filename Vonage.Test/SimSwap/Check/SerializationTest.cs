@@ -51,7 +51,7 @@ public class SerializationTest
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
     
-    private static AuthorizeResponse GetExpectedAuthorizeResponse() => new AuthorizeResponse("123456789", "120", "2");
+    private static AuthorizeResponse GetExpectedAuthorizeResponse() => new AuthorizeResponse("123456789", 120, 2);
     
     private static GetTokenResponse GetExpectedTokenResponse() => new GetTokenResponse("ABCDEFG", "Bearer", 3600);
     

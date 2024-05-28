@@ -9,7 +9,7 @@ public class AuthorizeResponseTest
 {
     [Fact]
     public void BuildGetTokenRequest() =>
-        new AuthorizeResponse("123456", "0", "0")
+        new AuthorizeResponse("123456", 0, 0)
             .BuildGetTokenRequest()
             .Should().Be(new GetTokenRequest("123456"));
 }
