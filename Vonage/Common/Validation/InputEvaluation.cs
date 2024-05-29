@@ -5,13 +5,13 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Common.Validation;
 
-public readonly struct InputEvaluation<T>
+internal readonly struct InputEvaluation<T>
 {
     private readonly T source;
     private InputEvaluation(T source) => this.source = source;
-
-    public static InputEvaluation<T> Evaluate(T source) => new(source);
-
+    
+    public static InputEvaluation<T> Evaluate(T source) => new InputEvaluation<T>(source);
+    
     public Result<T> WithRules(params Func<T, Result<T>>[] parsingRules)
     {
         var copy = this.source;
