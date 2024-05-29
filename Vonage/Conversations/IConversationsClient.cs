@@ -5,6 +5,7 @@ using Vonage.Conversations.DeleteConversation;
 using Vonage.Conversations.GetConversation;
 using Vonage.Conversations.GetConversations;
 using Vonage.Conversations.GetMember;
+using Vonage.Conversations.GetMembers;
 using Vonage.Conversations.GetUserConversations;
 using Vonage.Conversations.UpdateConversation;
 
@@ -49,6 +50,13 @@ public interface IConversationsClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<GetConversationsResponse>> GetConversationsAsync(Result<GetConversationsRequest> request);
+    
+    /// <summary>
+    ///     Retrieves members.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetMembersResponse>> GetMembersAsync(Result<GetMembersRequest> request);
     
     /// <summary>
     ///     Retrieves conversations for a user.

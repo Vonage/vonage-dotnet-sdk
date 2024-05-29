@@ -1,20 +1,20 @@
-﻿using System;
-using System.Globalization;
-using Vonage.Common.Monads;
+﻿using Vonage.Common.Monads;
 using Vonage.Conversations;
-using Vonage.Conversations.GetConversations;
+using Vonage.Conversations.GetMembers;
 using Vonage.Test.Common.Extensions;
 using Xunit;
 
-namespace Vonage.Test.Conversations.GetConversations;
+namespace Vonage.Test.Conversations.GetMembers;
 
-[Trait("Category", "Request")]
 public class RequestBuilderTest
 {
+    private const string ConversationId = "CON-123";
+    
     [Fact]
     public void Build_ShouldHaveDefaultOrder() =>
-        GetConversationsRequest
+        GetMembersRequest
             .Build()
+            .WithConversationId(ConversationId)
             .Create()
             .Map(request => request.Order)
             .Should()
@@ -22,8 +22,9 @@ public class RequestBuilderTest
     
     [Fact]
     public void Build_ShouldHaveDefaultPageSize() =>
-        GetConversationsRequest
+        GetMembersRequest
             .Build()
+            .WithConversationId(ConversationId)
             .Create()
             .Map(request => request.PageSize)
             .Should()
@@ -31,35 +32,19 @@ public class RequestBuilderTest
     
     [Fact]
     public void Build_ShouldHaveNoDefaultCursor() =>
-        GetConversationsRequest
+        GetMembersRequest
             .Build()
+            .WithConversationId(ConversationId)
             .Create()
             .Map(request => request.Cursor)
             .Should()
             .BeSuccess(Maybe<string>.None);
     
     [Fact]
-    public void Build_ShouldHaveNoDefaultEndDate() =>
-        GetConversationsRequest
-            .Build()
-            .Create()
-            .Map(request => request.EndDate)
-            .Should()
-            .BeSuccess(Maybe<DateTimeOffset>.None);
-    
-    [Fact]
-    public void Build_ShouldHaveNoDefaultStartDate() =>
-        GetConversationsRequest
-            .Build()
-            .Create()
-            .Map(request => request.StartDate)
-            .Should()
-            .BeSuccess(Maybe<DateTimeOffset>.None);
-    
-    [Fact]
     public void Build_ShouldReturnFailure_GivenPageSizeIsHigherThanOneHundred() =>
-        GetConversationsRequest
+        GetMembersRequest
             .Build()
+            .WithConversationId(ConversationId)
             .WithPageSize(101)
             .Create()
             .Should()
@@ -67,27 +52,19 @@ public class RequestBuilderTest
     
     [Fact]
     public void Build_ShouldReturnFailure_GivenPageSizeIsLowerThanOne() =>
-        GetConversationsRequest
+        GetMembersRequest
             .Build()
+            .WithConversationId(ConversationId)
             .WithPageSize(0)
             .Create()
             .Should()
             .BeParsingFailure("PageSize cannot be lower than 1.");
     
     [Fact]
-    public void Build_ShouldSetEndDate() =>
-        GetConversationsRequest
-            .Build()
-            .WithEndDate(DateTimeOffset.Parse("2018-01-01 10:00:00", CultureInfo.InvariantCulture))
-            .Create()
-            .Map(request => request.EndDate)
-            .Should()
-            .BeSuccess(DateTimeOffset.Parse("2018-01-01 10:00:00", CultureInfo.InvariantCulture));
-    
-    [Fact]
     public void Build_ShouldSetOrder() =>
-        GetConversationsRequest
+        GetMembersRequest
             .Build()
+            .WithConversationId(ConversationId)
             .WithOrder(FetchOrder.Descending)
             .Create()
             .Map(request => request.Order)
@@ -99,21 +76,12 @@ public class RequestBuilderTest
     [InlineData(50)]
     [InlineData(100)]
     public void Build_ShouldSetPageSize(int pageSize) =>
-        GetConversationsRequest
+        GetMembersRequest
             .Build()
+            .WithConversationId(ConversationId)
             .WithPageSize(pageSize)
             .Create()
             .Map(request => request.PageSize)
             .Should()
             .BeSuccess(pageSize);
-    
-    [Fact]
-    public void Build_ShouldSetStartDate() =>
-        GetConversationsRequest
-            .Build()
-            .WithStartDate(DateTimeOffset.Parse("2018-01-01 10:00:00", CultureInfo.InvariantCulture))
-            .Create()
-            .Map(request => request.StartDate)
-            .Should()
-            .BeSuccess(DateTimeOffset.Parse("2018-01-01 10:00:00", CultureInfo.InvariantCulture));
 }
