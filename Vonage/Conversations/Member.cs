@@ -1,6 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using System.Text.Json.Serialization;
+using EnumsNET;
 using Vonage.Common;
+using Vonage.Common.Monads;
+using Vonage.Common.Serialization;
 
 namespace Vonage.Conversations;
 
@@ -33,6 +38,44 @@ public record Member(
     [property: JsonPropertyName("_links")] HalLink Links
 );
 
+public enum ChannelType
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    [Description("app")] App,
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    [Description("phone")] Phone,
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    [Description("sms")] Sms,
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    [Description("mms")] Mms,
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    [Description("whatsapp")] Whatsapp,
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    [Description("viber")] Viber,
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    [Description("messenger")] Messenger,
+}
+
 /// <summary>
 ///     Represents a channel.
 /// </summary>
@@ -49,6 +92,53 @@ public record MemberChannel(string Type, MemberChannelFrom From, MemberChannelTo
 ///     messenger.
 /// </param>
 public record MemberChannelFrom(string Type);
+
+/// <summary>
+///     Represents a channel.
+/// </summary>
+/// <param name="Type">The channel type.</param>
+/// <param name="From">Which channel types this member accepts messages from (if not set, all are accepted)</param>
+/// <param name="To">Settings which control who this member can send messages to.</param>
+public record MemberChannelV2(
+    [property: JsonConverter(typeof(EnumDescriptionJsonConverter<ChannelType>))]
+    ChannelType Type,
+    MemberChannelFromV2 From,
+    MemberChannelToV2 To);
+
+/// <summary>
+/// Represents the source channel.
+/// </summary>
+/// <param name="Channels">Contains channel types</param>
+public record MemberChannelFromV2(
+    [property: JsonIgnore] params ChannelType[] Channels)
+{
+    public string Type => string.Join(",", this.Channels.Select(channel => channel.AsString(EnumFormat.Description)));
+};
+
+public class TestConverter : EnumDescriptionJsonConverter<ChannelType>
+{
+}
+
+/// <summary>
+///     Represents the destination channel.
+/// </summary>
+/// <param name="Type">The channel type.</param>
+/// <param name="User">The user ID of the member that this member can send messages to.</param>
+/// <param name="Number">The phone number of the member that this member can send messages to.</param>
+/// <param name="Id">The Id.</param>
+public record MemberChannelToV2(
+    [property: JsonConverter(typeof(MaybeJsonConverter<ChannelType>))]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    Maybe<ChannelType> Type,
+    [property: JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    Maybe<string> User,
+    [property: JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    Maybe<string> Number,
+    [property: JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    Maybe<string> Id);
 
 /// <summary>
 ///     Represents the destination channel.

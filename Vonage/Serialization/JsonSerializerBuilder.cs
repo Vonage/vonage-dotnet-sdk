@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Vonage.Common.Serialization;
+using Vonage.Conversations;
 using Vonage.Messages;
 using Vonage.NumberInsightV2.FraudCheck;
 using Vonage.Server;
@@ -19,13 +20,13 @@ public static class JsonSerializerBuilder
     /// </summary>
     /// <returns>A serializer.</returns>
     public static JsonSerializer BuildWithCamelCase() => BuildSerializer(JsonNamingPolicy.CamelCase);
-
+    
     /// <summary>
     ///     Build a serializer with a Snake case policy.
     /// </summary>
     /// <returns>A serializer.</returns>
     public static JsonSerializer BuildWithSnakeCase() => BuildSerializer(JsonNamingPolicy.SnakeCaseLower);
-
+    
     private static JsonSerializer BuildSerializer(JsonNamingPolicy policy) => new JsonSerializer(policy)
         .WithConverter(new MaybeJsonConverter<string>())
         .WithConverter(new EnumDescriptionJsonConverter<MessagesChannel>())
@@ -40,5 +41,6 @@ public static class JsonSerializerBuilder
         .WithConverter(new HttpMethodJsonConverter())
         .WithConverter(new PhoneNumberJsonConverter())
         .WithConverter(new EmailJsonConverter())
-        .WithConverter(new LocaleJsonConverter());
+        .WithConverter(new LocaleJsonConverter())
+        .WithConverter(new TestConverter());
 }

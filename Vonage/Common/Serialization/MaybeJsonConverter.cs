@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Vonage.Common.Monads;
+using Vonage.Conversations;
 
 namespace Vonage.Common.Serialization;
 
@@ -11,6 +12,9 @@ namespace Vonage.Common.Serialization;
 /// <typeparam name="T">The underlying type.</typeparam>
 public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
 {
+    protected JsonSerializer Serializer = new JsonSerializer()
+        .WithConverter(new EnumDescriptionJsonConverter<ChannelType>());
+    
     /// <inheritdoc />
     public override Maybe<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -18,12 +22,10 @@ public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
         return this.Serializer.DeserializeObject<T>(jsonDoc.RootElement.GetRawText())
             .Match(Maybe<T>.Some, _ => Maybe<T>.None);
     }
-
+    
     /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, Maybe<T> value, JsonSerializerOptions options) =>
         value
             .Map(some => this.Serializer.SerializeObject(some))
             .IfSome(some => writer.WriteRawValue(some));
-
-    protected JsonSerializer Serializer = new();
 }

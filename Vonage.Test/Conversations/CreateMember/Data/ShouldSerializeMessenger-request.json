@@ -1,0 +1,17 @@
+﻿{
+  "state": "invited",
+  "user": {
+    "id": "USR-123",
+    "name": "User 123"
+  },
+  "channel": {
+    "type": "messenger",
+    "from": {
+      "type": "app,phone,sms"
+    },
+    "to": {
+      "type": "messenger",
+      "id": "1"
+    }
+  }
+}

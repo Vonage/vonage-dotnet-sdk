@@ -18,7 +18,7 @@ public static class InputValidation
     private const string IntCannotBeNegative = "cannot be negative.";
     private const string StringCannotBeNullOrWhitespace = "cannot be null or whitespace.";
     private const string UnexpectedLength = "length should be {value}.";
-
+    
     /// <summary>
     ///     Verifies if count lower or equal than specified threshold.
     /// </summary>
@@ -36,7 +36,7 @@ public static class InputValidation
                 ResultFailure.FromErrorMessage(
                     $"{name} count {CannotBeHigherThan.Replace("{value}", maximumCount.ToString())}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies if higher or equal than specified threshold.
     /// </summary>
@@ -52,7 +52,7 @@ public static class InputValidation
                 ResultFailure.FromErrorMessage(
                     $"{name} {CannotBeLowerThan.Replace("{value}", minValue.ToString())}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies string length.
     /// </summary>
@@ -68,7 +68,7 @@ public static class InputValidation
                 ResultFailure.FromErrorMessage(
                     $"{name} {UnexpectedLength.Replace("{value}", expectedLength.ToString())}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies if length higher or equal than specified threshold.
     /// </summary>
@@ -84,7 +84,7 @@ public static class InputValidation
                 ResultFailure.FromErrorMessage(
                     $"{name} length {CannotBeLowerThan.Replace("{value}", minimumLength.ToString())}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies if length lower or equal than specified threshold.
     /// </summary>
@@ -100,7 +100,7 @@ public static class InputValidation
                 ResultFailure.FromErrorMessage(
                     $"{name} length {CannotBeHigherThan.Replace("{value}", maximumLength.ToString())}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies if lower or equal than specified threshold.
     /// </summary>
@@ -116,7 +116,7 @@ public static class InputValidation
                 ResultFailure.FromErrorMessage(
                     $"{name} {CannotBeHigherThan.Replace("{value}", maxValue.ToString())}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies if not null or empty.
     /// </summary>
@@ -130,7 +130,7 @@ public static class InputValidation
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {StringCannotBeNullOrWhitespace}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies if not null or empty.
     /// </summary>
@@ -145,7 +145,7 @@ public static class InputValidation
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {GuidCannotBeNullOrWhitespace}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies if not null or empty.
     /// </summary>
@@ -159,7 +159,7 @@ public static class InputValidation
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {GuidCannotBeNullOrWhitespace}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies if not negative.
     /// </summary>
@@ -173,7 +173,7 @@ public static class InputValidation
             ? Result<T>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {IntCannotBeNegative}"))
             : request;
-
+    
     /// <summary>
     ///     Verifies if not null.
     /// </summary>
@@ -184,6 +184,21 @@ public static class InputValidation
     /// <typeparam name="TB">The list content type.</typeparam>
     /// <returns>Success or Failure.</returns>
     public static Result<TA> VerifyNotNull<TA, TB>(TA request, IEnumerable<TB> value, string name) =>
+        value is null
+            ? Result<TA>.FromFailure(
+                ResultFailure.FromErrorMessage($"{name} {CollectionCannotBeNull}"))
+            : request;
+    
+    /// <summary>
+    ///     Verifies if not null.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <param name="value">The object.</param>
+    /// <param name="name">The display name.</param>
+    /// <typeparam name="TA">The request type.</typeparam>
+    /// <typeparam name="TB">The object type.</typeparam>
+    /// <returns>Success or Failure.</returns>
+    public static Result<TA> VerifyNotNull<TA, TB>(TA request, TB value, string name) =>
         value is null
             ? Result<TA>.FromFailure(
                 ResultFailure.FromErrorMessage($"{name} {CollectionCannotBeNull}"))
