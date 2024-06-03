@@ -12,7 +12,7 @@ internal struct CreateMemberRequestBuilder :
     IBuilderForOptional
 {
     private string conversationId;
-    private MemberChannelV2 channel;
+    private MemberChannel channel;
     private MemberMedia media;
     private string from;
     private string knockingId;
@@ -23,56 +23,56 @@ internal struct CreateMemberRequestBuilder :
     public IBuilderForOptional WithApp(string userId, params ChannelType[] types) =>
         this with
         {
-            channel = new MemberChannelV2(ChannelType.App,
-                new MemberChannelFromV2(types),
-                new MemberChannelToV2(ChannelType.App, userId, Maybe<string>.None, Maybe<string>.None)),
+            channel = new MemberChannel(ChannelType.App,
+                MemberChannelFrom.FromChannels(types),
+                new MemberChannelToV(ChannelType.App, userId, Maybe<string>.None, Maybe<string>.None)),
         };
     
     public IBuilderForOptional WithPhone(string number, params ChannelType[] types) =>
         this with
         {
-            channel = new MemberChannelV2(ChannelType.Phone,
-                new MemberChannelFromV2(types),
-                new MemberChannelToV2(ChannelType.Phone, Maybe<string>.None, number, Maybe<string>.None)),
+            channel = new MemberChannel(ChannelType.Phone,
+                MemberChannelFrom.FromChannels(types),
+                new MemberChannelToV(ChannelType.Phone, Maybe<string>.None, number, Maybe<string>.None)),
         };
     
     public IBuilderForOptional WithSms(string number, params ChannelType[] types) =>
         this with
         {
-            channel = new MemberChannelV2(ChannelType.Sms,
-                new MemberChannelFromV2(types),
-                new MemberChannelToV2(ChannelType.Sms, Maybe<string>.None, number, Maybe<string>.None)),
+            channel = new MemberChannel(ChannelType.Sms,
+                MemberChannelFrom.FromChannels(types),
+                new MemberChannelToV(ChannelType.Sms, Maybe<string>.None, number, Maybe<string>.None)),
         };
     
     public IBuilderForOptional WithMms(string number, params ChannelType[] types) =>
         this with
         {
-            channel = new MemberChannelV2(ChannelType.Mms,
-                new MemberChannelFromV2(types),
-                new MemberChannelToV2(ChannelType.Mms, Maybe<string>.None, number, Maybe<string>.None)),
+            channel = new MemberChannel(ChannelType.Mms,
+                MemberChannelFrom.FromChannels(types),
+                new MemberChannelToV(ChannelType.Mms, Maybe<string>.None, number, Maybe<string>.None)),
         };
     
     public IBuilderForOptional WithWhatsApp(string number, params ChannelType[] types) =>
         this with
         {
-            channel = new MemberChannelV2(ChannelType.Whatsapp,
-                new MemberChannelFromV2(types),
-                new MemberChannelToV2(ChannelType.Whatsapp, Maybe<string>.None, number, Maybe<string>.None)),
+            channel = new MemberChannel(ChannelType.Whatsapp,
+                MemberChannelFrom.FromChannels(types),
+                new MemberChannelToV(ChannelType.Whatsapp, Maybe<string>.None, number, Maybe<string>.None)),
         };
     
     public IBuilderForOptional WithViber(string id, params ChannelType[] types) =>
         this with
         {
-            channel = new MemberChannelV2(ChannelType.Viber,
-                new MemberChannelFromV2(types),
-                new MemberChannelToV2(ChannelType.Viber, Maybe<string>.None, Maybe<string>.None, id)),
+            channel = new MemberChannel(ChannelType.Viber,
+                MemberChannelFrom.FromChannels(types),
+                new MemberChannelToV(ChannelType.Viber, Maybe<string>.None, Maybe<string>.None, id)),
         };
     
     public IBuilderForOptional WithMessenger(string id, params ChannelType[] types) => this with
     {
-        channel = new MemberChannelV2(ChannelType.Messenger,
-            new MemberChannelFromV2(types),
-            new MemberChannelToV2(ChannelType.Messenger, Maybe<string>.None, Maybe<string>.None, id)),
+        channel = new MemberChannel(ChannelType.Messenger,
+            MemberChannelFrom.FromChannels(types),
+            new MemberChannelToV(ChannelType.Messenger, Maybe<string>.None, Maybe<string>.None, id)),
     };
     
     public IBuilderForState WithConversationId(string value) => this with {conversationId = value};
@@ -98,7 +98,7 @@ internal struct CreateMemberRequestBuilder :
         InputValidation.VerifyNotNull(request, request.User, nameof(request.User));
     
     private static Result<CreateMemberRequest> VerifyChannelTypes(CreateMemberRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.Channel.From.Channels, nameof(request.Channel.From.Channels));
+        InputValidation.VerifyNotEmpty(request, request.Channel.From.Type, nameof(request.Channel.From.Type));
     
     public IBuilderForOptional WithMedia(MemberMedia value) => this with {media = value};
     

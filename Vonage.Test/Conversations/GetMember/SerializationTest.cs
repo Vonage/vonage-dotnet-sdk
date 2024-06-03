@@ -73,9 +73,9 @@ public class SerializationTest
             null
         ));
         response.Channel.Should().Be(new MemberChannel(
-            "app",
-            new MemberChannelFrom("app"),
-            new MemberChannelTo("app", "string", null, null)
+            ChannelType.App,
+            MemberChannelFrom.FromChannels(ChannelType.App),
+            new MemberChannelToV(ChannelType.App, "string", null, null)
         ));
     }
     
@@ -88,9 +88,9 @@ public class SerializationTest
             null
         ));
         response.Channel.Should().Be(new MemberChannel(
-            "messenger",
-            new MemberChannelFrom("messenger"),
-            new MemberChannelTo(null, null, null, "app")
+            ChannelType.Messenger,
+            MemberChannelFrom.FromChannels(ChannelType.Messenger),
+            new MemberChannelToV(ChannelType.Messenger, null, null, "app")
         ));
     }
     
@@ -103,9 +103,9 @@ public class SerializationTest
             null
         ));
         response.Channel.Should().Be(new MemberChannel(
-            "viber",
-            new MemberChannelFrom("viber"),
-            new MemberChannelTo(null, null, null, "app")
+            ChannelType.Viber,
+            MemberChannelFrom.FromChannels(ChannelType.Viber),
+            new MemberChannelToV(ChannelType.Viber, null, null, "app")
         ));
     }
     
@@ -118,9 +118,9 @@ public class SerializationTest
             null
         ));
         response.Channel.Should().Be(new MemberChannel(
-            "mms",
-            new MemberChannelFrom("mms"),
-            new MemberChannelTo(null, null, "string", null)
+            ChannelType.Mms,
+            MemberChannelFrom.FromChannels(ChannelType.Mms),
+            new MemberChannelToV(ChannelType.Mms, null, "string", null)
         ));
     }
     
@@ -133,9 +133,9 @@ public class SerializationTest
             null
         ));
         response.Channel.Should().Be(new MemberChannel(
-            "whatsapp",
-            new MemberChannelFrom("whatsapp"),
-            new MemberChannelTo(null, null, "string", null)
+            ChannelType.Whatsapp,
+            MemberChannelFrom.FromChannels(ChannelType.Whatsapp),
+            new MemberChannelToV(ChannelType.Whatsapp, null, "string", null)
         ));
     }
     
@@ -148,9 +148,9 @@ public class SerializationTest
             null
         ));
         response.Channel.Should().Be(new MemberChannel(
-            "phone",
-            new MemberChannelFrom("phone"),
-            new MemberChannelTo("phone", null, "string", null)
+            ChannelType.Phone,
+            MemberChannelFrom.FromChannels(ChannelType.Phone),
+            new MemberChannelToV(ChannelType.Phone, null, "string", null)
         ));
     }
     
@@ -163,9 +163,9 @@ public class SerializationTest
             null
         ));
         response.Channel.Should().Be(new MemberChannel(
-            "sms",
-            new MemberChannelFrom("sms"),
-            new MemberChannelTo("sms", null, "string", null)
+            ChannelType.Sms,
+            MemberChannelFrom.FromChannels(ChannelType.Sms),
+            new MemberChannelToV(ChannelType.Sms, null, "string", null)
         ));
     }
     
@@ -177,9 +177,9 @@ public class SerializationTest
             new MemberInitiatorInvited(true)
         ));
         response.Channel.Should().Be(new MemberChannel(
-            "app",
-            new MemberChannelFrom("string"),
-            new MemberChannelTo("app", "string", null, null)
+            ChannelType.App,
+            MemberChannelFrom.FromChannels(ChannelType.App),
+            new MemberChannelToV(ChannelType.App, "string", null, null)
         ));
     }
     

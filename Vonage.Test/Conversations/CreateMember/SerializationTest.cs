@@ -69,9 +69,9 @@ public class SerializationTest
             null
         ));
         response.Channel.Should().Be(new MemberChannel(
-            "app",
-            new MemberChannelFrom("app"),
-            new MemberChannelTo("app", "string", null, null)
+            ChannelType.App,
+            MemberChannelFrom.FromChannels(ChannelType.App),
+            new MemberChannelToV(ChannelType.App, "string", null, null)
         ));
     }
     

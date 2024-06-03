@@ -27,7 +27,7 @@
   "channel": {
     "type": "app",
     "from": {
-      "type": "string"
+      "type": "app"
     },
     "to": {
       "type": "app",

@@ -32,6 +32,7 @@
       "type": "messenger"
     },
     "to": {
+      "type": "messenger",
       "id": "app"
     }
   },

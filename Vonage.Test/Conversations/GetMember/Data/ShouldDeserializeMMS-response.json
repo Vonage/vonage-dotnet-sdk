@@ -32,6 +32,7 @@
       "type": "mms"
     },
     "to": {
+      "type": "mms",
       "number": "string"
     }
   },

@@ -82,37 +82,30 @@ public enum ChannelType
 /// <param name="Type">The channel type.</param>
 /// <param name="From">Which channel types this member accepts messages from (if not set, all are accepted)</param>
 /// <param name="To">Settings which control who this member can send messages to.</param>
-public record MemberChannel(string Type, MemberChannelFrom From, MemberChannelTo To);
-
-/// <summary>
-///     Represents the source channel.
-/// </summary>
-/// <param name="Type">
-///     Comma separated list, can include channel types app, phone, sms, mms, whatsapp , viber, or
-///     messenger.
-/// </param>
-public record MemberChannelFrom(string Type);
-
-/// <summary>
-///     Represents a channel.
-/// </summary>
-/// <param name="Type">The channel type.</param>
-/// <param name="From">Which channel types this member accepts messages from (if not set, all are accepted)</param>
-/// <param name="To">Settings which control who this member can send messages to.</param>
-public record MemberChannelV2(
+public record MemberChannel(
     [property: JsonConverter(typeof(EnumDescriptionJsonConverter<ChannelType>))]
     ChannelType Type,
-    MemberChannelFromV2 From,
-    MemberChannelToV2 To);
+    MemberChannelFrom From,
+    MemberChannelToV To);
 
 /// <summary>
 /// Represents the source channel.
 /// </summary>
 /// <param name="Channels">Contains channel types</param>
-public record MemberChannelFromV2(
-    [property: JsonIgnore] params ChannelType[] Channels)
+public struct MemberChannelFrom
 {
-    public string Type => string.Join(",", this.Channels.Select(channel => channel.AsString(EnumFormat.Description)));
+    /// <summary>
+    /// </summary>
+    /// <param name="channels"></param>
+    /// <returns></returns>
+    public static MemberChannelFrom FromChannels(params ChannelType[] channels) => new MemberChannelFrom
+    {
+        Type = string.Join(",", channels.Select(channel => channel.AsString(EnumFormat.Description))),
+    };
+    
+    /// <summary>
+    /// </summary>
+    public string Type { get; set; }
 };
 
 /// <summary>
@@ -122,7 +115,7 @@ public record MemberChannelFromV2(
 /// <param name="User">The user ID of the member that this member can send messages to.</param>
 /// <param name="Number">The phone number of the member that this member can send messages to.</param>
 /// <param name="Id">The Id.</param>
-public record MemberChannelToV2(
+public record MemberChannelToV(
     [property: JsonConverter(typeof(MaybeJsonConverter<ChannelType>))]
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     Maybe<ChannelType> Type,
@@ -135,15 +128,6 @@ public record MemberChannelToV2(
     [property: JsonConverter(typeof(MaybeJsonConverter<string>))]
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     Maybe<string> Id);
-
-/// <summary>
-///     Represents the destination channel.
-/// </summary>
-/// <param name="Type">The channel type.</param>
-/// <param name="User">The user ID of the member that this member can send messages to.</param>
-/// <param name="Number">The phone number of the member that this member can send messages to.</param>
-/// <param name="Id">The Id.</param>
-public record MemberChannelTo(string Type, string User, string Number, string Id);
 
 /// <summary>
 ///     Represents the member timestamps.

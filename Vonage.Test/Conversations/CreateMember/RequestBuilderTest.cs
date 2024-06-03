@@ -143,9 +143,9 @@ public class RequestBuilderTest
             .Create()
             .Map(request => request.Channel)
             .Should()
-            .BeSuccess(new MemberChannelV2(ChannelType.App,
-                new MemberChannelFromV2(ChannelType.App, ChannelType.Phone, ChannelType.Sms),
-                new MemberChannelToV2(ChannelType.App, ValidUserId, Maybe<string>.None, Maybe<string>.None)));
+            .BeSuccess(new MemberChannel(ChannelType.App,
+                MemberChannelFrom.FromChannels(ChannelType.App, ChannelType.Phone, ChannelType.Sms),
+                new MemberChannelToV(ChannelType.App, ValidUserId, Maybe<string>.None, Maybe<string>.None)));
     
     [Fact]
     public void Build_ShouldReturnFailure_GivenChannelTypesAreEmpty() =>
@@ -156,7 +156,7 @@ public class RequestBuilderTest
             .WithApp(ValidUserId)
             .Create()
             .Should()
-            .BeParsingFailure("Channels cannot be empty.");
+            .BeParsingFailure("Type cannot be null or whitespace.");
     
     private static IBuilderForOptional BuildDefaultBuilder() =>
         CreateMemberRequest.Build()
@@ -175,9 +175,9 @@ public class RequestBuilderTest
             .Create()
             .Map(request => request.Channel)
             .Should()
-            .BeSuccess(new MemberChannelV2(ChannelType.Phone,
-                new MemberChannelFromV2(ChannelType.Phone, ChannelType.Messenger),
-                new MemberChannelToV2(ChannelType.Phone, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
+            .BeSuccess(new MemberChannel(ChannelType.Phone,
+                MemberChannelFrom.FromChannels(ChannelType.Phone, ChannelType.Messenger),
+                new MemberChannelToV(ChannelType.Phone, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
     
     [Fact]
     public void Build_ShouldSetSmsChannel() =>
@@ -189,9 +189,9 @@ public class RequestBuilderTest
             .Create()
             .Map(request => request.Channel)
             .Should()
-            .BeSuccess(new MemberChannelV2(ChannelType.Sms,
-                new MemberChannelFromV2(ChannelType.Sms, ChannelType.Viber),
-                new MemberChannelToV2(ChannelType.Sms, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
+            .BeSuccess(new MemberChannel(ChannelType.Sms,
+                MemberChannelFrom.FromChannels(ChannelType.Sms, ChannelType.Viber),
+                new MemberChannelToV(ChannelType.Sms, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
     
     [Fact]
     public void Build_ShouldSetMmsChannel() =>
@@ -203,9 +203,9 @@ public class RequestBuilderTest
             .Create()
             .Map(request => request.Channel)
             .Should()
-            .BeSuccess(new MemberChannelV2(ChannelType.Mms,
-                new MemberChannelFromV2(ChannelType.Mms, ChannelType.Viber),
-                new MemberChannelToV2(ChannelType.Mms, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
+            .BeSuccess(new MemberChannel(ChannelType.Mms,
+                MemberChannelFrom.FromChannels(ChannelType.Mms, ChannelType.Viber),
+                new MemberChannelToV(ChannelType.Mms, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
     
     [Fact]
     public void Build_ShouldSetWhatsAppChannel() =>
@@ -217,9 +217,9 @@ public class RequestBuilderTest
             .Create()
             .Map(request => request.Channel)
             .Should()
-            .BeSuccess(new MemberChannelV2(ChannelType.Whatsapp,
-                new MemberChannelFromV2(ChannelType.Whatsapp, ChannelType.Viber),
-                new MemberChannelToV2(ChannelType.Whatsapp, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
+            .BeSuccess(new MemberChannel(ChannelType.Whatsapp,
+                MemberChannelFrom.FromChannels(ChannelType.Whatsapp, ChannelType.Viber),
+                new MemberChannelToV(ChannelType.Whatsapp, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
     
     [Fact]
     public void Build_ShouldSetViberChannel() =>
@@ -231,9 +231,9 @@ public class RequestBuilderTest
             .Create()
             .Map(request => request.Channel)
             .Should()
-            .BeSuccess(new MemberChannelV2(ChannelType.Viber,
-                new MemberChannelFromV2(ChannelType.Viber),
-                new MemberChannelToV2(ChannelType.Viber, Maybe<string>.None, Maybe<string>.None, ValidUserId)));
+            .BeSuccess(new MemberChannel(ChannelType.Viber,
+                MemberChannelFrom.FromChannels(ChannelType.Viber),
+                new MemberChannelToV(ChannelType.Viber, Maybe<string>.None, Maybe<string>.None, ValidUserId)));
     
     [Fact]
     public void Build_ShouldSetMessengerChannel() =>
@@ -245,7 +245,7 @@ public class RequestBuilderTest
             .Create()
             .Map(request => request.Channel)
             .Should()
-            .BeSuccess(new MemberChannelV2(ChannelType.Messenger,
-                new MemberChannelFromV2(ChannelType.Messenger, ChannelType.Phone),
-                new MemberChannelToV2(ChannelType.Messenger, Maybe<string>.None, Maybe<string>.None, ValidUserId)));
+            .BeSuccess(new MemberChannel(ChannelType.Messenger,
+                MemberChannelFrom.FromChannels(ChannelType.Messenger, ChannelType.Phone),
+                new MemberChannelToV(ChannelType.Messenger, Maybe<string>.None, Maybe<string>.None, ValidUserId)));
 }
