@@ -42,5 +42,5 @@ public static class JsonSerializerBuilder
         .WithConverter(new PhoneNumberJsonConverter())
         .WithConverter(new EmailJsonConverter())
         .WithConverter(new LocaleJsonConverter())
-        .WithConverter(new TestConverter());
+        .WithConverter(new EnumDescriptionJsonConverter<ChannelType>());
 }

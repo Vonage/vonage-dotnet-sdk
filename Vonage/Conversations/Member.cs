@@ -115,10 +115,6 @@ public record MemberChannelFromV2(
     public string Type => string.Join(",", this.Channels.Select(channel => channel.AsString(EnumFormat.Description)));
 };
 
-public class TestConverter : EnumDescriptionJsonConverter<ChannelType>
-{
-}
-
 /// <summary>
 ///     Represents the destination channel.
 /// </summary>
