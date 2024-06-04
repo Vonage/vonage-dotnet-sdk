@@ -10,6 +10,7 @@ using Vonage.Conversations.GetMember;
 using Vonage.Conversations.GetMembers;
 using Vonage.Conversations.GetUserConversations;
 using Vonage.Conversations.UpdateConversation;
+using Vonage.Conversations.UpdateMember;
 using Vonage.Serialization;
 
 namespace Vonage.Conversations;
@@ -41,6 +42,10 @@ internal class ConversationsClient : IConversationsClient
     /// <inheritdoc />
     public Task<Result<Member>> CreateMemberAsync(Result<CreateMemberRequest> request) =>
         this.vonageClient.SendWithResponseAsync<CreateMemberRequest, Member>(request);
+    
+    /// <inheritdoc />
+    public Task<Result<Member>> UpdateMemberAsync(Result<UpdateMemberRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<UpdateMemberRequest, Member>(request);
     
     /// <inheritdoc />
     public Task<Result<Member>> GetMemberAsync(Result<GetMemberRequest> request) =>

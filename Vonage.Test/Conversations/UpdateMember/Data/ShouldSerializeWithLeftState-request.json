@@ -1,0 +1,7 @@
+﻿{
+  "state": "left",
+  "reason": {
+    "code": "123",
+    "text": "Some reason."
+  }
+}

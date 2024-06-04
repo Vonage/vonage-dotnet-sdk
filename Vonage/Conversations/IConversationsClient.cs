@@ -9,6 +9,7 @@ using Vonage.Conversations.GetMember;
 using Vonage.Conversations.GetMembers;
 using Vonage.Conversations.GetUserConversations;
 using Vonage.Conversations.UpdateConversation;
+using Vonage.Conversations.UpdateMember;
 
 namespace Vonage.Conversations;
 
@@ -44,6 +45,13 @@ public interface IConversationsClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Member>> CreateMemberAsync(Result<CreateMemberRequest> request);
+    
+    /// <summary>
+    ///     Updates a member.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Member>> UpdateMemberAsync(Result<UpdateMemberRequest> request);
     
     /// <summary>
     ///     Retrieves a member.
