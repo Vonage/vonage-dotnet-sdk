@@ -92,73 +92,91 @@ public class SerializationTest
     
     [Fact]
     public void ShouldSerializePhone() =>
+        BuildPhoneRequest()
+            .GetStringContent()
+            .Should()
+            .BeSuccess(this.helper.GetRequestJson());
+    
+    internal static Result<CreateMemberRequest> BuildPhoneRequest() =>
         CreateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
             .WithState(ValidState)
             .WithUser(ValidUser)
             .WithPhone(ValidNumber, ChannelType.App, ChannelType.Phone, ChannelType.Sms)
-            .Create()
+            .Create();
+    
+    [Fact]
+    public void ShouldSerializeSms() =>
+        BuildSmsRequest()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
     
-    [Fact]
-    public void ShouldSerializeSms() =>
+    internal static Result<CreateMemberRequest> BuildSmsRequest() =>
         CreateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
             .WithState(ValidState)
             .WithUser(ValidUser)
             .WithSms(ValidNumber, ChannelType.App, ChannelType.Phone, ChannelType.Sms)
-            .Create()
+            .Create();
+    
+    [Fact]
+    public void ShouldSerializeMms() =>
+        BuildMmsRequest()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
     
-    [Fact]
-    public void ShouldSerializeMms() =>
+    internal static Result<CreateMemberRequest> BuildMmsRequest() =>
         CreateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
             .WithState(ValidState)
             .WithUser(ValidUser)
             .WithMms(ValidNumber, ChannelType.App, ChannelType.Phone, ChannelType.Sms)
-            .Create()
+            .Create();
+    
+    [Fact]
+    public void ShouldSerializeWhatsApp() =>
+        BuildWhatsAppRequest()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
     
-    [Fact]
-    public void ShouldSerializeWhatsApp() =>
+    internal static Result<CreateMemberRequest> BuildWhatsAppRequest() =>
         CreateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
             .WithState(ValidState)
             .WithUser(ValidUser)
             .WithWhatsApp(ValidNumber, ChannelType.App, ChannelType.Phone, ChannelType.Sms)
-            .Create()
+            .Create();
+    
+    [Fact]
+    public void ShouldSerializeViber() =>
+        BuildViberRequest()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
     
-    [Fact]
-    public void ShouldSerializeViber() =>
+    internal static Result<CreateMemberRequest> BuildViberRequest() =>
         CreateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
             .WithState(ValidState)
             .WithUser(ValidUser)
             .WithViber(ValidId, ChannelType.App, ChannelType.Phone, ChannelType.Sms)
-            .Create()
+            .Create();
+    
+    [Fact]
+    public void ShouldSerializeMessenger() =>
+        BuildMessengerRequest()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
     
-    [Fact]
-    public void ShouldSerializeMessenger() =>
+    internal static Result<CreateMemberRequest> BuildMessengerRequest() =>
         CreateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
             .WithState(ValidState)
             .WithUser(ValidUser)
             .WithMessenger(ValidId, ChannelType.App, ChannelType.Phone, ChannelType.Sms)
-            .Create()
-            .GetStringContent()
-            .Should()
-            .BeSuccess(this.helper.GetRequestJson());
+            .Create();
 }
