@@ -4,6 +4,7 @@ using Vonage.Common.Monads;
 using Vonage.Conversations.CreateConversation;
 using Vonage.Conversations.CreateMember;
 using Vonage.Conversations.DeleteConversation;
+using Vonage.Conversations.DeleteEvent;
 using Vonage.Conversations.GetConversation;
 using Vonage.Conversations.GetConversations;
 using Vonage.Conversations.GetMember;
@@ -33,6 +34,10 @@ internal class ConversationsClient : IConversationsClient
     
     /// <inheritdoc />
     public Task<Result<Unit>> DeleteConversationAsync(Result<DeleteConversationRequest> request) =>
+        this.vonageClient.SendAsync(request);
+    
+    /// <inheritdoc />
+    public Task<Result<Unit>> DeleteEventAsync(Result<DeleteEventRequest> request) =>
         this.vonageClient.SendAsync(request);
     
     /// <inheritdoc />
