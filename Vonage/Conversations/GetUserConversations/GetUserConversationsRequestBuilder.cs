@@ -5,18 +5,18 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Conversations.GetUserConversations;
 
-internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderForOptional
+internal struct GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderForOptional
 {
-    private const string DefaultOrderBy = "created";
     private const int MaximumPageSize = 100;
     private const int MinimumPageSize = 1;
-    private readonly Maybe<string> cursor;
+    private const string DefaultOrderBy = "created";
     private bool includeCustomData;
     private FetchOrder order = FetchOrder.Ascending;
-    private Maybe<string> orderBy;
     private int pageSize = 10;
     private Maybe<DateTimeOffset> startDate;
     private Maybe<State> state;
+    private readonly Maybe<string> cursor;
+    private Maybe<string> orderBy;
     private string userId;
 
     internal GetUserConversationsRequestBuilder(Maybe<string> cursor) => this.cursor = cursor;
@@ -40,104 +40,34 @@ internal class GetUserConversationsRequestBuilder : IBuilderForUserId, IBuilderF
             VerifyMaximumPageSize));
 
     /// <inheritdoc />
-    public IBuilderForOptional WithOrder(FetchOrder value) =>
-        new GetUserConversationsRequestBuilder(this.cursor)
-        {
-            includeCustomData = this.includeCustomData,
-            orderBy = this.orderBy,
-            order = value,
-            state = this.state,
-            pageSize = this.pageSize,
-            startDate = this.startDate,
-            userId = this.userId,
-        };
+    public IBuilderForOptional IncludeCustomData() => this with {includeCustomData = true};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithOrderBy(string value) =>
-        new GetUserConversationsRequestBuilder(this.cursor)
-        {
-            includeCustomData = this.includeCustomData,
-            orderBy = value,
-            order = this.order,
-            state = this.state,
-            pageSize = this.pageSize,
-            startDate = this.startDate,
-            userId = this.userId,
-        };
+    public IBuilderForOptional WithOrder(FetchOrder value) => this with {order = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithState(State value) =>
-        new GetUserConversationsRequestBuilder(this.cursor)
-        {
-            includeCustomData = this.includeCustomData,
-            orderBy = this.orderBy,
-            order = this.order,
-            state = value,
-            pageSize = this.pageSize,
-            startDate = this.startDate,
-            userId = this.userId,
-        };
+    public IBuilderForOptional WithOrderBy(string value) => this with {orderBy = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional IncludeCustomData() =>
-        new GetUserConversationsRequestBuilder(this.cursor)
-        {
-            includeCustomData = true,
-            orderBy = this.orderBy,
-            order = this.order,
-            state = this.state,
-            pageSize = this.pageSize,
-            startDate = this.startDate,
-            userId = this.userId,
-        };
+    public IBuilderForOptional WithPageSize(int value) => this with {pageSize = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithPageSize(int value) =>
-        new GetUserConversationsRequestBuilder(this.cursor)
-        {
-            includeCustomData = this.includeCustomData,
-            orderBy = this.orderBy,
-            order = this.order,
-            state = this.state,
-            pageSize = value,
-            startDate = this.startDate,
-            userId = this.userId,
-        };
+    public IBuilderForOptional WithStartDate(DateTimeOffset value) => this with {startDate = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithStartDate(DateTimeOffset value) =>
-        new GetUserConversationsRequestBuilder(this.cursor)
-        {
-            includeCustomData = this.includeCustomData,
-            orderBy = this.orderBy,
-            order = this.order,
-            state = this.state,
-            pageSize = this.pageSize,
-            startDate = value,
-            userId = this.userId,
-        };
+    public IBuilderForOptional WithState(State value) => this with {state = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithUserId(string value) =>
-        new GetUserConversationsRequestBuilder(this.cursor)
-        {
-            includeCustomData = this.includeCustomData,
-            orderBy = this.orderBy,
-            order = this.order,
-            state = this.state,
-            pageSize = this.pageSize,
-            startDate = this.startDate,
-            userId = value,
-        };
+    public IBuilderForOptional WithUserId(string value) => this with {userId = value};
 
     private static Result<GetUserConversationsRequest> VerifyMaximumPageSize(GetUserConversationsRequest request) =>
         InputValidation.VerifyLowerOrEqualThan(request, request.PageSize, MaximumPageSize, nameof(request.PageSize));
 
-    private static Result<GetUserConversationsRequest> VerifyUserId(GetUserConversationsRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.UserId, nameof(request.UserId));
-
     private static Result<GetUserConversationsRequest> VerifyMinimumPageSize(GetUserConversationsRequest request) =>
         InputValidation.VerifyHigherOrEqualThan(request, request.PageSize, MinimumPageSize, nameof(request.PageSize));
+
+    private static Result<GetUserConversationsRequest> VerifyUserId(GetUserConversationsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.UserId, nameof(request.UserId));
 }
 
 /// <summary>
@@ -159,6 +89,12 @@ public interface IBuilderForUserId
 public interface IBuilderForOptional : IVonageRequestBuilder<GetUserConversationsRequest>
 {
     /// <summary>
+    ///     Sets the request to include custom data.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional IncludeCustomData();
+
+    /// <summary>
     ///     Sets the order on the builder.
     /// </summary>
     /// <param name="value">The order.</param>
@@ -173,19 +109,6 @@ public interface IBuilderForOptional : IVonageRequestBuilder<GetUserConversation
     IBuilderForOptional WithOrderBy(string value);
 
     /// <summary>
-    ///     Sets the state on the builder.
-    /// </summary>
-    /// <param name="value">The state.</param>
-    /// <returns>The builder.</returns>
-    IBuilderForOptional WithState(State value);
-
-    /// <summary>
-    ///     Sets the request to include custom data.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    IBuilderForOptional IncludeCustomData();
-
-    /// <summary>
     ///     Sets the page size on the builder.
     /// </summary>
     /// <param name="value">The page size.</param>
@@ -198,4 +121,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<GetUserConversation
     /// <param name="value">The start date.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithStartDate(DateTimeOffset value);
+
+    /// <summary>
+    ///     Sets the state on the builder.
+    /// </summary>
+    /// <param name="value">The state.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithState(State value);
 }

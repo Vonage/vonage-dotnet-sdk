@@ -4,26 +4,17 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Conversations.GetMembers;
 
-internal class GetMembersRequestBuilder : IBuilderForConversationId, IBuilderForOptional
+internal struct GetMembersRequestBuilder : IBuilderForConversationId, IBuilderForOptional
 {
     private const int MaximumPageSize = 100;
     private const int MinimumPageSize = 1;
-    private readonly Maybe<string> cursor;
-    private string conversationId;
     private FetchOrder fetchOrder = FetchOrder.Ascending;
     private int pageSize = 10;
-    
+    private readonly Maybe<string> cursor;
+    private string conversationId;
+
     internal GetMembersRequestBuilder(Maybe<string> cursor) => this.cursor = cursor;
-    
-    /// <inheritdoc />
-    public IBuilderForOptional WithConversationId(string value) =>
-        new GetMembersRequestBuilder(this.cursor)
-        {
-            pageSize = this.pageSize,
-            fetchOrder = this.fetchOrder,
-            conversationId = value,
-        };
-    
+
     /// <inheritdoc />
     public Result<GetMembersRequest> Create() => Result<GetMembersRequest>.FromSuccess(new GetMembersRequest
         {
@@ -34,31 +25,22 @@ internal class GetMembersRequestBuilder : IBuilderForConversationId, IBuilderFor
         })
         .Map(InputEvaluation<GetMembersRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(VerifyConversationId, VerifyMinimumPageSize, VerifyMaximumPageSize));
-    
+
     /// <inheritdoc />
-    public IBuilderForOptional WithOrder(FetchOrder value) =>
-        new GetMembersRequestBuilder(this.cursor)
-        {
-            pageSize = this.pageSize,
-            fetchOrder = value,
-            conversationId = this.conversationId,
-        };
-    
+    public IBuilderForOptional WithConversationId(string value) => this with {conversationId = value};
+
     /// <inheritdoc />
-    public IBuilderForOptional WithPageSize(int value) =>
-        new GetMembersRequestBuilder(this.cursor)
-        {
-            pageSize = value,
-            fetchOrder = this.fetchOrder,
-            conversationId = this.conversationId,
-        };
-    
+    public IBuilderForOptional WithOrder(FetchOrder value) => this with {fetchOrder = value};
+
+    /// <inheritdoc />
+    public IBuilderForOptional WithPageSize(int value) => this with {pageSize = value};
+
     private static Result<GetMembersRequest> VerifyConversationId(GetMembersRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ConversationId, nameof(request.ConversationId));
-    
+
     private static Result<GetMembersRequest> VerifyMaximumPageSize(GetMembersRequest request) =>
         InputValidation.VerifyLowerOrEqualThan(request, request.PageSize, MaximumPageSize, nameof(request.PageSize));
-    
+
     private static Result<GetMembersRequest> VerifyMinimumPageSize(GetMembersRequest request) =>
         InputValidation.VerifyHigherOrEqualThan(request, request.PageSize, MinimumPageSize, nameof(request.PageSize));
 }
@@ -74,7 +56,7 @@ public interface IBuilderForOptional : IVonageRequestBuilder<GetMembersRequest>
     /// <param name="value">The order.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithOrder(FetchOrder value);
-    
+
     /// <summary>
     ///     Sets the page size on the builder.
     /// </summary>
