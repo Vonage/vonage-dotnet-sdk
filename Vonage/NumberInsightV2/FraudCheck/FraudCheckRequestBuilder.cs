@@ -7,10 +7,14 @@ using Vonage.Common.Validation;
 
 namespace Vonage.NumberInsightV2.FraudCheck;
 
-internal class FraudCheckRequestBuilder : IBuilderForPhone, IBuilderForOptional
+internal struct FraudCheckRequestBuilder : IBuilderForPhone, IBuilderForOptional
 {
-    private readonly HashSet<string> insights = new();
-    private Result<PhoneNumber> phone;
+    private readonly HashSet<string> insights = new HashSet<string>();
+    private Result<PhoneNumber> phone = default;
+
+    public FraudCheckRequestBuilder()
+    {
+    }
 
     /// <inheritdoc />
     public Result<FraudCheckRequest> Create() =>
@@ -26,11 +30,7 @@ internal class FraudCheckRequestBuilder : IBuilderForPhone, IBuilderForOptional
     }
 
     /// <inheritdoc />
-    public IBuilderForOptional WithPhone(string value)
-    {
-        this.phone = PhoneNumber.Parse(value);
-        return this;
-    }
+    public IBuilderForOptional WithPhone(string value) => this with {phone = PhoneNumber.Parse(value)};
 
     /// <inheritdoc />
     public IBuilderForOptional WithSimSwap()
@@ -42,10 +42,11 @@ internal class FraudCheckRequestBuilder : IBuilderForPhone, IBuilderForOptional
     private static IResultFailure ToParsingFailure(IResultFailure failure) =>
         ParsingFailure.FromFailures(ResultFailure.FromErrorMessage(failure.GetFailureMessage()));
 
-    private FraudCheckRequest ToRequest(PhoneNumber number) => new()
-    {
-        Phone = number, Insights = this.insights,
-    };
+    private FraudCheckRequest ToRequest(PhoneNumber number) =>
+        new FraudCheckRequest
+        {
+            Phone = number, Insights = this.insights,
+        };
 
     private static Result<FraudCheckRequest> VerifyInsights(FraudCheckRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Insights, nameof(request.Insights));
