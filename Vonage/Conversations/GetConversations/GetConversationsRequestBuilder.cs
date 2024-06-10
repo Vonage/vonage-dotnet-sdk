@@ -5,15 +5,15 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Conversations.GetConversations;
 
-internal class GetConversationsRequestBuilder : IBuilderForOptional
+internal struct GetConversationsRequestBuilder : IBuilderForOptional
 {
     private const int MaximumPageSize = 100;
     private const int MinimumPageSize = 1;
-    private readonly Maybe<string> cursor;
-    private Maybe<DateTimeOffset> endDate;
     private FetchOrder fetchOrder = FetchOrder.Ascending;
     private int pageSize = 10;
+    private Maybe<DateTimeOffset> endDate;
     private Maybe<DateTimeOffset> startDate;
+    private readonly Maybe<string> cursor;
 
     internal GetConversationsRequestBuilder(Maybe<string> cursor) => this.cursor = cursor;
 
@@ -31,44 +31,16 @@ internal class GetConversationsRequestBuilder : IBuilderForOptional
         .Bind(evaluation => evaluation.WithRules(VerifyMinimumPageSize, VerifyMaximumPageSize));
 
     /// <inheritdoc />
-    public IBuilderForOptional WithEndDate(DateTimeOffset value) =>
-        new GetConversationsRequestBuilder(this.cursor)
-        {
-            startDate = this.startDate,
-            pageSize = this.pageSize,
-            endDate = value,
-            fetchOrder = this.fetchOrder,
-        };
+    public IBuilderForOptional WithEndDate(DateTimeOffset value) => this with {endDate = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithOrder(FetchOrder value) =>
-        new GetConversationsRequestBuilder(this.cursor)
-        {
-            startDate = this.startDate,
-            pageSize = this.pageSize,
-            endDate = this.endDate,
-            fetchOrder = value,
-        };
+    public IBuilderForOptional WithOrder(FetchOrder value) => this with {fetchOrder = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithPageSize(int value) =>
-        new GetConversationsRequestBuilder(this.cursor)
-        {
-            startDate = this.startDate,
-            pageSize = value,
-            endDate = this.endDate,
-            fetchOrder = this.fetchOrder,
-        };
+    public IBuilderForOptional WithPageSize(int value) => this with {pageSize = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithStartDate(DateTimeOffset value) =>
-        new GetConversationsRequestBuilder(this.cursor)
-        {
-            startDate = value,
-            pageSize = this.pageSize,
-            endDate = this.endDate,
-            fetchOrder = this.fetchOrder,
-        };
+    public IBuilderForOptional WithStartDate(DateTimeOffset value) => this with {startDate = value};
 
     private static Result<GetConversationsRequest> VerifyMaximumPageSize(GetConversationsRequest request) =>
         InputValidation.VerifyLowerOrEqualThan(request, request.PageSize, MaximumPageSize, nameof(request.PageSize));

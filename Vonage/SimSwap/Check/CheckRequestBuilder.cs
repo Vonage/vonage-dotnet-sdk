@@ -5,42 +5,36 @@ using Vonage.Common.Validation;
 
 namespace Vonage.SimSwap.Check;
 
-internal class CheckRequestBuilder : IBuilderForPhoneNumber, IBuilderForOptional
+internal struct CheckRequestBuilder : IBuilderForPhoneNumber, IBuilderForOptional
 {
+    private const int DefaultPeriod = 240;
     private const int MaximumPeriod = 2400;
     private const int MinimumPeriod = 1;
-    private const int DefaultPeriod = 240;
-    private string number;
     private int period = DefaultPeriod;
-    
+    private string number = default;
+
+    public CheckRequestBuilder()
+    {
+    }
+
     /// <inheritdoc />
     public Result<CheckRequest> Create() =>
-        PhoneNumber.Parse(this.number)
-            .Map(phoneNumber => new CheckRequest
+        Result<CheckRequest>.FromSuccess(new CheckRequest
             {
-                PhoneNumber = phoneNumber,
                 Period = this.period,
-            })
+            }).Merge(PhoneNumber.Parse(this.number), (request, validNumber) => request with {PhoneNumber = validNumber})
             .Map(InputEvaluation<CheckRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyAgeMinimumPeriod, VerifyMaximumPeriod));
-    
+
     /// <inheritdoc />
-    public IVonageRequestBuilder<CheckRequest> WithPeriod(int value) => new CheckRequestBuilder
-    {
-        number = this.number,
-        period = value,
-    };
-    
+    public IVonageRequestBuilder<CheckRequest> WithPeriod(int value) => this with {period = value};
+
     /// <inheritdoc />
-    public IBuilderForOptional WithPhoneNumber(string value) => new CheckRequestBuilder
-    {
-        number = value,
-        period = this.period,
-    };
-    
+    public IBuilderForOptional WithPhoneNumber(string value) => this with {number = value};
+
     private static Result<CheckRequest> VerifyAgeMinimumPeriod(CheckRequest request) =>
         InputValidation.VerifyHigherOrEqualThan(request, request.Period, MinimumPeriod, nameof(request.Period));
-    
+
     private static Result<CheckRequest> VerifyMaximumPeriod(CheckRequest request) =>
         InputValidation.VerifyLowerOrEqualThan(request, request.Period, MaximumPeriod, nameof(request.Period));
 }

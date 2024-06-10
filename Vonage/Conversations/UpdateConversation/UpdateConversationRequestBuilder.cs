@@ -9,7 +9,7 @@ using Vonage.Common.Validation;
 
 namespace Vonage.Conversations.UpdateConversation;
 
-internal class UpdateConversationRequestBuilder : IBuilderForConversationId, IBuilderForOptional
+internal struct UpdateConversationRequestBuilder : IBuilderForConversationId, IBuilderForOptional
 {
     private const int CallbackEventMask = 200;
     private const int DisplayNameMaxLength = 50;
@@ -17,14 +17,18 @@ internal class UpdateConversationRequestBuilder : IBuilderForConversationId, IBu
     private const int PropertiesCustomSortKeyMaxLength = 200;
     private const int PropertiesTypeMaxLength = 200;
 
-    private readonly IEnumerable<HttpMethod> allowedMethods = new[] {HttpMethod.Get, HttpMethod.Post};
+    private static readonly IEnumerable<HttpMethod> AllowedMethods = new[] {HttpMethod.Get, HttpMethod.Post};
     private readonly List<INumber> numbers = new();
-    private Maybe<Callback> callback;
-    private Maybe<Properties> properties;
-    private Maybe<string> name;
-    private Maybe<string> displayName;
-    private Maybe<Uri> uri;
-    private string conversationId;
+    private Maybe<Callback> callback = default;
+    private Maybe<Properties> properties = default;
+    private Maybe<string> name = default;
+    private Maybe<string> displayName = default;
+    private Maybe<Uri> uri = default;
+    private string conversationId = default;
+
+    public UpdateConversationRequestBuilder()
+    {
+    }
 
     /// <inheritdoc />
     public Result<UpdateConversationRequest> Create() => Result<UpdateConversationRequest>.FromSuccess(
@@ -45,45 +49,25 @@ internal class UpdateConversationRequestBuilder : IBuilderForConversationId, IBu
             VerifyNameLength,
             VerifyDisplayName,
             VerifyDisplayNameLength,
-            this.VerifyCallbackHttpMethod,
+            VerifyCallbackHttpMethod,
             VerifyPropertiesTypeLength,
             VerifyPropertiesCustomSortKeyLength,
             VerifyCallbackEventMaskLength));
 
     /// <inheritdoc />
-    public IBuilderForOptional WithCallback(Callback value)
-    {
-        this.callback = value;
-        return this;
-    }
+    public IBuilderForOptional WithCallback(Callback value) => this with {callback = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithConversationId(string value)
-    {
-        this.conversationId = value;
-        return this;
-    }
+    public IBuilderForOptional WithConversationId(string value) => this with {conversationId = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithDisplayName(string value)
-    {
-        this.displayName = value;
-        return this;
-    }
+    public IBuilderForOptional WithDisplayName(string value) => this with {displayName = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithImageUrl(Uri value)
-    {
-        this.uri = value;
-        return this;
-    }
+    public IBuilderForOptional WithImageUrl(Uri value) => this with {uri = value};
 
     /// <inheritdoc />
-    public IBuilderForOptional WithName(string value)
-    {
-        this.name = value;
-        return this;
-    }
+    public IBuilderForOptional WithName(string value) => this with {name = value};
 
     /// <inheritdoc />
     public IBuilderForOptional WithNumber(INumber value)
@@ -93,11 +77,7 @@ internal class UpdateConversationRequestBuilder : IBuilderForConversationId, IBu
     }
 
     /// <inheritdoc />
-    public IBuilderForOptional WithProperties(Properties value)
-    {
-        this.properties = value;
-        return this;
-    }
+    public IBuilderForOptional WithProperties(Properties value) => this with {properties = value};
 
     private static Result<UpdateConversationRequest> VerifyCallbackEventMaskLength(UpdateConversationRequest request) =>
         request.Callback.Match(
@@ -105,9 +85,9 @@ internal class UpdateConversationRequestBuilder : IBuilderForConversationId, IBu
                 $"{nameof(request.Callback)} {nameof(some.EventMask)}"),
             () => request);
 
-    private Result<UpdateConversationRequest> VerifyCallbackHttpMethod(UpdateConversationRequest request) =>
+    private static Result<UpdateConversationRequest> VerifyCallbackHttpMethod(UpdateConversationRequest request) =>
         request.Callback.Match(
-            some => this.allowedMethods.Contains(some.Method)
+            some => AllowedMethods.Contains(some.Method)
                 ? Result<UpdateConversationRequest>.FromSuccess(request)
                 : ResultFailure.FromErrorMessage("Callback HttpMethod must be GET or POST.")
                     .ToResult<UpdateConversationRequest>(),
