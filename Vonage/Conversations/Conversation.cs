@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
-using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 
@@ -34,8 +33,8 @@ public record Conversation(
     Maybe<Properties> Properties,
     [property: JsonPropertyName("_links")] Links Links,
     [property: JsonPropertyName("_embedded")]
-    [property: JsonConverter(typeof(MaybeJsonConverter<EmbeddedData>))]
-    Maybe<EmbeddedData> Embedded);
+    [property: JsonConverter(typeof(MaybeJsonConverter<EmbeddedConversationData>))]
+    Maybe<EmbeddedConversationData> Embedded);
 
 /// <summary>
 ///     Represents the conversation history
@@ -49,12 +48,6 @@ public record Timestamp(
     Maybe<DateTimeOffset> Updated,
     [property: JsonConverter(typeof(MaybeJsonConverter<DateTimeOffset>))]
     Maybe<DateTimeOffset> Destroyed);
-
-/// <summary>
-///     Represents additional links.
-/// </summary>
-/// <param name="Self">The link to the conversation</param>
-public record Links(HalLink Self);
 
 /// <summary>
 ///     Represents the Conversation Properties.
@@ -82,7 +75,7 @@ public record Properties(
 /// </summary>
 /// <param name="MemberId">The Member Id.</param>
 /// <param name="MemberState">The state that the member is in.</param>
-public record EmbeddedData(
+public record EmbeddedConversationData(
     [property: JsonPropertyName("id")]
     [property: JsonPropertyOrder(0)]
     string MemberId,

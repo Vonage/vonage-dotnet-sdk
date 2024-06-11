@@ -6,6 +6,7 @@ using Vonage.Conversations.DeleteConversation;
 using Vonage.Conversations.DeleteEvent;
 using Vonage.Conversations.GetConversation;
 using Vonage.Conversations.GetConversations;
+using Vonage.Conversations.GetEvent;
 using Vonage.Conversations.GetMember;
 using Vonage.Conversations.GetMembers;
 using Vonage.Conversations.GetUserConversations;
@@ -25,70 +26,77 @@ public interface IConversationsClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Conversation>> CreateConversationAsync(Result<CreateConversationRequest> request);
-    
+
     /// <summary>
     ///     Deletes a conversation.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Unit>> DeleteConversationAsync(Result<DeleteConversationRequest> request);
-    
+
     /// <summary>
     ///     Deletes an event.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Unit>> DeleteEventAsync(Result<DeleteEventRequest> request);
-    
+
     /// <summary>
     ///     Retrieves a conversation.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Conversation>> GetConversationAsync(Result<GetConversationRequest> request);
-    
+
+    /// <summary>
+    ///     Retrieves an event.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Event>> GetEventAsync(Result<GetEventRequest> request);
+
     /// <summary>
     ///     Creates a member.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Member>> CreateMemberAsync(Result<CreateMemberRequest> request);
-    
+
     /// <summary>
     ///     Updates a member.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Member>> UpdateMemberAsync(Result<UpdateMemberRequest> request);
-    
+
     /// <summary>
     ///     Retrieves a member.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Member>> GetMemberAsync(Result<GetMemberRequest> request);
-    
+
     /// <summary>
     ///     Retrieves conversations.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<GetConversationsResponse>> GetConversationsAsync(Result<GetConversationsRequest> request);
-    
+
     /// <summary>
     ///     Retrieves members.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<GetMembersResponse>> GetMembersAsync(Result<GetMembersRequest> request);
-    
+
     /// <summary>
     ///     Retrieves conversations for a user.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<GetUserConversationsResponse>> GetUserConversationsAsync(Result<GetUserConversationsRequest> request);
-    
+
     /// <summary>
     ///     Updates a conversation.
     /// </summary>

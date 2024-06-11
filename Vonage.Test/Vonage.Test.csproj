@@ -1197,6 +1197,33 @@
         <None Update="Conversations\UpdateMember\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeTextMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeImageMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeAudioMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeVideoMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeFileMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeTemplateMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeCustomMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeVcardMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeLocationMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

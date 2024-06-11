@@ -30,7 +30,7 @@ public class SerializationTest
         var conversation = response.Embedded.Conversations.First();
         ConversationTests.VerifyExpectedResponse(conversation);
         conversation.Embedded.Should()
-            .Be(new EmbeddedData("MEM-63f61863-4a51-4f6b-86e1-46edebio0391", MemberState.Left));
+            .Be(new EmbeddedConversationData("MEM-63f61863-4a51-4f6b-86e1-46edebio0391", MemberState.Left));
         response.Links.First.Href.Should()
             .Be(new Uri(
                 "https://api.nexmo.com/v1/users/USR-82e028d9-5201-4f1e-8188-604b2d3471ec/conversations?order=desc&page_size=10"));
