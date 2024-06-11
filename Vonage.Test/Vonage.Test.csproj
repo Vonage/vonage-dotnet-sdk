@@ -1224,6 +1224,9 @@
         <None Update="Conversations\GetEvent\Data\ShouldDeserializeLocationMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Conversations\GetEvent\Data\ShouldDeserializeRandomMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

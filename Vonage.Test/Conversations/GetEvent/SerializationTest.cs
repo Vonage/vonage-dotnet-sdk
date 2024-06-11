@@ -81,4 +81,10 @@ public class SerializationTest
         .Should()
         .BeSuccess(BuildExpectedEvent(
             new EventBodyLocationMessage(new EventBodyLocation("Longitude", "Latitude", "Name", "Address"))));
+
+    [Fact]
+    public void ShouldDeserializeRandomMessage() => this.helper.Serializer
+        .DeserializeObject<Event>(this.helper.GetResponseJson())
+        .Should()
+        .BeSuccess(BuildExpectedEvent(new EventBodyRandomMessage()));
 }

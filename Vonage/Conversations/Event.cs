@@ -43,6 +43,7 @@ public record EmbeddedEventMember(string Id);
 [JsonDerivedType(typeof(EventBodyCustomMessage), "custom")]
 [JsonDerivedType(typeof(EventBodyVcardMessage), "vcard")]
 [JsonDerivedType(typeof(EventBodyLocationMessage), "location")]
+[JsonDerivedType(typeof(EventBodyRandomMessage), "random")]
 public record EventBodyBase;
 
 public record EventBodyTextMessage(string Text) : EventBodyBase;
@@ -64,3 +65,4 @@ public record EventBodyVcardMessage(EventBodyVcardUrl Vcard, EventBodyImageUrl I
 public record EventBodyVcardUrl(string Url);
 public record EventBodyLocationMessage(EventBodyLocation File) : EventBodyBase;
 public record EventBodyLocation(string Longitude, string Latitude, string Name, string Address);
+public record EventBodyRandomMessage : EventBodyBase;
