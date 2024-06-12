@@ -3,7 +3,8 @@
   "type": "message",
   "from": "string",
   "body": {
-    "message_type": "random"
+    "message_type": "text",
+    "text": "string"
   },
   "timestamp": "2020-01-01T14:00:00.00Z",
   "_embedded": {
@@ -12,7 +13,10 @@
       "name": "my_user_name",
       "display_name": "My User Name",
       "image_url": "https://example.com/image.png",
-      "custom_data": {}
+      "custom_data": {
+        "field_1": "value_1",
+        "field_2": "value_2"
+      }
     },
     "from_member": {
       "id": "string"
