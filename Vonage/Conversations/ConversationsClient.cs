@@ -8,6 +8,7 @@ using Vonage.Conversations.DeleteEvent;
 using Vonage.Conversations.GetConversation;
 using Vonage.Conversations.GetConversations;
 using Vonage.Conversations.GetEvent;
+using Vonage.Conversations.GetEvents;
 using Vonage.Conversations.GetMember;
 using Vonage.Conversations.GetMembers;
 using Vonage.Conversations.GetUserConversations;
@@ -48,6 +49,10 @@ internal class ConversationsClient : IConversationsClient
     /// <inheritdoc />
     public Task<Result<Event>> GetEventAsync(Result<GetEventRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetEventRequest, Event>(request);
+
+    /// <inheritdoc />
+    public Task<Result<GetEventsResponse>> GetEventsAsync(Result<GetEventsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetEventsRequest, GetEventsResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<Member>> CreateMemberAsync(Result<CreateMemberRequest> request) =>

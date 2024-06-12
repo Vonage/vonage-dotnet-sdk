@@ -15,7 +15,7 @@ public class E2ETest : E2EBase
     public E2ETest() : base(typeof(E2ETest).Namespace)
     {
     }
-    
+
     [Fact]
     public async Task GetMembers()
     {
@@ -36,7 +36,7 @@ public class E2ETest : E2EBase
             .Should()
             .BeSuccessAsync(SerializationTest.VerifyExpectedResponse);
     }
-    
+
     [Fact]
     public async Task GetMembersFromHalLink()
     {
@@ -50,7 +50,7 @@ public class E2ETest : E2EBase
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                 .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
         await this.Helper.VonageClient.ConversationsClient
-            .GetMembersAsync(new GetMembersHalLink(new Uri(
+            .GetMembersAsync(new GetConversationsHalLink(new Uri(
                     "https://api.nexmo.com/v1/conversations/CON-123/members?order=desc&page_size=50&cursor=7EjDNQrAcipmOnc0HCzpQRkhBULzY44ljGUX4lXKyUIVfiZay5pv9wg%3D"))
                 .BuildRequest())
             .Should()

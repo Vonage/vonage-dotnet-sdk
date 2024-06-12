@@ -22,7 +22,7 @@ public record GetConversationsResponse(
     EmbeddedConversations Embedded,
     [property: JsonPropertyName("_links")]
     [property: JsonPropertyOrder(2)]
-    HalLinks<GetMembersHalLink> Links);
+    HalLinks<GetConversationsHalLink> Links);
 
 /// <summary>
 ///     Represents a list of conversations.
@@ -34,10 +34,10 @@ public record EmbeddedConversations(Conversation[] Conversations);
 ///     Represents a link to another resource.
 /// </summary>
 /// <param name="Href">Hyperlink reference.</param>
-public record GetMembersHalLink(Uri Href)
+public record GetConversationsHalLink(Uri Href)
 {
     /// <summary>
-    ///     Transforms the link into a GetUsersRequest using the cursor pagination.
+    ///     Transforms the link into a GetConversationsRequest using the cursor pagination.
     /// </summary>
     /// <returns></returns>
     public Result<GetConversationsRequest> BuildRequest()
@@ -50,15 +50,15 @@ public record GetMembersHalLink(Uri Href)
         builder = ApplyOptionalEndDate(parameters, builder);
         return builder.Create();
     }
-    
+
     private static IBuilderForOptional
         ApplyOptionalStartDate(QueryParameters parameters, IBuilderForOptional builder) =>
         parameters.StartDate.Match(builder.WithStartDate, () => builder);
-    
+
     private static IBuilderForOptional
         ApplyOptionalEndDate(QueryParameters parameters, IBuilderForOptional builder) =>
         parameters.EndDate.Match(builder.WithEndDate, () => builder);
-    
+
     private static QueryParameters ExtractQueryParameters(Uri uri)
     {
         var queryParameters = HttpUtility.ParseQueryString(uri.Query);
@@ -71,7 +71,7 @@ public record GetMembersHalLink(Uri Href)
             startDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)),
             endDate.Map(value => DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)));
     }
-    
+
     private record QueryParameters(
         Maybe<string> Cursor,
         int PageSize,

@@ -17,7 +17,6 @@ internal struct GetConversationsRequestBuilder : IBuilderForOptional
 
     internal GetConversationsRequestBuilder(Maybe<string> cursor) => this.cursor = cursor;
 
-    /// <inheritdoc />
     public Result<GetConversationsRequest> Create() => Result<GetConversationsRequest>.FromSuccess(
             new GetConversationsRequest
             {
@@ -30,16 +29,12 @@ internal struct GetConversationsRequestBuilder : IBuilderForOptional
         .Map(InputEvaluation<GetConversationsRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(VerifyMinimumPageSize, VerifyMaximumPageSize));
 
-    /// <inheritdoc />
     public IBuilderForOptional WithEndDate(DateTimeOffset value) => this with {endDate = value};
 
-    /// <inheritdoc />
     public IBuilderForOptional WithOrder(FetchOrder value) => this with {fetchOrder = value};
 
-    /// <inheritdoc />
     public IBuilderForOptional WithPageSize(int value) => this with {pageSize = value};
 
-    /// <inheritdoc />
     public IBuilderForOptional WithStartDate(DateTimeOffset value) => this with {startDate = value};
 
     private static Result<GetConversationsRequest> VerifyMaximumPageSize(GetConversationsRequest request) =>

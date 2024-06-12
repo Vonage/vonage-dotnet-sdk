@@ -7,6 +7,7 @@ using Vonage.Conversations.DeleteEvent;
 using Vonage.Conversations.GetConversation;
 using Vonage.Conversations.GetConversations;
 using Vonage.Conversations.GetEvent;
+using Vonage.Conversations.GetEvents;
 using Vonage.Conversations.GetMember;
 using Vonage.Conversations.GetMembers;
 using Vonage.Conversations.GetUserConversations;
@@ -54,6 +55,13 @@ public interface IConversationsClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Event>> GetEventAsync(Result<GetEventRequest> request);
+
+    /// <summary>
+    ///     Retrieves events.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetEventsResponse>> GetEventsAsync(Result<GetEventsRequest> request);
 
     /// <summary>
     ///     Creates a member.

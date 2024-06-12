@@ -16,7 +16,7 @@ public record GetMembersResponse(
     EmbeddedMembers Embedded,
     [property: JsonPropertyName("_links")]
     [property: JsonPropertyOrder(2)]
-    HalLinks<GetMembersHalLink> Links);
+    HalLinks<GetConversationsHalLink> Links);
 
 /// <summary>
 ///     Represents a list of conversations.
@@ -28,10 +28,10 @@ public record EmbeddedMembers(Member[] Members);
 ///     Represents a link to another resource.
 /// </summary>
 /// <param name="Href">Hyperlink reference.</param>
-public record GetMembersHalLink(Uri Href)
+public record GetConversationsHalLink(Uri Href)
 {
     /// <summary>
-    ///     Transforms the link into a GetUsersRequest using the cursor pagination.
+    ///     Transforms the link into a GetMembersRequest using the cursor pagination.
     /// </summary>
     /// <returns></returns>
     public Result<GetMembersRequest> BuildRequest()
@@ -42,7 +42,7 @@ public record GetMembersHalLink(Uri Href)
             .WithPageSize(parameters.PageSize)
             .WithOrder(parameters.Order).Create();
     }
-    
+
     private static QueryParameters ExtractQueryParameters(Uri uri)
     {
         var queryParameters = HttpUtility.ParseQueryString(uri.Query);
@@ -52,10 +52,10 @@ public record GetMembersHalLink(Uri Href)
             int.Parse(queryParameters["page_size"]),
             Enums.Parse<FetchOrder>(queryParameters["order"], false, EnumFormat.Description));
     }
-    
+
     private static string ExtractConversationId(Uri uri) => uri.AbsolutePath.Replace("/v1/conversations/", string.Empty)
         .Replace("/members", string.Empty);
-    
+
     private record QueryParameters(
         Maybe<string> Cursor,
         string ConversationId,

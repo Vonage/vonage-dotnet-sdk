@@ -18,7 +18,7 @@ public record GetUserConversationsResponse(
     EmbeddedConversations Embedded,
     [property: JsonPropertyName("_links")]
     [property: JsonPropertyOrder(2)]
-    HalLinks<GetMembersHalLink> Links);
+    HalLinks<GetConversationsHalLink> Links);
 
 /// <summary>
 ///     Represents a list of conversations.
@@ -49,21 +49,21 @@ public record GetUserConversationsHalLink(Uri Href)
         builder = ApplyOptionalIncludeCustomData(parameters, builder);
         return builder.Create();
     }
-    
+
     private static IBuilderForOptional
         ApplyOptionalIncludeCustomData(QueryParameters parameters, IBuilderForOptional builder) =>
         parameters.IncludeCustomData.IfNone(false) ? builder.IncludeCustomData() : builder;
-    
+
     private static IBuilderForOptional ApplyOptionalState(QueryParameters parameters, IBuilderForOptional builder) =>
         parameters.State.Match(builder.WithState, () => builder);
-    
+
     private static IBuilderForOptional
         ApplyOptionalStartDate(QueryParameters parameters, IBuilderForOptional builder) =>
         parameters.StartDate.Match(builder.WithStartDate, () => builder);
-    
+
     private static IBuilderForOptional ApplyOptionalOrderBy(QueryParameters parameters, IBuilderForOptional builder) =>
         parameters.OrderBy.Match(builder.WithOrderBy, () => builder);
-    
+
     private static QueryParameters ExtractQueryParameters(Uri uri)
     {
         var queryParameters = HttpUtility.ParseQueryString(uri.Query);
@@ -81,7 +81,7 @@ public record GetUserConversationsHalLink(Uri Href)
             includeCustomData.Match(bool.Parse, () => false),
             state.Map(value => Enums.Parse<State>(value, false, EnumFormat.Description)));
     }
-    
+
     private record QueryParameters(
         string UserId,
         Maybe<string> Cursor,
