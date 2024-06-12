@@ -40,28 +40,12 @@ public record GetEventsHalLink(Uri Href)
             .WithConversationId(parameters.ConversationId)
             .WithPageSize(parameters.PageSize)
             .WithOrder(parameters.Order);
-        builder = ApplyOptionalStartId(parameters, builder);
-        builder = ApplyOptionalEndDate(parameters, builder);
-        builder = ApplyOptionalEventType(parameters, builder);
-        builder = ExcludeDeletedEvents(parameters, builder);
+        builder = parameters.ApplyOptionalStartId(builder);
+        builder = parameters.ApplyOptionalEndDate(builder);
+        builder = parameters.ApplyOptionalEventType(builder);
+        builder = parameters.ApplyExcludeDeletedEvents(builder);
         return builder.Create();
     }
-
-    private static IBuilderForOptional
-        ApplyOptionalStartId(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.StartId.Match(builder.WithStartId, () => builder);
-
-    private static IBuilderForOptional
-        ApplyOptionalEndDate(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.EndId.Match(builder.WithEndId, () => builder);
-
-    private static IBuilderForOptional
-        ApplyOptionalEventType(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.EventType.Match(builder.WithEventType, () => builder);
-
-    private static IBuilderForOptional
-        ExcludeDeletedEvents(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.ExcludeDeletedEvents ? builder.ExcludeDeletedEvents() : builder;
 
     private static QueryParameters ExtractQueryParameters(Uri uri)
     {
@@ -91,5 +75,18 @@ public record GetEventsHalLink(Uri Href)
         Maybe<string> StartId,
         Maybe<string> EndId,
         Maybe<string> EventType,
-        bool ExcludeDeletedEvents);
+        bool ExcludeDeletedEvents)
+    {
+        public IBuilderForOptional ApplyOptionalStartId(IBuilderForOptional builder) =>
+            this.StartId.Match(builder.WithStartId, () => builder);
+
+        public IBuilderForOptional ApplyOptionalEndDate(IBuilderForOptional builder) =>
+            this.EndId.Match(builder.WithEndId, () => builder);
+
+        public IBuilderForOptional ApplyOptionalEventType(IBuilderForOptional builder) =>
+            this.EventType.Match(builder.WithEventType, () => builder);
+
+        public IBuilderForOptional ApplyExcludeDeletedEvents(IBuilderForOptional builder) =>
+            this.ExcludeDeletedEvents ? builder.ExcludeDeletedEvents() : builder;
+    }
 }

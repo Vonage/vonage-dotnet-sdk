@@ -43,26 +43,12 @@ public record GetUserConversationsHalLink(Uri Href)
             .WithUserId(parameters.UserId)
             .WithPageSize(parameters.PageSize)
             .WithOrder(parameters.Order);
-        builder = ApplyOptionalOrderBy(parameters, builder);
-        builder = ApplyOptionalStartDate(parameters, builder);
-        builder = ApplyOptionalState(parameters, builder);
-        builder = ApplyOptionalIncludeCustomData(parameters, builder);
+        builder = parameters.ApplyOptionalOrderBy(builder);
+        builder = parameters.ApplyOptionalStartDate(builder);
+        builder = parameters.ApplyOptionalState(builder);
+        builder = parameters.ApplyOptionalIncludeCustomData(builder);
         return builder.Create();
     }
-
-    private static IBuilderForOptional
-        ApplyOptionalIncludeCustomData(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.IncludeCustomData.IfNone(false) ? builder.IncludeCustomData() : builder;
-
-    private static IBuilderForOptional ApplyOptionalState(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.State.Match(builder.WithState, () => builder);
-
-    private static IBuilderForOptional
-        ApplyOptionalStartDate(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.StartDate.Match(builder.WithStartDate, () => builder);
-
-    private static IBuilderForOptional ApplyOptionalOrderBy(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.OrderBy.Match(builder.WithOrderBy, () => builder);
 
     private static QueryParameters ExtractQueryParameters(Uri uri)
     {
@@ -90,5 +76,18 @@ public record GetUserConversationsHalLink(Uri Href)
         Maybe<string> OrderBy,
         Maybe<DateTimeOffset> StartDate,
         Maybe<bool> IncludeCustomData,
-        Maybe<State> State);
+        Maybe<State> State)
+    {
+        public IBuilderForOptional ApplyOptionalIncludeCustomData(IBuilderForOptional builder) =>
+            this.IncludeCustomData.IfNone(false) ? builder.IncludeCustomData() : builder;
+
+        public IBuilderForOptional ApplyOptionalState(IBuilderForOptional builder) =>
+            this.State.Match(builder.WithState, () => builder);
+
+        public IBuilderForOptional ApplyOptionalStartDate(IBuilderForOptional builder) =>
+            this.StartDate.Match(builder.WithStartDate, () => builder);
+
+        public IBuilderForOptional ApplyOptionalOrderBy(IBuilderForOptional builder) =>
+            this.OrderBy.Match(builder.WithOrderBy, () => builder);
+    }
 }

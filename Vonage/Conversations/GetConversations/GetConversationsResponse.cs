@@ -46,18 +46,10 @@ public record GetConversationsHalLink(Uri Href)
         var builder = new GetConversationsRequestBuilder(parameters.Cursor)
             .WithPageSize(parameters.PageSize)
             .WithOrder(parameters.Order);
-        builder = ApplyOptionalStartDate(parameters, builder);
-        builder = ApplyOptionalEndDate(parameters, builder);
+        builder = parameters.ApplyOptionalStartDate(builder);
+        builder = parameters.ApplyOptionalEndDate(builder);
         return builder.Create();
     }
-
-    private static IBuilderForOptional
-        ApplyOptionalStartDate(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.StartDate.Match(builder.WithStartDate, () => builder);
-
-    private static IBuilderForOptional
-        ApplyOptionalEndDate(QueryParameters parameters, IBuilderForOptional builder) =>
-        parameters.EndDate.Match(builder.WithEndDate, () => builder);
 
     private static QueryParameters ExtractQueryParameters(Uri uri)
     {
@@ -77,5 +69,12 @@ public record GetConversationsHalLink(Uri Href)
         int PageSize,
         FetchOrder Order,
         Maybe<DateTimeOffset> StartDate,
-        Maybe<DateTimeOffset> EndDate);
+        Maybe<DateTimeOffset> EndDate)
+    {
+        public IBuilderForOptional ApplyOptionalStartDate(IBuilderForOptional builder) =>
+            this.StartDate.Match(builder.WithStartDate, () => builder);
+
+        public IBuilderForOptional ApplyOptionalEndDate(IBuilderForOptional builder) =>
+            this.EndDate.Match(builder.WithEndDate, () => builder);
+    }
 }
