@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
 using Vonage.Common.Monads;
 
 namespace Vonage.Test.Common.Extensions;
@@ -13,4 +14,7 @@ public static class FluentAssertionExtensions
 
     public static ResultAsyncAssertionExtensions<T> Should<T>(this Task<Result<T>> instance) =>
         new ResultAsyncAssertionExtensions<T>(instance);
+
+    public static JsonElementAssertionExtensions Should(this JsonElement instance) =>
+        new JsonElementAssertionExtensions(instance);
 }
