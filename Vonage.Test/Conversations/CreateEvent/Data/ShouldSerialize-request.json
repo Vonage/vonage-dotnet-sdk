@@ -1,0 +1,6 @@
+﻿{
+  "type": "message:submitted",
+  "body": {
+    "event_id": "string"
+  }
+}

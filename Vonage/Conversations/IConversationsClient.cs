@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.Conversations.CreateConversation;
+using Vonage.Conversations.CreateEvent;
 using Vonage.Conversations.CreateMember;
 using Vonage.Conversations.DeleteConversation;
 using Vonage.Conversations.DeleteEvent;
@@ -27,6 +28,13 @@ public interface IConversationsClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Conversation>> CreateConversationAsync(Result<CreateConversationRequest> request);
+
+    /// <summary>
+    ///     Creates an event.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Event>> CreateEventAsync(Result<CreateEventRequest> request);
 
     /// <summary>
     ///     Deletes a conversation.

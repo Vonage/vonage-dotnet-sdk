@@ -2,6 +2,7 @@
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Conversations.CreateConversation;
+using Vonage.Conversations.CreateEvent;
 using Vonage.Conversations.CreateMember;
 using Vonage.Conversations.DeleteConversation;
 using Vonage.Conversations.DeleteEvent;
@@ -30,9 +31,12 @@ internal class ConversationsClient : IConversationsClient
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
-    public Task<Result<Conversation>>
-        CreateConversationAsync(Result<CreateConversationRequest> request) =>
+    public Task<Result<Conversation>> CreateConversationAsync(Result<CreateConversationRequest> request) =>
         this.vonageClient.SendWithResponseAsync<CreateConversationRequest, Conversation>(request);
+
+    /// <inheritdoc />
+    public Task<Result<Event>> CreateEventAsync(Result<CreateEventRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<CreateEventRequest, Event>(request);
 
     /// <inheritdoc />
     public Task<Result<Unit>> DeleteConversationAsync(Result<DeleteConversationRequest> request) =>
