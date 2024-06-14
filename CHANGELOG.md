@@ -1,4 +1,89 @@
 # Changelog
+## [v7.5.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.5.0) (2024-06-14)
+
+### Bug Fixes
+
+- Coverage not recognized from SonarSource ([ccef03b](https://github.com/Vonage/vonage-dotnet-sdk/commit/ccef03b02723a7d88c8cc3c83f3c98980c40dbeb))
+
+
+### Documentation
+
+- Generate changelog for v7.4.0 ([5474055](https://github.com/Vonage/vonage-dotnet-sdk/commit/5474055b62aa3222bede6ee3083d42092c14a9f2))
+
+- Fix xml comment on SimSwap ([5c7f4c1](https://github.com/Vonage/vonage-dotnet-sdk/commit/5c7f4c174be3daa856a1f3181b3733acfc24f122))
+
+- Bump version to v7.5.0 ([9e72fbc](https://github.com/Vonage/vonage-dotnet-sdk/commit/9e72fbc4ba319e74e477550ba49dec15e2f254b9))
+
+
+### Features
+
+- Implement SimSwap authentication mechanism ([fe131a2](https://github.com/Vonage/vonage-dotnet-sdk/commit/fe131a22f3e7d1eee5ada45b0b9be45b4e2b0233))
+
+- Add SimSwap client to ServiceCollection extensions ([443f9ac](https://github.com/Vonage/vonage-dotnet-sdk/commit/443f9ace9c0135c86af876f966f7323f8c0032d1))
+
+- Implement SimSwap Check ([db8c97d](https://github.com/Vonage/vonage-dotnet-sdk/commit/db8c97d8366eebadfecd3aa58bad7c612434e56e))
+
+- Expose token scope on AuthenticateRequest ([1b3c756](https://github.com/Vonage/vonage-dotnet-sdk/commit/1b3c7565c898672c00b9224ec40a623406435d58))
+
+- Implement SimSwap date retrieval ([a0d8d27](https://github.com/Vonage/vonage-dotnet-sdk/commit/a0d8d276f4bbf9933d6d14883c89d33fd153d82a))
+
+- Implement GetMember in Conversations ([881ef15](https://github.com/Vonage/vonage-dotnet-sdk/commit/881ef156ddc7d7c026137f25f62e923240f926fc))
+
+- Update SimSwap authentication based on documentation changes ([521e975](https://github.com/Vonage/vonage-dotnet-sdk/commit/521e9757b14af30c051b513ba19ca4779a878802))
+
+- Update SimSwap authentication based on documentation changes ([d0b98ec](https://github.com/Vonage/vonage-dotnet-sdk/commit/d0b98ec18ab871235b35f0782058123eee29681a))
+
+- Implement GetMembers in Conversations ([ffe0c0a](https://github.com/Vonage/vonage-dotnet-sdk/commit/ffe0c0a713fbefb59d134d02465ba191be17a783))
+
+- Implement CreateMember in Conversations ([5e01bf3](https://github.com/Vonage/vonage-dotnet-sdk/commit/5e01bf38f0e4e5d55f69ece5870644ca1fe7a74b))
+
+- Implement UpdateMember in Conversations ([271bfcc](https://github.com/Vonage/vonage-dotnet-sdk/commit/271bfcc0d5622c1fea174fe147bed9baa2779e02))
+
+- Implement DeleteEvent in Conversations ([0ddedaa](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ddedaa767c5cf55ae5fb26a3f94da4b78b90a9b))
+
+- Refactor builders for Conversations ([62467b2](https://github.com/Vonage/vonage-dotnet-sdk/commit/62467b2250a5a7545de938ab77a1441b9a344d01))
+
+- Implement GetEvents responses serialization in Conversations ([05fed72](https://github.com/Vonage/vonage-dotnet-sdk/commit/05fed72163bbd9c3e1c8afe7bbc41e9aec01a271))
+
+- Implement RandomMessage for GetEvents ([39d7732](https://github.com/Vonage/vonage-dotnet-sdk/commit/39d77324aa07c350e1aebd5ff70e296c37b062e0))
+
+- Implement FluentAssertion extension for JsonElement ([c0aae8b](https://github.com/Vonage/vonage-dotnet-sdk/commit/c0aae8bc58bdf4caab1e89d37dd87c55e65b6479))
+
+- Finalize E2E flow for GetEvent ([d969926](https://github.com/Vonage/vonage-dotnet-sdk/commit/d9699260b23d01a969187accb31ac570317550c6))
+
+- Implement GetEvents in Conversations ([b43cf1f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b43cf1fe3cae271c160bf2e80a95a7158cd7eefe))
+
+- Feat; implement CreateEvent in Conversations
+ ([199c37f](https://github.com/Vonage/vonage-dotnet-sdk/commit/199c37fcca47899ca0e91c93d20fe2b30d1c3cdc))
+
+
+### Merges
+
+- Merge remote-tracking branch 'origin/main'
+ ([13e1477](https://github.com/Vonage/vonage-dotnet-sdk/commit/13e1477d3a36aea072491992f984e26359c65612))
+
+
+### Refactoring
+
+- Clean SimSwap ([e92db28](https://github.com/Vonage/vonage-dotnet-sdk/commit/e92db2801fc18bdf16682621b73928f6ab206ef0))
+
+- Make InputEvaluation internal ([9ddba24](https://github.com/Vonage/vonage-dotnet-sdk/commit/9ddba24b6fbd5a9e28734cd289a5662554be9f57))
+
+- Remove converter for ChannelType ([da4c568](https://github.com/Vonage/vonage-dotnet-sdk/commit/da4c568e4a6bf66cc9bcf314ccfd8f7980df3c5c))
+
+- Remove temporary naming on CreateMember ([3986550](https://github.com/Vonage/vonage-dotnet-sdk/commit/39865504bf409564c1974b9c2ff050df932e274a))
+
+- Clean CreateMember tests ([5b75177](https://github.com/Vonage/vonage-dotnet-sdk/commit/5b7517720d15b820a2777348d499f7d4535cc25f))
+
+- Builders for NumberInsightsV2 ([991dca1](https://github.com/Vonage/vonage-dotnet-sdk/commit/991dca15d456919709cb7b1f7996cff4923ce248))
+
+- Refactor builders for SimSwap ([a081eec](https://github.com/Vonage/vonage-dotnet-sdk/commit/a081eec3290670ebda0dc446df5ff9e8c9c8888e))
+
+- Rely on JsonElement for extensive structure of Events in Conversations ([3b23c7c](https://github.com/Vonage/vonage-dotnet-sdk/commit/3b23c7ca947fc23a32396b351107f425fb1e7d67))
+
+- Clean responses in Conversations ([5202a45](https://github.com/Vonage/vonage-dotnet-sdk/commit/5202a453ac4f39548cdcb21012a5fd83e117b710))
+
+
 ## [v7.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.4.0) (2024-05-13)
 
 ### Documentation
