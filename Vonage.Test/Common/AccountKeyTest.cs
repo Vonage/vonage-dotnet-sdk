@@ -32,7 +32,7 @@ public class AccountKeyTest
     [Property]
     public Property Parse_ShouldReturnFailure_GivenApiKeyLengthIsDifferentThan8() =>
         Prop.ForAll(
-            Arb.From<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value) && value.Length != 8),
+            Arb.From<string>().Filter(value => !string.IsNullOrWhiteSpace(value) && value.Length != 8),
             invalidApiKey => AccountKey.Parse(invalidApiKey)
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("AccountKey length should be 8.")));
