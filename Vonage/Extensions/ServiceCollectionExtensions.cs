@@ -24,7 +24,7 @@ public static class ServiceCollectionExtensions
         RegisterScopedServices(services);
         return services;
     }
-    
+
     /// <summary>
     ///     Adds a scoped service of <see cref="VonageClient" />, and all api-specific clients, to the specified
     ///     IServiceCollection.
@@ -41,7 +41,7 @@ public static class ServiceCollectionExtensions
         RegisterScopedServices(services);
         return services;
     }
-    
+
     /// <summary>
     ///     Adds a transient service of <see cref="VonageClient" />, and all api-specific clients, to the specified
     ///     IServiceCollection.
@@ -56,7 +56,7 @@ public static class ServiceCollectionExtensions
         RegisterTransientServices(services);
         return services;
     }
-    
+
     /// <summary>
     ///     Adds a transient service of <see cref="VonageClient" />, and all api-specific clients, to the specified
     ///     IServiceCollection.
@@ -73,7 +73,7 @@ public static class ServiceCollectionExtensions
         RegisterTransientServices(services);
         return services;
     }
-    
+
     private static void RegisterScopedServices(IServiceCollection services)
     {
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
@@ -84,6 +84,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightV2Client);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumbersClient);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberVerificationClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
@@ -99,7 +100,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITokenGenerator>(_ => new Jwt());
         services.AddScoped<IVideoTokenGenerator>(_ => new VideoTokenGenerator());
     }
-    
+
     private static void RegisterTransientServices(IServiceCollection services)
     {
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
@@ -110,6 +111,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightV2Client);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumbersClient);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberVerificationClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
