@@ -1218,6 +1218,21 @@
         <None Update="NumberVerification\Authenticate\Data\ShouldDeserializeAuthorize-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="NumberVerification\Verify\Data\ShouldDeserializeAccessToken-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="NumberVerification\Verify\Data\ShouldDeserializeAuthorize-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="NumberVerification\Verify\Data\ShouldDeserializeVerify-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="NumberVerification\Verify\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="NumberVerification\Verify\Data\ShouldSerializeWithPeriod-request.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
