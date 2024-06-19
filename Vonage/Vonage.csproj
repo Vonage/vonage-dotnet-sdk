@@ -80,6 +80,9 @@
       <PackagePath/>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NumberVerification\Verify\"/>
+  </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="node ../.scripts/init.js"/>
   </Target>

@@ -1212,6 +1212,12 @@
         <None Update="Conversations\CreateEvent\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="NumberVerification\Authenticate\Data\ShouldDeserializeAccessToken-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="NumberVerification\Authenticate\Data\ShouldDeserializeAuthorize-response.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
