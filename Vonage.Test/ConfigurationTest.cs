@@ -259,7 +259,7 @@ public class ConnectionLifetimeTest
     private async Task<int> RefreshConnectionPool(Dictionary<string, string> settings, int timerBuffer, int loops)
     {
         using var spy = new EventSpy();
-        var helper = TestingContext.WithBasicCredentials("Url.Rest", settings);
+        var helper = TestingContext.WithBasicCredentials(settings);
         helper.Server.Given(WireMock.RequestBuilders.Request.Create().UsingGet())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
         var timer = new PeriodicTimer(TimeSpan.FromSeconds(timerBuffer));

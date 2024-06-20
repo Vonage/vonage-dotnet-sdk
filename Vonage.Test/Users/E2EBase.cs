@@ -17,7 +17,7 @@ public class E2EBase
     protected E2EBase(string serializationNamespace) : this() => this.Serialization =
         new SerializationTestHelper(serializationNamespace, JsonSerializerBuilder.BuildWithSnakeCase());
 
-    protected E2EBase() => this.Helper = TestingContext.WithBearerCredentials("Url.Api");
+    protected E2EBase() => this.Helper = TestingContext.WithBearerCredentials();
 
     internal static void VerifyUser(User success)
     {

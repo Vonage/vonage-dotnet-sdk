@@ -21,27 +21,27 @@ public class E2ETest
 
     [Fact]
     public async Task PerformFraudCheck_WithFraudScore_UsingBasicCredentials() =>
-        await this.PerformFraudCheckWithFraudScore(TestingContext.WithBasicCredentials(ApiUrl));
+        await this.PerformFraudCheckWithFraudScore(TestingContext.WithBasicCredentials());
 
     [Fact]
     public async Task PerformFraudCheck_WithFraudScore_UsingBearerCredentials() =>
-        await this.PerformFraudCheckWithFraudScore(TestingContext.WithBearerCredentials(ApiUrl));
+        await this.PerformFraudCheckWithFraudScore(TestingContext.WithBearerCredentials());
 
     [Fact]
     public async Task PerformFraudCheck_WithFraudScoreAndSimSwap_UsingBasicCredentials() =>
-        await this.PerformFraudCheckWithFraudScoreAndSimSwap(TestingContext.WithBasicCredentials(ApiUrl));
+        await this.PerformFraudCheckWithFraudScoreAndSimSwap(TestingContext.WithBasicCredentials());
 
     [Fact]
     public async Task PerformFraudCheck_WithFraudScoreAndSimSwap_UsingBearerCredentials() =>
-        await this.PerformFraudCheckWithFraudScoreAndSimSwap(TestingContext.WithBearerCredentials(ApiUrl));
+        await this.PerformFraudCheckWithFraudScoreAndSimSwap(TestingContext.WithBearerCredentials());
 
     [Fact]
     public async Task PerformFraudCheck_WithSimSwap_UsingBasicCredentials() =>
-        await this.PerformFraudCheckWithSimSwap(TestingContext.WithBasicCredentials(ApiUrl));
+        await this.PerformFraudCheckWithSimSwap(TestingContext.WithBasicCredentials());
 
     [Fact]
     public async Task PerformFraudCheck_WithSimSwap_UsingBearerCredentials() =>
-        await this.PerformFraudCheckWithSimSwap(TestingContext.WithBearerCredentials(ApiUrl));
+        await this.PerformFraudCheckWithSimSwap(TestingContext.WithBearerCredentials());
 
     private async Task PerformFraudCheck(TestingContext helper, string body, Result<FraudCheckRequest> request)
     {

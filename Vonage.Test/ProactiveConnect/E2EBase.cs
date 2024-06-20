@@ -11,7 +11,7 @@ public abstract class E2EBase
 
     protected E2EBase(string serializationNamespace)
     {
-        this.Helper = TestingContext.WithBearerCredentials("Url.Api.EMEA");
+        this.Helper = TestingContext.WithBearerCredentials();
         this.Serialization =
             new SerializationTestHelper(serializationNamespace, JsonSerializerBuilder.BuildWithSnakeCase());
     }

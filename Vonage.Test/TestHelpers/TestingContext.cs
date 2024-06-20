@@ -37,14 +37,14 @@ internal class TestingContext : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public static TestingContext WithBasicCredentials(string appSettingsKey) =>
+    public static TestingContext WithBasicCredentials() =>
         new TestingContext(CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5",
             new Dictionary<string, string>());
 
-    public static TestingContext WithBearerCredentials(string appSettingsKey) =>
+    public static TestingContext WithBearerCredentials() =>
         new TestingContext(CreateBearerCredentials(), "Bearer *", new Dictionary<string, string>());
 
-    public static TestingContext WithBasicCredentials(string appSettingsKey, Dictionary<string, string> settings) =>
+    public static TestingContext WithBasicCredentials(Dictionary<string, string> settings) =>
         new TestingContext(CreateBasicCredentials(), "Basic NzkwZmM1ZTU6QWEzNDU2Nzg5", settings);
 
     private static Credentials CreateBasicCredentials() => Credentials.FromApiKeyAndSecret("790fc5e5", "Aa3456789");
