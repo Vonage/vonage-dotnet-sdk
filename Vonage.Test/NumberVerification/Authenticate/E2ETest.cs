@@ -8,7 +8,7 @@ using Xunit;
 namespace Vonage.Test.NumberVerification.Authenticate;
 
 [Trait("Category", "E2E")]
-public class E2ETest : SimSwap.E2EBase
+public class E2ETest : E2EBase
 {
     public E2ETest() : base(typeof(E2ETest).Namespace)
     {
@@ -17,7 +17,7 @@ public class E2ETest : SimSwap.E2EBase
     [Fact]
     public async Task Authenticate()
     {
-        this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+        this.Helper.OidcServer.Given(WireMock.RequestBuilders.Request.Create()
                 .WithPath("/oauth2/auth")
                 .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                 .WithBody(
@@ -25,7 +25,7 @@ public class E2ETest : SimSwap.E2EBase
                 .UsingPost())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                 .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserializeAuthorize))));
-        this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+        this.Helper.VonageServer.Given(WireMock.RequestBuilders.Request.Create()
                 .WithPath("/oauth2/token")
                 .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                 .WithBody("auth_req_id=123456789&grant_type=urn:openid:params:grant-type:ciba")
