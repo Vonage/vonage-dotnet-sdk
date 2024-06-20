@@ -168,7 +168,7 @@ public sealed class Configuration
     /// <returns>The HttpClient.</returns>
     public HttpClient BuildHttpClientForNexmo() => this.BuildHttpClient(this.VonageUrls.Nexmo);
 
-    private HttpClient BuildHttpClient(Uri baseUri)
+    internal HttpClient BuildHttpClient(Uri baseUri)
     {
         var client = new HttpClient(this.ClientHandler)
         {
@@ -184,6 +184,12 @@ public sealed class Configuration
     /// </summary>
     /// <returns>The HttpClient.</returns>
     public HttpClient BuildHttpClientForVideo() => this.BuildHttpClient(this.VonageUrls.Video);
+
+    /// <summary>
+    ///     Build an HttpClient for OIDC requests.
+    /// </summary>
+    /// <returns>The HttpClient.</returns>
+    public HttpClient BuildHttpClientForOidc() => this.BuildHttpClient(this.VonageUrls.Oidc);
 
     /// <summary>
     ///     Build an HttpClient for a specific region.
@@ -254,9 +260,11 @@ public readonly struct VonageUrls
     private const string DefaultNexmoApiUrl = "https://api.nexmo.com";
     private const string DefaultRestApiUrl = "https://rest.nexmo.com";
     private const string DefaultVideoApiUrl = "https://video.api.vonage.com";
-    private const string NexmoApiKey = "vonage:Url.Api";
-    private const string NexmoRestKey = "vonage:Url.Rest";
-    private const string VideoApiKey = "vonage:Url.Api.Video";
+    private const string DefaultOidcUrl = "https://oidc.idp.vonage.com";
+    internal const string NexmoApiKey = "vonage:Url.Api";
+    internal const string NexmoRestKey = "vonage:Url.Rest";
+    internal const string VideoApiKey = "vonage:Url.Api.Video";
+    internal const string OidcApiKey = "vonage:Url.OIDC";
 
     private readonly Dictionary<Region, string> regions = new Dictionary<Region, string>
     {
@@ -268,6 +276,11 @@ public readonly struct VonageUrls
     private readonly IConfiguration configuration;
 
     private VonageUrls(IConfiguration configuration) => this.configuration = configuration;
+
+    /// <summary>
+    ///     The Oidc Url.
+    /// </summary>
+    public Uri Oidc => this.Evaluate(OidcApiKey, DefaultOidcUrl);
 
     /// <summary>
     ///     The Nexmo Api Url.

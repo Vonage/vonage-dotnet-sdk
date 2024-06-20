@@ -43,6 +43,7 @@ public class ConfigurationTest
         configuration.VonageUrls.Nexmo.Should().Be(new Uri("https://api.nexmo.com"));
         configuration.VonageUrls.Rest.Should().Be(new Uri("https://rest.nexmo.com"));
         configuration.VonageUrls.Video.Should().Be(new Uri("https://video.api.vonage.com"));
+        configuration.VonageUrls.Oidc.Should().Be("https://oidc.idp.vonage.com");
         configuration.VonageUrls.Get(VonageUrls.Region.EU).Should().Be(new Uri("https://api-eu.vonage.com"));
         configuration.VonageUrls.Get(VonageUrls.Region.APAC).Should().Be(new Uri("https://api-ap.vonage.com"));
         configuration.VonageUrls.Get(VonageUrls.Region.US).Should().Be(new Uri("https://api-us.vonage.com"));
@@ -93,6 +94,15 @@ public class ConfigurationTest
                 {"vonage:Url.Api", "https://api.vonage.com"},
             })
             .Build()).VonageUrls.Nexmo.Should().Be(new Uri("https://api.vonage.com"));
+
+    [Fact]
+    public void FromConfiguration_ShouldSetOidcUrl_GivenConfigurationContainsOidcUrl() =>
+        Configuration.FromConfiguration(new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string>
+            {
+                {"vonage:Url.OIDC", "https://api.vonage.com"},
+            })
+            .Build()).VonageUrls.Oidc.Should().Be(new Uri("https://api.vonage.com"));
 
     [Fact]
     public void FromConfiguration_ShouldSetRequestTimeout_GivenConfigurationContainsRequestTimeout() =>
@@ -206,6 +216,11 @@ public class ConfigurationTest
     public void VonageUrl_ShouldReturnNexmoUrl() =>
         Configuration.FromConfiguration(new ConfigurationBuilder().Build())
             .VonageUrls.Nexmo.Should().Be(new Uri("https://api.nexmo.com"));
+
+    [Fact]
+    public void VonageUrl_ShouldReturnOidcUrl() =>
+        Configuration.FromConfiguration(new ConfigurationBuilder().Build())
+            .VonageUrls.Oidc.Should().Be(new Uri("https://oidc.idp.vonage.com"));
 }
 
 [Trait("Category", "HttpConnectionPool")]
