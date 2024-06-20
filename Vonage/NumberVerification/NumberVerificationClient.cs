@@ -10,10 +10,16 @@ namespace Vonage.NumberVerification;
 
 internal class NumberVerificationClient : INumberVerificationClient
 {
+    private readonly VonageHttpClient authorizationClient;
     private readonly VonageHttpClient vonageClient;
 
-    internal NumberVerificationClient(VonageHttpClientConfiguration configuration) =>
+    internal NumberVerificationClient(VonageHttpClientConfiguration configuration,
+        VonageHttpClientConfiguration authorizationConfiguration)
+    {
         this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
+        this.authorizationClient =
+            new VonageHttpClient(authorizationConfiguration, JsonSerializerBuilder.BuildWithSnakeCase());
+    }
 
     /// <inheritdoc />
     public Task<Result<AuthenticateResponse>> AuthenticateAsync(Result<AuthenticateRequest> request) =>
@@ -49,7 +55,7 @@ internal class NumberVerificationClient : INumberVerificationClient
         this.vonageClient.SendWithResponseAsync<GetTokenRequest, GetTokenResponse>(request);
 
     private Task<Result<AuthorizeResponse>> SendAuthorizeRequest(AuthorizeRequest request) =>
-        this.vonageClient.SendWithResponseAsync<AuthorizeRequest, AuthorizeResponse>(request);
+        this.authorizationClient.SendWithResponseAsync<AuthorizeRequest, AuthorizeResponse>(request);
 
     private static GetTokenRequest BuildGetTokenRequest(AuthorizeResponse request) => request.BuildGetTokenRequest();
 

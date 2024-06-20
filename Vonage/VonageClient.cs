@@ -142,7 +142,8 @@ public class VonageClient
     public INumberVerificationClient NumberVerificationClient { get; private set; }
 
     private VonageHttpClientConfiguration BuildConfiguration(HttpClient client) =>
-        new(client, this.Credentials.GetAuthenticationHeader(), this.Credentials.GetUserAgent());
+        new VonageHttpClientConfiguration(client, this.Credentials.GetAuthenticationHeader(),
+            this.Credentials.GetUserAgent());
 
     private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
 
@@ -166,6 +167,7 @@ public class VonageClient
         var videoConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForVideo());
         var euConfiguration =
             this.BuildConfiguration(currentConfiguration.BuildHttpClientForRegion(VonageUrls.Region.EU));
+        var oidcConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForOidc());
         this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
         this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
         this.NumberInsightV2Client = new NumberInsightV2Client(nexmoConfiguration);
@@ -174,7 +176,7 @@ public class VonageClient
         this.MeetingsClient = new MeetingsClient(euConfiguration, new FileSystem());
         this.ProactiveConnectClient = new ProactiveConnectClient(euConfiguration);
         this.SimSwapClient = new SimSwapClient(euConfiguration);
-        this.NumberVerificationClient = new NumberVerificationClient(euConfiguration);
+        this.NumberVerificationClient = new NumberVerificationClient(euConfiguration, oidcConfiguration);
         this.VideoClient = new VideoClient(videoConfiguration);
     }
 }
