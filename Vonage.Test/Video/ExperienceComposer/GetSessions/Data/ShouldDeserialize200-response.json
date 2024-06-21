@@ -1,0 +1,19 @@
+{
+  "count": 1,
+  "items": [
+    {
+      "id": "1248e7070b81464c9789f46ad10e7764",
+      "sessionId": "flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN",
+      "applicationId": "93e36bb9-b72c-45b6-a9ea-5c37dbc49906",
+      "createdAt": 1437676551000,
+      "callbackUrl": "https://example.com/video/events",
+      "updatedAt": 1437676551000,
+      "name": "Composed stream for Live event #1",
+      "url": "https://example.com/",
+      "resolution": "720x1280",
+      "status": "failed",
+      "streamId": "e32445b743678c98230f238",
+      "reason": "Could not load URL"
+    }
+  ]
+}
