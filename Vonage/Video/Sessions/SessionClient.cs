@@ -21,7 +21,7 @@ public class SessionClient
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
-    public SessionClient(VonageHttpClientConfiguration configuration)
+    internal SessionClient(VonageHttpClientConfiguration configuration)
     {
         this.vonageClient =
             new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());

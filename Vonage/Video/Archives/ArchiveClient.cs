@@ -20,11 +20,7 @@ public class ArchiveClient
 {
     private readonly VonageHttpClient vonageClient;
 
-    /// <summary>
-    ///     Creates a new client.
-    /// </summary>
-    /// <param name="configuration">The client configuration.</param>
-    public ArchiveClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
+    internal ArchiveClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
         new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>

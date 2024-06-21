@@ -23,7 +23,7 @@ public class BroadcastClient
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
-    public BroadcastClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
+    internal BroadcastClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
         new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>

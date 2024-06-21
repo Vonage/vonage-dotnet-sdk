@@ -18,7 +18,7 @@ public class SignalingClient
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
-    public SignalingClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
+    internal SignalingClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
         new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
