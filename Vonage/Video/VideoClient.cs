@@ -1,6 +1,7 @@
 ﻿using Vonage.Common.Client;
 using Vonage.Video.Archives;
 using Vonage.Video.Broadcast;
+using Vonage.Video.ExperienceComposer;
 using Vonage.Video.Moderation;
 using Vonage.Video.Sessions;
 using Vonage.Video.Signaling;
@@ -12,6 +13,8 @@ namespace Vonage.Video;
 public class VideoClient : IVideoClient
 {
     private readonly VonageHttpClientConfiguration configuration;
+
+    internal VideoClient(VonageHttpClientConfiguration configuration) => this.configuration = configuration;
 
     /// <inheritdoc />
     public ArchiveClient ArchiveClient => new(this.configuration);
@@ -31,5 +34,6 @@ public class VideoClient : IVideoClient
     /// <inheritdoc />
     public SipClient SipClient => new(this.configuration);
 
-    internal VideoClient(VonageHttpClientConfiguration configuration) => this.configuration = configuration;
+    /// <inheritdoc />
+    public ExperienceComposerClient ExperienceComposerClient => new ExperienceComposerClient(this.configuration);
 }

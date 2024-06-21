@@ -1,5 +1,6 @@
 ﻿using Vonage.Video.Archives;
 using Vonage.Video.Broadcast;
+using Vonage.Video.ExperienceComposer;
 using Vonage.Video.Moderation;
 using Vonage.Video.Sessions;
 using Vonage.Video.Signaling;
@@ -38,7 +39,12 @@ public interface IVideoClient
     SignalingClient SignalingClient { get; }
 
     /// <summary>
-    ///     Clients for managing SIP calls in a video session.
+    ///     Client for managing SIP calls in a video session.
     /// </summary>
     SipClient SipClient { get; }
+
+    /// <summary>
+    ///     Client for managing experience composer.
+    /// </summary>
+    ExperienceComposerClient ExperienceComposerClient { get; }
 }
