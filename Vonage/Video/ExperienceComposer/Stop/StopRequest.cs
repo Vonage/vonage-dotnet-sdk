@@ -5,12 +5,12 @@ using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 
-namespace Vonage.Video.ExperienceComposer.GetSession;
+namespace Vonage.Video.ExperienceComposer.Stop;
 
 /// <summary>
 ///     Represents a request to retrieve a session.
 /// </summary>
-public readonly struct GetSessionRequest : IVonageRequest, IHasApplicationId
+public readonly struct StopRequest : IVonageRequest, IHasApplicationId
 {
     /// <inheritdoc />
     public Guid ApplicationId { get; internal init; }
@@ -23,7 +23,7 @@ public readonly struct GetSessionRequest : IVonageRequest, IHasApplicationId
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Get, this.GetEndpointPath())
+            .Initialize(HttpMethod.Delete, this.GetEndpointPath())
             .Build();
 
     /// <inheritdoc />
@@ -35,16 +35,16 @@ public readonly struct GetSessionRequest : IVonageRequest, IHasApplicationId
     /// <param name="applicationId">The application Id.</param>
     /// <param name="experienceComposerId">The experience composer Id.</param>
     /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
-    public static Result<GetSessionRequest> Parse(Guid applicationId, string experienceComposerId) =>
-        Result<GetSessionRequest>
-            .FromSuccess(new GetSessionRequest
+    public static Result<StopRequest> Parse(Guid applicationId, string experienceComposerId) =>
+        Result<StopRequest>
+            .FromSuccess(new StopRequest
                 {ApplicationId = applicationId, ExperienceComposerId = experienceComposerId})
-            .Map(InputEvaluation<GetSessionRequest>.Evaluate)
+            .Map(InputEvaluation<StopRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyExperienceComposerId, VerifyApplicationId));
 
-    private static Result<GetSessionRequest> VerifyExperienceComposerId(GetSessionRequest request) =>
+    private static Result<StopRequest> VerifyExperienceComposerId(StopRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ExperienceComposerId, nameof(ExperienceComposerId));
 
-    private static Result<GetSessionRequest> VerifyApplicationId(GetSessionRequest request) =>
+    private static Result<StopRequest> VerifyApplicationId(StopRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
 }
