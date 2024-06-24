@@ -40,7 +40,7 @@ public struct StartRequest : IVonageRequest
     public HttpRequestMessage BuildRequestMessage() => throw new NotImplementedException();
 
     /// <inheritdoc />
-    public string GetEndpointPath() => throw new NotImplementedException();
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/render";
 
     /// <summary>
     ///     Initializes a builder.
