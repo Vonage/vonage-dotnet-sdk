@@ -1,4 +1,6 @@
 ﻿using System;
+using FsCheck;
+using FsCheck.Xunit;
 using Vonage.Server;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.ExperienceComposer.Start;
@@ -204,33 +206,43 @@ public class RequestBuilderTest
             .Should()
             .BeParsingFailure("ApplicationId cannot be empty.");
 
-    [Fact]
-    public void Build_ShouldReturnFailure_GivenMaxDurationIsLowerThanSixty() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
-            .WithMaxDuration(59)
-            .Create()
-            .Should()
-            .BeParsingFailure("MaxDuration cannot be lower than 60.");
+    [Property]
+    public Property Build_ShouldReturnFailure_GivenMaxDurationIsBelowMinimum() =>
+        Prop.ForAll(
+            GetDurationsBelowMinimum(),
+            invalidDuration => StartRequest
+                .Build()
+                .WithApplicationId(this.validApplicationId)
+                .WithSessionId(ValidSessionId)
+                .WithToken(ValidToken)
+                .WithUrl(this.validUri)
+                .WithResolution(ValidResolution)
+                .WithName(ValidName)
+                .WithMaxDuration(invalidDuration)
+                .Create()
+                .Should()
+                .BeParsingFailure("MaxDuration cannot be lower than 60."));
+
+    private static Arbitrary<int> GetDurationsBelowMinimum() =>
+        Gen.Choose(59, -int.MaxValue).ToArbitrary();
+
+    private static Arbitrary<int> GetDurationsAboveMaximum() =>
+        Gen.Choose(36001, int.MaxValue).ToArbitrary();
 
     [Fact]
-    public void Build_ShouldReturnFailure_GivenMaxDurationIsHigherThanThirtySixThousand() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
-            .WithMaxDuration(36001)
-            .Create()
-            .Should()
-            .BeParsingFailure("MaxDuration cannot be higher than 36000.");
+    public void Build_ShouldReturnFailure_GivenMaxDurationIsAboveMaximum() =>
+        Prop.ForAll(
+            GetDurationsAboveMaximum(),
+            invalidDuration => StartRequest
+                .Build()
+                .WithApplicationId(this.validApplicationId)
+                .WithSessionId(ValidSessionId)
+                .WithToken(ValidToken)
+                .WithUrl(this.validUri)
+                .WithResolution(ValidResolution)
+                .WithName(ValidName)
+                .WithMaxDuration(invalidDuration)
+                .Create()
+                .Should()
+                .BeParsingFailure("MaxDuration cannot be higher than 36000."));
 }
