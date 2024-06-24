@@ -4,6 +4,7 @@ using Vonage.Common.Monads;
 using Vonage.Serialization;
 using Vonage.Video.ExperienceComposer.GetSession;
 using Vonage.Video.ExperienceComposer.GetSessions;
+using Vonage.Video.ExperienceComposer.Start;
 using Vonage.Video.ExperienceComposer.Stop;
 
 namespace Vonage.Video.ExperienceComposer;
@@ -39,6 +40,17 @@ public class ExperienceComposerClient
     /// </returns>
     public Task<Result<Unit>> StopAsync(Result<StopRequest> request) =>
         this.vonageClient.SendAsync(request);
+
+    /// <summary>
+    ///     Starts an Experience Composer session.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
+    ///     failed.
+    /// </returns>
+    public Task<Result<Session>> StartAsync(Result<StartRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<StartRequest, Session>(request);
 
     /// <summary>
     ///     Retrieves all experience composer sessions in an application.
