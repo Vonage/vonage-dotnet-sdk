@@ -6,13 +6,13 @@ using Vonage.Test.Common.Extensions;
 using Vonage.Video.ExperienceComposer;
 using Xunit;
 
-namespace Vonage.Test.Video.ExperienceComposer.GetSession;
+namespace Vonage.Test.Video.ExperienceComposer;
 
 [Trait("Category", "Serialization")]
-public class SerializationTest
+public class SessionSerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(
-        typeof(SerializationTest).Namespace,
+        typeof(SessionSerializationTest).Namespace,
         JsonSerializerBuilder.BuildWithCamelCase());
 
     [Fact]

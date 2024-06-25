@@ -23,10 +23,10 @@ public class E2ETest : E2EBase
                 .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
                 .UsingGet())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+                .WithBody(this.Serialization.GetResponseJson(nameof(SessionSerializationTest.ShouldDeserialize200))));
         await this.Helper.VonageClient.VideoClient.ExperienceComposerClient
             .GetSessionAsync(GetSessionRequest.Parse(new Guid("e3e78a75-221d-41ec-8846-25ae3db1943a"), "EXP-123"))
             .Should()
-            .BeSuccessAsync(SerializationTest.BuildExpectedSession());
+            .BeSuccessAsync(SessionSerializationTest.BuildExpectedSession());
     }
 }
