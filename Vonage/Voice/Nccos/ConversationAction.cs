@@ -12,7 +12,7 @@ public class ConversationAction : NccoAction
     /// </summary>
     [JsonProperty("action", Order = 0)]
     public override ActionType Action => ActionType.Conversation;
-    
+
     /// <summary>
     ///     A list of leg UUIDs that this participant can hear.
     ///     If not provided, the participant can hear everyone.
@@ -20,7 +20,7 @@ public class ConversationAction : NccoAction
     /// </summary>
     [JsonProperty("canHear", Order = 7)]
     public string[] CanHear { get; set; }
-    
+
     /// <summary>
     ///     A list of leg UUIDs that this participant can be heard by.
     ///     If not provided, the participant can be heard by everyone.
@@ -28,7 +28,7 @@ public class ConversationAction : NccoAction
     /// </summary>
     [JsonProperty("canSpeak", Order = 6)]
     public string[] CanSpeak { get; set; }
-    
+
     /// <summary>
     ///     Specifies whether a moderated conversation ends when the moderator hangs up.
     ///     This is set to false by default, which means that the conversation only ends
@@ -38,7 +38,19 @@ public class ConversationAction : NccoAction
     /// </summary>
     [JsonProperty("endOnExit", Order = 4)]
     public bool EndOnExit { get; set; }
-    
+
+    /// <summary>
+    ///     Method to use on the webhooks for the conversation
+    /// </summary>
+    [JsonProperty("eventMethod")]
+    public string EventMethod { get; set; }
+
+    /// <summary>
+    ///     Url to receive webhooks at for the conversation
+    /// </summary>
+    [JsonProperty("eventUrl")]
+    public string[] EventUrl { get; set; }
+
     /// <summary>
     ///     A URL to the mp3 file to stream to participants until the conversation starts.
     ///     By default the conversation starts when the first person calls the virtual number
@@ -47,13 +59,13 @@ public class ConversationAction : NccoAction
     /// </summary>
     [JsonProperty("musicOnHoldUrl", Order = 2)]
     public string[] MusicOnHoldUrl { get; set; }
-    
+
     /// <summary>
     ///     The name of the Conversation room. Names are namespaced to the application level.
     /// </summary>
     [JsonProperty("name", Order = 1)]
     public string Name { get; set; }
-    
+
     /// <summary>
     ///     Set to true to record this conversation. For standard conversations,
     ///     recordings start when one or more attendees connects to the conversation.
@@ -65,7 +77,7 @@ public class ConversationAction : NccoAction
     /// </summary>
     [JsonProperty("record", Order = 5)]
     public bool Record { get; set; }
-    
+
     /// <summary>
     ///     The default value of true ensures that the conversation starts when this caller
     ///     joins conversation name. Set to false for attendees in a moderated conversation.
