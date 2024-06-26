@@ -1,0 +1,11 @@
+{
+  "channel": "mms",
+  "message_type": "vcard",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
+  "vcard": {
+    "url": "https://test.com/contact.vcf"
+  },
+  "ttl": 600
+}

@@ -1,0 +1,12 @@
+{
+  "channel": "mms",
+  "message_type": "video",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
+  "video": {
+    "url": "https://test.com/image.mp4",
+    "caption": "A video of me"
+  },
+  "ttl": 600
+}
