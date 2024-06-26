@@ -344,25 +344,10 @@
         <None Include="Messages\WhatsApp\Data\SendWhatsAppCustomAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppAudioAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppAudioAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppImageAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppTextAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppTemplateAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppVideoAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppCustomAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppFileAsyncReturnsOk-request.json">
@@ -372,12 +357,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppVideoAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppTemplateAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppFileAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Viber\Data\SendViberImageAsyncReturnsOk-request.json">
@@ -408,25 +387,13 @@
         <None Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithUrlSticker-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithUrlSticker-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdSticker-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Webhooks\Data\ShouldDeserializeSms-response.json">
@@ -1248,6 +1215,42 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messages\Mms\Data\SendMessageReturnsOk-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendMessageReturnsOk-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppAudioAsyncReturnsOkWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppCustomAsyncReturnsOkWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppFileAsyncReturnsOkWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppImageAsyncReturnsOkWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppMultipleItemsAsyncReturnsOkWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOkWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithIdStickerWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithUrlStickerWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppTemplateAsyncReturnsOkWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppTextAsyncReturnsOkWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\WhatsApp\Data\SendWhatsAppVideoAsyncReturnsOkWithContext-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

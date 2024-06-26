@@ -1,0 +1,28 @@
+{
+  "channel": "whatsapp",
+  "message_type": "template",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
+  "whatsapp": {
+    "policy": "deterministic",
+    "locale": "en-GB"
+  },
+  "template": {
+    "name": "Amazing template",
+    "parameters": [
+      {
+        "default": "Vonage Verification"
+      },
+      {
+        "default": "64873"
+      },
+      {
+        "default": "10"
+      }
+    ]
+  },
+  "context": {
+    "message_uuid": "a1b2c3d4a1b2c3d4"
+  }
+}

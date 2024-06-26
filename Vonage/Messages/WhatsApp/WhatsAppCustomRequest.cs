@@ -36,4 +36,11 @@ public struct WhatsAppCustomRequest : IWhatsAppMessage
     /// <inheritdoc />
     [JsonPropertyOrder(2)]
     public string To { get; set; }
+
+    /// <summary>
+    ///     An optional context used for quoting/replying to a specific message in a conversation. When used, the WhatsApp UI
+    ///     will display the new message along with a contextual bubble that displays the quoted/replied to message's content.
+    /// </summary>
+    [JsonPropertyOrder(6)]
+    public WhatsAppContext Context { get; set; }
 }
