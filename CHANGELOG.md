@@ -1,4 +1,69 @@
 # Changelog
+## [v7.6.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.6.0) (2024-06-27)
+
+### Documentation
+
+- Generate changelog for v7.5.0 ([5f04107](https://github.com/Vonage/vonage-dotnet-sdk/commit/5f041075d647274c8830b7660053068f27da726a))
+
+- Bump version to v7.6.0 ([57904e6](https://github.com/Vonage/vonage-dotnet-sdk/commit/57904e64b201b89cd2616b20b1ac03682c329ed8))
+
+
+### Features
+
+- Implement authentication mechanism for NumberVerification API ([dfa1c39](https://github.com/Vonage/vonage-dotnet-sdk/commit/dfa1c39a78b79ce781b0979471d68331cb8b7832))
+
+- Implement Verify feature for NumberVerification ([9c95a13](https://github.com/Vonage/vonage-dotnet-sdk/commit/9c95a1310861ecc299932527235623e90912c31d))
+
+- Add NumberVerificationClient in services collection extensions ([01311c4](https://github.com/Vonage/vonage-dotnet-sdk/commit/01311c4e8990ea2aa09779df33157e8e5c99f439))
+
+- Introduce configurable url for OIDC requests ([3172720](https://github.com/Vonage/vonage-dotnet-sdk/commit/3172720a0470114ad9f9c23942cf40554d2723a3))
+
+- Use specific clients for OIDC requests in NumberVerification ([c468a60](https://github.com/Vonage/vonage-dotnet-sdk/commit/c468a607d8bd7c7c285f0ac2540348f8496d60fc))
+
+- Implement GetSession for ExperienceComposer ([ea3ec87](https://github.com/Vonage/vonage-dotnet-sdk/commit/ea3ec8751f43e2d840aa46417543dc5d7994da8f))
+
+- Implement GetSessions on ExperienceComposer ([53d26c0](https://github.com/Vonage/vonage-dotnet-sdk/commit/53d26c0799a298e37fedd8fc6f372a473065e621))
+
+- Implement Stop on ExperienceComposer ([1710977](https://github.com/Vonage/vonage-dotnet-sdk/commit/17109779aa41f2a9e1d9a2a7c41c8cec7a3b612f))
+
+- Implement request validation for Start in ExperienceComposer ([6d6f1bf](https://github.com/Vonage/vonage-dotnet-sdk/commit/6d6f1bf4f11d27eeefd4d3bc385ade1a8fd09a5b))
+
+- Implement request path for Start in ExperienceComposer ([ab9490e](https://github.com/Vonage/vonage-dotnet-sdk/commit/ab9490e22234a6bdbd8ab9c8b14b4ce87b990d86))
+
+- Implement serialization for Start on ExperienceComposer ([5b91318](https://github.com/Vonage/vonage-dotnet-sdk/commit/5b9131886f65521eb2fe667b9e5f32170ec80f21))
+
+- Implement E2E for Start on ExperienceComposer ([03f9e7a](https://github.com/Vonage/vonage-dotnet-sdk/commit/03f9e7a3a4efac3f06037719739f5500348446d5))
+
+- Add TimeToLive property on MMS in Messages ([79ebe28](https://github.com/Vonage/vonage-dotnet-sdk/commit/79ebe28a6a2e8c0a1a63ada1aa8ed4f62a36f1be))
+
+- Add Context on WhatsApp messages ([426ef47](https://github.com/Vonage/vonage-dotnet-sdk/commit/426ef4721306da25dcab144cc8a4b560756bd71d))
+
+- Support new properties on Messages Webhooks ([02044e5](https://github.com/Vonage/vonage-dotnet-sdk/commit/02044e56792fb86e37ddb5c6ff06042c8ea2c597))
+
+
+### Refactoring
+
+- Clean PBT test ([c3615eb](https://github.com/Vonage/vonage-dotnet-sdk/commit/c3615eb435e7e3392f205ecb371f0c55c0eec4b5))
+
+- Remove unnecessary parameters in E2ETests ([8b39bc1](https://github.com/Vonage/vonage-dotnet-sdk/commit/8b39bc149c1c8439b3d65366974ab1e668849662))
+
+- Use different wiremock instances to differentiate Vonage requests and OIDC requests ([ccbe6f4](https://github.com/Vonage/vonage-dotnet-sdk/commit/ccbe6f4f59fee3ab0f5cf22a414c6cdbaa4259d0))
+
+- Hide video client constructors ([fc15060](https://github.com/Vonage/vonage-dotnet-sdk/commit/fc150605029f6c309968dccab607e5f38e42442f))
+
+- Use PBT to assert ranges of values for Start in ExperienceComposer ([3eedf52](https://github.com/Vonage/vonage-dotnet-sdk/commit/3eedf52248c8e9ad7e9ade3c1c99d0ee5b7bd5c3))
+
+- Extract serialization test for ExperienceComposer Session ([c989a09](https://github.com/Vonage/vonage-dotnet-sdk/commit/c989a094f1973acbe89eede02c50d36083d53516))
+
+
+### Reverts
+
+- Revert "refactor: [breaking] remove EventUrl and EventMethod from ConversationAction, with a disclaimer in the Readme"
+
+This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
+ ([ac8c666](https://github.com/Vonage/vonage-dotnet-sdk/commit/ac8c66648ddf55797d4b65dfa60386e77422e439))
+
+
 ## [v7.5.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.5.0) (2024-06-14)
 
 ### Bug Fixes
