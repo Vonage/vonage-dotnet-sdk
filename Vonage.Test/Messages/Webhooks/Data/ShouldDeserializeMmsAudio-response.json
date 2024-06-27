@@ -7,6 +7,7 @@
   "client_ref": "string",
   "message_type": "audio",
   "audio": {
-    "url": "https://example.com/audio.mp3"
+    "url": "https://example.com/audio.mp3",
+    "name": "audio.mp3"
   }
 }

@@ -6,5 +6,8 @@
   "timestamp": "2020-01-01T14:00:00.000Z",
   "client_ref": "string",
   "message_type": "text",
-  "text": "This is sample text."
+  "text": "This is sample text.",
+  "origin": {
+    "network_code": "12345"
+  }
 }

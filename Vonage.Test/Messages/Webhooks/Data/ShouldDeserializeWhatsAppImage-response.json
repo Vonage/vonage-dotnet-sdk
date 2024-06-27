@@ -15,6 +15,7 @@
   "client_ref": "string",
   "message_type": "image",
   "image": {
-    "url": "https://example.com/image.jpg"
+    "url": "https://example.com/image.jpg",
+    "name": "image.jpg"
   }
 }

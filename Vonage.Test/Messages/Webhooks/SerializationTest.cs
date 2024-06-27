@@ -147,6 +147,7 @@ namespace Vonage.Test.Messages.Webhooks
                     Audio = new UrlDetails
                     {
                         Url = "https://example.com/audio.mp3",
+                        Name = "audio.mp3",
                     },
                 });
 
@@ -167,6 +168,7 @@ namespace Vonage.Test.Messages.Webhooks
                     Image = new UrlDetails
                     {
                         Url = "https://example.com/image.jpg",
+                        Name = "image.jpg",
                     },
                 });
 
@@ -185,6 +187,7 @@ namespace Vonage.Test.Messages.Webhooks
                     ClientReference = "string",
                     MessageType = "text",
                     Text = "This is sample text.",
+                    Origin = new Origin("12345"),
                 });
 
         [Fact]
@@ -204,6 +207,7 @@ namespace Vonage.Test.Messages.Webhooks
                     Vcard = new UrlDetails
                     {
                         Url = "https://example.com/conatact.vcf",
+                        Name = "contact.vcf",
                     },
                 });
 
@@ -224,6 +228,7 @@ namespace Vonage.Test.Messages.Webhooks
                     Video = new UrlDetails
                     {
                         Url = "https://example.com/video.mp4",
+                        Name = "video.mp4",
                     },
                 });
 
@@ -251,6 +256,7 @@ namespace Vonage.Test.Messages.Webhooks
                         Currency = "EUR",
                         Price = "0.0333",
                     },
+                    Origin = new Origin("12345"),
                 });
 
         [Fact]
@@ -433,6 +439,7 @@ namespace Vonage.Test.Messages.Webhooks
                     Image = new UrlDetails
                     {
                         Url = "https://example.com/image.jpg",
+                        Name = "image.jpg",
                     },
                 });
 

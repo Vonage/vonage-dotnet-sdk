@@ -13,5 +13,8 @@
   "usage": {
     "currency": "EUR",
     "price": "0.0333"
+  },
+  "origin": {
+    "network_code": "12345"
   }
 }
