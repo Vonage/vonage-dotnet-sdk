@@ -81,10 +81,19 @@ class VersionUpgrade {
         }
 
         this.version = argv[2];
+        if (!this._isValidVersion(this.version)) {
+            console.error("Invalid version format. Expected 'X.X.X'.");
+            return;
+        }
         this.tag = "v" + this.version;
         console.log("Bumping version to " + this.version);
         console.log("Bumping tag to " + this.tag);
         this._runRelease();
+    }
+
+    _isValidVersion(version) {
+        const versionPattern = /^\d+\.\d+\.\d+(-[a-zA-Z0-9]+)?$/;
+        return versionPattern.test(version);
     }
 }
 
