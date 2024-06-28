@@ -45,8 +45,8 @@ THE SOFTWARE.
 //  Creates dummy unsigned certificate linked to private keypair and
 //  optionally exports to pkcs #12
 //
-// See also: 
-//  http://www.openssl.org/docs/crypto/pem.html#PEM_ENCRYPTION_FORMAT 
+// See also:
+//  http://www.openssl.org/docs/crypto/pem.html#PEM_ENCRYPTION_FORMAT
 //**************************************************************************************
 
 using System;
@@ -177,6 +177,12 @@ internal class PemParse
                     RSA = new RSACng();
                 }
 #endif
+                if (D.Length < MODULUS.Length)
+                {
+                    var newD = new byte[MODULUS.Length];
+                    Array.Copy(D, 0, newD, MODULUS.Length - D.Length, D.Length);
+                    D = newD;
+                }
                 var RSAparams = new RSAParameters
                 {
                     Modulus = MODULUS,
@@ -220,7 +226,7 @@ internal class PemParse
         catch (FormatException)
         {
             //if can't b64 decode, it must be an encrypted private key
-            //Console.WriteLine("Not an unencrypted OpenSSL PEM private key");  
+            //Console.WriteLine("Not an unencrypted OpenSSL PEM private key");
         }
 
         throw new NotSupportedException("Encrypted key not supported");
