@@ -1,4 +1,23 @@
 # Changelog
+## [v7.6.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.6.1) (2024-06-28)
+
+### Bug Fixes
+
+- Edge case importing RSA key (#580) ([6436947](https://github.com/Vonage/vonage-dotnet-sdk/commit/6436947fdb5e56e358a82370fb3125fb81275e02))
+
+
+### Build updates
+
+- Make multi-framework workflow the default one for PRs as it doesn't rely on any secrets (SONAR). ([a69164d](https://github.com/Vonage/vonage-dotnet-sdk/commit/a69164d51b3965200578af2b0bec041edd667430))
+
+
+### Documentation
+
+- Generate changelog for v7.6.0 ([7968faf](https://github.com/Vonage/vonage-dotnet-sdk/commit/7968fafe14b8be5cdbbfeadb3c4c54686af22da0))
+
+- Bump version to v7.6.1 ([793c8ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/793c8eaabd86e2f1ce1f553974a6cc01482c1ab2))
+
+
 ## [v7.6.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.6.0) (2024-06-27)
 
 ### Documentation
