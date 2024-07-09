@@ -71,7 +71,7 @@
     <PackageReference Include="StandardSocketsHttpHandler" Version="2.2.0.8"/>
     <PackageReference Include="System.IO.Abstractions" Version="21.0.2"/>
     <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
-    <PackageReference Include="System.Text.Json" Version="8.0.3"/>
+    <PackageReference Include="System.Text.Json" Version="8.0.4"/>
     <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
   </ItemGroup>
   <ItemGroup>
