@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sessions;
 using Vonage.Video.Sessions.CreateSession;
@@ -49,9 +48,31 @@ public class RequestBuilderTest
             .WithMediaMode(MediaMode.Routed)
             .WithArchiveMode(ArchiveMode.Always)
             .Create()
-            .IsSuccess
             .Should()
-            .BeTrue();
+            .BeSuccess();
+
+    [Fact]
+    public void Build_ShouldSetEncryption_GivenEncryptionIsEnabled() =>
+        CreateSessionRequest.Build()
+            .WithLocation(IpAddress.Empty)
+            .WithMediaMode(MediaMode.Routed)
+            .WithArchiveMode(ArchiveMode.Always)
+            .EnableEncryption()
+            .Create()
+            .Map(request => request.EndToEndEncryption)
+            .Should()
+            .BeSuccess(true);
+
+    [Fact]
+    public void Build_ShouldHaveEncryptionDisabled_GivenDefault() =>
+        CreateSessionRequest.Build()
+            .WithLocation(IpAddress.Empty)
+            .WithMediaMode(MediaMode.Routed)
+            .WithArchiveMode(ArchiveMode.Always)
+            .Create()
+            .Map(request => request.EndToEndEncryption)
+            .Should()
+            .BeSuccess(false);
 
     [Fact]
     public void Build_ShouldReturnSuccess_WithStringConstructor() =>
@@ -60,17 +81,18 @@ public class RequestBuilderTest
             .WithMediaMode(MediaMode.Routed)
             .WithArchiveMode(ArchiveMode.Always)
             .Create()
-            .IsSuccess
             .Should()
-            .BeTrue();
+            .BeSuccess();
 
     [Theory]
-    [InlineData("", MediaMode.Routed, ArchiveMode.Always, "location=&archiveMode=always&p2p.preference=disabled")]
-    [InlineData("", MediaMode.Relayed, ArchiveMode.Manual, "location=&archiveMode=manual&p2p.preference=enabled")]
+    [InlineData("", MediaMode.Routed, ArchiveMode.Always,
+        "location=&archiveMode=always&p2p.preference=disabled&e2ee=false")]
+    [InlineData("", MediaMode.Relayed, ArchiveMode.Manual,
+        "location=&archiveMode=manual&p2p.preference=enabled&e2ee=false")]
     [InlineData("192.168.1.1", MediaMode.Routed, ArchiveMode.Always,
-        "location=192.168.1.1&archiveMode=always&p2p.preference=disabled")]
+        "location=192.168.1.1&archiveMode=always&p2p.preference=disabled&e2ee=false")]
     [InlineData("localhost", MediaMode.Relayed, ArchiveMode.Manual,
-        "location=localhost&archiveMode=manual&p2p.preference=enabled")]
+        "location=localhost&archiveMode=manual&p2p.preference=enabled&e2ee=false")]
     public void GetUrlEncoded(string location, MediaMode mediaMode, ArchiveMode archiveMode, string expected) =>
         CreateSessionRequest.Build()
             .WithLocation(location)

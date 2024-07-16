@@ -42,6 +42,11 @@ public readonly struct CreateSessionRequest : IVonageRequest
     public MediaMode MediaMode { get; internal init; }
 
     /// <summary>
+    ///     Whether end-to-end encryption is enabled for the session (true) or not (false)
+    /// </summary>
+    public bool EndToEndEncryption { get; internal init; }
+
+    /// <summary>
     ///     Initializes a builder.
     /// </summary>
     /// <returns>The builder.</returns>
@@ -70,6 +75,8 @@ public readonly struct CreateSessionRequest : IVonageRequest
         builder.Append(WebUtility.UrlEncode(this.ArchiveMode.ToString().ToLowerInvariant()));
         builder.Append("&p2p.preference=");
         builder.Append(WebUtility.UrlEncode(GetMediaPreference(this.MediaMode)));
+        builder.Append("&e2ee=");
+        builder.Append(this.EndToEndEncryption.ToString().ToLowerInvariant());
         return builder.ToString();
     }
 
