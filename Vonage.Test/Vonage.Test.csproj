@@ -47,6 +47,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Video\AudioConnector\Start\Data\"/>
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

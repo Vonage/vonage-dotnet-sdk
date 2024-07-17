@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Serialization;
 using Vonage.Server;
+#endregion
 
 namespace Vonage.Video.ExperienceComposer.Start;
 
@@ -12,12 +14,12 @@ namespace Vonage.Video.ExperienceComposer.Start;
 public readonly struct StartRequest : IVonageRequest
 {
     /// <summary>
+    /// </summary>
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
     /// <summary>
     /// </summary>
-    ///
     [JsonPropertyOrder(0)]
     public string SessionId { get; internal init; }
 
