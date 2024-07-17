@@ -3,6 +3,7 @@ using Vonage.Video.Archives;
 using Vonage.Video.AudioConnector;
 using Vonage.Video.Broadcast;
 using Vonage.Video.ExperienceComposer;
+using Vonage.Video.LiveCaptions;
 using Vonage.Video.Moderation;
 using Vonage.Video.Sessions;
 using Vonage.Video.Signaling;
@@ -55,4 +56,9 @@ public interface IVideoClient
     ///     Client for managing audio connector.
     /// </summary>
     AudioConnectorClient AudioConnectorClient { get; }
+
+    /// <summary>
+    ///     Client for managing live captions.
+    /// </summary>
+    LiveCaptionsClient LiveCaptionsClient { get; }
 }

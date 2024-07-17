@@ -80,6 +80,9 @@
       <PackagePath/>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Video\LiveCaptions\Start\"/>
+  </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="node ../.scripts/init.js"/>
   </Target>

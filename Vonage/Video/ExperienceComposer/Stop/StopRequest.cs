@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.Video.ExperienceComposer.Stop;
 
@@ -30,7 +32,7 @@ public readonly struct StopRequest : IVonageRequest, IHasApplicationId
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/render/{this.ExperienceComposerId}";
 
     /// <summary>
-    ///     Parses the input into a GetEventRequest.
+    ///     Parses the input into a StopRequest.
     /// </summary>
     /// <param name="applicationId">The application Id.</param>
     /// <param name="experienceComposerId">The experience composer Id.</param>
