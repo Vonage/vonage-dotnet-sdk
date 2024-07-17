@@ -31,6 +31,7 @@ public readonly struct StartRequest : IVonageRequest
     /// <summary>
     /// </summary>
     [JsonPropertyOrder(2)]
+    [JsonPropertyName("websocket")]
     public WebSocket WebSocket { get; internal init; }
 
     /// <inheritdoc />
@@ -80,10 +81,10 @@ public enum SupportedAudioRates
     /// <summary>
     ///     8000Hz
     /// </summary>
-    AUDIO_RATE_8000Hz,
+    AUDIO_RATE_8000Hz = 8000,
 
     /// <summary>
     ///     16000Hz
     /// </summary>
-    AUDIO_RATE_16000Hz,
+    AUDIO_RATE_16000Hz = 16000,
 }

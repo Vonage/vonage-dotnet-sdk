@@ -47,7 +47,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Video\AudioConnector\Start\Data\"/>
         <None Update="Data\NccoTests\TestRecord-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -1252,6 +1251,15 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messages\WhatsApp\Data\SendWhatsAppVideoAsyncReturnsOkWithContext-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\AudioConnector\Start\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\AudioConnector\Start\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Video\AudioConnector\Start\Data\ShouldSerializeWithOptionalValues-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

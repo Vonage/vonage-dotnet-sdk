@@ -1,10 +1,13 @@
-﻿using Vonage.Video.Archives;
+﻿#region
+using Vonage.Video.Archives;
+using Vonage.Video.AudioConnector;
 using Vonage.Video.Broadcast;
 using Vonage.Video.ExperienceComposer;
 using Vonage.Video.Moderation;
 using Vonage.Video.Sessions;
 using Vonage.Video.Signaling;
 using Vonage.Video.Sip;
+#endregion
 
 namespace Vonage.Video;
 
@@ -47,4 +50,9 @@ public interface IVideoClient
     ///     Client for managing experience composer.
     /// </summary>
     ExperienceComposerClient ExperienceComposerClient { get; }
+
+    /// <summary>
+    ///     Client for managing audio connector.
+    /// </summary>
+    AudioConnectorClient AudioConnectorClient { get; }
 }
