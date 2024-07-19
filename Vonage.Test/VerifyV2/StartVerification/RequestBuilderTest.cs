@@ -1,4 +1,7 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
+using FsCheck;
+using FsCheck.Xunit;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Test.Common.Extensions;
@@ -10,6 +13,7 @@ using Vonage.VerifyV2.StartVerification.Voice;
 using Vonage.VerifyV2.StartVerification.WhatsApp;
 using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.StartVerification;
 
@@ -50,21 +54,25 @@ public class RequestBuilderTest
 
     [Fact]
     public void Create_ShouldReturnFailure_GivenChannelTimeoutIsHigherThanMaximum() =>
-        BuildBaseRequest()
-            .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
-            .WithChannelTimeout(901)
-            .Create()
-            .Should()
-            .BeParsingFailure("ChannelTimeout cannot be higher than 900.");
+        Prop.ForAll(
+            GetChannelTimeoutsAboveMaximum(),
+            invalidTimeout => BuildBaseRequest()
+                .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+                .WithChannelTimeout(invalidTimeout)
+                .Create()
+                .Should()
+                .BeParsingFailure("ChannelTimeout cannot be higher than 900."));
 
-    [Fact]
-    public void Create_ShouldReturnFailure_GivenChannelTimeoutIsLowerThanMinimum() =>
-        BuildBaseRequest()
-            .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
-            .WithChannelTimeout(59)
-            .Create()
-            .Should()
-            .BeParsingFailure("ChannelTimeout cannot be lower than 60.");
+    [Property]
+    public Property Create_ShouldReturnFailure_GivenChannelTimeoutIsLowerThanMinimum() =>
+        Prop.ForAll(
+            GetChannelTimeoutsBelowMinimum(),
+            invalidTimeout => BuildBaseRequest()
+                .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+                .WithChannelTimeout(invalidTimeout)
+                .Create()
+                .Should()
+                .BeParsingFailure("ChannelTimeout cannot be lower than 15."));
 
     [Fact]
     public void Create_ShouldReturnFailure_GivenCodeLengthIsHigherThanMaximum() =>
@@ -106,17 +114,26 @@ public class RequestBuilderTest
             .Should()
             .BeSuccess("Brand Custom 123");
 
-    [Theory]
-    [InlineData(60)]
-    [InlineData(900)]
-    public void Create_ShouldSetChannelTimeout(int value) =>
-        BuildBaseRequest()
-            .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
-            .WithChannelTimeout(value)
-            .Create()
-            .Map(request => request.ChannelTimeout)
-            .Should()
-            .BeSuccess(value);
+    [Property]
+    public Property Create_ShouldSetChannelTimeout() =>
+        Prop.ForAll(
+            GetValidChannelTimeouts(),
+            validTimeout => BuildBaseRequest()
+                .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+                .WithChannelTimeout(validTimeout)
+                .Create()
+                .Map(request => request.ChannelTimeout)
+                .Should()
+                .BeSuccess(validTimeout));
+
+    private static Arbitrary<int> GetChannelTimeoutsAboveMaximum() =>
+        Gen.Choose(901, int.MaxValue).ToArbitrary();
+
+    private static Arbitrary<int> GetChannelTimeoutsBelowMinimum() =>
+        Gen.Choose(14, -int.MaxValue).ToArbitrary();
+
+    private static Arbitrary<int> GetValidChannelTimeouts() =>
+        Gen.Choose(15, 900).ToArbitrary();
 
     [Fact]
     public void Create_ShouldSetClientReference() =>

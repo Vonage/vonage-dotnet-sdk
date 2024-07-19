@@ -1,8 +1,10 @@
+#region
 using System.Collections.Generic;
 using Vonage.Common.Client;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.VerifyV2.StartVerification;
 
@@ -12,6 +14,12 @@ internal class StartVerificationRequestBuilder :
     IBuilderForWorkflow
 {
     private const int MaxBrandLength = 16;
+
+    private const int MinChannelTimeout = 15;
+    private const int MaxChannelTimeout = 900;
+
+    private const int MinCodeLength = 4;
+    private const int MaxCodeLength = 10;
     private readonly List<IVerificationWorkflow> workflows = new List<IVerificationWorkflow>();
     private string brand;
     private int channelTimeout = 300;
@@ -138,22 +146,23 @@ internal class StartVerificationRequestBuilder :
     private static Result<StartVerificationRequest> VerifyChannelTimeoutHigherThanMinimum(
         StartVerificationRequest request) =>
         InputValidation
-            .VerifyHigherOrEqualThan(request, request.ChannelTimeout, 60, nameof(request.ChannelTimeout));
+            .VerifyHigherOrEqualThan(request, request.ChannelTimeout, MinChannelTimeout,
+                nameof(request.ChannelTimeout));
 
     private static Result<StartVerificationRequest> VerifyChannelTimeoutLowerThanMaximum(
         StartVerificationRequest request) =>
         InputValidation
-            .VerifyLowerOrEqualThan(request, request.ChannelTimeout, 900, nameof(request.ChannelTimeout));
+            .VerifyLowerOrEqualThan(request, request.ChannelTimeout, MaxChannelTimeout, nameof(request.ChannelTimeout));
 
     private static Result<StartVerificationRequest> VerifyCodeLengthHigherThanMinimum(
         StartVerificationRequest request) =>
         InputValidation
-            .VerifyHigherOrEqualThan(request, request.CodeLength, 4, nameof(request.CodeLength));
+            .VerifyHigherOrEqualThan(request, request.CodeLength, MinCodeLength, nameof(request.CodeLength));
 
     private static Result<StartVerificationRequest> VerifyCodeLengthLowerThanMaximum(
         StartVerificationRequest request) =>
         InputValidation
-            .VerifyLowerOrEqualThan(request, request.CodeLength, 10, nameof(request.CodeLength));
+            .VerifyLowerOrEqualThan(request, request.CodeLength, MaxCodeLength, nameof(request.CodeLength));
 }
 
 /// <summary>
