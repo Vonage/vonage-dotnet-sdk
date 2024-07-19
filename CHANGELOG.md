@@ -1,4 +1,40 @@
 # Changelog
+## [v7.6.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.6.2) (2024-07-19)
+
+### Build updates
+
+- Add regex to validate bump script input ([52e424d](https://github.com/Vonage/vonage-dotnet-sdk/commit/52e424d58ce4d7c1e4c1d33b1c31b9974ad4b9a9))
+
+
+### Dependencies upgrade
+
+- Update packages ([677e434](https://github.com/Vonage/vonage-dotnet-sdk/commit/677e4341b05e2299365c0c8ac937c665ca6c4955))
+
+
+### Documentation
+
+- Generate changelog for v7.6.1 ([ad340e9](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad340e951fed9af07c150840bc61a6d0b2cbcf93))
+
+- Fix typo in XML documentation ([f48d9da](https://github.com/Vonage/vonage-dotnet-sdk/commit/f48d9daa1a0bbd6a90716250e0b01d90fcd83819))
+
+- Bump version to v7.6.2 ([d03d593](https://github.com/Vonage/vonage-dotnet-sdk/commit/d03d5933d89eb8ef3a59f2ec128ac216e15b08a4))
+
+
+### Features
+
+- Support E2EE for Video sessions ([550df07](https://github.com/Vonage/vonage-dotnet-sdk/commit/550df076ebb4182d521260cafec9ab0dc6a31345))
+
+- Implement request creation for audio connector ([1ecb51e](https://github.com/Vonage/vonage-dotnet-sdk/commit/1ecb51e40ef164dd6d6d88b3a44e9e2cf734e94b))
+
+- Implement Start feature for AudioConnector ([63d84ba](https://github.com/Vonage/vonage-dotnet-sdk/commit/63d84ba1c65bfd855ab3134ae50ac0a70f795761))
+
+- Implement Stop for LiveCaptions ([01cc92a](https://github.com/Vonage/vonage-dotnet-sdk/commit/01cc92a06a02345ab2304d15a39318995ca1398a))
+
+- Implement Start for LiveCaptions ([358e2cf](https://github.com/Vonage/vonage-dotnet-sdk/commit/358e2cf97484acecc7833e88ad24d8ad68cd050c))
+
+- Change minimum channel timeout from 60s to 15s for VerifyV2 ([f1766a2](https://github.com/Vonage/vonage-dotnet-sdk/commit/f1766a212ad8150d663fe47bb8f80029f1891610))
+
+
 ## [v7.6.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.6.1) (2024-06-28)
 
 ### Bug Fixes
