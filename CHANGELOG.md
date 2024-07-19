@@ -1,15 +1,6 @@
 # Changelog
 ## [v7.7.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.0) (2024-07-19)
 
-### Documentation
-
-- Generate changelog for v7.6.2 ([df1572a](https://github.com/Vonage/vonage-dotnet-sdk/commit/df1572ad1d46452cb06351b7e9221442785b9aa5))
-
-- Bump version to v7.7.0 ([256178a](https://github.com/Vonage/vonage-dotnet-sdk/commit/256178ac75ce8e99c8c28b60f4e24ddab0cbbdf9))
-
-
-## [v7.6.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.6.2) (2024-07-19)
-
 ### Build updates
 
 - Add regex to validate bump script input ([52e424d](https://github.com/Vonage/vonage-dotnet-sdk/commit/52e424d58ce4d7c1e4c1d33b1c31b9974ad4b9a9))
@@ -27,6 +18,12 @@
 - Fix typo in XML documentation ([f48d9da](https://github.com/Vonage/vonage-dotnet-sdk/commit/f48d9daa1a0bbd6a90716250e0b01d90fcd83819))
 
 - Bump version to v7.6.2 ([d03d593](https://github.com/Vonage/vonage-dotnet-sdk/commit/d03d5933d89eb8ef3a59f2ec128ac216e15b08a4))
+
+- Generate changelog for v7.6.2 ([df1572a](https://github.com/Vonage/vonage-dotnet-sdk/commit/df1572ad1d46452cb06351b7e9221442785b9aa5))
+
+- Bump version to v7.7.0 ([256178a](https://github.com/Vonage/vonage-dotnet-sdk/commit/256178ac75ce8e99c8c28b60f4e24ddab0cbbdf9))
+
+- Generate changelog for v7.7.0 ([99c2312](https://github.com/Vonage/vonage-dotnet-sdk/commit/99c2312ef29a29ce482a660c9dbaed814e7426d7))
 
 
 ### Features
@@ -217,18 +214,13 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 ### Documentation
 
-- Generate changelog for v7.3.0 ([e6403a7](https://github.com/Vonage/vonage-dotnet-sdk/commit/e6403a70b915738f1c3358338a371249c35cc60a))
-
-- Bump version to v7.4.0 ([763a3f1](https://github.com/Vonage/vonage-dotnet-sdk/commit/763a3f15de42d925b0c4d50b8c0c85691367c51a))
-
-
-## [v7.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.3.0) (2024-05-13)
-
-### Documentation
-
 - Generate changelog for v7.2.2 ([942ebdc](https://github.com/Vonage/vonage-dotnet-sdk/commit/942ebdcfdb837af1d8e89e278494cdc2a0b97351))
 
 - Bump version to v7.3.0 ([3ea78ae](https://github.com/Vonage/vonage-dotnet-sdk/commit/3ea78ae784ab55418c1809f6c91c7f9613c92bdf))
+
+- Generate changelog for v7.3.0 ([e6403a7](https://github.com/Vonage/vonage-dotnet-sdk/commit/e6403a70b915738f1c3358338a371249c35cc60a))
+
+- Bump version to v7.4.0 ([763a3f1](https://github.com/Vonage/vonage-dotnet-sdk/commit/763a3f15de42d925b0c4d50b8c0c85691367c51a))
 
 
 ### Features
