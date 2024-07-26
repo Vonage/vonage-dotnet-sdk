@@ -1,4 +1,20 @@
 # Changelog
+## [v7.7.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.1) (2024-07-26)
+
+### Bug Fixes
+
+- Empty configuration when using the services extension ([57ad45d](https://github.com/Vonage/vonage-dotnet-sdk/commit/57ad45df313761b43905d0558c417a7fe293a07c))
+
+- Vulnerability for System.Formats.Asn1 ([62b8580](https://github.com/Vonage/vonage-dotnet-sdk/commit/62b8580146c6c8d9c0fbb5117a3f5109a61dad96))
+
+
+### Documentation
+
+- Generate changelog for v7.7.0 ([5c7393c](https://github.com/Vonage/vonage-dotnet-sdk/commit/5c7393cf3d4d93b0b6028469f457f5b827d25099))
+
+- Bump version to v7.7.1 ([9b642a3](https://github.com/Vonage/vonage-dotnet-sdk/commit/9b642a32c21bccc6cab8a617251bc7797dd41ec5))
+
+
 ## [v7.7.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.0) (2024-07-19)
 
 ### Build updates
