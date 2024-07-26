@@ -28,6 +28,7 @@
         <PackageReference Include="FsCheck.Xunit" Version="2.16.6"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0"/>
         <PackageReference Include="Moq" Version="4.20.70"/>
+        <PackageReference Include="System.Formats.Asn1" Version="8.0.1"/>
         <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="21.0.26"/>
         <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
         <PackageReference Include="WireMock.Net" Version="1.5.60"/>

@@ -69,6 +69,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="StandardSocketsHttpHandler" Version="2.2.0.8"/>
+      <PackageReference Include="System.Formats.Asn1" Version="8.0.1"/>
     <PackageReference Include="System.IO.Abstractions" Version="21.0.26"/>
     <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
     <PackageReference Include="System.Text.Json" Version="8.0.4"/>
