@@ -1,3 +1,4 @@
+#region
 using System;
 using System.IO.Abstractions;
 using System.Net.Http;
@@ -27,6 +28,7 @@ using Vonage.Verify;
 using Vonage.VerifyV2;
 using Vonage.Video;
 using Vonage.Voice;
+#endregion
 
 namespace Vonage;
 
@@ -54,7 +56,7 @@ public class VonageClient
 
     internal VonageClient(Configuration configuration)
     {
-        this.configuration = this.GetConfiguration();
+        this.configuration = configuration;
         this.Credentials = configuration.BuildCredentials();
     }
 
