@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Numbers;
 using Vonage.Request;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
@@ -178,11 +180,11 @@ public class NumbersTests : TestBase
         const string expectedResponse =
             @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
         var expectedUri =
-            $"{this.RestUrl}/account/numbers?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/account/numbers?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&application_id=testApp&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
         var request = new NumberSearchRequest
         {
             Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains,
-            Features = "SMS", Size = 10, Index = 1,
+            Features = "SMS", Size = 10, Index = 1, ApplicationId = "testApp",
         };
         this.Setup(expectedUri, expectedResponse);
         var response = await this.client.NumbersClient.GetOwnedNumbersAsync(request, this.credentials);

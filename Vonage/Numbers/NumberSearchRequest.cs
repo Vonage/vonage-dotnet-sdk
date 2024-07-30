@@ -1,4 +1,6 @@
+#region
 using Newtonsoft.Json;
+#endregion
 
 namespace Vonage.Numbers;
 
@@ -39,13 +41,15 @@ public class NumberSearchRequest
     /// <summary>
     /// Page size
     /// </summary>
-    [JsonProperty("size", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("size", DefaultValueHandling = DefaultValueHandling.Ignore,
+        NullValueHandling = NullValueHandling.Ignore)]
     public int? Size { get; set; }
 
     /// <summary>
     /// Page index
     /// </summary>
-    [JsonProperty("index", DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)] 
+    [JsonProperty("index", DefaultValueHandling = DefaultValueHandling.Ignore,
+        NullValueHandling = NullValueHandling.Ignore)]
     public int? Index { get; set; }
 
     /// <summary>
@@ -54,4 +58,10 @@ public class NumberSearchRequest
     /// </summary>
     [JsonProperty("has_application", NullValueHandling = NullValueHandling.Ignore)]
     public bool? HasApplication { get; set; }
+
+    /// <summary>
+    ///     The application Id linked to the number.
+    /// </summary>
+    [JsonProperty("application_id", NullValueHandling = NullValueHandling.Ignore)]
+    public string ApplicationId { get; set; }
 }
