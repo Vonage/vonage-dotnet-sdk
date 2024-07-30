@@ -1,4 +1,20 @@
 # Changelog
+## [v7.7.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.2) (2024-07-30)
+
+### Bug Fixes
+
+- Add missing ApplicationId property on NumberSearchRequest ([7ea2677](https://github.com/Vonage/vonage-dotnet-sdk/commit/7ea26770d35129571d7a7497acf1fe618bdf0a80))
+
+- Add missing AppId property on Number ([d9193aa](https://github.com/Vonage/vonage-dotnet-sdk/commit/d9193aa15d66ef3d34d44c201baeb0a378919f14))
+
+
+### Documentation
+
+- Generate changelog for v7.7.1 ([8538de3](https://github.com/Vonage/vonage-dotnet-sdk/commit/8538de341bc8c4afdc41c0d8abc42ccf307e0e79))
+
+- Bump version to v7.7.2 ([47f0e65](https://github.com/Vonage/vonage-dotnet-sdk/commit/47f0e65b6304ed1a3e53ae0d90ce36be1aaa0191))
+
+
 ## [v7.7.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.1) (2024-07-26)
 
 ### Bug Fixes
