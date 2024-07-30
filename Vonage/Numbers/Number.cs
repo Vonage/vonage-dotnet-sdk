@@ -1,4 +1,6 @@
+#region
 using Newtonsoft.Json;
+#endregion
 
 namespace Vonage.Numbers;
 
@@ -33,4 +35,10 @@ public class Number
     /// </summary>
     [JsonProperty("type")]
     public string Type { get; set; }
+
+    /// <summary>
+    ///     The application Id.
+    /// </summary>
+    [JsonProperty("app_id")]
+    public string ApplicationId { get; set; }
 }

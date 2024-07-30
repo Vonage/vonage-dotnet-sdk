@@ -172,13 +172,14 @@ public class NumbersTests : TestBase
         Assert.Equal("1.25", number.Cost);
         Assert.Equal("VOICE", number.Features[0]);
         Assert.Equal("SMS", number.Features[1]);
+        number.ApplicationId.Should().BeNull();
     }
 
     [Fact]
     public async Task GetOwnedNumbersAsyncWithCredentials()
     {
         const string expectedResponse =
-            @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
+            @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""],""app_id"": ""9907a0d2-5206-4ec0-af8c-b335685ef9b8""}]}";
         var expectedUri =
             $"{this.RestUrl}/account/numbers?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&application_id=testApp&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
         var request = new NumberSearchRequest
@@ -196,6 +197,7 @@ public class NumbersTests : TestBase
         Assert.Equal("1.25", number.Cost);
         Assert.Equal("VOICE", number.Features[0]);
         Assert.Equal("SMS", number.Features[1]);
+        number.ApplicationId.Should().Be("9907a0d2-5206-4ec0-af8c-b335685ef9b8");
     }
 
     [Fact]
