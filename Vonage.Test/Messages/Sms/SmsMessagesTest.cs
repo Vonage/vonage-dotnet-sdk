@@ -71,4 +71,28 @@ public class SmsMessagesTest : TestBase
         Assert.NotNull(response);
         Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
     }
+
+    [Fact]
+    public async Task SendSmsAsyncReturnsOkWithSettings()
+    {
+        var expectedResponse = this.helper.GetResponseJson(nameof(this.SendSmsAsyncReturnsOk));
+        var expectedRequest = this.helper.GetRequestJson();
+        var request = new SmsRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            Text = "This is a test",
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+            TimeToLive = 90000,
+            Settings = new OptionalSettings("text", "1107457532145798767", "1101456324675322134"),
+        };
+        var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+        this.Setup(this.expectedUri, expectedResponse, expectedRequest);
+        var client = this.BuildVonageClient(creds);
+        var response = await client.MessagesClient.SendAsync(request);
+        Assert.NotNull(response);
+        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+    }
 }

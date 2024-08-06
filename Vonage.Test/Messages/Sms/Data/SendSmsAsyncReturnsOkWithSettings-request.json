@@ -1,0 +1,16 @@
+{
+  "channel": "sms",
+  "message_type": "text",
+  "text": "This is a test",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status",
+  "ttl": 90000,
+  "sms": {
+    "encoding_type": "text",
+    "content_id": "1107457532145798767",
+    "entity_id": "1101456324675322134"
+  }
+}

@@ -638,7 +638,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <Folder Include="Messages\Messenger\Data"/>
-        <Folder Include="Messages\Sms\Data"/>
         <None Update="Data\NccoTests\TestConnectWithAdvancedMachineDetection-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -1270,6 +1269,9 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Video\LiveCaptions\Start\Data\ShouldSerializeWithOptionalValues-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Sms\Data\SendSmsAsyncReturnsOkWithSettings-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
