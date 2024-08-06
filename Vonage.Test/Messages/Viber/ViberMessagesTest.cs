@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -7,6 +8,7 @@ using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Messages.Viber;
 
@@ -49,6 +51,8 @@ public class ViberMessagesTest : TestBase
                 Url = "https://example.com/files/",
                 Name = "example.pdf",
             },
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
         var response = await this.operation(request);
@@ -77,6 +81,8 @@ public class ViberMessagesTest : TestBase
                 Type = "string",
                 Action = new ViberAction("https://example.com/page1.html", "Find out more"),
             },
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
         var response = await this.operation(request);
@@ -101,6 +107,8 @@ public class ViberMessagesTest : TestBase
                 Type = "string",
                 Action = new ViberAction("https://example.com/page1.html", "Find out more"),
             },
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
         var response = await this.operation(request);
@@ -131,6 +139,8 @@ public class ViberMessagesTest : TestBase
                 Caption = "Check out this new video",
                 ThumbUrl = "https://example.com/file1.jpg",
             },
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
         var response = await this.operation(request);

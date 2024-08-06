@@ -1,5 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿#region
+using System;
+using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.Messages.WhatsApp;
 
@@ -13,6 +16,13 @@ public struct WhatsAppAudioRequest : IWhatsAppMessage
     /// </summary>
     [JsonPropertyOrder(5)]
     public Attachment Audio { get; set; }
+
+    /// <summary>
+    ///     An optional context used for quoting/replying to a specific message in a conversation. When used, the WhatsApp UI
+    ///     will display the new message along with a contextual bubble that displays the quoted/replied to message's content.
+    /// </summary>
+    [JsonPropertyOrder(7)]
+    public WhatsAppContext Context { get; set; }
 
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
@@ -36,10 +46,11 @@ public struct WhatsAppAudioRequest : IWhatsAppMessage
     [JsonPropertyOrder(2)]
     public string To { get; set; }
 
-    /// <summary>
-    ///     An optional context used for quoting/replying to a specific message in a conversation. When used, the WhatsApp UI
-    ///     will display the new message along with a contextual bubble that displays the quoted/replied to message's content.
-    /// </summary>
-    [JsonPropertyOrder(6)]
-    public WhatsAppContext Context { get; set; }
+    /// <inheritdoc />
+    [JsonPropertyOrder(7)]
+    public string WebhookVersion { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(8)]
+    public Uri WebhookUrl { get; set; }
 }

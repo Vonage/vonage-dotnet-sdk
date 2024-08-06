@@ -1,11 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿#region
+using System.Text.Json.Serialization;
+#endregion
 
 namespace Vonage.Messages.Mms;
 
 public class MmsImageRequest : MessageRequestBase
 {
     public override MessagesChannel Channel => MessagesChannel.MMS;
-    [JsonPropertyOrder(6)] public Attachment Image { get; set; }
+    [JsonPropertyOrder(8)] public Attachment Image { get; set; }
 
     public override MessagesMessageType MessageType => MessagesMessageType.Image;
 
@@ -14,7 +16,7 @@ public class MmsImageRequest : MessageRequestBase
     ///     delivered successfully within the TTL time, the message is considered expired and will be rejected if TTL is
     ///     supported.
     /// </summary>
-    [JsonPropertyOrder(7)]
+    [JsonPropertyOrder(9)]
     [JsonPropertyName("ttl")]
     public int? TimeToLive { get; set; }
 }

@@ -1,5 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿#region
+using System;
+using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.Messages.WhatsApp;
 
@@ -8,6 +11,19 @@ namespace Vonage.Messages.WhatsApp;
 /// </summary>
 public struct WhatsAppVideoRequest : IWhatsAppMessage
 {
+    /// <summary>
+    ///     The video information of the request.
+    /// </summary>
+    [JsonPropertyOrder(5)]
+    public CaptionedAttachment Video { get; set; }
+
+    /// <summary>
+    ///     An optional context used for quoting/replying to a specific message in a conversation. When used, the WhatsApp UI
+    ///     will display the new message along with a contextual bubble that displays the quoted/replied to message's content.
+    /// </summary>
+    [JsonPropertyOrder(6)]
+    public WhatsAppContext Context { get; set; }
+
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesChannel>))]
@@ -30,16 +46,11 @@ public struct WhatsAppVideoRequest : IWhatsAppMessage
     [JsonPropertyOrder(2)]
     public string To { get; set; }
 
-    /// <summary>
-    ///     The video information of the request.
-    /// </summary>
-    [JsonPropertyOrder(5)]
-    public CaptionedAttachment Video { get; set; }
+    /// <inheritdoc />
+    [JsonPropertyOrder(7)]
+    public string WebhookVersion { get; set; }
 
-    /// <summary>
-    ///     An optional context used for quoting/replying to a specific message in a conversation. When used, the WhatsApp UI
-    ///     will display the new message along with a contextual bubble that displays the quoted/replied to message's content.
-    /// </summary>
-    [JsonPropertyOrder(6)]
-    public WhatsAppContext Context { get; set; }
+    /// <inheritdoc />
+    [JsonPropertyOrder(8)]
+    public Uri WebhookUrl { get; set; }
 }

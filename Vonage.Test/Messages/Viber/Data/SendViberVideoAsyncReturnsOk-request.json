@@ -15,5 +15,7 @@
     "url": "https://example.com/image.jpg",
     "caption": "Check out this new video",
     "thumb_url": "https://example.com/file1.jpg"
-  }
+  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status"
 }

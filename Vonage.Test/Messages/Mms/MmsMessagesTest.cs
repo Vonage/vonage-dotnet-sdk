@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Threading.Tasks;
 using Vonage.Messages;
@@ -6,6 +7,7 @@ using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Messages.Mms;
 
@@ -40,6 +42,8 @@ public class MmsMessagesTest : TestBase
                 Caption = "Sounds I make",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -65,6 +69,8 @@ public class MmsMessagesTest : TestBase
                 Caption = "Sounds I make",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
             TimeToLive = 600,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
@@ -82,6 +88,8 @@ public class MmsMessagesTest : TestBase
                 Url = "https://test.com/image.png",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -98,6 +106,8 @@ public class MmsMessagesTest : TestBase
                 Url = "https://test.com/image.png",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
             TimeToLive = 600,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
@@ -115,6 +125,8 @@ public class MmsMessagesTest : TestBase
                 Url = "https://test.com/contact.vcf",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -131,6 +143,8 @@ public class MmsMessagesTest : TestBase
                 Url = "https://test.com/contact.vcf",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
             TimeToLive = 600,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
@@ -149,6 +163,8 @@ public class MmsMessagesTest : TestBase
                 Caption = "A video of me",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -166,6 +182,8 @@ public class MmsMessagesTest : TestBase
                 Caption = "A video of me",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
             TimeToLive = 600,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());

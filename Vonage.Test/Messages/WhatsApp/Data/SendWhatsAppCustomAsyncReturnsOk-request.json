@@ -10,5 +10,7 @@
       "something": "whatsapp:hsm:technology:nexmo",
       "name": "parcel_location"
     }
-  }
+  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status"
 }

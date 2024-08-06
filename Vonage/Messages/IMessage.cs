@@ -1,3 +1,7 @@
+#region
+using System;
+#endregion
+
 namespace Vonage.Messages;
 
 /// <summary>
@@ -35,4 +39,18 @@ public interface IMessage
     ///     start with the country code, for example, 447700900000.
     /// </summary>
     string To { get; set; }
+
+    /// <summary>
+    ///     Specifies which version of the Messages API will be used to send Status Webhook messages for this particular
+    ///     message. For example, if v0.1 is set, then the JSON body of Status Webhook messages for this message will be sent
+    ///     in Messages v0.1 format. Over-rides account-level and application-level API version settings on a per-message
+    ///     basis.
+    /// </summary>
+    string WebhookVersion { get; set; }
+
+    /// <summary>
+    ///     Specifies the URL to which Status Webhook messages will be sent for this particular message. Over-rides
+    ///     account-level and application-level Status Webhook url settings on a per-message basis.
+    /// </summary>
+    Uri WebhookUrl { get; set; }
 }

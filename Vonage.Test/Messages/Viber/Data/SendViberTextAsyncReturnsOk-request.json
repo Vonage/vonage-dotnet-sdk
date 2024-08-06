@@ -13,5 +13,7 @@
       "url": "https://example.com/page1.html",
       "text": "Find out more"
     }
-  }
+  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status"
 }

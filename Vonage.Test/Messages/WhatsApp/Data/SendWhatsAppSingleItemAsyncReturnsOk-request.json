@@ -19,5 +19,7 @@
         "product_retailer_id": "product_1"
       }
     }
-  }
+  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status"
 }

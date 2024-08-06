@@ -1,5 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿#region
+using System;
+using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.Messages;
 
@@ -26,4 +29,12 @@ public abstract class MessageRequestBase : IMessage
     /// <inheritdoc />
     [JsonPropertyOrder(3)]
     public string To { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(6)]
+    public string WebhookVersion { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(7)]
+    public Uri WebhookUrl { get; set; }
 }

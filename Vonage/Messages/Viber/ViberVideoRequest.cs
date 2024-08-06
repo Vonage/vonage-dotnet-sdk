@@ -1,5 +1,8 @@
+#region
+using System;
 using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.Messages.Viber;
 
@@ -8,6 +11,12 @@ namespace Vonage.Messages.Viber;
 /// </summary>
 public struct ViberVideoRequest : IViberMessage
 {
+    /// <summary>
+    ///     The video information of the request.
+    /// </summary>
+    [JsonPropertyOrder(6)]
+    public VideoInformation Video { get; set; }
+
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesChannel>))]
@@ -35,11 +44,13 @@ public struct ViberVideoRequest : IViberMessage
     [JsonPropertyOrder(2)]
     public string To { get; set; }
 
-    /// <summary>
-    ///     The video information of the request.
-    /// </summary>
-    [JsonPropertyOrder(6)]
-    public VideoInformation Video { get; set; }
+    /// <inheritdoc />
+    [JsonPropertyOrder(7)]
+    public string WebhookVersion { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(8)]
+    public Uri WebhookUrl { get; set; }
 
     /// <summary>
     ///     Represents the video information of the request.

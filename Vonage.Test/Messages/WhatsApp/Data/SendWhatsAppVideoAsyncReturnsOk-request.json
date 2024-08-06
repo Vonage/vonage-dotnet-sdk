@@ -7,5 +7,7 @@
   "video": {
     "url": "https://test.com/me.mp4",
     "caption": "Me at the zoo"
-  }
+  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status"
 }

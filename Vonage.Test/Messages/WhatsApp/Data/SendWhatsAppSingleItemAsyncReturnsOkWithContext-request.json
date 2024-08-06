@@ -22,5 +22,7 @@
   },
   "context": {
     "message_uuid": "a1b2c3d4a1b2c3d4"
-  }
+  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status"
 }

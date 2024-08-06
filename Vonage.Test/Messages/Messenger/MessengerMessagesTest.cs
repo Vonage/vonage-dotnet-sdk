@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Threading.Tasks;
 using Vonage.Messages;
@@ -6,6 +7,7 @@ using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Messages.Messenger;
 
@@ -36,6 +38,8 @@ public class MessengerMessagesTest : TestBase
                 Url = "https://test.com/voice.mp3",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
@@ -59,6 +63,8 @@ public class MessengerMessagesTest : TestBase
                 Url = "https://test.com/me.txt",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
@@ -82,6 +88,8 @@ public class MessengerMessagesTest : TestBase
                 Url = "https://test.com/image.png",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
@@ -102,6 +110,8 @@ public class MessengerMessagesTest : TestBase
             From = "015417543010",
             Text = "Hello mum",
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
@@ -125,6 +135,8 @@ public class MessengerMessagesTest : TestBase
                 Url = "https://test.com/me.mp4",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);

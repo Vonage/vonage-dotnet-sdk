@@ -1,5 +1,8 @@
+#region
+using System;
 using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.Messages.Viber;
 
@@ -8,6 +11,12 @@ namespace Vonage.Messages.Viber;
 /// </summary>
 public struct ViberTextRequest : IViberMessage
 {
+    /// <summary>
+    ///     The text of message to send; limited to 640 characters, including unicode.
+    /// </summary>
+    [JsonPropertyOrder(2)]
+    public string Text { get; set; }
+
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesChannel>))]
@@ -31,13 +40,15 @@ public struct ViberTextRequest : IViberMessage
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesMessageType>))]
     public MessagesMessageType MessageType => MessagesMessageType.Text;
 
-    /// <summary>
-    ///     The text of message to send; limited to 640 characters, including unicode.
-    /// </summary>
-    [JsonPropertyOrder(2)]
-    public string Text { get; set; }
-
     /// <inheritdoc />
     [JsonPropertyOrder(3)]
     public string To { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(7)]
+    public string WebhookVersion { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(8)]
+    public Uri WebhookUrl { get; set; }
 }

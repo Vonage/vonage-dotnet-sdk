@@ -12,5 +12,7 @@
   "file": {
     "url": "https://example.com/files/",
     "name": "example.pdf"
-  }
+  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status"
 }

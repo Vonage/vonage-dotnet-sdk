@@ -6,5 +6,7 @@
   "client_ref": "abcdefg",
   "image": {
     "url": "https://test.com/image.png"
-  }
+  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status"
 }

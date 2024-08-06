@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Messages.Sms;
 
@@ -35,6 +37,8 @@ public class SmsMessagesTest : TestBase
             From = "015417543010",
             Text = "This is a test",
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
         this.Setup(this.expectedUri, expectedResponse, expectedRequest, HttpStatusCode.Unauthorized);
@@ -57,6 +61,8 @@ public class SmsMessagesTest : TestBase
             From = "015417543010",
             Text = "This is a test",
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);

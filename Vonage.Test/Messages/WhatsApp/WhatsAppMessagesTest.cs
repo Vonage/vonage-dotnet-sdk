@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Messages.WhatsApp;
 
@@ -47,6 +49,8 @@ public class WhatsAppMessagesTest : TestBase
                 Url = "https://test.com/voice.mp3",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -65,6 +69,8 @@ public class WhatsAppMessagesTest : TestBase
             },
             ClientRef = "abcdefg",
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -95,6 +101,8 @@ public class WhatsAppMessagesTest : TestBase
                 },
             },
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -117,6 +125,8 @@ public class WhatsAppMessagesTest : TestBase
                     name = "parcel_location",
                 },
             },
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -135,6 +145,8 @@ public class WhatsAppMessagesTest : TestBase
                 Caption = "Me",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -154,6 +166,8 @@ public class WhatsAppMessagesTest : TestBase
             },
             ClientRef = "abcdefg",
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -172,6 +186,8 @@ public class WhatsAppMessagesTest : TestBase
                 Caption = "Testing image caption",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -191,6 +207,8 @@ public class WhatsAppMessagesTest : TestBase
             },
             ClientRef = "abcdefg",
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -215,6 +233,8 @@ public class WhatsAppMessagesTest : TestBase
                 .WithSection("Awesome products")
                 .WithProductRetailer("product_3")
                 .Build(),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -240,6 +260,8 @@ public class WhatsAppMessagesTest : TestBase
                 .WithProductRetailer("product_3")
                 .Build(),
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -259,6 +281,8 @@ public class WhatsAppMessagesTest : TestBase
                 .WithCatalogId("catalog_1")
                 .WithProductRetailerId("product_1")
                 .Build(),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -279,6 +303,8 @@ public class WhatsAppMessagesTest : TestBase
                 .WithProductRetailerId("product_1")
                 .Build(),
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -293,6 +319,8 @@ public class WhatsAppMessagesTest : TestBase
             From = "447700900001",
             ClientRef = "string",
             Sticker = new IdSticker(new Guid("aabb7a31-1d1f-4755-a574-2971d831cd5b")),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -308,6 +336,8 @@ public class WhatsAppMessagesTest : TestBase
             ClientRef = "string",
             Sticker = new IdSticker(new Guid("aabb7a31-1d1f-4755-a574-2971d831cd5b")),
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -322,6 +352,8 @@ public class WhatsAppMessagesTest : TestBase
             From = "447700900001",
             ClientRef = "string",
             Sticker = new UrlSticker("https://example.com/image.webp"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -337,6 +369,8 @@ public class WhatsAppMessagesTest : TestBase
             ClientRef = "string",
             Sticker = new UrlSticker("https://example.com/image.webp"),
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -365,6 +399,8 @@ public class WhatsAppMessagesTest : TestBase
                 Policy = "deterministic",
                 Locale = "en-GB",
             },
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -394,6 +430,8 @@ public class WhatsAppMessagesTest : TestBase
                 Locale = "en-GB",
             },
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -408,6 +446,8 @@ public class WhatsAppMessagesTest : TestBase
             From = "015417543010",
             Text = "Hello mum",
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -423,6 +463,8 @@ public class WhatsAppMessagesTest : TestBase
             Text = "Hello mum",
             ClientRef = "abcdefg",
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -441,6 +483,8 @@ public class WhatsAppMessagesTest : TestBase
                 Caption = "Me at the zoo",
             },
             ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }
@@ -460,6 +504,8 @@ public class WhatsAppMessagesTest : TestBase
             },
             ClientRef = "abcdefg",
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
         };
         await this.AssertResponse(request, expectedRequest);
     }

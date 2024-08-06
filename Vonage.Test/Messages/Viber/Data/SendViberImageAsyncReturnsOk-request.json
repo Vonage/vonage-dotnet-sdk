@@ -16,5 +16,7 @@
   "image": {
     "url": "https://test.com/image.png",
     "caption": "Check out this new promotion"
-  }
+  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status"
 }

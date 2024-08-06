@@ -4,6 +4,8 @@
   "to": "441234567890",
   "from": "015417543010",
   "client_ref": "abcdefg",
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status",
   "vcard": {
     "url": "https://test.com/contact.vcf"
   },

@@ -1,6 +1,8 @@
+#region
 using System;
 using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.Messages.WhatsApp;
 
@@ -10,6 +12,19 @@ namespace Vonage.Messages.WhatsApp;
 public struct WhatsAppStickerRequest<T> : IWhatsAppMessage
     where T : IStickerContent
 {
+    /// <summary>
+    ///     The sticker content.
+    /// </summary>
+    [JsonPropertyOrder(5)]
+    public T Sticker { get; set; }
+
+    /// <summary>
+    ///     An optional context used for quoting/replying to a specific message in a conversation. When used, the WhatsApp UI
+    ///     will display the new message along with a contextual bubble that displays the quoted/replied to message's content.
+    /// </summary>
+    [JsonPropertyOrder(6)]
+    public WhatsAppContext Context { get; set; }
+
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesChannel>))]
@@ -28,22 +43,17 @@ public struct WhatsAppStickerRequest<T> : IWhatsAppMessage
     [JsonConverter(typeof(EnumDescriptionJsonConverter<MessagesMessageType>))]
     public MessagesMessageType MessageType => MessagesMessageType.Sticker;
 
-    /// <summary>
-    ///     The sticker content.
-    /// </summary>
-    [JsonPropertyOrder(5)]
-    public T Sticker { get; set; }
-
     /// <inheritdoc />
     [JsonPropertyOrder(2)]
     public string To { get; set; }
 
-    /// <summary>
-    ///     An optional context used for quoting/replying to a specific message in a conversation. When used, the WhatsApp UI
-    ///     will display the new message along with a contextual bubble that displays the quoted/replied to message's content.
-    /// </summary>
-    [JsonPropertyOrder(6)]
-    public WhatsAppContext Context { get; set; }
+    /// <inheritdoc />
+    [JsonPropertyOrder(7)]
+    public string WebhookVersion { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(8)]
+    public Uri WebhookUrl { get; set; }
 }
 
 /// <summary>
