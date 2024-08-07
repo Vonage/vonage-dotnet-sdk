@@ -5,12 +5,16 @@
 
 - Ignore TimeToLive during serialization when default ([f206f50](https://github.com/Vonage/vonage-dotnet-sdk/commit/f206f50c58c9918bb84e3409bcecf40ab6afb979))
 
+- Add missing properties on Number ([7062559](https://github.com/Vonage/vonage-dotnet-sdk/commit/7062559aea95fef2cd9fcecc191a4cf3eada1d47))
+
 
 ### Documentation
 
 - Generate changelog for v7.7.2 ([2100a43](https://github.com/Vonage/vonage-dotnet-sdk/commit/2100a432101efa8ae4755b641ed6c50bd68ee8ac))
 
 - Bump version to v7.7.3 ([e3a9fdc](https://github.com/Vonage/vonage-dotnet-sdk/commit/e3a9fdc71cbeaa36469bfc9bbbcc61c2e2cc4cd5))
+
+- Generate changelog for v7.7.3 ([bd0e9d8](https://github.com/Vonage/vonage-dotnet-sdk/commit/bd0e9d8a16e9cff99bb5e3ec0858066fedf1f614))
 
 
 ### Features
