@@ -18,7 +18,7 @@ public class NumbersTests : TestBase
     public NumbersTests()
     {
         this.credentials = this.BuildCredentials();
-        this.client = this.BuildVonageClient(credentials);
+        this.client = this.BuildVonageClient(this.credentials);
     }
 
     [Fact]
@@ -91,7 +91,7 @@ public class NumbersTests : TestBase
     }
 
     [Fact]
-    public async Task GetAvailableNumbers()
+    public async Task GetAvailableNumbersAsync()
     {
         const string expectedResponse =
             @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
@@ -111,10 +111,10 @@ public class NumbersTests : TestBase
     }
 
     [Fact]
-    public async Task GetAvailableNumbersAsync()
+    public async Task GetAvailableNumbersAsyncWithAdditionalData()
     {
         const string expectedResponse =
-            @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
+            @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""], ""moHttpUrl"": ""https://example.com/webhooks/inbound-sms"", ""messagesCallbackType"": ""app"", ""messagesCallbackValue"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"", ""voiceCallbackType"": ""app"", ""voiceCallbackValue"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab""}]}";
         var expectedUri =
             $"{this.RestUrl}/number/search?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
         var request = new NumberSearchRequest {Country = "GB"};
@@ -128,6 +128,11 @@ public class NumbersTests : TestBase
         Assert.Equal("1.25", number.Cost);
         Assert.Equal("VOICE", number.Features[0]);
         Assert.Equal("SMS", number.Features[1]);
+        number.MoHttpUrl.Should().Be("https://example.com/webhooks/inbound-sms");
+        number.MessagesCallbackType.Should().Be("app");
+        number.MessagesCallbackValue.Should().Be("aaaaaaaa-bbbb-cccc-dddd-0123456789ab");
+        number.VoiceCallbackType.Should().Be("app");
+        number.VoiceCallbackValue.Should().Be("aaaaaaaa-bbbb-cccc-dddd-0123456789ab");
     }
 
     [Fact]
@@ -173,6 +178,32 @@ public class NumbersTests : TestBase
         Assert.Equal("VOICE", number.Features[0]);
         Assert.Equal("SMS", number.Features[1]);
         number.ApplicationId.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetOwnedNumbersAsyncWithAdditionalData()
+    {
+        const string expectedResponse =
+            @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""], ""moHttpUrl"": ""https://example.com/webhooks/inbound-sms"", ""messagesCallbackType"": ""app"", ""messagesCallbackValue"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"", ""voiceCallbackType"": ""app"", ""voiceCallbackValue"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab""}]}";
+        var expectedUri =
+            $"{this.RestUrl}/account/numbers?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+        var request = new NumberSearchRequest {Country = "GB"};
+        this.Setup(expectedUri, expectedResponse);
+        var response = await this.client.NumbersClient.GetOwnedNumbersAsync(request);
+        var number = response.Numbers[0];
+        Assert.Equal(1234, response.Count);
+        Assert.Equal("GB", number.Country);
+        Assert.Equal("447700900000", number.Msisdn);
+        Assert.Equal("mobile-lvn", number.Type);
+        Assert.Equal("1.25", number.Cost);
+        Assert.Equal("VOICE", number.Features[0]);
+        Assert.Equal("SMS", number.Features[1]);
+        number.ApplicationId.Should().BeNull();
+        number.MoHttpUrl.Should().Be("https://example.com/webhooks/inbound-sms");
+        number.MessagesCallbackType.Should().Be("app");
+        number.MessagesCallbackValue.Should().Be("aaaaaaaa-bbbb-cccc-dddd-0123456789ab");
+        number.VoiceCallbackType.Should().Be("app");
+        number.VoiceCallbackValue.Should().Be("aaaaaaaa-bbbb-cccc-dddd-0123456789ab");
     }
 
     [Fact]

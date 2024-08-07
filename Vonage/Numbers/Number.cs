@@ -41,4 +41,34 @@ public class Number
     /// </summary>
     [JsonProperty("app_id")]
     public string ApplicationId { get; set; }
+
+    /// <summary>
+    ///     The URL of the webhook endpoint that handles inbound messages
+    /// </summary>
+    [JsonProperty("moHttpUrl")]
+    public string MoHttpUrl { get; set; }
+
+    /// <summary>
+    ///     The messages webhook type: always app
+    /// </summary>
+    [JsonProperty("messagesCallbackType")]
+    public string MessagesCallbackType { get; set; }
+
+    /// <summary>
+    ///     An Application ID
+    /// </summary>
+    [JsonProperty("messagesCallbackValue")]
+    public string MessagesCallbackValue { get; set; }
+
+    /// <summary>
+    ///     The voice webhook type: sip, tel, or app
+    /// </summary>
+    [JsonProperty("voiceCallbackType")]
+    public string VoiceCallbackType { get; set; }
+
+    /// <summary>
+    ///     A SIP URI, telephone number or Application ID
+    /// </summary>
+    [JsonProperty("voiceCallbackValue")]
+    public string VoiceCallbackValue { get; set; }
 }
