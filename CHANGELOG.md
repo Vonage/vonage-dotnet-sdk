@@ -1,4 +1,25 @@
 # Changelog
+## [v7.7.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.3) (2024-08-07)
+
+### Bug Fixes
+
+- Ignore TimeToLive during serialization when default ([f206f50](https://github.com/Vonage/vonage-dotnet-sdk/commit/f206f50c58c9918bb84e3409bcecf40ab6afb979))
+
+
+### Documentation
+
+- Generate changelog for v7.7.2 ([2100a43](https://github.com/Vonage/vonage-dotnet-sdk/commit/2100a432101efa8ae4755b641ed6c50bd68ee8ac))
+
+- Bump version to v7.7.3 ([e3a9fdc](https://github.com/Vonage/vonage-dotnet-sdk/commit/e3a9fdc71cbeaa36469bfc9bbbcc61c2e2cc4cd5))
+
+
+### Features
+
+- Add Webhook url and version for Messages requests ([feb5153](https://github.com/Vonage/vonage-dotnet-sdk/commit/feb5153948fa91987aea45be4d7caf65f5419a27))
+
+- Add TimeToLive and OptionalSettings on SmsMessageRequest ([5848ec8](https://github.com/Vonage/vonage-dotnet-sdk/commit/5848ec8d8f4e8fae3662ede529829dc1e336c403))
+
+
 ## [v7.7.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.2) (2024-07-30)
 
 ### Bug Fixes
