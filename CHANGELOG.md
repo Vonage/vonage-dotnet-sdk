@@ -1,4 +1,22 @@
 # Changelog
+## [v7.7.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.4) (2024-08-08)
+
+### Documentation
+
+- Generate changelog for v7.7.3 ([0c57c3f](https://github.com/Vonage/vonage-dotnet-sdk/commit/0c57c3f87af1194ae3d622146fb4ef28e958dfda))
+
+- Bump version to v7.7.4 ([23dec91](https://github.com/Vonage/vonage-dotnet-sdk/commit/23dec91a0d5eb663cfbf80bc8b4cd85bbade2ed8))
+
+
+### Features
+
+- Add caption on MMS attachment ([f388e83](https://github.com/Vonage/vonage-dotnet-sdk/commit/f388e83931b5dd6b1ea791c08668685afdf85d88))
+
+- Add name to WhatsApp file attachment ([b04ac43](https://github.com/Vonage/vonage-dotnet-sdk/commit/b04ac43f0bc1cfd9cd7583a8cddc9e0e034936f6))
+
+- Add StandardHeaders to SipEndpoint ([b858c59](https://github.com/Vonage/vonage-dotnet-sdk/commit/b858c595d8da70d5c63b5fb11b997cad1bcadbbf))
+
+
 ## [v7.7.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.3) (2024-08-07)
 
 ### Bug Fixes
