@@ -86,6 +86,7 @@ public class MmsMessagesTest : TestBase
             Image = new Attachment
             {
                 Url = "https://test.com/image.png",
+                Caption = "Caption",
             },
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
@@ -104,6 +105,7 @@ public class MmsMessagesTest : TestBase
             Image = new Attachment
             {
                 Url = "https://test.com/image.png",
+                Caption = "Caption",
             },
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
@@ -123,6 +125,7 @@ public class MmsMessagesTest : TestBase
             Vcard = new Attachment
             {
                 Url = "https://test.com/contact.vcf",
+                Caption = "Caption",
             },
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
@@ -141,6 +144,7 @@ public class MmsMessagesTest : TestBase
             Vcard = new Attachment
             {
                 Url = "https://test.com/contact.vcf",
+                Caption = "Caption",
             },
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),

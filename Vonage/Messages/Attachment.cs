@@ -8,4 +8,9 @@ public class Attachment
     ///     The URL of the attachment.
     /// </summary>
     public string Url { get; set; }
+
+    /// <summary>
+    ///     Additional text
+    /// </summary>
+    public string Caption { get; set; }
 }

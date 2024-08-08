@@ -7,7 +7,8 @@
   "webhook_version": "v1",
   "webhook_url": "https://example.com/status",
   "image": {
-    "url": "https://test.com/image.png"
+    "url": "https://test.com/image.png",
+    "caption": "Caption"
   },
   "ttl": 600
 }
