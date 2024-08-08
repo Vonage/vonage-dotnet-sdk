@@ -1,0 +1,10 @@
+{
+  "uri": "sip:rebekka@sip.example.com",
+  "headers": {
+    "Bar": "foo"
+  },
+  "standard_headers": {
+    "User-to-User": "UserToUser"
+  },
+  "type": "sip"
+}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Vonage.Serialization;
@@ -6,6 +7,7 @@ using Vonage.Voice;
 using Vonage.Voice.Nccos;
 using Vonage.Voice.Nccos.Endpoints;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
@@ -23,7 +25,7 @@ public class NccoTests : TestBase
         Assert.Equal(expectedJson,
             JsonConvert.SerializeObject(endpoint, VonageSerialization.SerializerSettings));
     }
-    
+
     [Fact]
     public void TestConnect()
     {
@@ -56,7 +58,7 @@ public class NccoTests : TestBase
         var actualJson = ncco.ToString();
         Assert.Equal(expectedJson, actualJson);
     }
-    
+
     [Fact]
     public void TestConnectWithAdvancedMachineDetection()
     {
@@ -89,7 +91,7 @@ public class NccoTests : TestBase
         };
         Assert.Equal(this.GetRequestJson(), new Ncco(connectAction).ToString());
     }
-    
+
     [Fact]
     public void TestConversation()
     {
@@ -108,7 +110,7 @@ public class NccoTests : TestBase
         var actualJson = ncco.ToString();
         Assert.Equal(expectedJson, actualJson);
     }
-    
+
     [Fact]
     public void TestConversationAllTrue()
     {
@@ -127,11 +129,11 @@ public class NccoTests : TestBase
         var actualJson = ncco.ToString();
         Assert.Equal(expectedJson, actualJson);
     }
-    
+
     [Fact]
     public void ConversationAction_StartOnEnter_ShouldBeTrue_GivenDefault() =>
         new ConversationAction().StartOnEnter.Should().BeTrue();
-    
+
     [Fact]
     public void TestNotify()
     {
@@ -149,7 +151,7 @@ public class NccoTests : TestBase
         var actualJson = ncco.ToString();
         Assert.Equal(expectedJson, actualJson);
     }
-    
+
     [Theory]
     [InlineData(RecordAction.AudioFormat.Mp3)]
     [InlineData(RecordAction.AudioFormat.Wav)]
@@ -175,7 +177,7 @@ public class NccoTests : TestBase
         var actualJson = ncco.ToString();
         Assert.Equal(expectedJson, actualJson);
     }
-    
+
     [Fact]
     public void TestRecordMinimalist()
     {
@@ -185,7 +187,7 @@ public class NccoTests : TestBase
         var actualJson = ncco.ToString();
         Assert.Equal(expectedJson, actualJson);
     }
-    
+
     [Fact]
     public void TestSipEndpoint()
     {
@@ -198,7 +200,21 @@ public class NccoTests : TestBase
         Assert.Equal(expectedJson,
             JsonConvert.SerializeObject(endpoint, VonageSerialization.SerializerSettings));
     }
-    
+
+    [Fact]
+    public void TestSipEndpointWithStandardHeaders()
+    {
+        var expectedJson = this.GetRequestJson();
+        var endpoint = new SipEndpoint
+        {
+            Uri = "sip:rebekka@sip.example.com",
+            Headers = new TestClass {Bar = "foo"},
+            StandardHeaders = new SipEndpoint.StandardHeader("UserToUser"),
+        };
+        Assert.Equal(expectedJson,
+            JsonConvert.SerializeObject(endpoint, VonageSerialization.SerializerSettings));
+    }
+
     [Fact]
     public void TestStream()
     {
@@ -214,7 +230,7 @@ public class NccoTests : TestBase
         var actualJson = ncco.ToString();
         Assert.Equal(expectedJson, actualJson);
     }
-    
+
     [Fact]
     public void TestTalk()
     {
@@ -232,7 +248,7 @@ public class NccoTests : TestBase
         var actualJson = ncco.ToString();
         Assert.Equal(expectedJson, actualJson);
     }
-    
+
     [Fact]
     public void TestTalkBareBones()
     {
@@ -245,7 +261,7 @@ public class NccoTests : TestBase
         var actualJson = ncco.ToString();
         Assert.Equal(expectedJson, actualJson);
     }
-    
+
     [Fact]
     public void TestVbcEndpoint()
     {
@@ -257,7 +273,7 @@ public class NccoTests : TestBase
         Assert.Equal(expectedJson,
             JsonConvert.SerializeObject(endpoint, VonageSerialization.SerializerSettings));
     }
-    
+
     [Fact]
     public void TestWebsocketEndpoint()
     {
@@ -271,7 +287,7 @@ public class NccoTests : TestBase
         Assert.Equal(expectedJson,
             JsonConvert.SerializeObject(endpoint, VonageSerialization.SerializerSettings));
     }
-    
+
     private class TestClass
     {
         public string Bar { get; set; }
