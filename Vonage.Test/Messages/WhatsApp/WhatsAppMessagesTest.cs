@@ -143,6 +143,7 @@ public class WhatsAppMessagesTest : TestBase
             {
                 Url = "https://test.com/me.txt",
                 Caption = "Me",
+                Name = "file.txt",
             },
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
@@ -163,6 +164,7 @@ public class WhatsAppMessagesTest : TestBase
             {
                 Url = "https://test.com/me.txt",
                 Caption = "Me",
+                Name = "file.txt",
             },
             ClientRef = "abcdefg",
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),

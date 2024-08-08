@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿#region
+using System.Text.Json.Serialization;
+#endregion
 
 namespace Vonage.Messages;
 
@@ -18,4 +20,9 @@ public class CaptionedAttachment
     /// </summary>
     [JsonPropertyOrder(0)]
     public string Url { get; set; }
+
+    /// <summary>
+    /// </summary>
+    [JsonPropertyOrder(2)]
+    public string Name { get; set; }
 }

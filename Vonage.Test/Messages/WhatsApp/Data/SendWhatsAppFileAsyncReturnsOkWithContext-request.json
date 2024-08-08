@@ -6,7 +6,8 @@
   "client_ref": "abcdefg",
   "file": {
     "url": "https://test.com/me.txt",
-    "caption": "Me"
+    "caption": "Me",
+    "name": "file.txt"
   },
   "context": {
     "message_uuid": "a1b2c3d4a1b2c3d4"

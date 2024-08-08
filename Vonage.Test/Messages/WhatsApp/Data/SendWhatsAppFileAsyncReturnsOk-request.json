@@ -6,7 +6,8 @@
   "client_ref": "abcdefg",
   "file": {
     "url": "https://test.com/me.txt",
-    "caption": "Me"
+    "caption": "Me",
+    "name": "file.txt"
   },
   "webhook_version": "v1",
   "webhook_url": "https://example.com/status"
