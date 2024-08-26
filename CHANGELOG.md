@@ -1,4 +1,29 @@
 # Changelog
+## [v7.8.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.8.0) (2024-08-26)
+
+### Documentation
+
+- Generate changelog for v7.7.4 ([33c4eb7](https://github.com/Vonage/vonage-dotnet-sdk/commit/33c4eb794f50abcc6df2ad11335c5c4ced0cbb2d))
+
+- Bump version to v7.8.0 ([c3ce7ee](https://github.com/Vonage/vonage-dotnet-sdk/commit/c3ce7ee4e0e77488460c2406dabf320617a61ae6))
+
+
+### Features
+
+- Add ValidateSignature on DeliveryReceipt ([b0d4b64](https://github.com/Vonage/vonage-dotnet-sdk/commit/b0d4b64743a6028af1e2b68a022b87966359c950))
+
+
+### Refactoring
+
+- Regroup InboundSms signature validation tests into a parametrized one ([177c78d](https://github.com/Vonage/vonage-dotnet-sdk/commit/177c78dbf51e6be0bc04e67b21d340200b8d8825))
+
+- Move InboundSms signature validation tests in their own file ([aa1f816](https://github.com/Vonage/vonage-dotnet-sdk/commit/aa1f8163987327dbf262f2bb405218b8bed44a2a))
+
+- Clean signature validation tests ([40c60f3](https://github.com/Vonage/vonage-dotnet-sdk/commit/40c60f38d2bf727fc14d63d35de0b7e69b4ad08e))
+
+- Clean SignatureValidation ([c30416c](https://github.com/Vonage/vonage-dotnet-sdk/commit/c30416c903705b5fd03551f6bf5d82d3434a368a))
+
+
 ## [v7.7.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.4) (2024-08-08)
 
 ### Documentation
