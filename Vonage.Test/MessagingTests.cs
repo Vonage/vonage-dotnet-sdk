@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -8,6 +9,7 @@ using Vonage.Messaging;
 using Vonage.Request;
 using Vonage.Serialization;
 using Xunit;
+#endregion
 
 namespace Vonage.Test
 {
@@ -29,7 +31,7 @@ namespace Vonage.Test
             Assert.NotNull(exception);
             Assert.Equal("Encountered an Empty SMS response", exception.Message);
         }
-        
+
         [Fact]
         public async Task SendSmsAsyncBadResponse()
         {
@@ -48,7 +50,7 @@ namespace Vonage.Test
                 exception.Message);
             Assert.Equal(SmsStatusCode.InvalidCredentials, exception.Response.Messages[0].StatusCode);
         }
-        
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -93,7 +95,7 @@ namespace Vonage.Test
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
             response.Messages[0].ClientRef.Should().Be("my-personal-reference");
         }
-        
+
         [Fact]
         public async Task SendSmsTypicalUsage()
         {
@@ -127,7 +129,7 @@ namespace Vonage.Test
             Assert.Equal("12345", response.Messages[0].Network);
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
         }
-        
+
         [Fact]
         public async Task SendSmsTypicalUsageSimplifiedAsync()
         {
@@ -147,7 +149,7 @@ namespace Vonage.Test
             Assert.Equal("12345", response.Messages[0].Network);
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
         }
-        
+
         [Fact]
         public async Task SendSmsUnicode()
         {
@@ -181,7 +183,7 @@ namespace Vonage.Test
             Assert.Equal("12345", response.Messages[0].Network);
             Assert.Equal("customer1234", response.Messages[0].AccountRef);
         }
-        
+
         [Fact]
         public void TestDlrStruct()
         {
@@ -217,7 +219,7 @@ namespace Vonage.Test
             Assert.Equal("1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C", dlr.Sig);
             Assert.Equal("steve", dlr.ClientRef);
         }
-        
+
         [Fact]
         public void TestDlrStructCamelCaseIgnore()
         {
@@ -254,7 +256,7 @@ namespace Vonage.Test
             Assert.Equal("1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C", dlr.Sig);
             Assert.Equal("steve", dlr.ClientRef);
         }
-        
+
         [Fact]
         public void TestDlrStructNoStatus()
         {
@@ -289,7 +291,7 @@ namespace Vonage.Test
             Assert.Equal("1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C", dlr.Sig);
             Assert.Equal("steve", dlr.ClientRef);
         }
-        
+
         [Fact]
         public void TestInboundSmsStruct()
         {
@@ -329,9 +331,14 @@ namespace Vonage.Test
             Assert.Equal("abc123", inboundSms.Data);
             Assert.Equal("abc123", inboundSms.Udh);
         }
-        
-        [Fact]
-        public void TestValidateSignatureMd5()
+
+        [Theory]
+        [InlineData(SmsSignatureGenerator.Method.md5)]
+        [InlineData(SmsSignatureGenerator.Method.md5hash)]
+        [InlineData(SmsSignatureGenerator.Method.sha1)]
+        [InlineData(SmsSignatureGenerator.Method.sha256)]
+        [InlineData(SmsSignatureGenerator.Method.sha512)]
+        public void TestValidateSignatureMd5(SmsSignatureGenerator.Method encryptionMethod)
         {
             var inboundSmsShell = new InboundSms
             {
@@ -347,118 +354,13 @@ namespace Vonage.Test
                 Concat = true,
                 ConcatRef = "3",
             };
-            var TestSigningSecret = "Y6dI3wtDP8myVH5tnDoIaTxEvAJhgDVCczBa1mHniEqsdlnnebg";
+            const string testSigningSecret = "Y6dI3wtDP8myVH5tnDoIaTxEvAJhgDVCczBa1mHniEqsdlnnebg";
             var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
             var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             inboundSmsShell.Sig = SmsSignatureGenerator.GenerateSignature(
-                InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret,
-                SmsSignatureGenerator.Method.md5);
-            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, SmsSignatureGenerator.Method.md5));
-        }
-        
-        [Fact]
-        public void TestValidateSignatureMd5Hash()
-        {
-            var inboundSmsShell = new InboundSms
-            {
-                ApiKey = "abcd1234",
-                Msisdn = "447700900001",
-                To = "447700900000",
-                MessageId = "0A0000000123ABCD1",
-                Text = "Hello world",
-                Keyword = "HELLO",
-                MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
-                Timestamp = "1578787200",
-                Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                Concat = true,
-                ConcatRef = "3",
-            };
-            var TestSigningSecret = "17c6ecf583ef7da515bcfc655426970c";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
-            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            inboundSmsShell.Sig = SmsSignatureGenerator.GenerateSignature(
-                InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret,
-                SmsSignatureGenerator.Method.md5hash);
-            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, SmsSignatureGenerator.Method.md5hash));
-        }
-        
-        [Fact]
-        public void TestValidateSignatureSha1()
-        {
-            var inboundSmsShell = new InboundSms
-            {
-                ApiKey = "abcd1234",
-                Msisdn = "447700900001",
-                To = "447700900000",
-                MessageId = "0A0000000123ABCD1",
-                Text = "Hello world",
-                Keyword = "HELLO",
-                MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
-                Timestamp = "1578787200",
-                Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                Concat = true,
-                ConcatRef = "3",
-            };
-            var TestSigningSecret = "B462F6EF6C0D161EEA214C5D37FC0E1D31C0BC08";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
-            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            inboundSmsShell.Sig = SmsSignatureGenerator.GenerateSignature(
-                InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret,
-                SmsSignatureGenerator.Method.sha1);
-            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, SmsSignatureGenerator.Method.sha1));
-        }
-        
-        [Fact]
-        public void TestValidateSignatureSha256()
-        {
-            var inboundSmsShell = new InboundSms
-            {
-                ApiKey = "abcd1234",
-                Msisdn = "447700900001",
-                To = "447700900000",
-                MessageId = "0A0000000123ABCD1",
-                Text = "Hello world",
-                Keyword = "HELLO",
-                MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
-                Timestamp = "1578787200",
-                Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                Concat = true,
-                ConcatRef = "3",
-            };
-            var TestSigningSecret = "D1EA9F0A89C2C62DD89FFE9585E8CD27163DA47458D353EC7084376BADA72817";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
-            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            inboundSmsShell.Sig = SmsSignatureGenerator.GenerateSignature(
-                InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret,
-                SmsSignatureGenerator.Method.sha256);
-            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, SmsSignatureGenerator.Method.sha256));
-        }
-        
-        [Fact]
-        public void TestValidateSignatureSha512()
-        {
-            var inboundSmsShell = new InboundSms
-            {
-                ApiKey = "abcd1234",
-                Msisdn = "447700900001",
-                To = "447700900000",
-                MessageId = "0A0000000123ABCD1",
-                Text = "Hello world",
-                Keyword = "HELLO",
-                MessageTimestamp = "2020-01-01T12:00:00.000+00:00",
-                Timestamp = "1578787200",
-                Nonce = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-                Concat = true,
-                ConcatRef = "3",
-            };
-            var TestSigningSecret =
-                "A8E2BB164A894DB7BC7807D7E5A09003B3F25F185D5202F2616EA8D285AD5E8248D50827091B302D07FC967125108339B155938DA45B27C79E45A83CD4914B7C";
-            var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
-            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            inboundSmsShell.Sig = SmsSignatureGenerator.GenerateSignature(
-                InboundSms.ConstructSignatureStringFromDictionary(dict), TestSigningSecret,
-                SmsSignatureGenerator.Method.sha512);
-            Assert.True(inboundSmsShell.ValidateSignature(TestSigningSecret, SmsSignatureGenerator.Method.sha512));
+                InboundSms.ConstructSignatureStringFromDictionary(dict), testSigningSecret,
+                encryptionMethod);
+            Assert.True(inboundSmsShell.ValidateSignature(testSigningSecret, encryptionMethod));
         }
     }
 }
