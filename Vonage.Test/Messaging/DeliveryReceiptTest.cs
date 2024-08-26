@@ -1,5 +1,6 @@
 ﻿#region
 using System.Collections.Generic;
+using FluentAssertions;
 using Newtonsoft.Json;
 using Vonage.Cryptography;
 using Vonage.Messaging;
@@ -11,13 +12,18 @@ namespace Vonage.Test.Messaging;
 
 public class DeliveryReceiptTest
 {
+    private const string SigningSecret = "Y6dI3wtDP8myVH5tnDoIaTxEvAJhgDVCczBa1mHniEqsdlnnebg";
+
     [Theory]
     [InlineData(SmsSignatureGenerator.Method.md5)]
     [InlineData(SmsSignatureGenerator.Method.md5hash)]
     [InlineData(SmsSignatureGenerator.Method.sha1)]
     [InlineData(SmsSignatureGenerator.Method.sha256)]
     [InlineData(SmsSignatureGenerator.Method.sha512)]
-    public void TestValidateSignatureMd5(SmsSignatureGenerator.Method encryptionMethod)
+    public void TestValidateSignatureMd5(SmsSignatureGenerator.Method encryptionMethod) =>
+        BuildDeliveryReceipt(encryptionMethod).ValidateSignature(SigningSecret, encryptionMethod).Should().BeTrue();
+
+    private static DeliveryReceipt BuildDeliveryReceipt(SmsSignatureGenerator.Method encryptionMethod)
     {
         var receipt = new DeliveryReceipt
         {
@@ -35,13 +41,12 @@ public class DeliveryReceiptTest
             StringStatus = "Test",
             ErrorCode = "Test",
         };
-        const string testSigningSecret = "Y6dI3wtDP8myVH5tnDoIaTxEvAJhgDVCczBa1mHniEqsdlnnebg";
         var json = JsonConvert.SerializeObject(receipt, VonageSerialization.SerializerSettings);
         var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
         receipt.Sig = SmsSignatureGenerator.GenerateSignature(
             DeliveryReceipt.ConstructSignatureStringFromDictionary(dict),
-            testSigningSecret,
+            SigningSecret,
             encryptionMethod);
-        Assert.True(receipt.ValidateSignature(testSigningSecret, encryptionMethod));
+        return receipt;
     }
 }
