@@ -42,7 +42,7 @@ public class InboundSmsTest
         var json = JsonConvert.SerializeObject(inboundSmsShell, VonageSerialization.SerializerSettings);
         var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
         inboundSmsShell.Sig = SmsSignatureGenerator.GenerateSignature(
-            InboundSms.ConstructSignatureStringFromDictionary(dict), SigningSecret,
+            SignatureValidation.BuildQueryString(dict), SigningSecret,
             encryptionMethod);
         return inboundSmsShell;
     }

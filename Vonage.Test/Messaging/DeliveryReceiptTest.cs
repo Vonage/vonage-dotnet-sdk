@@ -44,7 +44,7 @@ public class DeliveryReceiptTest
         var json = JsonConvert.SerializeObject(receipt, VonageSerialization.SerializerSettings);
         var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
         receipt.Sig = SmsSignatureGenerator.GenerateSignature(
-            DeliveryReceipt.ConstructSignatureStringFromDictionary(dict),
+            SignatureValidation.BuildQueryString(dict),
             SigningSecret,
             encryptionMethod);
         return receipt;

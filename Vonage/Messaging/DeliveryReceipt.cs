@@ -1,56 +1,52 @@
 #region
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using Newtonsoft.Json;
 using Vonage.Cryptography;
-using Vonage.Serialization;
 #endregion
 
 namespace Vonage.Messaging;
 
-public class DeliveryReceipt
+public class DeliveryReceipt : ISignable
 {
     /// <summary>
-    /// The number the message was sent to. Numbers are specified in E.164 format.
+    ///     The number the message was sent to. Numbers are specified in E.164 format.
     /// </summary>
     [JsonProperty("msisdn")]
     public string Msisdn { get; set; }
 
     /// <summary>
-    /// The SenderID you set in from in your request.
+    ///     The SenderID you set in from in your request.
     /// </summary>
     [JsonProperty("to")]
     public string To { get; set; }
 
     /// <summary>
-    /// The Mobile Country Code Mobile Network Code (MCCMNC) of the carrier this phone number is registered with.
+    ///     The Mobile Country Code Mobile Network Code (MCCMNC) of the carrier this phone number is registered with.
     /// </summary>
     [JsonProperty("network-code")]
     public string NetworkCode { get; set; }
 
     /// <summary>
-    /// The Vonage ID for this message.
+    ///     The Vonage ID for this message.
     /// </summary>
     [JsonProperty("messageId")]
     public string MessageId { get; set; }
 
     /// <summary>
-    /// The cost of the message
+    ///     The cost of the message
     /// </summary>
     [JsonProperty("price")]
     public string Price { get; set; }
 
     /// <summary>
-    /// A code that explains where the message is in the delivery process.
-    /// Will be one of: delivered, expired, failed, rejected, accepted, buffered or unknown
+    ///     A code that explains where the message is in the delivery process.
+    ///     Will be one of: delivered, expired, failed, rejected, accepted, buffered or unknown
     /// </summary>
     [JsonProperty("status")]
     public string StringStatus { get; set; }
 
     /// <summary>
-    /// A code that explains where the message is in the delivery process.
+    ///     A code that explains where the message is in the delivery process.
     /// </summary>
     [JsonIgnore]
     public DlrStatus Status
@@ -69,94 +65,64 @@ public class DeliveryReceipt
     }
 
     /// <summary>
-    /// When the DLR was received from the carrier in the following format YYMMDDHHMM. For example, 2001011400 is at 2020-01-01 14:00
+    ///     When the DLR was received from the carrier in the following format YYMMDDHHMM. For example, 2001011400 is at
+    ///     2020-01-01 14:00
     /// </summary>
     [JsonProperty("scts")]
     public string Scts { get; set; }
 
     /// <summary>
-    /// The status of the request. Will be a non 0 value if there has been an error, or if the status is unknown. 
-    /// See the Delivery Receipt documentation for more details: https://developer.nexmo.com/messaging/sms/guides/delivery-receipts#dlr-error-codes
+    ///     The status of the request. Will be a non 0 value if there has been an error, or if the status is unknown.
+    ///     See the Delivery Receipt documentation for more details:
+    ///     https://developer.nexmo.com/messaging/sms/guides/delivery-receipts#dlr-error-codes
     /// </summary>
     [JsonProperty("err-code")]
     public string ErrorCode { get; set; }
 
     /// <summary>
-    /// The time when Vonage started to push this Delivery Receipt to your webhook endpoint.
+    ///     The time when Vonage started to push this Delivery Receipt to your webhook endpoint.
     /// </summary>
     [JsonProperty("message-timestamp")]
     public string MessageTimestamp { get; set; }
 
     /// <summary>
-    /// The API key that sent the SMS. This is useful when multiple accounts are sending webhooks to the same endpoint.
+    ///     The API key that sent the SMS. This is useful when multiple accounts are sending webhooks to the same endpoint.
     /// </summary>
     [JsonProperty("api-key")]
     public string ApiKey { get; set; }
 
     /// <summary>
-    /// A timestamp in Unix (seconds since the epoch) format. Only included if you have signatures enabled
+    ///     A timestamp in Unix (seconds since the epoch) format. Only included if you have signatures enabled
     /// </summary>
     [JsonProperty("timestamp")]
     public int Timestamp { get; set; }
 
     /// <summary>
-    /// A random string to be used when calculating the signature. Only included if you have signatures enabled
+    ///     A random string to be used when calculating the signature. Only included if you have signatures enabled
     /// </summary>
     [JsonProperty("nonce")]
     public string Nonce { get; set; }
 
     /// <summary>
-    /// The signature to enable verification of the source of this webhook. 
-    /// Please see the developer documentation for validating signatures for more information, 
-    /// or use one of our published SDKs. Only included if you have signatures enabled
+    ///     If the client-ref is set when the SMS is sent, it will be included in the delivery receipt
+    /// </summary>
+    [JsonProperty("client-ref")]
+    public string ClientRef { get; set; }
+
+    /// <summary>
+    ///     The signature to enable verification of the source of this webhook.
+    ///     Please see the developer documentation for validating signatures for more information,
+    ///     or use one of our published SDKs. Only included if you have signatures enabled
     /// </summary>
     [JsonProperty("sig")]
     public string Sig { get; set; }
 
     /// <summary>
-    /// If the client-ref is set when the SMS is sent, it will be included in the delivery receipt
+    ///     Validate the webhook signature against a secret.
     /// </summary>
-    [JsonProperty("client-ref")]
-    public string ClientRef { get; set; }
-
-    public bool ValidateSignature(string signatureSecret, SmsSignatureGenerator.Method method)
-    {
-        //use json representation to create a useable dictionary
-        var json = JsonConvert.SerializeObject(this, VonageSerialization.SerializerSettings);
-        var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-        var signatureString = ConstructSignatureStringFromDictionary(dict);
-        var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signatureSecret, method);
-        Debug.WriteLine(testSig);
-        return testSig == this.Sig;
-    }
-
-    public static string ConstructSignatureStringFromDictionary(IDictionary<string, string> query)
-    {
-        try
-        {
-            var sig_sb = new StringBuilder();
-            var sorted_dict = new SortedDictionary<string, string>(StringComparer.Ordinal);
-            foreach (var key in query.Keys)
-            {
-                sorted_dict.Add(key, query[key]);
-            }
-
-            foreach (var key in sorted_dict.Keys)
-            {
-                if (key == "sig")
-                {
-                    continue;
-                }
-
-                sig_sb.AppendFormat("&{0}={1}", key.Replace('=', '_').Replace('&', '_'),
-                    sorted_dict[key].Replace('=', '_').Replace('&', '_'));
-            }
-
-            return sig_sb.ToString();
-        }
-        catch
-        {
-            return "";
-        }
-    }
+    /// <param name="signatureSecret">The secret.</param>
+    /// <param name="method">The encryption method.</param>
+    /// <returns>Whether the signature has been validated or not.</returns>
+    public bool ValidateSignature(string signatureSecret, SmsSignatureGenerator.Method method) =>
+        SignatureValidation.ValidateSignature(this, signatureSecret, method);
 }

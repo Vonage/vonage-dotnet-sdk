@@ -1,14 +1,12 @@
+#region
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using Newtonsoft.Json;
 using Vonage.Cryptography;
-using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Messaging;
 
-public class InboundSms
+public class InboundSms : ISignable
 {
     [JsonProperty("api-key")] public string ApiKey { get; set; }
 
@@ -34,8 +32,6 @@ public class InboundSms
 
     [JsonProperty("nonce")] public string Nonce { get; set; }
 
-    [JsonProperty("sig")] public string Sig { get; set; }
-
     [JsonProperty("text")] public string Text { get; set; }
 
     [JsonProperty("timestamp")] public string Timestamp { get; set; }
@@ -46,46 +42,16 @@ public class InboundSms
 
     [JsonProperty("udh")] public string Udh { get; set; }
 
-    public static string ConstructSignatureStringFromDictionary(IDictionary<string, string> query)
-    {
-        try
-        {
-            var sig_sb = new StringBuilder();
-            var sorted_dict = new SortedDictionary<string, string>(StringComparer.Ordinal);
-            foreach (var key in query.Keys)
-            {
-                sorted_dict.Add(key, query[key].ToString());
-            }
+    [JsonProperty("sig")] public string Sig { get; set; }
 
-            foreach (var key in sorted_dict.Keys)
-            {
-                if (key == "sig")
-                {
-                    continue;
-                }
-
-                sig_sb.AppendFormat("&{0}={1}", key.Replace('=', '_').Replace('&', '_'),
-                    sorted_dict[key].ToString().Replace('=', '_').Replace('&', '_'));
-            }
-
-            return sig_sb.ToString();
-        }
-        catch
-        {
-            return "";
-        }
-    }
-
-    public bool ValidateSignature(string signatureSecret, SmsSignatureGenerator.Method method)
-    {
-        //use json representation to create a useable dictionary
-        var json = JsonConvert.SerializeObject(this, VonageSerialization.SerializerSettings);
-        var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-        var signatureString = ConstructSignatureStringFromDictionary(dict);
-        var testSig = SmsSignatureGenerator.GenerateSignature(signatureString, signatureSecret, method).ToString();
-        Debug.WriteLine(testSig);
-        return testSig == this.Sig;
-    }
+    /// <summary>
+    ///     Validate the webhook signature against a secret.
+    /// </summary>
+    /// <param name="signatureSecret">The secret.</param>
+    /// <param name="method">The encryption method.</param>
+    /// <returns>Whether the signature has been validated or not.</returns>
+    public bool ValidateSignature(string signatureSecret, SmsSignatureGenerator.Method method) =>
+        SignatureValidation.ValidateSignature(this, signatureSecret, method);
 }
 
 internal class StringBoolConverter : JsonConverter
@@ -102,6 +68,9 @@ internal class StringBoolConverter : JsonConverter
         {
             writer.WriteValue(boolValue.ToString().ToLowerInvariant());
         }
-        else writer.WriteNull();
+        else
+        {
+            writer.WriteNull();
+        }
     }
 }
