@@ -1,4 +1,23 @@
 # Changelog
+## [v7.8.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.8.1) (2024-08-28)
+
+### Bug Fixes
+
+- Remove default object for DTMF in MultiInputAction ([f832baf](https://github.com/Vonage/vonage-dotnet-sdk/commit/f832bafb68055a48352110e8fdb081c744c0db5b))
+
+
+### Documentation
+
+- Generate changelog for v7.8.0 ([8f09ff3](https://github.com/Vonage/vonage-dotnet-sdk/commit/8f09ff395e7d9f28f267e7d93c1190ffbfbda6d7))
+
+- Bump version to v7.8.1 ([71a9986](https://github.com/Vonage/vonage-dotnet-sdk/commit/71a9986a40f5b59678b5ecc6c672d81d8de5134c))
+
+
+### Features
+
+- Add async IfNone extension for Maybe ([b2bb7cc](https://github.com/Vonage/vonage-dotnet-sdk/commit/b2bb7cc17610675931789b46853f5dc3d6e99d25))
+
+
 ## [v7.8.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.8.0) (2024-08-26)
 
 ### Documentation
