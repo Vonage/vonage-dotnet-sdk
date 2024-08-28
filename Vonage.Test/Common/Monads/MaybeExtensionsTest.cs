@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common.Monads;
 
@@ -76,5 +78,19 @@ public class MaybeExtensionsTest
     {
         var result = await MaybeBehaviors.CreateSomeAsync(10).Match(_ => "some", () => "none");
         result.Should().Be("some");
+    }
+
+    [Fact]
+    public async Task IfNone_Value_ShouldReturnSpecifiedValue_GivenValueIsNone()
+    {
+        var result = await MaybeBehaviors.CreateNoneAsync<int>().IfNone(5);
+        result.Should().Be(5);
+    }
+
+    [Fact]
+    public async Task IfNone_Value_ShouldReturnValue_GivenValueIsSome()
+    {
+        var result = await MaybeBehaviors.CreateSomeAsync(10).IfNone(5);
+        result.Should().Be(10);
     }
 }

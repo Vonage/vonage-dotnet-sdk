@@ -1,5 +1,7 @@
+#region
 using System;
 using System.Threading.Tasks;
+#endregion
 
 namespace Vonage.Common.Monads;
 
@@ -17,7 +19,7 @@ public static class MaybeExtensions
         string.IsNullOrWhiteSpace(value)
             ? Maybe<string>.None
             : Maybe<string>.Some(value);
-    
+
     /// <summary>
     ///     Monadic bind operation.
     /// </summary>
@@ -29,7 +31,7 @@ public static class MaybeExtensions
         var result = await task.ConfigureAwait(false);
         return result.Bind(bind);
     }
-    
+
     /// <summary>
     ///     Monadic bind operation.
     /// </summary>
@@ -41,7 +43,7 @@ public static class MaybeExtensions
         var result = await task.ConfigureAwait(false);
         return await result.BindAsync(bind).ConfigureAwait(false);
     }
-    
+
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -55,7 +57,7 @@ public static class MaybeExtensions
         var result = await task.ConfigureAwait(false);
         return result.Map(map);
     }
-    
+
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -69,7 +71,7 @@ public static class MaybeExtensions
         var result = await task.ConfigureAwait(false);
         return await result.MapAsync(map).ConfigureAwait(false);
     }
-    
+
     /// <summary>
     ///     Match the two states of the Maybe and return a non-null TDestination.
     /// </summary>
@@ -84,5 +86,17 @@ public static class MaybeExtensions
     {
         var result = await task.ConfigureAwait(false);
         return result.Match(some, none);
+    }
+
+    /// <summary>
+    ///     Returns the specified value if Maybe is in the None state, the Some value otherwise.
+    /// </summary>
+    /// <param name="task">Initial Maybe.</param>
+    /// <param name="noneValue">The value to return if in None state.</param>
+    /// <returns>A value.</returns>
+    public static async Task<TSource> IfNone<TSource>(this Task<Maybe<TSource>> task, TSource noneValue)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.IfNone(noneValue);
     }
 }
