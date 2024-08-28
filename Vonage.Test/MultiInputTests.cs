@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿#region
+using Newtonsoft.Json;
 using Vonage.Serialization;
 using Vonage.Voice.EventWebhooks;
 using Vonage.Voice.Nccos;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
@@ -48,11 +50,7 @@ public class MultiInputTests : TestBase
     {
         // arrange
         var expected = this.GetResponseJson();
-        var settings = new SpeechSettings
-        {
-            Uuid = new[] {"aaaaaaaa-bbbb-cccc-dddd-0123456789ab"},
-        };
-        var inputAction = new MultiInputAction {Speech = settings};
+        var inputAction = new MultiInputAction();
 
         //act
         var ncco = new Ncco(inputAction);

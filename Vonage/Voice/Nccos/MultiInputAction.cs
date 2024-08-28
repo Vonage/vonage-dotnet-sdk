@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+#endregion
 
 namespace Vonage.Voice.Nccos;
 
@@ -21,10 +22,9 @@ public class MultiInputAction : NccoAction
     public string EventMethod { get; set; }
 
     /// <summary>
-    /// DTMF settings. Should be specified to enable DTMF input. If all the DTMF input settings will have default values, it should be specified as empty object
-    /// NOTE: this is serialized as an empty object if not initalized by the user
+    /// DTMF settings. Should be specified to enable DTMF input. 
     /// </summary>
-    [JsonProperty("dtmf", DefaultValueHandling = DefaultValueHandling.Include)]
+    [JsonProperty("dtmf")]
     public DtmfSettings Dtmf { get; set; }
 
     /// <summary>
@@ -39,9 +39,4 @@ public class MultiInputAction : NccoAction
     /// </summary>
     [JsonProperty("speech")]
     public SpeechSettings Speech { get; set; }
-
-    public MultiInputAction()
-    {
-        this.Dtmf = new DtmfSettings();
-    }
 }

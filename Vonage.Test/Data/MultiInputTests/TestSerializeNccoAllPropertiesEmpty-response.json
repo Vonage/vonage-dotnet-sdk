@@ -1,12 +1,5 @@
 [
   {
-    "action": "input",
-    "dtmf": {
-    },
-    "speech": {
-      "uuid": [
-        "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
-      ]
-    }
+    "action": "input"
   }
 ]
