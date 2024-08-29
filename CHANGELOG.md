@@ -1,4 +1,18 @@
 # Changelog
+## [v7.8.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.8.2) (2024-08-29)
+
+### Documentation
+
+- Generate changelog for v7.8.1 ([80440ee](https://github.com/Vonage/vonage-dotnet-sdk/commit/80440ee85072838624b095f45b68d6927f647715))
+
+- Bump version to v7.8.2 ([163bb43](https://github.com/Vonage/vonage-dotnet-sdk/commit/163bb432ea5ea2319777a23ab08284bd8625b81d))
+
+
+### Features
+
+- Flag Meetings API and Proactive Connect API as obsolete ([b4a3239](https://github.com/Vonage/vonage-dotnet-sdk/commit/b4a3239e0f030201aa7af9369817fb95ef08b031))
+
+
 ## [v7.8.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.8.1) (2024-08-28)
 
 ### Bug Fixes
