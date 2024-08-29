@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System;
+using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
 using Vonage.Meetings.CreateRoom;
@@ -16,6 +18,7 @@ using Vonage.Meetings.UpdateApplication;
 using Vonage.Meetings.UpdateRoom;
 using Vonage.Meetings.UpdateTheme;
 using Vonage.Meetings.UpdateThemeLogo;
+#endregion
 
 namespace Vonage.Meetings;
 
@@ -29,6 +32,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Room>> CreateRoomAsync(Result<CreateRoomRequest> request);
 
     /// <summary>
@@ -36,6 +40,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Theme>> CreateThemeAsync(Result<CreateThemeRequest> request);
 
     /// <summary>
@@ -43,6 +48,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Unit>> DeleteRecordingAsync(Result<DeleteRecordingRequest> request);
 
     /// <summary>
@@ -50,12 +56,14 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Unit>> DeleteThemeAsync(Result<DeleteThemeRequest> request);
 
     /// <summary>
     ///     Retrieves numbers that can be used to dial into a meeting.
     /// </summary>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<GetDialNumbersResponse[]>> GetDialNumbersAsync();
 
     /// <summary>
@@ -63,6 +71,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Recording>> GetRecordingAsync(Result<GetRecordingRequest> request);
 
     /// <summary>
@@ -70,6 +79,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<GetRecordingsResponse>> GetRecordingsAsync(Result<GetRecordingsRequest> request);
 
     /// <summary>
@@ -77,6 +87,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Room>> GetRoomAsync(Result<GetRoomRequest> request);
 
     /// <summary>
@@ -84,6 +95,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<GetRoomsResponse>> GetRoomsAsync(Result<GetRoomsRequest> request);
 
     /// <summary>
@@ -91,6 +103,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<GetRoomsByThemeResponse>> GetRoomsByThemeAsync(Result<GetRoomsByThemeRequest> request);
 
     /// <summary>
@@ -98,12 +111,14 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Theme>> GetThemeAsync(Result<GetThemeRequest> request);
 
     /// <summary>
     ///     Retrieves all themes.
     /// </summary>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Theme[]>> GetThemesAsync();
 
     /// <summary>
@@ -111,6 +126,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<UpdateApplicationResponse>> UpdateApplicationAsync(Result<UpdateApplicationRequest> request);
 
     /// <summary>
@@ -118,6 +134,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Room>> UpdateRoomAsync(Result<UpdateRoomRequest> request);
 
     /// <summary>
@@ -125,6 +142,7 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Theme>> UpdateThemeAsync(Result<UpdateThemeRequest> request);
 
     /// <summary>
@@ -132,5 +150,6 @@ public interface IMeetingsClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A result indicating if the request whether succeeded or failed.</returns>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Unit>> UpdateThemeLogoAsync(Result<UpdateThemeLogoRequest> request);
 }

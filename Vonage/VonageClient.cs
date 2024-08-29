@@ -89,6 +89,7 @@ public class VonageClient
     /// <summary>
     ///     Exposes Meetings features.
     /// </summary>
+    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
     public IMeetingsClient MeetingsClient { get; private set; }
 
     public IMessagesClient MessagesClient { get; private set; }
@@ -107,6 +108,7 @@ public class VonageClient
     /// <summary>
     ///     Exposes ProactiveConnect features.
     /// </summary>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     public IProactiveConnectClient ProactiveConnectClient { get; private set; }
 
     public IRedactClient RedactClient { get; private set; }

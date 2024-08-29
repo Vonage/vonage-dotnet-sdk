@@ -1,3 +1,5 @@
+#region
+using System;
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.ProactiveConnect.Events.GetEvents;
@@ -17,6 +19,7 @@ using Vonage.ProactiveConnect.Lists.GetList;
 using Vonage.ProactiveConnect.Lists.GetLists;
 using Vonage.ProactiveConnect.Lists.ReplaceItems;
 using Vonage.ProactiveConnect.Lists.UpdateList;
+#endregion
 
 namespace Vonage.ProactiveConnect;
 
@@ -30,6 +33,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Unit>> ClearListAsync(Result<ClearListRequest> request);
 
     /// <summary>
@@ -37,6 +41,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<ListItem>> CreateItemAsync(Result<CreateItemRequest> request);
 
     /// <summary>
@@ -44,6 +49,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<List>> CreateListAsync(Result<CreateListRequest> request);
 
     /// <summary>
@@ -51,6 +57,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Unit>> DeleteItemAsync(Result<DeleteItemRequest> request);
 
     /// <summary>
@@ -58,6 +65,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Unit>> DeleteListAsync(Result<DeleteListRequest> request);
 
     /// <summary>
@@ -65,6 +73,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<string>> ExtractItemsAsync(Result<ExtractItemsRequest> request);
 
     /// <summary>
@@ -72,6 +81,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<PaginationResult<EmbeddedEvents>>> GetEventsAsync(Result<GetEventsRequest> request);
 
     /// <summary>
@@ -79,6 +89,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<ListItem>> GetItemAsync(Result<GetItemRequest> request);
 
     /// <summary>
@@ -86,6 +97,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<PaginationResult<EmbeddedItems>>> GetItemsAsync(Result<GetItemsRequest> request);
 
     /// <summary>
@@ -93,6 +105,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<List>> GetListAsync(Result<GetListRequest> request);
 
     /// <summary>
@@ -100,6 +113,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<PaginationResult<EmbeddedLists>>> GetListsAsync(Result<GetListsRequest> request);
 
     /// <summary>
@@ -107,6 +121,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<ImportItemsResponse>> ImportItemsAsync(Result<ImportItemsRequest> request);
 
     /// <summary>
@@ -114,6 +129,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<Unit>> ReplaceItemsAsync(Result<ReplaceItemsRequest> request);
 
     /// <summary>
@@ -121,6 +137,7 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<ListItem>> UpdateItemAsync(Result<UpdateItemRequest> request);
 
     /// <summary>
@@ -128,5 +145,6 @@ public interface IProactiveConnectClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
     Task<Result<List>> UpdateListAsync(Result<UpdateListRequest> request);
 }
