@@ -1,5 +1,9 @@
-﻿using System.ComponentModel;
+﻿#region
+using System.ComponentModel;
 using System.Runtime.Serialization;
+#endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace Vonage.Messages;
 
@@ -31,4 +35,9 @@ public enum MessagesChannel
     /// </summary>
     [EnumMember(Value = "viber_service")] [Description("viber_service")]
     ViberService,
+
+    /// <summary>
+    /// </summary>
+    [EnumMember(Value = "rcs")] [Description("rcs")]
+    RCS,
 }
