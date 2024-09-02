@@ -104,6 +104,13 @@ public class RcsMessagesTest : TestBase
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
 
+    [Fact]
+    public async Task UpdateAsyncReturnsOk()
+    {
+        this.Setup(this.expectedUri, "", this.helper.GetRequestJson());
+        await this.client.MessagesClient.UpdateAsync(RcsUpdateMessageRequest.Build("ID-123"));
+    }
+
     private async Task AssertResponse(IMessage request, string expectedRequest)
     {
         this.Setup(this.expectedUri, this.expectedResponse, expectedRequest);

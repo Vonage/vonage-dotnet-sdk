@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Messages;
 
@@ -50,5 +52,18 @@ public class MessagesClient : IMessagesClient
             value => JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(value),
             value => JsonSerializerBuilder.BuildWithSnakeCase().DeserializeObject<MessagesResponse>(value)
                 .GetSuccessUnsafe());
+    }
+
+    /// <inheritdoc />
+    public async Task UpdateAsync(IUpdateMessageRequest request)
+    {
+        var authType = this.credentials.GetPreferredAuthenticationType()
+            .IfFailure(failure => throw failure.ToException());
+        await ApiRequest.Build(this.credentials, this.configuration, this.timeProvider).DoRequestWithJsonContentAsync(
+            new HttpMethod("PATCH"), this.uri,
+            request,
+            authType,
+            value => JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(value),
+            _ => _);
     }
 }

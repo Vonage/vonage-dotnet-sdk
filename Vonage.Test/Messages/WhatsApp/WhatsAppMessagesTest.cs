@@ -511,4 +511,12 @@ public class WhatsAppMessagesTest : TestBase
         };
         await this.AssertResponse(request, expectedRequest);
     }
+
+    [Fact]
+    public async Task UpdateAsyncReturnsOk()
+    {
+        this.Setup(this.expectedUri, "", this.helper.GetRequestJson());
+        await this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
+            .MessagesClient.UpdateAsync(WhatsAppUpdateMessageRequest.Build("ID-123"));
+    }
 }
