@@ -1,6 +1,7 @@
 ﻿#region
 using System;
 using System.Threading.Tasks;
+using Vonage.Common.Monads;
 using Vonage.Messages;
 using Vonage.Messages.Rcs;
 using Vonage.Request;
@@ -107,7 +108,7 @@ public class RcsMessagesTest : TestBase
     [Fact]
     public async Task UpdateAsyncReturnsOk()
     {
-        this.Setup(this.expectedUri, "", this.helper.GetRequestJson());
+        this.Setup(this.expectedUri, Maybe<string>.None, this.helper.GetRequestJson());
         await this.client.MessagesClient.UpdateAsync(RcsUpdateMessageRequest.Build("ID-123"));
     }
 

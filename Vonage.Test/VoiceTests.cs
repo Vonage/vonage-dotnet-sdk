@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region
+using System;
 using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Exceptions;
+using Vonage.Common.Monads;
 using Vonage.Voice;
 using Vonage.Voice.Nccos;
 using Vonage.Voice.Nccos.Endpoints;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
@@ -456,7 +459,7 @@ public class VoiceTests : TestBase
     {
         var uuid = this.fixture.Create<Guid>().ToString();
         var request = new CallEditCommand {Action = CallEditCommand.ActionType.earmuff};
-        this.Setup($"{BaseUri}/{uuid}", string.Empty, this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.GetRequestJson());
         var response = await this.client.VoiceClient.UpdateCallAsync(uuid, request);
         Assert.True(response);
     }
@@ -470,7 +473,7 @@ public class VoiceTests : TestBase
             Destination = new Destination {Type = "ncco", Url = new[] {"https://example.com/ncco.json"}},
             Action = CallEditCommand.ActionType.transfer,
         };
-        this.Setup($"{BaseUri}/{uuid}", string.Empty, this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.GetRequestJson());
         var response =
             await this.client.VoiceClient.UpdateCallAsync(uuid, request,
                 this.BuildCredentialsForBearerAuthentication());
@@ -486,7 +489,7 @@ public class VoiceTests : TestBase
             Destination = new Destination {Type = "ncco", Ncco = new Ncco(new TalkAction {Text = "hello world"})},
             Action = CallEditCommand.ActionType.transfer,
         };
-        this.Setup($"{BaseUri}/{uuid}", string.Empty, this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.GetRequestJson());
         Assert.True(await this.client.VoiceClient.UpdateCallAsync(uuid, request));
     }
 

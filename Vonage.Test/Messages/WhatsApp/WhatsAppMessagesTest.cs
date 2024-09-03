@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Vonage.Common.Monads;
 using Vonage.Messages;
 using Vonage.Messages.WhatsApp;
 using Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
@@ -515,7 +516,7 @@ public class WhatsAppMessagesTest : TestBase
     [Fact]
     public async Task UpdateAsyncReturnsOk()
     {
-        this.Setup(this.expectedUri, "", this.helper.GetRequestJson());
+        this.Setup(this.expectedUri, Maybe<string>.None, this.helper.GetRequestJson());
         await this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
             .MessagesClient.UpdateAsync(WhatsAppUpdateMessageRequest.Build("ID-123"));
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -12,10 +13,12 @@ using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
 using Vonage.Common;
+using Vonage.Common.Monads;
 using Vonage.Request;
 using Vonage.Test.Common.TestHelpers;
 using Xunit;
 using TimeProvider = Vonage.Common.TimeProvider;
+#endregion
 
 namespace Vonage.Test
 {
@@ -73,17 +76,21 @@ namespace Vonage.Test
             return Path.GetDirectoryName(path);
         }
 
-        protected void Setup(string uri, string responseContent, string requestContent = null,
+        protected void Setup(string uri, Maybe<string> responseContent, string requestContent = null,
             HttpStatusCode expectedCode = HttpStatusCode.OK) =>
-            this.Setup(uri, new StringContent(responseContent, Encoding.UTF8, "application/json"), expectedCode,
+            this.Setup(uri,
+                responseContent.Map<HttpContent>(content =>
+                    new StringContent(content, Encoding.UTF8, "application/json")), expectedCode,
                 requestContent);
 
         protected void Setup(string uri, byte[] responseContent, HttpStatusCode expectedCode = HttpStatusCode.OK) =>
             this.Setup(uri, new StreamContent(new MemoryStream(responseContent)), expectedCode);
 
-        private void Setup(string uri, HttpContent httpContent, HttpStatusCode expectedCode,
+        private void Setup(string uri, Maybe<HttpContent> httpContent, HttpStatusCode expectedCode,
             string requestContent = null)
         {
+            var expectedResponse = new HttpResponseMessage(expectedCode);
+            httpContent.IfSome(some => expectedResponse.Content = some);
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler
                 .Protected()
@@ -99,11 +106,7 @@ namespace Vonage.Test
                     var actualContent = actualHttpRequestMessage.Content.ReadAsStringAsync().Result;
                     Assert.Equal(requestContent, actualContent, StringComparer.OrdinalIgnoreCase);
                 })
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = expectedCode,
-                    Content = httpContent,
-                })
+                .ReturnsAsync(expectedResponse)
                 .Verifiable();
             this.configuration.ClientHandler = mockHandler.Object;
         }
