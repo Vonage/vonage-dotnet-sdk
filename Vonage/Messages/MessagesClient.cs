@@ -60,7 +60,8 @@ public class MessagesClient : IMessagesClient
         var authType = this.credentials.GetPreferredAuthenticationType()
             .IfFailure(failure => throw failure.ToException());
         await ApiRequest.Build(this.credentials, this.configuration, this.timeProvider).DoRequestWithJsonContentAsync(
-            new HttpMethod("PATCH"), this.uri,
+            new HttpMethod("PATCH"), ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+                $"{Url}/{request.MessageUuid}"),
             request,
             authType,
             value => JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(value),
