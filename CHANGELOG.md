@@ -1,4 +1,27 @@
 # Changelog
+## [v7.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.9.0) (2024-09-04)
+
+### Documentation
+
+- Generate changelog for v7.8.2 ([1abcee1](https://github.com/Vonage/vonage-dotnet-sdk/commit/1abcee17986953d527195cc17f9dca9b1768548e))
+
+- Bump version to v7.9.0 ([3c63fef](https://github.com/Vonage/vonage-dotnet-sdk/commit/3c63fefa28c6483f9c7f811108a75b3dcb457ec3))
+
+
+### Features
+
+- Implement new RCS request in Messages ([0327522](https://github.com/Vonage/vonage-dotnet-sdk/commit/0327522463a8a0af34d10fcbda06107a02b1925d))
+
+- Implement UpdateMessage in Messages ([a46c451](https://github.com/Vonage/vonage-dotnet-sdk/commit/a46c451d5bd842440c161892e44bdf896dbed725))
+
+- Setup uri for update messages ([a4f69b8](https://github.com/Vonage/vonage-dotnet-sdk/commit/a4f69b8aecad0d55bb412d5c1edc8cb7d5a354c3))
+
+
+### Refactoring
+
+- Clean messages tests ([e5218d6](https://github.com/Vonage/vonage-dotnet-sdk/commit/e5218d60b08a8fc1020238fc833adca349d07cec))
+
+
 ## [v7.8.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.8.2) (2024-08-29)
 
 ### Documentation
