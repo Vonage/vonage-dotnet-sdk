@@ -1,4 +1,5 @@
 ﻿#region
+using System;
 using System.Text.Json.Serialization;
 using Vonage.Common;
 #endregion
@@ -14,7 +15,7 @@ namespace Vonage.VerifyV2;
 /// <param name="Links">Navigation links.</param>
 public record Template(
     [property: JsonPropertyName("template_id")]
-    string TemplateId,
+    Guid TemplateId,
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("is_default")]
     bool IsDefault,

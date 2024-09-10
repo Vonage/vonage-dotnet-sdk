@@ -27,7 +27,7 @@ public class SerializationTest
             .BeSuccess(VerifyExpectedResponse);
 
     internal static void VerifyExpectedResponse(Template response) =>
-        response.Should().Be(new Template("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9", "my-template", true,
+        response.Should().Be(new Template(new Guid("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"), "my-template", true,
             new TemplateLinks(
                 new HalLink(new Uri("https://api.nexmo.com/v2/verify/templates/8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9")),
                 new HalLink(new Uri(
