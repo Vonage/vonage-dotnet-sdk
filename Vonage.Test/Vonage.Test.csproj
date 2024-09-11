@@ -1319,6 +1319,9 @@
         <None Update="VerifyV2\UpdateTemplate\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="VerifyV2\GetTemplate\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
