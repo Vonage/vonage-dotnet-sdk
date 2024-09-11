@@ -6,16 +6,15 @@ using Vonage.Common.Validation;
 
 namespace Vonage.VerifyV2.CreateTemplate;
 
-internal struct CreateTemplateRequestBuilder : IVonageRequestBuilder<CreateTemplateRequest>, IBuildForName
+internal readonly struct CreateTemplateRequestBuilder(string name)
+    : IVonageRequestBuilder<CreateTemplateRequest>, IBuildForName
 {
-    private string name;
-
     public IVonageRequestBuilder<CreateTemplateRequest> WithName(string value) =>
-        new CreateTemplateRequestBuilder {name = value};
+        new CreateTemplateRequestBuilder(value);
 
     public Result<CreateTemplateRequest> Create() => Result<CreateTemplateRequest>.FromSuccess(new CreateTemplateRequest
         {
-            Name = this.name,
+            Name = name,
         })
         .Map(InputEvaluation<CreateTemplateRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(VerifyNameNotEmpty));
