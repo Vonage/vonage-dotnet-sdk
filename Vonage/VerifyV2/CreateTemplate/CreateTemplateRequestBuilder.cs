@@ -7,7 +7,7 @@ using Vonage.Common.Validation;
 namespace Vonage.VerifyV2.CreateTemplate;
 
 internal readonly struct CreateTemplateRequestBuilder(string name)
-    : IVonageRequestBuilder<CreateTemplateRequest>, IBuildForName
+    : IVonageRequestBuilder<CreateTemplateRequest>, IBuilderForName
 {
     public IVonageRequestBuilder<CreateTemplateRequest> WithName(string value) =>
         new CreateTemplateRequestBuilder(value);
@@ -28,7 +28,7 @@ internal readonly struct CreateTemplateRequestBuilder(string name)
 /// <summary>
 ///     Represents a builder to set the Name.
 /// </summary>
-public interface IBuildForName
+public interface IBuilderForName
 {
     /// <summary>
     ///     Sets the Name.

@@ -32,5 +32,5 @@ public readonly struct CreateTemplateRequest : IVonageRequest
     ///     Initializes a builder.
     /// </summary>
     /// <returns></returns>
-    public static IBuildForName Build() => new CreateTemplateRequestBuilder();
+    public static IBuilderForName Build() => new CreateTemplateRequestBuilder();
 }
