@@ -5,6 +5,7 @@ using Vonage.VerifyV2.Cancel;
 using Vonage.VerifyV2.CreateTemplate;
 using Vonage.VerifyV2.DeleteTemplate;
 using Vonage.VerifyV2.GetTemplate;
+using Vonage.VerifyV2.GetTemplates;
 using Vonage.VerifyV2.NextWorkflow;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.UpdateTemplate;
@@ -73,4 +74,11 @@ public interface IVerifyV2Client
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Template>> GetTemplateAsync(Result<GetTemplateRequest> request);
+
+    /// <summary>
+    ///     Retrieves templates.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetTemplatesResponse>> GetTemplateAsync(Result<GetTemplatesRequest> request);
 }
