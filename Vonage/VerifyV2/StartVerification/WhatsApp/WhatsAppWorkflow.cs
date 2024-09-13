@@ -1,7 +1,10 @@
+#region
 using System.Text.Json.Serialization;
+using EnumsNET;
 using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.VerifyV2.StartVerification.WhatsApp;
 
@@ -15,10 +18,6 @@ public readonly struct WhatsAppWorkflow : IVerificationWorkflow
         this.To = to;
         this.From = from;
     }
-
-    /// <inheritdoc />
-    [JsonPropertyOrder(0)]
-    public string Channel => "whatsapp";
 
     /// <summary>
     ///     An optional sender number, in the E.164 format. Don't use a leading + or 00 when entering a phone number, start
@@ -36,6 +35,13 @@ public readonly struct WhatsAppWorkflow : IVerificationWorkflow
     [JsonConverter(typeof(PhoneNumberJsonConverter))]
     public PhoneNumber To { get; }
 
+    /// <inheritdoc />
+    [JsonPropertyOrder(0)]
+    public string Channel => VerificationChannel.WhatsApp.AsString(EnumFormat.Description);
+
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
+
     /// <summary>
     ///     Parses the input into a WhatsAppWorkflow.
     /// </summary>
@@ -45,7 +51,4 @@ public readonly struct WhatsAppWorkflow : IVerificationWorkflow
     public static Result<WhatsAppWorkflow> Parse(string to, string from) =>
         PhoneNumber.Parse(to).Merge(PhoneNumber.Parse(from),
             (toNumber, fromNumber) => new WhatsAppWorkflow(toNumber, fromNumber));
-
-    /// <inheritdoc />
-    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 }

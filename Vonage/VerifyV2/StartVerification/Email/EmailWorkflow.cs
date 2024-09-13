@@ -1,7 +1,10 @@
+#region
 using System.Text.Json.Serialization;
+using EnumsNET;
 using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.VerifyV2.StartVerification.Email;
 
@@ -15,10 +18,6 @@ public readonly struct EmailWorkflow : IVerificationWorkflow
         this.To = to;
         this.From = from;
     }
-
-    /// <inheritdoc />
-    [JsonPropertyOrder(0)]
-    public string Channel => "email";
 
     /// <summary>
     ///     The email address to send the verification request from.
@@ -34,6 +33,13 @@ public readonly struct EmailWorkflow : IVerificationWorkflow
     [JsonPropertyOrder(1)]
     [JsonConverter(typeof(EmailJsonConverter))]
     public MailAddress To { get; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(0)]
+    public string Channel => VerificationChannel.Email.AsString(EnumFormat.Description);
+
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 
     /// <summary>
     ///     Parses the input into a EmailWorkflow.
@@ -52,7 +58,4 @@ public readonly struct EmailWorkflow : IVerificationWorkflow
     public static Result<EmailWorkflow> Parse(string to, string from) =>
         MailAddress.Parse(to)
             .Merge(MailAddress.Parse(from), (toNumber, fromNumber) => new EmailWorkflow(toNumber, fromNumber));
-
-    /// <inheritdoc />
-    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 }

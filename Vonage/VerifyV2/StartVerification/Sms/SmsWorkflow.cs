@@ -1,8 +1,11 @@
+#region
 using System.Text.Json.Serialization;
+using EnumsNET;
 using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.VerifyV2.StartVerification.Sms;
 
@@ -23,10 +26,6 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
         this.From = from;
         this.To = to;
     }
-
-    /// <inheritdoc />
-    [JsonPropertyOrder(0)]
-    public string Channel => "sms";
 
     /// <summary>
     ///     Optional Android Application Hash Key for automatic code detection on a user's device.
@@ -74,6 +73,13 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<PhoneNumber> From { get; }
 
+    /// <inheritdoc />
+    [JsonPropertyOrder(0)]
+    public string Channel => VerificationChannel.Sms.AsString(EnumFormat.Description);
+
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
+
     /// <summary>
     ///     Parses the input into a SmsWorkflow.
     /// </summary>
@@ -81,7 +87,11 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
     /// <param name="hash">The Android application hash key.</param>
     /// <param name="entityId">Optional PEID required for SMS delivery using Indian Carriers</param>
     /// <param name="contentId">Optional value corresponding to a TemplateID for SMS delivery using Indian Carriers</param>
-    /// <param name="from">An optional sender number, in the E.164 format. Don't use a leading + or 00 when entering a phone number, start with the country code, for example, 447700900000. If no from number is given, the request will default to the brand.</param>
+    /// <param name="from">
+    ///     An optional sender number, in the E.164 format. Don't use a leading + or 00 when entering a phone
+    ///     number, start with the country code, for example, 447700900000. If no from number is given, the request will
+    ///     default to the brand.
+    /// </param>
     /// <returns>Success or failure.</returns>
     public static Result<SmsWorkflow> Parse(string to, string hash = null, string entityId = null,
         string contentId = null, string from = null)
@@ -105,9 +115,6 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
             .Bind(VerifyWorkflowContentIdNotEmpty)
             .Bind(VerifyWorkflowContentIdLength);
     }
-
-    /// <inheritdoc />
-    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 
     private static Result<SmsWorkflow> VerifyWorkflowHashLength(
         SmsWorkflow request) =>

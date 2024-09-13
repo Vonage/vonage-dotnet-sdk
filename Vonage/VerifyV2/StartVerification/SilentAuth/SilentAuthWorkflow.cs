@@ -1,8 +1,11 @@
+#region
 using System;
 using System.Text.Json.Serialization;
+using EnumsNET;
 using Vonage.Common;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.VerifyV2.StartVerification.SilentAuth;
 
@@ -16,10 +19,6 @@ public readonly struct SilentAuthWorkflow : IVerificationWorkflow
         this.To = to;
         this.RedirectUrl = redirectUrl ?? Maybe<Uri>.None;
     }
-
-    /// <inheritdoc />
-    [JsonPropertyOrder(0)]
-    public string Channel => "silent_auth";
 
     /// <summary>
     /// Final redirect added at the end of the check_url request/response lifecycle. See the documentation for integrations. Will contain the request_id and code as a url fragment after the URL.
@@ -37,6 +36,13 @@ public readonly struct SilentAuthWorkflow : IVerificationWorkflow
     [JsonConverter(typeof(PhoneNumberJsonConverter))]
     public PhoneNumber To { get; }
 
+    /// <inheritdoc />
+    [JsonPropertyOrder(0)]
+    public string Channel => VerificationChannel.SilentAuth.AsString(EnumFormat.Description);
+
+    /// <inheritdoc />
+    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
+
     /// <summary>
     ///     Parses the input into a SilentAuthWorkflow.
     /// </summary>
@@ -53,7 +59,4 @@ public readonly struct SilentAuthWorkflow : IVerificationWorkflow
     /// <returns>Success or failure.</returns>
     public static Result<SilentAuthWorkflow> Parse(string to, Uri redirectUrl) =>
         PhoneNumber.Parse(to).Map(phoneNumber => new SilentAuthWorkflow(phoneNumber, redirectUrl));
-
-    /// <inheritdoc />
-    public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 }
