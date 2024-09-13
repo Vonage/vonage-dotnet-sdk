@@ -6,6 +6,7 @@ using Vonage.Serialization;
 using Vonage.VerifyV2.Cancel;
 using Vonage.VerifyV2.CreateTemplate;
 using Vonage.VerifyV2.DeleteTemplate;
+using Vonage.VerifyV2.DeleteTemplateFragment;
 using Vonage.VerifyV2.GetTemplate;
 using Vonage.VerifyV2.GetTemplates;
 using Vonage.VerifyV2.NextWorkflow;
@@ -49,6 +50,10 @@ internal class VerifyV2Client : IVerifyV2Client
 
     /// <inheritdoc />
     public Task<Result<Unit>> DeleteTemplateAsync(Result<DeleteTemplateRequest> request) =>
+        this.vonageClient.SendAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Unit>> DeleteTemplateFragmentAsync(Result<DeleteTemplateFragmentRequest> request) =>
         this.vonageClient.SendAsync(request);
 
     /// <inheritdoc />
