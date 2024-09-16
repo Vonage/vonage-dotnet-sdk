@@ -11,6 +11,7 @@ using Vonage.VerifyV2.GetTemplates;
 using Vonage.VerifyV2.NextWorkflow;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.UpdateTemplate;
+using Vonage.VerifyV2.UpdateTemplateFragment;
 using Vonage.VerifyV2.VerifyCode;
 #endregion
 
@@ -83,6 +84,13 @@ public interface IVerifyV2Client
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Template>> UpdateTemplateAsync(Result<UpdateTemplateRequest> request);
+
+    /// <summary>
+    ///     Updates a template fragment.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<TemplateFragment>> UpdateTemplateFragmentAsync(Result<UpdateTemplateFragmentRequest> request);
 
     /// <summary>
     ///     Retrieves a template.

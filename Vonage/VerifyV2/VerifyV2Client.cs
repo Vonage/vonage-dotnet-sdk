@@ -13,6 +13,7 @@ using Vonage.VerifyV2.GetTemplates;
 using Vonage.VerifyV2.NextWorkflow;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.UpdateTemplate;
+using Vonage.VerifyV2.UpdateTemplateFragment;
 using Vonage.VerifyV2.VerifyCode;
 #endregion
 
@@ -64,6 +65,10 @@ internal class VerifyV2Client : IVerifyV2Client
     /// <inheritdoc />
     public Task<Result<Template>> UpdateTemplateAsync(Result<UpdateTemplateRequest> request) =>
         this.vonageClient.SendWithResponseAsync<UpdateTemplateRequest, Template>(request);
+
+    /// <inheritdoc />
+    public Task<Result<TemplateFragment>> UpdateTemplateFragmentAsync(Result<UpdateTemplateFragmentRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<UpdateTemplateFragmentRequest, TemplateFragment>(request);
 
     /// <inheritdoc />
     public Task<Result<Template>> GetTemplateAsync(Result<GetTemplateRequest> request) =>
