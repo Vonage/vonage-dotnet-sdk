@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.VerifyV2.Cancel;
 using Vonage.VerifyV2.CreateTemplate;
+using Vonage.VerifyV2.CreateTemplateFragment;
 using Vonage.VerifyV2.DeleteTemplate;
 using Vonage.VerifyV2.DeleteTemplateFragment;
 using Vonage.VerifyV2.GetTemplate;
@@ -54,6 +55,13 @@ public interface IVerifyV2Client
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Template>> CreateTemplateAsync(Result<CreateTemplateRequest> request);
+
+    /// <summary>
+    ///     Creates a new template fragment.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<TemplateFragment>> CreateTemplateFragmentAsync(Result<CreateTemplateFragmentRequest> request);
 
     /// <summary>
     ///     Deletes a template.
