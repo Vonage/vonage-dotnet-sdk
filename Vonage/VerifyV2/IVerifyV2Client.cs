@@ -8,6 +8,7 @@ using Vonage.VerifyV2.DeleteTemplate;
 using Vonage.VerifyV2.DeleteTemplateFragment;
 using Vonage.VerifyV2.GetTemplate;
 using Vonage.VerifyV2.GetTemplateFragment;
+using Vonage.VerifyV2.GetTemplateFragments;
 using Vonage.VerifyV2.GetTemplates;
 using Vonage.VerifyV2.NextWorkflow;
 using Vonage.VerifyV2.StartVerification;
@@ -112,5 +113,12 @@ public interface IVerifyV2Client
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
-    Task<Result<GetTemplatesResponse>> GetTemplateAsync(Result<GetTemplatesRequest> request);
+    Task<Result<GetTemplatesResponse>> GetTemplatesAsync(Result<GetTemplatesRequest> request);
+
+    /// <summary>
+    ///     Retrieves template fragments.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<GetTemplateFragmentsResponse>> GetTemplateFragmentsAsync(Result<GetTemplateFragmentsRequest> request);
 }
