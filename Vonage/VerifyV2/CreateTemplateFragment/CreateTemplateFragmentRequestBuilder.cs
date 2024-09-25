@@ -54,7 +54,7 @@ internal struct CreateTemplateFragmentRequestBuilder
                     $"{nameof(request.Channel)} must be one of {VerificationChannel.Sms}, {VerificationChannel.Voice} or {VerificationChannel.Email}."));
 
     private static bool IsChannelSupported(VerificationChannel channel) =>
-        new[] {VerificationChannel.Sms, VerificationChannel.Voice, VerificationChannel.Email}.Contains(channel);
+        new[] {VerificationChannel.Sms, VerificationChannel.Voice}.Contains(channel);
 }
 
 /// <summary>

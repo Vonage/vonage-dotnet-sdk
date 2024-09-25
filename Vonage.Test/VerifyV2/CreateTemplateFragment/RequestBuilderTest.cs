@@ -44,6 +44,7 @@ public class RequestBuilderTest
     [InlineData(VerificationChannel.SilentAuth)]
     [InlineData(VerificationChannel.WhatsApp)]
     [InlineData(VerificationChannel.WhatsAppInteractive)]
+    [InlineData(VerificationChannel.Email)]
     public void Create_ShouldReturnFailure_GivenChannelIsNotSupported(VerificationChannel channel) =>
         CreateTemplateFragmentRequest.Build()
             .WithTemplateId(ValidTemplateId)
@@ -93,7 +94,6 @@ public class RequestBuilderTest
     [Theory]
     [InlineData(VerificationChannel.Sms)]
     [InlineData(VerificationChannel.Voice)]
-    [InlineData(VerificationChannel.Email)]
     public void Create_ShouldSetChannel(VerificationChannel channel) =>
         CreateTemplateFragmentRequest.Build()
             .WithTemplateId(ValidTemplateId)
