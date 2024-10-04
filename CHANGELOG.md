@@ -1,4 +1,58 @@
 # Changelog
+## [v7.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.10.0) (2024-10-04)
+
+### Bug Fixes
+
+- Change TemplateId to Guid for VerifyV2 templates ([7a459d3](https://github.com/Vonage/vonage-dotnet-sdk/commit/7a459d3822ebe9fba8768c1bab105ef26bade319))
+
+- Fix typo in IBuilderForName interface ([fd96bc2](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd96bc249bde6ddfd1323882e6fbd0bcdc7ae55e))
+
+- Typo in filename ([b817854](https://github.com/Vonage/vonage-dotnet-sdk/commit/b8178543ea3ce186edb581a4e8d7116437c41ee6))
+
+
+### Documentation
+
+- Generate changelog for v7.9.0 ([667fc6d](https://github.com/Vonage/vonage-dotnet-sdk/commit/667fc6d580c2bc7dd5dddd5131cee24e08634397))
+
+- Update supported APIs in readme ([254e7a7](https://github.com/Vonage/vonage-dotnet-sdk/commit/254e7a765c803e9c965ac8c50e5d5e04ff37cd41))
+
+- Bump version to v7.10.0 ([ef90ec3](https://github.com/Vonage/vonage-dotnet-sdk/commit/ef90ec3c814529af35d6f4178ccb007b81fd5127))
+
+
+### Features
+
+- Implement CreateTemplate for VerifyV2 ([9f4e0bf](https://github.com/Vonage/vonage-dotnet-sdk/commit/9f4e0bfa8873ad6438ae41e80a65bc390fe53499))
+
+- Implement DeleteTemplate for VerifyV2 ([5d8f806](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d8f8064f5d0d613f2b07f08215d90bcf3c9ceea))
+
+- Implement UpdateTemplate for VerifyV2 ([a591a15](https://github.com/Vonage/vonage-dotnet-sdk/commit/a591a156e1e5545ac789641f4136a8167dd525bd))
+
+- Implement GetTemplate for VerifyV2 ([ce23ccd](https://github.com/Vonage/vonage-dotnet-sdk/commit/ce23ccdbdcc7bb18b9eb94f7cc020237320e6864))
+
+- Implement GetTemplates for VerifyV2 ([ccf80dd](https://github.com/Vonage/vonage-dotnet-sdk/commit/ccf80ddf77e071728e267001eb5000c633091944))
+
+- Implement request creation from response for GetTemplates in VerifyV2 ([0eca99a](https://github.com/Vonage/vonage-dotnet-sdk/commit/0eca99a82ac00357a0140c66b8e7bc44bd722a6e))
+
+- Implement DeleteTemplateFragment for VerifyV2 ([6dae0f9](https://github.com/Vonage/vonage-dotnet-sdk/commit/6dae0f9b21a3d91851ac556be0fdb7a2bbaf64be))
+
+- Implement CreateTemplateFragment for VerifyV2 ([31ebebb](https://github.com/Vonage/vonage-dotnet-sdk/commit/31ebebb56afc85e3c7594d67c30ce5351ede809f))
+
+- Implement UpdateTemplateFragmentRequest for VerifyV2 ([427435f](https://github.com/Vonage/vonage-dotnet-sdk/commit/427435fd1d54628122f2e60d1aacbabb3ec5107e))
+
+- Implement GetTemplateFragment for VerifyV2 ([cfb1b8e](https://github.com/Vonage/vonage-dotnet-sdk/commit/cfb1b8ef0310b65b1bd622f4d03984a1053f74e0))
+
+- Implement GetTemplateFragments for VerifyV2 ([016cbb2](https://github.com/Vonage/vonage-dotnet-sdk/commit/016cbb21c4790af92d20db0db5328df3b66ae034))
+
+- Update allowed channels for VerifyV2 template fragments ([0bc9705](https://github.com/Vonage/vonage-dotnet-sdk/commit/0bc97051b95d70fe3ead0a948adf35c39a178b09))
+
+
+### Refactoring
+
+- Make request builder readonly for CreateTemplate ([8116473](https://github.com/Vonage/vonage-dotnet-sdk/commit/8116473d90371e27bb115555ba8e01230e624aee))
+
+- Add verification channel enum for VerifyV2 ([af7cd63](https://github.com/Vonage/vonage-dotnet-sdk/commit/af7cd630279d8ca6ca374c36759fbe5f8d948810))
+
+
 ## [v7.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.9.0) (2024-09-04)
 
 ### Documentation
