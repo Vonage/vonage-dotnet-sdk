@@ -31,13 +31,7 @@ jobs:
           ref: ${{ github.event.release.target_commitish }}
       - name: Build
         run: dotnet build -c Release Vonage/Vonage.csproj -v minimal
-      - name: Build Signed
-        run: dotnet build -c ReleaseSigned Vonage/Vonage.csproj -v minimal
       - name: Pack
         run: dotnet pack -c Release Vonage/Vonage.csproj -v minimal --no-build
-      - name: Pack Signed
-        run: dotnet pack -c ReleaseSigned Vonage/Vonage.csproj -v minimal --no-build
       - name: NuGet Push
         run: dotnet nuget push Vonage/bin/Release/Vonage.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
-      - name: NuGet Push Signed
-        run: dotnet nuget push Vonage/bin/ReleaseSigned/Vonage.Signed.${{ steps.extract_version.outputs.substring }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}

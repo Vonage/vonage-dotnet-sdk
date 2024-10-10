@@ -47,7 +47,7 @@ class VersionUpgrade {
 
     UpdateProjectData(result) {
         result.Project.PropertyGroup[0].Version[0] = this.version;
-        result.Project.PropertyGroup[0].PackageReleaseNotes[0] = `https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/` + this.tag
+        result.Project.PropertyGroup[0].PackageReleaseNotes[0] = `https://github.com/Vonage/vonage-dotnet-sdk-att/releases/tag/` + this.tag
     }
 
     _executeCommand(cmd, options) {

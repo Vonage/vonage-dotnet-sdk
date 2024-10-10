@@ -28,12 +28,3 @@ jobs:
         run: dotnet build --configuration Release .\Vonage\Vonage.csproj -v minimal
       - name: Try create Release package
         run: dotnet pack -c Release .\Vonage\Vonage.csproj -v minimal --no-build
-  VonageSigned:
-    name: Vonage Signed
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Try build ReleaseSigned configuration
-        run: dotnet build --configuration ReleaseSigned .\Vonage\Vonage.csproj -v minimal
-      - name: Try create ReleaseSigned package
-        run: dotnet pack -c ReleaseSigned .\Vonage\Vonage.csproj -v minimal --no-build

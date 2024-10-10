@@ -22,36 +22,13 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'microsoft'
-          java-version: '17'
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
-      - name: Install SonarScanner
-        run: |
-          dotnet tool update --global dotnet-sonarscanner
-      - name: Install coverlet
-        id: install-coverlet
-        run: |
-          dotnet tool install --global dotnet-coverage
-      - uses: actions/checkout@v3
-      - name: Begin SonarScanner
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: dotnet-sonarscanner begin /k:"Vonage_vonage-dotnet-sdk" /o:"vonage" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
       - name: Build
         run: |
           dotnet build --configuration Release .\Vonage\Vonage.csproj
           dotnet build --configuration Release .\Vonage.Test\Vonage.Test.csproj -f net8.0
       - name: Test
-        run: dotnet-coverage collect 'dotnet test  --configuration Release --no-build -f net8.0 --filter Category!=Integration' -f xml  -o 'coverage.xml'
-      - name: End SonarScanner
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        run: dotnet test  --configuration Release --no-build -f net8.0

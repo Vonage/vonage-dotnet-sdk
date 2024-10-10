@@ -14,7 +14,7 @@ header = """
 # https://keats.github.io/tera/docs/#introduction
 body = """
 {% if version %}\
-    ## [{{ version  }}](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/{{ version  }}) ({{ timestamp | date(format="%Y-%m-%d") }})
+    ## [{{ version  }}](https://github.com/Vonage/vonage-dotnet-sdk-att/releases/tag/{{ version  }}) ({{ timestamp | date(format="%Y-%m-%d") }})
 {% else %}\
     ## [unreleased]
 {% endif %}\
@@ -22,7 +22,7 @@ body = """
     ### {{ group | upper_first }}
     {% for commit in commits %}
         - {{ commit.message | upper_first }} \
-         ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/Vonage/vonage-dotnet-sdk/commit/{{ commit.id }}))
+         ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/Vonage/vonage-dotnet-sdk-att/commit/{{ commit.id }}))
     {% endfor %}
 {% endfor %}\n
 """

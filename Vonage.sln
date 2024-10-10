@@ -13,11 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.scripts\init.js = .scripts\init.js
 		.scripts\git_hooks\pre-commit = .scripts\git_hooks\pre-commit
-		pull_request_template.md = pull_request_template.md
-		.whitesource = .whitesource
 		cliff.toml = cliff.toml
-		OPENTOK_TO_VONAGE_MIGRATION.md = OPENTOK_TO_VONAGE_MIGRATION.md
-		MIGRATION_v7.0.0.md = MIGRATION_v7.0.0.md
 		bump_version.js = bump_version.js
 		.gitignore = .gitignore
 	EndProjectSection
@@ -28,12 +24,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vonage.Test", "Vonage.Test\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{E0F12A0C-DA69-487C-9037-281BA2CBD244}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\mutation-testing.yml = .github\workflows\mutation-testing.yml
 		.github\workflows\multiframework-build.yml = .github\workflows\multiframework-build.yml
 		.github\workflows\net-build.yml = .github\workflows\net-build.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 		.github\workflows\release-build.yml = .github\workflows\release-build.yml
-		.github\workflows\changelog.yml = .github\workflows\changelog.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vonage", "Vonage", "{A6874F74-A631-4DDC-901B-1D3219FAA50F}"
