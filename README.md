@@ -7,13 +7,6 @@ It requires you to create
 a [Vonage account](https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=csharp-client-library)
 first.
 
-* [Installation](#installation)
-    * [Migration guides](#migration-guides)
-        * [Upgrading from v6.x.x to v7.0.0](#upgrading-from-v6xx-to-v700)
-        * [Upgrading from v5.x.x to v6.0.0](#upgrading-from-v5xx-to-v600)
-        * [Migrating from OpenTok for Video API](#migrating-from-opentok-for-video-api)
-    * [Targeted frameworks](#targeted-frameworks)
-    * [Tested frameworks](#tested-frameworks)
 * [Configuration](#configuration)
     * [Setup](#setup)
         * [Lazy registration (recommended for .NET Core and above)](#lazy-registration-recommended-for-net-core-and-above)
@@ -24,53 +17,11 @@ first.
     * [Result](#result)
     * [Maybe](#maybe)
     * [What if you don't want to use Monads?](#what-if-you-dont-want-to-use-monads)
-* [Examples](#examples)
 * [Supported APIs](#supported-apis)
-* [FAQ](#faq)
-* [Contributing](#contributing)
 * [Thanks](#thanks)
 * [Licence](#license)
 
 ## Installation
-
-### Migration guides
-
-#### Upgrading from v6.x.x to v7.0.0
-
-Please see the dedicated [migration guide](MIGRATION_v7.0.0.md).
-
-#### Upgrading from v5.x.x to v6.0.0
-
-Changes in version 6.0.0
-
-* Enum values are now capitalised in alignment with accepted coding practices and are Pascal Case
-* All classes that were marked as deprecated in 5.x are now removed
-* NCCO now inherits from List, it no longer has the `Actions` property, to add an action use `ncco.Add(action);`
-* Strings with values "true" or "false" are now represented as `bool` in code
-
-### Migrating from OpenTok for Video API
-
-If you are migrating from the OpenTok .NET SDK to the Vonage .NET SDK, please see the
-dedicated [migration guide](OPENTOK_TO_VONAGE_MIGRATION.md).
-
-### Targeted frameworks
-
-The SDK targets towards `netstandard2.0`.
-It is compatible with any .NET projects targeting
-a [supported version](https://learn.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0).
-
-### Tested frameworks
-
-* .NET 6.0
-* .NET 7.0
-* .NET 8.0
-
-For accessibility reasons, we removed all `.NET Framework` versions from our target frameworks.
-we don't want to discourage people from contributing as Windows isn't the only development environment for .NET anymore.
-
-Also, targeting older frameworks prevents us from using features from recent .NET and C# releases in our test project.
-
-Nonetheless, it doesn't compromise our test results nor the compatibility with `.NET Framework` versions.
 
 ## Configuration
 

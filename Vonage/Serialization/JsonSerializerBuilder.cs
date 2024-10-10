@@ -23,7 +23,5 @@ public static class JsonSerializerBuilder
     
     private static JsonSerializer BuildSerializer(JsonNamingPolicy policy) => new JsonSerializer(policy)
         .WithConverter(new MaybeJsonConverter<string>())
-        .WithConverter(new HttpMethodJsonConverter())
-        .WithConverter(new PhoneNumberJsonConverter())
-        .WithConverter(new EmailJsonConverter());
+        .WithConverter(new PhoneNumberJsonConverter());
 }
