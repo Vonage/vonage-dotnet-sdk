@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vonage.Request;
-using Vonage.Video.Authentication;
 
 namespace Vonage.Extensions;
 
@@ -76,55 +75,15 @@ public static class ServiceCollectionExtensions
 
     private static void RegisterScopedServices(IServiceCollection services)
     {
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().MeetingsClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightV2Client);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumbersClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberVerificationClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SimSwapClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SubAccountsClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SmsClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().UsersClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VideoClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);
         services.AddScoped<ITokenGenerator>(_ => new Jwt());
-        services.AddScoped<IVideoTokenGenerator>(_ => new VideoTokenGenerator());
     }
 
     private static void RegisterTransientServices(IServiceCollection services)
     {
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().MeetingsClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightV2Client);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumbersClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberVerificationClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SimSwapClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SubAccountsClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SmsClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().UsersClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VerifyV2Client);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VideoClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().VoiceClient);
         services.AddTransient<ITokenGenerator>(_ => new Jwt());
-        services.AddTransient<IVideoTokenGenerator>(_ => new VideoTokenGenerator());
     }
 }

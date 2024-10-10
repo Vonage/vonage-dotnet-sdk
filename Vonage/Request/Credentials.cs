@@ -4,7 +4,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
-using Vonage.Cryptography;
 
 namespace Vonage.Request;
 
@@ -44,11 +43,6 @@ public class Credentials
     public string AppUserAgent { get; internal init; }
 
     /// <summary>
-    ///     Method to be used for signing SMS Messages
-    /// </summary>
-    public SmsSignatureGenerator.Method Method { get; internal init; }
-
-    /// <summary>
     ///     Signature Secret (from API settings section of your account settings)
     /// </summary>
     public string SecuritySecret { get; internal set; }
@@ -61,17 +55,6 @@ public class Credentials
     /// <returns>The credentials.</returns>
     public static Credentials FromApiKeyAndSecret(string apiKey, string apiSecret) =>
         new Credentials {ApiKey = apiKey, ApiSecret = apiSecret};
-
-    /// <summary>
-    ///     Builds Credentials from ApiKey, SignatureSecret and Method.
-    /// </summary>
-    /// <param name="apiKey">The api key.</param>
-    /// <param name="signatureSecret">The signature secret.</param>
-    /// <param name="signatureMethod">The signature method.</param>
-    /// <returns>The credentials.</returns>
-    public static Credentials FromApiKeySignatureSecretAndMethod(string apiKey, string signatureSecret,
-        SmsSignatureGenerator.Method signatureMethod) =>
-        new Credentials {ApiKey = apiKey, SecuritySecret = signatureSecret, Method = signatureMethod};
 
     /// <summary>
     ///     Builds Credentials from ApplicationId and PrivateKey.

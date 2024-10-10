@@ -1,5 +1,0 @@
-{
-  "channel": "sms",
-  "locale": "en-us",
-  "text": "The authentication code for your ${brand} is: ${code}"
-}

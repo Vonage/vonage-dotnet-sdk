@@ -1,5 +1,4 @@
 ﻿using Vonage.Common.Serialization;
-using Vonage.Meetings.Common;
 using Vonage.Serialization;
 
 namespace Vonage.Common;
@@ -14,11 +13,5 @@ public class VonageMaybeJsonConverter<T> : MaybeJsonConverter<T>
     ///     Constructor.
     /// </summary>
     public VonageMaybeJsonConverter() =>
-        this.Serializer = JsonSerializerBuilder.BuildWithSnakeCase()
-            .WithConverter(new EnumDescriptionJsonConverter<RoomApprovalLevel>())
-            .WithConverter(new EnumDescriptionJsonConverter<RecordingStatus>())
-            .WithConverter(new EnumDescriptionJsonConverter<RoomType>())
-            .WithConverter(new EnumDescriptionJsonConverter<RoomMicrophoneState>())
-            .WithConverter(new EnumDescriptionJsonConverter<ThemeDomain>())
-            .WithConverter(new EnumDescriptionJsonConverter<ThemeLogoType>());
+        this.Serializer = JsonSerializerBuilder.BuildWithSnakeCase();
 }

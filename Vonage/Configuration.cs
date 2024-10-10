@@ -4,10 +4,7 @@ using System.ComponentModel;
 using System.Net.Http;
 using EnumsNET;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Vonage.Common.Monads;
-using Vonage.Cryptography;
-using Vonage.Logger;
 using Vonage.Request;
 
 namespace Vonage;
@@ -28,7 +25,6 @@ public sealed class Configuration
     private Configuration(IConfiguration configuration)
     {
         this.Settings = configuration;
-        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
         this.ClientHandler = this.BuildDefaultHandler();
     }
 
@@ -38,7 +34,6 @@ public sealed class Configuration
             .AddJsonFile("settings.json", true, true)
             .AddJsonFile("appsettings.json", true, true);
         this.Settings = builder.Build();
-        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
         this.ClientHandler = this.BuildDefaultHandler();
     }
 
@@ -156,10 +151,6 @@ public sealed class Configuration
             ApplicationKey = this.ApplicationKey,
             SecuritySecret = this.SecuritySecret,
             AppUserAgent = this.UserAgent,
-            Method = Enum.TryParse(this.SigningMethod,
-                out SmsSignatureGenerator.Method result)
-                ? result
-                : default,
         };
 
     /// <summary>
@@ -218,35 +209,7 @@ public sealed class Configuration
             ? new ThrottlingMessageHandler(semaphore, this.ClientHandler)
             : new ThrottlingMessageHandler(semaphore);
 
-    private void LogAuthenticationCapabilities(ILogger logger)
-    {
-        var authCapabilities = new List<string>();
-        if (!string.IsNullOrWhiteSpace(this.ApiKey) &&
-            !string.IsNullOrWhiteSpace(this.ApiSecret))
-        {
-            authCapabilities.Add("Key/Secret");
-        }
-
-        if (!string.IsNullOrWhiteSpace(this.Settings["vonage:Security_secret"]))
-        {
-            authCapabilities.Add("Security/Signing");
-        }
-
-        if (!string.IsNullOrWhiteSpace(this.Settings["vonage:Application.Id"]) &&
-            !string.IsNullOrWhiteSpace(this.Settings["vonage:Application.Key"]))
-        {
-            authCapabilities.Add("Application");
-        }
-
-        if (authCapabilities.Count == 0)
-        {
-            logger.LogInformation("No authentication found via configuration. Remember to provide your own.");
-        }
-        else
-        {
-            logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
-        }
-    }
+  
 }
 
 /// <summary>

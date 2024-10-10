@@ -2,32 +2,12 @@
 using System;
 using System.IO.Abstractions;
 using System.Net.Http;
-using Vonage.Accounts;
-using Vonage.Applications;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
-using Vonage.Conversations;
-using Vonage.Conversions;
-using Vonage.Meetings;
-using Vonage.Messages;
-using Vonage.Messaging;
-using Vonage.NumberInsights;
-using Vonage.NumberInsightV2;
-using Vonage.Numbers;
 using Vonage.NumberVerification;
-using Vonage.Pricing;
-using Vonage.ProactiveConnect;
-using Vonage.Redaction;
 using Vonage.Request;
-using Vonage.ShortCodes;
 using Vonage.SimSwap;
-using Vonage.SubAccounts;
-using Vonage.Users;
-using Vonage.Verify;
-using Vonage.VerifyV2;
-using Vonage.Video;
-using Vonage.Voice;
 #endregion
 
 namespace Vonage;
@@ -60,17 +40,6 @@ public class VonageClient
         this.Credentials = configuration.BuildCredentials();
     }
 
-    public IAccountClient AccountClient { get; private set; }
-
-    public IApplicationClient ApplicationClient { get; private set; }
-
-    /// <summary>
-    ///     Exposes Conversations features.
-    /// </summary>
-    public IConversationsClient ConversationsClient { get; private set; }
-
-    public IConversionClient ConversionClient { get; private set; }
-
     /// <summary>
     ///     Gets or sets credentials for this client.
     /// </summary>
@@ -86,60 +55,7 @@ public class VonageClient
         }
     }
 
-    /// <summary>
-    ///     Exposes Meetings features.
-    /// </summary>
-    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
-    public IMeetingsClient MeetingsClient { get; private set; }
 
-    public IMessagesClient MessagesClient { get; private set; }
-
-    public INumberInsightClient NumberInsightClient { get; private set; }
-
-    /// <summary>
-    ///     Exposes Number Insight V2 features.
-    /// </summary>
-    public INumberInsightV2Client NumberInsightV2Client { get; private set; }
-
-    public INumbersClient NumbersClient { get; private set; }
-
-    public IPricingClient PricingClient { get; private set; }
-
-    /// <summary>
-    ///     Exposes ProactiveConnect features.
-    /// </summary>
-    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
-    public IProactiveConnectClient ProactiveConnectClient { get; private set; }
-
-    public IRedactClient RedactClient { get; private set; }
-
-    public IShortCodesClient ShortCodesClient { get; private set; }
-
-    public ISmsClient SmsClient { get; private set; }
-
-    /// <summary>
-    ///     Exposes SubAccounts features.
-    /// </summary>
-    public ISubAccountsClient SubAccountsClient { get; private set; }
-
-    /// <summary>
-    ///     Exposes User management features.
-    /// </summary>
-    public IUsersClient UsersClient { get; private set; }
-
-    public IVerifyClient VerifyClient { get; private set; }
-
-    /// <summary>
-    ///     Exposes VerifyV2 features.
-    /// </summary>
-    public IVerifyV2Client VerifyV2Client { get; private set; }
-
-    /// <summary>
-    ///     Exposes Video features.
-    /// </summary>
-    public IVideoClient VideoClient { get; private set; }
-
-    public IVoiceClient VoiceClient { get; private set; }
 
     public ISimSwapClient SimSwapClient { get; private set; }
 
@@ -154,33 +70,12 @@ public class VonageClient
     private void PropagateCredentials()
     {
         var currentConfiguration = this.GetConfiguration();
-        this.AccountClient = new AccountClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.ApplicationClient = new ApplicationClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.VoiceClient = new VoiceClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.ConversionClient = new ConversionClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.NumbersClient = new NumbersClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.NumberInsightClient =
-            new NumberInsightClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.VerifyClient = new VerifyClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.ShortCodesClient = new ShortCodesClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.RedactClient = new RedactClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.SmsClient = new SmsClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.PricingClient = new PricingClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.MessagesClient = new MessagesClient(this.Credentials, currentConfiguration, this.timeProvider);
         var nexmoConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo());
         var videoConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForVideo());
         var euConfiguration =
             this.BuildConfiguration(currentConfiguration.BuildHttpClientForRegion(VonageUrls.Region.EU));
         var oidcConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForOidc());
-        this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
-        this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
-        this.NumberInsightV2Client = new NumberInsightV2Client(nexmoConfiguration);
-        this.UsersClient = new UsersClient(nexmoConfiguration);
-        this.ConversationsClient = new ConversationsClient(nexmoConfiguration);
-        this.MeetingsClient = new MeetingsClient(euConfiguration, new FileSystem());
-        this.ProactiveConnectClient = new ProactiveConnectClient(euConfiguration);
         this.SimSwapClient = new SimSwapClient(euConfiguration);
         this.NumberVerificationClient = new NumberVerificationClient(euConfiguration, oidcConfiguration);
-        this.VideoClient = new VideoClient(videoConfiguration);
     }
 }

@@ -2,7 +2,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Vonage.Common.Monads;
-using Vonage.Conversations;
 
 namespace Vonage.Common.Serialization;
 
@@ -12,8 +11,7 @@ namespace Vonage.Common.Serialization;
 /// <typeparam name="T">The underlying type.</typeparam>
 public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
 {
-    protected JsonSerializer Serializer = new JsonSerializer()
-        .WithConverter(new EnumDescriptionJsonConverter<ChannelType>());
+    protected JsonSerializer Serializer = new JsonSerializer();
     
     /// <inheritdoc />
     public override Maybe<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
