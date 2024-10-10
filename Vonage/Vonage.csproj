@@ -12,7 +12,7 @@
         <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
         <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
         <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-        <Version>7.10.0</Version>
+        <Version>8.0.0-beta</Version>
         <PackageLicenseExpression/>
         <PackageProjectUrl>https://github.com/Tr00d/vonage-dotnet-sdk-att</PackageProjectUrl>
         <PackageReleaseNotes>https://github.com/Tr00d/vonage-dotnet-sdk-att/releases/tag/v7.10.0</PackageReleaseNotes>
@@ -33,7 +33,7 @@
         </Description>
         <LangVersion>latest</LangVersion>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <PackageId>Vonage.Att</PackageId>
+        <PackageId>Vonage.ATT</PackageId>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
         <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
