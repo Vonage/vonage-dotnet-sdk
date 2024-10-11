@@ -1,8 +1,10 @@
 ﻿#region
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.DeviceStatus.Authenticate;
+using Vonage.DeviceStatus.GetConnectivityStatus;
 using Vonage.Serialization;
 #endregion
 
@@ -12,7 +14,8 @@ internal class DeviceStatusClient : IDeviceStatusClient
 {
     private readonly VonageHttpClient vonageClient;
 
-    internal DeviceStatusClient(VonageHttpClientConfiguration configuration) => this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
+    internal DeviceStatusClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
+        new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
     public Task<Result<AuthenticateResponse>> AuthenticateAsync(Result<AuthenticateRequest> request) =>
@@ -21,6 +24,26 @@ internal class DeviceStatusClient : IDeviceStatusClient
             .Map(BuildGetTokenRequest)
             .BindAsync(this.SendGetTokenRequest)
             .Map(BuildAuthenticateResponse);
+
+    /// <inheritdoc />
+    public Task<Result<GetConnectivityStatusResponse>> GetConnectivityStatusAsync(
+        Result<GetConnectivityStatusRequest> request) =>
+        request
+            .Map(BuildAuthenticationRequest)
+            .BindAsync(this.AuthenticateAsync)
+            .Map(BuildAuthenticationHeader)
+            .Map(this.BuildClientWithAuthenticationHeader)
+            .BindAsync(client =>
+                client.SendWithResponseAsync<GetConnectivityStatusRequest, GetConnectivityStatusResponse>(request));
+
+    private static Result<AuthenticateRequest> BuildAuthenticationRequest(GetConnectivityStatusRequest request) =>
+        request.BuildAuthenticationRequest();
+
+    private static AuthenticationHeaderValue BuildAuthenticationHeader(AuthenticateResponse authentication) =>
+        authentication.BuildAuthenticationHeader();
+
+    private VonageHttpClient BuildClientWithAuthenticationHeader(AuthenticationHeaderValue header) =>
+        this.vonageClient.WithDifferentHeader(header);
 
     private static AuthenticateResponse BuildAuthenticateResponse(GetTokenResponse response) =>
         new AuthenticateResponse(response.AccessToken);

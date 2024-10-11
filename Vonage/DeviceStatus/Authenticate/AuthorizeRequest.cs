@@ -21,8 +21,8 @@ internal record AuthorizeRequest(PhoneNumber Number, string Scope) : IVonageRequ
         var builder = new StringBuilder();
         builder.Append("login_hint=tel:");
         builder.Append(WebUtility.UrlEncode(this.Number.NumberWithInternationalIndicator));
-        builder.Append("&scope=openid");
-        builder.Append(WebUtility.UrlEncode($" {this.Scope}"));
+        builder.Append("&scope=");
+        builder.Append(WebUtility.UrlEncode($"{this.Scope}"));
         return builder.ToString();
     }
     

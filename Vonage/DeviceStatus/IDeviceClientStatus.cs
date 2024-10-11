@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.DeviceStatus.Authenticate;
+using Vonage.DeviceStatus.GetConnectivityStatus;
 
 namespace Vonage.DeviceStatus;
 
@@ -16,5 +17,10 @@ public interface IDeviceStatusClient
     /// <returns>Success or Failure.</returns>
     Task<Result<AuthenticateResponse>> AuthenticateAsync(Result<AuthenticateRequest> request);
     
-    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    Task<Result<GetConnectivityStatusResponse>> GetConnectivityStatusAsync(Result<GetConnectivityStatusRequest> request);
 }

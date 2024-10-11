@@ -859,6 +859,18 @@
         <None Update="DeviceStatus\Authenticate\Data\ShouldDeserializeAuthorize-response.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="DeviceStatus\GetConnectivityStatus\Data\ShouldDeserializeAccessToken-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="DeviceStatus\GetConnectivityStatus\Data\ShouldDeserializeAuthorize-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="DeviceStatus\GetConnectivityStatus\Data\ShouldDeserializeConnectivity-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="DeviceStatus\GetConnectivityStatus\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
