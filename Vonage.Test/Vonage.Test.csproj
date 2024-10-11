@@ -853,6 +853,12 @@
         <None Update="VerifyV2\GetTemplateFragments\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="DeviceStatus\Authenticate\Data\ShouldDeserializeAccessToken-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="DeviceStatus\Authenticate\Data\ShouldDeserializeAuthorize-response.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

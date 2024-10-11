@@ -1,10 +1,10 @@
 #region
 using System;
-using System.IO.Abstractions;
 using System.Net.Http;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.DeviceStatus;
 using Vonage.NumberVerification;
 using Vonage.Request;
 using Vonage.SimSwap;
@@ -55,11 +55,11 @@ public class VonageClient
         }
     }
 
-
-
     public ISimSwapClient SimSwapClient { get; private set; }
 
     public INumberVerificationClient NumberVerificationClient { get; private set; }
+
+    public IDeviceStatusClient DeviceStatusClient { get; private set; }
 
     private VonageHttpClientConfiguration BuildConfiguration(HttpClient client) =>
         new VonageHttpClientConfiguration(client, this.Credentials.GetAuthenticationHeader(),
@@ -77,5 +77,6 @@ public class VonageClient
         var oidcConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForOidc());
         this.SimSwapClient = new SimSwapClient(euConfiguration);
         this.NumberVerificationClient = new NumberVerificationClient(euConfiguration, oidcConfiguration);
+        this.DeviceStatusClient = new DeviceStatusClient(euConfiguration);
     }
 }
