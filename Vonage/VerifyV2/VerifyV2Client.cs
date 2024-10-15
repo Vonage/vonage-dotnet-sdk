@@ -1,5 +1,6 @@
 #region
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -23,14 +24,15 @@ namespace Vonage.VerifyV2;
 
 internal class VerifyV2Client : IVerifyV2Client
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<StandardApiError> vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     internal VerifyV2Client(VonageHttpClientConfiguration configuration) =>
-        this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
+        this.vonageClient =
+            new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
     public Task<Result<Unit>> CancelAsync(Result<CancelRequest> request) =>

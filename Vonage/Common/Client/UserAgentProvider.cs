@@ -1,5 +1,7 @@
+#region
 using System.Reflection;
 using System.Runtime.InteropServices;
+#endregion
 
 namespace Vonage.Common.Client;
 
@@ -21,7 +23,7 @@ public static class UserAgentProvider
             .GetVersionInfo(typeof(int).Assembly.Location)
             .ProductVersion;
 #endif
-        var libraryVersion = typeof(VonageHttpClient)
+        var libraryVersion = typeof(VonageHttpClient<StandardApiError>)
             .GetTypeInfo()
             .Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()

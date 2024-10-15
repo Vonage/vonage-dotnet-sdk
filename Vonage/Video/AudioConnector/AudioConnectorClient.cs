@@ -1,5 +1,6 @@
 ﻿#region
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -13,10 +14,10 @@ namespace Vonage.Video.AudioConnector;
 /// </summary>
 public class AudioConnectorClient
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<VideoApiError> vonageClient;
 
     internal AudioConnectorClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
+        new VonageHttpClient<VideoApiError>(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
     ///     Sends audio from a Vonage Video API session to a WebSocket.

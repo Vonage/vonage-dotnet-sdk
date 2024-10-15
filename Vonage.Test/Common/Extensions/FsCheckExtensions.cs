@@ -15,10 +15,10 @@ public static class FsCheckExtensions
     ///     Retrieves a generator that produces error responses with invalid status codes.
     /// </summary>
     /// <returns>An Arbitrary of ErrorResponse.</returns>
-    internal static Arbitrary<ErrorResponse> GetErrorResponses() =>
+    internal static Arbitrary<VideoApiError> GetErrorResponses() =>
         Arb.From(from message in GetAny<string>().Generator
             from code in GetInvalidStatusCodes().Generator
-            select new ErrorResponse(code, message));
+            select new VideoApiError(code, message));
 
     /// <summary>
     ///     Retrieves a HttpStatusCode generator that produces only invalid codes.

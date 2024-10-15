@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -9,6 +11,7 @@ using Vonage.Video.Broadcast.GetBroadcasts;
 using Vonage.Video.Broadcast.RemoveStreamFromBroadcast;
 using Vonage.Video.Broadcast.StartBroadcast;
 using Vonage.Video.Broadcast.StopBroadcast;
+#endregion
 
 namespace Vonage.Video.Broadcast;
 
@@ -17,14 +20,14 @@ namespace Vonage.Video.Broadcast;
 /// </summary>
 public class BroadcastClient
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<VideoApiError> vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     internal BroadcastClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
+        new VonageHttpClient<VideoApiError>(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
     ///     Adds a stream to a live streaming broadcast.

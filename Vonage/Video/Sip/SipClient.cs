@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
 using Vonage.Video.Sip.InitiateCall;
 using Vonage.Video.Sip.PlayToneIntoCall;
 using Vonage.Video.Sip.PlayToneIntoConnection;
+#endregion
 
 namespace Vonage.Video.Sip;
 
@@ -13,14 +16,14 @@ namespace Vonage.Video.Sip;
 /// </summary>
 public class SipClient
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<StandardApiError> vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     internal SipClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
+        new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
     ///     Connects your SIP platform to an OpenTok session.

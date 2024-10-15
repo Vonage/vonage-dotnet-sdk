@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,6 +14,7 @@ using Vonage.Common.Monads;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.Common.TestHelpers;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common.Client;
 
@@ -39,27 +41,30 @@ public class VonageHttpClientTest
     [Property]
     public Property SendAsync_VerifyReturnsFailureGivenApiResponseIsError() =>
         this.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(),
-            configuration => new VonageHttpClient(configuration, this.serializer).SendAsync(this.request));
+            configuration =>
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendAsync(this.request));
 
     [Property]
     public Property SendAsync_VerifyReturnsFailureGivenErrorCannotBeParsed() =>
         this.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(),
-            configuration => new VonageHttpClient(configuration, this.serializer).SendAsync(this.request));
+            configuration =>
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendAsync(this.request));
 
     [Fact]
     public async Task SendAsync_VerifyReturnsFailureGivenRequestIsFailure() =>
         await this.VerifyReturnsFailureGivenRequestIsFailure((configuration, failureRequest) =>
-            new VonageHttpClient(configuration, this.serializer).SendAsync(failureRequest));
+            new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendAsync(failureRequest));
 
     [Fact]
     public async Task SendAsync_VerifyReturnsFailureGivenTokenGenerationFails() =>
         await this.VerifyReturnsFailureGivenTokenGenerationFails(configuration =>
-            new VonageHttpClient(configuration, this.serializer).SendAsync(this.request));
+            new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendAsync(this.request));
 
     [Fact]
     public async Task SendAsync_VerifyReturnsUnitGivenApiResponseIsSuccess() =>
         await this.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
-            configuration => new VonageHttpClient(configuration, this.serializer).SendAsync(this.request));
+            configuration =>
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendAsync(this.request));
 
     [Fact]
     public async Task SendWithoutHeaderAsync_ShouldThrowException_GivenOperationExceedsTimeout() =>
@@ -69,24 +74,28 @@ public class VonageHttpClientTest
     [Property]
     public Property SendWithoutHeaderAsync_VerifyReturnsFailureGivenApiResponseIsError() =>
         this.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(),
-            configuration => new VonageHttpClient(configuration, this.serializer).SendAsync(this.request));
+            configuration =>
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendAsync(this.request));
 
     [Property]
     public Property SendWithoutHeaderAsync_VerifyReturnsFailureGivenErrorCannotBeParsed() =>
         this.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(),
             configuration =>
-                new VonageHttpClient(configuration, this.serializer).SendWithoutHeadersAsync(this.request));
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendWithoutHeadersAsync(
+                    this.request));
 
     [Fact]
     public async Task SendWithoutHeaderAsync_VerifyReturnsFailureGivenRequestIsFailure() =>
         await this.VerifyReturnsFailureGivenRequestIsFailure((configuration, failureRequest) =>
-            new VonageHttpClient(configuration, this.serializer).SendWithoutHeadersAsync(failureRequest));
+            new VonageHttpClient<VideoApiError>(configuration, this.serializer)
+                .SendWithoutHeadersAsync(failureRequest));
 
     [Fact]
     public async Task SendWithoutHeaderAsync_VerifyReturnsUnitGivenApiResponseIsSuccess() =>
         await this.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
             configuration =>
-                new VonageHttpClient(configuration, this.serializer).SendWithoutHeadersAsync(this.request));
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendWithoutHeadersAsync(
+                    this.request));
 
     [Fact]
     public async Task SendWithRawResponseAsync_ShouldThrowException_GivenOperationExceedsTimeout() =>
@@ -97,29 +106,33 @@ public class VonageHttpClientTest
     public async Task SendWithRawResponseAsync_VerifyReturnsExpectedValueGivenApiResponseIsSuccess() =>
         await this.VerifyReturnsRawContentGivenApiResponseIsSuccess(BuildExpectedRequest(),
             configuration =>
-                new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(this.request));
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendWithRawResponseAsync(
+                    this.request));
 
     [Property]
     public Property SendWithRawResponseAsync_VerifyReturnsFailureGivenApiResponseIsError() =>
         this.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(),
             configuration =>
-                new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(this.request));
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendWithRawResponseAsync(
+                    this.request));
 
     [Property]
     public Property SendWithRawResponseAsync_VerifyReturnsFailureGivenErrorCannotBeParsed() =>
         this.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(),
             configuration =>
-                new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(this.request));
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendWithRawResponseAsync(
+                    this.request));
 
     [Fact]
     public async Task SendWithRawResponseAsync_VerifyReturnsFailureGivenRequestIsFailure() =>
         await this.VerifyReturnsFailureGivenRequestIsFailure((configuration, failureRequest) =>
-            new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(failureRequest));
+            new VonageHttpClient<VideoApiError>(configuration, this.serializer)
+                .SendWithRawResponseAsync(failureRequest));
 
     [Fact]
     public async Task SendWithRawResponseAsync_VerifyReturnsFailureGivenTokenGenerationFails() =>
         await this.VerifyReturnsFailureGivenTokenGenerationFails(configuration =>
-            new VonageHttpClient(configuration, this.serializer).SendWithRawResponseAsync(
+            new VonageHttpClient<VideoApiError>(configuration, this.serializer).SendWithRawResponseAsync(
                 this.request));
 
     [Fact]
@@ -131,7 +144,7 @@ public class VonageHttpClientTest
     public async Task SendWithResponseAsync_VerifyReturnsExpectedValueGivenApiResponseIsSuccess() =>
         await this.VerifyReturnsExpectedValueGivenApiResponseIsSuccess(BuildExpectedRequest(),
             configuration =>
-                new VonageHttpClient(configuration, this.serializer)
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer)
                     .SendWithResponseAsync<FakeRequest, FakeResponse>(
                         this.request));
 
@@ -139,7 +152,7 @@ public class VonageHttpClientTest
     public async Task SendWithResponseAsync_VerifyReturnsFailureGivenApiResponseCannotBeParsed() =>
         await this.VerifyReturnsFailureGivenApiResponseCannotBeParsed(BuildExpectedRequest(),
             configuration =>
-                new VonageHttpClient(configuration, this.serializer)
+                new VonageHttpClient<StandardApiError>(configuration, this.serializer)
                     .SendWithResponseAsync<FakeRequest, FakeResponse>(
                         this.request));
 
@@ -147,7 +160,7 @@ public class VonageHttpClientTest
     public Property SendWithResponseAsync_VerifyReturnsFailureGivenApiResponseIsError() =>
         this.VerifyReturnsFailureGivenApiResponseIsError(BuildExpectedRequest(),
             configuration =>
-                new VonageHttpClient(configuration, this.serializer)
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer)
                     .SendWithResponseAsync<FakeRequest, FakeResponse>(
                         this.request));
 
@@ -155,21 +168,23 @@ public class VonageHttpClientTest
     public Property SendWithResponseAsync_VerifyReturnsFailureGivenErrorCannotBeParsed() =>
         this.VerifyReturnsFailureGivenErrorCannotBeParsed(BuildExpectedRequest(),
             configuration =>
-                new VonageHttpClient(configuration, this.serializer)
+                new VonageHttpClient<VideoApiError>(configuration, this.serializer)
                     .SendWithResponseAsync<FakeRequest, FakeResponse>(
                         this.request));
 
     [Fact]
     public async Task SendWithResponseAsync_VerifyReturnsFailureGivenRequestIsFailure() =>
         await this.VerifyReturnsFailureGivenRequestIsFailure((configuration, failureRequest) =>
-            new VonageHttpClient(configuration, this.serializer).SendWithResponseAsync<FakeRequest, FakeResponse>(
-                failureRequest));
+            new VonageHttpClient<VideoApiError>(configuration, this.serializer)
+                .SendWithResponseAsync<FakeRequest, FakeResponse>(
+                    failureRequest));
 
     [Fact]
     public async Task SendWithResponseAsync_VerifyReturnsFailureGivenTokenGenerationFails() =>
         await this.VerifyReturnsFailureGivenTokenGenerationFails(configuration =>
-            new VonageHttpClient(configuration, this.serializer).SendWithResponseAsync<FakeRequest, FakeResponse>(
-                this.request));
+            new VonageHttpClient<VideoApiError>(configuration, this.serializer)
+                .SendWithResponseAsync<FakeRequest, FakeResponse>(
+                    this.request));
 
     private static ExpectedRequest BuildExpectedRequest() =>
         new ExpectedRequest
@@ -246,18 +261,18 @@ public class VonageHttpClientTest
                     .Result
                     .Should()
                     .BeFailure(HttpFailure.From(statusCode,
-                        DeserializationFailure.From(typeof(ErrorResponse), jsonError).GetFailureMessage(),
+                        DeserializationFailure.From(typeof(VideoApiError), jsonError).GetFailureMessage(),
                         jsonError));
             });
 
     private async Task VerifyReturnsFailureGivenOperationExceedsTimeout<TResponse>(
-        Func<VonageHttpClient, Task<Result<TResponse>>> operation)
+        Func<VonageHttpClient<VideoApiError>, Task<Result<TResponse>>> operation)
     {
         var httpClient = FakeHttpRequestHandler.Build(HttpStatusCode.OK).WithDelay(TimeSpan.FromSeconds(5))
             .ToHttpClient();
         httpClient.Timeout = TimeSpan.FromMilliseconds(100);
         var client =
-            new VonageHttpClient(
+            new VonageHttpClient<VideoApiError>(
                 new VonageHttpClientConfiguration(httpClient, new AuthenticationHeaderValue("Anonymous"),
                     this.fixture.Create<string>()), this.serializer);
         await operation(client).Should().BeFailureAsync();
@@ -296,7 +311,7 @@ public class VonageHttpClientTest
         result.Should().BeSuccess(expectedResponse);
     }
 
-    private struct FakeRequest : IVonageRequest
+    internal struct FakeRequest : IVonageRequest
     {
         public Guid Id { get; set; }
 

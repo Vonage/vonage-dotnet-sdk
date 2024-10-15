@@ -1,24 +1,29 @@
-﻿using System.Net.Http.Headers;
+﻿#region
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.NumberVerification.Authenticate;
 using Vonage.NumberVerification.Verify;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.NumberVerification;
 
 internal class NumberVerificationClient : INumberVerificationClient
 {
-    private readonly VonageHttpClient authorizationClient;
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<StandardApiError> authorizationClient;
+    private readonly VonageHttpClient<StandardApiError> vonageClient;
 
     internal NumberVerificationClient(VonageHttpClientConfiguration configuration,
         VonageHttpClientConfiguration authorizationConfiguration)
     {
-        this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
+        this.vonageClient =
+            new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
         this.authorizationClient =
-            new VonageHttpClient(authorizationConfiguration, JsonSerializerBuilder.BuildWithSnakeCase());
+            new VonageHttpClient<StandardApiError>(authorizationConfiguration,
+                JsonSerializerBuilder.BuildWithSnakeCase());
     }
 
     /// <inheritdoc />
@@ -39,8 +44,8 @@ internal class NumberVerificationClient : INumberVerificationClient
             .BindAsync(client => client.SendWithResponseAsync<VerifyRequest, VerifyResponse>(request))
             .Map(response => response.Verified);
 
-    private VonageHttpClient BuildClientWithAuthenticationHeader(AuthenticationHeaderValue header) =>
-        this.vonageClient.WithDifferentHeader(header);
+    private VonageHttpClient<VideoApiError> BuildClientWithAuthenticationHeader(AuthenticationHeaderValue header) =>
+        this.vonageClient.WithDifferentHeader<VideoApiError>(header);
 
     private static Result<AuthenticateRequest> BuildAuthenticationRequest(VerifyRequest request) =>
         request.BuildAuthenticationRequest();

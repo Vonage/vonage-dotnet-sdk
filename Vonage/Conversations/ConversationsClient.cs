@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Conversations.CreateConversation;
@@ -16,19 +18,21 @@ using Vonage.Conversations.GetUserConversations;
 using Vonage.Conversations.UpdateConversation;
 using Vonage.Conversations.UpdateMember;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Conversations;
 
 internal class ConversationsClient : IConversationsClient
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<StandardApiError> vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     internal ConversationsClient(VonageHttpClientConfiguration configuration) =>
-        this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
+        this.vonageClient =
+            new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
     public Task<Result<Conversation>> CreateConversationAsync(Result<CreateConversationRequest> request) =>

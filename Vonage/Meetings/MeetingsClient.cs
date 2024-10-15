@@ -1,5 +1,7 @@
-﻿using System.IO.Abstractions;
+﻿#region
+using System.IO.Abstractions;
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Meetings.Common;
@@ -20,6 +22,7 @@ using Vonage.Meetings.UpdateRoom;
 using Vonage.Meetings.UpdateTheme;
 using Vonage.Meetings.UpdateThemeLogo;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Meetings;
 
@@ -27,7 +30,7 @@ namespace Vonage.Meetings;
 public class MeetingsClient : IMeetingsClient
 {
     private readonly UpdateThemeLogoUseCase updateThemeLogoUseCase;
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<StandardApiError> vonageClient;
 
     /// <summary>
     ///     Creates a new client.
@@ -37,7 +40,7 @@ public class MeetingsClient : IMeetingsClient
     public MeetingsClient(VonageHttpClientConfiguration configuration, IFileSystem fileSystem)
     {
         this.vonageClient =
-            new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
+            new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
         this.updateThemeLogoUseCase =
             new UpdateThemeLogoUseCase(this.vonageClient, fileSystem.File.Exists, fileSystem.File.ReadAllBytes);
     }

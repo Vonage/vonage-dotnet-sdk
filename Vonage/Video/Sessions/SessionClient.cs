@@ -1,4 +1,6 @@
+#region
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -6,6 +8,7 @@ using Vonage.Video.Sessions.ChangeStreamLayout;
 using Vonage.Video.Sessions.CreateSession;
 using Vonage.Video.Sessions.GetStream;
 using Vonage.Video.Sessions.GetStreams;
+#endregion
 
 namespace Vonage.Video.Sessions;
 
@@ -15,7 +18,7 @@ namespace Vonage.Video.Sessions;
 public class SessionClient
 {
     private readonly CreateSessionUseCase createSessionUseCase;
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<VideoApiError> vonageClient;
 
     /// <summary>
     ///     Creates a new client.
@@ -24,7 +27,7 @@ public class SessionClient
     internal SessionClient(VonageHttpClientConfiguration configuration)
     {
         this.vonageClient =
-            new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
+            new VonageHttpClient<VideoApiError>(configuration, JsonSerializerBuilder.BuildWithCamelCase());
         this.createSessionUseCase = new CreateSessionUseCase(this.vonageClient);
     }
 

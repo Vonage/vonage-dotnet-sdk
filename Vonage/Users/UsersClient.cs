@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -7,19 +9,21 @@ using Vonage.Users.DeleteUser;
 using Vonage.Users.GetUser;
 using Vonage.Users.GetUsers;
 using Vonage.Users.UpdateUser;
+#endregion
 
 namespace Vonage.Users;
 
 internal class UsersClient : IUsersClient
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<StandardApiError> vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     internal UsersClient(VonageHttpClientConfiguration configuration) =>
-        this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
+        this.vonageClient =
+            new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
     public Task<Result<User>> CreateUserAsync(Result<CreateUserRequest> request) =>

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -6,6 +8,7 @@ using Vonage.Video.ExperienceComposer.GetSession;
 using Vonage.Video.ExperienceComposer.GetSessions;
 using Vonage.Video.ExperienceComposer.Start;
 using Vonage.Video.ExperienceComposer.Stop;
+#endregion
 
 namespace Vonage.Video.ExperienceComposer;
 
@@ -14,10 +17,10 @@ namespace Vonage.Video.ExperienceComposer;
 /// </summary>
 public class ExperienceComposerClient
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<VideoApiError> vonageClient;
 
     internal ExperienceComposerClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
+        new VonageHttpClient<VideoApiError>(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
     ///     Retrieves details on an Experience Composer session.

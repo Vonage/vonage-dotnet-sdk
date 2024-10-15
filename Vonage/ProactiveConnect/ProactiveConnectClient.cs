@@ -1,4 +1,6 @@
+#region
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.ProactiveConnect.Events.GetEvents;
@@ -19,19 +21,21 @@ using Vonage.ProactiveConnect.Lists.GetLists;
 using Vonage.ProactiveConnect.Lists.ReplaceItems;
 using Vonage.ProactiveConnect.Lists.UpdateList;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.ProactiveConnect;
 
 internal class ProactiveConnectClient : IProactiveConnectClient
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<StandardApiError> vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     internal ProactiveConnectClient(VonageHttpClientConfiguration configuration) =>
-        this.vonageClient = new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
+        this.vonageClient =
+            new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
     public Task<Result<Unit>> ClearListAsync(Result<ClearListRequest> request) =>

@@ -1,5 +1,6 @@
 ﻿#region
 using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -14,10 +15,10 @@ namespace Vonage.Video.LiveCaptions;
 /// </summary>
 public class LiveCaptionsClient
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<VideoApiError> vonageClient;
 
     internal LiveCaptionsClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
+        new VonageHttpClient<VideoApiError>(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
     ///     Stops live captions for a session

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using System.Net;
@@ -17,6 +18,7 @@ using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.Common.TestHelpers;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Meetings.UpdateThemeLogo;
 
@@ -80,7 +82,7 @@ public class E2ETest
             .Result
             .Should()
             .BeFailure(HttpFailure.From(statusCode,
-                DeserializationFailure.From(typeof(ErrorResponse), expectedContent).GetFailureMessage(),
+                DeserializationFailure.From(typeof(StandardApiError), expectedContent).GetFailureMessage(),
                 expectedContent));
     }
 
@@ -89,11 +91,11 @@ public class E2ETest
     {
         this.RetrievingLogosUrlReturnsValidResponse();
         this.UploadingLogoReturnsValidResponse();
-        var error = new ErrorResponse(HttpStatusCode.Unauthorized, "Some content.");
+        var error = new StandardApiError("type", "title", "detail", "instance");
         var errorContent = this.serializer.SerializeObject(error);
         var expectedResponse = new MappingResponse
         {
-            Code = error.Code,
+            Code = HttpStatusCode.BadRequest,
             Content = errorContent,
         };
         this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForFinalizing())
@@ -101,7 +103,7 @@ public class E2ETest
         this.Operation(this.BuildConfiguration())
             .Result
             .Should()
-            .BeFailure(HttpFailure.From(error.Code, error.Message, errorContent));
+            .BeFailure(HttpFailure.From(HttpStatusCode.BadRequest, error.Title, errorContent));
     }
 
     [Fact]
@@ -119,7 +121,7 @@ public class E2ETest
             .Result
             .Should()
             .BeFailure(HttpFailure.From(statusCode,
-                DeserializationFailure.From(typeof(ErrorResponse), expectedContent).GetFailureMessage(),
+                DeserializationFailure.From(typeof(StandardApiError), expectedContent).GetFailureMessage(),
                 expectedContent));
     }
 
@@ -154,17 +156,17 @@ public class E2ETest
     [Fact]
     public void ShouldReturnFailureWhenRetrievingUploadUrls_GivenStatusCodeIsFailure()
     {
-        var error = new ErrorResponse(HttpStatusCode.BadRequest, "Some content");
+        var error = new StandardApiError("type", "title", "detail", "instance");
         var errorContent = this.serializer.SerializeObject(error);
         var expectedResponse = new MappingResponse
         {
-            Code = error.Code,
+            Code = HttpStatusCode.BadRequest,
             Content = errorContent,
         };
         this.customHandler = this.customHandler.GivenRequest(BuildExpectedRequestForUrlRetrieval())
             .RespondWith(expectedResponse);
         this.Operation(this.BuildConfiguration()).Result.Should()
-            .BeFailure(HttpFailure.From(error.Code, error.Message, errorContent));
+            .BeFailure(HttpFailure.From(HttpStatusCode.BadRequest, error.Title, errorContent));
     }
 
     [Fact]
@@ -183,7 +185,7 @@ public class E2ETest
             .Result
             .Should()
             .BeFailure(HttpFailure.From(statusCode,
-                DeserializationFailure.From(typeof(ErrorResponse), expectedContent).GetFailureMessage(),
+                DeserializationFailure.From(typeof(StandardApiError), expectedContent).GetFailureMessage(),
                 expectedContent));
     }
 
@@ -191,11 +193,11 @@ public class E2ETest
     public void ShouldReturnFailureWhenUploadingLogo_GivenStatusCodeIsFailure()
     {
         this.RetrievingLogosUrlReturnsValidResponse();
-        var error = new ErrorResponse(HttpStatusCode.Unauthorized, "Some content.");
+        var error = new StandardApiError("type", "title", "detail", "instance");
         var errorContent = this.serializer.SerializeObject(error);
         var expectedResponse = new MappingResponse
         {
-            Code = error.Code,
+            Code = HttpStatusCode.BadRequest,
             Content = errorContent,
         };
         this.customHandler = this.customHandler.GivenRequest(this.BuildExpectedRequestForUploading())
@@ -203,7 +205,7 @@ public class E2ETest
         this.Operation(this.BuildConfiguration())
             .Result
             .Should()
-            .BeFailure(HttpFailure.From(error.Code, error.Message, errorContent));
+            .BeFailure(HttpFailure.From(HttpStatusCode.BadRequest, error.Title, errorContent));
     }
 
     [Fact]

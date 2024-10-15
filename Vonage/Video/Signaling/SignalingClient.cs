@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
+using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
 using Vonage.Video.Signaling.SendSignal;
 using Vonage.Video.Signaling.SendSignals;
+#endregion
 
 namespace Vonage.Video.Signaling;
 
@@ -12,14 +15,14 @@ namespace Vonage.Video.Signaling;
 /// </summary>
 public class SignalingClient
 {
-    private readonly VonageHttpClient vonageClient;
+    private readonly VonageHttpClient<VideoApiError> vonageClient;
 
     /// <summary>
     ///     Creates a new client.
     /// </summary>
     /// <param name="configuration">The client configuration.</param>
     internal SignalingClient(VonageHttpClientConfiguration configuration) => this.vonageClient =
-        new VonageHttpClient(configuration, JsonSerializerBuilder.BuildWithCamelCase());
+        new VonageHttpClient<VideoApiError>(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
     ///     Sends signals to a single participant in an active Vonage Video session.

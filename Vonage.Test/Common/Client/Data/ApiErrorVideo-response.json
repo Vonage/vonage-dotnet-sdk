@@ -1,0 +1,4 @@
+{
+  "code": 400,
+  "message": "You do not pass in a session ID or you pass in an invalid session ID."
+}

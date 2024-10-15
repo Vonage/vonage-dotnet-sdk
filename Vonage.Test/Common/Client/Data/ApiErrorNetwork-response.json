@@ -1,0 +1,5 @@
+{
+  "status": 400,
+  "code": "INVALID_ARGUMENT",
+  "message": "Client specified an invalid argument, request body or query param"
+}
