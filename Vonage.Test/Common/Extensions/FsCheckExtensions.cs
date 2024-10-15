@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using FsCheck;
 using Vonage.Common;
+#endregion
 
 namespace Vonage.Test.Common.Extensions;
 
@@ -13,7 +15,7 @@ public static class FsCheckExtensions
     ///     Retrieves a generator that produces error responses with invalid status codes.
     /// </summary>
     /// <returns>An Arbitrary of ErrorResponse.</returns>
-    public static Arbitrary<ErrorResponse> GetErrorResponses() =>
+    internal static Arbitrary<ErrorResponse> GetErrorResponses() =>
         Arb.From(from message in GetAny<string>().Generator
             from code in GetInvalidStatusCodes().Generator
             select new ErrorResponse(code, message));
