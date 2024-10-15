@@ -72,7 +72,7 @@
     <PackageReference Include="System.Formats.Asn1" Version="8.0.1"/>
     <PackageReference Include="System.IO.Abstractions" Version="21.0.26"/>
     <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
-    <PackageReference Include="System.Text.Json" Version="8.0.4"/>
+    <PackageReference Include="System.Text.Json" Version="8.0.5"/>
     <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.1.2"/>
   </ItemGroup>
   <ItemGroup>
