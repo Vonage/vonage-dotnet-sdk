@@ -1,4 +1,36 @@
 # Changelog
+## [v7.11.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.11.0) (2024-11-14)
+
+### Documentation
+
+- Generate changelog for v7.10.0 ([3cb94c3](https://github.com/Vonage/vonage-dotnet-sdk/commit/3cb94c380d392ef5a2b28570006d737ef556dcf5))
+
+- Bump version to v7.11.0 ([8592e18](https://github.com/Vonage/vonage-dotnet-sdk/commit/8592e18d3ede31b30f6150486180030ee2228a68))
+
+
+### Features
+
+- Add optional WithTemplateId on StartVerificationRequest ([4965c80](https://github.com/Vonage/vonage-dotnet-sdk/commit/4965c80942228892c544217edaf528a9b8f08e6e))
+
+
+### Merges
+
+- Merge remote-tracking branch 'origin/main'
+ ([8c66087](https://github.com/Vonage/vonage-dotnet-sdk/commit/8c660870962e21001ce3957bb45e7203bf29063b))
+
+
+### Other
+
+- Update dependency system.text.json to v8.0.5 (#596) ([c8a048b](https://github.com/Vonage/vonage-dotnet-sdk/commit/c8a048b707971eb85e1e173692e76a4574e24a34))
+
+
+### Refactoring
+
+- Make ErrorResponse an internal record ([c875b62](https://github.com/Vonage/vonage-dotnet-sdk/commit/c875b62706eb0a910c9ad2bbad770ca7c19d4e5e))
+
+- Improve error information with tailored format ([f11e417](https://github.com/Vonage/vonage-dotnet-sdk/commit/f11e417735d73e1c68aadebbd42df4c44b6e7e4c))
+
+
 ## [v7.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.10.0) (2024-10-04)
 
 ### Bug Fixes
