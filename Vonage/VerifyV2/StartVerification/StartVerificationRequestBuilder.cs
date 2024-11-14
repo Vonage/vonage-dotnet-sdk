@@ -1,4 +1,5 @@
 #region
+using System;
 using System.Collections.Generic;
 using Vonage.Common.Client;
 using Vonage.Common.Failures;
@@ -29,6 +30,7 @@ internal class StartVerificationRequestBuilder :
     private Maybe<IResultFailure> failure = Maybe<IResultFailure>.None;
     private bool fraudCheck = true;
     private Locale locale = Locale.EnUs;
+    private Maybe<Guid> templateId;
 
     /// <inheritdoc />
     public IBuilderForWorkflow WithBrand(string value)
@@ -55,6 +57,7 @@ internal class StartVerificationRequestBuilder :
                     Workflows = this.workflows.ToArray(),
                     FraudCheck = this.fraudCheck,
                     Code = this.code,
+                    TemplateId = this.templateId,
                 }))
             .Map(InputEvaluation<StartVerificationRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(
@@ -108,6 +111,12 @@ internal class StartVerificationRequestBuilder :
     public IOptionalBuilder WithLocale(string value)
     {
         this.locale = value;
+        return this;
+    }
+
+    public IOptionalBuilder WithTemplateId(Guid value)
+    {
+        this.templateId = value;
         return this;
     }
 
@@ -282,6 +291,19 @@ public interface IBuilderForWorkflow
 }
 
 /// <summary>
+///     Represents a builder for TemplateId.
+/// </summary>
+public interface IOptionalOptionalBuilderForTemplateId
+{
+    /// <summary>
+    ///     Sets the TemplateId.
+    /// </summary>
+    /// <param name="value">The template id.</param>
+    /// <returns>The builder.</returns>
+    IOptionalBuilder WithTemplateId(Guid value);
+}
+
+/// <summary>
 ///     Represents a builder for optional values.
 /// </summary>
 public interface IOptionalBuilder :
@@ -292,6 +314,7 @@ public interface IOptionalBuilder :
     IOptionalBuilderForCodeLength,
     IOptionalBuilderForFallbackWorkflow,
     IOptionalBuilderForCode,
-    IOptionalBuilderForSkipFraudCheck
+    IOptionalBuilderForSkipFraudCheck,
+    IOptionalOptionalBuilderForTemplateId
 {
 }

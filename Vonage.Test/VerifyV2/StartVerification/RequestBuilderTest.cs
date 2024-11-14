@@ -1,4 +1,5 @@
 ﻿#region
+using System;
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
@@ -223,4 +224,14 @@ public class RequestBuilderTest
 
     private static IBuilderForWorkflow BuildBaseRequest() =>
         StartVerificationRequest.Build().WithBrand("some brand");
+
+    [Fact]
+    public void Create_ShouldSetTemplateId() =>
+        BuildBaseRequest()
+            .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+            .WithTemplateId(new Guid("e42581ff-951b-4774-9f3f-b495636e3eef"))
+            .Create()
+            .Map(request => request.TemplateId)
+            .Should()
+            .BeSuccess(new Guid("e42581ff-951b-4774-9f3f-b495636e3eef"));
 }

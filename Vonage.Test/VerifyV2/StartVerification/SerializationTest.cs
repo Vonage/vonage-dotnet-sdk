@@ -1,3 +1,4 @@
+#region
 using System;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -11,6 +12,7 @@ using Vonage.VerifyV2.StartVerification.Voice;
 using Vonage.VerifyV2.StartVerification.WhatsApp;
 using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.StartVerification;
 
@@ -43,12 +45,23 @@ public class SerializationTest
         StartVerificationRequest.Build()
             .WithBrand("ACME, Inc")
             .WithWorkflow(EmailWorkflow.Parse("alice@company.com"))
+            .Create()
+            .GetStringContent()
+            .Should()
+            .BeSuccess(this.helper.GetRequestJson());
+
+    [Fact]
+    public void ShouldSerializeWithOptionalValues() =>
+        StartVerificationRequest.Build()
+            .WithBrand("ACME, Inc")
+            .WithWorkflow(EmailWorkflow.Parse("alice@company.com"))
             .WithLocale(Locale.EsEs)
             .WithChannelTimeout(300)
             .WithClientReference("my-personal-reference")
             .WithCodeLength(4)
             .SkipFraudCheck()
             .WithCode("123456")
+            .WithTemplateId(new Guid("e42581ff-951b-4774-9f3f-b495636e3eef"))
             .Create()
             .GetStringContent()
             .Should()

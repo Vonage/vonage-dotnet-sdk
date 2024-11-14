@@ -1352,6 +1352,9 @@
         <None Update="Common\Client\Data\ApiErrorNetwork-response.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="VerifyV2\StartVerification\Data\ShouldSerializeWithOptionalValues-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

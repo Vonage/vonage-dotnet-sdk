@@ -1,0 +1,16 @@
+{
+  "locale": "es-es",
+  "channel_timeout": 300,
+  "client_ref": "my-personal-reference",
+  "code_length": 4,
+  "brand": "ACME, Inc",
+  "code": "123456",
+  "workflow": [
+    {
+      "channel": "email",
+      "to": "alice@company.com"
+    }
+  ],
+  "fraud_check": false,
+  "template_id": "e42581ff-951b-4774-9f3f-b495636e3eef"
+}

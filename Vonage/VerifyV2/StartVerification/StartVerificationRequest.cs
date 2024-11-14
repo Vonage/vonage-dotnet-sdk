@@ -1,3 +1,5 @@
+#region
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -5,6 +7,7 @@ using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.VerifyV2.StartVerification;
 
@@ -52,10 +55,9 @@ public readonly struct StartVerificationRequest : IVonageRequest
     public IVerificationWorkflow[] Workflows { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder for StartVerificationRequest.
+    /// A custom template ID to use
     /// </summary>
-    /// <returns></returns>
-    public static IBuilderForBrand Build() => new StartVerificationRequestBuilder();
+    public Maybe<Guid> TemplateId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -65,6 +67,12 @@ public readonly struct StartVerificationRequest : IVonageRequest
 
     /// <inheritdoc />
     public string GetEndpointPath() => "/v2/verify";
+
+    /// <summary>
+    ///     Initializes a builder for StartVerificationRequest.
+    /// </summary>
+    /// <returns></returns>
+    public static IBuilderForBrand Build() => new StartVerificationRequestBuilder();
 
     private StringContent GetRequestContent()
     {
@@ -85,6 +93,7 @@ public readonly struct StartVerificationRequest : IVonageRequest
             values.Add("fraud_check", false);
         }
 
+        this.TemplateId.IfSome(some => values.Add("template_id", some));
         return new StringContent(serializer.SerializeObject(values), Encoding.UTF8, "application/json");
     }
 }
