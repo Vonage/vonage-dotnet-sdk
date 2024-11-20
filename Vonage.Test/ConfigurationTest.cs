@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Vonage.Cryptography;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.TestHelpers;
+using Vonage.VerifyV2.Cancel;
 using WireMock.ResponseBuilders;
+using WireMock.Server;
 using Xunit;
 
 namespace Vonage.Test;
@@ -223,10 +226,44 @@ public class ConfigurationTest
             .VonageUrls.Oidc.Should().Be(new Uri("https://oidc.idp.vonage.com"));
 }
 
+[Collection(nameof(NonThreadSafeCollection))]
+public class ProxyTest
+{
+    [Fact]
+    public async Task Proxy_ShouldReceiveRequestToTargetServer()
+    {
+        var proxyServer = WireMockServer.Start();
+        proxyServer.Given(WireMock.RequestBuilders.Request.Create())
+            .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.NoContent));
+        var testingContext = TestingContext.WithBasicCredentials(new Dictionary<string, string>
+        {
+            {"vonage:Proxy", proxyServer.Url},
+        });
+        _ = await testingContext.VonageClient.VerifyV2Client.CancelAsync(
+            CancelRequest.Parse(new Guid("af52a489-21b5-454b-b050-a2119f950b8f")));
+        proxyServer.LogEntries
+            .Any(entry => entry.RequestMessage.AbsoluteUrl ==
+                          testingContext.Server.Url + "/v2/verify/af52a489-21b5-454b-b050-a2119f950b8f").Should()
+            .BeTrue();
+    }
+}
+
 [Trait("Category", "HttpConnectionPool")]
 [Collection(nameof(NonThreadSafeCollection))]
 public class ConnectionLifetimeTest
 {
+    [Fact]
+    public async Task ShouldRenewConnection_GivenIdleTimeoutHasExpired()
+    {
+        var settings = new Dictionary<string, string>
+        {
+            {"vonage:PooledConnectionIdleTimeout", "3"},
+            {"vonage:PooledConnectionLifetime", "60"},
+        };
+        var refreshedConnections = await this.RefreshConnectionPool(settings, 5, 5);
+        refreshedConnections.Should().Be(5);
+    }
+
     [Theory]
     [InlineData(5, 2, 1)]
     [InlineData(5, 5, 2)]
@@ -242,18 +279,6 @@ public class ConnectionLifetimeTest
         };
         var refreshedConnections = await this.RefreshConnectionPool(settings, 2, loop);
         refreshedConnections.Should().Be(expectedResolutionCount);
-    }
-
-    [Fact]
-    public async Task ShouldRenewConnection_GivenIdleTimeoutHasExpired()
-    {
-        var settings = new Dictionary<string, string>
-        {
-            {"vonage:PooledConnectionIdleTimeout", "3"},
-            {"vonage:PooledConnectionLifetime", "60"},
-        };
-        var refreshedConnections = await this.RefreshConnectionPool(settings, 5, 5);
-        refreshedConnections.Should().Be(5);
     }
 
     private async Task<int> RefreshConnectionPool(Dictionary<string, string> settings, int timerBuffer, int loops)
@@ -276,9 +301,8 @@ public class ConnectionLifetimeTest
 
 internal class EventSpy : EventListener
 {
-    public int RefreshedConnections { get; private set; }
-
     public int ReceivedRequests { get; private set; }
+    public int RefreshedConnections { get; private set; }
 
     protected override void OnEventSourceCreated(EventSource eventSource)
     {

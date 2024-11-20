@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Http;
 using EnumsNET;
 using Microsoft.Extensions.Configuration;
@@ -18,8 +19,23 @@ namespace Vonage;
 public sealed class Configuration
 {
     private const int DefaultPooledConnectionIdleTimeout = 60;
-    private const string LoggerCategory = "Vonage.Configuration";
     private const int DefaultPooledConnectionLifetime = 600;
+    private const string LoggerCategory = "Vonage.Configuration";
+
+    private static Maybe<double> RequestsPerSecond =>
+        double.TryParse(Instance.Settings["vonage:RequestsPerSecond"], out var requestsPerSecond)
+            ? requestsPerSecond
+            : Maybe<double>.None;
+
+    private TimeSpan PooledConnectionIdleTimeout => TimeSpan.FromSeconds(
+        int.TryParse(this.Settings["vonage:PooledConnectionIdleTimeout"], out var idleTimeout)
+            ? idleTimeout
+            : DefaultPooledConnectionIdleTimeout);
+
+    private TimeSpan PooledConnectionLifetime => TimeSpan.FromSeconds(
+        int.TryParse(this.Settings["vonage:PooledConnectionLifetime"], out var idleTimeout)
+            ? idleTimeout
+            : DefaultPooledConnectionLifetime);
 
     static Configuration()
     {
@@ -31,21 +47,6 @@ public sealed class Configuration
         this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
         this.ClientHandler = this.BuildDefaultHandler();
     }
-
-    internal Configuration()
-    {
-        var builder = new ConfigurationBuilder()
-            .AddJsonFile("settings.json", true, true)
-            .AddJsonFile("appsettings.json", true, true);
-        this.Settings = builder.Build();
-        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
-        this.ClientHandler = this.BuildDefaultHandler();
-    }
-
-    private static Maybe<double> RequestsPerSecond =>
-        double.TryParse(Instance.Settings["vonage:RequestsPerSecond"], out var requestsPerSecond)
-            ? requestsPerSecond
-            : Maybe<double>.None;
 
     /// <summary>
     ///     Retrieves the Api secret.
@@ -66,16 +67,6 @@ public sealed class Configuration
     ///     Retrieves the Application Key.
     /// </summary>
     public string ApplicationKey => this.Settings["vonage:Application.Key"] ?? string.Empty;
-
-    private TimeSpan PooledConnectionIdleTimeout => TimeSpan.FromSeconds(
-        int.TryParse(this.Settings["vonage:PooledConnectionIdleTimeout"], out var idleTimeout)
-            ? idleTimeout
-            : DefaultPooledConnectionIdleTimeout);
-
-    private TimeSpan PooledConnectionLifetime => TimeSpan.FromSeconds(
-        int.TryParse(this.Settings["vonage:PooledConnectionLifetime"], out var idleTimeout)
-            ? idleTimeout
-            : DefaultPooledConnectionLifetime);
 
     /// <summary>
     ///     Retrieves a configured HttpClient.
@@ -103,6 +94,10 @@ public sealed class Configuration
     ///     Retrieves the unique instance (Singleton).
     /// </summary>
     public static Configuration Instance { get; } = new Configuration();
+
+    /// <summary>
+    /// </summary>
+    public Maybe<string> Proxy => this.Settings["vonage:Proxy"] ?? Maybe<string>.None;
 
     /// <summary>
     ///     The timeout (in seconds) applied to every request. If not provided, the default timeout will be applied.
@@ -137,11 +132,15 @@ public sealed class Configuration
     /// </summary>
     public VonageUrls VonageUrls => VonageUrls.FromConfiguration(this.Settings);
 
-    private StandardSocketsHttpHandler BuildDefaultHandler() => new StandardSocketsHttpHandler
+    internal Configuration()
     {
-        PooledConnectionLifetime = this.PooledConnectionLifetime,
-        PooledConnectionIdleTimeout = this.PooledConnectionIdleTimeout,
-    };
+        var builder = new ConfigurationBuilder()
+            .AddJsonFile("settings.json", true, true)
+            .AddJsonFile("appsettings.json", true, true);
+        this.Settings = builder.Build();
+        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
+        this.ClientHandler = this.BuildDefaultHandler();
+    }
 
     /// <summary>
     ///     Builds a Credentials from the current Configuration.
@@ -168,23 +167,6 @@ public sealed class Configuration
     /// <returns>The HttpClient.</returns>
     public HttpClient BuildHttpClientForNexmo() => this.BuildHttpClient(this.VonageUrls.Nexmo);
 
-    internal HttpClient BuildHttpClient(Uri baseUri)
-    {
-        var client = new HttpClient(this.ClientHandler)
-        {
-            BaseAddress = baseUri,
-        };
-        this.RequestTimeout.IfSome(value => client.Timeout = value);
-        client.DefaultRequestHeaders.Add("Accept", "application/json");
-        return client;
-    }
-
-    /// <summary>
-    ///     Build an HttpClient for the Video API.
-    /// </summary>
-    /// <returns>The HttpClient.</returns>
-    public HttpClient BuildHttpClientForVideo() => this.BuildHttpClient(this.VonageUrls.Video);
-
     /// <summary>
     ///     Build an HttpClient for OIDC requests.
     /// </summary>
@@ -200,11 +182,32 @@ public sealed class Configuration
         this.BuildHttpClient(this.VonageUrls.Get(region));
 
     /// <summary>
+    ///     Build an HttpClient for the Video API.
+    /// </summary>
+    /// <returns>The HttpClient.</returns>
+    public HttpClient BuildHttpClientForVideo() => this.BuildHttpClient(this.VonageUrls.Video);
+
+    /// <summary>
     ///     Builds a Configuration from an IConfiguration.
     /// </summary>
     /// <param name="configuration">The configuration properties.</param>
     /// <returns>The Configuration.</returns>
     public static Configuration FromConfiguration(IConfiguration configuration) => new Configuration(configuration);
+
+    private StandardSocketsHttpHandler BuildDefaultHandler()
+    {
+        var handler = new StandardSocketsHttpHandler
+        {
+            PooledConnectionLifetime = this.PooledConnectionLifetime,
+            PooledConnectionIdleTimeout = this.PooledConnectionIdleTimeout,
+        };
+        this.Proxy.IfSome(some =>
+        {
+            handler.Proxy = new WebProxy(some);
+            handler.UseProxy = true;
+        });
+        return handler;
+    }
 
     private static TimeSpanSemaphore BuildSemaphore(double requestsPerSecond)
     {
@@ -247,6 +250,17 @@ public sealed class Configuration
             logger.LogInformation("Available authentication: {0}", string.Join(",", authCapabilities));
         }
     }
+
+    internal HttpClient BuildHttpClient(Uri baseUri)
+    {
+        var client = new HttpClient(this.ClientHandler)
+        {
+            BaseAddress = baseUri,
+        };
+        this.RequestTimeout.IfSome(value => client.Timeout = value);
+        client.DefaultRequestHeaders.Add("Accept", "application/json");
+        return client;
+    }
 }
 
 /// <summary>
@@ -258,13 +272,13 @@ public readonly struct VonageUrls
     private const string DefaultApiUrlEu = "https://api-eu.vonage.com";
     private const string DefaultApiUrlUs = "https://api-us.vonage.com";
     private const string DefaultNexmoApiUrl = "https://api.nexmo.com";
+    private const string DefaultOidcUrl = "https://oidc.idp.vonage.com";
     private const string DefaultRestApiUrl = "https://rest.nexmo.com";
     private const string DefaultVideoApiUrl = "https://video.api.vonage.com";
-    private const string DefaultOidcUrl = "https://oidc.idp.vonage.com";
     internal const string NexmoApiKey = "vonage:Url.Api";
     internal const string NexmoRestKey = "vonage:Url.Rest";
-    internal const string VideoApiKey = "vonage:Url.Api.Video";
     internal const string OidcApiKey = "vonage:Url.OIDC";
+    internal const string VideoApiKey = "vonage:Url.Api.Video";
 
     private readonly Dictionary<Region, string> regions = new Dictionary<Region, string>
     {
@@ -278,14 +292,14 @@ public readonly struct VonageUrls
     private VonageUrls(IConfiguration configuration) => this.configuration = configuration;
 
     /// <summary>
-    ///     The Oidc Url.
-    /// </summary>
-    public Uri Oidc => this.Evaluate(OidcApiKey, DefaultOidcUrl);
-
-    /// <summary>
     ///     The Nexmo Api Url.
     /// </summary>
     public Uri Nexmo => this.Evaluate(NexmoApiKey, DefaultNexmoApiUrl);
+
+    /// <summary>
+    ///     The Oidc Url.
+    /// </summary>
+    public Uri Oidc => this.Evaluate(OidcApiKey, DefaultOidcUrl);
 
     /// <summary>
     ///     The Nexmo REST Url.
