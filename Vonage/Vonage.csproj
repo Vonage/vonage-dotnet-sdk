@@ -12,10 +12,10 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <Version>7.11.0</Version>
+    <Version>7.12.0</Version>
     <PackageLicenseExpression/>
     <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.11.0</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.12.0</PackageReleaseNotes>
     <PackageTags>SMS voice telephony phone Vonage</PackageTags>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NoWarn>701;1702;1572</NoWarn>
@@ -29,7 +29,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageIcon>VonageLogo_Symbol_Black.png</PackageIcon>
     <PackageIconUrl/>
-    <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.&#xD;
+    <Description>Official C#/.NET wrapper for the Vonage API. To use it you will need a Vonage account. Sign up for free at vonage.com. For full API documentation refer to developer.vonage.com.&#xD;&#xD;
         </Description>
     <LangVersion>latest</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
