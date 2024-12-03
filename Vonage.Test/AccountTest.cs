@@ -1,10 +1,10 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
-using Moq;
 using Vonage.Accounts;
-using Vonage.Common;
 using Vonage.Request;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
@@ -56,7 +56,7 @@ public class AccountTest : TestBase
     public async Task GetAccountBalanceAsync(bool passCreds)
     {
         //ARRANGE
-        var expectedUri = $"{this.RestUrl}/account/get-balance?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+        var expectedUri = $"{this.RestUrl}/account/get-balance";
         var expectedResponseContent = @"{""value"": 3.14159, ""autoReload"": false }";
         this.Setup(expectedUri, expectedResponseContent);
         var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
@@ -72,23 +72,6 @@ public class AccountTest : TestBase
         }
 
         //ASSERT
-        Assert.Equal(3.14159m, balance.Value);
-        Assert.False(balance.AutoReload);
-    }
-
-    [Fact]
-    public async Task GetAccountBalanceAsync_ShouldReturnBalance_GivenCredentialsContainSecuritySecret()
-    {
-        var mockTimeProvider = new Mock<ITimeProvider>();
-        mockTimeProvider.Setup(provider => provider.Epoch).Returns(10);
-        var expectedUri =
-            $"{this.RestUrl}/account/get-balance?api_key={this.ApiKey}&timestamp=10&sig=1b692bddcdbb74dcafaa0a036a1200c2";
-        const string expectedResponseContent = @"{""value"": 3.14159, ""autoReload"": false }";
-        this.Setup(expectedUri, expectedResponseContent);
-        var credentials = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        credentials.SecuritySecret = "yolo";
-        var client = new VonageClient(credentials, this.configuration, mockTimeProvider.Object);
-        var balance = await client.AccountClient.GetAccountBalanceAsync();
         Assert.Equal(3.14159m, balance.Value);
         Assert.False(balance.AutoReload);
     }
@@ -259,7 +242,7 @@ public class AccountTest : TestBase
     {
         //ARRANGE            
         var expectedUri =
-            $"{this.RestUrl}/account/top-up?trx=00X123456Y7890123Z&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/account/top-up?trx=00X123456Y7890123Z&";
         var expectedResponseContent = @"{""response"":""abc123""}";
         this.Setup(expectedUri, expectedResponseContent);
         var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
