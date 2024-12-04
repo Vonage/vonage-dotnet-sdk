@@ -105,7 +105,8 @@ an `appsettings` section:
     "Application.Id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
     "Application.Key": "VONAGE_APPLICATION_PRIVATE_KEY",
     "PooledConnectionIdleTimeout": "60", 
-    "PooledConnectionLifetime": "600"
+    "PooledConnectionLifetime": "600", 
+    "Proxy": "https://example.com"
   }
 }
 ```
@@ -198,6 +199,7 @@ Configuration.Instance.Settings["vonage:Url.Rest"] = "https://www.example.com/re
 | UserAgent                   | Optional. Your app-specific usage identifier in the format of `name/version`. Example: `"myApp/1.0"`                             |
 | PooledConnectionIdleTimeout | Optional. The time (in seconds) that a connection can be idle before it is closed. Defaults to 60 seconds.                       |
 | PooledConnectionLifetime    | Optional. The time (in seconds) that a connection can be alive before it is closed. Defaults to 600 seconds.                     |
+| Proxy                       | Optional. Sets a custom proxy URL for all HTTP requests                                                                          |
 
 ### Logging
 
