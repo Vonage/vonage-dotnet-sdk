@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Request;
 using Vonage.ShortCodes;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
@@ -34,7 +36,7 @@ public class ShortCodeTests : TestBase
         }
 
         var expectedResponseContent = this.GetResponseJson();
-        expectedUri += $"&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+        expectedUri += "&";
         this.Setup(expectedUri, expectedResponseContent);
 
         //ACT
@@ -64,7 +66,7 @@ public class ShortCodeTests : TestBase
         };
         var expectedResponseContent = this.GetResponseJson();
         var expectedUri =
-            $"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn={request.Msisdn}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn={request.Msisdn}&";
         this.Setup(expectedUri, expectedResponseContent);
 
         //ACT
@@ -88,16 +90,15 @@ public class ShortCodeTests : TestBase
     {
         //ARRANGE
         var request = new OptInQueryRequest();
-        var expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/query/json?";
+        var expectedUri = $"{this.RestUrl}/sc/us/alert/opt-in/query/json";
         if (allParameters)
         {
             request.Page = "1";
             request.PageSize = "20";
-            expectedUri += $"page-size={request.PageSize}&page={request.Page}&";
+            expectedUri += $"?page-size={request.PageSize}&page={request.Page}&";
         }
 
         var expectedResponseContent = this.GetResponseJson();
-        expectedUri += $"api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
         this.Setup(expectedUri, expectedResponseContent);
 
         //ACT
@@ -116,7 +117,7 @@ public class ShortCodeTests : TestBase
     {
         //ARRANGE
         var request = new TwoFactorAuthRequest();
-        var expectedUri = $"{this.RestUrl}/sc/us/2fa/json?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+        var expectedUri = $"{this.RestUrl}/sc/us/2fa/json";
         var expectedResponseContent = this.GetResponseJson();
         this.Setup(expectedUri, expectedResponseContent);
 

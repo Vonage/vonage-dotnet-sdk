@@ -1,6 +1,8 @@
+#region
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
+#endregion
 
 namespace Vonage.ShortCodes;
 
@@ -29,7 +31,7 @@ public class ShortCodesClient : IShortCodesClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<OptInRecord>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/opt-in/manage/json"),
-                AuthType.Query,
+                AuthType.Basic,
                 request);
 
     /// <inheritdoc/>
@@ -37,7 +39,7 @@ public class ShortCodesClient : IShortCodesClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<OptInSearchResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/opt-in/query/json"),
-                AuthType.Query,
+                AuthType.Basic,
                 request);
 
     /// <inheritdoc/>
@@ -45,7 +47,7 @@ public class ShortCodesClient : IShortCodesClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<AlertResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/json"),
-                AuthType.Query,
+                AuthType.Basic,
                 request);
 
     /// <inheritdoc/>
@@ -53,7 +55,7 @@ public class ShortCodesClient : IShortCodesClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<TwoFactorAuthResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/2fa/json"),
-                AuthType.Query,
+                AuthType.Basic,
                 request);
 
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
