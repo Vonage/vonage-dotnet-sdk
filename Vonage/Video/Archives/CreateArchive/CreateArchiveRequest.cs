@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -8,6 +9,7 @@ using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.Serialization;
 using Vonage.Server;
+#endregion
 
 namespace Vonage.Video.Archives.CreateArchive;
 
@@ -16,10 +18,6 @@ namespace Vonage.Video.Archives.CreateArchive;
 /// </summary>
 public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    /// <inheritdoc />
-    [JsonIgnore]
-    public Guid ApplicationId { get; internal init; }
-
     /// <summary>
     ///     Whether the archive will record audio (true, the default) or not (false). If you set both hasAudio and hasVideo to
     ///     false, the call to this method results in an error.
@@ -67,10 +65,6 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<RenderResolution> Resolution { get; internal init; }
 
-    /// <inheritdoc />
-    [JsonPropertyOrder(0)]
-    public string SessionId { get; internal init; }
-
     /// <summary>
     ///     Whether streams included in the archive are selected automatically ("auto", the default) or manually ("manual").
     ///     When streams are selected automatically ("auto"), all streams in the session can be included in the archive. When
@@ -93,10 +87,22 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     public Maybe<string> MultiArchiveTag { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder.
+    ///     The maximum video bitrate for the archive, in bits per second. This option is only valid for composed archives. Set
+    ///     the maximum video bitrate to control the size of the composed archive. This maximum bitrate applies to the video
+    ///     bitrate only. If the output archive has audio, those bits will be excluded from the limit.
     /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new CreateArchiveRequestBuilder();
+    [JsonPropertyOrder(9)]
+    [JsonConverter(typeof(MaybeJsonConverter<int>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<int> MaxBitrate { get; internal init; }
+
+    /// <inheritdoc />
+    [JsonIgnore]
+    public Guid ApplicationId { get; internal init; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(0)]
+    public string SessionId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -108,7 +114,13 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive";
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new CreateArchiveRequestBuilder();
+
     private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,
+        new StringContent(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 }

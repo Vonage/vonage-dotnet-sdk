@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Monads;
@@ -6,6 +7,7 @@ using Vonage.Server;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives.CreateArchive;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.CreateArchive;
 
@@ -164,4 +166,47 @@ public class RequestBuilderTest
             .Map(request => request.MultiArchiveTag)
             .Should()
             .BeSuccess("custom-tag");
+
+    [Fact]
+    public void Build_ShouldHaveEmptyMaxBitrate_GivenDefault() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .Create()
+            .Map(request => request.MaxBitrate)
+            .Should()
+            .BeSuccess(Maybe<int>.None);
+
+    [Theory]
+    [InlineData(1000000)]
+    [InlineData(6000000)]
+    public void Build_ShouldSetMaxBitrate(int value) =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithMaxBitrate(value)
+            .Create()
+            .Map(request => request.MaxBitrate)
+            .Should()
+            .BeSuccess(value);
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenMaxBitrateIsLowerThanMinimum() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithMaxBitrate(999999)
+            .Create()
+            .Should()
+            .BeParsingFailure("MaxBitrate cannot be lower than 1000000.");
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenMaxBitrateIsHigherThanMaximum() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithMaxBitrate(6000001)
+            .Create()
+            .Should()
+            .BeParsingFailure("MaxBitrate cannot be higher than 6000000.");
 }

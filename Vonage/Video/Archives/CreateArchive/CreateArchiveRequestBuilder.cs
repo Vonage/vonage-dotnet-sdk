@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 using Vonage.Server;
+#endregion
 
 namespace Vonage.Video.Archives.CreateArchive;
 
@@ -12,6 +14,7 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
     private bool hasAudio = true;
     private bool hasVideo = true;
     private Layout layout;
+    private Maybe<int> maxBitrate;
     private Maybe<string> multiArchiveTag;
     private Maybe<string> name;
     private OutputMode outputMode = OutputMode.Composed;
@@ -40,9 +43,11 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
                 Name = this.name,
                 Resolution = this.resolution,
                 MultiArchiveTag = this.multiArchiveTag,
+                MaxBitrate = this.maxBitrate,
             })
             .Map(InputEvaluation<CreateArchiveRequest>.Evaluate)
-            .Bind(evaluation => evaluation.WithRules(VerifySessionId, VerifyApplicationId));
+            .Bind(evaluation => evaluation.WithRules(VerifySessionId, VerifyApplicationId, VerifyMaximumMaxBitrate,
+                VerifyMinimumMaxBitrate));
 
     /// <inheritdoc />
     public IBuilderForOptional DisableAudio()
@@ -100,6 +105,12 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
         return this;
     }
 
+    public IBuilderForOptional WithMaxBitrate(int value)
+    {
+        this.maxBitrate = value;
+        return this;
+    }
+
     /// <inheritdoc />
     public IBuilderForOptional WithSessionId(string value)
     {
@@ -112,6 +123,16 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
 
     private static Result<CreateArchiveRequest> VerifySessionId(CreateArchiveRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
+
+    private static Result<CreateArchiveRequest> VerifyMinimumMaxBitrate(CreateArchiveRequest request) =>
+        request.MaxBitrate.Match(
+            some => InputValidation.VerifyHigherOrEqualThan(request, some, 1000000, nameof(request.MaxBitrate)),
+            () => request);
+
+    private static Result<CreateArchiveRequest> VerifyMaximumMaxBitrate(CreateArchiveRequest request) =>
+        request.MaxBitrate.Match(
+            some => InputValidation.VerifyLowerOrEqualThan(request, some, 6000000, nameof(request.MaxBitrate)),
+            () => request);
 }
 
 /// <summary>
@@ -198,4 +219,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateArchiveReques
     /// <param name="value">The tag/</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithMultiArchiveTag(string value);
+
+    /// <summary>
+    ///     Sets the maximum bitrate.
+    /// </summary>
+    /// <param name="value">The maximum bitrate</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithMaxBitrate(int value);
 }

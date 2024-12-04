@@ -11,5 +11,6 @@
   "outputMode": "individual",
   "resolution": "1280x720",
   "streamMode": "manual",
-  "multiArchiveTag": "custom-tag"
+  "multiArchiveTag": "custom-tag",
+  "maxBitrate": 3000000
 }

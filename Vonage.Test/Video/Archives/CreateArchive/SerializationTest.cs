@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
@@ -8,6 +9,7 @@ using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives;
 using Vonage.Video.Archives.CreateArchive;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.CreateArchive;
 
@@ -46,6 +48,7 @@ public class SerializationTest
             .DisableVideo()
             .DisableAudio()
             .WithMultiArchiveTag("custom-tag")
+            .WithMaxBitrate(3000000)
             .Create();
 
     [Fact]
