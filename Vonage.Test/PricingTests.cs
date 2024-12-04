@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
 using Vonage.Pricing;
 using Vonage.Request;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
@@ -15,7 +17,7 @@ public class PricingTests : TestBase
     {
         //ARRANGE
         var expectedUri =
-            $"{this.RestUrl}/account/get-pricing/outbound/sms?api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/account/get-pricing/outbound/sms";
         var expectedResponse = @"{
                   ""count"": ""243"",
                   ""countries"": [
@@ -77,7 +79,7 @@ public class PricingTests : TestBase
     {
         //ARRANGE
         var expectedUri =
-            $"{this.RestUrl}/account/get-pricing/outbound/sms?country=CA&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/account/get-pricing/outbound/sms?country=CA&";
         var expectedResponseContent = @"{
               ""countryCode"": ""CA"",
               ""countryName"": ""Canada"",
@@ -137,7 +139,7 @@ public class PricingTests : TestBase
     {
         //ARRANGE
         var expectedUri =
-            $"{this.RestUrl}/account/get-prefix-pricing/outbound/sms?prefix=1&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/account/get-prefix-pricing/outbound/sms?prefix=1&";
         var expectedResponse = @"{
                   ""count"": ""243"",
                   ""countries"": [

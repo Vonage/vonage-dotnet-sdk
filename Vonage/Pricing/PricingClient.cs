@@ -1,6 +1,8 @@
+#region
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Request;
+#endregion
 
 namespace Vonage.Pricing;
 
@@ -32,7 +34,7 @@ public class PricingClient : IPricingClient
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration,
                     $"/account/get-prefix-pricing/outbound/{type}"),
-                AuthType.Query,
+                AuthType.Basic,
                 request
             );
 
@@ -43,7 +45,7 @@ public class PricingClient : IPricingClient
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration,
                     $"/account/get-pricing/outbound/{type}"),
-                AuthType.Query
+                AuthType.Basic
             );
 
     /// <inheritdoc/>
@@ -54,7 +56,7 @@ public class PricingClient : IPricingClient
             (
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration,
                     $"/account/get-pricing/outbound/{type}"),
-                AuthType.Query,
+                AuthType.Basic,
                 request
             );
 
