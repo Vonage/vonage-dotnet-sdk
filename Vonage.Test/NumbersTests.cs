@@ -96,7 +96,7 @@ public class NumbersTests : TestBase
         const string expectedResponse =
             @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
         var expectedUri =
-            $"{this.RestUrl}/number/search?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/number/search?country=GB&";
         var request = new NumberSearchRequest {Country = "GB"};
         this.Setup(expectedUri, expectedResponse);
         var response = await this.client.NumbersClient.GetAvailableNumbersAsync(request);
@@ -116,7 +116,7 @@ public class NumbersTests : TestBase
         const string expectedResponse =
             @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""], ""moHttpUrl"": ""https://example.com/webhooks/inbound-sms"", ""messagesCallbackType"": ""app"", ""messagesCallbackValue"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"", ""voiceCallbackType"": ""app"", ""voiceCallbackValue"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab""}]}";
         var expectedUri =
-            $"{this.RestUrl}/number/search?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/number/search?country=GB&";
         var request = new NumberSearchRequest {Country = "GB"};
         this.Setup(expectedUri, expectedResponse);
         var response = await this.client.NumbersClient.GetAvailableNumbersAsync(request);
@@ -141,7 +141,7 @@ public class NumbersTests : TestBase
         const string expectedResponse =
             @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
         var expectedUri =
-            $"{this.RestUrl}/number/search?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/number/search?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&";
         var request = new NumberSearchRequest
         {
             Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains,
@@ -165,7 +165,7 @@ public class NumbersTests : TestBase
         const string expectedResponse =
             @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""]}]}";
         var expectedUri =
-            $"{this.RestUrl}/account/numbers?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/account/numbers?country=GB&";
         var request = new NumberSearchRequest {Country = "GB"};
         this.Setup(expectedUri, expectedResponse);
         var response = await this.client.NumbersClient.GetOwnedNumbersAsync(request);
@@ -186,7 +186,7 @@ public class NumbersTests : TestBase
         const string expectedResponse =
             @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""], ""moHttpUrl"": ""https://example.com/webhooks/inbound-sms"", ""messagesCallbackType"": ""app"", ""messagesCallbackValue"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab"", ""voiceCallbackType"": ""app"", ""voiceCallbackValue"": ""aaaaaaaa-bbbb-cccc-dddd-0123456789ab""}]}";
         var expectedUri =
-            $"{this.RestUrl}/account/numbers?country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/account/numbers?country=GB&";
         var request = new NumberSearchRequest {Country = "GB"};
         this.Setup(expectedUri, expectedResponse);
         var response = await this.client.NumbersClient.GetOwnedNumbersAsync(request);
@@ -212,7 +212,7 @@ public class NumbersTests : TestBase
         const string expectedResponse =
             @"{""count"": 1234,""numbers"": [{""country"": ""GB"",""msisdn"": ""447700900000"",""type"": ""mobile-lvn"",""cost"": ""1.25"",""features"": [""VOICE"",""SMS""],""app_id"": ""9907a0d2-5206-4ec0-af8c-b335685ef9b8""}]}";
         var expectedUri =
-            $"{this.RestUrl}/account/numbers?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&application_id=testApp&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.RestUrl}/account/numbers?country=GB&type=mobile-lvn&pattern=12345&search_pattern=1&features=SMS&size=10&index=1&application_id=testApp&";
         var request = new NumberSearchRequest
         {
             Country = "GB", Type = "mobile-lvn", Pattern = "12345", SearchPattern = SearchPattern.Contains,
