@@ -1,4 +1,23 @@
 # Changelog
+## [v7.13.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.13.1) (2024-12-16)
+
+### Documentation
+
+- Generate changelog for v7.13.0 ([276eb21](https://github.com/Vonage/vonage-dotnet-sdk/commit/276eb21275b2aea859805dfd547cb18796b54d51))
+
+- Bump version to v7.13.1 ([f2190da](https://github.com/Vonage/vonage-dotnet-sdk/commit/f2190daf4f9420a994926a39bc1187590f25d91f))
+
+
+### Features
+
+- Allow Vonage Urls to include a relative path ([81ab4da](https://github.com/Vonage/vonage-dotnet-sdk/commit/81ab4da7952012e2604fc0ad289ba5d3b1a4d928))
+
+
+### Refactoring
+
+- Make SendRequest pure ([dbab981](https://github.com/Vonage/vonage-dotnet-sdk/commit/dbab981deb3a2e6772e5d4d454d9a55fba033107))
+
+
 ## [v7.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.13.0) (2024-12-05)
 
 ### Dependencies upgrade
