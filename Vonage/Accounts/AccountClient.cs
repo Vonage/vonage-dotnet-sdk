@@ -33,7 +33,7 @@ public class AccountClient : IAccountClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<AccountSettingsResult>
             (
-                ApiRequest.GetBaseUriFor(this.configuration, "/account/settings"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/account/settings"),
                 request
             );
 
@@ -52,7 +52,7 @@ public class AccountClient : IAccountClient
     public Task<Balance> GetAccountBalanceAsync(Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<Balance>(
-                ApiRequest.GetBaseUriFor(this.configuration, "/account/get-balance"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/account/get-balance"),
                 AuthType.Basic);
 
     /// <inheritdoc />
@@ -89,7 +89,7 @@ public class AccountClient : IAccountClient
     public Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<TopUpResult>(
-                ApiRequest.GetBaseUriFor(this.configuration, "/account/top-up"),
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/account/top-up"),
                 AuthType.Basic,
                 request
             );

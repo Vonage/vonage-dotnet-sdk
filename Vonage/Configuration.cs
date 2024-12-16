@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
@@ -10,6 +11,7 @@ using Vonage.Common.Monads;
 using Vonage.Cryptography;
 using Vonage.Logger;
 using Vonage.Request;
+#endregion
 
 namespace Vonage;
 
@@ -21,6 +23,27 @@ public sealed class Configuration
     private const int DefaultPooledConnectionIdleTimeout = 60;
     private const int DefaultPooledConnectionLifetime = 600;
     private const string LoggerCategory = "Vonage.Configuration";
+
+    static Configuration()
+    {
+    }
+
+    private Configuration(IConfiguration configuration)
+    {
+        this.Settings = configuration;
+        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
+        this.ClientHandler = this.BuildDefaultHandler();
+    }
+
+    internal Configuration()
+    {
+        var builder = new ConfigurationBuilder()
+            .AddJsonFile("settings.json", true, true)
+            .AddJsonFile("appsettings.json", true, true);
+        this.Settings = builder.Build();
+        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
+        this.ClientHandler = this.BuildDefaultHandler();
+    }
 
     private static Maybe<double> RequestsPerSecond =>
         double.TryParse(Instance.Settings["vonage:RequestsPerSecond"], out var requestsPerSecond)
@@ -36,17 +59,6 @@ public sealed class Configuration
         int.TryParse(this.Settings["vonage:PooledConnectionLifetime"], out var idleTimeout)
             ? idleTimeout
             : DefaultPooledConnectionLifetime);
-
-    static Configuration()
-    {
-    }
-
-    private Configuration(IConfiguration configuration)
-    {
-        this.Settings = configuration;
-        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
-        this.ClientHandler = this.BuildDefaultHandler();
-    }
 
     /// <summary>
     ///     Retrieves the Api secret.
@@ -131,16 +143,6 @@ public sealed class Configuration
     ///     Provide urls to all Vonage APIs.
     /// </summary>
     public VonageUrls VonageUrls => VonageUrls.FromConfiguration(this.Settings);
-
-    internal Configuration()
-    {
-        var builder = new ConfigurationBuilder()
-            .AddJsonFile("settings.json", true, true)
-            .AddJsonFile("appsettings.json", true, true);
-        this.Settings = builder.Build();
-        this.LogAuthenticationCapabilities(LogProvider.GetLogger(LoggerCategory));
-        this.ClientHandler = this.BuildDefaultHandler();
-    }
 
     /// <summary>
     ///     Builds a Credentials from the current Configuration.
@@ -268,6 +270,23 @@ public sealed class Configuration
 /// </summary>
 public readonly struct VonageUrls
 {
+    /// <summary>
+    /// </summary>
+    public enum Region
+    {
+        /// <summary>
+        /// </summary>
+        [Description("AMER")] US,
+
+        /// <summary>
+        /// </summary>
+        [Description("EMEA")] EU,
+
+        /// <summary>
+        /// </summary>
+        [Description("APAC")] APAC,
+    }
+
     private const string DefaultApiUrlApac = "https://api-ap.vonage.com";
     private const string DefaultApiUrlEu = "https://api-eu.vonage.com";
     private const string DefaultApiUrlUs = "https://api-us.vonage.com";
@@ -280,14 +299,14 @@ public readonly struct VonageUrls
     internal const string OidcApiKey = "vonage:Url.OIDC";
     internal const string VideoApiKey = "vonage:Url.Api.Video";
 
+    private readonly IConfiguration configuration;
+
     private readonly Dictionary<Region, string> regions = new Dictionary<Region, string>
     {
         {Region.US, DefaultApiUrlUs},
         {Region.EU, DefaultApiUrlEu},
         {Region.APAC, DefaultApiUrlApac},
     };
-
-    private readonly IConfiguration configuration;
 
     private VonageUrls(IConfiguration configuration) => this.configuration = configuration;
 
@@ -327,23 +346,6 @@ public readonly struct VonageUrls
         this.Evaluate(string.Concat(NexmoApiKey, ".", region.AsString(EnumFormat.Description)), this.regions[region]);
 
     private Uri Evaluate(string key, string defaultValue) => this.configuration[key] is null
-        ? new Uri(defaultValue)
-        : new Uri(this.configuration[key]);
-
-    /// <summary>
-    /// </summary>
-    public enum Region
-    {
-        /// <summary>
-        /// </summary>
-        [Description("AMER")] US,
-
-        /// <summary>
-        /// </summary>
-        [Description("EMEA")] EU,
-
-        /// <summary>
-        /// </summary>
-        [Description("APAC")] APAC,
-    }
+        ? new Uri($"{defaultValue.TrimEnd('/')}/")
+        : new Uri($"{this.configuration[key].TrimEnd('/')}/");
 }

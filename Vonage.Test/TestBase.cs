@@ -54,7 +54,7 @@ namespace Vonage.Test
 #endif
 
         private static readonly string TestAssemblyName = ThisAssembly.GetName().Name;
-        protected readonly Configuration configuration;
+        protected Configuration configuration;
 
         protected VonageClient BuildVonageClient(Credentials credentials) =>
             new VonageClient(credentials, this.configuration, new TimeProvider());
