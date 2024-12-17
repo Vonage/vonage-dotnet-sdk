@@ -1,6 +1,8 @@
-﻿using System;
+﻿#region
+using System;
 using System.Threading.Tasks;
 using Vonage.Common.Failures;
+#endregion
 
 namespace Vonage.Common.Monads;
 
@@ -13,7 +15,7 @@ public readonly struct Result<T>
     private readonly IResultFailure failure;
     private readonly ResultState state;
     private readonly T success;
-    
+
     /// <summary>
     ///     Constructor for a Success.
     /// </summary>
@@ -24,7 +26,7 @@ public readonly struct Result<T>
         this.success = success;
         this.failure = default;
     }
-    
+
     /// <summary>
     ///     Constructor for a Failure.
     /// </summary>
@@ -35,17 +37,17 @@ public readonly struct Result<T>
         this.success = default;
         this.failure = failure;
     }
-    
+
     /// <summary>
     ///     Indicates if in Failure state.
     /// </summary>
     public bool IsFailure => this.state == ResultState.Failure;
-    
+
     /// <summary>
     ///     Indicates if in Success state.
     /// </summary>
     public bool IsSuccess => this.state == ResultState.Success;
-    
+
     /// <summary>
     ///     Projects from one value to another for each state of the Monad.
     /// </summary>
@@ -66,7 +68,7 @@ public readonly struct Result<T>
             return SystemFailure.FromException(exception).ToResult<TB>();
         }
     }
-    
+
     /// <summary>
     ///     Monadic bind operation.
     /// </summary>
@@ -86,7 +88,7 @@ public readonly struct Result<T>
             return SystemFailure.FromException(exception).ToResult<TB>();
         }
     }
-    
+
     /// <summary>
     ///     Monadic bind operation.
     /// </summary>
@@ -106,24 +108,24 @@ public readonly struct Result<T>
             return SystemFailure.FromException(exception).ToResult<TB>();
         }
     }
-    
+
     /// <inheritdoc />
     public override bool Equals(object obj) => obj is Result<T> result && this.Equals(result);
-    
+
     /// <summary>
     ///     Construct Result from Failure.
     /// </summary>
     /// <param name="failure">Failure value.</param>
     /// <returns>Failure Result.</returns>
     public static Result<T> FromFailure(IResultFailure failure) => new(failure);
-    
+
     /// <summary>
     ///     Construct Result from Success.
     /// </summary>
     /// <param name="value">Success value.</param>
     /// <returns>Success Result.</returns>
     public static Result<T> FromSuccess(T value) => new(value);
-    
+
     /// <summary>
     ///     Retrieves the Failure value. This method is unsafe and will throw an exception if in Success state.
     /// </summary>
@@ -132,16 +134,16 @@ public readonly struct Result<T>
     public IResultFailure GetFailureUnsafe() => this.IsFailure
         ? this.failure
         : throw new InvalidOperationException("Result is not in Failure state.");
-    
+
     /// <inheritdoc />
     public override int GetHashCode() => this.IsSuccess ? this.success.GetHashCode() : this.failure.GetHashCode();
-    
+
     /// <summary>
     ///     Retrieves the Success value. This method is unsafe and will throw an exception if in Failure state.
     /// </summary>
     /// <returns>The Success value if in Success state.</returns>
     public T GetSuccessUnsafe() => this.IfFailure(value => throw value.ToException());
-    
+
     /// <summary>
     ///     Invokes the action if Result is in the Failure state, otherwise nothing happens.
     /// </summary>
@@ -153,21 +155,21 @@ public readonly struct Result<T>
             action(this.failure);
         }
     }
-    
+
     /// <summary>
     ///     Returns the invocation result if the Result is in the Failure state, the success value otherwise.
     /// </summary>
     /// <param name="operation">Operation to invoke if the Result is in the Failure state.</param>
     /// <returns>The invocation result if the Result is in the Failure state, the success value otherwise.</returns>
     public T IfFailure(Func<IResultFailure, T> operation) => this.IsFailure ? operation(this.failure) : this.success;
-    
+
     /// <summary>
     ///     Returns the default value if the Result is in the Failure state, the success value otherwise.
     /// </summary>
     /// <param name="defaultValue">Value to return if in the Failure state.</param>
     /// <returns>The default value if the Result is in the Failure state, the success value otherwise.</returns>
     public T IfFailure(T defaultValue) => this.IsFailure ? defaultValue : this.success;
-    
+
     /// <summary>
     ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
     /// </summary>
@@ -179,10 +181,10 @@ public readonly struct Result<T>
         {
             action(this.success);
         }
-        
+
         return this;
     }
-    
+
     /// <summary>
     ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
     /// </summary>
@@ -194,10 +196,10 @@ public readonly struct Result<T>
         {
             await action(this.success).ConfigureAwait(false);
         }
-        
+
         return this;
     }
-    
+
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -217,7 +219,7 @@ public readonly struct Result<T>
             return SystemFailure.FromException(exception).ToResult<TB>();
         }
     }
-    
+
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -237,7 +239,7 @@ public readonly struct Result<T>
             return SystemFailure.FromException(exception).ToResult<TB>();
         }
     }
-    
+
     /// <summary>
     ///     Match the two states of the Result and return a non-null TB.
     /// </summary>
@@ -247,7 +249,7 @@ public readonly struct Result<T>
     /// <returns>A non-null TB.</returns>
     public TB Match<TB>(Func<T, TB> successOperation, Func<IResultFailure, TB> failureOperation) =>
         this.IsFailure ? failureOperation(this.failure) : successOperation(this.success);
-    
+
     /// <summary>
     ///     Match the two states of the Result.
     /// </summary>
@@ -264,7 +266,7 @@ public readonly struct Result<T>
             successOperation(this.success);
         }
     }
-    
+
     /// <summary>
     ///     Merge two results together. The merge operation will be used if they're both in a Success state.
     /// </summary>
@@ -278,21 +280,21 @@ public readonly struct Result<T>
         this.IsSuccess && other.IsSuccess
             ? Result<TDestination>.FromSuccess(merge(this.success, other.success))
             : Result<TDestination>.FromFailure(this.FetchFailure(other));
-    
+
     /// <summary>
     ///     Implicit operator from TA to Result of TA.
     /// </summary>
     /// <param name="value">Value to be converted.</param>
     /// <returns>Success.</returns>
     public static implicit operator Result<T>(T value) => FromSuccess(value);
-    
+
     /// <summary>
     ///     Verifies if both Results are either Failure or Success with the same values.
     /// </summary>
     /// <param name="other">Other Result to be compared with.</param>
     /// <returns>Whether both Results are equal.</returns>
     private bool Equals(Result<T> other) => this.EqualsFailure(other) && this.EqualsSuccess(other);
-    
+
     /// <summary>
     ///     Verifies if both failures are equal.
     /// </summary>
@@ -303,7 +305,7 @@ public readonly struct Result<T>
         this.IsFailure
             ? this.failure.Equals(other.failure)
             : other.IsSuccess;
-    
+
     /// <summary>
     ///     Verifies if both successes are equal.
     /// </summary>
@@ -313,10 +315,57 @@ public readonly struct Result<T>
         this.IsSuccess
             ? this.success.Equals(other.success)
             : other.IsFailure;
-    
+
     private IResultFailure FetchFailure<TSource>(Result<TSource> other) =>
         this.IsFailure ? this.failure : other.failure;
-    
+
+    /// <summary>
+    ///     Executes operations depending on the current state.
+    /// </summary>
+    /// <param name="successOperation">Success operation.</param>
+    /// <param name="failureOperation">Failure operation.</param>
+    public Result<T> Do(Action<T> successOperation, Action<IResultFailure> failureOperation)
+    {
+        if (this.IsFailure)
+        {
+            failureOperation(this.failure);
+        }
+        else
+        {
+            successOperation(this.success);
+        }
+
+        return this;
+    }
+
+    /// <summary>
+    ///     Executes an operation if success.
+    /// </summary>
+    /// <param name="successOperation">Success operation.</param>
+    public Result<T> DoWhenSuccess(Action<T> successOperation)
+    {
+        if (this.IsSuccess)
+        {
+            successOperation(this.success);
+        }
+
+        return this;
+    }
+
+    /// <summary>
+    ///     Executes an operation if failure.
+    /// </summary>
+    /// <param name="failureOperation">Failure operation.</param>
+    public Result<T> DoWhenFailure(Action<IResultFailure> failureOperation)
+    {
+        if (this.IsFailure)
+        {
+            failureOperation(this.failure);
+        }
+
+        return this;
+    }
+
     /// <summary>
     ///     Enum representing the state of Result.
     /// </summary>
