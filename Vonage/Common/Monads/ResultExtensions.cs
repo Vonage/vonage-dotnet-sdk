@@ -1,6 +1,8 @@
-﻿using System;
+﻿#region
+using System;
 using System.Threading.Tasks;
 using Vonage.Common.Failures;
+#endregion
 
 namespace Vonage.Common.Monads;
 
@@ -23,7 +25,7 @@ public static class ResultExtensions
         var result = await task.ConfigureAwait(false);
         return result.Bind(bind);
     }
-    
+
     /// <summary>
     ///     Monadic bind operation.
     /// </summary>
@@ -38,7 +40,7 @@ public static class ResultExtensions
         var result = await task.ConfigureAwait(false);
         return await result.BindAsync(bind).ConfigureAwait(false);
     }
-    
+
     /// <summary>
     ///     Returns the default value if the Result is in the Failure state, the success value otherwise.
     /// </summary>
@@ -51,7 +53,7 @@ public static class ResultExtensions
         var result = await task.ConfigureAwait(false);
         return result.IfFailure(defaultValue);
     }
-    
+
     /// <summary>
     ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
     /// </summary>
@@ -64,7 +66,7 @@ public static class ResultExtensions
         var result = await task.ConfigureAwait(false);
         return await result.IfSuccessAsync(action).ConfigureAwait(false);
     }
-    
+
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -79,7 +81,7 @@ public static class ResultExtensions
         var result = await task.ConfigureAwait(false);
         return result.Map(map);
     }
-    
+
     /// <summary>
     ///     Projects from one value to another.
     /// </summary>
@@ -94,7 +96,7 @@ public static class ResultExtensions
         var result = await task.ConfigureAwait(false);
         return await result.MapAsync(map).ConfigureAwait(false);
     }
-    
+
     /// <summary>
     ///     Match the two states of the Result and return a non-null TB.
     /// </summary>
@@ -109,5 +111,48 @@ public static class ResultExtensions
     {
         var result = await task.ConfigureAwait(false);
         return result.Match(successOperation, failureOperation);
+    }
+
+    /// <summary>
+    ///     Executes operations depending on the current state.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="successOperation">Success operation.</param>
+    /// <param name="failureOperation">Failure operation.</param>
+    /// <typeparam name="TSource">Source type.</typeparam>
+    /// <returns>The initial result.</returns>
+    public static async Task<Result<TSource>> Do<TSource>(this Task<Result<TSource>> task,
+        Action<TSource> successOperation, Action<IResultFailure> failureOperation)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.Do(successOperation, failureOperation);
+    }
+
+    /// <summary>
+    ///     Executes an operation if success.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="successOperation">Success operation.</param>
+    /// <typeparam name="TSource">Source type.</typeparam>
+    /// <returns>The initial result.</returns>
+    public static async Task<Result<TSource>> DoWhenSuccess<TSource>(this Task<Result<TSource>> task,
+        Action<TSource> successOperation)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.DoWhenSuccess(successOperation);
+    }
+
+    /// <summary>
+    ///     Executes an operation if failure.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="failureOperation">Failure operation.</param>
+    /// <typeparam name="TSource">Source type.</typeparam>
+    /// <returns>The initial result.</returns>
+    public static async Task<Result<TSource>> DoWhenFailure<TSource>(this Task<Result<TSource>> task,
+        Action<IResultFailure> failureOperation)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.DoWhenFailure(failureOperation);
     }
 }

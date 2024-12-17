@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common.Monads;
 
@@ -127,4 +129,64 @@ public class ResultExtensionsTest
         var result = await TestBehaviors.CreateSuccessAsync(10).Match(_ => "some", _ => "none");
         result.Should().Be("some");
     }
+
+    [Fact]
+    public async Task Do_ShouldExecuteSuccessAction_GivenStateIsSuccess()
+    {
+        var value = 0;
+        await TestBehaviors.CreateSuccessAsync(5).Do(success => value += success, _ => { });
+        value.Should().Be(5);
+    }
+
+    [Fact]
+    public async Task Do_ShouldExecuteFailureAction_GivenStateIsFailure()
+    {
+        var value = 0;
+        await TestBehaviors.CreateFailureAsync<int>().Do(_ => { }, _ => value = 10);
+        value.Should().Be(10);
+    }
+
+    [Fact]
+    public async Task Do_ShouldReturnInstance() =>
+        await TestBehaviors.CreateSuccessAsync(5).Do(_ => { }, _ => { }).Should().BeSuccessAsync(5);
+
+    [Fact]
+    public async Task DoWhenSuccess_ShouldExecuteAction_GivenStateIsSuccess()
+    {
+        var value = 0;
+        await TestBehaviors.CreateSuccessAsync(5).DoWhenSuccess(success => value += success);
+        value.Should().Be(5);
+    }
+
+    [Fact]
+    public async Task DoWhenSuccess_ShouldNotExecuteAction_GivenStateIsFailure()
+    {
+        var value = 0;
+        await TestBehaviors.CreateFailureAsync<int>().DoWhenSuccess(_ => value = 10);
+        value.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task DoWhenSuccess_ShouldReturnInstance() =>
+        await TestBehaviors.CreateSuccessAsync(5).DoWhenSuccess(_ => { }).Should().BeSuccessAsync(5);
+
+    [Fact]
+    public async Task DoWhenFailure_ShouldExecuteAction_GivenStateIsFailure()
+    {
+        var value = 0;
+        await TestBehaviors.CreateFailureAsync<int>().DoWhenFailure(_ => value = 10);
+        value.Should().Be(10);
+    }
+
+    [Fact]
+    public async Task DoWhenFailure_ShouldNotExecuteAction_GivenStateIsSuccess()
+    {
+        var value = 0;
+        await TestBehaviors.CreateSuccessAsync(5).DoWhenFailure(_ => value = 10);
+        value.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task DoWhenFailure_ShouldReturnInstance() =>
+        await TestBehaviors.CreateSuccessAsync(5).DoWhenFailure(_ => { }).Should().BeSuccessAsync(5);
 }
