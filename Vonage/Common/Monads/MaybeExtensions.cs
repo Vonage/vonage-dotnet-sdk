@@ -99,4 +99,43 @@ public static class MaybeExtensions
         var result = await task.ConfigureAwait(false);
         return result.IfNone(noneValue);
     }
+
+    /// <summary>
+    ///     Executes operations depending on the current state.
+    /// </summary>
+    /// <param name="task">Initial Maybe.</param>
+    /// <param name="someOperation">Some operation.</param>
+    /// <param name="noneOperation">None operation.</param>
+    /// <returns>Initial Maybe.</returns>
+    public static async Task<Maybe<TSource>> Do<TSource>(this Task<Maybe<TSource>> task, Action<TSource> someOperation,
+        Action noneOperation)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.Do(someOperation, noneOperation);
+    }
+
+    /// <summary>
+    ///     Executes an operation if some.
+    /// </summary>
+    /// <param name="task">Initial Maybe.</param>
+    /// <param name="someOperation">Some operation.</param>
+    /// <returns>Initial Maybe.</returns>
+    public static async Task<Maybe<TSource>> DoWhenSome<TSource>(this Task<Maybe<TSource>> task,
+        Action<TSource> someOperation)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.DoWhenSome(someOperation);
+    }
+
+    /// <summary>
+    ///     Executes an operation if none.
+    /// </summary>
+    /// <param name="task">Initial Maybe.</param>
+    /// <param name="noneOperation">None operation.</param>
+    /// <returns>Initial Maybe.</returns>
+    public static async Task<Maybe<TSource>> DoWhenNone<TSource>(this Task<Maybe<TSource>> task, Action noneOperation)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.DoWhenNone(noneOperation);
+    }
 }

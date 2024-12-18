@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Common.Monads.Exceptions;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common.Monads;
 
@@ -249,4 +251,64 @@ public class MaybeTest
     [Fact]
     public void ToString_ShouldReturnSome_GivenValueIsSome() => MaybeBehaviors.CreateSome(10).ToString().Should()
         .Be("Some(Vonage.Common.Monads.Maybe`1[System.Int32])");
+
+    [Fact]
+    public void Do_ShouldExecuteSomeAction_GivenStateIsSome()
+    {
+        var value = 0;
+        MaybeBehaviors.CreateSome(5).Do(success => value += success, () => { });
+        value.Should().Be(5);
+    }
+
+    [Fact]
+    public void Do_ShouldExecuteNoneAction_GivenStateIsNone()
+    {
+        var value = 0;
+        MaybeBehaviors.CreateNone<int>().Do(_ => { }, () => value = 10);
+        value.Should().Be(10);
+    }
+
+    [Fact]
+    public void Do_ShouldReturnInstance() =>
+        MaybeBehaviors.CreateSome(5).Do(_ => { }, () => { }).Should().BeSome(5);
+
+    [Fact]
+    public void DoWhenSome_ShouldExecuteAction_GivenStateIsSome()
+    {
+        var value = 0;
+        MaybeBehaviors.CreateSome(5).DoWhenSome(success => value += success);
+        value.Should().Be(5);
+    }
+
+    [Fact]
+    public void DoWhenSome_ShouldNotExecuteAction_GivenStateIsNone()
+    {
+        var value = 0;
+        MaybeBehaviors.CreateNone<int>().DoWhenSome(_ => value = 10);
+        value.Should().Be(0);
+    }
+
+    [Fact]
+    public void DoWhenSome_ShouldReturnInstance() =>
+        MaybeBehaviors.CreateSome(5).DoWhenSome(_ => { }).Should().BeSome(5);
+
+    [Fact]
+    public void DoWhenNone_ShouldExecuteAction_GivenStateIsNone()
+    {
+        var value = 0;
+        MaybeBehaviors.CreateNone<int>().DoWhenNone(() => value = 10);
+        value.Should().Be(10);
+    }
+
+    [Fact]
+    public void DoWhenNone_ShouldNotExecuteAction_GivenStateIsNone()
+    {
+        var value = 0;
+        MaybeBehaviors.CreateSome(5).DoWhenNone(() => value = 10);
+        value.Should().Be(0);
+    }
+
+    [Fact]
+    public void DoWhenFailure_ShouldReturnInstance() =>
+        MaybeBehaviors.CreateSome(5).DoWhenNone(() => { }).Should().BeSome(5);
 }

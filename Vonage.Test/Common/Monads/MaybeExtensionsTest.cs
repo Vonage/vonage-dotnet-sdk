@@ -93,4 +93,73 @@ public class MaybeExtensionsTest
         var result = await MaybeBehaviors.CreateSomeAsync(10).IfNone(5);
         result.Should().Be(10);
     }
+
+    [Fact]
+    public async Task Do_ShouldExecuteSomeAction_GivenStateIsSome()
+    {
+        var value = 0;
+        await MaybeBehaviors.CreateSomeAsync(5).Do(success => value += success, () => { });
+        value.Should().Be(5);
+    }
+
+    [Fact]
+    public async Task Do_ShouldExecuteNoneAction_GivenStateIsNone()
+    {
+        var value = 0;
+        await MaybeBehaviors.CreateNoneAsync<int>().Do(_ => { }, () => value = 10);
+        value.Should().Be(10);
+    }
+
+    [Fact]
+    public async Task Do_ShouldReturnInstance()
+    {
+        var result = await MaybeBehaviors.CreateSomeAsync(5).Do(_ => { }, () => { });
+        result.Should().BeSome(5);
+    }
+
+    [Fact]
+    public async Task DoWhenSome_ShouldExecuteAction_GivenStateIsSome()
+    {
+        var value = 0;
+        await MaybeBehaviors.CreateSomeAsync(5).DoWhenSome(success => value += success);
+        value.Should().Be(5);
+    }
+
+    [Fact]
+    public async Task DoWhenSome_ShouldNotExecuteAction_GivenStateIsNone()
+    {
+        var value = 0;
+        await MaybeBehaviors.CreateNoneAsync<int>().DoWhenSome(_ => value = 10);
+        value.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task DoWhenSome_ShouldReturnInstance()
+    {
+        var result = await MaybeBehaviors.CreateSomeAsync(5).DoWhenSome(_ => { });
+        result.Should().BeSome(5);
+    }
+
+    [Fact]
+    public async Task DoWhenNone_ShouldExecuteAction_GivenStateIsNone()
+    {
+        var value = 0;
+        await MaybeBehaviors.CreateNoneAsync<int>().DoWhenNone(() => value = 10);
+        value.Should().Be(10);
+    }
+
+    [Fact]
+    public async Task DoWhenNone_ShouldNotExecuteAction_GivenStateIsNone()
+    {
+        var value = 0;
+        await MaybeBehaviors.CreateSomeAsync(5).DoWhenNone(() => value = 10);
+        value.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task DoWhenNone_ShouldReturnInstance()
+    {
+        var result = await MaybeBehaviors.CreateSomeAsync(5).DoWhenNone(() => { });
+        result.Should().BeSome(5);
+    }
 }
