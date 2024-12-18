@@ -1,4 +1,27 @@
 # Changelog
+## [v7.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.14.0) (2024-12-18)
+
+### Documentation
+
+- Generate changelog for v7.13.1 ([76f0e20](https://github.com/Vonage/vonage-dotnet-sdk/commit/76f0e2037e17d2a8e29ddc1eafd69d2d4e3e61d0))
+
+- Bump version to v7.14.0 ([d79afae](https://github.com/Vonage/vonage-dotnet-sdk/commit/d79afae3aee79f92f50357eaaa1d2814a8f329b8))
+
+
+### Features
+
+- Add Do, DoWhenSuccess and DoWhenFailure on Result ([2af8a0b](https://github.com/Vonage/vonage-dotnet-sdk/commit/2af8a0befa5089a92a76c8e63814b3af7333cd92))
+
+- Add async extensions for Do, DoWhenSuccess and DoWhenFailure on Result ([60e14a1](https://github.com/Vonage/vonage-dotnet-sdk/commit/60e14a1f5a08451deca99ebefdd351a6b5d4a1f2))
+
+- Add Do, DoWhenSome and DoWhenNone for Maybe, as well as async extensions ([4c1040c](https://github.com/Vonage/vonage-dotnet-sdk/commit/4c1040c9a7fdee62ec4856b397d3a412795e4b34))
+
+
+### Refactoring
+
+- Reorganize tests for Monads for better navigation ([d298f50](https://github.com/Vonage/vonage-dotnet-sdk/commit/d298f507a71f177831c39667adac3a97c550743c))
+
+
 ## [v7.13.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.13.1) (2024-12-16)
 
 ### Documentation
