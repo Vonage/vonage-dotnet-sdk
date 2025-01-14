@@ -1,4 +1,18 @@
 # Changelog
+## [v7.14.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.14.1) (2025-01-14)
+
+### Documentation
+
+- Generate changelog for v7.14.0 ([cf5f12c](https://github.com/Vonage/vonage-dotnet-sdk/commit/cf5f12cc64ca5abe49780fd35d07aa827bac4717))
+
+- Bump version to v7.14.1 ([607f099](https://github.com/Vonage/vonage-dotnet-sdk/commit/607f0997a54a59f516ca5e39bc11e0d3b4c8fae5))
+
+
+### Features
+
+- Make RealTimeData obsolete in NI ([7f6c25f](https://github.com/Vonage/vonage-dotnet-sdk/commit/7f6c25ff63fe559e963f2e9594e79e7c17ef7458))
+
+
 ## [v7.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.14.0) (2024-12-18)
 
 ### Documentation
