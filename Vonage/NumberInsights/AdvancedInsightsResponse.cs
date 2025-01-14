@@ -1,5 +1,8 @@
+#region
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+#endregion
 
 namespace Vonage.NumberInsights;
 
@@ -8,13 +11,13 @@ public class AdvancedInsightsResponse : StandardInsightResponse
     /// <summary>
     /// Shows if all information about a phone number has been returned.
     /// </summary>
-    [JsonProperty("lookup_outcome")]        
+    [JsonProperty("lookup_outcome")]
     public int LookupOutcome { get; set; }
 
     /// <summary>
     /// Shows if all information about a phone number has been returned.
     /// </summary>
-    [JsonProperty("lookup_outcome_message")]        
+    [JsonProperty("lookup_outcome_message")]
     public string LookupOutcomeMessage { get; set; }
 
     /// <summary>
@@ -40,5 +43,6 @@ public class AdvancedInsightsResponse : StandardInsightResponse
     /// Real time data about the number
     /// </summary>
     [JsonProperty("real_time_data")]
+    [Obsolete("Redundant property as functionality already covered by ValidNumber and Reachable.")]
     public RealTimeData RealTimeData { get; set; }
 }

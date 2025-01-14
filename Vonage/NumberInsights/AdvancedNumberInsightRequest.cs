@@ -1,4 +1,7 @@
+#region
+using System;
 using Newtonsoft.Json;
+#endregion
 
 namespace Vonage.NumberInsights;
 
@@ -10,5 +13,7 @@ public class AdvancedNumberInsightRequest : StandardNumberInsightRequest
     [JsonProperty("ip")]
     public string Ip { get; set; }
 
-    [JsonProperty("real_time_data")] public bool RealTimeData { get; set; }
+    [JsonProperty("real_time_data")]
+    [Obsolete("Redundant property.")]
+    public bool RealTimeData { get; set; }
 }
