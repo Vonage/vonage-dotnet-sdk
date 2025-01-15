@@ -1,3 +1,9 @@
 {
   "settingsInheritedFrom": "Vonage/whitesource-config@main"
+   "ignore": [
+      {
+        "path": "Vonage.Test/**",
+        "comment": "Ignore test projects"
+      }
+    ]
 }
