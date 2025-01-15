@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sip.InitiateCall;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sip.InitiateCall;
 
@@ -22,7 +24,7 @@ public class E2ETest : E2EBase
         await this.Helper.VonageClient.VideoClient.SipClient.InitiateCallAsync(InitiateCallRequest.Build()
                 .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                 .WithSessionId("b40ef09b-3811-4726-b508-e41a0f96c68f")
-                .WithToken("78d335fa-323d-0114-9c3d-d6f0d48968cf")
+                .WithToken("123")
                 .WithSipUri(new Uri("sip:user@sip.partner.com;transport=tls"))
                 .EnableVideo()
                 .EnableForceMute()
@@ -42,7 +44,7 @@ public class E2ETest : E2EBase
         await this.Helper.VonageClient.VideoClient.SipClient.InitiateCallAsync(InitiateCallRequest.Build()
                 .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                 .WithSessionId("b40ef09b-3811-4726-b508-e41a0f96c68f")
-                .WithToken("78d335fa-323d-0114-9c3d-d6f0d48968cf")
+                .WithToken("123")
                 .WithSipUri(new Uri("sip:user@sip.partner.com;transport=tls"))
                 .Create())
             .Should()
