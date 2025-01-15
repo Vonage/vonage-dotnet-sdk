@@ -42,7 +42,7 @@ public class SerializationTest
             .Build()
             .WithApplicationId(new Guid("e3e78a75-221d-41ec-8846-25ae3db1943a"))
             .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
-            .WithToken("830c9c9d-d09e-4513-9cc8-29c90a760248")
+            .WithToken("123")
             .Create();
 
     internal static Result<StartRequest> BuildRequestWithOptionalValues() =>
@@ -50,7 +50,7 @@ public class SerializationTest
             .Build()
             .WithApplicationId(new Guid("e3e78a75-221d-41ec-8846-25ae3db1943a"))
             .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
-            .WithToken("830c9c9d-d09e-4513-9cc8-29c90a760248")
+            .WithToken("123")
             .WithMaxDuration(10000)
             .WithLanguage("fr-FR")
             .WithStatusCallbackUrl(new Uri("https://example.com"))
