@@ -1,4 +1,49 @@
 # Changelog
+## [v7.15.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.15.0) (2025-02-05)
+
+### Bug Fixes
+
+- Address mend violation (non-critical: fake token in test case) ([5ac1718](https://github.com/Vonage/vonage-dotnet-sdk/commit/5ac1718bb71c8115266e20f8bf09c0c119c88384))
+
+- Address mend violation (non-critical: fake token in test case) ([71ba6b1](https://github.com/Vonage/vonage-dotnet-sdk/commit/71ba6b1907c205dc614f5387cf17e405ddced5ca))
+
+- Update whitesource configuration to exclude test projects ([e9f95e6](https://github.com/Vonage/vonage-dotnet-sdk/commit/e9f95e626b417843993c8c341a8812471aa01956))
+
+- Disable IaC in whitesource (mend) ([d1fd3d9](https://github.com/Vonage/vonage-dotnet-sdk/commit/d1fd3d9448bce91b89109771b578f7e37dd908ba))
+
+
+### Documentation
+
+- Generate changelog for v7.14.1 ([bd7d2b5](https://github.com/Vonage/vonage-dotnet-sdk/commit/bd7d2b587b8cc8ee0537fb3fe6bfa474c06990de))
+
+- Bump version to v7.15.0 ([9903bd5](https://github.com/Vonage/vonage-dotnet-sdk/commit/9903bd5a26b9abca2160e19d5252daf7ca116928))
+
+
+### Features
+
+- Block FluentAssertions version to v7.0.0 to prevent upgrade to v8.0.0 (paid version) ([b0a7ec7](https://github.com/Vonage/vonage-dotnet-sdk/commit/b0a7ec76d5434912cd7ebb209aab338f265cc3cf))
+
+- Add uri validation on Voice GetRecording ([240cf85](https://github.com/Vonage/vonage-dotnet-sdk/commit/240cf85c5b3b682aa9e991f061c50af0418c950c))
+
+
+### Reverts
+
+- Revert "fix: update whitesource configuration to exclude test projects"
+
+This reverts commit e9f95e626b417843993c8c341a8812471aa01956.
+ ([f664137](https://github.com/Vonage/vonage-dotnet-sdk/commit/f664137197b22e6d4465acce49251aa211a4c741))
+
+- Revert "fix: address mend violation (non-critical: fake token in test case)"
+
+This reverts commit 71ba6b1907c205dc614f5387cf17e405ddced5ca.
+ ([92b95a2](https://github.com/Vonage/vonage-dotnet-sdk/commit/92b95a21cea0d7b477c25a1bb167a2c72959a126))
+
+- Revert "fix: address mend violation (non-critical: fake token in test case)"
+
+This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
+ ([0f403ca](https://github.com/Vonage/vonage-dotnet-sdk/commit/0f403ca1ad796dfa94c43bf96cd65723be7a40f6))
+
+
 ## [v7.14.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.14.1) (2025-01-14)
 
 ### Documentation
