@@ -182,17 +182,35 @@ public class VoiceTests : TestBase
     [Fact]
     public async Task GetRecordingsAsync()
     {
-        var expectedUri = this.fixture.Create<Uri>().ToString();
+        var expectedUri = "https://api.nexmo.com/v1/files/aaaaaaaa-bbbb-cccc-dddd-0123456789ab";
         var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         this.Setup(expectedUri, expectedResponse);
         var response = await this.client.VoiceClient.GetRecordingAsync(expectedUri);
         Assert.Equal(expectedResponse, response.ResultStream);
     }
 
+    [Theory]
+    [InlineData("https://example.com/v1/abc123")]
+    [InlineData("http://api.sample.com/v1/abc123")]
+    public async Task GetRecordingsAsync_ShouldThrowException_GivenDomainIsRejected(string invalidUri)
+    {
+        var act = () => this.client.VoiceClient.GetRecordingAsync(invalidUri);
+        await act.Should().ThrowAsync<VonageException>().WithMessage("Invalid uri");
+    }
+
+    [Theory]
+    [InlineData("not a url")]
+    [InlineData("abc123")]
+    public async Task GetRecordingsAsync_ShouldThrowException_GivenUriIsInvalid(string invalidUri)
+    {
+        var act = () => this.client.VoiceClient.GetRecordingAsync(invalidUri);
+        await act.Should().ThrowAsync<VonageException>().WithMessage("Invalid uri");
+    }
+
     [Fact]
     public async Task GetRecordingsAsyncWithCredentials()
     {
-        var expectedUri = this.fixture.Create<Uri>().ToString();
+        var expectedUri = "https://api.nexmo.com/v1/files/aaaaaaaa-bbbb-cccc-dddd-0123456789ab";
         var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         this.Setup(expectedUri, expectedResponse);
         var response =
