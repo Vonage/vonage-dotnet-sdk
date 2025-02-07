@@ -1,5 +1,4 @@
 ﻿using System;
-using Epoch.net;
 using FluentAssertions;
 using Xunit;
 using TimeProvider = Vonage.Common.TimeProvider;
@@ -15,7 +14,7 @@ public class TimeProviderTest
     [Fact]
     public void Epoch_ShouldReturnCurrentEpoch()
     {
-        var reference = EpochTime.Now.Epoch;
+        var reference = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         var now = new TimeProvider().Epoch;
         var delay = now - reference;
         delay.Should().BeGreaterOrEqualTo(0).And.BeLessOrEqualTo(100000);
