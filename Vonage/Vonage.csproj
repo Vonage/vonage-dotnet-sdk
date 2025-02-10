@@ -53,7 +53,6 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Epoch.net" Version="4.1.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0"/>
@@ -73,7 +72,6 @@
     <PackageReference Include="System.IO.Abstractions" Version="21.1.7"/>
     <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
     <PackageReference Include="System.Text.Json" Version="9.0.0"/>
-    <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.1.2"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="VonageLogo_Symbol_Black.png">
