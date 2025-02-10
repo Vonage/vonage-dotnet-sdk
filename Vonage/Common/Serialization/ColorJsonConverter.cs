@@ -2,8 +2,8 @@
 using System.Drawing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Handy.DotNETCoreCompatibility.ColourTranslations;
 using Vonage.Common.Monads;
-using Vonage.Common.Serialization.ColorTranslator;
 
 namespace Vonage.Common.Serialization;
 
