@@ -2,6 +2,6 @@
   "type": "phone",
   "phone": "447009000000",
   "insights": [
-    "fraud_score"
+    "sim_swap"
   ]
 }

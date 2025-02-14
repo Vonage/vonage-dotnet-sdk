@@ -1,28 +1,29 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.NumberInsightV2.FraudCheck;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberInsightsV2.FraudCheck;
 
 [Trait("Category", "Request")]
 public class RequestBuilderTest
 {
-    private const string FraudScoreInsight = "fraud_score";
     private const string SimSwapInsight = "sim_swap";
     private const string ValidPhone = "447009000000";
 
     [Fact]
-    public void Build_ShouldAddFraudScoreInsight() =>
+    public void Build_ShouldHaveSimSwapInsight_GivenFraudScore() =>
         BuildValidRequest()
             .WithFraudScore()
             .Create()
             .Map(request => request.Insights)
             .Should()
-            .BeSuccess(insights => insights.Should().BeEquivalentTo(FraudScoreInsight));
+            .BeSuccess(insights => insights.Should().BeEquivalentTo(SimSwapInsight));
 
     [Fact]
-    public void Build_ShouldAddSimSwapInsight() =>
+    public void Build_ShouldHaveSimSwapInsight_GivenSimSwap() =>
         BuildValidRequest()
             .WithSimSwap()
             .Create()
@@ -31,7 +32,7 @@ public class RequestBuilderTest
             .BeSuccess(insights => insights.Should().BeEquivalentTo(SimSwapInsight));
 
     [Fact]
-    public void Build_ShouldNotDuplicateInsights() =>
+    public void Build_ShouldHaveSimSwapInsight_GivenDuplicateInsights() =>
         BuildValidRequest()
             .WithFraudScore()
             .WithFraudScore()
@@ -40,14 +41,15 @@ public class RequestBuilderTest
             .Create()
             .Map(request => request.Insights)
             .Should()
-            .BeSuccess(insights => insights.Should().BeEquivalentTo(FraudScoreInsight, SimSwapInsight));
+            .BeSuccess(insights => insights.Should().BeEquivalentTo(SimSwapInsight));
 
     [Fact]
-    public void Build_ShouldReturnFailure_GivenNoInsightHasBeenSelected() =>
+    public void Build_ShouldHaveSimSwapInsight() =>
         BuildValidRequest()
             .Create()
+            .Map(request => request.Insights)
             .Should()
-            .BeParsingFailure("Insights cannot be empty.");
+            .BeSuccess(insights => insights.Should().BeEquivalentTo(SimSwapInsight));
 
     [Theory]
     [InlineData("")]
