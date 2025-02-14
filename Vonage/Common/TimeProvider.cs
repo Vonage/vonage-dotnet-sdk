@@ -1,5 +1,4 @@
 ﻿using System;
-using Epoch.net;
 
 namespace Vonage.Common;
 
@@ -7,7 +6,7 @@ namespace Vonage.Common;
 public class TimeProvider : ITimeProvider
 {
     /// <inheritdoc />
-    public int Epoch => EpochTime.Now.Epoch;
+    public long Epoch => DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
     /// <inheritdoc />
     public DateTime UtcNow => DateTime.UtcNow;
