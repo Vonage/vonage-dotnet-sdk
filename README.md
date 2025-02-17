@@ -17,6 +17,7 @@ a [Vonage account](https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_me
 first.
 
 * [Installation](#installation)
+    * [Next major version v8.0.0](#next-major-version-v800)
     * [Migration guides](#migration-guides)
         * [Upgrading from v6.x.x to v7.0.0](#upgrading-from-v6xx-to-v700)
         * [Upgrading from v5.x.x to v6.0.0](#upgrading-from-v5xx-to-v600)
@@ -41,6 +42,18 @@ first.
 * [Licence](#license)
 
 ## Installation
+
+### Next major version v8.0.0
+
+#### Removing Obsolete APIs and members
+
+* Meetings API
+* Proactive Connect API
+* `fraud_score` in NumberInsights V2
+
+#### Unnecessary libraries
+
+* `Handy.DotNETCore-Compatibility.ColorTranslations` will get removed, as it was only use on Meetings API.
 
 ### Migration guides
 
