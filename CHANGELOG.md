@@ -1,4 +1,31 @@
 # Changelog
+## [v7.16.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.16.0) (2025-02-17)
+
+### Dependencies upgrade
+
+- Remove unnecessary dependencies (#600) ([f4ece67](https://github.com/Vonage/vonage-dotnet-sdk/commit/f4ece670500dc5311bb94e6a59eedc90b063ce41))
+
+
+### Documentation
+
+- Generate changelog for v7.15.0 ([d0fde03](https://github.com/Vonage/vonage-dotnet-sdk/commit/d0fde0372bbde08748a1086bb4251fbec46e167b))
+
+- Update readme for v8.0.0 changes ([95c5c4d](https://github.com/Vonage/vonage-dotnet-sdk/commit/95c5c4d65b5e5b0e8db903520f68b6a0a6de8338))
+
+- Bump version to v7.16.0 ([d6ecd99](https://github.com/Vonage/vonage-dotnet-sdk/commit/d6ecd99430f66f5335763db994089ac6266fff85))
+
+
+### Features
+
+- Remove fraud score from NIv2 ([47591b0](https://github.com/Vonage/vonage-dotnet-sdk/commit/47591b0016c319ab5d9530e7162ee7534c9ce8ca))
+
+
+### Merges
+
+- Merge remote-tracking branch 'origin/main'
+ ([80a94ff](https://github.com/Vonage/vonage-dotnet-sdk/commit/80a94ffa6bb923611165add66524cb1913f1bd3f))
+
+
 ## [v7.15.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.15.0) (2025-02-05)
 
 ### Bug Fixes
