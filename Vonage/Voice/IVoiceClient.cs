@@ -1,7 +1,10 @@
+#region
+using System;
 using System.Threading.Tasks;
 using Vonage.Common;
 using Vonage.Common.Exceptions;
 using Vonage.Request;
+#endregion
 
 namespace Vonage.Voice;
 
@@ -95,4 +98,23 @@ public interface IVoiceClient
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
     Task<bool> UpdateCallAsync(string id, CallEditCommand command, Credentials creds = null);
+
+    /// <summary>
+    ///     Register a listener to receive asynchronous DTMF inputs from a call. This is only applicable to Input NCCO events
+    ///     with the mode set to asynchronous. The payload delivered to this URL will be an Input webhook event with a single
+    ///     DTMF digit every time the callee enters DTMF into the call.
+    /// </summary>
+    /// <param name="uuid">UUID of the Call Leg</param>
+    /// <param name="eventUrl">The URL (wrapped in an array) to send DTMF events to.</param>
+    /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+    /// <returns></returns>
+    Task SubscribeRealTimeDtmf(string uuid, Uri eventUrl, Credentials creds = null);
+
+    /// <summary>
+    ///     Removes the registered DTMF listener.
+    /// </summary>
+    /// <param name="uuid">UUID of the Call Leg</param>
+    /// <param name="creds">(Optional) Overridden credentials for only this request</param>
+    /// <returns></returns>
+    Task UnsubscribeRealTimeDtmf(string uuid, Credentials creds = null);
 }

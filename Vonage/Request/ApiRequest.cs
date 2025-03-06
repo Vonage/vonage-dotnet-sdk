@@ -324,6 +324,11 @@ internal partial class ApiRequest
             value => JsonConvert.SerializeObject(value, VonageSerialization.SerializerSettings),
             JsonConvert.DeserializeObject<T>);
 
+    internal Task DoRequestWithJsonContentAsync(HttpMethod method, Uri uri, object payload,
+        AuthType authType) =>
+        this.DoRequestWithJsonContentAsync(method, uri, payload, authType,
+            value => JsonConvert.SerializeObject(value, VonageSerialization.SerializerSettings));
+
     internal static Uri GetBaseUri(UriType uriType, Configuration configuration, string url = null) =>
         string.IsNullOrEmpty(url)
             ? BuildBaseUri(uriType, configuration)
@@ -361,6 +366,35 @@ internal partial class ApiRequest
         req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
         var jsonResponse = (await this.SendHttpRequestAsync(req).ConfigureAwait(false)).JsonResponse;
         return payloadDeserialization(jsonResponse);
+    }
+
+    internal async Task DoRequestWithJsonContentAsync(HttpMethod method, Uri uri, object payload,
+        AuthType authType, Func<object, string> payloadSerialization)
+    {
+        var req = this.BuildMessage(uri, method);
+        switch (authType)
+        {
+            case AuthType.Basic:
+                req.Headers.Authorization = this.BuildBasicAuth();
+                break;
+            case AuthType.Bearer:
+                req.Headers.Authorization = this.BuildBearerAuth();
+                break;
+            case AuthType.Query:
+                var sb = this.BuildQueryString(new Dictionary<string, string>());
+                req.RequestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
+                break;
+            default:
+                throw new ArgumentException("Unknown Auth Type set for function");
+        }
+
+        var json = payloadSerialization(payload);
+        this.logger.LogDebug("Request URI: {Uri}", uri);
+        this.logger.LogDebug("JSON Payload: {Json}", json);
+        var data = Encoding.UTF8.GetBytes(json);
+        req.Content = new ByteArrayContent(data);
+        req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        await this.SendHttpRequestAsync(req).ConfigureAwait(false);
     }
 }
 

@@ -1,5 +1,6 @@
 #region
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -145,6 +146,25 @@ public class VoiceClient : IVoiceClient
             ).ConfigureAwait(false);
         return true;
     }
+
+    /// <inheritdoc />
+    public async Task SubscribeRealTimeDtmf(string uuid, Uri eventUrl, Credentials creds = null) =>
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoRequestWithJsonContentAsync(
+                HttpMethod.Put,
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"{CallsEndpoint}/{uuid}/input/dtmf"),
+                new SubscribeRealTimeDtmfCommand([eventUrl]),
+                AuthType.Bearer
+            ).ConfigureAwait(false);
+
+    /// <inheritdoc />
+    public async Task UnsubscribeRealTimeDtmf(string uuid, Credentials creds = null) =>
+        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoDeleteRequestWithUrlContentAsync(
+                ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, $"{CallsEndpoint}/{uuid}/input/dtmf"),
+                new Dictionary<string, string>(),
+                AuthType.Bearer
+            ).ConfigureAwait(false);
 
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.credentials;
 

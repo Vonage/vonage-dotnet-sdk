@@ -548,6 +548,20 @@ public class VoiceTests : TestBase
         Assert.True(await this.client.VoiceClient.UpdateCallAsync(uuid, request));
     }
 
+    [Fact]
+    public async Task SubscribeRealTimeDtmf()
+    {
+        this.Setup($"{BaseUri}/ID-123/input/dtmf", Maybe<string>.None, this.GetRequestJson());
+        await this.client.VoiceClient.SubscribeRealTimeDtmf("ID-123", new Uri("https://example.com/ivr"));
+    }
+
+    [Fact]
+    public async Task UnsubscribeRealTimeDtmf()
+    {
+        this.Setup($"{BaseUri}/ID-123/input/dtmf", Maybe<string>.None, string.Empty);
+        await this.client.VoiceClient.UnsubscribeRealTimeDtmf("ID-123");
+    }
+
     private VonageClient BuildClientWithBasicAuthentication() =>
         new VonageClient(this.BuildCredentialsForBasicAuthentication());
 
