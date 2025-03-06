@@ -1,4 +1,22 @@
 # Changelog
+## [v7.17.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.0) (2025-03-06)
+
+### Documentation
+
+- Generate changelog for v7.16.0 ([8629ef5](https://github.com/Vonage/vonage-dotnet-sdk/commit/8629ef5f06c0dad8c23386b0c4bbdf0842e4ef20))
+
+- Bump version to v7.17.0 ([b57f5bf](https://github.com/Vonage/vonage-dotnet-sdk/commit/b57f5bf2ecb06058e1b632ec46983dff70255436))
+
+
+### Features
+
+- Add 'mode' to Voice MultiInputAction ([1457317](https://github.com/Vonage/vonage-dotnet-sdk/commit/14573178ec08554a214871f84295aa7fdb047c5b))
+
+- Implement subscribe and unsubscribe to real-time dtmf events ([b5d4154](https://github.com/Vonage/vonage-dotnet-sdk/commit/b5d4154edbf1f6d310e385b3d6991d80a03f9ea8))
+
+- Add transcription settings on Record action ([0ce645c](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ce645cff7efa25f9856aa5ad2f97faba5886c2c))
+
+
 ## [v7.16.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.16.0) (2025-02-17)
 
 ### Dependencies upgrade
