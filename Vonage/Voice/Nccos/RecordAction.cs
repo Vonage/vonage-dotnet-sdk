@@ -1,11 +1,25 @@
-﻿using System.Runtime.Serialization;
+﻿#region
+using System.Net.Http;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.Voice.Nccos;
 
 public class RecordAction : NccoAction
 {
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum AudioFormat
+    {
+        [EnumMember(Value = "mp3")] Mp3 = 1,
+
+        [EnumMember(Value = "wav")] Wav = 2,
+
+        [EnumMember(Value = "ogg")] Ogg = 3,
+    }
+
     [JsonProperty("action", Order = 0)] public override ActionType Action => ActionType.Record;
 
     /// <summary>
@@ -72,13 +86,41 @@ public class RecordAction : NccoAction
     [JsonProperty("timeOut", Order = 6)]
     public string TimeOut { get; set; }
 
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum AudioFormat
+    /// <summary>
+    ///     Set to an empty object, {}, to use the default values or customize with Transcription Settings
+    /// </summary>
+    [JsonProperty("transcription", Order = 11)]
+    public TranscriptionSettings Transcription { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public class TranscriptionSettings
     {
-        [EnumMember(Value = "mp3")] Mp3 = 1,
+        /// <summary>
+        ///     The language (BCP-47 format) for the recording you're transcribing. This currently supports the same languages as
+        ///     Automatic Speech Recording, and a list is available here.
+        /// </summary>
+        [JsonProperty("language", Order = 0)]
+        public string Language { get; set; }
 
-        [EnumMember(Value = "wav")] Wav = 2,
+        /// <summary>
+        ///     The URL to the webhook endpoint that is called asynchronously when a transcription is finished.
+        /// </summary>
+        [JsonProperty("eventUrl", Order = 1)]
+        public string EventUrl { get; set; }
 
-        [EnumMember(Value = "ogg")] Ogg = 3,
+        /// <summary>
+        ///     The HTTP method Vonage uses to make the request to eventUrl. The default value is POST.
+        /// </summary>
+        [JsonProperty("eventMethod", Order = 2)]
+        [JsonConverter(typeof(NewtonsoftHttpMethodConverter))]
+        public HttpMethod EventMethod { get; set; } = HttpMethod.Post;
+
+        /// <summary>
+        ///     Perform sentiment analysis on the call recording transcription segments. Will return a value between -1 (negative
+        ///     sentiment) and 1 (positive sentiment) for each segment. Defaults to false.
+        /// </summary>
+        [JsonProperty("sentimentAnalysis", Order = 3)]
+        public bool SentimentAnalysis { get; set; }
     }
 }

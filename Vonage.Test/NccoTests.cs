@@ -1,5 +1,6 @@
 ﻿#region
 using System.Collections.Generic;
+using System.Net.Http;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Vonage.Serialization;
@@ -172,6 +173,13 @@ public class NccoTests : TestBase
             BeepStart = true,
             EventUrl = new[] {"https://example.com/record", "https://test.com/record"},
             EventMethod = "POST",
+            Transcription = new RecordAction.TranscriptionSettings
+            {
+                EventMethod = HttpMethod.Get,
+                EventUrl = "https://example.com",
+                Language = "en-US",
+                SentimentAnalysis = true,
+            },
         };
         var ncco = new Ncco(recordAction);
         var actualJson = ncco.ToString();

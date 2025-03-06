@@ -12,6 +12,12 @@
       "https://example.com/record",
       "https://test.com/record"
     ],
-    "eventMethod": "POST"
+    "eventMethod": "POST",
+    "transcription": {
+      "language": "en-US",
+      "eventUrl": "https://example.com",
+      "eventMethod": "GET",
+      "sentimentAnalysis": true
+    }
   }
 ]
