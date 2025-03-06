@@ -133,6 +133,43 @@ public class VoiceTests : TestBase
     }
 
     [Fact]
+    public async Task CreateCallWithAsynchronousMode()
+    {
+        this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
+        var response = await this.client.VoiceClient.CreateCallAsync(new CallCommand
+        {
+            To = new Endpoint[]
+            {
+                new PhoneEndpoint
+                {
+                    Number = "14155550100",
+                    DtmfAnswer = "p*123#",
+                },
+            },
+            From = new PhoneEndpoint
+            {
+                Number = "14155550100",
+                DtmfAnswer = "p*123#",
+            },
+            AnswerUrl = new[] {"https://example.com/answer"},
+            AnswerMethod = "GET",
+            EventUrl = new[] {"https://example.com/event"},
+            EventMethod = "POST",
+            MachineDetection = "continue",
+            LengthTimer = 1,
+            RingingTimer = 1,
+            AdvancedMachineDetection = new AdvancedMachineDetectionProperties(
+                AdvancedMachineDetectionProperties.MachineDetectionBehavior.Continue,
+                AdvancedMachineDetectionProperties.MachineDetectionMode.Detect, 45),
+            Ncco = new Ncco(new MultiInputAction {Mode = MultiInputAction.InputMode.Asynchronous}),
+        });
+        Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+        Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
+        Assert.Equal("outbound", response.Direction);
+        Assert.Equal("started", response.Status);
+    }
+
+    [Fact]
     public async Task CreateCallWithStringParametersAsync()
     {
         this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());

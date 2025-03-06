@@ -1,12 +1,28 @@
 ﻿#region
 using System.Collections.Generic;
+using System.ComponentModel;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 #endregion
 
 namespace Vonage.Voice.Nccos;
 
 public class MultiInputAction : NccoAction
 {
+    /// <summary>
+    ///     The input processing mode.
+    /// </summary>
+    public enum InputMode
+    {
+        /// <summary>
+        /// </summary>
+        [Description("synchronous")] Synchronous,
+
+        /// <summary>
+        /// </summary>
+        [Description("asynchronous")] Asynchronous,
+    }
+
     public override ActionType Action => ActionType.Input;
 
     /// <summary>
@@ -39,4 +55,14 @@ public class MultiInputAction : NccoAction
     /// </summary>
     [JsonProperty("speech")]
     public SpeechSettings Speech { get; set; }
+
+    /// <summary>
+    ///     Input processing mode, currently only applicable to DTMF. Valid values are synchronous (the default) and
+    ///     asynchronous. If set to asynchronous, all DTMF settings must be left blank. In asynchronous mode, digits are sent
+    ///     one at a time to the event webhook in real time. In the default synchronous mode, this is controlled by the DTMF
+    ///     settings instead and the inputs are sent in batch.
+    /// </summary>
+    [JsonProperty("mode")]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public InputMode Mode { get; set; } = InputMode.Synchronous;
 }
