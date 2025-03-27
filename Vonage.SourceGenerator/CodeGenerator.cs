@@ -19,7 +19,8 @@ internal class CodeGenerator(
 
     private IPropertySymbol[] AllProperties =>
         this.OrderedMandatoryProperties.Select(property => property.Property)
-            .Concat(optionalProperties.Select(property => property.Property)).ToArray();
+            .Concat(optionalProperties.Select(property => property.Property))
+            .ToArray();
 
     public string GenerateCode() =>
         new StringBuilder().Append(this.GenerateUsingStatements())
@@ -67,16 +68,10 @@ internal class CodeGenerator(
         return builder;
     }
 
-    private static string BuildInterfaceMember(string returnType, IPropertySymbol property) =>
-        $"   {returnType} With{property.Name}({GetPropertyType(property)} value);";
-
-    private StringBuilder GenerateInterfaceDeclarations()
-    {
-        var builder = new StringBuilder();
-        this.GetBuilderInterfaces().ToList()
-            .ForEach(builderInterface => builder.Append(builderInterface.BuildDeclaration()));
-        return builder;
-    }
+    private StringBuilder GenerateInterfaceDeclarations() =>
+        this.GetBuilderInterfaces()
+            .Select(builderInterface => builderInterface.BuildDeclaration())
+            .Aggregate(new StringBuilder(), (builder, declaration) => builder.Append(declaration));
 
     private IBuilderInterface[] GetBuilderInterfaces()
     {
