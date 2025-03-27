@@ -7,14 +7,19 @@ namespace Vonage.SourceGenerator;
 
 internal class CodeGenerator(
     INamedTypeSymbol type,
-    IPropertySymbol[] mandatoryProperties,
-    IPropertySymbol[] optionalProperties,
+    MandatoryProperty[] mandatoryProperties,
+    OptionalProperty[] optionalProperties,
     List<ValidationRule> validationRules)
 {
     private string BuilderName => string.Concat(this.TypeName, "Builder");
     private string TypeName => type.Name;
 
-    private IPropertySymbol[] AllProperties => mandatoryProperties.Concat(optionalProperties).ToArray();
+    private MandatoryProperty[] OrderedMandatoryProperties =>
+        mandatoryProperties.OrderBy(property => property.Order).ToArray();
+
+    private IPropertySymbol[] AllProperties =>
+        this.OrderedMandatoryProperties.Select(property => property.Property)
+            .Concat(optionalProperties.Select(property => property.Property)).ToArray();
 
     public string GenerateCode() =>
         new StringBuilder().Append(this.GenerateUsingStatements())
@@ -76,12 +81,12 @@ internal class CodeGenerator(
     private IBuilderInterface[] GetBuilderInterfaces()
     {
         var interfaces = new List<IBuilderInterface>();
-        for (var index = 0; index < mandatoryProperties.Count(); index++)
+        for (var index = 0; index < this.OrderedMandatoryProperties.Count(); index++)
         {
-            var returnType = index == mandatoryProperties.Length - 1
+            var returnType = index == this.OrderedMandatoryProperties.Length - 1
                 ? $"IBuilderForOptional<{this.TypeName}>"
-                : $"IBuilderFor{mandatoryProperties[index + 1].Name}";
-            interfaces.Add(new MandatoryBuilderInterface(mandatoryProperties[index], returnType));
+                : $"IBuilderFor{this.OrderedMandatoryProperties[index + 1].Property.Name}";
+            interfaces.Add(new MandatoryBuilderInterface(this.OrderedMandatoryProperties[index].Property, returnType));
         }
 
         interfaces.Add(new OptionalBuilderInterface(optionalProperties, this.TypeName));
@@ -110,12 +115,12 @@ internal class CodeGenerator(
         validationRules.Select(rule => $"{this.TypeName}.{rule.MethodName}");
 
     private string GetFirstInterface() =>
-        mandatoryProperties.Length > 0
-            ? $"IBuilderFor{mandatoryProperties[0].Name}"
+        this.OrderedMandatoryProperties.Length > 0
+            ? $"IBuilderFor{this.OrderedMandatoryProperties[0].Property.Name}"
             : $"IBuilderForOptional<{this.TypeName}>";
 
     private string[] GetAllInterfaces() =>
-        mandatoryProperties.Select(property => string.Concat("IBuilderFor", property.Name))
+        this.OrderedMandatoryProperties.Select(property => string.Concat("IBuilderFor", property.Property.Name))
             .Append($"IBuilderForOptional<{this.TypeName}>").ToArray();
 
     private static string GetPropertyType(IPropertySymbol propertySymbol) => propertySymbol.Type.ToDisplayString();
@@ -145,7 +150,7 @@ internal record MandatoryBuilderInterface(IPropertySymbol Property, string Retur
     }
 }
 
-internal record OptionalBuilderInterface(IPropertySymbol[] Properties, string GenericType) : IBuilderInterface
+internal record OptionalBuilderInterface(OptionalProperty[] Properties, string GenericType) : IBuilderInterface
 {
     public string Name => "IBuilderForOptional";
 
@@ -157,7 +162,7 @@ internal record OptionalBuilderInterface(IPropertySymbol[] Properties, string Ge
         for (var index = 0; index < this.Properties.Count(); index++)
         {
             builder.AppendLine(
-                $"   public IBuilderForOptional<{this.GenericType}> With{this.Properties[index].Name}({this.Properties[index].Type.ToDisplayString()} value);");
+                $"   public IBuilderForOptional<{this.GenericType}> With{this.Properties[index].Property.Name}({this.Properties[index].Property.Type.ToDisplayString()} value);");
         }
 
         builder.AppendLine($"   Result<{this.GenericType}> Create();");
@@ -172,7 +177,7 @@ internal record OptionalBuilderInterface(IPropertySymbol[] Properties, string Ge
         for (var index = 0; index < this.Properties.Count(); index++)
         {
             builder.AppendLine(
-                $"    public IBuilderForOptional<{this.GenericType}> With{this.Properties[index].Name}({this.Properties[index].Type.ToDisplayString()} value) => this with {{ {this.Properties[index].Name.ToLower()} = value }};");
+                $"    public IBuilderForOptional<{this.GenericType}> With{this.Properties[index].Property.Name}({this.Properties[index].Property.Type.ToDisplayString()} value) => this with {{ {this.Properties[index].Property.Name.ToLower()} = value }};");
         }
 
         return builder;
