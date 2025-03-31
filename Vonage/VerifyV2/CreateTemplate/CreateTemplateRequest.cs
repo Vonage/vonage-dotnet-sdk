@@ -2,17 +2,21 @@
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 using Vonage.Serialization;
 #endregion
 
 namespace Vonage.VerifyV2.CreateTemplate;
 
 /// <inheritdoc />
-public readonly struct CreateTemplateRequest : IVonageRequest
+[Builder]
+public readonly partial struct CreateTemplateRequest : IVonageRequest
 {
     /// <summary>
     ///     Reference name for template.
     /// </summary>
+    [Mandatory(0, nameof(VerifyNameNotEmpty))]
     public string Name { get; internal init; }
 
     /// <inheritdoc />
@@ -28,9 +32,8 @@ public readonly struct CreateTemplateRequest : IVonageRequest
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns></returns>
-    public static IBuilderForName Build() => new CreateTemplateRequestBuilder();
+    internal static Result<CreateTemplateRequest> VerifyNameNotEmpty(
+        CreateTemplateRequest request) =>
+        InputValidation
+            .VerifyNotEmpty(request, request.Name, nameof(request.Name));
 }
