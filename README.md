@@ -55,6 +55,11 @@ first.
 
 * `Handy.DotNETCore-Compatibility.ColorTranslations` will get removed, as it was only use on Meetings API.
 
+#### Remove explicit builder implementation (where possible)
+
+* Rely on source generators as much as possible. This will, in some cases, change the method name of some builder
+  methods to strictly follow the `.With{PropertyName}` convention.
+
 ### Migration guides
 
 #### Upgrading from v6.x.x to v7.0.0
