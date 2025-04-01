@@ -9,16 +9,19 @@ using Vonage.Common.Monads;
 namespace Vonage.VerifyV2.GetTemplates;
 
 /// <inheritdoc />
-public readonly struct GetTemplatesRequest : IVonageRequest
+[Builder]
+public readonly partial struct GetTemplatesRequest : IVonageRequest
 {
     /// <summary>
     ///     Number of results per page.
     /// </summary>
+    [Optional]
     public Maybe<int> PageSize { get; internal init; }
 
     /// <summary>
     ///     The page.
     /// </summary>
+    [Optional]
     public Maybe<int> Page { get; internal init; }
 
     /// <inheritdoc />
@@ -36,10 +39,4 @@ public readonly struct GetTemplatesRequest : IVonageRequest
         this.Page.IfSome(some => parameters.Add("page", some.ToString()));
         return parameters;
     }
-
-    /// <summary>
-    ///     Initializes a builder for GetTemplates.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForOptional Build() => new GetTemplatesRequestBuilder();
 }
