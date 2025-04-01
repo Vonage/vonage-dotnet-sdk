@@ -81,7 +81,7 @@ internal class CodeGenerator(
                 new MandatoryBuilderInterface(
                     property.Property,
                     index == this.OrderedMandatoryProperties.Length - 1
-                        ? $"IBuilderForOptional<{this.TypeName}>"
+                        ? "IBuilderForOptional"
                         : $"IBuilderFor{this.OrderedMandatoryProperties[index + 1].Property.Name}"
                 ))
             .Cast<IBuilderInterface>()
@@ -96,8 +96,10 @@ internal class CodeGenerator(
             : $"namespace {type.ContainingNamespace.ToDisplayString()};\n\n";
 
     private static string GenerateUsingStatements() => """
+                                                       using Vonage.Common.Client;
                                                        using Vonage.Common.Monads;
                                                        using Vonage.Common.Validation;
+
                                                        """;
 
     private IEnumerable<string> FormatValidationRules() =>
@@ -106,11 +108,11 @@ internal class CodeGenerator(
     private string GetFirstInterface() =>
         this.OrderedMandatoryProperties.Length > 0
             ? $"IBuilderFor{this.OrderedMandatoryProperties[0].Property.Name}"
-            : $"IBuilderForOptional<{this.TypeName}>";
+            : "IBuilderForOptional";
 
     private string[] GetAllInterfaces() =>
         this.OrderedMandatoryProperties.Select(p => $"IBuilderFor{p.Property.Name}")
-            .Append($"IBuilderForOptional<{this.TypeName}>")
+            .Append("IBuilderForOptional")
             .ToArray();
 
     private static string GetPropertyType(IPropertySymbol prop) => prop.Type.ToDisplayString();
@@ -136,16 +138,15 @@ internal record OptionalBuilderInterface(OptionalProperty[] Properties, string G
     public string Name => "IBuilderForOptional";
 
     public string BuildDeclaration() => $$"""
-                                          public interface IBuilderForOptional<{{this.GenericType}}>
+                                          public interface IBuilderForOptional : IVonageRequestBuilder<{{this.GenericType}}>
                                           {
-                                                {{string.Join("\n", this.Properties.Select(p => $"    IBuilderForOptional<{this.GenericType}> With{p.Property.Name}({p.Property.Type.ToDisplayString()} value);"))}}
-                                                Result<{{this.GenericType}}> Create();
+                                                {{string.Join("\n", this.Properties.Select(p => $"    IBuilderForOptional With{p.Property.Name}({p.InnerType} value);"))}}
                                           }
                                           """;
 
     public string BuildImplementation() =>
         string.Join("\n", this.Properties.Select(p =>
-            $"    public IBuilderForOptional<{this.GenericType}> With{p.Property.Name}({p.Property.Type.ToDisplayString()} value) => this with {{ {p.Property.Name.ToLower()} = value }};"
+            $"    public IBuilderForOptional With{p.Property.Name}({p.InnerType} value) => this with {{ {p.Property.Name.ToLower()} = value }};"
         ));
 }
 

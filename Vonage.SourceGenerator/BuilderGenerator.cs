@@ -127,5 +127,14 @@ public class BuilderGenerator : IIncrementalGenerator
 }
 
 internal record MandatoryProperty(IPropertySymbol Property, int Order, params ValidationRule[] ValidationRules);
-internal record OptionalProperty(IPropertySymbol Property, params ValidationRule[] ValidationRules);
+
+internal record OptionalProperty(IPropertySymbol Property, params ValidationRule[] ValidationRules)
+{
+    public string InnerType =>
+        this.Property.Type is INamedTypeSymbol namedType && namedType.OriginalDefinition.ToDisplayString() ==
+        "Vonage.Common.Monads.Maybe<TSource>"
+            ? namedType.TypeArguments[0].ToDisplayString()
+            : this.Property.Type.ToString();
+}
+
 internal record ValidationRule(string MethodName);
