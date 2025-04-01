@@ -1,0 +1,10 @@
+﻿namespace Vonage.TestProduct.TestRequest;
+
+[Builder]
+public readonly partial struct MyRequest : IVonageRequest
+{
+    [Mandatory(0)]
+    public int Id { get; internal init; }
+    [Mandatory(1)]
+    public string Name { get; internal init; }
+}

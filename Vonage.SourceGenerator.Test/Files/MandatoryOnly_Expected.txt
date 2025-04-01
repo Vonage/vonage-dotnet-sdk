@@ -1,0 +1,38 @@
+﻿using Vonage.Common.Client;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+
+namespace Vonage.TestProduct.TestRequest;
+public interface IBuilderForId
+{
+    IBuilderForName WithId(int value);
+}
+
+public interface IBuilderForName
+{
+    IBuilderForOptional WithName(string value);
+}
+
+public interface IBuilderForOptional : IVonageRequestBuilder<MyRequest>
+{
+}
+
+public partial struct MyRequest
+{
+    public static IBuilderForId Build() => new MyRequestBuilder();
+}
+
+internal struct MyRequestBuilder : IBuilderForId, IBuilderForName, IBuilderForOptional
+{
+    private int id;
+    private string name;
+    public IBuilderForName WithId(int value) => this with
+    {
+        id = value
+    };
+    public IBuilderForOptional WithName(string value) => this with
+    {
+        name = value
+    };
+    public Result<MyRequest> Create() => Result<MyRequest>.FromSuccess(new MyRequest { Id = this.id, Name = this.name, }).Map(InputEvaluation<MyRequest>.Evaluate).Bind(evaluation => evaluation.WithRules());
+}
