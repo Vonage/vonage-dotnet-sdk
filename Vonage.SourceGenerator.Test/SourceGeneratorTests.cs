@@ -15,6 +15,7 @@ public class BuilderGeneratorTests
     [InlineData("EmptyRequest")]
     [InlineData("MandatoryOnly")]
     [InlineData("OptionalOnly")]
+    [InlineData("OptionalBoolean")]
     public void VerifyCodeGeneration(string sample)
     {
         var inputCode = File.ReadAllText($"Files/{sample}_Input.txt").Trim();

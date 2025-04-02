@@ -21,7 +21,11 @@ public sealed class MandatoryAttribute : Attribute
 }";
 
     private const string OptionalAttributeSource =
-        "[AttributeUsage(AttributeTargets.Property)] public sealed class OptionalAttribute : Attribute { }";
+        @"
+[AttributeUsage(AttributeTargets.Property)] public sealed class OptionalAttribute : Attribute { }
+
+[AttributeUsage(AttributeTargets.Property)] public sealed class OptionalBooleanAttribute(string TrueMethodName, string FalseMethodName) : Attribute { }
+";
 
     private const string BuilderAttributeSource =
         "[AttributeUsage(AttributeTargets.Struct)] public sealed class BuilderAttribute : Attribute { }";

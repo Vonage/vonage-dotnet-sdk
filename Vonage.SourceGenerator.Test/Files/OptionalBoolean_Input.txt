@@ -1,0 +1,8 @@
+﻿namespace Vonage.TestProduct.TestRequest;
+
+[Builder]
+public readonly partial struct MyRequest : IVonageRequest
+{
+    [OptionalBoolean("Enable", "Disable")]
+    public bool Enabled { get; internal init; }
+}

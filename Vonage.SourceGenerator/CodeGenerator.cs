@@ -8,7 +8,7 @@ namespace Vonage.SourceGenerator;
 internal class CodeGenerator(
     INamedTypeSymbol type,
     MandatoryProperty[] mandatoryProperties,
-    OptionalProperty[] optionalProperties,
+    IOptionalProperty[] optionalProperties,
     List<ValidationRule> validationRules)
 {
     private string BuilderName => $"{this.TypeName}Builder";
@@ -133,21 +133,19 @@ internal record MandatoryBuilderInterface(IPropertySymbol Property, string Retur
         $"    public {this.ReturnType} With{this.Property.Name}({this.Property.Type.ToDisplayString()} value) => this with {{ {this.Property.Name.ToLower()} = value }};";
 }
 
-internal record OptionalBuilderInterface(OptionalProperty[] Properties, string GenericType) : IBuilderInterface
+internal record OptionalBuilderInterface(IOptionalProperty[] Properties, string GenericType) : IBuilderInterface
 {
     public string Name => "IBuilderForOptional";
 
     public string BuildDeclaration() => $$"""
                                           public interface IBuilderForOptional : IVonageRequestBuilder<{{this.GenericType}}>
                                           {
-                                                {{string.Join("\n", this.Properties.Select(p => $"    IBuilderForOptional With{p.Property.Name}({p.InnerType} value);"))}}
+                                                {{string.Join("\n", this.Properties.Select(property => property.Declaration))}}
                                           }
                                           """;
 
     public string BuildImplementation() =>
-        string.Join("\n", this.Properties.Select(p =>
-            $"    public IBuilderForOptional With{p.Property.Name}({p.InnerType} value) => this with {{ {p.Property.Name.ToLower()} = value }};"
-        ));
+        string.Join("\n", this.Properties.Select(property => property.Implementation));
 }
 
 internal interface IBuilderInterface

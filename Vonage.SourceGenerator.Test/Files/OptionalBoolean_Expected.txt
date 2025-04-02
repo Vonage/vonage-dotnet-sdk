@@ -1,0 +1,29 @@
+﻿using Vonage.Common.Client;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+
+namespace Vonage.TestProduct.TestRequest;
+public interface IBuilderForOptional : IVonageRequestBuilder<MyRequest>
+{
+    IBuilderForOptional Enable();
+    IBuilderForOptional Disable();
+}
+
+public partial struct MyRequest
+{
+    public static IBuilderForOptional Build() => new MyRequestBuilder();
+}
+
+internal struct MyRequestBuilder : IBuilderForOptional
+{
+    private bool enabled;
+    public IBuilderForOptional Enable() => this with
+    {
+        enabled = true
+    };
+    public IBuilderForOptional Disable() => this with
+    {
+        enabled = false
+    };
+    public Result<MyRequest> Create() => Result<MyRequest>.FromSuccess(new MyRequest { Enabled = this.enabled, }).Map(InputEvaluation<MyRequest>.Evaluate).Bind(evaluation => evaluation.WithRules());
+}
