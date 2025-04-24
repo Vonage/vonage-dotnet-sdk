@@ -15,7 +15,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0"/>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="[4.12.0]"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="[4.8.0]"/>
         <PackageReference Include="PolySharp" Version="1.15.0"/>
     </ItemGroup>
 
