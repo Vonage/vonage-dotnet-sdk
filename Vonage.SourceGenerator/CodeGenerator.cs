@@ -11,16 +11,14 @@ internal class CodeGenerator(
     IOptionalProperty[] optionalProperties,
     List<ValidationRule> validationRules)
 {
-    private string BuilderName => $"{this.TypeName}Builder";
-    private string TypeName => type.Name;
+    private IProperty[] AllProperties =>
+        this.OrderedMandatoryProperties.Concat<IProperty>(optionalProperties).ToArray();
 
     private MandatoryProperty[] OrderedMandatoryProperties =>
         mandatoryProperties.OrderBy(property => property.Order).ToArray();
 
-    private IPropertySymbol[] AllProperties =>
-        this.OrderedMandatoryProperties.Select(property => property.Property)
-            .Concat(optionalProperties.Select(property => property.Property))
-            .ToArray();
+    private string BuilderName => $"{this.TypeName}Builder";
+    private string TypeName => type.Name;
 
     public string GenerateCode()
     {
@@ -33,6 +31,13 @@ internal class CodeGenerator(
         return FormatCode(code);
     }
 
+    private string ExtendTypeWithPartial() => $$"""
+                                                public partial struct {{this.TypeName}}
+                                                {
+                                                    public static {{this.GetFirstInterface()}} Build() => new {{this.BuilderName}}();
+                                                }
+                                                """;
+
     private static string FormatCode(string code)
     {
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
@@ -40,18 +45,19 @@ internal class CodeGenerator(
         return root.ToFullString();
     }
 
+    private IEnumerable<string> FormatValidationRules() =>
+        validationRules.Select(r => $"{this.TypeName}.{r.MethodName}");
+
     private string GenerateBuilder()
     {
-        var fields = this.AllProperties
-            .Select(property => $"private {GetPropertyType(property)} {property.Name.ToLower()};")
-            .ToArray();
         var propertyAssignments = this.AllProperties
-            .Select(property => $"{property.Name} = this.{property.Name.ToLower()},")
+            .Select(property => property.Property.Name)
+            .Select(name => $"{name} = this.{name.ToLower()},")
             .ToArray();
         return $$"""
                  internal struct {{this.BuilderName}} : {{string.Join(", ", this.GetAllInterfaces())}}
                  {
-                    {{string.Join("\n", fields)}}
+                    {{string.Join("\n", this.AllProperties.Select(property => property.FieldDeclaration).ToArray())}}
                     {{string.Join("\n", this.GetBuilderInterfaces().Select(i => i.BuildImplementation()))}}
                     public Result<{{this.TypeName}}> Create() => Result<{{this.TypeName}}>.FromSuccess(
                          new {{this.TypeName}}
@@ -64,15 +70,25 @@ internal class CodeGenerator(
                  """;
     }
 
-    private string ExtendTypeWithPartial() => $$"""
-                                                public partial struct {{this.TypeName}}
-                                                {
-                                                    public static {{this.GetFirstInterface()}} Build() => new {{this.BuilderName}}();
-                                                }
-                                                """;
-
     private string GenerateInterfaceDeclarations() =>
         string.Concat(this.GetBuilderInterfaces().Select(builderInterface => builderInterface.BuildDeclaration()));
+
+    private string GenerateNamespace() =>
+        string.IsNullOrEmpty(type.ContainingNamespace?.ToDisplayString())
+            ? string.Empty
+            : $"namespace {type.ContainingNamespace.ToDisplayString()};\n\n";
+
+    private static string GenerateUsingStatements() => """
+                                                       using Vonage.Common.Client;
+                                                       using Vonage.Common.Monads;
+                                                       using Vonage.Common.Validation;
+
+                                                       """;
+
+    private string[] GetAllInterfaces() =>
+        this.OrderedMandatoryProperties.Select(p => $"IBuilderFor{p.Property.Name}")
+            .Append("IBuilderForOptional")
+            .ToArray();
 
     private IBuilderInterface[] GetBuilderInterfaces()
     {
@@ -90,30 +106,10 @@ internal class CodeGenerator(
         return interfaces.ToArray();
     }
 
-    private string GenerateNamespace() =>
-        string.IsNullOrEmpty(type.ContainingNamespace?.ToDisplayString())
-            ? string.Empty
-            : $"namespace {type.ContainingNamespace.ToDisplayString()};\n\n";
-
-    private static string GenerateUsingStatements() => """
-                                                       using Vonage.Common.Client;
-                                                       using Vonage.Common.Monads;
-                                                       using Vonage.Common.Validation;
-
-                                                       """;
-
-    private IEnumerable<string> FormatValidationRules() =>
-        validationRules.Select(r => $"{this.TypeName}.{r.MethodName}");
-
     private string GetFirstInterface() =>
         this.OrderedMandatoryProperties.Length > 0
             ? $"IBuilderFor{this.OrderedMandatoryProperties[0].Property.Name}"
             : "IBuilderForOptional";
-
-    private string[] GetAllInterfaces() =>
-        this.OrderedMandatoryProperties.Select(p => $"IBuilderFor{p.Property.Name}")
-            .Append("IBuilderForOptional")
-            .ToArray();
 
     private static string GetPropertyType(IPropertySymbol prop) => prop.Type.ToDisplayString();
 }

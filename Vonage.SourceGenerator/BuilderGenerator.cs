@@ -19,46 +19,6 @@ public class BuilderGenerator : IIncrementalGenerator
         GenerateCode(context, structDeclarations);
     }
 
-    private static void GenerateCode(IncrementalGeneratorInitializationContext context,
-        IncrementalValueProvider<ImmutableArray<INamedTypeSymbol>> structDeclarations)
-    {
-        context.RegisterSourceOutput(structDeclarations,
-            (productionContext, structSymbols) =>
-            {
-                structSymbols.ToList().ForEach(symbol => GenerateSourceCode(symbol, productionContext));
-            });
-    }
-
-    private static void GenerateSourceCode(INamedTypeSymbol structSymbol, SourceProductionContext productionContext)
-    {
-        var generatedCode = GenerateBuilder(structSymbol);
-        var fileName = $"{structSymbol.Name}Builder.g.cs";
-        productionContext.AddSource(fileName, SourceText.From(generatedCode, Encoding.UTF8));
-    }
-
-    private static IncrementalValueProvider<ImmutableArray<INamedTypeSymbol>> IdentifyBuilders(
-        IncrementalGeneratorInitializationContext context) =>
-        context.SyntaxProvider
-            .CreateSyntaxProvider(
-                static (node, _) => HasBuilderAttribute(node),
-                static (context, _) => GetStructSymbol(context)
-            )
-            .Where(symbol => symbol is not null)
-            .Select((symbol, _) => symbol)
-            .Collect();
-
-    private static bool HasBuilderAttribute(SyntaxNode node) =>
-        node is StructDeclarationSyntax declaration
-        && declaration.AttributeLists
-            .SelectMany(syntax => syntax.Attributes)
-            .Any(syntax => syntax.Name.ToString() == BuilderAttribute);
-
-    private static INamedTypeSymbol GetStructSymbol(GeneratorSyntaxContext context)
-    {
-        var structDeclaration = (StructDeclarationSyntax) context.Node;
-        return context.SemanticModel.GetDeclaredSymbol(structDeclaration) as INamedTypeSymbol;
-    }
-
     private static string GenerateBuilder(INamedTypeSymbol structSymbol)
     {
         var mandatoryProps = new List<IPropertySymbol>();
@@ -91,6 +51,28 @@ public class BuilderGenerator : IIncrementalGenerator
             validationRules).GenerateCode();
     }
 
+    private static void GenerateCode(IncrementalGeneratorInitializationContext context,
+        IncrementalValueProvider<ImmutableArray<INamedTypeSymbol>> structDeclarations)
+    {
+        context.RegisterSourceOutput(structDeclarations,
+            (productionContext, structSymbols) =>
+            {
+                structSymbols.ToList().ForEach(symbol => GenerateSourceCode(symbol, productionContext));
+            });
+    }
+
+    private static void GenerateSourceCode(INamedTypeSymbol structSymbol, SourceProductionContext productionContext)
+    {
+        var generatedCode = GenerateBuilder(structSymbol);
+        var fileName = $"{structSymbol.Name}Builder.g.cs";
+        productionContext.AddSource(fileName, SourceText.From(generatedCode, Encoding.UTF8));
+    }
+
+    private static IEnumerable<IPropertySymbol> GetMandatoryMembers(INamedTypeSymbol structSymbol) =>
+        structSymbol.GetMembers().OfType<IPropertySymbol>()
+            .Where(member =>
+                member.GetAttributes().Any(attribute => attribute.AttributeClass?.Name == "MandatoryAttribute"));
+
     private static IEnumerable<MandatoryProperty> GetMandatoryProperties(INamedTypeSymbol structSymbol)
     {
         foreach (var member in GetMandatoryMembers(structSymbol))
@@ -112,8 +94,10 @@ public class BuilderGenerator : IIncrementalGenerator
         }
     }
 
-    private static IEnumerable<IOptionalProperty> GetOptionalProperties(INamedTypeSymbol structSymbol) =>
-        GetOptionalMembers(structSymbol).Select(member => new OptionalProperty(member));
+    private static IEnumerable<IPropertySymbol> GetOptionalBooleanMembers(INamedTypeSymbol structSymbol) =>
+        structSymbol.GetMembers().OfType<IPropertySymbol>()
+            .Where(member =>
+                member.GetAttributes().Any(attribute => attribute.AttributeClass?.Name == "OptionalBooleanAttribute"));
 
     private static IEnumerable<IOptionalProperty> GetOptionalBooleanProperties(INamedTypeSymbol structSymbol) =>
         from member in GetOptionalBooleanMembers(structSymbol)
@@ -121,7 +105,7 @@ public class BuilderGenerator : IIncrementalGenerator
             .FirstOrDefault(a => a.AttributeClass?.Name == "OptionalBooleanAttribute")
         select new OptionalBooleanProperty(
             member,
-            mandatoryAttr.ConstructorArguments[0].Value?.ToString(),
+            bool.Parse(mandatoryAttr.ConstructorArguments[0].Value?.ToString()),
             mandatoryAttr.ConstructorArguments[1].Value?.ToString());
 
     private static IEnumerable<IPropertySymbol> GetOptionalMembers(INamedTypeSymbol structSymbol) =>
@@ -129,52 +113,80 @@ public class BuilderGenerator : IIncrementalGenerator
             .Where(member =>
                 member.GetAttributes().Any(attribute => attribute.AttributeClass?.Name == "OptionalAttribute"));
 
-    private static IEnumerable<IPropertySymbol> GetOptionalBooleanMembers(INamedTypeSymbol structSymbol) =>
-        structSymbol.GetMembers().OfType<IPropertySymbol>()
-            .Where(member =>
-                member.GetAttributes().Any(attribute => attribute.AttributeClass?.Name == "OptionalBooleanAttribute"));
+    private static IEnumerable<IOptionalProperty> GetOptionalProperties(INamedTypeSymbol structSymbol) =>
+        GetOptionalMembers(structSymbol).Select(member => new OptionalProperty(member));
 
-    private static IEnumerable<IPropertySymbol> GetMandatoryMembers(INamedTypeSymbol structSymbol) =>
-        structSymbol.GetMembers().OfType<IPropertySymbol>()
-            .Where(member =>
-                member.GetAttributes().Any(attribute => attribute.AttributeClass?.Name == "MandatoryAttribute"));
+    private static INamedTypeSymbol GetStructSymbol(GeneratorSyntaxContext context)
+    {
+        var structDeclaration = (StructDeclarationSyntax) context.Node;
+        return context.SemanticModel.GetDeclaredSymbol(structDeclaration) as INamedTypeSymbol;
+    }
+
+    private static bool HasBuilderAttribute(SyntaxNode node) =>
+        node is StructDeclarationSyntax declaration
+        && declaration.AttributeLists
+            .SelectMany(syntax => syntax.Attributes)
+            .Any(syntax => syntax.Name.ToString() == BuilderAttribute);
+
+    private static IncrementalValueProvider<ImmutableArray<INamedTypeSymbol>> IdentifyBuilders(
+        IncrementalGeneratorInitializationContext context) =>
+        context.SyntaxProvider
+            .CreateSyntaxProvider(
+                static (node, _) => HasBuilderAttribute(node),
+                static (context, _) => GetStructSymbol(context)
+            )
+            .Where(symbol => symbol is not null)
+            .Select((symbol, _) => symbol)
+            .Collect();
 }
 
-internal record MandatoryProperty(IPropertySymbol Property, int Order, params ValidationRule[] ValidationRules);
+internal record MandatoryProperty(IPropertySymbol Property, int Order, params ValidationRule[] ValidationRules)
+    : IProperty
+{
+    public string FieldDeclaration => $"private {this.Property.Type.ToDisplayString()} {this.Property.Name.ToLower()};";
+}
 
 internal record OptionalProperty(IPropertySymbol Property, params ValidationRule[] ValidationRules) : IOptionalProperty
 {
+    public string Declaration => $"IBuilderForOptional With{this.Property.Name}({this.InnerType} value);";
+
+    public string FieldDeclaration => $"private {this.Property.Type.ToDisplayString()} {this.Property.Name.ToLower()};";
+
+    public string Implementation =>
+        $"public IBuilderForOptional With{this.Property.Name}({this.InnerType} value) => this with {{ {this.Property.Name.ToLower()} = value }};";
+
     public string InnerType =>
         this.Property.Type is INamedTypeSymbol namedType && namedType.OriginalDefinition.ToDisplayString() ==
         "Vonage.Common.Monads.Maybe<TSource>"
             ? namedType.TypeArguments[0].ToDisplayString()
             : this.Property.Type.ToString();
-
-    public string Declaration => $"IBuilderForOptional With{this.Property.Name}({this.InnerType} value);";
-
-    public string Implementation =>
-        $"public IBuilderForOptional With{this.Property.Name}({this.InnerType} value) => this with {{ {this.Property.Name.ToLower()} = value }};";
 }
 
-internal record OptionalBooleanProperty(IPropertySymbol Property, string TrueMethodName, string FalseMethodName)
+internal record OptionalBooleanProperty(IPropertySymbol Property, bool DefaultValue, string MethodName)
     : IOptionalProperty
 {
     public string Declaration => @$"
-IBuilderForOptional {this.TrueMethodName}();
-IBuilderForOptional {this.FalseMethodName}();
+IBuilderForOptional {this.MethodName}();
 ";
 
+    public string FieldDeclaration =>
+        $"private {this.Property.Type.ToDisplayString()} {this.Property.Name.ToLower()} = {this.DefaultValue.ToString().ToLowerInvariant()};";
+
     public string Implementation => @$"
-public IBuilderForOptional {this.TrueMethodName}() => this with {{ {this.Property.Name.ToLower()} = true }};
-public IBuilderForOptional {this.FalseMethodName}() => this with {{ {this.Property.Name.ToLower()} = false }};
+public IBuilderForOptional {this.MethodName}() => this with {{ {this.Property.Name.ToLower()} = {(!this.DefaultValue).ToString().ToLowerInvariant()} }};
 ";
 }
 
 internal record ValidationRule(string MethodName);
 
-internal interface IOptionalProperty
+internal interface IOptionalProperty : IProperty
 {
-    IPropertySymbol Property { get; }
     string Declaration { get; }
     string Implementation { get; }
+}
+
+internal interface IProperty
+{
+    string FieldDeclaration { get; }
+    IPropertySymbol Property { get; }
 }

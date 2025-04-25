@@ -9,6 +9,9 @@ namespace Vonage.SourceGenerator;
 [Generator]
 public class AttributesGenerator : IIncrementalGenerator
 {
+    private const string BuilderAttributeSource =
+        "[AttributeUsage(AttributeTargets.Struct)] public sealed class BuilderAttribute : Attribute { }";
+
     private const string MandatoryAttributeSource = @"
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class MandatoryAttribute : Attribute
@@ -24,11 +27,8 @@ public sealed class MandatoryAttribute : Attribute
         @"
 [AttributeUsage(AttributeTargets.Property)] public sealed class OptionalAttribute : Attribute { }
 
-[AttributeUsage(AttributeTargets.Property)] public sealed class OptionalBooleanAttribute(string TrueMethodName, string FalseMethodName) : Attribute { }
+[AttributeUsage(AttributeTargets.Property)] public sealed class OptionalBooleanAttribute(bool DefaultValue, string MethodName) : Attribute { }
 ";
-
-    private const string BuilderAttributeSource =
-        "[AttributeUsage(AttributeTargets.Struct)] public sealed class BuilderAttribute : Attribute { }";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {

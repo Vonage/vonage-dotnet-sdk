@@ -5,8 +5,8 @@ using Vonage.Common.Validation;
 namespace Vonage.TestProduct.TestRequest;
 public interface IBuilderForOptional : IVonageRequestBuilder<MyRequest>
 {
-    IBuilderForOptional Enable();
     IBuilderForOptional Disable();
+    IBuilderForOptional Hide();
 }
 
 public partial struct MyRequest
@@ -16,14 +16,15 @@ public partial struct MyRequest
 
 internal struct MyRequestBuilder : IBuilderForOptional
 {
-    private bool enabled;
-    public IBuilderForOptional Enable() => this with
-    {
-        enabled = true
-    };
+    private bool enabled = true;
+    private bool hidden = false;
     public IBuilderForOptional Disable() => this with
     {
         enabled = false
     };
-    public Result<MyRequest> Create() => Result<MyRequest>.FromSuccess(new MyRequest { Enabled = this.enabled, }).Map(InputEvaluation<MyRequest>.Evaluate).Bind(evaluation => evaluation.WithRules());
+    public IBuilderForOptional Hide() => this with
+    {
+        hidden = true
+    };
+    public Result<MyRequest> Create() => Result<MyRequest>.FromSuccess(new MyRequest { Enabled = this.enabled, Hidden = this.hidden, }).Map(InputEvaluation<MyRequest>.Evaluate).Bind(evaluation => evaluation.WithRules());
 }
