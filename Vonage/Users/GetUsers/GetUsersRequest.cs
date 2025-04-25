@@ -4,7 +4,6 @@ using EnumsNET;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
-using Vonage.ProactiveConnect;
 
 namespace Vonage.Users.GetUsers;
 

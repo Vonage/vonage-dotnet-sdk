@@ -86,7 +86,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumbersClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberVerificationClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SimSwapClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
@@ -113,7 +112,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumbersClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberVerificationClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ProactiveConnectClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SimSwapClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);

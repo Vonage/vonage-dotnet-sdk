@@ -15,7 +15,6 @@ using Vonage.NumberInsightV2;
 using Vonage.Numbers;
 using Vonage.NumberVerification;
 using Vonage.Pricing;
-using Vonage.ProactiveConnect;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
@@ -34,14 +33,14 @@ namespace Vonage.Test.Extensions
     [Trait("Category", "ServicesRegistration")]
     public class ServiceCollectionExtensionsTest
     {
+        private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
+
         private readonly IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
             {
                 {"vonage:Vonage_key", "RandomValue"},
             })
             .Build();
-
-        private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
 
         [Theory]
         [MemberData(nameof(GetRegisteredTypes))]
@@ -93,7 +92,6 @@ namespace Vonage.Test.Extensions
             yield return new object[] {typeof(INumbersClient)};
             yield return new object[] {typeof(INumberVerificationClient)};
             yield return new object[] {typeof(IPricingClient)};
-            yield return new object[] {typeof(IProactiveConnectClient)};
             yield return new object[] {typeof(IRedactClient)};
             yield return new object[] {typeof(ISimSwapClient)};
             yield return new object[] {typeof(IShortCodesClient)};

@@ -1,4 +1,4 @@
-﻿using Vonage.ProactiveConnect;
+﻿using Vonage.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Users.GetUsers;
 using Xunit;
@@ -8,6 +8,15 @@ namespace Vonage.Test.Users.GetUsers;
 [Trait("Category", "Request")]
 public class RequestBuilderTest
 {
+    [Fact]
+    public void Build_ShouldHaveDefaultOrder() =>
+        GetUsersRequest
+            .Build()
+            .Create()
+            .Map(request => request.Order)
+            .Should()
+            .BeSuccess(FetchOrder.Ascending);
+
     [Fact]
     public void Build_ShouldHaveDefaultPageSize() =>
         GetUsersRequest
@@ -37,25 +46,6 @@ public class RequestBuilderTest
             .BeSuccess(name => name.Should().BeSome("Administrator"));
 
     [Fact]
-    public void Build_ShouldSetPageSize() =>
-        GetUsersRequest
-            .Build()
-            .WithPageSize(50)
-            .Create()
-            .Map(request => request.PageSize)
-            .Should()
-            .BeSuccess(50);
-
-    [Fact]
-    public void Build_ShouldHaveDefaultOrder() =>
-        GetUsersRequest
-            .Build()
-            .Create()
-            .Map(request => request.Order)
-            .Should()
-            .BeSuccess(FetchOrder.Ascending);
-
-    [Fact]
     public void Build_ShouldSetOrder() =>
         GetUsersRequest
             .Build()
@@ -64,4 +54,14 @@ public class RequestBuilderTest
             .Map(request => request.Order)
             .Should()
             .BeSuccess(FetchOrder.Descending);
+
+    [Fact]
+    public void Build_ShouldSetPageSize() =>
+        GetUsersRequest
+            .Build()
+            .WithPageSize(50)
+            .Create()
+            .Map(request => request.PageSize)
+            .Should()
+            .BeSuccess(50);
 }
