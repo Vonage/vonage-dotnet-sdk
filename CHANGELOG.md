@@ -1,4 +1,40 @@
 # Changelog
+## [v7.17.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.1) (2025-05-02)
+
+### Bug Fixes
+
+- Downgrade Microsoft.CodeAnalysis.Csharp to v4.8.0 ([0d75b91](https://github.com/Vonage/vonage-dotnet-sdk/commit/0d75b914f6fd8d3e84d1a7294e46577bd286a744))
+
+- Remove JsonIgnore annotation on AdvanceMachineDetection BeepTimeout ([890933b](https://github.com/Vonage/vonage-dotnet-sdk/commit/890933b69fa95505de496dd23578e9cbdcb5de64))
+
+
+### Dependencies upgrade
+
+- Update packages ([303f5cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/303f5cbe2859da3abd9e5f197e93e142141c3b9e))
+
+- Update packages ([ba072a8](https://github.com/Vonage/vonage-dotnet-sdk/commit/ba072a8274755e0c46e1e89de1c184e19e440dc1))
+
+
+### Documentation
+
+- Generate changelog for v7.17.0 ([beb63dc](https://github.com/Vonage/vonage-dotnet-sdk/commit/beb63dc7c885c562bfb77f1018ad116a5b825537))
+
+- Update readme about v8.0.0 breaking changes ([e57b924](https://github.com/Vonage/vonage-dotnet-sdk/commit/e57b92443451ca741e6e33c0c680bb5f4ddb59cc))
+
+- Bump version to v7.17.1 ([7ded98d](https://github.com/Vonage/vonage-dotnet-sdk/commit/7ded98de984e160f6ef3043369016d139215ce74))
+
+
+### Features
+
+- Rely on source generators to generate builders (#604) ([cd4419d](https://github.com/Vonage/vonage-dotnet-sdk/commit/cd4419d3b680c2a3e90b1a4161ad626663ee9e01))
+
+- Add test project for source generation ([33e7391](https://github.com/Vonage/vonage-dotnet-sdk/commit/33e7391d8354ac7b05af107581db499e77a9cfc7))
+
+- Support OptionalBoolean attribute for source generators ([8564c34](https://github.com/Vonage/vonage-dotnet-sdk/commit/8564c34058165cc2662ef9d190bc3e81a0fc6ef7))
+
+- Update OptionalBoolean attribute ([56b8413](https://github.com/Vonage/vonage-dotnet-sdk/commit/56b8413f3ffc43010e168e1302241ef56f151510))
+
+
 ## [v7.17.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.0) (2025-03-06)
 
 ### Documentation
