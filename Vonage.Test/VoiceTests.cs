@@ -25,7 +25,7 @@ public class VoiceTests : TestBase
     public VoiceTests()
     {
         this.fixture = new Fixture();
-        this.client = this.BuildVonageClient(BuildCredentialsForBearerAuthentication());
+        this.client = this.BuildVonageClient(this.BuildCredentialsForBearerAuthentication());
     }
 
     [Theory]
