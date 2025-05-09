@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Vonage.SourceGenerator.Test;
 
+[Trait("Category", "SourceGeneration")]
 public class BuilderGeneratorTests
 {
     private const string TestNamespace = "TestNamespace";
@@ -20,7 +21,7 @@ public class BuilderGeneratorTests
     {
         var inputCode = File.ReadAllText($"Files/{sample}_Input.txt").Trim();
         var expectedGeneratedCode = File.ReadAllText($"Files/{sample}_Expected.txt").Trim();
-        Assert.Equal(expectedGeneratedCode, GenerateCode(inputCode));
+        Assert.Equal(NormalizeLineBreaks(expectedGeneratedCode), NormalizeLineBreaks(GenerateCode(inputCode)));
     }
 
     private static string GenerateCode(string inputCode)
@@ -33,4 +34,6 @@ public class BuilderGeneratorTests
         driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out _);
         return outputCompilation.SyntaxTrees.Last().ToString().Trim();
     }
+
+    private static string NormalizeLineBreaks(string input) => input.Replace("\r\n", "\n").Replace("\r", "\n");
 }
