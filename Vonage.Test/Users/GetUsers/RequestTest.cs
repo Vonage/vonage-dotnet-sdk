@@ -1,5 +1,5 @@
 ﻿using System;
-using Vonage.ProactiveConnect;
+using Vonage.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Users.GetUsers;
 using Xunit;
