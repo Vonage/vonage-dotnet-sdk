@@ -1,4 +1,25 @@
 # Changelog
+## [v7.17.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.2) (2025-05-09)
+
+### Bug Fixes
+
+- Use TestableIO prefix for System.IO.Abstractions ([f7c1310](https://github.com/Vonage/vonage-dotnet-sdk/commit/f7c131055590c6354b10c811526a6183a0b692c9))
+
+
+### Documentation
+
+- Generate changelog for v7.17.1 ([b4c1306](https://github.com/Vonage/vonage-dotnet-sdk/commit/b4c130665a9ded2eb46b2c28ad94efbb8eed40fa))
+
+- Bump version to v7.17.2 ([4c1184f](https://github.com/Vonage/vonage-dotnet-sdk/commit/4c1184ffd73b0e718931d24afa9e6109ba42461b))
+
+
+### Refactoring
+
+- Add category for SourceGeneration tests ([e704367](https://github.com/Vonage/vonage-dotnet-sdk/commit/e7043675dd02d08e41746df6b0a816e803c7fa3f))
+
+- Add stryker-config file for Vonage.SourceGenerator.Test ([c7eed02](https://github.com/Vonage/vonage-dotnet-sdk/commit/c7eed028f6a70a7f4cdb1b0790e6ee982afd255b))
+
+
 ## [v7.17.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.1) (2025-05-02)
 
 ### Bug Fixes
