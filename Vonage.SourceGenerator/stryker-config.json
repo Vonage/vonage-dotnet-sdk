@@ -1,0 +1,12 @@
+﻿{
+  "stryker-config": {
+    "project": "Vonage.SourceGenerator.csproj",
+    "project-info": {
+      "name": "github.com/Vonage/vonage-dotnet-sdk/Vonage.SourceGenerator",
+      "version": "main"
+    },
+    "test-projects": [
+      "../Vonage.SourceGenerator.Test/Vonage.SourceGenerator.Test.csproj"
+    ]
+  }
+}

@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
         <NoWarn>1701;1702;0618</NoWarn>
         <IsPackable>false</IsPackable>
-        <Configurations>Debug;Release;ReleaseSigned</Configurations>
+        <Configurations>Debug;Release</Configurations>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <AssemblyName>Vonage.SourceGenerator.Test</AssemblyName>
         <RootNamespace>Vonage.SourceGenerator.Test</RootNamespace>
