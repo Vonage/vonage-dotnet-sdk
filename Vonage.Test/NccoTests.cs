@@ -176,7 +176,7 @@ public class NccoTests : TestBase
             Transcription = new RecordAction.TranscriptionSettings
             {
                 EventMethod = HttpMethod.Get,
-                EventUrl = "https://example.com",
+                EventUrl = new[] {"https://example.com"},
                 Language = "en-US",
                 SentimentAnalysis = true,
             },
