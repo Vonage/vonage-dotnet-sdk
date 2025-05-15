@@ -1,4 +1,18 @@
 # Changelog
+## [v7.17.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.3) (2025-05-15)
+
+### Bug Fixes
+
+- Transform EventUrl on transcription settings to an array ([6c2d38e](https://github.com/Vonage/vonage-dotnet-sdk/commit/6c2d38e6e0b4cd58445ea2f0b8e2780bda2aae4d))
+
+
+### Documentation
+
+- Generate changelog for v7.17.2 ([c98fc6d](https://github.com/Vonage/vonage-dotnet-sdk/commit/c98fc6d3e2f85062a08c19d38d9e57debae5d35a))
+
+- Bump version to v7.17.3 ([e04a435](https://github.com/Vonage/vonage-dotnet-sdk/commit/e04a435f021b9ea09c33d954d130ad0e48821e6f))
+
+
 ## [v7.17.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.2) (2025-05-09)
 
 ### Bug Fixes
