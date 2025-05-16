@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using Vonage.ProactiveConnect;
+using Vonage.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Users.GetUsers;
 using WireMock.ResponseBuilders;
