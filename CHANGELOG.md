@@ -1,4 +1,18 @@
 # Changelog
+## [v7.17.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.4) (2025-05-16)
+
+### Bug Fixes
+
+- Add missing text message type for mms ([b56a5e8](https://github.com/Vonage/vonage-dotnet-sdk/commit/b56a5e8805f6a9ee54d4a380ee6e9979337f41d1))
+
+
+### Documentation
+
+- Generate changelog for v7.17.3 ([e1e4e44](https://github.com/Vonage/vonage-dotnet-sdk/commit/e1e4e449523e334767426f9e79f171c7d0b09588))
+
+- Bump version to v7.17.4 ([39520ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/39520eabd1dda18d397c84747063cfc8723e341f))
+
+
 ## [v7.17.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.3) (2025-05-15)
 
 ### Bug Fixes
