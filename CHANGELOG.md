@@ -1,4 +1,20 @@
 # Changelog
+## [v7.18.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.18.0) (2025-05-19)
+
+### Documentation
+
+- Generate changelog for v7.17.4 ([a316c90](https://github.com/Vonage/vonage-dotnet-sdk/commit/a316c907334c54534779a90e675eabcee17511a6))
+
+- Bump version to v7.18.0 ([d521288](https://github.com/Vonage/vonage-dotnet-sdk/commit/d52128849d4a90dabe15e50b2cbdcbd946b5257d))
+
+
+### Features
+
+- Add QuantizationParameter when creating archives ([0a2c65f](https://github.com/Vonage/vonage-dotnet-sdk/commit/0a2c65f7b271bea0c873442425bb4ff26445f098))
+
+- Add QuantizationParameter on Archive ([241a8de](https://github.com/Vonage/vonage-dotnet-sdk/commit/241a8de52bc2497a101102a233a7a90f66603fd7))
+
+
 ## [v7.17.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.4) (2025-05-16)
 
 ### Bug Fixes
