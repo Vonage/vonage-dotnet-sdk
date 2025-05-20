@@ -1377,6 +1377,12 @@
         <None Update="Messages\Mms\Data\SendMmsFileAsyncReturnsOkWithTtl-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Messages\Mms\Data\SendMmsContentAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Mms\Data\SendMmsContentAsyncReturnsOkWithTtl-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

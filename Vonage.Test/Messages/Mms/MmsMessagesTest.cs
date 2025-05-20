@@ -262,4 +262,51 @@ public class MmsMessagesTest : TestBase
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
+
+    [Fact]
+    public async Task SendMmsContentAsyncReturnsOk()
+    {
+        var request = new MmsContentRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            Content = new[]
+            {
+                new Attachment
+                {
+                    Type = "image",
+                    Url = "https://example.com/image.jpg",
+                    Caption = "See the attached image",
+                },
+            },
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendMmsContentAsyncReturnsOkWithTtl()
+    {
+        var request = new MmsContentRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            Content = new[]
+            {
+                new Attachment
+                {
+                    Type = "image",
+                    Url = "https://example.com/image.jpg",
+                    Caption = "See the attached image",
+                },
+            },
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+            TimeToLive = 600,
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
 }
