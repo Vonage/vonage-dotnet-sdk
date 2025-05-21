@@ -14,5 +14,9 @@ public partial struct MyRequest
 
 internal struct MyRequestBuilder : IBuilderForOptional
 {
+    public MyRequestBuilder()
+    {
+    }
+
     public Result<MyRequest> Create() => Result<MyRequest>.FromSuccess(new MyRequest { }).Map(InputEvaluation<MyRequest>.Evaluate).Bind(evaluation => evaluation.WithRules());
 }

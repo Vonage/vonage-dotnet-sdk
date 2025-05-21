@@ -16,8 +16,14 @@ public partial struct MyRequest
 
 internal struct MyRequestBuilder : IBuilderForOptional
 {
-    private bool enabled = true;
-    private bool hidden = false;
+    private bool enabled;
+    private bool hidden;
+    public MyRequestBuilder()
+    {
+        this.enabled = true;
+        this.hidden = false;
+    }
+
     public IBuilderForOptional Disable() => this with
     {
         enabled = false

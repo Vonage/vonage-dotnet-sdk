@@ -18,6 +18,12 @@ internal struct MyRequestBuilder : IBuilderForOptional
 {
     private int id;
     private string name;
+    public MyRequestBuilder()
+    {
+        this.id = Maybe<int>.None;
+        this.name = Maybe<string>.None;
+    }
+
     public IBuilderForOptional WithId(int value) => this with
     {
         id = value

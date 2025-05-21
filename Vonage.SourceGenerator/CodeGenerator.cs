@@ -58,6 +58,12 @@ internal class CodeGenerator(
                  internal struct {{this.BuilderName}} : {{string.Join(", ", this.GetAllInterfaces())}}
                  {
                     {{string.Join("\n", this.AllProperties.Select(property => property.FieldDeclaration).ToArray())}}
+                    
+                    public {{this.BuilderName}}()
+                    {
+                        {{string.Join("\n", this.AllProperties.Select(property => property.DefaultValueAssignment).ToArray())}}
+                    }
+                    
                     {{string.Join("\n", this.GetBuilderInterfaces().Select(i => i.BuildImplementation()))}}
                     public Result<{{this.TypeName}}> Create() => Result<{{this.TypeName}}>.FromSuccess(
                          new {{this.TypeName}}
