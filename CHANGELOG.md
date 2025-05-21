@@ -1,4 +1,20 @@
 # Changelog
+## [v7.19.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.19.0) (2025-05-21)
+
+### Documentation
+
+- Generate changelog for v7.18.0 ([cb9a893](https://github.com/Vonage/vonage-dotnet-sdk/commit/cb9a893cc5706c9547ac8f26fcdd80569ebbb019))
+
+- Bump version to v7.19.0 ([4619508](https://github.com/Vonage/vonage-dotnet-sdk/commit/46195083c2f16162346abf589ae8aa2f6af2a315))
+
+
+### Features
+
+- Support MMS File type in Messages ([4e3b540](https://github.com/Vonage/vonage-dotnet-sdk/commit/4e3b5404fdda85fc09ca93d47910f8b64edbfefa))
+
+- Support MMS Content type in Messages ([017c755](https://github.com/Vonage/vonage-dotnet-sdk/commit/017c755c17c1c1ecf5a363b53918a04bb9f1622c))
+
+
 ## [v7.18.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.18.0) (2025-05-19)
 
 ### Documentation
