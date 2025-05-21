@@ -16,11 +16,11 @@ public class AttributesGenerator : IIncrementalGenerator
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class MandatoryAttribute : Attribute
 {
-    public string ValidationMethodName { get; }
+    public string[] ValidationMethods { get; }
     public int Order { get; }
     public MandatoryAttribute(int order) => this.Order = order;
-    public MandatoryAttribute(int order, string validationMethodName)
-        : this(order) => this.ValidationMethodName = validationMethodName;
+    public MandatoryAttribute(int order, params string[] validationMethods)
+        : this(order) => this.ValidationMethods = validationMethods;
 }";
 
     private const string OptionalAttributeSource =

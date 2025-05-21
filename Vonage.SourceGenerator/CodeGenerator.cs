@@ -8,8 +8,7 @@ namespace Vonage.SourceGenerator;
 internal class CodeGenerator(
     INamedTypeSymbol type,
     MandatoryProperty[] mandatoryProperties,
-    IOptionalProperty[] optionalProperties,
-    List<ValidationRule> validationRules)
+    IOptionalProperty[] optionalProperties)
 {
     private IProperty[] AllProperties =>
         this.OrderedMandatoryProperties.Concat<IProperty>(optionalProperties).ToArray();
@@ -46,7 +45,8 @@ internal class CodeGenerator(
     }
 
     private IEnumerable<string> FormatValidationRules() =>
-        validationRules.Select(r => $"{this.TypeName}.{r.MethodName}");
+        this.OrderedMandatoryProperties.SelectMany(mandatory => mandatory.ValidationRules)
+            .Select(r => $"{this.TypeName}.{r.MethodName}");
 
     private string GenerateBuilder()
     {

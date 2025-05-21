@@ -15,6 +15,8 @@ public class BuilderGeneratorTests
     [Theory]
     [InlineData("EmptyRequest")]
     [InlineData("MandatoryOnly")]
+    [InlineData("MandatorySingleValidationRule")]
+    [InlineData("MandatoryMultipleValidationRule")]
     [InlineData("OptionalOnly")]
     [InlineData("OptionalBoolean")]
     public void VerifyCodeGeneration(string sample)

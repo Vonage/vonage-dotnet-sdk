@@ -19,37 +19,11 @@ public class BuilderGenerator : IIncrementalGenerator
         GenerateCode(context, structDeclarations);
     }
 
-    private static string GenerateBuilder(INamedTypeSymbol structSymbol)
-    {
-        var mandatoryProps = new List<IPropertySymbol>();
-        var optionalProps = new List<IPropertySymbol>();
-        var validationRules = new List<ValidationRule>();
-        foreach (var member in GetMandatoryMembers(structSymbol)
-                     .OrderBy(member =>
-                         int.Parse(member.GetAttributes()
-                             .FirstOrDefault(a => a.AttributeClass?.Name == "MandatoryAttribute")
-                             .ConstructorArguments[0].Value?.ToString() ?? "")))
-        {
-            var mandatoryAttr = member.GetAttributes()
-                .FirstOrDefault(a => a.AttributeClass?.Name == "MandatoryAttribute");
-            mandatoryProps.Add(member);
-            if (mandatoryAttr.ConstructorArguments.Length > 1)
-            {
-                validationRules.Add(new ValidationRule(mandatoryAttr.ConstructorArguments[1].Value?.ToString() ??
-                                                       string.Empty));
-            }
-        }
-
-        foreach (var member in GetOptionalMembers(structSymbol))
-        {
-            optionalProps.Add(member);
-        }
-
-        return new CodeGenerator(structSymbol,
-            GetMandatoryProperties(structSymbol).ToArray(),
-            GetOptionalProperties(structSymbol).Concat(GetOptionalBooleanProperties(structSymbol)).ToArray(),
-            validationRules).GenerateCode();
-    }
+    private static string GenerateBuilder(INamedTypeSymbol structSymbol) =>
+        new CodeGenerator(structSymbol,
+                GetMandatoryProperties(structSymbol).ToArray(),
+                GetOptionalProperties(structSymbol).Concat(GetOptionalBooleanProperties(structSymbol)).ToArray())
+            .GenerateCode();
 
     private static void GenerateCode(IncrementalGeneratorInitializationContext context,
         IncrementalValueProvider<ImmutableArray<INamedTypeSymbol>> structDeclarations)
@@ -83,11 +57,20 @@ public class BuilderGenerator : IIncrementalGenerator
             var property = new MandatoryProperty(member, order);
             if (mandatoryAttr.ConstructorArguments.Length > 1)
             {
-                property = property with
+                if (mandatoryAttr.ConstructorArguments[1].Kind == TypedConstantKind.Array)
                 {
-                    ValidationRules =
-                    [new ValidationRule(mandatoryAttr.ConstructorArguments[1].Value?.ToString() ?? string.Empty)],
-                };
+                    property = property with
+                    {
+                        ValidationRules = mandatoryAttr.ConstructorArguments[1].Values.Select(v => (string?) v.Value)
+                            .Select(value => new ValidationRule(value)).ToArray(),
+                    };
+                }
+
+                // property = property with
+                // {
+                //     ValidationRules =
+                //     [new ValidationRule(mandatoryAttr.ConstructorArguments[1].Value?.ToString() ?? string.Empty)],
+                // };
             }
 
             yield return property;
