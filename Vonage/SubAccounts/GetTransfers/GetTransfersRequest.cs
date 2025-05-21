@@ -1,18 +1,14 @@
-﻿#region
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
-using Vonage.Common.Validation;
-#endregion
 
 namespace Vonage.SubAccounts.GetTransfers;
 
 /// <inheritdoc />
-[Builder]
-public readonly partial struct GetTransfersRequest : IVonageRequest
+public readonly struct GetTransfersRequest : IVonageRequest
 {
     internal const string BalanceTransfer = "balance-transfers";
     internal const string CreditTransfer = "credit-transfers";
@@ -25,20 +21,23 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
     /// <summary>
     ///     End of the retrieval period. If absent then all transfers until now is returned.
     /// </summary>
-    [Optional]
     public Maybe<DateTimeOffset> EndDate { get; internal init; }
 
     /// <summary>
     ///     Start of the retrieval period.
     /// </summary>
-    [Mandatory(0, nameof(VerifySubAccountKey))]
     public DateTimeOffset StartDate { get; internal init; }
 
     /// <summary>
     ///     Subaccount to filter by.
     /// </summary>
-    [Optional]
     public Maybe<string> SubAccountKey { get; internal init; }
+
+    /// <summary>
+    ///     Initializes a builder for GetTransfersRequest.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForStartDate Build() => new GetTransfersRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -48,10 +47,6 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
     /// <inheritdoc />
     public string GetEndpointPath() => UriHelpers.BuildUri($"/accounts/{this.ApiKey}/{this.Endpoint}",
         this.GetQueryStringParameters());
-
-    internal static Result<GetTransfersRequest> VerifySubAccountKey(GetTransfersRequest request) =>
-        request.SubAccountKey.Match(key => InputValidation.VerifyNotEmpty(request, key, nameof(request.SubAccountKey)),
-            () => request);
 
     private Dictionary<string, string> GetQueryStringParameters()
     {
