@@ -1,16 +1,22 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Common.Validation;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.SubAccounts.CreateSubAccount;
 
 /// <inheritdoc />
-public readonly struct CreateSubAccountRequest : IVonageRequest
+[Builder]
+public readonly partial struct CreateSubAccountRequest : IVonageRequest
 {
+    private const int NameMaxLength = 80;
+
     /// <summary>
     ///     Unique primary account ID.
     /// </summary>
@@ -20,6 +26,7 @@ public readonly struct CreateSubAccountRequest : IVonageRequest
     ///     Name of the subaccount.
     /// </summary>
     [JsonPropertyOrder(0)]
+    [Mandatory(0, nameof(VerifyName), nameof(VerifyNameLength))]
     public string Name { get; internal init; }
 
     /// <summary>
@@ -28,6 +35,7 @@ public readonly struct CreateSubAccountRequest : IVonageRequest
     [JsonPropertyOrder(2)]
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [Optional]
     public Maybe<string> Secret { get; internal init; }
 
     /// <summary>
@@ -35,13 +43,8 @@ public readonly struct CreateSubAccountRequest : IVonageRequest
     /// </summary>
     [JsonPropertyOrder(1)]
     [JsonPropertyName("use_primary_account_balance")]
+    [OptionalBoolean(true, "DisableSharedAccountBalance")]
     public bool UsePrimaryAccountBalance { get; internal init; }
-
-    /// <summary>
-    ///     Initializes a builder for CreateRoomRequest.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForName Build() => new CreateSubAccountRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -51,6 +54,13 @@ public readonly struct CreateSubAccountRequest : IVonageRequest
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/accounts/{this.ApiKey}/subaccounts";
+
+    internal static Result<CreateSubAccountRequest> VerifyName(CreateSubAccountRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.Name, nameof(request.Name));
+
+    internal static Result<CreateSubAccountRequest> VerifyNameLength(CreateSubAccountRequest request) =>
+        InputValidation
+            .VerifyLengthLowerOrEqualThan(request, request.Name, NameMaxLength, nameof(request.Name));
 
     private StringContent GetRequestContent() => new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
         Encoding.UTF8,

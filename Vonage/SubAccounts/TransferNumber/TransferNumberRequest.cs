@@ -1,14 +1,21 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.SubAccounts.TransferNumber;
 
 /// <inheritdoc />
-public readonly struct TransferNumberRequest : IVonageRequest
+[Builder]
+public readonly partial struct TransferNumberRequest : IVonageRequest
 {
+    private const int CountryLength = 2;
+
     /// <summary>
     ///     Unique primary account ID.
     /// </summary>
@@ -18,31 +25,29 @@ public readonly struct TransferNumberRequest : IVonageRequest
     ///     The two character country code in ISO 3166-1 alpha-2 format
     /// </summary>
     [JsonPropertyOrder(3)]
+    [Mandatory(3, nameof(VerifyCountry))]
     public string Country { get; internal init; }
 
     /// <summary>
     ///     Account the number is transferred from
     /// </summary>
     [JsonPropertyOrder(0)]
+    [Mandatory(0, nameof(VerifyFrom))]
     public string From { get; internal init; }
 
     /// <summary>
     ///     Number transferred
     /// </summary>
     [JsonPropertyOrder(2)]
+    [Mandatory(2, nameof(VerifyNumber))]
     public string Number { get; internal init; }
 
     /// <summary>
     ///     Account the number is transferred to
     /// </summary>
     [JsonPropertyOrder(1)]
+    [Mandatory(1, nameof(VerifyTo))]
     public string To { get; internal init; }
-
-    /// <summary>
-    ///     Initializes a builder for TransferNumberRequest.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForFrom Build() => new TransferNumberRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -52,6 +57,22 @@ public readonly struct TransferNumberRequest : IVonageRequest
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/accounts/{this.ApiKey}/transfer-number";
+
+    internal static Result<TransferNumberRequest> VerifyCountry(TransferNumberRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.Country, nameof(request.Country))
+            .Bind(VerifyCountryLength);
+
+    internal static Result<TransferNumberRequest> VerifyCountryLength(TransferNumberRequest request) =>
+        InputValidation.VerifyLength(request, request.Country, CountryLength, nameof(request.Country));
+
+    internal static Result<TransferNumberRequest> VerifyFrom(TransferNumberRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.From, nameof(request.From));
+
+    internal static Result<TransferNumberRequest> VerifyNumber(TransferNumberRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.Number, nameof(request.Number));
+
+    internal static Result<TransferNumberRequest> VerifyTo(TransferNumberRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.To, nameof(request.To));
 
     private StringContent GetRequestContent() => new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
         Encoding.UTF8,
