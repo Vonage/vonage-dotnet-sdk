@@ -19,6 +19,7 @@ public class BuilderGeneratorTests
     [InlineData("MandatoryMultipleValidationRule")]
     [InlineData("OptionalOnly")]
     [InlineData("OptionalBoolean")]
+    [InlineData("OptionalWithDefault")]
     public void VerifyCodeGeneration(string sample)
     {
         var inputCode = File.ReadAllText($"Files/{sample}_Input.txt").Trim();

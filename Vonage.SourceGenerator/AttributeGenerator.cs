@@ -28,6 +28,19 @@ public sealed class MandatoryAttribute : Attribute
 [AttributeUsage(AttributeTargets.Property)] public sealed class OptionalAttribute : Attribute { }
 
 [AttributeUsage(AttributeTargets.Property)] public sealed class OptionalBooleanAttribute(bool DefaultValue, string MethodName) : Attribute { }
+
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class OptionalWithDefaultAttribute : Attribute
+{
+    public OptionalWithDefaultAttribute(string type, string defaultValue)
+    {
+        Type = type;
+        DefaultValue = defaultValue;
+    }
+
+    public string Type { get; }
+    public string DefaultValue { get; }
+}
 ";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)

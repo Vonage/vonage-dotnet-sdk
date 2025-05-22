@@ -22,7 +22,10 @@ public class BuilderGenerator : IIncrementalGenerator
     private static string GenerateBuilder(INamedTypeSymbol structSymbol) =>
         new CodeGenerator(structSymbol,
                 GetMandatoryProperties(structSymbol).ToArray(),
-                GetOptionalProperties(structSymbol).Concat(GetOptionalBooleanProperties(structSymbol)).ToArray())
+                GetOptionalProperties(structSymbol)
+                    .Concat(GetOptionalBooleanProperties(structSymbol))
+                    .Concat(GetOptionalWithDefaultProperties(structSymbol))
+                    .ToArray())
             .GenerateCode();
 
     private static void GenerateCode(IncrementalGeneratorInitializationContext context,
@@ -65,12 +68,6 @@ public class BuilderGenerator : IIncrementalGenerator
                             .Select(value => new ValidationRule(value)).ToArray(),
                     };
                 }
-
-                // property = property with
-                // {
-                //     ValidationRules =
-                //     [new ValidationRule(mandatoryAttr.ConstructorArguments[1].Value?.ToString() ?? string.Empty)],
-                // };
             }
 
             yield return property;
@@ -84,12 +81,12 @@ public class BuilderGenerator : IIncrementalGenerator
 
     private static IEnumerable<IOptionalProperty> GetOptionalBooleanProperties(INamedTypeSymbol structSymbol) =>
         from member in GetOptionalBooleanMembers(structSymbol)
-        let mandatoryAttr = member.GetAttributes()
+        let attribute = member.GetAttributes()
             .FirstOrDefault(a => a.AttributeClass?.Name == "OptionalBooleanAttribute")
         select new OptionalBooleanProperty(
             member,
-            bool.Parse(mandatoryAttr.ConstructorArguments[0].Value?.ToString()),
-            mandatoryAttr.ConstructorArguments[1].Value?.ToString());
+            bool.Parse(attribute.ConstructorArguments[0].Value?.ToString()),
+            attribute.ConstructorArguments[1].Value?.ToString());
 
     private static IEnumerable<IPropertySymbol> GetOptionalMembers(INamedTypeSymbol structSymbol) =>
         structSymbol.GetMembers().OfType<IPropertySymbol>()
@@ -98,6 +95,21 @@ public class BuilderGenerator : IIncrementalGenerator
 
     private static IEnumerable<IOptionalProperty> GetOptionalProperties(INamedTypeSymbol structSymbol) =>
         GetOptionalMembers(structSymbol).Select(member => new OptionalProperty(member));
+
+    private static IEnumerable<IPropertySymbol> GetOptionalWithDefaultMembers(INamedTypeSymbol structSymbol) =>
+        structSymbol.GetMembers().OfType<IPropertySymbol>()
+            .Where(member =>
+                member.GetAttributes()
+                    .Any(attribute => attribute.AttributeClass?.Name == "OptionalWithDefaultAttribute"));
+
+    private static IEnumerable<IOptionalProperty> GetOptionalWithDefaultProperties(INamedTypeSymbol structSymbol) =>
+        from member in GetOptionalWithDefaultMembers(structSymbol)
+        let attribute = member.GetAttributes()
+            .FirstOrDefault(a => a.AttributeClass?.Name == "OptionalWithDefaultAttribute")
+        select new OptionalWithDefaultProperty(
+            member,
+            attribute.ConstructorArguments[0].Value?.ToString(),
+            attribute.ConstructorArguments[1].Value?.ToString());
 
     private static INamedTypeSymbol GetStructSymbol(GeneratorSyntaxContext context)
     {
@@ -163,6 +175,30 @@ IBuilderForOptional {this.MethodName}();
     public string Implementation => @$"
 public IBuilderForOptional {this.MethodName}() => this with {{ {this.Property.Name.ToLower()} = {(!this.DefaultValue).ToString().ToLowerInvariant()} }};
 ";
+}
+
+internal record OptionalWithDefaultProperty(
+    IPropertySymbol Property,
+    string type,
+    string defaultValue,
+    params ValidationRule[] ValidationRules) : IOptionalProperty
+{
+    public string Declaration => $"IBuilderForOptional With{this.Property.Name}({this.Property.Type} value);";
+    public string FieldDeclaration => $"private {this.Property.Type.ToDisplayString()} {this.Property.Name.ToLower()};";
+    public string DefaultValueAssignment => $"this.{this.Property.Name.ToLower()} = {this.ParseDefaultValue()};";
+
+    public string Implementation =>
+        $"public IBuilderForOptional With{this.Property.Name}({this.Property.Type} value) => this with {{ {this.Property.Name.ToLower()} = value }};";
+
+    private string ParseDefaultValue()
+    {
+        return this.type switch
+        {
+            "int" => this.defaultValue,
+            "string" => $"\"{this.defaultValue}\"",
+            _ => "null",
+        };
+    }
 }
 
 internal record ValidationRule(string MethodName);
