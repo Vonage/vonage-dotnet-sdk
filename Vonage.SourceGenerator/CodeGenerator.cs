@@ -45,7 +45,7 @@ internal class CodeGenerator(
     }
 
     private IEnumerable<string> FormatValidationRules() =>
-        this.OrderedMandatoryProperties.SelectMany(mandatory => mandatory.ValidationRules)
+        this.AllProperties.SelectMany(mandatory => mandatory.ValidationRules)
             .Select(r => $"{this.TypeName}.{r.MethodName}");
 
     private string GenerateBuilder()

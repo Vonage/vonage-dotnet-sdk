@@ -102,14 +102,31 @@ public class BuilderGenerator : IIncrementalGenerator
                 member.GetAttributes()
                     .Any(attribute => attribute.AttributeClass?.Name == "OptionalWithDefaultAttribute"));
 
-    private static IEnumerable<IOptionalProperty> GetOptionalWithDefaultProperties(INamedTypeSymbol structSymbol) =>
-        from member in GetOptionalWithDefaultMembers(structSymbol)
-        let attribute = member.GetAttributes()
-            .FirstOrDefault(a => a.AttributeClass?.Name == "OptionalWithDefaultAttribute")
-        select new OptionalWithDefaultProperty(
-            member,
-            attribute.ConstructorArguments[0].Value?.ToString(),
-            attribute.ConstructorArguments[1].Value?.ToString());
+    private static IEnumerable<IOptionalProperty> GetOptionalWithDefaultProperties(INamedTypeSymbol structSymbol)
+    {
+        foreach (var member in GetOptionalWithDefaultMembers(structSymbol))
+        {
+            var attribute = member.GetAttributes()
+                .FirstOrDefault(a => a.AttributeClass?.Name == "OptionalWithDefaultAttribute");
+            var property = new OptionalWithDefaultProperty(
+                member,
+                attribute.ConstructorArguments[0].Value?.ToString(),
+                attribute.ConstructorArguments[1].Value?.ToString());
+            if (attribute.ConstructorArguments.Length > 2)
+            {
+                if (attribute.ConstructorArguments[2].Kind == TypedConstantKind.Array)
+                {
+                    property = property with
+                    {
+                        ValidationRules = attribute.ConstructorArguments[2].Values.Select(v => (string?) v.Value)
+                            .Select(value => new ValidationRule(value)).ToArray(),
+                    };
+                }
+            }
+
+            yield return property;
+        }
+    }
 
     private static INamedTypeSymbol GetStructSymbol(GeneratorSyntaxContext context)
     {
@@ -159,7 +176,11 @@ internal record OptionalProperty(IPropertySymbol Property, params ValidationRule
         $"public IBuilderForOptional With{this.Property.Name}({this.InnerType} value) => this with {{ {this.Property.Name.ToLower()} = value }};";
 }
 
-internal record OptionalBooleanProperty(IPropertySymbol Property, bool DefaultValue, string MethodName)
+internal record OptionalBooleanProperty(
+    IPropertySymbol Property,
+    bool DefaultValue,
+    string MethodName,
+    params ValidationRule[] ValidationRules)
     : IOptionalProperty
 {
     public string Declaration => @$"
@@ -179,8 +200,8 @@ public IBuilderForOptional {this.MethodName}() => this with {{ {this.Property.Na
 
 internal record OptionalWithDefaultProperty(
     IPropertySymbol Property,
-    string type,
-    string defaultValue,
+    string Type,
+    string DefaultValue,
     params ValidationRule[] ValidationRules) : IOptionalProperty
 {
     public string Declaration => $"IBuilderForOptional With{this.Property.Name}({this.Property.Type} value);";
@@ -192,10 +213,10 @@ internal record OptionalWithDefaultProperty(
 
     private string ParseDefaultValue()
     {
-        return this.type switch
+        return this.Type switch
         {
-            "int" => this.defaultValue,
-            "string" => $"\"{this.defaultValue}\"",
+            "int" => this.DefaultValue,
+            "string" => $"\"{this.DefaultValue}\"",
             _ => "null",
         };
     }
@@ -214,4 +235,5 @@ internal interface IProperty
     string FieldDeclaration { get; }
     IPropertySymbol Property { get; }
     string DefaultValueAssignment { get; }
+    ValidationRule[] ValidationRules { get; }
 }

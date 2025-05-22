@@ -37,9 +37,12 @@ public sealed class OptionalWithDefaultAttribute : Attribute
         Type = type;
         DefaultValue = defaultValue;
     }
+    public OptionalWithDefaultAttribute(string type, string defaultValue, params string[] validationMethods)
+        : this(type, defaultValue) => this.ValidationMethods = validationMethods;
 
     public string Type { get; }
     public string DefaultValue { get; }
+    public string[] ValidationMethods { get; }
 }
 ";
 

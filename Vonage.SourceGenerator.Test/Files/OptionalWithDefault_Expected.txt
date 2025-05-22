@@ -32,5 +32,5 @@ internal struct MyRequestBuilder : IBuilderForOptional
     {
         name = value
     };
-    public Result<MyRequest> Create() => Result<MyRequest>.FromSuccess(new MyRequest { Id = this.id, Name = this.name, }).Map(InputEvaluation<MyRequest>.Evaluate).Bind(evaluation => evaluation.WithRules());
+    public Result<MyRequest> Create() => Result<MyRequest>.FromSuccess(new MyRequest { Id = this.id, Name = this.name, }).Map(InputEvaluation<MyRequest>.Evaluate).Bind(evaluation => evaluation.WithRules(MyRequest.VerifyName));
 }
