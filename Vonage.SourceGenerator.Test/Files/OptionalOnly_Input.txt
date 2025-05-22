@@ -4,7 +4,7 @@
 public readonly partial struct MyRequest : IVonageRequest
 {
     [Optional]
-    public int Id { get; internal init; }
+    public Maybe<int> Id { get; internal init; }
     [Optional]
-    public string Name { get; internal init; }
+    public Maybe<string> Name { get; internal init; }
 }

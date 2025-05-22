@@ -132,9 +132,9 @@ internal record MandatoryProperty(IPropertySymbol Property, int Order, params Va
 
 internal record OptionalProperty(IPropertySymbol Property, params ValidationRule[] ValidationRules) : IOptionalProperty
 {
-    public string InnerType =>
-        this.Property.Type is INamedTypeSymbol namedType && namedType.OriginalDefinition.ToDisplayString() ==
-        "Vonage.Common.Monads.Maybe<TSource>"
+    private string InnerType =>
+        this.Property.Type is INamedTypeSymbol namedType &&
+        namedType.OriginalDefinition.ToDisplayString().Contains("Maybe<")
             ? namedType.TypeArguments[0].ToDisplayString()
             : this.Property.Type.ToString();
 
