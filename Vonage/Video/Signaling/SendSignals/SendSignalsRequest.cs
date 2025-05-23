@@ -1,40 +1,35 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Video.Signaling.SendSignals;
 
 /// <summary>
 ///     Represents a request to send a signal to all participants.
 /// </summary>
-public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
+[Builder]
+public readonly partial struct SendSignalsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    private SendSignalsRequest(Guid applicationId, string sessionId, SignalContent content)
-    {
-        this.ApplicationId = applicationId;
-        this.SessionId = sessionId;
-        this.Content = content;
-    }
-
-    /// <inheritdoc />
-    public Guid ApplicationId { get; internal init; }
-
     /// <summary>
     ///     The signal content.
     /// </summary>
+    [Mandatory(2, nameof(VerifyContentData), nameof(VerifyContentType))]
     public SignalContent Content { get; internal init; }
 
     /// <inheritdoc />
-    public string SessionId { get; internal init; }
+    [Mandatory(0, nameof(VerifyApplicationId))]
+    public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new SendSignalsRequestBuilder();
+    /// <inheritdoc />
+    [Mandatory(1, nameof(VerifySessionId))]
+    public string SessionId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -50,4 +45,16 @@ public readonly struct SendSignalsRequest : IVonageRequest, IHasApplicationId, I
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this.Content),
             Encoding.UTF8,
             "application/json");
+
+    internal static Result<SendSignalsRequest> VerifyApplicationId(SendSignalsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    internal static Result<SendSignalsRequest> VerifyContentData(SendSignalsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.Content.Data, nameof(SignalContent.Data));
+
+    internal static Result<SendSignalsRequest> VerifyContentType(SendSignalsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.Content.Type, nameof(SignalContent.Type));
+
+    internal static Result<SendSignalsRequest> VerifySessionId(SendSignalsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }
