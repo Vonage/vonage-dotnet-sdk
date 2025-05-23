@@ -1,6 +1,8 @@
 ﻿#region
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Vonage.SourceGenerator.Builders;
+using Vonage.SourceGenerator.Properties;
 #endregion
 
 namespace Vonage.SourceGenerator;
@@ -116,43 +118,4 @@ internal class CodeGenerator(
         this.OrderedMandatoryProperties.Length > 0
             ? $"IBuilderFor{this.OrderedMandatoryProperties[0].Property.Name}"
             : "IBuilderForOptional";
-
-    private static string GetPropertyType(IPropertySymbol prop) => prop.Type.ToDisplayString();
-}
-
-internal record MandatoryBuilderInterface(IPropertySymbol Property, string ReturnType) : IBuilderInterface
-{
-    public string Name => $"IBuilderFor{this.Property.Name}";
-
-    public string BuildDeclaration() => $$"""
-                                          public interface {{this.Name}}
-                                          {
-                                              {{this.ReturnType}} With{{this.Property.Name}}({{this.Property.Type.ToDisplayString()}} value);
-                                          }
-                                          """;
-
-    public string BuildImplementation() =>
-        $"    public {this.ReturnType} With{this.Property.Name}({this.Property.Type.ToDisplayString()} value) => this with {{ {this.Property.Name.ToLower()} = value }};";
-}
-
-internal record OptionalBuilderInterface(IOptionalProperty[] Properties, string GenericType) : IBuilderInterface
-{
-    public string Name => "IBuilderForOptional";
-
-    public string BuildDeclaration() => $$"""
-                                          public interface IBuilderForOptional : IVonageRequestBuilder<{{this.GenericType}}>
-                                          {
-                                                {{string.Join("\n", this.Properties.Select(property => property.Declaration))}}
-                                          }
-                                          """;
-
-    public string BuildImplementation() =>
-        string.Join("\n", this.Properties.Select(property => property.Implementation));
-}
-
-internal interface IBuilderInterface
-{
-    string Name { get; }
-    string BuildDeclaration();
-    string BuildImplementation();
 }

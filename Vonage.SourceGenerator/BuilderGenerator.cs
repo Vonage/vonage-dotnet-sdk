@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using Vonage.SourceGenerator.Properties;
 #endregion
 
 namespace Vonage.SourceGenerator;
@@ -12,6 +13,7 @@ namespace Vonage.SourceGenerator;
 public class BuilderGenerator : IIncrementalGenerator
 {
     private const string BuilderAttribute = "Builder";
+    private const string OptionalAttributeName = "OptionalAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -45,88 +47,28 @@ public class BuilderGenerator : IIncrementalGenerator
         productionContext.AddSource(fileName, SourceText.From(generatedCode, Encoding.UTF8));
     }
 
-    private static IEnumerable<IPropertySymbol> GetMandatoryMembers(INamedTypeSymbol structSymbol) =>
+    private static IEnumerable<MandatoryProperty> GetMandatoryProperties(INamedTypeSymbol structSymbol) =>
+        GetMembersForAttribute(structSymbol, MandatoryProperty.AttributeName).Select(MandatoryProperty.FromMember);
+
+    private static IEnumerable<IPropertySymbol> GetMembersForAttribute(INamedTypeSymbol structSymbol,
+        string attributeName) =>
         structSymbol.GetMembers().OfType<IPropertySymbol>()
             .Where(member =>
-                member.GetAttributes().Any(attribute => attribute.AttributeClass?.Name == "MandatoryAttribute"));
-
-    private static IEnumerable<MandatoryProperty> GetMandatoryProperties(INamedTypeSymbol structSymbol)
-    {
-        foreach (var member in GetMandatoryMembers(structSymbol))
-        {
-            var mandatoryAttr = member.GetAttributes()
-                .FirstOrDefault(a => a.AttributeClass?.Name == "MandatoryAttribute");
-            var order = int.Parse(mandatoryAttr.ConstructorArguments[0].Value?.ToString() ?? "");
-            var property = new MandatoryProperty(member, order);
-            if (mandatoryAttr.ConstructorArguments.Length > 1)
-            {
-                if (mandatoryAttr.ConstructorArguments[1].Kind == TypedConstantKind.Array)
-                {
-                    property = property with
-                    {
-                        ValidationRules = mandatoryAttr.ConstructorArguments[1].Values.Select(v => (string?) v.Value)
-                            .Select(value => new ValidationRule(value)).ToArray(),
-                    };
-                }
-            }
-
-            yield return property;
-        }
-    }
-
-    private static IEnumerable<IPropertySymbol> GetOptionalBooleanMembers(INamedTypeSymbol structSymbol) =>
-        structSymbol.GetMembers().OfType<IPropertySymbol>()
-            .Where(member =>
-                member.GetAttributes().Any(attribute => attribute.AttributeClass?.Name == "OptionalBooleanAttribute"));
+                member.GetAttributes().Any(attribute => attribute.AttributeClass?.Name == attributeName));
 
     private static IEnumerable<IOptionalProperty> GetOptionalBooleanProperties(INamedTypeSymbol structSymbol) =>
-        from member in GetOptionalBooleanMembers(structSymbol)
-        let attribute = member.GetAttributes()
-            .FirstOrDefault(a => a.AttributeClass?.Name == "OptionalBooleanAttribute")
-        select new OptionalBooleanProperty(
-            member,
-            bool.Parse(attribute.ConstructorArguments[0].Value?.ToString()),
-            attribute.ConstructorArguments[1].Value?.ToString());
+        GetMembersForAttribute(structSymbol, OptionalBooleanProperty.AttributeName)
+            .Select(OptionalBooleanProperty.FromMember);
 
     private static IEnumerable<IPropertySymbol> GetOptionalMembers(INamedTypeSymbol structSymbol) =>
-        structSymbol.GetMembers().OfType<IPropertySymbol>()
-            .Where(member =>
-                member.GetAttributes().Any(attribute => attribute.AttributeClass?.Name == "OptionalAttribute"));
+        GetMembersForAttribute(structSymbol, OptionalAttributeName);
 
     private static IEnumerable<IOptionalProperty> GetOptionalProperties(INamedTypeSymbol structSymbol) =>
         GetOptionalMembers(structSymbol).Select(member => new OptionalProperty(member));
 
-    private static IEnumerable<IPropertySymbol> GetOptionalWithDefaultMembers(INamedTypeSymbol structSymbol) =>
-        structSymbol.GetMembers().OfType<IPropertySymbol>()
-            .Where(member =>
-                member.GetAttributes()
-                    .Any(attribute => attribute.AttributeClass?.Name == "OptionalWithDefaultAttribute"));
-
-    private static IEnumerable<IOptionalProperty> GetOptionalWithDefaultProperties(INamedTypeSymbol structSymbol)
-    {
-        foreach (var member in GetOptionalWithDefaultMembers(structSymbol))
-        {
-            var attribute = member.GetAttributes()
-                .FirstOrDefault(a => a.AttributeClass?.Name == "OptionalWithDefaultAttribute");
-            var property = new OptionalWithDefaultProperty(
-                member,
-                attribute.ConstructorArguments[0].Value?.ToString(),
-                attribute.ConstructorArguments[1].Value?.ToString());
-            if (attribute.ConstructorArguments.Length > 2)
-            {
-                if (attribute.ConstructorArguments[2].Kind == TypedConstantKind.Array)
-                {
-                    property = property with
-                    {
-                        ValidationRules = attribute.ConstructorArguments[2].Values.Select(v => (string?) v.Value)
-                            .Select(value => new ValidationRule(value)).ToArray(),
-                    };
-                }
-            }
-
-            yield return property;
-        }
-    }
+    private static IEnumerable<IOptionalProperty> GetOptionalWithDefaultProperties(INamedTypeSymbol structSymbol) =>
+        GetMembersForAttribute(structSymbol, OptionalWithDefaultProperty.AttributeName)
+            .Select(OptionalWithDefaultProperty.FromMember);
 
     private static INamedTypeSymbol GetStructSymbol(GeneratorSyntaxContext context)
     {
@@ -150,90 +92,4 @@ public class BuilderGenerator : IIncrementalGenerator
             .Where(symbol => symbol is not null)
             .Select((symbol, _) => symbol)
             .Collect();
-}
-
-internal record MandatoryProperty(IPropertySymbol Property, int Order, params ValidationRule[] ValidationRules)
-    : IProperty
-{
-    public string FieldDeclaration => $"private {this.Property.Type.ToDisplayString()} {this.Property.Name.ToLower()};";
-    public string DefaultValueAssignment => $"this.{this.Property.Name.ToLower()} = default;";
-}
-
-internal record OptionalProperty(IPropertySymbol Property, params ValidationRule[] ValidationRules) : IOptionalProperty
-{
-    private string InnerType =>
-        this.Property.Type is INamedTypeSymbol namedType &&
-        namedType.OriginalDefinition.ToDisplayString().Contains("Maybe<")
-            ? namedType.TypeArguments[0].ToDisplayString()
-            : this.Property.Type.ToString();
-
-    public string Declaration => $"IBuilderForOptional With{this.Property.Name}({this.InnerType} value);";
-
-    public string FieldDeclaration => $"private {this.Property.Type.ToDisplayString()} {this.Property.Name.ToLower()};";
-    public string DefaultValueAssignment => $"this.{this.Property.Name.ToLower()} = Maybe<{this.InnerType}>.None;";
-
-    public string Implementation =>
-        $"public IBuilderForOptional With{this.Property.Name}({this.InnerType} value) => this with {{ {this.Property.Name.ToLower()} = value }};";
-}
-
-internal record OptionalBooleanProperty(
-    IPropertySymbol Property,
-    bool DefaultValue,
-    string MethodName,
-    params ValidationRule[] ValidationRules)
-    : IOptionalProperty
-{
-    public string Declaration => @$"
-IBuilderForOptional {this.MethodName}();
-";
-
-    public string FieldDeclaration =>
-        $"private {this.Property.Type.ToDisplayString()} {this.Property.Name.ToLower()};";
-
-    public string DefaultValueAssignment =>
-        $"this.{this.Property.Name.ToLower()} = {this.DefaultValue.ToString().ToLowerInvariant()};";
-
-    public string Implementation => @$"
-public IBuilderForOptional {this.MethodName}() => this with {{ {this.Property.Name.ToLower()} = {(!this.DefaultValue).ToString().ToLowerInvariant()} }};
-";
-}
-
-internal record OptionalWithDefaultProperty(
-    IPropertySymbol Property,
-    string Type,
-    string DefaultValue,
-    params ValidationRule[] ValidationRules) : IOptionalProperty
-{
-    public string Declaration => $"IBuilderForOptional With{this.Property.Name}({this.Property.Type} value);";
-    public string FieldDeclaration => $"private {this.Property.Type.ToDisplayString()} {this.Property.Name.ToLower()};";
-    public string DefaultValueAssignment => $"this.{this.Property.Name.ToLower()} = {this.ParseDefaultValue()};";
-
-    public string Implementation =>
-        $"public IBuilderForOptional With{this.Property.Name}({this.Property.Type} value) => this with {{ {this.Property.Name.ToLower()} = value }};";
-
-    private string ParseDefaultValue()
-    {
-        return this.Type switch
-        {
-            "int" => this.DefaultValue,
-            "string" => $"\"{this.DefaultValue}\"",
-            _ => "null",
-        };
-    }
-}
-
-internal record ValidationRule(string MethodName);
-
-internal interface IOptionalProperty : IProperty
-{
-    string Declaration { get; }
-    string Implementation { get; }
-}
-
-internal interface IProperty
-{
-    string FieldDeclaration { get; }
-    IPropertySymbol Property { get; }
-    string DefaultValueAssignment { get; }
-    ValidationRule[] ValidationRules { get; }
 }
