@@ -1,22 +1,29 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.Video.ExperienceComposer.GetSessions;
 
 /// <summary>
 ///     Represents a request to retrieve sessions.
 /// </summary>
-public readonly struct GetSessionsRequest : IVonageRequest, IHasApplicationId
+[Builder]
+public readonly partial struct GetSessionsRequest : IVonageRequest, IHasApplicationId
 {
-    /// <inheritdoc />
-    public Guid ApplicationId { get; internal init; }
+    private const int MinimumOffset = 0;
+    private const int MinimumCount = 50;
+    private const int MaximumCount = 1000;
 
     /// <summary>
     ///     Set a count query parameter to limit the number of experience composers to be returned. The default number of
     ///     archives returned is 50 (or fewer, if there are fewer than 50 archives). The default is 50 and the maximum is 1000
     /// </summary>
+    [OptionalWithDefault("int", "50", nameof(VerifyCountMinimum), nameof(VerifyCountMaximum))]
     public int Count { get; internal init; }
 
     /// <summary>
@@ -24,7 +31,12 @@ public readonly struct GetSessionsRequest : IVonageRequest, IHasApplicationId
     ///     most recently started archive (excluding deleted archive). 1 is the offset of the experience composer that started
     ///     prior to the most recent composer. The default value is 0.
     /// </summary>
+    [OptionalWithDefault("int", "0", nameof(VerifyOffset))]
     public int Offset { get; internal init; }
+
+    /// <inheritdoc />
+    [Mandatory(0, nameof(VerifyApplicationId))]
+    public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -32,13 +44,19 @@ public readonly struct GetSessionsRequest : IVonageRequest, IHasApplicationId
             .Initialize(HttpMethod.Get, this.GetEndpointPath())
             .Build();
 
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new GetSessionsRequestBuilder();
-
     /// <inheritdoc />
     public string GetEndpointPath() =>
         $"/v2/project/{this.ApplicationId}/render?offset={this.Offset}&count={this.Count}";
+
+    internal static Result<GetSessionsRequest> VerifyApplicationId(GetSessionsRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    internal static Result<GetSessionsRequest> VerifyOffset(GetSessionsRequest request) =>
+        InputValidation.VerifyHigherOrEqualThan(request, request.Offset, MinimumOffset, nameof(request.Offset));
+
+    internal static Result<GetSessionsRequest> VerifyCountMinimum(GetSessionsRequest request) =>
+        InputValidation.VerifyHigherOrEqualThan(request, request.Count, MinimumCount, nameof(request.Count));
+
+    internal static Result<GetSessionsRequest> VerifyCountMaximum(GetSessionsRequest request) =>
+        InputValidation.VerifyLowerOrEqualThan(request, request.Count, MaximumCount, nameof(request.Count));
 }
