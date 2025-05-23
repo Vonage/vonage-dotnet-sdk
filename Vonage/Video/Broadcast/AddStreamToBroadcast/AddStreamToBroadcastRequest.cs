@@ -1,48 +1,53 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Video.Broadcast.AddStreamToBroadcast;
 
 /// <summary>
 ///     Represents a request to add a stream to a broadcast.
 /// </summary>
-public readonly struct AddStreamToBroadcastRequest : IVonageRequest, IHasApplicationId, IHasStreamId, IHasBroadcastId
+[Builder]
+public readonly partial struct AddStreamToBroadcastRequest : IVonageRequest, IHasApplicationId, IHasStreamId,
+    IHasBroadcastId
 {
-    /// <inheritdoc />
-    [JsonIgnore]
-    public Guid ApplicationId { get; internal init; }
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public Guid BroadcastId { get; internal init; }
-
     /// <summary>
     ///     Whether to include the stream's audio.
     /// </summary>
     [JsonPropertyOrder(1)]
+    [OptionalBoolean(true, "WithDisabledAudio")]
     public bool HasAudio { get; internal init; }
 
     /// <summary>
     ///     Whether to include the stream's video.
     /// </summary>
     [JsonPropertyOrder(2)]
+    [OptionalBoolean(true, "WithDisabledVideo")]
     public bool HasVideo { get; internal init; }
+
+    /// <inheritdoc />
+    [JsonIgnore]
+    [Mandatory(0, nameof(VerifyApplicationId))]
+    public Guid ApplicationId { get; internal init; }
+
+    /// <inheritdoc />
+    [JsonIgnore]
+    [Mandatory(1, nameof(VerifyBroadcastId))]
+    public Guid BroadcastId { get; internal init; }
 
     /// <inheritdoc />
     [JsonPropertyName("addStream")]
     [JsonPropertyOrder(0)]
+    [Mandatory(2, nameof(VerifyStreamId))]
     public Guid StreamId { get; internal init; }
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new AddStreamToBroadcastRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -57,4 +62,13 @@ public readonly struct AddStreamToBroadcastRequest : IVonageRequest, IHasApplica
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
+
+    internal static Result<AddStreamToBroadcastRequest> VerifyApplicationId(AddStreamToBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    internal static Result<AddStreamToBroadcastRequest> VerifyBroadcastId(AddStreamToBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
+
+    internal static Result<AddStreamToBroadcastRequest> VerifyStreamId(AddStreamToBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
 }

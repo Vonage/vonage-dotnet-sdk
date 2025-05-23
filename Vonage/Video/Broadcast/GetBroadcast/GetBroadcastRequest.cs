@@ -1,26 +1,27 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.Video.Broadcast.GetBroadcast;
 
 /// <summary>
 ///     Represents a request to retrieve a broadcast.
 /// </summary>
-public readonly struct GetBroadcastRequest : IVonageRequest, IHasApplicationId, IHasBroadcastId
+[Builder]
+public readonly partial struct GetBroadcastRequest : IVonageRequest, IHasApplicationId, IHasBroadcastId
 {
     /// <inheritdoc />
+    [Mandatory(0, nameof(VerifyApplicationId))]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
+    [Mandatory(1, nameof(VerifyBroadcastId))]
     public Guid BroadcastId { get; internal init; }
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new GetBroadcastRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -30,4 +31,10 @@ public readonly struct GetBroadcastRequest : IVonageRequest, IHasApplicationId, 
 
     /// <inheritdoc />
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}";
+
+    internal static Result<GetBroadcastRequest> VerifyApplicationId(GetBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    internal static Result<GetBroadcastRequest> VerifyBroadcastId(GetBroadcastRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 }
