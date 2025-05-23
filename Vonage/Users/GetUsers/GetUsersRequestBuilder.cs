@@ -1,15 +1,15 @@
-﻿using Vonage.Common.Client;
+﻿using Vonage.Common;
+using Vonage.Common.Client;
 using Vonage.Common.Monads;
-using Vonage.ProactiveConnect;
 
 namespace Vonage.Users.GetUsers;
 
 internal class GetUsersRequestBuilder : IBuilderForOptional
 {
-    private readonly Maybe<string> cursor;
-    private Maybe<string> name;
     private FetchOrder order = FetchOrder.Ascending;
     private int pageSize = 10;
+    private readonly Maybe<string> cursor;
+    private Maybe<string> name;
 
     internal GetUsersRequestBuilder(Maybe<string> cursor) => this.cursor = cursor;
 
