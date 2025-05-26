@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿#region
+using Newtonsoft.Json;
 using Vonage.Voice.Nccos;
 using Vonage.Voice.Nccos.Endpoints;
+#endregion
 
 namespace Vonage.Voice;
 
@@ -49,7 +51,7 @@ public class CallCommand
 
     /// <summary>
     ///     Optional. Set the number of seconds that elapse before Vonage hangs up after the call state changes to in_progress.
-    ///     The default value is 7200, two hours. This is also the maximum value.
+    ///     The default value is 7200, two hours.
     /// </summary>
     [JsonProperty("length_timer", Order = 9)]
     public uint? LengthTimer { get; set; }

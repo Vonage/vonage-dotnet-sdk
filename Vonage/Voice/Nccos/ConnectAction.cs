@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿#region
+using Newtonsoft.Json;
 using Vonage.Voice.Nccos.Endpoints;
+#endregion
 
 namespace Vonage.Voice.Nccos;
 
@@ -51,7 +53,7 @@ public class ConnectAction : NccoAction
     public string From { get; set; }
 
     /// <summary>
-    ///     Maximum length of the call in seconds. The default and maximum value is 7200 seconds (2 hours).
+    ///     Maximum length of the call in seconds. The default value is 7200 seconds (2 hours).
     /// </summary>
     [JsonProperty("limit", Order = 4)]
     public string Limit { get; set; }
