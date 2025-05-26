@@ -1,4 +1,61 @@
 # Changelog
+## [v7.20.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.0) (2025-05-26)
+
+### Documentation
+
+- Generate changelog for v7.19.0 ([b18b8e1](https://github.com/Vonage/vonage-dotnet-sdk/commit/b18b8e156d330fd617716e9fe15e6cf4be9ec67a))
+
+- Update documentation for voice maximum length_timer ([553ab6a](https://github.com/Vonage/vonage-dotnet-sdk/commit/553ab6a24952363c9cccc98d465cf5c4259460f7))
+
+- Bump version to v7.20.0 ([c5e0530](https://github.com/Vonage/vonage-dotnet-sdk/commit/c5e0530420a88e459e89d52257bf9eafbb452774))
+
+
+### Features
+
+- Support explicit constructor on generated builders ([5fe6c42](https://github.com/Vonage/vonage-dotnet-sdk/commit/5fe6c42c19affa2db4c58daeca58ebc017c151f4))
+
+- Support multiple validation rules for mandatory builder attribute ([4d63adf](https://github.com/Vonage/vonage-dotnet-sdk/commit/4d63adf595e4706fc9cf3f527fc9f39c56633f62))
+
+- Support optional with default attribute for source generators ([061b1f3](https://github.com/Vonage/vonage-dotnet-sdk/commit/061b1f3f5f2231bf8b6ac16f24ee3455610a033b))
+
+- Support validation rules for optional attributes ([e4d8ffc](https://github.com/Vonage/vonage-dotnet-sdk/commit/e4d8ffc54621ef765705fc6583c4818cd834339e))
+
+- Add User and Domain to SipEndpoint ([37d486e](https://github.com/Vonage/vonage-dotnet-sdk/commit/37d486e848876b4ea0d01c3d909488860f4f6257))
+
+- Update NumberInsight with header authentication ([998e99e](https://github.com/Vonage/vonage-dotnet-sdk/commit/998e99ef6d662b9143dd616238bd63515a860ae9))
+
+
+### Refactoring
+
+- Use generated builders for SubAccounts ([e358564](https://github.com/Vonage/vonage-dotnet-sdk/commit/e3585640713ea97cf3102db2cf6524b6659d7f37))
+
+- Use generated builders for SubAccounts ([883791e](https://github.com/Vonage/vonage-dotnet-sdk/commit/883791eba432d0c0bca143aa64fa586f282f4d44))
+
+- Use generated builders for Video ([4512b00](https://github.com/Vonage/vonage-dotnet-sdk/commit/4512b00a929ebecbdf37e3943e643c52f5973b40))
+
+- Fix incorrect filename ([6a02dbc](https://github.com/Vonage/vonage-dotnet-sdk/commit/6a02dbceb6666a953c786a2e7e9b537937d1c79e))
+
+- Wrap optionals in Maybe<> for builders ([e12355e](https://github.com/Vonage/vonage-dotnet-sdk/commit/e12355e608938de03da1bf7f7c1fdda21289f60c))
+
+- Use generated builders for Video ([fdaba15](https://github.com/Vonage/vonage-dotnet-sdk/commit/fdaba1554498d13afe37eba01cc4bbbf87293a02))
+
+- Use generated builders for Video ([37e9ab7](https://github.com/Vonage/vonage-dotnet-sdk/commit/37e9ab7f6b797cce13e2a6ef8e61f5d227085544))
+
+- Use generated builders for Video ([91b3493](https://github.com/Vonage/vonage-dotnet-sdk/commit/91b3493b20b7d06725ee2ce2694802276a4398ca))
+
+- Use generated builders for Video ([a4abbaa](https://github.com/Vonage/vonage-dotnet-sdk/commit/a4abbaa0ce280e9bfbc18fbbc5642168e0f64d3e))
+
+- Clean and reorganize source generation ([ee352fd](https://github.com/Vonage/vonage-dotnet-sdk/commit/ee352fd0638d986f730bec8e0b7067bb5f2410bc))
+
+
+### Reverts
+
+- Revert "refactor: use generated builders for SubAccounts"
+
+This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
+ ([1dde6ef](https://github.com/Vonage/vonage-dotnet-sdk/commit/1dde6ef5291a7294f8fd1ce6024fa3a637db549a))
+
+
 ## [v7.19.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.19.0) (2025-05-21)
 
 ### Documentation
