@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.NumberInsights;
 using Vonage.Request;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
@@ -16,7 +18,7 @@ public class NumberInsightsTests : TestBase
         //ARRANGE
         var expectedResponse = this.GetResponseJson();
         var expectedUri =
-            $"{this.ApiUrl}/ni/advanced/json?number=971639946111&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.ApiUrl}/ni/advanced/json?number=971639946111&";
         var request = new AdvancedNumberInsightRequest
         {
             Number = "971639946111",
@@ -71,7 +73,7 @@ public class NumberInsightsTests : TestBase
         if (kitchenSink)
         {
             expectedUri +=
-                $"?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                $"?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&";
             request = new AdvancedNumberInsightAsynchronousRequest
             {
                 Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
@@ -81,7 +83,7 @@ public class NumberInsightsTests : TestBase
         else
         {
             expectedUri +=
-                $"?callback={WebUtility.UrlEncode("https://example.com/callback")}&number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                $"?callback={WebUtility.UrlEncode("https://example.com/callback")}&number=15555551212&";
             request = new AdvancedNumberInsightAsynchronousRequest
             {
                 Number = "15555551212",
@@ -123,7 +125,7 @@ public class NumberInsightsTests : TestBase
         if (kitchenSink)
         {
             expectedUri +=
-                $"?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                $"?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&";
             request = new AdvancedNumberInsightAsynchronousRequest
             {
                 Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
@@ -133,7 +135,7 @@ public class NumberInsightsTests : TestBase
         else
         {
             expectedUri +=
-                $"?callback={WebUtility.UrlEncode("https://example.com/callback")}&number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                $"?callback={WebUtility.UrlEncode("https://example.com/callback")}&number=15555551212&";
             request = new AdvancedNumberInsightAsynchronousRequest
             {
                 Number = "15555551212",
@@ -176,13 +178,13 @@ public class NumberInsightsTests : TestBase
         if (kitchenSink)
         {
             expectedUri +=
-                $"?ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                $"?ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&";
             request = new AdvancedNumberInsightRequest
                 {Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255"};
         }
         else
         {
-            expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            expectedUri += "?number=15555551212&";
             request = new AdvancedNumberInsightRequest
             {
                 Number = "15555551212",
@@ -258,7 +260,7 @@ public class NumberInsightsTests : TestBase
         var expectedResponse = this.GetResponseJson(responseData);
         var expectedUri = $"{this.ApiUrl}/ni/advanced/json";
         expectedUri +=
-            $"?ip={WebUtility.UrlEncode("123.0.0.255")}&real_time_data=true&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"?ip={WebUtility.UrlEncode("123.0.0.255")}&real_time_data=true&cnam=true&number=15555551212&country=GB&";
         var request = new AdvancedNumberInsightRequest
         {
             Cnam = true,
@@ -294,13 +296,13 @@ public class NumberInsightsTests : TestBase
         if (kitchenSink)
         {
             expectedUri +=
-                $"?ip=123.0.0.255&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                "?ip=123.0.0.255&cnam=true&number=15555551212&country=GB&";
             request = new AdvancedNumberInsightRequest
                 {Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255"};
         }
         else
         {
-            expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            expectedUri += "?number=15555551212&";
             request = new AdvancedNumberInsightRequest
             {
                 Number = "15555551212",
@@ -370,7 +372,7 @@ public class NumberInsightsTests : TestBase
         var expectedResponseContent = this.GetResponseJson();
         if (kitchenSink)
         {
-            expectedUri += $"?number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            expectedUri += "?number=15555551212&country=GB&";
             request = new BasicNumberInsightRequest
             {
                 Country = "GB",
@@ -379,7 +381,7 @@ public class NumberInsightsTests : TestBase
         }
         else
         {
-            expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            expectedUri += "?number=15555551212&";
             request = new BasicNumberInsightRequest
             {
                 Number = "15555551212",
@@ -419,7 +421,7 @@ public class NumberInsightsTests : TestBase
         //ARRANGE
         var expectedResponse = this.GetResponseJson();
         var expectedUri =
-            $"{this.ApiUrl}/ni/advanced/json?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.ApiUrl}/ni/advanced/json?number=15555551212&";
         var request = new AdvancedNumberInsightRequest {Number = "15555551212"};
         this.Setup(expectedUri, expectedResponse);
 
@@ -447,7 +449,7 @@ public class NumberInsightsTests : TestBase
         //ARRANGE
         var expectedResponse = this.GetResponseJson();
         var expectedUri =
-            $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&";
         var request = new AdvancedNumberInsightAsynchronousRequest
         {
             Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
@@ -484,12 +486,12 @@ public class NumberInsightsTests : TestBase
         if (kitchenSink)
         {
             expectedUri +=
-                $"?cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                "?cnam=true&number=15555551212&country=GB&";
             request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
         }
         else
         {
-            expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            expectedUri += "?number=15555551212&";
             request = new StandardNumberInsightRequest
             {
                 Number = "15555551212",
@@ -595,12 +597,12 @@ public class NumberInsightsTests : TestBase
         if (kitchenSink)
         {
             expectedUri +=
-                $"?cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                "?cnam=true&number=15555551212&country=GB&";
             request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
         }
         else
         {
-            expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            expectedUri += "?number=15555551212&";
             request = new StandardNumberInsightRequest
             {
                 Number = "15555551212",
@@ -666,12 +668,12 @@ public class NumberInsightsTests : TestBase
         if (kitchenSink)
         {
             expectedUri +=
-                $"?cnam=true&number=15555551212&country=GB&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                "?cnam=true&number=15555551212&country=GB&";
             request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
         }
         else
         {
-            expectedUri += $"?number=15555551212&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+            expectedUri += "?number=15555551212&";
             request = new StandardNumberInsightRequest
             {
                 Number = "15555551212",
