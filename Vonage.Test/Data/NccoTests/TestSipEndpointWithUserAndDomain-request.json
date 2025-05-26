@@ -1,0 +1,8 @@
+{
+  "headers": {
+    "Bar": "foo"
+  },
+  "user": "john.doe",
+  "domain": "vonage.com",
+  "type": "sip"
+}

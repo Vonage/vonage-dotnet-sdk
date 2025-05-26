@@ -16,6 +16,10 @@ namespace Vonage.Test;
 public class NccoTests : TestBase
 {
     [Fact]
+    public void ConversationAction_StartOnEnter_ShouldBeTrue_GivenDefault() =>
+        new ConversationAction().StartOnEnter.Should().BeTrue();
+
+    [Fact]
     public void TestAppEndpoint()
     {
         var expectedJson = this.GetRequestJson();
@@ -132,10 +136,6 @@ public class NccoTests : TestBase
     }
 
     [Fact]
-    public void ConversationAction_StartOnEnter_ShouldBeTrue_GivenDefault() =>
-        new ConversationAction().StartOnEnter.Should().BeTrue();
-
-    [Fact]
     public void TestNotify()
     {
         var expectedJson = this.GetRequestJson();
@@ -218,6 +218,20 @@ public class NccoTests : TestBase
             Uri = "sip:rebekka@sip.example.com",
             Headers = new TestClass {Bar = "foo"},
             StandardHeaders = new SipEndpoint.StandardHeader("UserToUser"),
+        };
+        Assert.Equal(expectedJson,
+            JsonConvert.SerializeObject(endpoint, VonageSerialization.SerializerSettings));
+    }
+
+    [Fact]
+    public void TestSipEndpointWithUserAndDomain()
+    {
+        var expectedJson = this.GetRequestJson();
+        var endpoint = new SipEndpoint
+        {
+            User = "john.doe",
+            Domain = "vonage.com",
+            Headers = new TestClass {Bar = "foo"},
         };
         Assert.Equal(expectedJson,
             JsonConvert.SerializeObject(endpoint, VonageSerialization.SerializerSettings));
