@@ -26,12 +26,9 @@ public readonly partial struct DeleteTemplateFragmentRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Delete, this.GetEndpointPath())
+        .Initialize(HttpMethod.Delete,
+            $"/v2/verify/templates/{this.TemplateId}/template_fragments/{this.TemplateFragmentId}")
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() =>
-        $"/v2/verify/templates/{this.TemplateId}/template_fragments/{this.TemplateFragmentId}";
 
     internal static Result<DeleteTemplateFragmentRequest> VerifyTemplateId(
         DeleteTemplateFragmentRequest request) =>
