@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Video.Sip.InitiateCall;
 
@@ -13,13 +15,6 @@ namespace Vonage.Video.Sip.InitiateCall;
 /// </summary>
 public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    /// <inheritdoc />
-    [JsonIgnore]
-    public Guid ApplicationId { get; internal init; }
-
-    /// <inheritdoc />
-    public string SessionId { get; internal init; }
-
     /// <summary>
     ///     The sip element.
     /// </summary>
@@ -40,14 +35,18 @@ public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId, 
     public static IBuilderForApplicationId Build() => new InitiateCallRequestBuilder();
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() =>
-        VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .WithContent(this.GetRequestContent())
-            .Build();
+    [JsonIgnore]
+    public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/dial";
+    public string SessionId { get; internal init; }
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Post, $"/v2/project/{this.ApplicationId}/dial")
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,

@@ -26,11 +26,8 @@ public readonly partial struct GetBroadcastRequest : IVonageRequest, IHasApplica
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Get, this.GetEndpointPath())
+            .Initialize(HttpMethod.Get, $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}")
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}";
 
     internal static Result<GetBroadcastRequest> VerifyApplicationId(GetBroadcastRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));

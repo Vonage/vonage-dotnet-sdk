@@ -37,12 +37,10 @@ public readonly partial struct RemoveStreamFromBroadcastRequest : IVonageRequest
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(new HttpMethod("PATCH"), this.GetEndpointPath())
+            .Initialize(new HttpMethod("PATCH"),
+                $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}/streams")
             .WithContent(this.GetRequestContent())
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}/streams";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,
