@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using FsCheck;
 using FsCheck.Xunit;
 using Vonage.Server;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.ExperienceComposer.Start;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.ExperienceComposer.Start;
 
@@ -19,107 +21,46 @@ public class RequestBuilderTest
     private readonly Uri validUri = new Uri("https://example.com");
 
     [Fact]
+    public void Build_ShouldHaveDefaultMaxDuration() =>
+        this.BuildValidRequest()
+            .Create()
+            .Map(request => request.MaxDuration)
+            .Should()
+            .BeSuccess(7200);
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenMaxDurationIsAboveMaximum() =>
+        Prop.ForAll(
+            GetDurationsAboveMaximum(),
+            invalidDuration => this.BuildValidRequest()
+                .WithMaxDuration(invalidDuration)
+                .Create()
+                .Should()
+                .BeParsingFailure("MaxDuration cannot be higher than 36000."));
+
+    [Property]
+    public Property Build_ShouldReturnFailure_GivenMaxDurationIsBelowMinimum() =>
+        Prop.ForAll(
+            GetDurationsBelowMinimum(),
+            invalidDuration => this.BuildValidRequest()
+                .WithMaxDuration(invalidDuration)
+                .Create()
+                .Should()
+                .BeParsingFailure("MaxDuration cannot be lower than 60."));
+
+    [Fact]
     public void Build_ShouldSetApplicationId() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.ApplicationId)
             .Should()
             .BeSuccess(this.validApplicationId);
 
-    [Fact]
-    public void Build_ShouldSetSessionId() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
-            .Create()
-            .Map(request => request.SessionId)
-            .Should()
-            .BeSuccess(ValidSessionId);
-
-    [Fact]
-    public void Build_ShouldSetToken() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
-            .Create()
-            .Map(request => request.Token)
-            .Should()
-            .BeSuccess(ValidToken);
-
-    [Fact]
-    public void Build_ShouldSetUrl() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
-            .Create()
-            .Map(request => request.Url)
-            .Should()
-            .BeSuccess(this.validUri);
-
-    [Fact]
-    public void Build_ShouldSetResolution() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
-            .Create()
-            .Map(request => request.Resolution)
-            .Should()
-            .BeSuccess(ValidResolution);
-
-    [Fact]
-    public void Build_ShouldSetName() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
-            .Create()
-            .Map(request => request.Properties)
-            .Should()
-            .BeSuccess(new StartProperties(ValidName));
-
     [Theory]
     [InlineData(60)]
     [InlineData(36000)]
     public void Build_ShouldSetMaxDuration(int validDuration) =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
+        this.BuildValidRequest()
             .WithMaxDuration(validDuration)
             .Create()
             .Map(request => request.MaxDuration)
@@ -127,7 +68,64 @@ public class RequestBuilderTest
             .BeSuccess(validDuration);
 
     [Fact]
-    public void Build_ShouldHaveDefaultMaxDuration() =>
+    public void Build_ShouldSetName() =>
+        this.BuildValidRequest()
+            .Create()
+            .Map(request => request.Properties)
+            .Should()
+            .BeSuccess(new StartProperties(ValidName));
+
+    [Fact]
+    public void Build_ShouldSetResolution() =>
+        this.BuildValidRequest()
+            .Create()
+            .Map(request => request.Resolution)
+            .Should()
+            .BeSuccess(ValidResolution);
+
+    [Fact]
+    public void Build_ShouldSetSessionId() =>
+        this.BuildValidRequest()
+            .Create()
+            .Map(request => request.SessionId)
+            .Should()
+            .BeSuccess(ValidSessionId);
+
+    [Fact]
+    public void Build_ShouldSetToken() =>
+        this.BuildValidRequest()
+            .Create()
+            .Map(request => request.Token)
+            .Should()
+            .BeSuccess(ValidToken);
+
+    [Fact]
+    public void Build_ShouldSetUrl() =>
+        this.BuildValidRequest()
+            .Create()
+            .Map(request => request.Url)
+            .Should()
+            .BeSuccess(this.validUri);
+
+    [Fact]
+    public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+        StartRequest
+            .Build()
+            .WithApplicationId(Guid.Empty)
+            .WithSessionId(ValidSessionId)
+            .WithToken(ValidToken)
+            .WithUrl(this.validUri)
+            .WithResolution(ValidResolution)
+            .WithName(ValidName)
+            .Create()
+            .Should()
+            .BeParsingFailure("ApplicationId cannot be empty.");
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public void Parse_ShouldReturnFailure_GivenNameIsEmpty(string invalidName) =>
         StartRequest
             .Build()
             .WithApplicationId(this.validApplicationId)
@@ -135,11 +133,10 @@ public class RequestBuilderTest
             .WithToken(ValidToken)
             .WithUrl(this.validUri)
             .WithResolution(ValidResolution)
-            .WithName(ValidName)
+            .WithName(invalidName)
             .Create()
-            .Map(request => request.MaxDuration)
             .Should()
-            .BeSuccess(7200);
+            .BeParsingFailure("Name cannot be null or whitespace.");
 
     [Theory]
     [InlineData("")]
@@ -166,20 +163,16 @@ public class RequestBuilderTest
         StartRequest
             .Build()
             .WithApplicationId(this.validApplicationId)
-            .WithSessionId(invalidToken)
-            .WithToken(ValidToken)
+            .WithSessionId(ValidSessionId)
+            .WithToken(invalidToken)
             .WithUrl(this.validUri)
             .WithResolution(ValidResolution)
             .WithName(ValidName)
             .Create()
             .Should()
-            .BeParsingFailure("SessionId cannot be null or whitespace.");
+            .BeParsingFailure("Token cannot be null or whitespace.");
 
-    [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData(null)]
-    public void Parse_ShouldReturnFailure_GivenNameIsEmpty(string invalidName) =>
+    private IBuilderForOptional BuildValidRequest() =>
         StartRequest
             .Build()
             .WithApplicationId(this.validApplicationId)
@@ -187,62 +180,11 @@ public class RequestBuilderTest
             .WithToken(ValidToken)
             .WithUrl(this.validUri)
             .WithResolution(ValidResolution)
-            .WithName(invalidName)
-            .Create()
-            .Should()
-            .BeParsingFailure("Name cannot be null or whitespace.");
-
-    [Fact]
-    public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(Guid.Empty)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
-            .WithUrl(this.validUri)
-            .WithResolution(ValidResolution)
-            .WithName(ValidName)
-            .Create()
-            .Should()
-            .BeParsingFailure("ApplicationId cannot be empty.");
-
-    [Property]
-    public Property Build_ShouldReturnFailure_GivenMaxDurationIsBelowMinimum() =>
-        Prop.ForAll(
-            GetDurationsBelowMinimum(),
-            invalidDuration => StartRequest
-                .Build()
-                .WithApplicationId(this.validApplicationId)
-                .WithSessionId(ValidSessionId)
-                .WithToken(ValidToken)
-                .WithUrl(this.validUri)
-                .WithResolution(ValidResolution)
-                .WithName(ValidName)
-                .WithMaxDuration(invalidDuration)
-                .Create()
-                .Should()
-                .BeParsingFailure("MaxDuration cannot be lower than 60."));
-
-    private static Arbitrary<int> GetDurationsBelowMinimum() =>
-        Gen.Choose(59, -int.MaxValue).ToArbitrary();
+            .WithName(ValidName);
 
     private static Arbitrary<int> GetDurationsAboveMaximum() =>
         Gen.Choose(36001, int.MaxValue).ToArbitrary();
 
-    [Fact]
-    public void Build_ShouldReturnFailure_GivenMaxDurationIsAboveMaximum() =>
-        Prop.ForAll(
-            GetDurationsAboveMaximum(),
-            invalidDuration => StartRequest
-                .Build()
-                .WithApplicationId(this.validApplicationId)
-                .WithSessionId(ValidSessionId)
-                .WithToken(ValidToken)
-                .WithUrl(this.validUri)
-                .WithResolution(ValidResolution)
-                .WithName(ValidName)
-                .WithMaxDuration(invalidDuration)
-                .Create()
-                .Should()
-                .BeParsingFailure("MaxDuration cannot be higher than 36000."));
+    private static Arbitrary<int> GetDurationsBelowMinimum() =>
+        Gen.Choose(59, -int.MaxValue).ToArbitrary();
 }
