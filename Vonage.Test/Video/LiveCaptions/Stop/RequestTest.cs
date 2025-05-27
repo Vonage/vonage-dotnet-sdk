@@ -16,9 +16,15 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         StopRequest.Parse(new Guid("301cf3c3-0027-4578-b212-dac7e924e85b"), "CAP-123")
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v2/project/301cf3c3-0027-4578-b212-dac7e924e85b/captions/CAP-123/stop");
+
+    [Fact]
+    public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+        StopRequest.Parse(Guid.Empty, ValidCaptionsId)
+            .Should()
+            .BeParsingFailure("ApplicationId cannot be empty.");
 
     [Theory]
     [InlineData("")]
@@ -28,12 +34,6 @@ public class RequestTest
         StopRequest.Parse(Guid.NewGuid(), invalidId)
             .Should()
             .BeParsingFailure("CaptionsId cannot be null or whitespace.");
-
-    [Fact]
-    public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-        StopRequest.Parse(Guid.Empty, ValidCaptionsId)
-            .Should()
-            .BeParsingFailure("ApplicationId cannot be empty.");
 
     [Fact]
     public void Parse_ShouldSetApplicationId() =>

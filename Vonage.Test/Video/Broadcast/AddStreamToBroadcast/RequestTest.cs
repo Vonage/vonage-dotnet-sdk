@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Broadcast.AddStreamToBroadcast;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Broadcast.AddStreamToBroadcast;
 
@@ -28,7 +30,7 @@ public class RequestTest
             .WithBroadcastId(this.broadcastId)
             .WithStreamId(this.streamId)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/broadcast/{this.broadcastId}/streams");
 }

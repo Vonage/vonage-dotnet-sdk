@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Server;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Broadcast.ChangeBroadcastLayout;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Broadcast.ChangeBroadcastLayout;
 
@@ -30,7 +32,7 @@ public class RequestTest
             .WithBroadcastId(this.broadcastId)
             .WithLayout(this.layout)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/broadcast/{this.broadcastId}/layout");
 }

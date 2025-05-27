@@ -12,10 +12,4 @@ public interface IVonageRequest
     /// </summary>
     /// <returns>The Http request.</returns>
     HttpRequestMessage BuildRequestMessage();
-
-    /// <summary>
-    ///     Retrieves the endpoint's path.
-    /// </summary>
-    /// <returns>The endpoint's path.</returns>
-    string GetEndpointPath();
 }

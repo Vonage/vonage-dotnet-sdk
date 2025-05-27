@@ -1,6 +1,8 @@
-﻿using Vonage.Conversations.GetEvent;
+﻿#region
+using Vonage.Conversations.GetEvent;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.GetEvent;
 
@@ -10,7 +12,7 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         GetEventRequest.Parse("CON-123", "EVE-123")
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/conversations/CON-123/events/EVE-123");
 

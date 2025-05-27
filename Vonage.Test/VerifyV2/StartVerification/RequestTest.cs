@@ -1,7 +1,9 @@
+#region
 using Vonage.Test.Common.Extensions;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.VerifyV2.StartVerification.Sms;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.StartVerification;
 
@@ -14,7 +16,7 @@ public class RequestTest
             .WithBrand("MyBrand")
             .WithWorkflow(SmsWorkflow.Parse("123456789"))
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v2/verify");
 }

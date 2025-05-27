@@ -1,7 +1,9 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.Conversations.GetMember;
 
@@ -12,20 +14,12 @@ public readonly struct GetMemberRequest : IVonageRequest
     ///     The conversation Id.
     /// </summary>
     public string ConversationId { get; private init; }
-    
+
     /// <summary>
     ///     The member Id.
     /// </summary>
     public string MemberId { get; private init; }
-    
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
-        .Build();
-    
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v1/conversations/{this.ConversationId}/members/{this.MemberId}";
-    
+
     /// <summary>
     ///     Parses the input into a GetMemberRequest.
     /// </summary>
@@ -37,10 +31,15 @@ public readonly struct GetMemberRequest : IVonageRequest
             .FromSuccess(new GetMemberRequest {ConversationId = conversationId, MemberId = memberId})
             .Map(InputEvaluation<GetMemberRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyConversationId, VerifyMemberId));
-    
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Get, $"/v1/conversations/{this.ConversationId}/members/{this.MemberId}")
+        .Build();
+
     private static Result<GetMemberRequest> VerifyConversationId(GetMemberRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ConversationId, nameof(ConversationId));
-    
+
     private static Result<GetMemberRequest> VerifyMemberId(GetMemberRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.MemberId, nameof(MemberId));
 }

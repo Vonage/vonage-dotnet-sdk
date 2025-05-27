@@ -1,7 +1,9 @@
-﻿using Vonage.Conversations;
+﻿#region
+using Vonage.Conversations;
 using Vonage.Conversations.CreateMember;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.CreateMember;
 
@@ -16,7 +18,7 @@ public class RequestTest
             .WithUser(new MemberUser("USR-123", "USR-123"))
             .WithApp("USR-123", ChannelType.App, ChannelType.Phone, ChannelType.Sms)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/conversations/CON-123/members");
 }

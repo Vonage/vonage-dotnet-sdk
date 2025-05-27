@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.ExperienceComposer.Stop;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.ExperienceComposer.Stop;
 
@@ -14,9 +16,15 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         StopRequest.Parse(this.validApplicationId, ValidExperienceComposerId)
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.validApplicationId}/render/EXP-123");
+
+    [Fact]
+    public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+        StopRequest.Parse(Guid.Empty, ValidExperienceComposerId)
+            .Should()
+            .BeParsingFailure("ApplicationId cannot be empty.");
 
     [Theory]
     [InlineData("")]
@@ -26,12 +34,6 @@ public class RequestTest
         StopRequest.Parse(Guid.NewGuid(), invalidId)
             .Should()
             .BeParsingFailure("ExperienceComposerId cannot be null or whitespace.");
-
-    [Fact]
-    public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-        StopRequest.Parse(Guid.Empty, ValidExperienceComposerId)
-            .Should()
-            .BeParsingFailure("ApplicationId cannot be empty.");
 
     [Fact]
     public void Parse_ShouldSetApplicationId() =>

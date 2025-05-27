@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Server;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives.ChangeLayout;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.ChangeLayout;
 
@@ -30,7 +32,7 @@ public class RequestTest
             .WithArchiveId(this.archiveId)
             .WithLayout(this.layout)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/archive/{this.archiveId}/layout");
 }

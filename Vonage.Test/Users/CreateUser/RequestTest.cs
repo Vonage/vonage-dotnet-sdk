@@ -1,6 +1,8 @@
-﻿using Vonage.Test.Common.Extensions;
+﻿#region
+using Vonage.Test.Common.Extensions;
 using Vonage.Users.CreateUser;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Users.CreateUser;
 
@@ -12,7 +14,7 @@ public class RequestTest
         CreateUserRequest
             .Build()
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/users");
 }

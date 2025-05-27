@@ -1,6 +1,8 @@
-﻿using Vonage.NumberInsightV2.FraudCheck;
+﻿#region
+using Vonage.NumberInsightV2.FraudCheck;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberInsightsV2.FraudCheck;
 
@@ -15,7 +17,7 @@ public class RequestTest
             .WithFraudScore()
             .WithSimSwap()
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v2/ni");
 }

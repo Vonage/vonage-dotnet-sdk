@@ -1,6 +1,8 @@
-﻿using Vonage.Test.Common.Extensions;
+﻿#region
+using Vonage.Test.Common.Extensions;
 using Vonage.Users.GetUser;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Users.GetUser;
 
@@ -10,7 +12,7 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         GetUserRequest.Parse("USR-82e028d9-5201-4f1e-8188-604b2d3471ec")
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/users/USR-82e028d9-5201-4f1e-8188-604b2d3471ec");
 

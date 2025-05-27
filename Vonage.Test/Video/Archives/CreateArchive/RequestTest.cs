@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives.CreateArchive;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.CreateArchive;
 
@@ -25,7 +27,7 @@ public class RequestTest
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/archive");
 }

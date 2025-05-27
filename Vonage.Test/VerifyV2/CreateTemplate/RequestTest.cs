@@ -14,7 +14,7 @@ public class RequestTest
         CreateTemplateRequest.Build()
             .WithName("MyBrand")
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v2/verify/templates");
 }

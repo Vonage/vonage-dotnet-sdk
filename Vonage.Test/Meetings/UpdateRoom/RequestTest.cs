@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Meetings.UpdateRoom;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Meetings.UpdateRoom;
 
@@ -24,7 +26,7 @@ public class RequestTest
             .WithRoomId(this.roomId)
             .WithThemeId("Some value")
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v1/meetings/rooms/{this.roomId}");
 }

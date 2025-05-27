@@ -14,7 +14,7 @@ public class RequestTest
         UpdateTemplateRequest.Build()
             .WithId(RequestBuilderTest.ValidTemplateId)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v2/verify/templates/68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb");
 }

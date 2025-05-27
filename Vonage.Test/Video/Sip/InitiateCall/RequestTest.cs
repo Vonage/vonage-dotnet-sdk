@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sip.InitiateCall;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sip.InitiateCall;
 
@@ -34,7 +36,7 @@ public class RequestTest
             .WithToken(this.token)
             .WithSipUri(this.uri)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/dial");
 }

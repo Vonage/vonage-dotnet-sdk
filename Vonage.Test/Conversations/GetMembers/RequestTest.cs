@@ -1,7 +1,9 @@
-﻿using Vonage.Conversations;
+﻿#region
+using Vonage.Conversations;
 using Vonage.Conversations.GetMembers;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.GetMembers;
 
@@ -19,12 +21,13 @@ public class RequestTest
         {
             builder = builder.WithPageSize(pageSize.Value);
         }
-        
+
         if (order.HasValue)
         {
             builder = builder.WithOrder(order.Value);
         }
-        
-        builder.Create().Map(request => request.GetEndpointPath()).Should().BeSuccess(expectedEndpoint);
+
+        builder.Create().Map(request => request.BuildRequestMessage().RequestUri!.ToString()).Should()
+            .BeSuccess(expectedEndpoint);
     }
 }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Signaling;
 using Vonage.Video.Signaling.SendSignals;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Signaling.SendSignals;
 
@@ -30,7 +32,7 @@ public class RequestTest
             .WithSessionId(this.sessionId)
             .WithContent(this.content)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/signal");
 }

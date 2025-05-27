@@ -18,7 +18,7 @@ public class RequestTest
             .WithSessionId("irrelevant")
             .WithToken("irrelevant")
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v2/project/301cf3c3-0027-4578-b212-dac7e924e85b/captions");
 }

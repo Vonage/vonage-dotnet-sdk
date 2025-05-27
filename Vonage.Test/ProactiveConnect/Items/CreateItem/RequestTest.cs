@@ -1,9 +1,11 @@
+#region
 using System;
 using System.Collections.Generic;
 using AutoFixture;
 using Vonage.ProactiveConnect.Items.CreateItem;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.ProactiveConnect.Items.CreateItem;
 
@@ -21,7 +23,7 @@ public class RequestTest
             .WithListId(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b"))
             .WithCustomData(this.element)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v0.1/bulk/lists/95a462d3-ed87-4aa5-9d91-098e08093b0b/items");
 }

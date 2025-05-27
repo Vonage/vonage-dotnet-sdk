@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Moderation.DisconnectConnection;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Moderation.DisconnectConnection;
 
@@ -28,7 +30,7 @@ public class RequestTest
             .WithSessionId(this.sessionId)
             .WithConnectionId(this.connectionId)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}");
 }

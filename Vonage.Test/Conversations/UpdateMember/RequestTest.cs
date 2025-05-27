@@ -1,6 +1,8 @@
-﻿using Vonage.Conversations.UpdateMember;
+﻿#region
+using Vonage.Conversations.UpdateMember;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.UpdateMember;
 
@@ -14,7 +16,7 @@ public class RequestTest
             .WithMemberId("MEM-123")
             .WithJoinedState()
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/conversations/CON-123/members/MEM-123");
 }

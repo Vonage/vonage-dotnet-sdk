@@ -28,6 +28,7 @@ public class RequestTest
             builder = builder.WithPage(page.Value);
         }
 
-        builder.Create().Map(request => request.GetEndpointPath()).Should().BeSuccess(expectedEndpoint);
+        builder.Create().Map(request => request.BuildRequestMessage().RequestUri!.ToString()).Should()
+            .BeSuccess(expectedEndpoint);
     }
 }

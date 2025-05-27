@@ -1,6 +1,8 @@
-﻿using Vonage.Conversations.GetConversation;
+﻿#region
+using Vonage.Conversations.GetConversation;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.GetConversation;
 
@@ -10,7 +12,7 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         GetConversationRequest.Parse("CON-123")
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/conversations/CON-123");
 

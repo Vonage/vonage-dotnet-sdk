@@ -1,7 +1,9 @@
-﻿using AutoFixture;
+﻿#region
+using AutoFixture;
 using Vonage.SubAccounts.CreateSubAccount;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.CreateSubAccount;
 
@@ -18,7 +20,7 @@ public class RequestTest
             .WithName(this.fixture.Create<string>())
             .Create()
             .Map(request => request.WithApiKey("489dsSS564652"))
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/accounts/489dsSS564652/subaccounts");
 
@@ -28,7 +30,7 @@ public class RequestTest
             .Build()
             .WithName(this.fixture.Create<string>())
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/accounts//subaccounts");
 }

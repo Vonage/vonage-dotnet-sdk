@@ -20,7 +20,7 @@ public class RequestTest
             .WithLocale(Locale.EnUs)
             .WithChannel(VerificationChannel.Sms)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v2/verify/templates/f3a065af-ac5a-47a4-8dfe-819561a7a287/template_fragments");
 }

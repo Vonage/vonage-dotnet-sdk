@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives.StopArchive;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.StopArchive;
 
@@ -25,7 +27,7 @@ public class RequestTest
             .WithApplicationId(this.applicationId)
             .WithArchiveId(this.archiveId)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/archive/{this.archiveId}/stop");
 }

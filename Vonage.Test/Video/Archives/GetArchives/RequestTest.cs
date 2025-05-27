@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives.GetArchives;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.GetArchives;
 
@@ -22,7 +24,7 @@ public class RequestTest
         GetArchivesRequest.Build()
             .WithApplicationId(this.applicationId)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/archive?offset=0&count=50");
 
@@ -33,7 +35,7 @@ public class RequestTest
             .WithCount(100)
             .WithOffset(1000)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/archive?offset=1000&count=100");
 
@@ -43,7 +45,7 @@ public class RequestTest
             .WithApplicationId(this.applicationId)
             .WithSessionId("123456")
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/archive?offset=0&count=50&sessionId=123456");
 }

@@ -1,8 +1,10 @@
-﻿using AutoFixture;
+﻿#region
+using AutoFixture;
 using Vonage.SubAccounts.TransferNumber;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.Common.TestHelpers;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.TransferNumber;
 
@@ -22,7 +24,7 @@ public class RequestTest
             .WithCountry(StringHelper.GenerateString(2))
             .Create()
             .Map(request => request.WithApiKey("489dsSS564652"))
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/accounts/489dsSS564652/transfer-number");
 
@@ -35,7 +37,7 @@ public class RequestTest
             .WithNumber(this.fixture.Create<string>())
             .WithCountry(StringHelper.GenerateString(2))
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/accounts//transfer-number");
 }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.ProactiveConnect;
 using Vonage.Test.Common.Extensions;
 using Vonage.Users.GetUsers;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Users.GetUsers;
 
@@ -35,7 +37,7 @@ public class RequestTest
         }
 
         builder.Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should().BeSuccess(expectedEndpoint);
     }
 
@@ -50,7 +52,7 @@ public class RequestTest
         string expectedEndpoint) =>
         new GetUsersHalLink(new Uri(uri))
             .BuildRequest()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess(expectedEndpoint);
 }

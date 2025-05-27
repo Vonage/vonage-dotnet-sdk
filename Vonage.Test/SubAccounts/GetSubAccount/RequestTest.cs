@@ -1,7 +1,9 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.SubAccounts.GetSubAccount;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.GetSubAccount;
 
@@ -12,14 +14,14 @@ public class RequestTest
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         GetSubAccountRequest.Parse("456iFuDL099")
             .Map(request => request.WithApiKey("123abCD"))
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/accounts/123abCD/subaccounts/456iFuDL099");
 
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
         GetSubAccountRequest.Parse("456iFuDL099")
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/accounts//subaccounts/456iFuDL099");
 

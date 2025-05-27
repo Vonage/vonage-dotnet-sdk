@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.ExperienceComposer.GetSessions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.ExperienceComposer.GetSessions;
 
@@ -26,6 +28,7 @@ public class RequestTest
             builder = builder.WithOffset(offset.Value);
         }
 
-        builder.Create().Map(request => request.GetEndpointPath()).Should().BeSuccess(expectedEndpoint);
+        builder.Create().Map(request => request.BuildRequestMessage().RequestUri!.ToString()).Should()
+            .BeSuccess(expectedEndpoint);
     }
 }

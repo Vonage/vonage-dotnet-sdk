@@ -16,7 +16,7 @@ public class RequestTest
             .WithFragmentId(RequestBuilderTest.ValidTemplateFragmentId)
             .WithText(RequestBuilderTest.ValidText)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess(
                 "/v2/verify/templates/68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb/template_fragments/c41a9862-93d6-4c15-b5eb-d5ea6d574654");
