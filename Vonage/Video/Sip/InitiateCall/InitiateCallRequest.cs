@@ -18,6 +18,7 @@ public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId, 
     /// <summary>
     ///     The sip element.
     /// </summary>
+    [JsonPropertyOrder(1)]
     public SipElement Sip { get; internal init; }
 
     /// <summary>
@@ -26,6 +27,7 @@ public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId, 
     ///     libraries include properties for inspecting the connection data for a client connected to a session.) See the Token
     ///     Creation developer guide.
     /// </summary>
+    [JsonPropertyOrder(2)]
     public string Token { get; internal init; }
 
     /// <summary>
@@ -39,6 +41,7 @@ public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId, 
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
+    [JsonPropertyOrder(0)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
