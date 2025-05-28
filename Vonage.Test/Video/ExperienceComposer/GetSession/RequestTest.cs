@@ -14,13 +14,6 @@ public class RequestTest
     private readonly Guid validApplicationId = Guid.NewGuid();
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        GetSessionRequest.Parse(this.validApplicationId, ValidExperienceComposerId)
-            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
-            .Should()
-            .BeSuccess($"/v2/project/{this.validApplicationId}/render/EXP-123");
-
-    [Fact]
     public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
         GetSessionRequest.Parse(Guid.Empty, ValidExperienceComposerId)
             .Should()
@@ -48,4 +41,11 @@ public class RequestTest
             .Map(request => request.ExperienceComposerId)
             .Should()
             .BeSuccess(ValidExperienceComposerId);
+
+    [Fact]
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        GetSessionRequest.Parse(this.validApplicationId, ValidExperienceComposerId)
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Should()
+            .BeSuccess($"/v2/project/{this.validApplicationId}/render/EXP-123");
 }

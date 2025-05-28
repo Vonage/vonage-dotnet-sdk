@@ -50,7 +50,7 @@ public class RequestTest
             .BeSuccess(expected);
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         VerifyRequest.Parse("123456789")
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()

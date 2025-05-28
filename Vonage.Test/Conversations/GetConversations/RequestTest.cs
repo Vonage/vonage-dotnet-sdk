@@ -24,7 +24,7 @@ public class RequestTest
         "/v1/conversations?page_size=10&order=asc&date_end=2023-12-18T10%3A56%3A08Z")]
     [InlineData(50, FetchOrder.Descending, "2023-12-18T09:56:08.152Z", "2023-12-18T10:56:08.152Z",
         "/v1/conversations?page_size=50&order=desc&date_start=2023-12-18T09%3A56%3A08Z&date_end=2023-12-18T10%3A56%3A08Z")]
-    public void GetEndpointPath_ShouldReturnApiEndpoint(int? pageSize, FetchOrder? order, string startDate,
+    public void ReqeustUri_ShouldReturnApiEndpoint(int? pageSize, FetchOrder? order, string startDate,
         string endDate,
         string expectedEndpoint)
     {

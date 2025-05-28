@@ -27,7 +27,7 @@ public class RequestTest
         "/v1/conversations/CON-123/events?page_size=10&order=asc&exclude_deleted_events=true")]
     [InlineData(50, FetchOrder.Descending, "123", "456", "submitted", true,
         "/v1/conversations/CON-123/events?page_size=50&order=desc&exclude_deleted_events=true&start_id=123&end_id=456&event_type=submitted")]
-    public void GetEndpointPath_ShouldReturnApiEndpoint(int? pageSize, FetchOrder? order, string startId,
+    public void ReqeustUri_ShouldReturnApiEndpoint(int? pageSize, FetchOrder? order, string startId,
         string endId,
         string eventType,
         bool excludeDeletedEvents,

@@ -10,6 +10,6 @@ namespace Vonage.Test.SimSwap.Authenticate;
 public class GetTokenRequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         new GetTokenRequest("123456").BuildRequestMessage().RequestUri!.ToString().Should().Be("oauth2/token");
 }

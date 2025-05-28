@@ -13,7 +13,7 @@ namespace Vonage.Test.VerifyV2.CreateTemplateFragment;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         CreateTemplateFragmentRequest.Build()
             .WithTemplateId(new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"))
             .WithText("my-fragment")

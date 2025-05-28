@@ -16,7 +16,7 @@ public class RequestTest
     public RequestTest() => this.fixture = new Fixture();
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         VerifyCodeRequest.Build()
             .WithRequestId(new Guid("06547d61-7ac0-43bb-94bd-503b24b2a3a5"))
             .WithCode(this.fixture.Create<string>())

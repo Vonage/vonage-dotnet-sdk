@@ -10,7 +10,7 @@ namespace Vonage.Test.SimSwap.Check;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         CheckRequest.Build()
             .WithPhoneNumber("123456789")
             .Create()

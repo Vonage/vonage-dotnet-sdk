@@ -24,7 +24,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         DisconnectConnectionRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)

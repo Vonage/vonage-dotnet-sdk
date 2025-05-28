@@ -29,7 +29,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         InitiateCallRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)

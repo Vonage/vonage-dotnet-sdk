@@ -9,13 +9,6 @@ namespace Vonage.Test.Conversations.DeleteConversation;
 [Trait("Category", "Request")]
 public class RequestTest
 {
-    [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        DeleteConversationRequest.Parse("CON-123")
-            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
-            .Should()
-            .BeSuccess("/v1/conversations/CON-123");
-
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
@@ -31,4 +24,11 @@ public class RequestTest
             .Map(request => request.ConversationId)
             .Should()
             .BeSuccess("CON-123");
+
+    [Fact]
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        DeleteConversationRequest.Parse("CON-123")
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Should()
+            .BeSuccess("/v1/conversations/CON-123");
 }

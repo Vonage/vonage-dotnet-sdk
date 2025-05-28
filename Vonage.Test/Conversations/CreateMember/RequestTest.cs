@@ -11,7 +11,7 @@ namespace Vonage.Test.Conversations.CreateMember;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         CreateMemberRequest.Build()
             .WithConversationId("CON-123")
             .WithState(CreateMemberRequest.AvailableStates.Invited)

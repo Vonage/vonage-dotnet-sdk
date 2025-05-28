@@ -22,7 +22,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         GetStreamsRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)

@@ -29,7 +29,7 @@ public class RequestTest
         "/v1/users/US-123/conversations?page_size=10&order=asc&order_by=created&state=invited")]
     [InlineData(50, FetchOrder.Descending, "other", "2023-12-18T09:56:08.152Z", true, State.Joined,
         "/v1/users/US-123/conversations?page_size=50&order=desc&order_by=other&date_start=2023-12-18T09%3A56%3A08Z&include_custom_data=true&state=joined")]
-    public void GetEndpointPath_ShouldReturnApiEndpoint(
+    public void ReqeustUri_ShouldReturnApiEndpoint(
         int? pageSize,
         FetchOrder? order,
         string orderBy,

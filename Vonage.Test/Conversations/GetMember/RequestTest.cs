@@ -9,13 +9,6 @@ namespace Vonage.Test.Conversations.GetMember;
 [Trait("Category", "Request")]
 public class RequestTest
 {
-    [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        GetMemberRequest.Parse("CON-123", "MEM-123")
-            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
-            .Should()
-            .BeSuccess("/v1/conversations/CON-123/members/MEM-123");
-
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
@@ -47,4 +40,11 @@ public class RequestTest
             .Map(request => request.MemberId)
             .Should()
             .BeSuccess("MEM-123");
+
+    [Fact]
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        GetMemberRequest.Parse("CON-123", "MEM-123")
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Should()
+            .BeSuccess("/v1/conversations/CON-123/members/MEM-123");
 }

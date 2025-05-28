@@ -26,7 +26,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         ChangeLayoutRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithArchiveId(this.archiveId)

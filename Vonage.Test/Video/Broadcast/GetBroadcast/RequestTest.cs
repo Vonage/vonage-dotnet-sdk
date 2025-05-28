@@ -22,7 +22,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
         GetBroadcastRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithBroadcastId(this.broadcastId)

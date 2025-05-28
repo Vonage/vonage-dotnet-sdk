@@ -11,7 +11,7 @@ namespace Vonage.Test.Video.LiveCaptions.Start;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         StartRequest
             .Build()
             .WithApplicationId(new Guid("301cf3c3-0027-4578-b212-dac7e924e85b"))

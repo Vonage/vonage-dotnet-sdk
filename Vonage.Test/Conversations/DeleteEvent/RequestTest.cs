@@ -13,13 +13,6 @@ public class RequestTest
     private const string ValidConversationId = "CON-123";
     private const string ValidEventId = "EVE-123";
 
-    [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        BuildRequest()
-            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
-            .Should()
-            .BeSuccess("/v1/conversations/CON-123/events/EVE-123");
-
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
@@ -51,6 +44,13 @@ public class RequestTest
             .Map(request => request.EventId)
             .Should()
             .BeSuccess("EVE-123");
+
+    [Fact]
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        BuildRequest()
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Should()
+            .BeSuccess("/v1/conversations/CON-123/events/EVE-123");
 
     internal static Result<DeleteEventRequest> BuildRequest() =>
         DeleteEventRequest.Parse(ValidConversationId, ValidEventId);

@@ -24,7 +24,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         AddStreamRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithArchiveId(this.archiveId)

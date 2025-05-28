@@ -10,7 +10,7 @@ namespace Vonage.Test.VerifyV2.UpdateTemplateFragment;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         UpdateTemplateFragmentRequest.Build()
             .WithId(RequestBuilderTest.ValidTemplateId)
             .WithFragmentId(RequestBuilderTest.ValidTemplateFragmentId)

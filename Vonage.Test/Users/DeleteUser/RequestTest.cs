@@ -9,13 +9,6 @@ namespace Vonage.Test.Users.DeleteUser;
 [Trait("Category", "Request")]
 public class RequestTest
 {
-    [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        DeleteUserRequest.Parse("USR-82e028d9-5201-4f1e-8188-604b2d3471ec")
-            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
-            .Should()
-            .BeSuccess("/v1/users/USR-82e028d9-5201-4f1e-8188-604b2d3471ec");
-
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
@@ -31,4 +24,11 @@ public class RequestTest
             .Map(request => request.UserId)
             .Should()
             .BeSuccess("USR-82e028d9-5201-4f1e-8188-604b2d3471ec");
+
+    [Fact]
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        DeleteUserRequest.Parse("USR-82e028d9-5201-4f1e-8188-604b2d3471ec")
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Should()
+            .BeSuccess("/v1/users/USR-82e028d9-5201-4f1e-8188-604b2d3471ec");
 }

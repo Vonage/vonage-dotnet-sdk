@@ -20,7 +20,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
         GetBroadcastsRequest.Build()
             .WithApplicationId(this.applicationId)
             .Create()
@@ -29,7 +29,7 @@ public class RequestTest
             .BeSuccess($"/v2/project/{this.applicationId}/broadcast?offset=0&count=50");
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_WithOffsetAndCount() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_WithOffsetAndCount() =>
         GetBroadcastsRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithCount(100)
@@ -40,7 +40,7 @@ public class RequestTest
             .BeSuccess($"/v2/project/{this.applicationId}/broadcast?offset=1000&count=100");
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_WithSessionId() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_WithSessionId() =>
         GetBroadcastsRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId("123456")

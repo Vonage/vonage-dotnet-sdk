@@ -10,7 +10,7 @@ namespace Vonage.Test.Conversations.UpdateMember;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         UpdateMemberRequest.Build()
             .WithConversationId("CON-123")
             .WithMemberId("MEM-123")

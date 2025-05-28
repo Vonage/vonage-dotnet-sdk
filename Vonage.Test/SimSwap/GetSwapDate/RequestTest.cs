@@ -11,13 +11,6 @@ namespace Vonage.Test.SimSwap.GetSwapDate;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        GetSwapDateRequest.Parse("123456789")
-            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
-            .Should()
-            .BeSuccess("camara/sim-swap/v040/retrieve-date");
-
-    [Fact]
     public void Parse_ShouldReturnFailure_GivenNumberContainsNonDigits() =>
         GetSwapDateRequest.Parse("1234567abc123").Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number can only contain digits."));
@@ -51,4 +44,11 @@ public class RequestTest
             .Map(request => request.PhoneNumber.Number)
             .Should()
             .BeSuccess(expected);
+
+    [Fact]
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        GetSwapDateRequest.Parse("123456789")
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Should()
+            .BeSuccess("camara/sim-swap/v040/retrieve-date");
 }

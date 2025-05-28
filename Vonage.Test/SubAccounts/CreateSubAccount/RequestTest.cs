@@ -14,7 +14,7 @@ public class RequestTest
     public RequestTest() => this.fixture = new Fixture();
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         CreateSubAccountRequest
             .Build()
             .WithName(this.fixture.Create<string>())
@@ -25,7 +25,7 @@ public class RequestTest
             .BeSuccess("/accounts/489dsSS564652/subaccounts");
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
         CreateSubAccountRequest
             .Build()
             .WithName(this.fixture.Create<string>())

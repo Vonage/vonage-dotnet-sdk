@@ -11,7 +11,7 @@ namespace Vonage.Test.VerifyV2.DeleteTemplateFragment;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         DeleteTemplateFragmentRequest.Build()
             .WithTemplateId(new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"))
             .WithTemplateFragmentId(new Guid("7e4fea73-afe6-4c34-b3e9-8b5ce2e2253a"))

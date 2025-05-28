@@ -23,7 +23,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         StartBroadcastRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.fixture.Create<string>())

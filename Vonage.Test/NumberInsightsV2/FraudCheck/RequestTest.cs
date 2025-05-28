@@ -10,7 +10,7 @@ namespace Vonage.Test.NumberInsightsV2.FraudCheck;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         FraudCheckRequest
             .Build()
             .WithPhone("447009000000")
