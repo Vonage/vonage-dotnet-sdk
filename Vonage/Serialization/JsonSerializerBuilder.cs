@@ -1,12 +1,15 @@
+#region
 using System.Text.Json;
 using Vonage.Common.Serialization;
 using Vonage.Conversations;
 using Vonage.Messages;
+using Vonage.Messages.Messenger;
 using Vonage.NumberInsightV2.FraudCheck;
 using Vonage.Server;
 using Vonage.VerifyV2.StartVerification;
 using Vonage.Video.Broadcast;
 using JsonSerializer = Vonage.Common.JsonSerializer;
+#endregion
 
 namespace Vonage.Serialization;
 
@@ -20,17 +23,19 @@ public static class JsonSerializerBuilder
     /// </summary>
     /// <returns>A serializer.</returns>
     public static JsonSerializer BuildWithCamelCase() => BuildSerializer(JsonNamingPolicy.CamelCase);
-    
+
     /// <summary>
     ///     Build a serializer with a Snake case policy.
     /// </summary>
     /// <returns>A serializer.</returns>
     public static JsonSerializer BuildWithSnakeCase() => BuildSerializer(JsonNamingPolicy.SnakeCaseLower);
-    
+
     private static JsonSerializer BuildSerializer(JsonNamingPolicy policy) => new JsonSerializer(policy)
         .WithConverter(new MaybeJsonConverter<string>())
         .WithConverter(new EnumDescriptionJsonConverter<MessagesChannel>())
         .WithConverter(new EnumDescriptionJsonConverter<MessagesMessageType>())
+        .WithConverter(new EnumDescriptionJsonConverter<MessengerMessageCategory>())
+        .WithConverter(new EnumDescriptionJsonConverter<MessengerTagType>())
         .WithConverter(new EnumDescriptionJsonConverter<FraudScoreLabel>())
         .WithConverter(new EnumDescriptionJsonConverter<LayoutType>())
         .WithConverter(new EnumDescriptionJsonConverter<RenderResolution>())

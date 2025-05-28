@@ -4,8 +4,15 @@ using System.Threading.Tasks;
 
 namespace Vonage.Messages;
 
+/// <summary>
+/// </summary>
 public interface IMessagesClient
 {
+    /// <summary>
+    ///     Send a Message
+    /// </summary>
+    /// <param name="message">The message</param>
+    /// <returns>The message UUID</returns>
     Task<MessagesResponse> SendAsync(IMessage message);
 
     /// <summary>

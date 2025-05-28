@@ -614,7 +614,6 @@
         <None Update="ProactiveConnect\Events\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <Folder Include="Messages\Messenger\Data"/>
         <None Update="Data\NccoTests\TestConnectWithAdvancedMachineDetection-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

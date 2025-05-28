@@ -1,8 +1,12 @@
+#region
 using Newtonsoft.Json;
 using Vonage.Common.Serialization;
+#endregion
 
 namespace Vonage.Messages.Messenger;
 
+/// <summary>
+/// </summary>
 public class MessengerRequestData
 {
     /// <summary>

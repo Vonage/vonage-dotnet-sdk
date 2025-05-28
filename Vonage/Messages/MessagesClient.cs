@@ -37,10 +37,7 @@ public class MessagesClient : IMessagesClient
         this.timeProvider = timeProvider;
     }
 
-    /// <summary>
-    /// </summary>
-    /// <param name="message"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public Task<MessagesResponse> SendAsync(IMessage message)
     {
         var authType = this.credentials.GetPreferredAuthenticationType()

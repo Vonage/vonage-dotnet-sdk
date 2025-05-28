@@ -38,6 +38,11 @@ public class MessengerMessagesTest : TestBase
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
+            Data = new MessengerRequestData
+            {
+                Category = MessengerMessageCategory.Response,
+                Tag = MessengerTagType.ConfirmedEventUpdate,
+            },
         };
         await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
@@ -56,6 +61,11 @@ public class MessengerMessagesTest : TestBase
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
+            Data = new MessengerRequestData
+            {
+                Category = MessengerMessageCategory.Response,
+                Tag = MessengerTagType.ConfirmedEventUpdate,
+            },
         };
         await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
@@ -74,6 +84,11 @@ public class MessengerMessagesTest : TestBase
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
+            Data = new MessengerRequestData
+            {
+                Category = MessengerMessageCategory.Response,
+                Tag = MessengerTagType.ConfirmedEventUpdate,
+            },
         };
         await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
@@ -89,6 +104,11 @@ public class MessengerMessagesTest : TestBase
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
+            Data = new MessengerRequestData
+            {
+                Category = MessengerMessageCategory.Response,
+                Tag = MessengerTagType.ConfirmedEventUpdate,
+            },
         };
         await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
@@ -107,6 +127,11 @@ public class MessengerMessagesTest : TestBase
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
+            Data = new MessengerRequestData
+            {
+                Category = MessengerMessageCategory.Response,
+                Tag = MessengerTagType.ConfirmedEventUpdate,
+            },
         };
         await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
