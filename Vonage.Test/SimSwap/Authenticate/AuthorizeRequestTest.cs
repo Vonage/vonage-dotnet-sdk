@@ -1,6 +1,8 @@
-﻿using Vonage.SimSwap.Authenticate;
+﻿#region
+using Vonage.SimSwap.Authenticate;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SimSwap.Authenticate;
 
@@ -11,6 +13,6 @@ public class AuthorizeRequestTest
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         AuthenticateRequest.Parse("123456789", "scope")
             .Map(request => request.BuildAuthorizeRequest())
-            .Map(r => r.GetEndpointPath())
+            .Map(r => r.BuildRequestMessage().RequestUri!.ToString())
             .Should().BeSuccess("oauth2/bc-authorize");
 }

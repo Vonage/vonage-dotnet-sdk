@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.SimSwap.Authenticate;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SimSwap.Authenticate;
 
@@ -9,5 +11,5 @@ public class GetTokenRequestTest
 {
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        new GetTokenRequest("123456").GetEndpointPath().Should().Be("oauth2/token");
+        new GetTokenRequest("123456").BuildRequestMessage().RequestUri!.ToString().Should().Be("oauth2/token");
 }
