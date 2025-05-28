@@ -15,7 +15,7 @@ namespace Vonage.Test.Messages.Rcs;
 [Trait("Category", "Legacy")]
 public class RcsMessagesTest : TestBase
 {
-    private const string ResponseKey = "SendMessageReturnsOk";
+    private const string ResponseKey = "SendMessage";
     private readonly VonageClient client;
     private readonly string expectedResponse;
     private readonly string expectedUri;
@@ -46,21 +46,6 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendRcsTextAsyncReturnsOk()
-    {
-        var request = new RcsTextRequest
-        {
-            To = "447700900000",
-            ClientRef = "abc123",
-            WebhookUrl = new Uri("https://example.com/status"),
-            TimeToLive = 600,
-            From = "Vonage",
-            Text = "Hello world",
-        };
-        await this.AssertResponse(request, this.helper.GetRequestJson());
-    }
-
-    [Fact]
     public async Task SendRcsFileAsyncReturnsOk()
     {
         var request = new RcsFileRequest
@@ -86,6 +71,21 @@ public class RcsMessagesTest : TestBase
             TimeToLive = 600,
             From = "Vonage",
             Image = new CaptionedAttachment {Url = "https://example.com/image.jpg"},
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsTextAsyncReturnsOk()
+    {
+        var request = new RcsTextRequest
+        {
+            To = "447700900000",
+            ClientRef = "abc123",
+            WebhookUrl = new Uri("https://example.com/status"),
+            TimeToLive = 600,
+            From = "Vonage",
+            Text = "Hello world",
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }

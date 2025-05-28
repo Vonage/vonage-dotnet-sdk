@@ -27,8 +27,6 @@ public class MessengerMessagesTest : TestBase
     [Fact]
     public async Task SendMessengerAudioAsyncReturnsOk()
     {
-        var expectedResponse = this.helper.GetResponseJson();
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new MessengerAudioRequest
         {
             To = "441234567890",
@@ -41,19 +39,12 @@ public class MessengerMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-        this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-        var client = this.BuildVonageClient(creds);
-        var response = await client.MessagesClient.SendAsync(request);
-        Assert.NotNull(response);
-        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendMessengerFileAsyncReturnsOk()
     {
-        var expectedResponse = this.helper.GetResponseJson();
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new MessengerFileRequest
         {
             To = "441234567890",
@@ -66,19 +57,12 @@ public class MessengerMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-        this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-        var client = this.BuildVonageClient(credentials);
-        var response = await client.MessagesClient.SendAsync(request);
-        Assert.NotNull(response);
-        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendMessengerImageAsyncReturnsOk()
     {
-        var expectedResponse = this.helper.GetResponseJson();
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new MessengerImageRequest
         {
             To = "441234567890",
@@ -91,19 +75,12 @@ public class MessengerMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        var credentials = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-        this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-        var client = this.BuildVonageClient(credentials);
-        var response = await client.MessagesClient.SendAsync(request);
-        Assert.NotNull(response);
-        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendMessengerTextAsyncReturnsOk()
     {
-        var expectedResponse = this.helper.GetResponseJson();
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new MessengerTextRequest
         {
             To = "441234567890",
@@ -113,19 +90,12 @@ public class MessengerMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-        this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-        var client = this.BuildVonageClient(creds);
-        var response = await client.MessagesClient.SendAsync(request);
-        Assert.NotNull(response);
-        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendMessengerVideoAsyncReturnsOk()
     {
-        var expectedResponse = this.helper.GetResponseJson();
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new MessengerVideoRequest
         {
             To = "441234567890",
@@ -138,9 +108,14 @@ public class MessengerMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
+    }
+
+    private async Task VerifySendMessage(string expectedRequest, IMessage request)
+    {
+        var expectedResponse = this.helper.GetResponseJson("SendMessage");
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-        var client = this.BuildVonageClient(creds);
+        var client = this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
         var response = await client.MessagesClient.SendAsync(request);
         Assert.NotNull(response);
         Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);

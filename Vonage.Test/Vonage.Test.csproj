@@ -289,31 +289,19 @@
         <None Include="Messages\Messenger\Data\SendMessengerAudioAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Messenger\Data\SendMessengerAudioAsyncReturnsOk-response.json">
+        <None Include="Messages\Messenger\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Messenger\Data\SendMessengerFileAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Messenger\Data\SendMessengerFileAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Messenger\Data\SendMessengerImageAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Messenger\Data\SendMessengerImageAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Messenger\Data\SendMessengerTextAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Messenger\Data\SendMessengerTextAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Messenger\Data\SendMessengerVideoAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Messenger\Data\SendMessengerVideoAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Mms\Data\SendMmsAudioAsyncReturnsOk-request.json">
@@ -337,7 +325,7 @@
         <None Include="Messages\Sms\Data\SendSmsAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Sms\Data\SendSmsAsyncReturnsOk-response.json">
+        <None Include="Messages\Sms\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppImageAsyncReturnsOk-request.json">
@@ -364,28 +352,16 @@
         <None Include="Messages\Viber\Data\SendViberImageAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Viber\Data\SendViberImageAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Viber\Data\SendViberTextAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Viber\Data\SendViberTextAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Viber\Data\SendViberFileAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Remove="Messages\Viber\Data\SendViberFileAsyncReturnsOk-response.json"/>
-        <None Include="Messages\Viber\Data\SendViberFileAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithUrlSticker-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -1215,10 +1191,10 @@
         <None Update="Messages\Mms\Data\SendMmsVideoAsyncReturnsOkWithTtl-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Mms\Data\SendMessageReturnsOk-response.json">
+        <None Update="Messages\Mms\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\WhatsApp\Data\SendMessageReturnsOk-response.json">
+        <None Update="Messages\WhatsApp\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messages\WhatsApp\Data\SendWhatsAppAudioAsyncReturnsOkWithContext-request.json">
@@ -1278,7 +1254,7 @@
         <None Update="Data\NccoTests\TestSipEndpointWithStandardHeaders-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Rcs\Data\SendMessageReturnsOk-response.json">
+        <None Update="Messages\Rcs\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messages\Rcs\Data\SendRcsCustomAsyncReturnsOk-request.json">
@@ -1384,6 +1360,9 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\NccoTests\TestSipEndpointWithUserAndDomain-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Viber\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

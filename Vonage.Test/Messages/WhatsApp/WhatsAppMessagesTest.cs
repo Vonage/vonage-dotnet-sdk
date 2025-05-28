@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Messages;
 using Vonage.Messages.WhatsApp;
@@ -19,28 +18,22 @@ namespace Vonage.Test.Messages.WhatsApp;
 [Trait("Category", "Legacy")]
 public class WhatsAppMessagesTest : TestBase
 {
-    private const string ResponseKey = "SendMessageReturnsOk";
+    private const string ResponseKey = "SendMessage";
     private readonly string expectedResponse;
     private readonly string expectedUri;
     private readonly SerializationTestHelper helper;
-    private readonly Func<IMessage, Task<MessagesResponse>> operation;
 
     public WhatsAppMessagesTest()
     {
         this.expectedUri = $"{this.ApiUrl}/v1/messages";
         this.helper = new SerializationTestHelper(typeof(WhatsAppMessagesTest).Namespace,
             JsonSerializerBuilder.BuildWithCamelCase());
-        this.operation = request =>
-            this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
-                .MessagesClient
-                .SendAsync(request);
         this.expectedResponse = this.helper.GetResponseJson(ResponseKey);
     }
 
     [Fact]
     public async Task SendWhatsAppAudioAsyncReturnsOk()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppAudioRequest
         {
             To = "441234567890",
@@ -53,13 +46,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppAudioAsyncReturnsOkWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppAudioRequest
         {
             To = "441234567890",
@@ -73,45 +65,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
-    }
-
-    private async Task AssertResponse(IMessage request, string expectedRequest)
-    {
-        this.Setup(this.expectedUri, this.expectedResponse, expectedRequest);
-        var response = await this.operation(request);
-        response.MessageUuid.Should().Be(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
-    }
-
-    [Fact]
-    public async Task SendWhatsAppCustomAsyncReturnsOkWithContext()
-    {
-        var expectedRequest = this.helper.GetRequestJson();
-        var request = new WhatsAppCustomRequest
-        {
-            To = "441234567890",
-            From = "015417543010",
-            ClientRef = "abcdefg",
-            Custom = new
-            {
-                type = "template",
-                template = new
-                {
-                    something = "whatsapp:hsm:technology:nexmo",
-                    name = "parcel_location",
-                },
-            },
-            Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
-            WebhookUrl = new Uri("https://example.com/status"),
-            WebhookVersion = "v1",
-        };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppCustomAsyncReturnsOk()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppCustomRequest
         {
             To = "441234567890",
@@ -129,13 +88,36 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
+    }
+
+    [Fact]
+    public async Task SendWhatsAppCustomAsyncReturnsOkWithContext()
+    {
+        var request = new WhatsAppCustomRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            ClientRef = "abcdefg",
+            Custom = new
+            {
+                type = "template",
+                template = new
+                {
+                    something = "whatsapp:hsm:technology:nexmo",
+                    name = "parcel_location",
+                },
+            },
+            Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+        };
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppFileAsyncReturnsOk()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppFileRequest
         {
             To = "441234567890",
@@ -150,13 +132,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppFileAsyncReturnsOkWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppFileRequest
         {
             To = "441234567890",
@@ -172,13 +153,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppImageAsyncReturnsOk()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppImageRequest
         {
             To = "441234567890",
@@ -192,13 +172,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppImageAsyncReturnsOkWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppImageRequest
         {
             To = "441234567890",
@@ -213,13 +192,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppMultipleItemsAsyncReturnsOk()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppMultipleItemsRequest
         {
             To = "441234567890",
@@ -239,13 +217,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppMultipleItemsAsyncReturnsOkWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppMultipleItemsRequest
         {
             To = "441234567890",
@@ -266,13 +243,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppSingleItemAsyncReturnsOk()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppSingleProductRequest
         {
             To = "441234567890",
@@ -287,13 +263,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppSingleItemAsyncReturnsOkWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppSingleProductRequest
         {
             To = "441234567890",
@@ -309,13 +284,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppStickerAsyncReturnsOkWithIdSticker()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppStickerRequest<IdSticker>
         {
             To = "447700900000",
@@ -325,13 +299,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppStickerAsyncReturnsOkWithIdStickerWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppStickerRequest<IdSticker>
         {
             To = "447700900000",
@@ -342,13 +315,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppStickerAsyncReturnsOkWithUrlSticker()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppStickerRequest<UrlSticker>
         {
             To = "447700900000",
@@ -358,13 +330,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppStickerAsyncReturnsOkWithUrlStickerWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppStickerRequest<UrlSticker>
         {
             To = "447700900000",
@@ -375,13 +346,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppTemplateAsyncReturnsOk()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppTemplateRequest
         {
             To = "441234567890",
@@ -405,13 +375,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppTemplateAsyncReturnsOkWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppTemplateRequest
         {
             To = "441234567890",
@@ -436,13 +405,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppTextAsyncReturnsOk()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppTextRequest
         {
             To = "441234567890",
@@ -452,13 +420,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppTextAsyncReturnsOkWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppTextRequest
         {
             To = "441234567890",
@@ -469,13 +436,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppVideoAsyncReturnsOk()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppVideoRequest
         {
             To = "441234567890",
@@ -489,13 +455,12 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendWhatsAppVideoAsyncReturnsOkWithContext()
     {
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new WhatsAppVideoRequest
         {
             To = "441234567890",
@@ -510,7 +475,7 @@ public class WhatsAppMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        await this.AssertResponse(request, expectedRequest);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
@@ -519,5 +484,14 @@ public class WhatsAppMessagesTest : TestBase
         this.Setup($"{this.expectedUri}/ID-123", Maybe<string>.None, this.helper.GetRequestJson());
         await this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey))
             .MessagesClient.UpdateAsync(WhatsAppUpdateMessageRequest.Build("ID-123"));
+    }
+
+    private async Task VerifySendMessage(string expectedRequest, IMessage request)
+    {
+        this.Setup(this.expectedUri, this.expectedResponse, expectedRequest);
+        var client = this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
+        var response = await client.MessagesClient.SendAsync(request);
+        Assert.NotNull(response);
+        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
     }
 }
