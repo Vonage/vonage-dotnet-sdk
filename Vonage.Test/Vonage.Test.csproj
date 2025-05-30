@@ -1364,6 +1364,21 @@
         <None Update="Messages\Viber\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsCustomAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsFileAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsImageAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsTextAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsVideoAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

@@ -31,7 +31,7 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendRcsCustomAsyncReturnsOk()
+    public async Task SendFullRcsCustomAsyncReturnsOk()
     {
         var request = new RcsCustomRequest
         {
@@ -46,7 +46,7 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendRcsFileAsyncReturnsOk()
+    public async Task SendFullRcsFileAsyncReturnsOk()
     {
         var request = new RcsFileRequest
         {
@@ -61,7 +61,7 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendRcsImageAsyncReturnsOk()
+    public async Task SendFullRcsImageAsyncReturnsOk()
     {
         var request = new RcsImageRequest
         {
@@ -76,7 +76,7 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendRcsTextAsyncReturnsOk()
+    public async Task SendFullRcsTextAsyncReturnsOk()
     {
         var request = new RcsTextRequest
         {
@@ -91,7 +91,7 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendRcsVideoAsyncReturnsOk()
+    public async Task SendFullRcsVideoAsyncReturnsOk()
     {
         var request = new RcsVideoRequest
         {
@@ -99,6 +99,66 @@ public class RcsMessagesTest : TestBase
             ClientRef = "abc123",
             WebhookUrl = new Uri("https://example.com/status"),
             TimeToLive = 600,
+            From = "Vonage",
+            Video = new CaptionedAttachment {Url = "https://example.com/video.mp4"},
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsCustomAsyncReturnsOk()
+    {
+        var request = new RcsCustomRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Custom = new {Key1 = "value1", Key2 = "value2"},
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsFileAsyncReturnsOk()
+    {
+        var request = new RcsFileRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            File = new CaptionedAttachment {Url = "https://example.com/file.pdf"},
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsImageAsyncReturnsOk()
+    {
+        var request = new RcsImageRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Image = new CaptionedAttachment {Url = "https://example.com/image.jpg"},
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsTextAsyncReturnsOk()
+    {
+        var request = new RcsTextRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Text = "Hello world",
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsVideoAsyncReturnsOk()
+    {
+        var request = new RcsVideoRequest
+        {
+            To = "447700900000",
             From = "Vonage",
             Video = new CaptionedAttachment {Url = "https://example.com/video.mp4"},
         };
