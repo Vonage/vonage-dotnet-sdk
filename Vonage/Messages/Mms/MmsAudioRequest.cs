@@ -4,12 +4,19 @@ using System.Text.Json.Serialization;
 
 namespace Vonage.Messages.Mms;
 
+/// <summary>
+/// </summary>
 public class MmsAudioRequest : MessageRequestBase
 {
-    [JsonPropertyOrder(8)] public CaptionedAttachment Audio { get; set; }
+    /// <summary>
+    /// </summary>
+    [JsonPropertyOrder(8)]
+    public CaptionedAttachment Audio { get; set; }
 
+    /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.MMS;
 
+    /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Audio;
 
     /// <summary>
