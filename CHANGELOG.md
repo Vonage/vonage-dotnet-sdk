@@ -17,6 +17,8 @@
 
 - Bump version to v7.20.1 ([9ccbddc](https://github.com/Vonage/vonage-dotnet-sdk/commit/9ccbddce37979ec29588c6e8516e2f256f4d8206))
 
+- Generate changelog for v7.20.1 ([fb0976a](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb0976a85357f78ae424b7349bdb7ae84cd4fe6b))
+
 
 ### Refactoring
 
@@ -35,6 +37,14 @@
 - Clean Messenger Messages ([abb5323](https://github.com/Vonage/vonage-dotnet-sdk/commit/abb5323eb68bbfc0bc591ab8d2081ca18ad97e46))
 
 - Clear warnings in MMS Messages ([4ca7a6b](https://github.com/Vonage/vonage-dotnet-sdk/commit/4ca7a6bc9d5b83e7bc5b1648068ee9a514eb2980))
+
+
+### Reverts
+
+- Revert "build: add slack notifications (#608)"
+
+This reverts commit 87576ffadfaa6b35825d6568c069e9b4a459390d.
+ ([bc73867](https://github.com/Vonage/vonage-dotnet-sdk/commit/bc7386706a23401d32311d2ccb4a520743f4887a))
 
 
 ## [v7.20.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.0) (2025-05-26)
