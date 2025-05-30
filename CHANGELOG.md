@@ -1,4 +1,42 @@
 # Changelog
+## [v7.20.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.1) (2025-05-30)
+
+### Bug Fixes
+
+- Ignore ttl for RCS Messages when default ([1a7f6fe](https://github.com/Vonage/vonage-dotnet-sdk/commit/1a7f6fed46f030e5cd198db6d749df283fc0427c))
+
+
+### Build updates
+
+- Add slack notifications (#608) ([87576ff](https://github.com/Vonage/vonage-dotnet-sdk/commit/87576ffadfaa6b35825d6568c069e9b4a459390d))
+
+
+### Documentation
+
+- Generate changelog for v7.20.0 ([456ba7c](https://github.com/Vonage/vonage-dotnet-sdk/commit/456ba7ca26e95eb8dbda798089121a9288a0f515))
+
+- Bump version to v7.20.1 ([9ccbddc](https://github.com/Vonage/vonage-dotnet-sdk/commit/9ccbddce37979ec29588c6e8516e2f256f4d8206))
+
+
+### Refactoring
+
+- Reduce duplication in Result with Try ([cc0fc62](https://github.com/Vonage/vonage-dotnet-sdk/commit/cc0fc6293f2f875c96b65266378166588d6b5bad))
+
+- Reduce duplication in RequestBuilderTest for Start LiveCaptions ([9580a83](https://github.com/Vonage/vonage-dotnet-sdk/commit/9580a838116010d9b8bc60aedfd8c62c1874c640))
+
+- Reduce duplication in RequestBuilderTest for Start AudioConnector ([584ee21](https://github.com/Vonage/vonage-dotnet-sdk/commit/584ee21160420decc28a0b80055c1abe6f30441d))
+
+- Reduce duplication in RequestBuilderTest for Start ExperienceComposer ([ced6c62](https://github.com/Vonage/vonage-dotnet-sdk/commit/ced6c62d8832ceb2f5ea5ebe856b13e3e9a764cf))
+
+- Reduce duplication in RequestBuilderTest for GetEvents Conversations ([86eb3cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/86eb3cbdbb1a24e8d6c206da8a58b9847975c353))
+
+- Clean tests in Messages ([0b9d774](https://github.com/Vonage/vonage-dotnet-sdk/commit/0b9d774ec92d6512a0f8f274898741fd32bc9dd0))
+
+- Clean Messenger Messages ([abb5323](https://github.com/Vonage/vonage-dotnet-sdk/commit/abb5323eb68bbfc0bc591ab8d2081ca18ad97e46))
+
+- Clear warnings in MMS Messages ([4ca7a6b](https://github.com/Vonage/vonage-dotnet-sdk/commit/4ca7a6bc9d5b83e7bc5b1648068ee9a514eb2980))
+
+
 ## [v7.20.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.0) (2025-05-26)
 
 ### Documentation
