@@ -1,6 +1,8 @@
-﻿using Vonage.NumberVerification.Authenticate;
+﻿#region
+using Vonage.NumberVerification.Authenticate;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberVerification.Authenticate;
 
@@ -8,7 +10,7 @@ namespace Vonage.Test.NumberVerification.Authenticate;
 public class AuthorizeRequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         AuthenticateRequest.Parse("123456789", "scope")
             .Map(request => request.BuildAuthorizeRequest())
             .Map(r => r.GetEndpointPath())

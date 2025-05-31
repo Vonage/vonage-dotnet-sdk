@@ -1,7 +1,9 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.SubAccounts.GetSubAccount;
 
@@ -21,14 +23,6 @@ public readonly struct GetSubAccountRequest : IVonageRequest
     /// </summary>
     public string SubAccountKey { get; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.apiKey}/subaccounts/{this.SubAccountKey}";
-
     /// <summary>
     ///     Parses the input into a GetSubAccountRequest.
     /// </summary>
@@ -39,6 +33,11 @@ public readonly struct GetSubAccountRequest : IVonageRequest
             .FromSuccess(new GetSubAccountRequest(string.Empty, subAccountKey))
             .Map(InputEvaluation<GetSubAccountRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifySubAccountKey));
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Get, $"/accounts/{this.apiKey}/subaccounts/{this.SubAccountKey}")
+        .Build();
 
     private static Result<GetSubAccountRequest> VerifySubAccountKey(GetSubAccountRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SubAccountKey, nameof(SubAccountKey));

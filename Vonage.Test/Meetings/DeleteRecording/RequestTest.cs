@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Meetings.DeleteRecording;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Meetings.DeleteRecording;
 
@@ -15,7 +17,7 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         DeleteRecordingRequest.Parse(this.recordingId)
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess(
                 $"/v1/meetings/recordings/{this.recordingId}");

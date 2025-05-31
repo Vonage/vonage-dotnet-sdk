@@ -26,11 +26,8 @@ public readonly partial struct GetStreamsRequest : IVonageRequest, IHasApplicati
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Get, this.GetEndpointPath())
+            .Initialize(HttpMethod.Get, $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream")
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream";
 
     internal static Result<GetStreamsRequest> VerifyApplicationId(GetStreamsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));

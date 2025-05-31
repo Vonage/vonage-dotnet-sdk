@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Signaling;
 using Vonage.Video.Signaling.SendSignal;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Signaling.SendSignal;
 
@@ -26,14 +28,14 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         SendSignalRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
             .WithConnectionId(this.connectionId)
             .WithContent(this.content)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess(
                 $"/v2/project/{this.applicationId}/session/{this.sessionId}/connection/{this.connectionId}/signal");

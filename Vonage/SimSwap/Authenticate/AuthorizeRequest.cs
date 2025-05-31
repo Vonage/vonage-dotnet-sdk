@@ -1,21 +1,24 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using Vonage.Common;
 using Vonage.Common.Client;
+#endregion
 
 namespace Vonage.SimSwap.Authenticate;
 
 internal record AuthorizeRequest(PhoneNumber Number, string Scope) : IVonageRequest
 {
-    public string GetEndpointPath() => "oauth2/bc-authorize";
-    
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(HttpMethod.Post, "oauth2/bc-authorize")
             .WithContent(this.GetRequestContent())
             .Build();
-    
+
+    private StringContent GetRequestContent() =>
+        new StringContent(this.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
+
     private string GetUrlEncoded()
     {
         var builder = new StringBuilder();
@@ -25,7 +28,4 @@ internal record AuthorizeRequest(PhoneNumber Number, string Scope) : IVonageRequ
         builder.Append(WebUtility.UrlEncode($" {this.Scope}"));
         return builder.ToString();
     }
-    
-    private StringContent GetRequestContent() =>
-        new StringContent(this.GetUrlEncoded(), Encoding.UTF8, "application/x-www-form-urlencoded");
 }

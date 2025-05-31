@@ -11,13 +11,10 @@ namespace Vonage.Test.VerifyV2.GetTemplateFragment;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        GetTemplateFragmentRequest.Parse(new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"),
-                new Guid("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb"))
-            .Map(request => request.GetEndpointPath())
+    public void Parse_ShouldReturnFailure_GivenTemplateFragmentIsEmpty() =>
+        GetTemplateFragmentRequest.Parse(Guid.NewGuid(), Guid.Empty)
             .Should()
-            .BeSuccess(
-                "/v2/verify/templates/f3a065af-ac5a-47a4-8dfe-819561a7a287/template_fragments/68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb");
+            .BeParsingFailure("TemplateFragmentId cannot be empty.");
 
     [Fact]
     public void Parse_ShouldReturnFailure_GivenTemplateIdIsEmpty() =>
@@ -26,10 +23,11 @@ public class RequestTest
             .BeParsingFailure("TemplateId cannot be empty.");
 
     [Fact]
-    public void Parse_ShouldReturnFailure_GivenTemplateFragmentIsEmpty() =>
-        GetTemplateFragmentRequest.Parse(Guid.NewGuid(), Guid.Empty)
+    public void Parse_ShouldSetTemplateFragmentId() =>
+        GetTemplateFragmentRequest.Parse(Guid.NewGuid(), new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"))
+            .Map(request => request.TemplateFragmentId)
             .Should()
-            .BeParsingFailure("TemplateFragmentId cannot be empty.");
+            .BeSuccess(new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"));
 
     [Fact]
     public void Parse_ShouldSetTemplateId() =>
@@ -39,9 +37,11 @@ public class RequestTest
             .BeSuccess(new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"));
 
     [Fact]
-    public void Parse_ShouldSetTemplateFragmentId() =>
-        GetTemplateFragmentRequest.Parse(Guid.NewGuid(), new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"))
-            .Map(request => request.TemplateFragmentId)
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        GetTemplateFragmentRequest.Parse(new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"),
+                new Guid("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb"))
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
-            .BeSuccess(new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"));
+            .BeSuccess(
+                "/v2/verify/templates/f3a065af-ac5a-47a4-8dfe-819561a7a287/template_fragments/68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb");
 }

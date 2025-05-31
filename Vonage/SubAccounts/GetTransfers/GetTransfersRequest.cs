@@ -42,16 +42,9 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
+        .Initialize(HttpMethod.Get, UriHelpers.BuildUri($"/accounts/{this.ApiKey}/{this.Endpoint}",
+            this.GetQueryStringParameters()))
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => UriHelpers.BuildUri($"/accounts/{this.ApiKey}/{this.Endpoint}",
-        this.GetQueryStringParameters());
-
-    internal static Result<GetTransfersRequest> VerifySubAccountKey(GetTransfersRequest request) =>
-        request.SubAccountKey.Match(key => InputValidation.VerifyNotEmpty(request, key, nameof(request.SubAccountKey)),
-            () => request);
 
     private Dictionary<string, string> GetQueryStringParameters()
     {
@@ -60,6 +53,10 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
         this.SubAccountKey.IfSome(value => parameters.Add("subaccount", value));
         return parameters;
     }
+
+    internal static Result<GetTransfersRequest> VerifySubAccountKey(GetTransfersRequest request) =>
+        request.SubAccountKey.Match(key => InputValidation.VerifyNotEmpty(request, key, nameof(request.SubAccountKey)),
+            () => request);
 
     internal GetTransfersRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
 

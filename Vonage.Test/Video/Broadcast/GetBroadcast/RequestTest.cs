@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Broadcast.GetBroadcast;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Broadcast.GetBroadcast;
 
@@ -20,12 +22,12 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
         GetBroadcastRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithBroadcastId(this.broadcastId)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/broadcast/{this.broadcastId}");
 }
