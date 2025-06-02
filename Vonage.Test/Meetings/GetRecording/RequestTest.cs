@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Meetings.GetRecording;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Meetings.GetRecording;
 
@@ -22,7 +24,7 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         GetRecordingRequest.Parse(this.recordingId)
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v1/meetings/recordings/{this.recordingId}");
 

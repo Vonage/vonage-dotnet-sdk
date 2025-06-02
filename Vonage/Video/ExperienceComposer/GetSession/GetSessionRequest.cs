@@ -14,22 +14,10 @@ namespace Vonage.Video.ExperienceComposer.GetSession;
 /// </summary>
 public readonly struct GetSessionRequest : IVonageRequest, IHasApplicationId
 {
-    /// <inheritdoc />
-    public Guid ApplicationId { get; internal init; }
-
     /// <summary>
     ///     ID of the Experience Composer instance
     /// </summary>
     public string ExperienceComposerId { get; internal init; }
-
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() =>
-        VonageRequestBuilder
-            .Initialize(HttpMethod.Get, this.GetEndpointPath())
-            .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/render/{this.ExperienceComposerId}";
 
     /// <summary>
     ///     Parses the input into a GetSessionRequest.
@@ -44,9 +32,18 @@ public readonly struct GetSessionRequest : IVonageRequest, IHasApplicationId
             .Map(InputEvaluation<GetSessionRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyExperienceComposerId, VerifyApplicationId));
 
-    private static Result<GetSessionRequest> VerifyExperienceComposerId(GetSessionRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ExperienceComposerId, nameof(ExperienceComposerId));
+    /// <inheritdoc />
+    public Guid ApplicationId { get; internal init; }
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Get, $"/v2/project/{this.ApplicationId}/render/{this.ExperienceComposerId}")
+            .Build();
 
     private static Result<GetSessionRequest> VerifyApplicationId(GetSessionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
+
+    private static Result<GetSessionRequest> VerifyExperienceComposerId(GetSessionRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ExperienceComposerId, nameof(ExperienceComposerId));
 }

@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.SubAccounts.GetTransfers;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.GetTransfers;
 
@@ -20,19 +22,19 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)
             .Create()
             .Map(request => request.WithApiKey("489dsSS564652"))
             .Map(request => request.WithEndpoint(GetTransfersRequest.CreditTransfer))
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z");
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_GivenAllParametersAreProvided() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_GivenAllParametersAreProvided() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)
@@ -41,13 +43,13 @@ public class RequestTest
             .Create()
             .Map(request => request.WithApiKey("489dsSS564652"))
             .Map(request => request.WithEndpoint(GetTransfersRequest.CreditTransfer))
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess(
                 "/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z&end_date=2020-06-30T12%3A00%3A00Z&subaccount=123AZs456");
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_GivenEndDateIsProvided() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_GivenEndDateIsProvided() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)
@@ -55,23 +57,23 @@ public class RequestTest
             .Create()
             .Map(request => request.WithApiKey("489dsSS564652"))
             .Map(request => request.WithEndpoint(GetTransfersRequest.CreditTransfer))
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess(
                 "/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z&end_date=2020-06-30T12%3A00%3A00Z");
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_GivenKeyAndEndpointAreMissing() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_GivenKeyAndEndpointAreMissing() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/accounts//?start_date=2018-03-02T17%3A34%3A49Z");
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint_GivenSubAccountKeyIsProvided() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint_GivenSubAccountKeyIsProvided() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)
@@ -79,7 +81,7 @@ public class RequestTest
             .Create()
             .Map(request => request.WithApiKey("489dsSS564652"))
             .Map(request => request.WithEndpoint(GetTransfersRequest.CreditTransfer))
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess(
                 "/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z&subaccount=123AZs456");

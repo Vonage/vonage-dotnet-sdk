@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
+#endregion
 
 namespace Vonage.Video.Sessions.CreateSession;
 
@@ -52,16 +54,6 @@ public readonly struct CreateSessionRequest : IVonageRequest
     /// <returns>The builder.</returns>
     public static IBuilderForLocation Build() => new CreateSessionRequestBuilder();
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() =>
-        VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .WithContent(this.GetRequestContent())
-            .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => "/session/create";
-
     /// <summary>
     ///     Retrieves the encoded Url.
     /// </summary>
@@ -79,6 +71,13 @@ public readonly struct CreateSessionRequest : IVonageRequest
         builder.Append(this.EndToEndEncryption.ToString().ToLowerInvariant());
         return builder.ToString();
     }
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Post, "/session/create")
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     private static string GetMediaPreference(MediaMode mediaMode) =>
         mediaMode == MediaMode.Relayed ? "enabled" : "disabled";

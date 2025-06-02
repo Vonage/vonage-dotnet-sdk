@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Video.Archives.RemoveStream;
 
@@ -12,15 +14,6 @@ namespace Vonage.Video.Archives.RemoveStream;
 /// </summary>
 public readonly struct RemoveStreamRequest : IVonageRequest, IHasApplicationId, IHasArchiveId, IHasStreamId
 {
-    /// <inheritdoc />
-    public Guid ApplicationId { get; private init; }
-
-    /// <inheritdoc />
-    public Guid ArchiveId { get; private init; }
-
-    /// <inheritdoc />
-    public Guid StreamId { get; private init; }
-
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
@@ -34,14 +27,20 @@ public readonly struct RemoveStreamRequest : IVonageRequest, IHasApplicationId, 
         });
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() =>
-        VonageRequestBuilder
-            .Initialize(new HttpMethod("PATCH"), this.GetEndpointPath())
-            .WithContent(this.GetRequestContent())
-            .Build();
+    public Guid ApplicationId { get; private init; }
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/streams";
+    public Guid ArchiveId { get; private init; }
+
+    /// <inheritdoc />
+    public Guid StreamId { get; private init; }
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() =>
+        VonageRequestBuilder
+            .Initialize(new HttpMethod("PATCH"), $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/streams")
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     private StringContent GetRequestContent() =>
         new(

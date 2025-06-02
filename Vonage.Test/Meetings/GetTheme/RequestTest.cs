@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Meetings.GetTheme;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Meetings.GetTheme;
 
@@ -21,7 +23,7 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         GetThemeRequest.Parse(this.themeId)
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v1/meetings/themes/{this.themeId}");
 

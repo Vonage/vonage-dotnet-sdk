@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
@@ -6,6 +7,7 @@ using EnumsNET;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+#endregion
 
 namespace Vonage.Conversations.GetConversations;
 
@@ -48,11 +50,8 @@ public readonly struct GetConversationsRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
+        .Initialize(HttpMethod.Get, UriHelpers.BuildUri("/v1/conversations", this.GetQueryStringParameters()))
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => UriHelpers.BuildUri("/v1/conversations", this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -6,6 +7,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Users.CreateUser;
 
@@ -56,12 +58,9 @@ public readonly struct CreateUserRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
+        .Initialize(HttpMethod.Post, "/v1/users")
         .WithContent(this.GetRequestContent())
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => "/v1/users";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),

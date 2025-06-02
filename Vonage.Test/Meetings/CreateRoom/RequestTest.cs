@@ -1,7 +1,9 @@
-﻿using AutoFixture;
+﻿#region
+using AutoFixture;
 using Vonage.Meetings.CreateRoom;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Meetings.CreateRoom;
 
@@ -22,7 +24,7 @@ public class RequestTest
             .Build()
             .WithDisplayName(this.displayName)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/meetings/rooms");
 }

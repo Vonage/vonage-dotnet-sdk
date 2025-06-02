@@ -35,12 +35,9 @@ public readonly partial struct ChangeLayoutRequest : IVonageRequest, IHasApplica
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Put, this.GetEndpointPath())
+            .Initialize(HttpMethod.Put, $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/layout")
             .WithContent(this.GetRequestContent())
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/layout";
 
     private StringContent GetRequestContent() =>
         new StringContent(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this.Layout), Encoding.UTF8,

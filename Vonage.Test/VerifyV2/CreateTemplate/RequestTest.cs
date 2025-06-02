@@ -10,11 +10,11 @@ namespace Vonage.Test.VerifyV2.CreateTemplate;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         CreateTemplateRequest.Build()
             .WithName("MyBrand")
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v2/verify/templates");
 }

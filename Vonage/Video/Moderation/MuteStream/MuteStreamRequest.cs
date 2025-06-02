@@ -32,12 +32,9 @@ public readonly partial struct MuteStreamRequest : IVonageRequest, IHasApplicati
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(HttpMethod.Post,
+                $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream/{this.StreamId}/mute")
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() =>
-        $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream/{this.StreamId}/mute";
 
     internal static Result<MuteStreamRequest> VerifyApplicationId(MuteStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));

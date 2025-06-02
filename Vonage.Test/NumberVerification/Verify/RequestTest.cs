@@ -1,7 +1,9 @@
-﻿using Vonage.Common.Failures;
+﻿#region
+using Vonage.Common.Failures;
 using Vonage.NumberVerification.Verify;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberVerification.Verify;
 
@@ -9,11 +11,10 @@ namespace Vonage.Test.NumberVerification.Verify;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        VerifyRequest.Parse("123456789")
-            .Map(request => request.GetEndpointPath())
+    public void Build_ShouldReturnFailure_GivenNumberContainsNonDigits() =>
+        VerifyRequest.Parse("123456abc789")
             .Should()
-            .BeSuccess("camara/number-verification/v031/verify");
+            .BeFailure(ResultFailure.FromErrorMessage("Number can only contain digits."));
 
     [Theory]
     [InlineData("")]
@@ -23,12 +24,6 @@ public class RequestTest
         VerifyRequest.Parse(value)
             .Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
-
-    [Fact]
-    public void Build_ShouldReturnFailure_GivenNumberContainsNonDigits() =>
-        VerifyRequest.Parse("123456abc789")
-            .Should()
-            .BeFailure(ResultFailure.FromErrorMessage("Number can only contain digits."));
 
     [Fact]
     public void Build_ShouldReturnFailure_GivenNumberLengthIsHigherThan7() =>
@@ -53,4 +48,11 @@ public class RequestTest
             .Map(number => number.PhoneNumber.Number)
             .Should()
             .BeSuccess(expected);
+
+    [Fact]
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        VerifyRequest.Parse("123456789")
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Should()
+            .BeSuccess("camara/number-verification/v031/verify");
 }

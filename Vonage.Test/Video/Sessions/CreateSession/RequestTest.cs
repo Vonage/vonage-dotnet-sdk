@@ -1,7 +1,9 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.Video.Sessions;
 using Vonage.Video.Sessions.CreateSession;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sessions.CreateSession;
 
@@ -17,8 +19,8 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        CreateSessionRequest.Default.GetEndpointPath()
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        CreateSessionRequest.Default.BuildRequestMessage().RequestUri!.ToString()
             .Should()
             .Be("/session/create");
 }

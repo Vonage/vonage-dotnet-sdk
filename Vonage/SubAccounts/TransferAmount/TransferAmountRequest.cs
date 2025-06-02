@@ -53,12 +53,13 @@ public readonly partial struct TransferAmountRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
+        .Initialize(HttpMethod.Post, $"/accounts/{this.ApiKey}/{this.Endpoint}")
         .WithContent(this.GetRequestContent())
         .Build();
 
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/{this.Endpoint}";
+    private StringContent GetRequestContent() =>
+        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
+            "application/json");
 
     internal static Result<TransferAmountRequest> VerifyAmount(TransferAmountRequest amountRequest) =>
         InputValidation.VerifyNotNegative(amountRequest, amountRequest.Amount, nameof(amountRequest.Amount));
@@ -68,10 +69,6 @@ public readonly partial struct TransferAmountRequest : IVonageRequest
 
     internal static Result<TransferAmountRequest> VerifyTo(TransferAmountRequest amountRequest) =>
         InputValidation.VerifyNotEmpty(amountRequest, amountRequest.To, nameof(amountRequest.To));
-
-    private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
-            "application/json");
 
     internal TransferAmountRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
 

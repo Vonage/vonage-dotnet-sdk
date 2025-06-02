@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Video.Sessions.ChangeStreamLayout;
 
@@ -13,16 +15,10 @@ namespace Vonage.Video.Sessions.ChangeStreamLayout;
 /// </summary>
 public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    /// <inheritdoc />
-    public Guid ApplicationId { get; internal init; }
-
     /// <summary>
     ///     The layout items.
     /// </summary>
     public IEnumerable<LayoutItem> Items { get; internal init; }
-
-    /// <inheritdoc />
-    public string SessionId { get; internal init; }
 
     /// <summary>
     ///     Initializes a builder.
@@ -31,14 +27,17 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicati
     public static IBuilderForApplicationId Build() => new ChangeStreamLayoutRequestBuilder();
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() =>
-        VonageRequestBuilder
-            .Initialize(HttpMethod.Put, this.GetEndpointPath())
-            .WithContent(this.GetRequestContent())
-            .Build();
+    public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream";
+    public string SessionId { get; internal init; }
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Put, $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream")
+            .WithContent(this.GetRequestContent())
+            .Build();
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(new {this.Items}),
@@ -51,16 +50,6 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicati
     public readonly struct LayoutItem
     {
         /// <summary>
-        ///     The stream Id.
-        /// </summary>
-        public string Id { get; }
-
-        /// <summary>
-        ///     The layout classes.
-        /// </summary>
-        public string[] LayoutClassList { get; }
-
-        /// <summary>
         ///     Creates a new layout item.
         /// </summary>
         /// <param name="id">The stream Id.</param>
@@ -70,5 +59,15 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicati
             this.Id = id;
             this.LayoutClassList = layoutClassList;
         }
+
+        /// <summary>
+        ///     The stream Id.
+        /// </summary>
+        public string Id { get; }
+
+        /// <summary>
+        ///     The layout classes.
+        /// </summary>
+        public string[] LayoutClassList { get; }
     }
 }

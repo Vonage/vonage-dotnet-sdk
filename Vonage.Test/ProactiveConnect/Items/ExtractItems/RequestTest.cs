@@ -1,7 +1,9 @@
+#region
 using System;
 using Vonage.ProactiveConnect.Items.ExtractItems;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.ProactiveConnect.Items.ExtractItems;
 
@@ -11,7 +13,7 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         ExtractItemsRequest.Parse(new Guid("95a462d3-ed87-4aa5-9d91-098e08093b0b"))
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v0.1/bulk/lists/95a462d3-ed87-4aa5-9d91-098e08093b0b/items/download");
 

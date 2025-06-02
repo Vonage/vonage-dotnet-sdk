@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.NumberVerification.Authenticate;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberVerification.Authenticate;
 
@@ -8,6 +10,6 @@ namespace Vonage.Test.NumberVerification.Authenticate;
 public class GetTokenRequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         new GetTokenRequest("123456").GetEndpointPath().Should().Be("oauth2/token");
 }

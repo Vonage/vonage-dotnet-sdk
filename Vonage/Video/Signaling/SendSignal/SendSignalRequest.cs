@@ -38,13 +38,10 @@ public readonly partial struct SendSignalRequest : IVonageRequest, IHasApplicati
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(HttpMethod.Post,
+                $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}/signal")
             .WithContent(this.GetRequestContent())
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() =>
-        $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}/signal";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this.Content),

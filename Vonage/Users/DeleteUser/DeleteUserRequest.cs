@@ -1,7 +1,9 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.Users.DeleteUser;
 
@@ -15,14 +17,6 @@ public readonly struct DeleteUserRequest : IVonageRequest
     /// </summary>
     public string UserId { get; internal init; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Delete, this.GetEndpointPath())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v1/users/{this.UserId}";
-
     /// <summary>
     ///     Parses the input into a DeleteUserRequest.
     /// </summary>
@@ -33,6 +27,11 @@ public readonly struct DeleteUserRequest : IVonageRequest
             .FromSuccess(new DeleteUserRequest(userId))
             .Map(InputEvaluation<DeleteUserRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyUserId));
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Delete, $"/v1/users/{this.UserId}")
+        .Build();
 
     private static Result<DeleteUserRequest> VerifyUserId(DeleteUserRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.UserId, nameof(UserId));

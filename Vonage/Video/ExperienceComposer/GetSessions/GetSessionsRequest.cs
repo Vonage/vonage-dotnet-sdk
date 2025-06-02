@@ -41,12 +41,9 @@ public readonly partial struct GetSessionsRequest : IVonageRequest, IHasApplicat
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Get, this.GetEndpointPath())
+            .Initialize(HttpMethod.Get,
+                $"/v2/project/{this.ApplicationId}/render?offset={this.Offset}&count={this.Count}")
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() =>
-        $"/v2/project/{this.ApplicationId}/render?offset={this.Offset}&count={this.Count}";
 
     internal static Result<GetSessionsRequest> VerifyApplicationId(GetSessionsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));

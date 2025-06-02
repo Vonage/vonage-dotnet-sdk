@@ -51,12 +51,13 @@ public readonly partial struct TransferNumberRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
+        .Initialize(HttpMethod.Post, $"/accounts/{this.ApiKey}/transfer-number")
         .WithContent(this.GetRequestContent())
         .Build();
 
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/transfer-number";
+    private StringContent GetRequestContent() =>
+        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
+            "application/json");
 
     internal static Result<TransferNumberRequest> VerifyCountry(TransferNumberRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Country, nameof(request.Country))
@@ -73,10 +74,6 @@ public readonly partial struct TransferNumberRequest : IVonageRequest
 
     internal static Result<TransferNumberRequest> VerifyTo(TransferNumberRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.To, nameof(request.To));
-
-    private StringContent GetRequestContent() => new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
-        Encoding.UTF8,
-        "application/json");
 
     internal TransferNumberRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
 }

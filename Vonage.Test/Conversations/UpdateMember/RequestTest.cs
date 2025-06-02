@@ -1,6 +1,8 @@
-﻿using Vonage.Conversations.UpdateMember;
+﻿#region
+using Vonage.Conversations.UpdateMember;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.UpdateMember;
 
@@ -8,13 +10,13 @@ namespace Vonage.Test.Conversations.UpdateMember;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         UpdateMemberRequest.Build()
             .WithConversationId("CON-123")
             .WithMemberId("MEM-123")
             .WithJoinedState()
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/conversations/CON-123/members/MEM-123");
 }
