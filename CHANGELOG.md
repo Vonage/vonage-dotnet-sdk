@@ -1,4 +1,18 @@
 # Changelog
+## [v7.21.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.21.0) (2025-06-02)
+
+### Documentation
+
+- Generate changelog for v7.20.1 ([2af7759](https://github.com/Vonage/vonage-dotnet-sdk/commit/2af7759a2285d488bdd0c203c255cb7ef1dae5d4))
+
+- Bump version to v7.21.0 ([b5bcc8f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b5bcc8f4dd2a03a45a436b9763899dfc691c8d6b))
+
+
+### Features
+
+- Add missing video webhook types in common webhooks ([f22d30a](https://github.com/Vonage/vonage-dotnet-sdk/commit/f22d30a05bb8a7aed72dbb2b1f8e5f86c7220c78))
+
+
 ## [v7.20.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.1) (2025-05-30)
 
 ### Bug Fixes
