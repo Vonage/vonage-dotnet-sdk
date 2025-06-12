@@ -1,5 +1,7 @@
 #region
 using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 #endregion
 
 namespace Vonage.Messages;
@@ -12,11 +14,13 @@ public interface IMessage
     /// <summary>
     ///     The channel to send to.
     /// </summary>
+    [JsonPropertyOrder(0)]
     MessagesChannel Channel { get; }
 
     /// <summary>
     ///     Client reference of up to 40 characters. The reference will be present in every message status.
     /// </summary>
+    [JsonPropertyOrder(5)]
     string ClientRef { get; set; }
 
     /// <summary>
@@ -26,11 +30,13 @@ public interface IMessage
     ///     will
     ///     work as well.
     /// </summary>
+    [JsonPropertyOrder(4)]
     string From { get; set; }
 
     /// <summary>
     ///     The type of message to send.
     /// </summary>
+    [JsonPropertyOrder(1)]
     MessagesMessageType MessageType { get; }
 
     /// <summary>
@@ -38,6 +44,7 @@ public interface IMessage
     ///     number,
     ///     start with the country code, for example, 447700900000.
     /// </summary>
+    [JsonPropertyOrder(3)]
     string To { get; set; }
 
     /// <summary>
@@ -46,11 +53,19 @@ public interface IMessage
     ///     in Messages v0.1 format. Over-rides account-level and application-level API version settings on a per-message
     ///     basis.
     /// </summary>
+    [JsonPropertyOrder(6)]
     string WebhookVersion { get; set; }
 
     /// <summary>
     ///     Specifies the URL to which Status Webhook messages will be sent for this particular message. Over-rides
     ///     account-level and application-level Status Webhook url settings on a per-message basis.
     /// </summary>
+    [JsonPropertyOrder(7)]
     Uri WebhookUrl { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the failover messages to be sent if the primary message fails.
+    /// </summary>
+    [JsonPropertyOrder(99)]
+    List<IMessage> Failover { get; set; }
 }
