@@ -1,4 +1,25 @@
 # Changelog
+## [v7.22.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.22.0) (2025-06-12)
+
+### Documentation
+
+- Generate changelog for v7.21.0 ([4b08e07](https://github.com/Vonage/vonage-dotnet-sdk/commit/4b08e0733c94b7dfb566284bb81ca1784590a85e))
+
+- Update readme on breaking changes for next major version ([734fca9](https://github.com/Vonage/vonage-dotnet-sdk/commit/734fca99648868330300a94e1d5ef9d545bffa7c))
+
+- Bump version to v7.22.0 ([ca9b22a](https://github.com/Vonage/vonage-dotnet-sdk/commit/ca9b22a2fbfb966ef04da704dafefdb351ea4589))
+
+
+### Features
+
+- Support failover in Messages ([1f4fa4b](https://github.com/Vonage/vonage-dotnet-sdk/commit/1f4fa4b306c147f489e7a13da14d97ea852b7d0f))
+
+
+### Refactoring
+
+- Unify how properties are reused in Messages ([bf4bd07](https://github.com/Vonage/vonage-dotnet-sdk/commit/bf4bd07dc3c264fc641edbe31d98f2436f36b71f))
+
+
 ## [v7.21.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.21.0) (2025-06-02)
 
 ### Documentation
