@@ -6,6 +6,7 @@ using Vonage.Common.Serialization;
 
 namespace Vonage.Messages;
 
+/// <inheritdoc />
 public abstract class MessageRequestBase : IMessage
 {
     /// <inheritdoc />
