@@ -1,3 +1,4 @@
+#region
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -6,6 +7,7 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Serialization;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.NumberInsightV2.FraudCheck;
 
@@ -40,12 +42,9 @@ public readonly struct FraudCheckRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
+        .Initialize(HttpMethod.Post, "/v2/ni")
         .WithContent(this.GetRequestContent())
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => "/v2/ni";
 
     private StringContent GetRequestContent() => new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
         Encoding.UTF8, "application/json");

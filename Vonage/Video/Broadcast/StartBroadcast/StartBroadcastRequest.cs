@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -8,6 +9,7 @@ using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.Serialization;
 using Vonage.Server;
+#endregion
 
 namespace Vonage.Video.Broadcast.StartBroadcast;
 
@@ -16,12 +18,6 @@ namespace Vonage.Video.Broadcast.StartBroadcast;
 /// </summary>
 public readonly struct StartBroadcastRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
-    /// <summary>
-    ///     Vonage Application UUID.
-    /// </summary>
-    [JsonIgnore]
-    public Guid ApplicationId { get; internal init; }
-
     /// <summary>
     ///     Specify this to assign the initial layout type for the broadcast. If you do not specify an initial layout type, the
     ///     broadcast stream uses the Best Fit layout type. For more information, see Configuring Video Layout for the OpenTok
@@ -66,10 +62,6 @@ public readonly struct StartBroadcastRequest : IVonageRequest, IHasApplicationId
     [JsonPropertyOrder(5)]
     public RenderResolution Resolution { get; internal init; }
 
-    /// <inheritdoc />
-    [JsonPropertyOrder(0)]
-    public string SessionId { get; internal init; }
-
     /// <summary>
     /// </summary>
     [JsonPropertyOrder(6)]
@@ -81,15 +73,22 @@ public readonly struct StartBroadcastRequest : IVonageRequest, IHasApplicationId
     /// <returns>The builder.</returns>
     public static IBuilderForApplicationId Build() => new StartBroadcastRequestBuilder();
 
+    /// <summary>
+    ///     Vonage Application UUID.
+    /// </summary>
+    [JsonIgnore]
+    public Guid ApplicationId { get; internal init; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(0)]
+    public string SessionId { get; internal init; }
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(HttpMethod.Post, $"/v2/project/{this.ApplicationId}/broadcast")
             .WithContent(this.GetRequestContent())
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/broadcast";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,

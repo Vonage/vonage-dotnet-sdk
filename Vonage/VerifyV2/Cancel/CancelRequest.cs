@@ -1,8 +1,10 @@
+#region
 using System;
 using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.VerifyV2.Cancel;
 
@@ -16,14 +18,6 @@ public readonly struct CancelRequest : IVonageRequest
     /// </summary>
     public Guid RequestId { get; internal init; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Delete, this.GetEndpointPath())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/verify/{this.RequestId}";
-
     /// <summary>
     ///     Parses the input into a CancelRequest.
     /// </summary>
@@ -34,6 +28,11 @@ public readonly struct CancelRequest : IVonageRequest
             .FromSuccess(new CancelRequest(requestId))
             .Map(InputEvaluation<CancelRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyRequestId));
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Delete, $"/v2/verify/{this.RequestId}")
+        .Build();
 
     private static Result<CancelRequest> VerifyRequestId(CancelRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.RequestId, nameof(RequestId));

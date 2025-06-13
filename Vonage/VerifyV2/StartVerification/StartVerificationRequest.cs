@@ -59,20 +59,17 @@ public readonly struct StartVerificationRequest : IVonageRequest
     /// </summary>
     public Maybe<Guid> TemplateId { get; internal init; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
-        .WithContent(this.GetRequestContent())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => "/v2/verify";
-
     /// <summary>
     ///     Initializes a builder for StartVerificationRequest.
     /// </summary>
     /// <returns></returns>
     public static IBuilderForBrand Build() => new StartVerificationRequestBuilder();
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Post, "/v2/verify")
+        .WithContent(this.GetRequestContent())
+        .Build();
 
     private StringContent GetRequestContent()
     {

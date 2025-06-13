@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using System.Net.Http;
 using EnumsNET;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+#endregion
 
 namespace Vonage.Conversations.GetEvents;
 
@@ -51,14 +53,17 @@ public readonly struct GetEventsRequest : IVonageRequest
     /// </summary>
     public bool ExcludeDeletedEvents { get; internal init; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
-        .Build();
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForConversationId Build() => new GetEventsRequestBuilder(Maybe<string>.None);
 
     /// <inheritdoc />
-    public string GetEndpointPath() => UriHelpers.BuildUri($"/v1/conversations/{this.ConversationId}/events",
-        this.GetQueryStringParameters());
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Get, UriHelpers.BuildUri($"/v1/conversations/{this.ConversationId}/events",
+            this.GetQueryStringParameters()))
+        .Build();
 
     private Dictionary<string, string> GetQueryStringParameters()
     {
@@ -74,10 +79,4 @@ public readonly struct GetEventsRequest : IVonageRequest
         this.EventType.IfSome(value => parameters.Add("event_type", value));
         return parameters;
     }
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForConversationId Build() => new GetEventsRequestBuilder(Maybe<string>.None);
 }

@@ -21,15 +21,6 @@ public readonly struct GetTemplateFragmentRequest : IVonageRequest
     /// </summary>
     public Guid TemplateFragmentId { get; private init; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() =>
-        $"/v2/verify/templates/{this.TemplateId}/template_fragments/{this.TemplateFragmentId}";
-
     /// <summary>
     ///     Parses the input into a GetTemplateFragmentRequest.
     /// </summary>
@@ -43,10 +34,16 @@ public readonly struct GetTemplateFragmentRequest : IVonageRequest
             .Map(InputEvaluation<GetTemplateFragmentRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyTemplateId, VerifyTemplateFragmentId));
 
-    private static Result<GetTemplateFragmentRequest> VerifyTemplateId(GetTemplateFragmentRequest templateRequest) =>
-        InputValidation.VerifyNotEmpty(templateRequest, templateRequest.TemplateId, nameof(TemplateId));
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Get,
+            $"/v2/verify/templates/{this.TemplateId}/template_fragments/{this.TemplateFragmentId}")
+        .Build();
 
     private static Result<GetTemplateFragmentRequest> VerifyTemplateFragmentId(
         GetTemplateFragmentRequest templateRequest) =>
         InputValidation.VerifyNotEmpty(templateRequest, templateRequest.TemplateFragmentId, nameof(TemplateFragmentId));
+
+    private static Result<GetTemplateFragmentRequest> VerifyTemplateId(GetTemplateFragmentRequest templateRequest) =>
+        InputValidation.VerifyNotEmpty(templateRequest, templateRequest.TemplateId, nameof(TemplateId));
 }

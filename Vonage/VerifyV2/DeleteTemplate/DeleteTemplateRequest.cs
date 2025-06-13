@@ -16,14 +16,6 @@ public readonly struct DeleteTemplateRequest : IVonageRequest
     /// </summary>
     public Guid TemplateId { get; private init; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Delete, this.GetEndpointPath())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/verify/templates/{this.TemplateId}";
-
     /// <summary>
     ///     Parses the input into a DeleteRequest.
     /// </summary>
@@ -34,6 +26,11 @@ public readonly struct DeleteTemplateRequest : IVonageRequest
             .FromSuccess(new DeleteTemplateRequest {TemplateId = templateId})
             .Map(InputEvaluation<DeleteTemplateRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyRequestId));
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Delete, $"/v2/verify/templates/{this.TemplateId}")
+        .Build();
 
     private static Result<DeleteTemplateRequest> VerifyRequestId(DeleteTemplateRequest templateRequest) =>
         InputValidation.VerifyNotEmpty(templateRequest, templateRequest.TemplateId, nameof(TemplateId));

@@ -44,12 +44,9 @@ public readonly partial struct AddStreamRequest : IVonageRequest, IHasApplicatio
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(new HttpMethod("PATCH"), this.GetEndpointPath())
+            .Initialize(new HttpMethod("PATCH"), $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/streams")
             .WithContent(this.GetRequestContent())
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/streams";
 
     private StringContent GetRequestContent() =>
         new StringContent(

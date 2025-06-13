@@ -1,7 +1,9 @@
+#region
 using System;
 using Vonage.ProactiveConnect.Lists.GetList;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.ProactiveConnect.Lists.GetList;
 
@@ -11,7 +13,7 @@ public class RequestTest
     [Fact]
     public void GetEndpointPath_ShouldReturnApiEndpoint() =>
         GetListRequest.Parse(new Guid("de51fd37-551c-45f1-8eaf-0fcd75c0bbc8"))
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v0.1/bulk/lists/de51fd37-551c-45f1-8eaf-0fcd75c0bbc8");
 

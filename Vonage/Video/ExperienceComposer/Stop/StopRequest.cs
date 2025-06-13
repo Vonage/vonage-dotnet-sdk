@@ -14,22 +14,10 @@ namespace Vonage.Video.ExperienceComposer.Stop;
 /// </summary>
 public readonly struct StopRequest : IVonageRequest, IHasApplicationId
 {
-    /// <inheritdoc />
-    public Guid ApplicationId { get; internal init; }
-
     /// <summary>
     ///     ID of the Experience Composer instance
     /// </summary>
     public string ExperienceComposerId { get; internal init; }
-
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() =>
-        VonageRequestBuilder
-            .Initialize(HttpMethod.Delete, this.GetEndpointPath())
-            .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/render/{this.ExperienceComposerId}";
 
     /// <summary>
     ///     Parses the input into a StopRequest.
@@ -44,9 +32,18 @@ public readonly struct StopRequest : IVonageRequest, IHasApplicationId
             .Map(InputEvaluation<StopRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyExperienceComposerId, VerifyApplicationId));
 
-    private static Result<StopRequest> VerifyExperienceComposerId(StopRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ExperienceComposerId, nameof(ExperienceComposerId));
+    /// <inheritdoc />
+    public Guid ApplicationId { get; internal init; }
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Delete, $"/v2/project/{this.ApplicationId}/render/{this.ExperienceComposerId}")
+            .Build();
 
     private static Result<StopRequest> VerifyApplicationId(StopRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
+
+    private static Result<StopRequest> VerifyExperienceComposerId(StopRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ExperienceComposerId, nameof(ExperienceComposerId));
 }

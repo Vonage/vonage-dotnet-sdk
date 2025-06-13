@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Meetings.GetRoomsByTheme;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Meetings.GetRoomsByTheme;
 
@@ -45,7 +47,7 @@ public class RequestTest
         }
 
         builder.Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should().BeSuccess(expectedEndpoint);
     }
 }

@@ -46,11 +46,10 @@ public readonly partial struct GetArchivesRequest : IVonageRequest, IHasApplicat
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Get, this.GetEndpointPath())
+            .Initialize(HttpMethod.Get, this.BuildUri())
             .Build();
 
-    /// <inheritdoc />
-    public string GetEndpointPath()
+    private string BuildUri()
     {
         var path = $"/v2/project/{this.ApplicationId}/archive?offset={this.Offset}&count={this.Count}";
         var session = this.SessionId

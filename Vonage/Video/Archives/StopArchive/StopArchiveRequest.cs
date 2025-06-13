@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
+#endregion
 
 namespace Vonage.Video.Archives.StopArchive;
 
@@ -10,12 +12,6 @@ namespace Vonage.Video.Archives.StopArchive;
 /// </summary>
 public readonly struct StopArchiveRequest : IVonageRequest, IHasApplicationId, IHasArchiveId
 {
-    /// <inheritdoc />
-    public Guid ApplicationId { get; private init; }
-
-    /// <inheritdoc />
-    public Guid ArchiveId { get; private init; }
-
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
@@ -28,11 +24,14 @@ public readonly struct StopArchiveRequest : IVonageRequest, IHasApplicationId, I
         });
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() =>
-        VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
-            .Build();
+    public Guid ApplicationId { get; private init; }
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/stop";
+    public Guid ArchiveId { get; private init; }
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Post, $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/stop")
+            .Build();
 }

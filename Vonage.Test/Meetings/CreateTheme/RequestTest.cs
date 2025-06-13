@@ -1,8 +1,10 @@
-﻿using System.Drawing;
+﻿#region
+using System.Drawing;
 using AutoFixture;
 using Vonage.Meetings.CreateTheme;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Meetings.CreateTheme;
 
@@ -26,7 +28,7 @@ public class RequestTest
             .WithBrand(this.displayName)
             .WithColor(this.mainColor)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/meetings/themes");
 }

@@ -56,10 +56,9 @@ public class E2ETest
 
     [Fact]
     public async Task ShouldReturnFailure_GivenRequestIsFailure() =>
-        await this.VerifyReturnsFailureGivenRequestIsFailure<UpdateThemeLogoRequest, Unit>(
-            (_, failureRequest) =>
-                new MeetingsClient(this.BuildConfiguration(), new MockFileSystem()).UpdateThemeLogoAsync(
-                    failureRequest));
+        await this.VerifyReturnsFailureGivenRequestIsFailure<UpdateThemeLogoRequest, Unit>((_, failureRequest) =>
+            new MeetingsClient(this.BuildConfiguration(), new MockFileSystem()).UpdateThemeLogoAsync(
+                failureRequest));
 
     [Fact]
     public async Task ShouldReturnFailure_GivenTokenGenerationFailed() =>
@@ -319,7 +318,7 @@ public class E2ETest
             .RespondWith(new MappingResponse {Code = HttpStatusCode.OK});
 
     private static string GetPathFromRequest<T>(Result<T> request) where T : IVonageRequest =>
-        request.Match(value => value.GetEndpointPath(), _ => string.Empty);
+        request.Match(value => value.BuildRequestMessage().RequestUri!.ToString(), _ => string.Empty);
 
     private static MockFileSystem InitializeFileSystem() =>
         new MockFileSystem(new Dictionary<string, MockFileData>

@@ -31,12 +31,9 @@ public readonly partial struct DisconnectConnectionRequest : IVonageRequest, IHa
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Delete, this.GetEndpointPath())
+            .Initialize(HttpMethod.Delete,
+                $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}")
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() =>
-        $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}";
 
     internal static Result<DisconnectConnectionRequest> VerifyApplicationId(DisconnectConnectionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
