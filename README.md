@@ -64,12 +64,6 @@ first.
 * This method has been transformed into an implementation details. It shouldn't have been accessed from external code
   anyway.
 
-#### Use product-specific webhooks rather than common webhooks on Applications
-
-* Every application expects webhooks from Vonage.Common.Webhooks.Type. Having all webhooks in a single makes it
-  confusing to pick the right one for a specific application.
-* The new structure will replicate what's currently on Voice: a specific set on types specific for each application.
-
 ### Migration guides
 
 #### Upgrading from v6.x.x to v7.0.0
