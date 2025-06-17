@@ -1,7 +1,9 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.Conversations.DeleteEvent;
 
@@ -12,20 +14,12 @@ public readonly struct DeleteEventRequest : IVonageRequest
     ///     The conversation Id.
     /// </summary>
     public string ConversationId { get; private init; }
-    
+
     /// <summary>
     ///     The event Id.
     /// </summary>
     public string EventId { get; private init; }
-    
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Delete, this.GetEndpointPath())
-        .Build();
-    
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v1/conversations/{this.ConversationId}/events/{this.EventId}";
-    
+
     /// <summary>
     ///     Parses the input into a DeleteEventRequest.
     /// </summary>
@@ -37,10 +31,15 @@ public readonly struct DeleteEventRequest : IVonageRequest
             .FromSuccess(new DeleteEventRequest {ConversationId = conversationId, EventId = eventId})
             .Map(InputEvaluation<DeleteEventRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyConversationId, VerifyEventId));
-    
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Delete, $"/v1/conversations/{this.ConversationId}/events/{this.EventId}")
+        .Build();
+
     private static Result<DeleteEventRequest> VerifyConversationId(DeleteEventRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ConversationId, nameof(ConversationId));
-    
+
     private static Result<DeleteEventRequest> VerifyEventId(DeleteEventRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.EventId, nameof(EventId));
 }

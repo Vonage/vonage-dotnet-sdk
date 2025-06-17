@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.ExperienceComposer.GetSession;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.ExperienceComposer.GetSession;
 
@@ -12,11 +14,10 @@ public class RequestTest
     private readonly Guid validApplicationId = Guid.NewGuid();
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
-        GetSessionRequest.Parse(this.validApplicationId, ValidExperienceComposerId)
-            .Map(request => request.GetEndpointPath())
+    public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
+        GetSessionRequest.Parse(Guid.Empty, ValidExperienceComposerId)
             .Should()
-            .BeSuccess($"/v2/project/{this.validApplicationId}/render/EXP-123");
+            .BeParsingFailure("ApplicationId cannot be empty.");
 
     [Theory]
     [InlineData("")]
@@ -26,12 +27,6 @@ public class RequestTest
         GetSessionRequest.Parse(Guid.NewGuid(), invalidId)
             .Should()
             .BeParsingFailure("ExperienceComposerId cannot be null or whitespace.");
-
-    [Fact]
-    public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
-        GetSessionRequest.Parse(Guid.Empty, ValidExperienceComposerId)
-            .Should()
-            .BeParsingFailure("ApplicationId cannot be empty.");
 
     [Fact]
     public void Parse_ShouldSetApplicationId() =>
@@ -46,4 +41,11 @@ public class RequestTest
             .Map(request => request.ExperienceComposerId)
             .Should()
             .BeSuccess(ValidExperienceComposerId);
+
+    [Fact]
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+        GetSessionRequest.Parse(this.validApplicationId, ValidExperienceComposerId)
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Should()
+            .BeSuccess($"/v2/project/{this.validApplicationId}/render/EXP-123");
 }

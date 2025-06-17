@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -7,42 +8,14 @@ using EnumsNET;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+#endregion
 
 namespace Vonage.Conversations.GetUserConversations;
 
 /// <inheritdoc />
 public readonly struct GetUserConversationsRequest : IVonageRequest
 {
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() =>
-        UriHelpers.BuildUri($"/v1/users/{this.UserId}/conversations", this.GetQueryStringParameters());
-
     private const string ExpectedDateFormat = "yyyy-MM-ddTHH:mm:ssZ";
-
-    private Dictionary<string, string> GetQueryStringParameters()
-    {
-        var parameters = new Dictionary<string, string>
-        {
-            {"page_size", this.PageSize.ToString()},
-            {"order", this.Order.AsString(EnumFormat.Description)},
-            {"order_by", this.OrderBy},
-        };
-        this.StartDate.IfSome(value =>
-            parameters.Add("date_start", value.ToString(ExpectedDateFormat, CultureInfo.InvariantCulture)));
-        if (this.IncludeCustomData)
-        {
-            parameters.Add("include_custom_data", "true");
-        }
-
-        this.State.IfSome(value => parameters.Add("state", value.AsString(EnumFormat.Description)));
-        this.Cursor.IfSome(value => parameters.Add("cursor", value));
-        return parameters;
-    }
 
     /// <summary>
     ///     The User ID.
@@ -90,6 +63,32 @@ public readonly struct GetUserConversationsRequest : IVonageRequest
     /// </summary>
     /// <returns>The builder.</returns>
     public static IBuilderForUserId Build() => new GetUserConversationsRequestBuilder(Maybe<string>.None);
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Get,
+            UriHelpers.BuildUri($"/v1/users/{this.UserId}/conversations", this.GetQueryStringParameters()))
+        .Build();
+
+    private Dictionary<string, string> GetQueryStringParameters()
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            {"page_size", this.PageSize.ToString()},
+            {"order", this.Order.AsString(EnumFormat.Description)},
+            {"order_by", this.OrderBy},
+        };
+        this.StartDate.IfSome(value =>
+            parameters.Add("date_start", value.ToString(ExpectedDateFormat, CultureInfo.InvariantCulture)));
+        if (this.IncludeCustomData)
+        {
+            parameters.Add("include_custom_data", "true");
+        }
+
+        this.State.IfSome(value => parameters.Add("state", value.AsString(EnumFormat.Description)));
+        this.Cursor.IfSome(value => parameters.Add("cursor", value));
+        return parameters;
+    }
 }
 
 /// <summary>

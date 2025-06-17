@@ -34,20 +34,17 @@ public readonly struct UpdateTemplateRequest : IVonageRequest
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<bool> IsDefault { get; internal init; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(new HttpMethod("PATCH"), this.GetEndpointPath())
-        .WithContent(this.GetRequestContent())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/verify/templates/{this.TemplateId}";
-
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
     /// <returns></returns>
     public static IBuilderForId Build() => new UpdateTemplateRequestBuilder();
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(new HttpMethod("PATCH"), $"/v2/verify/templates/{this.TemplateId}")
+        .WithContent(this.GetRequestContent())
+        .Build();
 
     private StringContent GetRequestContent() =>
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,

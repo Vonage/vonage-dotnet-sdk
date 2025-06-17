@@ -38,12 +38,9 @@ public readonly partial struct PlayToneIntoCallRequest : IVonageRequest, IHasApp
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(HttpMethod.Post, $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/play-dtmf")
             .WithContent(this.GetRequestContent())
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/play-dtmf";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,

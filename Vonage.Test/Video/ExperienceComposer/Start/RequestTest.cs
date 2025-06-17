@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Server;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.ExperienceComposer.Start;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.ExperienceComposer.Start;
 
@@ -10,7 +12,7 @@ namespace Vonage.Test.Video.ExperienceComposer.Start;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         StartRequest
             .Build()
             .WithApplicationId(new Guid("301cf3c3-0027-4578-b212-dac7e924e85b"))
@@ -20,7 +22,7 @@ public class RequestTest
             .WithResolution(RenderResolution.StandardDefinitionLandscape)
             .WithName("irrelevant")
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v2/project/301cf3c3-0027-4578-b212-dac7e924e85b/render");
 }

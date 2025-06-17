@@ -48,12 +48,9 @@ public readonly partial struct CreateSubAccountRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
+        .Initialize(HttpMethod.Post, $"/accounts/{this.ApiKey}/subaccounts")
         .WithContent(this.GetRequestContent())
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/subaccounts";
 
     private StringContent GetRequestContent() =>
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,

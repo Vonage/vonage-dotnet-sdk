@@ -16,14 +16,6 @@ public readonly struct GetTemplateRequest : IVonageRequest
     /// </summary>
     public Guid TemplateId { get; private init; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/verify/templates/{this.TemplateId}";
-
     /// <summary>
     ///     Parses the input into a GetTemplateRequest.
     /// </summary>
@@ -34,6 +26,11 @@ public readonly struct GetTemplateRequest : IVonageRequest
             .FromSuccess(new GetTemplateRequest {TemplateId = templateId})
             .Map(InputEvaluation<GetTemplateRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyRequestId));
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Get, $"/v2/verify/templates/{this.TemplateId}")
+        .Build();
 
     private static Result<GetTemplateRequest> VerifyRequestId(GetTemplateRequest templateRequest) =>
         InputValidation.VerifyNotEmpty(templateRequest, templateRequest.TemplateId, nameof(TemplateId));

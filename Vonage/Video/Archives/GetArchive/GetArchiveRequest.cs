@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
+#endregion
 
 namespace Vonage.Video.Archives.GetArchive;
 
@@ -10,12 +12,6 @@ namespace Vonage.Video.Archives.GetArchive;
 /// </summary>
 public readonly struct GetArchiveRequest : IVonageRequest, IHasApplicationId, IHasArchiveId
 {
-    /// <inheritdoc />
-    public Guid ApplicationId { get; internal init; }
-
-    /// <inheritdoc />
-    public Guid ArchiveId { get; internal init; }
-
     /// <summary>
     ///     Initializes a builder.
     /// </summary>
@@ -28,11 +24,14 @@ public readonly struct GetArchiveRequest : IVonageRequest, IHasApplicationId, IH
         });
 
     /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() =>
-        VonageRequestBuilder
-            .Initialize(HttpMethod.Get, this.GetEndpointPath())
-            .Build();
+    public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}";
+    public Guid ArchiveId { get; internal init; }
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() =>
+        VonageRequestBuilder
+            .Initialize(HttpMethod.Get, $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}")
+            .Build();
 }

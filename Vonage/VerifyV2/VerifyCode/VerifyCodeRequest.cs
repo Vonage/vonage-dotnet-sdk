@@ -30,12 +30,9 @@ public readonly partial struct VerifyCodeRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
+        .Initialize(HttpMethod.Post, $"/v2/verify/{this.RequestId}")
         .WithContent(this.GetRequestContent())
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/verify/{this.RequestId}";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),

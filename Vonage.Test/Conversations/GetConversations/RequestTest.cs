@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using System.Globalization;
 using Vonage.Conversations;
 using Vonage.Conversations.GetConversations;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.GetConversations;
 
@@ -22,7 +24,7 @@ public class RequestTest
         "/v1/conversations?page_size=10&order=asc&date_end=2023-12-18T10%3A56%3A08Z")]
     [InlineData(50, FetchOrder.Descending, "2023-12-18T09:56:08.152Z", "2023-12-18T10:56:08.152Z",
         "/v1/conversations?page_size=50&order=desc&date_start=2023-12-18T09%3A56%3A08Z&date_end=2023-12-18T10%3A56%3A08Z")]
-    public void GetEndpointPath_ShouldReturnApiEndpoint(int? pageSize, FetchOrder? order, string startDate,
+    public void ReqeustUri_ShouldReturnApiEndpoint(int? pageSize, FetchOrder? order, string startDate,
         string endDate,
         string expectedEndpoint)
     {
@@ -47,6 +49,7 @@ public class RequestTest
             builder = builder.WithEndDate(DateTimeOffset.Parse(endDate, CultureInfo.InvariantCulture));
         }
 
-        builder.Create().Map(request => request.GetEndpointPath()).Should().BeSuccess(expectedEndpoint);
+        builder.Create().Map(request => request.BuildRequestMessage().RequestUri!.ToString()).Should()
+            .BeSuccess(expectedEndpoint);
     }
 }

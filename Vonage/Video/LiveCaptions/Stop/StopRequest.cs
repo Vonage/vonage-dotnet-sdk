@@ -11,11 +11,6 @@ namespace Vonage.Video.LiveCaptions.Stop;
 /// <inheritdoc />
 public readonly struct StopRequest : IVonageRequest
 {
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Delete, this.GetEndpointPath())
-        .Build();
-
     /// <summary>
     ///     Vonage Application UUID
     /// </summary>
@@ -25,9 +20,6 @@ public readonly struct StopRequest : IVonageRequest
     ///     ID of the connection used for captions
     /// </summary>
     public string CaptionsId { get; internal init; }
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/captions/{this.CaptionsId}/stop";
 
     /// <summary>
     ///     Parses the input into a StopRequest.
@@ -42,9 +34,14 @@ public readonly struct StopRequest : IVonageRequest
             .Map(InputEvaluation<StopRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyExperienceComposerId, VerifyApplicationId));
 
-    private static Result<StopRequest> VerifyExperienceComposerId(StopRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.CaptionsId, nameof(CaptionsId));
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Delete, $"/v2/project/{this.ApplicationId}/captions/{this.CaptionsId}/stop")
+        .Build();
 
     private static Result<StopRequest> VerifyApplicationId(StopRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(ApplicationId));
+
+    private static Result<StopRequest> VerifyExperienceComposerId(StopRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.CaptionsId, nameof(CaptionsId));
 }

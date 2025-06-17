@@ -1,6 +1,8 @@
-﻿using Vonage.SimSwap.Check;
+﻿#region
+using Vonage.SimSwap.Check;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SimSwap.Check;
 
@@ -8,11 +10,11 @@ namespace Vonage.Test.SimSwap.Check;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         CheckRequest.Build()
             .WithPhoneNumber("123456789")
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("camara/sim-swap/v040/check");
 }

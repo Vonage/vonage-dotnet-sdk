@@ -48,12 +48,9 @@ public readonly partial struct GetBroadcastsRequest : IVonageRequest, IHasApplic
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Get, this.GetEndpointPath())
+            .Initialize(HttpMethod.Get,
+                UriHelpers.BuildUri($"/v2/project/{this.ApplicationId}/broadcast", this.GetQueryStringParameters()))
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() =>
-        UriHelpers.BuildUri($"/v2/project/{this.ApplicationId}/broadcast", this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
     {

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.SubAccounts.UpdateSubAccount;
 
@@ -43,12 +45,9 @@ public readonly struct UpdateSubAccountRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(new HttpMethod("PATCH"), this.GetEndpointPath())
+        .Initialize(new HttpMethod("PATCH"), $"/accounts/{this.ApiKey}/subaccounts/{this.SubAccountKey}")
         .WithContent(this.GetRequestContent())
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/subaccounts/{this.SubAccountKey}";
 
     private StringContent GetRequestContent()
     {

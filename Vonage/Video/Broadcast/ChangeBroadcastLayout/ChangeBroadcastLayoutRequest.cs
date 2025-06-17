@@ -39,12 +39,9 @@ public readonly partial struct ChangeBroadcastLayoutRequest : IVonageRequest, IH
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(HttpMethod.Post, $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}/layout")
             .WithContent(this.GetRequestContent())
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}/layout";
 
     private StringContent GetRequestContent() =>
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this.Layout), Encoding.UTF8,

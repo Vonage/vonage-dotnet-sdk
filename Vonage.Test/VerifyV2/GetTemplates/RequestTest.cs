@@ -14,7 +14,7 @@ public class RequestTest
     [InlineData(30, null, "/v2/verify/templates?page_size=30")]
     [InlineData(null, 50, "/v2/verify/templates?page=50")]
     [InlineData(30, 50, "/v2/verify/templates?page_size=30&page=50")]
-    public void GetEndpointPath_ShouldReturnApiEndpoint(int? pageSize, int? page, string expectedEndpoint)
+    public void ReqeustUri_ShouldReturnApiEndpoint(int? pageSize, int? page, string expectedEndpoint)
     {
         var builder = GetTemplatesRequest.Build();
         if (pageSize.HasValue)
@@ -27,6 +27,7 @@ public class RequestTest
             builder = builder.WithPage(page.Value);
         }
 
-        builder.Create().Map(request => request.GetEndpointPath()).Should().BeSuccess(expectedEndpoint);
+        builder.Create().Map(request => request.BuildRequestMessage().RequestUri!.ToString()).Should()
+            .BeSuccess(expectedEndpoint);
     }
 }
