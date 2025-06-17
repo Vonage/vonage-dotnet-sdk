@@ -1,41 +1,45 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Video.Archives.AddStream;
 
 /// <summary>
 ///     Represents a request to add a stream to an archive.
 /// </summary>
-public readonly struct AddStreamRequest : IVonageRequest, IHasApplicationId, IHasArchiveId, IHasStreamId
+[Builder]
+public readonly partial struct AddStreamRequest : IVonageRequest, IHasApplicationId, IHasArchiveId, IHasStreamId
 {
-    /// <inheritdoc />
-    public Guid ApplicationId { get; internal init; }
-
-    /// <inheritdoc />
-    public Guid ArchiveId { get; internal init; }
-
     /// <summary>
     ///     Whether the composed archive should include the stream's audio (true, the default) or not (false).
     /// </summary>
+    [OptionalBoolean(true, "DisableAudio")]
     public bool HasAudio { get; internal init; }
 
     /// <summary>
     ///     Whether the composed archive should include the stream's video (true, the default) or not (false).
     /// </summary>
+    [OptionalBoolean(true, "DisableVideo")]
     public bool HasVideo { get; internal init; }
 
     /// <inheritdoc />
-    public Guid StreamId { get; internal init; }
+    [Mandatory(0)]
+    public Guid ApplicationId { get; internal init; }
 
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new AddStreamRequestBuilder();
+    /// <inheritdoc />
+    [Mandatory(1)]
+    public Guid ArchiveId { get; internal init; }
+
+    /// <inheritdoc />
+    [Mandatory(2)]
+    public Guid StreamId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
@@ -48,9 +52,20 @@ public readonly struct AddStreamRequest : IVonageRequest, IHasApplicationId, IHa
     public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive/{this.ArchiveId}/streams";
 
     private StringContent GetRequestContent() =>
-        new(
+        new StringContent(
             JsonSerializerBuilder.BuildWithCamelCase()
-                .SerializeObject(new {AddStream = this.StreamId, this.HasAudio, this.HasVideo}),
-            Encoding.UTF8,
+                .SerializeObject(new {AddStream = this.StreamId, this.HasAudio, this.HasVideo}), Encoding.UTF8,
             "application/json");
+
+    [ValidationRule]
+    internal static Result<AddStreamRequest> VerifyApplicationId(AddStreamRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    [ValidationRule]
+    internal static Result<AddStreamRequest> VerifyArchiveId(AddStreamRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(request.ArchiveId));
+
+    [ValidationRule]
+    internal static Result<AddStreamRequest> VerifyStreamId(AddStreamRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
 }

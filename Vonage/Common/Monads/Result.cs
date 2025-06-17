@@ -55,19 +55,12 @@ public readonly struct Result<T>
     /// <param name="failureMap">Projection function for failure state.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Mapped functor.</returns>
-    public Result<TB> BiMap<TB>(Func<T, TB> successMap, Func<IResultFailure, IResultFailure> failureMap)
-    {
-        try
-        {
-            return this.IsFailure
-                ? Result<TB>.FromFailure(failureMap(this.failure))
-                : Result<TB>.FromSuccess(successMap(this.success));
-        }
-        catch (Exception exception)
-        {
-            return SystemFailure.FromException(exception).ToResult<TB>();
-        }
-    }
+    public Result<TB> BiMap<TB>(Func<T, TB> successMap, Func<IResultFailure, IResultFailure> failureMap) =>
+        Try(this, self =>
+            self.IsFailure
+                ? Result<TB>.FromFailure(failureMap(self.failure))
+                : Result<TB>.FromSuccess(successMap(self.success))
+        );
 
     /// <summary>
     ///     Monadic bind operation.
@@ -75,19 +68,10 @@ public readonly struct Result<T>
     /// <param name="bind">Bind operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>Bound functor.</returns>
-    public Result<TB> Bind<TB>(Func<T, Result<TB>> bind)
-    {
-        try
-        {
-            return this.IsFailure
-                ? Result<TB>.FromFailure(this.failure)
-                : bind(this.success);
-        }
-        catch (Exception exception)
-        {
-            return SystemFailure.FromException(exception).ToResult<TB>();
-        }
-    }
+    public Result<TB> Bind<TB>(Func<T, Result<TB>> bind) =>
+        Try(this, self => self.IsFailure
+            ? Result<TB>.FromFailure(self.failure)
+            : bind(self.success));
 
     /// <summary>
     ///     Monadic bind operation.
@@ -95,18 +79,56 @@ public readonly struct Result<T>
     /// <param name="bind">Asynchronous bind operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>Asynchronous bound functor.</returns>
-    public async Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind)
+    public Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind) =>
+        TryAsync(this, async self => self.IsFailure
+            ? Result<TB>.FromFailure(self.failure)
+            : await bind(self.success).ConfigureAwait(false));
+
+    /// <summary>
+    ///     Executes operations depending on the current state.
+    /// </summary>
+    /// <param name="successOperation">Success operation.</param>
+    /// <param name="failureOperation">Failure operation.</param>
+    public Result<T> Do(Action<T> successOperation, Action<IResultFailure> failureOperation)
     {
-        try
+        if (this.IsFailure)
         {
-            return this.IsFailure
-                ? Result<TB>.FromFailure(this.failure)
-                : await bind(this.success).ConfigureAwait(false);
+            failureOperation(this.failure);
         }
-        catch (Exception exception)
+        else
         {
-            return SystemFailure.FromException(exception).ToResult<TB>();
+            successOperation(this.success);
         }
+
+        return this;
+    }
+
+    /// <summary>
+    ///     Executes an operation if failure.
+    /// </summary>
+    /// <param name="failureOperation">Failure operation.</param>
+    public Result<T> DoWhenFailure(Action<IResultFailure> failureOperation)
+    {
+        if (this.IsFailure)
+        {
+            failureOperation(this.failure);
+        }
+
+        return this;
+    }
+
+    /// <summary>
+    ///     Executes an operation if success.
+    /// </summary>
+    /// <param name="successOperation">Success operation.</param>
+    public Result<T> DoWhenSuccess(Action<T> successOperation)
+    {
+        if (this.IsSuccess)
+        {
+            successOperation(this.success);
+        }
+
+        return this;
     }
 
     /// <inheritdoc />
@@ -117,14 +139,14 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="failure">Failure value.</param>
     /// <returns>Failure Result.</returns>
-    public static Result<T> FromFailure(IResultFailure failure) => new(failure);
+    public static Result<T> FromFailure(IResultFailure failure) => new Result<T>(failure);
 
     /// <summary>
     ///     Construct Result from Success.
     /// </summary>
     /// <param name="value">Success value.</param>
     /// <returns>Success Result.</returns>
-    public static Result<T> FromSuccess(T value) => new(value);
+    public static Result<T> FromSuccess(T value) => new Result<T>(value);
 
     /// <summary>
     ///     Retrieves the Failure value. This method is unsafe and will throw an exception if in Success state.
@@ -206,19 +228,10 @@ public readonly struct Result<T>
     /// <param name="map">Projection function.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Mapped functor.</returns>
-    public Result<TB> Map<TB>(Func<T, TB> map)
-    {
-        try
-        {
-            return this.IsFailure
-                ? Result<TB>.FromFailure(this.failure)
-                : Result<TB>.FromSuccess(map(this.success));
-        }
-        catch (Exception exception)
-        {
-            return SystemFailure.FromException(exception).ToResult<TB>();
-        }
-    }
+    public Result<TB> Map<TB>(Func<T, TB> map) =>
+        Try(this, self => self.IsFailure
+            ? Result<TB>.FromFailure(self.failure)
+            : Result<TB>.FromSuccess(map(self.success)));
 
     /// <summary>
     ///     Projects from one value to another.
@@ -226,19 +239,10 @@ public readonly struct Result<T>
     /// <param name="map">Asynchronous projection function.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Asynchronous mapped functor.</returns>
-    public async Task<Result<TB>> MapAsync<TB>(Func<T, Task<TB>> map)
-    {
-        try
-        {
-            return this.IsFailure
-                ? Result<TB>.FromFailure(this.failure)
-                : Result<TB>.FromSuccess(await map(this.success).ConfigureAwait(false));
-        }
-        catch (Exception exception)
-        {
-            return SystemFailure.FromException(exception).ToResult<TB>();
-        }
-    }
+    public Task<Result<TB>> MapAsync<TB>(Func<T, Task<TB>> map) =>
+        TryAsync(this, async self => self.IsFailure
+            ? Result<TB>.FromFailure(self.failure)
+            : Result<TB>.FromSuccess(await map(self.success).ConfigureAwait(false)));
 
     /// <summary>
     ///     Match the two states of the Result and return a non-null TB.
@@ -319,51 +323,28 @@ public readonly struct Result<T>
     private IResultFailure FetchFailure<TSource>(Result<TSource> other) =>
         this.IsFailure ? this.failure : other.failure;
 
-    /// <summary>
-    ///     Executes operations depending on the current state.
-    /// </summary>
-    /// <param name="successOperation">Success operation.</param>
-    /// <param name="failureOperation">Failure operation.</param>
-    public Result<T> Do(Action<T> successOperation, Action<IResultFailure> failureOperation)
+    private static Result<TB> Try<TB>(Result<T> self, Func<Result<T>, Result<TB>> operation)
     {
-        if (this.IsFailure)
+        try
         {
-            failureOperation(this.failure);
+            return operation(self);
         }
-        else
+        catch (Exception exception)
         {
-            successOperation(this.success);
+            return SystemFailure.FromException(exception).ToResult<TB>();
         }
-
-        return this;
     }
 
-    /// <summary>
-    ///     Executes an operation if success.
-    /// </summary>
-    /// <param name="successOperation">Success operation.</param>
-    public Result<T> DoWhenSuccess(Action<T> successOperation)
+    private static async Task<Result<TB>> TryAsync<TB>(Result<T> self, Func<Result<T>, Task<Result<TB>>> operation)
     {
-        if (this.IsSuccess)
+        try
         {
-            successOperation(this.success);
+            return await operation(self).ConfigureAwait(false);
         }
-
-        return this;
-    }
-
-    /// <summary>
-    ///     Executes an operation if failure.
-    /// </summary>
-    /// <param name="failureOperation">Failure operation.</param>
-    public Result<T> DoWhenFailure(Action<IResultFailure> failureOperation)
-    {
-        if (this.IsFailure)
+        catch (Exception exception)
         {
-            failureOperation(this.failure);
+            return SystemFailure.FromException(exception).ToResult<TB>();
         }
-
-        return this;
     }
 
     /// <summary>

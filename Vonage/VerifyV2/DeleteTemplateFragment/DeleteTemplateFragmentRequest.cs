@@ -15,13 +15,13 @@ public readonly partial struct DeleteTemplateFragmentRequest : IVonageRequest
     /// <summary>
     ///     ID of the template.
     /// </summary>
-    [Mandatory(0, nameof(VerifyTemplateId))]
+    [Mandatory(0)]
     public Guid TemplateId { get; internal init; }
 
     /// <summary>
     ///     ID of the template fragment.
     /// </summary>
-    [Mandatory(1, nameof(VerifyTemplateFragmentId))]
+    [Mandatory(1)]
     public Guid TemplateFragmentId { get; internal init; }
 
     /// <inheritdoc />
@@ -33,11 +33,13 @@ public readonly partial struct DeleteTemplateFragmentRequest : IVonageRequest
     public string GetEndpointPath() =>
         $"/v2/verify/templates/{this.TemplateId}/template_fragments/{this.TemplateFragmentId}";
 
+    [ValidationRule]
     internal static Result<DeleteTemplateFragmentRequest> VerifyTemplateId(
         DeleteTemplateFragmentRequest request) =>
         InputValidation
             .VerifyNotEmpty(request, request.TemplateId, nameof(request.TemplateId));
 
+    [ValidationRule]
     internal static Result<DeleteTemplateFragmentRequest> VerifyTemplateFragmentId(
         DeleteTemplateFragmentRequest request) =>
         InputValidation

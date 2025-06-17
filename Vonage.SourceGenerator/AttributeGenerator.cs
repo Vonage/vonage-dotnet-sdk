@@ -9,26 +9,44 @@ namespace Vonage.SourceGenerator;
 [Generator]
 public class AttributesGenerator : IIncrementalGenerator
 {
+    private const string BuilderAttributeSource =
+        @"
+[AttributeUsage(AttributeTargets.Struct)] public sealed class BuilderAttribute : Attribute 
+{
+    public string[] Usings { get; }
+    public BuilderAttribute(params string[] usings) => this.Usings = usings;
+}
+";
+
+    private const string ValidationAttributeSource =
+        "[AttributeUsage(AttributeTargets.Method)] public sealed class ValidationRuleAttribute : Attribute { }";
+
     private const string MandatoryAttributeSource = @"
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class MandatoryAttribute : Attribute
 {
-    public string ValidationMethodName { get; }
     public int Order { get; }
     public MandatoryAttribute(int order) => this.Order = order;
-    public MandatoryAttribute(int order, string validationMethodName)
-        : this(order) => this.ValidationMethodName = validationMethodName;
 }";
 
     private const string OptionalAttributeSource =
         @"
 [AttributeUsage(AttributeTargets.Property)] public sealed class OptionalAttribute : Attribute { }
 
-[AttributeUsage(AttributeTargets.Property)] public sealed class OptionalBooleanAttribute(string TrueMethodName, string FalseMethodName) : Attribute { }
-";
+[AttributeUsage(AttributeTargets.Property)] public sealed class OptionalBooleanAttribute(bool DefaultValue, string MethodName) : Attribute { }
 
-    private const string BuilderAttributeSource =
-        "[AttributeUsage(AttributeTargets.Struct)] public sealed class BuilderAttribute : Attribute { }";
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class OptionalWithDefaultAttribute : Attribute
+{
+    public OptionalWithDefaultAttribute(string type, string defaultValue)
+    {
+        Type = type;
+        DefaultValue = defaultValue;
+    }
+    public string Type { get; }
+    public string DefaultValue { get; }
+}
+";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -39,6 +57,7 @@ public sealed class MandatoryAttribute : Attribute
             builder.AppendLine(BuilderAttributeSource);
             builder.AppendLine(OptionalAttributeSource);
             builder.AppendLine(MandatoryAttributeSource);
+            builder.AppendLine(ValidationAttributeSource);
             ctx.AddSource("Attributes.g.cs", SourceText.From(builder.ToString(), Encoding.UTF8));
         });
     }

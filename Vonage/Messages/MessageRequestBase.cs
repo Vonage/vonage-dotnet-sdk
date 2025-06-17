@@ -1,11 +1,13 @@
 ﻿#region
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Vonage.Common.Serialization;
 #endregion
 
 namespace Vonage.Messages;
 
+/// <inheritdoc />
 public abstract class MessageRequestBase : IMessage
 {
     /// <inheritdoc />
@@ -37,4 +39,8 @@ public abstract class MessageRequestBase : IMessage
     /// <inheritdoc />
     [JsonPropertyOrder(7)]
     public Uri WebhookUrl { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(99)]
+    public List<IMessage> Failover { get; set; }
 }

@@ -96,6 +96,16 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<int> MaxBitrate { get; internal init; }
 
+    /// <summary>
+    ///     A video encoding value allowed for composed archiving, smaller values generate higher quality and larger archives,
+    ///     larger values generate lower quality and smaller archives.
+    ///     QuantizationParameter uses a variable bitrate.
+    /// </summary>
+    [JsonPropertyOrder(10)]
+    [JsonConverter(typeof(MaybeJsonConverter<int>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<int> QuantizationParameter { get; internal init; }
+
     /// <inheritdoc />
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }

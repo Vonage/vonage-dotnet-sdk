@@ -1,6 +1,5 @@
 #region
 using System;
-using System.IO.Abstractions;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
@@ -9,7 +8,6 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Conversations;
 using Vonage.Conversions;
-using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
@@ -65,12 +63,6 @@ public class VonageClient
             this.PropagateCredentials();
         }
     }
-
-    /// <summary>
-    ///     Exposes Meetings features.
-    /// </summary>
-    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
-    public IMeetingsClient MeetingsClient { get; private set; }
 
     public IMessagesClient MessagesClient { get; private set; }
 
@@ -170,7 +162,6 @@ public class VonageClient
         this.NumberInsightV2Client = new NumberInsightV2Client(nexmoConfiguration);
         this.UsersClient = new UsersClient(nexmoConfiguration);
         this.ConversationsClient = new ConversationsClient(nexmoConfiguration);
-        this.MeetingsClient = new MeetingsClient(euConfiguration, new FileSystem());
         this.SimSwapClient = new SimSwapClient(euConfiguration);
         this.NumberVerificationClient = new NumberVerificationClient(euConfiguration, oidcConfiguration);
         this.VideoClient = new VideoClient(videoConfiguration);

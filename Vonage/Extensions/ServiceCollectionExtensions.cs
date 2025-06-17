@@ -79,7 +79,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().MeetingsClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightV2Client);
@@ -105,7 +104,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().MeetingsClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightV2Client);

@@ -107,7 +107,7 @@ public class RecordAction : NccoAction
         ///     The URL to the webhook endpoint that is called asynchronously when a transcription is finished.
         /// </summary>
         [JsonProperty("eventUrl", Order = 1)]
-        public string EventUrl { get; set; }
+        public string[] EventUrl { get; set; }
 
         /// <summary>
         ///     The HTTP method Vonage uses to make the request to eventUrl. The default value is POST.

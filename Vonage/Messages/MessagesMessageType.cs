@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿#region
+using System.ComponentModel;
 using System.Runtime.Serialization;
+#endregion
 
 namespace Vonage.Messages;
 
@@ -61,4 +63,10 @@ public enum MessagesMessageType
     /// </summary>
     [EnumMember(Value = "sticker")] [Description("sticker")]
     Sticker = 8,
+
+    /// <summary>
+    ///     Content.
+    /// </summary>
+    [EnumMember(Value = "content")] [Description("content")]
+    Content = 9,
 }

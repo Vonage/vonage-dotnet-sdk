@@ -1,4 +1,261 @@
 # Changelog
+## [v7.22.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.22.0) (2025-06-12)
+
+### Documentation
+
+- Generate changelog for v7.21.0 ([4b08e07](https://github.com/Vonage/vonage-dotnet-sdk/commit/4b08e0733c94b7dfb566284bb81ca1784590a85e))
+
+- Update readme on breaking changes for next major version ([734fca9](https://github.com/Vonage/vonage-dotnet-sdk/commit/734fca99648868330300a94e1d5ef9d545bffa7c))
+
+- Bump version to v7.22.0 ([ca9b22a](https://github.com/Vonage/vonage-dotnet-sdk/commit/ca9b22a2fbfb966ef04da704dafefdb351ea4589))
+
+
+### Features
+
+- Support failover in Messages ([1f4fa4b](https://github.com/Vonage/vonage-dotnet-sdk/commit/1f4fa4b306c147f489e7a13da14d97ea852b7d0f))
+
+
+### Refactoring
+
+- Unify how properties are reused in Messages ([bf4bd07](https://github.com/Vonage/vonage-dotnet-sdk/commit/bf4bd07dc3c264fc641edbe31d98f2436f36b71f))
+
+
+## [v7.21.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.21.0) (2025-06-02)
+
+### Documentation
+
+- Generate changelog for v7.20.1 ([2af7759](https://github.com/Vonage/vonage-dotnet-sdk/commit/2af7759a2285d488bdd0c203c255cb7ef1dae5d4))
+
+- Bump version to v7.21.0 ([b5bcc8f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b5bcc8f4dd2a03a45a436b9763899dfc691c8d6b))
+
+
+### Features
+
+- Add missing video webhook types in common webhooks ([f22d30a](https://github.com/Vonage/vonage-dotnet-sdk/commit/f22d30a05bb8a7aed72dbb2b1f8e5f86c7220c78))
+
+
+## [v7.20.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.1) (2025-05-30)
+
+### Bug Fixes
+
+- Ignore ttl for RCS Messages when default ([1a7f6fe](https://github.com/Vonage/vonage-dotnet-sdk/commit/1a7f6fed46f030e5cd198db6d749df283fc0427c))
+
+
+### Build updates
+
+- Add slack notifications (#608) ([87576ff](https://github.com/Vonage/vonage-dotnet-sdk/commit/87576ffadfaa6b35825d6568c069e9b4a459390d))
+
+
+### Documentation
+
+- Generate changelog for v7.20.0 ([456ba7c](https://github.com/Vonage/vonage-dotnet-sdk/commit/456ba7ca26e95eb8dbda798089121a9288a0f515))
+
+- Bump version to v7.20.1 ([9ccbddc](https://github.com/Vonage/vonage-dotnet-sdk/commit/9ccbddce37979ec29588c6e8516e2f256f4d8206))
+
+- Generate changelog for v7.20.1 ([fb0976a](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb0976a85357f78ae424b7349bdb7ae84cd4fe6b))
+
+
+### Refactoring
+
+- Reduce duplication in Result with Try ([cc0fc62](https://github.com/Vonage/vonage-dotnet-sdk/commit/cc0fc6293f2f875c96b65266378166588d6b5bad))
+
+- Reduce duplication in RequestBuilderTest for Start LiveCaptions ([9580a83](https://github.com/Vonage/vonage-dotnet-sdk/commit/9580a838116010d9b8bc60aedfd8c62c1874c640))
+
+- Reduce duplication in RequestBuilderTest for Start AudioConnector ([584ee21](https://github.com/Vonage/vonage-dotnet-sdk/commit/584ee21160420decc28a0b80055c1abe6f30441d))
+
+- Reduce duplication in RequestBuilderTest for Start ExperienceComposer ([ced6c62](https://github.com/Vonage/vonage-dotnet-sdk/commit/ced6c62d8832ceb2f5ea5ebe856b13e3e9a764cf))
+
+- Reduce duplication in RequestBuilderTest for GetEvents Conversations ([86eb3cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/86eb3cbdbb1a24e8d6c206da8a58b9847975c353))
+
+- Clean tests in Messages ([0b9d774](https://github.com/Vonage/vonage-dotnet-sdk/commit/0b9d774ec92d6512a0f8f274898741fd32bc9dd0))
+
+- Clean Messenger Messages ([abb5323](https://github.com/Vonage/vonage-dotnet-sdk/commit/abb5323eb68bbfc0bc591ab8d2081ca18ad97e46))
+
+- Clear warnings in MMS Messages ([4ca7a6b](https://github.com/Vonage/vonage-dotnet-sdk/commit/4ca7a6bc9d5b83e7bc5b1648068ee9a514eb2980))
+
+
+### Reverts
+
+- Revert "build: add slack notifications (#608)"
+
+This reverts commit 87576ffadfaa6b35825d6568c069e9b4a459390d.
+ ([bc73867](https://github.com/Vonage/vonage-dotnet-sdk/commit/bc7386706a23401d32311d2ccb4a520743f4887a))
+
+
+## [v7.20.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.0) (2025-05-26)
+
+### Documentation
+
+- Generate changelog for v7.19.0 ([b18b8e1](https://github.com/Vonage/vonage-dotnet-sdk/commit/b18b8e156d330fd617716e9fe15e6cf4be9ec67a))
+
+- Update documentation for voice maximum length_timer ([553ab6a](https://github.com/Vonage/vonage-dotnet-sdk/commit/553ab6a24952363c9cccc98d465cf5c4259460f7))
+
+- Bump version to v7.20.0 ([c5e0530](https://github.com/Vonage/vonage-dotnet-sdk/commit/c5e0530420a88e459e89d52257bf9eafbb452774))
+
+
+### Features
+
+- Support explicit constructor on generated builders ([5fe6c42](https://github.com/Vonage/vonage-dotnet-sdk/commit/5fe6c42c19affa2db4c58daeca58ebc017c151f4))
+
+- Support multiple validation rules for mandatory builder attribute ([4d63adf](https://github.com/Vonage/vonage-dotnet-sdk/commit/4d63adf595e4706fc9cf3f527fc9f39c56633f62))
+
+- Support optional with default attribute for source generators ([061b1f3](https://github.com/Vonage/vonage-dotnet-sdk/commit/061b1f3f5f2231bf8b6ac16f24ee3455610a033b))
+
+- Support validation rules for optional attributes ([e4d8ffc](https://github.com/Vonage/vonage-dotnet-sdk/commit/e4d8ffc54621ef765705fc6583c4818cd834339e))
+
+- Add User and Domain to SipEndpoint ([37d486e](https://github.com/Vonage/vonage-dotnet-sdk/commit/37d486e848876b4ea0d01c3d909488860f4f6257))
+
+- Update NumberInsight with header authentication ([998e99e](https://github.com/Vonage/vonage-dotnet-sdk/commit/998e99ef6d662b9143dd616238bd63515a860ae9))
+
+
+### Refactoring
+
+- Use generated builders for SubAccounts ([e358564](https://github.com/Vonage/vonage-dotnet-sdk/commit/e3585640713ea97cf3102db2cf6524b6659d7f37))
+
+- Use generated builders for SubAccounts ([883791e](https://github.com/Vonage/vonage-dotnet-sdk/commit/883791eba432d0c0bca143aa64fa586f282f4d44))
+
+- Use generated builders for Video ([4512b00](https://github.com/Vonage/vonage-dotnet-sdk/commit/4512b00a929ebecbdf37e3943e643c52f5973b40))
+
+- Fix incorrect filename ([6a02dbc](https://github.com/Vonage/vonage-dotnet-sdk/commit/6a02dbceb6666a953c786a2e7e9b537937d1c79e))
+
+- Wrap optionals in Maybe<> for builders ([e12355e](https://github.com/Vonage/vonage-dotnet-sdk/commit/e12355e608938de03da1bf7f7c1fdda21289f60c))
+
+- Use generated builders for Video ([fdaba15](https://github.com/Vonage/vonage-dotnet-sdk/commit/fdaba1554498d13afe37eba01cc4bbbf87293a02))
+
+- Use generated builders for Video ([37e9ab7](https://github.com/Vonage/vonage-dotnet-sdk/commit/37e9ab7f6b797cce13e2a6ef8e61f5d227085544))
+
+- Use generated builders for Video ([91b3493](https://github.com/Vonage/vonage-dotnet-sdk/commit/91b3493b20b7d06725ee2ce2694802276a4398ca))
+
+- Use generated builders for Video ([a4abbaa](https://github.com/Vonage/vonage-dotnet-sdk/commit/a4abbaa0ce280e9bfbc18fbbc5642168e0f64d3e))
+
+- Clean and reorganize source generation ([ee352fd](https://github.com/Vonage/vonage-dotnet-sdk/commit/ee352fd0638d986f730bec8e0b7067bb5f2410bc))
+
+
+### Reverts
+
+- Revert "refactor: use generated builders for SubAccounts"
+
+This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
+ ([1dde6ef](https://github.com/Vonage/vonage-dotnet-sdk/commit/1dde6ef5291a7294f8fd1ce6024fa3a637db549a))
+
+
+## [v7.19.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.19.0) (2025-05-21)
+
+### Documentation
+
+- Generate changelog for v7.18.0 ([cb9a893](https://github.com/Vonage/vonage-dotnet-sdk/commit/cb9a893cc5706c9547ac8f26fcdd80569ebbb019))
+
+- Bump version to v7.19.0 ([4619508](https://github.com/Vonage/vonage-dotnet-sdk/commit/46195083c2f16162346abf589ae8aa2f6af2a315))
+
+
+### Features
+
+- Support MMS File type in Messages ([4e3b540](https://github.com/Vonage/vonage-dotnet-sdk/commit/4e3b5404fdda85fc09ca93d47910f8b64edbfefa))
+
+- Support MMS Content type in Messages ([017c755](https://github.com/Vonage/vonage-dotnet-sdk/commit/017c755c17c1c1ecf5a363b53918a04bb9f1622c))
+
+
+## [v7.18.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.18.0) (2025-05-19)
+
+### Documentation
+
+- Generate changelog for v7.17.4 ([a316c90](https://github.com/Vonage/vonage-dotnet-sdk/commit/a316c907334c54534779a90e675eabcee17511a6))
+
+- Bump version to v7.18.0 ([d521288](https://github.com/Vonage/vonage-dotnet-sdk/commit/d52128849d4a90dabe15e50b2cbdcbd946b5257d))
+
+
+### Features
+
+- Add QuantizationParameter when creating archives ([0a2c65f](https://github.com/Vonage/vonage-dotnet-sdk/commit/0a2c65f7b271bea0c873442425bb4ff26445f098))
+
+- Add QuantizationParameter on Archive ([241a8de](https://github.com/Vonage/vonage-dotnet-sdk/commit/241a8de52bc2497a101102a233a7a90f66603fd7))
+
+
+## [v7.17.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.4) (2025-05-16)
+
+### Bug Fixes
+
+- Add missing text message type for mms ([b56a5e8](https://github.com/Vonage/vonage-dotnet-sdk/commit/b56a5e8805f6a9ee54d4a380ee6e9979337f41d1))
+
+
+### Documentation
+
+- Generate changelog for v7.17.3 ([e1e4e44](https://github.com/Vonage/vonage-dotnet-sdk/commit/e1e4e449523e334767426f9e79f171c7d0b09588))
+
+- Bump version to v7.17.4 ([39520ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/39520eabd1dda18d397c84747063cfc8723e341f))
+
+
+## [v7.17.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.3) (2025-05-15)
+
+### Bug Fixes
+
+- Transform EventUrl on transcription settings to an array ([6c2d38e](https://github.com/Vonage/vonage-dotnet-sdk/commit/6c2d38e6e0b4cd58445ea2f0b8e2780bda2aae4d))
+
+
+### Documentation
+
+- Generate changelog for v7.17.2 ([c98fc6d](https://github.com/Vonage/vonage-dotnet-sdk/commit/c98fc6d3e2f85062a08c19d38d9e57debae5d35a))
+
+- Bump version to v7.17.3 ([e04a435](https://github.com/Vonage/vonage-dotnet-sdk/commit/e04a435f021b9ea09c33d954d130ad0e48821e6f))
+
+
+## [v7.17.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.2) (2025-05-09)
+
+### Bug Fixes
+
+- Use TestableIO prefix for System.IO.Abstractions ([f7c1310](https://github.com/Vonage/vonage-dotnet-sdk/commit/f7c131055590c6354b10c811526a6183a0b692c9))
+
+
+### Documentation
+
+- Generate changelog for v7.17.1 ([b4c1306](https://github.com/Vonage/vonage-dotnet-sdk/commit/b4c130665a9ded2eb46b2c28ad94efbb8eed40fa))
+
+- Bump version to v7.17.2 ([4c1184f](https://github.com/Vonage/vonage-dotnet-sdk/commit/4c1184ffd73b0e718931d24afa9e6109ba42461b))
+
+
+### Refactoring
+
+- Add category for SourceGeneration tests ([e704367](https://github.com/Vonage/vonage-dotnet-sdk/commit/e7043675dd02d08e41746df6b0a816e803c7fa3f))
+
+- Add stryker-config file for Vonage.SourceGenerator.Test ([c7eed02](https://github.com/Vonage/vonage-dotnet-sdk/commit/c7eed028f6a70a7f4cdb1b0790e6ee982afd255b))
+
+
+## [v7.17.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.1) (2025-05-02)
+
+### Bug Fixes
+
+- Downgrade Microsoft.CodeAnalysis.Csharp to v4.8.0 ([0d75b91](https://github.com/Vonage/vonage-dotnet-sdk/commit/0d75b914f6fd8d3e84d1a7294e46577bd286a744))
+
+- Remove JsonIgnore annotation on AdvanceMachineDetection BeepTimeout ([890933b](https://github.com/Vonage/vonage-dotnet-sdk/commit/890933b69fa95505de496dd23578e9cbdcb5de64))
+
+
+### Dependencies upgrade
+
+- Update packages ([303f5cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/303f5cbe2859da3abd9e5f197e93e142141c3b9e))
+
+- Update packages ([ba072a8](https://github.com/Vonage/vonage-dotnet-sdk/commit/ba072a8274755e0c46e1e89de1c184e19e440dc1))
+
+
+### Documentation
+
+- Generate changelog for v7.17.0 ([beb63dc](https://github.com/Vonage/vonage-dotnet-sdk/commit/beb63dc7c885c562bfb77f1018ad116a5b825537))
+
+- Update readme about v8.0.0 breaking changes ([e57b924](https://github.com/Vonage/vonage-dotnet-sdk/commit/e57b92443451ca741e6e33c0c680bb5f4ddb59cc))
+
+- Bump version to v7.17.1 ([7ded98d](https://github.com/Vonage/vonage-dotnet-sdk/commit/7ded98de984e160f6ef3043369016d139215ce74))
+
+
+### Features
+
+- Rely on source generators to generate builders (#604) ([cd4419d](https://github.com/Vonage/vonage-dotnet-sdk/commit/cd4419d3b680c2a3e90b1a4161ad626663ee9e01))
+
+- Add test project for source generation ([33e7391](https://github.com/Vonage/vonage-dotnet-sdk/commit/33e7391d8354ac7b05af107581db499e77a9cfc7))
+
+- Support OptionalBoolean attribute for source generators ([8564c34](https://github.com/Vonage/vonage-dotnet-sdk/commit/8564c34058165cc2662ef9d190bc3e81a0fc6ef7))
+
+- Update OptionalBoolean attribute ([56b8413](https://github.com/Vonage/vonage-dotnet-sdk/commit/56b8413f3ffc43010e168e1302241ef56f151510))
+
+
 ## [v7.17.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.0) (2025-03-06)
 
 ### Documentation

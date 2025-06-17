@@ -3,6 +3,9 @@
 [Builder]
 public readonly partial struct MyRequest : IVonageRequest
 {
-    [OptionalBoolean("Enable", "Disable")]
+    [OptionalBoolean(true, "Disable")]
     public bool Enabled { get; internal init; }
+    
+    [OptionalBoolean(false, "Hide")]
+    public bool Hidden { get; internal init; }
 }

@@ -1,0 +1,16 @@
+﻿namespace Vonage.TestProduct.TestRequest;
+using Vonage.Common.Validation;
+
+[Builder]
+public readonly partial struct MyRequest : IVonageRequest
+{
+    [Mandatory(0)]
+    public string Name { get; internal init; }
+    
+    [ValidationRule]
+    internal static Result<MyRequest> VerifyName(MyRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.Name, nameof(request.Name));
+    [ValidationRule]
+    internal static Result<MyRequest> VerifyNameLength(MyRequest request) =>
+        InputValidation.VerifyLengthLowerOrEqualThan(request, request.Name, 20, nameof(request.Name));
+}

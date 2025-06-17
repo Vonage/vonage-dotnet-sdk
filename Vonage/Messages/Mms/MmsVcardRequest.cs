@@ -4,12 +4,19 @@ using System.Text.Json.Serialization;
 
 namespace Vonage.Messages.Mms;
 
+/// <summary>
+/// </summary>
 public class MmsVcardRequest : MessageRequestBase
 {
+    /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.MMS;
 
+    /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Vcard;
-    [JsonPropertyOrder(8)] public Attachment Vcard { get; set; }
+
+    ///
+    [JsonPropertyOrder(8)]
+    public Attachment Vcard { get; set; }
 
     /// <summary>
     ///     Time-To-Live (how long a message should exist before it is delivered successfully) in seconds. If a message is not

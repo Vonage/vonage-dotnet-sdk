@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.SubAccounts.GetTransfers;
 
 /// <inheritdoc />
-public readonly struct GetTransfersRequest : IVonageRequest
+[Builder]
+public readonly partial struct GetTransfersRequest : IVonageRequest
 {
     internal const string BalanceTransfer = "balance-transfers";
     internal const string CreditTransfer = "credit-transfers";
@@ -21,23 +25,20 @@ public readonly struct GetTransfersRequest : IVonageRequest
     /// <summary>
     ///     End of the retrieval period. If absent then all transfers until now is returned.
     /// </summary>
+    [Optional]
     public Maybe<DateTimeOffset> EndDate { get; internal init; }
 
     /// <summary>
     ///     Start of the retrieval period.
     /// </summary>
+    [Mandatory(0)]
     public DateTimeOffset StartDate { get; internal init; }
 
     /// <summary>
     ///     Subaccount to filter by.
     /// </summary>
+    [Optional]
     public Maybe<string> SubAccountKey { get; internal init; }
-
-    /// <summary>
-    ///     Initializes a builder for GetTransfersRequest.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForStartDate Build() => new GetTransfersRequestBuilder();
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
@@ -55,6 +56,11 @@ public readonly struct GetTransfersRequest : IVonageRequest
         this.SubAccountKey.IfSome(value => parameters.Add("subaccount", value));
         return parameters;
     }
+
+    [ValidationRule]
+    internal static Result<GetTransfersRequest> VerifySubAccountKey(GetTransfersRequest request) =>
+        request.SubAccountKey.Match(key => InputValidation.VerifyNotEmpty(request, key, nameof(request.SubAccountKey)),
+            () => request);
 
     internal GetTransfersRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
 

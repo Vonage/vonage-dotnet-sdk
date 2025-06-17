@@ -4,6 +4,8 @@
   "to": "441234567890",
   "from": "015417543010",
   "client_ref": "abcdefg",
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status",
   "whatsapp": {
     "policy": "deterministic",
     "locale": "en-GB"
@@ -21,7 +23,5 @@
         "default": "10"
       }
     ]
-  },
-  "webhook_version": "v1",
-  "webhook_url": "https://example.com/status"
+  }
 }

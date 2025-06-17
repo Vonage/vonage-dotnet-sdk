@@ -1,0 +1,16 @@
+{
+  "channel": "mms",
+  "message_type": "content",
+  "to": "441234567890",
+  "from": "015417543010",
+  "client_ref": "abcdefg",
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status",
+  "content": [
+    {
+      "type": "image",
+      "url": "https://example.com/image.jpg",
+      "caption": "See the attached image"
+    }
+  ]
+}

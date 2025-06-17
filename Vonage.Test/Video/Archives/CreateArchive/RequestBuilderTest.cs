@@ -191,6 +191,29 @@ public class RequestBuilderTest
             .BeSuccess(value);
 
     [Fact]
+    public void Build_ShouldHaveEmptyQuantizationParameter_GivenDefault() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .Create()
+            .Map(request => request.QuantizationParameter)
+            .Should()
+            .BeSuccess(Maybe<int>.None);
+
+    [Theory]
+    [InlineData(15)]
+    [InlineData(40)]
+    public void Build_ShouldSetQuantizationParameter(int value) =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithQuantizationParameter(value)
+            .Create()
+            .Map(request => request.QuantizationParameter)
+            .Should()
+            .BeSuccess(value);
+
+    [Fact]
     public void Build_ShouldReturnFailure_GivenMaxBitrateIsLowerThanMinimum() =>
         CreateArchiveRequest.Build()
             .WithApplicationId(this.applicationId)
@@ -209,4 +232,24 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("MaxBitrate cannot be higher than 6000000.");
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenQuantizationParameterIsLowerThanMinimum() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithQuantizationParameter(14)
+            .Create()
+            .Should()
+            .BeParsingFailure("QuantizationParameter cannot be lower than 15.");
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenQuantizationParameterIsHigherThanMaximum() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithQuantizationParameter(41)
+            .Create()
+            .Should()
+            .BeParsingFailure("QuantizationParameter cannot be higher than 40.");
 }

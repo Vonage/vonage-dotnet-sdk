@@ -1,5 +1,9 @@
 {
   "channel": "messenger",
+  "messenger": {
+    "category": "response",
+    "tag": "CONFIRMED_EVENT_UPDATE"
+  },
   "message_type": "video",
   "video": {
     "url": "https://test.com/me.mp4"

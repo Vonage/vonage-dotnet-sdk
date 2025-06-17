@@ -21,6 +21,7 @@ public class RcsCustomRequest : MessageRequestBase
     /// </summary>
     [JsonPropertyName("ttl")]
     [JsonPropertyOrder(8)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int TimeToLive { get; set; }
 
     /// <summary>

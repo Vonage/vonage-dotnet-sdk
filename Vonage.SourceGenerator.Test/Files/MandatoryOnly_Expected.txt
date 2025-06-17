@@ -26,6 +26,12 @@ internal struct MyRequestBuilder : IBuilderForId, IBuilderForName, IBuilderForOp
 {
     private int id;
     private string name;
+    public MyRequestBuilder()
+    {
+        this.id = default;
+        this.name = default;
+    }
+
     public IBuilderForName WithId(int value) => this with
     {
         id = value

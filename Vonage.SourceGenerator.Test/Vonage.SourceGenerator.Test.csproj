@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
         <NoWarn>1701;1702;0618</NoWarn>
         <IsPackable>false</IsPackable>
-        <Configurations>Debug;Release;ReleaseSigned</Configurations>
+        <Configurations>Debug;Release</Configurations>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <AssemblyName>Vonage.SourceGenerator.Test</AssemblyName>
         <RootNamespace>Vonage.SourceGenerator.Test</RootNamespace>
@@ -55,10 +55,34 @@
         <None Update="Files\OptionalOnly_Expected.txt">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Files\OptionalBoolean_Input.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Update="Files\OptionalBoolean_Expected.txt">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Files\OptionalBoolean_Input.txt">
+        <None Update="Files\MandatorySingleValidationRule_Input.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Files\MandatorySingleValidationRule_Expected.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Files\MandatoryMultipleValidationRule_Expected.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Files\MandatoryMultipleValidationRule_Input.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Files\OptionalWithDefault_Input.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Files\OptionalWithDefault_Expected.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Files\CustomUsing_Input.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Files\CustomUsing_Expected.txt">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

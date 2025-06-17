@@ -4,11 +4,19 @@ using System.Text.Json.Serialization;
 
 namespace Vonage.Messages.Mms;
 
+/// <summary>
+/// </summary>
 public class MmsImageRequest : MessageRequestBase
 {
+    /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.MMS;
-    [JsonPropertyOrder(8)] public Attachment Image { get; set; }
 
+    /// <summary>
+    /// </summary>
+    [JsonPropertyOrder(8)]
+    public Attachment Image { get; set; }
+
+    /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Image;
 
     /// <summary>

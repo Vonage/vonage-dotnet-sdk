@@ -19,11 +19,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldDisablePartialCaptions() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .DisablePartialCaptions()
             .Create()
             .Map(request => request.PartialCaptions)
@@ -32,11 +28,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldHaveDefaultLanguage() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.Language)
             .Should()
@@ -44,11 +36,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldHaveNoStatusCallbackUrl_GivenDefault() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.StatusCallbackUrl)
             .Should()
@@ -56,11 +44,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldHavePartialCaptionsEnabled_GivenDefault() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.PartialCaptions)
             .Should()
@@ -70,11 +54,7 @@ public class RequestBuilderTest
     public Property Build_ShouldReturnFailure_GivenMaxDurationExceedsMaximum() =>
         Prop.ForAll(
             GetDurationsAboveMaximum(),
-            invalidDuration => StartRequest
-                .Build()
-                .WithApplicationId(this.validApplicationId)
-                .WithSessionId(ValidSessionId)
-                .WithToken(ValidToken)
+            invalidDuration => this.BuildValidRequest()
                 .WithMaxDuration(invalidDuration)
                 .Create()
                 .Should()
@@ -84,11 +64,7 @@ public class RequestBuilderTest
     public Property Build_ShouldReturnFailure_GivenMaxDurationIsBelowMinimum() =>
         Prop.ForAll(
             GetDurationsBelowMinimum(),
-            invalidDuration => StartRequest
-                .Build()
-                .WithApplicationId(this.validApplicationId)
-                .WithSessionId(ValidSessionId)
-                .WithToken(ValidToken)
+            invalidDuration => this.BuildValidRequest()
                 .WithMaxDuration(invalidDuration)
                 .Create()
                 .Should()
@@ -96,11 +72,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldSetApplicationId() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.ApplicationId)
             .Should()
@@ -108,11 +80,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldSetLanguage() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .WithLanguage("fr-FR")
             .Create()
             .Map(request => request.Language)
@@ -123,11 +91,7 @@ public class RequestBuilderTest
     [InlineData(300)]
     [InlineData(14400)]
     public void Build_ShouldSetMaxDuration(int validDuration) =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .WithMaxDuration(validDuration)
             .Create()
             .Map(request => request.MaxDuration)
@@ -136,11 +100,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldSetSessionId() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.SessionId)
             .Should()
@@ -148,11 +108,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldSetStatusCallbackUrl() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .WithStatusCallbackUrl(new Uri("https://example.com"))
             .Create()
             .Map(request => request.StatusCallbackUrl)
@@ -161,21 +117,11 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldSetToken() =>
-        StartRequest
-            .Build()
-            .WithApplicationId(this.validApplicationId)
-            .WithSessionId(ValidSessionId)
-            .WithToken(ValidToken)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.Token)
             .Should()
             .BeSuccess(ValidToken);
-
-    private static Arbitrary<int> GetDurationsAboveMaximum() =>
-        Gen.Choose(14401, int.MaxValue).ToArbitrary();
-
-    private static Arbitrary<int> GetDurationsBelowMinimum() =>
-        Gen.Choose(299, -int.MaxValue).ToArbitrary();
 
     [Fact]
     public void Parse_ShouldReturnFailure_GivenApplicationIdIsEmpty() =>
@@ -210,9 +156,22 @@ public class RequestBuilderTest
         StartRequest
             .Build()
             .WithApplicationId(this.validApplicationId)
-            .WithSessionId(invalidToken)
-            .WithToken(ValidToken)
+            .WithSessionId(ValidSessionId)
+            .WithToken(invalidToken)
             .Create()
             .Should()
-            .BeParsingFailure("SessionId cannot be null or whitespace.");
+            .BeParsingFailure("Token cannot be null or whitespace.");
+
+    private IBuilderForOptional BuildValidRequest() =>
+        StartRequest
+            .Build()
+            .WithApplicationId(this.validApplicationId)
+            .WithSessionId(ValidSessionId)
+            .WithToken(ValidToken);
+
+    private static Arbitrary<int> GetDurationsAboveMaximum() =>
+        Gen.Choose(14401, int.MaxValue).ToArbitrary();
+
+    private static Arbitrary<int> GetDurationsBelowMinimum() =>
+        Gen.Choose(299, -int.MaxValue).ToArbitrary();
 }

@@ -1,0 +1,6 @@
+﻿namespace Vonage.TestProduct.TestRequest;
+
+[Builder("Test.Domain")]
+public readonly partial struct MyRequest : IVonageRequest
+{
+}

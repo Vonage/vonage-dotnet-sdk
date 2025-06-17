@@ -10,6 +10,10 @@ namespace Vonage.Video.Archives.CreateArchive;
 
 internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForApplicationId, IBuilderForOptional
 {
+    private const int MinimumQuantizationParameter = 15;
+    private const int MaximumQuantizationParameter = 40;
+    private const int MaximumMaxBitrate = 6000000;
+    private const int MinimumMaxBitrate = 1000000;
     private Guid applicationId;
     private bool hasAudio = true;
     private bool hasVideo = true;
@@ -18,6 +22,7 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
     private Maybe<string> multiArchiveTag;
     private Maybe<string> name;
     private OutputMode outputMode = OutputMode.Composed;
+    private Maybe<int> quantizationParameter;
     private Maybe<RenderResolution> resolution;
     private string sessionId;
     private StreamMode streamMode = StreamMode.Auto;
@@ -44,10 +49,11 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
                 Resolution = this.resolution,
                 MultiArchiveTag = this.multiArchiveTag,
                 MaxBitrate = this.maxBitrate,
+                QuantizationParameter = this.quantizationParameter,
             })
             .Map(InputEvaluation<CreateArchiveRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifySessionId, VerifyApplicationId, VerifyMaximumMaxBitrate,
-                VerifyMinimumMaxBitrate));
+                VerifyMinimumMaxBitrate, VerifyMinimumQuantizationParameter, VerifyMaximumQuantizationParameter));
 
     /// <inheritdoc />
     public IBuilderForOptional DisableAudio()
@@ -111,6 +117,12 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
         return this;
     }
 
+    public IBuilderForOptional WithQuantizationParameter(int value)
+    {
+        this.quantizationParameter = value;
+        return this;
+    }
+
     /// <inheritdoc />
     public IBuilderForOptional WithSessionId(string value)
     {
@@ -126,12 +138,26 @@ internal class CreateArchiveRequestBuilder : IBuilderForSessionId, IBuilderForAp
 
     private static Result<CreateArchiveRequest> VerifyMinimumMaxBitrate(CreateArchiveRequest request) =>
         request.MaxBitrate.Match(
-            some => InputValidation.VerifyHigherOrEqualThan(request, some, 1000000, nameof(request.MaxBitrate)),
+            some => InputValidation.VerifyHigherOrEqualThan(request, some, MinimumMaxBitrate,
+                nameof(request.MaxBitrate)),
             () => request);
 
     private static Result<CreateArchiveRequest> VerifyMaximumMaxBitrate(CreateArchiveRequest request) =>
         request.MaxBitrate.Match(
-            some => InputValidation.VerifyLowerOrEqualThan(request, some, 6000000, nameof(request.MaxBitrate)),
+            some => InputValidation.VerifyLowerOrEqualThan(request, some, MaximumMaxBitrate,
+                nameof(request.MaxBitrate)),
+            () => request);
+
+    private static Result<CreateArchiveRequest> VerifyMinimumQuantizationParameter(CreateArchiveRequest request) =>
+        request.QuantizationParameter.Match(
+            some => InputValidation.VerifyHigherOrEqualThan(request, some, MinimumQuantizationParameter,
+                nameof(request.QuantizationParameter)),
+            () => request);
+
+    private static Result<CreateArchiveRequest> VerifyMaximumQuantizationParameter(CreateArchiveRequest request) =>
+        request.QuantizationParameter.Match(
+            some => InputValidation.VerifyLowerOrEqualThan(request, some, MaximumQuantizationParameter,
+                nameof(request.QuantizationParameter)),
             () => request);
 }
 
@@ -226,4 +252,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<CreateArchiveReques
     /// <param name="value">The maximum bitrate</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithMaxBitrate(int value);
+
+    /// <summary>
+    ///     Sets the quantization parameter.
+    /// </summary>
+    /// <param name="value">The quantization parameter.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithQuantizationParameter(int value);
 }

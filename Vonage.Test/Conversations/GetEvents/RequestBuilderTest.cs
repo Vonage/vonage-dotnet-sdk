@@ -1,8 +1,10 @@
-﻿using Vonage.Common.Monads;
+﻿#region
+using Vonage.Common.Monads;
 using Vonage.Conversations;
 using Vonage.Conversations.GetEvents;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.GetEvents;
 
@@ -11,33 +13,18 @@ public class RequestBuilderTest
 {
     private const string ValidConversationId = "CON-123";
 
-    [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData(null)]
-    public void Parse_ShouldReturnFailure_GivenConversationIdIsEmpty(string invalidId) =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(invalidId)
-            .Create()
-            .Should()
-            .BeParsingFailure("ConversationId cannot be null or whitespace.");
-
     [Fact]
-    public void Build_ShouldSetConversationId() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+    public void Build_ShouldExcludeDeletedEvents() =>
+        BuildValidRequest()
+            .ExcludeDeletedEvents()
             .Create()
-            .Map(request => request.ConversationId)
+            .Map(request => request.ExcludeDeletedEvents)
             .Should()
-            .BeSuccess(ValidConversationId);
+            .BeSuccess(true);
 
     [Fact]
     public void Build_ShouldHaveDefaultOrder() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .Create()
             .Map(request => request.Order)
             .Should()
@@ -45,9 +32,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldHaveDefaultPageSize() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .Create()
             .Map(request => request.PageSize)
             .Should()
@@ -64,40 +49,40 @@ public class RequestBuilderTest
             .BeSuccess(Maybe<string>.None);
 
     [Fact]
-    public void Build_ShouldHaveNoDefaultEventType() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
-            .Create()
-            .Map(request => request.EventType)
-            .Should()
-            .BeSuccess(Maybe<string>.None);
-
-    [Fact]
     public void Build_ShouldHaveNoDefaultEndId() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .Create()
             .Map(request => request.EndId)
             .Should()
             .BeSuccess(Maybe<string>.None);
 
     [Fact]
+    public void Build_ShouldHaveNoDefaultEventType() =>
+        BuildValidRequest()
+            .Create()
+            .Map(request => request.EventType)
+            .Should()
+            .BeSuccess(Maybe<string>.None);
+
+    [Fact]
     public void Build_ShouldHaveNoDefaultStartId() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .Create()
             .Map(request => request.StartId)
             .Should()
             .BeSuccess(Maybe<string>.None);
 
     [Fact]
+    public void Build_ShouldIncludeDeletedEventsGivenDefault() =>
+        BuildValidRequest()
+            .Create()
+            .Map(request => request.ExcludeDeletedEvents)
+            .Should()
+            .BeSuccess(false);
+
+    [Fact]
     public void Build_ShouldReturnFailure_GivenPageSizeIsHigherThanOneHundred() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .WithPageSize(101)
             .Create()
             .Should()
@@ -105,19 +90,23 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldReturnFailure_GivenPageSizeIsLowerThanOne() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .WithPageSize(0)
             .Create()
             .Should()
             .BeParsingFailure("PageSize cannot be lower than 1.");
 
     [Fact]
+    public void Build_ShouldSetConversationId() =>
+        BuildValidRequest()
+            .Create()
+            .Map(request => request.ConversationId)
+            .Should()
+            .BeSuccess(ValidConversationId);
+
+    [Fact]
     public void Build_ShouldSetEndId() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .WithEndId("123")
             .Create()
             .Map(request => request.EndId)
@@ -125,10 +114,17 @@ public class RequestBuilderTest
             .BeSuccess("123");
 
     [Fact]
+    public void Build_ShouldSetEventType() =>
+        BuildValidRequest()
+            .WithEventType("type")
+            .Create()
+            .Map(request => request.EventType)
+            .Should()
+            .BeSuccess("type");
+
+    [Fact]
     public void Build_ShouldSetOrder() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .WithOrder(FetchOrder.Descending)
             .Create()
             .Map(request => request.Order)
@@ -140,9 +136,7 @@ public class RequestBuilderTest
     [InlineData(50)]
     [InlineData(100)]
     public void Build_ShouldSetPageSize(int pageSize) =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .WithPageSize(pageSize)
             .Create()
             .Map(request => request.PageSize)
@@ -151,44 +145,27 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldSetStartId() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
+        BuildValidRequest()
             .WithStartId("123")
             .Create()
             .Map(request => request.StartId)
             .Should()
             .BeSuccess("123");
 
-    [Fact]
-    public void Build_ShouldSetEventType() =>
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData(null)]
+    public void Parse_ShouldReturnFailure_GivenConversationIdIsEmpty(string invalidId) =>
         GetEventsRequest
             .Build()
-            .WithConversationId(ValidConversationId)
-            .WithEventType("type")
+            .WithConversationId(invalidId)
             .Create()
-            .Map(request => request.EventType)
             .Should()
-            .BeSuccess("type");
+            .BeParsingFailure("ConversationId cannot be null or whitespace.");
 
-    [Fact]
-    public void Build_ShouldIncludeDeletedEventsGivenDefault() =>
+    private static IBuilderForOptional BuildValidRequest() =>
         GetEventsRequest
             .Build()
-            .WithConversationId(ValidConversationId)
-            .Create()
-            .Map(request => request.ExcludeDeletedEvents)
-            .Should()
-            .BeSuccess(false);
-
-    [Fact]
-    public void Build_ShouldExcludeDeletedEvents() =>
-        GetEventsRequest
-            .Build()
-            .WithConversationId(ValidConversationId)
-            .ExcludeDeletedEvents()
-            .Create()
-            .Map(request => request.ExcludeDeletedEvents)
-            .Should()
-            .BeSuccess(true);
+            .WithConversationId(ValidConversationId);
 }
