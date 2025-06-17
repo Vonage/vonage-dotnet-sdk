@@ -20,6 +20,7 @@ This will, in some cases, change the method name of some builder methods to stri
 convention.
 
 * Video.CreateArchiveRequest
+* Video.StartBroadcastRequest
 
 #### Remove GetEndpointPath() on Vonage Requests
 

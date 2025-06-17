@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Vonage.Test.Common.Extensions;
 using Vonage.Video.Broadcast.StartBroadcast;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Broadcast.StartBroadcast;
 
@@ -46,7 +48,7 @@ public class E2ETest : E2EBase
                 .WithResolution(RenderResolution.FullHighDefinitionLandscape)
                 .WithMaxBitrate(500)
                 .WithMaxDuration(20000)
-                .WithManualStreamMode()
+                .WithStreamMode(StreamMode.Manual)
                 .WithMultiBroadcastTag("foo")
                 .Create())
             .Should()

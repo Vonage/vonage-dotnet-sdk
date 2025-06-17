@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Linq;
 using AutoFixture;
 using FluentAssertions;
@@ -6,6 +7,7 @@ using Vonage.Server;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Broadcast.StartBroadcast;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Broadcast.StartBroadcast;
 
@@ -79,7 +81,7 @@ public class RequestBuilderTest
     [Fact]
     public void Build_ShouldAssignStreamMode_GivenWithStreamModeUsed() =>
         this.BuildWithMandatoryValues()
-            .WithManualStreamMode()
+            .WithStreamMode(StreamMode.Manual)
             .Create()
             .Map(request => request.StreamMode)
             .Should()
