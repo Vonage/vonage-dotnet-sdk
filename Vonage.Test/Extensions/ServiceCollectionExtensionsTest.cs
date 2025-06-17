@@ -7,7 +7,6 @@ using Vonage.Accounts;
 using Vonage.Applications;
 using Vonage.Conversions;
 using Vonage.Extensions;
-using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
@@ -34,14 +33,14 @@ namespace Vonage.Test.Extensions
     [Trait("Category", "ServicesRegistration")]
     public class ServiceCollectionExtensionsTest
     {
+        private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
+
         private readonly IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
             {
                 {"vonage:Vonage_key", "RandomValue"},
             })
             .Build();
-
-        private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
 
         [Theory]
         [MemberData(nameof(GetRegisteredTypes))]
@@ -86,7 +85,6 @@ namespace Vonage.Test.Extensions
             yield return new object[] {typeof(IAccountClient)};
             yield return new object[] {typeof(IApplicationClient)};
             yield return new object[] {typeof(IConversionClient)};
-            yield return new object[] {typeof(IMeetingsClient)};
             yield return new object[] {typeof(IMessagesClient)};
             yield return new object[] {typeof(INumberInsightClient)};
             yield return new object[] {typeof(INumberInsightV2Client)};
