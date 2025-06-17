@@ -31,7 +31,7 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
     /// <summary>
     ///     Start of the retrieval period.
     /// </summary>
-    [Mandatory(0, nameof(VerifySubAccountKey))]
+    [Mandatory(0)]
     public DateTimeOffset StartDate { get; internal init; }
 
     /// <summary>
@@ -49,10 +49,6 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
     public string GetEndpointPath() => UriHelpers.BuildUri($"/accounts/{this.ApiKey}/{this.Endpoint}",
         this.GetQueryStringParameters());
 
-    internal static Result<GetTransfersRequest> VerifySubAccountKey(GetTransfersRequest request) =>
-        request.SubAccountKey.Match(key => InputValidation.VerifyNotEmpty(request, key, nameof(request.SubAccountKey)),
-            () => request);
-
     private Dictionary<string, string> GetQueryStringParameters()
     {
         var parameters = new Dictionary<string, string> {{"start_date", this.StartDate.ToString(DateFormat)}};
@@ -60,6 +56,11 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
         this.SubAccountKey.IfSome(value => parameters.Add("subaccount", value));
         return parameters;
     }
+
+    [ValidationRule]
+    internal static Result<GetTransfersRequest> VerifySubAccountKey(GetTransfersRequest request) =>
+        request.SubAccountKey.Match(key => InputValidation.VerifyNotEmpty(request, key, nameof(request.SubAccountKey)),
+            () => request);
 
     internal GetTransfersRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
 

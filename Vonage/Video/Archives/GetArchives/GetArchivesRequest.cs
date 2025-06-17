@@ -21,7 +21,7 @@ public readonly partial struct GetArchivesRequest : IVonageRequest, IHasApplicat
     ///     The count query parameter to limit the number of archives to be returned. The default number of archives returned
     ///     is 50 (or fewer, if there are fewer than 50 archives). The maximum number of archives the call will return is 1000.
     /// </summary>
-    [OptionalWithDefault("int", "50", nameof(VerifyCount))]
+    [OptionalWithDefault("int", "50")]
     public int Count { get; internal init; }
 
     /// <summary>
@@ -29,7 +29,7 @@ public readonly partial struct GetArchivesRequest : IVonageRequest, IHasApplicat
     ///     started archive (excluding deleted archive). 1 is the offset of the archive that started prior to the most recent
     ///     archive. The default value is 0.
     /// </summary>
-    [OptionalWithDefault("int", "0", nameof(VerifyOffset))]
+    [OptionalWithDefault("int", "0")]
     public int Offset { get; internal init; }
 
     /// <summary>
@@ -40,7 +40,7 @@ public readonly partial struct GetArchivesRequest : IVonageRequest, IHasApplicat
     public Maybe<string> SessionId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
@@ -60,13 +60,16 @@ public readonly partial struct GetArchivesRequest : IVonageRequest, IHasApplicat
         return string.Concat(path, session);
     }
 
+    [ValidationRule]
     internal static Result<GetArchivesRequest> VerifyApplicationId(GetArchivesRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<GetArchivesRequest> VerifyCount(GetArchivesRequest request) =>
         InputValidation.VerifyNotNegative(request, request.Count, nameof(request.Count))
             .Bind(_ => InputValidation.VerifyLowerOrEqualThan(request, request.Count, MaxCount, nameof(request.Count)));
 
+    [ValidationRule]
     internal static Result<GetArchivesRequest> VerifyOffset(GetArchivesRequest request) =>
         InputValidation.VerifyNotNegative(request, request.Offset, nameof(request.Offset));
 }

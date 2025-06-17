@@ -5,9 +5,10 @@ public readonly partial struct MyRequest : IVonageRequest
 {
     [OptionalWithDefault("int", "10"]
     public int Id { get; internal init; }
-    [OptionalWithDefault("string", "John", nameof(VerifyName))]
+    [OptionalWithDefault("string", "John")]
     public string Name { get; internal init; }
     
+    [ValidationRule]
     internal static Result<MyRequest> VerifyName(MyRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Name, nameof(request.Name));
 }

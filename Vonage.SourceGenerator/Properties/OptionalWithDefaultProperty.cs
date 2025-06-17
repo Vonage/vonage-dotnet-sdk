@@ -7,8 +7,7 @@ namespace Vonage.SourceGenerator.Properties;
 internal record OptionalWithDefaultProperty(
     IPropertySymbol Property,
     string Type,
-    string DefaultValue,
-    params ValidationRule[] ValidationRules) : IOptionalProperty
+    string DefaultValue) : IOptionalProperty
 {
     public const string AttributeName = "OptionalWithDefaultAttribute";
 
@@ -16,10 +15,7 @@ internal record OptionalWithDefaultProperty(
     {
         var attribute = member.GetAttributes()
             .FirstOrDefault(attribute => attribute.AttributeClass?.Name == AttributeName);
-        return HasValidationRules(attribute)
-            ? new OptionalWithDefaultProperty(member, ExtractType(attribute), ExtractDefaultValue(attribute),
-                ExtractValidationRules(attribute))
-            : new OptionalWithDefaultProperty(member, ExtractType(attribute), ExtractDefaultValue(attribute));
+        return new OptionalWithDefaultProperty(member, ExtractType(attribute), ExtractDefaultValue(attribute));
     }
 
     public string Declaration => $"IBuilderForOptional With{this.Property.Name}({this.Property.Type} value);";
@@ -33,16 +29,6 @@ internal record OptionalWithDefaultProperty(
         attribute.ConstructorArguments[1].Value?.ToString();
 
     private static string ExtractType(AttributeData attribute) => attribute.ConstructorArguments[0].Value?.ToString();
-
-    private static ValidationRule[] ExtractValidationRules(AttributeData attribute)
-    {
-        return attribute.ConstructorArguments[2].Values.Select(v => (string) v.Value)
-            .Select(value => new ValidationRule(value)).ToArray();
-    }
-
-    private static bool HasValidationRules(AttributeData attribute) => attribute.ConstructorArguments.Length > 2 &&
-                                                                       attribute.ConstructorArguments[2].Kind ==
-                                                                       TypedConstantKind.Array;
 
     private string ParseDefaultValue()
     {

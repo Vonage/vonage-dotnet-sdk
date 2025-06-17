@@ -20,15 +20,15 @@ public readonly partial struct MuteStreamsRequest : IVonageRequest, IHasApplicat
     /// <summary>
     ///     The request content.
     /// </summary>
-    [Mandatory(2, nameof(VerifyExcludedStreams))]
+    [Mandatory(2)]
     public MuteStreamsConfiguration Configuration { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(1, nameof(VerifySessionId))]
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
@@ -47,13 +47,16 @@ public readonly partial struct MuteStreamsRequest : IVonageRequest, IHasApplicat
             Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<MuteStreamsRequest> VerifyApplicationId(MuteStreamsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<MuteStreamsRequest> VerifyExcludedStreams(MuteStreamsRequest request) =>
         InputValidation.VerifyNotNull(request, request.Configuration.ExcludedStreamIds,
             nameof(MuteStreamsConfiguration.ExcludedStreamIds));
 
+    [ValidationRule]
     internal static Result<MuteStreamsRequest> VerifySessionId(MuteStreamsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 

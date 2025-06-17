@@ -22,17 +22,17 @@ public readonly partial struct PlayToneIntoCallRequest : IVonageRequest, IHasApp
     ///     The string of DTMF digits to send. This can include 0-9, '*', '#', and 'p'. A p indicates a pause of 500ms (if you
     ///     need to add a delay in sending the digits).
     /// </summary>
-    [Mandatory(2, nameof(VerifyDigits))]
+    [Mandatory(2)]
     public string Digits { get; internal init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Mandatory(1, nameof(VerifySessionId))]
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
@@ -49,12 +49,15 @@ public readonly partial struct PlayToneIntoCallRequest : IVonageRequest, IHasApp
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<PlayToneIntoCallRequest> VerifyApplicationId(PlayToneIntoCallRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<PlayToneIntoCallRequest> VerifyDigits(PlayToneIntoCallRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Digits, nameof(request.Digits));
 
+    [ValidationRule]
     internal static Result<PlayToneIntoCallRequest> VerifySessionId(PlayToneIntoCallRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }

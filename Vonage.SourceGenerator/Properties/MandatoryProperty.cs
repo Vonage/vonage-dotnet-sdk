@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Vonage.SourceGenerator.Properties;
 
-internal record MandatoryProperty(IPropertySymbol Property, int Order, params ValidationRule[] ValidationRules)
+internal record MandatoryProperty(IPropertySymbol Property, int Order)
     : IProperty
 {
     public const string AttributeName = "MandatoryAttribute";
@@ -13,9 +13,7 @@ internal record MandatoryProperty(IPropertySymbol Property, int Order, params Va
     {
         var attribute = member.GetAttributes()
             .FirstOrDefault(attribute => attribute.AttributeClass?.Name == AttributeName);
-        return HasValidationRules(attribute)
-            ? new MandatoryProperty(member, ExtractOrder(attribute), ExtractValidationRules(attribute))
-            : new MandatoryProperty(member, ExtractOrder(attribute));
+        return new MandatoryProperty(member, ExtractOrder(attribute));
     }
 
     public string FieldDeclaration => $"private {this.Property.Type.ToDisplayString()} {this.Property.Name.ToLower()};";
@@ -23,14 +21,4 @@ internal record MandatoryProperty(IPropertySymbol Property, int Order, params Va
 
     private static int ExtractOrder(AttributeData attribute) =>
         int.Parse(attribute.ConstructorArguments[0].Value?.ToString() ?? "");
-
-    private static ValidationRule[] ExtractValidationRules(AttributeData attribute)
-    {
-        return attribute.ConstructorArguments[1].Values.Select(value => (string) value.Value)
-            .Select(value => new ValidationRule(value)).ToArray();
-    }
-
-    private static bool HasValidationRules(AttributeData attribute) => attribute.ConstructorArguments.Length > 1 &&
-                                                                       attribute.ConstructorArguments[1].Kind ==
-                                                                       TypedConstantKind.Array;
 }

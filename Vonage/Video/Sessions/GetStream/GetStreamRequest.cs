@@ -18,15 +18,15 @@ public readonly partial struct GetStreamRequest : IVonageRequest, IHasApplicatio
     /// <summary>
     ///     The stream Id.
     /// </summary>
-    [Mandatory(2, nameof(VerifyStreamId))]
+    [Mandatory(2)]
     public string StreamId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(1, nameof(VerifySessionId))]
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
@@ -39,12 +39,15 @@ public readonly partial struct GetStreamRequest : IVonageRequest, IHasApplicatio
     public string GetEndpointPath() =>
         $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream/{this.StreamId}";
 
+    [ValidationRule]
     internal static Result<GetStreamRequest> VerifyApplicationId(GetStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<GetStreamRequest> VerifySessionId(GetStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 
+    [ValidationRule]
     internal static Result<GetStreamRequest> VerifyStreamId(GetStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(StreamId));
 }

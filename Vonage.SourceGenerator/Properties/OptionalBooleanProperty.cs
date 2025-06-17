@@ -7,8 +7,7 @@ namespace Vonage.SourceGenerator.Properties;
 internal record OptionalBooleanProperty(
     IPropertySymbol Property,
     bool DefaultValue,
-    string MethodName,
-    params ValidationRule[] ValidationRules)
+    string MethodName)
     : IOptionalProperty
 {
     public const string AttributeName = "OptionalBooleanAttribute";

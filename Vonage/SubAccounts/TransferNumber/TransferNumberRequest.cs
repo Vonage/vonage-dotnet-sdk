@@ -25,28 +25,28 @@ public readonly partial struct TransferNumberRequest : IVonageRequest
     ///     The two character country code in ISO 3166-1 alpha-2 format
     /// </summary>
     [JsonPropertyOrder(3)]
-    [Mandatory(3, nameof(VerifyCountry))]
+    [Mandatory(3)]
     public string Country { get; internal init; }
 
     /// <summary>
     ///     Account the number is transferred from
     /// </summary>
     [JsonPropertyOrder(0)]
-    [Mandatory(0, nameof(VerifyFrom))]
+    [Mandatory(0)]
     public string From { get; internal init; }
 
     /// <summary>
     ///     Number transferred
     /// </summary>
     [JsonPropertyOrder(2)]
-    [Mandatory(2, nameof(VerifyNumber))]
+    [Mandatory(2)]
     public string Number { get; internal init; }
 
     /// <summary>
     ///     Account the number is transferred to
     /// </summary>
     [JsonPropertyOrder(1)]
-    [Mandatory(1, nameof(VerifyTo))]
+    [Mandatory(1)]
     public string To { get; internal init; }
 
     /// <inheritdoc />
@@ -58,6 +58,11 @@ public readonly partial struct TransferNumberRequest : IVonageRequest
     /// <inheritdoc />
     public string GetEndpointPath() => $"/accounts/{this.ApiKey}/transfer-number";
 
+    private StringContent GetRequestContent() =>
+        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
+            "application/json");
+
+    [ValidationRule]
     internal static Result<TransferNumberRequest> VerifyCountry(TransferNumberRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Country, nameof(request.Country))
             .Bind(VerifyCountryLength);
@@ -65,18 +70,17 @@ public readonly partial struct TransferNumberRequest : IVonageRequest
     internal static Result<TransferNumberRequest> VerifyCountryLength(TransferNumberRequest request) =>
         InputValidation.VerifyLength(request, request.Country, CountryLength, nameof(request.Country));
 
+    [ValidationRule]
     internal static Result<TransferNumberRequest> VerifyFrom(TransferNumberRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.From, nameof(request.From));
 
+    [ValidationRule]
     internal static Result<TransferNumberRequest> VerifyNumber(TransferNumberRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Number, nameof(request.Number));
 
+    [ValidationRule]
     internal static Result<TransferNumberRequest> VerifyTo(TransferNumberRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.To, nameof(request.To));
-
-    private StringContent GetRequestContent() => new(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this),
-        Encoding.UTF8,
-        "application/json");
 
     internal TransferNumberRequest WithApiKey(string primaryAccountKey) => this with {ApiKey = primaryAccountKey};
 }

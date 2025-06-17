@@ -9,7 +9,6 @@ internal interface IProperty
     string FieldDeclaration { get; }
     IPropertySymbol Property { get; }
     string DefaultValueAssignment { get; }
-    ValidationRule[] ValidationRules { get; }
 }
 
 internal interface IOptionalProperty : IProperty

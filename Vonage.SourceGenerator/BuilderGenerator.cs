@@ -27,7 +27,8 @@ public class BuilderGenerator : IIncrementalGenerator
                 GetOptionalProperties(structSymbol)
                     .Concat(GetOptionalBooleanProperties(structSymbol))
                     .Concat(GetOptionalWithDefaultProperties(structSymbol))
-                    .ToArray())
+                    .ToArray(),
+                GetValidationRuleMethods(structSymbol).ToArray())
             .GenerateCode();
 
     private static void GenerateCode(IncrementalGeneratorInitializationContext context,
@@ -75,6 +76,13 @@ public class BuilderGenerator : IIncrementalGenerator
         var structDeclaration = (StructDeclarationSyntax) context.Node;
         return context.SemanticModel.GetDeclaredSymbol(structDeclaration) as INamedTypeSymbol;
     }
+
+    private static IEnumerable<ValidationRuleMethod> GetValidationRuleMethods(INamedTypeSymbol structSymbol) =>
+        structSymbol.GetMembers().OfType<IMethodSymbol>()
+            .Where(member =>
+                member.GetAttributes().Any(attribute =>
+                    attribute.AttributeClass?.Name == ValidationRuleMethod.AttributeName))
+            .Select(ValidationRuleMethod.FromMember);
 
     private static bool HasBuilderAttribute(SyntaxNode node) =>
         node is StructDeclarationSyntax declaration

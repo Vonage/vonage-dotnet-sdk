@@ -30,15 +30,15 @@ public readonly partial struct AddStreamRequest : IVonageRequest, IHasApplicatio
     public bool HasVideo { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(1, nameof(VerifyArchiveId))]
+    [Mandatory(1)]
     public Guid ArchiveId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(2, nameof(VerifyStreamId))]
+    [Mandatory(2)]
     public Guid StreamId { get; internal init; }
 
     /// <inheritdoc />
@@ -57,12 +57,15 @@ public readonly partial struct AddStreamRequest : IVonageRequest, IHasApplicatio
                 .SerializeObject(new {AddStream = this.StreamId, this.HasAudio, this.HasVideo}), Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<AddStreamRequest> VerifyApplicationId(AddStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<AddStreamRequest> VerifyArchiveId(AddStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(request.ArchiveId));
 
+    [ValidationRule]
     internal static Result<AddStreamRequest> VerifyStreamId(AddStreamRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
 }

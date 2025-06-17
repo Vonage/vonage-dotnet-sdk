@@ -20,15 +20,15 @@ public readonly partial struct SendSignalsRequest : IVonageRequest, IHasApplicat
     /// <summary>
     ///     The signal content.
     /// </summary>
-    [Mandatory(2, nameof(VerifyContentData), nameof(VerifyContentType))]
+    [Mandatory(2)]
     public SignalContent Content { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(1, nameof(VerifySessionId))]
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
@@ -46,15 +46,19 @@ public readonly partial struct SendSignalsRequest : IVonageRequest, IHasApplicat
             Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<SendSignalsRequest> VerifyApplicationId(SendSignalsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<SendSignalsRequest> VerifyContentData(SendSignalsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Data, nameof(SignalContent.Data));
 
+    [ValidationRule]
     internal static Result<SendSignalsRequest> VerifyContentType(SendSignalsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Type, nameof(SignalContent.Type));
 
+    [ValidationRule]
     internal static Result<SendSignalsRequest> VerifySessionId(SendSignalsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }

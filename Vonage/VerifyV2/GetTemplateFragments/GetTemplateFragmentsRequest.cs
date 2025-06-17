@@ -17,7 +17,7 @@ public readonly partial struct GetTemplateFragmentsRequest : IVonageRequest
     /// <summary>
     ///     ID of the template.
     /// </summary>
-    [Mandatory(0, nameof(VerifyTemplateId))]
+    [Mandatory(0)]
     public Guid TemplateId { get; internal init; }
 
     /// <summary>
@@ -49,6 +49,7 @@ public readonly partial struct GetTemplateFragmentsRequest : IVonageRequest
         return parameters;
     }
 
+    [ValidationRule]
     internal static Result<GetTemplateFragmentsRequest> VerifyTemplateId(
         GetTemplateFragmentsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.TemplateId, nameof(request.TemplateId));

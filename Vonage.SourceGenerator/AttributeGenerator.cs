@@ -12,15 +12,15 @@ public class AttributesGenerator : IIncrementalGenerator
     private const string BuilderAttributeSource =
         "[AttributeUsage(AttributeTargets.Struct)] public sealed class BuilderAttribute : Attribute { }";
 
+    private const string ValidationAttributeSource =
+        "[AttributeUsage(AttributeTargets.Method)] public sealed class ValidationRuleAttribute : Attribute { }";
+
     private const string MandatoryAttributeSource = @"
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class MandatoryAttribute : Attribute
 {
-    public string[] ValidationMethods { get; }
     public int Order { get; }
     public MandatoryAttribute(int order) => this.Order = order;
-    public MandatoryAttribute(int order, params string[] validationMethods)
-        : this(order) => this.ValidationMethods = validationMethods;
 }";
 
     private const string OptionalAttributeSource =
@@ -37,12 +37,8 @@ public sealed class OptionalWithDefaultAttribute : Attribute
         Type = type;
         DefaultValue = defaultValue;
     }
-    public OptionalWithDefaultAttribute(string type, string defaultValue, params string[] validationMethods)
-        : this(type, defaultValue) => this.ValidationMethods = validationMethods;
-
     public string Type { get; }
     public string DefaultValue { get; }
-    public string[] ValidationMethods { get; }
 }
 ";
 
@@ -55,6 +51,7 @@ public sealed class OptionalWithDefaultAttribute : Attribute
             builder.AppendLine(BuilderAttributeSource);
             builder.AppendLine(OptionalAttributeSource);
             builder.AppendLine(MandatoryAttributeSource);
+            builder.AppendLine(ValidationAttributeSource);
             ctx.AddSource("Attributes.g.cs", SourceText.From(builder.ToString(), Encoding.UTF8));
         });
     }
