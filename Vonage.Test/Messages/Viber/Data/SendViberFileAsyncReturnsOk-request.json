@@ -4,6 +4,8 @@
   "to": "441234567890",
   "from": "015417543010",
   "client_ref": "abcdefg",
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status",
   "viber_service": {
     "category": "transaction",
     "ttl": 600,
@@ -12,7 +14,5 @@
   "file": {
     "url": "https://example.com/files/",
     "name": "example.pdf"
-  },
-  "webhook_version": "v1",
-  "webhook_url": "https://example.com/status"
+  }
 }

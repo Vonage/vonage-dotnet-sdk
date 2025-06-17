@@ -16,22 +16,27 @@ namespace Vonage.Video.Sessions.GetStreams;
 public readonly partial struct GetStreamsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(1, nameof(VerifySessionId))]
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Get, $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream")
+            .Initialize(HttpMethod.Get, this.GetEndpointPath())
             .Build();
 
+    /// <inheritdoc />
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream";
+
+    [ValidationRule]
     internal static Result<GetStreamsRequest> VerifyApplicationId(GetStreamsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<GetStreamsRequest> VerifySessionId(GetStreamsRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }

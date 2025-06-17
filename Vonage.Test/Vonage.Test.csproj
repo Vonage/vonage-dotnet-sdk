@@ -214,106 +214,22 @@
         <None Update="Data\ShortCodeTests\SendAlert-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Meetings\GetRooms\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\GetRoom\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\GetRecording\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\GetRecordings\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\GetDialNumbers\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\GetThemes\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\GetTheme\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\CreateRoom\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\UpdateRoom\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\CreateTheme\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\CreateTheme\Data\ShouldSerializeWithDefaultValues-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\CreateTheme\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\GetRoomsByTheme\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\UpdateApplication\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\UpdateApplication\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\UpdateTheme\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\UpdateTheme\Data\ShouldSerializeEmpty-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\UpdateTheme\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\UpdateThemeLogo\Data\FinalizeLogo_ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\UpdateThemeLogo\Data\GetLogos_ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\CreateRoom\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\UpdateRoom\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\CreateRoom\Data\ShouldSerializeWithDefaultValues-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Meetings\CreateRoom\Data\ShouldSerializeWithLongTermRoom-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Messenger\Data\SendMessengerAudioAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Messenger\Data\SendMessengerAudioAsyncReturnsOk-response.json">
+        <None Include="Messages\Messenger\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Messenger\Data\SendMessengerFileAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Messenger\Data\SendMessengerFileAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Messenger\Data\SendMessengerImageAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Messenger\Data\SendMessengerImageAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Messenger\Data\SendMessengerTextAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Messenger\Data\SendMessengerTextAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Messenger\Data\SendMessengerVideoAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Messenger\Data\SendMessengerVideoAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Mms\Data\SendMmsAudioAsyncReturnsOk-request.json">
@@ -337,7 +253,7 @@
         <None Include="Messages\Sms\Data\SendSmsAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Sms\Data\SendSmsAsyncReturnsOk-response.json">
+        <None Include="Messages\Sms\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppImageAsyncReturnsOk-request.json">
@@ -364,28 +280,16 @@
         <None Include="Messages\Viber\Data\SendViberImageAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Viber\Data\SendViberImageAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Viber\Data\SendViberTextAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Viber\Data\SendViberTextAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Viber\Data\SendViberVideoAsyncReturnsOk-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Viber\Data\SendViberFileAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Remove="Messages\Viber\Data\SendViberFileAsyncReturnsOk-response.json"/>
-        <None Include="Messages\Viber\Data\SendViberFileAsyncReturnsOk-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\WhatsApp\Data\SendWhatsAppStickerAsyncReturnsOkWithUrlSticker-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -474,9 +378,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Items\CreateItem\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="VerifyV2\VerifyCode\Data\ShouldSerialize-request.json">
@@ -587,48 +488,6 @@
         <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="ProactiveConnect\Items\CreateItem\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Items\GetItem\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Items\UpdateItem\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Items\UpdateItem\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\CreateList\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithMandatoryValues-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithManualDataSource-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithSalesforceDataSource-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\GetList\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\GetLists\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldSerializeWithMandatoryValues-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldSerializeWithManualDataSource-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldSerializeWithSalesforceDataSource-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Update="ProactiveConnect\Items\GetItems\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -638,7 +497,6 @@
         <None Update="ProactiveConnect\Events\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <Folder Include="Messages\Messenger\Data"/>
         <None Update="Data\NccoTests\TestConnectWithAdvancedMachineDetection-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -1215,10 +1073,10 @@
         <None Update="Messages\Mms\Data\SendMmsVideoAsyncReturnsOkWithTtl-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Mms\Data\SendMessageReturnsOk-response.json">
+        <None Update="Messages\Mms\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\WhatsApp\Data\SendMessageReturnsOk-response.json">
+        <None Update="Messages\WhatsApp\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messages\WhatsApp\Data\SendWhatsAppAudioAsyncReturnsOkWithContext-request.json">
@@ -1278,7 +1136,7 @@
         <None Update="Data\NccoTests\TestSipEndpointWithStandardHeaders-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Rcs\Data\SendMessageReturnsOk-response.json">
+        <None Update="Messages\Rcs\Data\SendMessage-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messages\Rcs\Data\SendRcsCustomAsyncReturnsOk-request.json">
@@ -1384,6 +1242,30 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\NccoTests\TestSipEndpointWithUserAndDomain-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Viber\Data\SendMessage-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsCustomAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsFileAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsImageAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsTextAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsVideoAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Data\MessageBase_WithFailover-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Data\MessageBase-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

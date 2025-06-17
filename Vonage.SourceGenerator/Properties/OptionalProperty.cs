@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Vonage.SourceGenerator.Properties;
 
-internal record OptionalProperty(IPropertySymbol Property, params ValidationRule[] ValidationRules) : IOptionalProperty
+internal record OptionalProperty(IPropertySymbol Property) : IOptionalProperty
 {
     private string InnerType =>
         this.Property.Type is INamedTypeSymbol namedType &&

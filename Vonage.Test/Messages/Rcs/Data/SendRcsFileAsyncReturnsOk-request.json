@@ -3,9 +3,6 @@
   "message_type": "file",
   "to": "447700900000",
   "from": "Vonage",
-  "client_ref": "abc123",
-  "webhook_url": "https://example.com/status",
-  "ttl": 600,
   "file": {
     "url": "https://example.com/file.pdf"
   }

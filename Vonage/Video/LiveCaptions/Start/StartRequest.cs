@@ -24,14 +24,14 @@ public readonly partial struct StartRequest : IVonageRequest
     ///     A valid Vonage Video token with role set to Moderator.
     /// </summary>
     [JsonPropertyOrder(1)]
-    [Mandatory(2, nameof(VerifyToken))]
+    [Mandatory(2)]
     public string Token { get; internal init; }
 
     /// <summary>
     ///     Vonage Application UUID
     /// </summary>
     [JsonIgnore]
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <summary>
@@ -39,7 +39,7 @@ public readonly partial struct StartRequest : IVonageRequest
     ///     generate the captions.
     /// </summary>
     [JsonPropertyOrder(0)]
-    [Mandatory(1, nameof(VerifySessionId))]
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public readonly partial struct StartRequest : IVonageRequest
     ///     maximum duration allowed. The minimum value for maxDuration is 300 (300 seconds, or 5 minutes).
     /// </summary>
     [JsonPropertyOrder(3)]
-    [OptionalWithDefault("int", "14400", nameof(VerifyMaximumDuration), nameof(VerifyMinimumDuration))]
+    [OptionalWithDefault("int", "14400")]
     public int MaxDuration { get; internal init; }
 
     /// <summary>
@@ -85,19 +85,24 @@ public readonly partial struct StartRequest : IVonageRequest
         new StringContent(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<StartRequest> VerifyApplicationId(StartRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<StartRequest> VerifySessionId(StartRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 
+    [ValidationRule]
     internal static Result<StartRequest> VerifyToken(StartRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Token, nameof(request.Token));
 
+    [ValidationRule]
     internal static Result<StartRequest> VerifyMinimumDuration(StartRequest request) =>
         InputValidation.VerifyHigherOrEqualThan(request, request.MaxDuration, MinimalMaxDuration,
             nameof(request.MaxDuration));
 
+    [ValidationRule]
     internal static Result<StartRequest> VerifyMaximumDuration(StartRequest request) =>
         InputValidation.VerifyLowerOrEqualThan(request, request.MaxDuration, DefaultMaxDuration,
             nameof(request.MaxDuration));

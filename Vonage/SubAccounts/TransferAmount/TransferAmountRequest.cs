@@ -25,14 +25,14 @@ public readonly partial struct TransferAmountRequest : IVonageRequest
     ///     The amount to be transferred.
     /// </summary>
     [JsonPropertyOrder(2)]
-    [Mandatory(2, nameof(VerifyAmount))]
+    [Mandatory(2)]
     public decimal Amount { get; internal init; }
 
     /// <summary>
     ///     Account the credit is transferred from.
     /// </summary>
     [JsonPropertyOrder(0)]
-    [Mandatory(0, nameof(VerifyFrom))]
+    [Mandatory(0)]
     public string From { get; internal init; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public readonly partial struct TransferAmountRequest : IVonageRequest
     ///     Account the credit is transferred to.
     /// </summary>
     [JsonPropertyOrder(1)]
-    [Mandatory(1, nameof(VerifyTo))]
+    [Mandatory(1)]
     public string To { get; internal init; }
 
     /// <inheritdoc />
@@ -61,12 +61,19 @@ public readonly partial struct TransferAmountRequest : IVonageRequest
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
+    private StringContent GetRequestContent() =>
+        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
+            "application/json");
+
+    [ValidationRule]
     internal static Result<TransferAmountRequest> VerifyAmount(TransferAmountRequest amountRequest) =>
         InputValidation.VerifyNotNegative(amountRequest, amountRequest.Amount, nameof(amountRequest.Amount));
 
+    [ValidationRule]
     internal static Result<TransferAmountRequest> VerifyFrom(TransferAmountRequest amountRequest) =>
         InputValidation.VerifyNotEmpty(amountRequest, amountRequest.From, nameof(amountRequest.From));
 
+    [ValidationRule]
     internal static Result<TransferAmountRequest> VerifyTo(TransferAmountRequest amountRequest) =>
         InputValidation.VerifyNotEmpty(amountRequest, amountRequest.To, nameof(amountRequest.To));
 

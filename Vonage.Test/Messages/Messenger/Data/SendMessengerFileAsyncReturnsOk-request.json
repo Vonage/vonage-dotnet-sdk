@@ -1,5 +1,9 @@
 {
   "channel": "messenger",
+  "messenger": {
+    "category": "response",
+    "tag": "CONFIRMED_EVENT_UPDATE"
+  },
   "message_type": "file",
   "to": "441234567890",
   "from": "015417543010",

@@ -31,7 +31,7 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
     /// <summary>
     ///     Start of the retrieval period.
     /// </summary>
-    [Mandatory(0, nameof(VerifySubAccountKey))]
+    [Mandatory(0)]
     public DateTimeOffset StartDate { get; internal init; }
 
     /// <summary>
@@ -42,9 +42,12 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, UriHelpers.BuildUri($"/accounts/{this.ApiKey}/{this.Endpoint}",
-            this.GetQueryStringParameters()))
+        .Initialize(HttpMethod.Get, this.GetEndpointPath())
         .Build();
+
+    /// <inheritdoc />
+    public string GetEndpointPath() => UriHelpers.BuildUri($"/accounts/{this.ApiKey}/{this.Endpoint}",
+        this.GetQueryStringParameters());
 
     private Dictionary<string, string> GetQueryStringParameters()
     {
@@ -54,6 +57,7 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
         return parameters;
     }
 
+    [ValidationRule]
     internal static Result<GetTransfersRequest> VerifySubAccountKey(GetTransfersRequest request) =>
         request.SubAccountKey.Match(key => InputValidation.VerifyNotEmpty(request, key, nameof(request.SubAccountKey)),
             () => request);

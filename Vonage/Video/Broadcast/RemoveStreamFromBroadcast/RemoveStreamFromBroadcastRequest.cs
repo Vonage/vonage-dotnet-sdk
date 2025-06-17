@@ -21,17 +21,17 @@ public readonly partial struct RemoveStreamFromBroadcastRequest : IVonageRequest
 {
     /// <inheritdoc />
     [JsonIgnore]
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Mandatory(1, nameof(VerifyBroadcastId))]
+    [Mandatory(1)]
     public Guid BroadcastId { get; internal init; }
 
     /// <inheritdoc />
     [JsonPropertyName("removeStream")]
-    [Mandatory(2, nameof(VerifyStreamId))]
+    [Mandatory(2)]
     public Guid StreamId { get; internal init; }
 
     /// <inheritdoc />
@@ -46,14 +46,17 @@ public readonly partial struct RemoveStreamFromBroadcastRequest : IVonageRequest
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<RemoveStreamFromBroadcastRequest> VerifyApplicationId(
         RemoveStreamFromBroadcastRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<RemoveStreamFromBroadcastRequest>
         VerifyBroadcastId(RemoveStreamFromBroadcastRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 
+    [ValidationRule]
     internal static Result<RemoveStreamFromBroadcastRequest> VerifyStreamId(RemoveStreamFromBroadcastRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.StreamId, nameof(request.StreamId));
 }

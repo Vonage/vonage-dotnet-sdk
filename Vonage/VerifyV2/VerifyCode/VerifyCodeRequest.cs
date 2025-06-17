@@ -18,14 +18,14 @@ public readonly partial struct VerifyCodeRequest : IVonageRequest
     /// <summary>
     ///     The code the user supplied.
     /// </summary>
-    [Mandatory(1, nameof(VerifyCodeNotEmpty))]
+    [Mandatory(1)]
     public string Code { get; internal init; }
 
     /// <summary>
     ///     ID of the verify request.
     /// </summary>
     [JsonIgnore]
-    [Mandatory(0, nameof(VerifyRequestIdNotEmpty))]
+    [Mandatory(0)]
     public Guid RequestId { get; internal init; }
 
     /// <inheritdoc />
@@ -39,11 +39,13 @@ public readonly partial struct VerifyCodeRequest : IVonageRequest
             Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<VerifyCodeRequest> VerifyCodeNotEmpty(
         VerifyCodeRequest request) =>
         InputValidation
             .VerifyNotEmpty(request, request.Code, nameof(request.Code));
 
+    [ValidationRule]
     internal static Result<VerifyCodeRequest> VerifyRequestIdNotEmpty(
         VerifyCodeRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.RequestId, nameof(request.RequestId));

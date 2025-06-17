@@ -1,10 +1,8 @@
-﻿#region
-using System;
-using Vonage.ProactiveConnect;
+﻿using System;
+using Vonage.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Users.GetUsers;
 using Xunit;
-#endregion
 
 namespace Vonage.Test.Users.GetUsers;
 
@@ -17,7 +15,7 @@ public class RequestTest
     [InlineData(null, FetchOrder.Descending, null, "/v1/users?page_size=10&order=desc")]
     [InlineData(null, null, "test_name", "/v1/users?page_size=10&order=asc&name=test_name")]
     [InlineData(50, FetchOrder.Descending, "test_name", "/v1/users?page_size=50&order=desc&name=test_name")]
-    public void ReqeustUri_ShouldReturnApiEndpoint(int? pageSize, FetchOrder? order, string name,
+    public void GetEndpointPath_ShouldReturnApiEndpoint(int? pageSize, FetchOrder? order, string name,
         string expectedEndpoint)
     {
         var builder = GetUsersRequest.Build();
@@ -37,7 +35,7 @@ public class RequestTest
         }
 
         builder.Create()
-            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Map(request => request.GetEndpointPath())
             .Should().BeSuccess(expectedEndpoint);
     }
 
@@ -48,11 +46,11 @@ public class RequestTest
     [InlineData(
         "https://api.nexmo.com/v1/users?order=desc&page_size=10&cursor=7EjDNQrAcipmOnc0HCzpQRkhBULzY44ljGUX4lXKyUIVfiZay5pv9wg%3D&name=Test",
         "/v1/users?page_size=10&order=desc&name=Test&cursor=7EjDNQrAcipmOnc0HCzpQRkhBULzY44ljGUX4lXKyUIVfiZay5pv9wg%3D")]
-    public void ReqeustUri_ShouldReturnApiEndpoint_GivenGeneratedFromLink(string uri,
+    public void GetEndpointPath_ShouldReturnApiEndpoint_GivenGeneratedFromLink(string uri,
         string expectedEndpoint) =>
         new GetUsersHalLink(new Uri(uri))
             .BuildRequest()
-            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
+            .Map(request => request.GetEndpointPath())
             .Should()
             .BeSuccess(expectedEndpoint);
 }

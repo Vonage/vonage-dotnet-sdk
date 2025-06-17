@@ -4,9 +4,10 @@ using Vonage.Common.Validation;
 [Builder]
 public readonly partial struct MyRequest : IVonageRequest
 {
-    [Mandatory(0, nameof(VerifyName))]
+    [Mandatory(0)]
     public string Name { get; internal init; }
     
+    [ValidationRule]
     internal static Result<MyRequest> VerifyName(MyRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Name, nameof(request.Name));
 }

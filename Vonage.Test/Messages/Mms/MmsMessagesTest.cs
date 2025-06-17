@@ -14,7 +14,7 @@ namespace Vonage.Test.Messages.Mms;
 [Trait("Category", "Legacy")]
 public class MmsMessagesTest : TestBase
 {
-    private const string ResponseKey = "SendMessageReturnsOk";
+    private const string ResponseKey = "SendMessage";
     private readonly VonageClient client;
     private readonly string expectedResponse;
     private readonly string expectedUri;
@@ -48,14 +48,6 @@ public class MmsMessagesTest : TestBase
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
 
-    private async Task AssertResponse(IMessage request, string expectedRequest)
-    {
-        this.Setup(this.expectedUri, this.expectedResponse, expectedRequest);
-        var response = await this.client.MessagesClient.SendAsync(request);
-        Assert.NotNull(response);
-        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
-    }
-
     [Fact]
     public async Task SendMmsAudioAsyncReturnsOkWithTtl()
     {
@@ -67,6 +59,92 @@ public class MmsMessagesTest : TestBase
             {
                 Url = "https://test.com/me.mp3",
                 Caption = "Sounds I make",
+            },
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+            TimeToLive = 600,
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendMmsContentAsyncReturnsOk()
+    {
+        var request = new MmsContentRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            Content = new[]
+            {
+                new Attachment
+                {
+                    Type = "image",
+                    Url = "https://example.com/image.jpg",
+                    Caption = "See the attached image",
+                },
+            },
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendMmsContentAsyncReturnsOkWithTtl()
+    {
+        var request = new MmsContentRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            Content = new[]
+            {
+                new Attachment
+                {
+                    Type = "image",
+                    Url = "https://example.com/image.jpg",
+                    Caption = "See the attached image",
+                },
+            },
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+            TimeToLive = 600,
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendMmsFileAsyncReturnsOk()
+    {
+        var request = new MmsFileRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            File = new Attachment
+            {
+                Url = "https://example.com/file.pdf",
+                Caption = "Please see the attached file.",
+            },
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendMmsFileAsyncReturnsOkWithTtl()
+    {
+        var request = new MmsFileRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            File = new Attachment
+            {
+                Url = "https://example.com/file.pdf",
+                Caption = "Please see the attached file.",
             },
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
@@ -107,6 +185,37 @@ public class MmsMessagesTest : TestBase
                 Url = "https://test.com/image.png",
                 Caption = "Caption",
             },
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+            TimeToLive = 600,
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendMmsTextAsyncReturnsOk()
+    {
+        var request = new MmsTextRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            Text = "Hello there",
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendMmsTextAsyncReturnsOkWithTtl()
+    {
+        var request = new MmsTextRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            Text = "Hello there",
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
@@ -193,120 +302,11 @@ public class MmsMessagesTest : TestBase
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
 
-    [Fact]
-    public async Task SendMmsTextAsyncReturnsOk()
+    private async Task AssertResponse(IMessage request, string expectedRequest)
     {
-        var request = new MmsTextRequest
-        {
-            To = "441234567890",
-            From = "015417543010",
-            Text = "Hello there",
-            ClientRef = "abcdefg",
-            WebhookUrl = new Uri("https://example.com/status"),
-            WebhookVersion = "v1",
-        };
-        await this.AssertResponse(request, this.helper.GetRequestJson());
-    }
-
-    [Fact]
-    public async Task SendMmsTextAsyncReturnsOkWithTtl()
-    {
-        var request = new MmsTextRequest
-        {
-            To = "441234567890",
-            From = "015417543010",
-            Text = "Hello there",
-            ClientRef = "abcdefg",
-            WebhookUrl = new Uri("https://example.com/status"),
-            WebhookVersion = "v1",
-            TimeToLive = 600,
-        };
-        await this.AssertResponse(request, this.helper.GetRequestJson());
-    }
-
-    [Fact]
-    public async Task SendMmsFileAsyncReturnsOk()
-    {
-        var request = new MmsFileRequest
-        {
-            To = "441234567890",
-            From = "015417543010",
-            File = new Attachment
-            {
-                Url = "https://example.com/file.pdf",
-                Caption = "Please see the attached file.",
-            },
-            ClientRef = "abcdefg",
-            WebhookUrl = new Uri("https://example.com/status"),
-            WebhookVersion = "v1",
-        };
-        await this.AssertResponse(request, this.helper.GetRequestJson());
-    }
-
-    [Fact]
-    public async Task SendMmsFileAsyncReturnsOkWithTtl()
-    {
-        var request = new MmsFileRequest
-        {
-            To = "441234567890",
-            From = "015417543010",
-            File = new Attachment
-            {
-                Url = "https://example.com/file.pdf",
-                Caption = "Please see the attached file.",
-            },
-            ClientRef = "abcdefg",
-            WebhookUrl = new Uri("https://example.com/status"),
-            WebhookVersion = "v1",
-            TimeToLive = 600,
-        };
-        await this.AssertResponse(request, this.helper.GetRequestJson());
-    }
-
-    [Fact]
-    public async Task SendMmsContentAsyncReturnsOk()
-    {
-        var request = new MmsContentRequest
-        {
-            To = "441234567890",
-            From = "015417543010",
-            Content = new[]
-            {
-                new Attachment
-                {
-                    Type = "image",
-                    Url = "https://example.com/image.jpg",
-                    Caption = "See the attached image",
-                },
-            },
-            ClientRef = "abcdefg",
-            WebhookUrl = new Uri("https://example.com/status"),
-            WebhookVersion = "v1",
-        };
-        await this.AssertResponse(request, this.helper.GetRequestJson());
-    }
-
-    [Fact]
-    public async Task SendMmsContentAsyncReturnsOkWithTtl()
-    {
-        var request = new MmsContentRequest
-        {
-            To = "441234567890",
-            From = "015417543010",
-            Content = new[]
-            {
-                new Attachment
-                {
-                    Type = "image",
-                    Url = "https://example.com/image.jpg",
-                    Caption = "See the attached image",
-                },
-            },
-            ClientRef = "abcdefg",
-            WebhookUrl = new Uri("https://example.com/status"),
-            WebhookVersion = "v1",
-            TimeToLive = 600,
-        };
-        await this.AssertResponse(request, this.helper.GetRequestJson());
+        this.Setup(this.expectedUri, this.expectedResponse, expectedRequest);
+        var response = await this.client.MessagesClient.SendAsync(request);
+        Assert.NotNull(response);
+        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
     }
 }

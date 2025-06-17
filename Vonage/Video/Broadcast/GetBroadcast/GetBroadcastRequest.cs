@@ -16,22 +16,27 @@ namespace Vonage.Video.Broadcast.GetBroadcast;
 public readonly partial struct GetBroadcastRequest : IVonageRequest, IHasApplicationId, IHasBroadcastId
 {
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(1, nameof(VerifyBroadcastId))]
+    [Mandatory(1)]
     public Guid BroadcastId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Get, $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}")
+            .Initialize(HttpMethod.Get, this.GetEndpointPath())
             .Build();
 
+    /// <inheritdoc />
+    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/broadcast/{this.BroadcastId}";
+
+    [ValidationRule]
     internal static Result<GetBroadcastRequest> VerifyApplicationId(GetBroadcastRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<GetBroadcastRequest> VerifyBroadcastId(GetBroadcastRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 }

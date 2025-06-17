@@ -28,12 +28,12 @@ public readonly partial struct ChangeBroadcastLayoutRequest : IVonageRequest, IH
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Mandatory(1, nameof(VerifyBroadcastId))]
+    [Mandatory(1)]
     public Guid BroadcastId { get; internal init; }
 
     /// <inheritdoc />
@@ -47,9 +47,11 @@ public readonly partial struct ChangeBroadcastLayoutRequest : IVonageRequest, IH
         new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this.Layout), Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<ChangeBroadcastLayoutRequest> VerifyApplicationId(ChangeBroadcastLayoutRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<ChangeBroadcastLayoutRequest> VerifyBroadcastId(ChangeBroadcastLayoutRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.BroadcastId, nameof(request.BroadcastId));
 }

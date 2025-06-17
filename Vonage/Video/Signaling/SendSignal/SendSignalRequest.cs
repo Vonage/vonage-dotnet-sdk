@@ -20,19 +20,19 @@ public readonly partial struct SendSignalRequest : IVonageRequest, IHasApplicati
     /// <summary>
     ///     The signal content.
     /// </summary>
-    [Mandatory(3, nameof(VerifyContentType), nameof(VerifyContentData))]
+    [Mandatory(3)]
     public SignalContent Content { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(2, nameof(VerifyConnectionId))]
+    [Mandatory(2)]
     public string ConnectionId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(1, nameof(VerifySessionId))]
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
@@ -48,18 +48,23 @@ public readonly partial struct SendSignalRequest : IVonageRequest, IHasApplicati
             Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<SendSignalRequest> VerifyApplicationId(SendSignalRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<SendSignalRequest> VerifyConnectionId(SendSignalRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(request.ConnectionId));
 
+    [ValidationRule]
     internal static Result<SendSignalRequest> VerifyContentData(SendSignalRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Data, nameof(SignalContent.Data));
 
+    [ValidationRule]
     internal static Result<SendSignalRequest> VerifyContentType(SendSignalRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Content.Type, nameof(SignalContent.Type));
 
+    [ValidationRule]
     internal static Result<SendSignalRequest> VerifySessionId(SendSignalRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }

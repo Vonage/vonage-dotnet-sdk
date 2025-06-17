@@ -40,9 +40,8 @@ public class SmsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
         this.Setup(this.expectedUri, expectedResponse, expectedRequest, HttpStatusCode.Unauthorized);
-        var client = this.BuildVonageClient(creds);
+        var client = this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
         var exception =
             await Assert.ThrowsAsync<VonageHttpRequestException>(async () =>
                 await client.MessagesClient.SendAsync(request));
@@ -53,8 +52,6 @@ public class SmsMessagesTest : TestBase
     [Fact]
     public async Task SendSmsAsyncReturnsOk()
     {
-        var expectedResponse = this.helper.GetResponseJson();
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new SmsRequest
         {
             To = "441234567890",
@@ -64,19 +61,12 @@ public class SmsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-        this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-        var client = this.BuildVonageClient(creds);
-        var response = await client.MessagesClient.SendAsync(request);
-        Assert.NotNull(response);
-        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
     [Fact]
     public async Task SendSmsAsyncReturnsOkWithSettings()
     {
-        var expectedResponse = this.helper.GetResponseJson(nameof(this.SendSmsAsyncReturnsOk));
-        var expectedRequest = this.helper.GetRequestJson();
         var request = new SmsRequest
         {
             To = "441234567890",
@@ -88,9 +78,14 @@ public class SmsMessagesTest : TestBase
             TimeToLive = 90000,
             Settings = new OptionalSettings("text", "1107457532145798767", "1101456324675322134"),
         };
-        var creds = Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
+    }
+
+    private async Task VerifySendMessage(string expectedRequest, SmsRequest request)
+    {
+        var expectedResponse = this.helper.GetResponseJson("SendMessage");
         this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-        var client = this.BuildVonageClient(creds);
+        var client = this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
         var response = await client.MessagesClient.SendAsync(request);
         Assert.NotNull(response);
         Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);

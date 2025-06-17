@@ -4,13 +4,13 @@
   "to": "441234567890",
   "from": "015417543010",
   "client_ref": "abcdefg",
-  "image": {
-    "url": "https://test.com/image.png",
-    "caption": "Testing image caption"
-  },
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status",
   "context": {
     "message_uuid": "a1b2c3d4a1b2c3d4"
   },
-  "webhook_version": "v1",
-  "webhook_url": "https://example.com/status"
+  "image": {
+    "url": "https://test.com/image.png",
+    "caption": "Testing image caption"
+  }
 }

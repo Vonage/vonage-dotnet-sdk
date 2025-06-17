@@ -26,7 +26,7 @@ public readonly partial struct CreateSubAccountRequest : IVonageRequest
     ///     Name of the subaccount.
     /// </summary>
     [JsonPropertyOrder(0)]
-    [Mandatory(0, nameof(VerifyName), nameof(VerifyNameLength))]
+    [Mandatory(0)]
     public string Name { get; internal init; }
 
     /// <summary>
@@ -56,9 +56,15 @@ public readonly partial struct CreateSubAccountRequest : IVonageRequest
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
+    private StringContent GetRequestContent() =>
+        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
+            "application/json");
+
+    [ValidationRule]
     internal static Result<CreateSubAccountRequest> VerifyName(CreateSubAccountRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Name, nameof(request.Name));
 
+    [ValidationRule]
     internal static Result<CreateSubAccountRequest> VerifyNameLength(CreateSubAccountRequest request) =>
         InputValidation
             .VerifyLengthLowerOrEqualThan(request, request.Name, NameMaxLength, nameof(request.Name));

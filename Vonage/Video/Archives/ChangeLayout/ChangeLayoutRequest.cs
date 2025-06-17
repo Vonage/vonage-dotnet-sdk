@@ -25,11 +25,11 @@ public readonly partial struct ChangeLayoutRequest : IVonageRequest, IHasApplica
     public Layout Layout { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(1, nameof(VerifyArchiveId))]
+    [Mandatory(1)]
     public Guid ArchiveId { get; internal init; }
 
     /// <inheritdoc />
@@ -43,9 +43,11 @@ public readonly partial struct ChangeLayoutRequest : IVonageRequest, IHasApplica
         new StringContent(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this.Layout), Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<ChangeLayoutRequest> VerifyArchiveId(ChangeLayoutRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ArchiveId, nameof(request.ArchiveId));
 
+    [ValidationRule]
     internal static Result<ChangeLayoutRequest> VerifyApplicationId(ChangeLayoutRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 }

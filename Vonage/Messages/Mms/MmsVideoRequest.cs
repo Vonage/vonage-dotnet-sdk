@@ -4,12 +4,20 @@ using System.Text.Json.Serialization;
 
 namespace Vonage.Messages.Mms;
 
+/// <summary>
+/// </summary>
 public class MmsVideoRequest : MessageRequestBase
 {
+    /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.MMS;
 
+    /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Video;
-    [JsonPropertyOrder(8)] public CaptionedAttachment Video { get; set; }
+
+    /// <summary>
+    /// </summary>
+    [JsonPropertyOrder(8)]
+    public CaptionedAttachment Video { get; set; }
 
     /// <summary>
     ///     Time-To-Live (how long a message should exist before it is delivered successfully) in seconds. If a message is not

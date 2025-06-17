@@ -4,6 +4,11 @@
   "to": "441234567890",
   "from": "015417543010",
   "client_ref": "abcdefg",
+  "webhook_version": "v1",
+  "webhook_url": "https://example.com/status",
+  "context": {
+    "message_uuid": "a1b2c3d4a1b2c3d4"
+  },
   "custom": {
     "type": "interactive",
     "interactive": {
@@ -19,10 +24,5 @@
         "product_retailer_id": "product_1"
       }
     }
-  },
-  "context": {
-    "message_uuid": "a1b2c3d4a1b2c3d4"
-  },
-  "webhook_version": "v1",
-  "webhook_url": "https://example.com/status"
+  }
 }

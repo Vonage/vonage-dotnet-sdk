@@ -24,14 +24,14 @@ public readonly partial struct CreateTemplateFragmentRequest : IVonageRequest
     ///     ${time-limit-unit}
     /// </summary>
     [JsonPropertyOrder(2)]
-    [Mandatory(1, nameof(VerifyText))]
+    [Mandatory(1)]
     public string Text { get; internal init; }
 
     /// <summary>
     ///     ID of the template.
     /// </summary>
     [JsonIgnore]
-    [Mandatory(0, nameof(VerifyTemplate))]
+    [Mandatory(0)]
     public Guid TemplateId { get; internal init; }
 
     /// <summary>
@@ -46,7 +46,7 @@ public readonly partial struct CreateTemplateFragmentRequest : IVonageRequest
     /// </summary>
     [JsonPropertyOrder(0)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<VerificationChannel>))]
-    [Mandatory(3, nameof(VerifyChannel))]
+    [Mandatory(3)]
     public VerificationChannel Channel { get; internal init; }
 
     /// <inheritdoc />
@@ -59,14 +59,20 @@ public readonly partial struct CreateTemplateFragmentRequest : IVonageRequest
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
+    private static bool IsChannelSupported(VerificationChannel channel) =>
+        new[] {VerificationChannel.Sms, VerificationChannel.Voice}.Contains(channel);
+
+    [ValidationRule]
     internal static Result<CreateTemplateFragmentRequest> VerifyText(
         CreateTemplateFragmentRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Text, nameof(request.Text));
 
+    [ValidationRule]
     internal static Result<CreateTemplateFragmentRequest> VerifyTemplate(
         CreateTemplateFragmentRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.TemplateId, nameof(request.TemplateId));
 
+    [ValidationRule]
     internal static Result<CreateTemplateFragmentRequest> VerifyChannel(
         CreateTemplateFragmentRequest request) =>
         IsChannelSupported(request.Channel)
@@ -74,7 +80,4 @@ public readonly partial struct CreateTemplateFragmentRequest : IVonageRequest
             : Result<CreateTemplateFragmentRequest>.FromFailure(
                 ResultFailure.FromErrorMessage(
                     $"{nameof(request.Channel)} must be one of {VerificationChannel.Sms}, {VerificationChannel.Voice} or {VerificationChannel.Email}."));
-
-    internal static bool IsChannelSupported(VerificationChannel channel) =>
-        new[] {VerificationChannel.Sms, VerificationChannel.Voice}.Contains(channel);
 }

@@ -16,7 +16,7 @@ public readonly partial struct CreateTemplateRequest : IVonageRequest
     /// <summary>
     ///     Reference name for template.
     /// </summary>
-    [Mandatory(0, nameof(VerifyNameNotEmpty))]
+    [Mandatory(0)]
     public string Name { get; internal init; }
 
     /// <inheritdoc />
@@ -29,6 +29,7 @@ public readonly partial struct CreateTemplateRequest : IVonageRequest
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
+    [ValidationRule]
     internal static Result<CreateTemplateRequest> VerifyNameNotEmpty(
         CreateTemplateRequest request) =>
         InputValidation

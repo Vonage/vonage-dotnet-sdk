@@ -17,30 +17,36 @@ public readonly partial struct DisconnectConnectionRequest : IVonageRequest, IHa
     IHasConnectionId
 {
     /// <inheritdoc />
-    [Mandatory(0, nameof(VerifyApplicationId))]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(2, nameof(VerifyConnectionId))]
+    [Mandatory(2)]
     public string ConnectionId { get; internal init; }
 
     /// <inheritdoc />
-    [Mandatory(1, nameof(VerifySessionId))]
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Delete,
-                $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}")
+            .Initialize(HttpMethod.Delete, this.GetEndpointPath())
             .Build();
 
+    /// <inheritdoc />
+    public string GetEndpointPath() =>
+        $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/connection/{this.ConnectionId}";
+
+    [ValidationRule]
     internal static Result<DisconnectConnectionRequest> VerifyApplicationId(DisconnectConnectionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
 
+    [ValidationRule]
     internal static Result<DisconnectConnectionRequest> VerifyConnectionId(DisconnectConnectionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ConnectionId, nameof(request.ConnectionId));
 
+    [ValidationRule]
     internal static Result<DisconnectConnectionRequest> VerifySessionId(DisconnectConnectionRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 }

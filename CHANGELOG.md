@@ -1,4 +1,87 @@
 # Changelog
+## [v7.22.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.22.0) (2025-06-12)
+
+### Documentation
+
+- Generate changelog for v7.21.0 ([4b08e07](https://github.com/Vonage/vonage-dotnet-sdk/commit/4b08e0733c94b7dfb566284bb81ca1784590a85e))
+
+- Update readme on breaking changes for next major version ([734fca9](https://github.com/Vonage/vonage-dotnet-sdk/commit/734fca99648868330300a94e1d5ef9d545bffa7c))
+
+- Bump version to v7.22.0 ([ca9b22a](https://github.com/Vonage/vonage-dotnet-sdk/commit/ca9b22a2fbfb966ef04da704dafefdb351ea4589))
+
+
+### Features
+
+- Support failover in Messages ([1f4fa4b](https://github.com/Vonage/vonage-dotnet-sdk/commit/1f4fa4b306c147f489e7a13da14d97ea852b7d0f))
+
+
+### Refactoring
+
+- Unify how properties are reused in Messages ([bf4bd07](https://github.com/Vonage/vonage-dotnet-sdk/commit/bf4bd07dc3c264fc641edbe31d98f2436f36b71f))
+
+
+## [v7.21.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.21.0) (2025-06-02)
+
+### Documentation
+
+- Generate changelog for v7.20.1 ([2af7759](https://github.com/Vonage/vonage-dotnet-sdk/commit/2af7759a2285d488bdd0c203c255cb7ef1dae5d4))
+
+- Bump version to v7.21.0 ([b5bcc8f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b5bcc8f4dd2a03a45a436b9763899dfc691c8d6b))
+
+
+### Features
+
+- Add missing video webhook types in common webhooks ([f22d30a](https://github.com/Vonage/vonage-dotnet-sdk/commit/f22d30a05bb8a7aed72dbb2b1f8e5f86c7220c78))
+
+
+## [v7.20.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.1) (2025-05-30)
+
+### Bug Fixes
+
+- Ignore ttl for RCS Messages when default ([1a7f6fe](https://github.com/Vonage/vonage-dotnet-sdk/commit/1a7f6fed46f030e5cd198db6d749df283fc0427c))
+
+
+### Build updates
+
+- Add slack notifications (#608) ([87576ff](https://github.com/Vonage/vonage-dotnet-sdk/commit/87576ffadfaa6b35825d6568c069e9b4a459390d))
+
+
+### Documentation
+
+- Generate changelog for v7.20.0 ([456ba7c](https://github.com/Vonage/vonage-dotnet-sdk/commit/456ba7ca26e95eb8dbda798089121a9288a0f515))
+
+- Bump version to v7.20.1 ([9ccbddc](https://github.com/Vonage/vonage-dotnet-sdk/commit/9ccbddce37979ec29588c6e8516e2f256f4d8206))
+
+- Generate changelog for v7.20.1 ([fb0976a](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb0976a85357f78ae424b7349bdb7ae84cd4fe6b))
+
+
+### Refactoring
+
+- Reduce duplication in Result with Try ([cc0fc62](https://github.com/Vonage/vonage-dotnet-sdk/commit/cc0fc6293f2f875c96b65266378166588d6b5bad))
+
+- Reduce duplication in RequestBuilderTest for Start LiveCaptions ([9580a83](https://github.com/Vonage/vonage-dotnet-sdk/commit/9580a838116010d9b8bc60aedfd8c62c1874c640))
+
+- Reduce duplication in RequestBuilderTest for Start AudioConnector ([584ee21](https://github.com/Vonage/vonage-dotnet-sdk/commit/584ee21160420decc28a0b80055c1abe6f30441d))
+
+- Reduce duplication in RequestBuilderTest for Start ExperienceComposer ([ced6c62](https://github.com/Vonage/vonage-dotnet-sdk/commit/ced6c62d8832ceb2f5ea5ebe856b13e3e9a764cf))
+
+- Reduce duplication in RequestBuilderTest for GetEvents Conversations ([86eb3cb](https://github.com/Vonage/vonage-dotnet-sdk/commit/86eb3cbdbb1a24e8d6c206da8a58b9847975c353))
+
+- Clean tests in Messages ([0b9d774](https://github.com/Vonage/vonage-dotnet-sdk/commit/0b9d774ec92d6512a0f8f274898741fd32bc9dd0))
+
+- Clean Messenger Messages ([abb5323](https://github.com/Vonage/vonage-dotnet-sdk/commit/abb5323eb68bbfc0bc591ab8d2081ca18ad97e46))
+
+- Clear warnings in MMS Messages ([4ca7a6b](https://github.com/Vonage/vonage-dotnet-sdk/commit/4ca7a6bc9d5b83e7bc5b1648068ee9a514eb2980))
+
+
+### Reverts
+
+- Revert "build: add slack notifications (#608)"
+
+This reverts commit 87576ffadfaa6b35825d6568c069e9b4a459390d.
+ ([bc73867](https://github.com/Vonage/vonage-dotnet-sdk/commit/bc7386706a23401d32311d2ccb4a520743f4887a))
+
+
 ## [v7.20.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.0) (2025-05-26)
 
 ### Documentation
