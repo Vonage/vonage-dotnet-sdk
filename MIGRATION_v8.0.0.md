@@ -21,6 +21,7 @@ convention.
 
 * Video.CreateArchiveRequest
 * Video.StartBroadcastRequest
+* Video.ChangeStreamLayoutRequest
 
 #### Remove GetEndpointPath() on Vonage Requests
 

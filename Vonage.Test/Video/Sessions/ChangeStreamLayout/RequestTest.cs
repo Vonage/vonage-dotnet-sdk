@@ -1,9 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sessions.ChangeStreamLayout;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sessions.ChangeStreamLayout;
 
@@ -30,7 +32,7 @@ public class RequestTest
         ChangeStreamLayoutRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
-            .WithItem(this.item1)
+            .WithItems(new[] {this.item1})
             .Create()
             .Map(request => request.GetEndpointPath())
             .Should()

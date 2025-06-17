@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sessions.ChangeStreamLayout;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sessions.ChangeStreamLayout;
 
@@ -29,8 +31,11 @@ public class E2ETest : E2EBase
                 .Build()
                 .WithApplicationId(Guid.Parse("5e782e3b-9f63-426f-bd2e-b7d618d546cd"))
                 .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
-                .WithItem(new ChangeStreamLayoutRequest.LayoutItem("8b732909-0a06-46a2-8ea8-074e64d43422",
-                    new[] {"full"}))
+                .WithItems(new[]
+                {
+                    new ChangeStreamLayoutRequest.LayoutItem("8b732909-0a06-46a2-8ea8-074e64d43422",
+                        new[] {"full"}),
+                })
                 .Create())
             .Should()
             .BeSuccessAsync();
