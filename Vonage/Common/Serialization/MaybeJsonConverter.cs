@@ -1,8 +1,11 @@
-﻿using System;
+﻿#region
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Vonage.Common.Monads;
 using Vonage.Conversations;
+using Vonage.Server;
+#endregion
 
 namespace Vonage.Common.Serialization;
 
@@ -13,8 +16,11 @@ namespace Vonage.Common.Serialization;
 public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
 {
     protected JsonSerializer Serializer = new JsonSerializer()
-        .WithConverter(new EnumDescriptionJsonConverter<ChannelType>());
-    
+        .WithConverter(new EnumDescriptionJsonConverter<ChannelType>())
+        .WithConverter(new EnumDescriptionJsonConverter<OutputMode>())
+        .WithConverter(new EnumDescriptionJsonConverter<StreamMode>())
+        .WithConverter(new EnumDescriptionJsonConverter<LayoutType>());
+
     /// <inheritdoc />
     public override Maybe<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -22,7 +28,7 @@ public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
         return this.Serializer.DeserializeObject<T>(jsonDoc.RootElement.GetRawText())
             .Match(Maybe<T>.Some, _ => Maybe<T>.None);
     }
-    
+
     /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, Maybe<T> value, JsonSerializerOptions options) =>
         value
