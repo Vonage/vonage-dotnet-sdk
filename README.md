@@ -17,8 +17,8 @@ a [Vonage account](https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_me
 first.
 
 * [Installation](#installation)
-    * [Next major version v8.0.0](#next-major-version-v800)
     * [Migration guides](#migration-guides)
+        * [Upgrading from v7.x.x to v8.0.0](#upgrading-from-v7xx-to-v800)
         * [Upgrading from v6.x.x to v7.0.0](#upgrading-from-v6xx-to-v700)
         * [Upgrading from v5.x.x to v6.0.0](#upgrading-from-v5xx-to-v600)
         * [Migrating from OpenTok for Video API](#migrating-from-opentok-for-video-api)
@@ -42,29 +42,11 @@ first.
 
 ## Installation
 
-### Next major version v8.0.0
-
-#### Removing Obsolete APIs and members
-
-* Meetings API
-* Proactive Connect API
-* `fraud_score` in NumberInsights V2
-
-#### Unnecessary libraries
-
-* `Handy.DotNETCore-Compatibility.ColorTranslations` will get removed, as it was only use on Meetings API.
-
-#### Remove explicit builder implementation (where possible)
-
-* Rely on source generators as much as possible. This will, in some cases, change the method name of some builder
-  methods to strictly follow the `.With{PropertyName}` convention.
-
-#### Remove GetEndpointPath() on Vonage Requests
-
-* This method has been transformed into an implementation details. It shouldn't have been accessed from external code
-  anyway.
-
 ### Migration guides
+
+#### Upgrading from v7.x.x to v8.0.0
+
+Please see the dedicated [migration guide](MIGRATION_v8.0.0.md).
 
 #### Upgrading from v6.x.x to v7.0.0
 
