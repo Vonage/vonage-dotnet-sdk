@@ -92,16 +92,6 @@ public readonly partial struct StartBroadcastRequest : IVonageRequest, IHasAppli
     [Mandatory(1)]
     public string SessionId { get; internal init; }
 
-    /// <summary>
-    ///     Vonage Application UUID.
-    /// </summary>
-    [JsonIgnore]
-    public Guid ApplicationId { get; internal init; }
-
-    /// <inheritdoc />
-    [JsonPropertyOrder(0)]
-    public string SessionId { get; internal init; }
-
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder

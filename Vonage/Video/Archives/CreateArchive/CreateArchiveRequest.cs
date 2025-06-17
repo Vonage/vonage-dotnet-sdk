@@ -129,12 +129,6 @@ public readonly partial struct CreateArchiveRequest : IVonageRequest, IHasApplic
     [Optional]
     public Maybe<int> QuantizationParameter { get; internal init; }
 
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new CreateArchiveRequestBuilder();
-
     /// <inheritdoc />
     [JsonIgnore]
     [Mandatory(0)]

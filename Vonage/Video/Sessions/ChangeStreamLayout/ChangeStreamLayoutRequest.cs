@@ -33,12 +33,6 @@ public readonly partial struct ChangeStreamLayoutRequest : IVonageRequest, IHasA
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
-    public Guid ApplicationId { get; internal init; }
-
-    /// <inheritdoc />
-    public string SessionId { get; internal init; }
-
-    /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
             .Initialize(HttpMethod.Put, $"/v2/project/{this.ApplicationId}/session/{this.SessionId}/stream")
