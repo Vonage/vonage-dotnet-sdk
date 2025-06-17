@@ -380,9 +380,6 @@
         <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="ProactiveConnect\Items\CreateItem\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="VerifyV2\VerifyCode\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -489,48 +486,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Items\CreateItem\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Items\GetItem\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Items\UpdateItem\Data\ShouldSerialize-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Items\UpdateItem\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\CreateList\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithMandatoryValues-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithManualDataSource-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\CreateList\Data\ShouldSerializeWithSalesforceDataSource-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\GetList\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\GetLists\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldDeserialize200-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldSerializeWithMandatoryValues-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldSerializeWithManualDataSource-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ProactiveConnect\Lists\UpdateList\Data\ShouldSerializeWithSalesforceDataSource-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="ProactiveConnect\Items\GetItems\Data\ShouldDeserialize200-response.json">

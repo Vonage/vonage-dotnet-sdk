@@ -15,7 +15,6 @@ using Vonage.NumberInsightV2;
 using Vonage.Numbers;
 using Vonage.NumberVerification;
 using Vonage.Pricing;
-using Vonage.ProactiveConnect;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
@@ -79,12 +78,6 @@ public class VonageClient
     public INumberVerificationClient NumberVerificationClient { get; private set; }
 
     public IPricingClient PricingClient { get; private set; }
-
-    /// <summary>
-    ///     Exposes ProactiveConnect features.
-    /// </summary>
-    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
-    public IProactiveConnectClient ProactiveConnectClient { get; private set; }
 
     public IRedactClient RedactClient { get; private set; }
 
@@ -169,7 +162,6 @@ public class VonageClient
         this.NumberInsightV2Client = new NumberInsightV2Client(nexmoConfiguration);
         this.UsersClient = new UsersClient(nexmoConfiguration);
         this.ConversationsClient = new ConversationsClient(nexmoConfiguration);
-        this.ProactiveConnectClient = new ProactiveConnectClient(euConfiguration);
         this.SimSwapClient = new SimSwapClient(euConfiguration);
         this.NumberVerificationClient = new NumberVerificationClient(euConfiguration, oidcConfiguration);
         this.VideoClient = new VideoClient(videoConfiguration);

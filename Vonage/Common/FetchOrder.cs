@@ -1,6 +1,6 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace Vonage.ProactiveConnect;
+namespace Vonage.Common;
 
 /// <summary>
 ///     Defines the ordering when fetching data.
