@@ -10,7 +10,13 @@ namespace Vonage.SourceGenerator;
 public class AttributesGenerator : IIncrementalGenerator
 {
     private const string BuilderAttributeSource =
-        "[AttributeUsage(AttributeTargets.Struct)] public sealed class BuilderAttribute : Attribute { }";
+        @"
+[AttributeUsage(AttributeTargets.Struct)] public sealed class BuilderAttribute : Attribute 
+{
+    public string[] Usings { get; }
+    public BuilderAttribute(params string[] usings) => this.Usings = usings;
+}
+";
 
     private const string ValidationAttributeSource =
         "[AttributeUsage(AttributeTargets.Method)] public sealed class ValidationRuleAttribute : Attribute { }";

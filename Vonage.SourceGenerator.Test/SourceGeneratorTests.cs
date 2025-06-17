@@ -20,6 +20,7 @@ public class BuilderGeneratorTests
     [InlineData("OptionalOnly")]
     [InlineData("OptionalBoolean")]
     [InlineData("OptionalWithDefault")]
+    [InlineData("CustomUsing")]
     public void VerifyCodeGeneration(string sample)
     {
         var inputCode = File.ReadAllText($"Files/{sample}_Input.txt").Trim();

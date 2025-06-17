@@ -1,4 +1,5 @@
 ﻿#region
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Vonage.SourceGenerator.Builders;
@@ -24,7 +25,7 @@ internal class CodeGenerator(
 
     public string GenerateCode()
     {
-        var code = string.Concat(GenerateUsingStatements(),
+        var code = string.Concat(this.GenerateUsingStatements(),
             this.GenerateNamespace(),
             this.GenerateInterfaceDeclarations(),
             this.ExtendTypeWithPartial(),
@@ -86,12 +87,23 @@ internal class CodeGenerator(
             ? string.Empty
             : $"namespace {type.ContainingNamespace.ToDisplayString()};\n\n";
 
-    private static string GenerateUsingStatements() => """
-                                                       using Vonage.Common.Client;
-                                                       using Vonage.Common.Monads;
-                                                       using Vonage.Common.Validation;
+    private string GenerateUsingStatements()
+    {
+        var builder = new StringBuilder();
+        builder.AppendLine("using Vonage.Common.Client;");
+        builder.AppendLine("using Vonage.Common.Monads;");
+        builder.AppendLine("using Vonage.Common.Validation;");
+        var parameters = type.GetAttributes()
+            .First(attr => attr.AttributeClass!.Name == "BuilderAttribute")
+            .ConstructorArguments;
+        if (parameters.Any())
+        {
+            parameters.First().Values.Select(value => value.Value?.ToString()).ToList()
+                .ForEach(value => builder.AppendLine($"using {value};"));
+        }
 
-                                                       """;
+        return builder.ToString();
+    }
 
     private string[] GetAllInterfaces() =>
         this.OrderedMandatoryProperties.Select(p => $"IBuilderFor{p.Property.Name}")

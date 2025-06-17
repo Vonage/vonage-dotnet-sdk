@@ -30,13 +30,10 @@ internal record OptionalWithDefaultProperty(
 
     private static string ExtractType(AttributeData attribute) => attribute.ConstructorArguments[0].Value?.ToString();
 
-    private string ParseDefaultValue()
-    {
-        return this.Type switch
+    private string ParseDefaultValue() =>
+        this.Type switch
         {
-            "int" => this.DefaultValue,
             "string" => $"\"{this.DefaultValue}\"",
-            _ => "null",
+            _ => this.DefaultValue,
         };
-    }
 }
