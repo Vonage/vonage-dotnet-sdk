@@ -7,6 +7,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Common.Validation;
 using Vonage.Serialization;
 using Vonage.Server;
 #endregion
@@ -16,13 +17,20 @@ namespace Vonage.Video.Archives.CreateArchive;
 /// <summary>
 ///     Represents a request to creating an archive.
 /// </summary>
-public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId, IHasSessionId
+[Builder("Vonage.Server")]
+public readonly partial struct CreateArchiveRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
+    private const int MinimumQuantizationParameter = 15;
+    private const int MaximumQuantizationParameter = 40;
+    private const int MaximumMaxBitrate = 6000000;
+    private const int MinimumMaxBitrate = 1000000;
+
     /// <summary>
     ///     Whether the archive will record audio (true, the default) or not (false). If you set both hasAudio and hasVideo to
     ///     false, the call to this method results in an error.
     /// </summary>
     [JsonPropertyOrder(1)]
+    [OptionalBoolean(true, "DisableAudio")]
     public bool HasAudio { get; internal init; }
 
     /// <summary>
@@ -30,13 +38,17 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     ///     false, the call to this method results in an error.
     /// </summary>
     [JsonPropertyOrder(2)]
+    [OptionalBoolean(true, "DisableVideo")]
     public bool HasVideo { get; internal init; }
 
     /// <summary>
     ///     Represents the archive's layout.
     /// </summary>
     [JsonPropertyOrder(3)]
-    public Layout Layout { get; internal init; }
+    [JsonConverter(typeof(MaybeJsonConverter<Layout>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [Optional]
+    public Maybe<Layout> Layout { get; internal init; }
 
     /// <summary>
     ///     The name of the archive (for your own identification).
@@ -44,6 +56,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     [JsonPropertyOrder(4)]
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [Optional]
     public Maybe<string> Name { get; internal init; }
 
     /// <summary>
@@ -51,7 +64,10 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     ///     ("individual").
     /// </summary>
     [JsonPropertyOrder(5)]
-    public OutputMode OutputMode { get; internal init; }
+    [JsonConverter(typeof(MaybeJsonConverter<OutputMode>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [OptionalWithDefault("OutputMode", "OutputMode.Composed")]
+    public Maybe<OutputMode> OutputMode { get; internal init; }
 
     /// <summary>
     ///     The resolution of the archive, either "640x480" (SD landscape, the default), "1280x720" (HD landscape), "1920x1080"
@@ -63,6 +79,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     [JsonPropertyOrder(6)]
     [JsonConverter(typeof(MaybeJsonConverter<RenderResolution>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [Optional]
     public Maybe<RenderResolution> Resolution { get; internal init; }
 
     /// <summary>
@@ -73,7 +90,10 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     ///     automatic and manual modes, the archive composer includes streams based on stream prioritization rules.
     /// </summary>
     [JsonPropertyOrder(7)]
-    public StreamMode StreamMode { get; internal init; }
+    [JsonConverter(typeof(MaybeJsonConverter<StreamMode>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [OptionalWithDefault("StreamMode", "StreamMode.Auto")]
+    public Maybe<StreamMode> StreamMode { get; internal init; }
 
     /// <summary>
     ///     Set this to support recording multiple archives for the same session simultaneously. Set this to a unique string
@@ -84,6 +104,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     [JsonPropertyOrder(8)]
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [Optional]
     public Maybe<string> MultiArchiveTag { get; internal init; }
 
     /// <summary>
@@ -94,6 +115,7 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     [JsonPropertyOrder(9)]
     [JsonConverter(typeof(MaybeJsonConverter<int>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [Optional]
     public Maybe<int> MaxBitrate { get; internal init; }
 
     /// <summary>
@@ -104,20 +126,17 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     [JsonPropertyOrder(10)]
     [JsonConverter(typeof(MaybeJsonConverter<int>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [Optional]
     public Maybe<int> QuantizationParameter { get; internal init; }
-
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new CreateArchiveRequestBuilder();
 
     /// <inheritdoc />
     [JsonIgnore]
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
     [JsonPropertyOrder(0)]
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
@@ -130,4 +149,40 @@ public readonly struct CreateArchiveRequest : IVonageRequest, IHasApplicationId,
     private StringContent GetRequestContent() =>
         new StringContent(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
+
+    [ValidationRule]
+    internal static Result<CreateArchiveRequest> VerifyApplicationId(CreateArchiveRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    [ValidationRule]
+    internal static Result<CreateArchiveRequest> VerifySessionId(CreateArchiveRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
+
+    [ValidationRule]
+    internal static Result<CreateArchiveRequest> VerifyMinimumMaxBitrate(CreateArchiveRequest request) =>
+        request.MaxBitrate.Match(
+            some => InputValidation.VerifyHigherOrEqualThan(request, some, MinimumMaxBitrate,
+                nameof(request.MaxBitrate)),
+            () => request);
+
+    [ValidationRule]
+    internal static Result<CreateArchiveRequest> VerifyMaximumMaxBitrate(CreateArchiveRequest request) =>
+        request.MaxBitrate.Match(
+            some => InputValidation.VerifyLowerOrEqualThan(request, some, MaximumMaxBitrate,
+                nameof(request.MaxBitrate)),
+            () => request);
+
+    [ValidationRule]
+    internal static Result<CreateArchiveRequest> VerifyMinimumQuantizationParameter(CreateArchiveRequest request) =>
+        request.QuantizationParameter.Match(
+            some => InputValidation.VerifyHigherOrEqualThan(request, some, MinimumQuantizationParameter,
+                nameof(request.QuantizationParameter)),
+            () => request);
+
+    [ValidationRule]
+    internal static Result<CreateArchiveRequest> VerifyMaximumQuantizationParameter(CreateArchiveRequest request) =>
+        request.QuantizationParameter.Match(
+            some => InputValidation.VerifyLowerOrEqualThan(request, some, MaximumQuantizationParameter,
+                nameof(request.QuantizationParameter)),
+            () => request);
 }

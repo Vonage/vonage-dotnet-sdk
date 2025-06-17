@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Collections.Generic;
 using AutoFixture;
@@ -5,6 +6,7 @@ using FluentAssertions;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sessions.ChangeStreamLayout;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sessions.ChangeStreamLayout;
 
@@ -31,7 +33,7 @@ public class RequestBuilderTest
         ChangeStreamLayoutRequest.Build()
             .WithApplicationId(Guid.Empty)
             .WithSessionId(this.sessionId)
-            .WithItem(this.item1)
+            .WithItems(new[] {this.item1})
             .Create()
             .Should()
             .BeParsingFailure("ApplicationId cannot be empty.");
@@ -44,7 +46,7 @@ public class RequestBuilderTest
         ChangeStreamLayoutRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(value)
-            .WithItem(this.item1)
+            .WithItems(new[] {this.item1})
             .Create()
             .Should()
             .BeParsingFailure("SessionId cannot be null or whitespace.");
@@ -54,8 +56,7 @@ public class RequestBuilderTest
         ChangeStreamLayoutRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
-            .WithItem(this.item1)
-            .WithItem(this.item2)
+            .WithItems(new[] {this.item1, this.item2})
             .Create()
             .Should()
             .BeSuccess(request =>

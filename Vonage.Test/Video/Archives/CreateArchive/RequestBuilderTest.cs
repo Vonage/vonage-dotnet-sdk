@@ -40,7 +40,7 @@ public class RequestBuilderTest
         CreateArchiveRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
-            .WithArchiveLayout(this.layout)
+            .WithLayout(this.layout)
             .Create()
             .Should()
             .BeSuccess(request => request.OutputMode.Should().Be(this.outputMode));
@@ -70,7 +70,7 @@ public class RequestBuilderTest
         CreateArchiveRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
-            .WithRenderResolution(this.resolution)
+            .WithResolution(this.resolution)
             .Create()
             .Should()
             .BeSuccess(request => request.Resolution.Should().Be(this.resolution));
@@ -84,6 +84,36 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeSuccess(request => request.StreamMode.Should().Be(this.streamMode));
+
+    [Fact]
+    public void Build_ShouldHaveEmptyMaxBitrate_GivenDefault() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .Create()
+            .Map(request => request.MaxBitrate)
+            .Should()
+            .BeSuccess(Maybe<int>.None);
+
+    [Fact]
+    public void Build_ShouldHaveEmptyQuantizationParameter_GivenDefault() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .Create()
+            .Map(request => request.QuantizationParameter)
+            .Should()
+            .BeSuccess(Maybe<int>.None);
+
+    [Fact]
+    public void Build_ShouldHaveNoMultiArchiveTag_GivenDefault() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .Create()
+            .Map(request => request.MultiArchiveTag)
+            .Should()
+            .BeSuccess(Maybe<string>.None);
 
     [Fact]
     public void Build_ShouldReturnDisabledAudio_WhenUsingDisableAudio() =>
@@ -113,6 +143,46 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("ApplicationId cannot be empty.");
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenMaxBitrateIsHigherThanMaximum() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithMaxBitrate(6000001)
+            .Create()
+            .Should()
+            .BeParsingFailure("MaxBitrate cannot be higher than 6000000.");
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenMaxBitrateIsLowerThanMinimum() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithMaxBitrate(999999)
+            .Create()
+            .Should()
+            .BeParsingFailure("MaxBitrate cannot be lower than 1000000.");
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenQuantizationParameterIsHigherThanMaximum() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithQuantizationParameter(41)
+            .Create()
+            .Should()
+            .BeParsingFailure("QuantizationParameter cannot be higher than 40.");
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenQuantizationParameterIsLowerThanMinimum() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId)
+            .WithQuantizationParameter(14)
+            .Create()
+            .Should()
+            .BeParsingFailure("QuantizationParameter cannot be lower than 15.");
 
     [Theory]
     [InlineData("")]
@@ -146,37 +216,6 @@ public class RequestBuilderTest
                 request.Layout.Should().Be(default(Layout));
             });
 
-    [Fact]
-    public void Build_ShouldHaveNoMultiArchiveTag_GivenDefault() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
-            .Create()
-            .Map(request => request.MultiArchiveTag)
-            .Should()
-            .BeSuccess(Maybe<string>.None);
-
-    [Fact]
-    public void Build_ShouldSetMultiArchiveTag() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
-            .WithMultiArchiveTag("custom-tag")
-            .Create()
-            .Map(request => request.MultiArchiveTag)
-            .Should()
-            .BeSuccess("custom-tag");
-
-    [Fact]
-    public void Build_ShouldHaveEmptyMaxBitrate_GivenDefault() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
-            .Create()
-            .Map(request => request.MaxBitrate)
-            .Should()
-            .BeSuccess(Maybe<int>.None);
-
     [Theory]
     [InlineData(1000000)]
     [InlineData(6000000)]
@@ -191,14 +230,15 @@ public class RequestBuilderTest
             .BeSuccess(value);
 
     [Fact]
-    public void Build_ShouldHaveEmptyQuantizationParameter_GivenDefault() =>
+    public void Build_ShouldSetMultiArchiveTag() =>
         CreateArchiveRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
+            .WithMultiArchiveTag("custom-tag")
             .Create()
-            .Map(request => request.QuantizationParameter)
+            .Map(request => request.MultiArchiveTag)
             .Should()
-            .BeSuccess(Maybe<int>.None);
+            .BeSuccess("custom-tag");
 
     [Theory]
     [InlineData(15)]
@@ -212,44 +252,4 @@ public class RequestBuilderTest
             .Map(request => request.QuantizationParameter)
             .Should()
             .BeSuccess(value);
-
-    [Fact]
-    public void Build_ShouldReturnFailure_GivenMaxBitrateIsLowerThanMinimum() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
-            .WithMaxBitrate(999999)
-            .Create()
-            .Should()
-            .BeParsingFailure("MaxBitrate cannot be lower than 1000000.");
-
-    [Fact]
-    public void Build_ShouldReturnFailure_GivenMaxBitrateIsHigherThanMaximum() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
-            .WithMaxBitrate(6000001)
-            .Create()
-            .Should()
-            .BeParsingFailure("MaxBitrate cannot be higher than 6000000.");
-
-    [Fact]
-    public void Build_ShouldReturnFailure_GivenQuantizationParameterIsLowerThanMinimum() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
-            .WithQuantizationParameter(14)
-            .Create()
-            .Should()
-            .BeParsingFailure("QuantizationParameter cannot be lower than 15.");
-
-    [Fact]
-    public void Build_ShouldReturnFailure_GivenQuantizationParameterIsHigherThanMaximum() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
-            .WithQuantizationParameter(41)
-            .Create()
-            .Should()
-            .BeParsingFailure("QuantizationParameter cannot be higher than 40.");
 }

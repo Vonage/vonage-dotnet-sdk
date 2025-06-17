@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Client.Builders;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
 using Vonage.Serialization;
 #endregion
 
@@ -13,23 +15,21 @@ namespace Vonage.Video.Sessions.ChangeStreamLayout;
 /// <summary>
 ///     Represents a request to change a stream layout.
 /// </summary>
-public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicationId, IHasSessionId
+[Builder]
+public readonly partial struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <summary>
     ///     The layout items.
     /// </summary>
+    [Mandatory(2)]
     public IEnumerable<LayoutItem> Items { get; internal init; }
 
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForApplicationId Build() => new ChangeStreamLayoutRequestBuilder();
-
     /// <inheritdoc />
+    [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <inheritdoc />
+    [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <inheritdoc />
@@ -40,9 +40,16 @@ public readonly struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicati
             .Build();
 
     private StringContent GetRequestContent() =>
-        new(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(new {this.Items}),
-            Encoding.UTF8,
+        new StringContent(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(new {this.Items}), Encoding.UTF8,
             "application/json");
+
+    [ValidationRule]
+    internal static Result<ChangeStreamLayoutRequest> VerifyApplicationId(ChangeStreamLayoutRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    [ValidationRule]
+    internal static Result<ChangeStreamLayoutRequest> VerifySessionId(ChangeStreamLayoutRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
 
     /// <summary>
     ///     Represents a request to change a stream with layout classes.

@@ -32,7 +32,7 @@ public class RequestTest
         ChangeStreamLayoutRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
-            .WithItem(this.item1)
+            .WithItems(new[] {this.item1})
             .Create()
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
