@@ -56,10 +56,6 @@ public readonly partial struct CreateSubAccountRequest : IVonageRequest
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
-    private StringContent GetRequestContent() =>
-        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
-            "application/json");
-
     [ValidationRule]
     internal static Result<CreateSubAccountRequest> VerifyName(CreateSubAccountRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Name, nameof(request.Name));

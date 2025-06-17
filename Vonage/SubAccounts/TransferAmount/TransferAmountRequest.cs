@@ -61,10 +61,6 @@ public readonly partial struct TransferAmountRequest : IVonageRequest
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
-    private StringContent GetRequestContent() =>
-        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
-            "application/json");
-
     [ValidationRule]
     internal static Result<TransferAmountRequest> VerifyAmount(TransferAmountRequest amountRequest) =>
         InputValidation.VerifyNotNegative(amountRequest, amountRequest.Amount, nameof(amountRequest.Amount));

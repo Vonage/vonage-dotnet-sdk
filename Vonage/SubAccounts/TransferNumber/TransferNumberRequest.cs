@@ -59,10 +59,6 @@ public readonly partial struct TransferNumberRequest : IVonageRequest
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
 
-    private StringContent GetRequestContent() =>
-        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
-            "application/json");
-
     [ValidationRule]
     internal static Result<TransferNumberRequest> VerifyCountry(TransferNumberRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Country, nameof(request.Country))
