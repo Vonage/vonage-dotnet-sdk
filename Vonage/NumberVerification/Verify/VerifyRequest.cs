@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common;
@@ -7,6 +8,7 @@ using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.NumberVerification.Authenticate;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.NumberVerification.Verify;
 
@@ -15,19 +17,6 @@ namespace Vonage.NumberVerification.Verify;
 /// </summary>
 public readonly struct VerifyRequest : IVonageRequest
 {
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
-        .WithContent(this.GetRequestContent())
-        .Build();
-
-    private StringContent GetRequestContent() =>
-        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
-            "application/json");
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => "camara/number-verification/v031/verify";
-
     /// <summary>
     ///     Subscriber number in E.164 format (starting with country code). Optionally prefixed with '+'.
     /// </summary>
@@ -37,9 +26,6 @@ public readonly struct VerifyRequest : IVonageRequest
     public PhoneNumber PhoneNumber { get; internal init; }
 
     private static string Scope => "dpv:FraudPreventionAndDetection#number-verification-verify-read";
-
-    internal Result<AuthenticateRequest> BuildAuthenticationRequest() =>
-        AuthenticateRequest.Parse(this.PhoneNumber.NumberWithInternationalIndicator, Scope);
 
     /// <summary>
     ///     Parses the input into an VerifyRequest.
@@ -51,4 +37,17 @@ public readonly struct VerifyRequest : IVonageRequest
         {
             PhoneNumber = phoneNumber,
         });
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Post, "camara/number-verification/v031/verify")
+        .WithContent(this.GetRequestContent())
+        .Build();
+
+    private StringContent GetRequestContent() =>
+        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
+            "application/json");
+
+    internal Result<AuthenticateRequest> BuildAuthenticationRequest() =>
+        AuthenticateRequest.Parse(this.PhoneNumber.NumberWithInternationalIndicator, Scope);
 }

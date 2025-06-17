@@ -1,6 +1,5 @@
 #region
 using System;
-using System.IO.Abstractions;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
@@ -9,7 +8,6 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Conversations;
 using Vonage.Conversions;
-using Vonage.Meetings;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
@@ -17,7 +15,6 @@ using Vonage.NumberInsightV2;
 using Vonage.Numbers;
 using Vonage.NumberVerification;
 using Vonage.Pricing;
-using Vonage.ProactiveConnect;
 using Vonage.Redaction;
 using Vonage.Request;
 using Vonage.ShortCodes;
@@ -37,28 +34,9 @@ namespace Vonage;
 /// </summary>
 public class VonageClient
 {
-    private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
-    private readonly ITimeProvider timeProvider = new TimeProvider();
     private Credentials credentials;
-
-    /// <summary>
-    ///     Constructor for VonageClient.
-    /// </summary>
-    /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
-    public VonageClient(Credentials credentials) => this.Credentials = credentials;
-
-    internal VonageClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
-    {
-        this.timeProvider = timeProvider;
-        this.configuration = configuration;
-        this.Credentials = credentials;
-    }
-
-    internal VonageClient(Configuration configuration)
-    {
-        this.configuration = configuration;
-        this.Credentials = configuration.BuildCredentials();
-    }
+    private readonly ITimeProvider timeProvider = new TimeProvider();
+    private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
 
     public IAccountClient AccountClient { get; private set; }
 
@@ -86,12 +64,6 @@ public class VonageClient
         }
     }
 
-    /// <summary>
-    ///     Exposes Meetings features.
-    /// </summary>
-    [Obsolete("Meetings API is being sunset. It will be removed from the SDK on the next major version.")]
-    public IMeetingsClient MeetingsClient { get; private set; }
-
     public IMessagesClient MessagesClient { get; private set; }
 
     public INumberInsightClient NumberInsightClient { get; private set; }
@@ -103,17 +75,15 @@ public class VonageClient
 
     public INumbersClient NumbersClient { get; private set; }
 
-    public IPricingClient PricingClient { get; private set; }
+    public INumberVerificationClient NumberVerificationClient { get; private set; }
 
-    /// <summary>
-    ///     Exposes ProactiveConnect features.
-    /// </summary>
-    [Obsolete("Proactive Connect API is being sunset. It will be removed from the SDK on the next major version.")]
-    public IProactiveConnectClient ProactiveConnectClient { get; private set; }
+    public IPricingClient PricingClient { get; private set; }
 
     public IRedactClient RedactClient { get; private set; }
 
     public IShortCodesClient ShortCodesClient { get; private set; }
+
+    public ISimSwapClient SimSwapClient { get; private set; }
 
     public ISmsClient SmsClient { get; private set; }
 
@@ -141,9 +111,24 @@ public class VonageClient
 
     public IVoiceClient VoiceClient { get; private set; }
 
-    public ISimSwapClient SimSwapClient { get; private set; }
+    /// <summary>
+    ///     Constructor for VonageClient.
+    /// </summary>
+    /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
+    public VonageClient(Credentials credentials) => this.Credentials = credentials;
 
-    public INumberVerificationClient NumberVerificationClient { get; private set; }
+    internal VonageClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
+    {
+        this.timeProvider = timeProvider;
+        this.configuration = configuration;
+        this.Credentials = credentials;
+    }
+
+    internal VonageClient(Configuration configuration)
+    {
+        this.configuration = configuration;
+        this.Credentials = configuration.BuildCredentials();
+    }
 
     private VonageHttpClientConfiguration BuildConfiguration(HttpClient client) =>
         new VonageHttpClientConfiguration(client, this.Credentials.GetAuthenticationHeader(),
@@ -177,8 +162,6 @@ public class VonageClient
         this.NumberInsightV2Client = new NumberInsightV2Client(nexmoConfiguration);
         this.UsersClient = new UsersClient(nexmoConfiguration);
         this.ConversationsClient = new ConversationsClient(nexmoConfiguration);
-        this.MeetingsClient = new MeetingsClient(euConfiguration, new FileSystem());
-        this.ProactiveConnectClient = new ProactiveConnectClient(euConfiguration);
         this.SimSwapClient = new SimSwapClient(euConfiguration);
         this.NumberVerificationClient = new NumberVerificationClient(euConfiguration, oidcConfiguration);
         this.VideoClient = new VideoClient(videoConfiguration);

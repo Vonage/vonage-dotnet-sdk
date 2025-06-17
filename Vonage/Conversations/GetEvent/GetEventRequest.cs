@@ -1,7 +1,9 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.Conversations.GetEvent;
 
@@ -18,14 +20,6 @@ public readonly struct GetEventRequest : IVonageRequest
     /// </summary>
     public string EventId { get; private init; }
 
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
-        .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v1/conversations/{this.ConversationId}/events/{this.EventId}";
-
     /// <summary>
     ///     Parses the input into a GetEventRequest.
     /// </summary>
@@ -37,6 +31,11 @@ public readonly struct GetEventRequest : IVonageRequest
             .FromSuccess(new GetEventRequest {ConversationId = conversationId, EventId = eventId})
             .Map(InputEvaluation<GetEventRequest>.Evaluate)
             .Bind(evaluation => evaluation.WithRules(VerifyConversationId, VerifyEventId));
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Get, $"/v1/conversations/{this.ConversationId}/events/{this.EventId}")
+        .Build();
 
     private static Result<GetEventRequest> VerifyConversationId(GetEventRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.ConversationId, nameof(ConversationId));

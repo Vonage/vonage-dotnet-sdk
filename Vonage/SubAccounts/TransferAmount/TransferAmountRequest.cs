@@ -53,12 +53,9 @@ public readonly partial struct TransferAmountRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
+        .Initialize(HttpMethod.Post, $"/accounts/{this.ApiKey}/{this.Endpoint}")
         .WithContent(this.GetRequestContent())
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.ApiKey}/{this.Endpoint}";
 
     private StringContent GetRequestContent() =>
         new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,

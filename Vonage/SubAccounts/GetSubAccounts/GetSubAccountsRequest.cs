@@ -1,5 +1,7 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using Vonage.Common.Client;
+#endregion
 
 namespace Vonage.SubAccounts.GetSubAccounts;
 
@@ -11,11 +13,8 @@ internal readonly struct GetSubAccountsRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Get, this.GetEndpointPath())
+        .Initialize(HttpMethod.Get, $"/accounts/{this.apiKey}/subaccounts")
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/accounts/{this.apiKey}/subaccounts";
 
     internal static GetSubAccountsRequest Build(string apiKey) => new(apiKey);
 }

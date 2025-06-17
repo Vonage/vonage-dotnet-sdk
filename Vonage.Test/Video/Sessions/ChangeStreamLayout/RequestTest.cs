@@ -28,13 +28,13 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         ChangeStreamLayoutRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
             .WithItems(new[] {this.item1})
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/stream");
 }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sessions.GetStreams;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sessions.GetStreams;
 
@@ -20,12 +22,12 @@ public class RequestTest
     }
 
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         GetStreamsRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess($"/v2/project/{this.applicationId}/session/{this.sessionId}/stream");
 }

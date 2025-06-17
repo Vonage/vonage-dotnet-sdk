@@ -92,15 +92,22 @@ public readonly partial struct StartBroadcastRequest : IVonageRequest, IHasAppli
     [Mandatory(1)]
     public string SessionId { get; internal init; }
 
+    /// <summary>
+    ///     Vonage Application UUID.
+    /// </summary>
+    [JsonIgnore]
+    public Guid ApplicationId { get; internal init; }
+
+    /// <inheritdoc />
+    [JsonPropertyOrder(0)]
+    public string SessionId { get; internal init; }
+
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(HttpMethod.Post, $"/v2/project/{this.ApplicationId}/broadcast")
             .WithContent(this.GetRequestContent())
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/broadcast";
 
     private StringContent GetRequestContent() =>
         new StringContent(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,

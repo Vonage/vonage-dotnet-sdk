@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿#region
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -6,31 +7,13 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Conversations.CreateEvent;
 
 /// <inheritdoc />
 public readonly struct CreateEventRequest : IVonageRequest
 {
-    /// <summary>
-    ///     Initializes a builder.
-    /// </summary>
-    /// <returns>The builder.</returns>
-    public static IBuilderForConversationId Build() => new CreateEventRequestBuilder();
-
-    /// <inheritdoc />
-    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
-        .WithContent(this.GetRequestContent())
-        .Build();
-
-    private StringContent GetRequestContent() =>
-        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
-            "application/json");
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v1/conversations/{this.ConversationId}/events";
-
     /// <summary>
     ///     The conversation Id.
     /// </summary>
@@ -56,4 +39,20 @@ public readonly struct CreateEventRequest : IVonageRequest
     /// </summary>
     [JsonPropertyOrder(2)]
     public JsonElement Body { get; internal init; }
+
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForConversationId Build() => new CreateEventRequestBuilder();
+
+    /// <inheritdoc />
+    public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
+        .Initialize(HttpMethod.Post, $"/v1/conversations/{this.ConversationId}/events")
+        .WithContent(this.GetRequestContent())
+        .Build();
+
+    private StringContent GetRequestContent() =>
+        new StringContent(JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(this), Encoding.UTF8,
+            "application/json");
 }

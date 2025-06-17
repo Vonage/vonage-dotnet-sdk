@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -6,6 +7,7 @@ using System.Text;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Conversations.CreateConversation;
 
@@ -50,12 +52,9 @@ public readonly struct CreateConversationRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, this.GetEndpointPath())
+        .Initialize(HttpMethod.Post, "/v1/conversations")
         .WithContent(this.GetRequestContent())
         .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => "/v1/conversations";
 
     private StringContent GetRequestContent()
     {

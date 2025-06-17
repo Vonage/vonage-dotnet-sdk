@@ -129,6 +129,12 @@ public readonly partial struct CreateArchiveRequest : IVonageRequest, IHasApplic
     [Optional]
     public Maybe<int> QuantizationParameter { get; internal init; }
 
+    /// <summary>
+    ///     Initializes a builder.
+    /// </summary>
+    /// <returns>The builder.</returns>
+    public static IBuilderForApplicationId Build() => new CreateArchiveRequestBuilder();
+
     /// <inheritdoc />
     [JsonIgnore]
     [Mandatory(0)]
@@ -142,12 +148,9 @@ public readonly partial struct CreateArchiveRequest : IVonageRequest, IHasApplic
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() =>
         VonageRequestBuilder
-            .Initialize(HttpMethod.Post, this.GetEndpointPath())
+            .Initialize(HttpMethod.Post, $"/v2/project/{this.ApplicationId}/archive")
             .WithContent(this.GetRequestContent())
             .Build();
-
-    /// <inheritdoc />
-    public string GetEndpointPath() => $"/v2/project/{this.ApplicationId}/archive";
 
     private StringContent GetRequestContent() =>
         new StringContent(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,

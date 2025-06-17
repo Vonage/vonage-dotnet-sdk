@@ -1,6 +1,8 @@
-﻿using Vonage.Conversations.CreateConversation;
+﻿#region
+using Vonage.Conversations.CreateConversation;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.CreateConversation;
 
@@ -8,10 +10,10 @@ namespace Vonage.Test.Conversations.CreateConversation;
 public class RequestTest
 {
     [Fact]
-    public void GetEndpointPath_ShouldReturnApiEndpoint() =>
+    public void ReqeustUri_ShouldReturnApiEndpoint() =>
         CreateConversationRequest.Build()
             .Create()
-            .Map(request => request.GetEndpointPath())
+            .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/conversations");
 }
