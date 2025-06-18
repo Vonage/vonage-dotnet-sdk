@@ -377,14 +377,12 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Alerts API              | General Availability |     ✅      |
 | Application API         | General Availability |     ✅      |
 | Conversations API       | General Availability |     ✅      |
-| Meetings API            |  Sunset (Obsolete)   |     ❌      |
 | Messages API            | General Availability |     ✅      |
 | Number Insight API      | General Availability |     ✅      |
 | Number Insight V2 API   | General Availability |     ✅      |
 | Number Management API   | General Availability |     ✅      |
 | Number Verification API | General Availability |     ✅      |
 | Pricing API             | General Availability |     ✅      |
-| Proactive Connect API   |  Sunset (Obsolete)   |     ❌      |
 | Redact API              |  Developer Preview   |     ✅      |
 | Reports API             |         Beta         |     ❌      |
 | SimSwap API             | General Availability |     ✅      |
