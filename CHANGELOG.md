@@ -1,4 +1,20 @@
 # Changelog
+## [v8.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.1.0) (2025-06-19)
+
+### Build updates
+
+- Freeze .NET dependencies to v8 ([2836ac8](https://github.com/Vonage/vonage-dotnet-sdk/commit/2836ac8861a754f8eca9e3b760eea86a47fd16de))
+
+
+### Documentation
+
+- Generate changelog for v8.0.0 ([30809af](https://github.com/Vonage/vonage-dotnet-sdk/commit/30809af1cfe71d58a8f62c21a0ae571de7244367))
+
+- Remove Meetings and Proactive connect from supported APIs ([d3d024e](https://github.com/Vonage/vonage-dotnet-sdk/commit/d3d024ee1f07ee1bb54bf97841cc843a8b73e52d))
+
+- Bump version to v8.1.0 ([4c2f3da](https://github.com/Vonage/vonage-dotnet-sdk/commit/4c2f3da4cf16db9674b680255e010e975b68c905))
+
+
 ## [v8.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.0) (2025-06-17)
 
 ### Bug Fixes
