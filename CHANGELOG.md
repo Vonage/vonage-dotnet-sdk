@@ -1,4 +1,23 @@
 # Changelog
+## [v8.0.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.2) (2025-06-25)
+
+### Bug Fixes
+
+- Dependency requirements ([dfdaa7a](https://github.com/Vonage/vonage-dotnet-sdk/commit/dfdaa7aa3155310225aa9f9a4a010eab9166bf25))
+
+
+### Build updates
+
+- Update dependencies ([d6707c3](https://github.com/Vonage/vonage-dotnet-sdk/commit/d6707c35c263513b19229693a171ce76dfab4579))
+
+
+### Documentation
+
+- Generate changelog for v8.0.1 ([857d891](https://github.com/Vonage/vonage-dotnet-sdk/commit/857d891477af26b9a7a840b1da86388681f6c970))
+
+- Bump version to v8.0.2 ([d245fb0](https://github.com/Vonage/vonage-dotnet-sdk/commit/d245fb0aeb6e9bf143bd09bed261f6a5f2cb657d))
+
+
 ## [v8.0.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.1) (2025-06-19)
 
 ### Build updates
