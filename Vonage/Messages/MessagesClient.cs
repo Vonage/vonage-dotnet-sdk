@@ -46,7 +46,7 @@ public class MessagesClient : IMessagesClient
             HttpMethod.Post, this.uri,
             message,
             authType,
-            value => JsonSerializerBuilder.BuildWithSnakeCase().SerializeObject(value),
+            _ => message.Serialize(),
             value => JsonSerializerBuilder.BuildWithSnakeCase().DeserializeObject<MessagesResponse>(value)
                 .GetSuccessUnsafe());
     }

@@ -68,4 +68,10 @@ public interface IMessage
     /// </summary>
     [JsonPropertyOrder(99)]
     List<IMessage> Failover { get; set; }
+
+    /// <summary>
+    ///     Serializes the message.
+    /// </summary>
+    /// <returns>The serialized message.</returns>
+    string Serialize();
 }

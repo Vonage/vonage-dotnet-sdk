@@ -16,22 +16,22 @@ namespace Vonage.Common;
 /// </summary>
 public class JsonSerializer : IJsonSerializer
 {
-    private readonly JsonSerializerOptions settings;
+    internal readonly JsonSerializerOptions Settings;
 
     /// <summary>
     ///     Default constructor.
     /// </summary>
     public JsonSerializer()
     {
-        this.settings = new JsonSerializerOptions
+        this.Settings = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
-        this.settings.Converters.Add(new PhoneNumberJsonConverter());
-        this.settings.Converters.Add(new EmailJsonConverter());
-        this.settings.Converters.Add(new EnumDescriptionJsonConverter<RenderResolution>());
+        this.Settings.Converters.Add(new PhoneNumberJsonConverter());
+        this.Settings.Converters.Add(new EmailJsonConverter());
+        this.Settings.Converters.Add(new EnumDescriptionJsonConverter<RenderResolution>());
     }
 
     /// <summary>
@@ -39,10 +39,10 @@ public class JsonSerializer : IJsonSerializer
     /// </summary>
     /// <param name="namingPolicy">The naming policy.</param>
     public JsonSerializer(JsonNamingPolicy namingPolicy) : this() =>
-        this.settings.PropertyNamingPolicy = namingPolicy;
+        this.Settings.PropertyNamingPolicy = namingPolicy;
 
     public JsonSerializer(JsonSerializerOptions options) : this() =>
-        this.settings = options;
+        this.Settings = options;
 
     /// <summary>
     ///     Add the specified converter to the current instance.
@@ -51,7 +51,7 @@ public class JsonSerializer : IJsonSerializer
     /// <returns>The serializer.</returns>
     public JsonSerializer WithConverter(JsonConverter converter)
     {
-        this.settings.Converters.Add(converter);
+        this.Settings.Converters.Add(converter);
         return this;
     }
 
@@ -60,7 +60,7 @@ public class JsonSerializer : IJsonSerializer
     {
         try
         {
-            var serializedObject = System.Text.Json.JsonSerializer.Deserialize<T>(serializedValue, this.settings);
+            var serializedObject = System.Text.Json.JsonSerializer.Deserialize<T>(serializedValue, this.Settings);
             return Result<T>.FromSuccess(serializedObject);
         }
         catch (Exception)
@@ -70,5 +70,5 @@ public class JsonSerializer : IJsonSerializer
     }
 
     /// <inheritdoc />
-    public string SerializeObject<T>(T value) => System.Text.Json.JsonSerializer.Serialize(value, this.settings);
+    public string SerializeObject<T>(T value) => System.Text.Json.JsonSerializer.Serialize(value, this.Settings);
 }

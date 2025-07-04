@@ -15,6 +15,13 @@
       "client_ref": "abcdefg",
       "webhook_version": "v1",
       "webhook_url": "https://example.com/status"
+    },
+    {
+      "channel": "sms",
+      "message_type": "text",
+      "text": "Hello World!",
+      "to": "441234567890",
+      "from": "015417543010"
     }
   ]
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Vonage.Messages;
+using Vonage.Messages.Sms;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Xunit;
@@ -27,7 +28,7 @@ public class MessageRequestBaseTest
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
         };
-        this.VerifySerializedMessage(request, this.helper.GetRequestJson());
+        request.Serialize().Should().Be(this.helper.GetRequestJson());
     }
 
     [Fact]
@@ -50,16 +51,16 @@ public class MessageRequestBaseTest
                     WebhookUrl = new Uri("https://example.com/status"),
                     WebhookVersion = "v1",
                 },
+                new SmsRequest
+                {
+                    From = "015417543010",
+                    To = "441234567890",
+                    Text = "Hello World!",
+                },
             },
         };
-        this.VerifySerializedMessage(request, this.helper.GetRequestJson());
+        request.Serialize().Should().Be(this.helper.GetRequestJson());
     }
-
-    private void VerifySerializedMessage(TestMessageBase request, string expected) =>
-        JsonSerializerBuilder.BuildWithSnakeCase()
-            .SerializeObject(request)
-            .Should()
-            .Be(expected);
 }
 
 internal class TestMessageBase : MessageRequestBase
