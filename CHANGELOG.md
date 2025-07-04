@@ -1,4 +1,18 @@
 # Changelog
+## [v8.0.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.3) (2025-07-04)
+
+### Bug Fixes
+
+- Failover messages serialized as IMessage (polymorphic serialization limitation with System.Text.Json) ([e14dfd6](https://github.com/Vonage/vonage-dotnet-sdk/commit/e14dfd69ed9f1cddf79ea7be7856f91a8182cd87))
+
+
+### Documentation
+
+- Generate changelog for v8.0.2 ([83c2051](https://github.com/Vonage/vonage-dotnet-sdk/commit/83c205196ebfbde55c898e388c1160b58244c51b))
+
+- Bump version to v8.0.3 ([41c5d09](https://github.com/Vonage/vonage-dotnet-sdk/commit/41c5d09110450969a80815a756b44676ecff0645))
+
+
 ## [v8.0.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.2) (2025-06-25)
 
 ### Bug Fixes
