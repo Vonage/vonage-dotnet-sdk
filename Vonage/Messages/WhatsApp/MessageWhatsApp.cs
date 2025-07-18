@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿#region
+using System.Text.Json.Serialization;
+#endregion
 
 namespace Vonage.Messages.WhatsApp;
 
@@ -22,4 +24,10 @@ public struct MessageWhatsApp
     /// </summary>
     [JsonPropertyOrder(0)]
     public string Policy { get; set; }
+
+    /// <summary>
+    ///     Category for marketing template messages
+    /// </summary>
+    [JsonPropertyOrder(2)]
+    public string Category { get; set; }
 }

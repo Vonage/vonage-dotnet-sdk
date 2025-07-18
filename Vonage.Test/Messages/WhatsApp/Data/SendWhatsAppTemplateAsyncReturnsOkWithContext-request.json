@@ -11,7 +11,8 @@
   },
   "whatsapp": {
     "policy": "deterministic",
-    "locale": "en-GB"
+    "locale": "en-GB",
+    "category": "marketing"
   },
   "template": {
     "name": "Amazing template",
