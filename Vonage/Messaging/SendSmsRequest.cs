@@ -1,5 +1,7 @@
+#region
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+#endregion
 
 namespace Vonage.Messaging;
 
@@ -108,4 +110,10 @@ public class SendSmsRequest
     /// </summary>
     [JsonProperty("udh", Order = 9)]
     public string Udh { get; set; }
+
+    /// <summary>
+    ///     Indicates whether Fraud Defender protection is skipped.
+    /// </summary>
+    [JsonProperty("trusted-number", Order = 15)]
+    public bool? TrustedNumber { get; set; }
 }

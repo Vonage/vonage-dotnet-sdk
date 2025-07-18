@@ -59,7 +59,7 @@ namespace Vonage.Test
             var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={WebUtility.UrlEncode("Hello World!")}" +
                                          $"&ttl=900000&status-report-req=true&callback={WebUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
                                          "&type=text&body=638265253311&udh=06050415811581&protocol-id=127" +
-                                         $"&client-ref=my-personal-reference&account-ref=customer1234&entity-id=testEntity&content-id=testcontent&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
+                                         $"&client-ref=my-personal-reference&account-ref=customer1234&entity-id=testEntity&content-id=testcontent&trusted-number=true&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
             var request = new SendSmsRequest
             {
                 AccountRef = "customer1234",
@@ -77,6 +77,7 @@ namespace Vonage.Test
                 Udh = "06050415811581",
                 ContentId = "testcontent",
                 EntityId = "testEntity",
+                TrustedNumber = true,
             };
             var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
             this.Setup(expectedUri, expectedResponse, expectedRequestContent);
