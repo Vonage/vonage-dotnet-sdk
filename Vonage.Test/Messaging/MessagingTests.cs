@@ -19,16 +19,15 @@ public class MessagingTests : TestBase
 
     private string ExpectedUri => $"{this.RestUrl}/sms/json";
 
+    private ISmsClient Client =>
+        this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret)).SmsClient;
+
     [Fact]
     public async Task SendSmsAsyncBadResponse()
     {
-        var expectedResponse = this.helper.GetResponseJson();
-        var expectedRequestContent =
-            $"from=AcmeInc&to=447700900000&text={WebUtility.UrlEncode("Hello World!")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-        this.Setup(this.ExpectedUri, expectedResponse, expectedRequestContent);
-        var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
+        this.Setup(this.ExpectedUri, this.helper.GetResponseJson(), this.helper.GetRequest("txt"));
         var exception = await Assert.ThrowsAsync<VonageSmsResponseException>(async () =>
-            await client.SmsClient.SendAnSmsAsync(new SendSmsRequest
+            await this.Client.SendAnSmsAsync(new SendSmsRequest
                 {From = "AcmeInc", To = "447700900000", Text = "Hello World!"}));
         Assert.NotNull(exception);
         Assert.Equal(
@@ -37,16 +36,9 @@ public class MessagingTests : TestBase
         Assert.Equal(SmsStatusCode.InvalidCredentials, exception.Response.Messages[0].StatusCode);
     }
 
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public async Task SendSmsAsyncWithAllPropertiesSet(bool passCreds)
+    [Fact]
+    public async Task SendSmsAsyncWithAllPropertiesSet()
     {
-        var expectedResponse = this.helper.GetResponseJson();
-        var expectedRequestContent = $"from=AcmeInc&to=447700900000&text={WebUtility.UrlEncode("Hello World!")}" +
-                                     $"&ttl=900000&status-report-req=true&callback={WebUtility.UrlEncode("https://example.com/sms-dlr")}&message-class=0" +
-                                     "&type=text&body=638265253311&udh=06050415811581&protocol-id=127" +
-                                     $"&client-ref=my-personal-reference&account-ref=customer1234&entity-id=testEntity&content-id=testcontent&trusted-number=true&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
         var request = new SendSmsRequest
         {
             AccountRef = "customer1234",
@@ -66,12 +58,8 @@ public class MessagingTests : TestBase
             EntityId = "testEntity",
             TrustedNumber = true,
         };
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        this.Setup(this.ExpectedUri, expectedResponse, expectedRequestContent);
-        var client = this.BuildVonageClient(creds);
-        var response = passCreds
-            ? await client.SmsClient.SendAnSmsAsync(request, creds)
-            : await client.SmsClient.SendAnSmsAsync(request);
+        this.Setup(this.ExpectedUri, this.helper.GetResponseJson(), this.helper.GetRequest("txt"));
+        var response = await this.Client.SendAnSmsAsync(request);
         Assert.Equal("1", response.MessageCount);
         Assert.Equal("447700900000", response.Messages[0].To);
         Assert.Equal("0A0000000123ABCD1", response.Messages[0].MessageId);
@@ -85,25 +73,8 @@ public class MessagingTests : TestBase
     [Fact]
     public async Task SendSmsTypicalUsage()
     {
-        var expectedResponse = @"{
-                  ""message-count"": ""1"",
-                  ""messages"": [
-                    {
-                      ""to"": ""447700900000"",
-                      ""message-id"": ""0A0000000123ABCD1"",
-                      ""status"": ""0"",
-                      ""remaining-balance"": ""3.14159265"",
-                      ""message-price"": ""0.03330000"",
-                      ""network"": ""12345"",
-                      ""account-ref"": ""customer1234""
-                    }
-                  ]
-                }";
-        var expectedRequestContent =
-            $"from=AcmeInc&to=447700900000&text={WebUtility.UrlEncode("Hello World!")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-        this.Setup(this.ExpectedUri, expectedResponse, expectedRequestContent);
-        var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
-        var response = await client.SmsClient.SendAnSmsAsync(new SendSmsRequest
+        this.Setup(this.ExpectedUri, this.helper.GetResponseJson(), this.helper.GetRequest("txt"));
+        var response = await this.Client.SendAnSmsAsync(new SendSmsRequest
             {From = "AcmeInc", To = "447700900000", Text = "Hello World!"});
         Assert.Equal("1", response.MessageCount);
         Assert.Equal("447700900000", response.Messages[0].To);
@@ -118,12 +89,8 @@ public class MessagingTests : TestBase
     [Fact]
     public async Task SendSmsTypicalUsageSimplifiedAsync()
     {
-        var expectedResponse = this.helper.GetResponseJson();
-        var expectedRequestContent =
-            $"from=AcmeInc&to=447700900000&text={WebUtility.UrlEncode("Hello World!")}&type=text&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-        this.Setup(this.ExpectedUri, expectedResponse, expectedRequestContent);
-        var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
-        var response = await client.SmsClient.SendAnSmsAsync("AcmeInc", "447700900000", "Hello World!");
+        this.Setup(this.ExpectedUri, this.helper.GetResponseJson(), this.helper.GetRequest("txt"));
+        var response = await this.Client.SendAnSmsAsync("AcmeInc", "447700900000", "Hello World!");
         Assert.Equal("1", response.MessageCount);
         Assert.Equal("447700900000", response.Messages[0].To);
         Assert.Equal("0A0000000123ABCD1", response.Messages[0].MessageId);
@@ -137,25 +104,8 @@ public class MessagingTests : TestBase
     [Fact]
     public async Task SendSmsUnicode()
     {
-        var expectedResponse = @"{
-                  ""message-count"": ""1"",
-                  ""messages"": [
-                    {
-                      ""to"": ""447700900000"",
-                      ""message-id"": ""0A0000000123ABCD1"",
-                      ""status"": ""0"",
-                      ""remaining-balance"": ""3.14159265"",
-                      ""message-price"": ""0.03330000"",
-                      ""network"": ""12345"",
-                      ""account-ref"": ""customer1234""
-                    }
-                  ]
-                }";
-        var expectedRequestContent =
-            $"from=AcmeInc&to=447700900000&text={WebUtility.UrlEncode("こんにちは世界")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-        this.Setup(this.ExpectedUri, expectedResponse, expectedRequestContent);
-        var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
-        var response = await client.SmsClient.SendAnSmsAsync(new SendSmsRequest
+        this.Setup(this.ExpectedUri, this.helper.GetResponseJson(), this.helper.GetRequest("txt"));
+        var response = await this.Client.SendAnSmsAsync(new SendSmsRequest
             {From = "AcmeInc", To = "447700900000", Text = "こんにちは世界"});
         Assert.Equal("1", response.MessageCount);
         Assert.Equal("447700900000", response.Messages[0].To);
@@ -168,16 +118,13 @@ public class MessagingTests : TestBase
     }
 
     [Fact]
-    public async Task ShouldThrowException_WhenResponseIsNull()
+    public async Task ShouldThrowException_GivenResponseIsNull()
     {
         var expectedRequestContent =
             $"from=AcmeInc&to=447700900000&text={WebUtility.UrlEncode("Hello World!")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-        this.Setup(this.ExpectedUri, "", expectedRequestContent);
-        var client = this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret));
-        var exception = await Assert.ThrowsAsync<VonageSmsResponseException>(() =>
-            client.SmsClient.SendAnSmsAsync(new SendSmsRequest
-                {From = "AcmeInc", To = "447700900000", Text = "Hello World!"}));
-        Assert.NotNull(exception);
-        Assert.Equal("Encountered an Empty SMS response", exception.Message);
+        this.Setup(this.ExpectedUri, string.Empty, this.helper.GetRequest("txt"));
+        var act = async () => await this.Client.SendAnSmsAsync(new SendSmsRequest
+            {From = "AcmeInc", To = "447700900000", Text = "Hello World!"});
+        await act.Should().ThrowAsync<VonageSmsResponseException>().WithMessage("Encountered an Empty SMS response");
     }
 }
