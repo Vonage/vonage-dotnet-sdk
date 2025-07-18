@@ -1,0 +1,1 @@
+from=AcmeInc&to=447700900000&text=Hello+World!&type=text&api_key=testkey&api_secret=testSecret&

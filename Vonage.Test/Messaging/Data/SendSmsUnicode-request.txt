@@ -1,0 +1,1 @@
+from=AcmeInc&to=447700900000&text=%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF%E4%B8%96%E7%95%8C&api_key=testkey&api_secret=testSecret&
