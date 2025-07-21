@@ -1,0 +1,1 @@
+from=AcmeInc&to=447700900000&text=Hello+World!&ttl=900000&status-report-req=true&callback=https%3A%2F%2Fexample.com%2Fsms-dlr&message-class=0&type=text&body=638265253311&udh=06050415811581&protocol-id=127&client-ref=my-personal-reference&account-ref=customer1234&entity-id=testEntity&content-id=testcontent&trusted-number=true&api_key=testkey&api_secret=testSecret&
