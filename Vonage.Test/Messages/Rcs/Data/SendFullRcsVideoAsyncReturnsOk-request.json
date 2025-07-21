@@ -8,5 +8,8 @@
   "ttl": 600,
   "video": {
     "url": "https://example.com/video.mp4"
+  },
+  "rcs": {
+    "category": "category"
   }
 }

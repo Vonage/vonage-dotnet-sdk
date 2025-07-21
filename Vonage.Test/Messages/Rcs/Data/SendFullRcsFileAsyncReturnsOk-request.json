@@ -8,5 +8,8 @@
   "ttl": 600,
   "file": {
     "url": "https://example.com/file.pdf"
+  },
+  "rcs": {
+    "category": "category"
   }
 }

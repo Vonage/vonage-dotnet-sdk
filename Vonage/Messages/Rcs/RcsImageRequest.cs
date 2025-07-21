@@ -6,7 +6,7 @@ namespace Vonage.Messages.Rcs;
 
 /// <summary>
 /// </summary>
-public class RcsImageRequest : MessageRequestBase
+public class RcsImageRequest : RcsMessageBase
 {
     /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.RCS;

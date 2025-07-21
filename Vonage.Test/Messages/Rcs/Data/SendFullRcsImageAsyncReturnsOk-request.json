@@ -8,5 +8,8 @@
   "ttl": 600,
   "image": {
     "url": "https://example.com/image.jpg"
+  },
+  "rcs": {
+    "category": "category"
   }
 }
