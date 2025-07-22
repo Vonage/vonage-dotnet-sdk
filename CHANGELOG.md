@@ -1,4 +1,22 @@
 # Changelog
+## [v8.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.1.0) (2025-07-22)
+
+### Documentation
+
+- Generate changelog for v8.0.3 ([d337398](https://github.com/Vonage/vonage-dotnet-sdk/commit/d337398b6b2d4c35264f75712936d0e5db276ccf))
+
+- Bump version to v8.1.0 ([af17188](https://github.com/Vonage/vonage-dotnet-sdk/commit/af171882f22e83e3675bef1994c10ab41c825be3))
+
+
+### Features
+
+- Add support for WhatsApp marketing messages ([883a8d6](https://github.com/Vonage/vonage-dotnet-sdk/commit/883a8d61a987de8f1fba166375d1292ff4000186))
+
+- Add support for trusted numbers (#619) ([101ed17](https://github.com/Vonage/vonage-dotnet-sdk/commit/101ed1724331b3e615071db09c918228e514b53d))
+
+- Add support for RCS category in Messages ([c6baa58](https://github.com/Vonage/vonage-dotnet-sdk/commit/c6baa58a745e5888319ccb0eb832cbbedbea780a))
+
+
 ## [v8.0.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.3) (2025-07-04)
 
 ### Bug Fixes
@@ -36,21 +54,9 @@
 
 ### Build updates
 
-- Update System.Formats.Asn1 ([c141757](https://github.com/Vonage/vonage-dotnet-sdk/commit/c141757b8546350bae78c5d30e36760e831e3600))
-
-
-### Documentation
-
-- Generate changelog for v8.1.0 ([8541838](https://github.com/Vonage/vonage-dotnet-sdk/commit/8541838c6564aea16882d0e9a2d539500c2fde12))
-
-- Bump version to v8.0.1 ([76e6ad4](https://github.com/Vonage/vonage-dotnet-sdk/commit/76e6ad490a1318ed1c9acd1030f2da75bf676eba))
-
-
-## [v8.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.1.0) (2025-06-19)
-
-### Build updates
-
 - Freeze .NET dependencies to v8 ([2836ac8](https://github.com/Vonage/vonage-dotnet-sdk/commit/2836ac8861a754f8eca9e3b760eea86a47fd16de))
+
+- Update System.Formats.Asn1 ([c141757](https://github.com/Vonage/vonage-dotnet-sdk/commit/c141757b8546350bae78c5d30e36760e831e3600))
 
 
 ### Documentation
@@ -60,6 +66,10 @@
 - Remove Meetings and Proactive connect from supported APIs ([d3d024e](https://github.com/Vonage/vonage-dotnet-sdk/commit/d3d024ee1f07ee1bb54bf97841cc843a8b73e52d))
 
 - Bump version to v8.1.0 ([4c2f3da](https://github.com/Vonage/vonage-dotnet-sdk/commit/4c2f3da4cf16db9674b680255e010e975b68c905))
+
+- Generate changelog for v8.1.0 ([8541838](https://github.com/Vonage/vonage-dotnet-sdk/commit/8541838c6564aea16882d0e9a2d539500c2fde12))
+
+- Bump version to v8.0.1 ([76e6ad4](https://github.com/Vonage/vonage-dotnet-sdk/commit/76e6ad490a1318ed1c9acd1030f2da75bf676eba))
 
 
 ## [v8.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.0) (2025-06-17)
