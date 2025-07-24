@@ -1,4 +1,18 @@
 # Changelog
+## [v8.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.2.0) (2025-07-24)
+
+### Documentation
+
+- Generate changelog for v8.1.0 ([7c0881c](https://github.com/Vonage/vonage-dotnet-sdk/commit/7c0881ce6383b7db67f67593ae1e8912b88b1a09))
+
+- Bump version to v8.2.0 ([f2ef38c](https://github.com/Vonage/vonage-dotnet-sdk/commit/f2ef38cccdbed66eab8584c5683053693100e241))
+
+
+### Features
+
+- Add support for IfSuccess on async Result ([946bf58](https://github.com/Vonage/vonage-dotnet-sdk/commit/946bf584478669a91596e0959dee245816ec7ec5))
+
+
 ## [v8.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.1.0) (2025-07-22)
 
 ### Documentation
