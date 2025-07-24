@@ -13,20 +13,6 @@ public class ResultExtensionsTest
     public class Bind
     {
         [Fact]
-        public async Task BindAsync_ShouldReturnFailure_GivenValueIsFailure()
-        {
-            var result = await TestBehaviors.CreateFailureAsync<int>().BindAsync(TestBehaviors.IncrementBindAsync);
-            result.Should().BeFailure(TestBehaviors.CreateResultFailure());
-        }
-
-        [Fact]
-        public async Task BindAsync_ShouldReturnSuccess_GivenValueIsSuccess()
-        {
-            var result = await TestBehaviors.CreateSuccessAsync(10).BindAsync(TestBehaviors.IncrementBindAsync);
-            result.Should().BeSuccess(11);
-        }
-
-        [Fact]
         public async Task Bind_ShouldReturnFailure_GivenValueIsFailure()
         {
             var result = await TestBehaviors.CreateFailureAsync<int>().Bind(TestBehaviors.IncrementBind);
@@ -37,6 +23,20 @@ public class ResultExtensionsTest
         public async Task Bind_ShouldReturnSuccess_GivenValueIsSuccess()
         {
             var result = await TestBehaviors.CreateSuccessAsync(10).Bind(TestBehaviors.IncrementBind);
+            result.Should().BeSuccess(11);
+        }
+
+        [Fact]
+        public async Task BindAsync_ShouldReturnFailure_GivenValueIsFailure()
+        {
+            var result = await TestBehaviors.CreateFailureAsync<int>().BindAsync(TestBehaviors.IncrementBindAsync);
+            result.Should().BeFailure(TestBehaviors.CreateResultFailure());
+        }
+
+        [Fact]
+        public async Task BindAsync_ShouldReturnSuccess_GivenValueIsSuccess()
+        {
+            var result = await TestBehaviors.CreateSuccessAsync(10).BindAsync(TestBehaviors.IncrementBindAsync);
             result.Should().BeSuccess(11);
         }
     }
@@ -77,34 +77,67 @@ public class ResultExtensionsTest
         private int value;
 
         [Fact]
-        public async Task IfSuccessAsync_ShouldExecuteOperation_GivenSuccess()
+        public async Task IfSuccess_ShouldExecuteOperation_GivenSuccess()
         {
-            await TestBehaviors.CreateSuccessAsync(10).IfSuccessAsync(this.SuccessAction);
+            await TestBehaviors.CreateSuccessAsync(10).IfSuccess(this.SuccessAction);
             this.value.Should().Be(10);
         }
 
         [Fact]
-        public async Task IfSuccessAsync_ShouldReturnSuccess_GivenSuccess()
+        public async Task IfSuccess_ShouldNotExecuteOperation_GivenFailure()
         {
-            var result = await TestBehaviors.CreateSuccessAsync(10).IfSuccessAsync(this.SuccessAction);
+            await TestBehaviors.CreateFailureAsync<int>().IfSuccess(this.SuccessAction);
+            this.value.Should().Be(default);
+        }
+
+        [Fact]
+        public async Task IfSuccess_ShouldReturnFailure_GivenFailure()
+        {
+            var result = await TestBehaviors.CreateFailureAsync<int>().IfSuccess(this.SuccessAction);
+            result.Should().BeFailure(TestBehaviors.CreateResultFailure());
+        }
+
+        [Fact]
+        public async Task IfSuccess_ShouldReturnSuccess_GivenSuccess()
+        {
+            var result = await TestBehaviors.CreateSuccessAsync(10).IfSuccess(this.SuccessAction);
             result.Should().BeSuccess(10);
+        }
+
+        [Fact]
+        public async Task IfSuccessAsync_ShouldExecuteOperation_GivenSuccess()
+        {
+            await TestBehaviors.CreateSuccessAsync(10).IfSuccessAsync(this.SuccessActionAsync);
+            this.value.Should().Be(10);
         }
 
         [Fact]
         public async Task IfSuccessAsync_ShouldNotExecuteOperation_GivenFailure()
         {
-            await TestBehaviors.CreateFailureAsync<int>().IfSuccessAsync(this.SuccessAction);
+            await TestBehaviors.CreateFailureAsync<int>().IfSuccessAsync(this.SuccessActionAsync);
             this.value.Should().Be(default);
         }
 
         [Fact]
         public async Task IfSuccessAsync_ShouldReturnFailure_GivenFailure()
         {
-            var result = await TestBehaviors.CreateFailureAsync<int>().IfSuccessAsync(this.SuccessAction);
+            var result = await TestBehaviors.CreateFailureAsync<int>().IfSuccessAsync(this.SuccessActionAsync);
             result.Should().BeFailure(TestBehaviors.CreateResultFailure());
         }
 
-        private Task SuccessAction(int input)
+        [Fact]
+        public async Task IfSuccessAsync_ShouldReturnSuccess_GivenSuccess()
+        {
+            var result = await TestBehaviors.CreateSuccessAsync(10).IfSuccessAsync(this.SuccessActionAsync);
+            result.Should().BeSuccess(10);
+        }
+
+        private void SuccessAction(int input)
+        {
+            this.value = input;
+        }
+
+        private Task SuccessActionAsync(int input)
         {
             this.value = input;
             return Task.CompletedTask;
@@ -148,14 +181,6 @@ public class ResultExtensionsTest
     public class Do
     {
         [Fact]
-        public async Task Do_ShouldExecuteSuccessAction_GivenStateIsSuccess()
-        {
-            var value = 0;
-            await TestBehaviors.CreateSuccessAsync(5).Do(success => value += success, _ => { });
-            value.Should().Be(5);
-        }
-
-        [Fact]
         public async Task Do_ShouldExecuteFailureAction_GivenStateIsFailure()
         {
             var value = 0;
@@ -164,28 +189,16 @@ public class ResultExtensionsTest
         }
 
         [Fact]
-        public async Task Do_ShouldReturnInstance() =>
-            await TestBehaviors.CreateSuccessAsync(5).Do(_ => { }, _ => { }).Should().BeSuccessAsync(5);
-
-        [Fact]
-        public async Task DoWhenSuccess_ShouldExecuteAction_GivenStateIsSuccess()
+        public async Task Do_ShouldExecuteSuccessAction_GivenStateIsSuccess()
         {
             var value = 0;
-            await TestBehaviors.CreateSuccessAsync(5).DoWhenSuccess(success => value += success);
+            await TestBehaviors.CreateSuccessAsync(5).Do(success => value += success, _ => { });
             value.Should().Be(5);
         }
 
         [Fact]
-        public async Task DoWhenSuccess_ShouldNotExecuteAction_GivenStateIsFailure()
-        {
-            var value = 0;
-            await TestBehaviors.CreateFailureAsync<int>().DoWhenSuccess(_ => value = 10);
-            value.Should().Be(0);
-        }
-
-        [Fact]
-        public async Task DoWhenSuccess_ShouldReturnInstance() =>
-            await TestBehaviors.CreateSuccessAsync(5).DoWhenSuccess(_ => { }).Should().BeSuccessAsync(5);
+        public async Task Do_ShouldReturnInstance() =>
+            await TestBehaviors.CreateSuccessAsync(5).Do(_ => { }, _ => { }).Should().BeSuccessAsync(5);
 
         [Fact]
         public async Task DoWhenFailure_ShouldExecuteAction_GivenStateIsFailure()
@@ -206,5 +219,25 @@ public class ResultExtensionsTest
         [Fact]
         public async Task DoWhenFailure_ShouldReturnInstance() =>
             await TestBehaviors.CreateSuccessAsync(5).DoWhenFailure(_ => { }).Should().BeSuccessAsync(5);
+
+        [Fact]
+        public async Task DoWhenSuccess_ShouldExecuteAction_GivenStateIsSuccess()
+        {
+            var value = 0;
+            await TestBehaviors.CreateSuccessAsync(5).DoWhenSuccess(success => value += success);
+            value.Should().Be(5);
+        }
+
+        [Fact]
+        public async Task DoWhenSuccess_ShouldNotExecuteAction_GivenStateIsFailure()
+        {
+            var value = 0;
+            await TestBehaviors.CreateFailureAsync<int>().DoWhenSuccess(_ => value = 10);
+            value.Should().Be(0);
+        }
+
+        [Fact]
+        public async Task DoWhenSuccess_ShouldReturnInstance() =>
+            await TestBehaviors.CreateSuccessAsync(5).DoWhenSuccess(_ => { }).Should().BeSuccessAsync(5);
     }
 }

@@ -42,6 +42,49 @@ public static class ResultExtensions
     }
 
     /// <summary>
+    ///     Executes operations depending on the current state.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="successOperation">Success operation.</param>
+    /// <param name="failureOperation">Failure operation.</param>
+    /// <typeparam name="TSource">Source type.</typeparam>
+    /// <returns>The initial result.</returns>
+    public static async Task<Result<TSource>> Do<TSource>(this Task<Result<TSource>> task,
+        Action<TSource> successOperation, Action<IResultFailure> failureOperation)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.Do(successOperation, failureOperation);
+    }
+
+    /// <summary>
+    ///     Executes an operation if failure.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="failureOperation">Failure operation.</param>
+    /// <typeparam name="TSource">Source type.</typeparam>
+    /// <returns>The initial result.</returns>
+    public static async Task<Result<TSource>> DoWhenFailure<TSource>(this Task<Result<TSource>> task,
+        Action<IResultFailure> failureOperation)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.DoWhenFailure(failureOperation);
+    }
+
+    /// <summary>
+    ///     Executes an operation if success.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="successOperation">Success operation.</param>
+    /// <typeparam name="TSource">Source type.</typeparam>
+    /// <returns>The initial result.</returns>
+    public static async Task<Result<TSource>> DoWhenSuccess<TSource>(this Task<Result<TSource>> task,
+        Action<TSource> successOperation)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.DoWhenSuccess(successOperation);
+    }
+
+    /// <summary>
     ///     Returns the default value if the Result is in the Failure state, the success value otherwise.
     /// </summary>
     /// <param name="task">Asynchronous result.</param>
@@ -52,6 +95,19 @@ public static class ResultExtensions
     {
         var result = await task.ConfigureAwait(false);
         return result.IfFailure(defaultValue);
+    }
+
+    /// <summary>
+    ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
+    /// </summary>
+    /// <param name="task">Asynchronous result.</param>
+    /// <param name="action">Action to invoke.</param>
+    /// <typeparam name="T">The source type.</typeparam>
+    /// <returns>The initial result.</returns>
+    public static async Task<Result<T>> IfSuccess<T>(this Task<Result<T>> task, Action<T> action)
+    {
+        var result = await task.ConfigureAwait(false);
+        return result.IfSuccess(action);
     }
 
     /// <summary>
@@ -111,48 +167,5 @@ public static class ResultExtensions
     {
         var result = await task.ConfigureAwait(false);
         return result.Match(successOperation, failureOperation);
-    }
-
-    /// <summary>
-    ///     Executes operations depending on the current state.
-    /// </summary>
-    /// <param name="task">Asynchronous result.</param>
-    /// <param name="successOperation">Success operation.</param>
-    /// <param name="failureOperation">Failure operation.</param>
-    /// <typeparam name="TSource">Source type.</typeparam>
-    /// <returns>The initial result.</returns>
-    public static async Task<Result<TSource>> Do<TSource>(this Task<Result<TSource>> task,
-        Action<TSource> successOperation, Action<IResultFailure> failureOperation)
-    {
-        var result = await task.ConfigureAwait(false);
-        return result.Do(successOperation, failureOperation);
-    }
-
-    /// <summary>
-    ///     Executes an operation if success.
-    /// </summary>
-    /// <param name="task">Asynchronous result.</param>
-    /// <param name="successOperation">Success operation.</param>
-    /// <typeparam name="TSource">Source type.</typeparam>
-    /// <returns>The initial result.</returns>
-    public static async Task<Result<TSource>> DoWhenSuccess<TSource>(this Task<Result<TSource>> task,
-        Action<TSource> successOperation)
-    {
-        var result = await task.ConfigureAwait(false);
-        return result.DoWhenSuccess(successOperation);
-    }
-
-    /// <summary>
-    ///     Executes an operation if failure.
-    /// </summary>
-    /// <param name="task">Asynchronous result.</param>
-    /// <param name="failureOperation">Failure operation.</param>
-    /// <typeparam name="TSource">Source type.</typeparam>
-    /// <returns>The initial result.</returns>
-    public static async Task<Result<TSource>> DoWhenFailure<TSource>(this Task<Result<TSource>> task,
-        Action<IResultFailure> failureOperation)
-    {
-        var result = await task.ConfigureAwait(false);
-        return result.DoWhenFailure(failureOperation);
     }
 }
