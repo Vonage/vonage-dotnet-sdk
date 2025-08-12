@@ -1,0 +1,7 @@
+﻿{
+  "conversation_uuid": "CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+  "payload": {
+    "bar": "foo"
+  },
+  "timestamp": "2020-01-01T12:00:00.000Z"
+}

@@ -44,6 +44,15 @@ first.
 
 ### Migration guides
 
+#### Expected changes in v9.0.0
+
+* `ParseEvent()` on `EventWebhooks.Event` will be removed. This method is now unnecessary as any webhook can be
+  deserialized using either `Newtonsoft.Json` or `System.Text.Json`
+* `RealTimedata` on `AdvancedNumberInsightRequest` will be removed.
+* `FraudScore` on `FraudCheck` will be removed.
+* `TimeOut` on `MultiInput` will be removed. Please use the `Timeout` of the underlying `Speech` of  `DTMF` object
+  instead.
+
 #### Upgrading from v7.x.x to v8.0.0
 
 Please see the dedicated [migration guide](MIGRATION_v8.0.0.md).

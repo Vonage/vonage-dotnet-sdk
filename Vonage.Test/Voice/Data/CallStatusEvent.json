@@ -1,0 +1,10 @@
+﻿{
+  "from": "442079460000",
+  "to": "447700900000",
+  "uuid": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+  "conversation_uuid": "CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+  "status": "rejected",
+  "direction": "outbound",
+  "timestamp": "2020-01-01T12:00:00.000Z",
+  "detail": "as-yet-unknown-detail"
+}

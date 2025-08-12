@@ -1,18 +1,25 @@
-﻿using System;
+﻿#region
+using System;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Vonage.Serialization;
+#endregion
 
 namespace Vonage.Voice.EventWebhooks;
 
+/// <summary>
+/// </summary>
 public class EventBase
 {
     /// <summary>
     /// Timestamp (ISO 8601 format)
     /// </summary>
     [JsonProperty("timestamp")]
+    [JsonPropertyName("timestamp")]
     public DateTime TimeStamp { get; set; }
 
+    [Obsolete("Deserialize the webhook directly instead of using ParseEvent")]
     public static EventBase ParseEvent(string json)
     {
         var data = (JObject) JsonConvert.DeserializeObject(json);

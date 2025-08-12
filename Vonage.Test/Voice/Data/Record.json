@@ -1,0 +1,9 @@
+﻿{
+  "timestamp": "2020-01-01T12:00:00.000Z",
+  "start_time": "2020-01-01T12:00:00.000Z",
+  "end_time": "2020-01-01T12:00:01.000Z",
+  "recording_url": "https://api.nexmo.com/v1/files/bbbbbbbb-aaaa-cccc-dddd-0123456789ab",
+  "size": 12222,
+  "recording_uuid": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+  "conversation_uuid": "CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+}
