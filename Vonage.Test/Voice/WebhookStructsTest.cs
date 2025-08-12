@@ -25,7 +25,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeAnswer(JsonSerializer serializer)
     {
-        var webhook = Deserialize<Answer>(File.ReadAllText("Voice/Data/Answer.json"), serializer);
+        var webhook = Deserialize<Answer>(ReadJson("Voice/Data/Answer.json"), serializer);
         Assert.Equal("442079460000", webhook.From);
         Assert.Equal("447700900000", webhook.To);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.Uuid);
@@ -37,7 +37,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeAnswered(JsonSerializer serializer)
     {
-        var webhook = Deserialize<Answered>(File.ReadAllText("Voice/Data/Answered.json"), serializer);
+        var webhook = Deserialize<Answered>(ReadJson("Voice/Data/Answered.json"), serializer);
         Assert.Equal("442079460000", webhook.From);
         Assert.Equal("447700900000", webhook.To);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.Uuid);
@@ -59,7 +59,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeCallStatusEvent(JsonSerializer serializer)
     {
-        var webhook = Deserialize<CallStatusEvent>(File.ReadAllText("Voice/Data/CallStatusEvent.json"), serializer);
+        var webhook = Deserialize<CallStatusEvent>(ReadJson("Voice/Data/CallStatusEvent.json"), serializer);
         Assert.Equal("442079460000", webhook.From);
         Assert.Equal("447700900000", webhook.To);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.Uuid);
@@ -78,7 +78,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeCompleted(JsonSerializer serializer)
     {
-        var webhook = Deserialize<Completed>(File.ReadAllText("Voice/Data/Completed.json"), serializer);
+        var webhook = Deserialize<Completed>(ReadJson("Voice/Data/Completed.json"), serializer);
         Assert.Equal("442079460000", webhook.From);
         Assert.Equal("447700900000", webhook.To);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.Uuid);
@@ -105,7 +105,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeError(JsonSerializer serializer)
     {
-        var webhook = Deserialize<Error>(File.ReadAllText("Voice/Data/Error.json"), serializer);
+        var webhook = Deserialize<Error>(ReadJson("Voice/Data/Error.json"), serializer);
         Assert.Equal("Syntax error in NCCO. Invalid value type or action.", webhook.Reason);
         Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.ConversationUuid);
         Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
@@ -118,7 +118,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeHumanMachine(JsonSerializer serializer)
     {
-        var webhook = Deserialize<HumanMachine>(File.ReadAllText("Voice/Data/HumanMachine.json"), serializer);
+        var webhook = Deserialize<HumanMachine>(ReadJson("Voice/Data/HumanMachine.json"), serializer);
         Assert.Equal("442079460000", webhook.From);
         Assert.Equal("447700900000", webhook.To);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.Uuid);
@@ -135,7 +135,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeMultiInput_WithDtmf(JsonSerializer serializer)
     {
-        var webhook = Deserialize<MultiInput>(File.ReadAllText("Voice/Data/MultiInputDtmf.json"), serializer);
+        var webhook = Deserialize<MultiInput>(ReadJson("Voice/Data/MultiInputDtmf.json"), serializer);
         Assert.Equal("442079460000", webhook.From);
         Assert.Equal("447700900000", webhook.To);
         Assert.Equal("42", webhook.Dtmf.Digits);
@@ -152,7 +152,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeMultiInput_WithSpeech(JsonSerializer serializer)
     {
-        var webhook = Deserialize<MultiInput>(File.ReadAllText("Voice/Data/MultiInputSpeech.json"), serializer);
+        var webhook = Deserialize<MultiInput>(ReadJson("Voice/Data/MultiInputSpeech.json"), serializer);
         Assert.Equal("442079460000", webhook.From);
         Assert.Equal("447700900000", webhook.To);
         Assert.Equal("hello world", webhook.Speech.SpeechResults[0].Text);
@@ -171,7 +171,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeNotification(JsonSerializer serializer)
     {
-        var webhook = Deserialize<Notification<Foo>>(File.ReadAllText("Voice/Data/Notification.json"), serializer);
+        var webhook = Deserialize<Notification<Foo>>(ReadJson("Voice/Data/Notification.json"), serializer);
         Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.ConversationUuid);
         Assert.Equal("foo", webhook.Payload.bar);
         Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
@@ -184,7 +184,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeRecord(JsonSerializer serializer)
     {
-        var webhook = Deserialize<Record>(File.ReadAllText("Voice/Data/Record.json"), serializer);
+        var webhook = Deserialize<Record>(ReadJson("Voice/Data/Record.json"), serializer);
         Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), webhook.TimeStamp);
@@ -206,7 +206,7 @@ public class WebhookStructsTest
     [InlineData(JsonSerializer.SystemTextJson)]
     public void DeserializeTransfer(JsonSerializer serializer)
     {
-        var webhook = Deserialize<Transfer>(File.ReadAllText("Voice/Data/Transfer.json"), serializer);
+        var webhook = Deserialize<Transfer>(ReadJson("Voice/Data/Transfer.json"), serializer);
         Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.ConversationUuidFrom);
         Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.ConversationUuidTo);
         Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
@@ -221,6 +221,8 @@ public class WebhookStructsTest
         JsonSerializer.SystemTextJson => System.Text.Json.JsonSerializer.Deserialize<T>(json),
         _ => throw new ArgumentOutOfRangeException(nameof(serializerType)),
     };
+
+    private static string ReadJson(string path) => File.ReadAllText("Voice/Data/Answer.json");
 
     public class Foo
     {
