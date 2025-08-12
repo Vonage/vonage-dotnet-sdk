@@ -1,4 +1,27 @@
 # Changelog
+## [v8.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.3.0) (2025-08-12)
+
+### Documentation
+
+- Generate changelog for v8.2.0 ([e3e8d49](https://github.com/Vonage/vonage-dotnet-sdk/commit/e3e8d49c502859f21e5395562109a8ff09c592dd))
+
+- Bump version to v8.3.0 ([8fb0e44](https://github.com/Vonage/vonage-dotnet-sdk/commit/8fb0e444397efc2dabe1df8f2253828f21296256))
+
+
+### Features
+
+- Support deserialization from both Newtonsoft.Json and System.Text.Json for Voice Webhooks ([e89c7c0](https://github.com/Vonage/vonage-dotnet-sdk/commit/e89c7c0d87f8129aa667e51a49337373d8f7576b))
+
+- Support deserialization from both Newtonsoft.Json and System.Text.Json for Messaging Webhooks ([8cc1d1c](https://github.com/Vonage/vonage-dotnet-sdk/commit/8cc1d1c389d841c1996a77a1f68396b0f589605f))
+
+
+### Refactoring
+
+- Wrap File.ReadAllText in private method ([fff7009](https://github.com/Vonage/vonage-dotnet-sdk/commit/fff70096916bf1505836f4c1ba4cd2da0d0b1f58))
+
+- Move JsonSerializer enum at root level ([9fdf4bd](https://github.com/Vonage/vonage-dotnet-sdk/commit/9fdf4bd6074c6737b6d23cc3aa7ba67066c9b0ac))
+
+
 ## [v8.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.2.0) (2025-07-24)
 
 ### Documentation
