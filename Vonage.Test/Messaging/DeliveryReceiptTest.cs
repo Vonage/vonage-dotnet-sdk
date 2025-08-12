@@ -1,4 +1,5 @@
 ﻿#region
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using Vonage.Cryptography;
 using Vonage.Messaging;
 using Vonage.Serialization;
 using Xunit;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 #endregion
 
 namespace Vonage.Test.Messaging;
@@ -197,4 +199,11 @@ public class DeliveryReceiptTest
             encryptionMethod);
         return receipt;
     }
+
+    private static T Deserialize<T>(string json, JsonSerializerType serializerType) => serializerType switch
+    {
+        JsonSerializerType.Newtonsoft => JsonConvert.DeserializeObject<T>(json),
+        JsonSerializerType.SystemTextJson => JsonSerializer.Deserialize<T>(json),
+        _ => throw new ArgumentOutOfRangeException(nameof(serializerType)),
+    };
 }
