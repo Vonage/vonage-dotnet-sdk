@@ -1,0 +1,16 @@
+{
+  "msisdn": "447700900000",
+  "to": "AcmeInc",
+  "network-code": "12345",
+  "messageId": "0A0000001234567B",
+  "price": "0.03330000",
+  "status": "delivered",
+  "scts": "2001011400",
+  "err-code": "0",
+  "api-key": "abcd1234",
+  "message-timestamp": "2020-01-01T12:00:00.000+00:00",
+  "timestamp": 1582650446,
+  "nonce": "ec11dd3e-1e7f-4db5-9467-82b02cd223b9",
+  "sig": "1A20E4E2069B609FDA6CECA9DE18D5CAFE99720DDB628BD6BE8B19942A336E1C",
+  "client-ref": "steve"
+}

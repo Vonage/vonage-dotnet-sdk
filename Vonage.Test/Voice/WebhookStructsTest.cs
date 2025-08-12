@@ -217,7 +217,7 @@ public class WebhookStructsTest
         _ => throw new ArgumentOutOfRangeException(nameof(serializerType)),
     };
 
-    private static string ReadJson(string path) => File.ReadAllText("Voice/Data/Answer.json");
+    private static string ReadJson(string path) => File.ReadAllText(path);
 
     public class Foo
     {
