@@ -19,7 +19,6 @@ public class EventBase
     [JsonPropertyName("timestamp")]
     public DateTime TimeStamp { get; set; }
 
-    [Obsolete("Deserialize the webhook directly instead of using ParseEvent")]
     public static EventBase ParseEvent(string json)
     {
         var data = (JObject) JsonConvert.DeserializeObject(json);
