@@ -1,4 +1,20 @@
 # Changelog
+## [v8.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.3.1) (2025-08-22)
+
+### Bug Fixes
+
+- Remove Obsolete tag on EventBase.ParseEvent ([4c3f5cc](https://github.com/Vonage/vonage-dotnet-sdk/commit/4c3f5cc68a9d67714ebf861ba9b22537b3fad1b3))
+
+- Make sure SignatureValidation.BuildQueryString orders keys alphabetically no matter the framework (Ordinal) ([eb6e4a9](https://github.com/Vonage/vonage-dotnet-sdk/commit/eb6e4a9bed48044fdcd72694c171d1b60aa692a5))
+
+
+### Documentation
+
+- Generate changelog for v8.3.0 ([cf28cbc](https://github.com/Vonage/vonage-dotnet-sdk/commit/cf28cbc89984c6d0ec48a8575b96ad58167e716f))
+
+- Bump version to v8.3.1 ([f5966a1](https://github.com/Vonage/vonage-dotnet-sdk/commit/f5966a1fe0cd66a6b913b4184031cbc5f257d34d))
+
+
 ## [v8.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.3.0) (2025-08-12)
 
 ### Documentation
