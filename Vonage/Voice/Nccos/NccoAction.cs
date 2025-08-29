@@ -1,6 +1,8 @@
-﻿using System.Runtime.Serialization;
+﻿#region
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+#endregion
 
 namespace Vonage.Voice.Nccos;
 
@@ -22,6 +24,8 @@ public abstract class NccoAction
         [EnumMember(Value = "input")] Input = 6,
 
         [EnumMember(Value = "notify")] Notify = 7,
+
+        [EnumMember(Value = "wait")] Wait = 8,
     }
 
     [JsonProperty("action")] public abstract ActionType Action { get; }

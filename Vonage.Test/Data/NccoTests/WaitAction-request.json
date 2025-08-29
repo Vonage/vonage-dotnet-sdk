@@ -1,0 +1,6 @@
+[
+  {
+    "action": "wait",
+    "timeout": 10
+  }
+]
