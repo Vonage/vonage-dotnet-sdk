@@ -12,10 +12,10 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <Version>8.5.0</Version>
+    <Version>8.6.0</Version>
     <PackageLicenseExpression/>
     <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.5.0</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.6.0</PackageReleaseNotes>
     <PackageTags>SMS voice telephony phone Vonage</PackageTags>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NoWarn>701;1702;1572</NoWarn>
