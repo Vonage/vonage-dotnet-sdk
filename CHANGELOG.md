@@ -1,4 +1,18 @@
 # Changelog
+## [v8.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.4.0) (2025-08-29)
+
+### Documentation
+
+- Generate changelog for v8.3.1 ([da05f7a](https://github.com/Vonage/vonage-dotnet-sdk/commit/da05f7a8bd773ac407b7302c785f573ccfd434fc))
+
+- Bump version to v8.4.0 ([0c267ec](https://github.com/Vonage/vonage-dotnet-sdk/commit/0c267ec9668752b0f2114b0e1fc782a37fdaf40b))
+
+
+### Features
+
+- Add support for trusted number in SMS, MMS and RCS messages ([547af3e](https://github.com/Vonage/vonage-dotnet-sdk/commit/547af3e3765b81c10075f93f3e98000820721ce7))
+
+
 ## [v8.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.3.1) (2025-08-22)
 
 ### Bug Fixes
