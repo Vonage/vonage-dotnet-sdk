@@ -1,4 +1,18 @@
 # Changelog
+## [v8.5.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.5.0) (2025-08-29)
+
+### Documentation
+
+- Generate changelog for v8.4.0 ([64d8367](https://github.com/Vonage/vonage-dotnet-sdk/commit/64d836716d1475fb5aee2a62eac695a0871b41ec))
+
+- Bump version to v8.5.0 ([e8cbd5b](https://github.com/Vonage/vonage-dotnet-sdk/commit/e8cbd5b073393ce85b8ef8ac18cabc82a2b97170))
+
+
+### Features
+
+- Add support for number pools on SMS messages ([4276c95](https://github.com/Vonage/vonage-dotnet-sdk/commit/4276c95a616b2823341f13d6f3a19198c477cf1f))
+
+
 ## [v8.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.4.0) (2025-08-29)
 
 ### Documentation
