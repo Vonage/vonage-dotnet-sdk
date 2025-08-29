@@ -1,4 +1,18 @@
 # Changelog
+## [v8.6.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.6.0) (2025-08-29)
+
+### Documentation
+
+- Generate changelog for v8.5.0 ([9bb29b8](https://github.com/Vonage/vonage-dotnet-sdk/commit/9bb29b84a02d2f0bde7c921cf5cc42c5429be2e5))
+
+- Bump version to v8.6.0 ([0236ef2](https://github.com/Vonage/vonage-dotnet-sdk/commit/0236ef2c9ad12d4001064d5a97ca43578bb961c6))
+
+
+### Features
+
+- Support Wait NCCO action ([c811f72](https://github.com/Vonage/vonage-dotnet-sdk/commit/c811f72a1ef17822e74887cf1405858abfd14b5c))
+
+
 ## [v8.5.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.5.0) (2025-08-29)
 
 ### Documentation
