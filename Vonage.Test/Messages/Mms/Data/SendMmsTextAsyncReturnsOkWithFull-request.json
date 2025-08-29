@@ -1,14 +1,12 @@
 {
   "channel": "mms",
-  "message_type": "image",
+  "message_type": "text",
   "to": "441234567890",
   "from": "015417543010",
   "client_ref": "abcdefg",
   "webhook_version": "v1",
   "webhook_url": "https://example.com/status",
-  "image": {
-    "url": "https://test.com/image.png",
-    "caption": "Caption"
-  },
-  "ttl": 600
+  "text": "Hello there",
+  "ttl": 600,
+  "trusted_number": true
 }

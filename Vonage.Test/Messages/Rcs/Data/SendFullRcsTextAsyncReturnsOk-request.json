@@ -9,5 +9,6 @@
   "text": "Hello world",
   "rcs": {
     "category": "category"
-  }
+  },
+  "trusted_number": true
 }

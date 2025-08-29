@@ -81,6 +81,22 @@ public class SmsMessagesTest : TestBase
         await this.VerifySendMessage(this.helper.GetRequestJson(), request);
     }
 
+    [Fact]
+    public async Task SendSmsAsyncReturnsOkWithTrustedNumber()
+    {
+        var request = new SmsRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            Text = "This is a test",
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+            TrustedNumber = true,
+        };
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
+    }
+
     private async Task VerifySendMessage(string expectedRequest, SmsRequest request)
     {
         var expectedResponse = this.helper.GetResponseJson("SendMessage");

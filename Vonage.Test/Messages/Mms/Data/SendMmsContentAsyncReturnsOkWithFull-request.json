@@ -13,5 +13,6 @@
       "caption": "See the attached image"
     }
   ],
-  "ttl": 600
+  "ttl": 600,
+  "trusted_number": true
 }

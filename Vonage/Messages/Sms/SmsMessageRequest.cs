@@ -41,6 +41,14 @@ public class SmsRequest : MessageRequestBase
     [JsonPropertyName("sms")]
     [JsonPropertyOrder(9)]
     public OptionalSettings Settings { get; set; }
+
+    /// <summary>
+    ///     Allows to skip fraud checks on a per-message basis. The feature is feature-flagged and must be enabled for the api
+    ///     key.
+    /// </summary>
+    [JsonPropertyOrder(10)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool TrustedNumber { get; set; }
 }
 
 /// <summary>

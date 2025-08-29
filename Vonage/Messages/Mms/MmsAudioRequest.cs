@@ -6,7 +6,7 @@ namespace Vonage.Messages.Mms;
 
 /// <summary>
 /// </summary>
-public class MmsAudioRequest : MessageRequestBase
+public class MmsAudioRequest : MmsMessageBase
 {
     /// <summary>
     /// </summary>

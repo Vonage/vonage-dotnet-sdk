@@ -1043,16 +1043,16 @@
         <None Update="Video\ExperienceComposer\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Mms\Data\SendMmsAudioAsyncReturnsOkWithTtl-request.json">
+        <None Update="Messages\Mms\Data\SendMmsAudioAsyncReturnsOkWithFull-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Mms\Data\SendMmsImageAsyncReturnsOkWithTtl-request.json">
+        <None Update="Messages\Mms\Data\SendMmsImageAsyncReturnsOkWithFull-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Mms\Data\SendMmsVcardAsyncReturnsOkWithTtl-request.json">
+        <None Update="Messages\Mms\Data\SendMmsVcardAsyncReturnsOkWithFull-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Mms\Data\SendMmsVideoAsyncReturnsOkWithTtl-request.json">
+        <None Update="Messages\Mms\Data\SendMmsVideoAsyncReturnsOkWithFull-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messages\Mms\Data\SendMessage-response.json">
@@ -1208,19 +1208,19 @@
         <None Update="Messages\Mms\Data\SendMmsTextAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Mms\Data\SendMmsTextAsyncReturnsOkWithTtl-request.json">
+        <None Update="Messages\Mms\Data\SendMmsTextAsyncReturnsOkWithFull-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messages\Mms\Data\SendMmsFileAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Mms\Data\SendMmsFileAsyncReturnsOkWithTtl-request.json">
+        <None Update="Messages\Mms\Data\SendMmsFileAsyncReturnsOkWithFull-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messages\Mms\Data\SendMmsContentAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Messages\Mms\Data\SendMmsContentAsyncReturnsOkWithTtl-request.json">
+        <None Update="Messages\Mms\Data\SendMmsContentAsyncReturnsOkWithFull-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\NccoTests\TestSipEndpointWithUserAndDomain-request.json">
@@ -1329,6 +1329,9 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Messaging\Data\InboundSms.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Sms\Data\SendSmsAsyncReturnsOkWithTrustedNumber-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

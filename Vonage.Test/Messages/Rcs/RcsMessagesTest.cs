@@ -42,6 +42,7 @@ public class RcsMessagesTest : TestBase
             From = "Vonage",
             Custom = new {Key1 = "value1", Key2 = "value2"},
             Rcs = new MessageRcs {Category = "category"},
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -58,6 +59,7 @@ public class RcsMessagesTest : TestBase
             From = "Vonage",
             File = new CaptionedAttachment {Url = "https://example.com/file.pdf"},
             Rcs = new MessageRcs {Category = "category"},
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -74,6 +76,7 @@ public class RcsMessagesTest : TestBase
             From = "Vonage",
             Image = new CaptionedAttachment {Url = "https://example.com/image.jpg"},
             Rcs = new MessageRcs {Category = "category"},
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -90,6 +93,7 @@ public class RcsMessagesTest : TestBase
             From = "Vonage",
             Text = "Hello world",
             Rcs = new MessageRcs {Category = "category"},
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -106,6 +110,7 @@ public class RcsMessagesTest : TestBase
             From = "Vonage",
             Video = new CaptionedAttachment {Url = "https://example.com/video.mp4"},
             Rcs = new MessageRcs {Category = "category"},
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }

@@ -6,7 +6,7 @@ namespace Vonage.Messages.Mms;
 
 /// <summary>
 /// </summary>
-public class MmsVideoRequest : MessageRequestBase
+public class MmsVideoRequest : MmsMessageBase
 {
     /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.MMS;

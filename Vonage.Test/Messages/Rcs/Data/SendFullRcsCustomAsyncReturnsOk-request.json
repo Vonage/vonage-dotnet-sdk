@@ -12,5 +12,6 @@
   },
   "rcs": {
     "category": "category"
-  }
+  },
+  "trusted_number": true
 }

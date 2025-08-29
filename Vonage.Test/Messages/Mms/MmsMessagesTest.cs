@@ -49,7 +49,7 @@ public class MmsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendMmsAudioAsyncReturnsOkWithTtl()
+    public async Task SendMmsAudioAsyncReturnsOkWithFull()
     {
         var request = new MmsAudioRequest
         {
@@ -64,6 +64,7 @@ public class MmsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
             TimeToLive = 600,
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -92,7 +93,7 @@ public class MmsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendMmsContentAsyncReturnsOkWithTtl()
+    public async Task SendMmsContentAsyncReturnsOkWithFull()
     {
         var request = new MmsContentRequest
         {
@@ -111,6 +112,7 @@ public class MmsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
             TimeToLive = 600,
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -135,7 +137,7 @@ public class MmsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendMmsFileAsyncReturnsOkWithTtl()
+    public async Task SendMmsFileAsyncReturnsOkWithFull()
     {
         var request = new MmsFileRequest
         {
@@ -150,6 +152,7 @@ public class MmsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
             TimeToLive = 600,
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -174,7 +177,7 @@ public class MmsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendMmsImageAsyncReturnsOkWithTtl()
+    public async Task SendMmsImageAsyncReturnsOkWithFull()
     {
         var request = new MmsImageRequest
         {
@@ -189,6 +192,7 @@ public class MmsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
             TimeToLive = 600,
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -209,7 +213,7 @@ public class MmsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendMmsTextAsyncReturnsOkWithTtl()
+    public async Task SendMmsTextAsyncReturnsOkWithFull()
     {
         var request = new MmsTextRequest
         {
@@ -220,6 +224,7 @@ public class MmsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
             TimeToLive = 600,
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -244,7 +249,7 @@ public class MmsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendMmsVcardAsyncReturnsOkWithTtl()
+    public async Task SendMmsVcardAsyncReturnsOkWithFull()
     {
         var request = new MmsVcardRequest
         {
@@ -259,6 +264,7 @@ public class MmsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
             TimeToLive = 600,
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -283,7 +289,7 @@ public class MmsMessagesTest : TestBase
     }
 
     [Fact]
-    public async Task SendMmsVideoAsyncReturnsOkWithTtl()
+    public async Task SendMmsVideoAsyncReturnsOkWithFull()
     {
         var request = new MmsVideoRequest
         {
@@ -298,6 +304,7 @@ public class MmsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
             TimeToLive = 600,
+            TrustedNumber = true,
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
