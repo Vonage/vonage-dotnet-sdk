@@ -49,6 +49,13 @@ public class SmsRequest : MessageRequestBase
     [JsonPropertyOrder(10)]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool TrustedNumber { get; set; }
+
+    /// <summary>
+    ///     Sets the Id of the number pool managing the number.
+    /// </summary>
+    [JsonPropertyOrder(11)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string PoolId { get; set; }
 }
 
 /// <summary>

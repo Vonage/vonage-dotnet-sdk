@@ -65,6 +65,22 @@ public class SmsMessagesTest : TestBase
     }
 
     [Fact]
+    public async Task SendSmsAsyncReturnsOkWithPoolId()
+    {
+        var request = new SmsRequest
+        {
+            To = "441234567890",
+            From = "015417543010",
+            Text = "This is a test",
+            ClientRef = "abcdefg",
+            WebhookUrl = new Uri("https://example.com/status"),
+            WebhookVersion = "v1",
+            PoolId = "123456789",
+        };
+        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
+    }
+
+    [Fact]
     public async Task SendSmsAsyncReturnsOkWithSettings()
     {
         var request = new SmsRequest
