@@ -12,13 +12,14 @@ namespace Vonage.Video.AudioConnector.Start;
 internal struct StartRequestBuilder : IBuilderForApplicationId, IBuilderForOptional, IBuilderForToken,
     IBuilderForSessionId, IBuilderForUri
 {
+    private readonly Dictionary<string, string> headers = new Dictionary<string, string>();
+    private readonly HashSet<string> streams = new HashSet<string>();
     private Guid applicationId = Guid.Empty;
+    private SupportedAudioRates audioRate = SupportedAudioRates.AUDIO_RATE_8000Hz;
+    private bool bidirectional;
     private string sessionId = string.Empty;
     private string token = string.Empty;
     private Uri uri;
-    private readonly HashSet<string> streams = new HashSet<string>();
-    private readonly Dictionary<string, string> headers = new Dictionary<string, string>();
-    private SupportedAudioRates audioRate = SupportedAudioRates.AUDIO_RATE_8000Hz;
 
     public StartRequestBuilder()
     {
@@ -31,28 +32,14 @@ internal struct StartRequestBuilder : IBuilderForApplicationId, IBuilderForOptio
             ApplicationId = this.applicationId,
             SessionId = this.sessionId,
             Token = this.token,
-            WebSocket = new WebSocket(this.uri, this.streams.ToArray(), this.headers, this.audioRate),
+            WebSocket = new WebSocket(this.uri, this.streams.ToArray(), this.headers, this.audioRate,
+                this.bidirectional),
         })
         .Map(InputEvaluation<StartRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(
             VerifyToken,
             VerifyApplicationId,
             VerifySessionId));
-
-    public IBuilderForUri WithToken(string value) => this with {token = value};
-
-    public IBuilderForToken WithSessionId(string value) => this with {sessionId = value};
-
-    public IBuilderForOptional WithUrl(Uri value) => this with {uri = value};
-
-    private static Result<StartRequest> VerifyApplicationId(StartRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
-
-    private static Result<StartRequest> VerifySessionId(StartRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
-
-    private static Result<StartRequest> VerifyToken(StartRequest request) =>
-        InputValidation.VerifyNotEmpty(request, request.Token, nameof(request.Token));
 
     public IBuilderForOptional WithStream(string value)
     {
@@ -71,6 +58,22 @@ internal struct StartRequestBuilder : IBuilderForApplicationId, IBuilderForOptio
     }
 
     public IBuilderForOptional WithAudioRate(SupportedAudioRates value) => this with {audioRate = value};
+    public IBuilderForOptional EnableBidirectionalAudio() => this with {bidirectional = true};
+
+    public IBuilderForToken WithSessionId(string value) => this with {sessionId = value};
+
+    public IBuilderForUri WithToken(string value) => this with {token = value};
+
+    public IBuilderForOptional WithUrl(Uri value) => this with {uri = value};
+
+    private static Result<StartRequest> VerifyApplicationId(StartRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.ApplicationId, nameof(request.ApplicationId));
+
+    private static Result<StartRequest> VerifySessionId(StartRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.SessionId, nameof(request.SessionId));
+
+    private static Result<StartRequest> VerifyToken(StartRequest request) =>
+        InputValidation.VerifyNotEmpty(request, request.Token, nameof(request.Token));
 }
 
 /// <summary>
@@ -131,11 +134,17 @@ public interface IBuilderForUri
 public interface IBuilderForOptional : IVonageRequestBuilder<StartRequest>
 {
     /// <summary>
-    ///     Adds a stream to include iin the WebSocket audio.
+    /// Enables bidirectional audio on the websocket.
     /// </summary>
-    /// <param name="value">The stream Id.</param>
     /// <returns>The builder.</returns>
-    IBuilderForOptional WithStream(string value);
+    IBuilderForOptional EnableBidirectionalAudio();
+
+    /// <summary>
+    ///     Sets the audio rate on the builder.
+    /// </summary>
+    /// <param name="value">The audio sampling rate.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithAudioRate(SupportedAudioRates value);
 
     /// <summary>
     ///     Adds a custom header.
@@ -145,9 +154,9 @@ public interface IBuilderForOptional : IVonageRequestBuilder<StartRequest>
     IBuilderForOptional WithHeader(KeyValuePair<string, string> header);
 
     /// <summary>
-    ///     Sets the audio rate on the builder.
+    ///     Adds a stream to include iin the WebSocket audio.
     /// </summary>
-    /// <param name="value">The audio sampling rate.</param>
+    /// <param name="value">The stream Id.</param>
     /// <returns>The builder.</returns>
-    IBuilderForOptional WithAudioRate(SupportedAudioRates value);
+    IBuilderForOptional WithStream(string value);
 }

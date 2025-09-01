@@ -19,6 +19,12 @@ public class SerializationTest
         JsonSerializerBuilder.BuildWithCamelCase());
 
     [Fact]
+    public void ShouldDeserialize200() => this.helper.Serializer
+        .DeserializeObject<StartResponse>(this.helper.GetResponseJson())
+        .Should()
+        .BeSuccess(BuildExpectedResponse());
+
+    [Fact]
     public void ShouldSerialize() => BuildRequest()
         .GetStringContent()
         .Should()
@@ -29,12 +35,6 @@ public class SerializationTest
         .GetStringContent()
         .Should()
         .BeSuccess(this.helper.GetRequestJson());
-
-    [Fact]
-    public void ShouldDeserialize200() => this.helper.Serializer
-        .DeserializeObject<StartResponse>(this.helper.GetResponseJson())
-        .Should()
-        .BeSuccess(BuildExpectedResponse());
 
     internal static StartResponse BuildExpectedResponse() => new StartResponse("b0a5a8c7-dc38-459f-a48d-a7f2008da853",
         "7c0680fc-6274-4de5-a66f-d0648e8d3ac2");
@@ -60,5 +60,6 @@ public class SerializationTest
             .WithStream("stream-1")
             .WithStream("stream-2")
             .WithAudioRate(SupportedAudioRates.AUDIO_RATE_16000Hz)
+            .EnableBidirectionalAudio()
             .Create();
 }

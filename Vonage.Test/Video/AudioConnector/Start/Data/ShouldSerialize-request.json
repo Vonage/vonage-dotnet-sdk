@@ -5,6 +5,7 @@
     "uri": "wss://example.com/ws-endpoint",
     "streams": [],
     "headers": {},
-    "audioRate": 8000
+    "audioRate": 8000,
+    "bidirectional": false
   }
 }

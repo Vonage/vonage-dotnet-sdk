@@ -64,11 +64,13 @@ public readonly struct StartRequest : IVonageRequest
 ///     with a maximum length of 512 bytes.
 /// </param>
 /// <param name="AudioRate">A number representing the audio sampling rate in Hz.</param>
+/// <param name="Bidirectional">Enables bidirectional audio on the websocket..</param>
 public record WebSocket(
     Uri Uri,
     string[] Streams,
     Dictionary<string, string> Headers,
-    SupportedAudioRates AudioRate);
+    SupportedAudioRates AudioRate,
+    bool Bidirectional);
 
 /// <summary>
 ///     A number representing the audio sampling rate in Hz.
