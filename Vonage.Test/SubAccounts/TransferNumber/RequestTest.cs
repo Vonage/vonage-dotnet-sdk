@@ -15,7 +15,7 @@ public class RequestTest
     public RequestTest() => this.fixture = new Fixture();
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         TransferNumberRequest
             .Build()
             .WithFrom(this.fixture.Create<string>())
@@ -29,7 +29,7 @@ public class RequestTest
             .BeSuccess("/accounts/489dsSS564652/transfer-number");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
+    public void RequestUri_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
         TransferNumberRequest
             .Build()
             .WithFrom(this.fixture.Create<string>())

@@ -43,7 +43,7 @@ public class RequestTest
             .BeSuccess(ValidExperienceComposerId);
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         GetSessionRequest.Parse(this.validApplicationId, ValidExperienceComposerId)
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()

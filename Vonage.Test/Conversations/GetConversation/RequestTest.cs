@@ -26,7 +26,7 @@ public class RequestTest
             .BeSuccess("CON-123");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         GetConversationRequest.Parse("CON-123")
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()

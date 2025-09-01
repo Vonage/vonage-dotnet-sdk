@@ -42,7 +42,7 @@ public class RequestTest
             .BeSuccess("MEM-123");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         GetMemberRequest.Parse("CON-123", "MEM-123")
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()

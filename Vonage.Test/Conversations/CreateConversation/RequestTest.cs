@@ -10,7 +10,7 @@ namespace Vonage.Test.Conversations.CreateConversation;
 public class RequestTest
 {
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         CreateConversationRequest.Build()
             .Create()
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())

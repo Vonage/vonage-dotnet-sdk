@@ -11,7 +11,7 @@ namespace Vonage.Test.VerifyV2.StartVerification;
 public class RequestTest
 {
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         StartVerificationRequest.Build()
             .WithBrand("MyBrand")
             .WithWorkflow(SmsWorkflow.Parse("123456789"))

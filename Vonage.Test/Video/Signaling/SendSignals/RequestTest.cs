@@ -26,7 +26,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         SendSignalsRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithSessionId(this.sessionId)

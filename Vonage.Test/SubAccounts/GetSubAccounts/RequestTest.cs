@@ -10,7 +10,7 @@ namespace Vonage.Test.SubAccounts.GetSubAccounts;
 public class RequestTest
 {
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         GetSubAccountsRequest.Build("123abCD")
             .BuildRequestMessage()
             .RequestUri!.ToString().Should()

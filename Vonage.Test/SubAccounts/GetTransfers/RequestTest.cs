@@ -22,7 +22,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)
@@ -34,7 +34,7 @@ public class RequestTest
             .BeSuccess("/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_GivenAllParametersAreProvided() =>
+    public void RequestUri_ShouldReturnApiEndpoint_GivenAllParametersAreProvided() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)
@@ -49,7 +49,7 @@ public class RequestTest
                 "/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z&end_date=2020-06-30T12%3A00%3A00Z&subaccount=123AZs456");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_GivenEndDateIsProvided() =>
+    public void RequestUri_ShouldReturnApiEndpoint_GivenEndDateIsProvided() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)
@@ -63,7 +63,7 @@ public class RequestTest
                 "/accounts/489dsSS564652/credit-transfers?start_date=2018-03-02T17%3A34%3A49Z&end_date=2020-06-30T12%3A00%3A00Z");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_GivenKeyAndEndpointAreMissing() =>
+    public void RequestUri_ShouldReturnApiEndpoint_GivenKeyAndEndpointAreMissing() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)
@@ -73,7 +73,7 @@ public class RequestTest
             .BeSuccess("/accounts//?start_date=2018-03-02T17%3A34%3A49Z");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_GivenSubAccountKeyIsProvided() =>
+    public void RequestUri_ShouldReturnApiEndpoint_GivenSubAccountKeyIsProvided() =>
         GetTransfersRequest
             .Build()
             .WithStartDate(this.startDate)

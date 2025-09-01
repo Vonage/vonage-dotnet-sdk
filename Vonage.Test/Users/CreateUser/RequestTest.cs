@@ -10,7 +10,7 @@ namespace Vonage.Test.Users.CreateUser;
 public class RequestTest
 {
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         CreateUserRequest
             .Build()
             .Create()

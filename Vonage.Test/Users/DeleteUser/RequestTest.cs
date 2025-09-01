@@ -26,7 +26,7 @@ public class RequestTest
             .BeSuccess("USR-82e028d9-5201-4f1e-8188-604b2d3471ec");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         DeleteUserRequest.Parse("USR-82e028d9-5201-4f1e-8188-604b2d3471ec")
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()

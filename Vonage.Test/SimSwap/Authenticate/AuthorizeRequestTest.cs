@@ -10,7 +10,7 @@ namespace Vonage.Test.SimSwap.Authenticate;
 public class AuthorizeRequestTest
 {
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         AuthenticateRequest.Parse("123456789", "scope")
             .Map(request => request.BuildAuthorizeRequest())
             .Map(r => r.BuildRequestMessage().RequestUri!.ToString())

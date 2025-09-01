@@ -24,7 +24,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
+    public void RequestUri_ShouldReturnApiEndpoint_WithDefaultOffsetAndCount() =>
         AddStreamToBroadcastRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithBroadcastId(this.broadcastId)

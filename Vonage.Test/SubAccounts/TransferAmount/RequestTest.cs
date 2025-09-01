@@ -14,7 +14,7 @@ public class RequestTest
     public RequestTest() => this.fixture = new Fixture();
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_GivenBalanceTransfer() =>
+    public void RequestUri_ShouldReturnApiEndpoint_GivenBalanceTransfer() =>
         TransferAmountRequest
             .Build()
             .WithFrom(this.fixture.Create<string>())
@@ -28,7 +28,7 @@ public class RequestTest
             .BeSuccess("/accounts/489dsSS564652/balance-transfers");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_GivenCreditTransfer() =>
+    public void RequestUri_ShouldReturnApiEndpoint_GivenCreditTransfer() =>
         TransferAmountRequest
             .Build()
             .WithFrom(this.fixture.Create<string>())
@@ -42,7 +42,7 @@ public class RequestTest
             .BeSuccess("/accounts/489dsSS564652/credit-transfers");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_GivenKeyAndEndpointAreMissing() =>
+    public void RequestUri_ShouldReturnApiEndpoint_GivenKeyAndEndpointAreMissing() =>
         TransferAmountRequest
             .Build()
             .WithFrom(this.fixture.Create<string>())

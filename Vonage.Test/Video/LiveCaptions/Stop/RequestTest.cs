@@ -43,7 +43,7 @@ public class RequestTest
             .BeSuccess(ValidCaptionsId);
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         StopRequest.Parse(new Guid("301cf3c3-0027-4578-b212-dac7e924e85b"), "CAP-123")
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()

@@ -10,7 +10,7 @@ namespace Vonage.Test.VerifyV2.UpdateTemplate;
 public class RequestTest
 {
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         UpdateTemplateRequest.Build()
             .WithId(RequestBuilderTest.ValidTemplateId)
             .Create()

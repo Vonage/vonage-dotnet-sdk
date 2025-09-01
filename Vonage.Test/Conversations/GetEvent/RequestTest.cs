@@ -42,7 +42,7 @@ public class RequestTest
             .BeSuccess("EVE-123");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         GetEventRequest.Parse("CON-123", "EVE-123")
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()

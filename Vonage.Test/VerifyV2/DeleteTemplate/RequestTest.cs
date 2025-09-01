@@ -24,7 +24,7 @@ public class RequestTest
             .BeSuccess(new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"));
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         DeleteTemplateRequest.Parse(new Guid("f3a065af-ac5a-47a4-8dfe-819561a7a287"))
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()

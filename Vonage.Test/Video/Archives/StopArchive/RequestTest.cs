@@ -22,7 +22,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         StopArchiveRequest.Build()
             .WithApplicationId(this.applicationId)
             .WithArchiveId(this.archiveId)

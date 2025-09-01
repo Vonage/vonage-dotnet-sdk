@@ -19,7 +19,7 @@ public class RequestTest
     }
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         CreateSessionRequest.Default.BuildRequestMessage().RequestUri!.ToString()
             .Should()
             .Be("/session/create");

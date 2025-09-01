@@ -11,7 +11,7 @@ namespace Vonage.Test.Conversations.CreateEvent;
 public class RequestTest
 {
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         CreateEventRequest
             .Build()
             .WithConversationId("CON-123")

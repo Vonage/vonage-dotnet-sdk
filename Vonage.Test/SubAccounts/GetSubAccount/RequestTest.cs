@@ -26,7 +26,7 @@ public class RequestTest
             .BeSuccess(request => request.SubAccountKey.Should().Be("123456789"));
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint() =>
+    public void RequestUri_ShouldReturnApiEndpoint() =>
         GetSubAccountRequest.Parse("456iFuDL099")
             .Map(request => request.WithApiKey("123abCD"))
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
@@ -34,7 +34,7 @@ public class RequestTest
             .BeSuccess("/accounts/123abCD/subaccounts/456iFuDL099");
 
     [Fact]
-    public void ReqeustUri_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
+    public void RequestUri_ShouldReturnApiEndpoint_WithoutPrimaryAccountKeyKey() =>
         GetSubAccountRequest.Parse("456iFuDL099")
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
