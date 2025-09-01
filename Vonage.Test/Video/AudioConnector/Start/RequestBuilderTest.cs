@@ -19,6 +19,23 @@ public class RequestBuilderTest
     private readonly Uri validUri = new Uri("https://example.com");
 
     [Fact]
+    public void Build_ShouldEnableBidirectionalAudio() =>
+        this.BuildValidRequest()
+            .EnableBidirectionalAudio()
+            .Create()
+            .Map(request => request.WebSocket.Bidirectional)
+            .Should()
+            .BeSuccess(true);
+
+    [Fact]
+    public void Build_ShouldHaveBidirectionalAudioDisabled_GivenDefault() =>
+        this.BuildValidRequest()
+            .Create()
+            .Map(request => request.WebSocket.Bidirectional)
+            .Should()
+            .BeSuccess(false);
+
+    [Fact]
     public void Build_ShouldHaveDefaultAudioRate() =>
         this.BuildValidRequest()
             .Create()
