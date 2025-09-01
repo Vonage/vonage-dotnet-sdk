@@ -1,4 +1,25 @@
 # Changelog
+## [v8.7.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.7.0) (2025-09-01)
+
+### Bug Fixes
+
+- Typo in test name ([d8216c4](https://github.com/Vonage/vonage-dotnet-sdk/commit/d8216c457191fa96fcb35d06f3860c9510bd76d1))
+
+
+### Documentation
+
+- Generate changelog for v8.6.0 ([435cda7](https://github.com/Vonage/vonage-dotnet-sdk/commit/435cda797c2aa2fb30b3f9a0bbc1475b60e2cb66))
+
+- Bump version to v8.7.0 ([ca100dc](https://github.com/Vonage/vonage-dotnet-sdk/commit/ca100dc6368790b753d7832e7c1d0eb583cb7bdf))
+
+
+### Features
+
+- Add support for bidirectional audio in Video WebSocket ([91cc42a](https://github.com/Vonage/vonage-dotnet-sdk/commit/91cc42a76eea28d012ce233451570c41d62c4fcb))
+
+- Add support for bidirectional audio in Video WebSocket ([158e7db](https://github.com/Vonage/vonage-dotnet-sdk/commit/158e7dbc1e70e27d28e8ffe3dea2915a3abe063e))
+
+
 ## [v8.6.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.6.0) (2025-08-29)
 
 ### Documentation
