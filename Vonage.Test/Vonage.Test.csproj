@@ -94,7 +94,7 @@
         <None Update="Data\ApplicationTests\CreateApplicationAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncRealTimeData-response.json">
+        <None Update="Data\NumberInsightsTests\Advanced_WithInactiveRealTimeData-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\MultiInputTests\TestWebhookSerializationSpeechOverridden-response.json">
@@ -109,46 +109,34 @@
         <None Update="Data\MultiInputTests\TestSerializeNccoAllProperties-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedAsyncAsync-response.json">
+        <None Update="Data\NumberInsightsTests\Advanced_FailedRequest-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncAsync-response.json">
+        <None Update="Data\NumberInsightsTests\Advanced_NullableValues-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestFailedAdvancedRequest-response.json">
+        <None Update="Data\NumberInsightsTests\Advanced_Asynchronous-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSyncWithNullableValues-response.json">
+        <None Update="Data\NumberInsightsTests\Advanced_Asynchronous_FailedRequest-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedAsync-response.json">
+        <None Update="Data\NumberInsightsTests\Advanced-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestFailedAsyncRequest-response.json">
+        <None Update="Data\NumberInsightsTests\Standard_WithoutRoaming-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequestAsync-response.json">
+        <None Update="Data\NumberInsightsTests\Standard-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestAdvancedNIRequestSync-response.json">
+        <None Update="Data\NumberInsightsTests\Basic-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequestWithoutRoaming-response.json">
+        <None Update="Data\NumberInsightsTests\Advanced_WithoutRoamingStatus-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequest-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestBasicNIRequestAsync-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestBasicNIRequest-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\AdvancedNIRequestSyncWithNotRoamingStatus-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\NumberInsightsTests\TestStandardNIRequestWithNullCarrier-response.json">
+        <None Update="Data\NumberInsightsTests\Standard_NullCarrier-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\VoiceTests\CreateCallAsync-request.json">
@@ -1344,6 +1332,9 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\NccoTests\WaitActionWithTimeout-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\NumberInsightsTests\Advanced_WithActiveRealTimeData-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

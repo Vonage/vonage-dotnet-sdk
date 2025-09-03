@@ -43,5 +43,9 @@
   "lookup_outcome": 0,
   "lookup_outcome_message": "Success",
   "valid_number": "valid",
-  "reachable": "reachable"
+  "reachable": "reachable",
+  "real_time_data": {
+    "active_status": "inactive",
+    "handset_status": "on"
+  }
 }

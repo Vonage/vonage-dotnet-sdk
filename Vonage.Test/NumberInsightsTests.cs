@@ -1,7 +1,6 @@
 ﻿#region
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Vonage.NumberInsights;
 using Xunit;
@@ -13,25 +12,21 @@ namespace Vonage.Test;
 public class NumberInsightsTests : TestBase
 {
     [Fact]
-    public async Task AdvancedAsynchronous_AlternativeTestFile_WithExplicitCredentials_ShouldReturnValidResponse()
+    public async Task Advanced()
     {
-        var expectedUri =
-            $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&";
-        var request = new AdvancedNumberInsightAsynchronousRequest
+        var expectedUri = $"{this.ApiUrl}/ni/advanced/json?number=15555551212&";
+        var request = new AdvancedNumberInsightRequest
         {
-            Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
-            Callback = "https://example.com/callback",
+            Number = "15555551212",
         };
-        this.SetupHttpMock(expectedUri, "TestAdvancedAsyncAsync");
-        var client = this.CreateClient();
-        var response =
-            await client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request,
-                this.BuildCredentialsForBasicAuthentication());
-        AssertAdvancedAsynchronousResponse(response);
+        this.SetupHttpMock(expectedUri);
+        this.CreateClient();
+        var response = await this.CreateClient().GetNumberInsightAdvancedAsync(request);
+        AssertAdvancedInsightResponseCommon(response);
     }
 
     [Fact]
-    public async Task AdvancedAsynchronous_AlternativeTestFile_WithMinimalRequest_ShouldReturnValidResponse()
+    public async Task Advanced_Asynchronous()
     {
         var expectedUri =
             $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&number=15555551212&";
@@ -40,14 +35,13 @@ public class NumberInsightsTests : TestBase
             Number = "15555551212",
             Callback = "https://example.com/callback",
         };
-        this.SetupHttpMock(expectedUri, "TestAdvancedAsyncAsync");
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request);
+        this.SetupHttpMock(expectedUri);
+        var response = await this.CreateClient().GetNumberInsightAsynchronousAsync(request);
         AssertAdvancedAsynchronousResponse(response);
     }
 
     [Fact]
-    public async Task AdvancedAsynchronous_WithExplicitCredentials_ShouldReturnValidResponse()
+    public async Task Advanced_Asynchronous_FailedRequest()
     {
         var expectedUri =
             $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&";
@@ -56,235 +50,103 @@ public class NumberInsightsTests : TestBase
             Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
             Callback = "https://example.com/callback",
         };
-        this.SetupHttpMock(expectedUri, "TestAdvancedAsync");
-        var client = this.CreateClient();
-        var response =
-            await client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request,
-                this.BuildCredentialsForBasicAuthentication());
-        AssertAdvancedAsynchronousResponse(response);
-    }
-
-    [Fact]
-    public async Task AdvancedAsynchronous_WithMinimalRequest_ShouldReturnValidResponse()
-    {
-        var expectedUri =
-            $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&number=15555551212&";
-        var request = new AdvancedNumberInsightAsynchronousRequest
-        {
-            Number = "15555551212",
-            Callback = "https://example.com/callback",
-        };
-        this.SetupHttpMock(expectedUri, "TestAdvancedAsync");
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request);
-        AssertAdvancedAsynchronousResponse(response);
-    }
-
-    [Fact]
-    public async Task AdvancedAsynchronousFailedRequest()
-    {
-        var expectedUri =
-            $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&";
-        var request = new AdvancedNumberInsightAsynchronousRequest
-        {
-            Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
-            Callback = "https://example.com/callback",
-        };
-        this.SetupHttpMock(expectedUri, "TestFailedAsyncRequest");
-        var client = this.CreateClient();
+        this.SetupHttpMock(expectedUri);
         var ex = await Assert.ThrowsAsync<VonageNumberInsightResponseException>(() =>
-            client.NumberInsightClient.GetNumberInsightAsynchronousAsync(request));
+            this.CreateClient().GetNumberInsightAsynchronousAsync(request));
         Assert.Equal(4, ex.Response.Status);
     }
 
     [Fact]
-    public async Task AdvancedNIRequestSyncWithNotRoamingStatus()
+    public async Task Advanced_Asynchronous_WithExplicitCredentials()
     {
-        var expectedResponse = this.GetResponseJson();
         var expectedUri =
-            $"{this.ApiUrl}/ni/advanced/json?number=971639946111&";
-        var request = new AdvancedNumberInsightRequest
+            $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&";
+        var request = new AdvancedNumberInsightAsynchronousRequest
         {
-            Number = "971639946111",
+            Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255",
+            Callback = "https://example.com/callback",
         };
-        this.Setup(expectedUri, expectedResponse);
-        var client = this.BuildVonageClient(this.BuildCredentialsForBasicAuthentication());
-        var response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
-        Assert.Equal(0, response.Status);
-        Assert.Equal("Success", response.StatusMessage);
-        Assert.Equal(0, response.LookupOutcome);
-        Assert.Equal("Success", response.LookupOutcomeMessage);
-        Assert.Equal("784758db-0468-4c61-86dc-2dffdb715bac", response.RequestId);
-        Assert.Equal("971123456789", response.InternationalFormatNumber);
-        Assert.Equal("053 345 6789", response.NationalFormatNumber);
-        Assert.Equal("AE", response.CountryCode);
-        Assert.Equal("ARE", response.CountryCodeIso3);
-        Assert.Equal("United Arab Emirates", response.CountryName);
-        Assert.Equal("971", response.CountryPrefix);
-        Assert.Equal("0.03000000", response.RequestPrice);
-        Assert.Equal("40.27231333", response.RemainingBalance);
-        Assert.Equal("42403", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("AE", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
-        Assert.Equal("42403", response.OriginalCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
-        Assert.Equal("AE", response.OriginalCarrier.Country);
-        Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
-        Assert.Equal(NumberValidity.valid, response.ValidNumber);
-        Assert.Equal(NumberReachability.Reachable, response.Reachable);
-        Assert.Equal(PortedStatus.NotPorted, response.Ported);
-        Assert.Equal(RoamingStatus.NotRoaming, response.Roaming.Status);
-        Assert.Null(response.Roaming.RoamingNetworkName);
-        Assert.Null(response.Roaming.RoamingCountryCode);
-        Assert.Null(response.Roaming.RoamingNetworkCode);
+        this.SetupHttpMock(expectedUri, nameof(this.Advanced_Asynchronous));
+        var response =
+            await this.CreateClient().GetNumberInsightAsynchronousAsync(request,
+                this.BuildCredentialsForBasicAuthentication());
+        AssertAdvancedAsynchronousResponse(response);
     }
 
     [Fact]
-    public async Task AdvancedNumberInsightFailedRequest()
+    public async Task Advanced_FailedRequest()
     {
         var expectedUri = $"{this.ApiUrl}/ni/advanced/json?number=15555551212&";
         var request = new AdvancedNumberInsightRequest {Number = "15555551212"};
-        this.SetupHttpMock(expectedUri, "TestFailedAdvancedRequest");
-        var client = this.CreateClient();
+        this.SetupHttpMock(expectedUri);
         var ex = await Assert.ThrowsAsync<VonageNumberInsightResponseException>(() =>
-            client.NumberInsightClient.GetNumberInsightAdvancedAsync(request));
+            this.CreateClient().GetNumberInsightAdvancedAsync(request));
         Assert.Equal(4, ex.Response.Status);
         Assert.Equal("invalid credentials", ((AdvancedInsightsResponse) ex.Response).StatusMessage);
     }
 
     [Fact]
-    public async Task AdvancedNumberInsightSyncMinimal()
+    public async Task Advanced_NullableValues()
     {
         var expectedUri = $"{this.ApiUrl}/ni/advanced/json?number=15555551212&";
         var request = new AdvancedNumberInsightRequest
         {
             Number = "15555551212",
         };
-        this.SetupHttpMock(expectedUri, "TestAdvancedNIRequestSync");
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
-        AssertAdvancedInsightResponseCommon(response);
+        this.SetupHttpMock(expectedUri);
+        var response = await this.CreateClient().GetNumberInsightAdvancedAsync(request);
+        AssertAdvancedWithNullableValues(response);
     }
 
     [Fact]
-    public async Task AdvancedNumberInsightSyncWithExplicitCredentials()
+    public async Task Advanced_NullableValues_WithExplicitCredentials()
+    {
+        var expectedUri = $"{this.ApiUrl}/ni/advanced/json?ip=123.0.0.255&cnam=true&number=15555551212&country=GB&";
+        var request = new AdvancedNumberInsightRequest
+            {Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255"};
+        this.SetupHttpMock(expectedUri, nameof(this.Advanced_NullableValues));
+        var response =
+            await this.CreateClient().GetNumberInsightAdvancedAsync(request,
+                this.BuildCredentialsForBasicAuthentication());
+        AssertAdvancedWithNullableValues(response);
+    }
+
+    [Fact]
+    public async Task Advanced_WithActiveRealTimeData()
+    {
+        var expectedUri =
+            $"{this.ApiUrl}/ni/advanced/json?ip={WebUtility.UrlEncode("123.0.0.255")}&real_time_data=true&cnam=true&number=15555551212&country=GB&";
+        var request = new AdvancedNumberInsightRequest
+        {
+            Cnam = true,
+            Country = "GB",
+            Number = "15555551212",
+            Ip = "123.0.0.255",
+            RealTimeData = true,
+        };
+        this.SetupHttpMock(expectedUri);
+        var response = await this.CreateClient().GetNumberInsightAdvancedAsync(request);
+        AssertRealTimeDataBase(response);
+        Assert.True(response.RealTimeData.ActiveStatus);
+    }
+
+    [Fact]
+    public async Task Advanced_WithExplicitCredentials()
     {
         var expectedUri =
             $"{this.ApiUrl}/ni/advanced/json?ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&";
         var request = new AdvancedNumberInsightRequest
             {Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255"};
-        this.SetupHttpMock(expectedUri, "TestAdvancedNIRequestSync");
-        var client = this.CreateClient();
+        this.SetupHttpMock(expectedUri, nameof(this.Advanced));
         var response =
-            await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request,
+            await this.CreateClient().GetNumberInsightAdvancedAsync(request,
                 this.BuildCredentialsForBasicAuthentication());
         AssertAdvancedInsightResponseCommon(response);
     }
 
     [Fact]
-    public async Task AdvancedNumberInsightWithNullableValuesAndExplicitCredentials()
+    public async Task Advanced_WithInactiveRealTimeData()
     {
-        var expectedUri = $"{this.ApiUrl}/ni/advanced/json?ip=123.0.0.255&cnam=true&number=15555551212&country=GB&";
-        var request = new AdvancedNumberInsightRequest
-            {Cnam = true, Country = "GB", Number = "15555551212", Ip = "123.0.0.255"};
-        this.SetupHttpMock(expectedUri, "TestAdvancedNIRequestSyncWithNullableValues");
-        var client = this.CreateClient();
-        var response =
-            await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request,
-                this.BuildCredentialsForBasicAuthentication());
-        Assert.Null(response.Reachable);
-        Assert.Equal(NumberValidity.valid, response.ValidNumber);
-        Assert.Equal("Success", response.LookupOutcomeMessage);
-        Assert.Equal(0, response.LookupOutcome);
-        Assert.Equal("John", response.FirstName);
-        Assert.Equal(CallerType.consumer, response.CallerType);
-        Assert.Equal("Smith", response.LastName);
-        Assert.Equal("John Smith", response.CallerName);
-        Assert.Equal("Smith", response.CallerIdentity.LastName);
-        Assert.Equal("John", response.CallerIdentity.FirstName);
-        Assert.Equal("John Smith", response.CallerIdentity.CallerName);
-        Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
-        Assert.Null(response.Roaming);
-        Assert.Null(response.Ported);
-        Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
-        Assert.Equal("GB", response.OriginalCarrier.Country);
-        Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
-        Assert.Equal(0, response.Status);
-        Assert.Equal("Success", response.StatusMessage);
-        Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", response.RequestId);
-        Assert.Equal("447700900000", response.InternationalFormatNumber);
-        Assert.Equal("07700 900000", response.NationalFormatNumber);
-        Assert.Equal("GB", response.CountryCode);
-        Assert.Equal("GBR", response.CountryCodeIso3);
-        Assert.Equal("United Kingdom", response.CountryName);
-        Assert.Equal("44", response.CountryPrefix);
-        Assert.Equal("0.04000000", response.RequestPrice);
-        Assert.Equal("0.01500000", response.RefundPrice);
-        Assert.Equal("1.23456789", response.RemainingBalance);
-        Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("GB", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
-    }
-
-    [Fact]
-    public async Task AdvancedNumberInsightWithNullableValuesMinimal()
-    {
-        var expectedUri = $"{this.ApiUrl}/ni/advanced/json?number=15555551212&";
-        var request = new AdvancedNumberInsightRequest
-        {
-            Number = "15555551212",
-        };
-        this.SetupHttpMock(expectedUri, "TestAdvancedNIRequestSyncWithNullableValues");
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
-        Assert.Null(response.Reachable);
-        Assert.Equal(NumberValidity.valid, response.ValidNumber);
-        Assert.Equal("Success", response.LookupOutcomeMessage);
-        Assert.Equal(0, response.LookupOutcome);
-        Assert.Equal("John", response.FirstName);
-        Assert.Equal(CallerType.consumer, response.CallerType);
-        Assert.Equal("Smith", response.LastName);
-        Assert.Equal("John Smith", response.CallerName);
-        Assert.Equal("Smith", response.CallerIdentity.LastName);
-        Assert.Equal("John", response.CallerIdentity.FirstName);
-        Assert.Equal("John Smith", response.CallerIdentity.CallerName);
-        Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
-        Assert.Null(response.Roaming);
-        Assert.Null(response.Ported);
-        Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
-        Assert.Equal("GB", response.OriginalCarrier.Country);
-        Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
-        Assert.Equal(0, response.Status);
-        Assert.Equal("Success", response.StatusMessage);
-        Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", response.RequestId);
-        Assert.Equal("447700900000", response.InternationalFormatNumber);
-        Assert.Equal("07700 900000", response.NationalFormatNumber);
-        Assert.Equal("GB", response.CountryCode);
-        Assert.Equal("GBR", response.CountryCodeIso3);
-        Assert.Equal("United Kingdom", response.CountryName);
-        Assert.Equal("44", response.CountryPrefix);
-        Assert.Equal("0.04000000", response.RequestPrice);
-        Assert.Equal("0.01500000", response.RefundPrice);
-        Assert.Equal("1.23456789", response.RemainingBalance);
-        Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("GB", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
-    }
-
-    [Fact]
-    public async Task AdvancedNumberInsightWithRealTimeDataActive()
-    {
-        var responseData = new Dictionary<string, string>
-        {
-            {"active_status", "active"},
-        };
-        var expectedResponse =
-            this.GetResponseJsonWithParameters(responseData, "TestAdvancedNIRequestSyncRealTimeData");
         var expectedUri =
             $"{this.ApiUrl}/ni/advanced/json?ip={WebUtility.UrlEncode("123.0.0.255")}&real_time_data=true&cnam=true&number=15555551212&country=GB&";
         var request = new AdvancedNumberInsightRequest
@@ -295,61 +157,43 @@ public class NumberInsightsTests : TestBase
             Ip = "123.0.0.255",
             RealTimeData = true,
         };
-        this.Setup(expectedUri, expectedResponse);
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
-        Assert.Equal(NumberReachability.Reachable, response.Reachable);
-        Assert.Equal(NumberValidity.valid, response.ValidNumber);
-        Assert.NotNull(response.RealTimeData);
-        Assert.True(response.RealTimeData.ActiveStatus);
-        Assert.Equal("on", response.RealTimeData.HandsetStatus);
-    }
-
-    [Fact]
-    public async Task AdvancedNumberInsightWithRealTimeDataInactive()
-    {
-        var responseData = new Dictionary<string, string>
-        {
-            {"active_status", "inactive"},
-        };
-        var expectedResponse =
-            this.GetResponseJsonWithParameters(responseData, "TestAdvancedNIRequestSyncRealTimeData");
-        var expectedUri =
-            $"{this.ApiUrl}/ni/advanced/json?ip={WebUtility.UrlEncode("123.0.0.255")}&real_time_data=true&cnam=true&number=15555551212&country=GB&";
-        var request = new AdvancedNumberInsightRequest
-        {
-            Cnam = true,
-            Country = "GB",
-            Number = "15555551212",
-            Ip = "123.0.0.255",
-            RealTimeData = true,
-        };
-        this.Setup(expectedUri, expectedResponse);
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
-        Assert.Equal(NumberReachability.Reachable, response.Reachable);
-        Assert.Equal(NumberValidity.valid, response.ValidNumber);
-        Assert.NotNull(response.RealTimeData);
+        this.SetupHttpMock(expectedUri);
+        var response = await this.CreateClient().GetNumberInsightAdvancedAsync(request);
+        AssertRealTimeDataBase(response);
         Assert.False(response.RealTimeData.ActiveStatus);
-        Assert.Equal("on", response.RealTimeData.HandsetStatus);
     }
 
     [Fact]
-    public async Task BasicNumberInsightMinimal()
+    public async Task Advanced_WithoutRoamingStatus()
+    {
+        var expectedResponse = this.GetResponseJson();
+        var expectedUri =
+            $"{this.ApiUrl}/ni/advanced/json?number=447700900000&";
+        var request = new AdvancedNumberInsightRequest
+        {
+            Number = "447700900000",
+        };
+        this.Setup(expectedUri, expectedResponse);
+        var client = this.BuildVonageClient(this.BuildCredentialsForBasicAuthentication());
+        var response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
+        AssertAdvancedNotRoamingResponse(response);
+    }
+
+    [Fact]
+    public async Task Basic()
     {
         var expectedUri = $"{this.ApiUrl}/ni/basic/json?number=15555551212&";
         var request = new BasicNumberInsightRequest
         {
             Number = "15555551212",
         };
-        this.SetupHttpMock(expectedUri, "TestBasicNIRequest");
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightBasicAsync(request);
+        this.SetupHttpMock(expectedUri);
+        var response = await this.CreateClient().GetNumberInsightBasicAsync(request);
         AssertBasicInsightResponse(response);
     }
 
     [Fact]
-    public async Task BasicNumberInsightWithExplicitCredentials()
+    public async Task Basic_WithExplicitCredentials()
     {
         var expectedUri = $"{this.ApiUrl}/ni/basic/json?number=15555551212&country=GB&";
         var request = new BasicNumberInsightRequest
@@ -357,129 +201,103 @@ public class NumberInsightsTests : TestBase
             Country = "GB",
             Number = "15555551212",
         };
-        this.SetupHttpMock(expectedUri, "TestBasicNIRequest");
-        var client = this.CreateClient();
+        this.SetupHttpMock(expectedUri, nameof(this.Basic));
+        this.CreateClient();
         var response =
-            await client.NumberInsightClient.GetNumberInsightBasicAsync(request,
+            await this.CreateClient().GetNumberInsightBasicAsync(request,
                 this.BuildCredentialsForBasicAuthentication());
         AssertBasicInsightResponse(response);
     }
 
     [Fact]
-    public async Task StandardNumberInsightMinimal()
+    public async Task Standard()
     {
         var expectedUri = $"{this.ApiUrl}/ni/standard/json?number=15555551212&";
         var request = new StandardNumberInsightRequest
         {
             Number = "15555551212",
         };
-        this.SetupHttpMock(expectedUri, "TestStandardNIRequest");
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request);
+        this.SetupHttpMock(expectedUri);
+        var response = await this.CreateClient().GetNumberInsightStandardAsync(request);
         AssertStandardInsightResponseCommon(response);
-        Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
-        Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
-        Assert.Equal("US", response.Roaming.RoamingCountryCode);
-        Assert.Equal(RoamingStatus.Roaming, response.Roaming.Status);
-        Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("GB", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
+        AssertRoamingActive(response.Roaming, "Acme Inc", "12345", "US", RoamingStatus.Roaming);
+        AssertCarrier(response.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
     }
 
     [Fact]
-    public async Task StandardNumberInsightWithExplicitCredentials()
-    {
-        var expectedUri = $"{this.ApiUrl}/ni/standard/json?cnam=true&number=15555551212&country=GB&";
-        var request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
-        this.SetupHttpMock(expectedUri, "TestStandardNIRequest");
-        var client = this.CreateClient();
-        var response =
-            await client.NumberInsightClient.GetNumberInsightStandardAsync(request,
-                this.BuildCredentialsForBasicAuthentication());
-        AssertStandardInsightResponseCommon(response);
-        Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
-        Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
-        Assert.Equal("US", response.Roaming.RoamingCountryCode);
-        Assert.Equal(RoamingStatus.Roaming, response.Roaming.Status);
-        Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("GB", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
-    }
-
-    [Fact]
-    public async Task StandardNumberInsightWithNullCarrierAndExplicitCredentials()
-    {
-        var expectedUri = $"{this.ApiUrl}/ni/standard/json?cnam=true&number=15555551212&country=GB&";
-        var request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
-        this.SetupHttpMock(expectedUri, "TestStandardNIRequestWithNullCarrier");
-        var client = this.CreateClient();
-        var response =
-            await client.NumberInsightClient.GetNumberInsightStandardAsync(request,
-                this.BuildCredentialsForBasicAuthentication());
-        AssertStandardInsightResponseCommon(response);
-        Assert.Equal(RoamingStatus.Unknown, response.Roaming.Status);
-        Assert.Null(response.CurrentCarrier.NetworkCode);
-        Assert.Null(response.CurrentCarrier.Name);
-        Assert.Null(response.CurrentCarrier.Country);
-        Assert.Null(response.CurrentCarrier.NetworkType);
-    }
-
-    [Fact]
-    public async Task StandardNumberInsightWithNullCarrierMinimal()
+    public async Task Standard_NullCarrier()
     {
         var expectedUri = $"{this.ApiUrl}/ni/standard/json?number=15555551212&";
         var request = new StandardNumberInsightRequest
         {
             Number = "15555551212",
         };
-        this.SetupHttpMock(expectedUri, "TestStandardNIRequestWithNullCarrier");
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request);
+        this.SetupHttpMock(expectedUri);
+        this.CreateClient();
+        var response = await this.CreateClient().GetNumberInsightStandardAsync(request);
         AssertStandardInsightResponseCommon(response);
         Assert.Equal(RoamingStatus.Unknown, response.Roaming.Status);
-        Assert.Null(response.CurrentCarrier.NetworkCode);
-        Assert.Null(response.CurrentCarrier.Name);
-        Assert.Null(response.CurrentCarrier.Country);
-        Assert.Null(response.CurrentCarrier.NetworkType);
+        AssertCarrier(response.CurrentCarrier, null, null, null, null);
     }
 
     [Fact]
-    public async Task StandardNumberInsightWithoutRoamingAndExplicitCredentials()
+    public async Task Standard_NullCarrier_WithExplicitCredentials()
     {
         var expectedUri = $"{this.ApiUrl}/ni/standard/json?cnam=true&number=15555551212&country=GB&";
         var request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
-        this.SetupHttpMock(expectedUri, "TestStandardNIRequestWithoutRoaming");
-        var client = this.CreateClient();
+        this.SetupHttpMock(expectedUri, nameof(this.Standard_NullCarrier));
+        this.CreateClient();
         var response =
-            await client.NumberInsightClient.GetNumberInsightStandardAsync(request,
+            await this.CreateClient().GetNumberInsightStandardAsync(request,
                 this.BuildCredentialsForBasicAuthentication());
         AssertStandardInsightResponseCommon(response);
         Assert.Equal(RoamingStatus.Unknown, response.Roaming.Status);
-        Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("GB", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
+        AssertCarrier(response.CurrentCarrier, null, null, null, null);
     }
 
     [Fact]
-    public async Task StandardNumberInsightWithoutRoamingMinimal()
+    public async Task Standard_WithExplicitCredentials()
+    {
+        var expectedUri = $"{this.ApiUrl}/ni/standard/json?cnam=true&number=15555551212&country=GB&";
+        var request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
+        this.SetupHttpMock(expectedUri, nameof(this.Standard));
+        var response =
+            await this.CreateClient().GetNumberInsightStandardAsync(request,
+                this.BuildCredentialsForBasicAuthentication());
+        AssertStandardInsightResponseCommon(response);
+        AssertRoamingActive(response.Roaming, "Acme Inc", "12345", "US", RoamingStatus.Roaming);
+        AssertCarrier(response.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
+    }
+
+    [Fact]
+    public async Task Standard_WithoutRoaming()
     {
         var expectedUri = $"{this.ApiUrl}/ni/standard/json?number=15555551212&";
         var request = new StandardNumberInsightRequest
         {
             Number = "15555551212",
         };
-        this.SetupHttpMock(expectedUri, "TestStandardNIRequestWithoutRoaming");
-        var client = this.CreateClient();
-        var response = await client.NumberInsightClient.GetNumberInsightStandardAsync(request);
+        this.SetupHttpMock(expectedUri);
+        this.CreateClient();
+        var response = await this.CreateClient().GetNumberInsightStandardAsync(request);
         AssertStandardInsightResponseCommon(response);
         Assert.Equal(RoamingStatus.Unknown, response.Roaming.Status);
-        Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("GB", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
+        AssertCarrier(response.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
+    }
+
+    [Fact]
+    public async Task Standard_WithoutRoaming_WithExplicitCredentials()
+    {
+        var expectedUri = $"{this.ApiUrl}/ni/standard/json?cnam=true&number=15555551212&country=GB&";
+        var request = new StandardNumberInsightRequest {Cnam = true, Country = "GB", Number = "15555551212"};
+        this.SetupHttpMock(expectedUri, nameof(this.Standard_WithoutRoaming));
+        this.CreateClient();
+        var response =
+            await this.CreateClient().GetNumberInsightStandardAsync(request,
+                this.BuildCredentialsForBasicAuthentication());
+        AssertStandardInsightResponseCommon(response);
+        Assert.Equal(RoamingStatus.Unknown, response.Roaming.Status);
+        AssertCarrier(response.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
     }
 
     private static void AssertAdvancedAsynchronousResponse(AdvancedInsightsAsynchronousResponse response)
@@ -495,73 +313,120 @@ public class NumberInsightsTests : TestBase
     {
         Assert.Equal(NumberReachability.Reachable, response.Reachable);
         Assert.Equal(NumberValidity.valid, response.ValidNumber);
-        Assert.Equal("Success", response.LookupOutcomeMessage);
-        Assert.Equal(0, response.LookupOutcome);
-        Assert.Equal("John", response.FirstName);
-        Assert.Equal(CallerType.consumer, response.CallerType);
-        Assert.Equal("Smith", response.LastName);
-        Assert.Equal("John Smith", response.CallerName);
-        Assert.Equal("Smith", response.CallerIdentity.LastName);
-        Assert.Equal("John", response.CallerIdentity.FirstName);
-        Assert.Equal("John Smith", response.CallerIdentity.CallerName);
-        Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
-        Assert.Equal("Acme Inc", response.Roaming.RoamingNetworkName);
-        Assert.Equal("12345", response.Roaming.RoamingNetworkCode);
-        Assert.Equal("US", response.Roaming.RoamingCountryCode);
-        Assert.Equal(RoamingStatus.Roaming, response.Roaming.Status);
+        AssertLookupOutcomeSuccess(response);
+        AssertStandardCallerInfo(response);
+        AssertCallerId(response.CallerIdentity, "John", "Smith", "John Smith", CallerType.consumer);
+        AssertRoamingActive(response.Roaming, "Acme Inc", "12345", "US", RoamingStatus.Roaming);
         Assert.Equal(PortedStatus.NotPorted, response.Ported);
-        Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
-        Assert.Equal("GB", response.OriginalCarrier.Country);
-        Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
-        Assert.Equal(0, response.Status);
-        Assert.Equal("Success", response.StatusMessage);
-        Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", response.RequestId);
-        Assert.Equal("447700900000", response.InternationalFormatNumber);
-        Assert.Equal("07700 900000", response.NationalFormatNumber);
-        Assert.Equal("GB", response.CountryCode);
-        Assert.Equal("GBR", response.CountryCodeIso3);
-        Assert.Equal("United Kingdom", response.CountryName);
-        Assert.Equal("44", response.CountryPrefix);
+        AssertCarrier(response.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
+        AssertStatusSuccess(response);
+        AssertStandardPhoneFormat(response);
+        AssertStandardPricing(response);
+        AssertCarrier(response.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
+    }
+
+    private static void AssertAdvancedNotRoamingResponse(AdvancedInsightsResponse response)
+    {
+        AssertStatusSuccess(response);
+        AssertLookupOutcomeSuccess(response);
+        AssertStandardPhoneFormat(response);
         Assert.Equal("0.04000000", response.RequestPrice);
-        Assert.Equal("0.01500000", response.RefundPrice);
         Assert.Equal("1.23456789", response.RemainingBalance);
-        Assert.Equal("12345", response.CurrentCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.CurrentCarrier.Name);
-        Assert.Equal("GB", response.CurrentCarrier.Country);
-        Assert.Equal("mobile", response.CurrentCarrier.NetworkType);
+        AssertCarrier(response.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
+        AssertCarrier(response.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
+        Assert.Equal(NumberValidity.valid, response.ValidNumber);
+        Assert.Equal(NumberReachability.Reachable, response.Reachable);
+        Assert.Equal(PortedStatus.NotPorted, response.Ported);
+        Assert.Equal(RoamingStatus.NotRoaming, response.Roaming.Status);
+        Assert.Null(response.Roaming.RoamingNetworkName);
+        Assert.Null(response.Roaming.RoamingCountryCode);
+        Assert.Null(response.Roaming.RoamingNetworkCode);
+    }
+
+    private static void AssertAdvancedWithNullableValues(AdvancedInsightsResponse response)
+    {
+        Assert.Null(response.Reachable);
+        Assert.Equal(NumberValidity.valid, response.ValidNumber);
+        AssertLookupOutcomeSuccess(response);
+        AssertStandardCallerInfo(response);
+        AssertCallerId(response.CallerIdentity, "John", "Smith", "John Smith", CallerType.consumer);
+        Assert.Null(response.Roaming);
+        Assert.Null(response.Ported);
+        AssertCarrier(response.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
+        AssertStatusSuccess(response);
+        AssertStandardPhoneFormat(response);
+        AssertStandardPricing(response);
+        AssertCarrier(response.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
     }
 
     private static void AssertBasicInsightResponse(BasicInsightResponse response)
     {
-        Assert.Equal(0, response.Status);
-        Assert.Equal("Success", response.StatusMessage);
-        Assert.Equal("ca4f82b6-73aa-43fe-8c52-874fd9ffffff", response.RequestId);
-        Assert.Equal("15555551212", response.InternationalFormatNumber);
-        Assert.Equal("(555) 555-1212", response.NationalFormatNumber);
-        Assert.Equal("US", response.CountryCode);
-        Assert.Equal("USA", response.CountryCodeIso3);
-        Assert.Equal("United States of America", response.CountryName);
-        Assert.Equal("1", response.CountryPrefix);
+        AssertStatusSuccess(response);
+        AssertStandardPhoneFormat(response);
     }
 
-    private static void AssertStandardInsightResponseCommon(StandardInsightResponse response)
+    private static void AssertCallerId(CallerId identity, string firstName, string lastName, string callerName,
+        CallerType callerType)
+    {
+        Assert.Equal(firstName, identity.FirstName);
+        Assert.Equal(lastName, identity.LastName);
+        Assert.Equal(callerName, identity.CallerName);
+        Assert.Equal(callerType, identity.CallerType);
+    }
+
+    private static void AssertCarrier(Carrier carrier, string networkCode, string name, string country,
+        string networkType)
+    {
+        Assert.Equal(networkCode, carrier.NetworkCode);
+        Assert.Equal(name, carrier.Name);
+        Assert.Equal(country, carrier.Country);
+        Assert.Equal(networkType, carrier.NetworkType);
+    }
+
+    private static void AssertLookupOutcomeSuccess(dynamic response)
+    {
+        Assert.Equal(0, response.LookupOutcome);
+        Assert.Equal("Success", response.LookupOutcomeMessage);
+    }
+
+    private static void AssertRealTimeDataBase(AdvancedInsightsResponse response)
+    {
+        Assert.Equal(NumberReachability.Reachable, response.Reachable);
+        Assert.Equal(NumberValidity.valid, response.ValidNumber);
+        Assert.NotNull(response.RealTimeData);
+        Assert.Equal("on", response.RealTimeData.HandsetStatus);
+    }
+
+    private static void AssertRoamingActive(Roaming roaming, string networkName, string networkCode, string countryCode,
+        RoamingStatus status)
+    {
+        Assert.Equal(networkName, roaming.RoamingNetworkName);
+        Assert.Equal(networkCode, roaming.RoamingNetworkCode);
+        Assert.Equal(countryCode, roaming.RoamingCountryCode);
+        Assert.Equal(status, roaming.Status);
+    }
+
+    private static void AssertStandardCallerInfo(dynamic response)
     {
         Assert.Equal("John", response.FirstName);
         Assert.Equal(CallerType.consumer, response.CallerType);
         Assert.Equal("Smith", response.LastName);
         Assert.Equal("John Smith", response.CallerName);
-        Assert.Equal("Smith", response.CallerIdentity.LastName);
-        Assert.Equal("John", response.CallerIdentity.FirstName);
-        Assert.Equal("John Smith", response.CallerIdentity.CallerName);
-        Assert.Equal(CallerType.consumer, response.CallerIdentity.CallerType);
+    }
+
+    private static void AssertStandardInsightResponseCommon(StandardInsightResponse response)
+    {
+        AssertStandardCallerInfo(response);
+        AssertCallerId(response.CallerIdentity, "John", "Smith", "John Smith", CallerType.consumer);
         Assert.Equal(PortedStatus.NotPorted, response.Ported);
-        Assert.Equal("12345", response.OriginalCarrier.NetworkCode);
-        Assert.Equal("Acme Inc", response.OriginalCarrier.Name);
-        Assert.Equal("GB", response.OriginalCarrier.Country);
-        Assert.Equal("mobile", response.OriginalCarrier.NetworkType);
-        Assert.Equal(0, response.Status);
-        Assert.Equal("Success", response.StatusMessage);
+        AssertCarrier(response.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
+        AssertStatusSuccess(response);
+        AssertStandardPhoneFormat(response);
+        AssertStandardPricing(response);
+    }
+
+    private static void AssertStandardPhoneFormat(dynamic response)
+    {
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", response.RequestId);
         Assert.Equal("447700900000", response.InternationalFormatNumber);
         Assert.Equal("07700 900000", response.NationalFormatNumber);
@@ -569,18 +434,25 @@ public class NumberInsightsTests : TestBase
         Assert.Equal("GBR", response.CountryCodeIso3);
         Assert.Equal("United Kingdom", response.CountryName);
         Assert.Equal("44", response.CountryPrefix);
+    }
+
+    private static void AssertStandardPricing(dynamic response)
+    {
         Assert.Equal("0.04000000", response.RequestPrice);
         Assert.Equal("0.01500000", response.RefundPrice);
         Assert.Equal("1.23456789", response.RemainingBalance);
     }
 
-    private VonageClient CreateClient() => this.BuildVonageClient(this.BuildCredentialsForBasicAuthentication());
+    private static void AssertStatusSuccess(dynamic response)
+    {
+        Assert.Equal(0, response.Status);
+        Assert.Equal("Success", response.StatusMessage);
+    }
 
-    private string GetResponseJsonWithParameters(Dictionary<string, string> parameters, string filename) =>
-        parameters.Aggregate(this.GetResponseJson(filename),
-            (current, parameter) => current.Replace($"${parameter.Key}$", parameter.Value));
+    private INumberInsightClient CreateClient() =>
+        this.BuildVonageClient(this.BuildCredentialsForBasicAuthentication()).NumberInsightClient;
 
-    private void SetupHttpMock(string expectedUri, string responseFileName = null) =>
+    private void SetupHttpMock(string expectedUri, [CallerMemberName] string responseFileName = null) =>
         this.Setup(expectedUri,
             responseFileName != null ? this.GetResponseJson(responseFileName) : this.GetResponseJson());
 }
