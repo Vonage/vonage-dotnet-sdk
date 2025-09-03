@@ -148,6 +148,9 @@
         <None Update="Data\NumberInsightsTests\AdvancedNIRequestSyncWithNotRoamingStatus-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Data\NumberInsightsTests\TestStandardNIRequestWithNullCarrier-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Update="Data\VoiceTests\CreateCallAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
