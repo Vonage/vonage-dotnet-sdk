@@ -3,14 +3,19 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Vonage.NumberInsights;
+using Vonage.Serialization;
+using Vonage.Test.Common;
 using Xunit;
 #endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.NumberInsights;
 
 [Trait("Category", "Legacy")]
 public class NumberInsightsTests : TestBase
 {
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(NumberInsightsTests).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
+
     [Fact]
     public async Task Advanced()
     {
@@ -166,14 +171,13 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Advanced_WithoutRoamingStatus()
     {
-        var expectedResponse = this.GetResponseJson();
         var expectedUri =
             $"{this.ApiUrl}/ni/advanced/json?number=447700900000&";
         var request = new AdvancedNumberInsightRequest
         {
             Number = "447700900000",
         };
-        this.Setup(expectedUri, expectedResponse);
+        this.SetupHttpMock(expectedUri);
         var client = this.BuildVonageClient(this.BuildCredentialsForBasicAuthentication());
         var response = await client.NumberInsightClient.GetNumberInsightAdvancedAsync(request);
         AssertAdvancedNotRoamingResponse(response);
@@ -453,6 +457,5 @@ public class NumberInsightsTests : TestBase
         this.BuildVonageClient(this.BuildCredentialsForBasicAuthentication()).NumberInsightClient;
 
     private void SetupHttpMock(string expectedUri, [CallerMemberName] string responseFileName = null) =>
-        this.Setup(expectedUri,
-            responseFileName != null ? this.GetResponseJson(responseFileName) : this.GetResponseJson());
+        this.Setup(expectedUri, this.helper.GetResponseJson(responseFileName));
 }
