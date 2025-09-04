@@ -9,6 +9,8 @@ using Vonage.Applications;
 using Vonage.Applications.Capabilities;
 using Vonage.Common;
 using Vonage.Request;
+using Vonage.Serialization;
+using Vonage.Test.Common;
 using Xunit;
 #endregion
 
@@ -19,6 +21,9 @@ public class ApplicationTests : TestBase
 {
     private const string PublicKey = "some public key";
 
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(ApplicationTests).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
+
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
@@ -26,8 +31,8 @@ public class ApplicationTests : TestBase
     {
         //ARRANGE
         var uri = $"{this.ApiUrl}/v2/applications";
-        var expectedResponse = this.GetResponseJson();
-        var expectedRequestContent = this.GetRequestJson();
+        var expectedResponse = this.helper.GetResponseJson();
+        var expectedRequestContent = this.helper.GetRequestJson();
         this.Setup(uri, expectedResponse, expectedRequestContent);
 
         //ACT
@@ -118,8 +123,8 @@ public class ApplicationTests : TestBase
     [Fact]
     public async Task CreateApplicationAsyncWithMeetingsCapabilities()
     {
-        var expectedResponseContent = this.GetResponseJson();
-        var expectedRequestContent = this.GetRequestJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
+        var expectedRequestContent = this.helper.GetRequestJson();
         this.Setup($"{this.ApiUrl}/v2/applications", expectedResponseContent, expectedRequestContent);
         var request = new CreateApplicationRequest
         {
@@ -145,8 +150,8 @@ public class ApplicationTests : TestBase
     [Fact]
     public async Task CreateApplicationAsyncWithPrivacySettings()
     {
-        var expectedResponseContent = this.GetResponseJson();
-        var expectedRequestContent = this.GetRequestJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
+        var expectedRequestContent = this.helper.GetRequestJson();
         this.Setup($"{this.ApiUrl}/v2/applications", expectedResponseContent, expectedRequestContent);
         var request = new CreateApplicationRequest
         {
@@ -173,8 +178,8 @@ public class ApplicationTests : TestBase
     [Fact]
     public async Task CreateApplicationAsyncWithVoiceTimeouts()
     {
-        var expectedResponseContent = this.GetResponseJson();
-        var expectedRequestContent = this.GetRequestJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
+        var expectedRequestContent = this.helper.GetRequestJson();
         this.Setup($"{this.ApiUrl}/v2/applications", expectedResponseContent, expectedRequestContent);
         var answerWebhook = new Vonage.Applications.Capabilities.Voice.VoiceWebhook(
             new Uri("https://example.com/webhooks/answer"),
@@ -237,7 +242,7 @@ public class ApplicationTests : TestBase
     public async Task GetApplicationAsync(bool passCreds)
     {
         var id = "78d335fa323d01149c3dd6f0d48968cf";
-        var expectedResponse = this.GetResponseJson();
+        var expectedResponse = this.helper.GetResponseJson();
         var expectedUri = $"{this.ApiUrl}/v2/applications/{id}";
         this.Setup(expectedUri, expectedResponse);
         var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
@@ -280,7 +285,7 @@ public class ApplicationTests : TestBase
     [InlineData(true, true)]
     public async Task ListApplicationsAsync(bool passCreds, bool passParameters)
     {
-        var expectedResult = this.GetResponseJson();
+        var expectedResult = this.helper.GetResponseJson();
         string expectedUri;
         ListApplicationsRequest request;
         if (passParameters)
@@ -344,8 +349,8 @@ public class ApplicationTests : TestBase
     {
         var id = "78d335fa323d01149c3dd6f0d48968cf";
         var uri = $"{this.ApiUrl}/v2/applications/{id}";
-        var expectedResponse = this.GetResponseJson();
-        var expectedRequestContent = this.GetRequestJson();
+        var expectedResponse = this.helper.GetResponseJson();
+        var expectedRequestContent = this.helper.GetRequestJson();
         this.Setup(uri, expectedResponse, expectedRequestContent);
 
         //ACT
