@@ -1,9 +1,0 @@
-﻿{
-  "action": "$action",
-  "destination": {
-    "type": "ncco",
-    "url": [
-      "https://example.com/ncco.json"
-    ]
-  }
-}
