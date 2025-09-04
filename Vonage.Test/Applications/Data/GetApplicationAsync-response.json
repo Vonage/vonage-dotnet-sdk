@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "78d335fa323d01149c3dd6f0d48968cf",
   "name": "My Application",
   "capabilities": {
@@ -38,23 +38,7 @@
         }
       }
     },
-    "vbc": {},
-    "meetings": {
-      "webhooks": {
-        "room_changed": {
-          "address": "http://example.com",
-          "http_method": "POST"
-        },
-        "session_changed": {
-          "address": "http://example.com",
-          "http_method": "POST"
-        },
-        "recording_changed": {
-          "address": "https://54eba990d025.ngrok.app/recordings",
-          "http_method": "POST"
-        }
-      }
-    }
+    "vbc": {}
   },
   "keys": {
     "public_key": "some public key",

@@ -88,12 +88,6 @@
         <None Update="Data\NccoTests\TestConversationAllTrue-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ApplicationTests\CreateApplicationAsync-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ApplicationTests\CreateApplicationAsync-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Update="Data\NumberInsightsTests\Advanced_WithInactiveRealTimeData-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -653,12 +647,6 @@
         <None Update="Data\ApplicationTests\GetApplication-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithMeetingsCapabilities-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithMeetingsCapabilities-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Update="VerifyV2\StartVerification\Data\ShouldDeserialize200WithCheckUrl-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -666,18 +654,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Data\VoiceTests\CreateCallWithPremiumTalkActionAsync-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithPrivacySettings-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithPrivacySettings-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithVoiceTimeouts-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ApplicationTests\CreateApplicationAsyncWithVoiceTimeouts-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="VerifyV2\StartVerification\Data\ShouldSerializeSilentAuthWorkflowWithRedirectUrl-request.json">
@@ -1416,6 +1392,42 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Voice\Data\UpdateCall-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\CreateApplicationAsync-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\CreateApplicationAsync-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\CreateApplicationAsyncWithMeetingsCapabilities-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\CreateApplicationAsyncWithMeetingsCapabilities-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\CreateApplicationAsyncWithPrivacySettings-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\CreateApplicationAsyncWithPrivacySettings-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\CreateApplicationAsyncWithVoiceTimeouts-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\CreateApplicationAsyncWithVoiceTimeouts-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\GetApplicationAsync-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\ListApplicationsAsync-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\UpdateApplicationAsync-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\UpdateApplicationAsync-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

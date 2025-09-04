@@ -16,10 +16,7 @@
           "address": "https://example.com/webhooks/event",
           "http_method": "POST"
         }
-      },
-      "signed_callbacks": true,
-      "conversations_ttl": 12,
-      "region": "eu-west"
+      }
     },
     "messages": {
       "webhooks": {
