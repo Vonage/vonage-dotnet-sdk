@@ -7,13 +7,15 @@ using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Monads;
+using Vonage.Serialization;
+using Vonage.Test.Common;
 using Vonage.Voice;
 using Vonage.Voice.Nccos;
 using Vonage.Voice.Nccos.Endpoints;
 using Xunit;
 #endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Voice;
 
 [Trait("Category", "Legacy")]
 public class VoiceTests : TestBase
@@ -21,6 +23,9 @@ public class VoiceTests : TestBase
     private const string BaseUri = "https://api.nexmo.com/v1/calls";
     private readonly VonageClient client;
     private readonly Fixture fixture;
+
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(VoiceTests).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
 
     public VoiceTests()
     {
@@ -59,8 +64,8 @@ public class VoiceTests : TestBase
     [Fact]
     public async Task CreateCallAsync()
     {
-        this.Setup(BaseUri, this.GetResponseJson(),
-            this.GetRequestJson());
+        this.Setup(BaseUri, this.helper.GetResponseJson(),
+            this.helper.GetRequestJson());
         var request = BuildCreateCallCommand();
         var response = await this.client.VoiceClient.CreateCallAsync(request);
         Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -72,8 +77,8 @@ public class VoiceTests : TestBase
     [Fact]
     public async Task CreateCallAsyncWithCredentials()
     {
-        this.Setup(BaseUri, this.GetResponseJson(nameof(this.CreateCallAsync)),
-            this.GetRequestJson(nameof(this.CreateCallAsync)));
+        this.Setup(BaseUri, this.helper.GetResponseJson(nameof(this.CreateCallAsync)),
+            this.helper.GetRequestJson(nameof(this.CreateCallAsync)));
         var response = await this.client.VoiceClient.CreateCallAsync(BuildCreateCallCommand(),
             this.BuildCredentialsForBearerAuthentication());
         Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -85,7 +90,7 @@ public class VoiceTests : TestBase
     [Fact]
     public async Task CreateCallAsyncWithRandomFromNumber()
     {
-        this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
+        this.Setup(BaseUri, this.helper.GetResponseJson(), this.helper.GetRequestJson());
         var request = BuildCreateCallCommand();
         request.From = null;
         request.AdvancedMachineDetection = null;
@@ -108,34 +113,9 @@ public class VoiceTests : TestBase
     }
 
     [Fact]
-    public async Task CreateCallWithPremiumTalkActionAsync()
-    {
-        this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
-        var response = await this.client.VoiceClient.CreateCallAsync(new CallCommand
-        {
-            To = new Endpoint[]
-            {
-                new PhoneEndpoint
-                {
-                    Number = "14155550100",
-                },
-            },
-            From = new PhoneEndpoint
-            {
-                Number = "14155550100",
-            },
-            Ncco = new Ncco(new TalkAction {Text = "Hello World", Premium = true}),
-        });
-        Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
-        Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
-        Assert.Equal("outbound", response.Direction);
-        Assert.Equal("started", response.Status);
-    }
-
-    [Fact]
     public async Task CreateCallWithAsynchronousMode()
     {
-        this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
+        this.Setup(BaseUri, this.helper.GetResponseJson(), this.helper.GetRequestJson());
         var response = await this.client.VoiceClient.CreateCallAsync(new CallCommand
         {
             To = new Endpoint[]
@@ -170,9 +150,34 @@ public class VoiceTests : TestBase
     }
 
     [Fact]
+    public async Task CreateCallWithPremiumTalkActionAsync()
+    {
+        this.Setup(BaseUri, this.helper.GetResponseJson(), this.helper.GetRequestJson());
+        var response = await this.client.VoiceClient.CreateCallAsync(new CallCommand
+        {
+            To = new Endpoint[]
+            {
+                new PhoneEndpoint
+                {
+                    Number = "14155550100",
+                },
+            },
+            From = new PhoneEndpoint
+            {
+                Number = "14155550100",
+            },
+            Ncco = new Ncco(new TalkAction {Text = "Hello World", Premium = true}),
+        });
+        Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
+        Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", response.ConversationUuid);
+        Assert.Equal("outbound", response.Direction);
+        Assert.Equal("started", response.Status);
+    }
+
+    [Fact]
     public async Task CreateCallWithStringParametersAsync()
     {
-        this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
+        this.Setup(BaseUri, this.helper.GetResponseJson(), this.helper.GetRequestJson());
         var response = await this.client.VoiceClient.CreateCallAsync(new CallCommand
         {
             To = new Endpoint[]
@@ -197,7 +202,7 @@ public class VoiceTests : TestBase
     [Fact]
     public async Task CreateCallWithUnicodeCharacters()
     {
-        this.Setup(BaseUri, this.GetResponseJson(), this.GetRequestJson());
+        this.Setup(BaseUri, this.helper.GetResponseJson(), this.helper.GetRequestJson());
         var request = BuildCreateCallCommand();
         request.Ncco = new Ncco(new TalkAction {Text = "בדיקה בדיקה בדיקה"});
         var response = await this.client.VoiceClient.CreateCallAsync(request);
@@ -260,7 +265,7 @@ public class VoiceTests : TestBase
     public async Task GetSpecificCallAsync()
     {
         var uuid = this.fixture.Create<Guid>().ToString();
-        this.Setup($"{BaseUri}/{uuid}", this.GetResponseJson());
+        this.Setup($"{BaseUri}/{uuid}", this.helper.GetResponseJson());
         var callRecord = await this.client.VoiceClient.GetCallAsync(uuid);
         Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
         Assert.Equal("CON-f972836a-550f-45fa-956c-12a2ab5b7d22", callRecord.ConversationUuid);
@@ -285,7 +290,7 @@ public class VoiceTests : TestBase
     public async Task GetSpecificCallAsyncWithCredentials()
     {
         var uuid = this.fixture.Create<Guid>().ToString();
-        this.Setup($"{BaseUri}/{uuid}", this.GetResponseJson(nameof(this.GetSpecificCallAsync)));
+        this.Setup($"{BaseUri}/{uuid}", this.helper.GetResponseJson(nameof(this.GetSpecificCallAsync)));
         var callRecord =
             await this.client.VoiceClient.GetCallAsync(uuid, this.BuildCredentialsForBearerAuthentication());
         Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", callRecord.Uuid);
@@ -311,7 +316,7 @@ public class VoiceTests : TestBase
     public async Task ListCallsAsync()
     {
         var filter = new CallSearchFilter();
-        this.Setup($"{this.ApiUrl}/v1/calls", this.GetResponseJson());
+        this.Setup($"{this.ApiUrl}/v1/calls", this.helper.GetResponseJson());
         var callList = await this.client.VoiceClient.GetCallsAsync(filter);
         var callRecord = callList.Embedded.Calls[0];
         Assert.True(100 == callList.Count);
@@ -353,7 +358,7 @@ public class VoiceTests : TestBase
         };
         this.Setup(
             $"{BaseUri}?status=started&date_start={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&",
-            this.GetResponseJson(nameof(this.ListCallsAsync)));
+            this.helper.GetResponseJson(nameof(this.ListCallsAsync)));
         var callList =
             await this.client.VoiceClient.GetCallsAsync(filter, this.BuildCredentialsForBearerAuthentication());
         var callRecord = callList.Embedded.Calls[0];
@@ -386,8 +391,8 @@ public class VoiceTests : TestBase
     {
         var uuid = this.fixture.Create<string>();
         var command = new DtmfCommand {Digits = "1234"};
-        this.Setup($"{BaseUri}/{uuid}/dtmf", this.GetResponseJson(),
-            this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}/dtmf", this.helper.GetResponseJson(),
+            this.helper.GetRequestJson());
         var response = await this.client.VoiceClient.StartDtmfAsync(uuid, command);
         Assert.Equal("DTMF sent", response.Message);
         Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -398,8 +403,8 @@ public class VoiceTests : TestBase
     {
         var uuid = this.fixture.Create<string>();
         var command = new DtmfCommand {Digits = "1234"};
-        this.Setup($"{BaseUri}/{uuid}/dtmf", this.GetResponseJson(nameof(this.StartDtmfAsync)),
-            this.GetRequestJson(nameof(this.StartDtmfAsync)));
+        this.Setup($"{BaseUri}/{uuid}/dtmf", this.helper.GetResponseJson(nameof(this.StartDtmfAsync)),
+            this.helper.GetRequestJson(nameof(this.StartDtmfAsync)));
         var response =
             await this.client.VoiceClient.StartDtmfAsync(uuid, command,
                 this.BuildCredentialsForBearerAuthentication());
@@ -415,7 +420,7 @@ public class VoiceTests : TestBase
         {
             StreamUrl = new[] {"https://example.com/waiting.mp3"},
         };
-        this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson(), this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson(), this.helper.GetRequestJson());
         var response = await this.client.VoiceClient.StartStreamAsync(uuid, command);
         Assert.Equal("Stream started", response.Message);
         Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -431,8 +436,8 @@ public class VoiceTests : TestBase
             Loop = 0,
             Level = "0.4",
         };
-        this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson(nameof(this.StartStreamAsync)),
-            this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson(nameof(this.StartStreamAsync)),
+            this.helper.GetRequestJson());
         var response =
             await this.client.VoiceClient.StartStreamAsync(uuid, command,
                 this.BuildCredentialsForBearerAuthentication());
@@ -444,7 +449,7 @@ public class VoiceTests : TestBase
     public async Task StartTalkAsync()
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/talk", this.GetResponseJson(), this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}/talk", this.helper.GetResponseJson(), this.helper.GetRequestJson());
         var response = await this.client.VoiceClient.StartTalkAsync(uuid, new TalkCommand
         {
             Text = "Hello. How are you today?",
@@ -457,8 +462,8 @@ public class VoiceTests : TestBase
     public async Task StartTalkAsyncWithCredentials()
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/talk", this.GetResponseJson(nameof(this.StartTalkAsync)),
-            this.GetRequestJson(nameof(this.StartTalkAsync)));
+        this.Setup($"{BaseUri}/{uuid}/talk", this.helper.GetResponseJson(nameof(this.StartTalkAsync)),
+            this.helper.GetRequestJson(nameof(this.StartTalkAsync)));
         var response = await this.client.VoiceClient.StartTalkAsync(uuid, new TalkCommand
         {
             Text = "Hello. How are you today?",
@@ -471,7 +476,7 @@ public class VoiceTests : TestBase
     public async Task StopStreamAsync()
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson());
+        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson());
         var response = await this.client.VoiceClient.StopStreamAsync(uuid);
         Assert.Equal("Stream stopped", response.Message);
         Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -481,7 +486,7 @@ public class VoiceTests : TestBase
     public async Task StopStreamAsyncWithCredentials()
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson(nameof(this.StopStreamAsync)));
+        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson(nameof(this.StopStreamAsync)));
         var response =
             await this.client.VoiceClient.StopStreamAsync(uuid, this.BuildCredentialsForBearerAuthentication());
         Assert.Equal("Stream stopped", response.Message);
@@ -492,7 +497,7 @@ public class VoiceTests : TestBase
     public async Task StopTalkAsync()
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson());
+        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson());
         var response = await this.client.VoiceClient.StopStreamAsync(uuid);
         Assert.Equal("Talk stopped", response.Message);
         Assert.Equal("63f61863-4a51-4f6b-86e1-46edebcf9356", response.Uuid);
@@ -502,7 +507,7 @@ public class VoiceTests : TestBase
     public async Task StopTalkAsyncWithCredentials()
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.GetResponseJson(nameof(this.StopTalkAsync)));
+        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson(nameof(this.StopTalkAsync)));
         var response =
             await this.client.VoiceClient.StopStreamAsync(uuid, this.BuildCredentialsForBearerAuthentication());
         Assert.Equal("Talk stopped", response.Message);
@@ -510,11 +515,25 @@ public class VoiceTests : TestBase
     }
 
     [Fact]
+    public async Task SubscribeRealTimeDtmf()
+    {
+        this.Setup($"{BaseUri}/ID-123/input/dtmf", Maybe<string>.None, this.helper.GetRequestJson());
+        await this.client.VoiceClient.SubscribeRealTimeDtmf("ID-123", new Uri("https://example.com/ivr"));
+    }
+
+    [Fact]
+    public async Task UnsubscribeRealTimeDtmf()
+    {
+        this.Setup($"{BaseUri}/ID-123/input/dtmf", Maybe<string>.None, string.Empty);
+        await this.client.VoiceClient.UnsubscribeRealTimeDtmf("ID-123");
+    }
+
+    [Fact]
     public async Task UpdateCallAsync()
     {
         var uuid = this.fixture.Create<Guid>().ToString();
         var request = new CallEditCommand {Action = CallEditCommand.ActionType.earmuff};
-        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.helper.GetRequestJson());
         var response = await this.client.VoiceClient.UpdateCallAsync(uuid, request);
         Assert.True(response);
     }
@@ -528,7 +547,7 @@ public class VoiceTests : TestBase
             Destination = new Destination {Type = "ncco", Url = new[] {"https://example.com/ncco.json"}},
             Action = CallEditCommand.ActionType.transfer,
         };
-        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.helper.GetRequestJson());
         var response =
             await this.client.VoiceClient.UpdateCallAsync(uuid, request,
                 this.BuildCredentialsForBearerAuthentication());
@@ -544,22 +563,8 @@ public class VoiceTests : TestBase
             Destination = new Destination {Type = "ncco", Ncco = new Ncco(new TalkAction {Text = "hello world"})},
             Action = CallEditCommand.ActionType.transfer,
         };
-        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.GetRequestJson());
+        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.helper.GetRequestJson());
         Assert.True(await this.client.VoiceClient.UpdateCallAsync(uuid, request));
-    }
-
-    [Fact]
-    public async Task SubscribeRealTimeDtmf()
-    {
-        this.Setup($"{BaseUri}/ID-123/input/dtmf", Maybe<string>.None, this.GetRequestJson());
-        await this.client.VoiceClient.SubscribeRealTimeDtmf("ID-123", new Uri("https://example.com/ivr"));
-    }
-
-    [Fact]
-    public async Task UnsubscribeRealTimeDtmf()
-    {
-        this.Setup($"{BaseUri}/ID-123/input/dtmf", Maybe<string>.None, string.Empty);
-        await this.client.VoiceClient.UnsubscribeRealTimeDtmf("ID-123");
     }
 
     private VonageClient BuildClientWithBasicAuthentication() =>
