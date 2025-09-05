@@ -46,6 +46,71 @@ internal static class NumberInsightsAssertions
         Assert.Equal("Success", actual.StatusMessage);
     }
 
+    private static void ShouldHaveExpectedCallerId(this AdvancedInsightsResponse actual, string firstName,
+        string lastName, string callerName, CallerType callerType)
+    {
+        actual.CallerIdentity.FirstName.Should().Be(firstName);
+        actual.CallerIdentity.LastName.Should().Be(lastName);
+        actual.CallerIdentity.CallerName.Should().Be(callerName);
+        actual.CallerIdentity.CallerType.Should().Be(callerType);
+    }
+
+    private static void ShouldHaveExpectedCallerId(this StandardInsightResponse actual, string firstName,
+        string lastName, string callerName, CallerType callerType)
+    {
+        actual.CallerIdentity.FirstName.Should().Be(firstName);
+        actual.CallerIdentity.LastName.Should().Be(lastName);
+        actual.CallerIdentity.CallerName.Should().Be(callerName);
+        actual.CallerIdentity.CallerType.Should().Be(callerType);
+    }
+
+    private static void ShouldHaveExpectedCarrier(this AdvancedInsightsResponse actual, Carrier carrier,
+        string networkCode, string name, string country, string networkType)
+    {
+        carrier.NetworkCode.Should().Be(networkCode);
+        carrier.Name.Should().Be(name);
+        carrier.Country.Should().Be(country);
+        carrier.NetworkType.Should().Be(networkType);
+    }
+
+    private static void ShouldHaveExpectedCarrier(this StandardInsightResponse actual, Carrier carrier,
+        string networkCode, string name, string country, string networkType)
+    {
+        carrier.NetworkCode.Should().Be(networkCode);
+        carrier.Name.Should().Be(name);
+        carrier.Country.Should().Be(country);
+        carrier.NetworkType.Should().Be(networkType);
+    }
+
+    private static void ShouldHaveExpectedRoaming(this AdvancedInsightsResponse actual, string networkName,
+        string networkCode, string countryCode, RoamingStatus status)
+    {
+        actual.Roaming.RoamingNetworkName.Should().Be(networkName);
+        actual.Roaming.RoamingNetworkCode.Should().Be(networkCode);
+        actual.Roaming.RoamingCountryCode.Should().Be(countryCode);
+        actual.Roaming.Status.Should().Be(status);
+    }
+
+    private static void ShouldHaveExpectedRoaming(this StandardInsightResponse actual, string networkName,
+        string networkCode, string countryCode, RoamingStatus status)
+    {
+        actual.Roaming.RoamingNetworkName.Should().Be(networkName);
+        actual.Roaming.RoamingNetworkCode.Should().Be(networkCode);
+        actual.Roaming.RoamingCountryCode.Should().Be(countryCode);
+        actual.Roaming.Status.Should().Be(status);
+    }
+
+    private static void ShouldHaveExpectedStandardProperties(this StandardInsightResponse actual)
+    {
+        AssertStandardCallerInfo(actual);
+        actual.ShouldHaveExpectedCallerId("John", "Smith", "John Smith", CallerType.consumer);
+        actual.Ported.Should().Be(PortedStatus.NotPorted);
+        actual.ShouldHaveExpectedCarrier(actual.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
+        AssertStatusSuccess(actual);
+        AssertStandardPhoneFormat(actual);
+        AssertStandardPricing(actual);
+    }
+
     internal static void ShouldMatchExpectedBasicResponse(this BasicInsightResponse actual)
     {
         AssertStatusSuccess(actual);
@@ -140,70 +205,5 @@ internal static class NumberInsightsAssertions
         actual.RemainingBalance.Should().Be("1.23456789");
         actual.RequestPrice.Should().Be("0.01500000");
         actual.Status.Should().Be(0);
-    }
-
-    internal static void ShouldHaveExpectedStandardProperties(this StandardInsightResponse actual)
-    {
-        AssertStandardCallerInfo(actual);
-        actual.ShouldHaveExpectedCallerId("John", "Smith", "John Smith", CallerType.consumer);
-        actual.Ported.Should().Be(PortedStatus.NotPorted);
-        actual.ShouldHaveExpectedCarrier(actual.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
-        AssertStatusSuccess(actual);
-        AssertStandardPhoneFormat(actual);
-        AssertStandardPricing(actual);
-    }
-
-    internal static void ShouldHaveExpectedCallerId(this AdvancedInsightsResponse actual, string firstName,
-        string lastName, string callerName, CallerType callerType)
-    {
-        actual.CallerIdentity.FirstName.Should().Be(firstName);
-        actual.CallerIdentity.LastName.Should().Be(lastName);
-        actual.CallerIdentity.CallerName.Should().Be(callerName);
-        actual.CallerIdentity.CallerType.Should().Be(callerType);
-    }
-
-    internal static void ShouldHaveExpectedCallerId(this StandardInsightResponse actual, string firstName,
-        string lastName, string callerName, CallerType callerType)
-    {
-        actual.CallerIdentity.FirstName.Should().Be(firstName);
-        actual.CallerIdentity.LastName.Should().Be(lastName);
-        actual.CallerIdentity.CallerName.Should().Be(callerName);
-        actual.CallerIdentity.CallerType.Should().Be(callerType);
-    }
-
-    internal static void ShouldHaveExpectedCarrier(this AdvancedInsightsResponse actual, Carrier carrier,
-        string networkCode, string name, string country, string networkType)
-    {
-        carrier.NetworkCode.Should().Be(networkCode);
-        carrier.Name.Should().Be(name);
-        carrier.Country.Should().Be(country);
-        carrier.NetworkType.Should().Be(networkType);
-    }
-
-    internal static void ShouldHaveExpectedCarrier(this StandardInsightResponse actual, Carrier carrier,
-        string networkCode, string name, string country, string networkType)
-    {
-        carrier.NetworkCode.Should().Be(networkCode);
-        carrier.Name.Should().Be(name);
-        carrier.Country.Should().Be(country);
-        carrier.NetworkType.Should().Be(networkType);
-    }
-
-    internal static void ShouldHaveExpectedRoaming(this AdvancedInsightsResponse actual, string networkName,
-        string networkCode, string countryCode, RoamingStatus status)
-    {
-        actual.Roaming.RoamingNetworkName.Should().Be(networkName);
-        actual.Roaming.RoamingNetworkCode.Should().Be(networkCode);
-        actual.Roaming.RoamingCountryCode.Should().Be(countryCode);
-        actual.Roaming.Status.Should().Be(status);
-    }
-
-    internal static void ShouldHaveExpectedRoaming(this StandardInsightResponse actual, string networkName,
-        string networkCode, string countryCode, RoamingStatus status)
-    {
-        actual.Roaming.RoamingNetworkName.Should().Be(networkName);
-        actual.Roaming.RoamingNetworkCode.Should().Be(networkCode);
-        actual.Roaming.RoamingCountryCode.Should().Be(countryCode);
-        actual.Roaming.Status.Should().Be(status);
     }
 }

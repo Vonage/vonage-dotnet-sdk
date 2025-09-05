@@ -64,14 +64,14 @@ internal static class NumberInsightsTestData
             Number = "447700900000",
         };
 
-    internal static AdvancedNumberInsightAsynchronousRequest CreateAsyncRequest() =>
+    internal static AdvancedNumberInsightAsynchronousRequest CreateAdvancedAsyncRequest() =>
         new AdvancedNumberInsightAsynchronousRequest
         {
             Number = "15555551212",
             Callback = "https://example.com/callback",
         };
 
-    internal static AdvancedNumberInsightAsynchronousRequest CreateAsyncRequestWithAllProperties() =>
+    internal static AdvancedNumberInsightAsynchronousRequest CreateAdvancedAsyncRequestWithAllProperties() =>
         new AdvancedNumberInsightAsynchronousRequest
         {
             Cnam = true,
