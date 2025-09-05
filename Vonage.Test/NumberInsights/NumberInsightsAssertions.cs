@@ -46,66 +46,40 @@ internal static class NumberInsightsAssertions
         Assert.Equal("Success", actual.StatusMessage);
     }
 
-    private static void ShouldHaveExpectedCallerId(this AdvancedInsightsResponse actual, string firstName,
-        string lastName, string callerName, CallerType callerType)
+    private static void ShouldHaveExpectedCallerId(this CallerId actual, CallerId callerId)
     {
-        actual.CallerIdentity.FirstName.Should().Be(firstName);
-        actual.CallerIdentity.LastName.Should().Be(lastName);
-        actual.CallerIdentity.CallerName.Should().Be(callerName);
-        actual.CallerIdentity.CallerType.Should().Be(callerType);
+        actual.FirstName.Should().Be(callerId.FirstName);
+        actual.LastName.Should().Be(callerId.LastName);
+        actual.CallerName.Should().Be(callerId.CallerName);
+        actual.CallerType.Should().Be(callerId.CallerType);
     }
 
-    private static void ShouldHaveExpectedCallerId(this StandardInsightResponse actual, string firstName,
-        string lastName, string callerName, CallerType callerType)
+    private static void ShouldHaveExpectedCarrier(this Carrier actual, Carrier carrier)
     {
-        actual.CallerIdentity.FirstName.Should().Be(firstName);
-        actual.CallerIdentity.LastName.Should().Be(lastName);
-        actual.CallerIdentity.CallerName.Should().Be(callerName);
-        actual.CallerIdentity.CallerType.Should().Be(callerType);
+        actual.NetworkCode.Should().Be(carrier.NetworkCode);
+        actual.Name.Should().Be(carrier.Name);
+        actual.Country.Should().Be(carrier.Country);
+        actual.NetworkType.Should().Be(carrier.NetworkType);
     }
 
-    private static void ShouldHaveExpectedCarrier(this AdvancedInsightsResponse actual, Carrier carrier,
-        string networkCode, string name, string country, string networkType)
+    private static void ShouldHaveExpectedRoaming(this Roaming actual, Roaming roaming)
     {
-        carrier.NetworkCode.Should().Be(networkCode);
-        carrier.Name.Should().Be(name);
-        carrier.Country.Should().Be(country);
-        carrier.NetworkType.Should().Be(networkType);
-    }
-
-    private static void ShouldHaveExpectedCarrier(this StandardInsightResponse actual, Carrier carrier,
-        string networkCode, string name, string country, string networkType)
-    {
-        carrier.NetworkCode.Should().Be(networkCode);
-        carrier.Name.Should().Be(name);
-        carrier.Country.Should().Be(country);
-        carrier.NetworkType.Should().Be(networkType);
-    }
-
-    private static void ShouldHaveExpectedRoaming(this AdvancedInsightsResponse actual, string networkName,
-        string networkCode, string countryCode, RoamingStatus status)
-    {
-        actual.Roaming.RoamingNetworkName.Should().Be(networkName);
-        actual.Roaming.RoamingNetworkCode.Should().Be(networkCode);
-        actual.Roaming.RoamingCountryCode.Should().Be(countryCode);
-        actual.Roaming.Status.Should().Be(status);
-    }
-
-    private static void ShouldHaveExpectedRoaming(this StandardInsightResponse actual, string networkName,
-        string networkCode, string countryCode, RoamingStatus status)
-    {
-        actual.Roaming.RoamingNetworkName.Should().Be(networkName);
-        actual.Roaming.RoamingNetworkCode.Should().Be(networkCode);
-        actual.Roaming.RoamingCountryCode.Should().Be(countryCode);
-        actual.Roaming.Status.Should().Be(status);
+        actual.RoamingCountryCode.Should().Be(roaming.RoamingCountryCode);
+        actual.RoamingNetworkCode.Should().Be(roaming.RoamingNetworkCode);
+        actual.RoamingNetworkName.Should().Be(roaming.RoamingNetworkName);
+        actual.Status.Should().Be(roaming.Status);
     }
 
     private static void ShouldHaveExpectedStandardProperties(this StandardInsightResponse actual)
     {
         AssertStandardCallerInfo(actual);
-        actual.ShouldHaveExpectedCallerId("John", "Smith", "John Smith", CallerType.consumer);
+        actual.CallerIdentity.ShouldHaveExpectedCallerId(new CallerId
+            {FirstName = "John", LastName = "Smith", CallerName = "John Smith", CallerType = CallerType.consumer});
         actual.Ported.Should().Be(PortedStatus.NotPorted);
-        actual.ShouldHaveExpectedCarrier(actual.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
+        actual.OriginalCarrier.ShouldHaveExpectedCarrier(new Carrier
+        {
+            NetworkCode = "12345", Name = "Acme Inc", Country = "GB", NetworkType = "mobile",
+        });
         AssertStatusSuccess(actual);
         AssertStandardPhoneFormat(actual);
         AssertStandardPricing(actual);
@@ -120,22 +94,32 @@ internal static class NumberInsightsAssertions
     internal static void ShouldMatchExpectedStandardResponse(this StandardInsightResponse actual)
     {
         actual.ShouldHaveExpectedStandardProperties();
-        actual.ShouldHaveExpectedRoaming("Acme Inc", "12345", "US", RoamingStatus.Roaming);
-        actual.ShouldHaveExpectedCarrier(actual.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
+        actual.Roaming.ShouldHaveExpectedRoaming(new Roaming
+        {
+            RoamingNetworkName = "Acme Inc", RoamingNetworkCode = "12345", RoamingCountryCode = "US",
+            Status = RoamingStatus.Roaming,
+        });
+        actual.CurrentCarrier.ShouldHaveExpectedCarrier(new Carrier
+        {
+            NetworkCode = "12345", Name = "Acme Inc", Country = "GB", NetworkType = "mobile",
+        });
     }
 
     internal static void ShouldMatchExpectedStandardResponseWithNullCarrier(this StandardInsightResponse actual)
     {
         actual.ShouldHaveExpectedStandardProperties();
         actual.Roaming.Status.Should().Be(RoamingStatus.Unknown);
-        actual.ShouldHaveExpectedCarrier(actual.CurrentCarrier, null, null, null, null);
+        actual.CurrentCarrier.ShouldHaveExpectedCarrier(new Carrier());
     }
 
     internal static void ShouldMatchExpectedStandardResponseWithoutRoaming(this StandardInsightResponse actual)
     {
         actual.ShouldHaveExpectedStandardProperties();
         actual.Roaming.Status.Should().Be(RoamingStatus.Unknown);
-        actual.ShouldHaveExpectedCarrier(actual.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
+        actual.CurrentCarrier.ShouldHaveExpectedCarrier(new Carrier
+        {
+            NetworkCode = "12345", Name = "Acme Inc", Country = "GB", NetworkType = "mobile",
+        });
     }
 
     internal static void ShouldMatchExpectedAdvancedResponse(this AdvancedInsightsResponse actual)
@@ -144,14 +128,25 @@ internal static class NumberInsightsAssertions
         actual.ValidNumber.Should().Be(NumberValidity.valid);
         AssertLookupOutcomeSuccess(actual);
         AssertStandardCallerInfo(actual);
-        actual.ShouldHaveExpectedCallerId("John", "Smith", "John Smith", CallerType.consumer);
-        actual.ShouldHaveExpectedRoaming("Acme Inc", "12345", "US", RoamingStatus.Roaming);
+        actual.CallerIdentity.ShouldHaveExpectedCallerId(new CallerId
+            {FirstName = "John", LastName = "Smith", CallerName = "John Smith", CallerType = CallerType.consumer});
+        actual.Roaming.ShouldHaveExpectedRoaming(new Roaming
+        {
+            RoamingNetworkName = "Acme Inc", RoamingNetworkCode = "12345", RoamingCountryCode = "US",
+            Status = RoamingStatus.Roaming,
+        });
         actual.Ported.Should().Be(PortedStatus.NotPorted);
-        actual.ShouldHaveExpectedCarrier(actual.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
+        actual.OriginalCarrier.ShouldHaveExpectedCarrier(new Carrier
+        {
+            NetworkCode = "12345", Name = "Acme Inc", Country = "GB", NetworkType = "mobile",
+        });
         AssertStatusSuccess(actual);
         AssertStandardPhoneFormat(actual);
         AssertStandardPricing(actual);
-        actual.ShouldHaveExpectedCarrier(actual.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
+        actual.CurrentCarrier.ShouldHaveExpectedCarrier(new Carrier
+        {
+            NetworkCode = "12345", Name = "Acme Inc", Country = "GB", NetworkType = "mobile",
+        });
     }
 
     internal static void ShouldMatchExpectedAdvancedResponseWithNullableValues(this AdvancedInsightsResponse actual)
@@ -160,14 +155,21 @@ internal static class NumberInsightsAssertions
         actual.ValidNumber.Should().Be(NumberValidity.valid);
         AssertLookupOutcomeSuccess(actual);
         AssertStandardCallerInfo(actual);
-        actual.ShouldHaveExpectedCallerId("John", "Smith", "John Smith", CallerType.consumer);
+        actual.CallerIdentity.ShouldHaveExpectedCallerId(new CallerId
+            {FirstName = "John", LastName = "Smith", CallerName = "John Smith", CallerType = CallerType.consumer});
         actual.Roaming.Should().BeNull();
         actual.Ported.Should().BeNull();
-        actual.ShouldHaveExpectedCarrier(actual.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
+        actual.OriginalCarrier.ShouldHaveExpectedCarrier(new Carrier
+        {
+            NetworkCode = "12345", Name = "Acme Inc", Country = "GB", NetworkType = "mobile",
+        });
         AssertStatusSuccess(actual);
         AssertStandardPhoneFormat(actual);
         AssertStandardPricing(actual);
-        actual.ShouldHaveExpectedCarrier(actual.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
+        actual.CurrentCarrier.ShouldHaveExpectedCarrier(new Carrier
+        {
+            NetworkCode = "12345", Name = "Acme Inc", Country = "GB", NetworkType = "mobile",
+        });
     }
 
     internal static void ShouldMatchExpectedAdvancedResponseWithoutRoaming(this AdvancedInsightsResponse actual)
@@ -177,8 +179,14 @@ internal static class NumberInsightsAssertions
         AssertStandardPhoneFormat(actual);
         actual.RequestPrice.Should().Be("0.04000000");
         actual.RemainingBalance.Should().Be("1.23456789");
-        actual.ShouldHaveExpectedCarrier(actual.CurrentCarrier, "12345", "Acme Inc", "GB", "mobile");
-        actual.ShouldHaveExpectedCarrier(actual.OriginalCarrier, "12345", "Acme Inc", "GB", "mobile");
+        actual.OriginalCarrier.ShouldHaveExpectedCarrier(new Carrier
+        {
+            NetworkCode = "12345", Name = "Acme Inc", Country = "GB", NetworkType = "mobile",
+        });
+        actual.CurrentCarrier.ShouldHaveExpectedCarrier(new Carrier
+        {
+            NetworkCode = "12345", Name = "Acme Inc", Country = "GB", NetworkType = "mobile",
+        });
         actual.ValidNumber.Should().Be(NumberValidity.valid);
         actual.Reachable.Should().Be(NumberReachability.Reachable);
         actual.Ported.Should().Be(PortedStatus.NotPorted);
