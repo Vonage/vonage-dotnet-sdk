@@ -7,13 +7,13 @@ using Vonage.Request;
 using Xunit;
 #endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Numbers;
 
 [Trait("Category", "Legacy")]
 public class NumbersTests : TestBase
 {
-    private readonly VonageClient client;
     private readonly Credentials credentials;
+    private readonly VonageClient client;
 
     public NumbersTests()
     {
