@@ -18,6 +18,22 @@
         }
       }
     },
+    "meetings": {
+      "webhooks": {
+        "room_changed": {
+          "address": "http://example.com",
+          "http_method": "POST"
+        },
+        "session_changed": {
+          "address": "http://example.com",
+          "http_method": "POST"
+        },
+        "recording_changed": {
+          "address": "https://54eba990d025.ngrok.app/recordings",
+          "http_method": "POST"
+        }
+      }
+    },
     "messages": {
       "webhooks": {
         "inbound_url": {
@@ -43,5 +59,8 @@
   "keys": {
     "public_key": "some public key",
     "private_key": "some private key"
+  },
+  "privacy": {
+    "improve_ai": true
   }
 }
