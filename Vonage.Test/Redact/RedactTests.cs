@@ -1,15 +1,22 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Exceptions;
 using Vonage.Redaction;
 using Vonage.Request;
+using Vonage.Serialization;
+using Vonage.Test.Common;
 using Xunit;
+#endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Redact;
 
 [Trait("Category", "Legacy")]
 public class RedactTests : TestBase
 {
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(RedactTests).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
+
     [Theory]
     [InlineData(true, RedactionProduct.Sms, RedactionType.Inbound)]
     [InlineData(false, RedactionProduct.Sms, RedactionType.Inbound)]
@@ -33,7 +40,7 @@ public class RedactTests : TestBase
             Product = product,
             Type = type,
         };
-        var expectedResponseContent = this.GetResponseJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
         var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
         this.Setup(expectedUri, expectedResponseContent);
 
@@ -56,7 +63,7 @@ public class RedactTests : TestBase
             Product = RedactionProduct.Sms,
             Type = RedactionType.Inbound,
         };
-        var expectedResponseContent = this.GetResponseJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
         var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
         this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Unauthorized);
 
@@ -81,7 +88,7 @@ public class RedactTests : TestBase
             Product = RedactionProduct.Sms,
             Type = RedactionType.Inbound,
         };
-        var expectedResponseContent = this.GetResponseJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
         var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
         this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Forbidden);
 
@@ -106,7 +113,7 @@ public class RedactTests : TestBase
             Product = RedactionProduct.Sms,
             Type = RedactionType.Inbound,
         };
-        var expectedResponseContent = this.GetResponseJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
         var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
         this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.NotFound);
 
@@ -131,7 +138,7 @@ public class RedactTests : TestBase
             Product = RedactionProduct.Sms,
             Type = RedactionType.Inbound,
         };
-        var expectedResponseContent = this.GetResponseJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
         var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
         this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.UnprocessableEntity);
 
@@ -156,7 +163,7 @@ public class RedactTests : TestBase
             Product = RedactionProduct.Sms,
             Type = RedactionType.Inbound,
         };
-        var expectedResponseContent = this.GetResponseJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
         var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
         this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.TooManyRequests);
 
