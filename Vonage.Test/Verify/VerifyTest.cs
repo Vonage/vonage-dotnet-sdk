@@ -1,14 +1,21 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.Request;
+using Vonage.Serialization;
+using Vonage.Test.Common;
 using Vonage.Verify;
 using Xunit;
+#endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Verify;
 
 [Trait("Category", "Legacy")]
 public class VerifyTest : TestBase
 {
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(VerifyTest).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
+
     [Theory]
     [InlineData(true, true)]
     [InlineData(false, false)]
