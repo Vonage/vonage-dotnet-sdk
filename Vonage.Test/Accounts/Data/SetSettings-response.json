@@ -1,0 +1,7 @@
+{
+  "mo-callback-url": "https://example.com/webhooks/inbound-sms",
+  "dr-callback-url": "https://example.com/webhooks/delivery-receipt",
+  "max-outbound-request": 15,
+  "max-inbound-request": 30,
+  "max-calls-per-second": 4
+}
