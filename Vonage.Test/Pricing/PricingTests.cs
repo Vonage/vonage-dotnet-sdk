@@ -5,7 +5,7 @@ using Vonage.Request;
 using Xunit;
 #endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Pricing;
 
 [Trait("Category", "Legacy")]
 public class PricingTests : TestBase
