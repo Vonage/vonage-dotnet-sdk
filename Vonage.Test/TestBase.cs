@@ -1,6 +1,5 @@
 ﻿#region
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -24,7 +23,6 @@ namespace Vonage.Test
 {
     public class TestBase
     {
-        private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
         private const string MockedMethod = "SendAsync";
         private const string JsonRegexPattern = "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+";
 
@@ -136,12 +134,5 @@ namespace Vonage.Test
 
             return Regex.Replace(File.ReadAllText(path), JsonRegexPattern, "$1");
         }
-
-        protected string GetResponseJson(Dictionary<string, string> parameters,
-            [CallerMemberName] string name = null) =>
-            TokenReplacementRegEx.Replace(this.GetResponseJson(name), match => parameters[match.Groups[1].Value]);
-
-        protected string GetRequestJson(Dictionary<string, string> parameters, [CallerMemberName] string name = null) =>
-            TokenReplacementRegEx.Replace(this.GetRequestJson(name), match => parameters[match.Groups[1].Value]);
     }
 }
