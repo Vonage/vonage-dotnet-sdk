@@ -6,7 +6,7 @@ using Vonage.Request;
 using Xunit;
 #endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Accounts;
 
 [Trait("Category", "Legacy")]
 public class AccountTest : TestBase
