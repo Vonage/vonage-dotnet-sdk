@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System.Threading.Tasks;
 using Vonage.Conversions;
 using Vonage.Request;
 using Xunit;
+#endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Conversions;
 
 [Trait("Category", "Legacy")]
 public class ConversionTest : TestBase
