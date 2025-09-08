@@ -1,6 +1,7 @@
 ﻿#region
 using Newtonsoft.Json;
 using Vonage.Serialization;
+using Vonage.Test.Common;
 using Vonage.Voice.EventWebhooks;
 using Vonage.Voice.Nccos;
 using Xunit;
@@ -11,11 +12,14 @@ namespace Vonage.Test.Voice;
 [Trait("Category", "Legacy")]
 public class MultiInputTests : TestBase
 {
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(MultiInputTests).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
+
     [Fact]
     public void TestSerializeNccoAllProperties()
     {
         // arrange
-        var expected = this.GetResponseJson();
+        var expected = this.helper.GetResponseJson();
         var settings = new SpeechSettings
         {
             Uuid = new[] {"aaaaaaaa-bbbb-cccc-dddd-0123456789ab"},
@@ -49,7 +53,7 @@ public class MultiInputTests : TestBase
     public void TestSerializeNccoAllPropertiesEmpty()
     {
         // arrange
-        var expected = this.GetResponseJson();
+        var expected = this.helper.GetResponseJson();
         var inputAction = new MultiInputAction();
 
         //act
@@ -64,7 +68,7 @@ public class MultiInputTests : TestBase
     public void TestWebhookSerialization()
     {
         //ARRANGE
-        var inboundString = this.GetResponseJson();
+        var inboundString = this.helper.GetResponseJson();
         var serialized = JsonConvert.DeserializeObject<MultiInput>(inboundString);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", serialized.Uuid);
         Assert.Equal("end_on_silence_timeout", serialized.Speech.TimeoutReason);
@@ -80,7 +84,7 @@ public class MultiInputTests : TestBase
     public void TestWebhookSerializationSpeechOverridden()
     {
         //ARRANGE
-        var inboundString = this.GetResponseJson();
+        var inboundString = this.helper.GetResponseJson();
         var serialized = JsonConvert.DeserializeObject<MultiInput>(inboundString);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", serialized.Uuid);
         Assert.Equal("Speech overridden by DTMF", serialized.Speech.Error);

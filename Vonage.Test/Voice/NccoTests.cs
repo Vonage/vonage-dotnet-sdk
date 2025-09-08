@@ -1,34 +1,42 @@
 ﻿#region
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Vonage.Serialization;
+using Vonage.Test.Common;
 using Vonage.Voice;
 using Vonage.Voice.Nccos;
 using Vonage.Voice.Nccos.Endpoints;
 using Xunit;
 #endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Voice;
 
 [Trait("Category", "Legacy")]
 public class NccoTests : TestBase
 {
+    private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
+
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(NccoTests).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
+
     [Fact]
     public void ConversationAction_StartOnEnter_ShouldBeTrue_GivenDefault() =>
         new ConversationAction().StartOnEnter.Should().BeTrue();
 
     [Fact]
     public void TestAppEndpoint() =>
-        VerifyEndpoint(this.GetRequestJson(), new AppEndpoint
+        VerifyEndpoint(this.helper.GetRequestJson(), new AppEndpoint
         {
             User = "steve",
         });
 
     [Fact]
     public void TestConnect() =>
-        VerifyNccoAction(this.GetRequestJson(), new ConnectAction
+        VerifyNccoAction(this.helper.GetRequestJson(), new ConnectAction
         {
             Endpoint = new Endpoint[]
             {
@@ -55,7 +63,7 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestConnectWithAdvancedMachineDetection() =>
-        VerifyNccoAction(this.GetRequestJson(), new ConnectAction
+        VerifyNccoAction(this.helper.GetRequestJson(), new ConnectAction
         {
             Endpoint = new Endpoint[]
             {
@@ -85,7 +93,7 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestConversation() =>
-        VerifyNccoAction(this.GetRequestJson(), new ConversationAction
+        VerifyNccoAction(this.helper.GetRequestJson(), new ConversationAction
         {
             Name = "vonage-conference-standard",
             MusicOnHoldUrl = new[] {"https://example.com/music.mp3"},
@@ -98,7 +106,7 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestConversationAllTrue() =>
-        VerifyNccoAction(this.GetRequestJson(), new ConversationAction
+        VerifyNccoAction(this.helper.GetRequestJson(), new ConversationAction
         {
             Name = "vonage-conference-standard",
             MusicOnHoldUrl = new[] {"https://example.com/music.mp3"},
@@ -111,7 +119,7 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestNotify() =>
-        VerifyNccoAction(this.GetRequestJson(), new NotifyAction
+        VerifyNccoAction(this.helper.GetRequestJson(), new NotifyAction
         {
             EventMethod = "POST",
             Payload = new TestClass
@@ -126,7 +134,7 @@ public class NccoTests : TestBase
     [InlineData(RecordAction.AudioFormat.Wav)]
     [InlineData(RecordAction.AudioFormat.Ogg)]
     public void TestRecord(RecordAction.AudioFormat audioFormat) =>
-        VerifyNccoAction(this.GetRequestJson(new Dictionary<string, string>
+        VerifyNccoAction(this.GetRequestJsonWithValueReplacement(new Dictionary<string, string>
                 {{"format", JsonConvert.SerializeObject(audioFormat, VonageSerialization.SerializerSettings)}}),
             new RecordAction
             {
@@ -150,11 +158,11 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestRecordMinimalist() =>
-        VerifyNccoAction(this.GetRequestJson(), new RecordAction());
+        VerifyNccoAction(this.helper.GetRequestJson(), new RecordAction());
 
     [Fact]
     public void TestSipEndpoint() =>
-        VerifyEndpoint(this.GetRequestJson(), new SipEndpoint
+        VerifyEndpoint(this.helper.GetRequestJson(), new SipEndpoint
         {
             Uri = "sip:rebekka@sip.example.com",
             Headers = new TestClass {Bar = "foo"},
@@ -162,7 +170,7 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestSipEndpointWithStandardHeaders() =>
-        VerifyEndpoint(this.GetRequestJson(), new SipEndpoint
+        VerifyEndpoint(this.helper.GetRequestJson(), new SipEndpoint
         {
             Uri = "sip:rebekka@sip.example.com",
             Headers = new TestClass {Bar = "foo"},
@@ -171,7 +179,7 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestSipEndpointWithUserAndDomain() =>
-        VerifyEndpoint(this.GetRequestJson(), new SipEndpoint
+        VerifyEndpoint(this.helper.GetRequestJson(), new SipEndpoint
         {
             User = "john.doe",
             Domain = "vonage.com",
@@ -180,7 +188,7 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestStream() =>
-        VerifyNccoAction(this.GetRequestJson(), new StreamAction
+        VerifyNccoAction(this.helper.GetRequestJson(), new StreamAction
         {
             StreamUrl = new[] {"https://acme.com/streams/music.mp3"},
             BargeIn = true,
@@ -190,7 +198,7 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestTalk() =>
-        VerifyNccoAction(this.GetRequestJson(), new TalkAction
+        VerifyNccoAction(this.helper.GetRequestJson(), new TalkAction
         {
             Text = "Hello World",
             BargeIn = true,
@@ -202,21 +210,21 @@ public class NccoTests : TestBase
 
     [Fact]
     public void TestTalkBareBones() =>
-        VerifyNccoAction(this.GetRequestJson(), new TalkAction
+        VerifyNccoAction(this.helper.GetRequestJson(), new TalkAction
         {
             Text = "Hello World",
         });
 
     [Fact]
     public void TestVbcEndpoint() =>
-        VerifyEndpoint(this.GetRequestJson(), new VbcEndpoint
+        VerifyEndpoint(this.helper.GetRequestJson(), new VbcEndpoint
         {
             Extension = "4567",
         });
 
     [Fact]
     public void TestWebsocketEndpoint() =>
-        VerifyEndpoint(this.GetRequestJson(), new WebsocketEndpoint
+        VerifyEndpoint(this.helper.GetRequestJson(), new WebsocketEndpoint
         {
             Uri = "wss://example.com/ws",
             ContentType = "audio/l16;rate=16000",
@@ -224,10 +232,14 @@ public class NccoTests : TestBase
         });
 
     [Fact]
-    public void WaitAction() => VerifyNccoAction(this.GetRequestJson(), new WaitAction());
+    public void WaitAction() => VerifyNccoAction(this.helper.GetRequestJson(), new WaitAction());
 
     [Fact]
-    public void WaitActionWithTimeout() => VerifyNccoAction(this.GetRequestJson(), new WaitAction {Timeout = 2});
+    public void WaitActionWithTimeout() => VerifyNccoAction(this.helper.GetRequestJson(), new WaitAction {Timeout = 2});
+
+    protected string GetRequestJsonWithValueReplacement(Dictionary<string, string> parameters,
+        [CallerMemberName] string name = null) =>
+        TokenReplacementRegEx.Replace(this.helper.GetRequestJson(name), match => parameters[match.Groups[1].Value]);
 
     private static void VerifyEndpoint<T>(string expected, T endpoint) where T : Endpoint =>
         Assert.Equal(expected, JsonConvert.SerializeObject(endpoint, VonageSerialization.SerializerSettings));
