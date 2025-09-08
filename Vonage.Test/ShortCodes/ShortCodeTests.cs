@@ -3,56 +3,19 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Request;
+using Vonage.Serialization;
 using Vonage.ShortCodes;
+using Vonage.Test.Common;
 using Xunit;
 #endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.ShortCodes;
 
 [Trait("Category", "Legacy")]
 public class ShortCodeTests : TestBase
 {
-    [Theory]
-    [InlineData(true, false)]
-    [InlineData(true, true)]
-    [InlineData(false, true)]
-    [InlineData(false, false)]
-    public async Task SendAlertAsync(bool passCredentials, bool useAllParameters)
-    {
-        //ARRANGE
-        var request = new AlertRequest
-        {
-            To = "16365553226",
-        };
-        var expectedUri = $"{this.RestUrl}/sc/us/alert/json?to={request.To}";
-        if (useAllParameters)
-        {
-            request.StatusReportReq = "1";
-            request.ClientRef = Guid.NewGuid().ToString();
-            request.Template = "Test Template";
-            request.Type = "text";
-            expectedUri +=
-                $"&status-report-req={request.StatusReportReq}&client-ref={request.ClientRef}&template={WebUtility.UrlEncode(request.Template)}&type={request.Type}";
-        }
-
-        var expectedResponseContent = this.GetResponseJson();
-        expectedUri += "&";
-        this.Setup(expectedUri, expectedResponseContent);
-
-        //ACT
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        var response = await client.ShortCodesClient.SendAlertAsync(request, passCredentials ? creds : null);
-
-        //ASSERT
-        Assert.Equal("1", response.MessageCount);
-        Assert.NotEmpty(response.Messages);
-        var message = response.Messages[0];
-        Assert.Equal("delivered", message.Status);
-        Assert.Equal("abcdefg", message.MessageId);
-        Assert.Equal("16365553226", message.To);
-        Assert.Equal("0", message.ErrorCode);
-    }
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(ShortCodeTests).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
 
     [Theory]
     [InlineData(true)]
@@ -64,7 +27,7 @@ public class ShortCodeTests : TestBase
         {
             Msisdn = "15559301529",
         };
-        var expectedResponseContent = this.GetResponseJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
         var expectedUri =
             $"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn={request.Msisdn}&";
         this.Setup(expectedUri, expectedResponseContent);
@@ -98,7 +61,7 @@ public class ShortCodeTests : TestBase
             expectedUri += $"?page-size={request.PageSize}&page={request.Page}&";
         }
 
-        var expectedResponseContent = this.GetResponseJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
         this.Setup(expectedUri, expectedResponseContent);
 
         //ACT
@@ -111,6 +74,48 @@ public class ShortCodeTests : TestBase
     }
 
     [Theory]
+    [InlineData(true, false)]
+    [InlineData(true, true)]
+    [InlineData(false, true)]
+    [InlineData(false, false)]
+    public async Task SendAlertAsync(bool passCredentials, bool useAllParameters)
+    {
+        //ARRANGE
+        var request = new AlertRequest
+        {
+            To = "16365553226",
+        };
+        var expectedUri = $"{this.RestUrl}/sc/us/alert/json?to={request.To}";
+        if (useAllParameters)
+        {
+            request.StatusReportReq = "1";
+            request.ClientRef = Guid.NewGuid().ToString();
+            request.Template = "Test Template";
+            request.Type = "text";
+            expectedUri +=
+                $"&status-report-req={request.StatusReportReq}&client-ref={request.ClientRef}&template={WebUtility.UrlEncode(request.Template)}&type={request.Type}";
+        }
+
+        var expectedResponseContent = this.helper.GetResponseJson();
+        expectedUri += "&";
+        this.Setup(expectedUri, expectedResponseContent);
+
+        //ACT
+        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
+        var client = this.BuildVonageClient(creds);
+        var response = await client.ShortCodesClient.SendAlertAsync(request, passCredentials ? creds : null);
+
+        //ASSERT
+        Assert.Equal("1", response.MessageCount);
+        Assert.NotEmpty(response.Messages);
+        var message = response.Messages[0];
+        Assert.Equal("delivered", message.Status);
+        Assert.Equal("abcdefg", message.MessageId);
+        Assert.Equal("16365553226", message.To);
+        Assert.Equal("0", message.ErrorCode);
+    }
+
+    [Theory]
     [InlineData(false)]
     [InlineData(true)]
     public async Task SendTwoFactorAuthAsync(bool passCredentials)
@@ -118,7 +123,7 @@ public class ShortCodeTests : TestBase
         //ARRANGE
         var request = new TwoFactorAuthRequest();
         var expectedUri = $"{this.RestUrl}/sc/us/2fa/json";
-        var expectedResponseContent = this.GetResponseJson();
+        var expectedResponseContent = this.helper.GetResponseJson();
         this.Setup(expectedUri, expectedResponseContent);
 
         //ACT

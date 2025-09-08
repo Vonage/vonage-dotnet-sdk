@@ -85,30 +85,6 @@
         <None Update="Data\VoiceTests\CreateCallAsync-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Data\ShortCodeTests\SendTwoFactorAuthAsync-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\SendTwoFactorAuth-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\QueryOptInsAsync-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\QueryOptIns-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\ManageOptInAsync-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\ManageOptIn-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\SendAlertAsync-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Data\ShortCodeTests\SendAlert-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="Messages\Messenger\Data\SendMessengerAudioAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -1418,10 +1394,30 @@
         <None Update="Redact\Data\RedactReturns429-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Data\RedactTests\"/>
+        <None Update="ShortCodes\Data\ManageOptIn-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ShortCodes\Data\ManageOptInAsync-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ShortCodes\Data\QueryOptIns-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ShortCodes\Data\QueryOptInsAsync-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ShortCodes\Data\SendAlert-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ShortCodes\Data\SendAlertAsync-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ShortCodes\Data\SendTwoFactorAuth-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ShortCodes\Data\SendTwoFactorAuthAsync-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
