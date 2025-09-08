@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿#region
+using Newtonsoft.Json;
 using Vonage.Serialization;
 using Vonage.Voice.Nccos;
 using Xunit;
+#endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Voice;
 
 [Trait("Category", "Legacy")]
 public class StreamActionTest
