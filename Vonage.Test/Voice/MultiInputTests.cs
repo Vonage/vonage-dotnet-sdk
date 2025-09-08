@@ -6,7 +6,7 @@ using Vonage.Voice.Nccos;
 using Xunit;
 #endregion
 
-namespace Vonage.Test;
+namespace Vonage.Test.Voice;
 
 [Trait("Category", "Legacy")]
 public class MultiInputTests : TestBase
