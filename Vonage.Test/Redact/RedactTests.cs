@@ -17,164 +17,164 @@ public class RedactTests : TestBase
     private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(RedactTests).Namespace,
         JsonSerializerBuilder.BuildWithCamelCase());
 
-    [Theory]
-    [InlineData(true, RedactionProduct.Sms, RedactionType.Inbound)]
-    [InlineData(false, RedactionProduct.Sms, RedactionType.Inbound)]
-    [InlineData(false, RedactionProduct.Sms, RedactionType.Outbound)]
-    [InlineData(false, RedactionProduct.Messages, RedactionType.Inbound)]
-    [InlineData(false, RedactionProduct.Messages, RedactionType.Outbound)]
-    [InlineData(false, RedactionProduct.NumberInsight, RedactionType.Inbound)]
-    [InlineData(false, RedactionProduct.NumberInsight, RedactionType.Outbound)]
-    [InlineData(false, RedactionProduct.Verify, RedactionType.Inbound)]
-    [InlineData(false, RedactionProduct.Verify, RedactionType.Outbound)]
-    [InlineData(false, RedactionProduct.VerifySdk, RedactionType.Inbound)]
-    [InlineData(false, RedactionProduct.VerifySdk, RedactionType.Outbound)]
-    [InlineData(false, RedactionProduct.Voice, RedactionType.Inbound)]
-    [InlineData(false, RedactionProduct.Voice, RedactionType.Outbound)]
-    public async Task RedactAsync(bool passCredentials, RedactionProduct product, RedactionType type)
+    [Fact]
+    public async Task RedactMessagesInbound()
     {
-        //ARRANGE
-        var request = new RedactRequest
-        {
-            Id = "test",
-            Product = product,
-            Type = type,
-        };
-        var expectedResponseContent = this.helper.GetResponseJson();
-        var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
-        this.Setup(expectedUri, expectedResponseContent);
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateMessagesInboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
 
-        //ACT
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        var response = await client.RedactClient.RedactAsync(request, passCredentials ? creds : null);
+    [Fact]
+    public async Task RedactMessagesOutbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateMessagesOutboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
 
-        //ASSERT
-        Assert.True(response);
+    [Fact]
+    public async Task RedactNumberInsightInbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateNumberInsightInboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
+
+    [Fact]
+    public async Task RedactNumberInsightOutbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateNumberInsightOutboundRequest());
+        response.ShouldBeSuccessfulRedaction();
     }
 
     [Fact]
     public async Task RedactReturns401()
     {
-        //ARRANGE
-        var request = new RedactRequest
-        {
-            Id = "209ab3c7536542b91e8b5aef032f6861",
-            Product = RedactionProduct.Sms,
-            Type = RedactionType.Inbound,
-        };
-        var expectedResponseContent = this.helper.GetResponseJson();
-        var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
-        this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Unauthorized);
-
-        //ACT
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        var exception =
-            await Assert.ThrowsAsync<VonageHttpRequestException>(() => client.RedactClient.RedactAsync(request));
-
-        //ASSERT
-        Assert.NotNull(exception);
-        Assert.Equal(expectedResponseContent, exception.Json);
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
+            expectedCode: HttpStatusCode.Unauthorized);
+        var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
+            this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
+        exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
     }
 
     [Fact]
     public async Task RedactReturns403()
     {
-        //ARRANGE
-        var request = new RedactRequest
-        {
-            Id = "209ab3c7536542b91e8b5aef032f6861",
-            Product = RedactionProduct.Sms,
-            Type = RedactionType.Inbound,
-        };
-        var expectedResponseContent = this.helper.GetResponseJson();
-        var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
-        this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.Forbidden);
-
-        //ACT
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        var exception =
-            await Assert.ThrowsAsync<VonageHttpRequestException>(() => client.RedactClient.RedactAsync(request));
-
-        //ASSERT
-        Assert.NotNull(exception);
-        Assert.Equal(expectedResponseContent, exception.Json);
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
+            expectedCode: HttpStatusCode.Forbidden);
+        var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
+            this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
+        exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
     }
 
     [Fact]
     public async Task RedactReturns404()
     {
-        //ARRANGE
-        var request = new RedactRequest
-        {
-            Id = "209ab3c7536542b91e8b5aef032f6861",
-            Product = RedactionProduct.Sms,
-            Type = RedactionType.Inbound,
-        };
-        var expectedResponseContent = this.helper.GetResponseJson();
-        var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
-        this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.NotFound);
-
-        //ACT
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        var exception =
-            await Assert.ThrowsAsync<VonageHttpRequestException>(() => client.RedactClient.RedactAsync(request));
-
-        //ASSERT
-        Assert.NotNull(exception);
-        Assert.Equal(expectedResponseContent, exception.Json);
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
+            expectedCode: HttpStatusCode.NotFound);
+        var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
+            this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
+        exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
     }
 
     [Fact]
     public async Task RedactReturns422()
     {
-        //ARRANGE
-        var request = new RedactRequest
-        {
-            Id = "209ab3c7536542b91e8b5aef032f6861",
-            Product = RedactionProduct.Sms,
-            Type = RedactionType.Inbound,
-        };
-        var expectedResponseContent = this.helper.GetResponseJson();
-        var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
-        this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.UnprocessableEntity);
-
-        //ACT
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        var exception =
-            await Assert.ThrowsAsync<VonageHttpRequestException>(() => client.RedactClient.RedactAsync(request));
-
-        //ASSERT
-        Assert.NotNull(exception);
-        Assert.Equal(expectedResponseContent, exception.Json);
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
+            expectedCode: HttpStatusCode.UnprocessableEntity);
+        var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
+            this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
+        exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
     }
 
     [Fact]
     public async Task RedactReturns429()
     {
-        //ARRANGE
-        var request = new RedactRequest
-        {
-            Id = "209ab3c7536542b91e8b5aef032f6861",
-            Product = RedactionProduct.Sms,
-            Type = RedactionType.Inbound,
-        };
-        var expectedResponseContent = this.helper.GetResponseJson();
-        var expectedUri = $"{this.ApiUrl}/v1/redact/transaction";
-        this.Setup(expectedUri, expectedResponseContent, expectedCode: HttpStatusCode.TooManyRequests);
-
-        //ACT
-        var creds = Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret);
-        var client = this.BuildVonageClient(creds);
-        var exception =
-            await Assert.ThrowsAsync<VonageHttpRequestException>(() => client.RedactClient.RedactAsync(request));
-
-        //ASSERT
-        Assert.NotNull(exception);
-        Assert.Equal(expectedResponseContent, exception.Json);
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
+            expectedCode: HttpStatusCode.TooManyRequests);
+        var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
+            this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
+        exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
     }
+
+    [Fact]
+    public async Task RedactSmsInbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateSmsInboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
+
+    [Fact]
+    public async Task RedactSmsOutbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateSmsOutboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
+
+    [Fact]
+    public async Task RedactVerifyInbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVerifyInboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
+
+    [Fact]
+    public async Task RedactVerifyOutbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVerifyOutboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
+
+    [Fact]
+    public async Task RedactVerifySdkInbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVerifySdkInboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
+
+    [Fact]
+    public async Task RedactVerifySdkOutbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVerifySdkOutboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
+
+    [Fact]
+    public async Task RedactVoiceInbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVoiceInboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
+
+    [Fact]
+    public async Task RedactVoiceOutbound()
+    {
+        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
+            this.helper.GetRequestJson());
+        var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVoiceOutboundRequest());
+        response.ShouldBeSuccessfulRedaction();
+    }
+
+    private IRedactClient BuildRedactClient() =>
+        this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret)).RedactClient;
 }
