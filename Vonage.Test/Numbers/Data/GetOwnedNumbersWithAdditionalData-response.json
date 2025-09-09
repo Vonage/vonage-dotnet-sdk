@@ -1,0 +1,20 @@
+{
+  "count": 1234,
+  "numbers": [
+    {
+      "country": "GB",
+      "msisdn": "447700900000",
+      "type": "mobile-lvn",
+      "cost": "1.25",
+      "features": [
+        "VOICE",
+        "SMS"
+      ],
+      "moHttpUrl": "https://example.com/webhooks/inbound-sms",
+      "messagesCallbackType": "app",
+      "messagesCallbackValue": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+      "voiceCallbackType": "app",
+      "voiceCallbackValue": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+    }
+  ]
+}
