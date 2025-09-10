@@ -93,6 +93,15 @@ internal static class ApplicationAssertions
         });
     }
 
+    internal static void ShouldHaveExpectedVerifyCapabilities(this Application actual)
+    {
+        actual.Capabilities.Verify.Should().NotBeNull();
+        actual.Capabilities.Verify.Webhooks.Should().BeEquivalentTo(new Dictionary<Webhook.Type, Webhook>
+        {
+            {Webhook.Type.StatusUrl, new Webhook {Address = "https://example.com/webhooks/status", Method = "POST"}},
+        });
+    }
+
     internal static void ShouldHaveExpectedVoiceTimeouts(this Application actual)
     {
         var expectedAnswer = new Vonage.Applications.Capabilities.Voice.VoiceWebhook(

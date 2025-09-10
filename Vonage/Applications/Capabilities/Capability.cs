@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
 using Vonage.Common;
+#endregion
 
 namespace Vonage.Applications.Capabilities;
 
 public abstract class Capability
 {
-    [JsonProperty("webhooks")] public IDictionary<Webhook.Type, Webhook> Webhooks { get; set; }
-
-    [JsonIgnore] protected CapabilityType Type { get; set; }
-
     public enum CapabilityType
     {
         [Description("voice")] Voice,
@@ -19,5 +17,10 @@ public abstract class Capability
         [Description("vbc")] Vbc,
         [Description("meetings")] Meetings,
         [Description("video")] Video,
+        [Description("verify")] Verify,
     }
+
+    [JsonProperty("webhooks")] public IDictionary<Webhook.Type, Webhook> Webhooks { get; set; }
+
+    [JsonIgnore] protected CapabilityType Type { get; set; }
 }

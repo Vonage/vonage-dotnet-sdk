@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿#region
+using Newtonsoft.Json;
 using Vonage.Applications.Capabilities;
+#endregion
 
 namespace Vonage.Applications;
 
@@ -25,22 +27,27 @@ public class ApplicationCapabilities
     /// </summary>
     [JsonProperty("vbc")]
     public Vbc Vbc { get; set; }
-        
+
     /// <summary>
     ///     Create meetings with Vonage API.
     /// </summary>
     [JsonProperty("meetings")]
-    public Capabilities.Meetings Meetings { get; set; }
+    public Meetings Meetings { get; set; }
 
     /// <summary>
     /// Messages and Dispatch application webhook config
     /// </summary>
     [JsonProperty("messages")]
     public Capabilities.Messages Messages { get; set; }
-        
+
     /// <summary>
     ///    Create in-app video calls with Vonage API.
     /// </summary>
     [JsonProperty("video")]
     public Capabilities.Video Video { get; set; }
+
+    /// <summary>
+    /// </summary>
+    [JsonProperty("verify")]
+    public Capabilities.Verify Verify { get; set; }
 }

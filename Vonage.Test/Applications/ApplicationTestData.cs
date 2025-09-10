@@ -21,6 +21,7 @@ internal static class ApplicationTestData
             Voice = CreateVoiceCapability(),
             Vbc = new Vbc(),
             Meetings = CreateMeetingsCapability(),
+            Verify = CreateVerifyCapability(),
         };
 
     private static Keys CreateBasicKeys() =>
@@ -57,6 +58,12 @@ internal static class ApplicationTestData
         new Rtc(new Dictionary<Webhook.Type, Webhook>
         {
             {Webhook.Type.EventUrl, new Webhook {Address = "https://example.com/webhooks/events", Method = "POST"}},
+        });
+
+    private static Vonage.Applications.Capabilities.Verify CreateVerifyCapability() =>
+        new Vonage.Applications.Capabilities.Verify(new Dictionary<Webhook.Type, Webhook>
+        {
+            {Webhook.Type.StatusUrl, new Webhook {Address = "https://example.com/webhooks/status", Method = "POST"}},
         });
 
     private static Vonage.Applications.Capabilities.Voice CreateVoiceCapability() =>

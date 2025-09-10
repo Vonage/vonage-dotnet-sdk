@@ -54,7 +54,15 @@
         }
       }
     },
-    "vbc": {}
+    "vbc": {},
+    "verify": {
+      "webhooks": {
+        "status_url": {
+          "http_method": "POST",
+          "address": "https://example.com/webhooks/status"
+        }
+      }
+    }
   },
   "keys": {
     "public_key": "some public key",

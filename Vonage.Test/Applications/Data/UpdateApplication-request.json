@@ -53,6 +53,14 @@
           "address": "https://example.com/webhooks/status"
         }
       }
+    },
+    "verify": {
+      "webhooks": {
+        "status_url": {
+          "http_method": "POST",
+          "address": "https://example.com/webhooks/status"
+        }
+      }
     }
   },
   "keys": {
