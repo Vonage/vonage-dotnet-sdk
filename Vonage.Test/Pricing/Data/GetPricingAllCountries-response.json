@@ -1,0 +1,23 @@
+{
+  "count": "243",
+  "countries": [
+    {
+      "countryName": "Canada",
+      "countryDisplayName": "Canada",
+      "currency": "EUR",
+      "defaultPrice": "0.00620000",
+      "dialingPrefix": "1",
+      "networks": [
+        {
+          "type": "mobile",
+          "price": "0.00590000",
+          "currency": "EUR",
+          "mcc": "302",
+          "mnc": "530",
+          "networkCode": "302530",
+          "networkName": "Keewaytinook Okimakanak"
+        }
+      ]
+    }
+  ]
+}
