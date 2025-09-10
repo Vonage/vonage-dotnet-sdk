@@ -1,7 +1,6 @@
 ﻿#region
 using Newtonsoft.Json;
 using Vonage.Serialization;
-using Vonage.Voice.Nccos;
 using Xunit;
 #endregion
 
@@ -13,14 +12,8 @@ public class StreamActionTest
     [Fact]
     public void TestStreamUrl()
     {
-        //Arrange
-        var expected = "{\"action\":\"stream\",\"streamUrl\":[\"https://www.example.com/waiting.mp3\"]}";
-        var action = new StreamAction {StreamUrl = new[] {"https://www.example.com/waiting.mp3"}};
-
-        //Act
+        var action = StreamActionTestTestData.CreateStreamActionWithUrl();
         var serialized = JsonConvert.SerializeObject(action, VonageSerialization.SerializerSettings);
-
-        //Assert
-        Assert.Equal(expected, serialized);
+        serialized.ShouldMatchExpectedStreamUrlJson();
     }
 }
