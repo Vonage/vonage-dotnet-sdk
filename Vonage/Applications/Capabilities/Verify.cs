@@ -12,6 +12,6 @@ public class Verify : Capability
     public Verify(IDictionary<Webhook.Type, Webhook> webhooks)
     {
         this.Webhooks = webhooks;
-        this.Type = CapabilityType.Messages;
+        this.Type = CapabilityType.Verify;
     }
 }
