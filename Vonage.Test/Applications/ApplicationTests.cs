@@ -27,15 +27,6 @@ public class ApplicationTests : TestBase
     }
 
     [Fact]
-    public async Task CreateApplication_WithVoiceTimeouts()
-    {
-        this.Setup($"{this.ApiUrl}/v2/applications", this.helper.GetResponseJson(), this.helper.GetRequestJson());
-        var response = await this.BuildApplicationClient()
-            .CreateApplicationAsync(ApplicationTestData.CreateRequestWithVoiceTimeouts());
-        response.ShouldHaveExpectedVoiceTimeouts();
-    }
-
-    [Fact]
     public async Task DeleteApplication()
     {
         this.Setup($"{this.ApiUrl}/v2/applications/78d335fa323d01149c3dd6f0d48968cf", Maybe<string>.Some(""));

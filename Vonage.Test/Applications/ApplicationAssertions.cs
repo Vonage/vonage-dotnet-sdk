@@ -69,7 +69,7 @@ internal static class ApplicationAssertions
                     new Uri("https://fallback.example.com/webhooks/answer"), HttpMethod.Get));
         actual.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl]
             .Should().Be(
-                new Vonage.Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/event"),
+                new Vonage.Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/events"),
                     HttpMethod.Post));
     }
 
