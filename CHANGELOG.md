@@ -1,4 +1,100 @@
 # Changelog
+## [v8.7.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.7.1) (2025-09-18)
+
+### Bug Fixes
+
+- Use SerializationHelper to locate Json test files ([13496d4](https://github.com/Vonage/vonage-dotnet-sdk/commit/13496d44d73ccff9e05e84a891b891529f04d095))
+
+- Incorrect type for Verify capability ([1deb82a](https://github.com/Vonage/vonage-dotnet-sdk/commit/1deb82acd5480d7191d395cafb71e4823ae9b0af))
+
+- Video capabilities for Application now use an Address/Active pair ([8a5f03e](https://github.com/Vonage/vonage-dotnet-sdk/commit/8a5f03e8aa774f3e88a09f9a6e12de1b0731acd1))
+
+- Switch video Archive size from int to long ([414a4ca](https://github.com/Vonage/vonage-dotnet-sdk/commit/414a4ca6c4129a0c1cfffe8e705074d46412868d))
+
+
+### Documentation
+
+- Generate changelog for v8.7.0 ([9c15afc](https://github.com/Vonage/vonage-dotnet-sdk/commit/9c15afc6f2210604b7605ed119cf2fa53507499c))
+
+- Remove refactoring instructions ([424b2b2](https://github.com/Vonage/vonage-dotnet-sdk/commit/424b2b2e0a8bb825ff8ad2173548392131aca8fe))
+
+- Bump version to v8.7.1 ([8d6b288](https://github.com/Vonage/vonage-dotnet-sdk/commit/8d6b288262a9868eaac5e2c71121ddc2c29df363))
+
+
+### Features
+
+- Add support for Verify in Applications API ([a9deeb8](https://github.com/Vonage/vonage-dotnet-sdk/commit/a9deeb820efc6f194b4a7811fa719356b6725a06))
+
+
+### Refactoring
+
+- Clean NumberInsightsTests ([23860ae](https://github.com/Vonage/vonage-dotnet-sdk/commit/23860aeb477140d59907e2d86bbb053456c9c2dd))
+
+- Clean NumberInsightsTests ([384b947](https://github.com/Vonage/vonage-dotnet-sdk/commit/384b947beceea8f1cb5e7269cad39e8c08a19bd4))
+
+- Move NumberInsightsTests under dedicated directory ([ff8d9f8](https://github.com/Vonage/vonage-dotnet-sdk/commit/ff8d9f897e87e1e4551de8e6c0f091ebfc5d596d))
+
+- Move VoiceTests under dedicated directory ([4f6d2b6](https://github.com/Vonage/vonage-dotnet-sdk/commit/4f6d2b640d52fd172fe5de10d5b2aa4b43deac01))
+
+- Clean VoiceTests ([61c01d3](https://github.com/Vonage/vonage-dotnet-sdk/commit/61c01d36d8f419a45dc70f0e6713454ad95dfb2b))
+
+- Create safety net for ApiRequest ([cac4990](https://github.com/Vonage/vonage-dotnet-sdk/commit/cac4990fe3bda61f95ffd55aef07a6dad6761dce))
+
+- Move ApplicationTests under dedicated directory ([1fc0b59](https://github.com/Vonage/vonage-dotnet-sdk/commit/1fc0b59bbec023cfe604fba1e6bb629e4b5f5015))
+
+- Clean ApplicationTests ([7452cba](https://github.com/Vonage/vonage-dotnet-sdk/commit/7452cbabe5d67d616beb0e7c4f7ea04125e338c0))
+
+- Clean MessagingTests ([9477690](https://github.com/Vonage/vonage-dotnet-sdk/commit/9477690530712d50382b73585d3625f245db2d37))
+
+- Clean NumberInsightsTest ([1d69e8a](https://github.com/Vonage/vonage-dotnet-sdk/commit/1d69e8a2422fce5caf1731fbfeca0f4a00344f0c))
+
+- Reduce duplication in NumberInsightsTests ([b6d663a](https://github.com/Vonage/vonage-dotnet-sdk/commit/b6d663a3b8e780177f5290198cee0ceafef6daee))
+
+- Reduce duplication in NumberInsightAssertions ([fbf9ffc](https://github.com/Vonage/vonage-dotnet-sdk/commit/fbf9ffc76e4e6fe3194ebb34ceb2f64526e0c212))
+
+- Move NumbersTests into dedicated directory ([2a9d6ec](https://github.com/Vonage/vonage-dotnet-sdk/commit/2a9d6ec804951c85795c9b4878517c0593e79658))
+
+- Move AccountTest to dedicated folder ([4a48427](https://github.com/Vonage/vonage-dotnet-sdk/commit/4a4842791dfef73f4e0b7d003ba6e91891a67a32))
+
+- Move ConversionTest to a dedicated folder ([417c26a](https://github.com/Vonage/vonage-dotnet-sdk/commit/417c26ab31690930d52e467c4cc365c901fb1e9f))
+
+- Move EndpointTest under Voice ([cf54d92](https://github.com/Vonage/vonage-dotnet-sdk/commit/cf54d92c2db9a2f2b346413b21e6f94456eac728))
+
+- Move MultiinputTest under Voice ([d8c66ae](https://github.com/Vonage/vonage-dotnet-sdk/commit/d8c66ae8a13216040b0cfd16387e19f30de3c88a))
+
+- Move NccoTests under Voice ([f1aec02](https://github.com/Vonage/vonage-dotnet-sdk/commit/f1aec026296fa8f26944780d23128a361fa55b43))
+
+- Remove unused methods in TestBase ([d64ca51](https://github.com/Vonage/vonage-dotnet-sdk/commit/d64ca517193bfd695a61c4c758d577c18d4d1dc1))
+
+- Move PricingTests under dedicated directory ([f0e296b](https://github.com/Vonage/vonage-dotnet-sdk/commit/f0e296bbc0c8bd522aac722ff2991fe513568dd7))
+
+- Move RedactTests under dedicated directory ([e59b825](https://github.com/Vonage/vonage-dotnet-sdk/commit/e59b825ea1a16fbb1f1064595cb76391c39c7834))
+
+- Move ShortCodeTests under dedicated directory ([9ead451](https://github.com/Vonage/vonage-dotnet-sdk/commit/9ead45173ae67bf09169aa43889c6699b75352bb))
+
+- Move StreamActionTest under Voice ([8ffaafd](https://github.com/Vonage/vonage-dotnet-sdk/commit/8ffaafd6bf3dfbf919ef6501bb21d98f4b15e06e))
+
+- Move VerifyTest under dedicated directory ([c98026e](https://github.com/Vonage/vonage-dotnet-sdk/commit/c98026e2546f299c31393c9cf5674783bcf3ff35))
+
+- Clean AccountTest ([f5b4dcc](https://github.com/Vonage/vonage-dotnet-sdk/commit/f5b4dcc5af7bd076af747a0ebe72826a17a21c1c))
+
+- Clean ConversionTest ([4558a38](https://github.com/Vonage/vonage-dotnet-sdk/commit/4558a389f846a0843e93dc670142e5922a207454))
+
+- Clean NumbersTests ([4fff016](https://github.com/Vonage/vonage-dotnet-sdk/commit/4fff016ee16a16a4ccfacdcb41c8f885b146001d))
+
+- Clear RedactTests ([9f577b9](https://github.com/Vonage/vonage-dotnet-sdk/commit/9f577b9346ef2c8897199148ec61e5fc1486717d))
+
+- Clean PricingTests ([f7c3036](https://github.com/Vonage/vonage-dotnet-sdk/commit/f7c3036c3f64ed05e6f519950ebed55a02a80d80))
+
+- Clean ShortCodeTests ([c18c58d](https://github.com/Vonage/vonage-dotnet-sdk/commit/c18c58da3ed09ca6f5f94ac84f9121558786d4ed))
+
+- Clean VerifyTests ([95ef4ac](https://github.com/Vonage/vonage-dotnet-sdk/commit/95ef4acbd126fd5242311edfee46d8d41578d5a9))
+
+- Clean VoiceTests ([8c1514b](https://github.com/Vonage/vonage-dotnet-sdk/commit/8c1514bb889705a4b7c13d270a8b4417fca532b4))
+
+- Reuse capabilities builder methods in test cases ([f87df10](https://github.com/Vonage/vonage-dotnet-sdk/commit/f87df10735050cf31ca7cddb0b24871e34651fe2))
+
+
 ## [v8.7.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.7.0) (2025-09-01)
 
 ### Bug Fixes
@@ -1187,19 +1283,6 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 ### Documentation
 
-- Generate changelog for v7.2.0 ([a404398](https://github.com/Vonage/vonage-dotnet-sdk/commit/a404398fb38d2808c60b9dcc9545b8a1c812e348))
-
-- Bump version to v7.2.1 ([fd75d49](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd75d496c5d0a44e1fccd59c6d37e4b44d88aa54))
-
-
-## [v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.0) (2024-04-15)
-
-### Documentation
-
-- Generate changelog for v7.1.0 ([f15e7a4](https://github.com/Vonage/vonage-dotnet-sdk/commit/f15e7a485bc7d09cd01c494f0994be8a06090245))
-
-- Bump version to v7.2.0 ([ad37c8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad37c8dc4fb9b6855387879a0e864249f9995b37))
-
 - Generate changelog for v7.2.0 ([73d9366](https://github.com/Vonage/vonage-dotnet-sdk/commit/73d9366ead3f970585bfd514271b6d472b7dddf9))
 
 - Bump version to v7.3.0 ([b7aad8f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b7aad8f86805287d4e88d89fdb0b252abd650369))
@@ -1210,18 +1293,31 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 - Generate changelog for v7.2.0 ([2517e9f](https://github.com/Vonage/vonage-dotnet-sdk/commit/2517e9f9f86e62f0771242a25fddb0061497c871))
 
+- Generate changelog for v7.2.0 ([a404398](https://github.com/Vonage/vonage-dotnet-sdk/commit/a404398fb38d2808c60b9dcc9545b8a1c812e348))
 
-### Features
-
-- Brand is now limiter to 16 characters in VerifyV2 ([11bb4ef](https://github.com/Vonage/vonage-dotnet-sdk/commit/11bb4ef8dfd18c8a8c27cdf9af7349ca07561bdf))
-
-- NextWorkflow for VerifyV2 ([46cf5f0](https://github.com/Vonage/vonage-dotnet-sdk/commit/46cf5f02765cb491265f6cbbad530326a989c777))
+- Bump version to v7.2.1 ([fd75d49](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd75d496c5d0a44e1fccd59c6d37e4b44d88aa54))
 
 
 ### Merges
 
 - Merge remote-tracking branch 'origin/main'
  ([2d9aad7](https://github.com/Vonage/vonage-dotnet-sdk/commit/2d9aad7233f7ce12fce34950c658236c572d9bf8))
+
+
+## [v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.0) (2024-04-11)
+
+### Documentation
+
+- Generate changelog for v7.1.0 ([f15e7a4](https://github.com/Vonage/vonage-dotnet-sdk/commit/f15e7a485bc7d09cd01c494f0994be8a06090245))
+
+- Bump version to v7.2.0 ([ad37c8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad37c8dc4fb9b6855387879a0e864249f9995b37))
+
+
+### Features
+
+- Brand is now limiter to 16 characters in VerifyV2 ([11bb4ef](https://github.com/Vonage/vonage-dotnet-sdk/commit/11bb4ef8dfd18c8a8c27cdf9af7349ca07561bdf))
+
+- NextWorkflow for VerifyV2 ([46cf5f0](https://github.com/Vonage/vonage-dotnet-sdk/commit/46cf5f02765cb491265f6cbbad530326a989c777))
 
 
 ### Refactoring
