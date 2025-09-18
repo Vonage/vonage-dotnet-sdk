@@ -1,4 +1,5 @@
 #region
+using System;
 using Vonage.Applications;
 using Vonage.Applications.Capabilities;
 #endregion
@@ -18,6 +19,7 @@ internal static class ApplicationTestData
             Vbc = new Vbc(),
             Meetings = CreateMeetingsCapability(),
             Verify = CreateVerifyCapability(),
+            NetworkApis = CreateNetworkApisCapability(),
         };
 
     private static Keys CreateBasicKeys() =>
@@ -36,6 +38,10 @@ internal static class ApplicationTestData
         new Vonage.Applications.Capabilities.Messages()
             .WithInboundUrl("https://example.com/webhooks/inbound")
             .WithStatusUrl("https://example.com/webhooks/status");
+
+    private static NetworkApis CreateNetworkApisCapability() =>
+        new NetworkApis().WithApplicationId("2bzfIFqRG128IcjSj1YhZNtw6LADG")
+            .WithRedirectUri(new Uri("https://my-redirect-uri.example.com"));
 
     private static Rtc CreateRtcCapability() =>
         new Rtc().WithEventUrl("https://example.com/webhooks/events", WebhookHttpMethod.Post);

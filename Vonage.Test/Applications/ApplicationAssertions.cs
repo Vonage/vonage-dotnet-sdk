@@ -12,6 +12,12 @@ namespace Vonage.Test.Applications;
 
 internal static class ApplicationAssertions
 {
+    public static void ShouldHaveExpectedNetworkApisCapabilities(this Application actual)
+    {
+        actual.Capabilities.NetworkApis.ApplicationId.Should().Be("2bzfIFqRG128IcjSj1YhZNtw6LADG");
+        actual.Capabilities.NetworkApis.RedirectUri.Should().Be(new Uri("https://my-redirect-uri.example.com"));
+    }
+
     private static void ShouldHaveExpectedBasicProperties(this Application actual)
     {
         actual.Id.Should().Be("78d335fa323d01149c3dd6f0d48968cf");

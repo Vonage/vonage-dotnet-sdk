@@ -23,6 +23,10 @@
         }
       }
     },
+    "network_apis": {
+      "network_application_id": "2bzfIFqRG128IcjSj1YhZNtw6LADG",
+      "redirect_uri": "https://my-redirect-uri.example.com"
+    },
     "rtc": {
       "webhooks": {
         "event_url": {

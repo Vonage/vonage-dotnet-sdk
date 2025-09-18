@@ -11,43 +11,49 @@ namespace Vonage.Applications;
 public class ApplicationCapabilities
 {
     /// <summary>
-    /// Voice application webhook config
-    /// </summary>
-    [JsonProperty("voice")]
-    public Capabilities.Voice Voice { get; set; }
-
-    /// <summary>
-    /// RTC / Client SDK application webhook config
-    /// </summary>
-    [JsonProperty("rtc")]
-    public Rtc Rtc { get; set; }
-
-    /// <summary>
-    /// Specify vbc capability to enable zero-rated calls for VBC number programmability service applications. This must be an empty object.
-    /// </summary>
-    [JsonProperty("vbc")]
-    public Vbc Vbc { get; set; }
-
-    /// <summary>
     ///     Create meetings with Vonage API.
     /// </summary>
-    [JsonProperty("meetings")]
+    [JsonProperty("meetings", Order = 4)]
     public Meetings Meetings { get; set; }
 
     /// <summary>
-    /// Messages and Dispatch application webhook config
+    ///     Messages and Dispatch application webhook config
     /// </summary>
-    [JsonProperty("messages")]
+    [JsonProperty("messages", Order = 5)]
     public Capabilities.Messages Messages { get; set; }
 
     /// <summary>
-    ///    Create in-app video calls with Vonage API.
+    /// </summary>
+    [JsonProperty("network_apis", Order = 1)]
+    public NetworkApis NetworkApis { get; set; }
+
+    /// <summary>
+    ///     RTC / Client SDK application webhook config
+    /// </summary>
+    [JsonProperty("rtc", Order = 2)]
+    public Rtc Rtc { get; set; }
+
+    /// <summary>
+    ///     Specify vbc capability to enable zero-rated calls for VBC number programmability service applications. This must be
+    ///     an empty object.
+    /// </summary>
+    [JsonProperty("vbc", Order = 3)]
+    public Vbc Vbc { get; set; }
+
+    /// <summary>
+    /// </summary>
+    [JsonProperty("verify", Order = 6)]
+    public Capabilities.Verify Verify { get; set; }
+
+    /// <summary>
+    ///     Create in-app video calls with Vonage API.
     /// </summary>
     [JsonProperty("video")]
     public Capabilities.Video Video { get; set; }
 
     /// <summary>
+    ///     Voice application webhook config
     /// </summary>
-    [JsonProperty("verify")]
-    public Capabilities.Verify Verify { get; set; }
+    [JsonProperty("voice", Order = 0)]
+    public Capabilities.Voice Voice { get; set; }
 }

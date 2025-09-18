@@ -1,6 +1,8 @@
 #region
+using System;
 using FluentAssertions;
 using Vonage.Applications;
+using Vonage.Applications.Capabilities;
 using Xunit;
 using VoiceCapability = Vonage.Applications.Capabilities.Voice;
 using MessagesCapability = Vonage.Applications.Capabilities.Messages;
@@ -14,12 +16,13 @@ namespace Vonage.Test.Applications;
 
 public class CapabilitiesTests
 {
-    private static VoiceCapability Voice => new VoiceCapability();
     private static MeetingsCapability Meetings => new MeetingsCapability();
     private static MessagesCapability Messages => new MessagesCapability();
+    private static NetworkApis NetworkApis => new NetworkApis();
     private static RtcCapability Rtc => new RtcCapability();
     private static VerifyCapability Verify => new VerifyCapability();
     private static VideoCapability Video => new VideoCapability();
+    private static VoiceCapability Voice => new VoiceCapability();
 
     [Fact]
     public void Meetings_ShouldBeEmpty() =>
@@ -48,6 +51,20 @@ public class CapabilitiesTests
     [Fact]
     public void Messages_WithStatusUrl_ShouldSetWebhook() =>
         Messages.WithStatusUrl("https://example.com/status").ShouldHaveStatusUrlWebhook();
+
+    [Fact]
+    public void NetworkApis_ApplicationIdShouldBeEmpty() => NetworkApis.ApplicationId.Should().BeNull();
+
+    [Fact]
+    public void NetworkApis_RedirectUriIdShouldBeEmpty() => NetworkApis.RedirectUri.Should().BeNull();
+
+    [Fact]
+    public void NetworkApis_ShouldSetApplicationId() =>
+        NetworkApis.WithApplicationId("1234").ApplicationId.Should().Be("1234");
+
+    [Fact]
+    public void NetworkApis_ShouldSetRedirectUri() => NetworkApis.WithRedirectUri(new Uri("https://example.com"))
+        .RedirectUri.Should().Be(new Uri("https://example.com"));
 
     [Fact]
     public void Rtc_ShouldBeEmpty() =>
