@@ -36,7 +36,7 @@ public class SerializationTest
         success.Reason.Should().Be("random");
         success.Resolution.Should().Be(RenderResolution.FullHighDefinitionLandscape);
         success.SessionId.Should().Be("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN");
-        success.Size.Should().Be(247748791);
+        success.Size.Should().Be(7247748791);
         success.Status.Should().Be("available");
         success.StreamMode.Should().Be("manual");
         success.Url.Should()
