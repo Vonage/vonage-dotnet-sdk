@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
         <NoWarn>1701;1702;0618</NoWarn>
         <IsPackable>false</IsPackable>
         <Configurations>Debug;Release</Configurations>
@@ -9,6 +8,7 @@
         <AssemblyName>Vonage.SourceGenerator.Test</AssemblyName>
         <RootNamespace>Vonage.SourceGenerator.Test</RootNamespace>
         <LangVersion>latest</LangVersion>
+        <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,11 +18,11 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="[4.8.0]"/>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing.XUnit" Version="1.1.2"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1"/>
         <PackageReference Include="xunit" Version="2.9.3"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2">
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>

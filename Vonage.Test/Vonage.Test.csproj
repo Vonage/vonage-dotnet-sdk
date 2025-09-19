@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
         <NoWarn>1701;1702;0618</NoWarn>
         <IsPackable>false</IsPackable>
         <Configurations>Debug;Release;ReleaseSigned</Configurations>
@@ -13,6 +12,7 @@
         <Authors/>
         <Company/>
         <Product/>
+        <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseSigned|netstandard2.0|AnyCPU'">
@@ -26,15 +26,15 @@
         <PackageReference Include="FluentAssertions" Version="[7.0.0]"/>
         <PackageReference Include="FsCheck" Version="2.16.6"/>
         <PackageReference Include="FsCheck.Xunit" Version="2.16.6"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1"/>
         <PackageReference Include="Moq" Version="4.20.72"/>
         <PackageReference Include="System.Formats.Asn1" Version="9.0.6"/>
         <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
-        <PackageReference Include="TestableIO.System.IO.Abstractions" Version="22.0.14"/>
-        <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.12"/>
-        <PackageReference Include="WireMock.Net" Version="1.7.4"/>
+        <PackageReference Include="TestableIO.System.IO.Abstractions" Version="22.0.16"/>
+        <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.16"/>
+        <PackageReference Include="WireMock.Net" Version="1.12.0"/>
         <PackageReference Include="xunit" Version="2.9.3"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2">
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
