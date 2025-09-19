@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FsCheck;
+using FsCheck.Fluent;
 using FsCheck.Xunit;
 using Vonage.SubAccounts.TransferAmount;
 using Vonage.Test.Common.Extensions;

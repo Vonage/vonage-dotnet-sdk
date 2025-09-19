@@ -1,6 +1,7 @@
 ﻿#region
 using System;
 using FsCheck;
+using FsCheck.Fluent;
 using FsCheck.Xunit;
 using Vonage.Server;
 using Vonage.Test.Common.Extensions;
@@ -13,10 +14,10 @@ namespace Vonage.Test.Video.ExperienceComposer.Start;
 [Trait("Category", "Request")]
 public class RequestBuilderTest
 {
-    private const string ValidSessionId = "session-id";
-    private const string ValidToken = "token";
     private const RenderResolution ValidResolution = RenderResolution.FullHighDefinitionPortrait;
     private const string ValidName = "name";
+    private const string ValidSessionId = "session-id";
+    private const string ValidToken = "token";
     private readonly Guid validApplicationId = Guid.NewGuid();
     private readonly Uri validUri = new Uri("https://example.com");
 

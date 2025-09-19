@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoFixture;
 using FsCheck;
+using FsCheck.Fluent;
 using FsCheck.Xunit;
 using Vonage.Common;
 using Vonage.Common.Client;
@@ -22,9 +23,9 @@ namespace Vonage.Test.Common.Client;
 public class VonageHttpClientTest
 {
     private readonly Fixture fixture;
-    private readonly Result<FakeRequest> request;
 
     private readonly JsonSerializer serializer;
+    private readonly Result<FakeRequest> request;
 
     public VonageHttpClientTest()
     {

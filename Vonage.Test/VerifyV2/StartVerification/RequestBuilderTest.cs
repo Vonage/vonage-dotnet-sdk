@@ -2,6 +2,7 @@
 using System;
 using FluentAssertions;
 using FsCheck;
+using FsCheck.Fluent;
 using FsCheck.Xunit;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
@@ -32,6 +33,15 @@ public class RequestBuilderTest
             .Should()
             .BeSuccess(true);
 
+    [Fact]
+    public void Create_ShouldReturnFailure_GivenBrandExceeds16Characters() =>
+        StartVerificationRequest.Build()
+            .WithBrand(StringHelper.GenerateString(17))
+            .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+            .Create()
+            .Should()
+            .BeParsingFailure("Brand length cannot be higher than 16.");
+
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
@@ -43,15 +53,6 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("Brand cannot be null or whitespace.");
-
-    [Fact]
-    public void Create_ShouldReturnFailure_GivenBrandExceeds16Characters() =>
-        StartVerificationRequest.Build()
-            .WithBrand(StringHelper.GenerateString(17))
-            .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
-            .Create()
-            .Should()
-            .BeParsingFailure("Brand length cannot be higher than 16.");
 
     [Fact]
     public void Create_ShouldReturnFailure_GivenChannelTimeoutIsHigherThanMaximum() =>
@@ -126,15 +127,6 @@ public class RequestBuilderTest
                 .Map(request => request.ChannelTimeout)
                 .Should()
                 .BeSuccess(validTimeout));
-
-    private static Arbitrary<int> GetChannelTimeoutsAboveMaximum() =>
-        Gen.Choose(901, int.MaxValue).ToArbitrary();
-
-    private static Arbitrary<int> GetChannelTimeoutsBelowMinimum() =>
-        Gen.Choose(14, -int.MaxValue).ToArbitrary();
-
-    private static Arbitrary<int> GetValidChannelTimeouts() =>
-        Gen.Choose(15, 900).ToArbitrary();
 
     [Fact]
     public void Create_ShouldSetClientReference() =>
@@ -213,6 +205,16 @@ public class RequestBuilderTest
             .BeSuccess(Locale.FrFr);
 
     [Fact]
+    public void Create_ShouldSetTemplateId() =>
+        BuildBaseRequest()
+            .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
+            .WithTemplateId(new Guid("e42581ff-951b-4774-9f3f-b495636e3eef"))
+            .Create()
+            .Map(request => request.TemplateId)
+            .Should()
+            .BeSuccess(new Guid("e42581ff-951b-4774-9f3f-b495636e3eef"));
+
+    [Fact]
     public void Create_ShouldSkipFraudCheck_GivenSkipFraudCheckIsUsed() =>
         BuildBaseRequest()
             .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
@@ -225,13 +227,12 @@ public class RequestBuilderTest
     private static IBuilderForWorkflow BuildBaseRequest() =>
         StartVerificationRequest.Build().WithBrand("some brand");
 
-    [Fact]
-    public void Create_ShouldSetTemplateId() =>
-        BuildBaseRequest()
-            .WithWorkflow(EmailWorkflow.Parse(ValidEmail))
-            .WithTemplateId(new Guid("e42581ff-951b-4774-9f3f-b495636e3eef"))
-            .Create()
-            .Map(request => request.TemplateId)
-            .Should()
-            .BeSuccess(new Guid("e42581ff-951b-4774-9f3f-b495636e3eef"));
+    private static Arbitrary<int> GetChannelTimeoutsAboveMaximum() =>
+        Gen.Choose(901, int.MaxValue).ToArbitrary();
+
+    private static Arbitrary<int> GetChannelTimeoutsBelowMinimum() =>
+        Gen.Choose(14, -int.MaxValue).ToArbitrary();
+
+    private static Arbitrary<int> GetValidChannelTimeouts() =>
+        Gen.Choose(15, 900).ToArbitrary();
 }

@@ -1,6 +1,7 @@
 ﻿#region
 using System.Net;
 using FsCheck;
+using FsCheck.Fluent;
 using Vonage.Common;
 #endregion
 
@@ -11,15 +12,6 @@ namespace Vonage.Test.Common.Extensions;
 /// </summary>
 public static class FsCheckExtensions
 {
-    /// <summary>
-    ///     Retrieves a generator that produces error responses with invalid status codes.
-    /// </summary>
-    /// <returns>An Arbitrary of ErrorResponse.</returns>
-    internal static Arbitrary<VideoApiError> GetErrorResponses() =>
-        Arb.From(from message in GetAny<string>().Generator
-            from code in GetInvalidStatusCodes().Generator
-            select new VideoApiError(code, message));
-
     /// <summary>
     ///     Retrieves a HttpStatusCode generator that produces only invalid codes.
     /// </summary>
@@ -47,5 +39,14 @@ public static class FsCheckExtensions
     /// </summary>
     /// <typeparam name="T">Type of the value.</typeparam>
     /// <returns>An Arbitrary.</returns>
-    private static Arbitrary<T> GetAny<T>() => Arb.From<T>();
+    private static Arbitrary<T> GetAny<T>() => ArbMap.Default.GeneratorFor<T>().ToArbitrary();
+
+    /// <summary>
+    ///     Retrieves a generator that produces error responses with invalid status codes.
+    /// </summary>
+    /// <returns>An Arbitrary of ErrorResponse.</returns>
+    internal static Arbitrary<VideoApiError> GetErrorResponses() =>
+        Arb.From(from message in GetAny<string>().Generator
+            from code in GetInvalidStatusCodes().Generator
+            select new VideoApiError(code, message));
 }

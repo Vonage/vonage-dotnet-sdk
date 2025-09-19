@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FsCheck;
+using FsCheck.Fluent;
 using FsCheck.Xunit;
 using Vonage.SubAccounts.TransferNumber;
 using Vonage.Test.Common.Extensions;
@@ -43,7 +44,8 @@ public class RequestBuilderTest
     [Property]
     public Property Build_ShouldReturnFailure_GivenCountryLengthIsDifferentThanTwo() =>
         Prop.ForAll(
-            Arb.From<string>().MapFilter(_ => _, value => !string.IsNullOrWhiteSpace(value) && value.Length != 2),
+            ArbMap.Default.GeneratorFor<string>().Where(value => !string.IsNullOrWhiteSpace(value) && value.Length != 2)
+                .ToArbitrary(),
             invalidCountry => TransferNumberRequest
                 .Build()
                 .WithFrom(this.from)

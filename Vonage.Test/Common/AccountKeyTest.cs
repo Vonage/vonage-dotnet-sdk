@@ -1,4 +1,5 @@
 ﻿using FsCheck;
+using FsCheck.Fluent;
 using FsCheck.Xunit;
 using Vonage.Common;
 using Vonage.Common.Failures;
@@ -32,7 +33,8 @@ public class AccountKeyTest
     [Property]
     public Property Parse_ShouldReturnFailure_GivenApiKeyLengthIsDifferentThan8() =>
         Prop.ForAll(
-            Arb.From<string>().Filter(value => !string.IsNullOrWhiteSpace(value) && value.Length != 8),
+            ArbMap.Default.GeneratorFor<string>().Where(value => !string.IsNullOrWhiteSpace(value) && value.Length != 8)
+                .ToArbitrary(),
             invalidApiKey => AccountKey.Parse(invalidApiKey)
                 .Should()
                 .BeFailure(ResultFailure.FromErrorMessage("AccountKey length should be 8.")));
