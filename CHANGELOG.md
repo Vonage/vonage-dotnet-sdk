@@ -1,4 +1,27 @@
 # Changelog
+## [v8.8.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.8.0) (2025-09-23)
+
+### Build updates
+
+- Update dependencies ([1cc3f44](https://github.com/Vonage/vonage-dotnet-sdk/commit/1cc3f447862be2ec98163770ab256f7a860c2213))
+
+- Upgrade FsCheck to latest version ([c8b9753](https://github.com/Vonage/vonage-dotnet-sdk/commit/c8b9753ff77697efc7cd9f28feed8b5cd8c36f8d))
+
+
+### Documentation
+
+- Generate changelog for v8.7.1 ([3cd3cf8](https://github.com/Vonage/vonage-dotnet-sdk/commit/3cd3cf8ed5a90d7eabb1639891536229abe3292d))
+
+- Bump version to v8.8.0 ([d39d0de](https://github.com/Vonage/vonage-dotnet-sdk/commit/d39d0de88c49ea08e6b33df9aeae64f521af8773))
+
+
+### Features
+
+- Add support for Network APIs capability in Application ([7e33275](https://github.com/Vonage/vonage-dotnet-sdk/commit/7e33275434414a04be34c0c4d1f568116cced7dd))
+
+- Add factory method to create Application capabilities ([aca5f7c](https://github.com/Vonage/vonage-dotnet-sdk/commit/aca5f7cfe24e6a42304965c23fba96e5a96f9dec))
+
+
 ## [v8.7.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.7.1) (2025-09-18)
 
 ### Bug Fixes
@@ -1283,6 +1306,19 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 ### Documentation
 
+- Generate changelog for v7.2.0 ([a404398](https://github.com/Vonage/vonage-dotnet-sdk/commit/a404398fb38d2808c60b9dcc9545b8a1c812e348))
+
+- Bump version to v7.2.1 ([fd75d49](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd75d496c5d0a44e1fccd59c6d37e4b44d88aa54))
+
+
+## [v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.0) (2024-04-15)
+
+### Documentation
+
+- Generate changelog for v7.1.0 ([f15e7a4](https://github.com/Vonage/vonage-dotnet-sdk/commit/f15e7a485bc7d09cd01c494f0994be8a06090245))
+
+- Bump version to v7.2.0 ([ad37c8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad37c8dc4fb9b6855387879a0e864249f9995b37))
+
 - Generate changelog for v7.2.0 ([73d9366](https://github.com/Vonage/vonage-dotnet-sdk/commit/73d9366ead3f970585bfd514271b6d472b7dddf9))
 
 - Bump version to v7.3.0 ([b7aad8f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b7aad8f86805287d4e88d89fdb0b252abd650369))
@@ -1293,31 +1329,18 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 - Generate changelog for v7.2.0 ([2517e9f](https://github.com/Vonage/vonage-dotnet-sdk/commit/2517e9f9f86e62f0771242a25fddb0061497c871))
 
-- Generate changelog for v7.2.0 ([a404398](https://github.com/Vonage/vonage-dotnet-sdk/commit/a404398fb38d2808c60b9dcc9545b8a1c812e348))
-
-- Bump version to v7.2.1 ([fd75d49](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd75d496c5d0a44e1fccd59c6d37e4b44d88aa54))
-
-
-### Merges
-
-- Merge remote-tracking branch 'origin/main'
- ([2d9aad7](https://github.com/Vonage/vonage-dotnet-sdk/commit/2d9aad7233f7ce12fce34950c658236c572d9bf8))
-
-
-## [v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.0) (2024-04-11)
-
-### Documentation
-
-- Generate changelog for v7.1.0 ([f15e7a4](https://github.com/Vonage/vonage-dotnet-sdk/commit/f15e7a485bc7d09cd01c494f0994be8a06090245))
-
-- Bump version to v7.2.0 ([ad37c8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad37c8dc4fb9b6855387879a0e864249f9995b37))
-
 
 ### Features
 
 - Brand is now limiter to 16 characters in VerifyV2 ([11bb4ef](https://github.com/Vonage/vonage-dotnet-sdk/commit/11bb4ef8dfd18c8a8c27cdf9af7349ca07561bdf))
 
 - NextWorkflow for VerifyV2 ([46cf5f0](https://github.com/Vonage/vonage-dotnet-sdk/commit/46cf5f02765cb491265f6cbbad530326a989c777))
+
+
+### Merges
+
+- Merge remote-tracking branch 'origin/main'
+ ([2d9aad7](https://github.com/Vonage/vonage-dotnet-sdk/commit/2d9aad7233f7ce12fce34950c658236c572d9bf8))
 
 
 ### Refactoring
