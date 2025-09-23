@@ -22,6 +22,11 @@ public class Verify : Capability
     }
 
     /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    public static Verify Build() => new Verify();
+
+    /// <summary>
     ///     Sets the status URL webhook for Verify capability.
     /// </summary>
     /// <param name="url">The webhook URL.</param>

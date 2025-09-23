@@ -25,6 +25,11 @@ public class Video
     public IDictionary<VideoWebhookType, VideoWebhook> Webhooks { get; set; }
 
     /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    public static Video Build() => new Video();
+
+    /// <summary>
     ///     Sets the archive status webhook for Video capability.
     /// </summary>
     /// <param name="url">The webhook URL.</param>

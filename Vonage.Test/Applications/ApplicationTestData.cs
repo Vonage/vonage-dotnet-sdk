@@ -16,7 +16,7 @@ internal static class ApplicationTestData
             Messages = CreateMessagesCapability(),
             Rtc = CreateRtcCapability(),
             Voice = CreateVoiceCapability(),
-            Vbc = new Vbc(),
+            Vbc = Vbc.Build(),
             Meetings = CreateMeetingsCapability(),
             Verify = CreateVerifyCapability(),
             NetworkApis = CreateNetworkApisCapability(),
@@ -29,13 +29,13 @@ internal static class ApplicationTestData
         };
 
     private static Meetings CreateMeetingsCapability() =>
-        new Meetings()
+        Meetings.Build()
             .WithRoomChanged("http://example.com")
             .WithSessionChanged("http://example.com")
             .WithRecordingChanged("https://54eba990d025.ngrok.app/recordings");
 
     private static Vonage.Applications.Capabilities.Messages CreateMessagesCapability() =>
-        new Vonage.Applications.Capabilities.Messages()
+        Vonage.Applications.Capabilities.Messages.Build()
             .WithInboundUrl("https://example.com/webhooks/inbound")
             .WithStatusUrl("https://example.com/webhooks/status");
 
@@ -44,14 +44,14 @@ internal static class ApplicationTestData
             .WithRedirectUri(new Uri("https://my-redirect-uri.example.com"));
 
     private static Rtc CreateRtcCapability() =>
-        new Rtc().WithEventUrl("https://example.com/webhooks/events", WebhookHttpMethod.Post);
+        Rtc.Build().WithEventUrl("https://example.com/webhooks/events", WebhookHttpMethod.Post);
 
     private static Vonage.Applications.Capabilities.Verify CreateVerifyCapability() =>
-        new Vonage.Applications.Capabilities.Verify()
+        Vonage.Applications.Capabilities.Verify.Build()
             .WithStatusUrl("https://example.com/webhooks/status");
 
     private static Vonage.Applications.Capabilities.Voice CreateVoiceCapability() =>
-        new Vonage.Applications.Capabilities.Voice()
+        Vonage.Applications.Capabilities.Voice.Build()
             .WithAnswerUrl("https://example.com/webhooks/answer", WebhookHttpMethod.Get)
             .WithEventUrl("https://example.com/webhooks/events", WebhookHttpMethod.Post)
             .WithFallbackAnswerUrl("https://fallback.example.com/webhooks/answer", WebhookHttpMethod.Get);

@@ -16,13 +16,13 @@ namespace Vonage.Test.Applications;
 
 public class CapabilitiesTests
 {
-    private static MeetingsCapability Meetings => new MeetingsCapability();
-    private static MessagesCapability Messages => new MessagesCapability();
-    private static NetworkApis NetworkApis => new NetworkApis();
-    private static RtcCapability Rtc => new RtcCapability();
-    private static VerifyCapability Verify => new VerifyCapability();
-    private static VideoCapability Video => new VideoCapability();
-    private static VoiceCapability Voice => new VoiceCapability();
+    private static VoiceCapability Voice => VoiceCapability.Build();
+    private static MeetingsCapability Meetings => MeetingsCapability.Build();
+    private static MessagesCapability Messages => MessagesCapability.Build();
+    private static NetworkApis NetworkApis => NetworkApis.Build();
+    private static RtcCapability Rtc => RtcCapability.Build();
+    private static VerifyCapability Verify => VerifyCapability.Build();
+    private static VideoCapability Video => VideoCapability.Build();
 
     [Fact]
     public void Meetings_ShouldBeEmpty() =>

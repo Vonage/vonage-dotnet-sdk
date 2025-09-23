@@ -20,6 +20,11 @@ public class NetworkApis
     public Uri RedirectUri { get; private set; }
 
     /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    public static NetworkApis Build() => new NetworkApis();
+
+    /// <summary>
     ///     Sets the application on the NetworkApis capability.
     /// </summary>
     /// <param name="applicationId"></param>

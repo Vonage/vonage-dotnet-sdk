@@ -20,6 +20,11 @@ public class Messages : Capability
     }
 
     /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    public static Messages Build() => new Messages();
+
+    /// <summary>
     ///     Sets the inbound URL webhook for Messages capability.
     /// </summary>
     /// <param name="url">The webhook URL.</param>

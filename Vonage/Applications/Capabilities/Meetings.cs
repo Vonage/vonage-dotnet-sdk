@@ -28,6 +28,11 @@ public class Meetings : Capability
     }
 
     /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    public static Meetings Build() => new Meetings();
+
+    /// <summary>
     ///     Sets the recording changed webhook for Meetings capability.
     /// </summary>
     /// <param name="url">The webhook URL.</param>

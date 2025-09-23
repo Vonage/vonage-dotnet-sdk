@@ -59,6 +59,11 @@ public class Voice
     public IDictionary<VoiceWebhookType, VoiceWebhook> Webhooks { get; set; }
 
     /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    public static Voice Build() => new Voice();
+
+    /// <summary>
     ///     Sets the answer URL webhook for Voice capability.
     /// </summary>
     /// <param name="url">The webhook URL.</param>

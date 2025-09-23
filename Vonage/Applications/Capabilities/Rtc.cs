@@ -20,6 +20,11 @@ public class Rtc : Capability
     }
 
     /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    public static Rtc Build() => new Rtc();
+
+    /// <summary>
     ///     Sets the event URL webhook for RTC capability.
     /// </summary>
     /// <param name="url">The webhook URL.</param>
