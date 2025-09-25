@@ -1,4 +1,18 @@
 # Changelog
+## [v8.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.9.0) (2025-09-25)
+
+### Documentation
+
+- Generate changelog for v8.8.0 ([94f0716](https://github.com/Vonage/vonage-dotnet-sdk/commit/94f071657f7bbbecf74ad40e6d5cb79660431c10))
+
+- Bump version to v8.9.0 ([9c40dd2](https://github.com/Vonage/vonage-dotnet-sdk/commit/9c40dd2055a70dfb635c5fd9415ce173bc8d61a3))
+
+
+### Features
+
+- Add support for Transfer NCCO action ([94a85ba](https://github.com/Vonage/vonage-dotnet-sdk/commit/94a85ba0aa02b7dfc8852a1f1cd0a965286766fc))
+
+
 ## [v8.8.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.8.0) (2025-09-23)
 
 ### Build updates
