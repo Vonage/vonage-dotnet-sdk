@@ -232,12 +232,38 @@ public class NccoTests : TestBase
         });
 
     [Fact]
+    public void TransferAction() => VerifyNccoAction(this.helper.GetRequestJson(),
+        new TransferAction("CON-f972836a-550f-45fa-956c-12a2ab5b7d22"));
+
+    [Fact]
+    public void TransferActionWithCanHear() => VerifyNccoAction(this.helper.GetRequestJson(),
+        new TransferAction("CON-f972836a-550f-45fa-956c-12a2ab5b7d22").CanHearParticipant("PAR-123")
+            .CanHearParticipant("PAR-456"));
+
+    [Fact]
+    public void TransferActionWithCanSpeak() => VerifyNccoAction(this.helper.GetRequestJson(),
+        new TransferAction("CON-f972836a-550f-45fa-956c-12a2ab5b7d22").CanSpeakToParticipant("PAR-123")
+            .CanSpeakToParticipant("PAR-456"));
+
+    [Fact]
+    public void TransferActionWithEmptyCanHear() => VerifyNccoAction(this.helper.GetRequestJson(),
+        new TransferAction("CON-f972836a-550f-45fa-956c-12a2ab5b7d22").CanHearNoParticipants());
+
+    [Fact]
+    public void TransferActionWithEmptyCanSpeak() => VerifyNccoAction(this.helper.GetRequestJson(),
+        new TransferAction("CON-f972836a-550f-45fa-956c-12a2ab5b7d22").CanSpeakToNoParticipants());
+
+    [Fact]
+    public void TransferActionWithMute() => VerifyNccoAction(this.helper.GetRequestJson(),
+        new TransferAction("CON-f972836a-550f-45fa-956c-12a2ab5b7d22").Mute());
+
+    [Fact]
     public void WaitAction() => VerifyNccoAction(this.helper.GetRequestJson(), new WaitAction());
 
     [Fact]
     public void WaitActionWithTimeout() => VerifyNccoAction(this.helper.GetRequestJson(), new WaitAction {Timeout = 2});
 
-    protected string GetRequestJsonWithValueReplacement(Dictionary<string, string> parameters,
+    private string GetRequestJsonWithValueReplacement(Dictionary<string, string> parameters,
         [CallerMemberName] string name = null) =>
         TokenReplacementRegEx.Replace(this.helper.GetRequestJson(name), match => parameters[match.Groups[1].Value]);
 

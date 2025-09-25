@@ -26,6 +26,8 @@ public abstract class NccoAction
         [EnumMember(Value = "notify")] Notify = 7,
 
         [EnumMember(Value = "wait")] Wait = 8,
+
+        [EnumMember(Value = "transfer")] Transfer = 9,
     }
 
     [JsonProperty("action")] public abstract ActionType Action { get; }
