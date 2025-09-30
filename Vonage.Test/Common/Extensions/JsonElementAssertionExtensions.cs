@@ -1,16 +1,15 @@
-﻿using System.Text.Json;
+﻿#region
+using System.Text.Json;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+#endregion
 
 namespace Vonage.Test.Common.Extensions;
 
-public class JsonElementAssertionExtensions : ReferenceTypeAssertions<JsonElement, JsonElementAssertionExtensions>
+public class JsonElementAssertionExtensions(JsonElement subject)
+    : ReferenceTypeAssertions<JsonElement, JsonElementAssertionExtensions>(subject)
 {
-    public JsonElementAssertionExtensions(JsonElement subject) : base(subject)
-    {
-    }
-
     protected override string Identifier => "JsonElement";
 
     public AndConstraint<JsonElementAssertionExtensions> Be(JsonElement expected)

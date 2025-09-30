@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -6,16 +7,13 @@ using Vonage.SubAccounts.GetTransfers;
 using Vonage.Test.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.GetTransfers.Balance;
 
 [Trait("Category", "E2E")]
-public class E2ETest : E2EBase
+public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    public E2ETest() : base(typeof(E2ETest).Namespace)
-    {
-    }
-
     [Fact]
     public async Task GetBalanceTransfers()
     {

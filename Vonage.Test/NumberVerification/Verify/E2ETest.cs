@@ -1,19 +1,17 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.NumberVerification.Verify;
 using Vonage.Test.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberVerification.Verify;
 
 [Trait("Category", "E2E")]
-public class E2ETest : E2EBase
+public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    public E2ETest() : base(typeof(E2ETest).Namespace)
-    {
-    }
-
     [Fact]
     public async Task CheckAsync()
     {
@@ -26,14 +24,15 @@ public class E2ETest : E2EBase
             .BeSuccessAsync(true);
     }
 
-    private void SetupVerify(string expectedOutput) =>
-        this.Helper.VonageServer.Given(WireMock.RequestBuilders.Request.Create()
-                .WithPath("/camara/number-verification/v031/verify")
-                .WithHeader("Authorization", "Bearer ABCDEFG")
-                .WithBody(this.Serialization.GetRequestJson(expectedOutput))
+    private void SetupAuthorization() =>
+        this.Helper.OidcServer.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/oauth2/auth")
+                .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
+                .WithBody(
+                    "login_hint=tel:%2B346661113334&scope=openid+dpv%3AFraudPreventionAndDetection%23number-verification-verify-read")
                 .UsingPost())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserializeVerify))));
+                .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserializeAuthorize))));
 
     private void SetupToken() =>
         this.Helper.VonageServer.Given(WireMock.RequestBuilders.Request.Create()
@@ -44,13 +43,12 @@ public class E2ETest : E2EBase
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                 .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserializeAccessToken))));
 
-    private void SetupAuthorization() =>
-        this.Helper.OidcServer.Given(WireMock.RequestBuilders.Request.Create()
-                .WithPath("/oauth2/auth")
-                .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
-                .WithBody(
-                    "login_hint=tel:%2B346661113334&scope=openid+dpv%3AFraudPreventionAndDetection%23number-verification-verify-read")
+    private void SetupVerify(string expectedOutput) =>
+        this.Helper.VonageServer.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/camara/number-verification/v031/verify")
+                .WithHeader("Authorization", "Bearer ABCDEFG")
+                .WithBody(this.Serialization.GetRequestJson(expectedOutput))
                 .UsingPost())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserializeAuthorize))));
+                .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserializeVerify))));
 }

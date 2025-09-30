@@ -1,19 +1,17 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.SubAccounts.UpdateSubAccount;
 using Vonage.Test.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.UpdateSubAccount;
 
 [Trait("Category", "E2E")]
-public class E2ETest : E2EBase
+public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    public E2ETest() : base(typeof(E2ETest).Namespace)
-    {
-    }
-
     [Fact]
     public async Task EnableSharedBalance()
     {

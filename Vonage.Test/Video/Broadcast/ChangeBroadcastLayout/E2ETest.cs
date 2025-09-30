@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Server;
@@ -6,16 +7,13 @@ using Vonage.Test.Common.Extensions;
 using Vonage.Video.Broadcast.ChangeBroadcastLayout;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Broadcast.ChangeBroadcastLayout;
 
 [Trait("Category", "E2E")]
-public class E2ETest : E2EBase
+public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    public E2ETest() : base(typeof(E2ETest).Namespace)
-    {
-    }
-
     [Fact]
     public async Task ChangeBroadcastLayout()
     {

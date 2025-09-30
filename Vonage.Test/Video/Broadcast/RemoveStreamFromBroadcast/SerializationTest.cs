@@ -1,20 +1,19 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Broadcast.RemoveStreamFromBroadcast;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Broadcast.RemoveStreamFromBroadcast;
 
 [Trait("Category", "Serialization")]
 public class SerializationTest
 {
-    private readonly SerializationTestHelper helper;
-
-    public SerializationTest() =>
-        this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithCamelCase());
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
 
     [Fact]
     public void ShouldSerialize() =>

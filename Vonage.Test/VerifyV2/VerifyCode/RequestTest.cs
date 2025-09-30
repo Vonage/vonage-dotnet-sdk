@@ -11,9 +11,7 @@ namespace Vonage.Test.VerifyV2.VerifyCode;
 [Trait("Category", "Request")]
 public class RequestTest
 {
-    private readonly Fixture fixture;
-
-    public RequestTest() => this.fixture = new Fixture();
+    private readonly Fixture fixture = new Fixture();
 
     [Fact]
     public void RequestUri_ShouldReturnApiEndpoint() =>

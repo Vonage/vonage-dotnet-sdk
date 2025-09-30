@@ -15,11 +15,8 @@ namespace Vonage.Test.Video.Broadcast.StartBroadcast;
 [Trait("Category", "Serialization")]
 public class SerializationTest
 {
-    private readonly SerializationTestHelper helper;
-
-    public SerializationTest() =>
-        this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithCamelCase());
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
 
     [Fact]
     public void ShouldDeserialize200() =>

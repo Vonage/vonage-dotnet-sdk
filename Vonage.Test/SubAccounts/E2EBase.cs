@@ -1,18 +1,15 @@
-﻿using Vonage.Serialization;
+﻿#region
+using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.TestHelpers;
+#endregion
 
 namespace Vonage.Test.SubAccounts;
 
-public abstract class E2EBase
+public abstract class E2EBase(string serializationNamespace)
 {
-    internal readonly TestingContext Helper;
-    internal readonly SerializationTestHelper Serialization;
+    internal readonly TestingContext Helper = TestingContext.WithBasicCredentials();
 
-    protected E2EBase(string serializationNamespace)
-    {
-        this.Helper = TestingContext.WithBasicCredentials();
-        this.Serialization =
-            new SerializationTestHelper(serializationNamespace, JsonSerializerBuilder.BuildWithSnakeCase());
-    }
+    internal readonly SerializationTestHelper Serialization =
+        new SerializationTestHelper(serializationNamespace, JsonSerializerBuilder.BuildWithSnakeCase());
 }

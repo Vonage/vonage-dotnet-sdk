@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Failures;
 using Vonage.Test.Common.Extensions;
@@ -6,16 +7,13 @@ using Vonage.Video.Sessions;
 using Vonage.Video.Sessions.CreateSession;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sessions.CreateSession;
 
 [Trait("Category", "E2E")]
-public class E2ETest : E2EBase
+public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    public E2ETest() : base(typeof(E2ETest).Namespace)
-    {
-    }
-
     [Fact]
     public async Task CreateDefaultSession()
     {
@@ -24,6 +22,16 @@ public class E2ETest : E2EBase
         await this.Helper.VonageClient.VideoClient.SessionClient.CreateSessionAsync(CreateSessionRequest.Default)
             .Should()
             .BeSuccessAsync(session => SerializationTest.VerifySessions(new[] {session}));
+    }
+
+    [Fact]
+    public async Task CreateSession_ShouldReturnFailure_GivenResponseContainsNoSession()
+    {
+        this.SetUpServer(nameof(SerializationTest.ShouldDeserialize200_GivenEmptyArray),
+            "location=&archiveMode=manual&p2p.preference=enabled&e2ee=false");
+        await this.Helper.VonageClient.VideoClient.SessionClient.CreateSessionAsync(CreateSessionRequest.Default)
+            .Should()
+            .BeFailureAsync(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
     }
 
     [Fact]
@@ -39,16 +47,6 @@ public class E2ETest : E2EBase
                 .Create())
             .Should()
             .BeSuccessAsync(session => SerializationTest.VerifySessions(new[] {session}));
-    }
-
-    [Fact]
-    public async Task CreateSession_ShouldReturnFailure_GivenResponseContainsNoSession()
-    {
-        this.SetUpServer(nameof(SerializationTest.ShouldDeserialize200_GivenEmptyArray),
-            "location=&archiveMode=manual&p2p.preference=enabled&e2ee=false");
-        await this.Helper.VonageClient.VideoClient.SessionClient.CreateSessionAsync(CreateSessionRequest.Default)
-            .Should()
-            .BeFailureAsync(ResultFailure.FromErrorMessage(CreateSessionResponse.NoSessionCreated));
     }
 
     private void SetUpServer(string requestNamespace, string expectedBody) =>

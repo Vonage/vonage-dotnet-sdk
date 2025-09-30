@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Serialization;
@@ -7,18 +8,16 @@ using Vonage.SubAccounts.GetSubAccounts;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.GetSubAccounts;
 
 [Trait("Category", "Serialization")]
 public class SerializationTest
 {
-    private readonly SerializationTestHelper helper;
-
-    public SerializationTest() =>
-        this.helper = new SerializationTestHelper(
-            typeof(SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithSnakeCase());
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(
+        typeof(SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithSnakeCase());
 
     public static Account GetExpectedPrimaryAccount() =>
         new Account(

@@ -1,3 +1,4 @@
+#region
 using System;
 using FluentAssertions;
 using Vonage.Messages.Webhooks;
@@ -5,17 +6,16 @@ using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Messages.Webhooks
 {
     [Trait("Category", "Serialization")]
     public class SerializationTest
     {
-        private readonly SerializationTestHelper helper;
-
-        public SerializationTest() =>
-            this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-                JsonSerializerBuilder.BuildWithSnakeCase());
+        private readonly SerializationTestHelper helper = new SerializationTestHelper(
+            typeof(SerializationTest).Namespace,
+            JsonSerializerBuilder.BuildWithSnakeCase());
 
         [Fact]
         public void ShouldDeserializeMessengerAudio() =>

@@ -1,17 +1,16 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Vonage.Common.Monads;
+#endregion
 
 namespace Vonage.Test.Common.Extensions;
 
-public class MaybeAssertionExtensions<T> : ReferenceTypeAssertions<Maybe<T>, MaybeAssertionExtensions<T>>
+public class MaybeAssertionExtensions<T>(Maybe<T> subject)
+    : ReferenceTypeAssertions<Maybe<T>, MaybeAssertionExtensions<T>>(subject)
 {
-    public MaybeAssertionExtensions(Maybe<T> subject) : base(subject)
-    {
-    }
-
     protected override string Identifier => "maybe";
 
     public AndConstraint<MaybeAssertionExtensions<T>> Be(Maybe<T> expected)

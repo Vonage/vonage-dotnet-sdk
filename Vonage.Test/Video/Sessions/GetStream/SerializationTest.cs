@@ -1,20 +1,19 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sessions.GetStream;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sessions.GetStream;
 
 [Trait("Category", "Serialization")]
 public class SerializationTest
 {
-    private readonly SerializationTestHelper helper;
-
-    public SerializationTest() =>
-        this.helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithCamelCase());
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
 
     [Fact]
     public void ShouldDeserialize200() =>

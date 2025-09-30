@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.Serialization;
 using Vonage.SubAccounts.TransferAmount;
@@ -6,17 +7,16 @@ using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.TransferAmount.Balance;
 
 [Trait("Category", "E2E")]
-public class E2ETest : E2EBase
+public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    private readonly SerializationTestHelper serializationRequest;
-
-    public E2ETest() : base(typeof(E2ETest).Namespace) =>
-        this.serializationRequest = new SerializationTestHelper(typeof(TransferAmount.SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithSnakeCase());
+    private readonly SerializationTestHelper serializationRequest = new SerializationTestHelper(
+        typeof(TransferAmount.SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithSnakeCase());
 
     [Fact]
     public async Task TransferAmount()

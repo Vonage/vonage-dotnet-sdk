@@ -12,11 +12,8 @@ namespace Vonage.Test.Video.Sessions.ChangeStreamLayout;
 [Trait("Category", "Serialization")]
 public class SerializationTest
 {
-    private readonly SerializationTestHelper helper;
-
-    public SerializationTest() => this.helper =
-        new SerializationTestHelper(typeof(SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithCamelCase());
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
 
     [Fact]
     public void ShouldSerialize() =>

@@ -11,10 +11,24 @@ using Xunit;
 namespace Vonage.Test.VerifyV2.GetTemplates;
 
 [Trait("Category", "E2E")]
-public class E2ETest : E2EBase
+public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    public E2ETest() : base(typeof(E2ETest).Namespace)
+    [Fact]
+    public async Task GetTemplates()
     {
+        this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v2/verify/templates")
+                .WithParam("page_size", "15")
+                .WithParam("page", "50")
+                .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(Response.Create()
+                .WithStatusCode(HttpStatusCode.OK)
+                .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+        await this.Helper.VonageClient.VerifyV2Client
+            .GetTemplatesAsync(GetTemplatesRequest.Build().WithPageSize(15).WithPage(50).Create())
+            .Should()
+            .BeSuccessAsync(SerializationTest.VerifyExpectedResponse);
     }
 
     [Fact]
@@ -66,24 +80,6 @@ public class E2ETest : E2EBase
             .GetTemplatesAsync(
                 new GetTemplatesHalLink(new Uri("https://api.nexmo.com/v2/verify/templates?page_size=15&page=50"))
                     .BuildRequest())
-            .Should()
-            .BeSuccessAsync(SerializationTest.VerifyExpectedResponse);
-    }
-
-    [Fact]
-    public async Task GetTemplates()
-    {
-        this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
-                .WithPath("/v2/verify/templates")
-                .WithParam("page_size", "15")
-                .WithParam("page", "50")
-                .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
-                .UsingGet())
-            .RespondWith(Response.Create()
-                .WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
-        await this.Helper.VonageClient.VerifyV2Client
-            .GetTemplatesAsync(GetTemplatesRequest.Build().WithPageSize(15).WithPage(50).Create())
             .Should()
             .BeSuccessAsync(SerializationTest.VerifyExpectedResponse);
     }

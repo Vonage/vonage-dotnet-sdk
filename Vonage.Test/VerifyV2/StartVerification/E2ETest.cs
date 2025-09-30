@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
@@ -11,16 +12,13 @@ using Vonage.VerifyV2.StartVerification.WhatsApp;
 using Vonage.VerifyV2.StartVerification.WhatsAppInteractive;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.StartVerification;
 
 [Trait("Category", "E2E")]
-public class E2ETest : E2EBase
+public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    public E2ETest() : base(typeof(E2ETest).Namespace)
-    {
-    }
-
     [Fact]
     public async Task StartEmailVerification()
     {

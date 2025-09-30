@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Vonage.Serialization;
@@ -6,6 +7,7 @@ using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.TestHelpers;
 using Vonage.Users;
+#endregion
 
 namespace Vonage.Test.Users;
 
@@ -46,9 +48,8 @@ public class E2EBase
             .Be(new Uri("https://api.nexmo.com/v1/users/USR-82e028d9-5201-4f1e-8188-604b2d3471ec"));
     }
 
-    internal struct CustomData
+    internal struct CustomData(string customKey)
     {
-        public string CustomKey { get; set; }
-        public CustomData(string customKey) => this.CustomKey = customKey;
+        public string CustomKey { get; set; } = customKey;
     }
 }

@@ -1,20 +1,19 @@
-﻿using Vonage.Serialization;
+﻿#region
+using Vonage.Serialization;
 using Vonage.SubAccounts.TransferNumber;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.TransferNumber;
 
 [Trait("Category", "Serialization")]
 public class SerializationTest
 {
-    private readonly SerializationTestHelper helper;
-
-    public SerializationTest() =>
-        this.helper = new SerializationTestHelper(
-            typeof(SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithSnakeCase());
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(
+        typeof(SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithSnakeCase());
 
     public static TransferNumberResponse GetExpectedResponse() =>
         new TransferNumberResponse("235077036", "GB", "7c9738e6", "ad6dc56f");

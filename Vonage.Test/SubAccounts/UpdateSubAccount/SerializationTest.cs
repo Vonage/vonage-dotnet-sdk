@@ -1,22 +1,21 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Serialization;
 using Vonage.SubAccounts;
 using Vonage.SubAccounts.UpdateSubAccount;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.UpdateSubAccount;
 
 [Trait("Category", "Serialization")]
 public class SerializationTest
 {
-    private readonly SerializationTestHelper helper;
-
-    public SerializationTest() =>
-        this.helper = new SerializationTestHelper(
-            typeof(SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithSnakeCase());
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(
+        typeof(SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithSnakeCase());
 
     public static Account GetExpectedAccount() =>
         new Account(

@@ -1,21 +1,20 @@
+#region
 using System;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.VerifyV2.VerifyCode;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.VerifyCode;
 
 [Trait("Category", "Serialization")]
 public class SerializationTest
 {
-    private readonly SerializationTestHelper helper;
-
-    public SerializationTest() =>
-        this.helper = new SerializationTestHelper(
-            typeof(SerializationTest).Namespace,
-            JsonSerializerBuilder.BuildWithSnakeCase());
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(
+        typeof(SerializationTest).Namespace,
+        JsonSerializerBuilder.BuildWithSnakeCase());
 
     [Fact]
     public void ShouldSerialize() =>

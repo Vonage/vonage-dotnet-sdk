@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -6,15 +7,13 @@ using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
+#endregion
 
 namespace Vonage.Test.Common.Extensions;
 
-public class ResultAssertionExtensions<T> : ReferenceTypeAssertions<Result<T>, ResultAssertionExtensions<T>>
+public class ResultAssertionExtensions<T>(Result<T> subject)
+    : ReferenceTypeAssertions<Result<T>, ResultAssertionExtensions<T>>(subject)
 {
-    public ResultAssertionExtensions(Result<T> subject) : base(subject)
-    {
-    }
-
     protected override string Identifier => "result";
 
     public AndConstraint<ResultAssertionExtensions<T>> BeFailure(Action<IResultFailure> action)
@@ -124,12 +123,9 @@ public class ResultAssertionExtensions<T> : ReferenceTypeAssertions<Result<T>, R
 }
 
 public class
-    ResultAsyncAssertionExtensions<T> : ReferenceTypeAssertions<Task<Result<T>>, ResultAsyncAssertionExtensions<T>>
+    ResultAsyncAssertionExtensions<T>(Task<Result<T>> subject)
+    : ReferenceTypeAssertions<Task<Result<T>>, ResultAsyncAssertionExtensions<T>>(subject)
 {
-    public ResultAsyncAssertionExtensions(Task<Result<T>> subject) : base(subject)
-    {
-    }
-
     protected override string Identifier => "resultAsync";
 
     public async Task<AndConstraint<ResultAssertionExtensions<T>>> BeFailureAsync(Action<IResultFailure> action) =>

@@ -10,16 +10,9 @@ namespace Vonage.Test.SubAccounts.GetTransfers;
 [Trait("Category", "Request")]
 public class RequestTest
 {
-    private readonly DateTimeOffset endDate;
-    private readonly DateTimeOffset startDate;
-    private readonly string subAccountKey;
-
-    public RequestTest()
-    {
-        this.startDate = DateTimeOffset.Parse("2018-03-02T17:34:49Z");
-        this.endDate = DateTimeOffset.Parse("2020-06-30T12:00:00Z");
-        this.subAccountKey = "123AZs456";
-    }
+    private readonly DateTimeOffset endDate = DateTimeOffset.Parse("2020-06-30T12:00:00Z");
+    private readonly DateTimeOffset startDate = DateTimeOffset.Parse("2018-03-02T17:34:49Z");
+    private readonly string subAccountKey = "123AZs456";
 
     [Fact]
     public void RequestUri_ShouldReturnApiEndpoint() =>

@@ -1,20 +1,18 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Test.Common.Extensions;
 using Vonage.VerifyV2.VerifyCode;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.VerifyCode;
 
 [Trait("Category", "E2E")]
-public class E2ETest : E2EBase
+public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    public E2ETest() : base(typeof(E2ETest).Namespace)
-    {
-    }
-
     [Fact]
     public async Task VerifyCode()
     {

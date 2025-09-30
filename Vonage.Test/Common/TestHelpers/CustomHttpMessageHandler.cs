@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,6 +13,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
+#endregion
 
 namespace Vonage.Test.Common.TestHelpers;
 
@@ -25,14 +27,15 @@ namespace Vonage.Test.Common.TestHelpers;
 ///     multipart content, which makes it harder to predict. It makes us lose a bit of reliability in our tests but it's a
 ///     compromise we made willingly.
 /// </remarks>
-public class CustomHttpMessageHandler :
+public class CustomHttpMessageHandler(IEnumerable<Mapping> requestMappings) :
     HttpMessageHandler,
     ICustomHandlerExpectsRequest
 {
-    private readonly ReadOnlyCollection<Mapping> requestMappings;
+    private readonly ReadOnlyCollection<Mapping> requestMappings =
+        new ReadOnlyCollection<Mapping>(requestMappings.ToList());
 
-    public CustomHttpMessageHandler(IEnumerable<Mapping> requestMappings) =>
-        this.requestMappings = new ReadOnlyCollection<Mapping>(requestMappings.ToList());
+    public static ICustomHandlerExpectsRequest Build() =>
+        new CustomHttpMessageHandler(Enumerable.Empty<Mapping>());
 
     public Uri BaseUri => new Uri("http://fake-host/api");
 
@@ -46,28 +49,6 @@ public class CustomHttpMessageHandler :
             builder.Create<string>());
 
     public HttpClient ToHttpClient() => new HttpClient(this, false) {BaseAddress = this.BaseUri};
-
-    public static ICustomHandlerExpectsRequest Build() =>
-        new CustomHttpMessageHandler(Enumerable.Empty<Mapping>());
-
-    private MappingRequest CreateMappingRequest(ExpectedRequest request) =>
-        new MappingRequest
-        {
-            Method = request.Method,
-            RequestUri = new Uri(this.BaseUri, request.RequestUri),
-        };
-
-    private static Func<Mapping, bool> FindMatchingMapping(MappingRequest incomingRequest) =>
-        mapping =>
-            mapping.Request.RequestUri == incomingRequest.RequestUri &&
-            mapping.Request.Method == incomingRequest.Method;
-
-    private static MappingRequest ParseIncomingRequest(HttpRequestMessage request) =>
-        new MappingRequest
-        {
-            RequestUri = request.RequestUri,
-            Method = request.Method,
-        };
 
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
@@ -87,28 +68,43 @@ public class CustomHttpMessageHandler :
                     "application/json"),
             });
     }
+
+    private MappingRequest CreateMappingRequest(ExpectedRequest request) =>
+        new MappingRequest
+        {
+            Method = request.Method,
+            RequestUri = new Uri(this.BaseUri, request.RequestUri),
+        };
+
+    private static Func<Mapping, bool> FindMatchingMapping(MappingRequest incomingRequest) =>
+        mapping =>
+            mapping.Request.RequestUri == incomingRequest.RequestUri &&
+            mapping.Request.Method == incomingRequest.Method;
+
+    private static MappingRequest ParseIncomingRequest(HttpRequestMessage request) =>
+        new MappingRequest
+        {
+            RequestUri = request.RequestUri,
+            Method = request.Method,
+        };
 }
 
-public class CustomHttpMessageHandlerExpectsResponse : ICustomHandlerExpectsResponse
+public class CustomHttpMessageHandlerExpectsResponse(
+    IEnumerable<Mapping> requestMappings,
+    MappingRequest pendingRequest)
+    : ICustomHandlerExpectsResponse
 {
-    private readonly MappingRequest pendingRequest;
-    private readonly ReadOnlyCollection<Mapping> requestMappings;
-
-    public CustomHttpMessageHandlerExpectsResponse(IEnumerable<Mapping> requestMappings,
-        MappingRequest pendingRequest)
-    {
-        this.requestMappings = new ReadOnlyCollection<Mapping>(requestMappings.ToList());
-        this.pendingRequest = pendingRequest;
-    }
+    private readonly ReadOnlyCollection<Mapping> requestMappings =
+        new ReadOnlyCollection<Mapping>(requestMappings.ToList());
 
     public ICustomHandlerExpectsRequest RespondWith(MappingResponse response)
     {
         var mappings = this.requestMappings
-            .Where(mapping => !mapping.Request.Equals(this.pendingRequest))
+            .Where(mapping => !mapping.Request.Equals(pendingRequest))
             .ToList();
         mappings.Add(new Mapping
         {
-            Request = this.pendingRequest,
+            Request = pendingRequest,
             Response = response,
         });
         return new CustomHttpMessageHandler(mappings);
