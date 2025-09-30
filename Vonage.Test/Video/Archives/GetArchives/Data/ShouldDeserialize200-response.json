@@ -25,7 +25,15 @@
       "url": "https://tokbox.com.archive2.s3.amazonaws.com/123456/09141e29-8770-439b-b180-337d7e637545/archive.mp4",
       "multiArchiveTag": "custom-tag",
       "maxBitrate": 200000,
-      "quantizationParameter": 15
+      "quantizationParameter": 15,
+      "hasTranscription": true,
+      "transcription": {
+        "status": "requested",
+        "url": "string",
+        "reason": "string",
+        "primaryLanguageCode": "en-US",
+        "hasSummary": true
+      }
     }
   ]
 }

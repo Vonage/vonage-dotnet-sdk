@@ -49,5 +49,14 @@ public class SerializationTest
         success.Streams[0].StreamId.Should().Be("abc123");
         success.Streams[0].HasAudio.Should().BeTrue();
         success.Streams[0].HasVideo.Should().BeTrue();
+        success.HasTranscription.Should().BeTrue();
+        success.Transcription.Should().BeSome(new Transcription
+        {
+            Status = "requested",
+            Url = "string",
+            Reason = "string",
+            PrimaryLanguageCode = "en-US",
+            HasSummary = true,
+        });
     }
 }

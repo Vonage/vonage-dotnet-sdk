@@ -56,6 +56,8 @@ public class SerializationTest
             .DisableAudio()
             .WithMultiArchiveTag("custom-tag")
             .WithMaxBitrate(3000000)
+            .EnableTranscription()
+            .WithTranscription(new TranscriptionProperties {HasSummary = true, PrimaryLanguageCode = "en-US"})
             .Create();
 
     internal static Result<CreateArchiveRequest> BuildDefaultRequest() =>
@@ -90,5 +92,14 @@ public class SerializationTest
         success.Streams[0].StreamId.Should().Be("abc123");
         success.Streams[0].HasAudio.Should().BeTrue();
         success.Streams[0].HasVideo.Should().BeTrue();
+        success.HasTranscription.Should().BeTrue();
+        success.Transcription.Should().BeSome(new Transcription
+        {
+            Status = "requested",
+            Url = "string",
+            Reason = "string",
+            PrimaryLanguageCode = "en-US",
+            HasSummary = true,
+        });
     }
 }

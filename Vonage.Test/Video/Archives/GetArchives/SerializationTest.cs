@@ -4,6 +4,7 @@ using Vonage.Serialization;
 using Vonage.Server;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
+using Vonage.Video.Archives;
 using Vonage.Video.Archives.GetArchives;
 using Xunit;
 #endregion
@@ -51,5 +52,14 @@ public class SerializationTest
         success.Items[0].Streams[0].StreamId.Should().Be("abc123");
         success.Items[0].Streams[0].HasAudio.Should().BeTrue();
         success.Items[0].Streams[0].HasVideo.Should().BeTrue();
+        success.Items[0].HasTranscription.Should().BeTrue();
+        success.Items[0].Transcription.Should().BeSome(new Transcription
+        {
+            Status = "requested",
+            Url = "string",
+            Reason = "string",
+            PrimaryLanguageCode = "en-US",
+            HasSummary = true,
+        });
     }
 }

@@ -1,5 +1,7 @@
 ﻿#region
 using System.Text.Json.Serialization;
+using Vonage.Common.Monads;
+using Vonage.Common.Serialization;
 using Vonage.Server;
 #endregion
 
@@ -10,6 +12,94 @@ namespace Vonage.Video.Archives;
 /// </summary>
 public struct Archive
 {
+    /// <summary>
+    ///     Creates an archive.
+    /// </summary>
+    /// <param name="createdAt">
+    ///     The timestamp for when the archive started recording, expressed in milliseconds since the Unix
+    ///     epoch (January 1, 1970, 00:00:00 UTC).
+    /// </param>
+    /// <param name="duration">
+    ///     The duration of the archive in seconds. For archives that have are being recorded (with the
+    ///     status property set to "started"), this value is set to 0.
+    /// </param>
+    /// <param name="hasAudio">
+    ///     Whether the archive will record audio (true, the default) or not (false). If you set both
+    ///     hasAudio and hasVideo to false, the call to this method results in an error.
+    /// </param>
+    /// <param name="hasVideo">
+    ///     Whether the archive will record video (true, the default) or not (false). If you set both
+    ///     hasAudio and hasVideo to false, the call to this method results in an error.
+    /// </param>
+    /// <param name="id">The unique archive ID.</param>
+    /// <param name="name">The name of the archive (for your own identification)</param>
+    /// <param name="applicationId">Your Vonage application ID</param>
+    /// <param name="reason">
+    ///     For archives with the status "stopped", this can be set to "maximum duration exceeded", "maximum
+    ///     idle time exceeded", "session ended", "user initiated". For archives with the status "failed", this can be set to
+    ///     "failure".
+    /// </param>
+    /// <param name="resolution">
+    ///     The resolution of the archive, either "640x480" (SD landscape, the default), "1280x720" (HD
+    ///     landscape), "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920" (FHD
+    ///     portrait). You may want to use a portrait aspect ratio for archives that include video streams from mobile devices
+    ///     (which often use the portrait aspect ratio). This property only applies to composed archives. If you set this
+    ///     property and set the outputMode property to "individual", the call to the REST method results in an error.
+    /// </param>
+    /// <param name="sessionId">The session ID of the Vonage Video session you are working with</param>
+    /// <param name="size">The size of the archive file. For archives that have not been generated, this value is set to 0.</param>
+    /// <param name="status">The status of the archive.</param>
+    /// <param name="streamMode">
+    ///     Whether streams included in the archive are selected automatically ("auto", the default) or
+    ///     manually ("manual"). When streams are selected automatically ("auto"), all streams in the session can be included
+    ///     in the archive. When streams are selected manually ("manual"), you specify streams to be included based on calls to
+    ///     this REST method. You can specify whether a stream's audio, video, or both are included in the archive. In composed
+    ///     archives, in both automatic and manual modes, the archive composer includes streams based on stream prioritization
+    ///     rules.
+    /// </param>
+    /// <param name="url">
+    ///     The download URL of the available archive file. This is only set for an archive with the status set
+    ///     to "available"; for other archives, (including archives with the status "uploaded") this property is set to null.
+    ///     The download URL is obfuscated, and the file is only available from the URL for 10 minutes.
+    /// </param>
+    /// <param name="streams">The collection of streams.</param>
+    /// <param name="multiArchiveTag">
+    ///     Set this to support recording multiple archives for the same session simultaneously. Set
+    ///     this to a unique string for each simultaneous archive of an ongoing session. You must also set this option when
+    ///     manually starting an archive in a session that is automatically archived. If you do not specify a unique
+    ///     multiArchiveTag, you can only record one archive at a time for a given session.
+    /// </param>
+    /// <param name="hasTranscription">
+    ///     Whether the archive will have a transcription of the audio of the session (true) or not
+    ///     (false, the default).
+    /// </param>
+    /// <param name="transcription">The transcription properties.</param>
+    [JsonConstructor]
+    public Archive(long createdAt, int duration, bool hasAudio, bool hasVideo, string id, string name,
+        string applicationId, string reason, RenderResolution resolution, string sessionId, long size, string status,
+        string streamMode, string url, Stream[] streams, string multiArchiveTag, bool hasTranscription,
+        Maybe<Transcription> transcription)
+    {
+        this.CreatedAt = createdAt;
+        this.Duration = duration;
+        this.HasAudio = hasAudio;
+        this.HasVideo = hasVideo;
+        this.Id = id;
+        this.Name = name;
+        this.ApplicationId = applicationId;
+        this.Reason = reason;
+        this.Resolution = resolution;
+        this.SessionId = sessionId;
+        this.Size = size;
+        this.Status = status;
+        this.StreamMode = streamMode;
+        this.Url = url;
+        this.Streams = streams;
+        this.MultiArchiveTag = multiArchiveTag;
+        this.HasTranscription = hasTranscription;
+        this.Transcription = transcription;
+    }
+
     /// <summary>
     ///     Your Vonage application ID.
     /// </summary>
@@ -136,107 +226,22 @@ public struct Archive
     public string Url { get; }
 
     /// <summary>
-    ///     Creates an archive.
+    /// Whether the archive will have a transcription of the audio of the session (true) or not (false, the default).
     /// </summary>
-    /// <param name="createdAt">
-    ///     The timestamp for when the archive started recording, expressed in milliseconds since the Unix
-    ///     epoch (January 1, 1970, 00:00:00 UTC).
-    /// </param>
-    /// <param name="duration">
-    ///     The duration of the archive in seconds. For archives that have are being recorded (with the
-    ///     status property set to "started"), this value is set to 0.
-    /// </param>
-    /// <param name="hasAudio">
-    ///     Whether the archive will record audio (true, the default) or not (false). If you set both
-    ///     hasAudio and hasVideo to false, the call to this method results in an error.
-    /// </param>
-    /// <param name="hasVideo">
-    ///     Whether the archive will record video (true, the default) or not (false). If you set both
-    ///     hasAudio and hasVideo to false, the call to this method results in an error.
-    /// </param>
-    /// <param name="id">The unique archive ID.</param>
-    /// <param name="name">The name of the archive (for your own identification)</param>
-    /// <param name="applicationId">Your Vonage application ID</param>
-    /// <param name="reason">
-    ///     For archives with the status "stopped", this can be set to "maximum duration exceeded", "maximum
-    ///     idle time exceeded", "session ended", "user initiated". For archives with the status "failed", this can be set to
-    ///     "failure".
-    /// </param>
-    /// <param name="resolution">
-    ///     The resolution of the archive, either "640x480" (SD landscape, the default), "1280x720" (HD
-    ///     landscape), "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920" (FHD
-    ///     portrait). You may want to use a portrait aspect ratio for archives that include video streams from mobile devices
-    ///     (which often use the portrait aspect ratio). This property only applies to composed archives. If you set this
-    ///     property and set the outputMode property to "individual", the call to the REST method results in an error.
-    /// </param>
-    /// <param name="sessionId">The session ID of the Vonage Video session you are working with</param>
-    /// <param name="size">The size of the archive file. For archives that have not been generated, this value is set to 0.</param>
-    /// <param name="status">The status of the archive.</param>
-    /// <param name="streamMode">
-    ///     Whether streams included in the archive are selected automatically ("auto", the default) or
-    ///     manually ("manual"). When streams are selected automatically ("auto"), all streams in the session can be included
-    ///     in the archive. When streams are selected manually ("manual"), you specify streams to be included based on calls to
-    ///     this REST method. You can specify whether a stream's audio, video, or both are included in the archive. In composed
-    ///     archives, in both automatic and manual modes, the archive composer includes streams based on stream prioritization
-    ///     rules.
-    /// </param>
-    /// <param name="url">
-    ///     The download URL of the available archive file. This is only set for an archive with the status set
-    ///     to "available"; for other archives, (including archives with the status "uploaded") this property is set to null.
-    ///     The download URL is obfuscated, and the file is only available from the URL for 10 minutes.
-    /// </param>
-    /// <param name="streams">The collection of streams.</param>
-    /// <param name="multiArchiveTag">
-    ///     Set this to support recording multiple archives for the same session simultaneously. Set
-    ///     this to a unique string for each simultaneous archive of an ongoing session. You must also set this option when
-    ///     manually starting an archive in a session that is automatically archived. If you do not specify a unique
-    ///     multiArchiveTag, you can only record one archive at a time for a given session.
-    /// </param>
-    [JsonConstructor]
-    public Archive(long createdAt, int duration, bool hasAudio, bool hasVideo, string id, string name,
-        string applicationId, string reason, RenderResolution resolution, string sessionId, long size, string status,
-        string streamMode, string url, Stream[] streams, string multiArchiveTag)
-    {
-        this.CreatedAt = createdAt;
-        this.Duration = duration;
-        this.HasAudio = hasAudio;
-        this.HasVideo = hasVideo;
-        this.Id = id;
-        this.Name = name;
-        this.ApplicationId = applicationId;
-        this.Reason = reason;
-        this.Resolution = resolution;
-        this.SessionId = sessionId;
-        this.Size = size;
-        this.Status = status;
-        this.StreamMode = streamMode;
-        this.Url = url;
-        this.Streams = streams;
-        this.MultiArchiveTag = multiArchiveTag;
-    }
+    public bool HasTranscription { get; }
+
+    /// <summary>
+    ///     The transcription configuration.
+    /// </summary>
+    [JsonConverter(typeof(MaybeJsonConverter<Transcription>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<Transcription> Transcription { get; set; }
 
     /// <summary>
     ///     Represents a stream.
     /// </summary>
     public struct Stream
     {
-        /// <summary>
-        ///     Whether the archive will record audio (true, the default) or not (false). If you set both hasAudio and hasVideo to
-        ///     false, the call to this method results in an error.
-        /// </summary>
-        public bool HasAudio { get; }
-
-        /// <summary>
-        ///     Whether the archive will record video (true, the default) or not (false). If you set both hasAudio and hasVideo to
-        ///     false, the call to this method results in an error.
-        /// </summary>
-        public bool HasVideo { get; }
-
-        /// <summary>
-        ///     The stream ID of the stream included in the archive.
-        /// </summary>
-        public string StreamId { get; }
-
         /// <summary>
         ///     Creates a stream.
         /// </summary>
@@ -256,5 +261,65 @@ public struct Archive
             this.HasAudio = hasAudio;
             this.HasVideo = hasVideo;
         }
+
+        /// <summary>
+        ///     Whether the archive will record audio (true, the default) or not (false). If you set both hasAudio and hasVideo to
+        ///     false, the call to this method results in an error.
+        /// </summary>
+        public bool HasAudio { get; }
+
+        /// <summary>
+        ///     Whether the archive will record video (true, the default) or not (false). If you set both hasAudio and hasVideo to
+        ///     false, the call to this method results in an error.
+        /// </summary>
+        public bool HasVideo { get; }
+
+        /// <summary>
+        ///     The stream ID of the stream included in the archive.
+        /// </summary>
+        public string StreamId { get; }
     }
+}
+
+/// <summary>
+///     The transcription configuration.
+/// </summary>
+public struct TranscriptionProperties
+{
+    /// <summary>
+    ///     The primary language spoken in the archive to be transcribed, in BCP-47 format, e.g. en-US, es-ES or pt-BR.
+    /// </summary>
+    public string PrimaryLanguageCode { get; set; }
+
+    /// <summary>
+    ///     Whether the transcription should include a summary of the session (true) or not (false, the default).
+    /// </summary>
+    public bool HasSummary { get; set; }
+}
+
+/// <summary>
+/// </summary>
+public struct Transcription
+{
+    /// <summary>
+    ///     The primary language spoken in the archive to be transcribed, in BCP-47 format, e.g. en-US, es-ES or pt-BR.
+    /// </summary>
+    public string PrimaryLanguageCode { get; set; }
+
+    /// <summary>
+    ///     Whether the transcription should include a summary of the session (true) or not (false, the default).
+    /// </summary>
+    public bool HasSummary { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public string Reason { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public string Url { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public string Status { get; set; }
 }

@@ -12,5 +12,10 @@
   "resolution": "1280x720",
   "streamMode": "manual",
   "multiArchiveTag": "custom-tag",
-  "maxBitrate": 3000000
+  "maxBitrate": 3000000,
+  "hasTranscription": true,
+  "transcriptionProperties": {
+    "primaryLanguageCode": "en-US",
+    "hasSummary": true
+  }
 }

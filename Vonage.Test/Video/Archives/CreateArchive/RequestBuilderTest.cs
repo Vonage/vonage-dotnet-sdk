@@ -37,19 +37,32 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldAssignArchiveLayout_GivenWithArchiveLayoutIsUsed() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithLayout(this.layout)
             .Create()
             .Should()
             .BeSuccess(request => request.OutputMode.Should().Be(this.outputMode));
 
     [Fact]
+    public void Build_ShouldAssignDefault_HasTranscription() =>
+        this.BuildValidRequest()
+            .Create()
+            .Map(request => request.HasTranscription)
+            .Should()
+            .BeSuccess(false);
+
+    [Fact]
+    public void Build_ShouldAssignHasTranscription() =>
+        this.BuildValidRequest()
+            .EnableTranscription()
+            .Create()
+            .Map(request => request.HasTranscription)
+            .Should()
+            .BeSuccess(true);
+
+    [Fact]
     public void Build_ShouldAssignName_GivenWithNameIsUsed() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithName(this.name)
             .Create()
             .Should()
@@ -57,19 +70,14 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldAssignOutputMode_GivenWithOutputModeIsUsed() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
-            .WithOutputMode(this.outputMode)
+        this.BuildValidRequest()
             .Create()
             .Should()
             .BeSuccess(request => request.OutputMode.Should().Be(this.outputMode));
 
     [Fact]
     public void Build_ShouldAssignResolution_GivenWithRenderResolutionIsUsed() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithResolution(this.resolution)
             .Create()
             .Should()
@@ -77,9 +85,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldAssignStreamMode_GivenWithStreamModeIsUsed() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithStreamMode(this.streamMode)
             .Create()
             .Should()
@@ -87,9 +93,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldHaveEmptyMaxBitrate_GivenDefault() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.MaxBitrate)
             .Should()
@@ -97,9 +101,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldHaveEmptyQuantizationParameter_GivenDefault() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.QuantizationParameter)
             .Should()
@@ -107,9 +109,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldHaveNoMultiArchiveTag_GivenDefault() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .Create()
             .Map(request => request.MultiArchiveTag)
             .Should()
@@ -117,9 +117,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldReturnDisabledAudio_WhenUsingDisableAudio() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .DisableAudio()
             .Create()
             .Should()
@@ -127,9 +125,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldReturnDisabledVideo_WhenUsingDisableVideo() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .DisableVideo()
             .Create()
             .Should()
@@ -146,9 +142,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldReturnFailure_GivenMaxBitrateIsHigherThanMaximum() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithMaxBitrate(6000001)
             .Create()
             .Should()
@@ -156,9 +150,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldReturnFailure_GivenMaxBitrateIsLowerThanMinimum() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithMaxBitrate(999999)
             .Create()
             .Should()
@@ -166,9 +158,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldReturnFailure_GivenQuantizationParameterIsHigherThanMaximum() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithQuantizationParameter(41)
             .Create()
             .Should()
@@ -176,9 +166,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldReturnFailure_GivenQuantizationParameterIsLowerThanMinimum() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithQuantizationParameter(14)
             .Create()
             .Should()
@@ -213,16 +201,14 @@ public class RequestBuilderTest
                 request.OutputMode.Should().Be(OutputMode.Composed);
                 request.Resolution.Should().BeNone();
                 request.StreamMode.Should().Be(StreamMode.Auto);
-                request.Layout.Should().Be(default(Layout));
+                request.Layout.Should().Be(null);
             });
 
     [Theory]
     [InlineData(1000000)]
     [InlineData(6000000)]
     public void Build_ShouldSetMaxBitrate(int value) =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithMaxBitrate(value)
             .Create()
             .Map(request => request.MaxBitrate)
@@ -231,9 +217,7 @@ public class RequestBuilderTest
 
     [Fact]
     public void Build_ShouldSetMultiArchiveTag() =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithMultiArchiveTag("custom-tag")
             .Create()
             .Map(request => request.MultiArchiveTag)
@@ -244,12 +228,15 @@ public class RequestBuilderTest
     [InlineData(15)]
     [InlineData(40)]
     public void Build_ShouldSetQuantizationParameter(int value) =>
-        CreateArchiveRequest.Build()
-            .WithApplicationId(this.applicationId)
-            .WithSessionId(this.sessionId)
+        this.BuildValidRequest()
             .WithQuantizationParameter(value)
             .Create()
             .Map(request => request.QuantizationParameter)
             .Should()
             .BeSuccess(value);
+
+    private IBuilderForOptional BuildValidRequest() =>
+        CreateArchiveRequest.Build()
+            .WithApplicationId(this.applicationId)
+            .WithSessionId(this.sessionId);
 }

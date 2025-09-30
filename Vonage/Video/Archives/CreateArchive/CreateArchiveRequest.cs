@@ -34,6 +34,24 @@ public readonly partial struct CreateArchiveRequest : IVonageRequest, IHasApplic
     public bool HasAudio { get; internal init; }
 
     /// <summary>
+    ///     Whether the archive will have a transcription of the audio of the session (true) or not (false, the default).
+    /// </summary>
+    [JsonPropertyOrder(11)]
+    [OptionalBoolean(false, "EnableTranscription")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool HasTranscription { get; internal init; }
+
+    /// <summary>
+    ///     The transcription configuration.
+    /// </summary>
+    [JsonPropertyOrder(12)]
+    [JsonPropertyName("transcriptionProperties")]
+    [Optional]
+    [JsonConverter(typeof(MaybeJsonConverter<TranscriptionProperties>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<TranscriptionProperties> Transcription { get; internal init; }
+
+    /// <summary>
     ///     Whether the archive will record video (true, the default) or not (false). If you set both hasAudio and hasVideo to
     ///     false, the call to this method results in an error.
     /// </summary>
