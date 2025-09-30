@@ -1,8 +1,10 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.Test.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.CreateArchive;
 
@@ -24,7 +26,7 @@ public class E2ETest : E2EBase
                 .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
         await this.Helper.VonageClient.VideoClient.ArchiveClient.CreateArchiveAsync(SerializationTest.BuildRequest())
             .Should()
-            .BeSuccessAsync(SerializationTest.VerifyArchive);
+            .BeSuccessAsync(ArchiveTest.VerifyArchive);
     }
 
     [Fact]
@@ -39,6 +41,6 @@ public class E2ETest : E2EBase
         await this.Helper.VonageClient.VideoClient.ArchiveClient
             .CreateArchiveAsync(SerializationTest.BuildDefaultRequest())
             .Should()
-            .BeSuccessAsync(SerializationTest.VerifyArchive);
+            .BeSuccessAsync(ArchiveTest.VerifyArchive);
     }
 }

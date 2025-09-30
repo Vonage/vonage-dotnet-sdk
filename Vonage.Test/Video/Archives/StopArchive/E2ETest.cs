@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives.StopArchive;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.StopArchive;
 
@@ -31,6 +33,6 @@ public class E2ETest : E2EBase
                 .WithArchiveId(Guid.Parse("97425ae1-4722-4dbf-b395-6169f08ebab3"))
                 .Create())
             .Should()
-            .BeSuccessAsync(SerializationTest.VerifyArchive);
+            .BeSuccessAsync(ArchiveTest.VerifyArchive);
     }
 }
