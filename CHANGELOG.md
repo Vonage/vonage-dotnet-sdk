@@ -1,4 +1,27 @@
 # Changelog
+## [v8.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.10.0) (2025-09-30)
+
+### Documentation
+
+- Generate changelog for v8.9.0 ([862fa58](https://github.com/Vonage/vonage-dotnet-sdk/commit/862fa58f7dff3c593b9b42480917e0f6b3639a52))
+
+- Bump version to v8.10.0 ([69fc878](https://github.com/Vonage/vonage-dotnet-sdk/commit/69fc8780d0a35219c8d426f7fc82fa5f9144bced))
+
+
+### Features
+
+- Support post-call transcription for Video archives ([3721412](https://github.com/Vonage/vonage-dotnet-sdk/commit/3721412546038508b3df6d2a7670ebb4725f5f18))
+
+
+### Refactoring
+
+- Use enum for transcription status instead of primitive type ([38e1796](https://github.com/Vonage/vonage-dotnet-sdk/commit/38e1796df97057cbaaad2d17eea081db1e9a089a))
+
+- Reduce duplication in Video archive tests ([8e7aa90](https://github.com/Vonage/vonage-dotnet-sdk/commit/8e7aa9057ed897598b4d1367fb94a8ad9b495adf))
+
+- Use primary constructors for E2E tests ([7d4f549](https://github.com/Vonage/vonage-dotnet-sdk/commit/7d4f5495f5b3a927de6275b30a91ff85f372dfbb))
+
+
 ## [v8.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.9.0) (2025-09-25)
 
 ### Documentation
