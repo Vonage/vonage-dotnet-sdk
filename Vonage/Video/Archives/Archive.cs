@@ -1,4 +1,5 @@
 ﻿#region
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
@@ -302,6 +303,31 @@ public struct TranscriptionProperties
 public struct Transcription
 {
     /// <summary>
+    /// </summary>
+    public enum TranscriptionStatus
+    {
+        /// <summary>
+        /// </summary>
+        [Description("requested")] Requested,
+
+        /// <summary>
+        /// </summary>
+        [Description("available")] Available,
+
+        /// <summary>
+        /// </summary>
+        [Description("failed")] Failed,
+
+        /// <summary>
+        /// </summary>
+        [Description("started")] Started,
+
+        /// <summary>
+        /// </summary>
+        [Description("uploaded")] Uploaded,
+    }
+
+    /// <summary>
     ///     The primary language spoken in the archive to be transcribed, in BCP-47 format, e.g. en-US, es-ES or pt-BR.
     /// </summary>
     public string PrimaryLanguageCode { get; set; }
@@ -321,5 +347,6 @@ public struct Transcription
 
     /// <summary>
     /// </summary>
-    public string Status { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter<TranscriptionStatus>))]
+    public TranscriptionStatus Status { get; set; }
 }

@@ -95,7 +95,7 @@ public class SerializationTest
         success.HasTranscription.Should().BeTrue();
         success.Transcription.Should().BeSome(new Transcription
         {
-            Status = "requested",
+            Status = Transcription.TranscriptionStatus.Requested,
             Url = "string",
             Reason = "string",
             PrimaryLanguageCode = "en-US",
