@@ -1,4 +1,18 @@
 # Changelog
+## [v8.11.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.11.0) (2025-10-07)
+
+### Documentation
+
+- Generate changelog for v8.10.0 ([48d1f1f](https://github.com/Vonage/vonage-dotnet-sdk/commit/48d1f1f3fc2b2c6bcfb8c5399397fe64c9922771))
+
+- Bump version to v8.11.0 ([02b0da0](https://github.com/Vonage/vonage-dotnet-sdk/commit/02b0da07531a10acfeeb5a69fb3a2b99779818c0))
+
+
+### Features
+
+- Add WorkflowId on Messages response ([94b19a9](https://github.com/Vonage/vonage-dotnet-sdk/commit/94b19a953a28b90efd42463051dcbb701abcc25d))
+
+
 ## [v8.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.10.0) (2025-09-30)
 
 ### Documentation
