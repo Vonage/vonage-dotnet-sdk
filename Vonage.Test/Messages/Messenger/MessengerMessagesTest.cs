@@ -144,5 +144,6 @@ public class MessengerMessagesTest : TestBase
         var response = await client.MessagesClient.SendAsync(request);
         Assert.NotNull(response);
         Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        Assert.Equal("3TcNjguHxr2vcCZ9Ddsnq6tw8yQUpZ9rMHv9QXSxLan5ibMxqSzLdx9", response.WorkflowId);
     }
 }
