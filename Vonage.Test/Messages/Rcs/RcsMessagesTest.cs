@@ -157,6 +157,21 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
+    public async Task SendRcsCardAsyncReturnsOkWithCreateCalendarEventSuggestion()
+    {
+        var request = new RcsCardRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Card = new CardAttachment("Card Title", "This is some text to display on the card.",
+                    new Uri("https://example.com/image.jpg"))
+                .AppendSuggestion(new CreateCalendarEventSuggestion("Option 1", "action_1",
+                    DateTime.Parse("2023-01-01T10:00:00Z"), DateTime.Parse("2023-01-01T10:00:00Z"), "New Year Party")),
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
     public async Task SendRcsCardAsyncReturnsOkWithDialSuggestion()
     {
         var request = new RcsCardRequest
@@ -171,6 +186,34 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
+    public async Task SendRcsCardAsyncReturnsOkWithOpenUrlSuggestion()
+    {
+        var request = new RcsCardRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Card = new CardAttachment("Card Title", "This is some text to display on the card.",
+                    new Uri("https://example.com/image.jpg"))
+                .AppendSuggestion(new OpenUrlSuggestion("Option 1", "action_1", new Uri("https://example.com"))),
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsCardAsyncReturnsOkWithOpenWebviewUrlSuggestion()
+    {
+        var request = new RcsCardRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Card = new CardAttachment("Card Title", "This is some text to display on the card.",
+                    new Uri("https://example.com/image.jpg"))
+                .AppendSuggestion(new OpenWebviewUrlSuggestion("Option 1", "action_1", new Uri("https://example.com"))),
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
     public async Task SendRcsCardAsyncReturnsOkWithReplySuggestion()
     {
         var request = new RcsCardRequest
@@ -180,6 +223,34 @@ public class RcsMessagesTest : TestBase
             Card = new CardAttachment("Card Title", "This is some text to display on the card.",
                     new Uri("https://example.com/image.jpg"))
                 .AppendSuggestion(new ReplySuggestion("Yes", "question_1_yes")),
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsCardAsyncReturnsOkWithShareLocationSuggestion()
+    {
+        var request = new RcsCardRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Card = new CardAttachment("Card Title", "This is some text to display on the card.",
+                    new Uri("https://example.com/image.jpg"))
+                .AppendSuggestion(new ShareLocationSuggestion("Option 1", "action_1")),
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsCardAsyncReturnsOkWithViewLocationSuggestion()
+    {
+        var request = new RcsCardRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Card = new CardAttachment("Card Title", "This is some text to display on the card.",
+                    new Uri("https://example.com/image.jpg"))
+                .AppendSuggestion(new ViewLocationSuggestion("Option 1", "action_1", "37.7749", "-122.4194", "vonage")),
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }

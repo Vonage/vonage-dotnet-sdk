@@ -1,0 +1,19 @@
+{
+  "channel": "rcs",
+  "message_type": "card",
+  "to": "447700900000",
+  "from": "Vonage",
+  "card": {
+    "title": "Card Title",
+    "text": "This is some text to display on the card.",
+    "media_url": "https://example.com/image.jpg",
+    "suggestions": [
+      {
+        "type": "open_url",
+        "text": "Option 1",
+        "postback_data": "action_1",
+        "url": "https://example.com"
+      }
+    ]
+  }
+}

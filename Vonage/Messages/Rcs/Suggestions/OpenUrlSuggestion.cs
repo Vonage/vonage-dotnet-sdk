@@ -6,30 +6,30 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Rcs.Suggestions;
 
 /// <summary>
-///     A dial suggestion.
+///     A open URL suggestion.
 /// </summary>
 /// <param name="Text">The text to display on the suggestion chip.</param>
 /// <param name="PostbackData">
 ///     The data that will be sent back in the button.payload property of a button message via the
 ///     inbound message webhook when the user taps the suggestion chip.
 /// </param>
-/// <param name="PhoneNumber">The phone number to dial in E.164 format.</param>
-public record DialSuggestion(string Text, string PostbackData, string PhoneNumber) : SuggestionBase
+/// <param name="Url">The URL to open when the suggestion is tapped.</param>
+public record OpenUrlSuggestion(string Text, string PostbackData, Uri Url) : SuggestionBase
 {
     /// <inheritdoc />
     [JsonIgnore]
-    public override string Type => "dial";
+    public override string Type => "open_url";
 
     /// <summary>
-    ///     A URL to open if the device is unable to place a call.
+    ///     A short description of the URL for accessibility purposes.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Uri FallbackUrl { get; init; }
+    public string Description { get; init; }
 
     /// <summary>
-    ///     Returns a suggestion with a fallback url.
+    ///     Returns a suggestion with a description.
     /// </summary>
-    /// <param name="url">A URL to open if the device is unable to place a call.</param>
+    /// <param name="value">A short description of the URL for accessibility purposes.</param>
     /// <returns>The suggestion.</returns>
-    public DialSuggestion WithFallbackUrl(Uri url) => this with {FallbackUrl = url};
+    public OpenUrlSuggestion WithDescription(string value) => this with {Description = value};
 }

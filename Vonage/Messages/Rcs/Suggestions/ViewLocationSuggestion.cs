@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Rcs.Suggestions;
 
 /// <summary>
-///     A dial suggestion.
+///     A view location suggestion.
 /// </summary>
 /// <param name="Text">The text to display on the suggestion chip.</param>
 /// <param name="PostbackData">
@@ -14,14 +14,22 @@ namespace Vonage.Messages.Rcs.Suggestions;
 ///     inbound message webhook when the user taps the suggestion chip.
 /// </param>
 /// <param name="PhoneNumber">The phone number to dial in E.164 format.</param>
-public record DialSuggestion(string Text, string PostbackData, string PhoneNumber) : SuggestionBase
+/// <param name="Latitude">The latitude of the location to view.</param>
+/// <param name="Longitude">The longitude of the location to view.</param>
+/// <param name="PinLabel">A label to display on the location pin.</param>
+public record ViewLocationSuggestion(
+    string Text,
+    string PostbackData,
+    string Latitude,
+    string Longitude,
+    string PinLabel) : SuggestionBase
 {
     /// <inheritdoc />
     [JsonIgnore]
-    public override string Type => "dial";
+    public override string Type => "view_location";
 
     /// <summary>
-    ///     A URL to open if the device is unable to place a call.
+    ///     A URL to open if the device is unable to display a map.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Uri FallbackUrl { get; init; }
@@ -29,7 +37,7 @@ public record DialSuggestion(string Text, string PostbackData, string PhoneNumbe
     /// <summary>
     ///     Returns a suggestion with a fallback url.
     /// </summary>
-    /// <param name="url">A URL to open if the device is unable to place a call.</param>
+    /// <param name="url">A URL to open if the device is unable to display a map.</param>
     /// <returns>The suggestion.</returns>
-    public DialSuggestion WithFallbackUrl(Uri url) => this with {FallbackUrl = url};
+    public ViewLocationSuggestion WithFallbackUrl(Uri url) => this with {FallbackUrl = url};
 }

@@ -1,0 +1,21 @@
+{
+  "channel": "rcs",
+  "message_type": "card",
+  "to": "447700900000",
+  "from": "Vonage",
+  "card": {
+    "title": "Card Title",
+    "text": "This is some text to display on the card.",
+    "media_url": "https://example.com/image.jpg",
+    "suggestions": [
+      {
+        "type": "create_calendar_event",
+        "text": "Option 1",
+        "postback_data": "action_1",
+        "start_time": "2023-01-01T10:00:00Z",
+        "end_time": "2023-01-01T10:00:00Z",
+        "title": "New Year Party"
+      }
+    ]
+  }
+}

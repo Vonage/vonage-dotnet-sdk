@@ -1553,6 +1553,21 @@
         <None Update="Messages\Rcs\Data\SendRcsCardAsyncReturnsOkWithDialSuggestion-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Messages\Rcs\Data\SendRcsCardAsyncReturnsOkWithViewLocationSuggestion-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendRcsCardAsyncReturnsOkWithShareLocationSuggestion-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendRcsCardAsyncReturnsOkWithOpenUrlSuggestion-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendRcsCardAsyncReturnsOkWithOpenWebviewUrlSuggestion-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendRcsCardAsyncReturnsOkWithCreateCalendarEventSuggestion-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
