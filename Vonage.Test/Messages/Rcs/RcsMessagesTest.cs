@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.Messages;
 using Vonage.Messages.Rcs;
+using Vonage.Messages.Rcs.Suggestions;
 using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
@@ -28,6 +29,28 @@ public class RcsMessagesTest : TestBase
         this.expectedUri = $"{this.ApiUrl}/v1/messages";
         this.client = this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
         this.expectedResponse = this.helper.GetResponseJson(ResponseKey);
+    }
+
+    [Fact]
+    public async Task SendFullRcsCardAsyncReturnsOk()
+    {
+        var request = new RcsCardRequest
+        {
+            To = "447700900000",
+            ClientRef = "abc123",
+            WebhookUrl = new Uri("https://example.com/status"),
+            TimeToLive = 600,
+            From = "Vonage",
+            Rcs = new MessageRcs {Category = "category"},
+            TrustedNumber = true,
+            Card = new CardAttachment("Card Title", "This is some text to display on the card.",
+                    new Uri("https://example.com/image.jpg"))
+                .ForceMediaRefresh()
+                .WithMediaDescription("Image description for accessibility purposes.")
+                .WithMediaHeight(CardAttachment.Height.Short)
+                .WithThumbnailUrl(new Uri("https://example.com/thumbnail.jpg")),
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
     }
 
     [Fact]
@@ -111,6 +134,47 @@ public class RcsMessagesTest : TestBase
             Video = new CaptionedAttachment {Url = "https://example.com/video.mp4"},
             Rcs = new MessageRcs {Category = "category"},
             TrustedNumber = true,
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsCardAsyncReturnsOk()
+    {
+        var request = new RcsCardRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Card = new CardAttachment("Card Title", "This is some text to display on the card.",
+                new Uri("https://example.com/image.jpg")),
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsCardAsyncReturnsOkWithDialSuggestion()
+    {
+        var request = new RcsCardRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Card = new CardAttachment("Card Title", "This is some text to display on the card.",
+                    new Uri("https://example.com/image.jpg"))
+                .AppendSuggestion(new DialSuggestion("Option 1", "action_1", "14155550100")),
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsCardAsyncReturnsOkWithReplySuggestion()
+    {
+        var request = new RcsCardRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Card = new CardAttachment("Card Title", "This is some text to display on the card.",
+                    new Uri("https://example.com/image.jpg"))
+                .AppendSuggestion(new ReplySuggestion("Yes", "question_1_yes")),
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }

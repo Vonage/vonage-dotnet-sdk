@@ -1541,6 +1541,18 @@
         <None Update="Voice\Data\TransferActionWithEmptyCanSpeak-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Messages\Rcs\Data\SendRcsCardAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendFullRcsCardAsyncReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendRcsCardAsyncReturnsOkWithReplySuggestion-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Messages\Rcs\Data\SendRcsCardAsyncReturnsOkWithDialSuggestion-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

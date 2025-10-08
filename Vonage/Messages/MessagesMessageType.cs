@@ -69,4 +69,10 @@ public enum MessagesMessageType
     /// </summary>
     [EnumMember(Value = "content")] [Description("content")]
     Content = 9,
+
+    /// <summary>
+    ///     File.
+    /// </summary>
+    [EnumMember(Value = "card")] [Description("card")]
+    Card = 10,
 }

@@ -1,0 +1,22 @@
+{
+  "channel": "rcs",
+  "message_type": "card",
+  "to": "447700900000",
+  "from": "Vonage",
+  "client_ref": "abc123",
+  "webhook_url": "https://example.com/status",
+  "ttl": 600,
+  "card": {
+    "title": "Card Title",
+    "text": "This is some text to display on the card.",
+    "media_url": "https://example.com/image.jpg",
+    "media_description": "Image description for accessibility purposes.",
+    "media_height": "SHORT",
+    "thumbnail_url": "https://example.com/thumbnail.jpg",
+    "media_force_refresh": true
+  },
+  "rcs": {
+    "category": "category"
+  },
+  "trusted_number": true
+}
