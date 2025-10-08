@@ -16,7 +16,9 @@
     "media_force_refresh": true
   },
   "rcs": {
-    "category": "category"
+    "category": "category",
+    "card_orientation": "VERTICAL",
+    "image_alignment": "RIGHT"
   },
   "trusted_number": true
 }

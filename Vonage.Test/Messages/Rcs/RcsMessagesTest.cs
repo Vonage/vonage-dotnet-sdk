@@ -41,7 +41,12 @@ public class RcsMessagesTest : TestBase
             WebhookUrl = new Uri("https://example.com/status"),
             TimeToLive = 600,
             From = "Vonage",
-            Rcs = new MessageRcs {Category = "category"},
+            Rcs = new MessageRcs
+            {
+                Category = "category",
+                CardOrientation = RcsCardOrientation.Vertical,
+                ImageAlignment = RcsImageAlignment.Right,
+            },
             TrustedNumber = true,
             Card = new CardAttachment("Card Title", "This is some text to display on the card.",
                     new Uri("https://example.com/image.jpg"))
