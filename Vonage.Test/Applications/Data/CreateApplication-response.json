@@ -2,12 +2,59 @@
   "id": "78d335fa323d01149c3dd6f0d48968cf",
   "name": "My Application",
   "capabilities": {
-    "video": {
-      "webhooks": {},
-      "storage": {
-        "server_side_encryption": false,
-        "end_to_end_encryption": false,
-        "cloud_storage": false
+    "voice": {
+      "webhooks": {
+        "answer_url": {
+          "http_method": "GET",
+          "address": "https://example.com/webhooks/answer",
+          "connection_timeout": 1000,
+          "socket_timeout": 500
+        },
+        "event_url": {
+          "http_method": "POST",
+          "address": "https://example.com/webhooks/events",
+          "connection_timeout": 1000,
+          "socket_timeout": 500
+        },
+        "fallback_answer_url": {
+          "http_method": "GET",
+          "address": "https://fallback.example.com/webhooks/answer",
+          "connection_timeout": 1000,
+          "socket_timeout": 500
+        }
+      }
+    },
+    "messages": {
+      "webhooks": {
+        "inbound_url": {
+          "address": "https://example.com/webhooks/inbound",
+          "http_method": "POST"
+        },
+        "status_url": {
+          "address": "https://example.com/webhooks/status",
+          "http_method": "POST"
+        }
+      }
+    },
+    "network_apis": {
+      "network_application_id": "2bzfIFqRG128IcjSj1YhZNtw6LADG",
+      "redirect_uri": "https://my-redirect-uri.example.com"
+    },
+    "rtc": {
+      "webhooks": {
+        "event_url": {
+          "address": "https://example.com/webhooks/event",
+          "http_method": "POST"
+        }
+      }
+    },
+    "vbc": {},
+    "verify": {
+      "webhooks": {
+        "status_url": {
+          "http_method": "POST",
+          "address": "https://example.com/webhooks/status"
+        }
       }
     }
   },

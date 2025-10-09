@@ -1,4 +1,5 @@
 ﻿#region
+using System.Net.Http;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -114,6 +115,22 @@ public class Webhook
         /// </summary>
         [EnumMember(Value = "captions_status")]
         CaptionsStatus = 20,
+    }
+
+    /// <summary>
+    /// </summary>
+    public Webhook()
+    {
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="address"></param>
+    /// <param name="method"></param>
+    public Webhook(string address, HttpMethod method)
+    {
+        this.Address = address;
+        this.Method = method.ToString().ToUpperInvariant();
     }
 
     /// <summary>

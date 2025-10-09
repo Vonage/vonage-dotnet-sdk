@@ -14,40 +14,33 @@ namespace Vonage.Test.Applications;
 
 internal static class CapabilitiesTestAssertions
 {
-    internal static void ShouldHaveWebhook(this VerifyCapability capability, Webhook.Type type, string address,
-        string method)
+    internal static void ShouldHaveWebhook(this VerifyCapability capability, Webhook.Type type, Webhook webhook)
     {
         capability.Webhooks.Should().ContainKey(type);
-        var webhook = capability.Webhooks[type];
-        webhook.Address.Should().Be(address);
-        webhook.Method.Should().Be(method);
+        capability.Webhooks[type].Address.Should().Be(webhook.Address);
+        capability.Webhooks[type].Method.Should().Be(webhook.Method);
     }
 
-    internal static void ShouldHaveWebhook(this VideoCapability capability, VideoWebhookType type, string address,
-        bool active)
+    internal static void ShouldHaveWebhook(this VideoCapability capability, VideoWebhookType type,
+        VideoCapability.VideoWebhook webhook)
     {
         capability.Webhooks.Should().ContainKey(type);
-        var webhook = capability.Webhooks[type];
-        webhook.Address.ToString().Should().Be(address);
-        webhook.Active.Should().Be(active);
+        capability.Webhooks[type].Address.Should().Be(webhook.Address);
+        capability.Webhooks[type].Active.Should().Be(webhook.Active);
     }
 
-    internal static void ShouldHaveWebhook(this MessagesCapability capability, Webhook.Type type, string address,
-        string method)
+    internal static void ShouldHaveWebhook(this MessagesCapability capability, Webhook.Type type, Webhook webhook)
     {
         capability.Webhooks.Should().ContainKey(type);
-        var webhook = capability.Webhooks[type];
-        webhook.Address.Should().Be(address);
-        webhook.Method.Should().Be(method);
+        capability.Webhooks[type].Address.Should().Be(webhook.Address);
+        capability.Webhooks[type].Method.Should().Be(webhook.Method);
     }
 
-    internal static void ShouldHaveWebhook(this RtcCapability capability, Webhook.Type type, string address,
-        string method)
+    internal static void ShouldHaveWebhook(this RtcCapability capability, Webhook.Type type, Webhook webhook)
     {
         capability.Webhooks.Should().ContainKey(type);
-        var webhook = capability.Webhooks[type];
-        webhook.Address.Should().Be(address);
-        webhook.Method.Should().Be(method);
+        capability.Webhooks[type].Address.Should().Be(webhook.Address);
+        capability.Webhooks[type].Method.Should().Be(webhook.Method);
     }
 
     internal static void ShouldHaveWebhook(this VoiceCapability capability, VoiceWebhookType type,
