@@ -1,0 +1,82 @@
+{
+  "id": "78d335fa323d01149c3dd6f0d48968cf",
+  "name": "My Application",
+  "capabilities": {
+    "video": {
+      "webhooks": {
+        "archive_status": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "connection_created": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "connection_destroyed": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "session_created": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "session_destroyed": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "session_notification": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "stream_created": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "stream_destroyed": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "render_status": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "captions_status": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "broadcast_status": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "sip_call_created": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "sip_call_updated": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "sip_call_destroyed": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        },
+        "sip_call_mute_forced": {
+          "address": "https://example.com/webhooks/event",
+          "active": true
+        }
+      },
+      "storage": {
+        "server_side_encryption": true,
+        "end_to_end_encryption": true,
+        "cloud_storage": true
+      }
+    }
+  },
+  "keys": {
+    "public_key": "some public key",
+    "private_key": "some private key"
+  },
+  "privacy": {
+    "improve_ai": true
+  }
+}

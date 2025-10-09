@@ -164,6 +164,38 @@ internal static class CapabilitiesTestAssertions
         webhook.Active.Should().Be(true);
     }
 
+    internal static void ShouldHaveSipCallCreatedWebhook(this VideoCapability video)
+    {
+        video.Webhooks.Should().ContainKey(SipCallCreated);
+        var webhook = video.Webhooks[SipCallCreated];
+        webhook.Address.ToString().Should().Be("https://example.com/stream-destroyed");
+        webhook.Active.Should().Be(true);
+    }
+
+    internal static void ShouldHaveSipCallDestroyedWebhook(this VideoCapability video)
+    {
+        video.Webhooks.Should().ContainKey(SipCallDestroyed);
+        var webhook = video.Webhooks[SipCallDestroyed];
+        webhook.Address.ToString().Should().Be("https://example.com/stream-destroyed");
+        webhook.Active.Should().Be(true);
+    }
+
+    internal static void ShouldHaveSipCallMuteForcedWebhook(this VideoCapability video)
+    {
+        video.Webhooks.Should().ContainKey(SipCallMuteForced);
+        var webhook = video.Webhooks[SipCallMuteForced];
+        webhook.Address.ToString().Should().Be("https://example.com/stream-destroyed");
+        webhook.Active.Should().Be(true);
+    }
+
+    internal static void ShouldHaveSipCallUpdatedWebhook(this VideoCapability video)
+    {
+        video.Webhooks.Should().ContainKey(SipCallUpdated);
+        var webhook = video.Webhooks[SipCallUpdated];
+        webhook.Address.ToString().Should().Be("https://example.com/stream-destroyed");
+        webhook.Active.Should().Be(true);
+    }
+
     internal static void ShouldHaveRenderStatusWebhook(this VideoCapability video)
     {
         video.Webhooks.Should().ContainKey(RenderStatus);

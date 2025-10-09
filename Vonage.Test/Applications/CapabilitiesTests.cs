@@ -83,8 +83,16 @@ public class CapabilitiesTests
         Verify.WithStatusUrl("https://example.com/verify-status").ShouldHaveVerifyStatusUrlWebhook();
 
     [Fact]
-    public void Video_ShouldBeEmpty() =>
-        Video.Webhooks.Should().BeEmpty();
+    public void Video_EnableCloudStorage() =>
+        Video.EnableCloudStorage().Storage.CloudStorage.Should().BeTrue();
+
+    [Fact]
+    public void Video_EnableEndToEndEncryption() =>
+        Video.EnableEndToEndEncryption().Storage.EndToEndEncryption.Should().BeTrue();
+
+    [Fact]
+    public void Video_EnableServerSideEncryption() =>
+        Video.EnableServerSideEncryption().Storage.ServerSideEncryption.Should().BeTrue();
 
     [Fact]
     public void Video_WithArchiveStatus_ShouldSetWebhook() =>
@@ -125,12 +133,36 @@ public class CapabilitiesTests
             .ShouldHaveSessionNotificationWebhook();
 
     [Fact]
+    public void Video_WithSipCallCreated_ShouldSetWebhook() =>
+        Video.WithSipCallCreated("https://example.com/stream-destroyed").ShouldHaveSipCallCreatedWebhook();
+
+    [Fact]
+    public void Video_WithSipCallDestroyed_ShouldSetWebhook() =>
+        Video.WithSipCallDestroyed("https://example.com/stream-destroyed").ShouldHaveSipCallDestroyedWebhook();
+
+    [Fact]
+    public void Video_WithSipCallMuteForced_ShouldSetWebhook() =>
+        Video.WithSipCallMuteForced("https://example.com/stream-destroyed").ShouldHaveSipCallMuteForcedWebhook();
+
+    [Fact]
+    public void Video_WithSipCallUpdated_ShouldSetWebhook() =>
+        Video.WithSipCallUpdated("https://example.com/stream-destroyed").ShouldHaveSipCallUpdatedWebhook();
+
+    [Fact]
     public void Video_WithStreamCreated_ShouldSetWebhook() =>
         Video.WithStreamCreated("https://example.com/stream-created").ShouldHaveStreamCreatedWebhook();
 
     [Fact]
     public void Video_WithStreamDestroyed_ShouldSetWebhook() =>
         Video.WithStreamDestroyed("https://example.com/stream-destroyed").ShouldHaveStreamDestroyedWebhook();
+
+    [Fact]
+    public void VideoStorage_ShouldBeNull() =>
+        Video.Storage.Should().BeNull();
+
+    [Fact]
+    public void VideoWebhooks_ShouldBeEmpty() =>
+        Video.Webhooks.Should().BeEmpty();
 
     [Fact]
     public void Voice_ShouldBeEmpty() =>

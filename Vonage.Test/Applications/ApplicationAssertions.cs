@@ -18,18 +18,26 @@ internal static class ApplicationAssertions
         actual.Capabilities.NetworkApis.RedirectUri.Should().Be(new Uri("https://my-redirect-uri.example.com"));
     }
 
-    private static void ShouldHaveExpectedBasicProperties(this Application actual)
-    {
-        actual.Id.Should().Be("78d335fa323d01149c3dd6f0d48968cf");
-        actual.Name.Should().Be("My Application");
-    }
-
     private static void ShouldHaveExpectedCapabilities(this Application actual)
     {
         actual.ShouldHaveExpectedVoiceCapabilities();
         actual.ShouldHaveExpectedMessagesCapabilities();
         actual.ShouldHaveExpectedRtcCapabilities();
         actual.ShouldHaveExpectedMeetingsCapabilities();
+    }
+
+    private static void ShouldHaveExpectedMeetingsCapabilities(this Application actual)
+    {
+        actual.Capabilities.Meetings.Should().NotBeNull();
+        actual.Capabilities.Meetings.Webhooks.Should().BeEquivalentTo(new Dictionary<Webhook.Type, Webhook>
+        {
+            {Webhook.Type.RoomChanged, new Webhook {Address = "http://example.com", Method = "POST"}},
+            {Webhook.Type.SessionChanged, new Webhook {Address = "http://example.com", Method = "POST"}},
+            {
+                Webhook.Type.RecordingChanged,
+                new Webhook {Address = "https://54eba990d025.ngrok.app/recordings", Method = "POST"}
+            },
+        });
     }
 
     private static void ShouldHaveExpectedMessagesCapabilities(this Application actual)
@@ -79,24 +87,16 @@ internal static class ApplicationAssertions
                     HttpMethod.Post));
     }
 
+    internal static void ShouldHaveExpectedBasicProperties(this Application actual)
+    {
+        actual.Id.Should().Be("78d335fa323d01149c3dd6f0d48968cf");
+        actual.Name.Should().Be("My Application");
+    }
+
     internal static void ShouldMatchExpectedApplication(this Application actual)
     {
         actual.ShouldHaveExpectedBasicProperties();
         actual.ShouldHaveExpectedCapabilities();
-    }
-
-    internal static void ShouldHaveExpectedMeetingsCapabilities(this Application actual)
-    {
-        actual.Capabilities.Meetings.Should().NotBeNull();
-        actual.Capabilities.Meetings.Webhooks.Should().BeEquivalentTo(new Dictionary<Webhook.Type, Webhook>
-        {
-            {Webhook.Type.RoomChanged, new Webhook {Address = "http://example.com", Method = "POST"}},
-            {Webhook.Type.SessionChanged, new Webhook {Address = "http://example.com", Method = "POST"}},
-            {
-                Webhook.Type.RecordingChanged,
-                new Webhook {Address = "https://54eba990d025.ngrok.app/recordings", Method = "POST"}
-            },
-        });
     }
 
     internal static void ShouldHaveExpectedVerifyCapabilities(this Application actual)

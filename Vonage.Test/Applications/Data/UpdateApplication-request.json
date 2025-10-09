@@ -1,6 +1,9 @@
 {
   "name": "My Application",
   "capabilities": {
+    "video": {
+      "webhooks": {}
+    },
     "voice": {
       "webhooks": {
         "answer_url": {

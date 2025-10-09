@@ -1,0 +1,14 @@
+{
+  "name": "My Application",
+  "capabilities": {
+    "video": {
+      "webhooks": {}
+    }
+  },
+  "keys": {
+    "public_key": "some public key"
+  },
+  "privacy": {
+    "improve_ai": true
+  }
+}
