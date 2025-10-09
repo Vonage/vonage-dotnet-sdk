@@ -11,12 +11,6 @@ namespace Vonage.Applications;
 public class ApplicationCapabilities
 {
     /// <summary>
-    ///     Create meetings with Vonage API.
-    /// </summary>
-    [JsonProperty("meetings", Order = 4)]
-    public Meetings Meetings { get; set; }
-
-    /// <summary>
     ///     Messages and Dispatch application webhook config
     /// </summary>
     [JsonProperty("messages", Order = 5)]

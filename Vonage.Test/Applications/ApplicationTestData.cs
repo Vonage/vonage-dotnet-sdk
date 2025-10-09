@@ -17,7 +17,6 @@ internal static class ApplicationTestData
             Rtc = CreateRtcCapability(),
             Voice = CreateVoiceCapability(),
             Vbc = Vbc.Build(),
-            Meetings = CreateMeetingsCapability(),
             Verify = CreateVerifyCapability(),
             NetworkApis = CreateNetworkApisCapability(),
             Video = CreateVideoCapability(),
@@ -28,12 +27,6 @@ internal static class ApplicationTestData
         {
             PublicKey = PublicKey,
         };
-
-    private static Meetings CreateMeetingsCapability() =>
-        Meetings.Build()
-            .WithRoomChanged("http://example.com")
-            .WithSessionChanged("http://example.com")
-            .WithRecordingChanged("https://54eba990d025.ngrok.app/recordings");
 
     private static Vonage.Applications.Capabilities.Messages CreateMessagesCapability() =>
         Vonage.Applications.Capabilities.Messages.Build()

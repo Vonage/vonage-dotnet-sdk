@@ -15,7 +15,6 @@ public abstract class Capability
         [Description("rtc")] Rtc,
         [Description("messages")] Messages,
         [Description("vbc")] Vbc,
-        [Description("meetings")] Meetings,
         [Description("video")] Video,
         [Description("verify")] Verify,
     }

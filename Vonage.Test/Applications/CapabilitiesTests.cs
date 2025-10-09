@@ -1,13 +1,14 @@
 #region
 using System;
+using System.Net.Http;
 using FluentAssertions;
 using Vonage.Applications;
 using Vonage.Applications.Capabilities;
+using Vonage.Common;
 using Xunit;
 using VoiceCapability = Vonage.Applications.Capabilities.Voice;
 using MessagesCapability = Vonage.Applications.Capabilities.Messages;
 using RtcCapability = Vonage.Applications.Capabilities.Rtc;
-using MeetingsCapability = Vonage.Applications.Capabilities.Meetings;
 using VerifyCapability = Vonage.Applications.Capabilities.Verify;
 using VideoCapability = Vonage.Applications.Capabilities.Video;
 #endregion
@@ -16,8 +17,8 @@ namespace Vonage.Test.Applications;
 
 public class CapabilitiesTests
 {
+    private const string TestUrl = "https://example.com/webhook";
     private static VoiceCapability Voice => VoiceCapability.Build();
-    private static MeetingsCapability Meetings => MeetingsCapability.Build();
     private static MessagesCapability Messages => MessagesCapability.Build();
     private static NetworkApis NetworkApis => NetworkApis.Build();
     private static RtcCapability Rtc => RtcCapability.Build();
@@ -25,32 +26,16 @@ public class CapabilitiesTests
     private static VideoCapability Video => VideoCapability.Build();
 
     [Fact]
-    public void Meetings_ShouldBeEmpty() =>
-        Meetings.Webhooks.Should().BeEmpty();
-
-    [Fact]
-    public void Meetings_WithRecordingChanged_ShouldSetWebhook() =>
-        Meetings.WithRecordingChanged("https://example.com/recording").ShouldHaveRecordingChangedWebhook();
-
-    [Fact]
-    public void Meetings_WithRoomChanged_ShouldSetWebhook() =>
-        Meetings.WithRoomChanged("https://example.com/room").ShouldHaveRoomChangedWebhook();
-
-    [Fact]
-    public void Meetings_WithSessionChanged_ShouldSetWebhook() =>
-        Meetings.WithSessionChanged("https://example.com/session").ShouldHaveSessionChangedWebhook();
-
-    [Fact]
     public void Messages_ShouldBeEmpty() =>
         Messages.Webhooks.Should().BeEmpty();
 
     [Fact]
     public void Messages_WithInboundUrl_ShouldSetWebhook() =>
-        Messages.WithInboundUrl("https://example.com/inbound").ShouldHaveInboundUrlWebhook();
+        Messages.WithInboundUrl(TestUrl).ShouldHaveWebhook(Webhook.Type.InboundUrl, TestUrl, "POST");
 
     [Fact]
     public void Messages_WithStatusUrl_ShouldSetWebhook() =>
-        Messages.WithStatusUrl("https://example.com/status").ShouldHaveStatusUrlWebhook();
+        Messages.WithStatusUrl(TestUrl).ShouldHaveWebhook(Webhook.Type.StatusUrl, TestUrl, "POST");
 
     [Fact]
     public void NetworkApis_ApplicationIdShouldBeEmpty() => NetworkApis.ApplicationId.Should().BeNull();
@@ -72,7 +57,7 @@ public class CapabilitiesTests
 
     [Fact]
     public void Rtc_WithEventUrl_ShouldSetWebhook() =>
-        Rtc.WithEventUrl("https://example.com/events", WebhookHttpMethod.Post).ShouldHaveRtcEventUrlWebhook();
+        Rtc.WithEventUrl(TestUrl, WebhookHttpMethod.Post).ShouldHaveWebhook(Webhook.Type.EventUrl, TestUrl, "POST");
 
     [Fact]
     public void Verify_ShouldBeEmpty() =>
@@ -80,7 +65,7 @@ public class CapabilitiesTests
 
     [Fact]
     public void Verify_WithStatusUrl_ShouldSetWebhook() =>
-        Verify.WithStatusUrl("https://example.com/verify-status").ShouldHaveVerifyStatusUrlWebhook();
+        Verify.WithStatusUrl(TestUrl).ShouldHaveWebhook(Webhook.Type.StatusUrl, TestUrl, "POST");
 
     [Fact]
     public void Video_EnableCloudStorage() =>
@@ -96,65 +81,63 @@ public class CapabilitiesTests
 
     [Fact]
     public void Video_WithArchiveStatus_ShouldSetWebhook() =>
-        Video.WithArchiveStatus("https://example.com/archive").ShouldHaveArchiveStatusWebhook();
+        Video.WithArchiveStatus(TestUrl).ShouldHaveWebhook(VideoWebhookType.ArchiveStatus, TestUrl, true);
 
     [Fact]
     public void Video_WithBroadcastStatus_ShouldSetWebhook() =>
-        Video.WithBroadcastStatus("https://example.com/broadcast-status").ShouldHaveBroadcastStatusWebhook();
+        Video.WithBroadcastStatus(TestUrl).ShouldHaveWebhook(VideoWebhookType.BroadcastStatus, TestUrl, true);
 
     [Fact]
     public void Video_WithCaptionsStatus_ShouldSetWebhook() =>
-        Video.WithCaptionsStatus("https://example.com/captions-status").ShouldHaveCaptionsStatusWebhook();
+        Video.WithCaptionsStatus(TestUrl).ShouldHaveWebhook(VideoWebhookType.CaptionsStatus, TestUrl, true);
 
     [Fact]
     public void Video_WithConnectionCreated_ShouldSetWebhook() =>
-        Video.WithConnectionCreated("https://example.com/connection-created").ShouldHaveConnectionCreatedWebhook();
+        Video.WithConnectionCreated(TestUrl).ShouldHaveWebhook(VideoWebhookType.ConnectionCreated, TestUrl, true);
 
     [Fact]
     public void Video_WithConnectionDestroyed_ShouldSetWebhook() =>
-        Video.WithConnectionDestroyed("https://example.com/connection-destroyed")
-            .ShouldHaveConnectionDestroyedWebhook();
+        Video.WithConnectionDestroyed(TestUrl).ShouldHaveWebhook(VideoWebhookType.ConnectionDestroyed, TestUrl, true);
 
     [Fact]
     public void Video_WithRenderStatus_ShouldSetWebhook() =>
-        Video.WithRenderStatus("https://example.com/render-status").ShouldHaveRenderStatusWebhook();
+        Video.WithRenderStatus(TestUrl).ShouldHaveWebhook(VideoWebhookType.RenderStatus, TestUrl, true);
 
     [Fact]
     public void Video_WithSessionCreated_ShouldSetWebhook() =>
-        Video.WithSessionCreated("https://example.com/session-created").ShouldHaveSessionCreatedWebhook();
+        Video.WithSessionCreated(TestUrl).ShouldHaveWebhook(VideoWebhookType.SessionCreated, TestUrl, true);
 
     [Fact]
     public void Video_WithSessionDestroyed_ShouldSetWebhook() =>
-        Video.WithSessionDestroyed("https://example.com/session-destroyed").ShouldHaveSessionDestroyedWebhook();
+        Video.WithSessionDestroyed(TestUrl).ShouldHaveWebhook(VideoWebhookType.SessionDestroyed, TestUrl, true);
 
     [Fact]
     public void Video_WithSessionNotification_ShouldSetWebhook() =>
-        Video.WithSessionNotification("https://example.com/session-notification")
-            .ShouldHaveSessionNotificationWebhook();
+        Video.WithSessionNotification(TestUrl).ShouldHaveWebhook(VideoWebhookType.SessionNotification, TestUrl, true);
 
     [Fact]
     public void Video_WithSipCallCreated_ShouldSetWebhook() =>
-        Video.WithSipCallCreated("https://example.com/stream-destroyed").ShouldHaveSipCallCreatedWebhook();
+        Video.WithSipCallCreated(TestUrl).ShouldHaveWebhook(VideoWebhookType.SipCallCreated, TestUrl, true);
 
     [Fact]
     public void Video_WithSipCallDestroyed_ShouldSetWebhook() =>
-        Video.WithSipCallDestroyed("https://example.com/stream-destroyed").ShouldHaveSipCallDestroyedWebhook();
+        Video.WithSipCallDestroyed(TestUrl).ShouldHaveWebhook(VideoWebhookType.SipCallDestroyed, TestUrl, true);
 
     [Fact]
     public void Video_WithSipCallMuteForced_ShouldSetWebhook() =>
-        Video.WithSipCallMuteForced("https://example.com/stream-destroyed").ShouldHaveSipCallMuteForcedWebhook();
+        Video.WithSipCallMuteForced(TestUrl).ShouldHaveWebhook(VideoWebhookType.SipCallMuteForced, TestUrl, true);
 
     [Fact]
     public void Video_WithSipCallUpdated_ShouldSetWebhook() =>
-        Video.WithSipCallUpdated("https://example.com/stream-destroyed").ShouldHaveSipCallUpdatedWebhook();
+        Video.WithSipCallUpdated(TestUrl).ShouldHaveWebhook(VideoWebhookType.SipCallUpdated, TestUrl, true);
 
     [Fact]
     public void Video_WithStreamCreated_ShouldSetWebhook() =>
-        Video.WithStreamCreated("https://example.com/stream-created").ShouldHaveStreamCreatedWebhook();
+        Video.WithStreamCreated(TestUrl).ShouldHaveWebhook(VideoWebhookType.StreamCreated, TestUrl, true);
 
     [Fact]
     public void Video_WithStreamDestroyed_ShouldSetWebhook() =>
-        Video.WithStreamDestroyed("https://example.com/stream-destroyed").ShouldHaveStreamDestroyedWebhook();
+        Video.WithStreamDestroyed(TestUrl).ShouldHaveWebhook(VideoWebhookType.StreamDestroyed, TestUrl, true);
 
     [Fact]
     public void VideoStorage_ShouldBeNull() =>
@@ -170,15 +153,19 @@ public class CapabilitiesTests
 
     [Fact]
     public void Voice_WithAnswerUrl_ShouldSetWebhook() =>
-        Voice.WithAnswerUrl("https://example.com/answer", WebhookHttpMethod.Get, 1000, 2000)
-            .ShouldHaveAnswerUrlWebhook();
+        Voice.WithAnswerUrl(TestUrl, WebhookHttpMethod.Get, 2000, 2000)
+            .ShouldHaveWebhook(VoiceWebhookType.AnswerUrl,
+                new VoiceCapability.VoiceWebhook(new Uri(TestUrl), HttpMethod.Get, 2000, 2000));
 
     [Fact]
     public void Voice_WithEventUrl_ShouldSetWebhook() =>
-        Voice.WithEventUrl("https://example.com/events", WebhookHttpMethod.Post).ShouldHaveEventUrlWebhook();
+        Voice.WithEventUrl(TestUrl, WebhookHttpMethod.Post, 2000, 2000)
+            .ShouldHaveWebhook(VoiceWebhookType.EventUrl,
+                new VoiceCapability.VoiceWebhook(new Uri(TestUrl), HttpMethod.Post, 2000, 2000));
 
     [Fact]
     public void Voice_WithFallbackAnswerUrl_ShouldSetWebhook() =>
-        Voice.WithFallbackAnswerUrl("https://example.com/fallback", WebhookHttpMethod.Post)
-            .ShouldHaveFallbackAnswerUrlWebhook();
+        Voice.WithFallbackAnswerUrl(TestUrl, WebhookHttpMethod.Post, 2000, 2000)
+            .ShouldHaveWebhook(VoiceWebhookType.FallbackAnswerUrl,
+                new VoiceCapability.VoiceWebhook(new Uri(TestUrl), HttpMethod.Post, 2000, 2000));
 }

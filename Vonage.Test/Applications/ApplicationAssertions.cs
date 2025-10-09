@@ -23,21 +23,6 @@ internal static class ApplicationAssertions
         actual.ShouldHaveExpectedVoiceCapabilities();
         actual.ShouldHaveExpectedMessagesCapabilities();
         actual.ShouldHaveExpectedRtcCapabilities();
-        actual.ShouldHaveExpectedMeetingsCapabilities();
-    }
-
-    private static void ShouldHaveExpectedMeetingsCapabilities(this Application actual)
-    {
-        actual.Capabilities.Meetings.Should().NotBeNull();
-        actual.Capabilities.Meetings.Webhooks.Should().BeEquivalentTo(new Dictionary<Webhook.Type, Webhook>
-        {
-            {Webhook.Type.RoomChanged, new Webhook {Address = "http://example.com", Method = "POST"}},
-            {Webhook.Type.SessionChanged, new Webhook {Address = "http://example.com", Method = "POST"}},
-            {
-                Webhook.Type.RecordingChanged,
-                new Webhook {Address = "https://54eba990d025.ngrok.app/recordings", Method = "POST"}
-            },
-        });
     }
 
     private static void ShouldHaveExpectedMessagesCapabilities(this Application actual)
