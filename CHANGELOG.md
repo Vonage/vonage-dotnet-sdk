@@ -1,4 +1,39 @@
 # Changelog
+## [v8.12.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.12.0) (2025-10-10)
+
+### Documentation
+
+- Generate changelog for v8.11.0 ([068035a](https://github.com/Vonage/vonage-dotnet-sdk/commit/068035a01eb89172bbb3129399ca1cf4a685b5b2))
+
+- Bump version to v8.12.0 ([fb64b2c](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb64b2c6be677797e7388bbf87427e5019033907))
+
+
+### Features
+
+- Add new properties for RCS message category ([365a77a](https://github.com/Vonage/vonage-dotnet-sdk/commit/365a77aad5f778a45a1e411e086c74702140a2f4))
+
+- Add RCS card message ([1b3d8c3](https://github.com/Vonage/vonage-dotnet-sdk/commit/1b3d8c3278518c65a918cee7a3fa1df1a7eac1ae))
+
+- Add new cards properties for RCS category ([73f1429](https://github.com/Vonage/vonage-dotnet-sdk/commit/73f1429e92baba9dd77c185c67ed5b7b79856d05))
+
+- Implement suggestions for RCS cards ([df03d66](https://github.com/Vonage/vonage-dotnet-sdk/commit/df03d663c4b7c49274afe90113179bb552d7aa09))
+
+- Implement Video storage capability ([f2a1c60](https://github.com/Vonage/vonage-dotnet-sdk/commit/f2a1c601a1fd4c819a864e461b6ec6a89265c11b))
+
+- Implement suggestions for RCS cards ([0846b9d](https://github.com/Vonage/vonage-dotnet-sdk/commit/0846b9dfc2a97a7fff443821ba83e45eaeb142f4))
+
+- Implement suggestions for RCS cards ([fddf251](https://github.com/Vonage/vonage-dotnet-sdk/commit/fddf251e4cc59d0920357c6b9e478219dbde0358))
+
+- Enable video storage by default with default values ([e28e94d](https://github.com/Vonage/vonage-dotnet-sdk/commit/e28e94d692090984e562dcc0232fc31a33e3c076))
+
+
+### Refactoring
+
+- Clean application tests ([596b047](https://github.com/Vonage/vonage-dotnet-sdk/commit/596b047e13a4c2883aff45c677be55947f27a995))
+
+- Clean application tests ([3dff9d7](https://github.com/Vonage/vonage-dotnet-sdk/commit/3dff9d70dbb379f6fddeeac9b938713e19ca6d68))
+
+
 ## [v8.11.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.11.0) (2025-10-07)
 
 ### Documentation
