@@ -144,8 +144,8 @@ public class CapabilitiesTests
         Video.WithStreamDestroyed(TestUrl).ShouldHaveWebhook(VideoWebhookType.StreamDestroyed, BuildVideoWebhook());
 
     [Fact]
-    public void VideoStorage_ShouldBeNull() =>
-        Video.Storage.Should().BeNull();
+    public void VideoStorage_ShouldHaveDefaultValues() =>
+        Video.Storage.Should().Be(new VideoCapability.VideoStorage(false, false, false));
 
     [Fact]
     public void VideoWebhooks_ShouldBeEmpty() =>

@@ -27,7 +27,7 @@ public class Video
     /// <summary>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public VideoStorage Storage { get; private set; }
+    public VideoStorage Storage { get; private set; } = new VideoStorage(false, false, false);
 
     /// <summary>
     /// </summary>
@@ -40,7 +40,7 @@ public class Video
     /// <returns></returns>
     public Video EnableCloudStorage()
     {
-        this.Storage = (this.Storage ?? VideoStorage.Default) with {CloudStorage = true};
+        this.Storage = this.Storage with {CloudStorage = true};
         return this;
     }
 
@@ -50,7 +50,7 @@ public class Video
     /// <returns></returns>
     public Video EnableEndToEndEncryption()
     {
-        this.Storage = (this.Storage ?? VideoStorage.Default) with {EndToEndEncryption = true};
+        this.Storage = this.Storage with {EndToEndEncryption = true};
         return this;
     }
 
@@ -60,7 +60,7 @@ public class Video
     /// <returns></returns>
     public Video EnableServerSideEncryption()
     {
-        this.Storage = (this.Storage ?? VideoStorage.Default) with {ServerSideEncryption = true};
+        this.Storage = this.Storage with {ServerSideEncryption = true};
         return this;
     }
 
@@ -306,11 +306,11 @@ public class Video
     /// <param name="EndToEndEncryption"></param>
     /// <param name="CloudStorage"></param>
     public record VideoStorage(
-        [property: JsonProperty("server_side_encryption")]
+        [property: JsonProperty("server_side_encryption", DefaultValueHandling = DefaultValueHandling.Include)]
         bool ServerSideEncryption,
-        [property: JsonProperty("end_to_end_encryption")]
+        [property: JsonProperty("end_to_end_encryption", DefaultValueHandling = DefaultValueHandling.Include)]
         bool EndToEndEncryption,
-        [property: JsonProperty("cloud_storage")]
+        [property: JsonProperty("cloud_storage", DefaultValueHandling = DefaultValueHandling.Include)]
         bool CloudStorage)
     {
         internal static VideoStorage Default => new VideoStorage(false, false, false);

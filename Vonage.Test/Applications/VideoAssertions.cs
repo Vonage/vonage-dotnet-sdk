@@ -13,7 +13,8 @@ internal static class VideoAssertions
     {
         actual.Capabilities.Video.Should().NotBeNull();
         actual.Capabilities.Video.Webhooks.Should().BeEmpty();
-        actual.Capabilities.Video.Storage.Should().BeNull();
+        actual.Capabilities.Video.Storage.Should()
+            .Be(new Vonage.Applications.Capabilities.Video.VideoStorage(false, false, false));
     }
 
     private static void ShouldHaveVideoFullCapabilities(this Application actual)

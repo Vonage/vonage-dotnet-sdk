@@ -2,7 +2,12 @@
   "name": "My Application",
   "capabilities": {
     "video": {
-      "webhooks": {}
+      "webhooks": {},
+      "storage": {
+        "server_side_encryption": false,
+        "end_to_end_encryption": false,
+        "cloud_storage": false
+      }
     }
   },
   "keys": {
