@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Disable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>
