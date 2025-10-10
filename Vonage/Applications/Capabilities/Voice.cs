@@ -18,7 +18,7 @@ public class Voice
     /// <summary>
     ///     Default connection timeout for Voice webhooks in milliseconds.
     /// </summary>
-    private const int DefaultConnectionTimeout = 1000;
+    private const int DefaultConnectTimeout = 1000;
 
     /// <summary>
     ///     Default socket timeout for Voice webhooks in milliseconds.
@@ -68,17 +68,17 @@ public class Voice
     /// </summary>
     /// <param name="url">The webhook URL.</param>
     /// <param name="method">The HTTP method (GET or POST).</param>
-    /// <param name="connectionTimeout">Connection timeout in milliseconds.</param>
+    /// <param name="connectTimeout">Connection timeout in milliseconds.</param>
     /// <param name="socketTimeout">Socket timeout in milliseconds.</param>
     /// <returns>The Voice capability instance for fluent chaining.</returns>
-    public Voice WithAnswerUrl(string url, WebhookHttpMethod method, int connectionTimeout = DefaultConnectionTimeout,
+    public Voice WithAnswerUrl(string url, WebhookHttpMethod method, int connectTimeout = DefaultConnectTimeout,
         int socketTimeout = DefaultSocketTimeout)
     {
         var httpMethod = method == WebhookHttpMethod.Get ? HttpMethod.Get : HttpMethod.Post;
         this.Webhooks[VoiceWebhookType.AnswerUrl] = new VoiceWebhook(
             new Uri(url),
             httpMethod,
-            connectionTimeout,
+            connectTimeout,
             socketTimeout
         );
         return this;
@@ -89,17 +89,17 @@ public class Voice
     /// </summary>
     /// <param name="url">The webhook URL.</param>
     /// <param name="method">The HTTP method (GET or POST).</param>
-    /// <param name="connectionTimeout">Connection timeout in milliseconds.</param>
+    /// <param name="connectTimeout">Connection timeout in milliseconds.</param>
     /// <param name="socketTimeout">Socket timeout in milliseconds.</param>
     /// <returns>The Voice capability instance for fluent chaining.</returns>
-    public Voice WithEventUrl(string url, WebhookHttpMethod method, int connectionTimeout = DefaultConnectionTimeout,
+    public Voice WithEventUrl(string url, WebhookHttpMethod method, int connectTimeout = DefaultConnectTimeout,
         int socketTimeout = DefaultSocketTimeout)
     {
         var httpMethod = method == WebhookHttpMethod.Get ? HttpMethod.Get : HttpMethod.Post;
         this.Webhooks[VoiceWebhookType.EventUrl] = new VoiceWebhook(
             new Uri(url),
             httpMethod,
-            connectionTimeout,
+            connectTimeout,
             socketTimeout
         );
         return this;
@@ -110,17 +110,17 @@ public class Voice
     /// </summary>
     /// <param name="url">The webhook URL.</param>
     /// <param name="method">The HTTP method (GET or POST).</param>
-    /// <param name="connectionTimeout">Connection timeout in milliseconds.</param>
+    /// <param name="connectTimeout">Connection timeout in milliseconds.</param>
     /// <param name="socketTimeout">Socket timeout in milliseconds.</param>
     /// <returns>The Voice capability instance for fluent chaining.</returns>
     public Voice WithFallbackAnswerUrl(string url, WebhookHttpMethod method,
-        int connectionTimeout = DefaultConnectionTimeout, int socketTimeout = DefaultSocketTimeout)
+        int connectTimeout = DefaultConnectTimeout, int socketTimeout = DefaultSocketTimeout)
     {
         var httpMethod = method == WebhookHttpMethod.Get ? HttpMethod.Get : HttpMethod.Post;
         this.Webhooks[VoiceWebhookType.FallbackAnswerUrl] = new VoiceWebhook(
             new Uri(url),
             httpMethod,
-            connectionTimeout,
+            connectTimeout,
             socketTimeout
         );
         return this;
@@ -131,7 +131,7 @@ public class Voice
     /// </summary>
     /// <param name="Address">The webhook address.</param>
     /// <param name="Method">Must be one of GET or POST.</param>
-    /// <param name="ConnectionTimeout">
+    /// <param name="ConnectTimeout">
     ///     If Vonage can't connect to the webhook URL for this specified amount of time, then
     ///     Vonage makes one additional attempt to connect to the webhook endpoint. This is an integer value specified in
     ///     milliseconds.
@@ -147,8 +147,8 @@ public class Voice
         [property: JsonProperty("http_method", Order = 0)]
         [property: JsonConverter(typeof(HttpMethodConverter))]
         HttpMethod Method,
-        [property: JsonProperty("connection_timeout", Order = 2)]
-        int ConnectionTimeout = DefaultConnectionTimeout,
+        [property: JsonProperty("connect_timeout", Order = 2)]
+        int ConnectTimeout = DefaultConnectTimeout,
         [property: JsonProperty("socket_timeout", Order = 3)]
         int SocketTimeout = DefaultSocketTimeout);
 }
