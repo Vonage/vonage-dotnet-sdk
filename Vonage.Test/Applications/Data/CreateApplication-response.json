@@ -7,19 +7,19 @@
         "answer_url": {
           "http_method": "GET",
           "address": "https://example.com/webhooks/answer",
-          "connection_timeout": 1000,
+          "connect_timeout": 1000,
           "socket_timeout": 500
         },
         "event_url": {
           "http_method": "POST",
           "address": "https://example.com/webhooks/events",
-          "connection_timeout": 1000,
+          "connect_timeout": 1000,
           "socket_timeout": 500
         },
         "fallback_answer_url": {
           "http_method": "GET",
           "address": "https://fallback.example.com/webhooks/answer",
-          "connection_timeout": 1000,
+          "connect_timeout": 1000,
           "socket_timeout": 500
         }
       }

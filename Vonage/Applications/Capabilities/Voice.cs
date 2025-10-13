@@ -147,7 +147,7 @@ public class Voice
         [property: JsonProperty("http_method", Order = 0)]
         [property: JsonConverter(typeof(HttpMethodConverter))]
         HttpMethod Method,
-        [property: JsonProperty("connection_timeout", Order = 2)]
+        [property: JsonProperty("connect_timeout", Order = 2)]
         int ConnectionTimeout = DefaultConnectionTimeout,
         [property: JsonProperty("socket_timeout", Order = 3)]
         int SocketTimeout = DefaultSocketTimeout);
