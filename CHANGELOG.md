@@ -1,4 +1,18 @@
 # Changelog
+## [v8.12.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.12.1) (2025-10-13)
+
+### Bug Fixes
+
+- Wrong JsonProperty name for `connect_timeout` in Voice webhooks ([bcb5427](https://github.com/Vonage/vonage-dotnet-sdk/commit/bcb54279eea32a415253b254196cdddab9f184a4))
+
+
+### Documentation
+
+- Generate changelog for v8.12.0 ([ea26f13](https://github.com/Vonage/vonage-dotnet-sdk/commit/ea26f1379b9cbb9d93b4f5809f0f4fd493075ae5))
+
+- Bump version to v8.12.1 ([be3ce1c](https://github.com/Vonage/vonage-dotnet-sdk/commit/be3ce1cbabd0f46345065fa9f2c18a2dd85a7bc5))
+
+
 ## [v8.12.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.12.0) (2025-10-10)
 
 ### Documentation
