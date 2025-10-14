@@ -34,7 +34,7 @@ public class RcsTextRequest : RcsMessageBase
     public string Text { get; set; }
 
     /// <summary>
-    ///     An array of suggestion objects to include with the card. You can include up to 4 suggestions per card.
+    ///     An array of suggestion objects to include with the card. You can include up to 11 suggestions per card.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyOrder(10)]
