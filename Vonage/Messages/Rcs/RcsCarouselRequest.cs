@@ -1,18 +1,19 @@
 ﻿#region
 using System.Text.Json.Serialization;
+using Vonage.Messages.Rcs.Suggestions;
 #endregion
 
 namespace Vonage.Messages.Rcs;
 
 /// <summary>
 /// </summary>
-public class RcsCardRequest : RcsMessageBase
+public class RcsCarouselRequest : RcsMessageBase
 {
     /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.RCS;
 
     /// <inheritdoc />
-    public override MessagesMessageType MessageType => MessagesMessageType.Card;
+    public override MessagesMessageType MessageType => MessagesMessageType.Carousel;
 
     /// <summary>
     ///     The duration in seconds the delivery of a message will be attempted. By default, Vonage attempts delivery for 72
@@ -25,9 +26,22 @@ public class RcsCardRequest : RcsMessageBase
     public int TimeToLive { get; set; }
 
     /// <summary>
-    ///     The card attachment.
+    ///     The carousel attachment.
     /// </summary>
-    [JsonPropertyName("card")]
     [JsonPropertyOrder(9)]
-    public CardAttachment Card { get; set; }
+    public CarouselAttachment Carousel { get; set; }
+
+    /// <summary>
+    ///     An array of suggestion objects to include with the card. You can include up to 11 suggestions per card.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonPropertyOrder(10)]
+    public SuggestionBase[] Suggestions { get; set; }
 }
+
+/// <summary>
+///     The carousel attachment.
+/// </summary>
+/// <param name="Cards">The list of cards.</param>
+public record CarouselAttachment(
+    [property: JsonPropertyName("cards")] params CardAttachment[] Cards);

@@ -71,8 +71,14 @@ public enum MessagesMessageType
     Content = 9,
 
     /// <summary>
-    ///     File.
+    ///     Card.
     /// </summary>
     [EnumMember(Value = "card")] [Description("card")]
     Card = 10,
+
+    /// <summary>
+    ///     Carousel.
+    /// </summary>
+    [EnumMember(Value = "carousel")] [Description("carousel")]
+    Carousel = 11,
 }

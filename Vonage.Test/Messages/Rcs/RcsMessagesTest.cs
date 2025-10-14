@@ -59,6 +59,31 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
+    public async Task SendFullRcsCarouselAsyncReturnsOk()
+    {
+        var request = new RcsCarouselRequest
+        {
+            To = "447700900000",
+            ClientRef = "abc123",
+            WebhookUrl = new Uri("https://example.com/status"),
+            TimeToLive = 600,
+            From = "Vonage",
+            Rcs = new MessageRcs
+            {
+                Category = "category",
+                CardWidth = RcsCardWidth.Small,
+            },
+            Carousel = new CarouselAttachment(new CardAttachment("Card Title",
+                    "This is some text to display on the card.",
+                    new Uri("https://example.com/image.jpg"))
+                .AppendSuggestion(new ReplySuggestion("Yes", "question_1_yes"))),
+            TrustedNumber = true,
+            Suggestions = [new ReplySuggestion("Yes", "question_1_yes")],
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
     public async Task SendFullRcsCustomAsyncReturnsOk()
     {
         var request = new RcsCustomRequest
@@ -251,6 +276,20 @@ public class RcsMessagesTest : TestBase
             Card = new CardAttachment("Card Title", "This is some text to display on the card.",
                     new Uri("https://example.com/image.jpg"))
                 .AppendSuggestion(new ViewLocationSuggestion("Option 1", "action_1", "37.7749", "-122.4194", "vonage")),
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
+    public async Task SendRcsCarouselAsyncReturnsOk()
+    {
+        var request = new RcsCarouselRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Carousel = new CarouselAttachment(new CardAttachment("Card Title",
+                "This is some text to display on the card.",
+                new Uri("https://example.com/image.jpg"))),
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }

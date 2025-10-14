@@ -1,0 +1,15 @@
+{
+  "channel": "rcs",
+  "message_type": "carousel",
+  "to": "447700900000",
+  "from": "Vonage",
+  "carousel": {
+    "cards": [
+      {
+        "title": "Card Title",
+        "text": "This is some text to display on the card.",
+        "media_url": "https://example.com/image.jpg"
+      }
+    ]
+  }
+}
