@@ -1,4 +1,27 @@
 # Changelog
+## [v8.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.13.0) (2025-10-14)
+
+### Documentation
+
+- Generate changelog for v8.12.1 ([c40a4e9](https://github.com/Vonage/vonage-dotnet-sdk/commit/c40a4e99fde0d48c8a89539969f88fb3b6431457))
+
+- Bump version to v8.13.0 ([aa0c9ef](https://github.com/Vonage/vonage-dotnet-sdk/commit/aa0c9efca04bf24ed2426805c2254f586e9245fc))
+
+
+### Features
+
+- Add suggestions to RCS text messages ([321f3db](https://github.com/Vonage/vonage-dotnet-sdk/commit/321f3dbd7af4cb3a7fbd2219c859527a3e93ae12))
+
+- Add carousel for RCS messages ([0a3f756](https://github.com/Vonage/vonage-dotnet-sdk/commit/0a3f756ea5159a9fdcd08fc6b8ee967d6e3c94fb))
+
+
+### Refactoring
+
+- Update XML doc on RcsTextRequest ([8f7e177](https://github.com/Vonage/vonage-dotnet-sdk/commit/8f7e177741a3ee74560e7ccece7d3d67f6998900))
+
+- Move TimeToLive to message base for RCS ([a5baf57](https://github.com/Vonage/vonage-dotnet-sdk/commit/a5baf5722fb104a2aa462ca31dfdc41724330349))
+
+
 ## [v8.12.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.12.1) (2025-10-13)
 
 ### Bug Fixes
