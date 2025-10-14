@@ -1,0 +1,22 @@
+{
+  "channel": "rcs",
+  "message_type": "text",
+  "to": "447700900000",
+  "from": "Vonage",
+  "text": "Hello world",
+  "suggestions": [
+    {
+      "type": "create_calendar_event",
+      "text": "Option 1",
+      "postback_data": "action_1",
+      "start_time": "2023-01-01T10:00:00Z",
+      "end_time": "2023-01-01T10:00:00Z",
+      "title": "New Year Party"
+    },
+    {
+      "type": "reply",
+      "text": "Yes",
+      "postback_data": "question_1_yes"
+    }
+  ]
+}

@@ -1580,6 +1580,9 @@
         <None Update="Applications\Data\CreateVideoFullApplication-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Messages\Rcs\Data\SendRcsTextAsyncReturnsOk_WithSuggestions-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>

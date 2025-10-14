@@ -304,6 +304,24 @@ public class RcsMessagesTest : TestBase
     }
 
     [Fact]
+    public async Task SendRcsTextAsyncReturnsOk_WithSuggestions()
+    {
+        var request = new RcsTextRequest
+        {
+            To = "447700900000",
+            From = "Vonage",
+            Text = "Hello world",
+            Suggestions =
+            [
+                new CreateCalendarEventSuggestion("Option 1", "action_1",
+                    DateTime.Parse("2023-01-01T10:00:00Z"), DateTime.Parse("2023-01-01T10:00:00Z"), "New Year Party"),
+                new ReplySuggestion("Yes", "question_1_yes"),
+            ],
+        };
+        await this.AssertResponse(request, this.helper.GetRequestJson());
+    }
+
+    [Fact]
     public async Task SendRcsVideoAsyncReturnsOk()
     {
         var request = new RcsVideoRequest
