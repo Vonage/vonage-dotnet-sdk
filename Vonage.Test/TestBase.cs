@@ -97,12 +97,11 @@ namespace Vonage.Test
                     ItExpr.IsAny<CancellationToken>())
                 .Callback<HttpRequestMessage, CancellationToken>((actualHttpRequestMessage, cancellationToken) =>
                 {
-                    Assert.Equal(uri, actualHttpRequestMessage.RequestUri.AbsoluteUri,
-                        StringComparer.OrdinalIgnoreCase);
+                    Assert.Equal(uri, actualHttpRequestMessage.RequestUri.AbsoluteUri);
                     if (requestContent == null)
                         return;
                     var actualContent = actualHttpRequestMessage.Content.ReadAsStringAsync().Result;
-                    Assert.Equal(requestContent, actualContent, StringComparer.OrdinalIgnoreCase);
+                    Assert.Equal(requestContent, actualContent);
                 })
                 .ReturnsAsync(expectedResponse)
                 .Verifiable();

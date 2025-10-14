@@ -1,6 +1,7 @@
 ﻿#region
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 #endregion
@@ -16,11 +17,13 @@ public class MultiInputAction : NccoAction
     {
         /// <summary>
         /// </summary>
-        [Description("synchronous")] Synchronous,
+        [Description("synchronous")] [EnumMember(Value = "synchronous")]
+        Synchronous,
 
         /// <summary>
         /// </summary>
-        [Description("asynchronous")] Asynchronous,
+        [Description("asynchronous")] [EnumMember(Value = "asynchronous")]
+        Asynchronous,
     }
 
     public override ActionType Action => ActionType.Input;

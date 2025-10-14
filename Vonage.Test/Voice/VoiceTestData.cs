@@ -84,7 +84,7 @@ internal static class VoiceTestData
             Destination = new Destination
             {
                 Type = "ncco",
-                Ncco = new Ncco(new TalkAction {Text = "hello world"}),
+                Ncco = new Ncco(new TalkAction {Text = "Hello World"}),
                 Url = new[] {"https://example.com/ncco.json"},
             },
             Action = CallEditCommand.ActionType.transfer,

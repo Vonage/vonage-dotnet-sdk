@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿#region
+using Newtonsoft.Json;
+#endregion
 
 namespace Vonage.Voice;
 
@@ -40,5 +42,6 @@ public class TalkCommand
     /// <summary>
     /// Set to `true` to use the premium version of the specified style if available, otherwise the standard version will be used. You can find more information about Premium Voices in the [Text-To-Speech guide](https://developer.vonage.com/en/voice/voice-api/guides/text-to-speech#premium-voices).
     /// </summary>
+    [JsonProperty("premium")]
     public bool Premium { get; set; }
 }
