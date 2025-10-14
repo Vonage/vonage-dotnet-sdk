@@ -5,7 +5,6 @@
   "from": "Vonage",
   "client_ref": "abc123",
   "webhook_url": "https://example.com/status",
-  "ttl": 600,
   "card": {
     "title": "Card Title",
     "text": "This is some text to display on the card.",
@@ -20,5 +19,6 @@
     "card_orientation": "VERTICAL",
     "image_alignment": "RIGHT"
   },
-  "trusted_number": true
+  "trusted_number": true,
+  "ttl": 600
 }

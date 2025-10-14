@@ -5,7 +5,6 @@
   "from": "Vonage",
   "client_ref": "abc123",
   "webhook_url": "https://example.com/status",
-  "ttl": 600,
   "carousel": {
     "cards": [
       {
@@ -33,5 +32,6 @@
     "category": "category",
     "card_width": "SMALL"
   },
-  "trusted_number": true
+  "trusted_number": true,
+  "ttl": 600
 }

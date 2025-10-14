@@ -5,12 +5,12 @@
   "from": "Vonage",
   "client_ref": "abc123",
   "webhook_url": "https://example.com/status",
-  "ttl": 600,
   "image": {
     "url": "https://example.com/image.jpg"
   },
   "rcs": {
     "category": "category"
   },
-  "trusted_number": true
+  "trusted_number": true,
+  "ttl": 600
 }
