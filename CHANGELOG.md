@@ -1,4 +1,20 @@
 # Changelog
+## [v8.13.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.13.1) (2025-10-14)
+
+### Bug Fixes
+
+- Invalid property name for Video storage in Applications ([dad918f](https://github.com/Vonage/vonage-dotnet-sdk/commit/dad918f8841701b61ab4782550fc46dd1170292e))
+
+- Remove IgnoreCase when comparing json content in legacy tests ([164e81b](https://github.com/Vonage/vonage-dotnet-sdk/commit/164e81b7f9d7555ad142c6742c2f4ca320906bcc))
+
+
+### Documentation
+
+- Generate changelog for v8.13.0 ([a41e47d](https://github.com/Vonage/vonage-dotnet-sdk/commit/a41e47db8147b91d77442f550e8cd0f96853d476))
+
+- Bump version to v8.13.1 ([bd9cc67](https://github.com/Vonage/vonage-dotnet-sdk/commit/bd9cc6760de0a5e43d31010affe899c78d09482c))
+
+
 ## [v8.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.13.0) (2025-10-14)
 
 ### Documentation
