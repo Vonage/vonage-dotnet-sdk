@@ -26,7 +26,7 @@ public class Video
 
     /// <summary>
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonProperty("storage", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public VideoStorage Storage { get; private set; } = new VideoStorage(false, false, false);
 
     /// <summary>
