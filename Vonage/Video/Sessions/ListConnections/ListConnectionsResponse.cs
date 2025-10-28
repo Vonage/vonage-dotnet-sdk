@@ -14,7 +14,7 @@ namespace Vonage.Video.Sessions.ListConnections;
 /// <param name="Items">The list of connections.</param>
 public record ListConnectionsResponse(
     [property: JsonPropertyName("count")] int Count,
-    [property: JsonPropertyName("projectId")]
+    [property: JsonPropertyName("applicationId")]
     string ApplicationId,
     [property: JsonPropertyName("sessionId")]
     string SessionId,
