@@ -19,6 +19,9 @@ public class CreateCalendarEventSuggestionTest
     private readonly DateTime startTime = DateTime.Now;
 
     [Fact]
+    public void Constructor_ShouldSetDescription() => this.BuildSuggestion().Description.Should().Be(Description);
+
+    [Fact]
     public void Constructor_ShouldSetEndTime() => this.BuildSuggestion().EndTime.Should().Be(this.endTime);
 
     [Fact]
@@ -34,22 +37,15 @@ public class CreateCalendarEventSuggestionTest
     public void Constructor_ShouldSetTitle() => this.BuildSuggestion().Title.Should().Be(Title);
 
     [Fact]
-    public void Description_ShouldBeNull_GivenDefault() => this.BuildSuggestion().Description.Should().BeNull();
-
-    [Fact]
     public void FallbackUrl_ShouldBeNull_GivenDefault() => this.BuildSuggestion().FallbackUrl.Should().BeNull();
 
     [Fact]
     public void Type_ShouldBeCreateCalendarEvent() => this.BuildSuggestion().Type.Should().Be(Type);
 
     [Fact]
-    public void WithDescription_ShouldSetDescription() =>
-        this.BuildSuggestion().WithDescription(Description).Description.Should().Be(Description);
-
-    [Fact]
     public void WithFallbackUrl_ShouldSetFallbackUrl() =>
         this.BuildSuggestion().WithFallbackUrl(new Uri(FallbackUrl)).FallbackUrl.Should().Be(new Uri(FallbackUrl));
 
     private CreateCalendarEventSuggestion BuildSuggestion() =>
-        new CreateCalendarEventSuggestion(Text, PostbackData, this.startTime, this.endTime, Title);
+        new CreateCalendarEventSuggestion(Text, PostbackData, this.startTime, this.endTime, Title, Description);
 }

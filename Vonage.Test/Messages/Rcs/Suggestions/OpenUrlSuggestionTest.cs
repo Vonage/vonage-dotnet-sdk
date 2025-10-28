@@ -16,6 +16,9 @@ public class OpenUrlSuggestionTest
     private const string Description = "Description";
 
     [Fact]
+    public void Constructor_ShouldSetDescription() => BuildSuggestion().Description.Should().Be(Description);
+
+    [Fact]
     public void Constructor_ShouldSetPostbackData() => BuildSuggestion().PostbackData.Should().Be(PostbackData);
 
     [Fact]
@@ -25,14 +28,8 @@ public class OpenUrlSuggestionTest
     public void Constructor_ShouldSetUrl() => BuildSuggestion().Url.Should().Be(new Uri(Url));
 
     [Fact]
-    public void Description_ShouldBeNull_GivenDefault() => BuildSuggestion().Description.Should().BeNull();
-
-    [Fact]
     public void Type_ShouldBeOpenUrl() => BuildSuggestion().Type.Should().Be(Type);
 
-    [Fact]
-    public void WithDescription_ShouldSetDescription() => BuildSuggestion()
-        .WithDescription(Description).Description.Should().Be(Description);
-
-    private static OpenUrlSuggestion BuildSuggestion() => new OpenUrlSuggestion(Text, PostbackData, new Uri(Url));
+    private static OpenUrlSuggestion BuildSuggestion() =>
+        new OpenUrlSuggestion(Text, PostbackData, new Uri(Url), Description);
 }

@@ -16,12 +16,14 @@ namespace Vonage.Messages.Rcs.Suggestions;
 /// <param name="StartTime">The start time of the calendar event.</param>
 /// <param name="EndTime">The end time of the calendar event.</param>
 /// <param name="Title">The title of the calendar event.</param>
+/// <param name="Description">A short description of the URL for accessibility purposes.</param>
 public record CreateCalendarEventSuggestion(
     string Text,
     string PostbackData,
     [property: JsonIgnore] DateTime StartTime,
     [property: JsonIgnore] DateTime EndTime,
-    string Title) : SuggestionBase
+    string Title,
+    string Description) : SuggestionBase
 {
     /// <inheritdoc />
     [JsonIgnore]
@@ -43,20 +45,7 @@ public record CreateCalendarEventSuggestion(
     ///     A URL to open if the device is unable to place a call.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Uri FallbackUrl { get; init; }
-
-    /// <summary>
-    ///     A short description of the URL for accessibility purposes.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Description { get; init; }
-
-    /// <summary>
-    ///     Returns a suggestion with a description.
-    /// </summary>
-    /// <param name="value">A short description of the URL for accessibility purposes.</param>
-    /// <returns>The suggestion.</returns>
-    public CreateCalendarEventSuggestion WithDescription(string value) => this with {Description = value};
+    public Uri FallbackUrl { get; private init; }
 
     /// <summary>
     ///     Returns a suggestion with a fallback url.

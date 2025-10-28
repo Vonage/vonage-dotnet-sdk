@@ -191,7 +191,8 @@ public class RcsMessagesTest : TestBase
             Card = new CardAttachment("Card Title", "This is some text to display on the card.",
                     new Uri("https://example.com/image.jpg"))
                 .AppendSuggestion(new CreateCalendarEventSuggestion("Option 1", "action_1",
-                    DateTime.Parse("2023-01-01T10:00:00Z"), DateTime.Parse("2023-01-01T10:00:00Z"), "New Year Party")),
+                    DateTime.Parse("2023-01-01T10:00:00Z"), DateTime.Parse("2023-01-01T10:00:00Z"), "New Year Party",
+                    "Description")),
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -219,7 +220,8 @@ public class RcsMessagesTest : TestBase
             From = "Vonage",
             Card = new CardAttachment("Card Title", "This is some text to display on the card.",
                     new Uri("https://example.com/image.jpg"))
-                .AppendSuggestion(new OpenUrlSuggestion("Option 1", "action_1", new Uri("https://example.com"))),
+                .AppendSuggestion(new OpenUrlSuggestion("Option 1", "action_1", new Uri("https://example.com"),
+                    "Description")),
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -233,7 +235,8 @@ public class RcsMessagesTest : TestBase
             From = "Vonage",
             Card = new CardAttachment("Card Title", "This is some text to display on the card.",
                     new Uri("https://example.com/image.jpg"))
-                .AppendSuggestion(new OpenWebviewUrlSuggestion("Option 1", "action_1", new Uri("https://example.com"))),
+                .AppendSuggestion(new OpenWebviewUrlSuggestion("Option 1", "action_1", new Uri("https://example.com"),
+                    "Description")),
         };
         await this.AssertResponse(request, this.helper.GetRequestJson());
     }
@@ -353,7 +356,8 @@ public class RcsMessagesTest : TestBase
             Suggestions =
             [
                 new CreateCalendarEventSuggestion("Option 1", "action_1",
-                    DateTime.Parse("2023-01-01T10:00:00Z"), DateTime.Parse("2023-01-01T10:00:00Z"), "New Year Party"),
+                    DateTime.Parse("2023-01-01T10:00:00Z"), DateTime.Parse("2023-01-01T10:00:00Z"), "New Year Party",
+                    "Description"),
                 new ReplySuggestion("Yes", "question_1_yes"),
             ],
         };

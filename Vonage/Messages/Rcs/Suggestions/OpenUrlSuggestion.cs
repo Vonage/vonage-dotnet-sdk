@@ -14,22 +14,10 @@ namespace Vonage.Messages.Rcs.Suggestions;
 ///     inbound message webhook when the user taps the suggestion chip.
 /// </param>
 /// <param name="Url">The URL to open when the suggestion is tapped.</param>
-public record OpenUrlSuggestion(string Text, string PostbackData, Uri Url) : SuggestionBase
+/// <param name="Description">A short description of the URL for accessibility purposes.</param>
+public record OpenUrlSuggestion(string Text, string PostbackData, Uri Url, string Description) : SuggestionBase
 {
     /// <inheritdoc />
     [JsonIgnore]
     public override string Type => "open_url";
-
-    /// <summary>
-    ///     A short description of the URL for accessibility purposes.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Description { get; init; }
-
-    /// <summary>
-    ///     Returns a suggestion with a description.
-    /// </summary>
-    /// <param name="value">A short description of the URL for accessibility purposes.</param>
-    /// <returns>The suggestion.</returns>
-    public OpenUrlSuggestion WithDescription(string value) => this with {Description = value};
 }

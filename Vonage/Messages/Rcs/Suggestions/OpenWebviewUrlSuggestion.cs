@@ -16,7 +16,8 @@ namespace Vonage.Messages.Rcs.Suggestions;
 ///     inbound message webhook when the user taps the suggestion chip.
 /// </param>
 /// <param name="Url">The URL to open when the suggestion is tapped.</param>
-public record OpenWebviewUrlSuggestion(string Text, string PostbackData, Uri Url) : SuggestionBase
+/// <param name="Description">A short description of the URL for accessibility purposes.</param>
+public record OpenWebviewUrlSuggestion(string Text, string PostbackData, Uri Url, string Description) : SuggestionBase
 {
     /// <summary>
     /// </summary>
@@ -40,24 +41,11 @@ public record OpenWebviewUrlSuggestion(string Text, string PostbackData, Uri Url
     public override string Type => "open_url_in_webview";
 
     /// <summary>
-    ///     A short description of the URL for accessibility purposes.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string Description { get; init; }
-
-    /// <summary>
     ///     The mode for displaying the URL in the webview window.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<ViewModeValue>))]
-    public ViewModeValue? ViewMode { get; init; }
-
-    /// <summary>
-    ///     Returns a suggestion with a description.
-    /// </summary>
-    /// <param name="value">A short description of the URL for accessibility purposes.</param>
-    /// <returns>The suggestion.</returns>
-    public OpenWebviewUrlSuggestion WithDescription(string value) => this with {Description = value};
+    public ViewModeValue? ViewMode { get; private init; }
 
     /// <summary>
     ///     Returns a suggestion with view mode.

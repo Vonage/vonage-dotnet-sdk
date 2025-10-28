@@ -12,7 +12,8 @@
         "type": "open_url",
         "text": "Option 1",
         "postback_data": "action_1",
-        "url": "https://example.com"
+        "url": "https://example.com",
+        "description": "Description"
       }
     ]
   }

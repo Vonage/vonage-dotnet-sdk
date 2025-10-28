@@ -11,7 +11,8 @@
       "postback_data": "action_1",
       "start_time": "2023-01-01T10:00:00Z",
       "end_time": "2023-01-01T10:00:00Z",
-      "title": "New Year Party"
+      "title": "New Year Party",
+      "description": "Description"
     },
     {
       "type": "reply",
