@@ -8,6 +8,7 @@ using Vonage.Video.Sessions.ChangeStreamLayout;
 using Vonage.Video.Sessions.CreateSession;
 using Vonage.Video.Sessions.GetStream;
 using Vonage.Video.Sessions.GetStreams;
+using Vonage.Video.Sessions.ListConnections;
 #endregion
 
 namespace Vonage.Video.Sessions;
@@ -65,4 +66,12 @@ public class SessionClient
     /// <returns>A success state with streams if the operation succeeded. A failure state with the error message if it failed.</returns>
     public Task<Result<GetStreamsResponse>> GetStreamsAsync(Result<GetStreamsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetStreamsRequest, GetStreamsResponse>(request);
+
+    /// <summary>
+    ///     List the connections from a Vonage Video session associated with an application.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>A success state with streams if the operation succeeded. A failure state with the error message if it failed.</returns>
+    public Task<Result<ListConnectionsResponse>> ListConnections(Result<ListConnectionsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<ListConnectionsRequest, ListConnectionsResponse>(request);
 }
