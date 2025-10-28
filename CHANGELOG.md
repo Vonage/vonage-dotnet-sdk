@@ -1,4 +1,25 @@
 # Changelog
+## [v8.13.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.13.2) (2025-10-28)
+
+### Bug Fixes
+
+- Make Description mandatory for RCS suggestions ([27470f2](https://github.com/Vonage/vonage-dotnet-sdk/commit/27470f2707c3a6c0ae105adb8528bd91f31eb7a7))
+
+- Adapt ApplicationId property name when deserializing ([1230f55](https://github.com/Vonage/vonage-dotnet-sdk/commit/1230f555814f4b8f47217679c35a2674aadf5960))
+
+
+### Documentation
+
+- Generate changelog for v8.13.1 ([c26191e](https://github.com/Vonage/vonage-dotnet-sdk/commit/c26191ec2d031cb8eef14aee61ed7baddcbc585c))
+
+- Bump version to v8.13.2 ([7c4d742](https://github.com/Vonage/vonage-dotnet-sdk/commit/7c4d742731a3706f499359e729c52a6bba138c45))
+
+
+### Features
+
+- Implement list connections for Video ([02e3de3](https://github.com/Vonage/vonage-dotnet-sdk/commit/02e3de33813975a6a6b0c337509a9c9dcbb00531))
+
+
 ## [v8.13.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.13.1) (2025-10-14)
 
 ### Bug Fixes
