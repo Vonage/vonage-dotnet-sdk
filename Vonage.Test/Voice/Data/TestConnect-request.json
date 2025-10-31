@@ -9,6 +9,7 @@
           "url": "https://example.com/answer",
           "ringbackTone": "http://example.com/ringbackTone.wav"
         },
+        "shaken": "testShaken",
         "type": "phone"
       }
     ],

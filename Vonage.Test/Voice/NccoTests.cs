@@ -49,6 +49,7 @@ public class NccoTests : TestBase
                         Url = "https://example.com/answer",
                         RingbackTone = "http://example.com/ringbackTone.wav",
                     },
+                    Shaken = "testShaken",
                 },
             },
             From = "447700900000",
