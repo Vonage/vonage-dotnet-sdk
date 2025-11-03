@@ -1,1 +1,1 @@
-from=AcmeInc&to=447700900000&text=Hello+World!&api_key=testkey&api_secret=testSecret&
+from=AcmeInc&to=447700900000&text=Hello+World!&

@@ -65,7 +65,7 @@ public class AccountTest : TestBase
     public async Task SetSettings()
     {
         this.Setup($"{this.RestUrl}/account/settings", this.helper.GetResponseJson(),
-            $"moCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&drCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/delivery-receipt")}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&");
+            $"moCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&drCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/delivery-receipt")}&");
         var result = await this.BuildAccountClient()
             .ChangeAccountSettingsAsync(AccountTestData.CreateBasicSettingsRequest());
         result.ShouldMatchExpectedAccountSettings();

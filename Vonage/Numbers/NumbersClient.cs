@@ -43,7 +43,7 @@ public class NumbersClient : INumbersClient
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    this.configuration, $"/number/buy?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                    this.configuration, "/number/buy"),
                 request,
                 false
             ).ConfigureAwait(false);
@@ -58,7 +58,7 @@ public class NumbersClient : INumbersClient
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    this.configuration, $"/number/cancel?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                    this.configuration, "/number/cancel"),
                 request,
                 false
             ).ConfigureAwait(false);
@@ -105,16 +105,13 @@ public class NumbersClient : INumbersClient
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
                 ApiRequest.GetBaseUri(ApiRequest.UriType.Rest,
-                    this.configuration, $"/number/update?{FormatQueryStringCredentials(creds ?? this.Credentials)}"),
+                    this.configuration, "/number/update"),
                 request,
                 false
             ).ConfigureAwait(false);
         ValidateNumbersResponse(response);
         return response;
     }
-
-    private static string FormatQueryStringCredentials(Credentials credentials) =>
-        $"api_key={credentials.ApiKey}&api_secret={credentials.ApiSecret}";
 
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
 

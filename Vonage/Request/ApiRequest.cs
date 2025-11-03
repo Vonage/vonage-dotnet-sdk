@@ -1,7 +1,6 @@
 ﻿#region
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -14,7 +13,6 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Monads;
-using Vonage.Cryptography;
 using Vonage.Logger;
 using Vonage.Serialization;
 #endregion
@@ -99,72 +97,18 @@ internal partial class ApiRequest
         return request;
     }
 
-    private StringBuilder BuildQueryString(IDictionary<string, string> parameters, bool withCredentials = true)
-    {
-        var method = this.credentials.Map(value => value.Method).IfNone(
-            Enum.TryParse(this.GetConfiguration().SigningMethod, out SmsSignatureGenerator.Method output)
-                ? output
-                : SmsSignatureGenerator.Method.md5hash);
-        var sb = new StringBuilder();
-        var signatureSb = new StringBuilder();
-        if (withCredentials)
-        {
-            parameters.Add("api_key", this.GetApiKey());
-        }
-
-        if (string.IsNullOrEmpty(this.GetSecuritySecret()))
-        {
-            // security secret not provided, do not sign
-            if (withCredentials)
-            {
-                parameters.Add("api_secret", this.GetApiSecret());
-            }
-
-            BuildStringFromParams(parameters, sb);
-            return sb;
-        }
-
-        parameters.Add("timestamp", this.timeProvider.Epoch.ToString(CultureInfo.InvariantCulture));
-        var sortedParams = new SortedDictionary<string, string>(parameters);
-        BuildStringFromParams(sortedParams, sb);
-        BuildSignatureStringFromParams(sortedParams, signatureSb);
-        var queryToSign = "&" + signatureSb;
-        queryToSign = queryToSign.Remove(queryToSign.Length - 1);
-        var signature = SmsSignatureGenerator.GenerateSignature(queryToSign, this.GetSecuritySecret(), method);
-        sb.AppendFormat("sig={0}", signature);
-        return sb;
-
-        void BuildSignatureStringFromParams(IDictionary<string, string> param, StringBuilder strings)
-        {
-            foreach (var kvp in param)
-            {
-                strings.AppendFormat("{0}={1}&", kvp.Key.Replace('=', '_').Replace('&', '_'),
-                    kvp.Value.Replace('=', '_').Replace('&', '_'));
-            }
-        }
-
-        void BuildStringFromParams(IDictionary<string, string> param, StringBuilder strings)
-        {
-            foreach (var kvp in param)
-            {
-                //Special Case for ids from MessagesSearch API which needs a series of ID's with unescaped &/=
-                strings.AppendFormat("{0}={1}&", WebUtility.UrlEncode(kvp.Key),
-                    kvp.Key == "ids" ? kvp.Value : WebUtility.UrlEncode(kvp.Value));
-            }
-        }
-    }
-
     private async Task<T> DoPostRequestWithUrlContentAsync<T>(Uri uri, Dictionary<string, string> parameters,
         bool withCredentials = true)
     {
         var response =
-            await this.DoRequestWithUrlContentAsync(HttpMethod.Post, uri, parameters, withCredentials: withCredentials)
+            await this.DoRequestWithUrlContentAsync(HttpMethod.Post, uri, parameters, AuthType.Basic,
+                    withCredentials)
                 .ConfigureAwait(false);
         return JsonConvert.DeserializeObject<T>(response.JsonResponse);
     }
 
     private async Task<VonageResponse> DoRequestWithUrlContentAsync(HttpMethod method, Uri uri,
-        Dictionary<string, string> parameters, AuthType authType = AuthType.Query,
+        Dictionary<string, string> parameters, AuthType authType,
         bool withCredentials = true)
     {
         var sb = new StringBuilder();
@@ -172,7 +116,7 @@ internal partial class ApiRequest
         // if parameters is null, assume that key and secret have been taken care of            
         if (null != parameters)
         {
-            sb = this.GetQueryStringBuilderFor(parameters, authType, withCredentials);
+            sb = this.GetQueryStringBuilderFor(parameters, withCredentials);
         }
 
         var req = this.BuildMessage(uri, method);
@@ -208,20 +152,13 @@ internal partial class ApiRequest
         return JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
     }
 
-    private StringBuilder GetQueryStringBuilderFor(object parameters, AuthType type, bool withCredentials = true)
+    private StringBuilder GetQueryStringBuilderFor(object parameters, bool withCredentials = true)
     {
         var apiParams = parameters as Dictionary<string, string> ?? GetParameters(parameters);
         var sb = new StringBuilder();
-        if (type == AuthType.Query)
+        foreach (var key in apiParams.Keys)
         {
-            sb = this.BuildQueryString(apiParams, withCredentials);
-        }
-        else
-        {
-            foreach (var key in apiParams.Keys)
-            {
-                sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(apiParams[key]));
-            }
+            sb.AppendFormat("{0}={1}&", WebUtility.UrlEncode(key), WebUtility.UrlEncode(apiParams[key]));
         }
 
         return sb;
@@ -243,8 +180,6 @@ internal partial class ApiRequest
                 break;
             case AuthType.Bearer:
                 req.Headers.Authorization = this.BuildBearerAuth();
-                break;
-            case AuthType.Query:
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(authType), authType, null);
@@ -283,7 +218,7 @@ internal partial class ApiRequest
     }
 
     internal async Task<VonageResponse> DoDeleteRequestWithUrlContentAsync(Uri uri,
-        Dictionary<string, string> parameters, AuthType authType = AuthType.Query) =>
+        Dictionary<string, string> parameters, AuthType authType) =>
         await this.DoRequestWithUrlContentAsync(HttpMethod.Delete, uri, parameters, authType).ConfigureAwait(false);
 
     internal async Task<HttpResponseMessage> DoGetRequestWithJwtAsync(Uri uri)
@@ -308,7 +243,7 @@ internal partial class ApiRequest
         object parameters = null)
     {
         parameters ??= new Dictionary<string, string>();
-        var sb = this.GetQueryStringBuilderFor(parameters, authType);
+        var sb = this.GetQueryStringBuilderFor(parameters);
         var requestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
         return await this.SendGetRequestAsync<T>(requestUri, authType).ConfigureAwait(false);
     }
@@ -350,10 +285,6 @@ internal partial class ApiRequest
             case AuthType.Bearer:
                 req.Headers.Authorization = this.BuildBearerAuth();
                 break;
-            case AuthType.Query:
-                var sb = this.BuildQueryString(new Dictionary<string, string>());
-                req.RequestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
-                break;
             default:
                 throw new ArgumentException("Unknown Auth Type set for function");
         }
@@ -379,10 +310,6 @@ internal partial class ApiRequest
                 break;
             case AuthType.Bearer:
                 req.Headers.Authorization = this.BuildBearerAuth();
-                break;
-            case AuthType.Query:
-                var sb = this.BuildQueryString(new Dictionary<string, string>());
-                req.RequestUri = new Uri(uri + (sb.Length != 0 ? "?" + sb : ""));
                 break;
             default:
                 throw new ArgumentException("Unknown Auth Type set for function");
@@ -412,9 +339,4 @@ public enum AuthType
     ///     Bearer authentication.
     /// </summary>
     Bearer,
-
-    /// <summary>
-    ///     Query authentication.
-    /// </summary>
-    Query,
 }

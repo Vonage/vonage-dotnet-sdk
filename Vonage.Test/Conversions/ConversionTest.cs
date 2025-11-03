@@ -19,7 +19,7 @@ public class ConversionTest : TestBase
     public async Task SmsConversion()
     {
         this.Setup($"{this.ApiUrl}/conversions/sms", this.helper.GetResponseJson(),
-            "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&");
+            "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&");
         var response = await this.BuildConversionClient().SmsConversionAsync(ConversionTestData.CreateBasicRequest());
         response.ShouldBeSuccessfulConversion();
     }
@@ -28,7 +28,7 @@ public class ConversionTest : TestBase
     public async Task VoiceConversion()
     {
         this.Setup($"{this.ApiUrl}/conversions/voice", this.helper.GetResponseJson(),
-            "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&api_key=testkey&api_secret=testSecret&");
+            "message-id=00A0B0C0&delivered=true&timestamp=2020-01-01+12%3A00%3A00&");
         var response = await this.BuildConversionClient().VoiceConversionAsync(ConversionTestData.CreateBasicRequest());
         response.ShouldBeSuccessfulConversion();
     }

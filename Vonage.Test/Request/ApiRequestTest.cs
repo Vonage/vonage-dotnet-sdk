@@ -6,13 +6,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using Moq;
 using Newtonsoft.Json;
 using Vonage.Accounts;
-using Vonage.Common;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Monads;
-using Vonage.Cryptography;
 using Vonage.Request;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
@@ -49,18 +46,6 @@ public class ApiRequestTest : TestBase
     }
 
     [Fact]
-    public async Task DoDeleteRequestWithUrlContentAsync_ShouldHandleParameters()
-    {
-        var expectedContent = $"test=value&api_key={this.ApiKey}&api_secret={this.ApiSecret}&";
-        this.Setup($"{this.ApiUrl}/test", "{\"success\": true}", expectedContent);
-        var apiRequest = ApiRequest.Build(this.BasicCredentials, this.configuration, new TimeProvider());
-        var uri = new Uri($"{this.ApiUrl}/test");
-        var parameters = new Dictionary<string, string> {{"test", "value"}};
-        var result = await apiRequest.DoDeleteRequestWithUrlContentAsync(uri, parameters);
-        result.JsonResponse.Should().NotBeNull();
-    }
-
-    [Fact]
     public async Task DoGetRequestWithJwtAsync_ShouldThrowOnHttpError()
     {
         this.Setup($"{this.ApiUrl}/test", Maybe<string>.Some("{\"error\": \"Unauthorized\"}"),
@@ -78,68 +63,6 @@ public class ApiRequestTest : TestBase
         var uri = new Uri($"{this.ApiUrl}/test");
         var result = await apiRequest.DoGetRequestWithJwtAsync(uri);
         result.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
-
-    [Fact]
-    public async Task DoGetRequestWithQueryParametersAsync_ShouldEncodeSpecialCharacters()
-    {
-        var encodedValue = WebUtility.UrlEncode("test&value=special");
-        this.Setup($"{this.ApiUrl}/test?special={encodedValue}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&",
-            Maybe<string>.Some("{\"success\": true}"));
-        var apiRequest = ApiRequest.Build(this.BasicCredentials, this.configuration, new TimeProvider());
-        var uri = new Uri($"{this.ApiUrl}/test");
-        var parameters = new {special = "test&value=special"};
-        var result = await apiRequest.DoGetRequestWithQueryParametersAsync<dynamic>(uri, AuthType.Query, parameters);
-        Assert.NotNull(result);
-    }
-
-    [Fact]
-    public async Task DoGetRequestWithQueryParametersAsync_ShouldHandleEmptyParameters()
-    {
-        this.Setup($"{this.ApiUrl}/test?api_key={this.ApiKey}&api_secret={this.ApiSecret}&",
-            Maybe<string>.Some("{\"success\": true}"));
-        var apiRequest = ApiRequest.Build(this.BasicCredentials, this.configuration, new TimeProvider());
-        var uri = new Uri($"{this.ApiUrl}/test");
-        var result = await apiRequest.DoGetRequestWithQueryParametersAsync<dynamic>(uri, AuthType.Query);
-        Assert.NotNull(result);
-    }
-
-    [Fact]
-    public async Task DoGetRequestWithQueryParametersAsync_ShouldHandleSpecialIdsParameter()
-    {
-        var idsValue = "id1&id2=value";
-        this.Setup($"{this.ApiUrl}/test?ids={idsValue}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&",
-            Maybe<string>.Some("{\"success\": true}"));
-        var apiRequest = ApiRequest.Build(this.BasicCredentials, this.configuration, new TimeProvider());
-        var uri = new Uri($"{this.ApiUrl}/test");
-        var parameters = new Dictionary<string, string> {{"ids", idsValue}};
-        var result = await apiRequest.DoGetRequestWithQueryParametersAsync<dynamic>(uri, AuthType.Query, parameters);
-        Assert.NotNull(result);
-    }
-
-    [Fact]
-    public async Task DoGetRequestWithQueryParametersAsync_ShouldSerializeComplexObject()
-    {
-        var encodedNestedValue = WebUtility.UrlEncode("nested_value");
-        this.Setup(
-            $"{this.ApiUrl}/test?NestedProperty={encodedNestedValue}&api_key={this.ApiKey}&api_secret={this.ApiSecret}&",
-            Maybe<string>.Some("{\"success\": true}"));
-        var apiRequest = ApiRequest.Build(this.BasicCredentials, this.configuration, new TimeProvider());
-        var uri = new Uri($"{this.ApiUrl}/test");
-        var parameters = new {NestedProperty = "nested_value"};
-        var result = await apiRequest.DoGetRequestWithQueryParametersAsync<dynamic>(uri, AuthType.Query, parameters);
-        Assert.NotNull(result);
-    }
-
-    [Fact]
-    public async Task DoGetRequestWithQueryParametersAsync_ShouldThrowOnHttpError()
-    {
-        this.Setup($"{this.ApiUrl}/test?api_key={this.ApiKey}&api_secret={this.ApiSecret}&",
-            Maybe<string>.Some("{\"error\": \"Not found\"}"), null, HttpStatusCode.NotFound);
-        var apiRequest = ApiRequest.Build(this.BasicCredentials, this.configuration, new TimeProvider());
-        var uri = new Uri($"{this.ApiUrl}/test");
-        await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
-            apiRequest.DoGetRequestWithQueryParametersAsync<dynamic>(uri, AuthType.Query));
     }
 
     [Fact]
@@ -163,17 +86,6 @@ public class ApiRequestTest : TestBase
     }
 
     [Fact]
-    public async Task DoGetRequestWithQueryParametersAsync_ShouldUseBasicAuth()
-    {
-        this.Setup($"{this.ApiUrl}/test?api_key={this.ApiKey}&api_secret={this.ApiSecret}&",
-            Maybe<string>.Some("{\"success\": true}"));
-        var apiRequest = ApiRequest.Build(this.BasicCredentials, this.configuration, new TimeProvider());
-        var uri = new Uri($"{this.ApiUrl}/test");
-        var result = await apiRequest.DoGetRequestWithQueryParametersAsync<dynamic>(uri, AuthType.Query);
-        Assert.NotNull(result);
-    }
-
-    [Fact]
     public async Task DoGetRequestWithQueryParametersAsync_ShouldUseBearerAuth()
     {
         this.Setup($"{this.ApiUrl}/test", Maybe<string>.Some("{\"success\": true}"));
@@ -192,21 +104,6 @@ public class ApiRequestTest : TestBase
         var uri = new Uri($"{this.ApiUrl}/test");
         var payload = new {test = "value"};
         var result = await apiRequest.DoPostRequestUrlContentFromObjectAsync<dynamic>(uri, payload, false);
-        Assert.NotNull(result);
-    }
-
-    [Fact]
-    public async Task DoPostRequestUrlContentFromObjectAsync_ShouldIncludeSignatureWithSecuritySecret()
-    {
-        var mockTimeProvider = new Mock<ITimeProvider>();
-        mockTimeProvider.Setup(x => x.Epoch).Returns(1234567890);
-        var credentials = Credentials.FromApiKeySignatureSecretAndMethod(this.ApiKey, "security_secret",
-            SmsSignatureGenerator.Method.md5hash);
-        var apiRequest = ApiRequest.Build(credentials, this.configuration, mockTimeProvider.Object);
-        var uri = new Uri($"{this.ApiUrl}/test");
-        var payload = new {test = "value"};
-        this.Setup($"{this.ApiUrl}/test", Maybe<string>.Some("{\"success\": true}"));
-        var result = await apiRequest.DoPostRequestUrlContentFromObjectAsync<dynamic>(uri, payload);
         Assert.NotNull(result);
     }
 
@@ -253,15 +150,11 @@ public class ApiRequestTest : TestBase
     [Theory]
     [InlineData(AuthType.Basic)]
     [InlineData(AuthType.Bearer)]
-    [InlineData(AuthType.Query)]
     public async Task DoRequestWithJsonContentAsync_ShouldSupportAllAuthTypes(AuthType authType)
     {
         var expectedPayload = "{\"test\":\"value\"}";
-        var expectedUrl = authType == AuthType.Query
-            ? $"{this.ApiUrl}/test?api_key={this.ApiKey}&api_secret={this.ApiSecret}&"
-            : $"{this.ApiUrl}/test";
-        this.Setup(expectedUrl, Maybe<string>.Some("{\"success\": true}"),
-            authType == AuthType.Query ? null : expectedPayload);
+        var expectedUrl = $"{this.ApiUrl}/test";
+        this.Setup(expectedUrl, Maybe<string>.Some("{\"success\": true}"), expectedPayload);
         var credentials = authType == AuthType.Bearer ? this.BearerCredentials : this.BasicCredentials;
         var apiRequest = ApiRequest.Build(credentials, this.configuration, new TimeProvider());
         var uri = new Uri($"{this.ApiUrl}/test");

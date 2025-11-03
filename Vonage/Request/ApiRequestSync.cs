@@ -1,8 +1,10 @@
+#region
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+#endregion
 
 namespace Vonage.Request;
 
@@ -21,7 +23,7 @@ internal partial class ApiRequest
     }
 
     internal VonageResponse DoDeleteRequestWithUrlContent(Uri uri, Dictionary<string, string> parameters,
-        AuthType authType = AuthType.Query) =>
+        AuthType authType) =>
         ExecuteAsyncOperation(() => this.DoRequestWithUrlContentAsync(HttpMethod.Delete, uri, parameters, authType));
 
     internal HttpResponseMessage DoGetRequestWithJwt(Uri uri) =>

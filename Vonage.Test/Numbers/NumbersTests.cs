@@ -19,8 +19,7 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task BuyNumber()
     {
-        this.Setup($"{this.RestUrl}/number/buy?api_key={this.ApiKey}&api_secret={this.ApiSecret}",
-            this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
+        this.Setup($"{this.RestUrl}/number/buy", this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
         var response = await this.BuildNumbersClient().BuyANumberAsync(NumbersTestData.CreateBasicTransactionRequest());
         response.ShouldBeSuccessfulTransaction();
     }
@@ -28,8 +27,7 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task CancelNumber()
     {
-        this.Setup($"{this.RestUrl}/number/cancel?api_key={this.ApiKey}&api_secret={this.ApiSecret}",
-            this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
+        this.Setup($"{this.RestUrl}/number/cancel", this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
         var response = await this.BuildNumbersClient()
             .CancelANumberAsync(NumbersTestData.CreateBasicTransactionRequest());
         response.ShouldBeSuccessfulTransaction();
@@ -38,8 +36,7 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task FailedPurchase()
     {
-        this.Setup($"{this.RestUrl}/number/buy?api_key={this.ApiKey}&api_secret={this.ApiSecret}",
-            this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
+        this.Setup($"{this.RestUrl}/number/buy", this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
         var act = () => this.BuildNumbersClient().BuyANumberAsync(NumbersTestData.CreateBasicTransactionRequest());
         (await act.Should().ThrowExactlyAsync<VonageNumberResponseException>()).Which.Response.Should()
             .BeEquivalentTo(new NumberTransactionResponse
@@ -83,7 +80,7 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task UpdateNumber()
     {
-        this.Setup($"{this.RestUrl}/number/update?api_key={this.ApiKey}&api_secret={this.ApiSecret}",
+        this.Setup($"{this.RestUrl}/number/update",
             this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
         var response = await this.BuildNumbersClient().UpdateANumberAsync(NumbersTestData.CreateBasicUpdateRequest());
         response.ShouldBeSuccessfulTransaction();

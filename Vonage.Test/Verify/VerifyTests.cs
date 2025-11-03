@@ -61,7 +61,7 @@ public class VerifyTests : TestBase
     public async Task TestVerifySearch()
     {
         this.Setup(
-            $"{this.ApiUrl}/verify/search/json?request_id=abcdef0123456789abcdef0123456789&api_key={this.ApiKey}&api_secret={this.ApiSecret}&",
+            $"{this.ApiUrl}/verify/search/json?request_id=abcdef0123456789abcdef0123456789&",
             this.helper.GetResponseJson());
         var response = await this.BuildVerifyClient().VerifySearchAsync(VerifyTestData.CreateVerifySearchRequest());
         response.ShouldMatchExpectedVerifySearchResponse();
