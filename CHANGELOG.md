@@ -1,4 +1,20 @@
 # Changelog
+## [v8.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.14.0) (2025-11-03)
+
+### Documentation
+
+- Generate changelog for v8.13.2 ([2461576](https://github.com/Vonage/vonage-dotnet-sdk/commit/2461576a53056260effe5462537d92553c81f89e))
+
+- Bump version to v8.14.0 ([9abba01](https://github.com/Vonage/vonage-dotnet-sdk/commit/9abba01b0802bd20187cb4de9cf4a1efe52e65a6))
+
+
+### Features
+
+- Add shaken property on PhoneEndpoint ([11fa74f](https://github.com/Vonage/vonage-dotnet-sdk/commit/11fa74f9e7b335e855bd0c547122ea04a45863a3))
+
+- Add SipCode to Voice event webhooks ([7260a50](https://github.com/Vonage/vonage-dotnet-sdk/commit/7260a505ba2ecd60eba323f2a8f0e1c3c705896c))
+
+
 ## [v8.13.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.13.2) (2025-10-28)
 
 ### Bug Fixes
