@@ -52,20 +52,50 @@ public class WebhookStructsTest
     [Theory]
     [InlineData(JsonSerializerType.Newtonsoft)]
     [InlineData(JsonSerializerType.SystemTextJson)]
+    public void DeserializeCallBusy(JsonSerializerType serializer)
+    {
+        var webhook = Deserialize<Busy>(ReadJson("Voice/Data/Busy.json"), serializer);
+        AssertCallStatusEvent(webhook);
+        Assert.Equal(404, webhook.SipCode);
+    }
+
+    [Theory]
+    [InlineData(JsonSerializerType.Newtonsoft)]
+    [InlineData(JsonSerializerType.SystemTextJson)]
+    public void DeserializeCallFailed(JsonSerializerType serializer)
+    {
+        var webhook = Deserialize<Failed>(ReadJson("Voice/Data/Failed.json"), serializer);
+        AssertCallStatusEvent(webhook);
+        Assert.Equal(404, webhook.SipCode);
+    }
+
+    [Theory]
+    [InlineData(JsonSerializerType.Newtonsoft)]
+    [InlineData(JsonSerializerType.SystemTextJson)]
+    public void DeserializeCallRejected(JsonSerializerType serializer)
+    {
+        var webhook = Deserialize<Rejected>(ReadJson("Voice/Data/Rejected.json"), serializer);
+        AssertCallStatusEvent(webhook);
+        Assert.Equal(404, webhook.SipCode);
+    }
+
+    [Theory]
+    [InlineData(JsonSerializerType.Newtonsoft)]
+    [InlineData(JsonSerializerType.SystemTextJson)]
     public void DeserializeCallStatusEvent(JsonSerializerType serializer)
     {
         var webhook = Deserialize<CallStatusEvent>(ReadJson("Voice/Data/CallStatusEvent.json"), serializer);
-        Assert.Equal("442079460000", webhook.From);
-        Assert.Equal("447700900000", webhook.To);
-        Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.Uuid);
-        Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.ConversationUuid);
-        Assert.Equal("rejected", webhook.Status);
-        Assert.Equal(DetailedStatus.unmapped_detail, webhook.Detail);
-        Assert.Equal("as-yet-unknown-detail", webhook.DetailString);
-        Assert.Equal(Direction.outbound, webhook.Direction);
-        Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
-            CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
-                                          DateTimeStyles.AdjustToUniversal), webhook.TimeStamp);
+        AssertCallStatusEvent(webhook);
+    }
+
+    [Theory]
+    [InlineData(JsonSerializerType.Newtonsoft)]
+    [InlineData(JsonSerializerType.SystemTextJson)]
+    public void DeserializeCallUnanswered(JsonSerializerType serializer)
+    {
+        var webhook = Deserialize<Unanswered>(ReadJson("Voice/Data/Unanswered.json"), serializer);
+        AssertCallStatusEvent(webhook);
+        Assert.Equal(404, webhook.SipCode);
     }
 
     [Theory]
@@ -93,6 +123,7 @@ public class WebhookStructsTest
         Assert.Equal("0.02", webhook.Rate);
         Assert.Equal("0.03", webhook.Price);
         Assert.Equal("2", webhook.Duration);
+        Assert.Equal(404, webhook.SipCode);
     }
 
     [Theory]
@@ -208,6 +239,21 @@ public class WebhookStructsTest
             CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
                                           DateTimeStyles.AdjustToUniversal), webhook.TimeStamp);
         Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.Uuid);
+    }
+
+    private static void AssertCallStatusEvent(CallStatusEvent webhook)
+    {
+        Assert.Equal("442079460000", webhook.From);
+        Assert.Equal("447700900000", webhook.To);
+        Assert.Equal("aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.Uuid);
+        Assert.Equal("CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab", webhook.ConversationUuid);
+        Assert.Equal("rejected", webhook.Status);
+        Assert.Equal(DetailedStatus.unmapped_detail, webhook.Detail);
+        Assert.Equal("as-yet-unknown-detail", webhook.DetailString);
+        Assert.Equal(Direction.outbound, webhook.Direction);
+        Assert.Equal(DateTime.ParseExact("2020-01-01T12:00:00.000Z", "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
+            CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal |
+                                          DateTimeStyles.AdjustToUniversal), webhook.TimeStamp);
     }
 
     private static T Deserialize<T>(string json, JsonSerializerType serializerType) => serializerType switch

@@ -23,24 +23,12 @@ public class CallStatusEvent : Event
     /// </summary>
     [Newtonsoft.Json.JsonIgnore]
     [System.Text.Json.Serialization.JsonIgnore]
-    public DetailedStatus Detail
-    {
-        get
-        {
-            DetailedStatus detail;
-            if (string.IsNullOrEmpty(this.DetailString))
-            {
-                return DetailedStatus.no_detail;
-            }
-
-            if (Enum.TryParse(this.DetailString, out detail))
-            {
-                return detail;
-            }
-
-            return DetailedStatus.unmapped_detail;
-        }
-    }
+    public DetailedStatus Detail =>
+        string.IsNullOrEmpty(this.DetailString)
+            ? DetailedStatus.no_detail
+            : Enum.TryParse(this.DetailString, out DetailedStatus detail)
+                ? detail
+                : DetailedStatus.unmapped_detail;
 
     [JsonProperty("detail")]
     [JsonPropertyName("detail")]

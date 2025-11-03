@@ -11,6 +11,13 @@ namespace Vonage.Voice.EventWebhooks;
 public class Completed : CallStatusEvent
 {
     /// <summary>
+    ///     Value from CS sip:hangup event sent to Voice API.
+    /// </summary>
+    [JsonProperty("sip_code")]
+    [JsonPropertyName("sip_code")]
+    public int? SipCode { get; set; }
+
+    /// <summary>
     /// Call length (in seconds)
     /// </summary>
     [JsonProperty("duration")]

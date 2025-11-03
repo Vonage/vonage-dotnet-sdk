@@ -3,14 +3,9 @@
   "to": "447700900000",
   "uuid": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
   "conversation_uuid": "CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-  "status": "completed",
+  "status": "rejected",
   "direction": "outbound",
   "timestamp": "2020-01-01T12:00:00.000Z",
-  "start_time": "2020-01-01T12:00:00.000Z",
-  "end_time": "2020-01-01T12:00:01.000Z",
-  "rate": "0.02",
-  "price": "0.03",
-  "network": "1234",
-  "duration": "2",
+  "detail": "as-yet-unknown-detail",
   "sip_code": 404
 }
