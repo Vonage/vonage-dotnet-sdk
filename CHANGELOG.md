@@ -1,4 +1,18 @@
 # Changelog
+## [v8.15.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.15.0) (2025-11-04)
+
+### Documentation
+
+- Generate changelog for v8.14.0 ([1ee3296](https://github.com/Vonage/vonage-dotnet-sdk/commit/1ee3296fe386907e233fd7812b65a8e131c32647))
+
+- Bump version to v8.15.0 ([4d77dcf](https://github.com/Vonage/vonage-dotnet-sdk/commit/4d77dcf4ef15d023ed423681603ec23fb3af73cb))
+
+
+### Features
+
+- Use Basic authentication instead of Query for legacy APIs ([ebf49e7](https://github.com/Vonage/vonage-dotnet-sdk/commit/ebf49e7ba40bc1b97e064c63ef8371e66cc9fb15))
+
+
 ## [v8.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.14.0) (2025-11-03)
 
 ### Documentation
