@@ -1,4 +1,18 @@
 # Changelog
+## [v8.16.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.16.0) (2025-11-12)
+
+### Documentation
+
+- Generate changelog for v8.15.0 ([943e474](https://github.com/Vonage/vonage-dotnet-sdk/commit/943e474b9dbf4bd9a6d4df4e26ed3efe01db27df))
+
+- Bump version to v8.16.0 ([d0cd1d4](https://github.com/Vonage/vonage-dotnet-sdk/commit/d0cd1d4e3335934b27d2114fe0322d9107c960ff))
+
+
+### Features
+
+- Add support for Transcription models in Voice ([ec43743](https://github.com/Vonage/vonage-dotnet-sdk/commit/ec43743e007f6bd347a4865948ca804233cca6c8))
+
+
 ## [v8.15.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.15.0) (2025-11-04)
 
 ### Documentation
