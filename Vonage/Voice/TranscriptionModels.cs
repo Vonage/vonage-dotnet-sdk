@@ -72,7 +72,7 @@ public record Channel(
     /// </summary>
     /// <returns></returns>
     public string ExtractTranscript() => this.Transcript
-        .Aggregate(new StringBuilder(), (builder, transcript) => builder.AppendLine(transcript.Sentence)).ToString();
+        .Aggregate(new StringBuilder(), (builder, transcript) => builder.Append(transcript.Sentence)).ToString();
 }
 
 /// <summary>

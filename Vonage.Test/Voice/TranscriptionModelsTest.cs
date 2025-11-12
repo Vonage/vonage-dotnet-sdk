@@ -38,7 +38,7 @@ public class TranscriptionModelsTest
     public void ExtractTranscripts(JsonSerializerType serializer)
     {
         var result = Deserialize<TranscriptionResult>(ReadJson("Voice/Data/TranscriptionSample.json"), serializer);
-        result.ExtractTranscripts().Should().BeEquivalentTo("Is 2212.\n");
+        result.ExtractTranscripts().Should().BeEquivalentTo("Is 2212.");
     }
 
     private static T Deserialize<T>(string json, JsonSerializerType serializerType) => serializerType switch
