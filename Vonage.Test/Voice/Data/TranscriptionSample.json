@@ -1,0 +1,31 @@
+{
+  "ver": "2.1.0",
+  "request_id": "57c382a2-984d-4d67-87de-eafe2c8f35e3",
+  "channels": [
+    {
+      "transcript": [
+        {
+          "sentence": "Is 2212.",
+          "raw_sentence": "is two two one two",
+          "duration": 1120,
+          "timestamp": 1640,
+          "words": [
+            {
+              "word": "Is",
+              "start_time": 1640,
+              "end_time": 1720,
+              "confidence": 0.513033
+            },
+            {
+              "word": "2212",
+              "start_time": 1800,
+              "end_time": 2760,
+              "confidence": 0.513033
+            }
+          ]
+        }
+      ],
+      "duration": 1
+    }
+  ]
+}
