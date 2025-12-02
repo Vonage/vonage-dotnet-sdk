@@ -1,4 +1,23 @@
 # Changelog
+## [v8.17.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.17.0) (2025-12-02)
+
+### Bug Fixes
+
+- Carriage return when extracting transcripts ([7d5016a](https://github.com/Vonage/vonage-dotnet-sdk/commit/7d5016a5d55a645679370a3ae87a24162d450c41))
+
+
+### Documentation
+
+- Generate changelog for v8.16.0 ([0fcbd35](https://github.com/Vonage/vonage-dotnet-sdk/commit/0fcbd353864310191bc5e15e10cd413ce029b038))
+
+- Bump version to v8.17.0 ([5023981](https://github.com/Vonage/vonage-dotnet-sdk/commit/5023981170718d00182fc4d894a922b4694a0ab7))
+
+
+### Features
+
+- Deprecate Category for marketing WhatsApp messages ([9ecedca](https://github.com/Vonage/vonage-dotnet-sdk/commit/9ecedca1d9a73ee065fd365e0168f4d6856b7db0))
+
+
 ## [v8.16.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.16.0) (2025-11-12)
 
 ### Documentation
