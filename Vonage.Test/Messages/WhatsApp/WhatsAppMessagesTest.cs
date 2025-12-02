@@ -400,7 +400,6 @@ public class WhatsAppMessagesTest : TestBase
             {
                 Policy = "deterministic",
                 Locale = "en-GB",
-                Category = "marketing",
             },
             Context = new WhatsAppContext("a1b2c3d4a1b2c3d4"),
             WebhookUrl = new Uri("https://example.com/status"),

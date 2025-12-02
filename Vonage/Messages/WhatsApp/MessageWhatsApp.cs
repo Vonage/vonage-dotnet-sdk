@@ -1,4 +1,5 @@
 ﻿#region
+using System;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -28,6 +29,8 @@ public struct MessageWhatsApp
     /// <summary>
     ///     Category for marketing template messages
     /// </summary>
-    [JsonPropertyOrder(2)]
+    [Obsolete(
+        "The Category parameter is no longer used for sending WhatsApp marketing messages. The parameter is now ignored.")]
+    [JsonIgnore]
     public string Category { get; set; }
 }
