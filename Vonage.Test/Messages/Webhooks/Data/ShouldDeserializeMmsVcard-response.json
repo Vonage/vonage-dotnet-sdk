@@ -7,7 +7,7 @@
   "client_ref": "string",
   "message_type": "vcard",
   "vcard": {
-    "url": "https://example.com/conatact.vcf",
+    "url": "https://example.com/contact.vcf",
     "name": "contact.vcf"
   }
 }
