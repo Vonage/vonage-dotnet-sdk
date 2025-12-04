@@ -1,4 +1,18 @@
 # Changelog
+## [v8.17.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.17.1) (2025-12-04)
+
+### Documentation
+
+- Generate changelog for v8.17.0 ([a77e777](https://github.com/Vonage/vonage-dotnet-sdk/commit/a77e777e66f184c6fd1706327d0d7129934438ca))
+
+- Bump version to v8.17.1 ([f16a22b](https://github.com/Vonage/vonage-dotnet-sdk/commit/f16a22b77a1e936983741a9fba06ec1607d06e1e))
+
+
+### Features
+
+- Add support for both Newtonsoft.Json and System.Text.Json on Messages webhooks ([697100c](https://github.com/Vonage/vonage-dotnet-sdk/commit/697100cc49acae4578f622814c742a1412cf0c35))
+
+
 ## [v8.17.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.17.0) (2025-12-02)
 
 ### Bug Fixes
