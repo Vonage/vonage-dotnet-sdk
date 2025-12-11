@@ -211,6 +211,17 @@ public sealed class Configuration
         return handler;
     }
 
+    private HttpClient BuildHttpClient(Uri baseUri)
+    {
+        var client = new HttpClient(this.ClientHandler)
+        {
+            BaseAddress = baseUri,
+        };
+        this.RequestTimeout.IfSome(value => client.Timeout = value);
+        client.DefaultRequestHeaders.Add("Accept", "application/json");
+        return client;
+    }
+
     private static TimeSpanSemaphore BuildSemaphore(double requestsPerSecond)
     {
         var delay = 1 / requestsPerSecond;
@@ -253,16 +264,13 @@ public sealed class Configuration
         }
     }
 
-    internal HttpClient BuildHttpClient(Uri baseUri)
-    {
-        var client = new HttpClient(this.ClientHandler)
+    internal Uri BuildBaseUri(ApiRequest.UriType uriType) =>
+        uriType switch
         {
-            BaseAddress = baseUri,
+            ApiRequest.UriType.Api => this.VonageUrls.Nexmo,
+            ApiRequest.UriType.Rest => this.VonageUrls.Rest,
+            _ => throw new Exception("Unknown Uri Type Detected"),
         };
-        this.RequestTimeout.IfSome(value => client.Timeout = value);
-        client.DefaultRequestHeaders.Add("Accept", "application/json");
-        return client;
-    }
 }
 
 /// <summary>

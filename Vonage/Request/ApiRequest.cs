@@ -64,14 +64,6 @@ internal partial class ApiRequest
         this.timeProvider = provider;
     }
 
-    private static Uri BuildBaseUri(UriType uriType, Configuration configuration) =>
-        uriType switch
-        {
-            UriType.Api => configuration.VonageUrls.Nexmo,
-            UriType.Rest => configuration.VonageUrls.Rest,
-            _ => throw new Exception("Unknown Uri Type Detected"),
-        };
-
     private AuthenticationHeaderValue BuildBasicAuth()
     {
         if (string.IsNullOrEmpty(this.GetApiKey()) || string.IsNullOrEmpty(this.GetApiSecret()))
@@ -266,8 +258,8 @@ internal partial class ApiRequest
 
     internal static Uri GetBaseUri(UriType uriType, Configuration configuration, string url = null) =>
         string.IsNullOrEmpty(url)
-            ? BuildBaseUri(uriType, configuration)
-            : new Uri(BuildBaseUri(uriType, configuration), url.TrimStart('/'));
+            ? configuration.BuildBaseUri(uriType)
+            : new Uri(configuration.BuildBaseUri(uriType), url.TrimStart('/'));
 
     internal static ApiRequest Build(Credentials credentials, Configuration configuration, ITimeProvider provider) =>
         new ApiRequest(credentials, configuration, provider);
