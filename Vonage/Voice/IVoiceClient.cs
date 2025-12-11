@@ -117,4 +117,11 @@ public interface IVoiceClient
     /// <param name="creds">(Optional) Overridden credentials for only this request</param>
     /// <returns></returns>
     Task UnsubscribeRealTimeDtmf(string uuid, Credentials creds = null);
+
+    /// <summary>
+    ///     Returns a new client, targeting Voice API in the specified region.
+    /// </summary>
+    /// <param name="targetedRegion">The region.</param>
+    /// <returns>A Voice client.</returns>
+    IVoiceClient WithRegion(VonageUrls.Region targetedRegion);
 }

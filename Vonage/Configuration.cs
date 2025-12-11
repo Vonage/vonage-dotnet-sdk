@@ -276,6 +276,15 @@ public sealed class Configuration
         string.IsNullOrEmpty(url)
             ? this.GetBaseUri(uriType)
             : new Uri(this.GetBaseUri(uriType), url.TrimStart('/'));
+
+    internal Uri BuildUri(ApiRequest.UriType uriType, string url, Maybe<VonageUrls.Region> region) =>
+        region
+            .Map(some => this.VonageUrls.Get(some))
+            .Match(regionUri => this.BuildUriWithBase(regionUri, url),
+                () => this.BuildUri(uriType, url));
+
+    private Uri BuildUriWithBase(Uri baseUri, string endpoint) =>
+        string.IsNullOrEmpty(endpoint) ? baseUri : new Uri(baseUri, endpoint.TrimStart('/'));
 }
 
 /// <summary>

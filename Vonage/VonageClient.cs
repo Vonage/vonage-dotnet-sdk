@@ -34,9 +34,28 @@ namespace Vonage;
 /// </summary>
 public class VonageClient
 {
-    private Credentials credentials;
-    private readonly ITimeProvider timeProvider = new TimeProvider();
     private readonly Maybe<Configuration> configuration = Maybe<Configuration>.None;
+    private readonly ITimeProvider timeProvider = new TimeProvider();
+    private Credentials credentials;
+
+    /// <summary>
+    ///     Constructor for VonageClient.
+    /// </summary>
+    /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
+    public VonageClient(Credentials credentials) => this.Credentials = credentials;
+
+    internal VonageClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
+    {
+        this.timeProvider = timeProvider;
+        this.configuration = configuration;
+        this.Credentials = credentials;
+    }
+
+    internal VonageClient(Configuration configuration)
+    {
+        this.configuration = configuration;
+        this.Credentials = configuration.BuildCredentials();
+    }
 
     public IAccountClient AccountClient { get; private set; }
 
@@ -111,25 +130,6 @@ public class VonageClient
 
     public IVoiceClient VoiceClient { get; private set; }
 
-    /// <summary>
-    ///     Constructor for VonageClient.
-    /// </summary>
-    /// <param name="credentials">Credentials to be used for further HTTP calls.</param>
-    public VonageClient(Credentials credentials) => this.Credentials = credentials;
-
-    internal VonageClient(Credentials credentials, Configuration configuration, ITimeProvider timeProvider)
-    {
-        this.timeProvider = timeProvider;
-        this.configuration = configuration;
-        this.Credentials = credentials;
-    }
-
-    internal VonageClient(Configuration configuration)
-    {
-        this.configuration = configuration;
-        this.Credentials = configuration.BuildCredentials();
-    }
-
     private VonageHttpClientConfiguration BuildConfiguration(HttpClient client) =>
         new VonageHttpClientConfiguration(client, this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
@@ -141,7 +141,8 @@ public class VonageClient
         var currentConfiguration = this.GetConfiguration();
         this.AccountClient = new AccountClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.ApplicationClient = new ApplicationClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.VoiceClient = new VoiceClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.VoiceClient = new VoiceClient(this.Credentials, currentConfiguration, this.timeProvider,
+            Maybe<VonageUrls.Region>.None);
         this.ConversionClient = new ConversionClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.NumbersClient = new NumbersClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.NumberInsightClient =

@@ -18,6 +18,10 @@ namespace Vonage.Test.Voice;
 public class VoiceTests : TestBase
 {
     private const string BaseUri = "https://api.nexmo.com/v1/calls";
+    private const string ApacUri = "https://api-ap.vonage.com";
+    private const string EuUri = "https://api-eu.vonage.com";
+    private const string UsUri = "https://api-us.vonage.com";
+    private const string Endpoint = "/v1/calls";
     private readonly VonageClient client;
     private readonly Fixture fixture;
 
@@ -50,6 +54,19 @@ public class VoiceTests : TestBase
     {
         this.Setup(BaseUri, this.helper.GetResponseJson(), this.helper.GetRequestJson());
         var response = await this.client.VoiceClient.CreateCallAsync(VoiceTestData.CreateCallCommand());
+        response.ShouldMatchExpectedCallResponse();
+    }
+
+    [Theory]
+    [InlineData(VonageUrls.Region.APAC, ApacUri)]
+    [InlineData(VonageUrls.Region.EU, EuUri)]
+    [InlineData(VonageUrls.Region.US, UsUri)]
+    public async Task CreateCallWithRegion(VonageUrls.Region region, string expectedUri)
+    {
+        this.Setup(expectedUri + Endpoint, this.helper.GetResponseJson(nameof(this.CreateCall)),
+            this.helper.GetRequestJson(nameof(this.CreateCall)));
+        var response = await this.client.VoiceClient.WithRegion(region)
+            .CreateCallAsync(VoiceTestData.CreateCallCommand());
         response.ShouldMatchExpectedCallResponse();
     }
 
