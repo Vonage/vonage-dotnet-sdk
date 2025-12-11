@@ -201,34 +201,4 @@ public class ApiRequestTest : TestBase
         await apiRequest.DoRequestWithJsonContentAsync(HttpMethod.Post, uri, payload, AuthType.Bearer,
             JsonConvert.SerializeObject);
     }
-
-    [Fact]
-    public void GetBaseUri_ShouldAppendUrlPath() =>
-        ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.defaultConfiguration, "test/path").Should()
-            .Be(new Uri(this.defaultConfiguration.VonageUrls.Nexmo, "test/path"));
-
-    [Fact]
-    public void GetBaseUri_ShouldHandleLeadingSlash() =>
-        ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.defaultConfiguration, "/test/path").Should()
-            .Be(new Uri(this.defaultConfiguration.VonageUrls.Nexmo, "test/path"));
-
-    [Fact]
-    public void GetBaseUri_ShouldHandleNullUrl_Api() =>
-        ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.defaultConfiguration).Should()
-            .Be(this.defaultConfiguration.VonageUrls.Nexmo);
-
-    [Fact]
-    public void GetBaseUri_ShouldHandleNullUrl_Rest() =>
-        ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.defaultConfiguration).Should()
-            .Be(this.defaultConfiguration.VonageUrls.Rest);
-
-    [Fact]
-    public void GetBaseUri_ShouldReturnCorrectApiUri() =>
-        ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.defaultConfiguration).Should()
-            .Be(this.defaultConfiguration.VonageUrls.Nexmo);
-
-    [Fact]
-    public void GetBaseUri_ShouldReturnCorrectRestUri() =>
-        ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.defaultConfiguration).Should()
-            .Be(this.defaultConfiguration.VonageUrls.Rest);
 }

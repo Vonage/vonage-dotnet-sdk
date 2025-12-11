@@ -25,7 +25,7 @@ public class MessagesClient : IMessagesClient
     public MessagesClient(Credentials credentials)
     {
         this.configuration = Configuration.Instance;
-        this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, Url);
+        this.uri = this.configuration.GetBaseUri(ApiRequest.UriType.Api, Url);
         this.credentials = credentials;
     }
 
@@ -33,7 +33,7 @@ public class MessagesClient : IMessagesClient
     {
         this.credentials = credentials;
         this.configuration = configuration;
-        this.uri = ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration, Url);
+        this.uri = this.configuration.GetBaseUri(ApiRequest.UriType.Api, Url);
         this.timeProvider = timeProvider;
     }
 
@@ -57,7 +57,7 @@ public class MessagesClient : IMessagesClient
         var authType = this.credentials.GetPreferredAuthenticationType()
             .IfFailure(failure => throw failure.ToException());
         await ApiRequest.Build(this.credentials, this.configuration, this.timeProvider).DoRequestWithJsonContentAsync(
-            new HttpMethod("PATCH"), ApiRequest.GetBaseUri(ApiRequest.UriType.Api, this.configuration,
+            new HttpMethod("PATCH"), this.configuration.GetBaseUri(ApiRequest.UriType.Api,
                 $"{Url}/{request.MessageUuid}"),
             request,
             authType,

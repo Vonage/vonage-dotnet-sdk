@@ -196,6 +196,14 @@ public sealed class Configuration
     /// <returns>The Configuration.</returns>
     public static Configuration FromConfiguration(IConfiguration configuration) => new Configuration(configuration);
 
+    private Uri BuildBaseUri(ApiRequest.UriType uriType) =>
+        uriType switch
+        {
+            ApiRequest.UriType.Api => this.VonageUrls.Nexmo,
+            ApiRequest.UriType.Rest => this.VonageUrls.Rest,
+            _ => throw new Exception("Unknown Uri Type Detected"),
+        };
+
     private StandardSocketsHttpHandler BuildDefaultHandler()
     {
         var handler = new StandardSocketsHttpHandler
@@ -264,13 +272,10 @@ public sealed class Configuration
         }
     }
 
-    internal Uri BuildBaseUri(ApiRequest.UriType uriType) =>
-        uriType switch
-        {
-            ApiRequest.UriType.Api => this.VonageUrls.Nexmo,
-            ApiRequest.UriType.Rest => this.VonageUrls.Rest,
-            _ => throw new Exception("Unknown Uri Type Detected"),
-        };
+    internal Uri GetBaseUri(ApiRequest.UriType uriType, string url = null) =>
+        string.IsNullOrEmpty(url)
+            ? this.BuildBaseUri(uriType)
+            : new Uri(this.BuildBaseUri(uriType), url.TrimStart('/'));
 }
 
 /// <summary>
@@ -353,7 +358,8 @@ public readonly struct VonageUrls
     public Uri Get(Region region) =>
         this.Evaluate(string.Concat(NexmoApiKey, ".", region.AsString(EnumFormat.Description)), this.regions[region]);
 
-    private Uri Evaluate(string key, string defaultValue) => this.configuration[key] is null
-        ? new Uri($"{defaultValue.TrimEnd('/')}/")
-        : new Uri($"{this.configuration[key].TrimEnd('/')}/");
+    private Uri Evaluate(string key, string defaultValue) =>
+        this.configuration[key] is null
+            ? new Uri($"{defaultValue.TrimEnd('/')}/")
+            : new Uri($"{this.configuration[key].TrimEnd('/')}/");
 }

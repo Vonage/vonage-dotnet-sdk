@@ -256,11 +256,6 @@ internal partial class ApiRequest
         this.DoRequestWithJsonContentAsync(method, uri, payload, authType,
             value => JsonConvert.SerializeObject(value, VonageSerialization.SerializerSettings));
 
-    internal static Uri GetBaseUri(UriType uriType, Configuration configuration, string url = null) =>
-        string.IsNullOrEmpty(url)
-            ? configuration.BuildBaseUri(uriType)
-            : new Uri(configuration.BuildBaseUri(uriType), url.TrimStart('/'));
-
     internal static ApiRequest Build(Credentials credentials, Configuration configuration, ITimeProvider provider) =>
         new ApiRequest(credentials, configuration, provider);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Linq;
@@ -8,12 +9,14 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Vonage.Cryptography;
+using Vonage.Request;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.TestHelpers;
 using Vonage.VerifyV2.Cancel;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
@@ -252,6 +255,8 @@ public class ProxyTest
 [Collection(nameof(NonThreadSafeCollection))]
 public class ConnectionLifetimeTest
 {
+    private readonly Configuration defaultConfiguration = new Configuration();
+
     [Fact]
     public async Task ShouldRenewConnection_GivenIdleTimeoutHasExpired()
     {
@@ -297,6 +302,36 @@ public class ConnectionLifetimeTest
         spy.ReceivedRequests.Should().Be(loops);
         return spy.RefreshedConnections;
     }
+
+    [Fact]
+    public void GetBaseUri_ShouldAppendUrlPath() =>
+        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Api, "test/path").Should()
+            .Be(new Uri(this.defaultConfiguration.VonageUrls.Nexmo, "test/path"));
+
+    [Fact]
+    public void GetBaseUri_ShouldHandleLeadingSlash() =>
+        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Api, "/test/path").Should()
+            .Be(new Uri(this.defaultConfiguration.VonageUrls.Nexmo, "test/path"));
+
+    [Fact]
+    public void GetBaseUri_ShouldHandleNullUrl_Api() =>
+        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Api).Should()
+            .Be(this.defaultConfiguration.VonageUrls.Nexmo);
+
+    [Fact]
+    public void GetBaseUri_ShouldHandleNullUrl_Rest() =>
+        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Rest).Should()
+            .Be(this.defaultConfiguration.VonageUrls.Rest);
+
+    [Fact]
+    public void GetBaseUri_ShouldReturnCorrectApiUri() =>
+        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Api).Should()
+            .Be(this.defaultConfiguration.VonageUrls.Nexmo);
+
+    [Fact]
+    public void GetBaseUri_ShouldReturnCorrectRestUri() =>
+        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Rest).Should()
+            .Be(this.defaultConfiguration.VonageUrls.Rest);
 }
 
 internal class EventSpy : EventListener

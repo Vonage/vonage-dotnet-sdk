@@ -30,7 +30,7 @@ public class ShortCodesClient : IShortCodesClient
     public Task<OptInRecord> ManageOptInAsync(OptInManageRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<OptInRecord>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/opt-in/manage/json"),
+                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/manage/json"),
                 AuthType.Basic,
                 request);
 
@@ -38,7 +38,7 @@ public class ShortCodesClient : IShortCodesClient
     public Task<OptInSearchResponse> QueryOptInsAsync(OptInQueryRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<OptInSearchResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/opt-in/query/json"),
+                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/opt-in/query/json"),
                 AuthType.Basic,
                 request);
 
@@ -46,7 +46,7 @@ public class ShortCodesClient : IShortCodesClient
     public Task<AlertResponse> SendAlertAsync(AlertRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<AlertResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/alert/json"),
+                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/alert/json"),
                 AuthType.Basic,
                 request);
 
@@ -54,7 +54,7 @@ public class ShortCodesClient : IShortCodesClient
     public Task<TwoFactorAuthResponse> SendTwoFactorAuthAsync(TwoFactorAuthRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<TwoFactorAuthResponse>(
-                ApiRequest.GetBaseUri(ApiRequest.UriType.Rest, this.configuration, "/sc/us/2fa/json"),
+                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/sc/us/2fa/json"),
                 AuthType.Basic,
                 request);
 
