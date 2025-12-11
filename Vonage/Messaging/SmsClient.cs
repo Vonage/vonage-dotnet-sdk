@@ -37,7 +37,7 @@ public class SmsClient : ISmsClient
     {
         var result = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<SendSmsResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/sms/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Rest, "/sms/json"),
                 request
             ).ConfigureAwait(false);
         ValidSmsResponse(result);

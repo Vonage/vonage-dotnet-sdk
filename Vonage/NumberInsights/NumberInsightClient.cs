@@ -32,7 +32,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<AdvancedInsightsResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/ni/advanced/json"),
                 AuthType.Basic,
                 request
             ).ConfigureAwait(false);
@@ -46,7 +46,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<AdvancedInsightsAsynchronousResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/ni/advanced/async/json"),
                 AuthType.Basic,
                 request
             ).ConfigureAwait(false);
@@ -60,7 +60,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<BasicInsightResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/ni/basic/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/ni/basic/json"),
                 AuthType.Basic,
                 request
             ).ConfigureAwait(false);
@@ -74,7 +74,7 @@ public class NumberInsightClient : INumberInsightClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<StandardInsightResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/ni/standard/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/ni/standard/json"),
                 AuthType.Basic,
                 request
             ).ConfigureAwait(false);

@@ -196,7 +196,7 @@ public sealed class Configuration
     /// <returns>The Configuration.</returns>
     public static Configuration FromConfiguration(IConfiguration configuration) => new Configuration(configuration);
 
-    private Uri BuildBaseUri(ApiRequest.UriType uriType) =>
+    private Uri GetBaseUri(ApiRequest.UriType uriType) =>
         uriType switch
         {
             ApiRequest.UriType.Api => this.VonageUrls.Nexmo,
@@ -272,10 +272,10 @@ public sealed class Configuration
         }
     }
 
-    internal Uri GetBaseUri(ApiRequest.UriType uriType, string url = null) =>
+    internal Uri BuildUri(ApiRequest.UriType uriType, string url = null) =>
         string.IsNullOrEmpty(url)
-            ? this.BuildBaseUri(uriType)
-            : new Uri(this.BuildBaseUri(uriType), url.TrimStart('/'));
+            ? this.GetBaseUri(uriType)
+            : new Uri(this.GetBaseUri(uriType), url.TrimStart('/'));
 }
 
 /// <summary>

@@ -42,7 +42,7 @@ public class NumbersClient : INumbersClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/number/buy"),
+                this.configuration.BuildUri(ApiRequest.UriType.Rest, "/number/buy"),
                 request,
                 false
             ).ConfigureAwait(false);
@@ -56,7 +56,7 @@ public class NumbersClient : INumbersClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/number/cancel"),
+                this.configuration.BuildUri(ApiRequest.UriType.Rest, "/number/cancel"),
                 request,
                 false
             ).ConfigureAwait(false);
@@ -69,7 +69,7 @@ public class NumbersClient : INumbersClient
         Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/number/search"),
+                this.configuration.BuildUri(ApiRequest.UriType.Rest, "/number/search"),
                 AuthType.Basic,
                 request
             );
@@ -79,7 +79,7 @@ public class NumbersClient : INumbersClient
         GetOwnedNumbersAsync(NumberSearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<NumbersSearchResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/account/numbers"),
+                this.configuration.BuildUri(ApiRequest.UriType.Rest, "/account/numbers"),
                 AuthType.Basic,
                 request
             );
@@ -90,7 +90,7 @@ public class NumbersClient : INumbersClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<NumberTransferResponse>(
                 HttpMethod.Post,
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/transfer-number"),
                 request,
                 AuthType.Basic
             );
@@ -101,7 +101,7 @@ public class NumbersClient : INumbersClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<NumberTransactionResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Rest, "/number/update"),
+                this.configuration.BuildUri(ApiRequest.UriType.Rest, "/number/update"),
                 request,
                 false
             ).ConfigureAwait(false);

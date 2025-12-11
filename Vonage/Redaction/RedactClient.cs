@@ -34,7 +34,7 @@ public class RedactClient : IRedactClient
             .DoRequestWithJsonContentAsync<object>
             (
                 HttpMethod.Post,
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/v1/redact/transaction"),
                 request,
                 AuthType.Basic
             ).ConfigureAwait(false);

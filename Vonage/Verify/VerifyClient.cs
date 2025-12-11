@@ -31,7 +31,7 @@ public class VerifyClient : IVerifyClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<VerifyCheckResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/verify/check/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/verify/check/json"),
                 request
             ).ConfigureAwait(false);
         this.ValidateVerifyResponse(response);
@@ -43,7 +43,7 @@ public class VerifyClient : IVerifyClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<VerifyControlResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/verify/control/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/verify/control/json"),
                 request
             ).ConfigureAwait(false);
         this.ValidateVerifyResponse(response);
@@ -55,7 +55,7 @@ public class VerifyClient : IVerifyClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<VerifyResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/verify/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/verify/json"),
                 request
             ).ConfigureAwait(false);
         this.ValidateVerifyResponse(response);
@@ -67,7 +67,7 @@ public class VerifyClient : IVerifyClient
     {
         var response = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<VerifyResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/verify/psd2/json"),
                 request
             ).ConfigureAwait(false);
         this.ValidateVerifyResponse(response);
@@ -78,7 +78,7 @@ public class VerifyClient : IVerifyClient
     public Task<VerifySearchResponse> VerifySearchAsync(VerifySearchRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<VerifySearchResponse>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/verify/search/json"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/verify/search/json"),
                 AuthType.Basic,
                 request
             );

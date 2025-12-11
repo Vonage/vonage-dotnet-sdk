@@ -305,32 +305,32 @@ public class ConnectionLifetimeTest
 
     [Fact]
     public void GetBaseUri_ShouldAppendUrlPath() =>
-        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Api, "test/path").Should()
+        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Api, "test/path").Should()
             .Be(new Uri(this.defaultConfiguration.VonageUrls.Nexmo, "test/path"));
 
     [Fact]
     public void GetBaseUri_ShouldHandleLeadingSlash() =>
-        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Api, "/test/path").Should()
+        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Api, "/test/path").Should()
             .Be(new Uri(this.defaultConfiguration.VonageUrls.Nexmo, "test/path"));
 
     [Fact]
     public void GetBaseUri_ShouldHandleNullUrl_Api() =>
-        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Api).Should()
+        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Api).Should()
             .Be(this.defaultConfiguration.VonageUrls.Nexmo);
 
     [Fact]
     public void GetBaseUri_ShouldHandleNullUrl_Rest() =>
-        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Rest).Should()
+        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Rest).Should()
             .Be(this.defaultConfiguration.VonageUrls.Rest);
 
     [Fact]
     public void GetBaseUri_ShouldReturnCorrectApiUri() =>
-        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Api).Should()
+        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Api).Should()
             .Be(this.defaultConfiguration.VonageUrls.Nexmo);
 
     [Fact]
     public void GetBaseUri_ShouldReturnCorrectRestUri() =>
-        this.defaultConfiguration.GetBaseUri(ApiRequest.UriType.Rest).Should()
+        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Rest).Should()
             .Be(this.defaultConfiguration.VonageUrls.Rest);
 }
 

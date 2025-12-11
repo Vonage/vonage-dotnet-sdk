@@ -32,7 +32,7 @@ public class ApplicationClient : IApplicationClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<Application>(
                 HttpMethod.Post,
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/v2/applications"),
                 request,
                 AuthType.Basic
             );
@@ -42,7 +42,7 @@ public class ApplicationClient : IApplicationClient
     {
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoDeleteRequestWithUrlContentAsync(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 null,
                 AuthType.Basic
             ).ConfigureAwait(false);
@@ -53,7 +53,7 @@ public class ApplicationClient : IApplicationClient
     public Task<Application> GetApplicationAsync(string id, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<Application>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 AuthType.Basic
             );
 
@@ -61,7 +61,7 @@ public class ApplicationClient : IApplicationClient
     public Task<ApplicationPage> ListApplicationsAsync(ListApplicationsRequest request, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<ApplicationPage>(
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/v2/applications"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/v2/applications"),
                 AuthType.Basic,
                 request
             );
@@ -72,7 +72,7 @@ public class ApplicationClient : IApplicationClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<Application>(
                 HttpMethod.Put,
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, $"/v2/applications/{id}"),
                 request,
                 AuthType.Basic
             );

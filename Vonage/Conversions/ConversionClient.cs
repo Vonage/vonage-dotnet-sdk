@@ -32,7 +32,7 @@ public class ConversionClient : IConversionClient
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<object>
             (
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/conversions/sms"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/conversions/sms"),
                 request
             ).ConfigureAwait(false);
         return true;
@@ -44,7 +44,7 @@ public class ConversionClient : IConversionClient
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoPostRequestUrlContentFromObjectAsync<object>
             (
-                this.configuration.GetBaseUri(ApiRequest.UriType.Api, "/conversions/voice"),
+                this.configuration.BuildUri(ApiRequest.UriType.Api, "/conversions/voice"),
                 request
             ).ConfigureAwait(false);
         return true;
