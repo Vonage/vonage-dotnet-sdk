@@ -196,7 +196,7 @@ public sealed class Configuration
     /// <returns>The Configuration.</returns>
     public static Configuration FromConfiguration(IConfiguration configuration) => new Configuration(configuration);
 
-    private Uri GetBaseUri(ApiRequest.UriType uriType) =>
+    internal Uri GetBaseUri(ApiRequest.UriType uriType) =>
         uriType switch
         {
             ApiRequest.UriType.Api => this.VonageUrls.Nexmo,

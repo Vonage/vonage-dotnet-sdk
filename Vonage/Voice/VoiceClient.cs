@@ -42,7 +42,7 @@ public class VoiceClient : IVoiceClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallResponse>(
                 HttpMethod.Post,
-                this.configuration.BuildUri(ApiRequest.UriType.Api, CallsEndpoint),
+                this.BuildUri(CallsEndpoint),
                 command,
                 AuthType.Bearer
             );
@@ -51,7 +51,7 @@ public class VoiceClient : IVoiceClient
     public Task<CallRecord> GetCallAsync(string id, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<CallRecord>(
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}"),
+                this.BuildUri($"{CallsEndpoint}/{id}"),
                 AuthType.Bearer
             );
 
@@ -59,7 +59,7 @@ public class VoiceClient : IVoiceClient
     public Task<PageResponse<CallList>> GetCallsAsync(CallSearchFilter filter, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoGetRequestWithQueryParametersAsync<PageResponse<CallList>>(
-                this.configuration.BuildUri(ApiRequest.UriType.Api, CallsEndpoint),
+                this.BuildUri(CallsEndpoint),
                 AuthType.Bearer,
                 filter
             );
@@ -89,7 +89,7 @@ public class VoiceClient : IVoiceClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallCommandResponse>(
                 HttpMethod.Put,
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/dtmf"),
+                this.BuildUri($"{CallsEndpoint}/{id}/dtmf"),
                 cmd,
                 AuthType.Bearer
             );
@@ -99,7 +99,7 @@ public class VoiceClient : IVoiceClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallCommandResponse>(
                 HttpMethod.Put,
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
+                this.BuildUri($"{CallsEndpoint}/{id}/stream"),
                 command,
                 AuthType.Bearer
             );
@@ -109,7 +109,7 @@ public class VoiceClient : IVoiceClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallCommandResponse>(
                 HttpMethod.Put,
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/talk"),
+                this.BuildUri($"{CallsEndpoint}/{id}/talk"),
                 cmd,
                 AuthType.Bearer
             );
@@ -119,7 +119,7 @@ public class VoiceClient : IVoiceClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallCommandResponse>(
                 HttpMethod.Delete,
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/stream"),
+                this.BuildUri($"{CallsEndpoint}/{id}/stream"),
                 new { },
                 AuthType.Bearer
             );
@@ -129,7 +129,7 @@ public class VoiceClient : IVoiceClient
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallCommandResponse>(
                 HttpMethod.Delete,
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}/talk"),
+                this.BuildUri($"{CallsEndpoint}/{id}/talk"),
                 new { },
                 AuthType.Bearer
             );
@@ -140,7 +140,7 @@ public class VoiceClient : IVoiceClient
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallRecord>(
                 HttpMethod.Put,
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{id}"),
+                this.BuildUri($"{CallsEndpoint}/{id}"),
                 command,
                 AuthType.Bearer
             ).ConfigureAwait(false);
@@ -152,7 +152,7 @@ public class VoiceClient : IVoiceClient
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync(
                 HttpMethod.Put,
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{uuid}/input/dtmf"),
+                this.BuildUri($"{CallsEndpoint}/{uuid}/input/dtmf"),
                 new SubscribeRealTimeDtmfCommand([eventUrl]),
                 AuthType.Bearer
             ).ConfigureAwait(false);
@@ -161,10 +161,12 @@ public class VoiceClient : IVoiceClient
     public async Task UnsubscribeRealTimeDtmf(string uuid, Credentials creds = null) =>
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoDeleteRequestWithUrlContentAsync(
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{uuid}/input/dtmf"),
+                this.BuildUri($"{CallsEndpoint}/{uuid}/input/dtmf"),
                 new Dictionary<string, string>(),
                 AuthType.Bearer
             ).ConfigureAwait(false);
+
+    private Uri BuildUri(string endpoint) => this.configuration.BuildUri(ApiRequest.UriType.Api, endpoint);
 
     private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.credentials;
 
