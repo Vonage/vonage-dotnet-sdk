@@ -1,4 +1,33 @@
 # Changelog
+## [v8.18.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.18.0) (2025-12-12)
+
+### Documentation
+
+- Generate changelog for v8.17.1 ([e0e6a5a](https://github.com/Vonage/vonage-dotnet-sdk/commit/e0e6a5afdb592f316e48de8b68abd21ea0807b36))
+
+- Bump version to v8.18.0 ([35df082](https://github.com/Vonage/vonage-dotnet-sdk/commit/35df08277dd4fc043b2c9860b7d5fc1ba459c813))
+
+
+### Features
+
+- Add WithRegion on VoiceClient, which returns a new Instance focused on a specific region ([bc2920c](https://github.com/Vonage/vonage-dotnet-sdk/commit/bc2920cf79ac72b017cac63e00b1a8041d98ba2f))
+
+
+### Refactoring
+
+- Move BuildBaseUri on Configuration ([8dd9c3a](https://github.com/Vonage/vonage-dotnet-sdk/commit/8dd9c3a72023cb92412e9651da248970442110eb))
+
+- Move GetBasedUri to Configuration ([b0b3d48](https://github.com/Vonage/vonage-dotnet-sdk/commit/b0b3d48db1d645706b74cdf69a90ab6483891553))
+
+- Rename GetBaseUri to BuildUri ([f0ab9d0](https://github.com/Vonage/vonage-dotnet-sdk/commit/f0ab9d01c555272c7909af36e05bc5a6fee5f04e))
+
+- Simplify uri management in VoiceClient ([7aecb59](https://github.com/Vonage/vonage-dotnet-sdk/commit/7aecb595da8c699716a5d53e4e5e0645f6965fa0))
+
+- Remove unsused members in TestBase ([8883e88](https://github.com/Vonage/vonage-dotnet-sdk/commit/8883e8826a3eb12197f691c761ab9a455d0290fd))
+
+- Use TheoryData<> to simplify testing across multiple regions for Voice ([490ccd2](https://github.com/Vonage/vonage-dotnet-sdk/commit/490ccd2c3ea5a39747b8d373d599d99a5bf414ef))
+
+
 ## [v8.17.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.17.1) (2025-12-04)
 
 ### Documentation
