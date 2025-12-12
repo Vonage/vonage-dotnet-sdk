@@ -17,7 +17,7 @@ namespace Vonage.Test.Voice;
 [Trait("Category", "Legacy")]
 public class VoiceTests : TestBase
 {
-    private const string BaseUri = "https://api.nexmo.com/v1/calls";
+    private const string BaseUri = "https://api.nexmo.com";
     private const string ApacUri = "https://api-ap.vonage.com";
     private const string EuUri = "https://api-eu.vonage.com";
     private const string UsUri = "https://api-us.vonage.com";
@@ -34,6 +34,14 @@ public class VoiceTests : TestBase
         this.client = this.BuildVonageClient(this.BuildCredentialsForBearerAuthentication());
     }
 
+    public static TheoryData<VoiceTestsSetup> GetSetups =>
+    [
+        new VoiceTestsSetup(null, string.Concat(BaseUri, Endpoint)),
+        new VoiceTestsSetup(VonageUrls.Region.APAC, string.Concat(ApacUri, Endpoint)),
+        new VoiceTestsSetup(VonageUrls.Region.EU, string.Concat(EuUri, Endpoint)),
+        new VoiceTestsSetup(VonageUrls.Region.US, string.Concat(UsUri, Endpoint)),
+    ];
+
     [Fact]
     public void AdvancedMachineDetectionPropertiesWithInvalidBeepTimeout()
     {
@@ -49,33 +57,25 @@ public class VoiceTests : TestBase
         properties.ShouldHaveValidAdvancedMachineDetectionProperties(45);
     }
 
-    [Fact]
-    public async Task CreateCall()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task CreateCall(VoiceTestsSetup setup)
     {
-        this.Setup(BaseUri, this.helper.GetResponseJson(), this.helper.GetRequestJson());
-        var response = await this.client.VoiceClient.CreateCallAsync(VoiceTestData.CreateCallCommand());
+        this.Setup(setup.BaseUri, this.helper.GetResponseJson(), this.helper.GetRequestJson());
+        var response = await this.SetupClient(setup.Region).CreateCallAsync(VoiceTestData.CreateCallCommand());
         response.ShouldMatchExpectedCallResponse();
     }
+
+    private IVoiceClient SetupClient(VonageUrls.Region? region) =>
+        region.HasValue ? this.client.VoiceClient.WithRegion(region.Value) : this.client.VoiceClient;
 
     [Theory]
-    [InlineData(VonageUrls.Region.APAC, ApacUri)]
-    [InlineData(VonageUrls.Region.EU, EuUri)]
-    [InlineData(VonageUrls.Region.US, UsUri)]
-    public async Task CreateCallWithRegion(VonageUrls.Region region, string expectedUri)
+    [MemberData(nameof(GetSetups))]
+    public async Task CreateCallWithCredentials(VoiceTestsSetup setup)
     {
-        this.Setup(expectedUri + Endpoint, this.helper.GetResponseJson(nameof(this.CreateCall)),
+        this.Setup(setup.BaseUri, this.helper.GetResponseJson(nameof(this.CreateCall)),
             this.helper.GetRequestJson(nameof(this.CreateCall)));
-        var response = await this.client.VoiceClient.WithRegion(region)
-            .CreateCallAsync(VoiceTestData.CreateCallCommand());
-        response.ShouldMatchExpectedCallResponse();
-    }
-
-    [Fact]
-    public async Task CreateCallWithCredentials()
-    {
-        this.Setup(BaseUri, this.helper.GetResponseJson(nameof(this.CreateCall)),
-            this.helper.GetRequestJson(nameof(this.CreateCall)));
-        var response = await this.client.VoiceClient.CreateCallAsync(VoiceTestData.CreateCallCommand(),
+        var response = await this.SetupClient(setup.Region).CreateCallAsync(VoiceTestData.CreateCallCommand(),
             this.BuildCredentialsForBearerAuthentication());
         response.ShouldMatchExpectedCallResponse();
     }
@@ -89,21 +89,23 @@ public class VoiceTests : TestBase
             .WithMessage("AppId or Private Key Path missing.");
     }
 
-    [Fact]
-    public async Task GetRecordings()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task GetRecordings(VoiceTestsSetup setup)
     {
         var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         this.Setup(VoiceTestData.GetValidRecordingUri(), expectedResponse);
-        var response = await this.client.VoiceClient.GetRecordingAsync(VoiceTestData.GetValidRecordingUri());
+        var response = await this.SetupClient(setup.Region).GetRecordingAsync(VoiceTestData.GetValidRecordingUri());
         response.ShouldMatchExpectedRecording(expectedResponse);
     }
 
-    [Fact]
-    public async Task GetRecordingsWithCredentials()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task GetRecordingsWithCredentials(VoiceTestsSetup setup)
     {
         var expectedResponse = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         this.Setup(VoiceTestData.GetValidRecordingUri(), expectedResponse);
-        var response = await this.client.VoiceClient.GetRecordingAsync(VoiceTestData.GetValidRecordingUri(),
+        var response = await this.SetupClient(setup.Region).GetRecordingAsync(VoiceTestData.GetValidRecordingUri(),
             this.BuildCredentialsForBearerAuthentication());
         response.ShouldMatchExpectedRecording(expectedResponse);
     }
@@ -122,171 +124,194 @@ public class VoiceTests : TestBase
         await act.Should().ThrowAsync<VonageException>().WithMessage("Invalid uri");
     }
 
-    [Fact]
-    public async Task GetSpecificCall()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task GetSpecificCall(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<Guid>().ToString();
-        this.Setup($"{BaseUri}/{uuid}", this.helper.GetResponseJson());
-        var callRecord = await this.client.VoiceClient.GetCallAsync(uuid);
+        this.Setup($"{setup.BaseUri}/{uuid}", this.helper.GetResponseJson());
+        var callRecord = await this.SetupClient(setup.Region).GetCallAsync(uuid);
         callRecord.ShouldMatchExpectedCallRecord();
     }
 
-    [Fact]
-    public async Task GetSpecificCallWithCredentials()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task GetSpecificCallWithCredentials(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<Guid>().ToString();
-        this.Setup($"{BaseUri}/{uuid}", this.helper.GetResponseJson(nameof(this.GetSpecificCall)));
+        this.Setup($"{setup.BaseUri}/{uuid}", this.helper.GetResponseJson(nameof(this.GetSpecificCall)));
         var callRecord =
-            await this.client.VoiceClient.GetCallAsync(uuid, this.BuildCredentialsForBearerAuthentication());
+            await this.SetupClient(setup.Region).GetCallAsync(uuid, this.BuildCredentialsForBearerAuthentication());
         callRecord.ShouldMatchExpectedCallRecord();
     }
 
-    [Fact]
-    public async Task ListCalls()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task ListCalls(VoiceTestsSetup setup)
     {
-        this.Setup($"{this.ApiUrl}/v1/calls", this.helper.GetResponseJson());
-        var callList = await this.client.VoiceClient.GetCallsAsync(VoiceTestData.CreateBasicCallSearchFilter());
+        this.Setup($"{setup.BaseUri}", this.helper.GetResponseJson());
+        var callList = await this.SetupClient(setup.Region).GetCallsAsync(VoiceTestData.CreateBasicCallSearchFilter());
         callList.ShouldMatchExpectedCallsList();
     }
 
-    [Fact]
-    public async Task ListCallsWithCredentials()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task ListCallsWithCredentials(VoiceTestsSetup setup)
     {
         this.Setup(
-            $"{BaseUri}?status=started&date_start={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&",
+            $"{setup.BaseUri}?status=started&date_start={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&date_end={WebUtility.UrlEncode("2016-11-14T07:45:14Z").ToUpper()}&page_size=10&record_index=0&order=asc&conversation_uuid=CON-f972836a-550f-45fa-956c-12a2ab5b7d22&",
             this.helper.GetResponseJson(nameof(this.ListCalls)));
-        var callList = await this.client.VoiceClient.GetCallsAsync(VoiceTestData.CreateComplexCallSearchFilter(),
+        var callList = await this.SetupClient(setup.Region).GetCallsAsync(VoiceTestData.CreateComplexCallSearchFilter(),
             this.BuildCredentialsForBearerAuthentication());
         callList.ShouldMatchExpectedCallsList();
     }
 
-    [Fact]
-    public async Task StartDtmf()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StartDtmf(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/dtmf", this.helper.GetResponseJson(), this.helper.GetRequestJson());
-        var response = await this.client.VoiceClient.StartDtmfAsync(uuid, VoiceTestData.CreateDtmfCommand());
+        this.Setup($"{setup.BaseUri}/{uuid}/dtmf", this.helper.GetResponseJson(),
+            this.helper.GetRequestJson());
+        var response = await this.SetupClient(setup.Region).StartDtmfAsync(uuid, VoiceTestData.CreateDtmfCommand());
         response.ShouldMatchExpectedDtmfResponse();
     }
 
-    [Fact]
-    public async Task StartDtmfWithCredentials()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StartDtmfWithCredentials(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/dtmf", this.helper.GetResponseJson(nameof(this.StartDtmf)),
+        this.Setup($"{setup.BaseUri}/{uuid}/dtmf", this.helper.GetResponseJson(nameof(this.StartDtmf)),
             this.helper.GetRequestJson(nameof(this.StartDtmf)));
-        var response = await this.client.VoiceClient.StartDtmfAsync(uuid, VoiceTestData.CreateDtmfCommand(),
+        var response = await this.SetupClient(setup.Region).StartDtmfAsync(uuid, VoiceTestData.CreateDtmfCommand(),
             this.BuildCredentialsForBearerAuthentication());
         response.ShouldMatchExpectedDtmfResponse();
     }
 
-    [Fact]
-    public async Task StartStream()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StartStream(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson(), this.helper.GetRequestJson());
-        var response = await this.client.VoiceClient.StartStreamAsync(uuid, VoiceTestData.CreateStreamCommand());
+        this.Setup($"{setup.BaseUri}/{uuid}/stream", this.helper.GetResponseJson(),
+            this.helper.GetRequestJson());
+        var response = await this.SetupClient(setup.Region).StartStreamAsync(uuid, VoiceTestData.CreateStreamCommand());
         response.ShouldMatchExpectedStreamResponse();
     }
 
-    [Fact]
-    public async Task StartStreamWithCredentials()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StartStreamWithCredentials(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson(nameof(this.StartStream)),
+        this.Setup($"{setup.BaseUri}/{uuid}/stream", this.helper.GetResponseJson(nameof(this.StartStream)),
             this.helper.GetRequestJson(nameof(this.StartStream)));
-        var response = await this.client.VoiceClient.StartStreamAsync(uuid, VoiceTestData.CreateStreamCommand(),
+        var response = await this.SetupClient(setup.Region).StartStreamAsync(uuid, VoiceTestData.CreateStreamCommand(),
             this.BuildCredentialsForBearerAuthentication());
         response.ShouldMatchExpectedStreamResponse();
     }
 
-    [Fact]
-    public async Task StartTalk()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StartTalk(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/talk", this.helper.GetResponseJson(), this.helper.GetRequestJson());
-        var response = await this.client.VoiceClient.StartTalkAsync(uuid, VoiceTestData.CreateTalkCommand());
+        this.Setup($"{setup.BaseUri}/{uuid}/talk", this.helper.GetResponseJson(),
+            this.helper.GetRequestJson());
+        var response = await this.SetupClient(setup.Region).StartTalkAsync(uuid, VoiceTestData.CreateTalkCommand());
         response.ShouldMatchExpectedTalkResponse();
     }
 
-    [Fact]
-    public async Task StartTalkWithCredentials()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StartTalkWithCredentials(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/talk", this.helper.GetResponseJson(nameof(this.StartTalk)),
+        this.Setup($"{setup.BaseUri}/{uuid}/talk", this.helper.GetResponseJson(nameof(this.StartTalk)),
             this.helper.GetRequestJson(nameof(this.StartTalk)));
-        var response = await this.client.VoiceClient.StartTalkAsync(uuid, VoiceTestData.CreateTalkCommand(),
+        var response = await this.SetupClient(setup.Region).StartTalkAsync(uuid, VoiceTestData.CreateTalkCommand(),
             this.BuildCredentialsForBearerAuthentication());
         response.ShouldMatchExpectedTalkResponse();
     }
 
-    [Fact]
-    public async Task StopStream()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StopStream(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson());
-        var response = await this.client.VoiceClient.StopStreamAsync(uuid);
+        this.Setup($"{setup.BaseUri}/{uuid}/stream", this.helper.GetResponseJson());
+        var response = await this.SetupClient(setup.Region).StopStreamAsync(uuid);
         response.ShouldMatchExpectedStopStreamResponse();
     }
 
-    [Fact]
-    public async Task StopStreamWithCredentials()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StopStreamWithCredentials(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson(nameof(this.StopStream)));
+        this.Setup($"{setup.BaseUri}/{uuid}/stream", this.helper.GetResponseJson(nameof(this.StopStream)));
         var response =
-            await this.client.VoiceClient.StopStreamAsync(uuid, this.BuildCredentialsForBearerAuthentication());
+            await this.SetupClient(setup.Region).StopStreamAsync(uuid, this.BuildCredentialsForBearerAuthentication());
         response.ShouldMatchExpectedStopStreamResponse();
     }
 
-    [Fact]
-    public async Task StopTalk()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StopTalk(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson());
-        var response = await this.client.VoiceClient.StopStreamAsync(uuid);
+        this.Setup($"{setup.BaseUri}/{uuid}/stream", this.helper.GetResponseJson());
+        var response = await this.SetupClient(setup.Region).StopStreamAsync(uuid);
         response.ShouldMatchExpectedStopTalkResponse();
     }
 
-    [Fact]
-    public async Task StopTalkWithCredentials()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task StopTalkWithCredentials(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<string>();
-        this.Setup($"{BaseUri}/{uuid}/stream", this.helper.GetResponseJson(nameof(this.StopTalk)));
+        this.Setup($"{setup.BaseUri}/{uuid}/stream", this.helper.GetResponseJson(nameof(this.StopTalk)));
         var response =
-            await this.client.VoiceClient.StopStreamAsync(uuid, this.BuildCredentialsForBearerAuthentication());
+            await this.SetupClient(setup.Region).StopStreamAsync(uuid, this.BuildCredentialsForBearerAuthentication());
         response.ShouldMatchExpectedStopTalkResponse();
     }
 
-    [Fact]
-    public async Task SubscribeRealTimeDtmf()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task SubscribeRealTimeDtmf(VoiceTestsSetup setup)
     {
-        this.Setup($"{BaseUri}/ID-123/input/dtmf", Maybe<string>.None, this.helper.GetRequestJson());
-        await this.client.VoiceClient.SubscribeRealTimeDtmf("ID-123", VoiceTestData.GetRealTimeDtmfUri());
+        this.Setup($"{setup.BaseUri}/ID-123/input/dtmf", Maybe<string>.None, this.helper.GetRequestJson());
+        await this.SetupClient(setup.Region).SubscribeRealTimeDtmf("ID-123", VoiceTestData.GetRealTimeDtmfUri());
     }
 
-    [Fact]
-    public async Task UnsubscribeRealTimeDtmf()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task UnsubscribeRealTimeDtmf(VoiceTestsSetup setup)
     {
-        this.Setup($"{BaseUri}/ID-123/input/dtmf", Maybe<string>.None, string.Empty);
-        await this.client.VoiceClient.UnsubscribeRealTimeDtmf("ID-123");
+        this.Setup($"{setup.BaseUri}/ID-123/input/dtmf", Maybe<string>.None, string.Empty);
+        await this.SetupClient(setup.Region).UnsubscribeRealTimeDtmf("ID-123");
     }
 
-    [Fact]
-    public async Task UpdateCall()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task UpdateCall(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<Guid>().ToString();
-        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.helper.GetRequestJson());
-        var response = await this.client.VoiceClient.UpdateCallAsync(uuid, VoiceTestData.CreateCallEditCommand());
+        this.Setup($"{setup.BaseUri}/{uuid}", Maybe<string>.None, this.helper.GetRequestJson());
+        var response = await this.SetupClient(setup.Region)
+            .UpdateCallAsync(uuid, VoiceTestData.CreateCallEditCommand());
         response.ShouldBeTrue();
     }
 
-    [Fact]
-    public async Task UpdateCallWithCredentials()
+    [Theory]
+    [MemberData(nameof(GetSetups))]
+    public async Task UpdateCallWithCredentials(VoiceTestsSetup setup)
     {
         var uuid = this.fixture.Create<Guid>().ToString();
-        this.Setup($"{BaseUri}/{uuid}", Maybe<string>.None, this.helper.GetRequestJson(nameof(this.UpdateCall)));
-        var response = await this.client.VoiceClient.UpdateCallAsync(uuid, VoiceTestData.CreateCallEditCommand(),
+        this.Setup($"{setup.BaseUri}/{uuid}", Maybe<string>.None,
+            this.helper.GetRequestJson(nameof(this.UpdateCall)));
+        var response = await this.SetupClient(setup.Region).UpdateCallAsync(uuid, VoiceTestData.CreateCallEditCommand(),
             this.BuildCredentialsForBearerAuthentication());
         response.ShouldBeTrue();
     }
@@ -294,3 +319,5 @@ public class VoiceTests : TestBase
     private VonageClient BuildClientWithBasicAuthentication() =>
         new VonageClient(this.BuildCredentialsForBasicAuthentication());
 }
+
+public record VoiceTestsSetup(VonageUrls.Region? Region, string BaseUri);
