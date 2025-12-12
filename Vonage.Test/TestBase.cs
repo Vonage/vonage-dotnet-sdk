@@ -3,10 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq;
@@ -24,15 +21,6 @@ namespace Vonage.Test
     public class TestBase
     {
         private const string MockedMethod = "SendAsync";
-        private const string JsonRegexPattern = "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+";
-
-        protected string ApiUrl =>
-            this.configuration.VonageUrls.Nexmo.AbsoluteUri.Substring(0,
-                this.configuration.VonageUrls.Nexmo.AbsoluteUri.Length - 1);
-
-        protected string RestUrl =>
-            this.configuration.VonageUrls.Rest.AbsoluteUri.Substring(0,
-                this.configuration.VonageUrls.Rest.AbsoluteUri.Length - 1);
 
         protected readonly string ApiKey = Environment.GetEnvironmentVariable("VONAGE_API_KEY") ?? "testkey";
         protected readonly string ApiSecret = Environment.GetEnvironmentVariable("VONAGE_API_Secret") ?? "testSecret";
@@ -43,16 +31,17 @@ namespace Vonage.Test
         protected readonly string PrivateKey = Environment.GetEnvironmentVariable("PRIVATE_KEY") ??
                                                TokenHelper.GetKey();
 
+        protected Configuration configuration;
+
         protected TestBase() => this.configuration = new Configuration();
 
-#if NETCOREAPP2_0_OR_GREATER
-        private static readonly Assembly ThisAssembly = typeof(TestBase).GetTypeInfo().Assembly;
-#else
-        private static readonly Assembly ThisAssembly = typeof(TestBase).Assembly;
-#endif
+        protected string ApiUrl =>
+            this.configuration.VonageUrls.Nexmo.AbsoluteUri.Substring(0,
+                this.configuration.VonageUrls.Nexmo.AbsoluteUri.Length - 1);
 
-        private static readonly string TestAssemblyName = ThisAssembly.GetName().Name;
-        protected Configuration configuration;
+        protected string RestUrl =>
+            this.configuration.VonageUrls.Rest.AbsoluteUri.Substring(0,
+                this.configuration.VonageUrls.Rest.AbsoluteUri.Length - 1);
 
         protected VonageClient BuildVonageClient(Credentials credentials) =>
             new VonageClient(credentials, this.configuration, new TimeProvider());
@@ -65,14 +54,6 @@ namespace Vonage.Test
 
         protected Credentials BuildCredentialsForBearerAuthentication() =>
             Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey);
-
-        private static string GetAssemblyDirectory()
-        {
-            var location = ThisAssembly.CodeBase;
-            var uri = new UriBuilder(location);
-            var path = Uri.UnescapeDataString(uri.Path);
-            return Path.GetDirectoryName(path);
-        }
 
         protected void Setup(string uri, Maybe<string> responseContent, string requestContent = null,
             HttpStatusCode expectedCode = HttpStatusCode.OK) =>
@@ -95,7 +76,7 @@ namespace Vonage.Test
                 .Setup<Task<HttpResponseMessage>>(MockedMethod,
                     ItExpr.IsAny<HttpRequestMessage>(),
                     ItExpr.IsAny<CancellationToken>())
-                .Callback<HttpRequestMessage, CancellationToken>((actualHttpRequestMessage, cancellationToken) =>
+                .Callback<HttpRequestMessage, CancellationToken>((actualHttpRequestMessage, _) =>
                 {
                     Assert.Equal(uri, actualHttpRequestMessage.RequestUri.AbsoluteUri);
                     if (requestContent == null)
@@ -106,32 +87,6 @@ namespace Vonage.Test
                 .ReturnsAsync(expectedResponse)
                 .Verifiable();
             this.configuration.ClientHandler = mockHandler.Object;
-        }
-
-        protected string GetResponseJson([CallerMemberName] string name = null) => this.ReadJsonFile(name, "response");
-
-        protected string GetRequestJson([CallerMemberName] string name = null) => this.ReadJsonFile(name, "request");
-
-        private string ReadJsonFile(string name, string fileType)
-        {
-            var typeNamespace = this.GetType().Namespace;
-            if (typeNamespace is null)
-            {
-                return string.Empty;
-            }
-
-            var path = Path.Combine(
-                GetAssemblyDirectory(),
-                typeNamespace.Substring(TestAssemblyName.Length),
-                "Data",
-                this.GetType().Name,
-                $"{name}-{fileType}.json");
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException($"File not found at {path}.");
-            }
-
-            return Regex.Replace(File.ReadAllText(path), JsonRegexPattern, "$1");
         }
     }
 }
