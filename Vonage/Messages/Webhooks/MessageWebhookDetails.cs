@@ -1,4 +1,5 @@
 ﻿#region
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 #endregion
@@ -8,7 +9,7 @@ namespace Vonage.Messages.Webhooks;
 /// <summary>
 ///     Represents details of an order.
 /// </summary>
-public struct OrderDetails
+public class OrderDetails
 {
     /// <summary>
     ///     The ID of the catalog containing the products in this order.
@@ -22,7 +23,7 @@ public struct OrderDetails
     /// </summary>
     [JsonPropertyName("product_items")]
     [JsonProperty("product_items")]
-    public ProductItem[] ProductItems { get; set; }
+    public List<ProductItem> ProductItems { get; set; }
 }
 
 /// <summary>
@@ -197,6 +198,18 @@ public struct UrlDetails
 }
 
 /// <summary>
+/// </summary>
+/// <param name="Type"></param>
+/// <param name="Url"></param>
+public record ContentDetails(
+    [property: JsonPropertyName("type")]
+    [property: JsonProperty("type")]
+    string Type,
+    [property: JsonPropertyName("url")]
+    [property: JsonProperty("url")]
+    string Url);
+
+/// <summary>
 ///     Represents the profile details.
 /// </summary>
 public struct ProfileDetails
@@ -267,3 +280,64 @@ public record Origin(
     [property: JsonPropertyName("network_code")]
     [property: JsonProperty("network_code")]
     string NetworkCode);
+
+/// <summary>
+/// </summary>
+public struct WhatsAppDetails
+{
+    /// <summary>
+    /// </summary>
+    [JsonPropertyName("referral")]
+    [JsonProperty("referral")]
+    public WhatsAppReferral Referral { get; set; }
+
+    /// <summary>
+    /// </summary>
+    [JsonPropertyName("whatsapp_referred_product")]
+    [JsonProperty("whatsapp_referred_product")]
+    public WhatsAppReferredProduct Referredproduct { get; set; }
+}
+
+/// <summary>
+/// </summary>
+/// <param name="Body"></param>
+/// <param name="Headline"></param>
+/// <param name="SourceId"></param>
+/// <param name="SourceType"></param>
+/// <param name="SourceUrl"></param>
+/// <param name="MediaType"></param>
+/// <param name="ImageUrl"></param>
+/// <param name="VideoUrl"></param>
+/// <param name="ThumbnailUrl"></param>
+/// <param name="ClickId"></param>
+public record WhatsAppReferral(
+    [property: JsonPropertyName("body")]
+    [property: JsonProperty("body")]
+    string Body,
+    [property: JsonPropertyName("headline")]
+    [property: JsonProperty("headline")]
+    string Headline,
+    [property: JsonPropertyName("source_id")]
+    [property: JsonProperty("source_id")]
+    string SourceId,
+    [property: JsonPropertyName("source_type")]
+    [property: JsonProperty("source_type")]
+    string SourceType,
+    [property: JsonPropertyName("source_url")]
+    [property: JsonProperty("source_url")]
+    string SourceUrl,
+    [property: JsonPropertyName("media_type")]
+    [property: JsonProperty("media_type")]
+    string MediaType,
+    [property: JsonPropertyName("image_url")]
+    [property: JsonProperty("image_url")]
+    string ImageUrl,
+    [property: JsonPropertyName("video_url")]
+    [property: JsonProperty("video_url")]
+    string VideoUrl,
+    [property: JsonPropertyName("thumbnail_url")]
+    [property: JsonProperty("thumbnail_url")]
+    string ThumbnailUrl,
+    [property: JsonPropertyName("ctwa_clid")]
+    [property: JsonProperty("ctwa_clid")]
+    string ClickId);

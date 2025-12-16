@@ -9,5 +9,14 @@
   "audio": {
     "url": "https://example.com/audio.mp3",
     "name": "audio.mp3"
-  }
+  },
+  "origin": {
+    "network_code": "12345"
+  },
+  "content": [
+    {
+      "type": "image",
+      "url": "https://example.com/image.jpg"
+    }
+  ]
 }

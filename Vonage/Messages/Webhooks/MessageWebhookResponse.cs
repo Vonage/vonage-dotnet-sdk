@@ -1,7 +1,9 @@
 #region
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using Vonage.Common;
 #endregion
 
 namespace Vonage.Messages.Webhooks;
@@ -9,7 +11,7 @@ namespace Vonage.Messages.Webhooks;
 /// <summary>
 ///     Represents a webhook response for Messages.
 /// </summary>
-public struct MessageWebhookResponse
+public class MessageWebhookResponse
 {
     /// <summary>
     ///     Channel specific metadata for Audio.
@@ -17,6 +19,12 @@ public struct MessageWebhookResponse
     [JsonPropertyName("audio")]
     [JsonProperty("audio")]
     public UrlDetails? Audio { get; set; }
+
+    /// <summary>
+    /// </summary>
+    [JsonPropertyName("content")]
+    [JsonProperty("content")]
+    public List<ContentDetails> Content { get; set; }
 
     /// <summary>
     ///     The channel the message came in on.
@@ -39,6 +47,15 @@ public struct MessageWebhookResponse
     [JsonPropertyName("context")]
     [JsonProperty("context")]
     public ContextDetails? Context { get; set; }
+
+    /// <summary>
+    ///     Whether there is a context for this inbound message or not. If there is a context, and it is available, the context
+    ///     details will be contained in a context object. If there is a context, but it is unavailable, or if there is no
+    ///     context for message (none), then there will be no context object inluded in the body.
+    /// </summary>
+    [JsonPropertyName("context_status")]
+    [JsonProperty("context_status")]
+    public string ContextStatus { get; set; }
 
     /// <summary>
     ///     Channel specific metadata for File.
@@ -180,4 +197,16 @@ public struct MessageWebhookResponse
     [JsonPropertyName("origin")]
     [JsonProperty("origin")]
     public Origin Origin { get; set; }
+
+    /// <summary>
+    /// </summary>
+    [JsonPropertyName("whatsapp")]
+    [JsonProperty("whatsapp")]
+    public WhatsAppDetails WhatsApp { get; set; }
+
+    /// <summary>
+    /// </summary>
+    [JsonPropertyName("_self")]
+    [JsonProperty("_self")]
+    public HalLink Self { get; set; }
 }

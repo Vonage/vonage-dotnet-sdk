@@ -7,6 +7,7 @@
   "profile": {
     "name": "Jane Smith"
   },
+  "context_status": "available",
   "context": {
     "message_uuid": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
     "message_from": "447700900000"

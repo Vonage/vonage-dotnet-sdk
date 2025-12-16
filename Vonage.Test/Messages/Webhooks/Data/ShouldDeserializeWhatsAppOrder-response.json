@@ -7,13 +7,10 @@
   "profile": {
     "name": "Jane Smith"
   },
+  "context_status": "available",
   "context": {
     "message_uuid": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-    "message_from": "447700900000",
-    "whatsapp_referred_product": {
-      "catalog_id": "1267260820787549",
-      "product_retailer_id": "r07qei73l7"
-    }
+    "message_from": "447700900000"
   },
   "provider_message": "string",
   "client_ref": "string",
@@ -28,5 +25,14 @@
         "currency": "USD"
       }
     ]
+  },
+  "whatsapp": {
+    "whatsapp_referred_product": {
+      "catalog_id": "1267260820787549",
+      "product_retailer_id": "r07qei73l7"
+    }
+  },
+  "_self": {
+    "href": "https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab"
   }
 }

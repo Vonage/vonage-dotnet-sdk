@@ -7,6 +7,7 @@
   "profile": {
     "name": "Jane Smith"
   },
+  "context_status": "available",
   "context": {
     "message_uuid": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
     "message_from": "447700900000"
@@ -16,5 +17,22 @@
   "message_type": "sticker",
   "sticker": {
     "url": "https://api-us.nexmo.com/v3/media/1b456509-974c-458b-aafa-45fc48a4d976"
+  },
+  "whatsapp": {
+    "referral": {
+      "body": "Check out our new product offering",
+      "headline": "New Products!",
+      "source_id": "212731241638144",
+      "source_type": "post",
+      "source_url": "https://fb.me/2ZulEu42P",
+      "media_type": "image",
+      "image_url": "https://example.com/image.jpg",
+      "video_url": "https://example.com/video.mp4",
+      "thumbnail_url": "https://example.com/thumbnail.jpg",
+      "ctwa_clid": "1234567890"
+    }
+  },
+  "_self": {
+    "href": "https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab"
   }
 }

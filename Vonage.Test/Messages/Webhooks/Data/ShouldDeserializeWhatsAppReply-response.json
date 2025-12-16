@@ -7,6 +7,7 @@
   "profile": {
     "name": "Jane Smith"
   },
+  "context_status": "available",
   "context": {
     "message_uuid": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
     "message_from": "447700900000"
@@ -18,5 +19,8 @@
     "id": "row1",
     "title": "9am",
     "description": "Select 9am appointment time"
+  },
+  "_self": {
+    "href": "https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab"
   }
 }

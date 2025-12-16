@@ -9,5 +9,14 @@
   "video": {
     "url": "https://example.com/video.mp4",
     "name": "video.mp4"
-  }
+  },
+  "origin": {
+    "network_code": "12345"
+  },
+  "content": [
+    {
+      "type": "image",
+      "url": "https://example.com/image.jpg"
+    }
+  ]
 }
