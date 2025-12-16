@@ -16,551 +16,64 @@ namespace Vonage.Test.Messages.Webhooks;
 public class SerializationTest
 {
     private const string Directory = "Messages/Webhooks/Data/";
-    private const string WhatsAppContextMessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab";
-    private const string ViberContextMessageUuid = "1234567890abcdef";
-    private const string StandardClientReference = "string";
-    private const string StandardProviderMessage = "string";
-    private const string ProfileName = "Jane Smith";
-    private static readonly Guid StandardMessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098");
-    private static readonly DateTimeOffset StandardTimestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z");
 
     [Theory]
     [InlineData(JsonSerializerType.Newtonsoft)]
     [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMessengerAudio(JsonSerializerType serializer) =>
+    public void ShouldDeserializeWebhook(JsonSerializerType serializer) =>
         Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
             .Should().BeEquivalentTo(new MessageWebhookResponse
             {
-                Channel = "messenger",
-                MessageUuid = StandardMessageUuid,
-                To = "0123456789",
-                From = "9876543210",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "audio",
-                Audio = new UrlDetails
-                {
-                    Url = "https://example.com/audio.mp3",
-                },
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMessengerFile(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "messenger",
-                MessageUuid = StandardMessageUuid,
-                To = "0123456789",
-                From = "9876543210",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "file",
-                File = new UrlDetails
-                {
-                    Url = "https://example.com/file.pdf",
-                },
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMessengerImage(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "messenger",
-                MessageUuid = StandardMessageUuid,
-                To = "0123456789",
-                From = "9876543210",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "image",
-                Image = new UrlDetails
-                {
-                    Url = "https://example.com/image.jpg",
-                },
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMessengerText(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "messenger",
-                MessageUuid = StandardMessageUuid,
-                To = "0123456789",
-                From = "9876543210",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "text",
-                Text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMessengerUnsupported(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "messenger",
-                MessageUuid = StandardMessageUuid,
-                To = "0123456789",
-                From = "9876543210",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "unsupported",
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMessengerVideo(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "messenger",
-                MessageUuid = StandardMessageUuid,
-                To = "0123456789",
-                From = "9876543210",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "video",
-                Video = new UrlDetails
-                {
-                    Url = "https://example.com/video.mp4",
-                },
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMmsAudio(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "mms",
-                MessageUuid = StandardMessageUuid,
+                Channel = "whatsapp",
+                MessageUuid = new Guid("52afe398-e31a-4362-8c42-beb0c3b1d098"),
                 To = "447700900000",
                 From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "audio",
+                Timestamp = DateTimeOffset.Parse("2020-01-01T14:00:00.000Z"),
+                Profile = new ProfileDetails
+                {
+                    Name = "Jane Smith",
+                },
+                ContextStatus = "available",
+                Context = new ContextDetails
+                {
+                    MessageUuid = "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+                    MessageFrom = "447700900000",
+                },
+                ProviderMessage = "string",
+                ClientReference = "string",
+                MessageType = "text",
+                Text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
                 Audio = new UrlDetails
                 {
                     Url = "https://example.com/audio.mp3",
                     Name = "audio.mp3",
                 },
-                Origin = new Origin("12345"),
-                Content = [new ContentDetails("image", "https://example.com/image.jpg")],
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMmsFile(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "mms",
-                MessageUuid = StandardMessageUuid,
-                To = "447700900000",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "file",
-                File = new UrlDetails
+                Video = new UrlDetails
                 {
-                    Url = "https://example.com/file.pdf",
-                    Name = "file.pdf",
-                    Caption = "Additional text to accompany the file.",
+                    Url = "https://example.com/video.mp4",
+                    Name = "video.mp4",
                 },
-                Origin = new Origin("12345"),
-                Content = [new ContentDetails("image", "https://example.com/image.jpg")],
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMmsImage(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "mms",
-                MessageUuid = StandardMessageUuid,
-                To = "447700900000",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "image",
                 Image = new UrlDetails
                 {
                     Url = "https://example.com/image.jpg",
                     Name = "image.jpg",
                     Caption = "Additional text to accompany the image.",
                 },
-                Origin = new Origin("12345"),
-                Content = [new ContentDetails("image", "https://example.com/image.jpg")],
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMmsText(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "mms",
-                MessageUuid = StandardMessageUuid,
-                To = "447700900000",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "text",
-                Text = "This is sample text.",
-                Origin = new Origin("12345"),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMmsVcard(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "mms",
-                MessageUuid = StandardMessageUuid,
-                To = "447700900000",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "vcard",
+                File = new UrlDetails
+                {
+                    Url = "https://example.com/file.pdf",
+                    Name = "file.pdf",
+                    Caption = "Additional text to accompany the file.",
+                },
+                Sticker = new UrlDetails
+                {
+                    Url = "https://api-us.nexmo.com/v3/media/1b456509-974c-458b-aafa-45fc48a4d976",
+                },
                 Vcard = new UrlDetails
                 {
                     Url = "https://example.com/contact.vcf",
                     Name = "contact.vcf",
                 },
-                Origin = new Origin("12345"),
-                Content = [new ContentDetails("image", "https://example.com/image.jpg")],
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeMmsVideo(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "mms",
-                MessageUuid = StandardMessageUuid,
-                To = "447700900000",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "video",
-                Video = new UrlDetails
-                {
-                    Url = "https://example.com/video.mp4",
-                    Name = "video.mp4",
-                },
-                Origin = new Origin("12345"),
-                Content = [new ContentDetails("image", "https://example.com/image.jpg")],
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeSms(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "sms",
-                MessageUuid = StandardMessageUuid,
-                To = "447700900000",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                Text = "Hello From Vonage!",
-                Sms = new SmsDetails
-                {
-                    TotalCount = "2",
-                    MessagesCount = "2",
-                    Keyword = "HELLO",
-                },
-                Usage = new UsageDetails
-                {
-                    Currency = "EUR",
-                    Price = "0.0333",
-                },
-                Origin = new Origin("12345"),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeViberFile(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "viber_service",
-                MessageUuid = StandardMessageUuid,
-                Context = new ContextDetails
-                {
-                    MessageUuid = ViberContextMessageUuid,
-                },
-                To = "0123456789",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "file",
-                File = new UrlDetails
-                {
-                    Url = "https://example.com/file.pdf",
-                },
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeViberImage(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "viber_service",
-                MessageUuid = StandardMessageUuid,
-                Context = new ContextDetails
-                {
-                    MessageUuid = ViberContextMessageUuid,
-                },
-                To = "0123456789",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "image",
-                Image = new UrlDetails
-                {
-                    Url = "https://example.com/image.jpg",
-                },
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeViberText(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "viber_service",
-                MessageUuid = StandardMessageUuid,
-                Context = new ContextDetails
-                {
-                    MessageUuid = ViberContextMessageUuid,
-                },
-                To = "0123456789",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "text",
-                Text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeViberVideo(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "viber_service",
-                MessageUuid = StandardMessageUuid,
-                Context = new ContextDetails
-                {
-                    MessageUuid = ViberContextMessageUuid,
-                },
-                To = "0123456789",
-                From = "447700900001",
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "video",
-                Video = new UrlDetails
-                {
-                    Url = "https://example.com/video.mp4",
-                },
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppAudio(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
-                {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
-                },
-                Profile = new ProfileDetails
-                {
-                    Name = ProfileName,
-                },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "audio",
-                Audio = new UrlDetails
-                {
-                    Url = "https://example.com/audio.mp3",
-                    Name = "audio.mp3",
-                },
-                WhatsApp = new WhatsAppDetails
-                {
-                    Referral = new WhatsAppReferral(
-                        "Check out our new product offering",
-                        "New Products!",
-                        "212731241638144",
-                        "post",
-                        "https://fb.me/2ZulEu42P",
-                        "image",
-                        "https://example.com/image.jpg",
-                        "https://example.com/video.mp4",
-                        "https://example.com/thumbnail.jpg",
-                        "1234567890"),
-                },
-                Self =
-                    new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppFile(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
-                {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
-                },
-                Profile = new ProfileDetails
-                {
-                    Name = ProfileName,
-                },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "file",
-                File = new UrlDetails
-                {
-                    Url = "https://example.com/file.pdf",
-                    Name = "file.pdf",
-                },
-                WhatsApp = new WhatsAppDetails
-                {
-                    Referral = new WhatsAppReferral(
-                        "Check out our new product offering",
-                        "New Products!",
-                        "212731241638144",
-                        "post",
-                        "https://fb.me/2ZulEu42P",
-                        "image",
-                        "https://example.com/image.jpg",
-                        "https://example.com/video.mp4",
-                        "https://example.com/thumbnail.jpg",
-                        "1234567890"),
-                },
-                Self =
-                    new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppImage(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
-                {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
-                },
-                Profile = new ProfileDetails
-                {
-                    Name = ProfileName,
-                },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "image",
-                Image = new UrlDetails
-                {
-                    Url = "https://example.com/image.jpg",
-                    Name = "image.jpg",
-                },
-                WhatsApp = new WhatsAppDetails
-                {
-                    Referral = new WhatsAppReferral(
-                        "Check out our new product offering",
-                        "New Products!",
-                        "212731241638144",
-                        "post",
-                        "https://fb.me/2ZulEu42P",
-                        "image",
-                        "https://example.com/image.jpg",
-                        "https://example.com/video.mp4",
-                        "https://example.com/thumbnail.jpg",
-                        "1234567890"),
-                },
-                Self =
-                    new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppLocation(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
-                {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
-                },
-                Profile = new ProfileDetails
-                {
-                    Name = ProfileName,
-                },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "location",
                 Location = new LocationDetails
                 {
                     Latitude = 40.34772m,
@@ -568,49 +81,6 @@ public class SerializationTest
                     Name = "Vonage",
                     Address = "23 Main St, Holmdel, NJ 07733, USA",
                 },
-                WhatsApp = new WhatsAppDetails
-                {
-                    Referral = new WhatsAppReferral(
-                        "Check out our new product offering",
-                        "New Products!",
-                        "212731241638144",
-                        "post",
-                        "https://fb.me/2ZulEu42P",
-                        "image",
-                        "https://example.com/image.jpg",
-                        "https://example.com/video.mp4",
-                        "https://example.com/thumbnail.jpg",
-                        "1234567890"),
-                },
-                Self =
-                    new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppOrder(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
-                {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
-                },
-                Profile = new ProfileDetails
-                {
-                    Name = ProfileName,
-                },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "order",
                 Order = new OrderDetails
                 {
                     CatalogId = "2806150799683508",
@@ -625,82 +95,25 @@ public class SerializationTest
                         },
                     ],
                 },
-                WhatsApp = new WhatsAppDetails
-                {
-                    Referredproduct = new WhatsAppReferredProduct
-                    {
-                        CatalogId = "1267260820787549",
-                        ProductRetailerId = "r07qei73l7",
-                    },
-                },
-                Self =
-                    new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppReply(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
-                {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
-                },
-                Profile = new ProfileDetails
-                {
-                    Name = ProfileName,
-                },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "reply",
                 Reply = new ReplyDetails
                 {
                     Id = "row1",
                     Title = "9am",
                     Description = "Select 9am appointment time",
                 },
-                Self =
-                    new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppSticker(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
+                Sms = new SmsDetails
                 {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
+                    TotalCount = "2",
+                    MessagesCount = "2",
+                    Keyword = "HELLO",
                 },
-                Profile = new ProfileDetails
+                Usage = new UsageDetails
                 {
-                    Name = ProfileName,
+                    Currency = "EUR",
+                    Price = "0.0333",
                 },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "sticker",
-                Sticker = new UrlDetails
-                {
-                    Url = "https://api-us.nexmo.com/v3/media/1b456509-974c-458b-aafa-45fc48a4d976",
-                },
+                Origin = new Origin("12345"),
+                Content = [new ContentDetails("image", "https://example.com/image.jpg")],
                 WhatsApp = new WhatsAppDetails
                 {
                     Referral = new WhatsAppReferral(
@@ -714,125 +127,11 @@ public class SerializationTest
                         "https://example.com/video.mp4",
                         "https://example.com/thumbnail.jpg",
                         "1234567890"),
-                },
-                Self =
-                    new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppText(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
-                {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
-                },
-                Profile = new ProfileDetails
-                {
-                    Name = ProfileName,
-                },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "text",
-                Text = "Nexmo Verification code: 12345.<br />Valid for 10 minutes.",
-                WhatsApp = new WhatsAppDetails
-                {
-                    Referral = new WhatsAppReferral(
-                        "Check out our new product offering",
-                        "New Products!",
-                        "212731241638144",
-                        "post",
-                        "https://fb.me/2ZulEu42P",
-                        "image",
-                        "https://example.com/image.jpg",
-                        "https://example.com/video.mp4",
-                        "https://example.com/thumbnail.jpg",
-                        "1234567890"),
-                },
-                Self =
-                    new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppUnsupported(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
-                {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
-                },
-                Profile = new ProfileDetails
-                {
-                    Name = ProfileName,
-                },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "unsupported",
-            });
-
-    [Theory]
-    [InlineData(JsonSerializerType.Newtonsoft)]
-    [InlineData(JsonSerializerType.SystemTextJson)]
-    public void ShouldDeserializeWhatsAppVideo(JsonSerializerType serializer) =>
-        Deserialize<MessageWebhookResponse>(ReadJson(), serializer)
-            .Should().BeEquivalentTo(new MessageWebhookResponse
-            {
-                Channel = "whatsapp",
-                MessageUuid = StandardMessageUuid,
-                ContextStatus = "available",
-                Context = new ContextDetails
-                {
-                    MessageUuid = WhatsAppContextMessageUuid,
-                    MessageFrom = "447700900000",
-                },
-                Profile = new ProfileDetails
-                {
-                    Name = ProfileName,
-                },
-                To = "447700900000",
-                From = "447700900001",
-                ProviderMessage = StandardProviderMessage,
-                Timestamp = StandardTimestamp,
-                ClientReference = StandardClientReference,
-                MessageType = "video",
-                Video = new UrlDetails
-                {
-                    Url = "https://example.com/video.mp4",
-                    Name = "video.mp4",
-                },
-                WhatsApp = new WhatsAppDetails
-                {
-                    Referral = new WhatsAppReferral(
-                        "Check out our new product offering",
-                        "New Products!",
-                        "212731241638144",
-                        "post",
-                        "https://fb.me/2ZulEu42P",
-                        "image",
-                        "https://example.com/image.jpg",
-                        "https://example.com/video.mp4",
-                        "https://example.com/thumbnail.jpg",
-                        "1234567890"),
+                    Referredproduct = new WhatsAppReferredProduct
+                    {
+                        CatalogId = "1267260820787549",
+                        ProductRetailerId = "r07qei73l7",
+                    },
                 },
                 Self =
                     new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),

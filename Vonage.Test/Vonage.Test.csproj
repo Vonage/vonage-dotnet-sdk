@@ -173,82 +173,7 @@
         <None Include="Messages\WhatsApp\Data\SendWhatsAppSingleItemAsyncReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeSms-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsText-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsImage-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsAudio-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsVcard-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsVideo-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeViberFile-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeViberImage-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeViberText-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeViberVideo-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerAudio-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerFile-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerImage-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerText-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerUnsupported-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerVideo-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppAudio-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppFile-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppImage-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppLocation-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppOrder-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppReply-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppSticker-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppText-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json">
+        <None Include="Messages\Webhooks\Data\ShouldDeserializeWebhook-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="VerifyV2\VerifyCode\Data\ShouldSerialize-request.json">
@@ -279,84 +204,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="VerifyV2\StartVerification\Data\ShouldSerializeFallbackWorkflows-request.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerAudio-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerFile-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerImage-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerText-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerUnsupported-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMessengerVideo-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsAudio-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsImage-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsText-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsVcard-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeMmsVideo-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeSms-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeViberFile-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeViberImage-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeViberText-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeViberVideo-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppAudio-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppFile-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppImage-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppLocation-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppOrder-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppReply-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppSticker-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppText-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppUnsupported-response.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Messages\Webhooks\Data\ShouldDeserializeWhatsAppVideo-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="ProactiveConnect\Items\GetItems\Data\ShouldDeserialize200-response.json">
@@ -1605,9 +1452,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="Voice\Data\TranscriptionSample.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Messages\Webhooks\Data\ShouldDeserializeMmsFile-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
