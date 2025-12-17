@@ -1,4 +1,25 @@
 # Changelog
+## [v8.19.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.19.0) (2025-12-17)
+
+### Documentation
+
+- Generate changelog for v8.18.0 ([c3ba3d6](https://github.com/Vonage/vonage-dotnet-sdk/commit/c3ba3d63aff69b999057bc96b108351264608172))
+
+- Bump version to v8.19.0 ([d7e57a7](https://github.com/Vonage/vonage-dotnet-sdk/commit/d7e57a795234112e7c4c753c1e475b4c3ca8d332))
+
+
+### Features
+
+- Support latests properties on Messages webhooks ([7228f70](https://github.com/Vonage/vonage-dotnet-sdk/commit/7228f7068802b8f4f7c19be23e6c22061a7b47f3))
+
+- Support message status webhook in Messages ([fea1f9f](https://github.com/Vonage/vonage-dotnet-sdk/commit/fea1f9f7ddf1ee9995d9db122fd2eeb887574ce0))
+
+
+### Refactoring
+
+- Merge all Messages webhook serialization tests into a single file/test, to reduce redudance and maintenance ([cec0b2a](https://github.com/Vonage/vonage-dotnet-sdk/commit/cec0b2a68a8a6f9f61ac0559afbf6cae5f112c1d))
+
+
 ## [v8.18.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.18.0) (2025-12-12)
 
 ### Documentation
