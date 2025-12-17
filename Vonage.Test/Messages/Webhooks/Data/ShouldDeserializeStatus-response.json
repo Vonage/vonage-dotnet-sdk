@@ -1,0 +1,43 @@
+{
+  "message_uuid": "aaaaaaaa-bbbb-4ccc-8ddd-0123456789ab",
+  "to": "447700900000",
+  "from": "447700900001",
+  "timestamp": "2025-02-03T12:14:25Z",
+  "status": "submitted",
+  "error": {
+    "type": "https://developer.vonage.com/api-errors/messages#1000",
+    "title": "1000",
+    "detail": "Throttled - You have exceeded the submission capacity allowed on this account. Please wait and retry",
+    "instance": "bf0ca0bf927b3b52e3cb03217e1a1ddf"
+  },
+  "client_ref": "abc123",
+  "workflow": {
+    "workflow_id": "3TcNjguHxr2vcCZ9Ddsnq6tw8yQUpZ9rMHv9QXSxLan5ibMxqSzLdx9",
+    "items_number": "1",
+    "items_total": "2"
+  },
+  "usage": {
+    "currency": "EUR",
+    "price": "0.0333"
+  },
+  "channel": "sms",
+  "destination": {
+    "network_code": "12345"
+  },
+  "sms": {
+    "count_total": "2"
+  },
+  "whatsapp": {
+    "pricing": {
+      "type": "regular",
+      "pricing_model": "CBP",
+      "category": "service"
+    },
+    "conversation": {
+      "id": "1234567890",
+      "origin": {
+        "type": "user_initiated"
+      }
+    }
+  }
+}

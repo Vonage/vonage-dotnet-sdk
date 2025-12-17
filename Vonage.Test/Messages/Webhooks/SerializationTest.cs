@@ -137,6 +137,33 @@ public class SerializationTest
                     new HalLink(new Uri("https://api-eu.vonage.com/v1/messages/aaaaaaa-bbbb-4ccc-8ddd-0123456789ab")),
             });
 
+    [Theory]
+    [InlineData(JsonSerializerType.Newtonsoft)]
+    [InlineData(JsonSerializerType.SystemTextJson)]
+    public void ShouldDeserializeStatus(JsonSerializerType serializer) =>
+        Deserialize<MessageStatusResponse>(ReadJson(), serializer)
+            .Should().BeEquivalentTo(new MessageStatusResponse
+            {
+                MessageId = "aaaaaaaa-bbbb-4ccc-8ddd-0123456789ab",
+                Channel = "sms",
+                ClientReference = "abc123",
+                From = "447700900001",
+                Status = "submitted",
+                Timestamp = DateTimeOffset.Parse("2025-02-03T12:14:25Z"),
+                To = "447700900000",
+                Error = new StatusError("https://developer.vonage.com/api-errors/messages#1000", "1000",
+                    "Throttled - You have exceeded the submission capacity allowed on this account. Please wait and retry",
+                    "bf0ca0bf927b3b52e3cb03217e1a1ddf"),
+                Workflow = new StatusWorkflow("3TcNjguHxr2vcCZ9Ddsnq6tw8yQUpZ9rMHv9QXSxLan5ibMxqSzLdx9", "1", "2"),
+                Usage = new StatusUsage("EUR", "0.0333"),
+                Destination = new StatusDestination("12345"),
+                Sms = new StatusSms("2"),
+                WhatsApp = new StatusWhatsApp(
+                    new StatusWhatsAppPricing("regular", "CBP", "service"),
+                    new StatusWhatsAppConversation("1234567890",
+                        new StatusWhatsAppConversationOrigin("user_initiated"))),
+            });
+
     private static T Deserialize<T>(string json, JsonSerializerType serializerType) => serializerType switch
     {
         JsonSerializerType.Newtonsoft => JsonConvert.DeserializeObject<T>(json),
