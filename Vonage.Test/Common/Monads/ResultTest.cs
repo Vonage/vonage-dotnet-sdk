@@ -176,7 +176,7 @@ public class ResultTest
     public class Match
     {
         [Fact]
-        public void Match_ShouldExecuteFailureOperation_GivenValueIsSuccess()
+        public void Match_ShouldExecuteFailureOperation_GivenValueIsFailure()
         {
             var value = 0;
             TestBehaviors.CreateFailure<int>().Match(success => value = success, _ => value = -1);

@@ -328,7 +328,7 @@ public class MaybeTest
         }
 
         [Fact]
-        public void DoWhenNone_ShouldNotExecuteAction_GivenStateIsNone()
+        public void DoWhenNone_ShouldNotExecuteAction_GivenStateIsSome()
         {
             var value = 0;
             MaybeBehaviors.CreateSome(5).DoWhenNone(() => value = 10);
