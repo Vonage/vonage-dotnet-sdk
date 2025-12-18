@@ -19,7 +19,7 @@ public class ResultAssertionExtensions<T>(Result<T> subject)
     public AndConstraint<ResultAssertionExtensions<T>> BeFailure(Action<IResultFailure> action)
     {
         this.BuildFailureExpectation();
-        this.Subject.IfFailure(action);
+        this.Subject.DoWhenFailure(action);
         return new AndConstraint<ResultAssertionExtensions<T>>(this);
     }
 

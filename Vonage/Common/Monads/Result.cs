@@ -170,6 +170,7 @@ public readonly struct Result<T>
     ///     Invokes the action if Result is in the Failure state, otherwise nothing happens.
     /// </summary>
     /// <param name="action">Action to invoke.</param>
+    [Obsolete("Use '.DoWhenFailure' instead.")]
     public void IfFailure(Action<IResultFailure> action)
     {
         if (this.IsFailure)
@@ -253,23 +254,6 @@ public readonly struct Result<T>
     /// <returns>A non-null TB.</returns>
     public TB Match<TB>(Func<T, TB> successOperation, Func<IResultFailure, TB> failureOperation) =>
         this.IsFailure ? failureOperation(this.failure) : successOperation(this.success);
-
-    /// <summary>
-    ///     Match the two states of the Result.
-    /// </summary>
-    /// <param name="successOperation">Success match operation.</param>
-    /// <param name="failureOperation">Failure match operation.</param>
-    public void Match(Action<T> successOperation, Action<IResultFailure> failureOperation)
-    {
-        if (this.IsFailure)
-        {
-            failureOperation(this.failure);
-        }
-        else
-        {
-            successOperation(this.success);
-        }
-    }
 
     /// <summary>
     ///     Merge two results together. The merge operation will be used if they're both in a Success state.
