@@ -15,7 +15,7 @@ public static class MaybeExtensions
     /// </summary>
     /// <param name="value">The string value.</param>
     /// <returns>A None state if the value is null or whitespace. A Some state otherwise.</returns>
-    public static Maybe<string> From(string value) =>
+    public static Maybe<string> FromNonEmptyString(string value) =>
         string.IsNullOrWhiteSpace(value)
             ? Maybe<string>.None
             : Maybe<string>.Some(value);

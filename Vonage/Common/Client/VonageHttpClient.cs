@@ -103,7 +103,7 @@ internal class VonageHttpClient<TError> where TError : IApiError
             await response.Content.ReadAsStringAsync().ConfigureAwait(false));
 
     private Result<T> ParseFailure<T>(ResponseData response) =>
-        MaybeExtensions.From(response.Content)
+        MaybeExtensions.FromNonEmptyString(response.Content)
             .Match(value => this.CreateFailureResult(response.Code, value), () => CreateFailureResult(response.Code))
             .ToResult<T>();
 

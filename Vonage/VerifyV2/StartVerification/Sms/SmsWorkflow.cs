@@ -96,7 +96,7 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
     public static Result<SmsWorkflow> Parse(string to, string hash = null, string entityId = null,
         string contentId = null, string from = null)
     {
-        var fromNumber = MaybeExtensions.From(from)
+        var fromNumber = MaybeExtensions.FromNonEmptyString(from)
             .Match(some => PhoneNumber
                     .Parse(some)
                     .Match(success => Result<Maybe<PhoneNumber>>.FromSuccess(success),
