@@ -183,7 +183,7 @@ public readonly struct Maybe<TSource>
         : new Maybe<TDestination>(value);
 
     /// <inheritdoc />
-    public override string ToString() => this.IsSome ? $"Some({base.ToString()})" : "None";
+    public override string ToString() => this.IsSome ? $"Some({this.value.ToString()})" : "None";
 
     /// <summary>
     ///     Verifies of both Maybes are either None or Some with the same values.

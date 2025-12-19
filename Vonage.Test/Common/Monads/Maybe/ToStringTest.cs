@@ -13,5 +13,5 @@ public class ToStringTest
 
     [Fact]
     public void ToString_ShouldReturnSome_GivenValueIsSome() => MaybeBehaviors.CreateSome(10).ToString().Should()
-        .Be("Some(Vonage.Common.Monads.Maybe`1[System.Int32])");
+        .Be("Some(10)");
 }

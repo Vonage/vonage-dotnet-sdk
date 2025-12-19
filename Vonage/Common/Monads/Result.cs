@@ -48,6 +48,11 @@ public readonly struct Result<T>
     /// </summary>
     public bool IsSuccess => this.state == ResultState.Success;
 
+    /// <inheritdoc />
+    public override string ToString() => this.IsSuccess
+        ? $"Success({this.success.ToString()})"
+        : $"Failure({this.failure.GetFailureMessage()})";
+
     /// <summary>
     ///     Projects from one value to another for each state of the Monad.
     /// </summary>
