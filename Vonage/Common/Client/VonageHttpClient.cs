@@ -122,15 +122,15 @@ internal class VonageHttpClient<TError> where TError : IApiError
 
     private static async Task<Result<TResponse>> ProcessRequest<TRequest, TResponse>(
         Result<TRequest> request,
-        Func<TRequest, Result<HttpRequestMessage>> httpRequestConversion,
-        Func<HttpRequestMessage, Task<HttpResponseMessage>> sendRequest,
-        Func<ResponseData, Result<TResponse>> failure,
-        Func<ResponseData, Result<TResponse>> success) =>
+        Func<TRequest, Result<HttpRequestMessage>> createHttpRequest,
+        Func<HttpRequestMessage, Task<HttpResponseMessage>> sendHttpRequest,
+        Func<ResponseData, Result<TResponse>> parseWhenFailure,
+        Func<ResponseData, Result<TResponse>> parseWhenSuccess) =>
         await request
-            .Bind(httpRequestConversion)
-            .MapAsync(sendRequest)
+            .Bind(createHttpRequest)
+            .MapAsync(sendHttpRequest)
             .MapAsync(ExtractResponse)
-            .Bind(response => !response.IsSuccessStatusCode ? failure(response) : success(response))
+            .Bind(response => !response.IsSuccessStatusCode ? parseWhenFailure(response) : parseWhenSuccess(response))
             .ConfigureAwait(false);
 
     private Task<HttpResponseMessage> SendHttpRequest(HttpRequestMessage request) => this.client.SendAsync(request);
