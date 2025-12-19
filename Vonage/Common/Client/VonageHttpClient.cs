@@ -42,7 +42,10 @@ internal class VonageHttpClient<TError> where TError : IApiError
     /// <param name="request">The request to send.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<Unit>> SendAsync<T>(Result<T> request) where T : IVonageRequest =>
-        await SendRequest(request, this.BuildHttpRequestMessage, this.SendRequest, this.ParseFailure<Unit>,
+        await ProcessRequest(request,
+                this.BuildHttpRequestMessageWithHeaders,
+                this.SendHttpRequest,
+                this.ParseResponseWhenFailure<Unit>,
                 CreateSuccessResult)
             .ConfigureAwait(false);
 
@@ -52,8 +55,12 @@ internal class VonageHttpClient<TError> where TError : IApiError
     /// <param name="request">The request to send.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<Unit>> SendWithoutHeadersAsync<T>(Result<T> request) where T : IVonageRequest =>
-        await SendRequest(request, value => value.BuildRequestMessage(), this.SendRequest, this.ParseFailure<Unit>,
-            CreateSuccessResult).ConfigureAwait(false);
+        await ProcessRequest(request,
+                value => value.BuildRequestMessage(),
+                this.SendHttpRequest,
+                this.ParseResponseWhenFailure<Unit>,
+                CreateSuccessResult)
+            .ConfigureAwait(false);
 
     /// <summary>
     ///     Sends a HttpRequest and returns the raw content.
@@ -63,10 +70,12 @@ internal class VonageHttpClient<TError> where TError : IApiError
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<string>> SendWithRawResponseAsync<TRequest>(Result<TRequest> request)
         where TRequest : IVonageRequest =>
-        await SendRequest(request, this.BuildHttpRequestMessage,
-            this.SendRequest,
-            this.ParseFailure<string>,
-            responseData => responseData.Content).ConfigureAwait(false);
+        await ProcessRequest(request,
+                this.BuildHttpRequestMessageWithHeaders,
+                this.SendHttpRequest,
+                this.ParseResponseWhenFailure<string>,
+                responseData => responseData.Content)
+            .ConfigureAwait(false);
 
     /// <summary>
     ///     Sends a HttpRequest and parses the response.
@@ -75,12 +84,13 @@ internal class VonageHttpClient<TError> where TError : IApiError
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
     public async Task<Result<TResponse>> SendWithResponseAsync<TRequest, TResponse>(Result<TRequest> request)
         where TRequest : IVonageRequest =>
-        await SendRequest(request, this.BuildHttpRequestMessage,
-            this.SendRequest,
-            this.ParseFailure<TResponse>,
-            this.ParseSuccess<TResponse>).ConfigureAwait(false);
+        await ProcessRequest(request,
+            this.BuildHttpRequestMessageWithHeaders,
+            this.SendHttpRequest,
+            this.ParseResponseWhenFailure<TResponse>,
+            this.ParseResponseWhenSuccess<TResponse>).ConfigureAwait(false);
 
-    private Result<HttpRequestMessage> BuildHttpRequestMessage<T>(T value) where T : IVonageRequest =>
+    private Result<HttpRequestMessage> BuildHttpRequestMessageWithHeaders<T>(T value) where T : IVonageRequest =>
         this.requestOptions
             .Map(options => value
                 .BuildRequestMessage()
@@ -94,25 +104,23 @@ internal class VonageHttpClient<TError> where TError : IApiError
                 success => success.ToFailure() with {Code = code, Json = responseContent},
                 failure => HttpFailure.From(code, failure.GetFailureMessage(), responseContent));
 
-    private static HttpFailure CreateFailureResult(HttpStatusCode code) => HttpFailure.From(code);
-
     private static Result<Unit> CreateSuccessResult(ResponseData response) => Result<Unit>.FromSuccess(Unit.Default);
 
-    private static async Task<ResponseData> ExtractResponseData(HttpResponseMessage response) =>
+    private static async Task<ResponseData> ExtractResponse(HttpResponseMessage response) =>
         new ResponseData(response.StatusCode, response.IsSuccessStatusCode,
             await response.Content.ReadAsStringAsync().ConfigureAwait(false));
 
-    private Result<T> ParseFailure<T>(ResponseData response) =>
+    private Result<T> ParseResponseWhenFailure<T>(ResponseData response) =>
         MaybeExtensions.FromNonEmptyString(response.Content)
-            .Match(value => this.CreateFailureResult(response.Code, value), () => CreateFailureResult(response.Code))
+            .Match(value => this.CreateFailureResult(response.Code, value), () => HttpFailure.From(response.Code))
             .ToResult<T>();
 
-    private Result<T> ParseSuccess<T>(ResponseData response) =>
+    private Result<T> ParseResponseWhenSuccess<T>(ResponseData response) =>
         this.jsonSerializer
             .DeserializeObject<T>(response.Content)
             .Match(Result<T>.FromSuccess, Result<T>.FromFailure);
 
-    private static async Task<Result<TResponse>> SendRequest<TRequest, TResponse>(
+    private static async Task<Result<TResponse>> ProcessRequest<TRequest, TResponse>(
         Result<TRequest> request,
         Func<TRequest, Result<HttpRequestMessage>> httpRequestConversion,
         Func<HttpRequestMessage, Task<HttpResponseMessage>> sendRequest,
@@ -121,11 +129,11 @@ internal class VonageHttpClient<TError> where TError : IApiError
         await request
             .Bind(httpRequestConversion)
             .MapAsync(sendRequest)
-            .MapAsync(ExtractResponseData)
+            .MapAsync(ExtractResponse)
             .Bind(response => !response.IsSuccessStatusCode ? failure(response) : success(response))
             .ConfigureAwait(false);
 
-    private Task<HttpResponseMessage> SendRequest(HttpRequestMessage request) => this.client.SendAsync(request);
+    private Task<HttpResponseMessage> SendHttpRequest(HttpRequestMessage request) => this.client.SendAsync(request);
 
     private sealed record ResponseData(HttpStatusCode Code, bool IsSuccessStatusCode, string Content);
 
