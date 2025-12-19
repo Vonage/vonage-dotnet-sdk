@@ -1,6 +1,7 @@
 ﻿#region
 using System;
 using System.Threading.Tasks;
+using Vonage.Common.Failures;
 using Vonage.Common.Monads.Exceptions;
 #endregion
 
@@ -199,6 +200,15 @@ public readonly struct Maybe<TSource>
         this.IsSome
             ? this.value.Equals(other.value)
             : other.IsNone;
+
+    /// <summary>
+    ///     Converts this instance to a Result.
+    /// </summary>
+    /// <returns>A Result with a Success state when Some, or with a Failure state when None.</returns>
+    public Result<TSource> ToResult() =>
+        this.IsSome
+            ? Result<TSource>.FromSuccess(this.value)
+            : Result<TSource>.FromFailure(NoneFailure.Value);
 
     /// <summary>
     ///     Executes operations depending on the current state.
