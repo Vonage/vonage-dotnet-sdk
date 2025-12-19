@@ -20,14 +20,14 @@ internal class VonageHttpClient<TError> where TError : IApiError
     /// <summary>
     ///     Creates a custom Http Client for Vonage purposes.
     /// </summary>
-    /// <param name="configuration">The custom configuration.</param>
-    /// <param name="serializer">The serializer.</param>
-    public VonageHttpClient(VonageHttpClientConfiguration configuration, IJsonSerializer serializer)
+    /// <param name="clientConfiguration">The custom configuration.</param>
+    /// <param name="jsonSerializer">The serializer.</param>
+    public VonageHttpClient(VonageHttpClientConfiguration clientConfiguration, IJsonSerializer jsonSerializer)
     {
-        this.client = configuration.HttpClient;
-        this.jsonSerializer = serializer;
-        this.userAgent = configuration.UserAgent;
-        this.requestOptions = configuration.AuthenticationHeader
+        this.client = clientConfiguration.HttpClient;
+        this.jsonSerializer = jsonSerializer;
+        this.userAgent = clientConfiguration.UserAgent;
+        this.requestOptions = clientConfiguration.AuthenticationHeader
             .Map(header =>
                 new HttpClientOptions(header, UserAgentProvider.GetFormattedUserAgent(this.userAgent)));
     }
@@ -46,7 +46,7 @@ internal class VonageHttpClient<TError> where TError : IApiError
                 this.BuildHttpRequestMessageWithHeaders,
                 this.SendHttpRequest,
                 this.ParseResponseWhenFailure<Unit>,
-                CreateSuccessResult)
+                _ => CreateEmptySuccess())
             .ConfigureAwait(false);
 
     /// <summary>
@@ -59,7 +59,7 @@ internal class VonageHttpClient<TError> where TError : IApiError
                 value => value.BuildRequestMessage(),
                 this.SendHttpRequest,
                 this.ParseResponseWhenFailure<Unit>,
-                CreateSuccessResult)
+                _ => CreateEmptySuccess())
             .ConfigureAwait(false);
 
     /// <summary>
@@ -90,52 +90,55 @@ internal class VonageHttpClient<TError> where TError : IApiError
             this.ParseResponseWhenFailure<TResponse>,
             this.ParseResponseWhenSuccess<TResponse>).ConfigureAwait(false);
 
-    private Result<HttpRequestMessage> BuildHttpRequestMessageWithHeaders<T>(T value) where T : IVonageRequest =>
+    private Result<HttpRequestMessage> BuildHttpRequestMessageWithHeaders<T>(T request) where T : IVonageRequest =>
         this.requestOptions
-            .Map(options => value
+            .Map(options => request
                 .BuildRequestMessage()
                 .WithAuthenticationHeader(options.AuthenticationHeader)
                 .WithUserAgent(options.UserAgent));
 
-    private HttpFailure CreateFailureResult(HttpStatusCode code, string responseContent) =>
-        this.jsonSerializer
-            .DeserializeObject<TError>(responseContent)
-            .Match(
-                success => success.ToFailure() with {Code = code, Json = responseContent},
-                failure => HttpFailure.From(code, failure.GetFailureMessage(), responseContent));
+    private static Result<Unit> CreateEmptySuccess() => Result<Unit>.FromSuccess(Unit.Default);
 
-    private static Result<Unit> CreateSuccessResult(ResponseData response) => Result<Unit>.FromSuccess(Unit.Default);
-
-    private static async Task<ResponseData> ExtractResponse(HttpResponseMessage response) =>
-        new ResponseData(response.StatusCode, response.IsSuccessStatusCode,
+    private static async Task<HttpResponseData> ExtractResponse(HttpResponseMessage response) =>
+        new HttpResponseData(response.StatusCode, response.IsSuccessStatusCode,
             await response.Content.ReadAsStringAsync().ConfigureAwait(false));
 
-    private Result<T> ParseResponseWhenFailure<T>(ResponseData response) =>
-        MaybeExtensions.FromNonEmptyString(response.Content)
-            .Match(value => this.CreateFailureResult(response.Code, value), () => HttpFailure.From(response.Code))
-            .ToResult<T>();
+    private Result<T> ParseResponseWhenFailure<T>(HttpResponseData httpResponse) =>
+        httpResponse.ToHttpFailure(this.jsonSerializer).ToResult<T>();
 
-    private Result<T> ParseResponseWhenSuccess<T>(ResponseData response) =>
-        this.jsonSerializer
-            .DeserializeObject<T>(response.Content)
+    private Result<T> ParseResponseWhenSuccess<T>(HttpResponseData httpResponse) =>
+        this.jsonSerializer.DeserializeObject<T>(httpResponse.Content)
             .Match(Result<T>.FromSuccess, Result<T>.FromFailure);
 
     private static async Task<Result<TResponse>> ProcessRequest<TRequest, TResponse>(
         Result<TRequest> request,
         Func<TRequest, Result<HttpRequestMessage>> createHttpRequest,
         Func<HttpRequestMessage, Task<HttpResponseMessage>> sendHttpRequest,
-        Func<ResponseData, Result<TResponse>> parseWhenFailure,
-        Func<ResponseData, Result<TResponse>> parseWhenSuccess) =>
+        Func<HttpResponseData, Result<TResponse>> parseWhenFailure,
+        Func<HttpResponseData, Result<TResponse>> parseWhenSuccess) =>
         await request
             .Bind(createHttpRequest)
             .MapAsync(sendHttpRequest)
             .MapAsync(ExtractResponse)
-            .Bind(response => !response.IsSuccessStatusCode ? parseWhenFailure(response) : parseWhenSuccess(response))
+            .Bind(response => response.IsSuccessStatusCode ? parseWhenSuccess(response) : parseWhenFailure(response))
             .ConfigureAwait(false);
 
     private Task<HttpResponseMessage> SendHttpRequest(HttpRequestMessage request) => this.client.SendAsync(request);
 
-    private sealed record ResponseData(HttpStatusCode Code, bool IsSuccessStatusCode, string Content);
+    private sealed record HttpResponseData(HttpStatusCode Code, bool IsSuccessStatusCode, string Content)
+    {
+        public HttpFailure ToHttpFailure(IJsonSerializer jsonSerializer) =>
+            MaybeExtensions.FromNonEmptyString(this.Content)
+                .ToResult()
+                .Map(_ => this.ToHttpFailureWithContent(jsonSerializer))
+                .IfFailure(_ => HttpFailure.From(this.Code));
+
+        private HttpFailure ToHttpFailureWithContent(IJsonSerializer jsonSerializer) =>
+            jsonSerializer
+                .DeserializeObject<TError>(this.Content)
+                .Match(success => success.ToFailure() with {Code = this.Code, Json = this.Content},
+                    failure => HttpFailure.From(this.Code, failure.GetFailureMessage(), this.Content));
+    }
 
     private sealed record HttpClientOptions(AuthenticationHeaderValue AuthenticationHeader, string UserAgent);
 }
