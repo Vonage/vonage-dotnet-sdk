@@ -1,27 +1,54 @@
 ﻿#region
+using System;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Vonage.Common.Exceptions;
 using Vonage.Redaction;
-using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
+using Vonage.Test.TestHelpers;
+using WireMock.ResponseBuilders;
 using Xunit;
 #endregion
 
 namespace Vonage.Test.Redact;
 
 [Trait("Category", "Legacy")]
-public class RedactTests : TestBase
+public class RedactTests : IDisposable
 {
+    private readonly TestingContext context = TestingContext.WithBasicCredentials();
+
     private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(RedactTests).Namespace,
         JsonSerializerBuilder.BuildWithCamelCase());
+
+    public void Dispose()
+    {
+        this.context?.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    private IResponseBuilder RespondWithSuccess([CallerMemberName] string testName = null) =>
+        Response.Create()
+            .WithStatusCode(HttpStatusCode.OK)
+            .WithBody(this.helper.GetResponseJson("Redact"));
+
+    private IResponseBuilder RespondWithError(HttpStatusCode statusCode, [CallerMemberName] string testName = null) =>
+        Response.Create()
+            .WithStatusCode(statusCode)
+            .WithBody(this.helper.GetResponseJson(testName));
+
+    private IRedactClient BuildRedactClient() => this.context.VonageClient.RedactClient;
 
     [Fact]
     public async Task RedactMessagesInbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateMessagesInboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -29,8 +56,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactMessagesOutbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateMessagesOutboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -38,8 +69,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactNumberInsightInbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateNumberInsightInboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -47,8 +82,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactNumberInsightOutbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateNumberInsightOutboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -56,8 +95,11 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactReturns401()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
-            expectedCode: HttpStatusCode.Unauthorized);
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithError(HttpStatusCode.Unauthorized));
         var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
             this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
         exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
@@ -66,8 +108,11 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactReturns403()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
-            expectedCode: HttpStatusCode.Forbidden);
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithError(HttpStatusCode.Forbidden));
         var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
             this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
         exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
@@ -76,8 +121,11 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactReturns404()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
-            expectedCode: HttpStatusCode.NotFound);
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithError(HttpStatusCode.NotFound));
         var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
             this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
         exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
@@ -86,8 +134,11 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactReturns422()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
-            expectedCode: HttpStatusCode.UnprocessableEntity);
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithError(HttpStatusCode.UnprocessableEntity));
         var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
             this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
         exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
@@ -96,8 +147,11 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactReturns429()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson(),
-            expectedCode: HttpStatusCode.TooManyRequests);
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithError(HttpStatusCode.TooManyRequests));
         var exception = await Assert.ThrowsAsync<VonageHttpRequestException>(() =>
             this.BuildRedactClient().RedactAsync(RedactTestData.CreateErrorTestRequest()));
         exception.ShouldBeHttpRequestException(this.helper.GetResponseJson());
@@ -106,8 +160,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactSmsInbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateSmsInboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -115,8 +173,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactSmsOutbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateSmsOutboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -124,8 +186,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactVerifyInbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVerifyInboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -133,8 +199,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactVerifyOutbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVerifyOutboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -142,8 +212,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactVerifySdkInbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVerifySdkInboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -151,8 +225,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactVerifySdkOutbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVerifySdkOutboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -160,8 +238,12 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactVoiceInbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVoiceInboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
@@ -169,12 +251,13 @@ public class RedactTests : TestBase
     [Fact]
     public async Task RedactVoiceOutbound()
     {
-        this.Setup($"{this.ApiUrl}/v1/redact/transaction", this.helper.GetResponseJson("Redact"),
-            this.helper.GetRequestJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/redact/transaction")
+                .WithBody(this.helper.GetRequestJson())
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildRedactClient().RedactAsync(RedactTestData.CreateVoiceOutboundRequest());
         response.ShouldBeSuccessfulRedaction();
     }
-
-    private IRedactClient BuildRedactClient() =>
-        this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret)).RedactClient;
 }
