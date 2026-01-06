@@ -1,33 +1,38 @@
 #region
 using System;
+using System.Net;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Vonage.Messages;
 using Vonage.Messages.Messenger;
-using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
+using Vonage.Test.TestHelpers;
+using WireMock.ResponseBuilders;
 using Xunit;
 #endregion
 
 namespace Vonage.Test.Messages.Messenger;
 
 [Trait("Category", "Legacy")]
-public class MessengerMessagesTest : TestBase
+public class MessengerMessagesTest : IDisposable
 {
-    private readonly string expectedUri;
-    private readonly SerializationTestHelper helper;
+    private readonly TestingContext context = TestingContext.WithBearerCredentials();
 
-    public MessengerMessagesTest()
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(
+        typeof(MessengerMessagesTest).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
+
+    public void Dispose()
     {
-        this.expectedUri = $"{this.ApiUrl}/v1/messages";
-        this.helper = new SerializationTestHelper(typeof(MessengerMessagesTest).Namespace,
-            JsonSerializerBuilder.BuildWithCamelCase());
+        this.context?.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     [Fact]
     public async Task SendMessengerAudioAsyncReturnsOk()
     {
-        var request = new MessengerAudioRequest
+        await this.VerifySendMessage(this.helper.GetRequestJson(), new MessengerAudioRequest
         {
             To = "441234567890",
             From = "015417543010",
@@ -43,14 +48,12 @@ public class MessengerMessagesTest : TestBase
                 Category = MessengerMessageCategory.Response,
                 Tag = MessengerTagType.ConfirmedEventUpdate,
             },
-        };
-        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
+        });
     }
 
     [Fact]
-    public async Task SendMessengerFileAsyncReturnsOk()
-    {
-        var request = new MessengerFileRequest
+    public async Task SendMessengerFileAsyncReturnsOk() =>
+        await this.VerifySendMessage(this.helper.GetRequestJson(), new MessengerFileRequest
         {
             To = "441234567890",
             From = "015417543010",
@@ -66,14 +69,11 @@ public class MessengerMessagesTest : TestBase
                 Category = MessengerMessageCategory.Response,
                 Tag = MessengerTagType.ConfirmedEventUpdate,
             },
-        };
-        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
-    }
+        });
 
     [Fact]
-    public async Task SendMessengerImageAsyncReturnsOk()
-    {
-        var request = new MessengerImageRequest
+    public async Task SendMessengerImageAsyncReturnsOk() =>
+        await this.VerifySendMessage(this.helper.GetRequestJson(), new MessengerImageRequest
         {
             To = "441234567890",
             From = "015417543010",
@@ -89,14 +89,11 @@ public class MessengerMessagesTest : TestBase
                 Category = MessengerMessageCategory.Response,
                 Tag = MessengerTagType.ConfirmedEventUpdate,
             },
-        };
-        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
-    }
+        });
 
     [Fact]
-    public async Task SendMessengerTextAsyncReturnsOk()
-    {
-        var request = new MessengerTextRequest
+    public async Task SendMessengerTextAsyncReturnsOk() =>
+        await this.VerifySendMessage(this.helper.GetRequestJson(), new MessengerTextRequest
         {
             To = "441234567890",
             From = "015417543010",
@@ -109,14 +106,11 @@ public class MessengerMessagesTest : TestBase
                 Category = MessengerMessageCategory.Response,
                 Tag = MessengerTagType.ConfirmedEventUpdate,
             },
-        };
-        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
-    }
+        });
 
     [Fact]
-    public async Task SendMessengerVideoAsyncReturnsOk()
-    {
-        var request = new MessengerVideoRequest
+    public async Task SendMessengerVideoAsyncReturnsOk() =>
+        await this.VerifySendMessage(this.helper.GetRequestJson(), new MessengerVideoRequest
         {
             To = "441234567890",
             From = "015417543010",
@@ -132,18 +126,20 @@ public class MessengerMessagesTest : TestBase
                 Category = MessengerMessageCategory.Response,
                 Tag = MessengerTagType.ConfirmedEventUpdate,
             },
-        };
-        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
-    }
+        });
 
     private async Task VerifySendMessage(string expectedRequest, IMessage request)
     {
-        var expectedResponse = this.helper.GetResponseJson("SendMessage");
-        this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-        var client = this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
-        var response = await client.MessagesClient.SendAsync(request);
-        Assert.NotNull(response);
-        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
-        Assert.Equal("3TcNjguHxr2vcCZ9Ddsnq6tw8yQUpZ9rMHv9QXSxLan5ibMxqSzLdx9", response.WorkflowId);
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/messages")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .WithBodyAsJson(expectedRequest)
+                .UsingPost())
+            .RespondWith(Response.Create()
+                .WithStatusCode(HttpStatusCode.OK)
+                .WithBody(this.helper.GetResponseJson("SendMessage")));
+        var response = await this.context.VonageClient.MessagesClient.SendAsync(request);
+        response.Should().BeEquivalentTo(new MessagesResponse(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"),
+            "3TcNjguHxr2vcCZ9Ddsnq6tw8yQUpZ9rMHv9QXSxLan5ibMxqSzLdx9"));
     }
 }

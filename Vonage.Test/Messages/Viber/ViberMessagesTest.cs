@@ -1,33 +1,36 @@
 #region
 using System;
+using System.Net;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Vonage.Messages;
 using Vonage.Messages.Viber;
-using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
+using Vonage.Test.TestHelpers;
+using WireMock.ResponseBuilders;
 using Xunit;
 #endregion
 
 namespace Vonage.Test.Messages.Viber;
 
 [Trait("Category", "Legacy")]
-public class ViberMessagesTest : TestBase
+public class ViberMessagesTest : IDisposable
 {
-    private readonly string expectedUri;
-    private readonly SerializationTestHelper helper;
+    private readonly TestingContext context = TestingContext.WithBearerCredentials();
 
-    public ViberMessagesTest()
+    private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(ViberMessagesTest).Namespace,
+        JsonSerializerBuilder.BuildWithCamelCase());
+
+    public void Dispose()
     {
-        this.expectedUri = $"{this.ApiUrl}/v1/messages";
-        this.helper = new SerializationTestHelper(typeof(ViberMessagesTest).Namespace,
-            JsonSerializerBuilder.BuildWithCamelCase());
+        this.context?.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     [Fact]
-    public async Task SendViberFileAsyncReturnsOk()
-    {
-        var request = new ViberFileRequest
+    public async Task SendViberFileAsyncReturnsOk() =>
+        await this.VerifySendMessage(this.helper.GetRequestJson(), new ViberFileRequest
         {
             To = "441234567890",
             From = "015417543010",
@@ -45,14 +48,11 @@ public class ViberMessagesTest : TestBase
             },
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
-        };
-        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
-    }
+        });
 
     [Fact]
-    public async Task SendViberImageAsyncReturnsOk()
-    {
-        var request = new ViberImageRequest
+    public async Task SendViberImageAsyncReturnsOk() =>
+        await this.VerifySendMessage(this.helper.GetRequestJson(), new ViberImageRequest
         {
             To = "441234567890",
             From = "015417543010",
@@ -71,14 +71,11 @@ public class ViberMessagesTest : TestBase
             },
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
-        };
-        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
-    }
+        });
 
     [Fact]
-    public async Task SendViberTextAsyncReturnsOk()
-    {
-        var request = new ViberTextRequest
+    public async Task SendViberTextAsyncReturnsOk() =>
+        await this.VerifySendMessage(this.helper.GetRequestJson(), new ViberTextRequest
         {
             To = "441234567890",
             From = "015417543010",
@@ -93,14 +90,11 @@ public class ViberMessagesTest : TestBase
             },
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
-        };
-        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
-    }
+        });
 
     [Fact]
-    public async Task SendViberVideoAsyncReturnsOk()
-    {
-        var request = new ViberVideoRequest
+    public async Task SendViberVideoAsyncReturnsOk() =>
+        await this.VerifySendMessage(this.helper.GetRequestJson(), new ViberVideoRequest
         {
             To = "441234567890",
             From = "015417543010",
@@ -121,17 +115,19 @@ public class ViberMessagesTest : TestBase
             },
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
-        };
-        await this.VerifySendMessage(this.helper.GetRequestJson(), request);
-    }
+        });
 
     private async Task VerifySendMessage(string expectedRequest, IMessage request)
     {
-        var expectedResponse = this.helper.GetResponseJson("SendMessage");
-        this.Setup(this.expectedUri, expectedResponse, expectedRequest);
-        var client = this.BuildVonageClient(Credentials.FromAppIdAndPrivateKey(this.AppId, this.PrivateKey));
-        var response = await client.MessagesClient.SendAsync(request);
-        Assert.NotNull(response);
-        Assert.Equal(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"), response.MessageUuid);
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v1/messages")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .WithBodyAsJson(expectedRequest)
+                .UsingPost())
+            .RespondWith(Response.Create()
+                .WithStatusCode(HttpStatusCode.OK)
+                .WithBody(this.helper.GetResponseJson("SendMessage")));
+        var response = await this.context.VonageClient.MessagesClient.SendAsync(request);
+        response.Should().BeEquivalentTo(new MessagesResponse(new Guid("aaaaaaaa-bbbb-cccc-dddd-0123456789ab")));
     }
 }
