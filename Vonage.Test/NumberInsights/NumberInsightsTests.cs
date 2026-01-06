@@ -1,25 +1,47 @@
 ﻿#region
+using System;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Vonage.NumberInsights;
 using Vonage.Serialization;
 using Vonage.Test.Common;
+using Vonage.Test.TestHelpers;
+using WireMock.ResponseBuilders;
 using Xunit;
 #endregion
 
 namespace Vonage.Test.NumberInsights;
 
 [Trait("Category", "Legacy")]
-public class NumberInsightsTests : TestBase
+public class NumberInsightsTests : IDisposable
 {
+    private readonly TestingContext context = TestingContext.WithBasicCredentials();
+
     private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(NumberInsightsTests).Namespace,
         JsonSerializerBuilder.BuildWithCamelCase());
+
+    public void Dispose()
+    {
+        this.context?.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    private IResponseBuilder RespondWithSuccess([CallerMemberName] string testName = null) =>
+        Response.Create()
+            .WithStatusCode(HttpStatusCode.OK)
+            .WithBody(this.helper.GetResponseJson(testName));
 
     [Fact]
     public async Task Advanced()
     {
-        this.SetupHttpMock($"{this.ApiUrl}/ni/advanced/json?number=15555551212&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/advanced/json")
+                .WithParam("number", "15555551212")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.CreateClient()
             .GetNumberInsightAdvancedAsync(NumberInsightsTestData.CreateAdvancedRequest());
         response.ShouldMatchExpectedAdvancedResponse();
@@ -28,8 +50,13 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Advanced_Asynchronous()
     {
-        this.SetupHttpMock(
-            $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&number=15555551212&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/advanced/async/json")
+                .WithParam("callback", "https://example.com/callback")
+                .WithParam("number", "15555551212")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.CreateClient()
             .GetNumberInsightAsynchronousAsync(NumberInsightsTestData.CreateAdvancedAsyncRequest());
         response.ShouldMatchExpectedAsyncResponse();
@@ -38,29 +65,47 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Advanced_Asynchronous_FailedRequest()
     {
-        this.SetupHttpMock(
-            $"{this.ApiUrl}/ni/advanced/async/json?callback={WebUtility.UrlEncode("https://example.com/callback")}&ip={WebUtility.UrlEncode("123.0.0.255")}&cnam=true&number=15555551212&country=GB&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/advanced/async/json")
+                .WithParam("callback", "https://example.com/callback")
+                .WithParam("ip", "123.0.0.255")
+                .WithParam("cnam", "true")
+                .WithParam("number", "15555551212")
+                .WithParam("country", "GB")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var exception = await Assert.ThrowsAsync<VonageNumberInsightResponseException>(() =>
             this.CreateClient()
                 .GetNumberInsightAsynchronousAsync(NumberInsightsTestData
                     .CreateAdvancedAsyncRequestWithAllProperties()));
-        Assert.Equal(4, exception.Response.Status);
+        exception.Response.Status.Should().Be(4);
     }
 
     [Fact]
     public async Task Advanced_FailedRequest()
     {
-        this.SetupHttpMock($"{this.ApiUrl}/ni/advanced/json?number=15555551212&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/advanced/json")
+                .WithParam("number", "15555551212")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var exception = await Assert.ThrowsAsync<VonageNumberInsightResponseException>(() =>
             this.CreateClient().GetNumberInsightAdvancedAsync(NumberInsightsTestData.CreateAdvancedRequest()));
-        Assert.Equal(4, exception.Response.Status);
-        Assert.Equal("invalid credentials", ((AdvancedInsightsResponse) exception.Response).StatusMessage);
+        exception.Response.Status.Should().Be(4);
+        (exception.Response as AdvancedInsightsResponse)!.StatusMessage.Should().Be("invalid credentials");
     }
 
     [Fact]
     public async Task Advanced_NullableValues()
     {
-        this.SetupHttpMock($"{this.ApiUrl}/ni/advanced/json?number=15555551212&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/advanced/json")
+                .WithParam("number", "15555551212")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.CreateClient()
             .GetNumberInsightAdvancedAsync(NumberInsightsTestData.CreateAdvancedRequest());
         response.ShouldMatchExpectedAdvancedResponseWithNullableValues();
@@ -69,8 +114,16 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Advanced_WithActiveRealTimeData()
     {
-        this.SetupHttpMock(
-            $"{this.ApiUrl}/ni/advanced/json?ip={WebUtility.UrlEncode("123.0.0.255")}&real_time_data=true&cnam=true&number=15555551212&country=GB&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/advanced/json")
+                .WithParam("ip", "123.0.0.255")
+                .WithParam("real_time_data", "true")
+                .WithParam("cnam", "true")
+                .WithParam("number", "15555551212")
+                .WithParam("country", "GB")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.CreateClient()
             .GetNumberInsightAdvancedAsync(NumberInsightsTestData.CreateAdvancedRequestWithRealTimeData());
         response.ShouldMatchExpectedRealTimeDataResponse(true);
@@ -79,8 +132,16 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Advanced_WithInactiveRealTimeData()
     {
-        this.SetupHttpMock(
-            $"{this.ApiUrl}/ni/advanced/json?ip={WebUtility.UrlEncode("123.0.0.255")}&real_time_data=true&cnam=true&number=15555551212&country=GB&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/advanced/json")
+                .WithParam("ip", "123.0.0.255")
+                .WithParam("real_time_data", "true")
+                .WithParam("cnam", "true")
+                .WithParam("number", "15555551212")
+                .WithParam("country", "GB")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.CreateClient()
             .GetNumberInsightAdvancedAsync(NumberInsightsTestData.CreateAdvancedRequestWithRealTimeData());
         response.ShouldMatchExpectedRealTimeDataResponse(false);
@@ -89,7 +150,12 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Advanced_WithoutRoamingStatus()
     {
-        this.SetupHttpMock($"{this.ApiUrl}/ni/advanced/json?number=447700900000&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/advanced/json")
+                .WithParam("number", "447700900000")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response =
             await this.CreateClient().GetNumberInsightAdvancedAsync(NumberInsightsTestData
                 .CreateAdvancedRequestForRoaming());
@@ -99,7 +165,12 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Basic()
     {
-        this.SetupHttpMock($"{this.ApiUrl}/ni/basic/json?number=15555551212&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/basic/json")
+                .WithParam("number", "15555551212")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response =
             await this.CreateClient().GetNumberInsightBasicAsync(NumberInsightsTestData.CreateBasicRequest());
         response.ShouldMatchExpectedBasicResponse();
@@ -108,7 +179,12 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Standard()
     {
-        this.SetupHttpMock($"{this.ApiUrl}/ni/standard/json?number=15555551212&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/standard/json")
+                .WithParam("number", "15555551212")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.CreateClient()
             .GetNumberInsightStandardAsync(NumberInsightsTestData.CreateStandardRequest());
         response.ShouldMatchExpectedStandardResponse();
@@ -117,7 +193,12 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Standard_NullCarrier()
     {
-        this.SetupHttpMock($"{this.ApiUrl}/ni/standard/json?number=15555551212&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/standard/json")
+                .WithParam("number", "15555551212")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.CreateClient()
             .GetNumberInsightStandardAsync(NumberInsightsTestData.CreateStandardRequest());
         response.ShouldMatchExpectedStandardResponseWithNullCarrier();
@@ -126,15 +207,16 @@ public class NumberInsightsTests : TestBase
     [Fact]
     public async Task Standard_WithoutRoaming()
     {
-        this.SetupHttpMock($"{this.ApiUrl}/ni/standard/json?number=15555551212&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/ni/standard/json")
+                .WithParam("number", "15555551212")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.CreateClient()
             .GetNumberInsightStandardAsync(NumberInsightsTestData.CreateStandardRequest());
         response.ShouldMatchExpectedStandardResponseWithoutRoaming();
     }
 
-    private INumberInsightClient CreateClient() =>
-        this.BuildVonageClient(this.BuildCredentialsForBasicAuthentication()).NumberInsightClient;
-
-    private void SetupHttpMock(string expectedUri, [CallerMemberName] string responseFileName = null) =>
-        this.Setup(expectedUri, this.helper.GetResponseJson(responseFileName));
+    private INumberInsightClient CreateClient() => this.context.VonageClient.NumberInsightClient;
 }
