@@ -1,6 +1,7 @@
 ﻿#region
 using System;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Vonage.Serialization;
 using Vonage.Test.Common;
@@ -25,6 +26,11 @@ public class AccountTest : IDisposable
         GC.SuppressFinalize(this);
     }
 
+    private IResponseBuilder RespondWithSuccess([CallerMemberName] string testName = null) =>
+        Response.Create()
+            .WithStatusCode(HttpStatusCode.OK)
+            .WithBody(this.helper.GetResponseJson(testName));
+
     [Fact]
     public async Task CreateApiSecret()
     {
@@ -32,9 +38,7 @@ public class AccountTest : IDisposable
                 .WithPath($"/accounts/{this.context.VonageClient.Credentials.ApiKey}/secrets")
                 .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
                 .UsingPost())
-            .RespondWith(Response.Create()
-                .WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.helper.GetResponseJson()));
+            .RespondWith(this.RespondWithSuccess());
         var secret = await this.context.VonageClient.AccountClient
             .CreateApiSecretAsync(AccountTestData.CreateBasicSecretRequest(),
                 this.context.VonageClient.Credentials.ApiKey);
@@ -48,9 +52,7 @@ public class AccountTest : IDisposable
                 .WithPath("/account/get-balance")
                 .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
                 .UsingGet())
-            .RespondWith(Response.Create()
-                .WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.helper.GetResponseJson()));
+            .RespondWith(this.RespondWithSuccess());
         var balance = await this.context.VonageClient.AccountClient.GetAccountBalanceAsync();
         balance.ShouldMatchExpectedBalance();
     }
@@ -62,9 +64,7 @@ public class AccountTest : IDisposable
                 .WithPath($"/accounts/{this.context.VonageClient.Credentials.ApiKey}/secrets")
                 .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
                 .UsingGet())
-            .RespondWith(Response.Create()
-                .WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.helper.GetResponseJson()));
+            .RespondWith(this.RespondWithSuccess());
         var secrets =
             await this.context.VonageClient.AccountClient.RetrieveApiSecretsAsync(this.context.VonageClient.Credentials
                 .ApiKey);
@@ -79,9 +79,7 @@ public class AccountTest : IDisposable
                     $"/accounts/{this.context.VonageClient.Credentials.ApiKey}/secrets/ad6dc56f-07b5-46e1-a527-85530e625800")
                 .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
                 .UsingGet())
-            .RespondWith(Response.Create()
-                .WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.helper.GetResponseJson()));
+            .RespondWith(this.RespondWithSuccess());
         var secret = await this.context.VonageClient.AccountClient
             .RetrieveApiSecretAsync("ad6dc56f-07b5-46e1-a527-85530e625800",
                 this.context.VonageClient.Credentials.ApiKey);
@@ -96,9 +94,7 @@ public class AccountTest : IDisposable
                     $"/accounts/{this.context.VonageClient.Credentials.ApiKey}/secrets/ad6dc56f-07b5-46e1-a527-85530e625800")
                 .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
                 .UsingDelete())
-            .RespondWith(Response.Create()
-                .WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.helper.GetResponseJson()));
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.context.VonageClient.AccountClient
             .RevokeApiSecretAsync("ad6dc56f-07b5-46e1-a527-85530e625800", this.context.VonageClient.Credentials.ApiKey);
         response.ShouldBeSuccessfulRevocation();
@@ -113,9 +109,7 @@ public class AccountTest : IDisposable
                 .WithBody(
                     $"moCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/inbound-sms")}&drCallBackUrl={WebUtility.UrlEncode("https://example.com/webhooks/delivery-receipt")}&")
                 .UsingPost())
-            .RespondWith(Response.Create()
-                .WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.helper.GetResponseJson()));
+            .RespondWith(this.RespondWithSuccess());
         var result = await this.context.VonageClient.AccountClient
             .ChangeAccountSettingsAsync(AccountTestData.CreateBasicSettingsRequest());
         result.ShouldMatchExpectedAccountSettings();
@@ -129,9 +123,7 @@ public class AccountTest : IDisposable
                 .WithParam("trx", "00X123456Y7890123Z")
                 .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
                 .UsingGet())
-            .RespondWith(Response.Create()
-                .WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.helper.GetResponseJson()));
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.context.VonageClient.AccountClient
             .TopUpAccountBalanceAsync(AccountTestData.CreateBasicTopUpRequest());
         response.ShouldMatchExpectedTopUpResult();
