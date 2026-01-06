@@ -1,24 +1,47 @@
 ﻿#region
+using System;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
+using Vonage.Test.TestHelpers;
 using Vonage.Verify;
+using WireMock.ResponseBuilders;
 using Xunit;
 #endregion
 
 namespace Vonage.Test.Verify;
 
 [Trait("Category", "Legacy")]
-public class VerifyTests : TestBase
+public class VerifyTests : IDisposable
 {
+    private readonly TestingContext context = TestingContext.WithBasicCredentials();
+
     private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(VerifyTests).Namespace,
         JsonSerializerBuilder.BuildWithCamelCase());
+
+    public void Dispose()
+    {
+        this.context?.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    private IResponseBuilder RespondWithSuccess([CallerMemberName] string testName = null) =>
+        Response.Create()
+            .WithStatusCode(HttpStatusCode.OK)
+            .WithBody(this.helper.GetResponseJson(testName));
+
+    private IVerifyClient BuildVerifyClient() => this.context.VonageClient.VerifyClient;
 
     [Fact]
     public async Task Psd2Verification()
     {
-        this.Setup($"{this.ApiUrl}/verify/psd2/json", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/verify/psd2/json")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildVerifyClient()
             .VerifyRequestWithPSD2Async(VerifyTestData.CreateBasicPsd2Request());
         response.ShouldMatchExpectedVerifyResponse();
@@ -27,7 +50,11 @@ public class VerifyTests : TestBase
     [Fact]
     public async Task RequestVerification()
     {
-        this.Setup($"{this.ApiUrl}/verify/json", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/verify/json")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildVerifyClient().VerifyRequestAsync(VerifyTestData.CreateBasicVerifyRequest());
         response.ShouldMatchExpectedVerifyResponse();
     }
@@ -35,7 +62,11 @@ public class VerifyTests : TestBase
     [Fact]
     public async Task TestCheckVerification()
     {
-        this.Setup($"{this.ApiUrl}/verify/check/json", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/verify/check/json")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildVerifyClient().VerifyCheckAsync(VerifyTestData.CreateBasicVerifyCheckRequest());
         response.ShouldMatchExpectedVerifyCheckResponse();
     }
@@ -43,7 +74,11 @@ public class VerifyTests : TestBase
     [Fact]
     public async Task TestControlVerify()
     {
-        this.Setup($"{this.ApiUrl}/verify/control/json", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/verify/control/json")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildVerifyClient().VerifyControlAsync(VerifyTestData.CreateVerifyControlRequest());
         response.ShouldMatchExpectedVerifyControlResponse();
     }
@@ -51,7 +86,11 @@ public class VerifyTests : TestBase
     [Fact]
     public async Task TestControlVerifyInvalidCredentials()
     {
-        this.Setup($"{this.ApiUrl}/verify/control/json", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/verify/control/json")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var ex = await Assert.ThrowsAsync<VonageVerifyResponseException>(() =>
             this.BuildVerifyClient().VerifyControlAsync(VerifyTestData.CreateVerifyControlRequest()));
         ex.ShouldThrowVerifyResponseException();
@@ -60,13 +99,13 @@ public class VerifyTests : TestBase
     [Fact]
     public async Task TestVerifySearch()
     {
-        this.Setup(
-            $"{this.ApiUrl}/verify/search/json?request_id=abcdef0123456789abcdef0123456789&",
-            this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/verify/search/json")
+                .WithParam("request_id", "abcdef0123456789abcdef0123456789")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildVerifyClient().VerifySearchAsync(VerifyTestData.CreateVerifySearchRequest());
         response.ShouldMatchExpectedVerifySearchResponse();
     }
-
-    private IVerifyClient BuildVerifyClient() =>
-        this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret)).VerifyClient;
 }
