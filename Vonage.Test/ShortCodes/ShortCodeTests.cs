@@ -1,24 +1,48 @@
 ﻿#region
+using System;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.ShortCodes;
 using Vonage.Test.Common;
+using Vonage.Test.TestHelpers;
+using WireMock.ResponseBuilders;
 using Xunit;
 #endregion
 
 namespace Vonage.Test.ShortCodes;
 
 [Trait("Category", "Legacy")]
-public class ShortCodeTests : TestBase
+public class ShortCodeTests : IDisposable
 {
+    private readonly TestingContext context = TestingContext.WithBasicCredentials();
+
     private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(ShortCodeTests).Namespace,
         JsonSerializerBuilder.BuildWithCamelCase());
+
+    public void Dispose()
+    {
+        this.context?.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    private IResponseBuilder RespondWithSuccess([CallerMemberName] string testName = null) =>
+        Response.Create()
+            .WithStatusCode(HttpStatusCode.OK)
+            .WithBody(this.helper.GetResponseJson(testName));
+
+    private IShortCodesClient BuildShortCodesClient() => this.context.VonageClient.ShortCodesClient;
 
     [Fact]
     public async Task ManageOptIn()
     {
-        this.Setup($"{this.RestUrl}/sc/us/alert/opt-in/manage/json?msisdn=15559301529&", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/sc/us/alert/opt-in/manage/json")
+                .WithParam("msisdn", "15559301529")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildShortCodesClient()
             .ManageOptInAsync(ShortCodeTestData.CreateOptInManageRequest());
         response.ShouldMatchExpectedOptInResponse();
@@ -27,7 +51,11 @@ public class ShortCodeTests : TestBase
     [Fact]
     public async Task QueryOptIns()
     {
-        this.Setup($"{this.RestUrl}/sc/us/alert/opt-in/query/json", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/sc/us/alert/opt-in/query/json")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildShortCodesClient()
             .QueryOptInsAsync(ShortCodeTestData.CreateBasicOptInQueryRequest());
         response.ShouldMatchExpectedOptInQueryResponse();
@@ -36,7 +64,12 @@ public class ShortCodeTests : TestBase
     [Fact]
     public async Task SendAlert()
     {
-        this.Setup($"{this.RestUrl}/sc/us/alert/json?to=16365553226&", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/sc/us/alert/json")
+                .WithParam("to", "16365553226")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildShortCodesClient().SendAlertAsync(ShortCodeTestData.CreateBasicAlertRequest());
         response.ShouldMatchExpectedAlertResponse();
     }
@@ -44,12 +77,13 @@ public class ShortCodeTests : TestBase
     [Fact]
     public async Task SendTwoFactorAuth()
     {
-        this.Setup($"{this.RestUrl}/sc/us/2fa/json", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/sc/us/2fa/json")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildShortCodesClient()
             .SendTwoFactorAuthAsync(ShortCodeTestData.CreateTwoFactorAuthRequest());
         response.ShouldMatchExpectedTwoFactorAuthResponse();
     }
-
-    private IShortCodesClient BuildShortCodesClient() =>
-        this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret)).ShortCodesClient;
 }
