@@ -1,25 +1,49 @@
 ﻿#region
+using System;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Vonage.Numbers;
-using Vonage.Request;
 using Vonage.Serialization;
 using Vonage.Test.Common;
+using Vonage.Test.TestHelpers;
+using WireMock.ResponseBuilders;
 using Xunit;
 #endregion
 
 namespace Vonage.Test.Numbers;
 
 [Trait("Category", "Legacy")]
-public class NumbersTests : TestBase
+public class NumbersTests : IDisposable
 {
+    private readonly TestingContext context = TestingContext.WithBasicCredentials();
+
     private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(NumbersTests).Namespace,
         JsonSerializerBuilder.BuildWithCamelCase());
+
+    public void Dispose()
+    {
+        this.context?.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    private IResponseBuilder RespondWithSuccess([CallerMemberName] string testName = null) =>
+        Response.Create()
+            .WithStatusCode(HttpStatusCode.OK)
+            .WithBody(this.helper.GetResponseJson(testName));
+
+    private INumbersClient BuildNumbersClient() => this.context.VonageClient.NumbersClient;
 
     [Fact]
     public async Task BuyNumber()
     {
-        this.Setup($"{this.RestUrl}/number/buy", this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/number/buy")
+                .WithBody("country=GB&msisdn=447700900000&")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildNumbersClient().BuyANumberAsync(NumbersTestData.CreateBasicTransactionRequest());
         response.ShouldBeSuccessfulTransaction();
     }
@@ -27,7 +51,12 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task CancelNumber()
     {
-        this.Setup($"{this.RestUrl}/number/cancel", this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/number/cancel")
+                .WithBody("country=GB&msisdn=447700900000&")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildNumbersClient()
             .CancelANumberAsync(NumbersTestData.CreateBasicTransactionRequest());
         response.ShouldBeSuccessfulTransaction();
@@ -36,7 +65,12 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task FailedPurchase()
     {
-        this.Setup($"{this.RestUrl}/number/buy", this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/number/buy")
+                .WithBody("country=GB&msisdn=447700900000&")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var act = () => this.BuildNumbersClient().BuyANumberAsync(NumbersTestData.CreateBasicTransactionRequest());
         (await act.Should().ThrowExactlyAsync<VonageNumberResponseException>()).Which.Response.Should()
             .BeEquivalentTo(new NumberTransactionResponse
@@ -46,7 +80,12 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task GetAvailableNumbers()
     {
-        this.Setup($"{this.RestUrl}/number/search?country=GB&", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/number/search")
+                .WithParam("country", "GB")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildNumbersClient()
             .GetAvailableNumbersAsync(NumbersTestData.CreateBasicSearchRequest());
         response.ShouldMatchBasicNumberSearch();
@@ -55,7 +94,12 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task GetAvailableNumbersWithAdditionalData()
     {
-        this.Setup($"{this.RestUrl}/number/search?country=GB&", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/number/search")
+                .WithParam("country", "GB")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildNumbersClient()
             .GetAvailableNumbersAsync(NumbersTestData.CreateBasicSearchRequest());
         response.ShouldMatchNumberSearchWithAdditionalData();
@@ -64,7 +108,12 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task GetOwnedNumbers()
     {
-        this.Setup($"{this.RestUrl}/account/numbers?country=GB&", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/account/numbers")
+                .WithParam("country", "GB")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildNumbersClient().GetOwnedNumbersAsync(NumbersTestData.CreateBasicSearchRequest());
         response.ShouldMatchOwnedNumbersBasic();
     }
@@ -72,7 +121,12 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task GetOwnedNumbersWithAdditionalData()
     {
-        this.Setup($"{this.RestUrl}/account/numbers?country=GB&", this.helper.GetResponseJson());
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/account/numbers")
+                .WithParam("country", "GB")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingGet())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildNumbersClient().GetOwnedNumbersAsync(NumbersTestData.CreateBasicSearchRequest());
         response.ShouldMatchOwnedNumbersWithAdditionalData();
     }
@@ -80,12 +134,13 @@ public class NumbersTests : TestBase
     [Fact]
     public async Task UpdateNumber()
     {
-        this.Setup($"{this.RestUrl}/number/update",
-            this.helper.GetResponseJson(), "country=GB&msisdn=447700900000&");
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/number/update")
+                .WithBody("country=GB&msisdn=447700900000&")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .UsingPost())
+            .RespondWith(this.RespondWithSuccess());
         var response = await this.BuildNumbersClient().UpdateANumberAsync(NumbersTestData.CreateBasicUpdateRequest());
         response.ShouldBeSuccessfulTransaction();
     }
-
-    private INumbersClient BuildNumbersClient() =>
-        this.BuildVonageClient(Credentials.FromApiKeyAndSecret(this.ApiKey, this.ApiSecret)).NumbersClient;
 }
