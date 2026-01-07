@@ -16,7 +16,7 @@ using Xunit;
 namespace Vonage.Test.Voice;
 
 [Trait("Category", "Legacy")]
-public class NccoTests : TestBase
+public class NccoTests
 {
     private static readonly Regex TokenReplacementRegEx = new Regex(@"\$(\w+)\$", RegexOptions.Compiled);
 
