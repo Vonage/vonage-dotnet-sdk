@@ -104,17 +104,22 @@ internal partial class ApiRequest
         bool withCredentials = true)
     {
         var sb = new StringBuilder();
-
-        // if parameters is null, assume that key and secret have been taken care of            
         if (null != parameters)
         {
             sb = this.GetQueryStringBuilderFor(parameters, withCredentials);
         }
 
         var req = this.BuildMessage(uri, method);
-        if (authType == AuthType.Basic)
+        switch (authType)
         {
-            req.Headers.Authorization = this.BuildBasicAuth();
+            case AuthType.Basic:
+                req.Headers.Authorization = this.BuildBasicAuth();
+                break;
+            case AuthType.Bearer:
+                req.Headers.Authorization = this.BuildBearerAuth();
+                break;
+            default:
+                throw new ArgumentException("Unknown Auth Type set for function");
         }
 
         var data = Encoding.ASCII.GetBytes(sb.ToString());
