@@ -1,4 +1,82 @@
 # Changelog
+## [v8.20.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.20.0) (2026-01-07)
+
+### Bug Fixes
+
+- Handle missing bearer auth in ApiRequest ([81443d1](https://github.com/Vonage/vonage-dotnet-sdk/commit/81443d1231ba78cbe0bf5f3bf6e750d881a3b6f2))
+
+- Remove empty dictionary on UnsubscribeRealTimeDtmf ([99ece5f](https://github.com/Vonage/vonage-dotnet-sdk/commit/99ece5fc674e882dcbca56613a7967c8c4fa0bc4))
+
+
+### Documentation
+
+- Generate changelog for v8.19.0 ([16588ca](https://github.com/Vonage/vonage-dotnet-sdk/commit/16588caf91c6b92fc1c403e0185a2205c088062e))
+
+- Bump version to v8.20.0 ([33a0efb](https://github.com/Vonage/vonage-dotnet-sdk/commit/33a0efbf6de2e43e5ecddb797445e16778027029))
+
+
+### Features
+
+- Improve monad string representations for Result/Maybe ([594c97a](https://github.com/Vonage/vonage-dotnet-sdk/commit/594c97a42ce4cd4a2277b6e177f7cf85ad6526bd))
+
+- Implement ToResult() on Maybe ([84bd7e9](https://github.com/Vonage/vonage-dotnet-sdk/commit/84bd7e920e21244c4c19033aec575bcbfbbd721b))
+
+
+### Refactoring
+
+- Rename tests for Maybe and Result ([7ed2d2a](https://github.com/Vonage/vonage-dotnet-sdk/commit/7ed2d2a5dcd7216029ad2ea71d478b67fb1d5698))
+
+- Extract tests on Result/Maybe in specific files ([a24b248](https://github.com/Vonage/vonage-dotnet-sdk/commit/a24b248b70d9a46f44cebff632dc41c14d773763))
+
+- Remove empty class ([d815659](https://github.com/Vonage/vonage-dotnet-sdk/commit/d8156598ed3b6d266821d2be95460feff13bdd73))
+
+- Make IfFailure invocation method Obsolete, and replace usages with DoWhenFailure ([a7ecfa1](https://github.com/Vonage/vonage-dotnet-sdk/commit/a7ecfa17028c70bebdefad06888bb38e17c0290a))
+
+- Unshelf ToString tests for Maybe in specific test file ([a93fc5d](https://github.com/Vonage/vonage-dotnet-sdk/commit/a93fc5d3bef98cf976d41c8efe3ac7b8ba0baa21))
+
+- Rename Maybe extension method "FromNonEmptyString" ([b38aca4](https://github.com/Vonage/vonage-dotnet-sdk/commit/b38aca472dccf5d0a6bab1e0f0618984c9de6144))
+
+- Improve declarativeness on VonageHttpClient ([2ab8ba9](https://github.com/Vonage/vonage-dotnet-sdk/commit/2ab8ba9b8703c2aa0dbdd15cd818112069bc42dc))
+
+- Improve declarativeness on VonageHttpClient ([4b2b0b9](https://github.com/Vonage/vonage-dotnet-sdk/commit/4b2b0b9b75829e271e30b5025ccf0d7a34c1693d))
+
+- Improve declarativeness on VonageHttpClient ([e70c0bf](https://github.com/Vonage/vonage-dotnet-sdk/commit/e70c0bf631b082e804c8531f65421ebf619afeed))
+
+- Clean WebhookStructsTest for Voice ([64b3938](https://github.com/Vonage/vonage-dotnet-sdk/commit/64b3938a699a8863489613b0b74e5a1cb28f2660))
+
+- Remove dependency from TestBase on AccountTest ([dd55241](https://github.com/Vonage/vonage-dotnet-sdk/commit/dd552414c0b7adbfa40f4c480408daef17653445))
+
+- Reduce duplication in AccountTest ([5e14e52](https://github.com/Vonage/vonage-dotnet-sdk/commit/5e14e529b3fdadf344a09affd7f7b183b3c88692))
+
+- Remove dependency from TestBase on ApplicationTests ([b3d8e12](https://github.com/Vonage/vonage-dotnet-sdk/commit/b3d8e12eb4ef77c6bde889f2be70b84b792fa948))
+
+- Remove dependency from TestBase on ConversionTest ([8bb1571](https://github.com/Vonage/vonage-dotnet-sdk/commit/8bb157152241087a4ff96e4f56502ebe20c9dcb5))
+
+- Remove dependency from TestBase on Messages tests ([2a07db3](https://github.com/Vonage/vonage-dotnet-sdk/commit/2a07db3075568ed94c91af02d4b02724ad4cbc16))
+
+- Remove dependency from TestBase on MessagingTests ([e724cac](https://github.com/Vonage/vonage-dotnet-sdk/commit/e724cac488408724ee6b6e22a136df41bcbd84c0))
+
+- Remove dependency from TestBase on NumberInsightsTests ([6206a85](https://github.com/Vonage/vonage-dotnet-sdk/commit/6206a859bd337d3b06e29742569da20a8742c514))
+
+- Remove dependency from TestBase on NumbersTests ([1b39fde](https://github.com/Vonage/vonage-dotnet-sdk/commit/1b39fde885062dfd3cf57ad5083f7ce734cf930d))
+
+- Remove dependency from TestBase on PricingTests ([0363ef2](https://github.com/Vonage/vonage-dotnet-sdk/commit/0363ef20db659831cbb6bde295d88b5b75210fac))
+
+- Remove dependency from TestBase on RedactTests ([b1ffdac](https://github.com/Vonage/vonage-dotnet-sdk/commit/b1ffdaced9ca15f854bb5c18466bd6fda6a482a4))
+
+- Remove dependency from TestBase on ShortCodeTests ([ef1edcc](https://github.com/Vonage/vonage-dotnet-sdk/commit/ef1edccbaa2ecc3c8a9c96b0e7b2ecee411ecf3f))
+
+- Remove dependency from TestBase on ConversionTest ([b87ea20](https://github.com/Vonage/vonage-dotnet-sdk/commit/b87ea20f984509735e930beedeac89620277a4d1))
+
+- Remove dependency from TestBase where unused ([879b299](https://github.com/Vonage/vonage-dotnet-sdk/commit/879b299394c69c399051671630175bde45eabe05))
+
+- Remove dependency from TestBase on VoiceTests ([4033a44](https://github.com/Vonage/vonage-dotnet-sdk/commit/4033a440c950a33107e7c260f4874a17033b023f))
+
+- Remove unnecessary ApiRequestTest, as the component is internal and already tested through the public API of Clients ([e81b5c8](https://github.com/Vonage/vonage-dotnet-sdk/commit/e81b5c87b5f4feac46a7328e4e62f1f34fd6f636))
+
+- Remove TestBase ([aec06ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/aec06eaa4ad767468f23b3dd2c2fa8935e014313))
+
+
 ## [v8.19.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.19.0) (2025-12-17)
 
 ### Documentation
