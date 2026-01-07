@@ -1,6 +1,5 @@
 #region
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -166,7 +165,7 @@ public class VoiceClient : IVoiceClient
         await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoDeleteRequestWithUrlContentAsync(
                 this.configuration.BuildUri(ApiRequest.UriType.Api, $"{CallsEndpoint}/{uuid}/input/dtmf", this.region),
-                new Dictionary<string, string>(),
+                null,
                 AuthType.Bearer
             ).ConfigureAwait(false);
 
