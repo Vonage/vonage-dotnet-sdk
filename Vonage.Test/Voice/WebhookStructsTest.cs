@@ -1,5 +1,6 @@
 ﻿#region
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using FluentAssertions;
@@ -30,15 +31,6 @@ public class WebhookStructsTest
     private static readonly DateTime StandardEndTime = DateTime.ParseExact("2020-01-01T12:00:01.000Z",
         "yyyy-MM-dd'T'HH:mm:ss.fff'Z'",
         CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
-
-    private static Answer ExpectedAnswer =>
-        new Answer
-        {
-            From = From,
-            To = To,
-            Uuid = Uuid,
-            ConversationUuid = ConversationId,
-        };
 
     private static Answered ExpectedAnswered =>
         new Answered
@@ -230,11 +222,27 @@ public class WebhookStructsTest
             SipCode = 404,
         };
 
+    private static void VerifyAnswer(Answer input)
+    {
+        input.From.Should().Be(From);
+        input.To.Should().Be(To);
+        input.Uuid.Should().Be(Uuid);
+        input.ConversationUuid.Should().Be(ConversationId);
+        input.SipHeaders.Should().BeEquivalentTo(new Dictionary<string, string>
+        {
+            {"SipHeader_X-Test", "test"},
+            {"SipHeader_X-Value", "value"},
+        });
+    }
+
     [Theory]
     [InlineData(JsonSerializerType.Newtonsoft)]
     [InlineData(JsonSerializerType.SystemTextJson)]
-    public void DeserializeAnswer(JsonSerializerType serializer) =>
-        Deserialize<Answer>(ReadJson("Voice/Data/Answer.json"), serializer).Should().BeEquivalentTo(ExpectedAnswer);
+    public void DeserializeAnswer(JsonSerializerType serializer)
+    {
+        var answer = Deserialize<Answer>(ReadJson("Voice/Data/Answer.json"), serializer);
+        VerifyAnswer(answer);
+    }
 
     [Theory]
     [InlineData(JsonSerializerType.Newtonsoft)]
