@@ -1,4 +1,20 @@
 # Changelog
+## [v8.21.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.21.0) (2026-01-13)
+
+### Documentation
+
+- Generate changelog for v8.20.0 ([c1a7322](https://github.com/Vonage/vonage-dotnet-sdk/commit/c1a7322a1fc51c203b7f95c1a3e64a77a436677b))
+
+- Bump version to v8.21.0 ([670e98e](https://github.com/Vonage/vonage-dotnet-sdk/commit/670e98ecac1d0d18e873855612f8f57162dcff28))
+
+
+### Features
+
+- Add support for SipHeaders in Answer webhook ([3151b6c](https://github.com/Vonage/vonage-dotnet-sdk/commit/3151b6c45de23e6505ea2bef6c47fe4500731534))
+
+- Add missing properties to Voice Answer webhook ([7fad9e6](https://github.com/Vonage/vonage-dotnet-sdk/commit/7fad9e6509f4a8e38131eaec07e3c7306d594476))
+
+
 ## [v8.20.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.20.0) (2026-01-07)
 
 ### Bug Fixes
