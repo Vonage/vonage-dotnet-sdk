@@ -4,5 +4,11 @@
   "uuid": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
   "conversation_uuid": "CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
   "SipHeader_X-Test": "test",
-  "SipHeader_X-Value": "value"
+  "SipHeader_X-Value": "value",
+  "from_user": "Karen",
+  "endpoint_type": "sip",
+  "region_url": "https://example.com",
+  "custom_data": {
+    "key": "value"
+  }
 }

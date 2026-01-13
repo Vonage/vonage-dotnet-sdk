@@ -1,11 +1,14 @@
 ﻿#region
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Vonage.Voice.EventWebhooks;
+using Vonage.Voice.Nccos.Endpoints;
 #endregion
 
 namespace Vonage.Voice.AnswerWebhooks;
@@ -39,6 +42,38 @@ public class Answer : EventBase
     [JsonProperty("conversation_uuid")]
     [JsonPropertyName("conversation_uuid")]
     public string ConversationUuid { get; set; }
+
+    /// <summary>
+    ///     The username that called to only if the call was made using the Client SDK. In this case, from will be absent (that
+    ///     is, from and from_user will never both be present together).
+    /// </summary>
+    [JsonProperty("from_user")]
+    [JsonPropertyName("from_user")]
+    public string FromUser { get; set; }
+
+    /// <summary>
+    ///     The voice channel type that answered the call. Possible values are phone, sip, websocket, app, vbc.
+    /// </summary>
+    [JsonProperty("endpoint_type")]
+    [JsonPropertyName("endpoint_type")]
+    [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter<Endpoint.EndpointType>))]
+    public Endpoint.EndpointType EndpointType { get; set; }
+
+    /// <summary>
+    ///     Regional API endpoint which should be used to control the call with REST API.
+    /// </summary>
+    [JsonProperty("region_url")]
+    [JsonPropertyName("region_url")]
+    public Uri RegionUrl { get; set; }
+
+    /// <summary>
+    ///     A custom data object, optionally passed as parameter on the serverCall method when a call is initiated from an
+    ///     application using the Client SDK
+    /// </summary>
+    [JsonProperty("custom_data")]
+    [JsonPropertyName("custom_data")]
+    public Dictionary<string, string> CustomData { get; set; }
 
     /// <summary>
     ///     Captures all additional unmapped properties from the JSON payload.

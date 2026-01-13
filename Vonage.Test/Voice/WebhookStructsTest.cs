@@ -7,6 +7,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Vonage.Voice.AnswerWebhooks;
 using Vonage.Voice.EventWebhooks;
+using Vonage.Voice.Nccos.Endpoints;
 using Xunit;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using Record = Vonage.Voice.EventWebhooks.Record;
@@ -233,6 +234,13 @@ public class WebhookStructsTest
             {"SipHeader_X-Test", "test"},
             {"SipHeader_X-Value", "value"},
         });
+        input.CustomData.Should().BeEquivalentTo(new Dictionary<string, string>
+        {
+            {"key", "value"},
+        });
+        input.FromUser.Should().Be("Karen");
+        input.EndpointType.Should().Be(Endpoint.EndpointType.Sip);
+        input.RegionUrl.Should().Be(new Uri("https://example.com"));
     }
 
     [Theory]
