@@ -233,6 +233,7 @@ public class WebhookStructsTest
         {
             {"SipHeader_X-Test", "test"},
             {"SipHeader_X-Value", "value"},
+            {"SipHeader_User-to-User", "test"},
         });
         input.CustomData.Should().BeEquivalentTo(new Dictionary<string, string>
         {

@@ -93,7 +93,7 @@ public class Answer : EventBase
     [Newtonsoft.Json.JsonIgnore]
     public Dictionary<string, string> SipHeaders =>
         this.ExtensionData
-            .Where(kvp => kvp.Key.StartsWith("SipHeader_X-"))
+            .Where(kvp => kvp.Key.StartsWith("SipHeader_"))
             .ToDictionary(kvp => kvp.Key, kvp => GetStringValue(kvp.Value));
 
     private static string GetStringValue(object value) =>
