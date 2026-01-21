@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region
+using System;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Text;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Cryptography;
+#endregion
 
 namespace Vonage.Request;
 
@@ -147,7 +149,7 @@ public class Credentials
     public string GetUserAgent() =>
         this.AppUserAgent ?? Configuration.Instance.Settings["vonage:Vonage.UserAgent"];
 
-    private Result<AuthenticationHeaderValue> GetPreferredAuthenticationHeader(AuthType authenticationType) =>
+    internal Result<AuthenticationHeaderValue> GetPreferredAuthenticationHeader(AuthType authenticationType) =>
         authenticationType switch
         {
             AuthType.Basic => Result<AuthenticationHeaderValue>.FromSuccess(new AuthenticationHeaderValue("Basic",

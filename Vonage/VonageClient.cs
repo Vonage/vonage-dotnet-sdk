@@ -134,6 +134,10 @@ public class VonageClient
         new VonageHttpClientConfiguration(client, this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
 
+    private VonageHttpClientConfiguration BuildConfiguration(HttpClient client, AuthType preferredAuthType) =>
+        new VonageHttpClientConfiguration(client, this.Credentials.GetPreferredAuthenticationHeader(preferredAuthType),
+            this.Credentials.GetUserAgent());
+
     private Configuration GetConfiguration() => this.configuration.IfNone(Configuration.Instance);
 
     private void PropagateCredentials()
@@ -153,18 +157,26 @@ public class VonageClient
         this.SmsClient = new SmsClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.PricingClient = new PricingClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.MessagesClient = new MessagesClient(this.Credentials, currentConfiguration, this.timeProvider);
-        var nexmoConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo());
-        var videoConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForVideo());
-        var euConfiguration =
-            this.BuildConfiguration(currentConfiguration.BuildHttpClientForRegion(VonageUrls.Region.EU));
-        var oidcConfiguration = this.BuildConfiguration(currentConfiguration.BuildHttpClientForOidc());
-        this.VerifyV2Client = new VerifyV2Client(nexmoConfiguration);
-        this.SubAccountsClient = new SubAccountsClient(nexmoConfiguration, this.Credentials.ApiKey);
-        this.NumberInsightV2Client = new NumberInsightV2Client(nexmoConfiguration);
-        this.UsersClient = new UsersClient(nexmoConfiguration);
-        this.ConversationsClient = new ConversationsClient(nexmoConfiguration);
-        this.SimSwapClient = new SimSwapClient(euConfiguration);
-        this.NumberVerificationClient = new NumberVerificationClient(euConfiguration, oidcConfiguration);
-        this.VideoClient = new VideoClient(videoConfiguration);
+        this.VerifyV2Client =
+            new VerifyV2Client(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo()));
+        this.SubAccountsClient =
+            new SubAccountsClient(
+                this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(), AuthType.Basic),
+                this.Credentials.ApiKey);
+        this.NumberInsightV2Client =
+            new NumberInsightV2Client(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo()));
+        this.UsersClient = new UsersClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo()));
+        this.ConversationsClient =
+            new ConversationsClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(),
+                AuthType.Bearer));
+        this.SimSwapClient =
+            new SimSwapClient(
+                this.BuildConfiguration(currentConfiguration.BuildHttpClientForRegion(VonageUrls.Region.EU),
+                    AuthType.Bearer));
+        this.NumberVerificationClient = new NumberVerificationClient(
+            this.BuildConfiguration(currentConfiguration.BuildHttpClientForRegion(VonageUrls.Region.EU)),
+            this.BuildConfiguration(currentConfiguration.BuildHttpClientForOidc()));
+        this.VideoClient =
+            new VideoClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForVideo(), AuthType.Bearer));
     }
 }
