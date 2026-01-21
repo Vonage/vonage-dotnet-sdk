@@ -25,6 +25,7 @@ using Vonage.Verify;
 using Vonage.VerifyV2;
 using Vonage.Video;
 using Vonage.Voice;
+using Vonage.Voice.Emergency;
 #endregion
 
 namespace Vonage;
@@ -130,6 +131,11 @@ public class VonageClient
 
     public IVoiceClient VoiceClient { get; private set; }
 
+    /// <summary>
+    ///     Exposes Emergency API features.
+    /// </summary>
+    public IEmergencyClient EmergencyClient { get; private set; }
+
     private VonageHttpClientConfiguration BuildConfiguration(HttpClient client) =>
         new VonageHttpClientConfiguration(client, this.Credentials.GetAuthenticationHeader(),
             this.Credentials.GetUserAgent());
@@ -178,5 +184,8 @@ public class VonageClient
             this.BuildConfiguration(currentConfiguration.BuildHttpClientForOidc()));
         this.VideoClient =
             new VideoClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForVideo(), AuthType.Bearer));
+        this.EmergencyClient =
+            new EmergencyClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(),
+                AuthType.Basic));
     }
 }

@@ -1,7 +1,9 @@
+#region
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vonage.Request;
 using Vonage.Video.Authentication;
+#endregion
 
 namespace Vonage.Extensions;
 
@@ -79,6 +81,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().EmergencyClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightV2Client);
@@ -104,6 +107,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().EmergencyClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberInsightV2Client);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
@@ -25,21 +26,23 @@ using Vonage.VerifyV2;
 using Vonage.Video;
 using Vonage.Video.Authentication;
 using Vonage.Voice;
+using Vonage.Voice.Emergency;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Extensions
 {
     [Trait("Category", "ServicesRegistration")]
     public class ServiceCollectionExtensionsTest
     {
-        private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
-
         private readonly IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
             {
                 {"vonage:Vonage_key", "RandomValue"},
             })
             .Build();
+
+        private readonly Credentials credentials = Credentials.FromApiKeyAndSecret("key", "secret");
 
         [Theory]
         [MemberData(nameof(GetRegisteredTypes))]
@@ -80,29 +83,30 @@ namespace Vonage.Test.Extensions
 
         public static IEnumerable<object[]> GetRegisteredTypes()
         {
-            yield return new object[] {typeof(VonageClient)};
-            yield return new object[] {typeof(IAccountClient)};
-            yield return new object[] {typeof(IApplicationClient)};
-            yield return new object[] {typeof(IConversionClient)};
-            yield return new object[] {typeof(IMessagesClient)};
-            yield return new object[] {typeof(INumberInsightClient)};
-            yield return new object[] {typeof(INumberInsightV2Client)};
-            yield return new object[] {typeof(INumbersClient)};
-            yield return new object[] {typeof(INumberVerificationClient)};
-            yield return new object[] {typeof(IPricingClient)};
-            yield return new object[] {typeof(IRedactClient)};
-            yield return new object[] {typeof(ISimSwapClient)};
-            yield return new object[] {typeof(IShortCodesClient)};
-            yield return new object[] {typeof(ISubAccountsClient)};
-            yield return new object[] {typeof(ISmsClient)};
-            yield return new object[] {typeof(IUsersClient)};
-            yield return new object[] {typeof(IVerifyClient)};
-            yield return new object[] {typeof(IVerifyV2Client)};
-            yield return new object[] {typeof(IVideoClient)};
-            yield return new object[] {typeof(IVoiceClient)};
-            yield return new object[] {typeof(ITokenGenerator)};
-            yield return new object[] {typeof(IVideoTokenGenerator)};
-            yield return new object[] {typeof(Credentials)};
+            yield return [typeof(VonageClient)];
+            yield return [typeof(IAccountClient)];
+            yield return [typeof(IApplicationClient)];
+            yield return [typeof(IConversionClient)];
+            yield return [typeof(IEmergencyClient)];
+            yield return [typeof(IMessagesClient)];
+            yield return [typeof(INumberInsightClient)];
+            yield return [typeof(INumberInsightV2Client)];
+            yield return [typeof(INumbersClient)];
+            yield return [typeof(INumberVerificationClient)];
+            yield return [typeof(IPricingClient)];
+            yield return [typeof(IRedactClient)];
+            yield return [typeof(ISimSwapClient)];
+            yield return [typeof(IShortCodesClient)];
+            yield return [typeof(ISubAccountsClient)];
+            yield return [typeof(ISmsClient)];
+            yield return [typeof(IUsersClient)];
+            yield return [typeof(IVerifyClient)];
+            yield return [typeof(IVerifyV2Client)];
+            yield return [typeof(IVideoClient)];
+            yield return [typeof(IVoiceClient)];
+            yield return [typeof(ITokenGenerator)];
+            yield return [typeof(IVideoTokenGenerator)];
+            yield return [typeof(Credentials)];
         }
 
         private static ServiceProvider BuildScopedProviderWithConfiguration(IConfiguration configuration) =>
