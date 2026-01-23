@@ -4,6 +4,7 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
+using Vonage.Voice.Emergency.AssignNumber;
 using Vonage.Voice.Emergency.GetNumber;
 #endregion
 
@@ -21,4 +22,8 @@ public class EmergencyClient : IEmergencyClient
     /// <inheritdoc />
     public Task<Result<GetNumberResponse>> GetNumberAsync(Result<GetNumberRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetNumberRequest, GetNumberResponse>(request);
+
+    /// <inheritdoc />
+    public Task<Result<AssignNumberResponse>> AssignNumberAsync(Result<AssignNumberRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<AssignNumberRequest, AssignNumberResponse>(request);
 }

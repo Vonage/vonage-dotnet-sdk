@@ -1,6 +1,7 @@
 ﻿#region
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
+using Vonage.Voice.Emergency.AssignNumber;
 using Vonage.Voice.Emergency.GetNumber;
 #endregion
 
@@ -17,4 +18,11 @@ public interface IEmergencyClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<GetNumberResponse>> GetNumberAsync(Result<GetNumberRequest> request);
+
+    /// <summary>
+    ///     Assigns an emergency number.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<AssignNumberResponse>> AssignNumberAsync(Result<AssignNumberRequest> request);
 }
