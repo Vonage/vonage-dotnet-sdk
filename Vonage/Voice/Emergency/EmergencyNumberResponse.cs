@@ -4,14 +4,14 @@ using Vonage.Common;
 using Vonage.Common.Serialization;
 #endregion
 
-namespace Vonage.Voice.Emergency.GetNumber;
+namespace Vonage.Voice.Emergency;
 
 /// <summary>
 /// </summary>
 /// <param name="Number"></param>
 /// <param name="ContactName"></param>
 /// <param name="Address"></param>
-public record GetNumberResponse(
+public record EmergencyNumberResponse(
     [property: JsonPropertyName("number")]
     [property: JsonConverter(typeof(PhoneNumberJsonConverter))]
     PhoneNumber Number,

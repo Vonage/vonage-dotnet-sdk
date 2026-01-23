@@ -20,10 +20,10 @@ public class EmergencyClient : IEmergencyClient
             new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
-    public Task<Result<GetNumberResponse>> GetNumberAsync(Result<GetNumberRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<GetNumberRequest, GetNumberResponse>(request);
+    public Task<Result<EmergencyNumberResponse>> GetNumberAsync(Result<GetNumberRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetNumberRequest, EmergencyNumberResponse>(request);
 
     /// <inheritdoc />
-    public Task<Result<AssignNumberResponse>> AssignNumberAsync(Result<AssignNumberRequest> request) =>
-        this.vonageClient.SendWithResponseAsync<AssignNumberRequest, AssignNumberResponse>(request);
+    public Task<Result<EmergencyNumberResponse>> AssignNumberAsync(Result<AssignNumberRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<AssignNumberRequest, EmergencyNumberResponse>(request);
 }

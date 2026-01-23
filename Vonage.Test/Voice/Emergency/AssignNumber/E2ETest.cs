@@ -2,6 +2,8 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Vonage.Serialization;
+using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Voice.Emergency.AssignNumber;
 using WireMock.ResponseBuilders;
@@ -15,6 +17,10 @@ public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
     private const string ValidNumber = "+33601020304";
 
+    private readonly SerializationTestHelper numberResponseHelper =
+        new SerializationTestHelper(typeof(EmergencyNumberResponseTest).Namespace,
+            JsonSerializerBuilder.BuildWithSnakeCase());
+
     [Fact]
     public async Task AssignNumberAsync()
     {
@@ -25,7 +31,8 @@ public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
                 .UsingPatch())
             .RespondWith(Response.Create()
                 .WithStatusCode(HttpStatusCode.OK)
-                .WithBody(this.Serialization.GetResponseJson(nameof(SerializationTest.ShouldDeserialize200))));
+                .WithBody(this.numberResponseHelper.GetResponseJson(nameof(EmergencyNumberResponseTest
+                    .ShouldDeserialize200))));
         await this.Helper.VonageClient.EmergencyClient
             .AssignNumberAsync(AssignNumberRequest.Build()
                 .WithNumber(ValidNumber)
@@ -33,6 +40,6 @@ public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
                 .WithContactName("John Smith")
                 .Create())
             .Should()
-            .BeSuccessAsync(SerializationTest.VerifyExpectedResponse);
+            .BeSuccessAsync(EmergencyNumberResponseTest.VerifyExpectedResponse);
     }
 }
