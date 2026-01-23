@@ -11,19 +11,19 @@ public class RequestTest
 {
     [Fact]
     public void Parse_ShouldReturnFailure_GivenPhoneNumberIsIncorrect() =>
-        GetNumberRequest.Parse("aa601020304")
+        GetNumberRequest.Parse(Constants.InvalidNumber)
             .Should()
             .BeResultFailure("Number can only contain digits.");
 
     [Fact]
     public void Parse_ShouldReturnSuccess_WhenNumberIsInCorrectFormat() =>
-        GetNumberRequest.Parse("+33601020304")
+        GetNumberRequest.Parse(Constants.ValidNumber)
             .Should()
             .BeSuccess();
 
     [Fact]
     public void RequestUri_ShouldReturnApiEndpoint() =>
-        GetNumberRequest.Parse("+33601020304")
+        GetNumberRequest.Parse(Constants.ValidNumber)
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
             .BeSuccess("/v1/emergency/numbers/33601020304");

@@ -15,8 +15,6 @@ namespace Vonage.Test.Voice.Emergency.AssignNumber;
 [Trait("Category", "E2E")]
 public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
-    private const string ValidNumber = "+33601020304";
-
     private readonly SerializationTestHelper numberResponseHelper =
         new SerializationTestHelper(typeof(EmergencyNumberResponseTest).Namespace,
             JsonSerializerBuilder.BuildWithSnakeCase());
@@ -35,7 +33,7 @@ public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
                     .ShouldDeserialize200))));
         await this.Helper.VonageClient.EmergencyClient
             .AssignNumberAsync(AssignNumberRequest.Build()
-                .WithNumber(ValidNumber)
+                .WithNumber(Constants.ValidNumber)
                 .WithAddressId(new Guid("c49f3586-9b3b-458b-89fc-3c8beb58865c"))
                 .WithContactName("John Smith")
                 .Create())

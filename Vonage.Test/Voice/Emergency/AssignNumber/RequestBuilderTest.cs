@@ -9,17 +9,12 @@ namespace Vonage.Test.Voice.Emergency.AssignNumber;
 
 public class RequestBuilderTest
 {
-    private const string ValidNumber = "+33601020304";
-    private const string ValidContactName = "John Smith";
-    private const string ValidAddressId = "e5fcbdc8-6367-45bd-8d92-7b3ef266e754";
-    private const string InvalidNumber = "aa601020304";
-
     [Fact]
     public void Build_ShouldReturnFailure_GivenNumberIsInvalid() =>
         AssignNumberRequest.Build()
-            .WithNumber(InvalidNumber)
-            .WithAddressId(new Guid(ValidAddressId))
-            .WithContactName(ValidContactName)
+            .WithNumber(Constants.InvalidNumber)
+            .WithAddressId(new Guid(Constants.ValidAddressId))
+            .WithContactName(Constants.ValidContactName)
             .Create()
             .Should()
             .BeParsingFailure("Number can only contain digits.");
@@ -27,9 +22,9 @@ public class RequestBuilderTest
     [Fact]
     public void Build_ShouldReturnFailure_GivenAddressIdIsEmpty() =>
         AssignNumberRequest.Build()
-            .WithNumber(ValidNumber)
+            .WithNumber(Constants.ValidNumber)
             .WithAddressId(Guid.Empty)
-            .WithContactName(ValidContactName)
+            .WithContactName(Constants.ValidContactName)
             .Create()
             .Should()
             .BeParsingFailure("AddressId cannot be empty.");
@@ -37,8 +32,8 @@ public class RequestBuilderTest
     [Fact]
     public void Build_ShouldReturnFailure_GivenContactNameIsEmpty() =>
         AssignNumberRequest.Build()
-            .WithNumber(ValidNumber)
-            .WithAddressId(new Guid(ValidAddressId))
+            .WithNumber(Constants.ValidNumber)
+            .WithAddressId(new Guid(Constants.ValidAddressId))
             .WithContactName(string.Empty)
             .Create()
             .Should()
@@ -47,33 +42,33 @@ public class RequestBuilderTest
     [Fact]
     public void Build_ShouldSetAddressId() =>
         AssignNumberRequest.Build()
-            .WithNumber(ValidNumber)
-            .WithAddressId(new Guid(ValidAddressId))
-            .WithContactName(ValidContactName)
+            .WithNumber(Constants.ValidNumber)
+            .WithAddressId(new Guid(Constants.ValidAddressId))
+            .WithContactName(Constants.ValidContactName)
             .Create()
             .Map(request => request.AddressId)
             .Should()
-            .BeSuccess(new Guid(ValidAddressId));
+            .BeSuccess(new Guid(Constants.ValidAddressId));
 
     [Fact]
     public void Build_ShouldSetNumber() =>
         AssignNumberRequest.Build()
-            .WithNumber(ValidNumber)
-            .WithAddressId(new Guid(ValidAddressId))
-            .WithContactName(ValidContactName)
+            .WithNumber(Constants.ValidNumber)
+            .WithAddressId(new Guid(Constants.ValidAddressId))
+            .WithContactName(Constants.ValidContactName)
             .Create()
             .Map(request => request.Number)
             .Should()
-            .BeSuccess(ValidNumber);
+            .BeSuccess(Constants.ValidNumber);
 
     [Fact]
     public void Build_ShouldSetContactName() =>
         AssignNumberRequest.Build()
-            .WithNumber(ValidNumber)
-            .WithAddressId(new Guid(ValidAddressId))
-            .WithContactName(ValidContactName)
+            .WithNumber(Constants.ValidNumber)
+            .WithAddressId(new Guid(Constants.ValidAddressId))
+            .WithContactName(Constants.ValidContactName)
             .Create()
             .Map(request => request.ContactName)
             .Should()
-            .BeSuccess(ValidContactName);
+            .BeSuccess(Constants.ValidContactName);
 }
