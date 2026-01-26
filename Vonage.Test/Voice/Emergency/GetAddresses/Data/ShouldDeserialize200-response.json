@@ -1,0 +1,22 @@
+﻿{
+  "page_size": 100,
+  "page": 3,
+  "total_pages": 15,
+  "total_items": 1450,
+  "_embedded": {
+    "addresses": [
+      {
+        "id": "c49f3586-9b3b-458b-89fc-3c8beb58865c",
+        "address_name": "MyAddress",
+        "address_line1": "1 REGAL CT",
+        "address_line2": "Merchant's House 205",
+        "city": "New York",
+        "region": "NJ",
+        "type": "emergency",
+        "address_location_type": "business",
+        "postal_code": "10002",
+        "country": "US"
+      }
+    ]
+  }
+}
