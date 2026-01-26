@@ -1460,7 +1460,10 @@
         <None Update="Voice\Emergency\AssignNumber\Data\ShouldSerialize-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Voice\Emergency\Data\ShouldDeserialize200-response.json">
+        <None Update="Voice\Emergency\Data\ShouldDeserializeEmergencyNumber-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Voice\Emergency\Data\ShouldDeserializeAddress-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

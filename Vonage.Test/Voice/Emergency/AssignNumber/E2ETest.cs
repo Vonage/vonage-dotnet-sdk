@@ -30,7 +30,7 @@ public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
             .RespondWith(Response.Create()
                 .WithStatusCode(HttpStatusCode.OK)
                 .WithBody(this.numberResponseHelper.GetResponseJson(nameof(EmergencyNumberResponseTest
-                    .ShouldDeserialize200))));
+                    .ShouldDeserializeEmergencyNumber))));
         await this.Helper.VonageClient.EmergencyClient
             .AssignNumberAsync(AssignNumberRequest.Build()
                 .WithNumber(Constants.ValidNumber)

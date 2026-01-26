@@ -1,5 +1,4 @@
 ﻿#region
-using System;
 using FluentAssertions;
 using Vonage.Serialization;
 using Vonage.Test.Common;
@@ -18,7 +17,7 @@ public class EmergencyNumberResponseTest
         JsonSerializerBuilder.BuildWithSnakeCase());
 
     [Fact]
-    public void ShouldDeserialize200() =>
+    public void ShouldDeserializeEmergencyNumber() =>
         this.helper.Serializer
             .DeserializeObject<EmergencyNumberResponse>(this.helper.GetResponseJson())
             .Should()
@@ -28,15 +27,6 @@ public class EmergencyNumberResponseTest
     {
         response.Number.Number.Should().Be("15500900000");
         response.ContactName.Should().Be("John Smith");
-        response.Address.Should().Be(new Address(new Guid("c49f3586-9b3b-458b-89fc-3c8beb58865c"),
-            "MyAddress",
-            "1 REGAL CT",
-            "Merchant's House 205",
-            "New York",
-            "NJ",
-            Address.AddressType.Emergency,
-            Address.AddressLocationType.Business,
-            "10002",
-            "US"));
+        AddressTest.VerifyExpectedResponse(response.Address);
     }
 }
