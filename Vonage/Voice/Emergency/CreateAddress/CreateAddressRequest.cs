@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
+using Vonage.Common.Validation;
 using Vonage.Serialization;
 #endregion
 
@@ -14,6 +15,10 @@ namespace Vonage.Voice.Emergency.CreateAddress;
 [Builder]
 public readonly partial struct CreateAddressRequest : IVonageRequest
 {
+    private const int MaxNameLength = 32;
+    private const int MinNameLength = 2;
+    private const int CountryLength = 2;
+
     /// <summary>
     /// </summary>
     [Optional]
@@ -93,4 +98,22 @@ public readonly partial struct CreateAddressRequest : IVonageRequest
     private StringContent GetRequestContent() =>
         new StringContent(JsonSerializerBuilder.BuildWithCamelCase().SerializeObject(this), Encoding.UTF8,
             "application/json");
+
+    [ValidationRule]
+    internal static Result<CreateAddressRequest> VerifyNameMaxLength(CreateAddressRequest request) =>
+        request.Name.Match(
+            some => InputValidation.VerifyLengthLowerOrEqualThan(request, some, MaxNameLength, nameof(request.Name)),
+            () => request);
+
+    [ValidationRule]
+    internal static Result<CreateAddressRequest> VerifyNameMinLength(CreateAddressRequest request) =>
+        request.Name.Match(
+            some => InputValidation.VerifyLengthHigherOrEqualThan(request, some, MinNameLength, nameof(request.Name)),
+            () => request);
+
+    [ValidationRule]
+    internal static Result<CreateAddressRequest> VerifyCountryLength(CreateAddressRequest request) =>
+        request.Country.Match(
+            some => InputValidation.VerifyLength(request, some, CountryLength, nameof(request.Country)),
+            () => request);
 }

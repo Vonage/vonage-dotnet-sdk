@@ -1,6 +1,7 @@
 ﻿#region
 using Vonage.Common.Monads;
 using Vonage.Test.Common.Extensions;
+using Vonage.Test.Common.TestHelpers;
 using Vonage.Voice.Emergency;
 using Vonage.Voice.Emergency.CreateAddress;
 using Xunit;
@@ -19,6 +20,32 @@ public class RequestBuilderTest
             .Map(request => request.Name)
             .Should()
             .BeSuccess(Maybe<string>.None);
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenNameLengthIsLowerThanMinimum() =>
+        CreateAddressRequest.Build()
+            .WithName(StringHelper.GenerateString(1))
+            .Create()
+            .Should()
+            .BeParsingFailure("Name length cannot be lower than 2.");
+
+    [Fact]
+    public void Build_ShouldReturnFailure_GivenNameLengthIsHigherThanMaximum() =>
+        CreateAddressRequest.Build()
+            .WithName(StringHelper.GenerateString(33))
+            .Create()
+            .Should()
+            .BeParsingFailure("Name length cannot be higher than 32.");
+
+    [Theory]
+    [InlineData("F")]
+    [InlineData("FRR")]
+    public void Build_ShouldReturnFailure_GivenCountryLengthIsDifferentThanTwo(string invalidCountry) =>
+        CreateAddressRequest.Build()
+            .WithCountry(invalidCountry)
+            .Create()
+            .Should()
+            .BeParsingFailure("Country length should be 2.");
 
     [Fact]
     public void Build_ShouldSetNoneFirstAddressLine_GivenDefault() =>
@@ -76,14 +103,16 @@ public class RequestBuilderTest
             .Should()
             .BeSuccess(Maybe<string>.None);
 
-    [Fact]
-    public void Build_ShouldSetName() =>
+    [Theory]
+    [InlineData("AA")]
+    [InlineData("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")]
+    public void Build_ShouldSetName(string validName) =>
         CreateAddressRequest.Build()
-            .WithName(NonEmptyString)
+            .WithName(validName)
             .Create()
             .Map(request => request.Name)
             .Should()
-            .BeSuccess(NonEmptyString);
+            .BeSuccess(validName);
 
     [Fact]
     public void Build_ShouldSetFirstAddressLine() =>
