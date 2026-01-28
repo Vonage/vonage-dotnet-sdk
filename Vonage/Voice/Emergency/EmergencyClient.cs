@@ -5,6 +5,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
 using Vonage.Voice.Emergency.AssignNumber;
+using Vonage.Voice.Emergency.CreateAddress;
 using Vonage.Voice.Emergency.DeleteAddress;
 using Vonage.Voice.Emergency.GetAddress;
 using Vonage.Voice.Emergency.GetAddresses;
@@ -41,4 +42,8 @@ public class EmergencyClient : IEmergencyClient
     /// <inheritdoc />
     public Task<Result<Unit>> DeleteAddressAsync(Result<DeleteAddressRequest> request) =>
         this.vonageClient.SendAsync(request);
+
+    /// <inheritdoc />
+    public Task<Result<Address>> CreateAddressAsync(Result<CreateAddressRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<CreateAddressRequest, Address>(request);
 }

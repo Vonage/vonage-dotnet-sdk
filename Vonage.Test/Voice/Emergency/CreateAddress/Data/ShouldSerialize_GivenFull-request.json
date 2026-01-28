@@ -1,0 +1,11 @@
+﻿{
+  "address_name": "MyAddress",
+  "address_line1": "1 REGAL CT",
+  "address_line2": "Merchant's House 205",
+  "city": "New York",
+  "region": "NJ",
+  "type": "emergency",
+  "address_location_type": "business",
+  "postal_code": "10002",
+  "country": "US"
+}

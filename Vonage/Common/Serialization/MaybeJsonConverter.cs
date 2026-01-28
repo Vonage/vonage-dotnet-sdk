@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using Vonage.Common.Monads;
 using Vonage.Conversations;
 using Vonage.Server;
+using Vonage.Voice.Emergency;
 #endregion
 
 namespace Vonage.Common.Serialization;
@@ -19,7 +20,8 @@ public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
         .WithConverter(new EnumDescriptionJsonConverter<ChannelType>())
         .WithConverter(new EnumDescriptionJsonConverter<OutputMode>())
         .WithConverter(new EnumDescriptionJsonConverter<StreamMode>())
-        .WithConverter(new EnumDescriptionJsonConverter<LayoutType>());
+        .WithConverter(new EnumDescriptionJsonConverter<LayoutType>())
+        .WithConverter(new EnumDescriptionJsonConverter<Address.AddressLocationType>());
 
     /// <inheritdoc />
     public override Maybe<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

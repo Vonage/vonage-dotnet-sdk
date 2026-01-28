@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.Voice.Emergency.AssignNumber;
+using Vonage.Voice.Emergency.CreateAddress;
 using Vonage.Voice.Emergency.DeleteAddress;
 using Vonage.Voice.Emergency.GetAddress;
 using Vonage.Voice.Emergency.GetAddresses;
@@ -49,4 +50,11 @@ public interface IEmergencyClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<Unit>> DeleteAddressAsync(Result<DeleteAddressRequest> request);
+
+    /// <summary>
+    ///     Creates an address.
+    /// </summary>
+    /// <param name="request">The request.</param>
+    /// <returns>Success or Failure.</returns>
+    Task<Result<Address>> CreateAddressAsync(Result<CreateAddressRequest> request);
 }
