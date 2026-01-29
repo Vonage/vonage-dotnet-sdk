@@ -15,6 +15,23 @@ internal static class MultiInputTestsTestData
             Context = new[] {"dog", "cat"},
             StartTimeout = 5,
             MaxDuration = 30,
+            Provider = SpeechProvider.Deepgram,
+            ProviderOptions = new SpeechProviderOptions
+            {
+                Model = "nova-3",
+                Dictation = true,
+                FillerWords = true,
+                InterimResults = true,
+                Keywords = ["first", "second", "next"],
+                Language = "bg",
+                Numerals = true,
+                ProfanityFilter = true,
+                Punctuate = true,
+                Redact = true,
+                SmartFormat = true,
+                Endpointing = 10,
+                UtteranceEnd = 100,
+            },
         };
 
     internal static DtmfSettings CreateDtmfSettingsWithAllProperties() =>
