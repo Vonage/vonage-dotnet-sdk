@@ -1,4 +1,61 @@
 # Changelog
+## [v8.22.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.22.0) (2026-01-30)
+
+### Documentation
+
+- Generate changelog for v8.21.0 ([f521651](https://github.com/Vonage/vonage-dotnet-sdk/commit/f52165140ae325191e17ccc885b6552901d6410b))
+
+- Bump version to v8.22.0 ([df73a56](https://github.com/Vonage/vonage-dotnet-sdk/commit/df73a566297d5d40e7213d9cebc0c94b9836fcb9))
+
+
+### Features
+
+- Add support for USer-to-User SipHeaders ([d44d25e](https://github.com/Vonage/vonage-dotnet-sdk/commit/d44d25e6af07f0ed030d7199a14eb424b46c7ad7))
+
+- Implement GetNumber for Emergency API ([172ae67](https://github.com/Vonage/vonage-dotnet-sdk/commit/172ae67c815c0a75787cec2e2c271bd3e2102673))
+
+- Implement AssignNumber for Emergency API ([22ff866](https://github.com/Vonage/vonage-dotnet-sdk/commit/22ff866325d1b6528034cb7b452cbcefc5772d20))
+
+- Implement GetAddress for Address API ([1121e2a](https://github.com/Vonage/vonage-dotnet-sdk/commit/1121e2a5b35018ef5060d3714b762ae8f04e008a))
+
+- Implement GetAddresses for Address API ([bb93f59](https://github.com/Vonage/vonage-dotnet-sdk/commit/bb93f594fb6ae59aefc26dc9bf70b8759c480553))
+
+- Implement DeleteAddress for AddressAPI ([aaf7e51](https://github.com/Vonage/vonage-dotnet-sdk/commit/aaf7e51949bea5334aa0fe9af04523f5bf7ea358))
+
+- Implement CreateAddress for AddressAPI ([e767381](https://github.com/Vonage/vonage-dotnet-sdk/commit/e767381eef43a8ba9ec6af3df0d353298bb8e85b))
+
+- Add input validation for CreateAddress ([3625015](https://github.com/Vonage/vonage-dotnet-sdk/commit/3625015e1edec7a7a9ff4498ea2b9041d3cae27b))
+
+- Add new provider and options on Input Talk action ([880abcd](https://github.com/Vonage/vonage-dotnet-sdk/commit/880abcd808763e12690cfb08e4386c977f1247fb))
+
+- Add new provider and options on Voice Talk action ([77f0827](https://github.com/Vonage/vonage-dotnet-sdk/commit/77f0827119c5d2a87dc89d5ebb860663f7d9f80c))
+
+
+### Merges
+
+- Merge branch 'voice-talk-action'
+ ([691146f](https://github.com/Vonage/vonage-dotnet-sdk/commit/691146fcca36802bd4c9547911efcd65d00d6922))
+
+
+### Refactoring
+
+- Force AuthType on specific clients ([ec28e89](https://github.com/Vonage/vonage-dotnet-sdk/commit/ec28e898596d319d9677467748b61c6303c22449))
+
+- Reduce duplication in TestingContext ([5a80fde](https://github.com/Vonage/vonage-dotnet-sdk/commit/5a80fde2b9c851166a9e60239c940089c1e91983))
+
+- Transform result state when evaluating parsing rules ([9475c17](https://github.com/Vonage/vonage-dotnet-sdk/commit/9475c17f4d2d69a8d81d1881431863f91f51a02e))
+
+- Regroup response for AssignNumber and GetNumber ([3efc90a](https://github.com/Vonage/vonage-dotnet-sdk/commit/3efc90a9cfcb14f4e2f0c2ce4ce824aac59c0c89))
+
+- Regroup test constants for Emergency API ([1ae4727](https://github.com/Vonage/vonage-dotnet-sdk/commit/1ae47276ad3f35749560452c5d0d62e4683d5ae1))
+
+- Reorganize solution folders ([d78cb2a](https://github.com/Vonage/vonage-dotnet-sdk/commit/d78cb2a17726e24d0e7f91d4f0d375a6029e6637))
+
+- Replace providerOptions by a dictionary ([1e61020](https://github.com/Vonage/vonage-dotnet-sdk/commit/1e61020f1217f72be30ad821c7f5a3e678134f3e))
+
+- Replace providerOptions by a dictionary ([1c584d1](https://github.com/Vonage/vonage-dotnet-sdk/commit/1c584d10ee9473124f6f64cef0dfeec88f667f02))
+
+
 ## [v8.21.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.21.0) (2026-01-13)
 
 ### Documentation
