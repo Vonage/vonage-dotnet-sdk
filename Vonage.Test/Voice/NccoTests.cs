@@ -207,6 +207,12 @@ public class NccoTests
             Level = "0",
             Language = "en-US",
             Style = 0,
+            Provider = TalkAction.TalkProvider.ElevenLabs,
+            ProviderOptions = new Dictionary<string, string>
+            {
+                {"test", "value"},
+                {"foo", "bar"},
+            },
         });
 
     [Fact]

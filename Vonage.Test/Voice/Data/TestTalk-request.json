@@ -6,6 +6,11 @@
     "loop": "2",
     "level": "0",
     "language": "en-US",
-    "style": 0
+    "style": 0,
+    "provider": "ElevenLabs",
+    "providerOptions": {
+      "test": "value",
+      "foo": "bar"
+    }
   }
 ]
