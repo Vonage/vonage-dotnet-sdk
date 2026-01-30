@@ -24,23 +24,8 @@
       "maxDuration": 30,
       "provider": "deepgram",
       "providerOptions": {
-        "model": "nova-3",
-        "dictation": true,
-        "filler_words": true,
-        "interim_results": true,
-        "keywords": [
-          "first",
-          "second",
-          "next"
-        ],
-        "language": "bg",
-        "numerals": true,
-        "profanity_filter": true,
-        "punctuate": true,
-        "redact": true,
-        "smart_format": true,
-        "endpointing": 10,
-        "utterance_end": 100
+        "test": "value",
+        "foo": "bar"
       }
     }
   }

@@ -1,4 +1,5 @@
 ﻿#region
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -57,7 +58,7 @@ public class SpeechSettings
     /// <summary>
     /// </summary>
     [JsonProperty("providerOptions", Order = 7)]
-    public SpeechProviderOptions? ProviderOptions { get; set; }
+    public Dictionary<string, string> ProviderOptions { get; set; }
 }
 
 /// <summary>
@@ -71,74 +72,4 @@ public enum SpeechProvider
     /// <summary>
     /// </summary>
     [EnumMember(Value = "google")] Google,
-}
-
-/// <summary>
-/// </summary>
-public struct SpeechProviderOptions
-{
-    /// <summary>
-    /// </summary>
-    [JsonProperty("model", Order = 0)]
-    public string Model { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("dictation", Order = 1)]
-    public bool Dictation { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("filler_words", Order = 2)]
-    public bool FillerWords { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("interim_results", Order = 3)]
-    public bool InterimResults { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("keywords", Order = 4)]
-    public string[] Keywords { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("language", Order = 5)]
-    public string Language { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("numerals", Order = 6)]
-    public bool Numerals { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("profanity_filter", Order = 7)]
-    public bool ProfanityFilter { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("punctuate", Order = 8)]
-    public bool Punctuate { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("redact", Order = 9)]
-    public bool Redact { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("smart_format", Order = 10)]
-    public bool SmartFormat { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("endpointing", Order = 11)]
-    public int Endpointing { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("utterance_end", Order = 12)]
-    public int UtteranceEnd { get; set; }
 }
