@@ -9,15 +9,8 @@
     "style": 0,
     "provider": "ElevenLabs",
     "providerOptions": {
-      "voice_id": "NFG5qt843uXKj4pFvR7C",
-      "model_id": "eleven_multilingual_v2",
-      "voice_settings": {
-        "stability": 1.5,
-        "use_speaker_boost": true,
-        "similarity_boost": 2.4,
-        "style": 1.4,
-        "speed": 2.5
-      }
+      "test": "value",
+      "foo": "bar"
     }
   }
 ]

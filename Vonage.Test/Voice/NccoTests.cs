@@ -208,18 +208,10 @@ public class NccoTests
             Language = "en-US",
             Style = 0,
             Provider = TalkAction.TalkProvider.ElevenLabs,
-            ProviderOptions = new TalkProviderOptions
+            ProviderOptions = new Dictionary<string, string>
             {
-                VoiceId = "NFG5qt843uXKj4pFvR7C",
-                ModelId = "eleven_multilingual_v2",
-                Settings = new TalkProviderSettings
-                {
-                    Speed = (decimal) 2.5,
-                    SimilarityBoost = (decimal) 2.4,
-                    UseSpeakerBoost = true,
-                    Stability = (decimal) 1.5,
-                    Style = (decimal) 1.4,
-                },
+                {"test", "value"},
+                {"foo", "bar"},
             },
         });
 

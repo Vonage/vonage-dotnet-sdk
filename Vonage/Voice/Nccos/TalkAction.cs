@@ -1,4 +1,5 @@
 ﻿#region
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -99,55 +100,5 @@ public class TalkAction : NccoAction
     /// <summary>
     /// </summary>
     [JsonProperty("providerOptions", Order = 10)]
-    public TalkProviderOptions? ProviderOptions { get; set; }
-}
-
-/// <summary>
-/// </summary>
-public struct TalkProviderOptions
-{
-    /// <summary>
-    /// </summary>
-    [JsonProperty("voice_id", Order = 0)]
-    public string VoiceId { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("model_id", Order = 1)]
-    public string ModelId { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("voice_settings", Order = 1)]
-    public TalkProviderSettings Settings { get; set; }
-}
-
-/// <summary>
-/// </summary>
-public struct TalkProviderSettings
-{
-    /// <summary>
-    /// </summary>
-    [JsonProperty("stability", Order = 0)]
-    public decimal Stability { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("use_speaker_boost", Order = 1)]
-    public bool UseSpeakerBoost { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("similarity_boost", Order = 2)]
-    public decimal SimilarityBoost { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("style", Order = 3)]
-    public decimal Style { get; set; }
-
-    /// <summary>
-    /// </summary>
-    [JsonProperty("speed", Order = 4)]
-    public decimal Speed { get; set; }
+    public Dictionary<string, string> ProviderOptions { get; set; }
 }
