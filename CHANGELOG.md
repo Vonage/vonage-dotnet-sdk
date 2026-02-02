@@ -1,4 +1,12 @@
 # Changelog
+
+## [unreleased]
+
+### Documentation
+
+- Generate changelog for
+  v8.22.0 ([d58efc7](https://github.com/Vonage/vonage-dotnet-sdk/commit/d58efc7d593a43fd35ab80400ca903934dc0d67e))
+
 ## [v8.22.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.22.0) (2026-01-30)
 
 ### Documentation
@@ -55,6 +63,7 @@
 
 - Replace providerOptions by a dictionary ([1c584d1](https://github.com/Vonage/vonage-dotnet-sdk/commit/1c584d10ee9473124f6f64cef0dfeec88f667f02))
 
+Full Changelog: [v8.21.0...v8.22.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.21.0...v8.22.0)
 
 ## [v8.21.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.21.0) (2026-01-13)
 
@@ -71,6 +80,7 @@
 
 - Add missing properties to Voice Answer webhook ([7fad9e6](https://github.com/Vonage/vonage-dotnet-sdk/commit/7fad9e6509f4a8e38131eaec07e3c7306d594476))
 
+Full Changelog: [v8.20.0...v8.21.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.20.0...v8.21.0)
 
 ## [v8.20.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.20.0) (2026-01-07)
 
@@ -149,6 +159,7 @@
 
 - Remove TestBase ([aec06ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/aec06eaa4ad767468f23b3dd2c2fa8935e014313))
 
+Full Changelog: [v8.19.0...v8.20.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.19.0...v8.20.0)
 
 ## [v8.19.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.19.0) (2025-12-17)
 
@@ -170,6 +181,7 @@
 
 - Merge all Messages webhook serialization tests into a single file/test, to reduce redudance and maintenance ([cec0b2a](https://github.com/Vonage/vonage-dotnet-sdk/commit/cec0b2a68a8a6f9f61ac0559afbf6cae5f112c1d))
 
+Full Changelog: [v8.18.0...v8.19.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.18.0...v8.19.0)
 
 ## [v8.18.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.18.0) (2025-12-12)
 
@@ -199,6 +211,7 @@
 
 - Use TheoryData<> to simplify testing across multiple regions for Voice ([490ccd2](https://github.com/Vonage/vonage-dotnet-sdk/commit/490ccd2c3ea5a39747b8d373d599d99a5bf414ef))
 
+Full Changelog: [v8.17.1...v8.18.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.17.1...v8.18.0)
 
 ## [v8.17.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.17.1) (2025-12-04)
 
@@ -213,6 +226,7 @@
 
 - Add support for both Newtonsoft.Json and System.Text.Json on Messages webhooks ([697100c](https://github.com/Vonage/vonage-dotnet-sdk/commit/697100cc49acae4578f622814c742a1412cf0c35))
 
+Full Changelog: [v8.17.0...v8.17.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.17.0...v8.17.1)
 
 ## [v8.17.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.17.0) (2025-12-02)
 
@@ -232,6 +246,7 @@
 
 - Deprecate Category for marketing WhatsApp messages ([9ecedca](https://github.com/Vonage/vonage-dotnet-sdk/commit/9ecedca1d9a73ee065fd365e0168f4d6856b7db0))
 
+Full Changelog: [v8.16.0...v8.17.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.16.0...v8.17.0)
 
 ## [v8.16.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.16.0) (2025-11-12)
 
@@ -246,6 +261,7 @@
 
 - Add support for Transcription models in Voice ([ec43743](https://github.com/Vonage/vonage-dotnet-sdk/commit/ec43743e007f6bd347a4865948ca804233cca6c8))
 
+Full Changelog: [v8.15.0...v8.16.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.15.0...v8.16.0)
 
 ## [v8.15.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.15.0) (2025-11-04)
 
@@ -260,6 +276,7 @@
 
 - Use Basic authentication instead of Query for legacy APIs ([ebf49e7](https://github.com/Vonage/vonage-dotnet-sdk/commit/ebf49e7ba40bc1b97e064c63ef8371e66cc9fb15))
 
+Full Changelog: [v8.14.0...v8.15.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.14.0...v8.15.0)
 
 ## [v8.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.14.0) (2025-11-03)
 
@@ -276,6 +293,7 @@
 
 - Add SipCode to Voice event webhooks ([7260a50](https://github.com/Vonage/vonage-dotnet-sdk/commit/7260a505ba2ecd60eba323f2a8f0e1c3c705896c))
 
+Full Changelog: [v8.13.2...v8.14.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.13.2...v8.14.0)
 
 ## [v8.13.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.13.2) (2025-10-28)
 
@@ -297,6 +315,7 @@
 
 - Implement list connections for Video ([02e3de3](https://github.com/Vonage/vonage-dotnet-sdk/commit/02e3de33813975a6a6b0c337509a9c9dcbb00531))
 
+Full Changelog: [v8.13.1...v8.13.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.13.1...v8.13.2)
 
 ## [v8.13.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.13.1) (2025-10-14)
 
@@ -313,6 +332,7 @@
 
 - Bump version to v8.13.1 ([bd9cc67](https://github.com/Vonage/vonage-dotnet-sdk/commit/bd9cc6760de0a5e43d31010affe899c78d09482c))
 
+Full Changelog: [v8.13.0...v8.13.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.13.0...v8.13.1)
 
 ## [v8.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.13.0) (2025-10-14)
 
@@ -336,6 +356,7 @@
 
 - Move TimeToLive to message base for RCS ([a5baf57](https://github.com/Vonage/vonage-dotnet-sdk/commit/a5baf5722fb104a2aa462ca31dfdc41724330349))
 
+Full Changelog: [v8.12.1...v8.13.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.12.1...v8.13.0)
 
 ## [v8.12.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.12.1) (2025-10-13)
 
@@ -350,6 +371,7 @@
 
 - Bump version to v8.12.1 ([be3ce1c](https://github.com/Vonage/vonage-dotnet-sdk/commit/be3ce1cbabd0f46345065fa9f2c18a2dd85a7bc5))
 
+Full Changelog: [v8.12.0...v8.12.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.12.0...v8.12.1)
 
 ## [v8.12.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.12.0) (2025-10-10)
 
@@ -385,6 +407,7 @@
 
 - Clean application tests ([3dff9d7](https://github.com/Vonage/vonage-dotnet-sdk/commit/3dff9d70dbb379f6fddeeac9b938713e19ca6d68))
 
+Full Changelog: [v8.11.0...v8.12.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.11.0...v8.12.0)
 
 ## [v8.11.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.11.0) (2025-10-07)
 
@@ -399,6 +422,7 @@
 
 - Add WorkflowId on Messages response ([94b19a9](https://github.com/Vonage/vonage-dotnet-sdk/commit/94b19a953a28b90efd42463051dcbb701abcc25d))
 
+Full Changelog: [v8.10.0...v8.11.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.10.0...v8.11.0)
 
 ## [v8.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.10.0) (2025-09-30)
 
@@ -422,6 +446,7 @@
 
 - Use primary constructors for E2E tests ([7d4f549](https://github.com/Vonage/vonage-dotnet-sdk/commit/7d4f5495f5b3a927de6275b30a91ff85f372dfbb))
 
+Full Changelog: [v8.9.0...v8.10.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.9.0...v8.10.0)
 
 ## [v8.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.9.0) (2025-09-25)
 
@@ -436,6 +461,7 @@
 
 - Add support for Transfer NCCO action ([94a85ba](https://github.com/Vonage/vonage-dotnet-sdk/commit/94a85ba0aa02b7dfc8852a1f1cd0a965286766fc))
 
+Full Changelog: [v8.8.0...v8.9.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.8.0...v8.9.0)
 
 ## [v8.8.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.8.0) (2025-09-23)
 
@@ -459,6 +485,7 @@
 
 - Add factory method to create Application capabilities ([aca5f7c](https://github.com/Vonage/vonage-dotnet-sdk/commit/aca5f7cfe24e6a42304965c23fba96e5a96f9dec))
 
+Full Changelog: [v8.7.1...v8.8.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.7.1...v8.8.0)
 
 ## [v8.7.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.7.1) (2025-09-18)
 
@@ -555,6 +582,7 @@
 
 - Reuse capabilities builder methods in test cases ([f87df10](https://github.com/Vonage/vonage-dotnet-sdk/commit/f87df10735050cf31ca7cddb0b24871e34651fe2))
 
+Full Changelog: [v8.7.0...v8.7.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.7.0...v8.7.1)
 
 ## [v8.7.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.7.0) (2025-09-01)
 
@@ -576,6 +604,7 @@
 
 - Add support for bidirectional audio in Video WebSocket ([158e7db](https://github.com/Vonage/vonage-dotnet-sdk/commit/158e7dbc1e70e27d28e8ffe3dea2915a3abe063e))
 
+Full Changelog: [v8.6.0...v8.7.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.6.0...v8.7.0)
 
 ## [v8.6.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.6.0) (2025-08-29)
 
@@ -590,6 +619,7 @@
 
 - Support Wait NCCO action ([c811f72](https://github.com/Vonage/vonage-dotnet-sdk/commit/c811f72a1ef17822e74887cf1405858abfd14b5c))
 
+Full Changelog: [v8.5.0...v8.6.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.5.0...v8.6.0)
 
 ## [v8.5.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.5.0) (2025-08-29)
 
@@ -604,6 +634,7 @@
 
 - Add support for number pools on SMS messages ([4276c95](https://github.com/Vonage/vonage-dotnet-sdk/commit/4276c95a616b2823341f13d6f3a19198c477cf1f))
 
+Full Changelog: [v8.4.0...v8.5.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.4.0...v8.5.0)
 
 ## [v8.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.4.0) (2025-08-29)
 
@@ -618,6 +649,7 @@
 
 - Add support for trusted number in SMS, MMS and RCS messages ([547af3e](https://github.com/Vonage/vonage-dotnet-sdk/commit/547af3e3765b81c10075f93f3e98000820721ce7))
 
+Full Changelog: [v8.3.1...v8.4.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.3.1...v8.4.0)
 
 ## [v8.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.3.1) (2025-08-22)
 
@@ -634,6 +666,7 @@
 
 - Bump version to v8.3.1 ([f5966a1](https://github.com/Vonage/vonage-dotnet-sdk/commit/f5966a1fe0cd66a6b913b4184031cbc5f257d34d))
 
+Full Changelog: [v8.3.0...v8.3.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.3.0...v8.3.1)
 
 ## [v8.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.3.0) (2025-08-12)
 
@@ -657,6 +690,7 @@
 
 - Move JsonSerializer enum at root level ([9fdf4bd](https://github.com/Vonage/vonage-dotnet-sdk/commit/9fdf4bd6074c6737b6d23cc3aa7ba67066c9b0ac))
 
+Full Changelog: [v8.2.0...v8.3.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.2.0...v8.3.0)
 
 ## [v8.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.2.0) (2025-07-24)
 
@@ -671,6 +705,7 @@
 
 - Add support for IfSuccess on async Result ([946bf58](https://github.com/Vonage/vonage-dotnet-sdk/commit/946bf584478669a91596e0959dee245816ec7ec5))
 
+Full Changelog: [v8.1.0...v8.2.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.1.0...v8.2.0)
 
 ## [v8.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.1.0) (2025-07-22)
 
@@ -689,6 +724,7 @@
 
 - Add support for RCS category in Messages ([c6baa58](https://github.com/Vonage/vonage-dotnet-sdk/commit/c6baa58a745e5888319ccb0eb832cbbedbea780a))
 
+Full Changelog: [v8.0.3...v8.1.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.0.3...v8.1.0)
 
 ## [v8.0.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.3) (2025-07-04)
 
@@ -703,6 +739,7 @@
 
 - Bump version to v8.0.3 ([41c5d09](https://github.com/Vonage/vonage-dotnet-sdk/commit/41c5d09110450969a80815a756b44676ecff0645))
 
+Full Changelog: [v8.0.2...v8.0.3](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.0.2...v8.0.3)
 
 ## [v8.0.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.2) (2025-06-25)
 
@@ -722,6 +759,7 @@
 
 - Bump version to v8.0.2 ([d245fb0](https://github.com/Vonage/vonage-dotnet-sdk/commit/d245fb0aeb6e9bf143bd09bed261f6a5f2cb657d))
 
+Full Changelog: [v8.0.1...v8.0.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.0.1...v8.0.2)
 
 ## [v8.0.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.1) (2025-06-19)
 
@@ -744,6 +782,7 @@
 
 - Bump version to v8.0.1 ([76e6ad4](https://github.com/Vonage/vonage-dotnet-sdk/commit/76e6ad490a1318ed1c9acd1030f2da75bf676eba))
 
+Full Changelog: [v8.0.0...v8.0.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.0.0...v8.0.1)
 
 ## [v8.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.0.0) (2025-06-17)
 
@@ -788,6 +827,7 @@
 
 - Add ValidationRule attribute for autogenerated builders ([26c2e1a](https://github.com/Vonage/vonage-dotnet-sdk/commit/26c2e1abd891ddb0c5c9a093a7ad5936c800654c))
 
+Full Changelog: [v7.22.0...v8.0.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.22.0...v8.0.0)
 
 ## [v7.22.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.22.0) (2025-06-12)
 
@@ -809,6 +849,7 @@
 
 - Unify how properties are reused in Messages ([bf4bd07](https://github.com/Vonage/vonage-dotnet-sdk/commit/bf4bd07dc3c264fc641edbe31d98f2436f36b71f))
 
+Full Changelog: [v7.21.0...v7.22.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.21.0...v7.22.0)
 
 ## [v7.21.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.21.0) (2025-06-02)
 
@@ -823,6 +864,7 @@
 
 - Add missing video webhook types in common webhooks ([f22d30a](https://github.com/Vonage/vonage-dotnet-sdk/commit/f22d30a05bb8a7aed72dbb2b1f8e5f86c7220c78))
 
+Full Changelog: [v7.20.1...v7.21.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.20.1...v7.21.0)
 
 ## [v7.20.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.1) (2025-05-30)
 
@@ -871,6 +913,7 @@
 This reverts commit 87576ffadfaa6b35825d6568c069e9b4a459390d.
  ([bc73867](https://github.com/Vonage/vonage-dotnet-sdk/commit/bc7386706a23401d32311d2ccb4a520743f4887a))
 
+Full Changelog: [v7.20.0...v7.20.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.20.0...v7.20.1)
 
 ## [v7.20.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.20.0) (2025-05-26)
 
@@ -928,6 +971,7 @@ This reverts commit 87576ffadfaa6b35825d6568c069e9b4a459390d.
 This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
  ([1dde6ef](https://github.com/Vonage/vonage-dotnet-sdk/commit/1dde6ef5291a7294f8fd1ce6024fa3a637db549a))
 
+Full Changelog: [v7.19.0...v7.20.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.19.0...v7.20.0)
 
 ## [v7.19.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.19.0) (2025-05-21)
 
@@ -944,6 +988,7 @@ This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
 
 - Support MMS Content type in Messages ([017c755](https://github.com/Vonage/vonage-dotnet-sdk/commit/017c755c17c1c1ecf5a363b53918a04bb9f1622c))
 
+Full Changelog: [v7.18.0...v7.19.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.18.0...v7.19.0)
 
 ## [v7.18.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.18.0) (2025-05-19)
 
@@ -960,6 +1005,7 @@ This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
 
 - Add QuantizationParameter on Archive ([241a8de](https://github.com/Vonage/vonage-dotnet-sdk/commit/241a8de52bc2497a101102a233a7a90f66603fd7))
 
+Full Changelog: [v7.17.4...v7.18.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.17.4...v7.18.0)
 
 ## [v7.17.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.4) (2025-05-16)
 
@@ -974,6 +1020,7 @@ This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
 
 - Bump version to v7.17.4 ([39520ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/39520eabd1dda18d397c84747063cfc8723e341f))
 
+Full Changelog: [v7.17.3...v7.17.4](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.17.3...v7.17.4)
 
 ## [v7.17.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.3) (2025-05-15)
 
@@ -988,6 +1035,7 @@ This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
 
 - Bump version to v7.17.3 ([e04a435](https://github.com/Vonage/vonage-dotnet-sdk/commit/e04a435f021b9ea09c33d954d130ad0e48821e6f))
 
+Full Changelog: [v7.17.2...v7.17.3](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.17.2...v7.17.3)
 
 ## [v7.17.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.2) (2025-05-09)
 
@@ -1009,6 +1057,7 @@ This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
 
 - Add stryker-config file for Vonage.SourceGenerator.Test ([c7eed02](https://github.com/Vonage/vonage-dotnet-sdk/commit/c7eed028f6a70a7f4cdb1b0790e6ee982afd255b))
 
+Full Changelog: [v7.17.1...v7.17.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.17.1...v7.17.2)
 
 ## [v7.17.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.1) (2025-05-02)
 
@@ -1045,6 +1094,7 @@ This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
 
 - Update OptionalBoolean attribute ([56b8413](https://github.com/Vonage/vonage-dotnet-sdk/commit/56b8413f3ffc43010e168e1302241ef56f151510))
 
+Full Changelog: [v7.17.0...v7.17.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.17.0...v7.17.1)
 
 ## [v7.17.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.17.0) (2025-03-06)
 
@@ -1063,6 +1113,7 @@ This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
 
 - Add transcription settings on Record action ([0ce645c](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ce645cff7efa25f9856aa5ad2f97faba5886c2c))
 
+Full Changelog: [v7.16.0...v7.17.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.16.0...v7.17.0)
 
 ## [v7.16.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.16.0) (2025-02-17)
 
@@ -1090,6 +1141,7 @@ This reverts commit e3585640713ea97cf3102db2cf6524b6659d7f37.
 - Merge remote-tracking branch 'origin/main'
  ([80a94ff](https://github.com/Vonage/vonage-dotnet-sdk/commit/80a94ffa6bb923611165add66524cb1913f1bd3f))
 
+Full Changelog: [v7.15.0...v7.16.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.15.0...v7.16.0)
 
 ## [v7.15.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.15.0) (2025-02-05)
 
@@ -1135,6 +1187,7 @@ This reverts commit 71ba6b1907c205dc614f5387cf17e405ddced5ca.
 This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
  ([0f403ca](https://github.com/Vonage/vonage-dotnet-sdk/commit/0f403ca1ad796dfa94c43bf96cd65723be7a40f6))
 
+Full Changelog: [v7.14.1...v7.15.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.14.1...v7.15.0)
 
 ## [v7.14.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.14.1) (2025-01-14)
 
@@ -1149,6 +1202,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Make RealTimeData obsolete in NI ([7f6c25f](https://github.com/Vonage/vonage-dotnet-sdk/commit/7f6c25ff63fe559e963f2e9594e79e7c17ef7458))
 
+Full Changelog: [v7.14.0...v7.14.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.14.0...v7.14.1)
 
 ## [v7.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.14.0) (2024-12-18)
 
@@ -1172,6 +1226,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Reorganize tests for Monads for better navigation ([d298f50](https://github.com/Vonage/vonage-dotnet-sdk/commit/d298f507a71f177831c39667adac3a97c550743c))
 
+Full Changelog: [v7.13.1...v7.14.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.13.1...v7.14.0)
 
 ## [v7.13.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.13.1) (2024-12-16)
 
@@ -1191,6 +1246,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Make SendRequest pure ([dbab981](https://github.com/Vonage/vonage-dotnet-sdk/commit/dbab981deb3a2e6772e5d4d454d9a55fba033107))
 
+Full Changelog: [v7.13.0...v7.13.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.13.0...v7.13.1)
 
 ## [v7.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.13.0) (2024-12-05)
 
@@ -1216,6 +1272,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 - Merge remote-tracking branch 'origin/main'
  ([f417bdd](https://github.com/Vonage/vonage-dotnet-sdk/commit/f417bdd5aa1399909ac494e3bb26a9e6904e383c))
 
+Full Changelog: [v7.12.0...v7.13.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.12.0...v7.13.0)
 
 ## [v7.12.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.12.0) (2024-11-21)
 
@@ -1238,6 +1295,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Add support for custom proxies ([99faaec](https://github.com/Vonage/vonage-dotnet-sdk/commit/99faaece16402d32551ad21d625b679251d5b745))
 
+Full Changelog: [v7.11.0...v7.12.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.11.0...v7.12.0)
 
 ## [v7.11.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.11.0) (2024-11-14)
 
@@ -1270,6 +1328,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Improve error information with tailored format ([f11e417](https://github.com/Vonage/vonage-dotnet-sdk/commit/f11e417735d73e1c68aadebbd42df4c44b6e7e4c))
 
+Full Changelog: [v7.10.0...v7.11.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.10.0...v7.11.0)
 
 ## [v7.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.10.0) (2024-10-04)
 
@@ -1324,6 +1383,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Add verification channel enum for VerifyV2 ([af7cd63](https://github.com/Vonage/vonage-dotnet-sdk/commit/af7cd630279d8ca6ca374c36759fbe5f8d948810))
 
+Full Changelog: [v7.9.0...v7.10.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.9.0...v7.10.0)
 
 ## [v7.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.9.0) (2024-09-04)
 
@@ -1347,6 +1407,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Clean messages tests ([e5218d6](https://github.com/Vonage/vonage-dotnet-sdk/commit/e5218d60b08a8fc1020238fc833adca349d07cec))
 
+Full Changelog: [v7.8.2...v7.9.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.8.2...v7.9.0)
 
 ## [v7.8.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.8.2) (2024-08-29)
 
@@ -1361,6 +1422,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Flag Meetings API and Proactive Connect API as obsolete ([b4a3239](https://github.com/Vonage/vonage-dotnet-sdk/commit/b4a3239e0f030201aa7af9369817fb95ef08b031))
 
+Full Changelog: [v7.8.1...v7.8.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.8.1...v7.8.2)
 
 ## [v7.8.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.8.1) (2024-08-28)
 
@@ -1380,6 +1442,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Add async IfNone extension for Maybe ([b2bb7cc](https://github.com/Vonage/vonage-dotnet-sdk/commit/b2bb7cc17610675931789b46853f5dc3d6e99d25))
 
+Full Changelog: [v7.8.0...v7.8.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.8.0...v7.8.1)
 
 ## [v7.8.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.8.0) (2024-08-26)
 
@@ -1405,6 +1468,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Clean SignatureValidation ([c30416c](https://github.com/Vonage/vonage-dotnet-sdk/commit/c30416c903705b5fd03551f6bf5d82d3434a368a))
 
+Full Changelog: [v7.7.4...v7.8.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.7.4...v7.8.0)
 
 ## [v7.7.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.4) (2024-08-08)
 
@@ -1423,6 +1487,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Add StandardHeaders to SipEndpoint ([b858c59](https://github.com/Vonage/vonage-dotnet-sdk/commit/b858c595d8da70d5c63b5fb11b997cad1bcadbbf))
 
+Full Changelog: [v7.7.3...v7.7.4](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.7.3...v7.7.4)
 
 ## [v7.7.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.3) (2024-08-07)
 
@@ -1448,6 +1513,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Add TimeToLive and OptionalSettings on SmsMessageRequest ([5848ec8](https://github.com/Vonage/vonage-dotnet-sdk/commit/5848ec8d8f4e8fae3662ede529829dc1e336c403))
 
+Full Changelog: [v7.7.2...v7.7.3](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.7.2...v7.7.3)
 
 ## [v7.7.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.2) (2024-07-30)
 
@@ -1464,6 +1530,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Bump version to v7.7.2 ([47f0e65](https://github.com/Vonage/vonage-dotnet-sdk/commit/47f0e65b6304ed1a3e53ae0d90ce36be1aaa0191))
 
+Full Changelog: [v7.7.1...v7.7.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.7.1...v7.7.2)
 
 ## [v7.7.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.1) (2024-07-26)
 
@@ -1480,6 +1547,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Bump version to v7.7.1 ([9b642a3](https://github.com/Vonage/vonage-dotnet-sdk/commit/9b642a32c21bccc6cab8a617251bc7797dd41ec5))
 
+Full Changelog: [v7.7.0...v7.7.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.7.0...v7.7.1)
 
 ## [v7.7.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.7.0) (2024-07-19)
 
@@ -1522,6 +1590,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Change minimum channel timeout from 60s to 15s for VerifyV2 ([f1766a2](https://github.com/Vonage/vonage-dotnet-sdk/commit/f1766a212ad8150d663fe47bb8f80029f1891610))
 
+Full Changelog: [v7.6.1...v7.7.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.6.1...v7.7.0)
 
 ## [v7.6.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.6.1) (2024-06-28)
 
@@ -1541,6 +1610,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 
 - Bump version to v7.6.1 ([793c8ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/793c8eaabd86e2f1ce1f553974a6cc01482c1ab2))
 
+Full Changelog: [v7.6.0...v7.6.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.6.0...v7.6.1)
 
 ## [v7.6.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.6.0) (2024-06-27)
 
@@ -1606,6 +1676,7 @@ This reverts commit 5ac1718bb71c8115266e20f8bf09c0c119c88384.
 This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
  ([ac8c666](https://github.com/Vonage/vonage-dotnet-sdk/commit/ac8c66648ddf55797d4b65dfa60386e77422e439))
 
+Full Changelog: [v7.5.0...v7.6.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.5.0...v7.6.0)
 
 ## [v7.5.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.5.0) (2024-06-14)
 
@@ -1691,6 +1762,7 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 - Clean responses in Conversations ([5202a45](https://github.com/Vonage/vonage-dotnet-sdk/commit/5202a453ac4f39548cdcb21012a5fd83e117b710))
 
+Full Changelog: [v7.4.0...v7.5.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.4.0...v7.5.0)
 
 ## [v7.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.4.0) (2024-05-13)
 
@@ -1709,6 +1781,7 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 - Add PublisherOnly role for Video ([52e5988](https://github.com/Vonage/vonage-dotnet-sdk/commit/52e5988e90e430587049edaf8a2eb2b07271fa28))
 
+Full Changelog: [v7.2.2...v7.4.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.2.2...v7.4.0)
 
 ## [v7.2.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.2) (2024-05-10)
 
@@ -1727,6 +1800,7 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 - Bump version to v7.2.2 ([8e92f13](https://github.com/Vonage/vonage-dotnet-sdk/commit/8e92f13722fe2b3099cb3a382702c4909c335e9b))
 
+Full Changelog: [v7.2.1...v7.2.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.2.1...v7.2.2)
 
 ## [v7.2.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.1) (2024-05-06)
 
@@ -1748,6 +1822,7 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 - Bump version to v7.2.1 ([fd75d49](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd75d496c5d0a44e1fccd59c6d37e4b44d88aa54))
 
+Full Changelog: [v7.2.0...v7.2.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.2.0...v7.2.1)
 
 ## [v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.2.0) (2024-04-15)
 
@@ -1785,6 +1860,7 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 - [breaking] remove EventUrl and EventMethod from ConversationAction, with a disclaimer in the Readme ([fd02cd5](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd02cd530c59ffa32eb111e545c7d6da44d83a7a))
 
+Full Changelog: [v7.1.0...v7.2.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.1.0...v7.2.0)
 
 ## [v7.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.1.0) (2024-04-08)
 
@@ -1824,6 +1900,7 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 
 - Simplify client initialization ([5779958](https://github.com/Vonage/vonage-dotnet-sdk/commit/5779958816823689c901fedd1da603e87eecbe12))
 
+Full Changelog: [v7.0.0...v7.1.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.0.0...v7.1.0)
 
 ## [v7.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0) (2024-03-25)
 
@@ -1853,6 +1930,7 @@ This reverts commit fd02cd530c59ffa32eb111e545c7d6da44d83a7a.
 This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
  ([b82638e](https://github.com/Vonage/vonage-dotnet-sdk/commit/b82638e3670e1da849a7a1de9e4cb9cd87856a9a))
 
+Full Changelog: [v7.0.0-alpha.1...v7.0.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.0.0-alpha.1...v7.0.0)
 
 ## [v7.0.0-alpha.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0-alpha.1) (2024-03-20)
 
@@ -1873,6 +1951,8 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 
 - [breaking] remove obsolete Credentials constructors, making it read-only. ([e701f21](https://github.com/Vonage/vonage-dotnet-sdk/commit/e701f21a9ee158fa4536b0ee0de2123c56f613f5))
 
+Full
+Changelog: [v7.0.0-alpha...v7.0.0-alpha.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.0.0-alpha...v7.0.0-alpha.1)
 
 ## [v7.0.0-alpha](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0-alpha) (2024-03-15)
 
@@ -1941,6 +2021,7 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 
 - [breaking] remove obsolete VoiceName from TalkAction ([d8a00f9](https://github.com/Vonage/vonage-dotnet-sdk/commit/d8a00f904847647f4d4d3445ca5a4abfcf84759f))
 
+Full Changelog: [v6.16.0...v7.0.0-alpha](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.16.0...v7.0.0-alpha)
 
 ## [v6.16.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.16.0) (2024-03-07)
 
@@ -1997,6 +2078,7 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 
 - Clean duplicates in ResultTest ([6ee846f](https://github.com/Vonage/vonage-dotnet-sdk/commit/6ee846f448ac5042f4be59a5ccf04714a536cf05))
 
+Full Changelog: [v6.15.5...v6.16.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.15.5...v6.16.0)
 
 ## [v6.15.5](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.5) (2024-02-29)
 
@@ -2025,6 +2107,7 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 
 - Bump version to v6.15.5 ([0b6decb](https://github.com/Vonage/vonage-dotnet-sdk/commit/0b6decbc8110a2fa4a2200fa9dd84822c703358f))
 
+Full Changelog: [v6.15.4...v6.15.5](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.15.4...v6.15.5)
 
 ## [v6.15.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.4) (2024-02-26)
 
@@ -2042,6 +2125,7 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 
 - Bump version to v6.15.4 ([080e68f](https://github.com/Vonage/vonage-dotnet-sdk/commit/080e68f35478453b94a86271992af1388247fdea))
 
+Full Changelog: [v6.15.3...v6.15.4](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.15.3...v6.15.4)
 
 ## [v6.15.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.3) (2024-02-23)
 
@@ -2061,6 +2145,7 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 
 - Bump version to v6.15.3 ([ad94cbe](https://github.com/Vonage/vonage-dotnet-sdk/commit/ad94cbed2966b30c4bb534efce4ad53d3866ca51))
 
+Full Changelog: [v6.15.2...v6.15.3](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.15.2...v6.15.3)
 
 ## [v6.15.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.2) (2024-02-22)
 
@@ -2080,6 +2165,7 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 
 - Bump version to v6.15.2 ([145d545](https://github.com/Vonage/vonage-dotnet-sdk/commit/145d5456748c0eb8d23e0a4a2b17a4c10f5dbae0))
 
+Full Changelog: [v6.15.1...v6.15.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.15.1...v6.15.2)
 
 ## [v6.15.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.1) (2024-02-21)
 
@@ -2162,6 +2248,7 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 
 - Bump version to v6.15.1 ([25c5d09](https://github.com/Vonage/vonage-dotnet-sdk/commit/25c5d09984a621bc9e8827d2bf5049beed40d9d6))
 
+Full Changelog: [v6.15.0...v6.15.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.15.0...v6.15.1)
 
 ## [v6.15.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.15.0) (2023-12-20)
 
@@ -2235,6 +2322,7 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 
 - Bump version to v6.15.0 ([e311974](https://github.com/Vonage/vonage-dotnet-sdk/commit/e31197412a2b203e62a4dbe5370bbbb229f33efd))
 
+Full Changelog: [v6.14.0...v6.15.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.14.0...v6.15.0)
 
 ## [v6.14.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.14.0) (2023-12-11)
 
@@ -2319,6 +2407,7 @@ This reverts commit edac971e77b38f7cdbb621bad513a20b9562a360.
 This reverts commit aa6a2d1bd9b2b58bee0bc1833142f9978993df1f.
  ([3a39d06](https://github.com/Vonage/vonage-dotnet-sdk/commit/3a39d06200340c7a71623a872e576841c04a327d))
 
+Full Changelog: [v6.13.0...v6.14.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.13.0...v6.14.0)
 
 ## [v6.13.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.13.0) (2023-12-01)
 
@@ -2442,6 +2531,7 @@ This reverts commit b861905a438cfe47a0c627375d170ebfdcd7cbbf.
 This reverts commit 00d89a309f02dbf0ac5720dbff379a22892bb3f7.
  ([f48fa0a](https://github.com/Vonage/vonage-dotnet-sdk/commit/f48fa0a5097cd9634defcf23ef1c0d4203370249))
 
+Full Changelog: [v6.12.3...v6.13.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.12.3...v6.13.0)
 
 ## [v6.12.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.3) (2023-11-27)
 
@@ -2472,6 +2562,7 @@ This reverts commit 00d89a309f02dbf0ac5720dbff379a22892bb3f7.
 This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
  ([7c66b3d](https://github.com/Vonage/vonage-dotnet-sdk/commit/7c66b3d48f71eb4fb6a6c15cc70d05c710ee1e72))
 
+Full Changelog: [v6.12.1...v6.12.3](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.12.1...v6.12.3)
 
 ## [v6.12.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.1) (2023-11-24)
 
@@ -2558,6 +2649,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Bump Vonage.Server version to v7.0.5-beta ([b3c44a6](https://github.com/Vonage/vonage-dotnet-sdk/commit/b3c44a6c5465269308a51b54b885b2e571fdc31d))
 
+Full Changelog: [v6.12.0...v6.12.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.12.0...v6.12.1)
 
 ## [v6.12.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.12.0) (2023-10-23)
 
@@ -2637,6 +2729,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Bump version to v6.12.0 ([f8f9bbd](https://github.com/Vonage/vonage-dotnet-sdk/commit/f8f9bbd5f903af59fda7a58d1a6f4a6a145020ee))
 
+Full Changelog: [v6.11.0...v6.12.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.11.0...v6.12.0)
 
 ## [v6.11.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.11.0) (2023-10-13)
 
@@ -2670,6 +2763,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Bump version to v6.11.0 ([987eebc](https://github.com/Vonage/vonage-dotnet-sdk/commit/987eebc1d356edf8487cd394c1d0542560c08dfa))
 
+Full Changelog: [v6.10.1...v6.11.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.10.1...v6.11.0)
 
 ## [v6.10.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.10.1) (2023-10-10)
 
@@ -2687,6 +2781,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Bump version to v6.10.1 ([305a1a9](https://github.com/Vonage/vonage-dotnet-sdk/commit/305a1a99da4c7f8553d4bab3d8d994e058ee07aa))
 
+Full Changelog: [v6.10.0...v6.10.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.10.0...v6.10.1)
 
 ## [v6.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.10.0) (2023-10-04)
 
@@ -2760,6 +2855,7 @@ This reverts commit 5ab30fc300223c8257727c0253bca24b36502c38.
 
 - Bump version to v6.10.0 ([32f3170](https://github.com/Vonage/vonage-dotnet-sdk/commit/32f31706f23b4f3c0eba5a255dc976fc17df67c0))
 
+Full Changelog: [v6.9.0...v6.10.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.9.0...v6.10.0)
 
 ## [v6.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.9.0) (2023-09-06)
 
@@ -4066,6 +4162,7 @@ Co-authored-by: Karl Lingiah <karl@superchilled.co.uk> ([8edb64b](https://github
 This reverts commit 1ec8fce1053a53579a4f43974d311bac85349483.
  ([4c56e47](https://github.com/Vonage/vonage-dotnet-sdk/commit/4c56e472eff2d2b9d2fff4669c8ec5404c21f22a))
 
+Full Changelog: [v6.0.2-rc...v6.9.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.0.2-rc...v6.9.0)
 
 ## [v6.0.2-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.2-rc) (2022-05-31)
 
@@ -4084,6 +4181,7 @@ Adding RealTimeData option for AdvancedNumberInsights ([7d56853](https://github.
 - 'Bumping version to 6.0.2-rc'
  ([4189dab](https://github.com/Vonage/vonage-dotnet-sdk/commit/4189dab236817de8afdf73098cc8842b3cb25908))
 
+Full Changelog: [v6.0.1-rc...v6.0.2-rc](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.0.1-rc...v6.0.2-rc)
 
 ## [v6.0.1-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.1-rc) (2022-05-25)
 
@@ -4116,6 +4214,7 @@ Dev into Main for release ([5f929a7](https://github.com/Vonage/vonage-dotnet-sdk
 Making Serialisation Settings public
  ([c2ceb5f](https://github.com/Vonage/vonage-dotnet-sdk/commit/c2ceb5f8899976d632f76f9bbe614ccdb90f00fb))
 
+Full Changelog: [v6.0.0-rc...v6.0.1-rc](https://github.com/Vonage/vonage-dotnet-sdk/compare/v6.0.0-rc...v6.0.1-rc)
 
 ## [v6.0.0-rc](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v6.0.0-rc) (2022-05-24)
 
@@ -4223,6 +4322,7 @@ Tests that use NCCO refactored
 - 'Bumping version to 6.0.0-rc'
  ([71cf431](https://github.com/Vonage/vonage-dotnet-sdk/commit/71cf43114e835e7a5b0da98df28bbed79be4c2bf))
 
+Full Changelog: [v5.10.0...v6.0.0-rc](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.10.0...v6.0.0-rc)
 
 ## [v5.10.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.10.0) (2022-04-20)
 
@@ -4280,6 +4380,7 @@ Adding issues templates ([ef3761a](https://github.com/Vonage/vonage-dotnet-sdk/c
 - Preparing for next release and adding real time data to advanced number insights
  ([3db1a68](https://github.com/Vonage/vonage-dotnet-sdk/commit/3db1a68e1ac956a497b02c17c7cf117993be687c))
 
+Full Changelog: [v5.9.5...v5.10.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.9.5...v5.10.0)
 
 ## [v5.9.5](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.5) (2022-01-17)
 
@@ -4288,6 +4389,7 @@ Adding issues templates ([ef3761a](https://github.com/Vonage/vonage-dotnet-sdk/c
 - Bumping to version 5.9.5
  ([91b0f5e](https://github.com/Vonage/vonage-dotnet-sdk/commit/91b0f5ec13786c9259e79c9d4dcd95b50609246d))
 
+Full Changelog: [v5.9.4...v5.9.5](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.9.4...v5.9.5)
 
 ## [v5.9.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.4) (2022-01-17)
 
@@ -4324,6 +4426,7 @@ Devx 1999 ([189a7fe](https://github.com/Vonage/vonage-dotnet-sdk/commit/189a7fec
 - 'Bumping version to 5.9.4'
  ([d1d9e81](https://github.com/Vonage/vonage-dotnet-sdk/commit/d1d9e819d123abd5b78e8f78306be8e003e35c66))
 
+Full Changelog: [v5.9.3...v5.9.4](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.9.3...v5.9.4)
 
 ## [v5.9.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.3) (2021-11-23)
 
@@ -4345,6 +4448,7 @@ Fixing an issue caused by the usage of a non thread safe Dictionary. ([da8a1f0](
 - 'Bumping version to 5.9.3'
  ([7ab3784](https://github.com/Vonage/vonage-dotnet-sdk/commit/7ab3784a83f12cddae9f1d110993bcd58b847953))
 
+Full Changelog: [v5.9.2...v5.9.3](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.9.2...v5.9.3)
 
 ## [v5.9.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.2) (2021-11-04)
 
@@ -4378,6 +4482,7 @@ Fixing bug with roaming being `not_roaming` and cleaning up some tests ([dfa8be7
 - Fixing bug with roaming being not_roaming and cleaning up some tests
  ([1e73d21](https://github.com/Vonage/vonage-dotnet-sdk/commit/1e73d213d4ee8a6726fa8b4206452e8f5bc63dbf))
 
+Full Changelog: [v5.9.1...v5.9.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.9.1...v5.9.2)
 
 ## [v5.9.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.1) (2021-10-27)
 
@@ -4427,6 +4532,7 @@ Strong-name Package ([7a4c3e0](https://github.com/Vonage/vonage-dotnet-sdk/commi
 - 'Bumping version to 5.9.1'
  ([bef1e70](https://github.com/Vonage/vonage-dotnet-sdk/commit/bef1e709f7f334eb0cd2a2c524d1899655dd7ef8))
 
+Full Changelog: [v5.9.0...v5.9.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.9.0...v5.9.1)
 
 ## [v5.9.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.9.0) (2021-05-27)
 
@@ -4445,6 +4551,7 @@ adding random from number feature to .NET SDK ([9af7ddf](https://github.com/Vona
 - 'Bumping version to 5.9.0'
  ([6d27ade](https://github.com/Vonage/vonage-dotnet-sdk/commit/6d27ade0079059508a43d2b08d5f7b00867ca661))
 
+Full Changelog: [v5.8.0...v5.9.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.8.0...v5.9.0)
 
 ## [v5.8.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.8.0) (2021-04-28)
 
@@ -4475,6 +4582,7 @@ Support for NI Null values ([4385f37](https://github.com/Vonage/vonage-dotnet-sd
 - 'Bumping version to 5.8.0'
  ([75dd2ad](https://github.com/Vonage/vonage-dotnet-sdk/commit/75dd2adc29402bbf105fe53fac6366937c5b01f9))
 
+Full Changelog: [v5.7.0...v5.8.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.7.0...v5.8.0)
 
 ## [v5.7.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.7.0) (2021-03-09)
 
@@ -4503,6 +4611,7 @@ adding detail to status-webhooks ([9266a31](https://github.com/Vonage/vonage-dot
 - 'Bumping version to 5.7.0'
  ([da30e6b](https://github.com/Vonage/vonage-dotnet-sdk/commit/da30e6b56dbfa2f5de7f67244a06486d138c6033))
 
+Full Changelog: [v5.6.5...v5.7.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.6.5...v5.7.0)
 
 ## [v5.6.5](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.5) (2021-02-22)
 
@@ -4524,6 +4633,7 @@ setting Channels parameter to nullable ([9a59f73](https://github.com/Vonage/vona
 - 'Bumping version to 5.6.5'
  ([35ce2a8](https://github.com/Vonage/vonage-dotnet-sdk/commit/35ce2a8a1a4252093a07fb9d7e293e56d01278e0))
 
+Full Changelog: [v5.6.4...v5.6.5](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.6.4...v5.6.5)
 
 ## [v5.6.4](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.4) (2021-02-03)
 
@@ -4565,6 +4675,7 @@ moving nexmo GHA -> main ([3ca85a9](https://github.com/Vonage/vonage-dotnet-sdk/
 - 'Bumping version to 5.6.4'
  ([91b58a7](https://github.com/Vonage/vonage-dotnet-sdk/commit/91b58a784939c0cf96164647f06990389f96f83a))
 
+Full Changelog: [v5.6.3...v5.6.4](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.6.3...v5.6.4)
 
 ## [v5.6.3](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.3) (2021-01-19)
 
@@ -4583,6 +4694,7 @@ Ignoring status for Vonage.Messaging.DeliveryReceipt. ([d0a1fe1](https://github.
 - 'Bumping version to 5.6.3'
  ([ae5816b](https://github.com/Vonage/vonage-dotnet-sdk/commit/ae5816baf746a4054d28cac78e1ee5cdf5cf5b20))
 
+Full Changelog: [v5.6.2...v5.6.3](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.6.2...v5.6.3)
 
 ## [v5.6.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.2) (2021-01-15)
 
@@ -4593,6 +4705,7 @@ Ignoring status for Vonage.Messaging.DeliveryReceipt. ([d0a1fe1](https://github.
 - 'Bumping version to 5.6.2'
  ([515ae01](https://github.com/Vonage/vonage-dotnet-sdk/commit/515ae0175df62c61af93b969f2b4e9e59a886dfe))
 
+Full Changelog: [v5.6.1...v5.6.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.6.1...v5.6.2)
 
 ## [v5.6.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.1) (2021-01-15)
 
@@ -4601,6 +4714,7 @@ Ignoring status for Vonage.Messaging.DeliveryReceipt. ([d0a1fe1](https://github.
 - 'Bumping version to 5.6.1'
  ([2787abf](https://github.com/Vonage/vonage-dotnet-sdk/commit/2787abf6db04b7c953b519631a008d7e8985f481))
 
+Full Changelog: [v5.6.0...v5.6.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.6.0...v5.6.1)
 
 ## [v5.6.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.6.0) (2021-01-15)
 
@@ -4634,6 +4748,7 @@ adding Nuget release workflow - removing nuspec file. ([58e89aa](https://github.
 - Adding Nuget release workflow - removing nuspec file.
  ([5d66cc7](https://github.com/Vonage/vonage-dotnet-sdk/commit/5d66cc794489d267c0228062d4a05083dc7f1ff2))
 
+Full Changelog: [v5.5.0...v5.6.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.5.0...v5.6.0)
 
 ## [v5.5.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.5.0) (2020-11-19)
 
@@ -4657,6 +4772,7 @@ Adding Language and style, marking VoiceName as obsolete ([9e006b5](https://gith
 - Revving nuspec version
  ([8f6bdb3](https://github.com/Vonage/vonage-dotnet-sdk/commit/8f6bdb3ce90f76c46f769c3f1b6d84cd4dc08681))
 
+Full Changelog: [v5.4.0...v5.5.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.4.0...v5.5.0)
 
 ## [v5.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.4.0) (2020-11-12)
 
@@ -4786,6 +4902,7 @@ fixed spelling of word 'globally'. ([ebe45b3](https://github.com/Vonage/vonage-d
 - Readying for 5.4.0 release.
  ([c9f402b](https://github.com/Vonage/vonage-dotnet-sdk/commit/c9f402bb3b710cba5941af86e91addbd3516afa8))
 
+Full Changelog: [v5.3.0...v5.4.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.3.0...v5.4.0)
 
 ## [v5.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.3.0) (2020-09-02)
 
@@ -4873,6 +4990,7 @@ removing config file, removing redudant internal utility classes
 
 - Fixing licence nuspec tag. ([3e441ec](https://github.com/Vonage/vonage-dotnet-sdk/commit/3e441ec1dda60faab3655298ae26cfd74ca5cab9))
 
+Full Changelog: [v5.2.0...v5.3.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.2.0...v5.3.0)
 
 ## [v5.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.2.0) (2020-08-07)
 
@@ -4901,6 +5019,7 @@ Fixing issue with ParseEvent for multiinput ([62f4cbb](https://github.com/Vonage
 - Bumping version to 5.2.0
  ([df91e20](https://github.com/Vonage/vonage-dotnet-sdk/commit/df91e206e2767a2ac566024e6df493a3d281b7e1))
 
+Full Changelog: [v5.1.0...v5.2.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.1.0...v5.2.0)
 
 ## [v5.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.1.0) (2020-07-01)
 
@@ -4930,6 +5049,7 @@ Adding Psd2 functionality ([e506f2f](https://github.com/Vonage/vonage-dotnet-sdk
 - Updating tests for correct path
  ([f53bc15](https://github.com/Vonage/vonage-dotnet-sdk/commit/f53bc15f3dabf61cb2fff1d395b4be25b82a4156))
 
+Full Changelog: [v5.0.0...v5.1.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v5.0.0...v5.1.0)
 
 ## [v5.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v5.0.0) (2020-06-22)
 
@@ -4957,6 +5077,7 @@ Merging 5.0.0 PR for release. ([66b393a](https://github.com/Vonage/vonage-dotnet
 - Revving version
  ([0c704c0](https://github.com/Vonage/vonage-dotnet-sdk/commit/0c704c07aee541a8b85eab770ebed1f51bd2cbc7))
 
+Full Changelog: [v4.4.1...v5.0.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v4.4.1...v5.0.0)
 
 ## [v4.4.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.4.1) (2020-06-17)
 
@@ -4986,6 +5107,7 @@ changing payload encoding to utf8 ([27ec412](https://github.com/Vonage/vonage-do
 - Changing payload encoding to utf8
  ([14de643](https://github.com/Vonage/vonage-dotnet-sdk/commit/14de643e309fdaefe081e87120883c489d837fe4))
 
+Full Changelog: [v4.4.0...v4.4.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v4.4.0...v4.4.1)
 
 ## [v4.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.4.0) (2020-06-05)
 
@@ -5013,6 +5135,7 @@ adding ASR webhook and input items ([71037fd](https://github.com/Vonage/vonage-d
 - Updating release notes in nuspec
  ([59ff4b6](https://github.com/Vonage/vonage-dotnet-sdk/commit/59ff4b6fcf0b8c02f87d1d99273712442110fd2c))
 
+Full Changelog: [v4.3.2...v4.4.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v4.3.2...v4.4.0)
 
 ## [v4.3.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.2) (2020-04-08)
 
@@ -5259,6 +5382,7 @@ changing headers type to object to allow it to serialize cleanly. ([b8013c6](htt
 - Updating for 4.3.2 release
  ([ce90660](https://github.com/Vonage/vonage-dotnet-sdk/commit/ce9066088dd058eb6967b19a23a8438c02d56121))
 
+Full Changelog: [v4.3.1...v4.3.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v4.3.1...v4.3.2)
 
 ## [v4.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.1) (2020-02-18)
 
@@ -5424,6 +5548,7 @@ Fixing default serialization of zero's in loop ([a51d9ec](https://github.com/Von
 - Updating release notes for nuget package
  ([6171cee](https://github.com/Vonage/vonage-dotnet-sdk/commit/6171ceecd0e989225031c9b0f73cff45919243c2))
 
+Full Changelog: [v4.3.0...v4.3.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v4.3.0...v4.3.1)
 
 ## [v4.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.3.0) (2020-01-17)
 
@@ -5499,6 +5624,7 @@ making has_application nullable ([3b0d3c7](https://github.com/Vonage/vonage-dotn
 
 - Update README.md ([dae26d6](https://github.com/Vonage/vonage-dotnet-sdk/commit/dae26d6d52c294f0f481ca3faed4253f402751e9))
 
+Full Changelog: [v4.2.1...v4.3.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v4.2.1...v4.3.0)
 
 ## [v4.2.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.2.1) (2019-11-11)
 
@@ -5549,6 +5675,7 @@ Fixing Ncco serialization bug ([f5683be](https://github.com/Vonage/vonage-dotnet
 - Adding auth string encoding for application gets
  ([ac3be56](https://github.com/Vonage/vonage-dotnet-sdk/commit/ac3be56a8c744e9d7793604e62ce0d228af42a5d))
 
+Full Changelog: [v4.2.0...v4.2.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v4.2.0...v4.2.1)
 
 ## [v4.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.2.0) (2019-10-21)
 
@@ -5567,6 +5694,7 @@ Adding type-safe webhooks and NCCOs. Adding application_id and has_application t
 - Adding NccoObj field to CallCommand, creating CallCommandConverter to explicitly handle callCommand json serialization, fixing nuspec, creating Ncco converter to serialize NCCOs decorating Ncco field in CallCommand to obsolete
  ([7514230](https://github.com/Vonage/vonage-dotnet-sdk/commit/751423066dbc02240496d4224eba4ef3b0949d2b))
 
+Full Changelog: [v4.1.2...v4.2.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v4.1.2...v4.2.0)
 
 ## [v4.1.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.1.2) (2019-10-11)
 
@@ -5698,6 +5826,7 @@ This PR adds a Github action which is triggered when a release is published. The
 - Changing data type to IDictionary and adding release notes to nuspec
  ([54621bd](https://github.com/Vonage/vonage-dotnet-sdk/commit/54621bdbb30abc43190790c8709a550dfe396f6f))
 
+Full Changelog: [v4.0.0...v4.1.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v4.0.0...v4.1.2)
 
 ## [v4.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v4.0.0) (2019-06-11)
 
@@ -5740,6 +5869,7 @@ Application v2 - READY TO MERGE ([369cc93](https://github.com/Vonage/vonage-dotn
 - API was fixed
  ([731ca4c](https://github.com/Vonage/vonage-dotnet-sdk/commit/731ca4c0fda225125f3a0e5d1b04bd2c2b9d4665))
 
+Full Changelog: [v3.4.0...v4.0.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v3.4.0...v4.0.0)
 
 ## [v3.4.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.4.0) (2019-05-10)
 
@@ -5791,6 +5921,7 @@ This reverts commit 5582b1b26c84362243fdbc598e313646997f9048.
 This reverts commit 6546e31afad4fc190cdc2ab442fee2de25654818.
  ([d2695ed](https://github.com/Vonage/vonage-dotnet-sdk/commit/d2695ed42e85cf4eaf5f044bfcbf49218f23bee9))
 
+Full Changelog: [v3.3.1...v3.4.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v3.3.1...v3.4.0)
 
 ## [v3.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.3.1) (2019-04-23)
 
@@ -5853,6 +5984,7 @@ Added a dot to the end of the License-section and removed an unused Create Accou
 - Implemented NCCO param for creating a call
  ([4915afc](https://github.com/Vonage/vonage-dotnet-sdk/commit/4915afc2eebbc14a4a5bc7b8c8dfba28c880620f))
 
+Full Changelog: [v3.2.0...v3.3.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v3.2.0...v3.3.1)
 
 ## [v3.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.2.0) (2018-09-28)
 
@@ -5871,6 +6003,7 @@ Implement API Secret calls ([7a7a3ab](https://github.com/Vonage/vonage-dotnet-sd
 - Renamed methods to meet specs
  ([d768981](https://github.com/Vonage/vonage-dotnet-sdk/commit/d7689818ea6195db001a6b2c2d454eed164d856c))
 
+Full Changelog: [v3.1.1...v3.2.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v3.1.1...v3.2.0)
 
 ## [v3.1.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.1.1) (2018-08-30)
 
@@ -5889,6 +6022,7 @@ adding default constructor to credentials class ([9173182](https://github.com/Vo
 - Updated CHANGELOG and Client Lib version for release
  ([b395a29](https://github.com/Vonage/vonage-dotnet-sdk/commit/b395a29cbd06224687e9e529d3e1bd64d653177f))
 
+Full Changelog: [v3.1.0...v3.1.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v3.1.0...v3.1.1)
 
 ## [v3.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.1.0) (2018-08-17)
 
@@ -5931,6 +6065,7 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 - Renaming some methods
  ([07b5d0a](https://github.com/Vonage/vonage-dotnet-sdk/commit/07b5d0a2d38f2fa4faa3eca5ad15108b40d87d4a))
 
+Full Changelog: [v3.0.1...v3.1.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v3.0.1...v3.1.0)
 
 ## [v3.0.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.0.1) (2018-03-05)
 
@@ -5949,6 +6084,7 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 - 3.0.1
  ([53d397c](https://github.com/Vonage/vonage-dotnet-sdk/commit/53d397c12b90eefef27a63e0e5f695689c27ab3e))
 
+Full Changelog: [v3.0.0...v3.0.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v3.0.0...v3.0.1)
 
 ## [v3.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v3.0.0) (2018-02-24)
 
@@ -6039,6 +6175,7 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 
 - Correct v3.0 date ([c0aa26e](https://github.com/Vonage/vonage-dotnet-sdk/commit/c0aa26ec3c427411aed2cee709e852ced9a071b0))
 
+Full Changelog: [v2.3.1...v3.0.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.3.1...v3.0.0)
 
 ## [v2.3.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.3.1) (2017-11-24)
 
@@ -6054,6 +6191,7 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 
 - V2.3.1 changelog ([3b494a2](https://github.com/Vonage/vonage-dotnet-sdk/commit/3b494a2f4cce54f7acd3a3785c470a2ff549072d))
 
+Full Changelog: [v2.3.0...v2.3.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.3.0...v2.3.1)
 
 ## [v2.3.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.3.0) (2017-11-09)
 
@@ -6105,6 +6243,7 @@ Switch to LibLog ([1eab5f7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1
 - Attribution to @RabebOthmani for NI!
  ([2f0256c](https://github.com/Vonage/vonage-dotnet-sdk/commit/2f0256c3345e6f7fb3701ed699b94fecea04da7d))
 
+Full Changelog: [v2.2.2...v2.3.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.2.2...v2.3.0)
 
 ## [v2.2.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.2) (2017-06-19)
 
@@ -6158,6 +6297,7 @@ Changed Call API to Voice API and other stylistic improvements ([1ee98e8](https:
 - V2.2.2; Updated jose-jwt to 2.3.0 which is reported to address key loading issues.
  ([1e338b7](https://github.com/Vonage/vonage-dotnet-sdk/commit/1e338b7b7d2c924cad216c5369636656b6f091c2))
 
+Full Changelog: [v2.2.1...v2.2.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.2.1...v2.2.2)
 
 ## [v2.2.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.1) (2017-03-21)
 
@@ -6172,6 +6312,7 @@ Changed Call API to Voice API and other stylistic improvements ([1ee98e8](https:
 - Fixed NuGet dependencies
  ([6f6a3ed](https://github.com/Vonage/vonage-dotnet-sdk/commit/6f6a3ed881d8e4024e6e13f13381c26fdb22ad06))
 
+Full Changelog: [v2.2.0...v2.2.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.2.0...v2.2.1)
 
 ## [v2.2.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.0) (2017-03-10)
 
@@ -6183,6 +6324,7 @@ Changed Call API to Voice API and other stylistic improvements ([1ee98e8](https:
 - 2.2.0
  ([5b96307](https://github.com/Vonage/vonage-dotnet-sdk/commit/5b9630727ff1c245b2fa12aa69965752f60f7a58))
 
+Full Changelog: [v2.2.0-rc2...v2.2.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.2.0-rc2...v2.2.0)
 
 ## [v2.2.0-rc2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.0-rc2) (2017-01-28)
 
@@ -6194,6 +6336,7 @@ Changed Call API to Voice API and other stylistic improvements ([1ee98e8](https:
 - 2.2.0-rc2
  ([fe462c5](https://github.com/Vonage/vonage-dotnet-sdk/commit/fe462c520f7e2f7a1937e7d0fa0fa22632ca7833))
 
+Full Changelog: [v2.2.0-rc1...v2.2.0-rc2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.2.0-rc1...v2.2.0-rc2)
 
 ## [v2.2.0-rc1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.2.0-rc1) (2017-01-13)
 
@@ -6238,6 +6381,7 @@ Changed Call API to Voice API and other stylistic improvements ([1ee98e8](https:
 - Push 2.2.0-rc1
  ([c9943a8](https://github.com/Vonage/vonage-dotnet-sdk/commit/c9943a84bebce772bcafc84556f8bbb058d87ec9))
 
+Full Changelog: [v2.1.2...v2.2.0-rc1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.1.2...v2.2.0-rc1)
 
 ## [v2.1.2](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.1.2) (2016-12-07)
 
@@ -6248,6 +6392,7 @@ Changed Call API to Voice API and other stylistic improvements ([1ee98e8](https:
 * Gracefully ignore elements with key attribute but not value attribute.
  ([4e9ffc9](https://github.com/Vonage/vonage-dotnet-sdk/commit/4e9ffc924f651db249d445a5d59251c082e1208b))
 
+Full Changelog: [v2.1.1...v2.1.2](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.1.1...v2.1.2)
 
 ## [v2.1.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.1.1) (2016-12-07)
 
@@ -6259,6 +6404,7 @@ Changed Call API to Voice API and other stylistic improvements ([1ee98e8](https:
 - 2.1.1 - look for legacy app.config convention of [exec process].exe.config
  ([6096405](https://github.com/Vonage/vonage-dotnet-sdk/commit/6096405315fcb988f11d81f8496d7fb02dd6d17a))
 
+Full Changelog: [v2.1.0...v2.1.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.1.0...v2.1.1)
 
 ## [v2.1.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.1.0) (2016-11-18)
 
@@ -6276,6 +6422,7 @@ Changed Call API to Voice API and other stylistic improvements ([1ee98e8](https:
 - 2.1.0 version bump and doc changes
  ([7428b60](https://github.com/Vonage/vonage-dotnet-sdk/commit/7428b608bf742156411d4202c40e0978491e10bf))
 
+Full Changelog: [v2.0.0...v2.1.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v2.0.0...v2.1.0)
 
 ## [v2.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v2.0.0) (2016-10-24)
 
@@ -6336,6 +6483,7 @@ Changed Call API to Voice API and other stylistic improvements ([1ee98e8](https:
 - Dependency marking for netstandard1.6; dep cleanup
  ([688298b](https://github.com/Vonage/vonage-dotnet-sdk/commit/688298b0327ac0aa20862ef7aa3d53badb5e0db2))
 
+Full Changelog: [v1.0.0...v2.0.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v1.0.0...v2.0.0)
 
 ## [v1.0.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v1.0.0) (2016-03-19)
 
