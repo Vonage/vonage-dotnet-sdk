@@ -423,6 +423,16 @@ public class WhatsAppMessagesTest : IDisposable
             .MessagesClient.UpdateAsync(WhatsAppUpdateMessageRequest.Build("ID-123"));
     }
 
+    [Fact]
+    public async Task UpdateAsyncWithReplyingIndicatorReturnsOk()
+    {
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create())
+            .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
+        await this.context.VonageClient
+            .MessagesClient
+            .UpdateAsync(WhatsAppUpdateMessageRequest.Build("ID-123", new WhatsAppReplyingIndicator(true)));
+    }
+
     private async Task VerifySendMessage(string expectedRequest, IMessage request)
     {
         this.context.Server.Given(WireMock.RequestBuilders.Request.Create()

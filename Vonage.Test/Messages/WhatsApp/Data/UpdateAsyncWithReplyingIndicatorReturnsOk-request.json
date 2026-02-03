@@ -1,0 +1,7 @@
+{
+  "status": "read",
+  "replying_indicator": {
+    "show": true,
+    "type": "text"
+  }
+}

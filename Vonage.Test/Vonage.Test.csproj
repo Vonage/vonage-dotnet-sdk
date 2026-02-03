@@ -1475,6 +1475,9 @@
         <None Update="Voice\Emergency\CreateAddress\Data\ShouldSerialize_GivenFull-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Messages\WhatsApp\Data\UpdateAsyncWithReplyingIndicatorReturnsOk-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
