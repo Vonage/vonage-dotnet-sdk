@@ -4,5 +4,9 @@
   "headers": {
     "Bar": "foo"
   },
+  "authorization": {
+    "type": "custom",
+    "value": "Bearer eyJhbGciOi..."
+  },
   "type": "websocket"
 }

@@ -236,6 +236,7 @@ public class NccoTests
             Uri = "wss://example.com/ws",
             ContentType = "audio/l16;rate=16000",
             Headers = new TestClass {Bar = "foo"},
+            Authorization = new WebsocketAuthorization("custom", "Bearer eyJhbGciOi..."),
         });
 
     [Fact]
