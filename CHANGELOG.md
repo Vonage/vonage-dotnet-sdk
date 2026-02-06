@@ -1,13 +1,24 @@
 # Changelog
-## [unreleased]
+## [v8.23.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.23.0) (2026-02-06)
 
 ### Documentation
 
-- Generate changelog for
-  v8.22.0 ([d58efc7](https://github.com/Vonage/vonage-dotnet-sdk/commit/d58efc7d593a43fd35ab80400ca903934dc0d67e))
+- Generate changelog for v8.22.0 ([d58efc7](https://github.com/Vonage/vonage-dotnet-sdk/commit/d58efc7d593a43fd35ab80400ca903934dc0d67e))
 
-- Update changelog generation to include a link to all changes between
-  versions ([dd354ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/dd354ead8a1c92f12b337ba9570a3300471bd9f2))
+- Update changelog generation to include a link to all changes between versions ([dd354ea](https://github.com/Vonage/vonage-dotnet-sdk/commit/dd354ead8a1c92f12b337ba9570a3300471bd9f2))
+
+- Update changelog format ([bd52dae](https://github.com/Vonage/vonage-dotnet-sdk/commit/bd52dae6b1aca520374739762f5cb10b201d78e0))
+
+- Bump version to v8.23.0 ([c3304be](https://github.com/Vonage/vonage-dotnet-sdk/commit/c3304becd952f6a1770490d02ba3ed2e4317ca8d))
+
+
+### Features
+
+- Add support for replying indicator in WhatsApp messages ([9ae0b3f](https://github.com/Vonage/vonage-dotnet-sdk/commit/9ae0b3f00c2d78fa53a2c9bbad0479f965eca4e6))
+
+- Add support for Authorization on Voice WebSocket endpoints ([b25d63f](https://github.com/Vonage/vonage-dotnet-sdk/commit/b25d63fd4660e9da390c90316d13594bce556c89))
+
+Full Changelog: [v8.22.0...v8.23.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.22.0...v8.23.0)
 
 ## [v8.22.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.22.0) (2026-01-30)
 
@@ -1953,8 +1964,7 @@ Full Changelog: [v7.0.0-alpha.1...v7.0.0](https://github.com/Vonage/vonage-dotne
 
 - [breaking] remove obsolete Credentials constructors, making it read-only. ([e701f21](https://github.com/Vonage/vonage-dotnet-sdk/commit/e701f21a9ee158fa4536b0ee0de2123c56f613f5))
 
-Full
-Changelog: [v7.0.0-alpha...v7.0.0-alpha.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.0.0-alpha...v7.0.0-alpha.1)
+Full Changelog: [v7.0.0-alpha...v7.0.0-alpha.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v7.0.0-alpha...v7.0.0-alpha.1)
 
 ## [v7.0.0-alpha](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v7.0.0-alpha) (2024-03-15)
 
