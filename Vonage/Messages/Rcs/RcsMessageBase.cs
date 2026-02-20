@@ -1,4 +1,5 @@
 ﻿#region
+using System;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -18,9 +19,19 @@ public abstract class RcsMessageBase : MessageRequestBase
     ///     Allows to skip fraud checks on a per-message basis. The feature is feature-flagged and must be enabled for the api
     ///     key.
     /// </summary>
-    [JsonPropertyOrder(91)]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore]
+    [Obsolete("Favor 'TrustedRecipient' instead.")]
     public bool TrustedNumber { get; set; }
+
+    /// <summary>
+    ///     Setting this parameter to true overrides, on a per-message basis, any protections set up via Fraud Defender
+    ///     (Traffic Rules, SMS Burst Protection, AIT Protection). This parameter only has any effect for accounts subscribed
+    ///     to Fraud Defender Premium.
+    /// </summary>
+    [JsonPropertyOrder(91)]
+    [JsonPropertyName("trusted_recipient")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool TrustedRecipient { get; set; }
 
     /// <summary>
     ///     The duration in seconds the delivery of a message will be attempted. By default, Vonage attempts delivery for 72

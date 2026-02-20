@@ -9,6 +9,6 @@
   "rcs": {
     "category": "category"
   },
-  "trusted_number": true,
+  "trusted_recipient": true,
   "ttl": 600
 }

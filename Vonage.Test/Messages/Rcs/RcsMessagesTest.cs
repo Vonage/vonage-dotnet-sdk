@@ -46,6 +46,7 @@ public class RcsMessagesTest : IDisposable
                 ImageAlignment = RcsImageAlignment.Right,
             },
             TrustedNumber = true,
+            TrustedRecipient = true,
             Card = new CardAttachment("Card Title", "This is some text to display on the card.",
                     new Uri("https://example.com/image.jpg"))
                 .ForceMediaRefresh()
@@ -68,6 +69,7 @@ public class RcsMessagesTest : IDisposable
                 Category = "category",
                 CardWidth = RcsCardWidth.Small,
             },
+            TrustedRecipient = true,
             Carousel = new CarouselAttachment(new CardAttachment("Card Title",
                     "This is some text to display on the card.",
                     new Uri("https://example.com/image.jpg"))
@@ -88,6 +90,7 @@ public class RcsMessagesTest : IDisposable
             Custom = new {Key1 = "value1", Key2 = "value2"},
             Rcs = new MessageRcs {Category = "category"},
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -102,6 +105,7 @@ public class RcsMessagesTest : IDisposable
             File = new CaptionedAttachment {Url = "https://example.com/file.pdf"},
             Rcs = new MessageRcs {Category = "category"},
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -116,6 +120,7 @@ public class RcsMessagesTest : IDisposable
             Image = new CaptionedAttachment {Url = "https://example.com/image.jpg"},
             Rcs = new MessageRcs {Category = "category"},
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -130,6 +135,7 @@ public class RcsMessagesTest : IDisposable
             Text = "Hello world",
             Rcs = new MessageRcs {Category = "category"},
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -143,7 +149,7 @@ public class RcsMessagesTest : IDisposable
             From = "Vonage",
             Video = new CaptionedAttachment {Url = "https://example.com/video.mp4"},
             Rcs = new MessageRcs {Category = "category"},
-            TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]

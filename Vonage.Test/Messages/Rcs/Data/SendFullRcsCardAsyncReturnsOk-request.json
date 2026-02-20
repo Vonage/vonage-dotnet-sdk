@@ -19,6 +19,6 @@
     "card_orientation": "VERTICAL",
     "image_alignment": "RIGHT"
   },
-  "trusted_number": true,
+  "trusted_recipient": true,
   "ttl": 600
 }

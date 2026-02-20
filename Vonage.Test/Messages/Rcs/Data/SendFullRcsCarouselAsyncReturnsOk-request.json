@@ -32,6 +32,6 @@
     "category": "category",
     "card_width": "SMALL"
   },
-  "trusted_number": true,
+  "trusted_recipient": true,
   "ttl": 600
 }
