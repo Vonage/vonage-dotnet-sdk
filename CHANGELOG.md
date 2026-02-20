@@ -1,4 +1,23 @@
 # Changelog
+## [v8.24.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.24.0) (2026-02-20)
+
+### Documentation
+
+- Generate changelog for v8.23.0 ([b92663c](https://github.com/Vonage/vonage-dotnet-sdk/commit/b92663c5c933779c1558ae4ea4ce6c017301a66a))
+
+- Bump version to v8.24.0 ([8427f23](https://github.com/Vonage/vonage-dotnet-sdk/commit/8427f23a49f780838f561eb249db3d931bf629ab))
+
+
+### Features
+
+- Flag TrustedSender as obsolete, and add TrustedRecipient for MMS Messages ([26e1966](https://github.com/Vonage/vonage-dotnet-sdk/commit/26e19668cfbe5fe211a84716414d403d06e6c907))
+
+- Flag TrustedSender as obsolete, and add TrustedRecipient for RCS Messages ([87a48cd](https://github.com/Vonage/vonage-dotnet-sdk/commit/87a48cd821e4b27126443cf160eae3091db6036d))
+
+- Flag TrustedSender as obsolete, and add TrustedRecipient for SMS Messages ([280d752](https://github.com/Vonage/vonage-dotnet-sdk/commit/280d752da6b647745647bdad58bce596c61e8e07))
+
+Full Changelog: [v8.23.0...v8.24.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.23.0...v8.24.0)
+
 ## [v8.23.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.23.0) (2026-02-06)
 
 ### Documentation
