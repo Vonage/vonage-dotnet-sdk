@@ -105,6 +105,7 @@ public class SmsMessagesTest : IDisposable
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
             TrustedNumber = true,
+            TrustedRecipient = true,
         });
 
     private async Task VerifySendMessage(string expectedRequest, SmsRequest request)

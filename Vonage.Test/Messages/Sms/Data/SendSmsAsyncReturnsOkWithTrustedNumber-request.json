@@ -7,5 +7,5 @@
   "client_ref": "abcdefg",
   "webhook_version": "v1",
   "webhook_url": "https://example.com/status",
-  "trusted_number": true
+  "trusted_recipient": true
 }

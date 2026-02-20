@@ -1,4 +1,5 @@
 ﻿#region
+using System;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -46,9 +47,19 @@ public class SmsRequest : MessageRequestBase
     ///     Allows to skip fraud checks on a per-message basis. The feature is feature-flagged and must be enabled for the api
     ///     key.
     /// </summary>
-    [JsonPropertyOrder(10)]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore]
+    [Obsolete("Favor 'TrustedRecipient' instead.")]
     public bool TrustedNumber { get; set; }
+
+    /// <summary>
+    ///     Setting this parameter to true overrides, on a per-message basis, any protections set up via Fraud Defender
+    ///     (Traffic Rules, SMS Burst Protection, AIT Protection). This parameter only has any effect for accounts subscribed
+    ///     to Fraud Defender Premium.
+    /// </summary>
+    [JsonPropertyOrder(10)]
+    [JsonPropertyName("trusted_recipient")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool TrustedRecipient { get; set; }
 
     /// <summary>
     ///     Sets the Id of the number pool managing the number.
