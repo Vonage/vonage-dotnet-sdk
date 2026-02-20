@@ -8,5 +8,5 @@
   "webhook_url": "https://example.com/status",
   "text": "Hello there",
   "ttl": 600,
-  "trusted_number": true
+  "trusted_recipient": true
 }

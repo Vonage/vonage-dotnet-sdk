@@ -11,5 +11,5 @@
     "caption": "Please see the attached file."
   },
   "ttl": 600,
-  "trusted_number": true
+  "trusted_recipient": true
 }

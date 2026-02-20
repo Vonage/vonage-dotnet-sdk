@@ -61,6 +61,7 @@ public class MmsMessagesTest : IDisposable
             WebhookVersion = "v1",
             TimeToLive = 600,
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -103,6 +104,7 @@ public class MmsMessagesTest : IDisposable
             WebhookVersion = "v1",
             TimeToLive = 600,
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -137,6 +139,7 @@ public class MmsMessagesTest : IDisposable
             WebhookVersion = "v1",
             TimeToLive = 600,
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -171,6 +174,7 @@ public class MmsMessagesTest : IDisposable
             WebhookVersion = "v1",
             TimeToLive = 600,
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -197,6 +201,7 @@ public class MmsMessagesTest : IDisposable
             WebhookVersion = "v1",
             TimeToLive = 600,
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -231,6 +236,7 @@ public class MmsMessagesTest : IDisposable
             WebhookVersion = "v1",
             TimeToLive = 600,
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -265,6 +271,7 @@ public class MmsMessagesTest : IDisposable
             WebhookVersion = "v1",
             TimeToLive = 600,
             TrustedNumber = true,
+            TrustedRecipient = true,
         }, this.helper.GetRequestJson());
 
     private async Task AssertResponse(IMessage request, string expectedRequest)

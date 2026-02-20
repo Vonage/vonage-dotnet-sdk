@@ -11,5 +11,5 @@
     "caption": "Caption"
   },
   "ttl": 600,
-  "trusted_number": true
+  "trusted_recipient": true
 }
