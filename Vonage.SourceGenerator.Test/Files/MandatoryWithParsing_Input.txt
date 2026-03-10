@@ -1,0 +1,10 @@
+﻿namespace Vonage.TestProduct.TestRequest;
+
+[Builder]
+public readonly partial struct MyRequest : IVonageRequest
+{
+    [MandatoryWithParsing(0, nameof(ParseFoo))]
+    public Foo Resource { get; internal init; }
+
+    internal static Result<Foo> ParseFoo(string value) => Foo.Parse(value);
+}

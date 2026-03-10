@@ -21,6 +21,8 @@ public class BuilderGeneratorTests
     [InlineData("OptionalBoolean")]
     [InlineData("OptionalWithDefault")]
     [InlineData("CustomUsing")]
+    [InlineData("MandatoryWithParsing")]
+    [InlineData("MandatoryWithMultipleParsing")]
     public void VerifyCodeGeneration(string sample)
     {
         var inputCode = File.ReadAllText($"Files/{sample}_Input.txt").Trim();

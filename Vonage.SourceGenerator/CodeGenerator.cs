@@ -11,14 +11,32 @@ namespace Vonage.SourceGenerator;
 internal class CodeGenerator(
     INamedTypeSymbol type,
     MandatoryProperty[] mandatoryProperties,
+    MandatoryWithParsingProperty[] mandatoryWithParsingProperties,
     IOptionalProperty[] optionalProperties,
     ValidationRuleMethod[] validationMethods)
 {
     private IProperty[] AllProperties =>
-        this.OrderedMandatoryProperties.Concat<IProperty>(optionalProperties).ToArray();
+        this.OrderedMandatoryProperties
+            .Concat(this.OrderedMandatoryWithParsingProperties.Cast<IProperty>())
+            .Concat(optionalProperties)
+            .ToArray();
+
+    private IProperty[] NonParsingProperties =>
+        this.OrderedMandatoryProperties
+            .Concat<IProperty>(optionalProperties)
+            .ToArray();
 
     private MandatoryProperty[] OrderedMandatoryProperties =>
         mandatoryProperties.OrderBy(property => property.Order).ToArray();
+
+    private MandatoryWithParsingProperty[] OrderedMandatoryWithParsingProperties =>
+        mandatoryWithParsingProperties.OrderBy(property => property.Order).ToArray();
+
+    private (string Name, int Order, bool IsParsing)[] OrderedAllMandatory =>
+        mandatoryProperties.Select(p => (p.Property.Name, p.Order, false))
+            .Concat(mandatoryWithParsingProperties.Select(p => (p.Property.Name, p.Order, true)))
+            .OrderBy(p => p.Order)
+            .ToArray();
 
     private string BuilderName => $"{this.TypeName}Builder";
     private string TypeName => type.Name;
@@ -53,30 +71,48 @@ internal class CodeGenerator(
 
     private string GenerateBuilder()
     {
-        var propertyAssignments = this.AllProperties
+        var nonParsingAssignments = this.NonParsingProperties
             .Select(property => property.Property.Name)
             .Select(name => $"{name} = this.{name.ToLower()},")
             .ToArray();
+        var mergeChain = this.GenerateMergeChain();
         return $$"""
                  internal struct {{this.BuilderName}} : {{string.Join(", ", this.GetAllInterfaces())}}
                  {
                     {{string.Join("\n", this.AllProperties.Select(property => property.FieldDeclaration).ToArray())}}
-                    
+
                     public {{this.BuilderName}}()
                     {
                         {{string.Join("\n", this.AllProperties.Select(property => property.DefaultValueAssignment).ToArray())}}
                     }
-                    
+
                     {{string.Join("\n", this.GetBuilderInterfaces().Select(i => i.BuildImplementation()))}}
                     public Result<{{this.TypeName}}> Create() => Result<{{this.TypeName}}>.FromSuccess(
                          new {{this.TypeName}}
                          {
-                             {{string.Join("\n", propertyAssignments)}}
-                         })
+                             {{string.Join("\n", nonParsingAssignments)}}
+                         }){{mergeChain}}
                          .Map(InputEvaluation<{{this.TypeName}}>.Evaluate)
                          .Bind(evaluation => evaluation.WithRules({{string.Join(",", this.FormatValidationRules())}}));
                  }
                  """;
+    }
+
+    private string GenerateMergeChain()
+    {
+        if (this.OrderedMandatoryWithParsingProperties.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        var builder = new StringBuilder();
+        foreach (var prop in this.OrderedMandatoryWithParsingProperties)
+        {
+            builder.Append(
+                $".Merge(this.{prop.Property.Name.ToLower()}, (request, value) => request with {{ {prop.Property.Name} = value }})");
+        }
+
+        return builder.ToString();
     }
 
     private string GenerateInterfaceDeclarations() =>
@@ -106,28 +142,38 @@ internal class CodeGenerator(
     }
 
     private string[] GetAllInterfaces() =>
-        this.OrderedMandatoryProperties.Select(p => $"IBuilderFor{p.Property.Name}")
+        this.OrderedAllMandatory.Select(p => $"IBuilderFor{p.Name}")
             .Append("IBuilderForOptional")
             .ToArray();
 
     private IBuilderInterface[] GetBuilderInterfaces()
     {
-        var interfaces = this.OrderedMandatoryProperties
-            .Select((property, index) =>
-                new MandatoryBuilderInterface(
-                    property.Property,
-                    index == this.OrderedMandatoryProperties.Length - 1
-                        ? "IBuilderForOptional"
-                        : $"IBuilderFor{this.OrderedMandatoryProperties[index + 1].Property.Name}"
-                ))
-            .Cast<IBuilderInterface>()
-            .ToList();
+        var orderedMandatory = this.OrderedAllMandatory;
+        var interfaces = new List<IBuilderInterface>();
+        for (var index = 0; index < orderedMandatory.Length; index++)
+        {
+            var current = orderedMandatory[index];
+            var returnType = index == orderedMandatory.Length - 1
+                ? "IBuilderForOptional"
+                : $"IBuilderFor{orderedMandatory[index + 1].Name}";
+            if (current.IsParsing)
+            {
+                var prop = this.OrderedMandatoryWithParsingProperties.First(p => p.Property.Name == current.Name);
+                interfaces.Add(new MandatoryWithParsingBuilderInterface(prop, returnType, this.TypeName));
+            }
+            else
+            {
+                var prop = this.OrderedMandatoryProperties.First(p => p.Property.Name == current.Name);
+                interfaces.Add(new MandatoryBuilderInterface(prop.Property, returnType));
+            }
+        }
+
         interfaces.Add(new OptionalBuilderInterface(optionalProperties, this.TypeName));
         return interfaces.ToArray();
     }
 
     private string GetFirstInterface() =>
-        this.OrderedMandatoryProperties.Length > 0
-            ? $"IBuilderFor{this.OrderedMandatoryProperties[0].Property.Name}"
+        this.OrderedAllMandatory.Length > 0
+            ? $"IBuilderFor{this.OrderedAllMandatory[0].Name}"
             : "IBuilderForOptional";
 }

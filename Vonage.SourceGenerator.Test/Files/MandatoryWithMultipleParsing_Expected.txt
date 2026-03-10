@@ -1,0 +1,44 @@
+using Vonage.Common.Client;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+
+namespace Vonage.TestProduct.TestRequest;
+public interface IBuilderForResource_1
+{
+    IBuilderForResource_2 WithResource_1(string value);
+}
+
+public interface IBuilderForResource_2
+{
+    IBuilderForOptional WithResource_2(string value);
+}
+
+public interface IBuilderForOptional : IVonageRequestBuilder<MyRequest>
+{
+}
+
+public partial struct MyRequest
+{
+    public static IBuilderForResource_1 Build() => new MyRequestBuilder();
+}
+
+internal struct MyRequestBuilder : IBuilderForResource_1, IBuilderForResource_2, IBuilderForOptional
+{
+    private Result<Foo> resource_1;
+    private Result<Foo> resource_2;
+    public MyRequestBuilder()
+    {
+        this.resource_1 = default;
+        this.resource_2 = default;
+    }
+
+    public IBuilderForResource_2 WithResource_1(string value) => this with
+    {
+        resource_1 = MyRequest.ParseFoo(value)
+    };
+    public IBuilderForOptional WithResource_2(string value) => this with
+    {
+        resource_2 = MyRequest.ParseFoo(value)
+    };
+    public Result<MyRequest> Create() => Result<MyRequest>.FromSuccess(new MyRequest { }).Merge(this.resource_1, (request, value) => request with { Resource_1 = value }).Merge(this.resource_2, (request, value) => request with { Resource_2 = value }).Map(InputEvaluation<MyRequest>.Evaluate).Bind(evaluation => evaluation.WithRules());
+}

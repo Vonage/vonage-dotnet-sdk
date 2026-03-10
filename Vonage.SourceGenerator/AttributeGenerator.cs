@@ -27,6 +27,18 @@ public sealed class MandatoryAttribute : Attribute
 {
     public int Order { get; }
     public MandatoryAttribute(int order) => this.Order = order;
+}
+
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class MandatoryWithParsingAttribute : Attribute
+{
+    public int Order { get; }
+    public string ParserMethodName { get; }
+    public MandatoryWithParsingAttribute(int order, string parserMethodName)
+    {
+        this.Order = order;
+        this.ParserMethodName = parserMethodName;
+    }
 }";
 
     private const string OptionalAttributeSource =

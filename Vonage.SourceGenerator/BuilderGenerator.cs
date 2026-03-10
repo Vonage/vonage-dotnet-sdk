@@ -24,6 +24,7 @@ public class BuilderGenerator : IIncrementalGenerator
     private static string GenerateBuilder(INamedTypeSymbol structSymbol) =>
         new CodeGenerator(structSymbol,
                 GetMandatoryProperties(structSymbol).ToArray(),
+                GetMandatoryWithParsingProperties(structSymbol).ToArray(),
                 GetOptionalProperties(structSymbol)
                     .Concat(GetOptionalBooleanProperties(structSymbol))
                     .Concat(GetOptionalWithDefaultProperties(structSymbol))
@@ -50,6 +51,11 @@ public class BuilderGenerator : IIncrementalGenerator
 
     private static IEnumerable<MandatoryProperty> GetMandatoryProperties(INamedTypeSymbol structSymbol) =>
         GetMembersForAttribute(structSymbol, MandatoryProperty.AttributeName).Select(MandatoryProperty.FromMember);
+
+    private static IEnumerable<MandatoryWithParsingProperty> GetMandatoryWithParsingProperties(
+        INamedTypeSymbol structSymbol) =>
+        GetMembersForAttribute(structSymbol, MandatoryWithParsingProperty.AttributeName)
+            .Select(member => MandatoryWithParsingProperty.FromMember(member, structSymbol));
 
     private static IEnumerable<IPropertySymbol> GetMembersForAttribute(INamedTypeSymbol structSymbol,
         string attributeName) =>
