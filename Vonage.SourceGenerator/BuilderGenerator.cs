@@ -29,6 +29,7 @@ public class BuilderGenerator : IIncrementalGenerator
                     .Concat(GetOptionalBooleanProperties(structSymbol))
                     .Concat(GetOptionalWithDefaultProperties(structSymbol))
                     .ToArray(),
+                GetOptionalWithParsingProperties(structSymbol).ToArray(),
                 GetValidationRuleMethods(structSymbol).ToArray())
             .GenerateCode();
 
@@ -76,6 +77,11 @@ public class BuilderGenerator : IIncrementalGenerator
     private static IEnumerable<IOptionalProperty> GetOptionalWithDefaultProperties(INamedTypeSymbol structSymbol) =>
         GetMembersForAttribute(structSymbol, OptionalWithDefaultProperty.AttributeName)
             .Select(OptionalWithDefaultProperty.FromMember);
+
+    private static IEnumerable<OptionalWithParsingProperty> GetOptionalWithParsingProperties(
+        INamedTypeSymbol structSymbol) =>
+        GetMembersForAttribute(structSymbol, OptionalWithParsingProperty.AttributeName)
+            .Select(member => OptionalWithParsingProperty.FromMember(member, structSymbol));
 
     private static INamedTypeSymbol GetStructSymbol(GeneratorSyntaxContext context)
     {

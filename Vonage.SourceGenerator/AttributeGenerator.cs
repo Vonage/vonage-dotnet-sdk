@@ -58,6 +58,13 @@ public sealed class OptionalWithDefaultAttribute : Attribute
     public string Type { get; }
     public string DefaultValue { get; }
 }
+
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class OptionalWithParsingAttribute : Attribute
+{
+    public string ParserMethodName { get; }
+    public OptionalWithParsingAttribute(string parserMethodName) => this.ParserMethodName = parserMethodName;
+}
 ";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)

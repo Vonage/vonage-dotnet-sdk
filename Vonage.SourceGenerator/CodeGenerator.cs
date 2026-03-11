@@ -1,4 +1,4 @@
-﻿#region
+#region
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -13,17 +13,24 @@ internal class CodeGenerator(
     MandatoryProperty[] mandatoryProperties,
     MandatoryWithParsingProperty[] mandatoryWithParsingProperties,
     IOptionalProperty[] optionalProperties,
+    OptionalWithParsingProperty[] optionalWithParsingProperties,
     ValidationRuleMethod[] validationMethods)
 {
     private IProperty[] AllProperties =>
         this.OrderedMandatoryProperties
             .Concat(this.OrderedMandatoryWithParsingProperties.Cast<IProperty>())
             .Concat(optionalProperties)
+            .Concat(optionalWithParsingProperties)
             .ToArray();
 
     private IProperty[] NonParsingProperties =>
         this.OrderedMandatoryProperties
             .Concat<IProperty>(optionalProperties)
+            .ToArray();
+
+    private IOptionalProperty[] AllOptionalProperties =>
+        optionalProperties
+            .Concat(optionalWithParsingProperties)
             .ToArray();
 
     private MandatoryProperty[] OrderedMandatoryProperties =>
@@ -100,13 +107,16 @@ internal class CodeGenerator(
 
     private string GenerateMergeChain()
     {
-        if (this.OrderedMandatoryWithParsingProperties.Length == 0)
+        var allParsingProperties = this.OrderedMandatoryWithParsingProperties.Cast<IProperty>()
+            .Concat(optionalWithParsingProperties)
+            .ToArray();
+        if (allParsingProperties.Length == 0)
         {
             return string.Empty;
         }
 
         var builder = new StringBuilder();
-        foreach (var prop in this.OrderedMandatoryWithParsingProperties)
+        foreach (var prop in allParsingProperties)
         {
             builder.Append(
                 $".Merge(this.{prop.Property.Name.ToLower()}, (request, value) => request with {{ {prop.Property.Name} = value }})");
@@ -168,7 +178,7 @@ internal class CodeGenerator(
             }
         }
 
-        interfaces.Add(new OptionalBuilderInterface(optionalProperties, this.TypeName));
+        interfaces.Add(new OptionalBuilderInterface(this.AllOptionalProperties, this.TypeName));
         return interfaces.ToArray();
     }
 
