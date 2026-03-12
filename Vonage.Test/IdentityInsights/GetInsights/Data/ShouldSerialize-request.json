@@ -1,0 +1,12 @@
+﻿{
+  "phone_number": "33601020304",
+  "purpose": "FraudPreventionAndDetection",
+  "insights": {
+    "format": {},
+    "sim_swap": {
+      "period": 250
+    },
+    "original_carrier": {},
+    "current_carrier": {}
+  }
+}

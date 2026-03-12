@@ -8,6 +8,7 @@ using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Conversations;
 using Vonage.Conversions;
+using Vonage.IdentityInsights;
 using Vonage.Messages;
 using Vonage.Messaging;
 using Vonage.NumberInsights;
@@ -83,6 +84,11 @@ public class VonageClient
             this.PropagateCredentials();
         }
     }
+
+    /// <summary>
+    ///     Exposes Identity Insights features.
+    /// </summary>
+    public IIdentityInsightsClient IdentityInsightsClient { get; private set; }
 
     public IMessagesClient MessagesClient { get; private set; }
 
@@ -187,5 +193,7 @@ public class VonageClient
         this.EmergencyClient =
             new EmergencyClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(),
                 AuthType.Basic));
+        this.IdentityInsightsClient =
+            new IdentityInsightsClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo()));
     }
 }

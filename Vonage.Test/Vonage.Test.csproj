@@ -1478,6 +1478,15 @@
         <None Update="Messages\WhatsApp\Data\UpdateAsyncWithReplyingIndicatorReturnsOk-request.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="IdentityInsights\GetInsights\Data\ShouldSerializeWithDefaultValues-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="IdentityInsights\GetInsights\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="IdentityInsights\GetInsights\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="node ../.scripts/init.js"/>
