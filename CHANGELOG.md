@@ -1,4 +1,28 @@
 # Changelog
+## [v8.25.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.25.0) (2026-03-12)
+
+### Documentation
+
+- Generate changelog for v8.24.0 ([a873015](https://github.com/Vonage/vonage-dotnet-sdk/commit/a873015f522bec48bb2a23da33d31bf14641518b))
+
+- Bump version to v8.25.0 ([fd54d52](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd54d52a272c287772e3a2dbb6307cf47ac61790))
+
+
+### Features
+
+- Add new builder annotation for mandatory properties with parsing ([8bb09fe](https://github.com/Vonage/vonage-dotnet-sdk/commit/8bb09fe4ad5e9138b2715cbe3aead3f6514d3294))
+
+- Add new builder annotation for optional properties with parsing ([8b2956e](https://github.com/Vonage/vonage-dotnet-sdk/commit/8b2956e5c28f5ab45989d6ed2c86f6f608525269))
+
+- Add IdentityInsights features, with GetInsights ([1dac61a](https://github.com/Vonage/vonage-dotnet-sdk/commit/1dac61a85682ccf3b16ac80a8a7f00e3a168f325))
+
+
+### Refactoring
+
+- Update traits on tests ([565ea1b](https://github.com/Vonage/vonage-dotnet-sdk/commit/565ea1bf83d4aafea28d26147486ca9dcad23907))
+
+Full Changelog: [v8.24.0...v8.25.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.24.0...v8.25.0)
+
 ## [v8.24.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.24.0) (2026-02-20)
 
 ### Documentation
