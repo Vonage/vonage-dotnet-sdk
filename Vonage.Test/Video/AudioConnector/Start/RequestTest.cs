@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.Video.AudioConnector.Start;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestTest
 {
     [Fact]

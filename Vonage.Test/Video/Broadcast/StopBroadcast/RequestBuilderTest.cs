@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Broadcast.StopBroadcast;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Broadcast.StopBroadcast;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

@@ -23,6 +23,7 @@ using TimeProvider = Vonage.Common.TimeProvider;
 namespace Vonage.Test.Voice;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Voice")]
 public class VoiceTests
 {
     private const string Endpoint = "/v1/calls";

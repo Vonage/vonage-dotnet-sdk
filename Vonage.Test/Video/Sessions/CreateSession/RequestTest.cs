@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.Video.Sessions.CreateSession;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestTest
 {
     [Fact]

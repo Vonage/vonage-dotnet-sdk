@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using Vonage.Conversations;
 using Vonage.Conversations.CreateConversation;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.CreateConversation;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Conversations")]
 public class RequestBuilderTest
 {
     [Fact]

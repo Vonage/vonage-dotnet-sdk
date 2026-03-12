@@ -12,6 +12,7 @@ using Xunit;
 namespace Vonage.Test.VerifyV2.GetTemplateFragment;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "VerifyV2")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

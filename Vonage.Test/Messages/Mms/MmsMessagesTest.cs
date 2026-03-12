@@ -15,6 +15,7 @@ using Xunit;
 namespace Vonage.Test.Messages.Mms;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Messages.Mms")]
 public class MmsMessagesTest : IDisposable
 {
     private const string ResponseKey = "SendMessage";

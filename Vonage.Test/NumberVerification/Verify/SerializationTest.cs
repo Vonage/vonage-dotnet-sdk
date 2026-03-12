@@ -1,13 +1,16 @@
-﻿using Vonage.NumberVerification.Authenticate;
+﻿#region
+using Vonage.NumberVerification.Authenticate;
 using Vonage.NumberVerification.Verify;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberVerification.Verify;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "NumberVerification")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

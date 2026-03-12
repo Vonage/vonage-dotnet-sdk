@@ -12,6 +12,7 @@ using Xunit;
 namespace Vonage.Test.Video.ExperienceComposer.Start;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     private const RenderResolution ValidResolution = RenderResolution.FullHighDefinitionPortrait;

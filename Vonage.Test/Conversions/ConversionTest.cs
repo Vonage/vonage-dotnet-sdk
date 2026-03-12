@@ -13,6 +13,7 @@ using Xunit;
 namespace Vonage.Test.Conversions;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Conversions")]
 public class ConversionTest : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBasicCredentials();

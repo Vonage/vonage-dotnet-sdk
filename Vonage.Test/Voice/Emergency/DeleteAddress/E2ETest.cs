@@ -11,6 +11,7 @@ using Xunit;
 namespace Vonage.Test.Voice.Emergency.DeleteAddress;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "Voice")]
 public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
     [Fact]

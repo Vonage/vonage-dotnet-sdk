@@ -7,6 +7,7 @@ using Xunit;
 namespace Vonage.Test.SimSwap.Check;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SimSwap")]
 public class RequestTest
 {
     [Fact]

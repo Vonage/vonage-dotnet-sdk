@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Conversations;
@@ -6,64 +7,66 @@ using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.GetMember;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Conversations")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(
         typeof(SerializationTest).Namespace,
         JsonSerializerBuilder.BuildWithSnakeCase());
-    
+
     [Fact]
     public void ShouldDeserializeApp() => this.helper.Serializer
         .DeserializeObject<Member>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifyAppResponse);
-    
+
     [Fact]
     public void ShouldDeserializeInitiatorAdmin() => this.helper.Serializer
         .DeserializeObject<Member>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifyInitiatorAdminResponse);
-    
+
     [Fact]
     public void ShouldDeserializeMessenger() => this.helper.Serializer
         .DeserializeObject<Member>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifyMessengerResponse);
-    
+
     [Fact]
     public void ShouldDeserializeViber() => this.helper.Serializer
         .DeserializeObject<Member>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifyViberResponse);
-    
+
     [Fact]
     public void ShouldDeserializeMMS() => this.helper.Serializer
         .DeserializeObject<Member>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifyMMSResponse);
-    
+
     [Fact]
     public void ShouldDeserializeWhatsApp() => this.helper.Serializer
         .DeserializeObject<Member>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifyWhatsAppResponse);
-    
+
     [Fact]
     public void ShouldDeserializePhone() => this.helper.Serializer
         .DeserializeObject<Member>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifyPhoneResponse);
-    
+
     [Fact]
     public void ShouldDeserializeSMS() => this.helper.Serializer
         .DeserializeObject<Member>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifySMSResponse);
-    
+
     internal static void VerifyAppResponse(Member response)
     {
         VerifyResponse(response);
@@ -78,7 +81,7 @@ public class SerializationTest
             new MemberChannelToV(ChannelType.App, "string", null, null)
         ));
     }
-    
+
     internal static void VerifyMessengerResponse(Member response)
     {
         VerifyResponse(response);
@@ -93,7 +96,7 @@ public class SerializationTest
             new MemberChannelToV(ChannelType.Messenger, null, null, "app")
         ));
     }
-    
+
     internal static void VerifyViberResponse(Member response)
     {
         VerifyResponse(response);
@@ -108,7 +111,7 @@ public class SerializationTest
             new MemberChannelToV(ChannelType.Viber, null, null, "app")
         ));
     }
-    
+
     internal static void VerifyMMSResponse(Member response)
     {
         VerifyResponse(response);
@@ -123,7 +126,7 @@ public class SerializationTest
             new MemberChannelToV(ChannelType.Mms, null, "string", null)
         ));
     }
-    
+
     internal static void VerifyWhatsAppResponse(Member response)
     {
         VerifyResponse(response);
@@ -138,7 +141,7 @@ public class SerializationTest
             new MemberChannelToV(ChannelType.Whatsapp, null, "string", null)
         ));
     }
-    
+
     internal static void VerifyPhoneResponse(Member response)
     {
         VerifyResponse(response);
@@ -153,7 +156,7 @@ public class SerializationTest
             new MemberChannelToV(ChannelType.Phone, null, "string", null)
         ));
     }
-    
+
     internal static void VerifySMSResponse(Member response)
     {
         VerifyResponse(response);
@@ -168,7 +171,7 @@ public class SerializationTest
             new MemberChannelToV(ChannelType.Sms, null, "string", null)
         ));
     }
-    
+
     internal static void VerifyInitiatorAdminResponse(Member response)
     {
         VerifyResponse(response);
@@ -182,7 +185,7 @@ public class SerializationTest
             new MemberChannelToV(ChannelType.App, "string", null, null)
         ));
     }
-    
+
     private static void VerifyResponse(Member response)
     {
         response.Id.Should().Be("MEM-63f61863-4a51-4f6b-86e1-46edebio0391");

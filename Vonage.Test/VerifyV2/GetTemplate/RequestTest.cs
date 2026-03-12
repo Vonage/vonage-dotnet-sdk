@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.VerifyV2.GetTemplate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "VerifyV2")]
 public class RequestTest
 {
     [Fact]

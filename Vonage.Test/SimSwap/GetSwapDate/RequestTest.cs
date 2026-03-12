@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.SimSwap.GetSwapDate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SimSwap")]
 public class RequestTest
 {
     [Fact]

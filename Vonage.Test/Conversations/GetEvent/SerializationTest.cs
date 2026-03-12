@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Conversations;
@@ -7,10 +8,12 @@ using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+#endregion
 
 namespace Vonage.Test.Conversations.GetEvent;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Conversations")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

@@ -7,6 +7,7 @@ using Xunit;
 namespace Vonage.Test.NumberInsightsV2.FraudCheck;
 
 [Trait("Category", "Request")]
+[Trait("Product", "NumberInsightsV2")]
 public class RequestTest
 {
     [Fact]

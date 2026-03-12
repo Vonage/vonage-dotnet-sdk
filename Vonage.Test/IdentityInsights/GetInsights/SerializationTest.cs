@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.IdentityInsights.GetInsights;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "IdentityInsights")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

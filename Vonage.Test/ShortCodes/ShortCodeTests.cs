@@ -14,6 +14,7 @@ using Xunit;
 namespace Vonage.Test.ShortCodes;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "ShortCodes")]
 public class ShortCodeTests : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBasicCredentials();

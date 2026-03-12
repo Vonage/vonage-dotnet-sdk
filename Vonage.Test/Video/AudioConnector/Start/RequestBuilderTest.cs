@@ -11,6 +11,7 @@ using Xunit;
 namespace Vonage.Test.Video.AudioConnector.Start;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     private const string ValidSessionId = "session-id";

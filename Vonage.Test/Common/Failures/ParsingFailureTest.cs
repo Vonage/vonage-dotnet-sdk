@@ -1,12 +1,15 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Failures;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common.Failures;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class ParsingFailureTest
 {
     [Fact]

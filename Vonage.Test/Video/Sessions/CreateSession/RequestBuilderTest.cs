@@ -1,11 +1,14 @@
+#region
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sessions;
 using Vonage.Video.Sessions.CreateSession;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sessions.CreateSession;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     [Fact]

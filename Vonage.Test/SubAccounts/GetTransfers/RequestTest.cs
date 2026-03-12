@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.SubAccounts.GetTransfers;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SubAccounts")]
 public class RequestTest
 {
     private readonly DateTimeOffset endDate = DateTimeOffset.Parse("2020-06-30T12:00:00Z");

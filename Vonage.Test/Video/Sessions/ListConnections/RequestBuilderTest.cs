@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.Video.Sessions.ListConnections;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

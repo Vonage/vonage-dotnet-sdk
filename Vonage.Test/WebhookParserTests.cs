@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -9,10 +10,12 @@ using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Vonage.Utility;
 using Xunit;
+#endregion
 
 namespace Vonage.Test;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Common")]
 public class WebhookParserTests
 {
     [Fact]

@@ -13,6 +13,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 namespace Vonage.Test.Messages.Webhooks;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Messages.Webhooks")]
 public class SerializationTest
 {
     private const string Directory = "Messages/Webhooks/Data/";

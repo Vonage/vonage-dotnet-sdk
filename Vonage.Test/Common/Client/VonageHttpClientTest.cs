@@ -19,13 +19,14 @@ using Xunit;
 
 namespace Vonage.Test.Common.Client;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class VonageHttpClientTest
 {
     private readonly Fixture fixture;
+    private readonly Result<FakeRequest> request;
 
     private readonly JsonSerializer serializer;
-    private readonly Result<FakeRequest> request;
 
     public VonageHttpClientTest()
     {

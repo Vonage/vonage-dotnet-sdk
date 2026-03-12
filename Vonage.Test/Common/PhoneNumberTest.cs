@@ -1,11 +1,14 @@
+#region
 using Vonage.Common;
 using Vonage.Common.Failures;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class PhoneNumberTest
 {
     [Fact]

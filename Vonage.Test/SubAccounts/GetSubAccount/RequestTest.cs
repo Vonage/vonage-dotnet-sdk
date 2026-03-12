@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.SubAccounts.GetSubAccount;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SubAccounts")]
 public class RequestTest
 {
     [Theory]

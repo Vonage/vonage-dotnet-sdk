@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.Video.ExperienceComposer.GetSessions;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestTest
 {
     [Theory]

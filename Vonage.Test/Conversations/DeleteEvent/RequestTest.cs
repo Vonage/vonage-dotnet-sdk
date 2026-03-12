@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.Conversations.DeleteEvent;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Conversations")]
 public class RequestTest
 {
     private const string ValidConversationId = "CON-123";

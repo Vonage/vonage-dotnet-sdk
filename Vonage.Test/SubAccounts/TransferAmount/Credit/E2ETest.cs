@@ -12,6 +12,7 @@ using Xunit;
 namespace Vonage.Test.SubAccounts.TransferAmount.Credit;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "SubAccounts")]
 public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
     private readonly SerializationTestHelper serializationRequest = new SerializationTestHelper(

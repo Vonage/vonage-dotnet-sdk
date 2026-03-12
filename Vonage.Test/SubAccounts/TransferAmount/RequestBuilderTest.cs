@@ -1,14 +1,17 @@
-﻿using AutoFixture;
+﻿#region
+using AutoFixture;
 using FsCheck;
 using FsCheck.Fluent;
 using FsCheck.Xunit;
 using Vonage.SubAccounts.TransferAmount;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.TransferAmount;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SubAccounts")]
 public class RequestBuilderTest
 {
     private readonly decimal amount;

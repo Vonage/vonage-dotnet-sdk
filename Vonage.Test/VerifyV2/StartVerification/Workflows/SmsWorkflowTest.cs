@@ -1,13 +1,16 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.Common.TestHelpers;
 using Vonage.VerifyV2.StartVerification.Sms;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.StartVerification.Workflows;
 
 [Trait("Category", "Request")]
+[Trait("Product", "VerifyV2")]
 public class SmsWorkflowTest
 {
     private const string ExpectedChannel = "sms";

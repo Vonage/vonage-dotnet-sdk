@@ -12,6 +12,7 @@ using Xunit;
 namespace Vonage.Test.SubAccounts.GetTransfers.Balance;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "SubAccounts")]
 public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
     [Fact]

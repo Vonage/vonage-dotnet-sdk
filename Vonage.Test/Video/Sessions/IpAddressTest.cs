@@ -1,11 +1,14 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sessions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sessions;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Video")]
 public class IpAddressTest
 {
     [Fact]

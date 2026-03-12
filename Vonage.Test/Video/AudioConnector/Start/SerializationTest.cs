@@ -12,6 +12,7 @@ using Xunit;
 namespace Vonage.Test.Video.AudioConnector.Start;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Video")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

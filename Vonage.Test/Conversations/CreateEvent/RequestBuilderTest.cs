@@ -1,12 +1,15 @@
-﻿using System.Text.Json;
+﻿#region
+using System.Text.Json;
 using Vonage.Common.Monads;
 using Vonage.Conversations.CreateEvent;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.CreateEvent;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Conversations")]
 public class RequestBuilderTest
 {
     private const string ValidConversationId = "CON-123";

@@ -14,6 +14,7 @@ using Xunit;
 namespace Vonage.Test.Verify;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Verify")]
 public class VerifyTests : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBasicCredentials();

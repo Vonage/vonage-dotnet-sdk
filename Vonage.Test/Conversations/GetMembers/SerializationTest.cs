@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Conversations;
@@ -7,22 +8,24 @@ using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.GetMembers;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Conversations")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(
         typeof(SerializationTest).Namespace,
         JsonSerializerBuilder.BuildWithSnakeCase());
-    
+
     [Fact]
     public void ShouldDeserialize200() => this.helper.Serializer
         .DeserializeObject<GetMembersResponse>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifyExpectedResponse);
-    
+
     internal static void VerifyExpectedResponse(GetMembersResponse response)
     {
         response.PageSize.Should().Be(10);

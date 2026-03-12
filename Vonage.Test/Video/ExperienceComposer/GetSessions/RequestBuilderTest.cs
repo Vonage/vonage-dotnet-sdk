@@ -1,11 +1,14 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.ExperienceComposer.GetSessions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.ExperienceComposer.GetSessions;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     private const int ValidOffset = 100;

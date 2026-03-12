@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.NumberInsightV2.FraudCheck;
@@ -8,10 +9,12 @@ using Vonage.Test.Common.Extensions;
 using Vonage.Test.TestHelpers;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberInsightsV2.FraudCheck;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "NumberInsightsV2")]
 public class E2ETest
 {
     private const string ApiUrl = "Url.Api";

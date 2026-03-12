@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Broadcast.GetBroadcasts;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Broadcast.GetBroadcasts;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Video")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

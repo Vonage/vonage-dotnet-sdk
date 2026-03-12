@@ -1,11 +1,14 @@
-﻿using Vonage.Common;
+﻿#region
+using Vonage.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Users.GetUsers;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Users.GetUsers;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Users")]
 public class RequestBuilderTest
 {
     [Fact]

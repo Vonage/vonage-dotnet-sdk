@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.Voice.Emergency.CreateAddress;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Voice")]
 public class RequestBuilderTest
 {
     private const string NonEmptyString = "TEST";

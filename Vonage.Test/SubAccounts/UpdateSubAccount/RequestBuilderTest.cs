@@ -1,11 +1,14 @@
-﻿using AutoFixture;
+﻿#region
+using AutoFixture;
 using Vonage.SubAccounts.UpdateSubAccount;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.UpdateSubAccount;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SubAccounts")]
 public class RequestBuilderTest
 {
     private readonly string name;

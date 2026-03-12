@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.SubAccounts.UpdateSubAccount;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SubAccounts")]
 public class RequestTest
 {
     private readonly Fixture fixture = new Fixture();

@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.VerifyV2.CreateTemplate;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "VerifyV2")]
 public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
     [Fact]

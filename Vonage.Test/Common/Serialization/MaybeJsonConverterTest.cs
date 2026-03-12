@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region
+using System;
 using System.Text;
 using System.Text.Json;
 using Vonage.Common.Serialization;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common.Serialization;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Common")]
 public class MaybeJsonConverterTest
 {
     [Fact]

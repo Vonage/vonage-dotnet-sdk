@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Vonage.Common.Monads;
@@ -6,10 +7,12 @@ using Vonage.Test.Common.Extensions;
 using Vonage.Users;
 using Vonage.Users.UpdateUser;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Users.UpdateUser;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Users")]
 public class RequestBuilderTest
 {
     [Fact]

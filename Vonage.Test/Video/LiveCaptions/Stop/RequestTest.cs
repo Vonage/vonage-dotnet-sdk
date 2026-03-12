@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.Video.LiveCaptions.Stop;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestTest
 {
     private const string ValidCaptionsId = "CAP-123";

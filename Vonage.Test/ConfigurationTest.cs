@@ -20,7 +20,8 @@ using Xunit;
 
 namespace Vonage.Test;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class ConfigurationTest
 {
     [Fact]
@@ -229,6 +230,8 @@ public class ConfigurationTest
             .VonageUrls.Oidc.Should().Be(new Uri("https://oidc.idp.vonage.com"));
 }
 
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 [Collection(nameof(NonThreadSafeCollection))]
 public class ProxyTest
 {
@@ -251,7 +254,8 @@ public class ProxyTest
     }
 }
 
-[Trait("Category", "HttpConnectionPool")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 [Collection(nameof(NonThreadSafeCollection))]
 public class ConnectionLifetimeTest
 {

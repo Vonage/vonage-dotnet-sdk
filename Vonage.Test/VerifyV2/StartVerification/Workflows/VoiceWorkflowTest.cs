@@ -1,12 +1,15 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Test.Common.Extensions;
 using Vonage.VerifyV2.StartVerification.Voice;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.StartVerification.Workflows;
 
 [Trait("Category", "Request")]
+[Trait("Product", "VerifyV2")]
 public class VoiceWorkflowTest
 {
     private const string ExpectedChannel = "voice";

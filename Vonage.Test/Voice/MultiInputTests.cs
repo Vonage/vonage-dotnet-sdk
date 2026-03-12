@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.Voice;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Voice")]
 public class MultiInputTests
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(MultiInputTests).Namespace,

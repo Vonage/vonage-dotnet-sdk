@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Common.Monads;
 using Vonage.Serialization;
 using Vonage.Server;
@@ -6,10 +7,12 @@ using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.ExperienceComposer.Start;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.ExperienceComposer.Start;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Video")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

@@ -1,12 +1,15 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.NumberVerification.Authenticate;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberVerification.Authenticate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "NumberVerification")]
 public class AuthenticateRequestTest
 {
     private const string ValidScope = "scope=test";

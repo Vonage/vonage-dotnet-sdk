@@ -1,13 +1,16 @@
+#region
 using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Sip.PlayToneIntoCall;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Sip.PlayToneIntoCall;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

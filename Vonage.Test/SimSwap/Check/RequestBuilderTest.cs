@@ -1,11 +1,14 @@
-﻿using Vonage.Common.Failures;
+﻿#region
+using Vonage.Common.Failures;
 using Vonage.SimSwap.Check;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SimSwap.Check;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SimSwap")]
 public class RequestBuilderTest
 {
     [Theory]
@@ -18,7 +21,7 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number cannot be null or whitespace."));
-    
+
     [Fact]
     public void Build_ShouldReturnFailure_GivenNumberContainsNonDigits() =>
         CheckRequest.Build()
@@ -26,7 +29,7 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number can only contain digits."));
-    
+
     [Fact]
     public void Build_ShouldReturnFailure_GivenNumberLengthIsHigherThan7() =>
         CheckRequest.Build()
@@ -34,7 +37,7 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number length cannot be lower than 7."));
-    
+
     [Fact]
     public void Build_ShouldReturnFailure_GivenNumberLengthIsLowerThan15() =>
         CheckRequest.Build()
@@ -42,7 +45,7 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeFailure(ResultFailure.FromErrorMessage("Number length cannot be higher than 15."));
-    
+
     [Theory]
     [InlineData("1234567", "1234567")]
     [InlineData("123456789012345", "123456789012345")]
@@ -56,7 +59,7 @@ public class RequestBuilderTest
             .Map(number => number.PhoneNumber.Number)
             .Should()
             .BeSuccess(expected);
-    
+
     [Theory]
     [InlineData(1)]
     [InlineData(2400)]
@@ -68,7 +71,7 @@ public class RequestBuilderTest
             .Map(number => number.Period)
             .Should()
             .BeSuccess(value);
-    
+
     [Fact]
     public void Build_ShouldSetPeriodToDefault_GivenPeriodIsNotSet() =>
         CheckRequest.Build()
@@ -77,7 +80,7 @@ public class RequestBuilderTest
             .Map(number => number.Period)
             .Should()
             .BeSuccess(240);
-    
+
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]
@@ -88,7 +91,7 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("Period cannot be lower than 1.");
-    
+
     [Theory]
     [InlineData(2401)]
     [InlineData(2402)]

@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.Users.GetUser;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "Users")]
 public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
     [Fact]

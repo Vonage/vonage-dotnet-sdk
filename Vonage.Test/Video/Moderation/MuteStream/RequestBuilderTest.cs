@@ -1,13 +1,16 @@
+#region
 using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Moderation.MuteStream;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Moderation.MuteStream;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

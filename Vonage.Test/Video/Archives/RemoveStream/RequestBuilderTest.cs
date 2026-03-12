@@ -1,13 +1,16 @@
+#region
 using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives.RemoveStream;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.RemoveStream;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     private readonly Guid applicationId;

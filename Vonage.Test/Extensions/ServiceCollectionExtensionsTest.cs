@@ -32,7 +32,8 @@ using Xunit;
 
 namespace Vonage.Test.Extensions
 {
-    [Trait("Category", "ServicesRegistration")]
+    [Trait("Category", "Core")]
+    [Trait("Product", "Common")]
     public class ServiceCollectionExtensionsTest
     {
         private readonly IConfigurationRoot configuration = new ConfigurationBuilder()

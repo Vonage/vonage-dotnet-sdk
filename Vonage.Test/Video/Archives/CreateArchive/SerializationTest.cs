@@ -13,6 +13,7 @@ using Xunit;
 namespace Vonage.Test.Video.Archives.CreateArchive;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Video")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

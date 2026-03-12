@@ -11,6 +11,7 @@ using Xunit;
 namespace Vonage.Test.Video.LiveCaptions.Start;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Video")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

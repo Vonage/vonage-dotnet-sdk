@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.IdentityInsights.GetInsights;
 
 [Trait("Category", "Request")]
+[Trait("Product", "IdentityInsights")]
 public class RequestBuilderTest
 {
     internal const string ValidPhoneNumber = "33601020304";

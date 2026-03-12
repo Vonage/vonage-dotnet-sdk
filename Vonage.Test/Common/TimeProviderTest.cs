@@ -1,11 +1,14 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using Xunit;
 using TimeProvider = Vonage.Common.TimeProvider;
+#endregion
 
 namespace Vonage.Test.Common;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class TimeProviderTest
 {
     /// <remarks>

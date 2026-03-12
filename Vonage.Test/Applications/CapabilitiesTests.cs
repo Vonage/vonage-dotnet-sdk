@@ -15,6 +15,8 @@ using VideoCapability = Vonage.Applications.Capabilities.Video;
 
 namespace Vonage.Test.Applications;
 
+[Trait("Category", "Core")]
+[Trait("Product", "Applications")]
 public class CapabilitiesTests
 {
     private const string TestUrl = "https://example.com/webhook";

@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Archives.RemoveStream;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Archives.RemoveStream;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Video")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

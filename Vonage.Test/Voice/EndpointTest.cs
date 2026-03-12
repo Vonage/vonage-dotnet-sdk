@@ -7,6 +7,7 @@ using Xunit;
 namespace Vonage.Test.Voice;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Voice")]
 public class EndpointTest
 {
     [Fact]

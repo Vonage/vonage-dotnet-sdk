@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Common.Client;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common.Client;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Common")]
 public class VonageRequestBuilderTest
 {
     private readonly Uri endpointUri;

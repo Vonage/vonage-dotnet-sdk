@@ -7,6 +7,7 @@ using Xunit;
 namespace Vonage.Test.Users.UpdateUser;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Users")]
 public class RequestTest
 {
     [Fact]

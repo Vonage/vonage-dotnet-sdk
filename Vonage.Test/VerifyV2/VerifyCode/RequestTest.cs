@@ -9,6 +9,7 @@ using Xunit;
 namespace Vonage.Test.VerifyV2.VerifyCode;
 
 [Trait("Category", "Request")]
+[Trait("Product", "VerifyV2")]
 public class RequestTest
 {
     private readonly Fixture fixture = new Fixture();

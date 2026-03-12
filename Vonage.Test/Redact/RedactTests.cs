@@ -15,6 +15,7 @@ using Xunit;
 namespace Vonage.Test.Redact;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Redact")]
 public class RedactTests : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBasicCredentials();

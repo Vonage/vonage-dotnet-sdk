@@ -1,3 +1,4 @@
+#region
 using System;
 using AutoFixture;
 using FluentAssertions;
@@ -6,10 +7,12 @@ using Vonage.Common.Monads;
 using Vonage.Messages.WhatsApp.ProductMessages;
 using Vonage.Messages.WhatsApp.ProductMessages.MultipleItems;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Messages.WhatsApp.ProductMessages.MultipleItems
 {
     [Trait("Category", "Request")]
+    [Trait("Product", "Messages.WhatsApp")]
     public class MultipleItemsContentBuilderTest
     {
         private readonly IBuilderForHeader builder = MultipleItemsContentBuilder.Initialize();

@@ -15,6 +15,7 @@ using Xunit;
 namespace Vonage.Test.Messages.Messenger;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Messages.Messenger")]
 public class MessengerMessagesTest : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBearerCredentials();

@@ -11,6 +11,7 @@ using Xunit;
 namespace Vonage.Test.Voice.Emergency;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Voice")]
 public class AddressTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

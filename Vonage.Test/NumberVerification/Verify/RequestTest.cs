@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.NumberVerification.Verify;
 
 [Trait("Category", "Request")]
+[Trait("Product", "NumberVerification")]
 public class RequestTest
 {
     [Fact]

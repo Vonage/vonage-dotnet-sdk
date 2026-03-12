@@ -9,6 +9,7 @@ using Xunit;
 namespace Vonage.Test.Conversations.GetEvents;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Conversations")]
 public class RequestBuilderTest
 {
     private const string ValidConversationId = "CON-123";

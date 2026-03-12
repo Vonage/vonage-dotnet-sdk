@@ -1,12 +1,15 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.SimSwap.Authenticate;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SimSwap.Authenticate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SimSwap")]
 public class AuthenticateRequestTest
 {
     private const string ValidScope = "scope=test";

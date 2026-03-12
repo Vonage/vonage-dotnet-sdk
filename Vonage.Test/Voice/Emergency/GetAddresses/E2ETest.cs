@@ -12,6 +12,7 @@ using Xunit;
 namespace Vonage.Test.Voice.Emergency.GetAddresses;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "Voice")]
 public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
     private readonly SerializationTestHelper numberResponseHelper =

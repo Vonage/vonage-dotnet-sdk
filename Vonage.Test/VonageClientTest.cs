@@ -1,12 +1,15 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Request;
 using Xunit;
+#endregion
 
 namespace Vonage.Test
 {
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Core")]
+    [Trait("Product", "Common")]
     public class VonageClientTest
     {
         private readonly VonageClient client;

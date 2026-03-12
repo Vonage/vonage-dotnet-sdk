@@ -1,20 +1,23 @@
-﻿using Vonage.Common.Monads;
+﻿#region
+using Vonage.Common.Monads;
 using Vonage.Conversations;
 using Vonage.Conversations.CreateMember;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.CreateMember;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Conversations")]
 public class RequestBuilderTest
 {
     private const string ValidConversationId = "CON-123";
     private const CreateMemberRequest.AvailableStates ValidState = CreateMemberRequest.AvailableStates.Invited;
     private const string ValidUserId = "USR-123";
-    
+
     private static MemberUser ValidUser => new MemberUser("USR-123", "User 123");
-    
+
     [Fact]
     public void Build_ShouldSetConversationId() =>
         BuildDefaultBuilder()
@@ -22,7 +25,7 @@ public class RequestBuilderTest
             .Map(request => request.ConversationId)
             .Should()
             .BeSuccess(ValidConversationId);
-    
+
     [Fact]
     public void Build_ShouldSetMedia() =>
         BuildDefaultBuilder()
@@ -31,7 +34,7 @@ public class RequestBuilderTest
             .Map(request => request.Media)
             .Should()
             .BeSuccess(new MemberMedia(new MemberMediaSettings(true, true, true), true));
-    
+
     [Fact]
     public void Build_ShouldHaveNoMedia_GivenDefault() =>
         BuildDefaultBuilder()
@@ -39,7 +42,7 @@ public class RequestBuilderTest
             .Map(request => request.Media)
             .Should()
             .BeSuccess(Maybe<MemberMedia>.None);
-    
+
     [Fact]
     public void Build_ShouldSetKnockingId() =>
         BuildDefaultBuilder()
@@ -48,7 +51,7 @@ public class RequestBuilderTest
             .Map(request => request.KnockingId)
             .Should()
             .BeSuccess("123");
-    
+
     [Fact]
     public void Build_ShouldHaveNoKnockingId_GivenDefault() =>
         BuildDefaultBuilder()
@@ -56,7 +59,7 @@ public class RequestBuilderTest
             .Map(request => request.KnockingId)
             .Should()
             .BeSuccess(Maybe<string>.None);
-    
+
     [Fact]
     public void Build_ShouldSetInvitingMemberId() =>
         BuildDefaultBuilder()
@@ -65,7 +68,7 @@ public class RequestBuilderTest
             .Map(request => request.InvitingMemberId)
             .Should()
             .BeSuccess("123");
-    
+
     [Fact]
     public void Build_ShouldHaveNoInvitingMemberId_GivenDefault() =>
         BuildDefaultBuilder()
@@ -73,7 +76,7 @@ public class RequestBuilderTest
             .Map(request => request.InvitingMemberId)
             .Should()
             .BeSuccess(Maybe<string>.None);
-    
+
     [Fact]
     public void Build_ShouldSetFrom() =>
         BuildDefaultBuilder()
@@ -82,7 +85,7 @@ public class RequestBuilderTest
             .Map(request => request.From)
             .Should()
             .BeSuccess("From");
-    
+
     [Fact]
     public void Build_ShouldHaveNoFrom_GivenDefault() =>
         BuildDefaultBuilder()
@@ -90,7 +93,7 @@ public class RequestBuilderTest
             .Map(request => request.From)
             .Should()
             .BeSuccess(Maybe<string>.None);
-    
+
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
@@ -105,7 +108,7 @@ public class RequestBuilderTest
             .Map(request => request.ConversationId)
             .Should()
             .BeParsingFailure("ConversationId cannot be null or whitespace.");
-    
+
     [Fact]
     public void Build_ShouldReturnFailure_GivenUserIsNull() =>
         CreateMemberRequest.Build()
@@ -116,7 +119,7 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("User cannot be null.");
-    
+
     [Fact]
     public void Build_ShouldSetState() =>
         BuildDefaultBuilder()
@@ -124,7 +127,7 @@ public class RequestBuilderTest
             .Map(request => request.State)
             .Should()
             .BeSuccess(ValidState);
-    
+
     [Fact]
     public void Build_ShouldSetUser() =>
         BuildDefaultBuilder()
@@ -132,7 +135,7 @@ public class RequestBuilderTest
             .Map(request => request.User)
             .Should()
             .BeSuccess(ValidUser);
-    
+
     [Fact]
     public void Build_ShouldSetAppChannel() =>
         CreateMemberRequest.Build()
@@ -146,7 +149,7 @@ public class RequestBuilderTest
             .BeSuccess(new MemberChannel(ChannelType.App,
                 MemberChannelFrom.FromChannels(ChannelType.App, ChannelType.Phone, ChannelType.Sms),
                 new MemberChannelToV(ChannelType.App, ValidUserId, Maybe<string>.None, Maybe<string>.None)));
-    
+
     [Fact]
     public void Build_ShouldReturnFailure_GivenChannelTypesAreEmpty() =>
         CreateMemberRequest.Build()
@@ -157,14 +160,14 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("Type cannot be null or whitespace.");
-    
+
     private static IBuilderForOptional BuildDefaultBuilder() =>
         CreateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
             .WithState(ValidState)
             .WithUser(ValidUser)
             .WithApp(ValidUserId, ChannelType.App, ChannelType.Phone, ChannelType.Sms);
-    
+
     [Fact]
     public void Build_ShouldSetPhoneChannel() =>
         CreateMemberRequest.Build()
@@ -178,7 +181,7 @@ public class RequestBuilderTest
             .BeSuccess(new MemberChannel(ChannelType.Phone,
                 MemberChannelFrom.FromChannels(ChannelType.Phone, ChannelType.Messenger),
                 new MemberChannelToV(ChannelType.Phone, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
-    
+
     [Fact]
     public void Build_ShouldSetSmsChannel() =>
         CreateMemberRequest.Build()
@@ -192,7 +195,7 @@ public class RequestBuilderTest
             .BeSuccess(new MemberChannel(ChannelType.Sms,
                 MemberChannelFrom.FromChannels(ChannelType.Sms, ChannelType.Viber),
                 new MemberChannelToV(ChannelType.Sms, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
-    
+
     [Fact]
     public void Build_ShouldSetMmsChannel() =>
         CreateMemberRequest.Build()
@@ -206,7 +209,7 @@ public class RequestBuilderTest
             .BeSuccess(new MemberChannel(ChannelType.Mms,
                 MemberChannelFrom.FromChannels(ChannelType.Mms, ChannelType.Viber),
                 new MemberChannelToV(ChannelType.Mms, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
-    
+
     [Fact]
     public void Build_ShouldSetWhatsAppChannel() =>
         CreateMemberRequest.Build()
@@ -220,7 +223,7 @@ public class RequestBuilderTest
             .BeSuccess(new MemberChannel(ChannelType.Whatsapp,
                 MemberChannelFrom.FromChannels(ChannelType.Whatsapp, ChannelType.Viber),
                 new MemberChannelToV(ChannelType.Whatsapp, Maybe<string>.None, "NUM-123", Maybe<string>.None)));
-    
+
     [Fact]
     public void Build_ShouldSetViberChannel() =>
         CreateMemberRequest.Build()
@@ -234,7 +237,7 @@ public class RequestBuilderTest
             .BeSuccess(new MemberChannel(ChannelType.Viber,
                 MemberChannelFrom.FromChannels(ChannelType.Viber),
                 new MemberChannelToV(ChannelType.Viber, Maybe<string>.None, Maybe<string>.None, ValidUserId)));
-    
+
     [Fact]
     public void Build_ShouldSetMessengerChannel() =>
         CreateMemberRequest.Build()

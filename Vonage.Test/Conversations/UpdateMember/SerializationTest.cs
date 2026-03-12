@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Common.Monads;
@@ -8,57 +9,59 @@ using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.UpdateMember;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Conversations")]
 public class SerializationTest
 {
     internal const string ValidConversationId = "CON-123";
     internal const string ValidMemberId = "MEM-123";
     internal const string ValidFrom = "123456789";
-    
+
     private readonly SerializationTestHelper helper = new SerializationTestHelper(
         typeof(SerializationTest).Namespace,
         JsonSerializerBuilder.BuildWithSnakeCase());
-    
+
     internal static Reason ValidReason => new Reason("123", "Some reason.");
-    
+
     [Fact]
     public void ShouldSerializeWithJoinedState() =>
         BuildRequestWithJoinedState()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
-    
+
     internal static Result<UpdateMemberRequest> BuildRequestWithJoinedState() =>
         UpdateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
             .WithMemberId(ValidMemberId)
             .WithJoinedState()
             .Create();
-    
+
     [Fact]
     public void ShouldSerializeWithLeftState() =>
         BuildRequestWithLeftState()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
-    
+
     internal static Result<UpdateMemberRequest> BuildRequestWithLeftState() =>
         UpdateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
             .WithMemberId(ValidMemberId)
             .WithLeftState(ValidReason)
             .Create();
-    
+
     [Fact]
     public void ShouldSerializeWithFrom() =>
         BuildRequestWithFrom()
             .GetStringContent()
             .Should()
             .BeSuccess(this.helper.GetRequestJson());
-    
+
     internal static Result<UpdateMemberRequest> BuildRequestWithFrom() =>
         UpdateMemberRequest.Build()
             .WithConversationId(ValidConversationId)
@@ -66,13 +69,13 @@ public class SerializationTest
             .WithJoinedState()
             .WithFrom(ValidFrom)
             .Create();
-    
+
     [Fact]
     public void ShouldDeserialize200() => this.helper.Serializer
         .DeserializeObject<Member>(this.helper.GetResponseJson())
         .Should()
         .BeSuccess(VerifyResponse);
-    
+
     internal static void VerifyResponse(Member response)
     {
         response.Id.Should().Be("MEM-63f61863-4a51-4f6b-86e1-46edebio0391");

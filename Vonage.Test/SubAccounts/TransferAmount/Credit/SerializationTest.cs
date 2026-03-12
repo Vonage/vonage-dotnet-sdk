@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.SubAccounts.TransferAmount.Credit;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "SubAccounts")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

@@ -1,12 +1,15 @@
+#region
 using FluentAssertions;
 using Vonage.Common.Monads;
 using Vonage.Messages.WhatsApp.ProductMessages;
 using Vonage.Messages.WhatsApp.ProductMessages.SingleItem;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Messages.WhatsApp.ProductMessages.SingleItem
 {
     [Trait("Category", "Request")]
+    [Trait("Product", "Messages.WhatsApp")]
     public class SingleItemContentBuilderTest
     {
         private readonly IOptionalBuilderForBody builder = SingleItemContentBuilder.Initialize();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Vonage.Common.Monads;
@@ -7,10 +8,12 @@ using Vonage.Test.Common.Extensions;
 using Vonage.Test.Common.TestHelpers;
 using Vonage.Video.Authentication;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Authentication;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Video")]
 public class VideoTokenGeneratorTest
 {
     private const string ApplicationId = "ffffffff-ffff-ffff-ffff-ffffffffffff";

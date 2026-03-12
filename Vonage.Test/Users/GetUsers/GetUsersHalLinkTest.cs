@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region
+using System;
 using Vonage.Common;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Test.Common.Extensions;
 using Vonage.Users.GetUsers;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Users.GetUsers;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Users")]
 public class GetUsersHalLinkTest
 {
     [Fact]

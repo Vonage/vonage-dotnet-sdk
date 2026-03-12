@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,10 +8,12 @@ using Vonage.Request;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.Common.TestHelpers;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Request;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class CredentialsTest
 {
     [Fact]

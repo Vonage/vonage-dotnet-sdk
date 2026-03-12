@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.SimSwap.Authenticate;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "SimSwap")]
 public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
     [Fact]

@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region
+using System;
 using System.Globalization;
 using Vonage.Common.Monads;
 using Vonage.Conversations;
 using Vonage.Conversations.GetConversations;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.GetConversations;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Conversations")]
 public class RequestBuilderTest
 {
     [Fact]
@@ -19,7 +22,7 @@ public class RequestBuilderTest
             .Map(request => request.Order)
             .Should()
             .BeSuccess(FetchOrder.Ascending);
-    
+
     [Fact]
     public void Build_ShouldHaveDefaultPageSize() =>
         GetConversationsRequest
@@ -28,7 +31,7 @@ public class RequestBuilderTest
             .Map(request => request.PageSize)
             .Should()
             .BeSuccess(10);
-    
+
     [Fact]
     public void Build_ShouldHaveNoDefaultCursor() =>
         GetConversationsRequest
@@ -37,7 +40,7 @@ public class RequestBuilderTest
             .Map(request => request.Cursor)
             .Should()
             .BeSuccess(Maybe<string>.None);
-    
+
     [Fact]
     public void Build_ShouldHaveNoDefaultEndDate() =>
         GetConversationsRequest
@@ -46,7 +49,7 @@ public class RequestBuilderTest
             .Map(request => request.EndDate)
             .Should()
             .BeSuccess(Maybe<DateTimeOffset>.None);
-    
+
     [Fact]
     public void Build_ShouldHaveNoDefaultStartDate() =>
         GetConversationsRequest
@@ -55,7 +58,7 @@ public class RequestBuilderTest
             .Map(request => request.StartDate)
             .Should()
             .BeSuccess(Maybe<DateTimeOffset>.None);
-    
+
     [Fact]
     public void Build_ShouldReturnFailure_GivenPageSizeIsHigherThanOneHundred() =>
         GetConversationsRequest
@@ -64,7 +67,7 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("PageSize cannot be higher than 100.");
-    
+
     [Fact]
     public void Build_ShouldReturnFailure_GivenPageSizeIsLowerThanOne() =>
         GetConversationsRequest
@@ -73,7 +76,7 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("PageSize cannot be lower than 1.");
-    
+
     [Fact]
     public void Build_ShouldSetEndDate() =>
         GetConversationsRequest
@@ -83,7 +86,7 @@ public class RequestBuilderTest
             .Map(request => request.EndDate)
             .Should()
             .BeSuccess(DateTimeOffset.Parse("2018-01-01 10:00:00", CultureInfo.InvariantCulture));
-    
+
     [Fact]
     public void Build_ShouldSetOrder() =>
         GetConversationsRequest
@@ -93,7 +96,7 @@ public class RequestBuilderTest
             .Map(request => request.Order)
             .Should()
             .BeSuccess(FetchOrder.Descending);
-    
+
     [Theory]
     [InlineData(1)]
     [InlineData(50)]
@@ -106,7 +109,7 @@ public class RequestBuilderTest
             .Map(request => request.PageSize)
             .Should()
             .BeSuccess(pageSize);
-    
+
     [Fact]
     public void Build_ShouldSetStartDate() =>
         GetConversationsRequest

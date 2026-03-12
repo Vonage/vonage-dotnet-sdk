@@ -15,6 +15,7 @@ using Xunit;
 namespace Vonage.Test.Messages.Viber;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Messages.Viber")]
 public class ViberMessagesTest : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBearerCredentials();

@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.Video.ExperienceComposer.Stop;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestTest
 {
     private const string ValidExperienceComposerId = "EXP-123";

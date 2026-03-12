@@ -1,10 +1,13 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.SimSwap.Authenticate;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SimSwap.Authenticate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SimSwap")]
 public class AuthorizeResponseTest
 {
     [Fact]

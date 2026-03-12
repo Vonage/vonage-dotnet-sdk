@@ -9,6 +9,7 @@ using Xunit;
 namespace Vonage.Test.SubAccounts.TransferNumber;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SubAccounts")]
 public class RequestTest
 {
     private readonly Fixture fixture = new Fixture();

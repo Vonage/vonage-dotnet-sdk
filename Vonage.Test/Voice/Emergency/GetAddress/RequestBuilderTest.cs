@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.Voice.Emergency.GetAddress;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Voice")]
 public class RequestBuilderTest
 {
     [Fact]

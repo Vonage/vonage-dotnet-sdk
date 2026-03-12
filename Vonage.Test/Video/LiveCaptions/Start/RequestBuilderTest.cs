@@ -12,6 +12,7 @@ using Xunit;
 namespace Vonage.Test.Video.LiveCaptions.Start;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestBuilderTest
 {
     private const string ValidSessionId = "session-id";

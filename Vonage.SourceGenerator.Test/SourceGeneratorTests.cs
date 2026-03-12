@@ -7,7 +7,8 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace Vonage.SourceGenerator.Test;
 
-[Trait("Category", "SourceGeneration")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class BuilderGeneratorTests
 {
     private const string TestNamespace = "TestNamespace";

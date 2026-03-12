@@ -16,6 +16,7 @@ using Record = Vonage.Voice.EventWebhooks.Record;
 namespace Vonage.Test.Voice;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Voice")]
 public class WebhookStructsTest
 {
     private const string From = "442079460000";

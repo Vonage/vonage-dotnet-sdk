@@ -14,6 +14,7 @@ using Xunit;
 namespace Vonage.Test.Applications;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Applications")]
 public class ApplicationTests : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBasicCredentials();

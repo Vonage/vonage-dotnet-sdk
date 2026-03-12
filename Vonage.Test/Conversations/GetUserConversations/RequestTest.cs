@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.Conversations.GetUserConversations;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Conversations")]
 public class RequestTest
 {
     [Theory]

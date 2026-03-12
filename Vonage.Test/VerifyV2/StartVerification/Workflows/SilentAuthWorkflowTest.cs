@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region
+using System;
 using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Test.Common.Extensions;
 using Vonage.VerifyV2.StartVerification.SilentAuth;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.StartVerification.Workflows;
 
 [Trait("Category", "Request")]
+[Trait("Product", "VerifyV2")]
 public class SilentAuthWorkflowTest
 {
     private const string ExpectedChannel = "silent_auth";

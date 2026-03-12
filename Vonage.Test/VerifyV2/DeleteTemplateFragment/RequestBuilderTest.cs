@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.VerifyV2.DeleteTemplateFragment;
 
 [Trait("Category", "Request")]
+[Trait("Product", "VerifyV2")]
 public class RequestBuilderTest
 {
     private readonly Guid validId = new Guid("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb");

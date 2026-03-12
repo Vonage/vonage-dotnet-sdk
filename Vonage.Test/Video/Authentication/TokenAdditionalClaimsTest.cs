@@ -1,20 +1,23 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using AutoFixture;
 using EnumsNET;
 using FluentAssertions;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.Authentication;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video.Authentication;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Video")]
 public class TokenAdditionalInformationTest
 {
     private readonly Role role;
     private readonly string scope;
     private readonly string sessionId;
-    
+
     public TokenAdditionalInformationTest()
     {
         var fixture = new Fixture();
@@ -22,7 +25,7 @@ public class TokenAdditionalInformationTest
         this.scope = fixture.Create<string>();
         this.role = fixture.Create<Role>();
     }
-    
+
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
@@ -31,7 +34,7 @@ public class TokenAdditionalInformationTest
         TokenAdditionalClaims.Parse(value, this.scope, this.role)
             .Should()
             .BeParsingFailure("SessionId cannot be null or whitespace.");
-    
+
     [Theory]
     [InlineData(TokenAdditionalClaims.ReservedClaimSessionId)]
     [InlineData(TokenAdditionalClaims.ReservedClaimRole)]
@@ -46,21 +49,21 @@ public class TokenAdditionalInformationTest
             })
             .Should()
             .BeParsingFailure($"Claims key '{invalidKey}' is reserved.");
-    
+
     [Fact]
     public void Parse_ShouldSetClaims() =>
         TokenAdditionalClaims.Parse(this.sessionId, claims: new Dictionary<string, object> {{"id", 1}})
             .Map(token => token.Claims)
             .Should()
             .BeSuccess(claims => claims.Should().BeEquivalentTo(new Dictionary<string, object> {{"id", 1}}));
-    
+
     [Fact]
     public void Parse_ShouldSetSessionId() =>
         TokenAdditionalClaims.Parse(this.sessionId)
             .Map(token => token.SessionId)
             .Should()
             .BeSuccess(this.sessionId);
-    
+
     [Theory]
     [InlineData(Role.Publisher)]
     [InlineData(Role.PublisherOnly)]
@@ -71,35 +74,35 @@ public class TokenAdditionalInformationTest
             .Map(token => token.Role)
             .Should()
             .BeSuccess(input);
-    
+
     [Fact]
     public void Parse_ShouldSetScope() =>
         TokenAdditionalClaims.Parse(this.sessionId, "custom_scope")
             .Map(token => token.Scope)
             .Should()
             .BeSuccess("custom_scope");
-    
+
     [Fact]
     public void Parse_ShouldHaveRole_GivenDefault() =>
         TokenAdditionalClaims.Parse(this.sessionId)
             .Map(token => token.Role)
             .Should()
             .BeSuccess(Role.Publisher);
-    
+
     [Fact]
     public void Parse_ShouldHaveScope_GivenDefault() =>
         TokenAdditionalClaims.Parse(this.sessionId)
             .Map(token => token.Scope)
             .Should()
             .BeSuccess(TokenAdditionalClaims.DefaultScope);
-    
+
     [Fact]
     public void Parse_ShouldHaveEmptyClaims_GivenDefault() =>
         TokenAdditionalClaims.Parse(this.sessionId)
             .Map(token => token.Claims)
             .Should()
             .BeSuccess(claims => claims.Should().BeEmpty());
-    
+
     [Fact]
     public void ToDataDictionary_ShouldReturnDictionaryWithValues() =>
         TokenAdditionalClaims.Parse(this.sessionId, this.scope, this.role,

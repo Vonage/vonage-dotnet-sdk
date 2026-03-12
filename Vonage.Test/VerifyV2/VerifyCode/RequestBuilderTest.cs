@@ -1,13 +1,16 @@
+#region
 using System;
 using AutoFixture;
 using FluentAssertions;
 using Vonage.Test.Common.Extensions;
 using Vonage.VerifyV2.VerifyCode;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.VerifyCode;
 
 [Trait("Category", "Request")]
+[Trait("Product", "VerifyV2")]
 public class RequestBuilderTest
 {
     private readonly Fixture fixture = new Fixture();

@@ -13,6 +13,7 @@ using Xunit;
 namespace Vonage.Test.Accounts;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Accounts")]
 public class AccountTest : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBasicCredentials();

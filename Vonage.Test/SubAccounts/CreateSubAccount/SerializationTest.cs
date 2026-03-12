@@ -11,6 +11,7 @@ using Xunit;
 namespace Vonage.Test.SubAccounts.CreateSubAccount;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "SubAccounts")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

@@ -1,11 +1,14 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using Vonage.Common.Failures;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common.Failures;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class HttpFailureDeserializationTest
 {
     private readonly SerializationTestHelper helper =

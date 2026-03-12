@@ -7,6 +7,7 @@ using Xunit;
 namespace Vonage.Test.Users.GetUser;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Users")]
 public class RequestTest
 {
     [Theory]

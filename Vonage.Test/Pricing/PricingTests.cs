@@ -14,6 +14,7 @@ using Xunit;
 namespace Vonage.Test.Pricing;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Pricing")]
 public class PricingTests : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBasicCredentials();

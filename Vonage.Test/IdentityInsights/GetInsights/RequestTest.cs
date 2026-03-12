@@ -7,6 +7,7 @@ using Xunit;
 namespace Vonage.Test.IdentityInsights.GetInsights;
 
 [Trait("Category", "Request")]
+[Trait("Product", "IdentityInsights")]
 public class RequestTest
 {
     [Fact]

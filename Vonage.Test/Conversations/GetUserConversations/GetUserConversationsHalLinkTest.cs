@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region
+using System;
 using System.Globalization;
 using Vonage.Common.Monads;
 using Vonage.Conversations;
 using Vonage.Conversations.GetUserConversations;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Conversations.GetUserConversations;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Conversations")]
 public class GetUserConversationsHalLinkTest
 {
     [Fact]

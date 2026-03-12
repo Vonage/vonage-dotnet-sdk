@@ -9,6 +9,7 @@ using Xunit;
 namespace Vonage.Test.Video.Broadcast.GetBroadcast;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestTest
 {
     private readonly Guid applicationId;

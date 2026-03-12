@@ -1,11 +1,14 @@
-﻿using System.Net.Http.Headers;
+﻿#region
+using System.Net.Http.Headers;
 using FluentAssertions;
 using Vonage.SimSwap.Authenticate;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SimSwap.Authenticate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SimSwap")]
 public class AuthenticateResponseTest
 {
     [Fact]

@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.Video.Archives.ChangeLayout;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestTest
 {
     private readonly Guid applicationId;

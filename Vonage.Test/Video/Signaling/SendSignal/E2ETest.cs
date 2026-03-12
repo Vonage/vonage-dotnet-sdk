@@ -12,6 +12,7 @@ using Xunit;
 namespace Vonage.Test.Video.Signaling.SendSignal;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "Video")]
 public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
 {
     [Fact]

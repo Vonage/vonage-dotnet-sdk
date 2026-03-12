@@ -1,10 +1,13 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.NumberVerification.Authenticate;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.NumberVerification.Authenticate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "NumberVerification")]
 public class AuthorizeResponseTest
 {
     [Fact]

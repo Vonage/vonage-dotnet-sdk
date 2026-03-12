@@ -9,6 +9,7 @@ using Xunit;
 namespace Vonage.Test.VerifyV2.UpdateTemplate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "VerifyV2")]
 public class RequestBuilderTest
 {
     internal static readonly Guid ValidTemplateId = new Guid("68c2b32e-55ba-4a8e-b3fa-43b3ae6cd1fb");

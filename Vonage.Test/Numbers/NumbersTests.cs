@@ -15,6 +15,7 @@ using Xunit;
 namespace Vonage.Test.Numbers;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Numbers")]
 public class NumbersTests : IDisposable
 {
     private readonly TestingContext context = TestingContext.WithBasicCredentials();

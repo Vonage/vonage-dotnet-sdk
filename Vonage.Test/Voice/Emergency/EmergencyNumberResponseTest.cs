@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.Voice.Emergency;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Voice")]
 public class EmergencyNumberResponseTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

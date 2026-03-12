@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.Video.Signaling.SendSignals;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Video")]
 public class RequestTest
 {
     private readonly Guid applicationId;

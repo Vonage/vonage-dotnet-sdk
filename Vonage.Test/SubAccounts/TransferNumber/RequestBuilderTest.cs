@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿#region
+using AutoFixture;
 using FsCheck;
 using FsCheck.Fluent;
 using FsCheck.Xunit;
@@ -6,10 +7,12 @@ using Vonage.SubAccounts.TransferNumber;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.Common.TestHelpers;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.TransferNumber;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SubAccounts")]
 public class RequestBuilderTest
 {
     private readonly string country;

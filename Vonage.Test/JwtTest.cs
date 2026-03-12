@@ -1,13 +1,16 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Vonage.Common.Failures;
 using Vonage.Request;
 using Vonage.Test.Common.Extensions;
 using Vonage.Test.Common.TestHelpers;
 using Xunit;
+#endregion
 
 namespace Vonage.Test
 {
-    [Trait("Category", "Unit")]
+    [Trait("Category", "Core")]
+    [Trait("Product", "Common")]
     public class JwtTest
     {
         private const string ApplicationId = "ffffffff-ffff-ffff-ffff-ffffffffffff";

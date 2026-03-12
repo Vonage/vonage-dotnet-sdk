@@ -1,12 +1,15 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using FluentAssertions;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Failures;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Common.Failures;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class HttpFailureTest
 {
     [Fact]

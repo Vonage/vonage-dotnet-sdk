@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Vonage.Test.Common.Extensions;
 using Vonage.VerifyV2.Cancel;
 using WireMock.ResponseBuilders;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.Cancel;
 
 [Trait("Category", "E2E")]
+[Trait("Product", "VerifyV2")]
 public class E2ETest : E2EBase
 {
     [Fact]

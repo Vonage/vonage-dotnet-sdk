@@ -7,6 +7,7 @@ using Xunit;
 namespace Vonage.Test.SimSwap.Authenticate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SimSwap")]
 public class GetTokenRequestTest
 {
     [Fact]

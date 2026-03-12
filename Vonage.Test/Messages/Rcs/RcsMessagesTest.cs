@@ -16,6 +16,7 @@ using Xunit;
 namespace Vonage.Test.Messages.Rcs;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Messages.Rcs")]
 public class RcsMessagesTest : IDisposable
 {
     private const string ResponseKey = "SendMessage";

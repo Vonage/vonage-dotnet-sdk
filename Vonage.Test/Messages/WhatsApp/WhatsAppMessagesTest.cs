@@ -18,6 +18,7 @@ using Xunit;
 namespace Vonage.Test.Messages.WhatsApp;
 
 [Trait("Category", "Legacy")]
+[Trait("Product", "Messages.WhatsApp")]
 public class WhatsAppMessagesTest : IDisposable
 {
     private const string ResponseKey = "SendMessage";

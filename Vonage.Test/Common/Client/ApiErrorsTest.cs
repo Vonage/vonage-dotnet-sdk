@@ -14,7 +14,8 @@ using Xunit;
 
 namespace Vonage.Test.Common.Client;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "Core")]
+[Trait("Product", "Common")]
 public class ApiErrorsTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(typeof(ApiErrorsTest).Namespace,

@@ -1,14 +1,17 @@
-﻿using System.Net;
+﻿#region
+using System.Net;
 using FluentAssertions;
 using Vonage.Common;
 using Vonage.Serialization;
 using Vonage.Server;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Video;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Video")]
 public class JsonSerializerTest
 {
     private const string DummyString = @"{""code"":200,""id"":10,""name"":""Hello World""}";

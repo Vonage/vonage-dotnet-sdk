@@ -7,6 +7,7 @@ using Xunit;
 namespace Vonage.Test.NumberVerification.Authenticate;
 
 [Trait("Category", "Request")]
+[Trait("Product", "NumberVerification")]
 public class GetTokenRequestTest
 {
     [Fact]

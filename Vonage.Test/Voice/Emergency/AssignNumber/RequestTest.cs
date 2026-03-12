@@ -8,6 +8,7 @@ using Xunit;
 namespace Vonage.Test.Voice.Emergency.AssignNumber;
 
 [Trait("Category", "Request")]
+[Trait("Product", "Voice")]
 public class RequestTest
 {
     [Fact]

@@ -10,6 +10,7 @@ using Xunit;
 namespace Vonage.Test.VerifyV2.VerifyCode;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "VerifyV2")]
 public class SerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(

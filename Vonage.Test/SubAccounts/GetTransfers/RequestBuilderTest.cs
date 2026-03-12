@@ -1,12 +1,15 @@
-﻿using System;
+﻿#region
+using System;
 using AutoFixture;
 using Vonage.SubAccounts.GetTransfers;
 using Vonage.Test.Common.Extensions;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.SubAccounts.GetTransfers;
 
 [Trait("Category", "Request")]
+[Trait("Product", "SubAccounts")]
 public class RequestBuilderTest
 {
     private readonly DateTimeOffset endDate;

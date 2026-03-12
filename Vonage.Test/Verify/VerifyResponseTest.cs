@@ -1,11 +1,14 @@
-﻿using FluentAssertions;
+﻿#region
+using FluentAssertions;
 using Newtonsoft.Json;
 using Vonage.Verify;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.Verify;
 
 [Trait("Category", "Serialization")]
+[Trait("Product", "Verify")]
 public class VerifyResponseTest
 {
     [Theory]

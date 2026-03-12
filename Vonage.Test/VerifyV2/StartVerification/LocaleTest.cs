@@ -1,11 +1,14 @@
+#region
 using System.Collections.Generic;
 using FluentAssertions;
 using Vonage.VerifyV2.StartVerification;
 using Xunit;
+#endregion
 
 namespace Vonage.Test.VerifyV2.StartVerification;
 
 [Trait("Category", "Request")]
+[Trait("Product", "VerifyV2")]
 public class LocaleTest
 {
     public static IEnumerable<object[]> GetSupportedLocales()
