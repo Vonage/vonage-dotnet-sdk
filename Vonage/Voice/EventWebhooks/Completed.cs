@@ -58,4 +58,13 @@ public class Completed : CallStatusEvent
     [JsonProperty("start_time")]
     [JsonPropertyName("start_time")]
     public DateTime? StartTime { get; set; }
+
+    /// <summary>
+    /// Indicates who terminated the call. Can be <c>platform</c> (the call was terminated by the Voice API platform,
+    /// for example the NCCO finished its last action) or <c>user</c> (the call was terminated by the user,
+    /// for example the user hung up, rejected, or didn't answer).
+    /// </summary>
+    [JsonProperty("disconnected_by")]
+    [JsonPropertyName("disconnected_by")]
+    public string DisconnectedBy { get; set; }
 }

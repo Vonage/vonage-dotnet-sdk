@@ -12,5 +12,6 @@
   "price": "0.03",
   "network": "1234",
   "duration": "2",
-  "sip_code": 404
+  "sip_code": 404,
+  "disconnected_by": "user"
 }
