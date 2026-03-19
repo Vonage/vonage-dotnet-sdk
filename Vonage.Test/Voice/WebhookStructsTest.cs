@@ -66,6 +66,7 @@ public class WebhookStructsTest
             Price = "0.03",
             Duration = "2",
             SipCode = 404,
+            DisconnectedBy = "user",
         };
 
     private static Error ExpectedError =>
