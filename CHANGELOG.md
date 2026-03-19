@@ -1,4 +1,19 @@
 # Changelog
+## [v8.26.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.26.0) (2026-03-19)
+
+### Documentation
+
+- Generate changelog for v8.25.0 ([337f561](https://github.com/Vonage/vonage-dotnet-sdk/commit/337f5616f07103588af523cb9af0b34368c865ee))
+
+- Bump version to v8.26.0 ([c07b06b](https://github.com/Vonage/vonage-dotnet-sdk/commit/c07b06b5f8a984d361e08af73b9772f1433bffb3))
+
+
+### Features
+
+- Add DisconnectedBy property to Voice Completed webhook (#630) ([3aa3c61](https://github.com/Vonage/vonage-dotnet-sdk/commit/3aa3c617c1c4bbc8853f5d52d6a0441b4f9e3caf))
+
+Full Changelog: [v8.25.0...v8.26.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.25.0...v8.26.0)
+
 ## [v8.25.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.25.0) (2026-03-12)
 
 ### Documentation
