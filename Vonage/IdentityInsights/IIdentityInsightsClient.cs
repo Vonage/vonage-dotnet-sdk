@@ -17,4 +17,10 @@ public interface IIdentityInsightsClient
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
     Task<Result<GetInsightsResponse>> GetInsightsAsync(Result<GetInsightsRequest> request);
+
+    /// <summary>
+    ///     Returns a new client, targeting Identity Insights API in the EU region.
+    /// </summary>
+    /// <returns>A IIdentityInsightsClient.</returns>
+    IIdentityInsightsClient WithEuRegion();
 }

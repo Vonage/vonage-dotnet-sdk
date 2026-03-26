@@ -24,9 +24,9 @@ internal sealed class TestingContext : IDisposable
         this.ExpectedAuthorizationHeaderValue = authorizationHeaderValue;
         this.Server = WireMockServer.Start();
         settings.Add(VonageUrls.NexmoApiKey, this.Server.Url);
-        settings.Add($"{VonageUrls.NexmoApiKey}.EMEA", this.Server.Url);
-        settings.Add($"{VonageUrls.NexmoApiKey}.APAC", this.Server.Url);
-        settings.Add($"{VonageUrls.NexmoApiKey}.AMER", this.Server.Url);
+        settings.Add($"{VonageUrls.NexmoApiKey}.EMEA", string.Concat(this.Server.Url, "/EMEA"));
+        settings.Add($"{VonageUrls.NexmoApiKey}.APAC", string.Concat(this.Server.Url, "/APAC"));
+        settings.Add($"{VonageUrls.NexmoApiKey}.AMER", string.Concat(this.Server.Url, "/AMER"));
         settings.Add(VonageUrls.NexmoRestKey, this.Server.Url);
         settings.Add(VonageUrls.VideoApiKey, this.Server.Url);
         settings.Add(VonageUrls.OidcApiKey, this.Server.Url);

@@ -60,7 +60,7 @@ public readonly partial struct GetInsightsRequest : IVonageRequest
 
     /// <inheritdoc />
     public HttpRequestMessage BuildRequestMessage() => VonageRequestBuilder
-        .Initialize(HttpMethod.Post, "/identity-insights/v1/requests")
+        .Initialize(HttpMethod.Post, "identity-insights/v1/requests")
         .WithContent(this.GetRequestContent())
         .Build();
 

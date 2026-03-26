@@ -194,6 +194,6 @@ public class VonageClient
             new EmergencyClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(),
                 AuthType.Basic));
         this.IdentityInsightsClient =
-            new IdentityInsightsClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo()));
+            new IdentityInsightsClient(this.Credentials, currentConfiguration);
     }
 }

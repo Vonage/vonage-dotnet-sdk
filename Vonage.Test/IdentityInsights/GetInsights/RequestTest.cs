@@ -18,5 +18,5 @@ public class RequestTest
             .Create()
             .Map(request => request.BuildRequestMessage().RequestUri!.ToString())
             .Should()
-            .BeSuccess("/identity-insights/v1/requests");
+            .BeSuccess("identity-insights/v1/requests");
 }
