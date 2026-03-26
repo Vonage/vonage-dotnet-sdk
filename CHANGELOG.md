@@ -1,4 +1,19 @@
 # Changelog
+## [v8.26.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.26.1) (2026-03-26)
+
+### Bug Fixes
+
+- Handle regions for IdentityInsights API ([97c2f6e](https://github.com/Vonage/vonage-dotnet-sdk/commit/97c2f6e39324ae0bd3fded1fad33075f504cc8f7))
+
+
+### Documentation
+
+- Generate changelog for v8.26.0 ([3cb1716](https://github.com/Vonage/vonage-dotnet-sdk/commit/3cb17167679620939c72931ff0e40985723ea2a1))
+
+- Bump version to v8.26.1 ([a31f04b](https://github.com/Vonage/vonage-dotnet-sdk/commit/a31f04b1c623d44143dbce745eb7bfd99bd0e6c9))
+
+Full Changelog: [v8.26.0...v8.26.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.26.0...v8.26.1)
+
 ## [v8.26.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.26.0) (2026-03-19)
 
 ### Documentation
