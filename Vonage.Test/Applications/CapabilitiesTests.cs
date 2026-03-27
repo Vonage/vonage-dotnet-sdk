@@ -64,6 +64,19 @@ public class CapabilitiesTests
         Rtc.WithEventUrl(TestUrl, WebhookHttpMethod.Post).ShouldHaveWebhook(Webhook.Type.EventUrl, BuildWebhook());
 
     [Fact]
+    public void Rtc_ShouldHaveEmptyWebhooks() => Rtc.Webhooks.Should().BeEmpty();
+
+    [Fact]
+    public void Rtc_ShouldHaveDisabledSignedCallbacks() => Rtc.SignedCallbacks.Should().BeFalse();
+
+    [Fact]
+    public void Rtc_ShouldHaveEnableSignedCallbacks() => Rtc.EnableSignedCallbacks().SignedCallbacks.Should().BeTrue();
+
+    [Fact]
+    public void Rtc_ShouldHaveDisableSignedCallbacks() =>
+        Rtc.EnableSignedCallbacks().DisableSignedCallbacks().SignedCallbacks.Should().BeFalse();
+
+    [Fact]
     public void Verify_ShouldHaveEmptyWebhooks() => Verify.Webhooks.Should().BeEmpty();
 
     [Fact]

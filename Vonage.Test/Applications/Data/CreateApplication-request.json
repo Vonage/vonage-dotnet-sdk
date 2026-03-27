@@ -36,12 +36,7 @@
       "redirect_uri": "https://my-redirect-uri.example.com"
     },
     "rtc": {
-      "webhooks": {
-        "event_url": {
-          "http_method": "POST",
-          "address": "https://example.com/webhooks/events"
-        }
-      }
+      "webhooks": {}
     },
     "vbc": {},
     "messages": {

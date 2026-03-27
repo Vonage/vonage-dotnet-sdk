@@ -37,11 +37,16 @@ internal static class ApplicationTestData
         new NetworkApis().WithApplicationId("2bzfIFqRG128IcjSj1YhZNtw6LADG")
             .WithRedirectUri(new Uri("https://my-redirect-uri.example.com"));
 
-    private static Rtc CreateRtcCapability() =>
-        Rtc.Build().WithEventUrl("https://example.com/webhooks/events", WebhookHttpMethod.Post);
-
     private static Vonage.Applications.Capabilities.Verify CreateVerifyCapability() =>
         Vonage.Applications.Capabilities.Verify.Build();
+
+    private static Rtc CreateRtcCapability() =>
+        Rtc.Build();
+
+    private static Rtc CreateRtcFullCapability() =>
+        Rtc.Build()
+            .WithEventUrl("https://example.com/webhooks/events", WebhookHttpMethod.Post)
+            .EnableSignedCallbacks();
 
     private static Vonage.Applications.Capabilities.Verify CreateVerifyFullCapability() =>
         Vonage.Applications.Capabilities.Verify.Build()
@@ -111,6 +116,18 @@ internal static class ApplicationTestData
             Privacy = new PrivacySettings(true),
         };
 
+    internal static CreateApplicationRequest CreateRtcRequest() =>
+        new CreateApplicationRequest
+        {
+            Capabilities = new ApplicationCapabilities
+            {
+                Rtc = CreateRtcCapability(),
+            },
+            Keys = CreateBasicKeys(),
+            Name = "My Application",
+            Privacy = new PrivacySettings(true),
+        };
+
     internal static CreateApplicationRequest CreateVideoFullRequest() =>
         new CreateApplicationRequest
         {
@@ -129,6 +146,18 @@ internal static class ApplicationTestData
             Capabilities = new ApplicationCapabilities
             {
                 Verify = CreateVerifyFullCapability(),
+            },
+            Keys = CreateBasicKeys(),
+            Name = "My Application",
+            Privacy = new PrivacySettings(true),
+        };
+
+    internal static CreateApplicationRequest CreateRtcFullRequest() =>
+        new CreateApplicationRequest
+        {
+            Capabilities = new ApplicationCapabilities
+            {
+                Rtc = CreateRtcFullCapability(),
             },
             Keys = CreateBasicKeys(),
             Name = "My Application",

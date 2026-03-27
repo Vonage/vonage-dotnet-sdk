@@ -1,5 +1,6 @@
 #region
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Vonage.Common;
 #endregion
 
@@ -20,6 +21,13 @@ public class Rtc : Capability
     }
 
     /// <summary>
+    ///     Whether to use signed webhooks. This is a way of verifying that the request is coming from Vonage. Refer to the
+    ///     Webhooks documentation for more information.
+    /// </summary>
+    [JsonProperty("signed_callbacks", Order = 0)]
+    public bool SignedCallbacks { get; set; }
+
+    /// <summary>
     /// </summary>
     /// <returns></returns>
     public static Rtc Build() => new Rtc();
@@ -37,6 +45,26 @@ public class Rtc : Capability
             Address = url,
             Method = method.ToString().ToUpperInvariant(),
         };
+        return this;
+    }
+
+    /// <summary>
+    ///     Enables signed callbacks.
+    /// </summary>
+    /// <returns></returns>
+    public Rtc EnableSignedCallbacks()
+    {
+        this.SignedCallbacks = true;
+        return this;
+    }
+
+    /// <summary>
+    ///     Disables signed callbacks.
+    /// </summary>
+    /// <returns></returns>
+    public Rtc DisableSignedCallbacks()
+    {
+        this.SignedCallbacks = false;
         return this;
     }
 }

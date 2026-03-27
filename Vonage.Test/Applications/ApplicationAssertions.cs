@@ -21,7 +21,7 @@ internal static class ApplicationAssertions
     {
         actual.ShouldHaveExpectedVoiceCapabilities();
         actual.ShouldHaveExpectedMessagesCapabilities();
-        actual.ShouldHaveExpectedRtcCapabilities();
+        actual.ShouldHaveRtcCapabilities();
     }
 
     private static void ShouldHaveExpectedMessagesCapabilities(this Application actual)
@@ -43,15 +43,6 @@ internal static class ApplicationAssertions
         actual.TotalPages.Should().Be(1);
         actual.PageSize.Should().Be(10);
         actual.Page.Should().Be(1);
-    }
-
-    private static void ShouldHaveExpectedRtcCapabilities(this Application actual)
-    {
-        actual.Capabilities.Rtc.Should().NotBeNull();
-        actual.Capabilities.Rtc.Webhooks[Webhook.Type.EventUrl].Address
-            .Should().Be("https://example.com/webhooks/event");
-        actual.Capabilities.Rtc.Webhooks[Webhook.Type.EventUrl].Method
-            .Should().Be("POST");
     }
 
     private static void ShouldHaveExpectedVoiceCapabilities(this Application actual)
@@ -115,6 +106,18 @@ internal static class ApplicationAssertions
         actual.ShouldHaveVerifyCapabilities();
     }
 
+    internal static void ShouldMatchRtcApplication(this Application actual)
+    {
+        actual.ShouldHaveExpectedBasicProperties();
+        actual.ShouldHaveRtcCapabilities();
+    }
+
+    internal static void ShouldMatchRtcFullApplication(this Application actual)
+    {
+        actual.ShouldHaveExpectedBasicProperties();
+        actual.ShouldHaveRtcFullCapabilities();
+    }
+
     private static void ShouldHaveVerifyFullCapabilities(this Application actual)
     {
         actual.Capabilities.Verify.Should().NotBeNull();
@@ -128,5 +131,20 @@ internal static class ApplicationAssertions
         actual.Capabilities.Verify.Should().NotBeNull();
         actual.Capabilities.Verify.Webhooks.Should().BeEmpty();
         actual.Capabilities.Verify.Version.Should().BeNull();
+    }
+
+    private static void ShouldHaveRtcCapabilities(this Application actual)
+    {
+        actual.Capabilities.Rtc.Should().NotBeNull();
+        actual.Capabilities.Rtc.Webhooks.Should().BeEmpty();
+        actual.Capabilities.Rtc.SignedCallbacks.Should().BeFalse();
+    }
+
+    private static void ShouldHaveRtcFullCapabilities(this Application actual)
+    {
+        actual.Capabilities.Rtc.Should().NotBeNull();
+        actual.Capabilities.Rtc.Webhooks[Webhook.Type.EventUrl].Should()
+            .BeEquivalentTo(new Webhook("https://example.com/webhooks/events", HttpMethod.Post));
+        actual.Capabilities.Rtc.SignedCallbacks.Should().BeTrue();
     }
 }

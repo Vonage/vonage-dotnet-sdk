@@ -82,6 +82,20 @@ public class ApplicationTests : IDisposable
     }
 
     [Fact]
+    public async Task CreateRtcApplication()
+    {
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v2/applications")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .WithBodyAsJson(this.helper.GetRequestJson())
+                .UsingPost())
+            .RespondWith(this.RespondWithRequestJson());
+        var response = await this.context.VonageClient.ApplicationClient
+            .CreateApplicationAsync(ApplicationTestData.CreateRtcRequest());
+        response.ShouldMatchRtcApplication();
+    }
+
+    [Fact]
     public async Task CreateVideoFullApplication()
     {
         this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
@@ -107,6 +121,20 @@ public class ApplicationTests : IDisposable
         var response = await this.context.VonageClient.ApplicationClient
             .CreateApplicationAsync(ApplicationTestData.CreateVerifyFullRequest());
         response.ShouldMatchVerifyFullApplication();
+    }
+
+    [Fact]
+    public async Task CreateRtcFullApplication()
+    {
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v2/applications")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .WithBodyAsJson(this.helper.GetRequestJson())
+                .UsingPost())
+            .RespondWith(this.RespondWithRequestJson());
+        var response = await this.context.VonageClient.ApplicationClient
+            .CreateApplicationAsync(ApplicationTestData.CreateRtcFullRequest());
+        response.ShouldMatchRtcFullApplication();
     }
 
     [Fact]
