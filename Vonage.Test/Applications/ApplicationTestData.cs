@@ -41,8 +41,12 @@ internal static class ApplicationTestData
         Rtc.Build().WithEventUrl("https://example.com/webhooks/events", WebhookHttpMethod.Post);
 
     private static Vonage.Applications.Capabilities.Verify CreateVerifyCapability() =>
+        Vonage.Applications.Capabilities.Verify.Build();
+
+    private static Vonage.Applications.Capabilities.Verify CreateVerifyFullCapability() =>
         Vonage.Applications.Capabilities.Verify.Build()
-            .WithStatusUrl("https://example.com/webhooks/status");
+            .WithStatusUrl("https://example.com/webhooks/status")
+            .WithVersion("v2");
 
     private static Vonage.Applications.Capabilities.Video CreateVideoCapability() =>
         new Vonage.Applications.Capabilities.Video();
@@ -95,12 +99,36 @@ internal static class ApplicationTestData
             Privacy = new PrivacySettings(true),
         };
 
+    internal static CreateApplicationRequest CreateVerifyRequest() =>
+        new CreateApplicationRequest
+        {
+            Capabilities = new ApplicationCapabilities
+            {
+                Verify = CreateVerifyCapability(),
+            },
+            Keys = CreateBasicKeys(),
+            Name = "My Application",
+            Privacy = new PrivacySettings(true),
+        };
+
     internal static CreateApplicationRequest CreateVideoFullRequest() =>
         new CreateApplicationRequest
         {
             Capabilities = new ApplicationCapabilities
             {
                 Video = CreateVideoFullCapability(),
+            },
+            Keys = CreateBasicKeys(),
+            Name = "My Application",
+            Privacy = new PrivacySettings(true),
+        };
+
+    internal static CreateApplicationRequest CreateVerifyFullRequest() =>
+        new CreateApplicationRequest
+        {
+            Capabilities = new ApplicationCapabilities
+            {
+                Verify = CreateVerifyFullCapability(),
             },
             Keys = CreateBasicKeys(),
             Name = "My Application",

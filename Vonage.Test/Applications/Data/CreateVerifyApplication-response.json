@@ -1,0 +1,16 @@
+{
+  "id": "78d335fa323d01149c3dd6f0d48968cf",
+  "name": "My Application",
+  "capabilities": {
+    "verify": {
+      "webhooks": {}
+    },
+    "keys": {
+      "public_key": "some public key",
+      "private_key": "some private key"
+    },
+    "privacy": {
+      "improve_ai": true
+    }
+  }
+}

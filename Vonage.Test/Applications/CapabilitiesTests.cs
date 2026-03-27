@@ -64,8 +64,17 @@ public class CapabilitiesTests
         Rtc.WithEventUrl(TestUrl, WebhookHttpMethod.Post).ShouldHaveWebhook(Webhook.Type.EventUrl, BuildWebhook());
 
     [Fact]
-    public void Verify_ShouldBeEmpty() =>
-        Verify.Webhooks.Should().BeEmpty();
+    public void Verify_ShouldHaveEmptyWebhooks() => Verify.Webhooks.Should().BeEmpty();
+
+    [Fact]
+    public void Verify_ShouldHaveEmptyVersion() => Verify.Version.Should().BeNull();
+
+    [Fact]
+    public void Verify_ShouldSetVersion() => Verify.WithVersion("v2").Version.Should().Be("v2");
+
+    [Fact]
+    public void Verify_ShouldSetWebhook() =>
+        Verify.WithStatusUrl(TestUrl).ShouldHaveWebhook(Webhook.Type.StatusUrl, BuildWebhook());
 
     [Fact]
     public void Verify_WithStatusUrl_ShouldSetWebhook() =>

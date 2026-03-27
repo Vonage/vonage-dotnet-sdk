@@ -50,12 +50,7 @@
     },
     "vbc": {},
     "verify": {
-      "webhooks": {
-        "status_url": {
-          "http_method": "POST",
-          "address": "https://example.com/webhooks/status"
-        }
-      }
+      "webhooks": {}
     }
   },
   "keys": {

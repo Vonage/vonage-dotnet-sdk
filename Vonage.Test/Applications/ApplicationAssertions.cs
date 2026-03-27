@@ -1,6 +1,5 @@
 #region
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using FluentAssertions;
 using Vonage.Applications;
@@ -84,15 +83,6 @@ internal static class ApplicationAssertions
         actual.ShouldHaveExpectedCapabilities();
     }
 
-    internal static void ShouldHaveExpectedVerifyCapabilities(this Application actual)
-    {
-        actual.Capabilities.Verify.Should().NotBeNull();
-        actual.Capabilities.Verify.Webhooks.Should().BeEquivalentTo(new Dictionary<Webhook.Type, Webhook>
-        {
-            {Webhook.Type.StatusUrl, new Webhook {Address = "https://example.com/webhooks/status", Method = "POST"}},
-        });
-    }
-
     internal static void ShouldHaveExpectedVoiceTimeouts(this Application actual)
     {
         var expectedAnswer = new Vonage.Applications.Capabilities.Voice.VoiceWebhook(
@@ -111,5 +101,32 @@ internal static class ApplicationAssertions
         var application = actual.Embedded.Applications[0];
         application.ShouldMatchExpectedApplication();
         actual.ShouldHaveExpectedPaginationProperties();
+    }
+
+    internal static void ShouldMatchVerifyFullApplication(this Application actual)
+    {
+        actual.ShouldHaveExpectedBasicProperties();
+        actual.ShouldHaveVerifyFullCapabilities();
+    }
+
+    internal static void ShouldMatchVerifyApplication(this Application actual)
+    {
+        actual.ShouldHaveExpectedBasicProperties();
+        actual.ShouldHaveVerifyCapabilities();
+    }
+
+    private static void ShouldHaveVerifyFullCapabilities(this Application actual)
+    {
+        actual.Capabilities.Verify.Should().NotBeNull();
+        actual.Capabilities.Verify.Webhooks[Webhook.Type.StatusUrl].Should()
+            .BeEquivalentTo(new Webhook("https://example.com/webhooks/status", HttpMethod.Post));
+        actual.Capabilities.Verify.Version.Should().Be("v2");
+    }
+
+    private static void ShouldHaveVerifyCapabilities(this Application actual)
+    {
+        actual.Capabilities.Verify.Should().NotBeNull();
+        actual.Capabilities.Verify.Webhooks.Should().BeEmpty();
+        actual.Capabilities.Verify.Version.Should().BeNull();
     }
 }
