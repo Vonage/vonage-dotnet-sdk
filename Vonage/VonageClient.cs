@@ -101,6 +101,7 @@ public class VonageClient
 
     public INumbersClient NumbersClient { get; private set; }
 
+    [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
     public INumberVerificationClient NumberVerificationClient { get; private set; }
 
     public IPricingClient PricingClient { get; private set; }

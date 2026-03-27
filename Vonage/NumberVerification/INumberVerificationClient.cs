@@ -1,13 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿#region
+using System;
+using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.NumberVerification.Authenticate;
 using Vonage.NumberVerification.Verify;
+#endregion
 
 namespace Vonage.NumberVerification;
 
 /// <summary>
 ///     Exposes NumberVerification features.
 /// </summary>
+[Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
 public interface INumberVerificationClient
 {
     /// <summary>
@@ -15,6 +19,7 @@ public interface INumberVerificationClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
     Task<Result<AuthenticateResponse>> AuthenticateAsync(Result<AuthenticateRequest> request);
 
     /// <summary>
@@ -22,5 +27,6 @@ public interface INumberVerificationClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success or Failure.</returns>
+    [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
     Task<Result<bool>> VerifyAsync(Result<VerifyRequest> request);
 }

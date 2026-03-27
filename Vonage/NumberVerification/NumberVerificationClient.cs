@@ -1,4 +1,5 @@
 ﻿#region
+using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Vonage.Common;
@@ -11,6 +12,7 @@ using Vonage.Serialization;
 
 namespace Vonage.NumberVerification;
 
+[Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
 internal class NumberVerificationClient : INumberVerificationClient
 {
     private readonly VonageHttpClient<StandardApiError> authorizationClient;
@@ -27,6 +29,7 @@ internal class NumberVerificationClient : INumberVerificationClient
     }
 
     /// <inheritdoc />
+    [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
     public Task<Result<AuthenticateResponse>> AuthenticateAsync(Result<AuthenticateRequest> request) =>
         request.Map(BuildAuthorizeRequest)
             .BindAsync(this.SendAuthorizeRequest)
@@ -35,6 +38,7 @@ internal class NumberVerificationClient : INumberVerificationClient
             .Map(BuildAuthenticateResponse);
 
     /// <inheritdoc />
+    [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
     public async Task<Result<bool>> VerifyAsync(Result<VerifyRequest> request) =>
         await request
             .Map(BuildAuthenticationRequest)
