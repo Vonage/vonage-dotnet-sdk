@@ -6,11 +6,12 @@ using Newtonsoft.Json;
 namespace Vonage.Messages.Webhooks;
 
 /// <summary>
+///     Represents error details when a message fails to be delivered.
 /// </summary>
-/// <param name="Type"></param>
-/// <param name="Title"></param>
-/// <param name="Detail"></param>
-/// <param name="Instance"></param>
+/// <param name="Type">A URI reference that identifies the error type.</param>
+/// <param name="Title">A short human-readable summary of the error.</param>
+/// <param name="Detail">A human-readable explanation of the error.</param>
+/// <param name="Instance">A URI reference that identifies the specific occurrence of the error.</param>
 public record StatusError(
     [property: JsonPropertyName("type")]
     [property: JsonProperty("type")]
@@ -26,10 +27,11 @@ public record StatusError(
     string Instance);
 
 /// <summary>
+///     Represents workflow information for failover message sequences.
 /// </summary>
-/// <param name="Id"></param>
-/// <param name="ItemsNumber"></param>
-/// <param name="ItemsTotal"></param>
+/// <param name="Id">The unique identifier of the workflow.</param>
+/// <param name="ItemsNumber">The current item number in the workflow sequence.</param>
+/// <param name="ItemsTotal">The total number of items in the workflow.</param>
 public record StatusWorkflow(
     [property: JsonPropertyName("workflow_id")]
     [property: JsonProperty("workflow_id")]
@@ -42,9 +44,10 @@ public record StatusWorkflow(
     string ItemsTotal);
 
 /// <summary>
+///     Represents billing and usage information for a message.
 /// </summary>
-/// <param name="Currency"></param>
-/// <param name="Price"></param>
+/// <param name="Currency">The currency code in ISO 4217 format.</param>
+/// <param name="Price">The price charged for the message.</param>
 public record StatusUsage(
     [property: JsonPropertyName("currency")]
     [property: JsonProperty("currency")]
@@ -54,25 +57,28 @@ public record StatusUsage(
     string Price);
 
 /// <summary>
+///     Represents destination network information.
 /// </summary>
-/// <param name="NetworkCode"></param>
+/// <param name="NetworkCode">The network code of the destination carrier.</param>
 public record StatusDestination(
     [property: JsonPropertyName("network_code")]
     [property: JsonProperty("network_code")]
     string NetworkCode);
 
 /// <summary>
+///     Represents SMS-specific status details.
 /// </summary>
-/// <param name="Count"></param>
+/// <param name="Count">The total number of SMS segments used.</param>
 public record StatusSms(
     [property: JsonPropertyName("count_total")]
     [property: JsonProperty("count_total")]
     string Count);
 
 /// <summary>
+///     Represents WhatsApp-specific status details.
 /// </summary>
-/// <param name="Pricing"></param>
-/// <param name="Conversation"></param>
+/// <param name="Pricing">WhatsApp pricing information for the message.</param>
+/// <param name="Conversation">WhatsApp conversation details.</param>
 public record StatusWhatsApp(
     [property: JsonPropertyName("pricing")]
     [property: JsonProperty("pricing")]
@@ -83,10 +89,11 @@ public record StatusWhatsApp(
 );
 
 /// <summary>
+///     Represents WhatsApp pricing information.
 /// </summary>
-/// <param name="Type"></param>
-/// <param name="PricingModel"></param>
-/// <param name="Category"></param>
+/// <param name="Type">The pricing type.</param>
+/// <param name="PricingModel">The pricing model used.</param>
+/// <param name="Category">The message category for pricing purposes.</param>
 public record StatusWhatsAppPricing(
     [property: JsonPropertyName("type")]
     [property: JsonProperty("type")]
@@ -99,9 +106,10 @@ public record StatusWhatsAppPricing(
     string Category);
 
 /// <summary>
+///     Represents WhatsApp conversation details.
 /// </summary>
-/// <param name="Id"></param>
-/// <param name="Origin"></param>
+/// <param name="Id">The unique identifier of the conversation.</param>
+/// <param name="Origin">Information about who initiated the conversation.</param>
 public record StatusWhatsAppConversation(
     [property: JsonPropertyName("id")]
     [property: JsonProperty("id")]
@@ -111,8 +119,9 @@ public record StatusWhatsAppConversation(
     StatusWhatsAppConversationOrigin Origin);
 
 /// <summary>
+///     Represents the origin of a WhatsApp conversation.
 /// </summary>
-/// <param name="Type"></param>
+/// <param name="Type">The conversation type indicating who initiated the conversation (e.g., business_initiated, user_initiated).</param>
 public record StatusWhatsAppConversationOrigin(
     [property: JsonPropertyName("type")]
     [property: JsonProperty("type")]

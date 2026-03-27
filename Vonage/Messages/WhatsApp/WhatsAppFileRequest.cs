@@ -6,12 +6,12 @@ using Vonage.Common.Serialization;
 namespace Vonage.Messages.WhatsApp;
 
 /// <summary>
-///     Represents a request to send a file message on Viber.
+///     Represents a request to send a file message on WhatsApp.
 /// </summary>
 public class WhatsAppFileRequest : WhatsAppMessageBase
 {
     /// <summary>
-    ///     The file information of the request.
+    ///     The file attachment.
     /// </summary>
     [JsonPropertyOrder(9)]
     public CaptionedAttachment File { get; set; }

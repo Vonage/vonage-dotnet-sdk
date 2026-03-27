@@ -6,10 +6,12 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Rcs;
 
 /// <summary>
+///     Base class for all RCS (Rich Communication Services) message requests.
 /// </summary>
 public abstract class RcsMessageBase : MessageRequestBase
 {
     /// <summary>
+    ///     RCS-specific configuration including card orientation, width, and image alignment.
     /// </summary>
     [JsonPropertyName("rcs")]
     [JsonPropertyOrder(90)]

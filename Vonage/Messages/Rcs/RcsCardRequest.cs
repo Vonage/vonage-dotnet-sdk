@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Rcs;
 
 /// <summary>
+///     Represents a rich card message request to be sent via RCS. Rich cards combine media, text, and interactive suggestions.
 /// </summary>
 public class RcsCardRequest : RcsMessageBase
 {
@@ -15,7 +16,7 @@ public class RcsCardRequest : RcsMessageBase
     public override MessagesMessageType MessageType => MessagesMessageType.Card;
 
     /// <summary>
-    ///     The card attachment.
+    ///     The rich card attachment containing title, text, media, and optional suggestions.
     /// </summary>
     [JsonPropertyName("card")]
     [JsonPropertyOrder(9)]

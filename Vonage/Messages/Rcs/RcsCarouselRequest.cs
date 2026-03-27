@@ -6,6 +6,7 @@ using Vonage.Messages.Rcs.Suggestions;
 namespace Vonage.Messages.Rcs;
 
 /// <summary>
+///     Represents a carousel message request to be sent via RCS. Carousels display multiple rich cards in a horizontally scrollable format.
 /// </summary>
 public class RcsCarouselRequest : RcsMessageBase
 {
@@ -16,7 +17,7 @@ public class RcsCarouselRequest : RcsMessageBase
     public override MessagesMessageType MessageType => MessagesMessageType.Carousel;
 
     /// <summary>
-    ///     The carousel attachment.
+    ///     The carousel attachment containing multiple rich cards.
     /// </summary>
     [JsonPropertyOrder(9)]
     public CarouselAttachment Carousel { get; set; }

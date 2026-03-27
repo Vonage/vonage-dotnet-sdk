@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Mms;
 
 /// <summary>
+///     Represents an MMS vCard (contact card) message request.
 /// </summary>
 public class MmsVcardRequest : MmsMessageBase
 {
@@ -14,7 +15,9 @@ public class MmsVcardRequest : MmsMessageBase
     /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Vcard;
 
-    ///
+    /// <summary>
+    ///     The vCard (.vcf) attachment containing contact information.
+    /// </summary>
     [JsonPropertyOrder(8)]
     public Attachment Vcard { get; set; }
 

@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Rcs;
 
 /// <summary>
+///     Represents an image message request to be sent via RCS (Rich Communication Services).
 /// </summary>
 public class RcsImageRequest : RcsMessageBase
 {

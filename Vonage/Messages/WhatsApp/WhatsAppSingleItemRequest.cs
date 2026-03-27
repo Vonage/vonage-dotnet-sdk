@@ -13,7 +13,7 @@ namespace Vonage.Messages.WhatsApp;
 public class WhatsAppSingleProductRequest : WhatsAppMessageBase
 {
     /// <summary>
-    ///     The custom content.
+    ///     The product message content containing a single item from a business catalog.
     /// </summary>
     [JsonPropertyOrder(9)]
     public ProductMessage<SingleItemMessageContent> Custom { get; set; }

@@ -20,18 +20,22 @@ namespace Vonage.Messages.Rcs.Suggestions;
 public record OpenWebviewUrlSuggestion(string Text, string PostbackData, Uri Url, string Description) : SuggestionBase
 {
     /// <summary>
+    ///     Defines the display mode for the webview window.
     /// </summary>
     public enum ViewModeValue
     {
         /// <summary>
+        ///     Full-screen webview.
         /// </summary>
         [Description("FULL")] Full,
 
         /// <summary>
+        ///     Tall webview covering most of the screen.
         /// </summary>
         [Description("TALL")] Tall,
 
         /// <summary>
+        ///     Half-screen webview.
         /// </summary>
         [Description("HALF")] Half,
     }

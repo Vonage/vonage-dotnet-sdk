@@ -10,7 +10,9 @@ using Vonage.Serialization;
 
 namespace Vonage.Messages;
 
-/// <inheritdoc />
+/// <summary>
+///     Base class for all message requests. Provides common properties shared across all messaging channels.
+/// </summary>
 public abstract class MessageRequestBase : IMessage
 {
     /// <inheritdoc />

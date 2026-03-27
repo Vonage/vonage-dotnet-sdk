@@ -7,7 +7,7 @@ using Vonage.Common.Serialization;
 namespace Vonage.Messages.WhatsApp;
 
 /// <summary>
-///     Represents a request to send a sticker message on Viber.
+///     Represents a request to send a sticker message on WhatsApp. Stickers must be in .webp format.
 /// </summary>
 public class WhatsAppStickerRequest<T> : WhatsAppMessageBase
     where T : IStickerContent

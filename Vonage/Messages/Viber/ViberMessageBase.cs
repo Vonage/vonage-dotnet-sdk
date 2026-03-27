@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Vonage.Messages.Viber;
 
+/// <summary>
+///     Base class for all Viber Business Messages requests.
+/// </summary>
 public abstract class ViberMessageBase : MessageRequestBase
 {
     /// <summary>

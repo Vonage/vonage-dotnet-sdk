@@ -185,12 +185,14 @@ public struct UrlDetails
     public string Url { get; set; }
 
     /// <summary>
+    ///     The filename of the attachment.
     /// </summary>
     [JsonPropertyName("name")]
     [JsonProperty("name")]
     public string Name { get; set; }
 
     /// <summary>
+    ///     The caption text accompanying the attachment.
     /// </summary>
     [JsonPropertyName("caption")]
     [JsonProperty("caption")]
@@ -198,9 +200,10 @@ public struct UrlDetails
 }
 
 /// <summary>
+///     Represents content details for an attachment in an MMS message.
 /// </summary>
-/// <param name="Type"></param>
-/// <param name="Url"></param>
+/// <param name="Type">The MIME type of the content.</param>
+/// <param name="Url">The publicly accessible URL of the content.</param>
 public record ContentDetails(
     [property: JsonPropertyName("type")]
     [property: JsonProperty("type")]
@@ -274,24 +277,28 @@ public struct WhatsAppReferredProduct
 }
 
 /// <summary>
+///     Represents information about the origin network of a message.
 /// </summary>
-/// <param name="NetworkCode"></param>
+/// <param name="NetworkCode">The network code of the originating carrier.</param>
 public record Origin(
     [property: JsonPropertyName("network_code")]
     [property: JsonProperty("network_code")]
     string NetworkCode);
 
 /// <summary>
+///     Contains WhatsApp-specific details from an inbound message.
 /// </summary>
 public struct WhatsAppDetails
 {
     /// <summary>
+    ///     Referral information when the user clicked on a WhatsApp ad or link.
     /// </summary>
     [JsonPropertyName("referral")]
     [JsonProperty("referral")]
     public WhatsAppReferral Referral { get; set; }
 
     /// <summary>
+    ///     Details of a product that was referenced in the message.
     /// </summary>
     [JsonPropertyName("whatsapp_referred_product")]
     [JsonProperty("whatsapp_referred_product")]
@@ -299,17 +306,18 @@ public struct WhatsAppDetails
 }
 
 /// <summary>
+///     Contains referral information when a user initiates a conversation through a WhatsApp ad or link.
 /// </summary>
-/// <param name="Body"></param>
-/// <param name="Headline"></param>
-/// <param name="SourceId"></param>
-/// <param name="SourceType"></param>
-/// <param name="SourceUrl"></param>
-/// <param name="MediaType"></param>
-/// <param name="ImageUrl"></param>
-/// <param name="VideoUrl"></param>
-/// <param name="ThumbnailUrl"></param>
-/// <param name="ClickId"></param>
+/// <param name="Body">The body text of the ad.</param>
+/// <param name="Headline">The headline of the ad.</param>
+/// <param name="SourceId">The ID of the ad source.</param>
+/// <param name="SourceType">The type of source (e.g., ad, post).</param>
+/// <param name="SourceUrl">The URL of the source.</param>
+/// <param name="MediaType">The type of media in the ad.</param>
+/// <param name="ImageUrl">The URL of the image in the ad.</param>
+/// <param name="VideoUrl">The URL of the video in the ad.</param>
+/// <param name="ThumbnailUrl">The URL of the thumbnail image.</param>
+/// <param name="ClickId">The click-to-WhatsApp ads click ID.</param>
 public record WhatsAppReferral(
     [property: JsonPropertyName("body")]
     [property: JsonProperty("body")]

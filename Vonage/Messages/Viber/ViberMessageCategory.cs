@@ -1,4 +1,6 @@
+#region
 using System.ComponentModel;
+#endregion
 
 namespace Vonage.Messages.Viber;
 
@@ -8,12 +10,14 @@ namespace Vonage.Messages.Viber;
 public enum ViberMessageCategory
 {
     /// <summary>
-    ///  Transaction.
+    ///     Transactional messages such as order confirmations, shipping notifications, and account updates.
+    ///     The first message sent to a user must be transactional.
     /// </summary>
     [Description("transaction")] Transaction = 0,
 
     /// <summary>
-    /// Promotion.
+    ///     Promotional messages such as marketing offers and advertisements. Can only be sent after
+    ///     establishing a transactional relationship with the user.
     /// </summary>
     [Description("promotion")] Promotion = 1,
 }

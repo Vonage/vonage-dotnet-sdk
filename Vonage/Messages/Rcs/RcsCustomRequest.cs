@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Rcs;
 
 /// <summary>
+///     Represents a custom message request to be sent via RCS with a user-defined payload.
 /// </summary>
 public class RcsCustomRequest : RcsMessageBase
 {

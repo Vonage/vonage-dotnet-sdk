@@ -5,17 +5,15 @@ using System.Text.Json.Serialization;
 
 namespace Vonage.Messages.Sms;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents an SMS text message request to be sent via the Messages API.
+/// </summary>
 public class SmsRequest : MessageRequestBase
 {
-    /// <summary>
-    ///     The channel to send to. You must provide sms in this field
-    /// </summary>
+    /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.SMS;
 
-    /// <summary>
-    ///     The type of message to send. You must provide text in this field
-    /// </summary>
+    /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Text;
 
     /// <summary>

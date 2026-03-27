@@ -7,6 +7,7 @@ using Vonage.Common.Serialization;
 namespace Vonage.Messages.Rcs;
 
 /// <summary>
+///     Contains RCS-specific configuration options for message requests.
 /// </summary>
 public struct MessageRcs
 {
@@ -45,10 +46,12 @@ public struct MessageRcs
 public enum RcsCardWidth
 {
     /// <summary>
+    ///     Small card width.
     /// </summary>
     [Description("SMALL")] Small,
 
     /// <summary>
+    ///     Medium card width.
     /// </summary>
     [Description("MEDIUM")] Medium,
 }
@@ -59,10 +62,12 @@ public enum RcsCardWidth
 public enum RcsCardOrientation
 {
     /// <summary>
+    ///     Vertical card layout with media above text content.
     /// </summary>
     [Description("VERTICAL")] Vertical,
 
     /// <summary>
+    ///     Horizontal card layout with media beside text content.
     /// </summary>
     [Description("HORIZONTAL")] Horizontal,
 }
@@ -74,10 +79,12 @@ public enum RcsCardOrientation
 public enum RcsImageAlignment
 {
     /// <summary>
+    ///     Image aligned to the left of the card content.
     /// </summary>
     [Description("LEFT")] Left,
 
     /// <summary>
+    ///     Image aligned to the right of the card content.
     /// </summary>
     [Description("RIGHT")] Right,
 }

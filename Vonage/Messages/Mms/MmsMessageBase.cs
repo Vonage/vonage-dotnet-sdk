@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Mms;
 
 /// <summary>
+///     Base class for all MMS (Multimedia Messaging Service) message requests. MMS is available in the US only.
 /// </summary>
 public abstract class MmsMessageBase : MessageRequestBase
 {

@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Mms;
 
 /// <summary>
+///     Represents an MMS video message request.
 /// </summary>
 public class MmsVideoRequest : MmsMessageBase
 {
@@ -15,6 +16,7 @@ public class MmsVideoRequest : MmsMessageBase
     public override MessagesMessageType MessageType => MessagesMessageType.Video;
 
     /// <summary>
+    ///     The video attachment.
     /// </summary>
     [JsonPropertyOrder(8)]
     public CaptionedAttachment Video { get; set; }

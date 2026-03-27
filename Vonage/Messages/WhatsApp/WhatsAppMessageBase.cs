@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Vonage.Messages.WhatsApp;
 
+/// <summary>
+///     Base class for all WhatsApp message requests.
+/// </summary>
 public abstract class WhatsAppMessageBase : MessageRequestBase
 {
     /// <summary>

@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Mms;
 
 /// <summary>
+///     Represents an MMS image message request. Supported formats: .jpg, .jpeg, .png, .gif.
 /// </summary>
 public class MmsImageRequest : MmsMessageBase
 {
@@ -12,6 +13,7 @@ public class MmsImageRequest : MmsMessageBase
     public override MessagesChannel Channel => MessagesChannel.MMS;
 
     /// <summary>
+    ///     The image attachment. Supported formats: .jpg, .jpeg, .png, .gif.
     /// </summary>
     [JsonPropertyOrder(8)]
     public Attachment Image { get; set; }

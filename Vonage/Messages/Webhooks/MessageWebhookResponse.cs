@@ -21,6 +21,7 @@ public class MessageWebhookResponse
     public UrlDetails? Audio { get; set; }
 
     /// <summary>
+    ///     Content details for MMS messages with multiple attachments.
     /// </summary>
     [JsonPropertyName("content")]
     [JsonProperty("content")]
@@ -193,18 +194,21 @@ public class MessageWebhookResponse
     public UrlDetails? Video { get; set; }
 
     /// <summary>
+    ///     Information about the origin network.
     /// </summary>
     [JsonPropertyName("origin")]
     [JsonProperty("origin")]
     public Origin Origin { get; set; }
 
     /// <summary>
+    ///     WhatsApp-specific metadata including referral information.
     /// </summary>
     [JsonPropertyName("whatsapp")]
     [JsonProperty("whatsapp")]
     public WhatsAppDetails WhatsApp { get; set; }
 
     /// <summary>
+    ///     HAL link to self.
     /// </summary>
     [JsonPropertyName("_self")]
     [JsonProperty("_self")]

@@ -11,7 +11,7 @@ namespace Vonage.Messages.Viber;
 public class ViberFileRequest : ViberMessageBase
 {
     /// <summary>
-    ///     The file information of the request.
+    ///     The file attachment including URL and filename.
     /// </summary>
     [JsonPropertyOrder(9)]
     public FileInformation File { get; set; }

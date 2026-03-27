@@ -6,6 +6,7 @@ using Vonage.Common.Serialization;
 namespace Vonage.Messages.Messenger;
 
 /// <summary>
+///     Contains Messenger-specific configuration for message requests.
 /// </summary>
 public class MessengerRequestData
 {

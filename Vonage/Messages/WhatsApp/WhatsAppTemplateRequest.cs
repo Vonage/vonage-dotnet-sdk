@@ -6,7 +6,7 @@ using Vonage.Common.Serialization;
 namespace Vonage.Messages.WhatsApp;
 
 /// <summary>
-///     Represents a request to send a template message on Viber.
+///     Represents a request to send a template message on WhatsApp. Templates must be pre-approved by WhatsApp.
 /// </summary>
 public class WhatsAppTemplateRequest : WhatsAppMessageBase
 {

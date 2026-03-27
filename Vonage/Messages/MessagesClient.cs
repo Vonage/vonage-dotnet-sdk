@@ -10,6 +10,8 @@ using Vonage.Serialization;
 namespace Vonage.Messages;
 
 /// <summary>
+///     Client for sending messages across multiple channels (SMS, MMS, WhatsApp, Messenger, Viber, RCS).
+///     Implements the Vonage Messages API v1.
 /// </summary>
 public class MessagesClient : IMessagesClient
 {
@@ -20,8 +22,9 @@ public class MessagesClient : IMessagesClient
     private readonly Uri uri;
 
     /// <summary>
+    ///     Creates a new MessagesClient with the specified credentials.
     /// </summary>
-    /// <param name="credentials"></param>
+    /// <param name="credentials">The credentials used for authentication. Supports API key/secret or JWT authentication.</param>
     public MessagesClient(Credentials credentials)
     {
         this.configuration = Configuration.Instance;

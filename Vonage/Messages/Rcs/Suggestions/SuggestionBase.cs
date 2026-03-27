@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Rcs.Suggestions;
 
 /// <summary>
+///     Base class for all RCS suggestion types. Suggestions are interactive elements that appear as chips below messages.
 /// </summary>
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(DialSuggestion), "dial")]

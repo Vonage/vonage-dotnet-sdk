@@ -5,23 +5,24 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages;
 
 /// <summary>
+///     Represents an attachment (image, audio, video, or file) for a message.
 /// </summary>
 public class Attachment
 {
     /// <summary>
-    ///     The URL of the attachment.
+    ///     The publicly accessible URL of the attachment.
     /// </summary>
     [JsonPropertyOrder(1)]
     public string Url { get; set; }
 
     /// <summary>
-    ///     Additional text
+    ///     Additional text to accompany the attachment.
     /// </summary>
     [JsonPropertyOrder(2)]
     public string Caption { get; set; }
 
     /// <summary>
-    ///     The type of attachment (Optional).
+    ///     The MIME type of the attachment (e.g., "image/jpeg", "video/mp4"). Optional.
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyOrder(0)]

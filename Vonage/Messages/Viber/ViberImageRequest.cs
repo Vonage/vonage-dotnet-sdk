@@ -11,7 +11,7 @@ namespace Vonage.Messages.Viber;
 public class ViberImageRequest : ViberMessageBase
 {
     /// <summary>
-    ///     The file information of the request.
+    ///     The image attachment. Supported formats: .jpg, .jpeg, .png.
     /// </summary>
     [JsonPropertyOrder(9)]
     public CaptionedAttachment Image { get; set; }

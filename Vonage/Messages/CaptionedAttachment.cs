@@ -22,6 +22,7 @@ public class CaptionedAttachment
     public string Url { get; set; }
 
     /// <summary>
+    ///     The filename of the attachment.
     /// </summary>
     [JsonPropertyOrder(2)]
     public string Name { get; set; }

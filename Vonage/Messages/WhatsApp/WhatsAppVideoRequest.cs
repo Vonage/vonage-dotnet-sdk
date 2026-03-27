@@ -11,7 +11,7 @@ namespace Vonage.Messages.WhatsApp;
 public class WhatsAppVideoRequest : WhatsAppMessageBase
 {
     /// <summary>
-    ///     The video information of the request.
+    ///     The video attachment. Supported formats: .mp4, .3gpp.
     /// </summary>
     [JsonPropertyOrder(9)]
     public CaptionedAttachment Video { get; set; }

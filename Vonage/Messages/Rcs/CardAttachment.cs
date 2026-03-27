@@ -22,18 +22,22 @@ namespace Vonage.Messages.Rcs;
 public record CardAttachment(string Title, string Text, Uri MediaUrl)
 {
     /// <summary>
+    ///     Defines the height of the media element in a rich card.
     /// </summary>
     public enum Height
     {
         /// <summary>
+        ///     Short media height (default).
         /// </summary>
         [Description("SHORT")] Short,
 
         /// <summary>
+        ///     Medium media height.
         /// </summary>
         [Description("MEDIUM")] Medium,
 
         /// <summary>
+        ///     Tall media height.
         /// </summary>
         [Description("TALL")] Tall,
     }

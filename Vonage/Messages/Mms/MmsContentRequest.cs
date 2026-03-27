@@ -5,10 +5,12 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Mms;
 
 /// <summary>
+///     Represents an MMS message request with multiple content attachments.
 /// </summary>
 public class MmsContentRequest : MmsMessageBase
 {
     /// <summary>
+    ///     The array of attachments to include in the message.
     /// </summary>
     [JsonPropertyOrder(8)]
     public Attachment[] Content { get; set; }

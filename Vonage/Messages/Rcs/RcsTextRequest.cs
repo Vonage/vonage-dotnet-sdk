@@ -6,6 +6,7 @@ using Vonage.Messages.Rcs.Suggestions;
 namespace Vonage.Messages.Rcs;
 
 /// <summary>
+///     Represents a text message request to be sent via RCS (Rich Communication Services).
 /// </summary>
 public class RcsTextRequest : RcsMessageBase
 {

@@ -5,10 +5,12 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Mms;
 
 /// <summary>
+///     Represents an MMS text message request.
 /// </summary>
 public class MmsTextRequest : MmsMessageBase
 {
     /// <summary>
+    ///     The text content of the message.
     /// </summary>
     [JsonPropertyOrder(8)]
     public string Text { get; set; }

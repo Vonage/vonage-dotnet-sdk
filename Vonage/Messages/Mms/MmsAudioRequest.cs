@@ -5,10 +5,12 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Mms;
 
 /// <summary>
+///     Represents an MMS audio message request.
 /// </summary>
 public class MmsAudioRequest : MmsMessageBase
 {
     /// <summary>
+    ///     The audio attachment.
     /// </summary>
     [JsonPropertyOrder(8)]
     public CaptionedAttachment Audio { get; set; }

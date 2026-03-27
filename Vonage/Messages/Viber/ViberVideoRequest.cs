@@ -11,7 +11,7 @@ namespace Vonage.Messages.Viber;
 public class ViberVideoRequest : ViberMessageBase
 {
     /// <summary>
-    ///     The video information of the request.
+    ///     The video attachment information including URL, thumbnail, and caption.
     /// </summary>
     [JsonPropertyOrder(9)]
     public VideoInformation Video { get; set; }

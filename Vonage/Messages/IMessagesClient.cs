@@ -5,20 +5,35 @@ using System.Threading.Tasks;
 namespace Vonage.Messages;
 
 /// <summary>
+///     Exposes methods for sending messages across multiple channels (SMS, MMS, WhatsApp, Messenger, Viber, RCS).
 /// </summary>
 public interface IMessagesClient
 {
     /// <summary>
-    ///     Send a Message
+    ///     Sends a message through the specified channel.
     /// </summary>
-    /// <param name="message">The message</param>
-    /// <returns>The message UUID</returns>
+    /// <param name="message">The message to send. Can be any implementation of <see cref="IMessage"/> such as <see cref="Sms.SmsRequest"/>, <see cref="WhatsApp.WhatsAppTextRequest"/>, etc.</param>
+    /// <returns>A response containing the message UUID for tracking delivery status.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var message = new SmsRequest { To = "447700900000", From = "Vonage", Text = "Hello!" };
+    /// var response = await client.SendAsync(message);
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/main/SnippetSamples/Messages">More examples in the snippets repository</seealso>
     Task<MessagesResponse> SendAsync(IMessage message);
 
     /// <summary>
-    ///     This endpoint lets you update the status of outbound and/or inbound messages for certain channels. For example, you
-    ///     can revoke outbound messages or mark inbound messages as read.
+    ///     Updates the status of an outbound or inbound message for certain channels.
+    ///     For example, you can revoke outbound messages or mark inbound messages as read.
     /// </summary>
-    /// <param name="request">The request.</param>
+    /// <param name="request">The update request containing the message UUID and the desired status change.</param>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = new WhatsAppUpdateMessageRequest(messageUuid, UpdateStatus.Read);
+    /// await client.UpdateAsync(request);
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/main/SnippetSamples/Messages">More examples in the snippets repository</seealso>
     Task UpdateAsync(IUpdateMessageRequest request);
 }

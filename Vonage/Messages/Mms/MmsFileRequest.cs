@@ -5,10 +5,12 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Mms;
 
 /// <summary>
+///     Represents an MMS file message request for sending documents and other file types.
 /// </summary>
 public class MmsFileRequest : MmsMessageBase
 {
     /// <summary>
+    ///     The file attachment.
     /// </summary>
     [JsonPropertyOrder(8)]
     public Attachment File { get; set; }

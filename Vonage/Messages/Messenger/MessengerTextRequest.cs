@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 namespace Vonage.Messages.Messenger;
 
 /// <summary>
+///     Represents a text message request to be sent via Facebook Messenger.
 /// </summary>
 public class MessengerTextRequest : MessageRequestBase
 {
@@ -12,6 +13,7 @@ public class MessengerTextRequest : MessageRequestBase
     public override MessagesChannel Channel => MessagesChannel.Messenger;
 
     /// <summary>
+    ///     Messenger-specific settings including message category and tag.
     /// </summary>
     [JsonPropertyName("messenger")]
     public MessengerRequestData Data { get; set; }
