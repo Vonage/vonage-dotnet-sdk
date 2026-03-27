@@ -110,6 +110,7 @@ public class VonageClient
 
     public IShortCodesClient ShortCodesClient { get; private set; }
 
+    [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
     public ISimSwapClient SimSwapClient { get; private set; }
 
     public ISmsClient SmsClient { get; private set; }

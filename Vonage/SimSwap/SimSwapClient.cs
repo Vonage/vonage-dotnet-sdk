@@ -13,6 +13,7 @@ using Vonage.SimSwap.GetSwapDate;
 
 namespace Vonage.SimSwap;
 
+[Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
 internal class SimSwapClient : ISimSwapClient
 {
     private readonly VonageHttpClient<NetworkApiError> vonageClient;
@@ -22,6 +23,7 @@ internal class SimSwapClient : ISimSwapClient
             new VonageHttpClient<NetworkApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
+    [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
     public Task<Result<AuthenticateResponse>> AuthenticateAsync(Result<AuthenticateRequest> request) =>
         request.Map(BuildAuthorizeRequest)
             .BindAsync(this.SendAuthorizeRequest)
@@ -30,6 +32,7 @@ internal class SimSwapClient : ISimSwapClient
             .Map(BuildAuthenticateResponse);
 
     /// <inheritdoc />
+    [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
     public async Task<Result<bool>> CheckAsync(Result<CheckRequest> request) =>
         await request
             .Map(BuildAuthenticationRequest)
@@ -40,6 +43,7 @@ internal class SimSwapClient : ISimSwapClient
             .Map(response => response.Swapped);
 
     /// <inheritdoc />
+    [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
     public async Task<Result<DateTimeOffset>> GetSwapDateAsync(Result<GetSwapDateRequest> request) =>
         await request
             .Map(BuildAuthenticationRequest)
