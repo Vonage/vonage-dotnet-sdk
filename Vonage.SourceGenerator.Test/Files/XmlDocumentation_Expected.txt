@@ -1,0 +1,75 @@
+using Vonage.Common.Client;
+using Vonage.Common.Monads;
+using Vonage.Common.Validation;
+
+namespace Vonage.TestProduct.TestRequest;
+public interface IBuilderForId
+{
+    /// <summary>
+    /// Sets the unique identifier for the request.
+    /// </summary>
+    IBuilderForOptional WithId(int value);
+}
+
+public interface IBuilderForOptional : IVonageRequestBuilder<MyRequest>
+{
+    /// <summary>
+    /// Sets the name associated with the request.
+    /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithName("John Doe")
+    /// ]]></code>
+    /// </example>
+    IBuilderForOptional WithName(string value);
+    /// <summary>
+    /// Enables verbose output for debugging purposes.
+    /// </summary>
+    IBuilderForOptional EnableVerbose();
+}
+
+public partial struct MyRequest
+{
+    public static IBuilderForId Build() => new MyRequestBuilder();
+}
+
+internal struct MyRequestBuilder : IBuilderForId, IBuilderForOptional
+{
+    private int id;
+    private Maybe<string> name;
+    private bool verbose;
+    public MyRequestBuilder()
+    {
+        this.id = default;
+        this.name = Maybe<string>.None;
+        this.verbose = false;
+    }
+
+    /// <summary>
+    /// Sets the unique identifier for the request.
+    /// </summary>
+    public IBuilderForOptional WithId(int value) => this with
+    {
+        id = value
+    };
+    /// <summary>
+    /// Sets the name associated with the request.
+    /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithName("John Doe")
+    /// ]]></code>
+    /// </example>
+    public IBuilderForOptional WithName(string value) => this with
+    {
+        name = value
+    };
+    /// <summary>
+    /// Enables verbose output for debugging purposes.
+    /// </summary>
+    public IBuilderForOptional EnableVerbose() => this with
+    {
+        verbose = true
+    };
+    public Result<MyRequest> Create() => Result<MyRequest>.FromSuccess(new MyRequest { Id = this.id, Name = this.name, Verbose = this.verbose, }).Map(InputEvaluation<MyRequest>.Evaluate).Bind(evaluation => evaluation.WithRules());
+}

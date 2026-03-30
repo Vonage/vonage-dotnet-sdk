@@ -1,0 +1,28 @@
+namespace Vonage.TestProduct.TestRequest;
+
+[Builder]
+public readonly partial struct MyRequest : IVonageRequest
+{
+    /// <summary>
+    ///     Sets the unique identifier for the request.
+    /// </summary>
+    [Mandatory(0)]
+    public int Id { get; internal init; }
+
+    /// <summary>
+    ///     Sets the name associated with the request.
+    /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithName("John Doe")
+    /// ]]></code>
+    /// </example>
+    [Optional]
+    public Maybe<string> Name { get; internal init; }
+
+    /// <summary>
+    ///     Enables verbose output for debugging purposes.
+    /// </summary>
+    [OptionalBoolean(false, "EnableVerbose")]
+    public bool Verbose { get; internal init; }
+}

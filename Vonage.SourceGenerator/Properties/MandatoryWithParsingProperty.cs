@@ -8,7 +8,8 @@ internal record MandatoryWithParsingProperty(
     IPropertySymbol Property,
     int Order,
     string ParserMethodName,
-    string InputType) : IProperty
+    string InputType,
+    string XmlDocumentation) : IProperty
 {
     public const string AttributeName = "MandatoryWithParsingAttribute";
 
@@ -24,7 +25,8 @@ internal record MandatoryWithParsingProperty(
         var order = ExtractOrder(attribute);
         var parserMethodName = ExtractParserMethodName(attribute);
         var inputType = GetInputTypeFromParser(containingType, parserMethodName);
-        return new MandatoryWithParsingProperty(member, order, parserMethodName, inputType);
+        var xmlDoc = XmlDocumentationHelper.GetXmlDocumentation(member);
+        return new MandatoryWithParsingProperty(member, order, parserMethodName, inputType, xmlDoc);
     }
 
     private static int ExtractOrder(AttributeData attribute) =>

@@ -174,7 +174,7 @@ internal class CodeGenerator(
             else
             {
                 var prop = this.OrderedMandatoryProperties.First(p => p.Property.Name == current.Name);
-                interfaces.Add(new MandatoryBuilderInterface(prop.Property, returnType));
+                interfaces.Add(new MandatoryBuilderInterface(prop.Property, returnType, prop.XmlDocumentation));
             }
         }
 

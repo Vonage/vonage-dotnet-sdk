@@ -8,9 +8,13 @@ internal record OptionalWithParsingProperty(
     IPropertySymbol Property,
     string ParserMethodName,
     string InputType,
-    string InnerType) : IOptionalProperty
+    string InnerType,
+    string XmlDocumentation) : IOptionalProperty
 {
     public const string AttributeName = "OptionalWithParsingAttribute";
+
+    private string XmlDocPrefix =>
+        string.IsNullOrEmpty(this.XmlDocumentation) ? string.Empty : $"{this.XmlDocumentation}\n";
 
     public string FieldDeclaration =>
         $"private Result<{this.Property.Type.ToDisplayString()}> {this.Property.Name.ToLower()};";
@@ -19,10 +23,10 @@ internal record OptionalWithParsingProperty(
         $"this.{this.Property.Name.ToLower()} = Result<{this.Property.Type.ToDisplayString()}>.FromSuccess({this.Property.Type.ToDisplayString()}.None);";
 
     public string Declaration =>
-        $"IBuilderForOptional With{this.Property.Name}({this.InputType} value);";
+        $"{this.XmlDocPrefix}IBuilderForOptional With{this.Property.Name}({this.InputType} value);";
 
     public string Implementation =>
-        $"public IBuilderForOptional With{this.Property.Name}({this.InputType} value) => this with {{ {this.Property.Name.ToLower()} = {this.Property.ContainingType.Name}.{this.ParserMethodName}(value).Map(value => {this.Property.Type.ToDisplayString()}.Some(value)) }};";
+        $"{this.XmlDocPrefix}public IBuilderForOptional With{this.Property.Name}({this.InputType} value) => this with {{ {this.Property.Name.ToLower()} = {this.Property.ContainingType.Name}.{this.ParserMethodName}(value).Map(value => {this.Property.Type.ToDisplayString()}.Some(value)) }};";
 
     public static OptionalWithParsingProperty FromMember(IPropertySymbol member, INamedTypeSymbol containingType)
     {
@@ -31,7 +35,8 @@ internal record OptionalWithParsingProperty(
         var parserMethodName = ExtractParserMethodName(attribute);
         var inputType = GetInputTypeFromParser(containingType, parserMethodName);
         var innerType = GetInnerType(member);
-        return new OptionalWithParsingProperty(member, parserMethodName, inputType, innerType);
+        var xmlDoc = XmlDocumentationHelper.GetXmlDocumentation(member);
+        return new OptionalWithParsingProperty(member, parserMethodName, inputType, innerType, xmlDoc);
     }
 
     private static string ExtractParserMethodName(AttributeData attribute) =>

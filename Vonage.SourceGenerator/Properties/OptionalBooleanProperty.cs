@@ -7,20 +7,17 @@ namespace Vonage.SourceGenerator.Properties;
 internal record OptionalBooleanProperty(
     IPropertySymbol Property,
     bool DefaultValue,
-    string MethodName)
+    string MethodName,
+    string XmlDocumentation)
     : IOptionalProperty
 {
     public const string AttributeName = "OptionalBooleanAttribute";
 
-    public static OptionalBooleanProperty FromMember(IPropertySymbol member)
-    {
-        var attribute = member.GetAttributes()
-            .FirstOrDefault(a => a.AttributeClass?.Name == AttributeName);
-        return new OptionalBooleanProperty(member, ExtractDefaultValue(attribute), ExtractMethodName(attribute));
-    }
+    private string XmlDocPrefix =>
+        string.IsNullOrEmpty(this.XmlDocumentation) ? string.Empty : $"{this.XmlDocumentation}\n";
 
-    public string Declaration => @$"
-IBuilderForOptional {this.MethodName}();
+    public string Declaration => $@"
+{this.XmlDocPrefix}IBuilderForOptional {this.MethodName}();
 ";
 
     public string FieldDeclaration =>
@@ -29,9 +26,18 @@ IBuilderForOptional {this.MethodName}();
     public string DefaultValueAssignment =>
         $"this.{this.Property.Name.ToLower()} = {this.DefaultValue.ToString().ToLowerInvariant()};";
 
-    public string Implementation => @$"
-public IBuilderForOptional {this.MethodName}() => this with {{ {this.Property.Name.ToLower()} = {(!this.DefaultValue).ToString().ToLowerInvariant()} }};
+    public string Implementation => $@"
+{this.XmlDocPrefix}public IBuilderForOptional {this.MethodName}() => this with {{ {this.Property.Name.ToLower()} = {(!this.DefaultValue).ToString().ToLowerInvariant()} }};
 ";
+
+    public static OptionalBooleanProperty FromMember(IPropertySymbol member)
+    {
+        var attribute = member.GetAttributes()
+            .FirstOrDefault(a => a.AttributeClass?.Name == AttributeName);
+        var xmlDoc = XmlDocumentationHelper.GetXmlDocumentation(member);
+        return new OptionalBooleanProperty(member, ExtractDefaultValue(attribute), ExtractMethodName(attribute),
+            xmlDoc);
+    }
 
     private static bool ExtractDefaultValue(AttributeData attribute) =>
         bool.Parse(attribute.ConstructorArguments[0].Value?.ToString());
