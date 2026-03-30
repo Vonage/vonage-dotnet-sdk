@@ -6,8 +6,9 @@ using System.Text.Json.Serialization;
 namespace Vonage.IdentityInsights.GetInsights;
 
 /// <summary>
+///     Represents the response from the Identity Insights API containing requested phone number insights.
 /// </summary>
-/// <param name="RequestId">The unique identifier for your request. This is a alphanumeric string up to 40 characters.</param>
+/// <param name="RequestId">The unique identifier for your request. This is an alphanumeric string up to 40 characters.</param>
 /// <param name="Insights">
 ///     A map of objects representing the requested insight(s), where each key corresponds to the name
 ///     of the insight and the value contains the result and status of that insight.
@@ -117,9 +118,10 @@ public record SimSwapInsights(
     [property: JsonPropertyName("status")] InsightStatus Status);
 
 /// <summary>
+///     Information about the carrier associated with a phone number.
 /// </summary>
 /// <param name="Name">
-///     The full name of the carrier associated with that phone_number. This is applicable to mobile numbers
+///     The full name of the carrier associated with the phone number. This is applicable to mobile numbers
 ///     only.
 /// </param>
 /// <param name="NetworkType">

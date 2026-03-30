@@ -18,43 +18,72 @@ namespace Vonage.IdentityInsights.GetInsights;
 public readonly partial struct GetInsightsRequest : IVonageRequest
 {
     /// <summary>
-    ///     A single phone number you want insights on, starting with the country code. You may optionally include a leading +,
-    ///     but do not use 00 at the beginning. Ideally, the number should follow the E.164 format. However, the API is
-    ///     designed to extract the phone number even if the input string contains alphanumeric characters, spaces, or symbols
-    ///     like brackets.
+    ///     Sets the phone number to retrieve insights for. The number should follow E.164 format (e.g., +14155552671).
+    ///     You may optionally include a leading +, but do not use 00 at the beginning. The API can extract the phone number
+    ///     even if the input contains alphanumeric characters, spaces, or symbols like brackets.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPhoneNumber("+14155552671")
+    /// ]]></code>
+    /// </example>
     [MandatoryWithParsing(0, nameof(ParsePhoneNumber))]
     public PhoneNumber PhoneNumber { get; internal init; }
 
     /// <summary>
-    ///     Specifies the reason for the request. This property is required only for Insights that use the Network Registry.
-    ///     For a Network Registry of type Production, the value must match one of the network profile purposes associated with
-    ///     your application. For a Network Registry of type Playground, the value must be "FraudPreventionAndDetection".
+    ///     Sets the purpose/reason for the request. Required only for Insights that use the Network Registry.
+    ///     For Production Network Registry, the value must match one of the network profile purposes associated with your application.
+    ///     For Playground Network Registry, the value must be "FraudPreventionAndDetection".
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPurpose("FraudPreventionAndDetection")
+    /// ]]></code>
+    /// </example>
     [Optional]
     public Maybe<string> Purpose { get; internal init; }
 
     /// <summary>
-    ///     Request the format insight.
+    ///     Includes phone number format validation in the response. Returns details such as international and national formats.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithFormat()
+    /// ]]></code>
+    /// </example>
     [OptionalBoolean(false, "WithFormat")]
     public bool Format { get; internal init; }
 
     /// <summary>
-    ///     Request the original_carrier insight.
+    ///     Includes original carrier information in the response. Returns the carrier that originally owned the phone number.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithOriginalCarrier()
+    /// ]]></code>
+    /// </example>
     [OptionalBoolean(false, "WithOriginalCarrier")]
     public bool OriginalCarrier { get; internal init; }
 
     /// <summary>
-    ///     Request the current_carrier insight.
+    ///     Includes current carrier information in the response. Returns the carrier that currently owns the phone number.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithCurrentCarrier()
+    /// ]]></code>
+    /// </example>
     [OptionalBoolean(false, "WithCurrentCarrier")]
     public bool CurrentCarrier { get; internal init; }
 
     /// <summary>
-    ///     Request the sim_swap insight.
+    ///     Includes SIM swap detection in the response. Use this to detect if the SIM card has been changed recently.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithSimSwap(new SimSwapRequest(Period: 24))
+    /// ]]></code>
+    /// </example>
     [Optional]
     public Maybe<SimSwapRequest> SimSwap { get; internal init; }
 
@@ -111,9 +140,12 @@ public readonly partial struct GetInsightsRequest : IVonageRequest
 }
 
 /// <summary>
-///     Represents Sim Swap insights.
+///     Represents SIM swap insight configuration.
 /// </summary>
-/// <param name="Period">Period in hours to be checked for SIM swap.</param>
+/// <param name="Period">
+///     The period in hours to check for SIM swap activity. Must be between 1 and 2400 hours (100 days).
+///     For example, a value of 24 checks if the SIM was swapped in the last 24 hours.
+/// </param>
 public record SimSwapRequest(int Period)
 {
     internal const int MinimumPeriod = 1;
