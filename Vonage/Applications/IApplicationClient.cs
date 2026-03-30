@@ -41,7 +41,7 @@ public interface IApplicationClient
     /// Console.WriteLine($"Private Key: {application.Keys.PrivateKey}");
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/main/SnippetSamples/Applications">More examples in the snippets repository</seealso>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Application">More examples in the snippets repository</seealso>
     Task<Application> CreateApplicationAsync(CreateApplicationRequest request, Credentials creds = null);
 
     /// <summary>
@@ -55,7 +55,7 @@ public interface IApplicationClient
     /// var success = await client.ApplicationClient.DeleteApplicationAsync("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/main/SnippetSamples/Applications">More examples in the snippets repository</seealso>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Application">More examples in the snippets repository</seealso>
     Task<bool> DeleteApplicationAsync(string id, Credentials creds = null);
 
     /// <summary>
@@ -70,7 +70,7 @@ public interface IApplicationClient
     /// Console.WriteLine($"Application Name: {application.Name}");
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/main/SnippetSamples/Applications">More examples in the snippets repository</seealso>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Application">More examples in the snippets repository</seealso>
     Task<Application> GetApplicationAsync(string id, Credentials creds = null);
 
     /// <summary>
@@ -89,7 +89,7 @@ public interface IApplicationClient
     /// }
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/main/SnippetSamples/Applications">More examples in the snippets repository</seealso>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Application">More examples in the snippets repository</seealso>
     Task<ApplicationPage> ListApplicationsAsync(ListApplicationsRequest request, Credentials creds = null);
 
     /// <summary>
@@ -116,6 +116,6 @@ public interface IApplicationClient
     ///     request);
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/main/SnippetSamples/Applications">More examples in the snippets repository</seealso>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Application">More examples in the snippets repository</seealso>
     Task<Application> UpdateApplicationAsync(string id, CreateApplicationRequest request, Credentials creds = null);
 }
