@@ -1,0 +1,86 @@
+name: Upgrade SDK in Snippets Repository
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  update-snippets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Extract version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Wait for NuGet to index package
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          PACKAGE_URL="https://api.nuget.org/v3-flatcontainer/vonage/index.json"
+          TIMEOUT=1200  # 20 minutes
+          INTERVAL=30
+          ELAPSED=0
+
+          echo "Waiting for Vonage $VERSION to be available on NuGet..."
+
+          while [ $ELAPSED -lt $TIMEOUT ]; do
+            if curl -s "$PACKAGE_URL" | grep -q "\"$VERSION\""; then
+              echo "Package Vonage $VERSION is now available on NuGet!"
+              exit 0
+            fi
+            echo "Not yet available. Waiting ${INTERVAL}s... (${ELAPSED}s elapsed)"
+            sleep $INTERVAL
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+
+          echo "Timeout waiting for package to be indexed"
+          exit 1
+
+      - name: Checkout snippets repository
+        uses: actions/checkout@v4
+        with:
+          repository: Vonage/vonage-dotnet-code-snippets
+          token: ${{ secrets.SNIPPETS_PAT }}
+          path: snippets
+
+      - name: Update SDK version in snippets
+        working-directory: snippets
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo "Updating Vonage package references to $VERSION"
+
+          find . -name "*.csproj" -type f | while read -r file; do
+            if grep -q 'Include="Vonage"' "$file"; then
+              echo "Updating $file"
+              sed -i "s|<PackageReference Include=\"Vonage\" Version=\"[^\"]*\"|<PackageReference Include=\"Vonage\" Version=\"$VERSION\"|g" "$file"
+            fi
+          done
+
+          echo "Updated files:"
+          git diff --name-only
+
+      - name: Create Pull Request
+        working-directory: snippets
+        env:
+          GH_TOKEN: ${{ secrets.SNIPPETS_PAT }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          BRANCH="update-sdk-$VERSION"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Check if there are changes
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "chore: update Vonage SDK to $VERSION"
+          git push -u origin "$BRANCH"
+
+          gh pr create \
+            --title "Update Vonage SDK to $VERSION" \
+            --body "This PR updates the Vonage .NET SDK to version $VERSION.
