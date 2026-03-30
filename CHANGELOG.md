@@ -1,4 +1,53 @@
 # Changelog
+## [v8.27.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.27.0) (2026-03-30)
+
+### Bug Fixes
+
+- Replace sonar.login by sonar.token (deprecated) ([5da2c82](https://github.com/Vonage/vonage-dotnet-sdk/commit/5da2c823d1ddb94ce234c4220d4a72ad8620da28))
+
+
+### Build updates
+
+- Remove sonar.token from ending step ([9a05459](https://github.com/Vonage/vonage-dotnet-sdk/commit/9a05459c28321bfbf4b4584e6d0d3806d13a159f))
+
+- Add sonar.token to ending step ([10b484f](https://github.com/Vonage/vonage-dotnet-sdk/commit/10b484f1d49aa052c98a45824e06de71faf8240b))
+
+- Add continue-on-error for sonar scanner ([a4d7a8e](https://github.com/Vonage/vonage-dotnet-sdk/commit/a4d7a8e449e2f86b2c653177cf19261fd561ab21))
+
+
+### Documentation
+
+- Generate changelog for v8.26.1 ([f7833c9](https://github.com/Vonage/vonage-dotnet-sdk/commit/f7833c92ddc15b657194a340e0852cec040c09fa))
+
+- Improve XML documentation on Messages ([48da1d8](https://github.com/Vonage/vonage-dotnet-sdk/commit/48da1d8730d2d849a18d79c048d42bab32f1d66f))
+
+- Improve XML documentation on Applications ([543f977](https://github.com/Vonage/vonage-dotnet-sdk/commit/543f97799dafcefc7bafdcf82901591321fe1881))
+
+- Fix snippets links in XML documentation on Applications ([1751edb](https://github.com/Vonage/vonage-dotnet-sdk/commit/1751edb99e5dd2609516512bf2f5ea8ee77ecdda))
+
+- Fix snippets links in XML documentation on Applications ([0690c26](https://github.com/Vonage/vonage-dotnet-sdk/commit/0690c267b0fecca36a1c4add3dde821987246745))
+
+- Improve XML documentation on IdentityInsights ([1abd2b5](https://github.com/Vonage/vonage-dotnet-sdk/commit/1abd2b5f79deac2d16ef1af28eada9b3ace0a029))
+
+- Bump version to v8.27.0 ([7d88941](https://github.com/Vonage/vonage-dotnet-sdk/commit/7d88941af632dc8e69f0e1f1a5d83fdf13928620))
+
+
+### Features
+
+- Mark NumberVerification as obsolete ([9dee86b](https://github.com/Vonage/vonage-dotnet-sdk/commit/9dee86b15c36888d8a599b0ea18d8a8692656af1))
+
+- Mark SimSwap as obsolete ([cff2567](https://github.com/Vonage/vonage-dotnet-sdk/commit/cff25679fa845f75371675831d604057cbcb2fce))
+
+- Add missing Version on Verify capabilities in Application API ([7e49a7e](https://github.com/Vonage/vonage-dotnet-sdk/commit/7e49a7ef27ed665e03597f43116b50d7c1836465))
+
+- Add signed callbacks to RTC capabilities in Application API ([36eec96](https://github.com/Vonage/vonage-dotnet-sdk/commit/36eec964c9c3dea40488b59f9388a80319a01497))
+
+- Allow XML documentation to be integrated when generating builders ([fb9b6ed](https://github.com/Vonage/vonage-dotnet-sdk/commit/fb9b6ed9ebcded189956e4bb1f85015b4ca5e8e9))
+
+- Add missing properties on Voice capabilities in Application API ([4713a35](https://github.com/Vonage/vonage-dotnet-sdk/commit/4713a35b5eb53546ebd3f6b4c6b6892a33dcf6c1))
+
+Full Changelog: [v8.26.1...v8.27.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.26.1...v8.27.0)
+
 ## [v8.26.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.26.1) (2026-03-26)
 
 ### Bug Fixes
