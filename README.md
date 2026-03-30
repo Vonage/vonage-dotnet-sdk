@@ -37,7 +37,7 @@ first.
 * [Supported APIs](#supported-apis)
 * [FAQ](#faq)
 * [Contributing](#contributing)
-* [Thanks](#thanks)
+* [Release](#release)
 * [Licence](#license)
 
 ## Installation
@@ -420,6 +420,34 @@ Therefore, they should be installed on your machine for tests to run.
 4. Tests! Run all the tests to verify everything's fine.
 
 Pull requests are welcome!
+
+## Release
+
+To publish a new version, use the release script:
+
+```bash
+./release.sh <version> [--dry-run]
+```
+
+For example:
+
+```bash
+# Preview the release without making changes
+./release.sh 8.30.0 --dry-run
+
+# Perform the release
+./release.sh 8.30.0
+```
+
+The script will:
+
+1. Update the version in `Vonage/Vonage.csproj`
+2. Commit and create a git tag
+3. Generate the changelog using [git-cliff](https://git-cliff.org/)
+4. Push to remote
+5. Create a GitHub release
+
+Pre-release versions are also supported (e.g., `8.30.0-beta`).
 
 ## License
 
