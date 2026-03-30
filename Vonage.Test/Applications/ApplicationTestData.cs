@@ -15,7 +15,7 @@ internal static class ApplicationTestData
         {
             Messages = CreateMessagesCapability(),
             Rtc = CreateRtcCapability(),
-            Voice = CreateVoiceCapability(),
+            Voice = CreateVoiceFullCapability(),
             Vbc = Vbc.Build(),
             Verify = CreateVerifyCapability(),
             NetworkApis = CreateNetworkApisCapability(),
@@ -77,11 +77,18 @@ internal static class ApplicationTestData
             .EnableEndToEndEncryption()
             .EnableServerSideEncryption();
 
-    private static Vonage.Applications.Capabilities.Voice CreateVoiceCapability() =>
+    private static Vonage.Applications.Capabilities.Voice CreateVoiceFullCapability() =>
         Vonage.Applications.Capabilities.Voice.Build()
             .WithAnswerUrl("https://example.com/webhooks/answer", WebhookHttpMethod.Get)
             .WithEventUrl("https://example.com/webhooks/events", WebhookHttpMethod.Post)
-            .WithFallbackAnswerUrl("https://fallback.example.com/webhooks/answer", WebhookHttpMethod.Get);
+            .WithFallbackAnswerUrl("https://fallback.example.com/webhooks/answer", WebhookHttpMethod.Get)
+            .EnableSignedCallbacks()
+            .WithConversationsTimeToLive(12)
+            .WithLegPersistenceTime(10)
+            .WithRegion("eu-west");
+
+    private static Vonage.Applications.Capabilities.Voice CreateVoiceCapability() =>
+        Vonage.Applications.Capabilities.Voice.Build();
 
     internal static CreateApplicationRequest CreateRequest() =>
         new CreateApplicationRequest
@@ -122,6 +129,30 @@ internal static class ApplicationTestData
             Capabilities = new ApplicationCapabilities
             {
                 Rtc = CreateRtcCapability(),
+            },
+            Keys = CreateBasicKeys(),
+            Name = "My Application",
+            Privacy = new PrivacySettings(true),
+        };
+
+    internal static CreateApplicationRequest CreateVoiceRequest() =>
+        new CreateApplicationRequest
+        {
+            Capabilities = new ApplicationCapabilities
+            {
+                Voice = CreateVoiceCapability(),
+            },
+            Keys = CreateBasicKeys(),
+            Name = "My Application",
+            Privacy = new PrivacySettings(true),
+        };
+
+    internal static CreateApplicationRequest CreateVoiceFullRequest() =>
+        new CreateApplicationRequest
+        {
+            Capabilities = new ApplicationCapabilities
+            {
+                Voice = CreateVoiceFullCapability(),
             },
             Keys = CreateBasicKeys(),
             Name = "My Application",

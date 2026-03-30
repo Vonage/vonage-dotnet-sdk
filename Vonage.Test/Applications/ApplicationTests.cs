@@ -96,6 +96,34 @@ public class ApplicationTests : IDisposable
     }
 
     [Fact]
+    public async Task CreateVoiceApplication()
+    {
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v2/applications")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .WithBodyAsJson(this.helper.GetRequestJson())
+                .UsingPost())
+            .RespondWith(this.RespondWithRequestJson());
+        var response = await this.context.VonageClient.ApplicationClient
+            .CreateApplicationAsync(ApplicationTestData.CreateVoiceRequest());
+        response.ShouldMatchVoiceApplication();
+    }
+
+    [Fact]
+    public async Task CreateVoiceFullApplication()
+    {
+        this.context.Server.Given(WireMock.RequestBuilders.Request.Create()
+                .WithPath("/v2/applications")
+                .WithHeader("Authorization", this.context.ExpectedAuthorizationHeaderValue)
+                .WithBodyAsJson(this.helper.GetRequestJson())
+                .UsingPost())
+            .RespondWith(this.RespondWithRequestJson());
+        var response = await this.context.VonageClient.ApplicationClient
+            .CreateApplicationAsync(ApplicationTestData.CreateVoiceFullRequest());
+        response.ShouldMatchVoiceFullApplication();
+    }
+
+    [Fact]
     public async Task CreateVideoFullApplication()
     {
         this.context.Server.Given(WireMock.RequestBuilders.Request.Create()

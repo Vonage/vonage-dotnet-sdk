@@ -118,6 +118,18 @@ internal static class ApplicationAssertions
         actual.ShouldHaveRtcFullCapabilities();
     }
 
+    internal static void ShouldMatchVoiceApplication(this Application actual)
+    {
+        actual.ShouldHaveExpectedBasicProperties();
+        actual.ShouldHaveVoiceCapabilities();
+    }
+
+    internal static void ShouldMatchVoiceFullApplication(this Application actual)
+    {
+        actual.ShouldHaveExpectedBasicProperties();
+        actual.ShouldHaveVoiceFullCapabilities();
+    }
+
     private static void ShouldHaveVerifyFullCapabilities(this Application actual)
     {
         actual.Capabilities.Verify.Should().NotBeNull();
@@ -138,6 +150,37 @@ internal static class ApplicationAssertions
         actual.Capabilities.Rtc.Should().NotBeNull();
         actual.Capabilities.Rtc.Webhooks.Should().BeEmpty();
         actual.Capabilities.Rtc.SignedCallbacks.Should().BeFalse();
+    }
+
+    private static void ShouldHaveVoiceCapabilities(this Application actual)
+    {
+        actual.Capabilities.Voice.Should().NotBeNull();
+        actual.Capabilities.Voice.Webhooks.Should().BeEmpty();
+        actual.Capabilities.Voice.SignedCallbacks.Should().BeFalse();
+        actual.Capabilities.Voice.ConversationsTimeToLive.Should().Be(0);
+        actual.Capabilities.Voice.LegPersistenceTime.Should().Be(0);
+        actual.Capabilities.Voice.Region.Should().BeNull();
+    }
+
+    private static void ShouldHaveVoiceFullCapabilities(this Application actual)
+    {
+        actual.Capabilities.Voice.Should().NotBeNull();
+        actual.Capabilities.Voice.Webhooks[VoiceWebhookType.AnswerUrl]
+            .Should().Be(
+                new Vonage.Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/answer"),
+                    HttpMethod.Get));
+        actual.Capabilities.Voice.Webhooks[VoiceWebhookType.FallbackAnswerUrl]
+            .Should().Be(
+                new Vonage.Applications.Capabilities.Voice.VoiceWebhook(
+                    new Uri("https://fallback.example.com/webhooks/answer"), HttpMethod.Get));
+        actual.Capabilities.Voice.Webhooks[VoiceWebhookType.EventUrl]
+            .Should().Be(
+                new Vonage.Applications.Capabilities.Voice.VoiceWebhook(new Uri("https://example.com/webhooks/events"),
+                    HttpMethod.Post));
+        actual.Capabilities.Voice.SignedCallbacks.Should().BeTrue();
+        actual.Capabilities.Voice.ConversationsTimeToLive.Should().Be(12);
+        actual.Capabilities.Voice.LegPersistenceTime.Should().Be(10);
+        actual.Capabilities.Voice.Region.Should().Be("eu-west");
     }
 
     private static void ShouldHaveRtcFullCapabilities(this Application actual)

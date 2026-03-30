@@ -29,7 +29,11 @@
           "connect_timeout": 1000,
           "socket_timeout": 500
         }
-      }
+      },
+      "signed_callbacks": true,
+      "conversations_ttl": 12,
+      "leg_persistence_time": 10,
+      "region": "eu-west"
     },
     "network_apis": {
       "network_application_id": "2bzfIFqRG128IcjSj1YhZNtw6LADG",

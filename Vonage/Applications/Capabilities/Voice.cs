@@ -53,6 +53,12 @@ public class Voice
     public bool SignedCallbacks { get; set; }
 
     /// <summary>
+    ///     The persistence duration for legs, in days. Maximum value is 31.
+    /// </summary>
+    [JsonProperty("leg_persistence_time", Order = 4)]
+    public int LegPersistenceTime { get; set; }
+
+    /// <summary>
     ///     Represents the collection of Webhook URLs with their configuration.
     /// </summary>
     [JsonProperty("webhooks")]
@@ -152,6 +158,91 @@ public class Voice
             connectionTimeout,
             socketTimeout
         );
+        return this;
+    }
+
+    /// <summary>
+    ///     Enables signed callbacks to verify webhook requests are from Vonage.
+    /// </summary>
+    /// <returns>The Voice capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var voice = Voice.Build().EnableSignedCallbacks();
+    /// ]]></code>
+    /// </example>
+    public Voice EnableSignedCallbacks()
+    {
+        this.SignedCallbacks = true;
+        return this;
+    }
+
+    /// <summary>
+    ///     Disables signed callbacks.
+    /// </summary>
+    /// <returns>The Voice capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var voice = Voice.Build().DisableSignedCallbacks();
+    /// ]]></code>
+    /// </example>
+    public Voice DisableSignedCallbacks()
+    {
+        this.SignedCallbacks = false;
+        return this;
+    }
+
+    /// <summary>
+    ///     Sets the region of a Voice application.
+    /// </summary>
+    /// <param name="region">
+    ///     Selecting a region means all inbound, programmable SIP and SIP connect calls will be sent to the selected region
+    ///     unless the call is sent to a regional endpoint, if the call is using a regional endpoint this will override the
+    ///     application settings.
+    /// </param>
+    /// <returns>The Voice capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var voice = Voice.Build().WithRegion("eu-west");
+    /// ]]></code>
+    /// </example>
+    public Voice WithRegion(string region)
+    {
+        this.Region = region;
+        return this;
+    }
+
+    /// <summary>
+    ///     Sets the conversations time-to-live of a Voice application.
+    /// </summary>
+    /// <param name="conversationTtl">
+    ///     The length of time named conversations will remain active for after creation, in hours.
+    ///     Maximum value is 9000 (i.e. 365 days).
+    /// </param>
+    /// <returns>The Voice capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var voice = Voice.Build().WithConversationsTimeToLive(12);
+    /// ]]></code>
+    /// </example>
+    public Voice WithConversationsTimeToLive(int conversationTtl)
+    {
+        this.ConversationsTimeToLive = conversationTtl;
+        return this;
+    }
+
+    /// <summary>
+    ///     Sets the leg persistence time of a Voice application.
+    /// </summary>
+    /// <param name="legPersistenceTime">The persistence duration for legs, in days. Maximum value is 31.</param>
+    /// <returns>The Voice capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var voice = Voice.Build().WithLegPersistenceTime(10);
+    /// ]]></code>
+    /// </example>
+    public Voice WithLegPersistenceTime(int legPersistenceTime)
+    {
+        this.LegPersistenceTime = legPersistenceTime;
         return this;
     }
 
