@@ -14,7 +14,7 @@ namespace Vonage.Applications.Capabilities;
 public class Video
 {
     /// <summary>
-    ///     Constructor.
+    ///     Initializes a new instance of the <see cref="Video"/> class.
     /// </summary>
     public Video() => this.Webhooks = new Dictionary<VideoWebhookType, VideoWebhook>();
 
@@ -25,19 +25,36 @@ public class Video
     public IDictionary<VideoWebhookType, VideoWebhook> Webhooks { get; set; }
 
     /// <summary>
+    ///     Storage settings for video recordings, including encryption options.
     /// </summary>
     [JsonProperty("storage", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public VideoStorage Storage { get; private set; } = new VideoStorage(false, false, false);
 
     /// <summary>
+    ///     Creates a new Video capability builder for fluent configuration.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A new Video capability instance.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var videoCapability = Video.Build()
+    ///     .EnableCloudStorage()
+    ///     .EnableServerSideEncryption()
+    ///     .WithSessionCreated("https://example.com/webhooks/session-created")
+    ///     .WithArchiveStatus("https://example.com/webhooks/archive-status");
+    /// ]]></code>
+    /// </example>
     public static Video Build() => new Video();
 
     /// <summary>
-    ///     Enabled cloud storage.
+    ///     Enables cloud storage for video recordings.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The Video capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var video = Video.Build()
+    ///     .EnableCloudStorage();
+    /// ]]></code>
+    /// </example>
     public Video EnableCloudStorage()
     {
         this.Storage = this.Storage with {CloudStorage = true};
@@ -45,9 +62,15 @@ public class Video
     }
 
     /// <summary>
-    ///     Enables end-to-end encryption.
+    ///     Enables end-to-end encryption for video streams.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The Video capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var video = Video.Build()
+    ///     .EnableEndToEndEncryption();
+    /// ]]></code>
+    /// </example>
     public Video EnableEndToEndEncryption()
     {
         this.Storage = this.Storage with {EndToEndEncryption = true};
@@ -55,9 +78,15 @@ public class Video
     }
 
     /// <summary>
-    ///     Enables server-side encryption.
+    ///     Enables server-side encryption for video recordings.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The Video capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var video = Video.Build()
+    ///     .EnableServerSideEncryption();
+    /// ]]></code>
+    /// </example>
     public Video EnableServerSideEncryption()
     {
         this.Storage = this.Storage with {ServerSideEncryption = true};
@@ -70,6 +99,12 @@ public class Video
     /// <param name="url">The webhook URL.</param>
     /// <param name="active">Whether the webhook is active.</param>
     /// <returns>The Video capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var video = Video.Build()
+    ///     .WithArchiveStatus("https://example.com/webhooks/archive-status");
+    /// ]]></code>
+    /// </example>
     public Video WithArchiveStatus(string url, bool active = true)
     {
         this.Webhooks[VideoWebhookType.ArchiveStatus] = new VideoWebhook(
@@ -301,10 +336,11 @@ public class Video
         bool Active);
 
     /// <summary>
+    ///     Represents storage settings for video recordings.
     /// </summary>
-    /// <param name="ServerSideEncryption"></param>
-    /// <param name="EndToEndEncryption"></param>
-    /// <param name="CloudStorage"></param>
+    /// <param name="ServerSideEncryption">Whether to use server-side encryption for recordings.</param>
+    /// <param name="EndToEndEncryption">Whether to use end-to-end encryption for video streams.</param>
+    /// <param name="CloudStorage">Whether to use cloud storage for recordings.</param>
     public record VideoStorage(
         [property: JsonProperty("server_side_encryption", DefaultValueHandling = DefaultValueHandling.Include)]
         bool ServerSideEncryption,

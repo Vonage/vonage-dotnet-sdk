@@ -7,11 +7,18 @@ using Vonage.Request;
 
 namespace Vonage.Applications;
 
+/// <summary>
+///     Client for managing Vonage applications. Implements the Vonage Application API v2.
+/// </summary>
 public class ApplicationClient : IApplicationClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ApplicationClient" /> class.
+    /// </summary>
+    /// <param name="creds">Optional credentials for authenticating API requests.</param>
     public ApplicationClient(Credentials creds = null)
     {
         this.Credentials = creds;
@@ -25,6 +32,9 @@ public class ApplicationClient : IApplicationClient
         this.timeProvider = timeProvider;
     }
 
+    /// <summary>
+    ///     The credentials used to authenticate API requests.
+    /// </summary>
     public Credentials Credentials { get; set; }
 
     /// <inheritdoc />

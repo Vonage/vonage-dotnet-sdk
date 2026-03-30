@@ -59,18 +59,33 @@ public class Voice
     public IDictionary<VoiceWebhookType, VoiceWebhook> Webhooks { get; set; }
 
     /// <summary>
+    ///     Creates a new Voice capability builder for fluent configuration.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A new Voice capability instance.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var voiceCapability = Voice.Build()
+    ///     .WithAnswerUrl("https://example.com/webhooks/answer", WebhookHttpMethod.Post)
+    ///     .WithEventUrl("https://example.com/webhooks/event", WebhookHttpMethod.Post);
+    /// ]]></code>
+    /// </example>
     public static Voice Build() => new Voice();
 
     /// <summary>
-    ///     Sets the answer URL webhook for Voice capability.
+    ///     Sets the answer URL webhook. Vonage makes a request to this URL when a call is placed or received.
+    ///     Must return an NCCO (Nexmo Call Control Object).
     /// </summary>
-    /// <param name="url">The webhook URL.</param>
+    /// <param name="url">The webhook URL that will return the NCCO.</param>
     /// <param name="method">The HTTP method (GET or POST).</param>
-    /// <param name="connectionTimeout">Connection timeout in milliseconds.</param>
-    /// <param name="socketTimeout">Socket timeout in milliseconds.</param>
+    /// <param name="connectionTimeout">Connection timeout in milliseconds (300-1000, default 1000).</param>
+    /// <param name="socketTimeout">Socket timeout in milliseconds (1000-5000, default 5000).</param>
     /// <returns>The Voice capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var voice = Voice.Build()
+    ///     .WithAnswerUrl("https://example.com/webhooks/answer", WebhookHttpMethod.Get);
+    /// ]]></code>
+    /// </example>
     public Voice WithAnswerUrl(string url, WebhookHttpMethod method, int connectionTimeout = DefaultConnectionTimeout,
         int socketTimeout = DefaultSocketTimeout)
     {
@@ -85,13 +100,19 @@ public class Voice
     }
 
     /// <summary>
-    ///     Sets the event URL webhook for Voice capability.
+    ///     Sets the event URL webhook. Vonage sends call events (e.g. ringing, answered) to this URL.
     /// </summary>
-    /// <param name="url">The webhook URL.</param>
+    /// <param name="url">The webhook URL that will receive call events.</param>
     /// <param name="method">The HTTP method (GET or POST).</param>
-    /// <param name="connectionTimeout">Connection timeout in milliseconds.</param>
-    /// <param name="socketTimeout">Socket timeout in milliseconds.</param>
+    /// <param name="connectionTimeout">Connection timeout in milliseconds (300-1000, default 1000).</param>
+    /// <param name="socketTimeout">Socket timeout in milliseconds (1000-10000, default 10000).</param>
     /// <returns>The Voice capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var voice = Voice.Build()
+    ///     .WithEventUrl("https://example.com/webhooks/event", WebhookHttpMethod.Post);
+    /// ]]></code>
+    /// </example>
     public Voice WithEventUrl(string url, WebhookHttpMethod method, int connectionTimeout = DefaultConnectionTimeout,
         int socketTimeout = DefaultSocketTimeout)
     {
@@ -106,13 +127,21 @@ public class Voice
     }
 
     /// <summary>
-    ///     Sets the fallback answer URL webhook for Voice capability.
+    ///     Sets the fallback answer URL webhook. If the answer URL is offline or returns an HTTP error code,
+    ///     Vonage will make a request to this URL instead. Must return an NCCO.
     /// </summary>
-    /// <param name="url">The webhook URL.</param>
+    /// <param name="url">The fallback webhook URL that will return the NCCO.</param>
     /// <param name="method">The HTTP method (GET or POST).</param>
-    /// <param name="connectionTimeout">Connection timeout in milliseconds.</param>
-    /// <param name="socketTimeout">Socket timeout in milliseconds.</param>
+    /// <param name="connectionTimeout">Connection timeout in milliseconds (300-1000, default 1000).</param>
+    /// <param name="socketTimeout">Socket timeout in milliseconds (1000-5000, default 5000).</param>
     /// <returns>The Voice capability instance for fluent chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// var voice = Voice.Build()
+    ///     .WithAnswerUrl("https://example.com/webhooks/answer", WebhookHttpMethod.Get)
+    ///     .WithFallbackAnswerUrl("https://fallback.example.com/webhooks/answer", WebhookHttpMethod.Get);
+    /// ]]></code>
+    /// </example>
     public Voice WithFallbackAnswerUrl(string url, WebhookHttpMethod method,
         int connectionTimeout = DefaultConnectionTimeout, int socketTimeout = DefaultSocketTimeout)
     {
@@ -154,20 +183,23 @@ public class Voice
 }
 
 /// <summary>
-///     Represents various Webhook urls.
+///     Defines the types of webhooks available for Voice capability.
 /// </summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum VoiceWebhookType
 {
     /// <summary>
+    ///     The URL that Vonage requests when a call is placed or received. Must return an NCCO.
     /// </summary>
     [EnumMember(Value = "answer_url")] AnswerUrl = 0,
 
     /// <summary>
+    ///     The URL that Vonage sends call events (e.g. ringing, answered) to.
     /// </summary>
     [EnumMember(Value = "event_url")] EventUrl = 1,
 
     /// <summary>
+    ///     The fallback URL used when the answer URL is offline or returns an HTTP error.
     /// </summary>
     [EnumMember(Value = "fallback_answer_url")]
     FallbackAnswerUrl = 2,
