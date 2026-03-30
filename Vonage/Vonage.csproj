@@ -83,6 +83,6 @@
     </None>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="node ../.scripts/init.js"/>
+      <Exec Command="git config core.hooksPath .scripts/git_hooks"/>
   </Target>
 </Project>
