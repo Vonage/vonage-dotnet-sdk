@@ -51,6 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{EDB1
 		cliff.toml = cliff.toml
 		.scripts\init.js = .scripts\init.js
 		.scripts\git_hooks\pre-commit = .scripts\git_hooks\pre-commit
+		release.sh = release.sh
 	EndProjectSection
 EndProject
 Global
