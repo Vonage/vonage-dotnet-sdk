@@ -48,7 +48,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{EDB165F8-CD99-41A0-9A61-37BD397DB7DA}"
 	ProjectSection(SolutionItems) = preProject
 		cliff.toml = cliff.toml
-		.scripts\init.sh = .scripts\init.sh
 		.scripts\git_hooks\pre-commit = .scripts\git_hooks\pre-commit
 		release.sh = release.sh
 	EndProjectSection
