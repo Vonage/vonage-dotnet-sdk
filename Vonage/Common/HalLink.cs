@@ -7,8 +7,12 @@ using Newtonsoft.Json;
 namespace Vonage.Common;
 
 /// <summary>
-///     Represents a set of HAL Links.
+///     Represents a set of HAL (Hypertext Application Language) navigation links for paginated API responses.
 /// </summary>
+/// <remarks>
+///     <para>HAL links provide a standardized way to navigate between pages of results.</para>
+///     <para>Not all links will be present in every response - for example, <see cref="Next"/> will be default on the last page.</para>
+/// </remarks>
 public struct HalLinks
 {
     /// <summary>
@@ -44,8 +48,12 @@ public struct HalLinks
 }
 
 /// <summary>
-///     Represents a set of HAL Links.
+///     Represents a set of typed HAL (Hypertext Application Language) navigation links for paginated API responses.
 /// </summary>
+/// <typeparam name="T">The type of the link object.</typeparam>
+/// <remarks>
+///     This generic version allows for strongly-typed link objects beyond the standard <see cref="HalLink"/> type.
+/// </remarks>
 public struct HalLinks<T>
 {
     /// <summary>
@@ -81,9 +89,9 @@ public struct HalLinks<T>
 }
 
 /// <summary>
-///     Represents a link to another page.
+///     Represents a HAL (Hypertext Application Language) link to a related resource or page.
 /// </summary>
-/// <param name="Href">Hyperlink reference.</param>
+/// <param name="Href">The URI of the linked resource.</param>
 public record HalLink(
     [property: JsonPropertyName("href")]
     [property: JsonProperty("href")]

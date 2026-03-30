@@ -1,8 +1,15 @@
-﻿using System;
+﻿#region
+using System;
+#endregion
 
 namespace Vonage.Common;
 
-/// <inheritdoc />
+/// <summary>
+///     Default implementation of <see cref="ITimeProvider" /> that returns the actual system time.
+/// </summary>
+/// <remarks>
+///     For unit testing, consider creating a mock implementation that returns controlled time values.
+/// </remarks>
 public class TimeProvider : ITimeProvider
 {
     /// <inheritdoc />

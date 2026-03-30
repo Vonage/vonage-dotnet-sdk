@@ -170,7 +170,79 @@ For key public methods, include:
 Task<MessagesResponse> SendAsync(IMessage message);
 ```
 
-### 7. Using `<inheritdoc />`
+### 7. Builder Struct Documentation (Source-Generated)
+
+For structs decorated with `[Builder]`, the source generator extracts XML documentation from properties and emits it on the generated builder methods. This means **developers will see the property docs when hovering over builder methods in IntelliSense**.
+
+**Key principles:**
+
+1. **Write docs as if describing the builder method**, not the property itself
+2. **Every property should have an example** showing how to use that specific method
+3. **Examples must be focused** - show only that method call, not the full builder chain
+
+```csharp
+// BAD - Example shows too much, not focused on this specific method
+/// <summary>
+///     Sets the phone number to retrieve insights for.
+/// </summary>
+/// <example>
+/// <code><![CDATA[
+/// var request = GetInsightsRequest.Build()
+///     .WithPhoneNumber("+14155552671")
+///     .WithFormat()
+///     .WithCurrentCarrier()
+///     .Create();
+/// ]]></code>
+/// </example>
+[MandatoryWithParsing(0, nameof(ParsePhoneNumber))]
+public PhoneNumber PhoneNumber { get; internal init; }
+
+// GOOD - Focused example showing just this method
+/// <summary>
+///     Sets the phone number to retrieve insights for. The number should follow E.164 format.
+/// </summary>
+/// <example>
+/// <code><![CDATA[
+/// .WithPhoneNumber("+14155552671")
+/// ]]></code>
+/// </example>
+[MandatoryWithParsing(0, nameof(ParsePhoneNumber))]
+public PhoneNumber PhoneNumber { get; internal init; }
+```
+
+**For parameterless boolean toggles:**
+
+```csharp
+/// <summary>
+///     Includes phone number format validation in the response.
+/// </summary>
+/// <example>
+/// <code><![CDATA[
+/// .WithFormat()
+/// ]]></code>
+/// </example>
+[OptionalBoolean(false, "WithFormat")]
+public bool Format { get; internal init; }
+```
+
+**For methods with parameters:**
+
+```csharp
+/// <summary>
+///     Includes SIM swap detection in the response.
+/// </summary>
+/// <example>
+/// <code><![CDATA[
+/// .WithSimSwap(new SimSwapRequest(Period: 24))
+/// ]]></code>
+/// </example>
+[Optional]
+public Maybe<SimSwapRequest> SimSwap { get; internal init; }
+```
+
+**Why focused examples matter:** When a developer hovers over `.WithCurrentCarrier()`, they want to see how to use `.WithCurrentCarrier()` - not a full example with unrelated methods. Each example should be self-contained and specific to that method.
+
+### 8. Using `<inheritdoc />`
 
 Use `<inheritdoc />` for overridden members where the base/interface documentation is sufficient:
 
@@ -215,6 +287,12 @@ When documenting a new folder/feature:
 - [ ] Use `<inheritdoc />` appropriately for overridden members
 - [ ] Verify no empty summary tags remain
 - [ ] Check for copy-paste errors (wrong channel names, etc.)
+
+**For `[Builder]` structs specifically:**
+
+- [ ] Write property summaries as builder method descriptions (e.g., "Sets the..." or "Includes...")
+- [ ] Add a focused `<example>` to every property showing just that method call
+- [ ] Do NOT include the full builder chain in examples - keep them specific to each method
 
 ---
 

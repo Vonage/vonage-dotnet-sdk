@@ -1,14 +1,20 @@
-﻿using System;
+﻿#region
+using System;
 using System.Text.RegularExpressions;
 using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
+#endregion
 
 namespace Vonage.Common;
 
 /// <summary>
-///     Represents a Vonage Account Key.
+///     Represents a validated Vonage Account API key. The key must be exactly 8 alphanumeric characters.
 /// </summary>
+/// <remarks>
+///     <para>Use <see cref="Parse"/> to create an instance with validation.</para>
+///     <para>Validation rules: non-empty, exactly 8 characters, alphanumeric only.</para>
+/// </remarks>
 public readonly struct AccountKey
 {
     private const string AlphaNumericError = $"{nameof(AccountKey)} should only contain alphanumeric characters.";
@@ -19,15 +25,28 @@ public readonly struct AccountKey
     private AccountKey(string apiKey) => this.ApiKey = apiKey;
 
     /// <summary>
-    ///     The account ApiKey.
+    ///     Gets the account API key value.
     /// </summary>
     public string ApiKey { get; }
 
     /// <summary>
-    ///     Creates an AccountKey.
+    ///     Parses and validates a Vonage Account API key.
     /// </summary>
-    /// <param name="key">The ApiKey.</param>
-    /// <returns>Success if the parsing succeeds. Failure otherwise.</returns>
+    /// <param name="key">The API key to validate. Must be exactly 8 alphanumeric characters.</param>
+    /// <returns>
+    ///     A <see cref="Result{T}"/> containing the validated <see cref="AccountKey"/> on success,
+    ///     or an <see cref="IResultFailure"/> describing the validation error on failure.
+    /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// // Parse a valid account key
+    /// var result = AccountKey.Parse("abc12345");
+    /// result.Match(
+    ///     success => Console.WriteLine($"Valid key: {success.ApiKey}"),
+    ///     failure => Console.WriteLine($"Invalid: {failure.GetFailureMessage()}")
+    /// );
+    /// ]]></code>
+    /// </example>
     public static Result<AccountKey> Parse(string key) =>
         Result<AccountKey>.FromSuccess(new AccountKey(key))
             .Bind(VerifyNotEmpty)

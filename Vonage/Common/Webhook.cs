@@ -8,10 +8,17 @@ using Newtonsoft.Json.Converters;
 namespace Vonage.Common;
 
 /// <summary>
+///     Represents a webhook endpoint configuration for receiving event callbacks from Vonage APIs.
 /// </summary>
+/// <remarks>
+///     <para>Webhooks allow your application to receive real-time notifications about events such as
+///     message delivery status, incoming calls, and session changes.</para>
+///     <para>Configure the webhook address and HTTP method to receive callbacks.</para>
+/// </remarks>
 public class Webhook
 {
     /// <summary>
+    ///     Defines the type of webhook event.
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum Type
@@ -118,15 +125,22 @@ public class Webhook
     }
 
     /// <summary>
+    ///     Initializes a new instance of the <see cref="Webhook"/> class.
     /// </summary>
     public Webhook()
     {
     }
 
     /// <summary>
+    ///     Initializes a new instance of the <see cref="Webhook"/> class with the specified address and HTTP method.
     /// </summary>
-    /// <param name="address"></param>
-    /// <param name="method"></param>
+    /// <param name="address">The URL endpoint where webhook events will be sent.</param>
+    /// <param name="method">The HTTP method to use when sending webhook events (typically GET or POST).</param>
+    /// <example>
+    /// <code><![CDATA[
+    /// var webhook = new Webhook("https://example.com/webhooks/status", HttpMethod.Post);
+    /// ]]></code>
+    /// </example>
     public Webhook(string address, HttpMethod method)
     {
         this.Address = address;
@@ -134,11 +148,13 @@ public class Webhook
     }
 
     /// <summary>
+    ///     Gets or sets the URL endpoint where webhook events will be sent.
     /// </summary>
     [JsonProperty("address", Order = 1)]
     public string Address { get; set; }
 
     /// <summary>
+    ///     Gets or sets the HTTP method to use when sending webhook events (e.g., "GET" or "POST").
     /// </summary>
     [JsonProperty("http_method", Order = 0)]
     public string Method { get; set; }
