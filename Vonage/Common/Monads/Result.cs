@@ -8,8 +8,19 @@ namespace Vonage.Common.Monads;
 
 /// <summary>
 ///     Represents the result of an operation. Can be in one of two states: Success, or Failure.
+///     Use this type to handle operations that may fail without throwing exceptions.
 /// </summary>
 /// <typeparam name="T">Bound value type.</typeparam>
+/// <example>
+///     <code><![CDATA[
+/// Result<int> success = Result<int>.FromSuccess(42);
+/// Result<int> failure = Result<int>.FromFailure(new ValidationFailure("Invalid input"));
+/// string message = success.Match(
+///     successOperation: value => $"Got: {value}",
+///     failureOperation: error => error.GetFailureMessage()
+/// );
+/// ]]></code>
+/// </example>
 public readonly struct Result<T>
 {
     private readonly IResultFailure failure;
@@ -60,6 +71,15 @@ public readonly struct Result<T>
     /// <param name="failureMap">Projection function for failure state.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Mapped functor.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> result = Result<int>.FromSuccess(42);
+    /// Result<string> mapped = result.BiMap(
+    ///     successMap: value => value.ToString(),
+    ///     failureMap: failure => new WrappedFailure(failure)
+    /// );
+    /// ]]></code>
+    /// </example>
     public Result<TB> BiMap<TB>(Func<T, TB> successMap, Func<IResultFailure, IResultFailure> failureMap) =>
         Try(this, self =>
             self.IsFailure
@@ -68,22 +88,35 @@ public readonly struct Result<T>
         );
 
     /// <summary>
-    ///     Monadic bind operation.
+    ///     Monadic bind operation. Chains operations that return Result, short-circuiting on Failure.
     /// </summary>
     /// <param name="bind">Bind operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>Bound functor.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> Divide(int a, int b) =>
+    ///     b == 0 ? Result<int>.FromFailure(new DivisionByZeroFailure()) : a / b;
+    /// Result<int> result = Result<int>.FromSuccess(10).Bind(x => Divide(x, 2)); // Success(5)
+    /// ]]></code>
+    /// </example>
     public Result<TB> Bind<TB>(Func<T, Result<TB>> bind) =>
         Try(this, self => self.IsFailure
             ? Result<TB>.FromFailure(self.failure)
             : bind(self.success));
 
     /// <summary>
-    ///     Monadic bind operation.
+    ///     Monadic bind operation with an asynchronous function.
     /// </summary>
     /// <param name="bind">Asynchronous bind operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>Asynchronous bound functor.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> userId = Result<int>.FromSuccess(123);
+    /// Result<User> user = await userId.BindAsync(id => FetchUserAsync(id));
+    /// ]]></code>
+    /// </example>
     public Task<Result<TB>> BindAsync<TB>(Func<T, Task<Result<TB>>> bind) =>
         TryAsync(this, async self => self.IsFailure
             ? Result<TB>.FromFailure(self.failure)
@@ -94,6 +127,16 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="successOperation">Success operation.</param>
     /// <param name="failureOperation">Failure operation.</param>
+    /// <returns>The current Result instance for method chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<string> result = GetResultAsync();
+    /// result.Do(
+    ///     successOperation: value => Console.WriteLine($"Success: {value}"),
+    ///     failureOperation: error => Console.WriteLine($"Error: {error.GetFailureMessage()}")
+    /// );
+    /// ]]></code>
+    /// </example>
     public Result<T> Do(Action<T> successOperation, Action<IResultFailure> failureOperation)
     {
         if (this.IsFailure)
@@ -109,9 +152,15 @@ public readonly struct Result<T>
     }
 
     /// <summary>
-    ///     Executes an operation if failure.
+    ///     Executes an operation if in Failure state.
     /// </summary>
     /// <param name="failureOperation">Failure operation.</param>
+    /// <returns>The current Result instance for method chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// result.DoWhenFailure(error => logger.LogError(error.GetFailureMessage()));
+    /// ]]></code>
+    /// </example>
     public Result<T> DoWhenFailure(Action<IResultFailure> failureOperation)
     {
         if (this.IsFailure)
@@ -123,9 +172,15 @@ public readonly struct Result<T>
     }
 
     /// <summary>
-    ///     Executes an operation if success.
+    ///     Executes an operation if in Success state.
     /// </summary>
     /// <param name="successOperation">Success operation.</param>
+    /// <returns>The current Result instance for method chaining.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// result.DoWhenSuccess(value => logger.LogInformation($"Got value: {value}"));
+    /// ]]></code>
+    /// </example>
     public Result<T> DoWhenSuccess(Action<T> successOperation)
     {
         if (this.IsSuccess)
@@ -144,6 +199,12 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="failure">Failure value.</param>
     /// <returns>Failure Result.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> failure = Result<int>.FromFailure(new ValidationFailure("Invalid input"));
+    /// Console.WriteLine(failure.IsFailure); // true
+    /// ]]></code>
+    /// </example>
     public static Result<T> FromFailure(IResultFailure failure) => new Result<T>(failure);
 
     /// <summary>
@@ -151,6 +212,12 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="value">Success value.</param>
     /// <returns>Success Result.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> success = Result<int>.FromSuccess(42);
+    /// Console.WriteLine(success.IsSuccess); // true
+    /// ]]></code>
+    /// </example>
     public static Result<T> FromSuccess(T value) => new Result<T>(value);
 
     /// <summary>
@@ -158,6 +225,13 @@ public readonly struct Result<T>
     /// </summary>
     /// <returns>The Failure value if in Failure state.</returns>
     /// <exception cref="InvalidOperationException">When Result is not in Failure state.</exception>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> failure = Result<int>.FromFailure(new ValidationFailure("Invalid"));
+    /// IResultFailure error = failure.GetFailureUnsafe();
+    /// // success.GetFailureUnsafe(); // Throws InvalidOperationException
+    /// ]]></code>
+    /// </example>
     public IResultFailure GetFailureUnsafe() => this.IsFailure
         ? this.failure
         : throw new InvalidOperationException("Result is not in Failure state.");
@@ -169,6 +243,13 @@ public readonly struct Result<T>
     ///     Retrieves the Success value. This method is unsafe and will throw an exception if in Failure state.
     /// </summary>
     /// <returns>The Success value if in Success state.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> success = Result<int>.FromSuccess(42);
+    /// int value = success.GetSuccessUnsafe(); // 42
+    /// // failure.GetSuccessUnsafe(); // Throws exception from IResultFailure.ToException()
+    /// ]]></code>
+    /// </example>
     public T GetSuccessUnsafe() => this.IfFailure(value => throw value.ToException());
 
     /// <summary>
@@ -189,6 +270,12 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="operation">Operation to invoke if the Result is in the Failure state.</param>
     /// <returns>The invocation result if the Result is in the Failure state, the success value otherwise.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> result = GetResult();
+    /// int value = result.IfFailure(error => -1); // Returns -1 if Failure
+    /// ]]></code>
+    /// </example>
     public T IfFailure(Func<IResultFailure, T> operation) => this.IsFailure ? operation(this.failure) : this.success;
 
     /// <summary>
@@ -196,6 +283,12 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="defaultValue">Value to return if in the Failure state.</param>
     /// <returns>The default value if the Result is in the Failure state, the success value otherwise.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> result = GetResult();
+    /// int value = result.IfFailure(0); // Returns 0 if Failure, success value otherwise
+    /// ]]></code>
+    /// </example>
     public T IfFailure(T defaultValue) => this.IsFailure ? defaultValue : this.success;
 
     /// <summary>
@@ -203,6 +296,12 @@ public readonly struct Result<T>
     /// </summary>
     /// <param name="action">Action to invoke.</param>
     /// <returns>The initial result.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<string> result = GetResult();
+    /// result.IfSuccess(value => Console.WriteLine($"Got: {value}"));
+    /// ]]></code>
+    /// </example>
     public Result<T> IfSuccess(Action<T> action)
     {
         if (this.IsSuccess)
@@ -214,10 +313,16 @@ public readonly struct Result<T>
     }
 
     /// <summary>
-    ///     Invokes the action if Result is in the Success state, otherwise nothing happens.
+    ///     Invokes the asynchronous action if Result is in the Success state, otherwise nothing happens.
     /// </summary>
-    /// <param name="action">Action to invoke.</param>
+    /// <param name="action">Asynchronous action to invoke.</param>
     /// <returns>The initial result.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<string> result = GetResult();
+    /// await result.IfSuccessAsync(async value => await SaveAsync(value));
+    /// ]]></code>
+    /// </example>
     public async Task<Result<T>> IfSuccessAsync(Func<T, Task> action)
     {
         if (this.IsSuccess)
@@ -229,22 +334,34 @@ public readonly struct Result<T>
     }
 
     /// <summary>
-    ///     Projects from one value to another.
+    ///     Projects from one value to another. Transforms the success value if Success, otherwise returns Failure.
     /// </summary>
     /// <param name="map">Projection function.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Mapped functor.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> result = Result<int>.FromSuccess(42);
+    /// Result<string> mapped = result.Map(value => value.ToString()); // Success("42")
+    /// ]]></code>
+    /// </example>
     public Result<TB> Map<TB>(Func<T, TB> map) =>
         Try(this, self => self.IsFailure
             ? Result<TB>.FromFailure(self.failure)
             : Result<TB>.FromSuccess(map(self.success)));
 
     /// <summary>
-    ///     Projects from one value to another.
+    ///     Projects from one value to another using an asynchronous function.
     /// </summary>
     /// <param name="map">Asynchronous projection function.</param>
     /// <typeparam name="TB">Resulting functor value type.</typeparam>
     /// <returns>Asynchronous mapped functor.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> result = Result<int>.FromSuccess(123);
+    /// Result<User> user = await result.MapAsync(id => FetchUserAsync(id));
+    /// ]]></code>
+    /// </example>
     public Task<Result<TB>> MapAsync<TB>(Func<T, Task<TB>> map) =>
         TryAsync(this, async self => self.IsFailure
             ? Result<TB>.FromFailure(self.failure)
@@ -257,6 +374,15 @@ public readonly struct Result<T>
     /// <param name="failureOperation">Failure match operation.</param>
     /// <typeparam name="TB">Return type.</typeparam>
     /// <returns>A non-null TB.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> result = GetResult();
+    /// string message = result.Match(
+    ///     successOperation: value => $"Success: {value}",
+    ///     failureOperation: error => $"Error: {error.GetFailureMessage()}"
+    /// );
+    /// ]]></code>
+    /// </example>
     public TB Match<TB>(Func<T, TB> successOperation, Func<IResultFailure, TB> failureOperation) =>
         this.IsFailure ? failureOperation(this.failure) : successOperation(this.success);
 
@@ -268,6 +394,13 @@ public readonly struct Result<T>
     /// <typeparam name="TSource">The secondary result type.</typeparam>
     /// <typeparam name="TDestination">The return type.</typeparam>
     /// <returns>A result.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> first = Result<int>.FromSuccess(10);
+    /// Result<int> second = Result<int>.FromSuccess(20);
+    /// Result<int> sum = first.Merge(second, (a, b) => a + b); // Success(30)
+    /// ]]></code>
+    /// </example>
     public Result<TDestination> Merge<TSource, TDestination>(Result<TSource> other,
         Func<T, TSource, TDestination> merge) =>
         this.IsSuccess && other.IsSuccess
@@ -275,10 +408,15 @@ public readonly struct Result<T>
             : Result<TDestination>.FromFailure(this.FetchFailure(other));
 
     /// <summary>
-    ///     Implicit operator from TA to Result of TA.
+    ///     Implicit operator from T to Result of T.
     /// </summary>
     /// <param name="value">Value to be converted.</param>
     /// <returns>Success.</returns>
+    /// <example>
+    ///     <code><![CDATA[
+    /// Result<int> result = 42; // Implicit conversion to Success(42)
+    /// ]]></code>
+    /// </example>
     public static implicit operator Result<T>(T value) => FromSuccess(value);
 
     /// <summary>
