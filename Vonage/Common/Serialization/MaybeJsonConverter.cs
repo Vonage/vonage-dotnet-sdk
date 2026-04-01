@@ -14,6 +14,19 @@ namespace Vonage.Common.Serialization;
 ///     Represents a custom converter from Maybe to Json.
 /// </summary>
 /// <typeparam name="T">The underlying type.</typeparam>
+/// <example>
+///     <code><![CDATA[
+/// var options = new JsonSerializerOptions();
+/// options.Converters.Add(new MaybeJsonConverter<string>());
+///
+/// // A Some value serializes to its contained value
+/// Maybe<string> name = "Alice";
+/// string json = JsonSerializer.Serialize(name, options);
+/// // Produces: "Alice"
+///
+/// // A None value serializes to nothing (skipped in object serialization)
+/// ]]></code>
+/// </example>
 public class MaybeJsonConverter<T> : JsonConverter<Maybe<T>>
 {
     protected JsonSerializer Serializer = new JsonSerializer()

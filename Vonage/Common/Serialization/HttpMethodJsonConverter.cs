@@ -8,8 +8,17 @@ using Newtonsoft.Json;
 namespace Vonage.Common.Serialization;
 
 /// <summary>
-///     Represents a custom converter from HttpMethod to Json.
+///     Represents a custom converter from HttpMethod to Json for System.Text.Json.
 /// </summary>
+/// <example>
+///     <code><![CDATA[
+/// var options = new JsonSerializerOptions();
+/// options.Converters.Add(new HttpMethodJsonConverter());
+///
+/// string json = JsonSerializer.Serialize(HttpMethod.Post, options);
+/// // Produces: "POST"
+/// ]]></code>
+/// </example>
 public class HttpMethodJsonConverter : System.Text.Json.Serialization.JsonConverter<HttpMethod>
 {
     /// <inheritdoc />
@@ -22,8 +31,17 @@ public class HttpMethodJsonConverter : System.Text.Json.Serialization.JsonConver
 }
 
 /// <summary>
-///     Represents a custom converter from HttpMethod to Json.
+///     Represents a custom converter from HttpMethod to Json for Newtonsoft.Json.
 /// </summary>
+/// <example>
+///     <code><![CDATA[
+/// var settings = new JsonSerializerSettings();
+/// settings.Converters.Add(new NewtonsoftHttpMethodConverter());
+///
+/// string json = JsonConvert.SerializeObject(HttpMethod.Get, settings);
+/// // Produces: "GET"
+/// ]]></code>
+/// </example>
 public class NewtonsoftHttpMethodConverter : Newtonsoft.Json.JsonConverter<HttpMethod>
 {
     /// <inheritdoc />

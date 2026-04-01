@@ -1,18 +1,33 @@
+#region
 using System;
 using Vonage.Common.Exceptions;
 using Vonage.Common.Monads;
+#endregion
 
 namespace Vonage.Common.Failures;
 
 /// <inheritdoc />
+/// <example>
+///     <code><![CDATA[
+/// // Create an authentication failure
+/// AuthenticationFailure failure = new AuthenticationFailure("Missing API key");
+/// Console.WriteLine(failure.GetFailureMessage()); // "Missing API key"
+///
+/// // Convert to Result for chained operations
+/// Result<User> result = failure.ToResult<User>();
+/// ]]></code>
+/// </example>
 public readonly struct AuthenticationFailure : IResultFailure
 {
     private readonly string failure;
 
+    /// <summary>
+    /// </summary>
+    /// <param name="failure"></param>
+    public AuthenticationFailure(string failure) => this.failure = failure;
+
     /// <inheritdoc />
     public Type Type => typeof(AuthenticationFailure);
-
-    public AuthenticationFailure(string failure) => this.failure = failure;
 
     /// <inheritdoc />
     public string GetFailureMessage() => this.failure;
