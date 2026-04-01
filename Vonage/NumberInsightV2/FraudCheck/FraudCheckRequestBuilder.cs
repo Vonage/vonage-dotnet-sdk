@@ -47,34 +47,39 @@ internal struct FraudCheckRequestBuilder : IBuilderForPhone, IBuilderForOptional
 }
 
 /// <summary>
-///     Represents a builder for Phone.
+///     Builder interface for setting the phone number in a <see cref="FraudCheckRequest"/>.
 /// </summary>
 public interface IBuilderForPhone
 {
     /// <summary>
-    ///     Sets the Phone.
+    ///     Sets the phone number to check for fraud risk.
     /// </summary>
-    /// <param name="value">The phone.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The phone number in E.164 format without leading + or 00 (e.g., "447700900000").</param>
+    /// <returns>The builder for configuring optional parameters.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPhone("447700900000")
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithPhone(string value);
 }
 
 /// <summary>
-///     Represents a builder for optional values.
+///     Builder interface for configuring optional insight types in a <see cref="FraudCheckRequest"/>.
 /// </summary>
 public interface IBuilderForOptional : IVonageRequestBuilder<FraudCheckRequest>
 {
     /// <summary>
-    ///     Enables Fraud Score in the response.
+    ///     Includes fraud score analysis in the response, providing a risk score (0-100) and recommended action.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder for further configuration or request creation.</returns>
     [Obsolete("FraudScore has been sunset on February 3rd 2025. SimSwap is the only available insight.")]
     IBuilderForOptional WithFraudScore();
 
     /// <summary>
-    ///     Enables Sim Swap in the response.
+    ///     Includes SIM swap detection in the response, indicating if the SIM was changed in the last 7 days.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder for further configuration or request creation.</returns>
     [Obsolete("FraudScore has been sunset on February 3rd 2025. SimSwap is the only available insight.")]
     IBuilderForOptional WithSimSwap();
 }

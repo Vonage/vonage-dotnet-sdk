@@ -16,6 +16,7 @@ internal class NumberInsightV2Client : INumberInsightV2Client
     public NumberInsightV2Client(VonageHttpClientConfiguration configuration) => this.vonageClient =
         new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
+    /// <inheritdoc/>
     public Task<Result<FraudCheckResponse>> PerformFraudCheckAsync(Result<FraudCheckRequest> request) =>
         this.vonageClient.SendWithResponseAsync<FraudCheckRequest, FraudCheckResponse>(request);
 }

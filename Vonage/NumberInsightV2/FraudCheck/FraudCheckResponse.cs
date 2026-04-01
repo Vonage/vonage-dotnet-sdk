@@ -7,22 +7,18 @@ using Vonage.Common.Serialization;
 namespace Vonage.NumberInsightV2.FraudCheck;
 
 /// <summary>
-///     Represents the response of a Fraud Check request.
+///     Represents the response from a fraud check request to the Number Insight V2 API.
 /// </summary>
-/// <param name="RequestId">Unique UUID for this request for reference.</param>
-/// <param name="Type">The type of lookup used in the request. Currently always phone.</param>
-/// <param name="Phone">
-///     An object containing at least the phone number that was used in the fraud check. If fraud_score was
-///     also requested and successful, other phone information (carrier and type) will be returned.
-/// </param>
+/// <param name="RequestId">Unique identifier for this request, useful for tracking and support inquiries.</param>
+/// <param name="Type">The type of lookup performed. Currently always "phone" for phone number lookups.</param>
+/// <param name="Phone">Phone number details including carrier and type information when fraud_score insight is requested.</param>
 /// <param name="FraudScore">
-///     The result of the fraud_score insight operation. The fraud_score object will only be returned
-///     if you specified fraud_score as a value in the insights array when the request was made.
+///     The fraud score result, present only when "fraud_score" was requested in <see cref="FraudCheckRequest.Insights"/>.
+///     Contains risk score (0-100), risk recommendation, and risk label.
 /// </param>
 /// <param name="SimSwap">
-///     The result of the sim_swap insight operation. If successful, it will return swapped: true if the
-///     sim was swapped in the last 7 days. The sim_swap object will only be returned if you specified sim_swap as a value
-///     in the insights array when the request was made.
+///     The SIM swap check result, present only when "sim_swap" was requested in <see cref="FraudCheckRequest.Insights"/>.
+///     Indicates whether the SIM was swapped in the last 7 days.
 /// </param>
 public record FraudCheckResponse(Guid RequestId, string Type, PhoneData Phone,
     [property: JsonConverter(typeof(MaybeJsonConverter<FraudScore>))]
@@ -33,26 +29,20 @@ public record FraudCheckResponse(Guid RequestId, string Type, PhoneData Phone,
     Maybe<SimSwap> SimSwap);
 
 /// <summary>
-///     Represents an object containing at least the phone number that was used in the fraud check.
+///     Contains phone number information returned from the fraud check.
 /// </summary>
-/// <param name="Phone">The phone number used in the fraud check operation(s).</param>
-/// <param name="Carrier">The name of the network carrier. Included if insights included fraud_score.</param>
-/// <param name="Type">
-///     Type of phone. Examples include Mobile, Landline, VOIP, PrePaid, Personal, Toll-Free. Included if
-///     insights included fraud_score.
-/// </param>
+/// <param name="Phone">The phone number that was checked, in E.164 format.</param>
+/// <param name="Carrier">The network carrier name (e.g., "Vodafone", "AT&amp;T"). Only populated when fraud_score insight is requested.</param>
+/// <param name="Type">The phone line type: Mobile, Landline, VOIP, PrePaid, Personal, or Toll-Free. Only populated when fraud_score insight is requested.</param>
 public record PhoneData(string Phone, string Carrier, string Type);
 
 /// <summary>
-///     Represents the result of the fraud_score insight operation..
+///     Contains the fraud score analysis results for a phone number.
 /// </summary>
-/// <param name="RiskScore">
-///     Score derived from evaluating fraud-related data associated with the phone number. risk_score
-///     ranges from 0-100, with 0 meaning least risk and 100 meaning highest risk.
-/// </param>
-/// <param name="RiskRecommendation">Recommended action based on the risk_score.</param>
-/// <param name="Label">Mapping of risk score to a verbose description.</param>
-/// <param name="Status">The status of the fraud_score call.</param>
+/// <param name="RiskScore">Fraud risk score from 0 (lowest risk) to 100 (highest risk), derived from fraud-related data associated with the phone number.</param>
+/// <param name="RiskRecommendation">The recommended action (allow, flag, or block) based on the risk score.</param>
+/// <param name="Label">Human-readable risk category: low, medium, or high.</param>
+/// <param name="Status">The status of the fraud score operation (e.g., "completed").</param>
 public record FraudScore(
     [property: JsonPropertyName("risk_score")]
     string RiskScore,
@@ -65,64 +55,69 @@ public record FraudScore(
     [property: JsonPropertyName("status")] string Status);
 
 /// <summary>
-///     Represents the mapping of risk score to a verbose description.
+///     Categorizes the fraud risk level based on the computed risk score.
 /// </summary>
 public enum FraudScoreLabel
 {
     /// <summary>
+    ///     Low fraud risk. The phone number shows minimal indicators of fraudulent activity.
     /// </summary>
     [Description("low")] Low,
 
     /// <summary>
+    ///     Medium fraud risk. The phone number shows some indicators that warrant additional verification.
     /// </summary>
     [Description("medium")] Medium,
 
     /// <summary>
+    ///     High fraud risk. The phone number shows strong indicators of potential fraudulent activity.
     /// </summary>
     [Description("high")] High,
 }
 
 /// <summary>
-///     Represents the recommended action based on the risk_score.
+///     Defines the recommended action to take based on the fraud risk score.
 /// </summary>
 public enum RiskRecommendation
 {
     /// <summary>
+    ///     Allow the transaction or interaction. The phone number has low fraud risk.
     /// </summary>
     [Description("allow")] Allow,
 
     /// <summary>
+    ///     Flag for additional review. The phone number shows moderate fraud risk and may require further verification.
     /// </summary>
     [Description("flag")] Flag,
 
     /// <summary>
+    ///     Block the transaction or interaction. The phone number has high fraud risk.
     /// </summary>
     [Description("block")] Block,
 }
 
 /// <summary>
-///     Represents the status of the sim_swap call.
+///     Indicates the outcome of the SIM swap check operation.
 /// </summary>
 public enum SimSwapStatus
 {
     /// <summary>
+    ///     The SIM swap check completed successfully. The <see cref="SimSwap.Swapped"/> property contains the result.
     /// </summary>
     [Description("completed")] Completed,
 
     /// <summary>
+    ///     The SIM swap check failed. Check the <see cref="SimSwap.Reason"/> property for failure details.
     /// </summary>
     [Description("failed")] Failed,
 }
 
 /// <summary>
-///     Represents the result of the sim_swap insight operation.
+///     Contains the SIM swap check results indicating whether the phone number's SIM was recently changed.
 /// </summary>
-/// <param name="Status">The status of the sim_swap call.</param>
-/// <param name="Swapped">
-///     true if the sim was swapped in the last 7 days, false otherwise. Returned only if the sim swap
-///     check succeeds.
-/// </param>
-/// <param name="Reason">The reason for a sim swap error response. Returned only if the sim swap check fails.</param>
+/// <param name="Status">The outcome of the SIM swap check: completed or failed.</param>
+/// <param name="Swapped">True if the SIM was swapped in the last 7 days, false otherwise. Only valid when <see cref="Status"/> is <see cref="SimSwapStatus.Completed"/>.</param>
+/// <param name="Reason">The error reason when the SIM swap check fails. Only populated when <see cref="Status"/> is <see cref="SimSwapStatus.Failed"/>.</param>
 public record SimSwap(
     [property: JsonPropertyName("status")]
     [property: JsonConverter(typeof(EnumDescriptionJsonConverter<SimSwapStatus>))]

@@ -11,33 +11,36 @@ using Vonage.Serialization;
 
 namespace Vonage.NumberInsightV2.FraudCheck;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to perform fraud detection checks on a phone number using the Number Insight V2 API.
+/// </summary>
 public readonly struct FraudCheckRequest : IVonageRequest
 {
     /// <summary>
-    ///     The insight(s) you need, at least one of: fraud_score and sim_swap.
+    ///     The insight types requested for this fraud check. Available values: "fraud_score" (deprecated) and "sim_swap".
+    ///     At least one insight type must be specified.
     /// </summary>
     [JsonPropertyOrder(2)]
     public IEnumerable<string> Insights { get; internal init; }
 
     /// <summary>
-    ///     A single phone number that you need insight about in the E.164 format. Don't use a leading + or 00 when entering a
-    ///     phone number, start with the country code, e.g. 447700900000.
+    ///     The phone number to check for fraud risk, in E.164 format without a leading + or 00.
+    ///     Start with the country code, e.g., 447700900000.
     /// </summary>
     [JsonPropertyOrder(1)]
     [JsonConverter(typeof(PhoneNumberJsonConverter))]
     public PhoneNumber Phone { get; internal init; }
 
     /// <summary>
-    ///     Accepted value is “phone” when a phone number is provided.
+    ///     The type of identifier being checked. Always "phone" for phone number lookups.
     /// </summary>
     [JsonPropertyOrder(0)]
     public string Type => "phone";
 
     /// <summary>
-    ///     Initializes a builder for FraudCheckRequest.
+    ///     Creates a builder for constructing a <see cref="FraudCheckRequest"/>.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>A builder instance to configure the fraud check request.</returns>
     public static IBuilderForPhone Build() => new FraudCheckRequestBuilder();
 
     /// <inheritdoc />
