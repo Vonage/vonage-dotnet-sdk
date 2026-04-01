@@ -1,0 +1,8 @@
+{
+  "conversation_uuid": "CON-aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+  "recording_uuid": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+  "status": "transcribed",
+  "transcription_url": "https://api.nexmo.com/v1/files/bbbbbbbb-aaaa-cccc-dddd-0123456789ab",
+  "type": "record"
+}
+

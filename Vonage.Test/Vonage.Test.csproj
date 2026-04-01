@@ -1454,6 +1454,9 @@
         <None Update="Voice\Data\TranscriptionSample.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Voice\Data\TranscriptionWebhook.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Update="Messages\Webhooks\Data\ShouldDeserializeStatus-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

@@ -83,6 +83,22 @@ internal static class VoiceTestAssertions
         actual.ResultStream.Should().Equal(expectedData);
     }
 
+    internal static void ShouldMatchExpectedTranscription(this TranscriptionResult actual)
+    {
+        actual.RequestId.Should().Be(new Guid("57c382a2-984d-4d67-87de-eafe2c8f35e3"));
+        actual.Version.Should().Be("2.1.0");
+        actual.Channels.Should().HaveCount(1);
+        actual.Channels[0].Duration.Should().Be(1);
+        actual.Channels[0].Transcript.Should().HaveCount(1);
+        actual.Channels[0].Transcript[0].Sentence.Should().Be("Is 2212.");
+        actual.Channels[0].Transcript[0].RawSentence.Should().Be("is two two one two");
+        actual.Channels[0].Transcript[0].Duration.Should().Be(1120);
+        actual.Channels[0].Transcript[0].Timestamp.Should().Be(1640);
+        actual.Channels[0].Transcript[0].Words.Should().HaveCount(2);
+        actual.Channels[0].Transcript[0].Words[0].Should().Be(new Word("Is", 1640, 1720, 0.513033));
+        actual.Channels[0].Transcript[0].Words[1].Should().Be(new Word("2212", 1800, 2760, 0.513033));
+    }
+
     internal static void ShouldBeTrue(this bool actual) => actual.Should().BeTrue();
 
     internal static void ShouldHaveValidAdvancedMachineDetectionProperties(

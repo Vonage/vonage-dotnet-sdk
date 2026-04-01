@@ -88,6 +88,21 @@ public class VoiceClient : IVoiceClient
     }
 
     /// <inheritdoc />
+    public async Task<TranscriptionResult> GetTranscriptionAsync(string transcriptionUrl, Credentials creds = null)
+    {
+        var validHosts = new[] {"nexmo.com", "vonage.com"};
+        if (!Uri.TryCreate(transcriptionUrl, UriKind.Absolute, out var uri)
+            || !validHosts.Any(host => uri.Host.EndsWith(host)))
+        {
+            throw new VonageException("Invalid uri");
+        }
+
+        return await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
+            .DoGetRequestWithQueryParametersAsync<TranscriptionResult>(uri, AuthType.Bearer)
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public Task<CallCommandResponse> StartDtmfAsync(string id, DtmfCommand cmd, Credentials creds = null) =>
         ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
             .DoRequestWithJsonContentAsync<CallCommandResponse>(
