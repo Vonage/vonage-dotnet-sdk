@@ -82,7 +82,7 @@
       <PackagePath/>
     </None>
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(GITHUB_ACTIONS)' != 'true'">
       <Exec Command="git config core.hooksPath .scripts/git_hooks"/>
   </Target>
 </Project>
