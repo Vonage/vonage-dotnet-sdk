@@ -2,16 +2,20 @@ using Newtonsoft.Json;
 
 namespace Vonage.Accounts;
 
+/// <summary>
+///     Represents a request to create a new API secret for an account.
+/// </summary>
 public class CreateSecretRequest
 {
     /// <summary>
-    /// the new secret to be created
-    /// The new secret must follow these rules:
-    ///   minimum 8 characters
-    ///   maximum 25 characters
-    ///   minimum 1 lower case character
-    ///   minimum 1 upper case character
-    ///   minimum 1 digit
+    ///     The new secret value. Must meet the following requirements:
+    ///     <list type="bullet">
+    ///         <item><description>Minimum 8 characters</description></item>
+    ///         <item><description>Maximum 25 characters</description></item>
+    ///         <item><description>At least 1 lowercase character</description></item>
+    ///         <item><description>At least 1 uppercase character</description></item>
+    ///         <item><description>At least 1 digit</description></item>
+    ///     </list>
     /// </summary>
     [JsonProperty("secret")]
     public string Secret { get; set; }

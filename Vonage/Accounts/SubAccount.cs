@@ -2,58 +2,66 @@ using Newtonsoft.Json;
 
 namespace Vonage.Accounts;
 
+/// <summary>
+///     Represents a subaccount under a primary Vonage account.
+///     Subaccounts allow you to segment your usage and manage access for different parts of your organization.
+/// </summary>
 public class SubAccount
 {
     /// <summary>
-    /// the API Key of the subaccount
+    ///     The unique API key for this subaccount.
     /// </summary>
     [JsonProperty("api_key")]
     public string ApiKey { get; set; }
 
     /// <summary>
-    /// the current subaccount balance
+    ///     The current balance of the subaccount, in EUR.
+    ///     Only present if the subaccount does not use the primary account balance.
     /// </summary>
     [JsonProperty("balance")]
     public double? Balance { get; set; }
 
     /// <summary>
-    /// the creation time of the subaccount
+    ///     The timestamp when this subaccount was created, in ISO 8601 format.
     /// </summary>
     [JsonProperty("created_at")]
     public string CreatedAt { get; set; }
 
     /// <summary>
-    /// the credit limit of the subaccount
+    ///     The credit limit for this subaccount.
+    ///     Only applicable when the subaccount does not use the primary account balance.
     /// </summary>
     [JsonProperty("credit_limit")]
     public double? CreditLimit { get; set; }
 
     /// <summary>
-    /// the name of the subaccount
+    ///     The friendly name of the subaccount.
     /// </summary>
     [JsonProperty("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// the primary API Key
+    ///     The API key of the primary account that owns this subaccount.
     /// </summary>
     [JsonProperty("primary_account_api_key")]
     public string PrimaryAccountApiKey { get; set; }
 
     /// <summary>
-    /// the secret of the subaccount
+    ///     The API secret for this subaccount. Only returned when creating a new subaccount.
     /// </summary>
     [JsonProperty("secret")]
     public string Secret { get; set; }
 
     /// <summary>
-    /// the suspension state of the subaccount
+    ///     Indicates whether this subaccount is currently suspended.
+    ///     Suspended subaccounts cannot make API calls.
     /// </summary>
     [JsonProperty("suspended")]
     public bool Suspended { get; set; }
 
     /// <summary>
-    /// whether the subaccount should use the account balance of the primary account
+    ///     Indicates whether this subaccount uses the primary account's balance for API calls.
+    ///     When <c>true</c>, charges are deducted from the primary account.
     /// </summary>
     [JsonProperty("use_primary_account_balance")]
     public bool UsePrimaryAccountBalance { get; set; }

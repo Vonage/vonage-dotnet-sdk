@@ -7,11 +7,19 @@ using Vonage.Request;
 
 namespace Vonage.Accounts;
 
+/// <summary>
+///     Client for managing Vonage account operations including balance inquiries, API secret management, and account settings.
+///     Implements the Vonage Account API.
+/// </summary>
 public class AccountClient : IAccountClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="AccountClient"/> class.
+    /// </summary>
+    /// <param name="creds">Optional credentials to use for authentication.</param>
     public AccountClient(Credentials creds = null)
     {
         this.Credentials = creds;
@@ -25,6 +33,9 @@ public class AccountClient : IAccountClient
         this.timeProvider = timeProvider;
     }
 
+    /// <summary>
+    ///     The credentials used for authenticating API requests.
+    /// </summary>
     public Credentials Credentials { get; set; }
 
     /// <inheritdoc />
