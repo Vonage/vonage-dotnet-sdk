@@ -31,6 +31,16 @@ fi
 TAG="v$VERSION"
 CSPROJ="Vonage/Vonage.csproj"
 
+# Check GitHub CLI authentication before doing anything
+echo "Checking GitHub CLI authentication..."
+if ! gh auth status &>/dev/null; then
+    echo "Error: Not authenticated with GitHub CLI."
+    echo "Please run: gh auth login"
+    exit 1
+fi
+echo "GitHub CLI authenticated."
+echo ""
+
 # Dry run mode
 if [ "$DRY_RUN" = true ]; then
     echo "=== DRY RUN MODE ==="
