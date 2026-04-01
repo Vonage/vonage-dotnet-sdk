@@ -6,11 +6,18 @@ using Vonage.Request;
 
 namespace Vonage.Conversions;
 
+/// <summary>
+///     Implementation of <see cref="IConversionClient"/> for submitting conversion data to the Vonage Conversion API.
+/// </summary>
 public class ConversionClient : IConversionClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ConversionClient"/> class.
+    /// </summary>
+    /// <param name="creds">Optional credentials to use for API requests.</param>
     public ConversionClient(Credentials creds = null)
     {
         this.Credentials = creds;
@@ -24,6 +31,9 @@ public class ConversionClient : IConversionClient
         this.timeProvider = timeProvider;
     }
 
+    /// <summary>
+    ///     Gets or sets the credentials used to authenticate API requests.
+    /// </summary>
     public Credentials Credentials { get; set; }
 
     /// <inheritdoc/>
