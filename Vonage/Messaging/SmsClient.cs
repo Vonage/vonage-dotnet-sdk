@@ -6,11 +6,18 @@ using Vonage.Request;
 
 namespace Vonage.Messaging;
 
+/// <summary>
+///     Implementation of <see cref="ISmsClient"/> for sending SMS messages via the Vonage SMS API.
+/// </summary>
 public class SmsClient : ISmsClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SmsClient"/> class.
+    /// </summary>
+    /// <param name="creds">Optional credentials to use for API requests.</param>
     public SmsClient(Credentials creds = null)
     {
         this.Credentials = creds;
@@ -24,15 +31,12 @@ public class SmsClient : ISmsClient
         this.timeProvider = timeProvider;
     }
 
+    /// <summary>
+    ///     Gets or sets the credentials used to authenticate API requests.
+    /// </summary>
     public Credentials Credentials { get; set; }
 
-    /// <summary>
-    ///     Send a SMS message.
-    /// </summary>
-    /// <param name="request">The SMS message request</param>
-    /// <param name="creds">(Optional) Overridden credentials for only this request</param>
-    /// <exception cref="VonageSmsResponseException">Thrown when the status of a message is non-zero or response is empty</exception>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public async Task<SendSmsResponse> SendAnSmsAsync(SendSmsRequest request, Credentials creds = null)
     {
         var result = await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)

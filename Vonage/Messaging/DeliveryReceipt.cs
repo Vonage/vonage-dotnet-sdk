@@ -8,6 +8,8 @@ using Vonage.Cryptography;
 namespace Vonage.Messaging;
 
 /// <summary>
+///     Represents a delivery receipt (DLR) received via webhook from the Vonage SMS API.
+///     Delivery receipts confirm whether a message was successfully delivered to the recipient's handset.
 /// </summary>
 public class DeliveryReceipt : ISignable
 {

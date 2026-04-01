@@ -2,6 +2,10 @@
 
 namespace Vonage.Messaging;
 
+/// <summary>
+///     Represents an individual message result within an SMS send response.
+///     Each message part in a multi-part SMS has its own response entry.
+/// </summary>
 public class SmsResponseMessage
 {
     /// <summary>
@@ -53,6 +57,9 @@ public class SmsResponseMessage
     [JsonProperty("status")]
     public string Status { get; set; }
     
+    /// <summary>
+    ///     Gets the status as a strongly-typed <see cref="SmsStatusCode"/> enum value.
+    /// </summary>
     [JsonIgnore] public SmsStatusCode StatusCode => (SmsStatusCode) int.Parse(this.Status);
     
     /// <summary>

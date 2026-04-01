@@ -5,6 +5,9 @@ using Newtonsoft.Json.Converters;
 
 namespace Vonage.Messaging;
 
+/// <summary>
+///     Represents a request to send an SMS message via the Vonage SMS API.
+/// </summary>
 public class SendSmsRequest
 {
     /// <summary>
