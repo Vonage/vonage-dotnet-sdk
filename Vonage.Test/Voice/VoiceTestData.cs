@@ -100,6 +100,9 @@ internal static class VoiceTestData
     internal static string GetValidRecordingUri() =>
         "https://api.nexmo.com/v1/files/aaaaaaaa-bbbb-cccc-dddd-0123456789ab";
 
+    internal static string GetValidTranscriptionUri() =>
+        "https://api.nexmo.com/v1/files/bbbbbbbb-aaaa-cccc-dddd-0123456789ab";
+
     internal static string GetInvalidDomainUri() =>
         "https://example.com/v1/abc123";
 

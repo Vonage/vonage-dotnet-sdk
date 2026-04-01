@@ -48,6 +48,18 @@ public interface IVoiceClient
     Task<GetRecordingResponse> GetRecordingAsync(string recordingUrl, Credentials creds = null);
 
     /// <summary>
+    /// GET - retrieves the transcription result from a transcription URL received via webhook.
+    /// </summary>
+    /// <param name="transcriptionUrl">
+    ///     The <c>transcription_url</c> delivered by the transcription webhook
+    ///     (e.g. <c>https://api.nexmo.com/v1/files/...</c>).
+    /// </param>
+    /// <param name="creds">Overridden credentials</param>
+    /// <exception cref="VonageHttpRequestException">thrown if an error is encountered when talking to the API</exception>
+    /// <returns>The deserialized <see cref="TranscriptionResult"/> containing channels, transcripts and word-level detail.</returns>
+    Task<TranscriptionResult> GetTranscriptionAsync(string transcriptionUrl, Credentials creds = null);
+
+    /// <summary>
     /// PUT /v1/calls/{uuid}/dtmf - send Dual-tone multi-frequency(DTMF) tones to an active Call
     /// </summary>
     /// <param name="id">id of call</param>

@@ -91,6 +91,8 @@ public class EventBase
                 return JsonConvert.DeserializeObject<Timeout>(json, VonageSerialization.SerializerSettings);
             case "completed":
                 return JsonConvert.DeserializeObject<Completed>(json, VonageSerialization.SerializerSettings);
+            case "transcribed":
+                return JsonConvert.DeserializeObject<TranscriptionWebhook>(json, VonageSerialization.SerializerSettings);
         }
 
         return null;

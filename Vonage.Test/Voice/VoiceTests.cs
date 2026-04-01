@@ -100,6 +100,31 @@ public class VoiceTests
         await act.Should().ThrowAsync<VonageException>().WithMessage("Invalid uri");
     }
 
+    [Fact]
+    public async Task GetTranscription()
+    {
+        var transcriptionJson = File.ReadAllText("Voice/Data/TranscriptionSample.json");
+        var response = await this.BuildClientWithMessageHandlerForTranscription(transcriptionJson)
+            .GetTranscriptionAsync(VoiceTestData.GetValidTranscriptionUri());
+        response.ShouldMatchExpectedTranscription();
+    }
+
+    [Fact]
+    public async Task GetTranscriptionWithInvalidDomain()
+    {
+        var act = () =>
+            this.context.VonageClient.VoiceClient.GetTranscriptionAsync(VoiceTestData.GetInvalidDomainUri());
+        await act.Should().ThrowAsync<VonageException>().WithMessage("Invalid uri");
+    }
+
+    [Fact]
+    public async Task GetTranscriptionWithInvalidUri()
+    {
+        var act = () =>
+            this.context.VonageClient.VoiceClient.GetTranscriptionAsync(VoiceTestData.GetInvalidUri());
+        await act.Should().ThrowAsync<VonageException>().WithMessage("Invalid uri");
+    }
+
     [Theory]
     [MemberData(nameof(GetSetups))]
     public async Task GetSpecificCall(VoiceTestsSetup setup)
@@ -268,6 +293,25 @@ public class VoiceTests
             .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StreamContent(new MemoryStream(expectedData)),
+            })
+            .Verifiable();
+        var config = new Configuration {ClientHandler = mockHandler.Object};
+        return new VonageClient(
+            Credentials.FromAppIdAndPrivateKey("afed99d2-ae38-487c-bb5a-fe2518febd44", TokenHelper.GetKey()), config,
+            new TimeProvider()).VoiceClient;
+    }
+
+    private IVoiceClient BuildClientWithMessageHandlerForTranscription(string expectedJson)
+    {
+        var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+        mockHandler.Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync",
+                ItExpr.Is<HttpRequestMessage>(req =>
+                    req.RequestUri.AbsoluteUri == VoiceTestData.GetValidTranscriptionUri()),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(expectedJson),
             })
             .Verifiable();
         var config = new Configuration {ClientHandler = mockHandler.Object};

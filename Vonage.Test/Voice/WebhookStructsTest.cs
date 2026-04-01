@@ -147,6 +147,16 @@ public class WebhookStructsTest
             ConversationUuid = ConversationId,
         };
 
+    private static TranscriptionWebhook ExpectedTranscriptionWebhook =>
+        new TranscriptionWebhook
+        {
+            ConversationUuid = ConversationId,
+            RecordingUuid = Uuid,
+            Status = "transcribed",
+            TranscriptionUrl = "https://api.nexmo.com/v1/files/bbbbbbbb-aaaa-cccc-dddd-0123456789ab",
+            Type = "record",
+        };
+
     private static Transfer ExpectedTransfer =>
         new Transfer
         {
@@ -341,6 +351,19 @@ public class WebhookStructsTest
     [InlineData(JsonSerializerType.SystemTextJson)]
     public void DeserializeRecord(JsonSerializerType serializer) =>
         Deserialize<Record>(ReadJson("Voice/Data/Record.json"), serializer).Should().BeEquivalentTo(ExpectedRecord);
+
+    [Theory]
+    [InlineData(JsonSerializerType.Newtonsoft)]
+    [InlineData(JsonSerializerType.SystemTextJson)]
+    public void DeserializeTranscriptionWebhook(JsonSerializerType serializer) =>
+        Deserialize<TranscriptionWebhook>(ReadJson("Voice/Data/TranscriptionWebhook.json"), serializer)
+            .Should().BeEquivalentTo(ExpectedTranscriptionWebhook);
+
+    [Fact]
+    public void ParseEvent_TranscribedStatus_ReturnsTranscriptionWebhook() =>
+        EventBase.ParseEvent(ReadJson("Voice/Data/TranscriptionWebhook.json"))
+            .Should().BeOfType<TranscriptionWebhook>()
+            .Which.Should().BeEquivalentTo(ExpectedTranscriptionWebhook);
 
     [Theory]
     [InlineData(JsonSerializerType.Newtonsoft)]
