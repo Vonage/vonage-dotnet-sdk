@@ -94,4 +94,4 @@ jobs:
 
           gh pr create \
             --title "Update Vonage SDK to $VERSION" \
-            --body "This PR updates the Vonage .NET SDK to version $VERSION.
+            --body "This PR updates the Vonage .NET SDK to version $VERSION."
