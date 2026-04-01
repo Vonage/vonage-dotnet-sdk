@@ -1,4 +1,50 @@
 # Changelog
+## [v8.28.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.28.0) (2026-04-01)
+
+### Build updates
+
+- Add workflow to open a PR on snippets repository, to upgrade the SDK's version, after release ([fd7daeb](https://github.com/Vonage/vonage-dotnet-sdk/commit/fd7daeb923b5d53d90d4c2c708a476f083f39d8f))
+
+- Disable pre-build when ran on GitHub actions ([e057e0e](https://github.com/Vonage/vonage-dotnet-sdk/commit/e057e0edf57891bdb599b43a7af9a5894a959dca))
+
+
+### Documentation
+
+- Generate changelog for v8.27.0 ([9b9d12a](https://github.com/Vonage/vonage-dotnet-sdk/commit/9b9d12a12430b7a71188309e4dd5f7124bdf77dd))
+
+- Add section about releases in README ([0011d2c](https://github.com/Vonage/vonage-dotnet-sdk/commit/0011d2c513f38a7ff8dd3d954e6dc705d30c161e))
+
+- Improve XML documentation on Common ([77e497d](https://github.com/Vonage/vonage-dotnet-sdk/commit/77e497d47ce59c46c41755d443820a85515cda37))
+
+- Improve XML documentation on Common/Monads ([c63138e](https://github.com/Vonage/vonage-dotnet-sdk/commit/c63138e3f2df233d69085e60f1e1032090c5755e))
+
+- Improve XML documentation on Common ([d87ed89](https://github.com/Vonage/vonage-dotnet-sdk/commit/d87ed89731f8583b013d68312e0e7ce504b2a94a))
+
+- Improve XML documentation on Accounts ([90d4173](https://github.com/Vonage/vonage-dotnet-sdk/commit/90d4173b08cffcfa255b391d4523b398babc47d9))
+
+- Improve XML documentation on Conversions ([85ff200](https://github.com/Vonage/vonage-dotnet-sdk/commit/85ff200e3a17c84d34daaa3596ac9c8bc0bb4937))
+
+- Improve XML documentation on Messaging ([f062027](https://github.com/Vonage/vonage-dotnet-sdk/commit/f0620271e4e5c0fbc301efb2ea0a4af64943eb64))
+
+- Improve XML documentation on NumberInsightV2 ([5995e8d](https://github.com/Vonage/vonage-dotnet-sdk/commit/5995e8df9a1eaa19fc36616d06cdc52a3831efdc))
+
+- Bump version to v8.28.0 ([ce3bbf3](https://github.com/Vonage/vonage-dotnet-sdk/commit/ce3bbf373767efcc77a97ea226a74c87f855c8f1))
+
+
+### Features
+
+- Add release.sh script to initiate release, instead of script.js, including new features like --dry-run and confirmation before push ([fe6bbd2](https://github.com/Vonage/vonage-dotnet-sdk/commit/fe6bbd2705bd5c47743f294e9b28639d013cedad))
+
+- Remove bump_version.js, replaced by release.sh ([e372059](https://github.com/Vonage/vonage-dotnet-sdk/commit/e3720595965e37f5249bfa6002c4e8d9a6a10849))
+
+- Remove init.js for git hooks, replaced by command in the prebuild section of projects ([c655fac](https://github.com/Vonage/vonage-dotnet-sdk/commit/c655facc9c0faa58869ee3712d844b7cdd2a6416))
+
+- Remove unnecessary init.js file ([8853530](https://github.com/Vonage/vonage-dotnet-sdk/commit/8853530fcb8d39e07511eab55a7cc0cb2e23798c))
+
+- Add support for retrieving Voice call transcriptions (#631) ([44d1cc1](https://github.com/Vonage/vonage-dotnet-sdk/commit/44d1cc1be8037b7857f3096631a48ac3e911fa6b))
+
+Full Changelog: [v8.27.0...v8.28.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.27.0...v8.28.0)
+
 ## [v8.27.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.27.0) (2026-03-30)
 
 ### Bug Fixes
