@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Numbers;
 
+/// <summary>
+///     Represents a request to perform a transaction on a phone number, such as buying or canceling.
+/// </summary>
 public class NumberTransactionRequest
 {
     /// <summary>

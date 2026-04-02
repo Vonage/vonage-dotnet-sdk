@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Numbers;
 
+/// <summary>
+///     Represents a request to transfer a phone number between accounts.
+/// </summary>
 public class NumberTransferRequest
 {
     /// <summary>

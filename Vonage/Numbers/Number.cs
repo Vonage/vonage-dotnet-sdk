@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Numbers;
 
+/// <summary>
+///     Represents a virtual phone number with its capabilities, pricing, and configuration details.
+/// </summary>
 public class Number
 {
     /// <summary>

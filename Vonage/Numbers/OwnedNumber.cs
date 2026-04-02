@@ -2,20 +2,29 @@ using Newtonsoft.Json;
 
 namespace Vonage.Numbers;
 
+/// <summary>
+///     Represents a virtual phone number that is owned by your Vonage account,
+///     including its webhook configuration for messages and voice.
+/// </summary>
 public class OwnedNumber : Number
 {
+    /// <inheritdoc cref="Number.MoHttpUrl"/>
     [JsonProperty("moHttpUrl")]
-    public string MoHttpUrl { get; set; }
+    public new string MoHttpUrl { get; set; }
 
+    /// <inheritdoc cref="Number.MessagesCallbackType"/>
     [JsonProperty("messagesCallbackType")]
-    public string MessagesCallbackType { get; set; }
+    public new string MessagesCallbackType { get; set; }
 
+    /// <inheritdoc cref="Number.MessagesCallbackValue"/>
     [JsonProperty("messagesCallbackValue")]
-    public string MessagesCallbackValue { get; set; }
+    public new string MessagesCallbackValue { get; set; }
 
+    /// <inheritdoc cref="Number.VoiceCallbackType"/>
     [JsonProperty("voiceCallbackType")]
-    public string VoiceCallbackType { get; set; }
+    public new string VoiceCallbackType { get; set; }
 
+    /// <inheritdoc cref="Number.VoiceCallbackValue"/>
     [JsonProperty("voiceCallbackValue")]
-    public string VoiceCallbackValue { get; set; }
+    public new string VoiceCallbackValue { get; set; }
 }

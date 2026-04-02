@@ -7,7 +7,10 @@ using Vonage.Request;
 
 namespace Vonage.Numbers;
 
-/// <inheritdoc />
+/// <summary>
+///     Provides access to the Numbers API for managing virtual phone numbers including searching,
+///     purchasing, configuring, and transferring numbers between accounts.
+/// </summary>
 public class NumbersClient : INumbersClient
 {
     private const string SuccessStatusCode = "200";
@@ -15,9 +18,9 @@ public class NumbersClient : INumbersClient
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
     /// <summary>
-    ///     Constructor for NumbersClients.
+    ///     Initializes a new instance of the <see cref="NumbersClient"/> class.
     /// </summary>
-    /// <param name="credentials">Credentials to be used in further requests.</param>
+    /// <param name="credentials">Optional credentials to use for API requests. If not provided, uses default configuration.</param>
     public NumbersClient(Credentials credentials = null)
     {
         this.Credentials = credentials;
@@ -32,7 +35,7 @@ public class NumbersClient : INumbersClient
     }
 
     /// <summary>
-    ///     Gets or sets credentials to be used in further requests.
+    ///     The credentials used for authenticating API requests.
     /// </summary>
     public Credentials Credentials { get; set; }
 

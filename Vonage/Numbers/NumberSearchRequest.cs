@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Numbers;
 
+/// <summary>
+///     Represents a request to search for available or owned phone numbers with optional filtering criteria.
+/// </summary>
 public class NumberSearchRequest
 {
     /// <summary>

@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Numbers;
 
+/// <summary>
+///     Represents the response from a number search operation, containing a paginated list of numbers.
+/// </summary>
 public class NumbersSearchResponse
 {
     /// <summary>

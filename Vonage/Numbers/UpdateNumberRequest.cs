@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Numbers;
 
+/// <summary>
+///     Represents a request to update the configuration of an owned phone number.
+/// </summary>
 public class UpdateNumberRequest
 {
     /// <summary>

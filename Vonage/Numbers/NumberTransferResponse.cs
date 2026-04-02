@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Numbers;
 
+/// <summary>
+///     Represents the response from a number transfer operation between accounts.
+/// </summary>
 public class NumberTransferResponse
 {
     /// <summary>
