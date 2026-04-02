@@ -6,6 +6,9 @@ using Newtonsoft.Json.Converters;
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Represents the response from an advanced Number Insight lookup containing validity, reachability, and all standard insight data.
+/// </summary>
 public class AdvancedInsightsResponse : StandardInsightResponse
 {
     /// <summary>

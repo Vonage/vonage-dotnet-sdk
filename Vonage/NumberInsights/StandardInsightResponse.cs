@@ -3,6 +3,9 @@ using Newtonsoft.Json.Converters;
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Represents the response from a standard Number Insight lookup containing carrier, porting, and roaming information.
+/// </summary>
 public class StandardInsightResponse : BasicInsightResponse
 {
     /// <summary>
@@ -32,7 +35,7 @@ public class StandardInsightResponse : BasicInsightResponse
     public Carrier CurrentCarrier { get; set; }
 
     /// <summary>
-    /// Information about the network number is currently connected to.
+    ///     Information about the network the number was originally registered with before any porting occurred.
     /// </summary>
     [JsonProperty("original_carrier")]
     public Carrier OriginalCarrier { get; set; }
@@ -54,7 +57,7 @@ public class StandardInsightResponse : BasicInsightResponse
     public Roaming Roaming { get; set; }
 
     /// <summary>
-    /// Information about the network number is currently connected to.
+    ///     Information about the owner of the phone number. Only present when CNAM lookup is requested for US numbers.
     /// </summary>
     [JsonProperty("caller_identity")]
     public CallerId CallerIdentity { get; set; }

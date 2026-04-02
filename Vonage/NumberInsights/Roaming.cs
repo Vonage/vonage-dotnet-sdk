@@ -3,6 +3,10 @@ using Newtonsoft.Json.Converters;
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Represents roaming information for a mobile phone number, indicating whether the device
+///     is currently connected to a network outside its home country.
+/// </summary>
 public class Roaming
 {        
     /// <summary>

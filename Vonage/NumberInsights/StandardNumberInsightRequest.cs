@@ -2,6 +2,10 @@ using Newtonsoft.Json;
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Represents a request to perform a standard Number Insight lookup on a phone number,
+///     including carrier and porting information.
+/// </summary>
 public class StandardNumberInsightRequest : BasicNumberInsightRequest
 {
     /// <summary>

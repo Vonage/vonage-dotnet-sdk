@@ -3,6 +3,10 @@ using Newtonsoft.Json.Converters;
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Represents caller identity (CNAM) information for a phone number.
+///     Only available for US numbers when CNAM lookup is enabled in the request.
+/// </summary>
 public class CallerId
 {
     /// <summary>

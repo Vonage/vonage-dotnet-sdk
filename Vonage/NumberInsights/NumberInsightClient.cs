@@ -6,11 +6,19 @@ using Vonage.Request;
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Provides access to the Number Insight API for retrieving information about phone numbers
+///     including carrier details, validity, roaming status, and caller identity.
+/// </summary>
 public class NumberInsightClient : INumberInsightClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="NumberInsightClient"/> class.
+    /// </summary>
+    /// <param name="creds">Optional credentials to use for API requests. If not provided, uses default configuration.</param>
     public NumberInsightClient(Credentials creds = null)
     {
         this.Credentials = creds;
@@ -24,6 +32,9 @@ public class NumberInsightClient : INumberInsightClient
         this.timeProvider = timeProvider;
     }
 
+    /// <summary>
+    ///     The credentials used for authenticating API requests.
+    /// </summary>
     public Credentials Credentials { get; set; }
 
     /// <inheritdoc/>

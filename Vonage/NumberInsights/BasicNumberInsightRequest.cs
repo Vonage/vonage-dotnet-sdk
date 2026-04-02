@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Represents a request to perform a basic Number Insight lookup on a phone number.
+/// </summary>
 public class BasicNumberInsightRequest
 {
     /// <summary>

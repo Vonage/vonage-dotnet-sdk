@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Represents the response from a basic Number Insight lookup containing country and number format information.
+/// </summary>
 public class BasicInsightResponse : NumberInsightResponseBase
 {
     /// <summary>

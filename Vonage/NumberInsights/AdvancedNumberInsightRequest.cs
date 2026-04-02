@@ -5,6 +5,10 @@ using Newtonsoft.Json;
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Represents a request to perform an advanced Number Insight lookup on a phone number,
+///     including validity and reachability information.
+/// </summary>
 public class AdvancedNumberInsightRequest : StandardNumberInsightRequest
 {
     /// <summary>

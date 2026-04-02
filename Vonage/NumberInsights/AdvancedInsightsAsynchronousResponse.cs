@@ -2,6 +2,10 @@
 
 namespace Vonage.NumberInsights;
 
+/// <summary>
+///     Represents the acknowledgment response when an asynchronous advanced Number Insight lookup is requested.
+///     The full insight results are delivered to the callback URL specified in the request.
+/// </summary>
 public class AdvancedInsightsAsynchronousResponse : NumberInsightResponseBase
 {
     /// <summary>
