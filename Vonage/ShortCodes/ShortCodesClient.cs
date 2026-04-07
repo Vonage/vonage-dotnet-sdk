@@ -6,11 +6,19 @@ using Vonage.Request;
 
 namespace Vonage.ShortCodes;
 
+/// <summary>
+///     Represents a client for the Vonage US Short Codes API, enabling sending of event-based alerts and two-factor
+///     authentication messages via pre-approved short codes.
+/// </summary>
 public class ShortCodesClient : IShortCodesClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ShortCodesClient"/> class.
+    /// </summary>
+    /// <param name="credentials">Optional credentials to use for authentication.</param>
     public ShortCodesClient(Credentials credentials = null)
     {
         this.Credentials = credentials;
@@ -24,6 +32,9 @@ public class ShortCodesClient : IShortCodesClient
         this.timeProvider = timeProvider;
     }
 
+    /// <summary>
+    ///     Gets or sets the credentials used for authenticating API requests.
+    /// </summary>
     public Credentials Credentials { get; set; }
 
     /// <inheritdoc/>
