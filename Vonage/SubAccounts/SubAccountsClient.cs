@@ -32,10 +32,10 @@ public class SubAccountsClient : ISubAccountsClient
     private readonly VonageHttpClient<StandardApiError> vonageClient;
 
     /// <summary>
-    ///     Creates a new client.
+    ///     Creates a new Subaccounts API client.
     /// </summary>
-    /// <param name="configuration">The client configuration.</param>
-    /// <param name="apiKey">The account Id.</param>
+    /// <param name="configuration">The HTTP client configuration.</param>
+    /// <param name="apiKey">The primary account API key.</param>
     public SubAccountsClient(VonageHttpClientConfiguration configuration, string apiKey)
     {
         this.vonageClient =

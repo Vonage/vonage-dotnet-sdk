@@ -11,27 +11,36 @@ using Vonage.Serialization;
 
 namespace Vonage.SubAccounts.CreateSubAccount;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to create a new subaccount under the primary account.
+/// </summary>
 [Builder]
 public readonly partial struct CreateSubAccountRequest : IVonageRequest
 {
     private const int NameMaxLength = 80;
 
-    /// <summary>
-    ///     Unique primary account ID.
-    /// </summary>
     private string ApiKey { get; init; }
 
     /// <summary>
-    ///     Name of the subaccount.
+    ///     Sets the name of the subaccount; limited to 80 characters.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithName("Department A")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(0)]
     [Mandatory(0)]
     public string Name { get; internal init; }
 
     /// <summary>
-    ///     Secret of the subaccount.
+    ///     Sets the API secret for the subaccount. If not provided, a secret will be auto-generated.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithSecret("MySecurePassword123")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(2)]
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -39,8 +48,13 @@ public readonly partial struct CreateSubAccountRequest : IVonageRequest
     public Maybe<string> Secret { get; internal init; }
 
     /// <summary>
-    ///     Flag showing if balance is shared with primary account.
+    ///     Disables balance sharing with the primary account. By default, subaccounts share the primary account's balance.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .DisableSharedAccountBalance()
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(1)]
     [JsonPropertyName("use_primary_account_balance")]
     [OptionalBoolean(true, "DisableSharedAccountBalance")]

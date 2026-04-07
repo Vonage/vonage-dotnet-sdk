@@ -10,41 +10,60 @@ using Vonage.Serialization;
 
 namespace Vonage.SubAccounts.TransferNumber;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to transfer a phone number from one account to another within the primary account's hierarchy.
+/// </summary>
 [Builder]
 public readonly partial struct TransferNumberRequest : IVonageRequest
 {
     private const int CountryLength = 2;
 
-    /// <summary>
-    ///     Unique primary account ID.
-    /// </summary>
     private string ApiKey { get; init; }
 
     /// <summary>
-    ///     The two character country code in ISO 3166-1 alpha-2 format
+    ///     Sets the two-character country code in ISO 3166-1 alpha-2 format (e.g., "GB", "US").
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithCountry("GB")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(3)]
     [Mandatory(3)]
     public string Country { get; internal init; }
 
     /// <summary>
-    ///     Account the number is transferred from
+    ///     Sets the API key of the account to transfer the number from.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithFrom("7c9738e6")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(0)]
     [Mandatory(0)]
     public string From { get; internal init; }
 
     /// <summary>
-    ///     Number transferred
+    ///     Sets the phone number to transfer.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithNumber("447700900000")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(2)]
     [Mandatory(2)]
     public string Number { get; internal init; }
 
     /// <summary>
-    ///     Account the number is transferred to
+    ///     Sets the API key of the account to transfer the number to.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithTo("ad6dc56f")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(1)]
     [Mandatory(1)]
     public string To { get; internal init; }

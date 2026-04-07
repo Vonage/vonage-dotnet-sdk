@@ -11,7 +11,9 @@ using Vonage.Serialization;
 
 namespace Vonage.SubAccounts.TransferAmount;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to transfer balance or credit between the primary account and a subaccount.
+/// </summary>
 [Builder]
 public readonly partial struct TransferAmountRequest : IVonageRequest
 {
@@ -22,22 +24,37 @@ public readonly partial struct TransferAmountRequest : IVonageRequest
     private string Endpoint { get; init; }
 
     /// <summary>
-    ///     The amount to be transferred.
+    ///     Sets the amount to be transferred. Must be a non-negative value.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithAmount(123.45m)
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(2)]
     [Mandatory(2)]
     public decimal Amount { get; internal init; }
 
     /// <summary>
-    ///     Account the credit is transferred from.
+    ///     Sets the API key of the account to transfer from.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithFrom("7c9738e6")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(0)]
     [Mandatory(0)]
     public string From { get; internal init; }
 
     /// <summary>
-    ///     Reference for the credit transfer
+    ///     Sets a reference for the transfer. This reference is added to the audit log.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithReference("Monthly credit allocation")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(2)]
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -45,8 +62,13 @@ public readonly partial struct TransferAmountRequest : IVonageRequest
     public Maybe<string> Reference { get; internal init; }
 
     /// <summary>
-    ///     Account the credit is transferred to.
+    ///     Sets the API key of the account to transfer to.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithTo("ad6dc56f")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(1)]
     [Mandatory(1)]
     public string To { get; internal init; }

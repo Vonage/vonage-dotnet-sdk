@@ -9,38 +9,37 @@ using Vonage.Serialization;
 
 namespace Vonage.SubAccounts.UpdateSubAccount;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to update the properties of an existing subaccount.
+/// </summary>
 public readonly struct UpdateSubAccountRequest : IVonageRequest
 {
-    /// <summary>
-    ///     Unique primary account ID.
-    /// </summary>
     private string ApiKey { get; init; }
 
     /// <summary>
-    ///     Name of the subaccount.
+    ///     The new name for the subaccount; limited to 80 characters.
     /// </summary>
     public Maybe<string> Name { get; internal init; }
 
     /// <summary>
-    ///     Unique SubAccount ID.
+    ///     The unique API key of the subaccount to update.
     /// </summary>
     public string SubAccountKey { get; internal init; }
 
     /// <summary>
-    ///     Indicates if the account is suspended.
+    ///     Indicates whether the subaccount should be suspended.
     /// </summary>
     public Maybe<bool> Suspended { get; internal init; }
 
     /// <summary>
-    ///     Flag showing if balance is shared with primary account.
+    ///     Indicates whether the subaccount shares the primary account's balance.
     /// </summary>
     public Maybe<bool> UsePrimaryAccountBalance { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder for UpdateSubAccountRequest.
+    ///     Initializes a builder for creating an <see cref="UpdateSubAccountRequest"/>.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder to configure the subaccount update.</returns>
     public static IBuilderForSubAccountKey Build() => new UpdateSubAccountRequestBuilder();
 
     /// <inheritdoc />

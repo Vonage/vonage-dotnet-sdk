@@ -92,51 +92,51 @@ internal class UpdateSubAccountRequestBuilder : IBuilderForOptional, IBuilderFor
 }
 
 /// <summary>
-///     Represents a builder for SubAccountKey.
+///     Represents the first step of the builder requiring the subaccount API key.
 /// </summary>
 public interface IBuilderForSubAccountKey
 {
     /// <summary>
-    ///     Sets the SubAccount key.
+    ///     Sets the unique API key of the subaccount to update.
     /// </summary>
-    /// <param name="value">The SubAccount key.</param>
-    /// <returns></returns>
+    /// <param name="value">The subaccount API key.</param>
+    /// <returns>The builder for optional properties.</returns>
     IBuilderForOptional WithSubAccountKey(string value);
 }
 
 /// <summary>
-///     Represents a builder for optional values.
+///     Represents the builder step for optional update properties. At least one property must be modified.
 /// </summary>
 public interface IBuilderForOptional : IVonageRequestBuilder<UpdateSubAccountRequest>
 {
     /// <summary>
-    ///     Disables shared balance with primary account.
+    ///     Disables balance sharing with the primary account. The subaccount will have its own separate balance.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder for additional optional properties.</returns>
     IBuilderForOptional DisableSharedAccountBalance();
 
     /// <summary>
-    ///     Enables the account.
+    ///     Enables the account by removing its suspended status.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder for additional optional properties.</returns>
     IBuilderForOptional EnableAccount();
 
     /// <summary>
-    ///     Enables shared balance with primary account.
+    ///     Enables balance sharing with the primary account.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder for additional optional properties.</returns>
     IBuilderForOptional EnableSharedAccountBalance();
 
     /// <summary>
-    ///     Suspends the account.
+    ///     Suspends the subaccount, preventing it from making API calls.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder for additional optional properties.</returns>
     IBuilderForOptional SuspendAccount();
 
     /// <summary>
-    ///     Sets the Name.
+    ///     Sets a new name for the subaccount; limited to 80 characters.
     /// </summary>
-    /// <param name="value">The name.</param>
-    /// <returns></returns>
+    /// <param name="value">The new name for the subaccount.</param>
+    /// <returns>The builder for additional optional properties.</returns>
     IBuilderForOptional WithName(string value);
 }

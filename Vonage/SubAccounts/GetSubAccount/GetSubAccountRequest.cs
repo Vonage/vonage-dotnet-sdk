@@ -7,7 +7,9 @@ using Vonage.Common.Validation;
 
 namespace Vonage.SubAccounts.GetSubAccount;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to retrieve a specific subaccount by its API key.
+/// </summary>
 public readonly struct GetSubAccountRequest : IVonageRequest
 {
     private readonly string apiKey = string.Empty;
@@ -19,15 +21,18 @@ public readonly struct GetSubAccountRequest : IVonageRequest
     }
 
     /// <summary>
-    ///     The SubAccount Id.
+    ///     The unique API key of the subaccount to retrieve.
     /// </summary>
     public string SubAccountKey { get; }
 
     /// <summary>
-    ///     Parses the input into a GetSubAccountRequest.
+    ///     Creates a request to retrieve a specific subaccount.
     /// </summary>
-    /// <param name="subAccountKey">The SubAccount Id.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
+    /// <param name="subAccountKey">The unique API key of the subaccount to retrieve.</param>
+    /// <returns>
+    ///     A <see cref="Result{T}"/> containing the request on success,
+    ///     or a validation error if the subaccount key is empty.
+    /// </returns>
     public static Result<GetSubAccountRequest> Parse(string subAccountKey) =>
         Result<GetSubAccountRequest>
             .FromSuccess(new GetSubAccountRequest(string.Empty, subAccountKey))

@@ -10,7 +10,9 @@ using Vonage.Common.Validation;
 
 namespace Vonage.SubAccounts.GetTransfers;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to retrieve balance or credit transfers for a primary account within a specified time period.
+/// </summary>
 [Builder]
 public readonly partial struct GetTransfersRequest : IVonageRequest
 {
@@ -23,20 +25,35 @@ public readonly partial struct GetTransfersRequest : IVonageRequest
     private string Endpoint { get; init; }
 
     /// <summary>
-    ///     End of the retrieval period. If absent then all transfers until now is returned.
+    ///     Sets the end of the retrieval period. If not specified, all transfers until now are returned.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithEndDate(DateTimeOffset.UtcNow)
+    /// ]]></code>
+    /// </example>
     [Optional]
     public Maybe<DateTimeOffset> EndDate { get; internal init; }
 
     /// <summary>
-    ///     Start of the retrieval period.
+    ///     Sets the start of the retrieval period.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithStartDate(DateTimeOffset.UtcNow.AddDays(-30))
+    /// ]]></code>
+    /// </example>
     [Mandatory(0)]
     public DateTimeOffset StartDate { get; internal init; }
 
     /// <summary>
-    ///     Subaccount to filter by.
+    ///     Sets a subaccount API key to filter results. Only transfers involving this subaccount will be returned.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithSubAccountKey("bbe6222f")
+    /// ]]></code>
+    /// </example>
     [Optional]
     public Maybe<string> SubAccountKey { get; internal init; }
 
