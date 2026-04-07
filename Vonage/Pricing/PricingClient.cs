@@ -6,11 +6,18 @@ using Vonage.Request;
 
 namespace Vonage.Pricing;
 
+/// <summary>
+///     Provides access to the Pricing API for retrieving outbound pricing information for SMS and voice services.
+/// </summary>
 public class PricingClient : IPricingClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="PricingClient"/> class.
+    /// </summary>
+    /// <param name="creds">Optional credentials to use for API requests. If not provided, uses default configuration.</param>
     public PricingClient(Credentials creds = null)
     {
         this.Credentials = creds;
@@ -24,6 +31,9 @@ public class PricingClient : IPricingClient
         this.timeProvider = timeProvider;
     }
 
+    /// <summary>
+    ///     The credentials used for authenticating API requests.
+    /// </summary>
     public Credentials Credentials { get; set; }
 
     /// <inheritdoc/>

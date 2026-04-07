@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Pricing;
 
+/// <summary>
+///     Represents a request to retrieve pricing information for countries matching a dialing prefix.
+/// </summary>
 public class PricingPrefixRequest
 {
     /// <summary>

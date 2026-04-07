@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Pricing;
 
+/// <summary>
+///     Represents pricing information for a specific mobile or landline network operator.
+/// </summary>
 public class Network
 {
     /// <summary>

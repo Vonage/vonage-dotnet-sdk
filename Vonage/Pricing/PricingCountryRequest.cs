@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Pricing;
 
+/// <summary>
+///     Represents a request to retrieve pricing information for a specific country.
+/// </summary>
 public class PricingCountryRequest
 {
     /// <summary>
