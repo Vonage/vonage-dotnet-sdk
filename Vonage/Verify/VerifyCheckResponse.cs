@@ -2,38 +2,38 @@ using Newtonsoft.Json;
 
 namespace Vonage.Verify;
 
+/// <summary>
+///     Represents the response from validating a PIN code, indicating whether the code was correct and the cost incurred.
+/// </summary>
 public class VerifyCheckResponse : VerifyResponseBase
 {
     /// <summary>
-    /// The request_id that you received in the response to the Verify request and used in the Verify check request.
+    ///     The unique identifier of the verification request that was checked.
     /// </summary>
     [JsonProperty("request_id")]
     public string RequestId { get; set; }
 
     /// <summary>
-    /// The ID of the verification event, such as an SMS or TTS call.
+    ///     The identifier of the specific verification event (SMS or voice call) that delivered the code.
     /// </summary>
     [JsonProperty("event_id")]
     public string EventId { get; set; }
 
     /// <summary>
-    /// The cost incurred for this request.
+    ///     The cost incurred for this verification check, in the currency specified by <see cref="Currency"/>.
     /// </summary>
     [JsonProperty("price")]
     public string Price { get; set; }
 
     /// <summary>
-    /// The currency code.
+    ///     The three-letter currency code (ISO 4217) for the <see cref="Price"/> value.
     /// </summary>
     [JsonProperty("currency")]
     public string Currency { get; set; }
 
     /// <summary>
-    /// This field may not be present, depending on your pricing model. 
-    /// The value indicates the cost (in EUR) of the calls made and messages sent for the verification process. 
-    /// This value may be updated during and shortly after the request completes because user input events can overlap with message/call events. 
-    /// When this field is present, the total cost of the verification is the sum of this field and the price field.
+    ///     The estimated cost in EUR of all messages and calls sent during the verification process. This value may update after the request completes. The total cost is the sum of this field and <see cref="Price"/>. May not be present depending on your pricing model.
     /// </summary>
     [JsonProperty("estimated_price_messages_sent")]
-    public string EstimatedPriceMessagesSent { get; set; }        
+    public string EstimatedPriceMessagesSent { get; set; }
 }

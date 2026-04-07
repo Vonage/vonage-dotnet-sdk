@@ -2,16 +2,19 @@
 
 namespace Vonage.Verify;
 
+/// <summary>
+///     Base class for verification responses, containing common status and error properties.
+/// </summary>
 public abstract class VerifyResponseBase
 {
     /// <summary>
-    /// If the status is non-zero, this explains the error encountered.
+    ///     A human-readable error message explaining why the request failed. Only populated when <see cref="Status"/> is non-zero.
     /// </summary>
     [JsonProperty("error_text")]
     public string ErrorText { get; set; }
 
     /// <summary>
-    /// A value of 0 indicates that your user entered the correct code. If it is non-zero, check the error_text.
+    ///     The status code of the response. A value of "0" indicates success; any other value indicates an error. Check <see cref="ErrorText"/> for details when non-zero.
     /// </summary>
     [JsonProperty("status")]
     public string Status { get; set; }
