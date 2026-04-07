@@ -7,11 +7,18 @@ using Vonage.Request;
 
 namespace Vonage.Redaction;
 
+/// <summary>
+///     Represents a client for the Vonage Redact API, enabling removal of personal data from the Vonage platform.
+/// </summary>
 public class RedactClient : IRedactClient
 {
     private readonly Configuration configuration;
     private readonly ITimeProvider timeProvider = new TimeProvider();
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="RedactClient"/> class.
+    /// </summary>
+    /// <param name="creds">Optional credentials to use for authentication.</param>
     public RedactClient(Credentials creds = null)
     {
         this.Credentials = creds;
@@ -25,6 +32,9 @@ public class RedactClient : IRedactClient
         this.timeProvider = timeProvider;
     }
 
+    /// <summary>
+    ///     Gets or sets the credentials used for authenticating API requests.
+    /// </summary>
     public Credentials Credentials { get; set; }
 
     /// <inheritdoc/>
