@@ -7,34 +7,36 @@ using Vonage.Common.Monads;
 
 namespace Vonage.Users.GetUsers;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to retrieve a paginated list of users with optional filtering and sorting options.
+/// </summary>
 public readonly struct GetUsersRequest : IVonageRequest
 {
     /// <summary>
-    ///     The cursor to start returning results from. You are not expected to provide this manually, but to follow the url
-    ///     provided in _links.next.href or _links.prev.href in the response which contains a cursor value.
+    ///     The pagination cursor for retrieving the next or previous page of results. This value is automatically extracted
+    ///     from the _links.next.href or _links.prev.href in the response and should not be set manually.
     /// </summary>
     public Maybe<string> Cursor { get; internal init; }
 
     /// <summary>
-    ///     Unique name for a user
+    ///     Filters results to users matching this unique name. When specified, only users with an exact name match are returned.
     /// </summary>
     public Maybe<string> Name { get; internal init; }
 
     /// <summary>
-    ///     Defines the data ordering.
+    ///     The sort order for the results. Use <see cref="FetchOrder.Ascending"/> for oldest first or <see cref="FetchOrder.Descending"/> for newest first.
     /// </summary>
     public FetchOrder Order { get; internal init; }
 
     /// <summary>
-    ///     Number of results per page.
+    ///     The maximum number of user records to return per page. Defaults to 10 if not specified.
     /// </summary>
     public int PageSize { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder.
+    ///     Initializes a builder for creating a GetUsersRequest with optional parameters.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>A builder instance for configuring the request.</returns>
     public static IBuilderForOptional Build() => new GetUsersRequestBuilder(Maybe<string>.None);
 
     /// <inheritdoc />

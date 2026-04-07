@@ -45,28 +45,43 @@ internal class GetUsersRequestBuilder : IBuilderForOptional
 }
 
 /// <summary>
-///     Represents a builder for optional values.
+///     Represents a builder for configuring optional parameters when retrieving users.
 /// </summary>
 public interface IBuilderForOptional : IVonageRequestBuilder<GetUsersRequest>
 {
     /// <summary>
-    ///     Sets the user name on the builder.
+    ///     Filters results to users matching the specified unique name.
     /// </summary>
-    /// <param name="value">The user name.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The exact user name to filter by.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithName("my-user")
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithName(string value);
 
     /// <summary>
-    ///     Sets the order on the builder.
+    ///     Sets the sort order for the results.
     /// </summary>
-    /// <param name="value">The order.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The sort order. Use <see cref="FetchOrder.Ascending"/> for oldest first or <see cref="FetchOrder.Descending"/> for newest first.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithOrder(FetchOrder.Descending)
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithOrder(FetchOrder value);
 
     /// <summary>
-    ///     Sets the page size on the builder.
+    ///     Sets the maximum number of user records to return per page.
     /// </summary>
-    /// <param name="value">The page size.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The page size. Defaults to 10 if not specified.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPageSize(25)
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithPageSize(int value);
 }

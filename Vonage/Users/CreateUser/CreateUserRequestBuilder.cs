@@ -126,100 +126,164 @@ internal class CreateUserRequestBuilder : IBuilderForOptional
 }
 
 /// <summary>
-///     Represents a builder for optional values.
+///     Represents a builder for configuring optional parameters when creating a new user.
 /// </summary>
 public interface IBuilderForOptional : IVonageRequestBuilder<CreateUserRequest>
 {
     /// <summary>
-    /// Sets a channel.
+    ///     Adds a Facebook Messenger channel to the user.
     /// </summary>
-    /// <param name="value">The channel.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The Messenger channel configuration containing the user's Messenger ID.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(new ChannelMessenger("messenger-user-id"))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithChannel(ChannelMessenger value);
 
     /// <summary>
-    /// Sets a channel.
+    ///     Adds a PSTN (landline/mobile) channel to the user for voice communication.
     /// </summary>
-    /// <param name="value">The channel.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The PSTN channel configuration containing the phone number.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(new ChannelPstn(14155550100))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithChannel(ChannelPstn value);
 
     /// <summary>
-    /// Sets a channel.
+    ///     Adds a SIP channel to the user for VoIP communication.
     /// </summary>
-    /// <param name="value">The channel.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The SIP channel configuration containing the URI and authentication credentials.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(new ChannelSip("sip:user@domain.com", "username", "password"))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithChannel(ChannelSip value);
 
     /// <summary>
-    /// Sets a channel.
+    ///     Adds an SMS channel to the user for text messaging.
     /// </summary>
-    /// <param name="value">The channel.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The SMS channel configuration containing the phone number.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(new ChannelSms("14155550100"))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithChannel(ChannelSms value);
 
     /// <summary>
-    /// Sets a channel.
+    ///     Adds an MMS channel to the user for multimedia messaging.
     /// </summary>
-    /// <param name="value">The channel.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The MMS channel configuration containing the phone number.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(new ChannelMms("14155550100"))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithChannel(ChannelMms value);
 
     /// <summary>
-    /// Sets a channel.
+    ///     Adds a VBC (Vonage Business Communications) channel to the user.
     /// </summary>
-    /// <param name="value">The channel.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The VBC channel configuration containing the extension number.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(new ChannelVbc("1234"))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithChannel(ChannelVbc value);
 
     /// <summary>
-    /// Sets a channel.
+    ///     Adds a Viber channel to the user for messaging.
     /// </summary>
-    /// <param name="value">The channel.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The Viber channel configuration containing the phone number.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(new ChannelViber("14155550100"))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithChannel(ChannelViber value);
 
     /// <summary>
-    /// Sets a channel.
+    ///     Adds a WebSocket channel to the user for real-time audio streaming.
     /// </summary>
-    /// <param name="value">The channel.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The WebSocket channel configuration containing the URI, content type, and optional headers.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(new ChannelWebSocket("wss://example.com/socket", "audio/l16;rate=16000", new Dictionary<string, string>()))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithChannel(ChannelWebSocket value);
 
     /// <summary>
-    /// Sets a channel.
+    ///     Adds a WhatsApp channel to the user for messaging.
     /// </summary>
-    /// <param name="value">The channel.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The WhatsApp channel configuration containing the phone number.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(new ChannelWhatsApp("14155550100"))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithChannel(ChannelWhatsApp value);
 
     /// <summary>
-    /// Sets the display name.
+    ///     Sets a human-readable display name for the user. Unlike the unique name, this does not need to be unique.
     /// </summary>
-    /// <param name="value">The display name.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The display name to show for the user. Must not be empty if provided.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithDisplayName("John Doe")
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithDisplayName(string value);
 
-
     /// <summary>
-    /// Sets the  image url.
+    ///     Sets a profile image URL for the user.
     /// </summary>
-    /// <param name="value">The image url.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The URL pointing to the user's profile image or avatar.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithImageUrl(new Uri("https://example.com/avatar.png"))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithImageUrl(Uri value);
 
     /// <summary>
-    /// Sets the name.
+    ///     Sets the unique name for the user within the Vonage platform.
     /// </summary>
-    /// <param name="value">The name.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The unique name to identify the user. Must not be empty if provided.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithName("my-user")
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithName(string value);
 
     /// <summary>
-    /// Sets a user property.
+    ///     Adds a custom property to the user for storing application-specific data.
     /// </summary>
     /// <param name="key">The property key.</param>
-    /// <param name="value">The property value.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The property value, which can be any serializable object.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithUserProperty("department", "Engineering")
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithUserProperty(string key, object value);
 }

@@ -11,17 +11,19 @@ using Vonage.Serialization;
 
 namespace Vonage.Users.CreateUser;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to create a new user in the Vonage platform with optional profile information and communication channels.
+/// </summary>
 public readonly struct CreateUserRequest : IVonageRequest
 {
     /// <summary>
-    ///     User channels.
+    ///     The communication channels configured for the user, including PSTN, SIP, VBC, WebSocket, SMS, MMS, WhatsApp, Viber, and Messenger.
     /// </summary>
     [JsonPropertyOrder(4)]
     public UserChannels Channels { get; internal init; }
 
     /// <summary>
-    ///     A string to be displayed as user name. It does not need to be unique.
+    ///     A human-readable display name for the user. Unlike the Name property, this does not need to be unique.
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -29,7 +31,7 @@ public readonly struct CreateUserRequest : IVonageRequest
     public Maybe<string> DisplayName { get; internal init; }
 
     /// <summary>
-    ///     An image URL that you associate with the user
+    ///     A URL pointing to an image associated with the user's profile, such as an avatar or profile picture.
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<Uri>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -37,7 +39,7 @@ public readonly struct CreateUserRequest : IVonageRequest
     public Maybe<Uri> ImageUrl { get; internal init; }
 
     /// <summary>
-    ///     Unique name for a user.
+    ///     A unique name for identifying the user within the Vonage platform. Must not be empty if provided.
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -45,15 +47,15 @@ public readonly struct CreateUserRequest : IVonageRequest
     public Maybe<string> Name { get; internal init; }
 
     /// <summary>
-    ///     User properties.
+    ///     Custom properties associated with the user, stored as key-value pairs for application-specific data.
     /// </summary>
     [JsonPropertyOrder(3)]
     public UserProperty Properties { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder.
+    ///     Initializes a builder for creating a CreateUserRequest with optional parameters.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>A builder instance for configuring the request.</returns>
     public static IBuilderForOptional Build() => new CreateUserRequestBuilder();
 
     /// <inheritdoc />

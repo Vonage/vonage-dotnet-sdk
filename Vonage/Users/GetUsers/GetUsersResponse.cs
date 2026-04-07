@@ -9,14 +9,11 @@ using Vonage.Common.Monads;
 namespace Vonage.Users.GetUsers;
 
 /// <summary>
+///     Represents the paginated response from retrieving users, containing user summaries and navigation links.
 /// </summary>
-/// <param name="PageSize">The amount of records returned in this response.</param>
-/// <param name="Embedded">
-///     A list of user objects. See
-///     <see href="https://developer.vonage.com/en/api/application.v2#getUser">the get details</see> of a specific user
-///     response fields for a description of the nested objects
-/// </param>
-/// <param name="Links">A series of links between resources in this API in the http://stateless.co/hal_specification.html.</param>
+/// <param name="PageSize">The number of user records returned in this response page.</param>
+/// <param name="Embedded">The embedded collection containing the list of user summaries matching the query.</param>
+/// <param name="Links">HAL navigation links for pagination, including next and previous page cursors when available.</param>
 public record GetUsersResponse(
     [property: JsonPropertyOrder(0)] int PageSize,
     [property: JsonPropertyName("_embedded")]
@@ -27,15 +24,15 @@ public record GetUsersResponse(
     HalLinks<GetUsersHalLink> Links);
 
 /// <summary>
-///     Represents a link to another resource.
+///     Represents a HAL navigation link for paginating through user results.
 /// </summary>
-/// <param name="Href">Hyperlink reference.</param>
+/// <param name="Href">The hyperlink reference URL containing pagination parameters.</param>
 public record GetUsersHalLink(Uri Href)
 {
     /// <summary>
-    ///     Transforms the link into a GetUsersRequest using the cursor pagination.
+    ///     Transforms this navigation link into a <see cref="GetUsersRequest"/> for fetching the next or previous page of results.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A result containing the <see cref="GetUsersRequest"/> on success, or an error if required parameters are missing from the URL.</returns>
     public Result<GetUsersRequest> BuildRequest()
     {
         var queryParameters = HttpUtility.ParseQueryString(this.Href.Query);
@@ -62,18 +59,18 @@ public record GetUsersHalLink(Uri Href)
 }
 
 /// <summary>
-///     Represents a list of user objects.
+///     Represents the embedded collection of user summaries returned in a paginated response.
 /// </summary>
-/// <param name="Users">List of users matching the provided filter.</param>
+/// <param name="Users">The array of user summaries matching the query criteria.</param>
 public record EmbeddedUsers(UserSummary[] Users);
 
 /// <summary>
-///     Represents a user summary.
+///     Represents a lightweight summary of a user, containing basic identification information without full channel details.
 /// </summary>
-/// <param name="Id">User ID</param>
-/// <param name="Name">Unique name for a user</param>
-/// <param name="DisplayName">A string to be displayed as user name. It does not need to be unique</param>
-/// <param name="Links">A series of links between resources in this API in the http://stateless.co/hal_specification.html.</param>
+/// <param name="Id">The unique identifier for the user (e.g., "USR-12345678-1234-1234-1234-123456789012").</param>
+/// <param name="Name">The unique name assigned to the user within the Vonage platform.</param>
+/// <param name="DisplayName">A human-readable display name for the user. Unlike the Name, this does not need to be unique.</param>
+/// <param name="Links">HAL links for navigating to the full user resource.</param>
 public record UserSummary(
     [property: JsonPropertyOrder(0)] string Id,
     [property: JsonPropertyName("name")]
