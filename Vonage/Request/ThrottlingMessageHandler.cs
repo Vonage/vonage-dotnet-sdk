@@ -4,21 +4,16 @@ using System.Threading.Tasks;
 
 namespace Vonage.Request;
 
-internal class ThrottlingMessageHandler : DelegatingHandler
+internal class ThrottlingMessageHandler(TimeSpanSemaphore execTimeSpanSemaphore, HttpMessageHandler innerHandler)
+    : DelegatingHandler(innerHandler)
 {
-    private readonly TimeSpanSemaphore execTimeSpanSemaphore;
-
     public ThrottlingMessageHandler(TimeSpanSemaphore execTimeSpanSemaphore)
-        : this(execTimeSpanSemaphore, new HttpClientHandler {AllowAutoRedirect = true})
+        : this(execTimeSpanSemaphore, new HttpClientHandler {AllowAutoRedirect = false})
     {
     }
 
-    public ThrottlingMessageHandler(TimeSpanSemaphore execTimeSpanSemaphore, HttpMessageHandler innerHandler)
-        : base(innerHandler) =>
-        this.execTimeSpanSemaphore = execTimeSpanSemaphore;
-
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken) =>
-        this.execTimeSpanSemaphore?.RunAsync(base.SendAsync, request, cancellationToken) ??
+        execTimeSpanSemaphore?.RunAsync(base.SendAsync, request, cancellationToken) ??
         base.SendAsync(request, cancellationToken);
 }
