@@ -2,10 +2,13 @@
 
 namespace Vonage.Voice.Nccos.Endpoints;
 
+/// <summary>
+///     Represents a Vonage Business Communications (VBC) endpoint for connecting a call to a VBC extension.
+/// </summary>
 public class VbcEndpoint : Endpoint
 {
     /// <summary>
-    /// the VBC extension to connect the call to.
+    ///     The VBC extension number to connect the call to.
     /// </summary>
     [JsonProperty("extension")]
     public string Extension { get; set; }

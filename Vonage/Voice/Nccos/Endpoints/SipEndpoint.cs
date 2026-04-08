@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace Vonage.Voice.Nccos.Endpoints;
 
+/// <summary>
+///     Represents a SIP endpoint for connecting a call to a SIP URI or SIP trunk.
+/// </summary>
 public class SipEndpoint : Endpoint
 {
     public SipEndpoint() => this.Type = EndpointType.Sip;

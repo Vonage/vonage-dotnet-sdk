@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Webhook event received when a call attempt reaches a busy destination.
 /// </summary>
 public class Busy : CallStatusEvent
 {

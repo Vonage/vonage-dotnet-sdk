@@ -6,18 +6,19 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Webhook event received when an error occurs during a call. Contains the reason for the error and the associated conversation UUID.
 /// </summary>
 public class Error : EventBase
 {
     /// <summary>
-    /// Information about the nature of the error
+    ///     A human-readable description of the error that occurred.
     /// </summary>
     [JsonProperty("reason")]
     [JsonPropertyName("reason")]
     public string Reason { get; set; }
 
     /// <summary>
-    /// The unique identifier for this conversation
+    ///     The unique identifier for the conversation associated with this error.
     /// </summary>
     [JsonProperty("conversation_uuid")]
     [JsonPropertyName("conversation_uuid")]

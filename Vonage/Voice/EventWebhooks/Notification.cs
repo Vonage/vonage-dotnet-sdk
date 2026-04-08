@@ -6,19 +6,20 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Webhook event received from a <c>notify</c> NCCO action. Carries a custom payload of the specified type.
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">The type of the custom payload included in the notification.</typeparam>
 public class Notification<T> : EventBase
 {
     /// <summary>
-    /// A unique identifier for this conversation
+    ///     The unique identifier for the conversation associated with this notification.
     /// </summary>
     [JsonProperty("conversation_uuid")]
     [JsonPropertyName("conversation_uuid")]
     public string ConversationUuid { get; set; }
 
     /// <summary>
-    /// Custom payload of for the notification action
+    ///     The custom payload specified in the <c>notify</c> NCCO action.
     /// </summary>
     [JsonProperty("payload")]
     [JsonPropertyName("payload")]

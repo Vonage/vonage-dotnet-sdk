@@ -6,11 +6,12 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Abstract base class for Voice API webhook events that include a call leg UUID.
 /// </summary>
 public abstract class Event : EventBase
 {
     /// <summary>
-    /// The unique identifier for this call
+    ///     The unique identifier for this call leg.
     /// </summary>
     [JsonProperty("uuid")]
     [JsonPropertyName("uuid")]

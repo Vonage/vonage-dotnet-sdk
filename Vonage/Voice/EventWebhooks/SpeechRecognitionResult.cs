@@ -6,18 +6,19 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Represents a single speech recognition hypothesis with its transcript text and confidence score.
 /// </summary>
 public class SpeechRecognitionResult
 {
     /// <summary>
-    /// Transcript text representing the words that the user spoke.
+    ///     The transcript text representing the words that the caller spoke.
     /// </summary>
     [JsonProperty("text")]
     [JsonPropertyName("text")]
     public string Text { get; set; }
 
     /// <summary>
-    /// The confidence estimate between 0.0 and 1.0. A higher number indicates an estimated greater likelihood that the recognized words are correct.
+    ///     The confidence estimate between 0.0 and 1.0. A higher value indicates a greater likelihood that the recognized words are correct.
     /// </summary>
     [JsonProperty("confidence")]
     [JsonPropertyName("confidence")]

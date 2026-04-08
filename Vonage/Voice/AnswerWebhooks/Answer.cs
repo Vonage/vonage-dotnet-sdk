@@ -13,31 +13,34 @@ using Vonage.Voice.Nccos.Endpoints;
 
 namespace Vonage.Voice.AnswerWebhooks;
 
+/// <summary>
+///     Webhook event received when an inbound call arrives or an outbound call is answered. Contains routing information needed to return an NCCO that controls the call flow.
+/// </summary>
 public class Answer : EventBase
 {
     /// <summary>
-    /// The number the call came from (this could be your Vonage number if the call is started programmatically)
+    ///     The number being called (typically your Vonage virtual number for inbound calls).
     /// </summary>
     [JsonProperty("to")]
     [JsonPropertyName("to")]
     public string To { get; set; }
 
     /// <summary>
-    /// The call the number is to (this could be a Vonage number or another phone number)
+    ///     The caller's phone number. Not present when the call originates from a Client SDK user (see <see cref="FromUser"/>).
     /// </summary>
     [JsonProperty("from")]
     [JsonPropertyName("from")]
     public string From { get; set; }
 
     /// <summary>
-    /// A unique identifier for this call
+    ///     The unique identifier for this call leg.
     /// </summary>
     [JsonProperty("uuid")]
     [JsonPropertyName("uuid")]
     public string Uuid { get; set; }
 
     /// <summary>
-    /// A unique identifier for this conversation
+    ///     The unique identifier for the conversation this call leg belongs to.
     /// </summary>
     [JsonProperty("conversation_uuid")]
     [JsonPropertyName("conversation_uuid")]

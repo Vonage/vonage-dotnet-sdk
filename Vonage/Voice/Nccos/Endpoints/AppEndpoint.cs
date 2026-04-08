@@ -2,10 +2,13 @@
 
 namespace Vonage.Voice.Nccos.Endpoints;
 
+/// <summary>
+///     Represents an application (Client SDK) endpoint for connecting a call to an in-app user.
+/// </summary>
 public class AppEndpoint : Endpoint
 {
     /// <summary>
-    /// 	the username of the user to connect to. This username must have been added as a user
+    ///     The username of the user to connect to. This user must have been added to the application.
     /// </summary>
     [JsonProperty("user")]
     public string User { get; set; }

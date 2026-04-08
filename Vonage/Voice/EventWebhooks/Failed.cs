@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Webhook event received when a call attempt fails due to a network or system error.
 /// </summary>
 public class Failed : CallStatusEvent
 {

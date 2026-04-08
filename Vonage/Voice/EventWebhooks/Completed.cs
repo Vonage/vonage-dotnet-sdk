@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Webhook event received when a call has ended normally. Contains billing details (price, rate, duration), network information, and timing data.
 /// </summary>
 public class Completed : CallStatusEvent
 {
@@ -18,42 +19,42 @@ public class Completed : CallStatusEvent
     public int? SipCode { get; set; }
 
     /// <summary>
-    /// Call length (in seconds)
+    ///     The duration of the call in seconds.
     /// </summary>
     [JsonProperty("duration")]
     [JsonPropertyName("duration")]
     public string Duration { get; set; }
 
     /// <summary>
-    /// Timestamp (ISO 8601 format) of the end time of the call
+    ///     The timestamp when the call ended, in ISO 8601 format.
     /// </summary>
     [JsonProperty("end_time")]
     [JsonPropertyName("end_time")]
     public DateTime? EndTime { get; set; }
 
     /// <summary>
-    /// The type of network that was used in the call
+    ///     The Mobile Country Code Mobile Network Code (MCCMNC) for the carrier network used to make this call.
     /// </summary>
     [JsonProperty("network")]
     [JsonPropertyName("network")]
     public string Network { get; set; }
 
     /// <summary>
-    /// Total cost of the call (EUR)
+    ///     The total price charged for this call in EUR.
     /// </summary>
     [JsonProperty("price")]
     [JsonPropertyName("price")]
     public string Price { get; set; }
 
     /// <summary>
-    /// Cost per minute of the call (EUR)
+    ///     The price per minute for this call in EUR.
     /// </summary>
     [JsonProperty("rate")]
     [JsonPropertyName("rate")]
     public string Rate { get; set; }
 
     /// <summary>
-    /// Timestamp (ISO 8601 format)
+    ///     The timestamp when the call started, in ISO 8601 format.
     /// </summary>
     [JsonProperty("start_time")]
     [JsonPropertyName("start_time")]

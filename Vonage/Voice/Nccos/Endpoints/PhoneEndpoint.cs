@@ -5,10 +5,12 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.Nccos.Endpoints;
 
 /// <summary>
+///     Represents a phone (PSTN) endpoint for connecting a call to a phone number.
 /// </summary>
 public class PhoneEndpoint : Endpoint
 {
     /// <summary>
+    ///     Initializes a new <see cref="PhoneEndpoint"/> with the endpoint type set to <see cref="Endpoint.EndpointType.Phone"/>.
     /// </summary>
     public PhoneEndpoint() => this.Type = EndpointType.Phone;
 
@@ -50,15 +52,18 @@ public class PhoneEndpoint : Endpoint
     public string Shaken { get; set; }
 
     /// <summary>
+    ///     Configures the NCCO URL and optional ringback tone for the connected phone endpoint.
     /// </summary>
     public class Answer
     {
         /// <summary>
+        ///     The URL serving an NCCO to execute on the connected number before it joins the conversation.
         /// </summary>
         [JsonProperty("url")]
         public string Url { get; set; }
 
         /// <summary>
+        ///     A URL pointing to a ringback tone audio file played to the caller on repeat until the call is fully connected.
         /// </summary>
         [JsonProperty("ringbackTone")]
         public string RingbackTone { get; set; }

@@ -8,18 +8,19 @@ using Newtonsoft.Json.Converters;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Base class for Voice API call status webhook events. Provides common properties such as direction, from/to numbers, conversation UUID, and detailed status information.
 /// </summary>
 public class CallStatusEvent : Event
 {
     /// <summary>
-    /// The unique identifier for this conversation
+    ///     The unique identifier for the conversation this call leg belongs to.
     /// </summary>
     [JsonProperty("conversation_uuid")]
     [JsonPropertyName("conversation_uuid")]
     public string ConversationUuid { get; set; }
 
     /// <summary>
-    /// Extra detail for the status webhook - only present in some instances
+    ///     Extra detail for the status webhook, parsed as a <see cref="DetailedStatus"/> enum. Returns <see cref="DetailedStatus.no_detail"/> if no detail is present, or <see cref="DetailedStatus.unmapped_detail"/> if the value cannot be mapped.
     /// </summary>
     [Newtonsoft.Json.JsonIgnore]
     [System.Text.Json.Serialization.JsonIgnore]
@@ -30,12 +31,15 @@ public class CallStatusEvent : Event
                 ? detail
                 : DetailedStatus.unmapped_detail;
 
+    /// <summary>
+    ///     The raw detail string from the webhook payload. Use <see cref="Detail"/> for the parsed enum value.
+    /// </summary>
     [JsonProperty("detail")]
     [JsonPropertyName("detail")]
     public string DetailString { get; set; }
 
     /// <summary>
-    /// Call direction, can be either inbound or outbound
+    ///     The call direction: <see cref="Direction.inbound"/> or <see cref="Direction.outbound"/>.
     /// </summary>
     [JsonProperty("direction")]
     [JsonPropertyName("direction")]
@@ -44,21 +48,21 @@ public class CallStatusEvent : Event
     public Direction Direction { get; set; }
 
     /// <summary>
-    /// The number the call came from
+    ///     The phone number or SIP URI the call originated from.
     /// </summary>
     [JsonProperty("from")]
     [JsonPropertyName("from")]
     public string From { get; set; }
 
     /// <summary>
-    /// Call status
+    ///     The current status of the call (e.g. started, ringing, answered, completed, failed, busy, cancelled, rejected, timeout, unanswered).
     /// </summary>
     [JsonProperty("status")]
     [JsonPropertyName("status")]
     public string Status { get; set; }
 
     /// <summary>
-    /// The number the call was made to
+    ///     The phone number or SIP URI the call was made to.
     /// </summary>
     [JsonProperty("to")]
     [JsonPropertyName("to")]

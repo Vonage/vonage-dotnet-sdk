@@ -7,28 +7,26 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Webhook event received when a multi-input NCCO action completes, containing both DTMF and speech recognition results.
 /// </summary>
 public class MultiInput : Event
 {
     /// <summary>
-    /// Result of Dtmf input
+    ///     The DTMF input result collected from the caller during the input action.
     /// </summary>
     [JsonProperty("dtmf")]
     [JsonPropertyName("dtmf")]
     public DtmfResult Dtmf { get; set; }
 
     /// <summary>
-    /// Result of the speech recognition
+    ///     The speech recognition result from the caller's voice input.
     /// </summary>
     [JsonProperty("speech")]
     [JsonPropertyName("speech")]
     public SpeechResult Speech { get; set; }
 
     /// <summary>
-    ///     The buttons pressed by the user
-    /// </summary>
-    /// <summary>
-    ///     Whether the input action timed out: true if it did, false if not
+    ///     Whether the input action timed out before the caller provided input. Use the timeout information on <see cref="Dtmf"/> or <see cref="Speech"/> instead.
     /// </summary>
     [Newtonsoft.Json.JsonIgnore]
     [System.Text.Json.Serialization.JsonIgnore]

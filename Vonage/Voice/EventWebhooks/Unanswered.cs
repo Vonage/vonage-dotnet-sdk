@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Webhook event received when a call goes unanswered by the recipient.
 /// </summary>
 public class Unanswered : CallStatusEvent
 {

@@ -6,25 +6,26 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Represents the results from speech recognition during a multi-input NCCO action, including recognition hypotheses, errors, and timeout information.
 /// </summary>
 public class SpeechResult
 {
     /// <summary>
-    /// Error field in case there was a problem during speech recognition - will not be present if nothing went wrong.
+    ///     An error message if a problem occurred during speech recognition. Not present when recognition succeeds.
     /// </summary>
     [JsonProperty("error")]
     [JsonPropertyName("error")]
     public string Error { get; set; }
 
     /// <summary>
-    /// Array of SpeechRecognitionResults
+    ///     The array of speech recognition hypotheses, ordered by confidence from highest to lowest.
     /// </summary>
     [JsonProperty("results")]
     [JsonPropertyName("results")]
     public SpeechRecognitionResult[] SpeechResults { get; set; }
 
     /// <summary>
-    /// Indicates if the input ended when user stopped speaking (end_on_silence_timeout), by max duration timeout (max_duration) or if the user didn't say anything (start_timeout)
+    ///     The reason the speech input ended. Possible values: <c>end_on_silence_timeout</c> (caller stopped speaking), <c>max_duration</c> (maximum duration reached), or <c>start_timeout</c> (caller did not speak).
     /// </summary>
     [JsonProperty("timeout_reason")]
     [JsonPropertyName("timeout_reason")]

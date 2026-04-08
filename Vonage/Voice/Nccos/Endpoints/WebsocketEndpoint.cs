@@ -4,25 +4,27 @@ using Newtonsoft.Json;
 
 namespace Vonage.Voice.Nccos.Endpoints;
 
+/// <summary>
+///     Represents a WebSocket endpoint for streaming audio to and from a WebSocket server.
+/// </summary>
 public class WebsocketEndpoint : Endpoint
 {
     public WebsocketEndpoint() => this.Type = EndpointType.Websocket;
 
     /// <summary>
-    ///     the internet media type for the audio you are streaming. Possible values are: audio/l16;rate=16000 or
-    ///     audio/l16;rate=8000.
+    ///     The internet media type for the audio being streamed. Must be <c>audio/l16;rate=16000</c> or <c>audio/l16;rate=8000</c>.
     /// </summary>
     [JsonProperty("content-type", Order = 1)]
     public string ContentType { get; set; }
 
     /// <summary>
-    ///     an object containing any metadata you want. See connecting to a websocket for example headers
+    ///     An object containing custom metadata to include as headers in the WebSocket connection request.
     /// </summary>
     [JsonProperty("headers", Order = 2)]
     public object Headers { get; set; }
 
     /// <summary>
-    ///     the URI to the websocket you are streaming to.
+    ///     The URI of the WebSocket server to stream audio to, e.g. <c>wss://example.com/socket</c>.
     /// </summary>
     [JsonProperty("uri", Order = 0)]
     public string Uri { get; set; }
