@@ -46,40 +46,55 @@ internal struct UpdateTemplateFragmentRequestBuilder : IBuilderForId, IBuilderFo
 }
 
 /// <summary>
-///     Represents a builder to set the Id.
+///     Builder interface for setting the template ID on an update fragment request. This is the first mandatory step.
 /// </summary>
 public interface IBuilderForId
 {
     /// <summary>
-    ///     Sets the Id.
+    ///     Sets the unique identifier (UUID) of the parent template.
     /// </summary>
-    /// <param name="value">The template id.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The template UUID.</param>
+    /// <returns>The builder for setting the fragment ID.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithId(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"))
+    /// ]]></code>
+    /// </example>
     IBuilderForFragmentId WithId(Guid value);
 }
 
 /// <summary>
-///     Represents a builder to set the template fragment Id.
+///     Builder interface for setting the template fragment ID on an update request.
 /// </summary>
 public interface IBuilderForFragmentId
 {
     /// <summary>
-    ///     Sets the Id.
+    ///     Sets the unique identifier (UUID) of the template fragment to update.
     /// </summary>
-    /// <param name="value">The template fragment id.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The template fragment UUID.</param>
+    /// <returns>The builder for setting the text content.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithFragmentId(Guid.Parse("c70f446e-997a-4313-a081-60a02a31dc19"))
+    /// ]]></code>
+    /// </example>
     IBuilderForText WithFragmentId(Guid value);
 }
 
 /// <summary>
-///     Represents a builder to set the Text.
+///     Builder interface for setting the message text on an update fragment request.
 /// </summary>
 public interface IBuilderForText
 {
     /// <summary>
-    ///     Sets the Text.
+    ///     Sets the new message text content with optional placeholders: ${code}, ${brand}, ${time-limit}, and ${time-limit-unit}.
     /// </summary>
-    /// <param name="value">The text.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The message text content.</param>
+    /// <returns>The builder for creating the request.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithText("Your ${brand} verification code is ${code}. Valid for ${time-limit} ${time-limit-unit}.")
+    /// ]]></code>
+    /// </example>
     IVonageRequestBuilder<UpdateTemplateFragmentRequest> WithText(string value);
 }

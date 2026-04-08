@@ -8,6 +8,15 @@ using Vonage.Common.Monads;
 
 namespace Vonage.VerifyV2.GetTemplateFragments;
 
+/// <summary>
+///     Represents a paginated response containing a list of template fragments for a specific template.
+/// </summary>
+/// <param name="PageSize">The number of fragments returned per page.</param>
+/// <param name="Page">The current page number (1-based index).</param>
+/// <param name="TotalPages">The total number of pages available.</param>
+/// <param name="TotalItems">The total number of template fragments across all pages.</param>
+/// <param name="Embedded">The embedded collection containing the template fragments array.</param>
+/// <param name="Links">HAL navigation links for pagination (self, next, prev, first, last).</param>
 public record GetTemplateFragmentsResponse(
     [property: JsonPropertyName("page_size")]
     [property: JsonPropertyOrder(0)]
@@ -28,21 +37,25 @@ public record GetTemplateFragmentsResponse(
     [property: JsonPropertyOrder(5)]
     HalLinks<GetTemplateFragmentsHalLink> Links);
 
+/// <summary>
+///     Represents the embedded container holding the template fragments array in a HAL response.
+/// </summary>
+/// <param name="Fragments">The array of template fragments in the current page.</param>
 public record GetTemplateFragmentsEmbedded(
     [property: JsonPropertyName("template_fragments")]
     [property: JsonPropertyOrder(0)]
     TemplateFragment[] Fragments);
 
 /// <summary>
-///     Represents a link to another resource.
+///     Represents a HAL navigation link for template fragment pagination.
 /// </summary>
-/// <param name="Href">Hyperlink reference.</param>
+/// <param name="Href">The URL pointing to a page of template fragments.</param>
 public record GetTemplateFragmentsHalLink(Uri Href)
 {
     /// <summary>
-    ///     Transforms the link into a GetEventsRequest using the cursor pagination.
+    ///     Transforms this navigation link into a <see cref="GetTemplateFragmentsRequest"/> for fetching the linked page.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A <see cref="Result{T}"/> containing the request with pagination parameters extracted from the link URL.</returns>
     public Result<GetTemplateFragmentsRequest> BuildRequest()
     {
         var parameters = ExtractQueryParameters(this.Href);

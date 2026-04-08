@@ -11,58 +11,72 @@ using Vonage.Serialization;
 
 namespace Vonage.VerifyV2.StartVerification;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to initiate a verification by sending a PIN code to a user through one or more channels (SMS, Voice, Email, WhatsApp, or Silent Auth).
+/// </summary>
 public readonly struct StartVerificationRequest : IVonageRequest
 {
     /// <summary>
-    ///     Gets the brand that is sending the verification request.
+    ///     The brand name that appears in the verification message. Limited to 16 characters. Cannot contain special characters: \ / { } : $.
     /// </summary>
     public string Brand { get; internal init; }
 
     /// <summary>
-    ///     Gets the wait time in seconds between attempts to delivery the verification code.
+    ///     The wait time in seconds between attempts to deliver the verification code (between 15 and 900). Default is 300 seconds. On the Verify Success pricing model, minimum is fixed at 60 seconds.
     /// </summary>
     public int ChannelTimeout { get; internal init; }
 
     /// <summary>
-    ///     Gets the client reference.
+    ///     An optional reference string (1-40 alphanumeric characters) that will be included in webhook callbacks for tracking purposes.
     /// </summary>
     public Maybe<string> ClientReference { get; internal init; }
 
     /// <summary>
-    ///     An optional alphanumeric custom code to use, if you don't want Vonage to generate the code.
+    ///     An optional custom alphanumeric PIN code (4-10 characters) to use instead of an auto-generated code. Only available on the Verify Conversion pricing model and has no effect on Silent Auth.
     /// </summary>
     public Maybe<string> Code { get; internal init; }
 
     /// <summary>
-    ///     Gets the length of the code to send to the user
+    ///     The length of the PIN code to generate (4-10 digits). Default is 4. Applies to all channels in the workflow.
     /// </summary>
     public int CodeLength { get; internal init; }
 
     /// <summary>
-    ///     Indicates the request will bypass network block, if necessary.
+    ///     When true (default), the request will perform fraud checking. Set to false to bypass network blocks for testing or special cases.
     /// </summary>
     public bool FraudCheck { get; internal init; }
 
     /// <summary>
-    ///     Gets the request language.
+    ///     The language locale for verification messages. Default is "en-us". Has no effect on Silent Auth channels.
     /// </summary>
     public Locale Locale { get; internal init; }
 
     /// <summary>
-    ///     Gets verification workflows.
+    ///     The sequence of verification workflows (1-3) that define how to reach the user. The first workflow is tried first; subsequent workflows are used as fallbacks.
     /// </summary>
     public IVerificationWorkflow[] Workflows { get; internal init; }
 
     /// <summary>
-    /// A custom template ID to use
+    ///     An optional custom template ID to use for SMS or Voice channel messages instead of the default template.
     /// </summary>
     public Maybe<Guid> TemplateId { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder for StartVerificationRequest.
+    ///     Creates a new builder to construct a <see cref="StartVerificationRequest"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A builder interface to set the brand name.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = StartVerificationRequest.Build()
+    ///     .WithBrand("MyApp")
+    ///     .WithWorkflow(SmsWorkflow.Parse("447700900000"))
+    ///     .WithFallbackWorkflow(VoiceWorkflow.Parse("447700900000"))
+    ///     .WithLocale("en-us")
+    ///     .WithCodeLength(6)
+    ///     .Create();
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static IBuilderForBrand Build() => new StartVerificationRequestBuilder();
 
     /// <inheritdoc />

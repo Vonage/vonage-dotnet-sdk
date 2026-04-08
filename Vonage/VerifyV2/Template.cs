@@ -7,12 +7,12 @@ using Vonage.Common;
 namespace Vonage.VerifyV2;
 
 /// <summary>
-///     References a template.
+///     Represents a custom verification message template. Templates allow you to customize the text content sent to users during verification.
 /// </summary>
-/// <param name="TemplateId">The id.</param>
-/// <param name="Name">The reference name.</param>
-/// <param name="IsDefault">Indicates whether it is the default template</param>
-/// <param name="Links">Navigation links.</param>
+/// <param name="TemplateId">The unique identifier (UUID) of the template.</param>
+/// <param name="Name">The reference name for the template. Must match the pattern ^[A-Za-z0-9_-]+$ and be unique within the account.</param>
+/// <param name="IsDefault">Indicates whether this template is used as the default when no template_id is specified in verification requests.</param>
+/// <param name="Links">HAL navigation links for accessing the template and its fragments.</param>
 public record Template(
     [property: JsonPropertyName("template_id")]
     Guid TemplateId,
@@ -22,10 +22,10 @@ public record Template(
     [property: JsonPropertyName("_links")] TemplateLinks Links);
 
 /// <summary>
-///     Represents navigation links for a template.
+///     Represents HAL (Hypertext Application Language) navigation links for a template resource.
 /// </summary>
-/// <param name="Self">Link to this template</param>
-/// <param name="Fragments">Link to fragments for this template</param>
+/// <param name="Self">Link to retrieve this template.</param>
+/// <param name="Fragments">Link to list all template fragments belonging to this template.</param>
 public record TemplateLinks(
     [property: JsonPropertyName("self")] HalLink Self,
     [property: JsonPropertyName("fragments")]

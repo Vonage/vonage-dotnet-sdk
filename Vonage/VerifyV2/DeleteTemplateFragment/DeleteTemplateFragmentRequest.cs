@@ -8,19 +8,31 @@ using Vonage.Common.Validation;
 
 namespace Vonage.VerifyV2.DeleteTemplateFragment;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to delete a template fragment from a template.
+/// </summary>
 [Builder]
 public readonly partial struct DeleteTemplateFragmentRequest : IVonageRequest
 {
     /// <summary>
-    ///     ID of the template.
+    ///     Sets the unique identifier (UUID) of the parent template containing the fragment.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithTemplateId(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"))
+    /// ]]></code>
+    /// </example>
     [Mandatory(0)]
     public Guid TemplateId { get; internal init; }
 
     /// <summary>
-    ///     ID of the template fragment.
+    ///     Sets the unique identifier (UUID) of the template fragment to delete.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithTemplateFragmentId(Guid.Parse("c70f446e-997a-4313-a081-60a02a31dc19"))
+    /// ]]></code>
+    /// </example>
     [Mandatory(1)]
     public Guid TemplateFragmentId { get; internal init; }
 

@@ -10,7 +10,7 @@ using Vonage.Common.Serialization;
 namespace Vonage.VerifyV2.StartVerification.SilentAuth;
 
 /// <summary>
-///     Represents a verification workflow for SilentAuth.
+///     Represents a verification workflow that uses Silent Authentication to verify a user's phone number without requiring them to enter a PIN code. The device must be connected via cellular data for this to work.
 /// </summary>
 public readonly struct SilentAuthWorkflow : IVerificationWorkflow
 {
@@ -21,7 +21,7 @@ public readonly struct SilentAuthWorkflow : IVerificationWorkflow
     }
 
     /// <summary>
-    /// Final redirect added at the end of the check_url request/response lifecycle. See the documentation for integrations. Will contain the request_id and code as a url fragment after the URL.
+    ///     An optional final redirect URL appended to the end of the check_url request/response lifecycle. The request_id and code will be included as URL fragment parameters (e.g., https://example.com/callback#request_id=xxx&amp;code=yyy).
     /// </summary>
     [JsonPropertyOrder(2)]
     [JsonConverter(typeof(MaybeJsonConverter<Uri>))]
@@ -29,8 +29,7 @@ public readonly struct SilentAuthWorkflow : IVerificationWorkflow
     public Maybe<Uri> RedirectUrl { get; }
 
     /// <summary>
-    ///     The phone number to use for authentication, in the E.164 format. Don't use a leading + or 00 when entering a phone
-    ///     number, start with the country code, for example, 447700900000.
+    ///     The phone number to authenticate in E.164 format without leading + or 00 (e.g., "447700900000"). This must match the SIM card in the device making the cellular request.
     /// </summary>
     [JsonPropertyOrder(1)]
     [JsonConverter(typeof(PhoneNumberJsonConverter))]
@@ -44,19 +43,31 @@ public readonly struct SilentAuthWorkflow : IVerificationWorkflow
     public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 
     /// <summary>
-    ///     Parses the input into a SilentAuthWorkflow.
+    ///     Creates a new Silent Authentication workflow without a redirect URL.
     /// </summary>
-    /// <param name="to">The phone number to use for authentication.</param>
-    /// <returns>Success or failure.</returns>
+    /// <param name="to">The phone number to authenticate in E.164 format without leading + or 00 (e.g., "447700900000").</param>
+    /// <returns>A <see cref="Result{T}"/> containing the workflow if successful, or validation errors if the phone number is invalid.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var workflow = SilentAuthWorkflow.Parse("447700900000");
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static Result<SilentAuthWorkflow> Parse(string to) =>
         PhoneNumber.Parse(to).Map(phoneNumber => new SilentAuthWorkflow(phoneNumber));
 
     /// <summary>
-    ///  Parses the input into a SilentAuthWorkflow.
+    ///     Creates a new Silent Authentication workflow with a custom redirect URL for client SDK integrations.
     /// </summary>
-    /// <param name="to">The phone number to use for authentication.</param>
-    /// <param name="redirectUrl">The final redirect added at the end of the check_url request/response lifecycle</param>
-    /// <returns>Success or failure.</returns>
+    /// <param name="to">The phone number to authenticate in E.164 format without leading + or 00 (e.g., "447700900000").</param>
+    /// <param name="redirectUrl">The URL to redirect to after Silent Auth completion. The request_id and code are appended as URL fragments.</param>
+    /// <returns>A <see cref="Result{T}"/> containing the workflow if successful, or validation errors if the phone number is invalid.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var workflow = SilentAuthWorkflow.Parse("447700900000", new Uri("https://example.com/callback"));
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static Result<SilentAuthWorkflow> Parse(string to, Uri redirectUrl) =>
         PhoneNumber.Parse(to).Map(phoneNumber => new SilentAuthWorkflow(phoneNumber, redirectUrl));
 }

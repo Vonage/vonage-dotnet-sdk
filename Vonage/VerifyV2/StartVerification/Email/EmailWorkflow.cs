@@ -9,7 +9,7 @@ using Vonage.Common.Serialization;
 namespace Vonage.VerifyV2.StartVerification.Email;
 
 /// <summary>
-///     Represents a verification workflow for Email.
+///     Represents a verification workflow that delivers the PIN code via email.
 /// </summary>
 public readonly struct EmailWorkflow : IVerificationWorkflow
 {
@@ -20,7 +20,7 @@ public readonly struct EmailWorkflow : IVerificationWorkflow
     }
 
     /// <summary>
-    ///     The email address to send the verification request from.
+    ///     The sender email address. If not specified, a default Vonage sender address is used.
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<MailAddress>))]
     [JsonPropertyOrder(3)]
@@ -28,7 +28,7 @@ public readonly struct EmailWorkflow : IVerificationWorkflow
     public Maybe<MailAddress> From { get; }
 
     /// <summary>
-    ///     The email address to send the verification request to.
+    ///     The recipient email address where the verification code will be sent.
     /// </summary>
     [JsonPropertyOrder(1)]
     [JsonConverter(typeof(EmailJsonConverter))]
@@ -42,19 +42,31 @@ public readonly struct EmailWorkflow : IVerificationWorkflow
     public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 
     /// <summary>
-    ///     Parses the input into a EmailWorkflow.
+    ///     Creates a new Email verification workflow with a default sender address.
     /// </summary>
-    /// <param name="to">The email address to send the verification request to.</param>
-    /// <returns>Success or failure.</returns>
+    /// <param name="to">The recipient email address (e.g., "user@example.com").</param>
+    /// <returns>A <see cref="Result{T}"/> containing the workflow if successful, or validation errors if the email is invalid.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var workflow = EmailWorkflow.Parse("user@example.com");
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static Result<EmailWorkflow> Parse(string to) =>
         MailAddress.Parse(to).Map(phoneNumber => new EmailWorkflow(phoneNumber, Maybe<MailAddress>.None));
 
     /// <summary>
-    ///     Parses the input into a EmailWorkflow.
+    ///     Creates a new Email verification workflow with a custom sender address.
     /// </summary>
-    /// <param name="to">The email address to send the verification request to.</param>
-    /// <param name="from">The email address to send the verification request from.</param>
-    /// <returns>Success or failure.</returns>
+    /// <param name="to">The recipient email address (e.g., "user@example.com").</param>
+    /// <param name="from">The sender email address (e.g., "noreply@yourcompany.com").</param>
+    /// <returns>A <see cref="Result{T}"/> containing the workflow if successful, or validation errors if any email is invalid.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var workflow = EmailWorkflow.Parse("user@example.com", "noreply@yourcompany.com");
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static Result<EmailWorkflow> Parse(string to, string from) =>
         MailAddress.Parse(to)
             .Merge(MailAddress.Parse(from), (toNumber, fromNumber) => new EmailWorkflow(toNumber, fromNumber));

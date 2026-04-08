@@ -11,19 +11,31 @@ using Vonage.Serialization;
 
 namespace Vonage.VerifyV2.VerifyCode;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to verify a PIN code submitted by a user against an active verification request. The code can be retried up to 3 times before the request is locked.
+/// </summary>
 [Builder]
 public readonly partial struct VerifyCodeRequest : IVonageRequest
 {
     /// <summary>
-    ///     The code the user supplied.
+    ///     Sets the PIN code provided by the user. Must be 4-10 alphanumeric characters matching the code sent to the user.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithCode("1234")
+    /// ]]></code>
+    /// </example>
     [Mandatory(1)]
     public string Code { get; internal init; }
 
     /// <summary>
-    ///     ID of the verify request.
+    ///     Sets the unique identifier (UUID) of the verification request to validate against.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithRequestId(Guid.Parse("c11236f4-00bf-4b89-84ba-88b25df97315"))
+    /// ]]></code>
+    /// </example>
     [JsonIgnore]
     [Mandatory(0)]
     public Guid RequestId { get; internal init; }

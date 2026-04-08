@@ -8,19 +8,28 @@ using Vonage.Common.Validation;
 
 namespace Vonage.VerifyV2.GetTemplate;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to retrieve a single custom verification template by its ID.
+/// </summary>
 public readonly struct GetTemplateRequest : IVonageRequest
 {
     /// <summary>
-    ///     ID of the template.
+    ///     The unique identifier (UUID) of the template to retrieve.
     /// </summary>
     public Guid TemplateId { get; private init; }
 
     /// <summary>
-    ///     Parses the input into a GetTemplateRequest.
+    ///     Creates a new request to retrieve a template.
     /// </summary>
-    /// <param name="templateId">The template identifier.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
+    /// <param name="templateId">The UUID of the template to retrieve.</param>
+    /// <returns>A <see cref="Result{T}"/> containing the request if successful, or validation errors if the ID is empty.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetTemplateRequest.Parse(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"));
+    /// var response = await client.GetTemplateAsync(request);
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static Result<GetTemplateRequest> Parse(Guid templateId) =>
         Result<GetTemplateRequest>
             .FromSuccess(new GetTemplateRequest {TemplateId = templateId})

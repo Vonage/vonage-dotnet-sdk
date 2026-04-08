@@ -3,22 +3,22 @@ using Vonage.Common;
 namespace Vonage.VerifyV2.StartVerification;
 
 /// <summary>
-///     Represents a verification workflow.
+///     Represents a verification workflow channel for delivering PIN codes to users. Implementations include
+///     <see cref="Sms.SmsWorkflow"/>, <see cref="Voice.VoiceWorkflow"/>, <see cref="Email.EmailWorkflow"/>,
+///     <see cref="WhatsApp.WhatsAppWorkflow"/>, <see cref="WhatsAppInteractive.WhatsAppInteractiveWorkflow"/>,
+///     and <see cref="SilentAuth.SilentAuthWorkflow"/>.
 /// </summary>
-/// <remarks>
-///     This is a marker interface.
-/// </remarks>
 public interface IVerificationWorkflow
 {
     /// <summary>
-    ///     The verification channel.
+    ///     The verification channel identifier (e.g., "sms", "voice", "email", "whatsapp", "whatsapp_interactive", "silent_auth").
     /// </summary>
     string Channel { get; }
 
     /// <summary>
-    ///     Serializes the workflow.
+    ///     Serializes the workflow configuration to JSON format for the API request.
     /// </summary>
-    /// <param name="serializer">The serializer.</param>
-    /// <returns>The serialized workflow.</returns>
+    /// <param name="serializer">The JSON serializer to use.</param>
+    /// <returns>The JSON representation of the workflow.</returns>
     string Serialize(IJsonSerializer serializer);
 }

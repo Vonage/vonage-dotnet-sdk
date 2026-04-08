@@ -11,33 +11,45 @@ using Vonage.Serialization;
 
 namespace Vonage.VerifyV2.UpdateTemplate;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to update a custom verification template's name or default status.
+/// </summary>
 public readonly struct UpdateTemplateRequest : IVonageRequest
 {
     /// <summary>
-    ///     Reference name for template.
+    ///     The new reference name for the template. Must be 1-64 characters matching the pattern ^[A-Za-z0-9_-]+$ and unique within the account.
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<string> Name { get; internal init; }
 
     /// <summary>
-    ///     ID of the template.
+    ///     The unique identifier (UUID) of the template to update.
     /// </summary>
     [JsonIgnore]
     public Guid TemplateId { get; internal init; }
 
     /// <summary>
-    ///     Whether the template is the default template for that locale/channel combination.
+    ///     Whether this template should be used as the default when no template_id is specified in verification requests.
     /// </summary>
     [JsonConverter(typeof(MaybeJsonConverter<bool>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Maybe<bool> IsDefault { get; internal init; }
 
     /// <summary>
-    ///     Initializes a builder.
+    ///     Creates a new builder to construct an <see cref="UpdateTemplateRequest"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A builder interface to set the template ID.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = UpdateTemplateRequest.Build()
+    ///     .WithId(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"))
+    ///     .WithName("new-template-name")
+    ///     .SetAsDefaultTemplate()
+    ///     .Create();
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static IBuilderForId Build() => new UpdateTemplateRequestBuilder();
 
     /// <inheritdoc />
