@@ -1,54 +1,57 @@
 ﻿namespace Vonage.Voice.EventWebhooks;
 
+/// <summary>
+///     Provides detailed status information about why a call ended or failed. Included in call status webhook events.
+/// </summary>
 public enum DetailedStatus
 {
     /// <summary>
-    /// no detail provided
+    ///     No additional detail was provided for this call status.
     /// </summary>
     no_detail,
 
     /// <summary>
-    /// detail provided but not mapped to an enum
+    ///     A detail was provided by the carrier but does not match any known enum value.
     /// </summary>
     unmapped_detail,
 
     /// <summary>
-    /// number invalid
+    ///     The destination number is not a valid phone number.
     /// </summary>
     invalid_number,
 
     /// <summary>
-    /// Rejected by carrier
+    ///     The call was rejected by the carrier due to network restrictions.
     /// </summary>
     restricted,
 
     /// <summary>
-    /// rejected by callee
+    ///     The call was actively rejected by the callee.
     /// </summary>
     declined,
 
     /// <summary>
-    /// cannot route to the number
+    ///     The call could not be routed to the destination number.
     /// </summary>
     cannot_route,
 
     /// <summary>
-    /// Number is not available anymore.
+    ///     The destination number is no longer in service.
     /// </summary>
     number_out_of_service,
 
     /// <summary>
-    /// Server error or failure
+    ///     An internal server error or system failure occurred during call processing.
     /// </summary>
     internal_error,
 
     /// <summary>
-    /// Carrier timed out
+    ///     The carrier timed out while attempting to connect the call.
     /// </summary>
     carrier_timeout,
 
     /// <summary>
-    /// Callee is temorarily unavailable.
+    ///     The callee is temporarily unavailable (e.g., phone off, out of coverage area).
     /// </summary>
     unavailable
 }

@@ -7,6 +7,9 @@ using Newtonsoft.Json.Converters;
 
 namespace Vonage.Voice.Nccos;
 
+/// <summary>
+///     Configures automatic speech recognition (ASR) settings for an NCCO Input action.
+/// </summary>
 public class SpeechSettings
 {
     /// <summary>
@@ -50,26 +53,31 @@ public class SpeechSettings
     public int? MaxDuration { get; set; }
 
     /// <summary>
+    ///     The speech recognition provider to use (Deepgram or Google). If not specified, the default Vonage ASR engine is used.
     /// </summary>
     [JsonProperty("provider", Order = 6)]
     [JsonConverter(typeof(StringEnumConverter))]
     public SpeechProvider? Provider { get; set; }
 
     /// <summary>
+    ///     Provider-specific options as key-value pairs. The available options depend on the selected <see cref="Provider"/>.
     /// </summary>
     [JsonProperty("providerOptions", Order = 7)]
     public Dictionary<string, string> ProviderOptions { get; set; }
 }
 
 /// <summary>
+///     Defines the automatic speech recognition (ASR) provider to use for speech input.
 /// </summary>
 public enum SpeechProvider
 {
     /// <summary>
+    ///     Use Deepgram as the speech recognition provider.
     /// </summary>
     [EnumMember(Value = "deepgram")] Deepgram,
 
     /// <summary>
+    ///     Use Google as the speech recognition provider.
     /// </summary>
     [EnumMember(Value = "google")] Google,
 }

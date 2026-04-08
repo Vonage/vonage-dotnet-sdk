@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 namespace Vonage.Voice.Nccos;
 
 /// <summary>
+///     Represents an NCCO Wait action that pauses the call flow for a specified duration before proceeding to the next action.
 /// </summary>
 public class WaitAction : NccoAction
 {

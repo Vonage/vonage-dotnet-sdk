@@ -8,18 +8,34 @@ using Vonage.Common.Serialization;
 
 namespace Vonage.Voice.Nccos;
 
+/// <summary>
+///     Represents an NCCO Record action that records the call audio. The recording is available for download via the recording webhook.
+/// </summary>
 public class RecordAction : NccoAction
 {
+    /// <summary>
+    ///     Defines the audio format for the recording.
+    /// </summary>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum AudioFormat
     {
+        /// <summary>
+        ///     MP3 format. This is the default for single and dual-channel recordings.
+        /// </summary>
         [EnumMember(Value = "mp3")] Mp3 = 1,
 
+        /// <summary>
+        ///     WAV format. This is the default when recording more than 2 channels.
+        /// </summary>
         [EnumMember(Value = "wav")] Wav = 2,
 
+        /// <summary>
+        ///     OGG (Opus) format.
+        /// </summary>
         [EnumMember(Value = "ogg")] Ogg = 3,
     }
 
+    /// <inheritdoc />
     [JsonProperty("action", Order = 0)] public override ActionType Action => ActionType.Record;
 
     /// <summary>
@@ -93,6 +109,7 @@ public class RecordAction : NccoAction
     public TranscriptionSettings Transcription { get; set; }
 
     /// <summary>
+    ///     Configures automatic transcription of the recorded audio.
     /// </summary>
     public class TranscriptionSettings
     {

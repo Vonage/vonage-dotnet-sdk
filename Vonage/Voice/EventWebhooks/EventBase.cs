@@ -9,16 +9,22 @@ using Vonage.Serialization;
 namespace Vonage.Voice.EventWebhooks;
 
 /// <summary>
+///     Base class for all Voice API webhook events. Provides a common timestamp and a factory method to deserialize incoming webhook JSON into the appropriate event type.
 /// </summary>
 public class EventBase
 {
     /// <summary>
-    /// Timestamp (ISO 8601 format)
+    ///     The timestamp of the event in ISO 8601 format.
     /// </summary>
     [JsonProperty("timestamp")]
     [JsonPropertyName("timestamp")]
     public DateTime TimeStamp { get; set; }
 
+    /// <summary>
+    ///     Parses a Voice API webhook JSON payload into the appropriate event type based on its content (status, DTMF, speech, recording, error, or transfer).
+    /// </summary>
+    /// <param name="json">The raw JSON string from the webhook request body.</param>
+    /// <returns>The deserialized event as the appropriate subclass of <see cref="EventBase"/>, or <c>null</c> if the event type cannot be determined.</returns>
     public static EventBase ParseEvent(string json)
     {
         var data = (JObject) JsonConvert.DeserializeObject(json);

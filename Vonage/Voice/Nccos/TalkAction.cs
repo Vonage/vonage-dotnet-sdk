@@ -7,25 +7,33 @@ using Newtonsoft.Json.Converters;
 
 namespace Vonage.Voice.Nccos;
 
+/// <summary>
+///     Represents an NCCO Talk action that plays a text-to-speech message to the caller.
+/// </summary>
 public class TalkAction : NccoAction
 {
     /// <summary>
+    ///     Defines the text-to-speech provider to use for speech synthesis.
     /// </summary>
     public enum TalkProvider
     {
         /// <summary>
+        ///     Use ElevenLabs as the text-to-speech provider.
         /// </summary>
         [EnumMember(Value = "ElevenLabs")] ElevenLabs,
 
         /// <summary>
+        ///     Use Google as the text-to-speech provider.
         /// </summary>
         [EnumMember(Value = "Google")] Google,
 
         /// <summary>
+        ///     Use Amazon Polly as the text-to-speech provider.
         /// </summary>
         [EnumMember(Value = "Polly")] Polly,
     }
 
+    /// <inheritdoc />
     [JsonProperty("action", Order = 0)] public override ActionType Action => ActionType.Talk;
 
     /// <summary>
@@ -92,12 +100,14 @@ public class TalkAction : NccoAction
     public string Text { get; set; }
 
     /// <summary>
+    ///     The text-to-speech provider to use (ElevenLabs, Google, or Polly). If not specified, the default Vonage TTS engine is used.
     /// </summary>
     [JsonProperty("provider", Order = 9)]
     [JsonConverter(typeof(StringEnumConverter))]
     public TalkProvider? Provider { get; set; }
 
     /// <summary>
+    ///     Provider-specific options as key-value pairs. The available options depend on the selected <see cref="Provider"/>.
     /// </summary>
     [JsonProperty("providerOptions", Order = 10)]
     public Dictionary<string, string> ProviderOptions { get; set; }

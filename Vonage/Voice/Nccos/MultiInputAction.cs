@@ -8,24 +8,30 @@ using Newtonsoft.Json.Converters;
 
 namespace Vonage.Voice.Nccos;
 
+/// <summary>
+///     Represents an NCCO Input action that collects user input via DTMF keypad tones, automatic speech recognition (ASR), or both.
+/// </summary>
 public class MultiInputAction : NccoAction
 {
     /// <summary>
-    ///     The input processing mode.
+    ///     Defines the input processing mode for DTMF input.
     /// </summary>
     public enum InputMode
     {
         /// <summary>
+        ///     Synchronous mode (default). DTMF inputs are batched and sent together based on DTMF settings (timeout, maxDigits, submitOnHash).
         /// </summary>
         [Description("synchronous")] [EnumMember(Value = "synchronous")]
         Synchronous,
 
         /// <summary>
+        ///     Asynchronous mode. Each DTMF digit is sent individually to the event webhook in real time. All DTMF settings must be left blank.
         /// </summary>
         [Description("asynchronous")] [EnumMember(Value = "asynchronous")]
         Asynchronous,
     }
 
+    /// <inheritdoc />
     public override ActionType Action => ActionType.Input;
 
     /// <summary>

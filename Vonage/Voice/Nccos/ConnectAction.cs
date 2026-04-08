@@ -5,8 +5,12 @@ using Vonage.Voice.Nccos.Endpoints;
 
 namespace Vonage.Voice.Nccos;
 
+/// <summary>
+///     Represents an NCCO Connect action that connects the call to another endpoint (phone, SIP, WebSocket, app user, or VBC extension).
+/// </summary>
 public class ConnectAction : NccoAction
 {
+    /// <inheritdoc />
     public override ActionType Action => ActionType.Connect;
 
     /// <summary>

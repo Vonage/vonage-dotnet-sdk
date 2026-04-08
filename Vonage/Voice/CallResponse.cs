@@ -2,34 +2,31 @@
 
 namespace Vonage.Voice;
 
+/// <summary>
+///     Represents the response from creating an outbound call via the Voice API.
+/// </summary>
 public class CallResponse
 {
     /// <summary>
-    /// A unique identifier for the Conversation this Call is part of.
+    ///     The unique identifier for the conversation this call is part of.
     /// </summary>
     [JsonProperty("conversation_uuid")]
     public string ConversationUuid { get; set; }
 
     /// <summary>
-    /// Possible values are outbound or inbound.
+    ///     The direction of the call: "outbound" or "inbound".
     /// </summary>
     [JsonProperty("direction")]
     public string Direction { get; set; }
 
     /// <summary>
-    /// The status of the Call. Possible values are:
-    ///  started - Platform has stared the Call.
-    ///  ringing - the user's handset is ringing.
-    ///  answered - the user has answered your Call.
-    ///  timeout - your user did not answer your Call with ringing_timer.
-    ///  machine - Platform detected an answering machine.
-    ///  completed - Platform has terminated this Call.
+    ///     The initial status of the call: started, ringing, answered, machine, timeout, completed, busy, cancelled, failed, rejected, or unanswered.
     /// </summary>
     [JsonProperty("status")]
     public string Status { get; set; }
 
     /// <summary>
-    ///  A unique identifier for this Call.
+    ///     The unique identifier (UUID) for this call leg. Use this in subsequent API calls to control the call.
     /// </summary>
     [JsonProperty("uuid")]
     public string Uuid { get; set; }

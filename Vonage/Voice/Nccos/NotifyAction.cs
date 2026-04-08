@@ -3,8 +3,12 @@ using System.Collections.Generic;
 
 namespace Vonage.Voice.Nccos;
 
+/// <summary>
+///     Represents an NCCO Notify action that sends a webhook notification to a specified URL with a custom payload without interrupting the call flow.
+/// </summary>
 public class NotifyAction : NccoAction
 {
+    /// <inheritdoc />
     public override ActionType Action => ActionType.Notify;
 
     /// <summary>

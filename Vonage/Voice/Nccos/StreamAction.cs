@@ -2,8 +2,12 @@
 
 namespace Vonage.Voice.Nccos;
 
+/// <summary>
+///     Represents an NCCO Stream action that plays an audio file from a URL into the call.
+/// </summary>
 public class StreamAction : NccoAction
 {
+    /// <inheritdoc />
     [JsonProperty("action", Order = 0)] public override ActionType Action => ActionType.Stream;
 
     /// <summary>

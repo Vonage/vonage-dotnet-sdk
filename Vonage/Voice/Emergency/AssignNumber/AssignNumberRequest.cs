@@ -16,17 +16,35 @@ namespace Vonage.Voice.Emergency.AssignNumber;
 public readonly partial struct AssignNumberRequest : IVonageRequest
 {
     /// <summary>
+    ///     Sets the phone number to assign an emergency address to, in E.164 format (e.g., "14155550100").
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithNumber("14155550100")
+    /// ]]></code>
+    /// </example>
     [Mandatory(0)]
     public string Number { get; internal init; }
 
     /// <summary>
+    ///     Sets the unique identifier of the emergency address to assign to this number.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithAddressId(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"))
+    /// ]]></code>
+    /// </example>
     [Mandatory(1)]
     public Guid AddressId { get; internal init; }
 
     /// <summary>
+    ///     Sets the contact name associated with this emergency number.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithContactName("John Doe")
+    /// ]]></code>
+    /// </example>
     [Mandatory(2)]
     public string ContactName { get; internal init; }
 

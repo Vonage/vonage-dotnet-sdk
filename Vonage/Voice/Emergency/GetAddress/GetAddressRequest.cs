@@ -13,7 +13,13 @@ namespace Vonage.Voice.Emergency.GetAddress;
 public readonly partial struct GetAddressRequest : IVonageRequest
 {
     /// <summary>
+    ///     Sets the unique identifier (UUID) of the address to retrieve.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithId(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"))
+    /// ]]></code>
+    /// </example>
     [Mandatory(0)]
     public Guid Id { get; internal init; }
 

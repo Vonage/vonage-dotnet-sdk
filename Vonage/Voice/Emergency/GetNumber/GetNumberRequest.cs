@@ -20,10 +20,10 @@ public readonly struct GetNumberRequest : IVonageRequest
         .Build();
 
     /// <summary>
-    ///     Parses the input into a GetNumberRequest.
+    ///     Creates a new request to retrieve emergency number details.
     /// </summary>
-    /// <param name="number">The Number</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
+    /// <param name="number">The phone number in E.164 format (e.g., "14155550100").</param>
+    /// <returns>A <see cref="Result{T}"/> containing the request if successful, or validation errors if the number is invalid.</returns>
     public static Result<GetNumberRequest> Parse(string number) =>
         PhoneNumber.Parse(number).Map(validNumber => new GetNumberRequest(validNumber));
 }

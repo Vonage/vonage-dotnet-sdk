@@ -14,12 +14,24 @@ namespace Vonage.Voice.Emergency.GetAddresses;
 public readonly partial struct GetAddressesRequest : IVonageRequest
 {
     /// <summary>
+    ///     Sets the page number to retrieve (1-based index). Default is 1.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPage(2)
+    /// ]]></code>
+    /// </example>
     [OptionalWithDefault("int", "1")]
     public int Page { get; internal init; }
 
     /// <summary>
+    ///     Sets the number of addresses to return per page (1-1000). Default is 100.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPageSize(50)
+    /// ]]></code>
+    /// </example>
     [OptionalWithDefault("int", "100")]
     public int PageSize { get; internal init; }
 

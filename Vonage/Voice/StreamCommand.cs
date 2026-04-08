@@ -4,23 +4,26 @@ using Newtonsoft.Json;
 
 namespace Vonage.Voice;
 
+/// <summary>
+///     Represents a command to stream an audio file into an active call.
+/// </summary>
 public class StreamCommand
 {
     /// <summary>
-    /// An array of URLs pointing to the .mp3 or .wav audio file to stream.
+    ///     An array containing the URL of the audio file to stream. Must be a single-channel 16-bit WAV at 8kHz or 16kHz, or an MP3 file.
     /// </summary>
     [JsonProperty("stream_url")]
     public string[] StreamUrl { get; set; }
 
     /// <summary>
-    /// Set to 0 to replay the audio file at stream_url when the stream ends.
+    ///     The number of times to replay the audio file. Set to 0 for infinite looping. Default is 1.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include, NullValueHandling = NullValueHandling.Ignore,
         PropertyName = "loop")]
     public int? Loop { get; set; }
 
     /// <summary>
-    /// Set the audio level of the stream in the range -1 &gt;= level &lt;= 1 with a precision of 0.1. The default value is 0.
+    ///     The audio volume level, from -1 to 1 in 0.1 increments. Default is 0.
     /// </summary>
     [JsonProperty("level")]
     public string Level { get; set; }
