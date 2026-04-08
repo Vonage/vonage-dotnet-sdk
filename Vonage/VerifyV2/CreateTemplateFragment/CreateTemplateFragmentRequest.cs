@@ -15,35 +15,56 @@ using Vonage.VerifyV2.StartVerification;
 
 namespace Vonage.VerifyV2.CreateTemplateFragment;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to create a template fragment containing the message text for a specific channel and locale combination.
+/// </summary>
 [Builder]
 public readonly partial struct CreateTemplateFragmentRequest : IVonageRequest
 {
     /// <summary>
-    ///     The template text. There are 4 reserved variables available to use: ${code}, ${brand}, ${time-limit} and
-    ///     ${time-limit-unit}
+    ///     Sets the message text content with optional placeholders: ${code}, ${brand}, ${time-limit}, and ${time-limit-unit}.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithText("Your ${brand} verification code is ${code}. Valid for ${time-limit} ${time-limit-unit}.")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(2)]
     [Mandatory(1)]
     public string Text { get; internal init; }
 
     /// <summary>
-    ///     ID of the template.
+    ///     Sets the unique identifier (UUID) of the parent template this fragment belongs to.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithTemplateId(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"))
+    /// ]]></code>
+    /// </example>
     [JsonIgnore]
     [Mandatory(0)]
     public Guid TemplateId { get; internal init; }
 
     /// <summary>
-    ///     The locale code.
+    ///     Sets the IETF BCP 47 locale code for this fragment (e.g., "en-us", "de-de").
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithLocale(Locale.EnUs)
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(1)]
     [Mandatory(2)]
     public Locale Locale { get; internal init; }
 
     /// <summary>
-    ///     The channel name.
+    ///     Sets the verification channel this fragment applies to. Only SMS and Voice channels are supported for templates.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannel(VerificationChannel.Sms)
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(0)]
     [JsonConverter(typeof(EnumDescriptionJsonConverter<VerificationChannel>))]
     [Mandatory(3)]

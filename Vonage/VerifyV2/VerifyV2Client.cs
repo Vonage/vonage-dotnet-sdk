@@ -79,7 +79,6 @@ internal class VerifyV2Client : IVerifyV2Client
         this.vonageClient.SendWithResponseAsync<GetTemplateRequest, Template>(request);
 
     /// <inheritdoc />
-    /// f
     public Task<Result<TemplateFragment>> GetTemplateFragmentAsync(Result<GetTemplateFragmentRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetTemplateFragmentRequest, TemplateFragment>(request);
 

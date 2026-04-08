@@ -36,39 +36,59 @@ internal struct UpdateTemplateRequestBuilder : IBuilderForId, IBuilderForOptiona
 }
 
 /// <summary>
-///     Represents a builder to set the Id.
+///     Builder interface for setting the template ID on an update request. This is the first mandatory step.
 /// </summary>
 public interface IBuilderForId
 {
     /// <summary>
-    ///     Sets the Id.
+    ///     Sets the unique identifier (UUID) of the template to update.
     /// </summary>
-    /// <param name="value">The template id.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The template UUID.</param>
+    /// <returns>The builder for setting optional properties or creating the request.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithId(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"))
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithId(Guid value);
 }
 
 /// <summary>
-///     Represents a builder to set optional values.
+///     Builder interface for setting optional properties on an <see cref="UpdateTemplateRequest"/>.
 /// </summary>
 public interface IBuilderForOptional : IVonageRequestBuilder<UpdateTemplateRequest>
 {
     /// <summary>
-    ///     Sets the Name.
+    ///     Sets the new reference name for the template. Must be unique within the account.
     /// </summary>
-    /// <param name="value">The name.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The new template name (1-64 characters, alphanumeric with underscores and hyphens).</param>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithName("new-template-name")
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional WithName(string value);
 
     /// <summary>
-    ///     Sets the template as default.
+    ///     Marks this template as the default template, used when no template_id is specified in verification requests.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .SetAsDefaultTemplate()
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional SetAsDefaultTemplate();
 
     /// <summary>
-    ///     Sets the template as non-default.
+    ///     Marks this template as non-default, so it will not be used unless explicitly specified.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .SetAsNonDefaultTemplate()
+    /// ]]></code>
+    /// </example>
     IBuilderForOptional SetAsNonDefaultTemplate();
 }

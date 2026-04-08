@@ -10,7 +10,7 @@ using Vonage.Common.Validation;
 namespace Vonage.VerifyV2.StartVerification.Sms;
 
 /// <summary>
-///     Represents a verification workflow for SMS.
+///     Represents a verification workflow that delivers the PIN code via SMS text message. Supports optional Android app hash for auto-detection and entity_id/content_id for Indian carrier compliance.
 /// </summary>
 public readonly struct SmsWorkflow : IVerificationWorkflow
 {
@@ -81,18 +81,27 @@ public readonly struct SmsWorkflow : IVerificationWorkflow
     public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 
     /// <summary>
-    ///     Parses the input into a SmsWorkflow.
+    ///     Creates a new SMS verification workflow.
     /// </summary>
-    /// <param name="to">The phone number to contact.</param>
-    /// <param name="hash">The Android application hash key.</param>
-    /// <param name="entityId">Optional PEID required for SMS delivery using Indian Carriers</param>
-    /// <param name="contentId">Optional value corresponding to a TemplateID for SMS delivery using Indian Carriers</param>
-    /// <param name="from">
-    ///     An optional sender number, in the E.164 format. Don't use a leading + or 00 when entering a phone
-    ///     number, start with the country code, for example, 447700900000. If no from number is given, the request will
-    ///     default to the brand.
-    /// </param>
-    /// <returns>Success or failure.</returns>
+    /// <param name="to">The recipient phone number in E.164 format without leading + or 00 (e.g., "447700900000").</param>
+    /// <param name="hash">Optional 11-character Android application hash key for SMS auto-detection using the SMS Retriever API.</param>
+    /// <param name="entityId">Optional Principal Entity ID (PEID) required for SMS delivery to Indian phone numbers (1-200 characters).</param>
+    /// <param name="contentId">Optional content template ID required for SMS delivery to Indian phone numbers (1-200 characters).</param>
+    /// <param name="from">Optional sender number in E.164 format (1-15 characters). If not provided, the brand name is used as the sender ID.</param>
+    /// <returns>A <see cref="Result{T}"/> containing the workflow if successful, or validation errors if the input is invalid.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// // Basic SMS workflow
+    /// var workflow = SmsWorkflow.Parse("447700900000");
+    ///
+    /// // SMS workflow with Android app hash for auto-detection
+    /// var workflow = SmsWorkflow.Parse("447700900000", hash: "ABC123def45");
+    ///
+    /// // SMS workflow for Indian carriers
+    /// var workflow = SmsWorkflow.Parse("919876543210", entityId: "1101407360000017170", contentId: "1107158078772563946");
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static Result<SmsWorkflow> Parse(string to, string hash = null, string entityId = null,
         string contentId = null, string from = null)
     {

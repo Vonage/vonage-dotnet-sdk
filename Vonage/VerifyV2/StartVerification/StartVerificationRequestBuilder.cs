@@ -175,136 +175,188 @@ internal class StartVerificationRequestBuilder :
 }
 
 /// <summary>
-///     Represents a builder for Locale.
+///     Builder interface for setting the locale on a verification request.
 /// </summary>
 public interface IOptionalOptionalBuilderForLocale
 {
     /// <summary>
-    ///     Sets the Locale.
+    ///     Sets the language locale for verification messages.
     /// </summary>
-    /// <param name="value">The Locale.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The IETF BCP 47 locale code (e.g., "en-us", "de-de"). Default is "en-us".</param>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithLocale("de-de")
+    /// ]]></code>
+    /// </example>
     IOptionalBuilder WithLocale(string value);
 }
 
 /// <summary>
-///     Represents a builder for ChannelTimeout.
+///     Builder interface for setting the channel timeout on a verification request.
 /// </summary>
 public interface IOptionalOptionalBuilderForChannelTimeout
 {
     /// <summary>
-    ///     Sets the ChannelTimeout.
+    ///     Sets the wait time in seconds between delivery attempts.
     /// </summary>
-    /// <param name="value">The ChannelTimeout.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The timeout in seconds (15-900). Default is 300.</param>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithChannelTimeout(60)
+    /// ]]></code>
+    /// </example>
     IOptionalBuilder WithChannelTimeout(int value);
 }
 
 /// <summary>
-///     Represents a builder for ClientReference.
+///     Builder interface for setting the client reference on a verification request.
 /// </summary>
 public interface IOptionalOptionalBuilderForClientReference
 {
     /// <summary>
-    ///     Sets the ClientReference.
+    ///     Sets an optional client reference for tracking in webhook callbacks.
     /// </summary>
-    /// <param name="value">The ClientReference.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">An alphanumeric reference string (1-40 characters).</param>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithClientReference("my-ref-12345")
+    /// ]]></code>
+    /// </example>
     IOptionalBuilder WithClientReference(string value);
 }
 
 /// <summary>
-///     Represents a builder for CodeLength.
+///     Builder interface for setting the PIN code length on a verification request.
 /// </summary>
 public interface IOptionalBuilderForCodeLength
 {
     /// <summary>
-    ///     Sets the CodeLength.
+    ///     Sets the length of the generated PIN code.
     /// </summary>
-    /// <param name="value">The CodeLength.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The code length (4-10 digits). Default is 4.</param>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithCodeLength(6)
+    /// ]]></code>
+    /// </example>
     IOptionalBuilder WithCodeLength(int value);
 }
 
 /// <summary>
-///     Represents a builder for Code.
+///     Builder interface for setting a custom PIN code on a verification request.
 /// </summary>
 public interface IOptionalBuilderForCode
 {
     /// <summary>
-    ///     Sets a custom code, if you don't want Vonage to generate the code.
+    ///     Sets a custom alphanumeric PIN code instead of using auto-generation. Only available on the Verify Conversion pricing model.
     /// </summary>
-    /// <param name="value">The custom code.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The custom code (4-10 alphanumeric characters).</param>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithCode("ABC123")
+    /// ]]></code>
+    /// </example>
     IOptionalBuilder WithCode(string value);
 }
 
 /// <summary>
-///     Represents a builder for fallback workflow.
+///     Builder interface for adding fallback workflows to a verification request.
 /// </summary>
 public interface IOptionalBuilderForFallbackWorkflow
 {
     /// <summary>
-    ///     Sets a fallback workflow.
+    ///     Adds a fallback workflow to try if previous workflows fail or time out. Up to 3 total workflows are supported.
     /// </summary>
-    /// <param name="value">The fallback workflow.</param>
-    /// <returns>The builder.</returns>
+    /// <typeparam name="T">The workflow type implementing <see cref="IVerificationWorkflow"/>.</typeparam>
+    /// <param name="value">The fallback workflow (e.g., <see cref="Voice.VoiceWorkflow"/>).</param>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithFallbackWorkflow(VoiceWorkflow.Parse("447700900000"))
+    /// ]]></code>
+    /// </example>
     IOptionalBuilder WithFallbackWorkflow<T>(Result<T> value) where T : IVerificationWorkflow;
 }
 
 /// <summary>
-///     Represents a builder for SkipFraudCheck.
+///     Builder interface for bypassing fraud checking on a verification request.
 /// </summary>
 public interface IOptionalBuilderForSkipFraudCheck
 {
     /// <summary>
-    ///     Sets a fallback workflow.
+    ///     Disables fraud checking for this verification request. Use with caution for testing or special cases.
     /// </summary>
-    /// <returns>The builder.</returns>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .SkipFraudCheck()
+    /// ]]></code>
+    /// </example>
     IOptionalBuilder SkipFraudCheck();
 }
 
 /// <summary>
-///     Represents a builder for Brand.
+///     Builder interface for setting the brand name on a verification request. This is the first mandatory step.
 /// </summary>
 public interface IBuilderForBrand
 {
     /// <summary>
-    ///     Sets the Brand.
+    ///     Sets the brand name that appears in the verification message.
     /// </summary>
-    /// <param name="value">The Brand.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The brand name (1-16 characters). Cannot contain \ / { } : $.</param>
+    /// <returns>The builder for setting the primary workflow.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithBrand("MyApp")
+    /// ]]></code>
+    /// </example>
     IBuilderForWorkflow WithBrand(string value);
 }
 
 /// <summary>
-///     Represents a builder for Workflow.
+///     Builder interface for setting the primary workflow on a verification request. This is required after setting the brand.
 /// </summary>
 public interface IBuilderForWorkflow
 {
     /// <summary>
-    ///     Sets the Workflow.
+    ///     Sets the primary verification workflow for delivering the PIN code.
     /// </summary>
-    /// <param name="value">The Workflow.</param>
-    /// <returns>The builder.</returns>
+    /// <typeparam name="T">The workflow type implementing <see cref="IVerificationWorkflow"/>.</typeparam>
+    /// <param name="value">The workflow to use (e.g., <see cref="Sms.SmsWorkflow"/>, <see cref="Voice.VoiceWorkflow"/>).</param>
+    /// <returns>The builder for setting optional parameters or creating the request.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithWorkflow(SmsWorkflow.Parse("447700900000"))
+    /// ]]></code>
+    /// </example>
     IOptionalBuilder WithWorkflow<T>(Result<T> value) where T : IVerificationWorkflow;
 }
 
 /// <summary>
-///     Represents a builder for TemplateId.
+///     Builder interface for setting a custom template ID on a verification request.
 /// </summary>
 public interface IOptionalOptionalBuilderForTemplateId
 {
     /// <summary>
-    ///     Sets the TemplateId.
+    ///     Sets a custom template ID to use for SMS or Voice messages.
     /// </summary>
-    /// <param name="value">The template id.</param>
-    /// <returns>The builder.</returns>
+    /// <param name="value">The UUID of the custom template.</param>
+    /// <returns>The builder for method chaining.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithTemplateId(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"))
+    /// ]]></code>
+    /// </example>
     IOptionalBuilder WithTemplateId(Guid value);
 }
 
 /// <summary>
-///     Represents a builder for optional values.
+///     Composite builder interface for setting optional parameters on a <see cref="StartVerificationRequest"/>.
 /// </summary>
 public interface IOptionalBuilder :
     IVonageRequestBuilder<StartVerificationRequest>,

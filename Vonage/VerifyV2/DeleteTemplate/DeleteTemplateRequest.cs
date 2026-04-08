@@ -8,19 +8,28 @@ using Vonage.Common.Validation;
 
 namespace Vonage.VerifyV2.DeleteTemplate;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to delete a custom verification template. A template can only be deleted if it has no template fragments attached.
+/// </summary>
 public readonly struct DeleteTemplateRequest : IVonageRequest
 {
     /// <summary>
-    ///     ID of the template.
+    ///     The unique identifier (UUID) of the template to delete.
     /// </summary>
     public Guid TemplateId { get; private init; }
 
     /// <summary>
-    ///     Parses the input into a DeleteRequest.
+    ///     Creates a new request to delete a template.
     /// </summary>
-    /// <param name="templateId">The template identifier.</param>
-    /// <returns>A success state with the request if the parsing succeeded. A failure state with an error if it failed.</returns>
+    /// <param name="templateId">The UUID of the template to delete.</param>
+    /// <returns>A <see cref="Result{T}"/> containing the request if successful, or validation errors if the ID is empty.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = DeleteTemplateRequest.Parse(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"));
+    /// var response = await client.DeleteTemplateAsync(request);
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static Result<DeleteTemplateRequest> Parse(Guid templateId) =>
         Result<DeleteTemplateRequest>
             .FromSuccess(new DeleteTemplateRequest {TemplateId = templateId})

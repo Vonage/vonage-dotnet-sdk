@@ -8,6 +8,15 @@ using Vonage.Common.Monads;
 
 namespace Vonage.VerifyV2.GetTemplates;
 
+/// <summary>
+///     Represents a paginated response containing a list of custom verification templates.
+/// </summary>
+/// <param name="PageSize">The number of templates returned per page.</param>
+/// <param name="Page">The current page number (1-based index).</param>
+/// <param name="TotalPages">The total number of pages available.</param>
+/// <param name="TotalItems">The total number of templates across all pages.</param>
+/// <param name="Embedded">The embedded collection containing the template array.</param>
+/// <param name="Links">HAL navigation links for pagination (self, next, prev, first, last).</param>
 public record GetTemplatesResponse(
     [property: JsonPropertyName("page_size")]
     [property: JsonPropertyOrder(0)]
@@ -28,21 +37,25 @@ public record GetTemplatesResponse(
     [property: JsonPropertyOrder(5)]
     HalLinks<GetTemplatesHalLink> Links);
 
+/// <summary>
+///     Represents the embedded container holding the templates array in a HAL response.
+/// </summary>
+/// <param name="Templates">The array of templates in the current page.</param>
 public record GetTemplatesEmbedded(
     [property: JsonPropertyName("templates")]
     [property: JsonPropertyOrder(0)]
     Template[] Templates);
 
 /// <summary>
-///     Represents a link to another resource.
+///     Represents a HAL navigation link for template pagination.
 /// </summary>
-/// <param name="Href">Hyperlink reference.</param>
+/// <param name="Href">The URL pointing to a page of templates.</param>
 public record GetTemplatesHalLink(Uri Href)
 {
     /// <summary>
-    ///     Transforms the link into a GetEventsRequest using the cursor pagination.
+    ///     Transforms this navigation link into a <see cref="GetTemplatesRequest"/> for fetching the linked page.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A <see cref="Result{T}"/> containing the request with pagination parameters extracted from the link URL.</returns>
     public Result<GetTemplatesRequest> BuildRequest()
     {
         var parameters = ExtractQueryParameters(this.Href);

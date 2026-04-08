@@ -10,25 +10,42 @@ using Vonage.Common.Validation;
 
 namespace Vonage.VerifyV2.GetTemplateFragments;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to retrieve a paginated list of template fragments for a specific template.
+/// </summary>
 [Builder]
 public readonly partial struct GetTemplateFragmentsRequest : IVonageRequest
 {
     /// <summary>
-    ///     ID of the template.
+    ///     Sets the unique identifier (UUID) of the template to retrieve fragments from.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithTemplateId(Guid.Parse("8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9"))
+    /// ]]></code>
+    /// </example>
     [Mandatory(0)]
     public Guid TemplateId { get; internal init; }
 
     /// <summary>
-    ///     Number of results per page.
+    ///     Sets the number of fragments to return per page.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPageSize(10)
+    /// ]]></code>
+    /// </example>
     [Optional]
     public Maybe<int> PageSize { get; internal init; }
 
     /// <summary>
-    ///     The page.
+    ///     Sets the page number to retrieve (1-based index).
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPage(2)
+    /// ]]></code>
+    /// </example>
     [Optional]
     public Maybe<int> Page { get; internal init; }
 

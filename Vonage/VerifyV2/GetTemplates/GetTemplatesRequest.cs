@@ -8,19 +8,31 @@ using Vonage.Common.Monads;
 
 namespace Vonage.VerifyV2.GetTemplates;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to retrieve a paginated list of custom verification templates.
+/// </summary>
 [Builder]
 public readonly partial struct GetTemplatesRequest : IVonageRequest
 {
     /// <summary>
-    ///     Number of results per page.
+    ///     Sets the number of templates to return per page.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPageSize(10)
+    /// ]]></code>
+    /// </example>
     [Optional]
     public Maybe<int> PageSize { get; internal init; }
 
     /// <summary>
-    ///     The page.
+    ///     Sets the page number to retrieve (1-based index).
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithPage(2)
+    /// ]]></code>
+    /// </example>
     [Optional]
     public Maybe<int> Page { get; internal init; }
 

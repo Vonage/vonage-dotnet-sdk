@@ -9,15 +9,14 @@ using Vonage.Common.Serialization;
 namespace Vonage.VerifyV2.StartVerification.Voice;
 
 /// <summary>
-///     Represents a verification workflow for Voice.
+///     Represents a verification workflow that delivers the PIN code via text-to-speech voice call.
 /// </summary>
 public readonly struct VoiceWorkflow : IVerificationWorkflow
 {
     private VoiceWorkflow(PhoneNumber to) => this.To = to;
 
     /// <summary>
-    ///     The phone number to contact, in the E.164 format. Don't use a leading + or 00 when entering a phone number, start
-    ///     with the country code, for example, 447700900000.
+    ///     The recipient phone number in E.164 format without leading + or 00 (e.g., "447700900000").
     /// </summary>
     [JsonPropertyOrder(1)]
     [JsonConverter(typeof(PhoneNumberJsonConverter))]
@@ -31,10 +30,16 @@ public readonly struct VoiceWorkflow : IVerificationWorkflow
     public string Serialize(IJsonSerializer serializer) => serializer.SerializeObject(this);
 
     /// <summary>
-    ///     Parses the input into a VoiceWorkflow.
+    ///     Creates a new Voice verification workflow.
     /// </summary>
-    /// <param name="to">The phone number to contact.</param>
-    /// <returns>Success or failure.</returns>
+    /// <param name="to">The recipient phone number in E.164 format without leading + or 00 (e.g., "447700900000").</param>
+    /// <returns>A <see cref="Result{T}"/> containing the workflow if successful, or validation errors if the phone number is invalid.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var workflow = VoiceWorkflow.Parse("447700900000");
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/VerifyV2">More examples in the snippets repository</seealso>
     public static Result<VoiceWorkflow> Parse(string to) =>
         PhoneNumber.Parse(to).Map(phoneNumber => new VoiceWorkflow(phoneNumber));
 }

@@ -9,13 +9,20 @@ using Vonage.Serialization;
 
 namespace Vonage.VerifyV2.CreateTemplate;
 
-/// <inheritdoc />
+/// <summary>
+///     Represents a request to create a new custom verification template. Templates allow customization of the message text sent to users during verification.
+/// </summary>
 [Builder]
 public readonly partial struct CreateTemplateRequest : IVonageRequest
 {
     /// <summary>
-    ///     Reference name for template.
+    ///     Sets the reference name for the template. Must be 1-64 characters matching the pattern ^[A-Za-z0-9_-]+$ and unique within the account.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithName("my-custom-template")
+    /// ]]></code>
+    /// </example>
     [Mandatory(0)]
     public string Name { get; internal init; }
 
