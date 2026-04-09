@@ -6,14 +6,14 @@ namespace Vonage.Video.Sessions;
 public enum MediaMode
 {
     /// <summary>
-    ///     The session will transmit streams using the OpenTok Media Router.
+    ///     The session will transmit streams using the Vonage Video Media Router.
     /// </summary>
     Routed,
 
     /// <summary>
     ///     The session will attempt to transmit streams directly between clients. If two clients
     ///     cannot send and receive each others' streams, due to firewalls on the clients' networks,
-    ///     their streams will be relayed using the OpenTok TURN Server.
+    ///     their streams will be relayed using the Vonage Video TURN Server.
     /// </summary>
     Relayed,
 }

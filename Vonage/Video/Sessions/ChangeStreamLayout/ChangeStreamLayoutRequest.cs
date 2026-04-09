@@ -19,8 +19,13 @@ namespace Vonage.Video.Sessions.ChangeStreamLayout;
 public readonly partial struct ChangeStreamLayoutRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <summary>
-    ///     The layout items.
+    ///     Sets the layout items defining the layout classes for each stream.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithItems(new[] { new ChangeStreamLayoutRequest.LayoutItem("streamId", new[] { "full" }) })
+    /// ]]></code>
+    /// </example>
     [Mandatory(2)]
     public IEnumerable<LayoutItem> Items { get; internal init; }
 

@@ -80,7 +80,7 @@ public class BroadcastClient
         this.vonageClient.SendAsync(request);
 
     /// <summary>
-    ///     Starts a live stream broadcast for an OpenTok session.
+    ///     Starts a live stream broadcast for a Vonage Video session.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>

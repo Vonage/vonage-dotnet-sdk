@@ -16,8 +16,13 @@ namespace Vonage.Video.Sessions.GetStream;
 public readonly partial struct GetStreamRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <summary>
-    ///     The stream Id.
+    ///     Sets the stream ID to retrieve layout information for.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithStreamId("8b732909-0a06-46a2-8ea8-074e64d43422")
+    /// ]]></code>
+    /// </example>
     [Mandatory(2)]
     public string StreamId { get; internal init; }
 

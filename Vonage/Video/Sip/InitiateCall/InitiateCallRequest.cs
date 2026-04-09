@@ -22,8 +22,8 @@ public readonly struct InitiateCallRequest : IVonageRequest, IHasApplicationId, 
     public SipElement Sip { get; internal init; }
 
     /// <summary>
-    ///     The OpenTok token to be used for the participant being called. You can add token data to identify that the
-    ///     participant is on a SIP endpoint or for other identifying data, such as phone numbers. (The OpenTok client
+    ///     The Vonage Video token to be used for the participant being called. You can add token data to identify that the
+    ///     participant is on a SIP endpoint or for other identifying data, such as phone numbers. (The Vonage Video client
     ///     libraries include properties for inspecting the connection data for a client connected to a session.) See the Token
     ///     Creation developer guide.
     /// </summary>

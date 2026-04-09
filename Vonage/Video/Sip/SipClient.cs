@@ -26,7 +26,7 @@ public class SipClient
         new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithCamelCase());
 
     /// <summary>
-    ///     Connects your SIP platform to an OpenTok session.
+    ///     Connects your SIP platform to an Vonage Video session.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success with the response if the operation succeeds, Failure it if fails.</returns>
@@ -34,7 +34,7 @@ public class SipClient
         this.vonageClient.SendWithResponseAsync<InitiateCallRequest, InitiateCallResponse>(request);
 
     /// <summary>
-    ///     Sends DTMF digits to all participants in an OpenTok call.
+    ///     Sends DTMF digits to all participants in an Vonage Video call.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
@@ -42,7 +42,7 @@ public class SipClient
         this.vonageClient.SendAsync(request);
 
     /// <summary>
-    ///     Sends DTMF digits to a single participant in an OpenTok call.
+    ///     Sends DTMF digits to a single participant in an Vonage Video call.
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>

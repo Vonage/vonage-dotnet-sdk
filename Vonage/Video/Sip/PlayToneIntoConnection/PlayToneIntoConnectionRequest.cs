@@ -20,9 +20,14 @@ public readonly partial struct PlayToneIntoConnectionRequest : IVonageRequest, I
     IHasConnectionId
 {
     /// <summary>
-    ///     The string of DTMF digits to send. This can include 0-9, '*', '#', and 'p'. A p indicates a pause of 500ms (if you
-    ///     need to add a delay in sending the digits).
+    ///     Sets the string of DTMF digits to send. This can include 0-9, '*', '#', and 'p'. A 'p' indicates a pause of 500ms
+    ///     (if you need to add a delay in sending the digits).
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithDigits("1234#")
+    /// ]]></code>
+    /// </example>
     [Mandatory(3)]
     public string Digits { get; internal init; }
 

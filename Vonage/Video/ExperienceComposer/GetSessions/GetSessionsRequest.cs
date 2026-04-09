@@ -20,17 +20,25 @@ public readonly partial struct GetSessionsRequest : IVonageRequest, IHasApplicat
     private const int MaximumCount = 1000;
 
     /// <summary>
-    ///     Set a count query parameter to limit the number of experience composers to be returned. The default number of
-    ///     archives returned is 50 (or fewer, if there are fewer than 50 archives). The default is 50 and the maximum is 1000
+    ///     Sets the maximum number of Experience Composers to return. The default is 50 and the maximum is 1000.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithCount(100)
+    /// ]]></code>
+    /// </example>
     [OptionalWithDefault("int", "50")]
     public int Count { get; internal init; }
 
     /// <summary>
-    ///     Set an offset query parameters to specify the index offset of the first experience composer. 0 is offset of the
-    ///     most recently started archive (excluding deleted archive). 1 is the offset of the experience composer that started
-    ///     prior to the most recent composer. The default value is 0.
+    ///     Sets the index offset of the first Experience Composer to return. 0 (the default) is the most recently started
+    ///     Experience Composer.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithOffset(10)
+    /// ]]></code>
+    /// </example>
     [OptionalWithDefault("int", "0")]
     public int Offset { get; internal init; }
 

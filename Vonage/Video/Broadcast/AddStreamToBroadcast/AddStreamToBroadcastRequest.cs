@@ -20,15 +20,25 @@ public readonly partial struct AddStreamToBroadcastRequest : IVonageRequest, IHa
     IHasBroadcastId
 {
     /// <summary>
-    ///     Whether to include the stream's audio.
+    ///     Disables audio for the stream in the broadcast. Audio is included by default.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithDisabledAudio()
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(1)]
     [OptionalBoolean(true, "WithDisabledAudio")]
     public bool HasAudio { get; internal init; }
 
     /// <summary>
-    ///     Whether to include the stream's video.
+    ///     Disables video for the stream in the broadcast. Video is included by default.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithDisabledVideo()
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(2)]
     [OptionalBoolean(true, "WithDisabledVideo")]
     public bool HasVideo { get; internal init; }

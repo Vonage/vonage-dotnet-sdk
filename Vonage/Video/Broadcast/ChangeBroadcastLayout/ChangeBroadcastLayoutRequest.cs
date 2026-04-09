@@ -20,8 +20,13 @@ namespace Vonage.Video.Broadcast.ChangeBroadcastLayout;
 public readonly partial struct ChangeBroadcastLayoutRequest : IVonageRequest, IHasApplicationId, IHasBroadcastId
 {
     /// <summary>
-    ///     The new layout to apply on the broadcast.
+    ///     Sets the new layout to apply to the broadcast.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithLayout(new Layout(null, null, LayoutType.BestFit))
+    /// ]]></code>
+    /// </example>
     [JsonIgnore]
     [Mandatory(2)]
     public Layout Layout { get; internal init; }

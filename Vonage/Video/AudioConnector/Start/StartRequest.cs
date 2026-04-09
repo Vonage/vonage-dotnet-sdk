@@ -14,21 +14,25 @@ namespace Vonage.Video.AudioConnector.Start;
 public readonly struct StartRequest : IVonageRequest
 {
     /// <summary>
+    ///     A valid Vonage Video token for the Audio Connector connection to the Vonage Video session.
     /// </summary>
     [JsonPropertyOrder(1)]
     public string Token { get; internal init; }
 
     /// <summary>
+    ///     The Vonage Application UUID.
     /// </summary>
     [JsonIgnore]
     public Guid ApplicationId { get; internal init; }
 
     /// <summary>
+    ///     The Vonage Video session ID that includes the Vonage Video streams you want to include in the WebSocket stream.
     /// </summary>
     [JsonPropertyOrder(0)]
     public string SessionId { get; internal init; }
 
     /// <summary>
+    ///     The WebSocket configuration for the audio stream destination.
     /// </summary>
     [JsonPropertyOrder(2)]
     [JsonPropertyName("websocket")]

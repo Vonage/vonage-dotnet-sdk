@@ -19,9 +19,14 @@ namespace Vonage.Video.Sip.PlayToneIntoCall;
 public readonly partial struct PlayToneIntoCallRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <summary>
-    ///     The string of DTMF digits to send. This can include 0-9, '*', '#', and 'p'. A p indicates a pause of 500ms (if you
-    ///     need to add a delay in sending the digits).
+    ///     Sets the string of DTMF digits to send. This can include 0-9, '*', '#', and 'p'. A 'p' indicates a pause of 500ms
+    ///     (if you need to add a delay in sending the digits).
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithDigits("1234#")
+    /// ]]></code>
+    /// </example>
     [Mandatory(2)]
     public string Digits { get; internal init; }
 

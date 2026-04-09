@@ -18,14 +18,24 @@ namespace Vonage.Video.Archives.AddStream;
 public readonly partial struct AddStreamRequest : IVonageRequest, IHasApplicationId, IHasArchiveId, IHasStreamId
 {
     /// <summary>
-    ///     Whether the composed archive should include the stream's audio (true, the default) or not (false).
+    ///     Disables audio for the stream in the composed archive. Audio is included by default.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .DisableAudio()
+    /// ]]></code>
+    /// </example>
     [OptionalBoolean(true, "DisableAudio")]
     public bool HasAudio { get; internal init; }
 
     /// <summary>
-    ///     Whether the composed archive should include the stream's video (true, the default) or not (false).
+    ///     Disables video for the stream in the composed archive. Video is included by default.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .DisableVideo()
+    /// ]]></code>
+    /// </example>
     [OptionalBoolean(true, "DisableVideo")]
     public bool HasVideo { get; internal init; }
 

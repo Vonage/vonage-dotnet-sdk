@@ -3,13 +3,12 @@
 namespace Vonage.Video.Authentication;
 
 /// <summary>
-///     Defines values for the role parameter of the GenerateToken method of the OpenTok class.
+///     Defines values for the role parameter of the GenerateToken method of the Vonage Video API.
 /// </summary>
 public enum Role
 {
     /// <summary>
-    ///     A publisher can publish streams, subscribe to streams, and signal. (This is the default
-    ///     value if you do not set a role when calling GenerateToken method of the OpenTok class.
+    ///     A publisher can publish streams, subscribe to streams, and signal. This is the default role.
     /// </summary>
     [Description("publisher")] Publisher,
     

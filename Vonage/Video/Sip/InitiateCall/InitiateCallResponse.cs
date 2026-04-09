@@ -8,8 +8,8 @@ namespace Vonage.Video.Sip.InitiateCall;
 public struct InitiateCallResponse
 {
     /// <summary>
-    ///     The OpenTok connection ID for the SIP call's connection in the OpenTok session. You can use this connection ID to
-    ///     terminate the SIP call, using the OpenTok REST API.
+    ///     The Vonage Video connection ID for the SIP call's connection in the Vonage Video session. You can use this
+    ///     connection ID to terminate the SIP call, using the Vonage Video REST API.
     /// </summary>
 
     public Guid ConnectionId { get; set; }
@@ -20,7 +20,7 @@ public struct InitiateCallResponse
     public string Id { get; set; }
 
     /// <summary>
-    ///     The OpenTok stream ID for the SIP call's stream in the OpenTok session.
+    ///     The Vonage Video stream ID for the SIP call's stream in the Vonage Video session.
     /// </summary>
     public string StreamId { get; set; }
 }

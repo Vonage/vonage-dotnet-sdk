@@ -18,8 +18,14 @@ namespace Vonage.Video.Signaling.SendSignal;
 public readonly partial struct SendSignalRequest : IVonageRequest, IHasApplicationId, IHasSessionId, IHasConnectionId
 {
     /// <summary>
-    ///     The signal content.
+    ///     Sets the signal content to send. The type string has a maximum length of 128 bytes, and the data string has a
+    ///     maximum size of 8 kB.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithContent(new SignalContent("chat", "Hello!"))
+    /// ]]></code>
+    /// </example>
     [Mandatory(3)]
     public SignalContent Content { get; internal init; }
 
