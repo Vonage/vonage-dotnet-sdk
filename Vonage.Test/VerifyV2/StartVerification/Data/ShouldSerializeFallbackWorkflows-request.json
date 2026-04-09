@@ -11,7 +11,8 @@
     {
       "channel": "whatsapp",
       "to": "447700900000",
-      "from": "447700900001"
+      "from": "447700900001",
+      "mode": "otp_code"
     },
     {
       "channel": "voice",

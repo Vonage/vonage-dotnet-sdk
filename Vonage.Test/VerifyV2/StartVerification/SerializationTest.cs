@@ -159,7 +159,7 @@ public class SerializationTest
     public void ShouldSerializeWhatsAppWorkflow() =>
         StartVerificationRequest.Build()
             .WithBrand("ACME, Inc")
-            .WithWorkflow(WhatsAppWorkflow.Parse("447700900000", "447700900001"))
+            .WithWorkflow(WhatsAppWorkflow.ParseWithZeroTap("447700900000", "447700900001"))
             .Create()
             .GetStringContent()
             .Should()

@@ -89,7 +89,7 @@ public class E2ETest() : E2EBase(typeof(E2ETest).Namespace)
     {
         this.InitializeWireMock(nameof(SerializationTest.ShouldSerializeWhatsAppWorkflow));
         var result =
-            await this.StartVerificationAsyncWithWorkflow(WhatsAppWorkflow.Parse("447700900000", "447700900001"));
+            await this.StartVerificationAsyncWithWorkflow(WhatsAppWorkflow.ParseWithZeroTap("447700900000", "447700900001"));
         VerifyResponseBody(result);
     }
 
