@@ -199,7 +199,6 @@ internal partial class ApiRequest
 
         try
         {
-            this.logger.LogDebug("{Json}", json);
             response.EnsureSuccessStatusCode();
             return new VonageResponse(json);
         }
@@ -283,7 +282,6 @@ internal partial class ApiRequest
 
         var json = payloadSerialization(payload);
         this.logger.LogDebug("Request URI: {Uri}", uri);
-        this.logger.LogDebug("JSON Payload: {Json}", json);
         var data = Encoding.UTF8.GetBytes(json);
         req.Content = new ByteArrayContent(data);
         req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -309,7 +307,6 @@ internal partial class ApiRequest
 
         var json = payloadSerialization(payload);
         this.logger.LogDebug("Request URI: {Uri}", uri);
-        this.logger.LogDebug("JSON Payload: {Json}", json);
         var data = Encoding.UTF8.GetBytes(json);
         req.Content = new ByteArrayContent(data);
         req.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
