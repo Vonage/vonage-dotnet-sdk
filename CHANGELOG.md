@@ -1,4 +1,19 @@
 # Changelog
+## [v8.29.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.29.0) (2026-04-09)
+
+### Documentation
+
+- Generate changelog for v8.28.1 ([f87bdbf](https://github.com/Vonage/vonage-dotnet-sdk/commit/f87bdbf6e2c67f81820b626df8fae1a14b9d4c90))
+
+- Bump version to v8.29.0 ([3cf0d3b](https://github.com/Vonage/vonage-dotnet-sdk/commit/3cf0d3b533905101682bc3f0c1d8371127c85e2f))
+
+
+### Features
+
+- Add support for WhatsApp zero tap in VerifyV2 ([c933587](https://github.com/Vonage/vonage-dotnet-sdk/commit/c9335871b6dc399fcdad34468691282a650da60a))
+
+Full Changelog: [v8.28.1...v8.29.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.28.1...v8.29.0)
+
 ## [v8.28.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.28.1) (2026-04-09)
 
 ### Bug Fixes
