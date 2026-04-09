@@ -1,4 +1,62 @@
 # Changelog
+## [v8.28.1](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.28.1) (2026-04-09)
+
+### Bug Fixes
+
+- Missing double quotes in upgrade-snippets.yml ([70250d6](https://github.com/Vonage/vonage-dotnet-sdk/commit/70250d691a6ebfce38bd5cb1c347f9370488a7ca))
+
+- Disable AutoRedirect with ThrottlingMessageHandler ([1eb6bea](https://github.com/Vonage/vonage-dotnet-sdk/commit/1eb6bea5785c2035b747eb137bcfb5dc34530107))
+
+- Remove payload logging from ApiRequest to avoid leaking sensitive data ([3543ed6](https://github.com/Vonage/vonage-dotnet-sdk/commit/3543ed6aaced7ec14ef4c4d3f9f10ee5b8cf8c7f))
+
+
+### Build updates
+
+- Add step in release.sh to verify gh auth status ([e016fdd](https://github.com/Vonage/vonage-dotnet-sdk/commit/e016fddc651eaeeff3a9ac536114b01e73ffa2b8))
+
+- Update upgrade-snippets action with workflow dispatch for manual trigger ([21be31a](https://github.com/Vonage/vonage-dotnet-sdk/commit/21be31ad480a90c524f8ed0b86f06352e1f6201d))
+
+
+### Documentation
+
+- Generate changelog for v8.28.0 ([4012540](https://github.com/Vonage/vonage-dotnet-sdk/commit/40125403880f69a807a9afb8df250f1981d7ec31))
+
+- Improve XML documentation on NumberInsights ([b3130d7](https://github.com/Vonage/vonage-dotnet-sdk/commit/b3130d7c76dfd08f27168d5a870e3949d6cf48f5))
+
+- Improve XML documentation on Numbers ([71c7349](https://github.com/Vonage/vonage-dotnet-sdk/commit/71c73492ce4b6efe4942d6e0e95255ba0e6b0bd9))
+
+- Improve XML documentation on Pricing ([94ac76c](https://github.com/Vonage/vonage-dotnet-sdk/commit/94ac76c691451ea39725a6c0e2540b7591dddc8c))
+
+- Improve XML documentation on Redact ([91002c0](https://github.com/Vonage/vonage-dotnet-sdk/commit/91002c08b676d932171f4dfe09ec054dfeb7aa10))
+
+- Improve XML documentation on ShortCodes ([2d24092](https://github.com/Vonage/vonage-dotnet-sdk/commit/2d24092cbc92a87fb35886d2fa924aec24b5c034))
+
+- Improve XML documentation on SubAccounts ([4b54c36](https://github.com/Vonage/vonage-dotnet-sdk/commit/4b54c36b1c79aca498f6b87b568070862d439ae2))
+
+- Improve XML documentation on Users ([1dd5d24](https://github.com/Vonage/vonage-dotnet-sdk/commit/1dd5d24bfc4e3265f9c551e5ad5f606802f74070))
+
+- Improve XML documentation on Verify ([db8d54c](https://github.com/Vonage/vonage-dotnet-sdk/commit/db8d54c623759dcacb8c86d231dfe167097e620c))
+
+- Improve XML documentation on Voice ([a03baa5](https://github.com/Vonage/vonage-dotnet-sdk/commit/a03baa5a748f1b1713ba152c66d6619b383f055b))
+
+- Improve XML documentation on Voice ([3d86b91](https://github.com/Vonage/vonage-dotnet-sdk/commit/3d86b91bc929574c7947e47b107524a64c1ea7e8))
+
+- Improve XML documentation on VerifyV2 ([f6ecc9f](https://github.com/Vonage/vonage-dotnet-sdk/commit/f6ecc9fcdd61426d09a53ed22f8fa548550bb94b))
+
+- Improve XML documentation on VerifyV2 ([7a29d1c](https://github.com/Vonage/vonage-dotnet-sdk/commit/7a29d1c02035e743cc5325e64ac553812d8cfc80))
+
+- Fix dead link in readme for Monads ([65f4f98](https://github.com/Vonage/vonage-dotnet-sdk/commit/65f4f988e72e7ac5098419c1e86c8359525d7287))
+
+- Bump version to v8.28.1 ([bf7bf2e](https://github.com/Vonage/vonage-dotnet-sdk/commit/bf7bf2e1038cd6ab5cb7fea89c4b548d32aa4b43))
+
+
+### Merges
+
+- Merge remote-tracking branch 'origin/main'
+ ([c30dc19](https://github.com/Vonage/vonage-dotnet-sdk/commit/c30dc198a3052f03ff17630a8afb66cd9bb82411))
+
+Full Changelog: [v8.28.0...v8.28.1](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.28.0...v8.28.1)
+
 ## [v8.28.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.28.0) (2026-04-01)
 
 ### Build updates
