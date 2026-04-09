@@ -339,7 +339,7 @@ Both `Result<T>` and `Maybe<T>` also exposes more capabilities:
 - etc.
 
 You can see how to benefit from these capabilities
-in [our Tests](https://github.com/Vonage/vonage-dotnet-sdk/tree/main/Vonage.Common.Test/Monads).
+in [our Tests](https://github.com/Vonage/vonage-dotnet-sdk/tree/main/Vonage.Test/Common/Monads).
 
 ### What if you don't want to use Monads?
 
