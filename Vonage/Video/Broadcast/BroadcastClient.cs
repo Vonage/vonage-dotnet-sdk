@@ -36,6 +36,16 @@ public class BroadcastClient
     /// <returns>
     ///     A success state if the operation succeeded. A failure state with the error message if it failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = AddStreamToBroadcastRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithBroadcastId(broadcastId)
+    ///     .WithStreamId(streamId)
+    ///     .Create();
+    /// var result = await client.VideoClient.BroadcastClient.AddStreamToBroadcastAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> AddStreamToBroadcastAsync(Result<AddStreamToBroadcastRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -46,6 +56,16 @@ public class BroadcastClient
     /// <returns>
     ///     A success state if the operation succeeded. A failure state with the error message if it failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = ChangeBroadcastLayoutRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithBroadcastId(broadcastId)
+    ///     .WithLayout(new Layout(null, null, LayoutType.BestFit))
+    ///     .Create();
+    /// var result = await client.VideoClient.BroadcastClient.ChangeBroadcastLayoutAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> ChangeBroadcastLayoutAsync(Result<ChangeBroadcastLayoutRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -57,6 +77,15 @@ public class BroadcastClient
     ///     A success state with the broadcast if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetBroadcastRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithBroadcastId(broadcastId)
+    ///     .Create();
+    /// var result = await client.VideoClient.BroadcastClient.GetBroadcastAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Broadcast>> GetBroadcastAsync(Result<GetBroadcastRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetBroadcastRequest, Broadcast>(request);
 
@@ -68,14 +97,34 @@ public class BroadcastClient
     ///     A success state with broadcasts if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetBroadcastsRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .Create();
+    /// var result = await client.VideoClient.BroadcastClient.GetBroadcastsAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<GetBroadcastsResponse>> GetBroadcastsAsync(Result<GetBroadcastsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetBroadcastsRequest, GetBroadcastsResponse>(request);
 
     /// <summary>
-    ///     Removes a live streaming broadcast.
+    ///     Removes a stream from a live streaming broadcast.
     /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
+    /// <param name="request">The request.</param>
+    /// <returns>
+    ///     A success state if the operation succeeded. A failure state with the error message if it failed.
+    /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = RemoveStreamFromBroadcastRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithBroadcastId(broadcastId)
+    ///     .WithStreamId(streamId)
+    ///     .Create();
+    /// var result = await client.VideoClient.BroadcastClient.RemoveStreamFromBroadcastAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> RemoveStreamFromBroadcastAsync(Result<RemoveStreamFromBroadcastRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -87,6 +136,17 @@ public class BroadcastClient
     ///     A success state with the broadcast if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = StartBroadcastRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithLayout(new Layout(null, null, LayoutType.BestFit))
+    ///     .WithOutputs(outputs)
+    ///     .Create();
+    /// var result = await client.VideoClient.BroadcastClient.StartBroadcastsAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Broadcast>> StartBroadcastsAsync(Result<StartBroadcastRequest> request) =>
         this.vonageClient.SendWithResponseAsync<StartBroadcastRequest, Broadcast>(request);
 
@@ -98,6 +158,15 @@ public class BroadcastClient
     ///     A success state with the broadcast if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = StopBroadcastRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithBroadcastId(broadcastId)
+    ///     .Create();
+    /// var result = await client.VideoClient.BroadcastClient.StopBroadcastAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Broadcast>> StopBroadcastAsync(Result<StopBroadcastRequest> request) =>
         this.vonageClient.SendWithResponseAsync<StopBroadcastRequest, Broadcast>(request);
 }

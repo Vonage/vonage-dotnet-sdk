@@ -30,6 +30,15 @@ public class ExperienceComposerClient
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetSessionRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ExperienceComposerClient.GetSessionAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Session>> GetSessionAsync(Result<GetSessionRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetSessionRequest, Session>(request);
 
@@ -41,6 +50,15 @@ public class ExperienceComposerClient
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = StopRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ExperienceComposerClient.StopAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> StopAsync(Result<StopRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -52,6 +70,19 @@ public class ExperienceComposerClient
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = StartRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithToken(token)
+    ///     .WithUrl(new Uri("https://example.com/composer"))
+    ///     .WithResolution(RenderResolution.HighDefinitionLandscape)
+    ///     .WithName("My Composer")
+    ///     .Create();
+    /// var result = await client.VideoClient.ExperienceComposerClient.StartAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Session>> StartAsync(Result<StartRequest> request) =>
         this.vonageClient.SendWithResponseAsync<StartRequest, Session>(request);
 
@@ -63,6 +94,14 @@ public class ExperienceComposerClient
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetSessionsRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ExperienceComposerClient.GetSessionsAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<GetSessionsResponse>> GetSessionsAsync(Result<GetSessionsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetSessionsRequest, GetSessionsResponse>(request);
 }

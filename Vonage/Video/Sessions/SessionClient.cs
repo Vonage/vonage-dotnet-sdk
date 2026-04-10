@@ -37,6 +37,16 @@ public class SessionClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = ChangeStreamLayoutRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithItems(new[] { new ChangeStreamLayoutRequest.LayoutItem("streamId", new[] { "full" }) })
+    ///     .Create();
+    /// var result = await client.VideoClient.SessionClient.ChangeStreamLayoutAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> ChangeStreamLayoutAsync(Result<ChangeStreamLayoutRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -45,6 +55,16 @@ public class SessionClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = CreateSessionRequest.Build()
+    ///     .WithLocation("192.168.1.1")
+    ///     .WithMediaMode(MediaMode.Routed)
+    ///     .WithArchiveMode(ArchiveMode.Manual)
+    ///     .Create();
+    /// var result = await client.VideoClient.SessionClient.CreateSessionAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<CreateSessionResponse>> CreateSessionAsync(Result<CreateSessionRequest> request) =>
         this.createSessionUseCase.CreateSessionAsync(request);
 
@@ -56,6 +76,16 @@ public class SessionClient
     ///     A success state with the stream if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetStreamRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithStreamId(streamId)
+    ///     .Create();
+    /// var result = await client.VideoClient.SessionClient.GetStreamAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<GetStreamResponse>> GetStreamAsync(Result<GetStreamRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetStreamRequest, GetStreamResponse>(request);
 
@@ -64,6 +94,15 @@ public class SessionClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A success state with streams if the operation succeeded. A failure state with the error message if it failed.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetStreamsRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .Create();
+    /// var result = await client.VideoClient.SessionClient.GetStreamsAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<GetStreamsResponse>> GetStreamsAsync(Result<GetStreamsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetStreamsRequest, GetStreamsResponse>(request);
 
@@ -72,6 +111,15 @@ public class SessionClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A success state with streams if the operation succeeded. A failure state with the error message if it failed.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = ListConnectionsRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .Create();
+    /// var result = await client.VideoClient.SessionClient.ListConnections(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<ListConnectionsResponse>> ListConnections(Result<ListConnectionsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<ListConnectionsRequest, ListConnectionsResponse>(request);
 }
