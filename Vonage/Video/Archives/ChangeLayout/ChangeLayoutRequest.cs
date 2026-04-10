@@ -19,8 +19,13 @@ namespace Vonage.Video.Archives.ChangeLayout;
 public readonly partial struct ChangeLayoutRequest : IVonageRequest, IHasApplicationId, IHasArchiveId
 {
     /// <summary>
-    ///     The layout to apply of the archive.
+    ///     Sets the layout to apply to the archive.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithLayout(new Layout(null, null, LayoutType.BestFit))
+    /// ]]></code>
+    /// </example>
     [Mandatory(2)]
     public Layout Layout { get; internal init; }
 

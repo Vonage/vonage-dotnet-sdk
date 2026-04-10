@@ -18,8 +18,13 @@ namespace Vonage.Video.Moderation.MuteStreams;
 public readonly partial struct MuteStreamsRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <summary>
-    ///     The request content.
+    ///     Sets the mute configuration, including whether to enable or disable the mute state and which streams to exclude.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithConfiguration(new MuteStreamsRequest.MuteStreamsConfiguration(true, Array.Empty<string>()))
+    /// ]]></code>
+    /// </example>
     [Mandatory(2)]
     public MuteStreamsConfiguration Configuration { get; internal init; }
 

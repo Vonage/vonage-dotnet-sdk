@@ -17,14 +17,24 @@ namespace Vonage.Video.Sessions.ListConnections;
 public readonly partial struct ListConnectionsRequest : IVonageRequest
 {
     /// <summary>
-    ///     Vonage Application UUID
+    ///     Sets the Vonage Application UUID.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithApplicationId(applicationId)
+    /// ]]></code>
+    /// </example>
     [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <summary>
-    ///     Video session ID
+    ///     Sets the Vonage Video session ID.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
+    /// ]]></code>
+    /// </example>
     [Mandatory(1)]
     public string SessionId { get; internal init; }
 

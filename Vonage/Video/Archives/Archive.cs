@@ -299,30 +299,37 @@ public struct TranscriptionProperties
 }
 
 /// <summary>
+///     Represents the transcription properties attached to an archive.
 /// </summary>
 public struct Transcription
 {
     /// <summary>
+    ///     Defines the possible statuses of an archive transcription.
     /// </summary>
     public enum TranscriptionStatus
     {
         /// <summary>
+        ///     The transcription has been requested.
         /// </summary>
         [Description("requested")] Requested,
 
         /// <summary>
+        ///     The transcription is available for download.
         /// </summary>
         [Description("available")] Available,
 
         /// <summary>
+        ///     The transcription has failed.
         /// </summary>
         [Description("failed")] Failed,
 
         /// <summary>
+        ///     The transcription processing has started.
         /// </summary>
         [Description("started")] Started,
 
         /// <summary>
+        ///     The transcription has been uploaded to the configured storage.
         /// </summary>
         [Description("uploaded")] Uploaded,
     }
@@ -338,14 +345,17 @@ public struct Transcription
     public bool HasSummary { get; set; }
 
     /// <summary>
+    ///     The reason for a failed or stopped transcription, if applicable.
     /// </summary>
     public string Reason { get; set; }
 
     /// <summary>
+    ///     The URL of the transcription file, when available.
     /// </summary>
     public string Url { get; set; }
 
     /// <summary>
+    ///     The current status of the transcription.
     /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter<TranscriptionStatus>))]
     public TranscriptionStatus Status { get; set; }

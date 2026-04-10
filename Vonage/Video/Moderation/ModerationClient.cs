@@ -30,6 +30,16 @@ public class ModerationClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = DisconnectConnectionRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithConnectionId(connectionId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ModerationClient.DisconnectConnectionAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> DisconnectConnectionAsync(Result<DisconnectConnectionRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -38,6 +48,16 @@ public class ModerationClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success with the stream information if the operation succeeds, Failure it if fails.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = MuteStreamRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithStreamId(streamId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ModerationClient.MuteStreamAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<MuteStreamResponse>> MuteStreamAsync(Result<MuteStreamRequest> request) =>
         this.vonageClient.SendWithResponseAsync<MuteStreamRequest, MuteStreamResponse>(request);
 
@@ -47,6 +67,16 @@ public class ModerationClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>Success with the stream information if the operation succeeds, Failure it if fails.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = MuteStreamsRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithConfiguration(new MuteStreamsRequest.MuteStreamsConfiguration(true, Array.Empty<string>()))
+    ///     .Create();
+    /// var result = await client.VideoClient.ModerationClient.MuteStreamsAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<MuteStreamsResponse>> MuteStreamsAsync(Result<MuteStreamsRequest> request) =>
         this.vonageClient.SendWithResponseAsync<MuteStreamsRequest, MuteStreamsResponse>(request);
 }

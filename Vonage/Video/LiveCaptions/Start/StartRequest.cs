@@ -21,54 +21,89 @@ public readonly partial struct StartRequest : IVonageRequest
     private const int MinimalMaxDuration = 300;
 
     /// <summary>
-    ///     A valid Vonage Video token with role set to Moderator.
+    ///     Sets the Vonage Video token with role set to Moderator.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithToken("eyJ0eXAiOiJKV1Q...")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(1)]
     [Mandatory(2)]
     public string Token { get; internal init; }
 
     /// <summary>
-    ///     Vonage Application UUID
+    ///     Sets the Vonage Application UUID.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithApplicationId(applicationId)
+    /// ]]></code>
+    /// </example>
     [JsonIgnore]
     [Mandatory(0)]
     public Guid ApplicationId { get; internal init; }
 
     /// <summary>
-    ///     The session ID of the Vonage Video session. The audio from Publishers publishing into this session will be used to
-    ///     generate the captions.
+    ///     Sets the Vonage Video session ID. The audio from Publishers publishing into this session will be used to generate
+    ///     the captions.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithSessionId("flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(0)]
     [Mandatory(1)]
     public string SessionId { get; internal init; }
 
     /// <summary>
-    ///     Whether to enable this to faster captioning at the cost of some degree of inaccuracies.
+    ///     Disables partial captions. Partial captions are enabled by default for faster captioning at the cost of some
+    ///     degree of inaccuracies.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .DisablePartialCaptions()
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(4)]
     [OptionalBoolean(true, "DisablePartialCaptions")]
     public bool PartialCaptions { get; internal init; }
 
     /// <summary>
-    ///     The BCP-47 code for a spoken language used on this call. The default value is "en-US".
+    ///     Sets the BCP-47 code for a spoken language used on this call. The default value is "en-US".
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithLanguage("es-ES")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(2)]
     [JsonPropertyName("languageCode")]
     [OptionalWithDefault("string", DefaultLanguage)]
     public string Language { get; internal init; }
 
     /// <summary>
-    ///     The maximum duration for the audio captioning, in seconds. The default value is 14,400 seconds (4 hours), the
-    ///     maximum duration allowed. The minimum value for maxDuration is 300 (300 seconds, or 5 minutes).
+    ///     Sets the maximum duration for the audio captioning, in seconds. The default value is 14,400 seconds (4 hours),
+    ///     the maximum duration allowed. The minimum value is 300 (5 minutes).
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithMaxDuration(3600)
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(3)]
     [OptionalWithDefault("int", "14400")]
     public int MaxDuration { get; internal init; }
 
     /// <summary>
-    ///     A publicly reachable URL controlled by the customer and capable of generating the content to be rendered without
-    ///     user intervention
+    ///     Sets the callback URL for captioning status events.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithStatusCallbackUrl(new Uri("https://example.com/captions/status"))
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(5)]
     [JsonConverter(typeof(MaybeJsonConverter<Uri>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

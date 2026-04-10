@@ -25,33 +25,51 @@ public readonly partial struct StartBroadcastRequest : IVonageRequest, IHasAppli
     private const int MinimumMaxDuration = 60;
 
     /// <summary>
-    ///     Specify this to assign the initial layout type for the broadcast. If you do not specify an initial layout type, the
-    ///     broadcast stream uses the Best Fit layout type. For more information, see Configuring Video Layout for the OpenTok
-    ///     live streaming feature.
+    ///     Sets the initial layout type for the broadcast. If you do not specify an initial layout type, the broadcast stream
+    ///     uses the Best Fit layout type.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithLayout(new Layout(null, null, LayoutType.BestFit))
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(1)]
     [Mandatory(2)]
     public Layout Layout { get; internal init; }
 
     /// <summary>
+    ///     Sets the maximum video bitrate for the broadcast, in bits per second.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithMaxBitrate(2000000)
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(3)]
     [OptionalWithDefault("int", "1000")]
     public int MaxBitrate { get; internal init; }
 
     /// <summary>
-    ///     The maximum duration for the broadcast, in seconds. The broadcast will automatically stop when the maximum duration
-    ///     is reached. You can set the maximum duration to a value from 60 (60 seconds) to 36000 (10 hours). The default
-    ///     maximum duration is 4 hours (14,400 seconds)
+    ///     Sets the maximum duration for the broadcast, in seconds. The broadcast will automatically stop when the maximum
+    ///     duration is reached. Valid range: 60 (1 minute) to 36000 (10 hours). Default is 14,400 (4 hours).
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithMaxDuration(7200)
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(2)]
     [OptionalWithDefault("int", "14400")]
     public int MaxDuration { get; internal init; }
 
     /// <summary>
-    ///     Set this to support multiple broadcasts for the same session simultaneously. Set this to a unique string for each
-    ///     simultaneous broadcast of an ongoing session. See Simultaneous broadcasts.
+    ///     Sets a unique tag to support multiple broadcasts for the same session simultaneously.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithMultiBroadcastTag("my-broadcast-tag")
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(7)]
     [JsonConverter(typeof(MaybeJsonConverter<string>))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -59,23 +77,38 @@ public readonly partial struct StartBroadcastRequest : IVonageRequest, IHasAppli
     public Maybe<string> MultiBroadcastTag { get; internal init; }
 
     /// <summary>
-    ///     This object defines the types of broadcast streams you want to start (both HLS and RTMP). You can include HLS,
-    ///     RTMP, or both as broadcast streams. If you include RTMP streaming, you can specify up to five target RTMP streams
-    ///     (or just one). Vonage streams the session to each RTMP URL you specify. Note that OpenTok live streaming supports
-    ///     RTMP and RTMPS.
+    ///     Sets the broadcast output configuration (HLS and/or RTMP). You can include up to five RTMP streams. Vonage Video
+    ///     live streaming supports RTMP and RTMPS.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithOutputs(new StartBroadcastRequest.BroadcastOutput { Streams = new[] { new StartBroadcastRequest.BroadcastOutput.Stream(id, serverUrl, streamName) } })
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(4)]
     [Mandatory(3)]
     public BroadcastOutput Outputs { get; internal init; }
 
     /// <summary>
+    ///     Sets the resolution of the broadcast output.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithResolution(RenderResolution.HighDefinitionLandscape)
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(5)]
     [OptionalWithDefault("RenderResolution", "RenderResolution.StandardDefinitionLandscape")]
     public RenderResolution Resolution { get; internal init; }
 
     /// <summary>
+    ///     Sets whether streams included in the broadcast are selected automatically (auto, the default) or manually (manual).
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithStreamMode(StreamMode.Manual)
+    /// ]]></code>
+    /// </example>
     [JsonPropertyOrder(6)]
     [OptionalWithDefault("StreamMode", "StreamMode.Auto")]
     public StreamMode StreamMode { get; internal init; }
@@ -159,6 +192,7 @@ public readonly partial struct StartBroadcastRequest : IVonageRequest, IHasAppli
     public struct BroadcastOutput
     {
         /// <summary>
+        ///     The HLS settings for the broadcast output.
         /// </summary>
         [JsonConverter(typeof(MaybeJsonConverter<Broadcast.HlsSettings>))]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

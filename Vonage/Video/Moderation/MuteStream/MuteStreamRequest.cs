@@ -16,8 +16,13 @@ namespace Vonage.Video.Moderation.MuteStream;
 public readonly partial struct MuteStreamRequest : IVonageRequest, IHasApplicationId, IHasSessionId
 {
     /// <summary>
-    ///     The stream Id.
+    ///     Sets the stream ID of the publisher stream to mute.
     /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// .WithStreamId("8b732909-0a06-46a2-8ea8-074e64d43422")
+    /// ]]></code>
+    /// </example>
     [Mandatory(2)]
     public string StreamId { get; internal init; }
 

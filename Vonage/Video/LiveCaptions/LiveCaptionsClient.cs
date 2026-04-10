@@ -28,6 +28,12 @@ public class LiveCaptionsClient
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = StopRequest.Parse(applicationId, captionsId);
+    /// var result = await client.VideoClient.LiveCaptionsClient.StopAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> StopAsync(Result<StopRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -39,6 +45,16 @@ public class LiveCaptionsClient
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = StartRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithToken(token)
+    ///     .Create();
+    /// var result = await client.VideoClient.LiveCaptionsClient.StartAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<StartResponse>> StartAsync(Result<StartRequest> request) =>
         this.vonageClient.SendWithResponseAsync<StartRequest, StartResponse>(request);
 }

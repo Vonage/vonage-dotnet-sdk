@@ -34,6 +34,16 @@ public class ArchiveClient
     ///     A success state if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = AddStreamRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithArchiveId(archiveId)
+    ///     .WithStreamId(streamId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ArchiveClient.AddStreamAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> AddStreamAsync(Result<AddStreamRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -45,6 +55,16 @@ public class ArchiveClient
     ///     A success state if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = ChangeLayoutRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithArchiveId(archiveId)
+    ///     .WithLayout(new Layout(null, null, LayoutType.BestFit))
+    ///     .Create();
+    /// var result = await client.VideoClient.ArchiveClient.ChangeLayoutAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> ChangeLayoutAsync(Result<ChangeLayoutRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -56,6 +76,16 @@ public class ArchiveClient
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = CreateArchiveRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithName("My Archive")
+    ///     .Create();
+    /// var result = await client.VideoClient.ArchiveClient.CreateArchiveAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Archive>> CreateArchiveAsync(Result<CreateArchiveRequest> request) =>
         this.vonageClient.SendWithResponseAsync<CreateArchiveRequest, Archive>(request);
 
@@ -67,6 +97,15 @@ public class ArchiveClient
     ///     A success state if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = DeleteArchiveRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithArchiveId(archiveId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ArchiveClient.DeleteArchiveAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> DeleteArchiveAsync(Result<DeleteArchiveRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -78,6 +117,15 @@ public class ArchiveClient
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetArchiveRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithArchiveId(archiveId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ArchiveClient.GetArchiveAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Archive>> GetArchiveAsync(Result<GetArchiveRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetArchiveRequest, Archive>(request);
 
@@ -86,6 +134,14 @@ public class ArchiveClient
     /// </summary>
     /// <param name="request">The request.</param>
     /// <returns>A success state with archives if the operation succeeded. A failure state with the error message if it failed.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetArchivesRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ArchiveClient.GetArchivesAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<GetArchivesResponse>> GetArchivesAsync(Result<GetArchivesRequest> request) =>
         this.vonageClient.SendWithResponseAsync<GetArchivesRequest, GetArchivesResponse>(request);
 
@@ -97,6 +153,16 @@ public class ArchiveClient
     ///     A success state if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = RemoveStreamRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithArchiveId(archiveId)
+    ///     .WithStreamId(streamId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ArchiveClient.RemoveStreamAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> RemoveStreamAsync(Result<RemoveStreamRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -108,6 +174,15 @@ public class ArchiveClient
     ///     A success state with the archive if the operation succeeded. A failure state with the error message if it
     ///     failed.
     /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = StopArchiveRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithArchiveId(archiveId)
+    ///     .Create();
+    /// var result = await client.VideoClient.ArchiveClient.StopArchiveAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Archive>> StopArchiveAsync(Result<StopArchiveRequest> request) =>
         this.vonageClient.SendWithResponseAsync<StopArchiveRequest, Archive>(request);
 }

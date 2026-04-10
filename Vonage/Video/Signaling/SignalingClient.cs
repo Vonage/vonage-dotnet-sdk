@@ -29,6 +29,17 @@ public class SignalingClient
     /// </summary>
     /// <param name="request">The signal request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = SendSignalRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithConnectionId(connectionId)
+    ///     .WithContent(new SignalContent("chat", "Hello!"))
+    ///     .Create();
+    /// var result = await client.VideoClient.SignalingClient.SendSignalAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> SendSignalAsync(Result<SendSignalRequest> request) =>
         this.vonageClient.SendAsync(request);
 
@@ -37,6 +48,16 @@ public class SignalingClient
     /// </summary>
     /// <param name="request">The signal request.</param>
     /// <returns>Success if the operation succeeds, Failure it if fails.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = SendSignalsRequest.Build()
+    ///     .WithApplicationId(applicationId)
+    ///     .WithSessionId(sessionId)
+    ///     .WithContent(new SignalContent("chat", "Hello everyone!"))
+    ///     .Create();
+    /// var result = await client.VideoClient.SignalingClient.SendSignalsAsync(request);
+    /// ]]></code>
+    /// </example>
     public Task<Result<Unit>> SendSignalsAsync(Result<SendSignalsRequest> request) =>
         this.vonageClient.SendAsync(request);
 }

@@ -52,15 +52,15 @@ public readonly struct SipElement
 
     /// <summary>
     ///     Indicates whether the SIP call will include video. With video included, the SIP client's video is included in the
-    ///     OpenTok stream that is sent to the OpenTok session. The SIP client will receive a single composed video of the
-    ///     published streams in the OpenTok session. The default value is false.
+    ///     Vonage Video stream that is sent to the Vonage Video session. The SIP client will receive a single composed video
+    ///     of the published streams in the Vonage Video session. The default value is false.
     /// </summary>
     [JsonPropertyOrder(5)]
     [JsonPropertyName("video")]
     public bool HasVideo { get; internal init; }
 
     /// <summary>
-    ///     Defines custom headers to be added to the SIP INVITE request initiated fromOpenTok to your SIP platform.
+    ///     Defines custom headers to be added to the SIP INVITE request initiated from Vonage Video to your SIP platform.
     /// </summary>
     [JsonPropertyOrder(2)]
     [JsonConverter(typeof(MaybeJsonConverter<Dictionary<string, string>>))]
@@ -68,7 +68,7 @@ public readonly struct SipElement
     public Maybe<Dictionary<string, string>> Headers { get; internal init; }
 
     /// <summary>
-    ///     The SIP URI to be used as destination of the SIP call initiated from OpenTok to your SIP platform. If the SIP uri
+    ///     The SIP URI to be used as destination of the SIP call initiated from Vonage Video to your SIP platform. If the SIP uri
     ///     contains a transport=tls header, the negotiation between Vonage and the SIP endpoint will be done securely. Note
     ///     that this will only apply to the negotiation itself,and not to the transmission of audio. If you also audio
     ///     transmission to be encrypted, set the secure property to true.
