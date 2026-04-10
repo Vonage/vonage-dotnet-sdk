@@ -22,8 +22,9 @@ public readonly struct AuthenticationFailure : IResultFailure
     private readonly string failure;
 
     /// <summary>
+    ///     Initializes a new <see cref="AuthenticationFailure"/> with a custom failure message.
     /// </summary>
-    /// <param name="failure"></param>
+    /// <param name="failure">The failure message returned by <see cref="GetFailureMessage"/>.</param>
     public AuthenticationFailure(string failure) => this.failure = failure;
 
     /// <inheritdoc />

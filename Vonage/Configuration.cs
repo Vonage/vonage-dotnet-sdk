@@ -106,6 +106,8 @@ public sealed class Configuration
     public static Configuration Instance { get; } = new Configuration();
 
     /// <summary>
+    ///     Retrieves the proxy URL applied to the default <see cref="HttpMessageHandler"/>, sourced from the
+    ///     <c>vonage:Proxy</c> setting. Returns <see cref="Maybe{T}.None"/> when no proxy is configured.
     /// </summary>
     public Maybe<string> Proxy => this.Settings["vonage:Proxy"] ?? Maybe<string>.None;
 

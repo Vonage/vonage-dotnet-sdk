@@ -16,13 +16,12 @@ namespace Vonage.Utility;
 public class WebhookParser
 {
     /// <summary>
-    /// Used to Parse Query parameters into a given type
-    /// This Method will convert the string pairs into a dictionary and then use
-    /// Newtonsoft to convert the pairs to JSON - finally resolving the object from JSON
+    ///     Parses query string parameters into the given type. Converts the string pairs into a dictionary,
+    ///     serializes them to JSON, and deserializes the JSON into <typeparamref name="T"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="requestData"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The target type to deserialize the webhook payload into.</typeparam>
+    /// <param name="requestData">The query string key/value pairs from the inbound HTTP request.</param>
+    /// <returns>The deserialized webhook payload.</returns>
     public static T ParseQuery<T>(IEnumerable<KeyValuePair<string, StringValues>> requestData)
     {
         var dict = requestData.ToDictionary(x => x.Key, x => x.Value.ToString());
@@ -31,13 +30,12 @@ public class WebhookParser
     }
     
     /// <summary>
-    /// Used to Parse Query parameters into a given type
-    /// This Method will convert the string pairs into a dictionary and then use
-    /// Newtonsoft to convert the pairs to JSON - finally resolving the object from JSON
+    ///     Parses query string parameters into the given type. Use this overload when the query data is exposed
+    ///     as plain string values (legacy ASP.NET / HttpUtility) rather than ASP.NET Core <see cref="StringValues"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="requestData"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The target type to deserialize the webhook payload into.</typeparam>
+    /// <param name="requestData">The query string key/value pairs from the inbound HTTP request.</param>
+    /// <returns>The deserialized webhook payload.</returns>
     public static T ParseQueryNameValuePairs<T>(IEnumerable<KeyValuePair<string, string>> requestData)
     {
         var dict = requestData.ToDictionary(x => x.Key, x => x.Value);
@@ -46,12 +44,12 @@ public class WebhookParser
     }
     
     /// <summary>
-    /// Parses URL content into the given object type
-    /// This uses Newtonsoft.Json - abnormally named fields should be decorated with the 'JsonPropertyAttribute'
+    ///     Parses a URL-encoded form body into the given type. Uses Newtonsoft.Json — abnormally named fields
+    ///     should be decorated with <c>JsonPropertyAttribute</c>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="contentString"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The target type to deserialize the webhook payload into.</typeparam>
+    /// <param name="contentString">A URL-encoded form body of the form <c>key1=value1&amp;key2=value2</c>.</param>
+    /// <returns>The deserialized webhook payload.</returns>
     public static T ParseUrlFormString<T>(string contentString)
     {
         var splitParameters = contentString.Split('&');
@@ -62,35 +60,59 @@ public class WebhookParser
     }
     
     /// <summary>
-    /// Synchronous Implementation of ParseWebhook
-    /// Meant to be called from ASP.NET Core MVC with only the Content of the body
+    ///     Synchronous wrapper around <see cref="ParseWebhookAsync{T}(Stream, string)"/>. Meant to be called from
+    ///     ASP.NET Core MVC with only the body content of the inbound request.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="content"></param>
-    /// <param name="contentType"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The target type to deserialize the webhook payload into.</typeparam>
+    /// <param name="content">The request body stream containing the webhook payload.</param>
+    /// <param name="contentType">
+    ///     The content type of the request. Must contain <c>application/json</c> or
+    ///     <c>application/x-www-form-urlencoded</c>.
+    /// </param>
+    /// <returns>The deserialized webhook payload.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="contentType"/> is not supported.</exception>
     public static T ParseWebhook<T>(Stream content, string contentType) =>
         ParseWebhookAsync<T>(content, contentType).Result;
     
     /// <summary>
-    /// Synchronous implementation of the ParseWebhook method, meant to be called from 
-    /// Legacy ASP.NET Web Api with an HttpRequestMessage
+    ///     Synchronous wrapper around <see cref="ParseWebhookAsync{T}(HttpRequestMessage)"/>. Meant to be called
+    ///     from legacy ASP.NET Web API where the request is exposed as an <see cref="HttpRequestMessage"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="request"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The target type to deserialize the webhook payload into.</typeparam>
+    /// <param name="request">The inbound request whose content carries the webhook payload.</param>
+    /// <returns>The deserialized webhook payload.</returns>
+    /// <exception cref="ArgumentException">Thrown when the request content type is not supported.</exception>
     public static T ParseWebhook<T>(HttpRequestMessage request) => ParseWebhookAsync<T>(request).Result;
     
     /// <summary>
-    /// Parses the stream into the given type
-    /// This is anticipated to be used by ASP.NET Core MVC/API requests where the content is in the Body of the inbound request
+    ///     Parses the request body stream into the given type. Intended to be called from ASP.NET Core MVC / API
+    ///     handlers where the webhook payload arrives in the body of the inbound request.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="request"></param>
-    /// <param name="content"></param>
-    /// <param name="contentType">The content type of the request, must be of the type application/json or application/x-www-form-urlencoded</param>
-    /// <exception cref="ArgumentException">Thrown if Content type does not contain application/json or application/x-www-form-urlencoded</exception>
-    /// <returns></returns>
+    /// <typeparam name="T">The target type to deserialize the webhook payload into.</typeparam>
+    /// <param name="content">The request body stream containing the webhook payload.</param>
+    /// <param name="contentType">
+    ///     The content type of the request. Must contain <c>application/json</c> or
+    ///     <c>application/x-www-form-urlencoded</c>.
+    /// </param>
+    /// <exception cref="ArgumentException">
+    ///     Thrown if <paramref name="contentType"/> does not contain <c>application/json</c> or
+    ///     <c>application/x-www-form-urlencoded</c>.
+    /// </exception>
+    /// <returns>A task that resolves to the deserialized webhook payload.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// // ASP.NET Core MVC controller
+    /// [HttpPost("webhooks/inbound")]
+    /// public async Task<IActionResult> Inbound()
+    /// {
+    ///     var payload = await WebhookParser.ParseWebhookAsync<InboundSms>(
+    ///         Request.Body,
+    ///         Request.ContentType);
+    ///     // ... handle payload
+    ///     return Ok();
+    /// }
+    /// ]]></code>
+    /// </example>
     public static async Task<T> ParseWebhookAsync<T>(Stream content, string contentType)
     {
         if (contentType.Contains("application/json"))
@@ -111,12 +133,27 @@ public class WebhookParser
     }
     
     /// <summary>
-    /// Parses the HttpRequestMessage's content into the given type
+    ///     Parses the content of an <see cref="HttpRequestMessage"/> into the given type. Intended to be called
+    ///     from legacy ASP.NET Web API handlers.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="request"></param>
-    /// <exception cref="ArgumentException">Thrown if Content type does not contain application/json or application/x-www-form-urlencoded</exception>
-    /// <returns></returns>
+    /// <typeparam name="T">The target type to deserialize the webhook payload into.</typeparam>
+    /// <param name="request">The inbound request whose content carries the webhook payload.</param>
+    /// <exception cref="ArgumentException">
+    ///     Thrown if the request content type does not contain <c>application/json</c> or
+    ///     <c>application/x-www-form-urlencoded</c>.
+    /// </exception>
+    /// <returns>A task that resolves to the deserialized webhook payload.</returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// // Legacy ASP.NET Web API controller
+    /// public async Task<IHttpActionResult> Inbound(HttpRequestMessage request)
+    /// {
+    ///     var payload = await WebhookParser.ParseWebhookAsync<InboundSms>(request);
+    ///     // ... handle payload
+    ///     return Ok();
+    /// }
+    /// ]]></code>
+    /// </example>
     public static async Task<T> ParseWebhookAsync<T>(HttpRequestMessage request)
     {
         if (request.Content.Headers.GetValues("Content-Type").First().Contains("application/json"))

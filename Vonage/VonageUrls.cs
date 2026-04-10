@@ -14,18 +14,24 @@ namespace Vonage;
 public readonly struct VonageUrls
 {
     /// <summary>
+    ///     Identifies the Vonage API region used to route requests to the closest data center.
+    ///     Used by <see cref="Configuration.BuildHttpClientForRegion"/> and <see cref="Get"/>
+    ///     to resolve the matching base URL.
     /// </summary>
     public enum Region
     {
         /// <summary>
+        ///     Americas data center (<c>api-us.vonage.com</c>).
         /// </summary>
         [Description("AMER")] US,
 
         /// <summary>
+        ///     Europe, Middle East and Africa data center (<c>api-eu.vonage.com</c>).
         /// </summary>
         [Description("EMEA")] EU,
 
         /// <summary>
+        ///     Asia-Pacific data center (<c>api-ap.vonage.com</c>).
         /// </summary>
         [Description("APAC")] APAC,
     }

@@ -3,8 +3,28 @@ using System.Text;
 
 namespace Vonage.Cryptography;
 
+/// <summary>
+///     Generates the signature applied to SMS API requests when using signed-request authentication.
+///     The resulting signature is sent as the <c>sig</c> parameter so the Vonage API can verify the request
+///     originated from the holder of the signature secret.
+/// </summary>
+/// <remarks>
+///     Configure the desired hashing <see cref="Method"/> on <see cref="Vonage.Request.Credentials"/> via
+///     <see cref="Vonage.Request.Credentials.FromApiKeySignatureSecretAndMethod"/>. HMAC variants are
+///     preferred over the legacy <see cref="Method.md5hash"/> mode.
+/// </remarks>
 public class SmsSignatureGenerator
 {
+    /// <summary>
+    ///     Generates a request signature using the supplied hashing method.
+    /// </summary>
+    /// <param name="query">The request query string to sign (parameters concatenated as <c>&amp;key=value</c> pairs).</param>
+    /// <param name="securitySecret">The signature secret from your Vonage account dashboard.</param>
+    /// <param name="method">The hashing method used to compute the signature.</param>
+    /// <returns>
+    ///     The hexadecimal signature. <see cref="Method.md5hash"/> returns lowercase MD5 of
+    ///     <c>query + secret</c>; the HMAC variants return the uppercase HMAC of the query keyed by the secret.
+    /// </returns>
     public static string GenerateSignature(string query, string securitySecret, Method method)
     {
         // security secret provided, sort and sign request
@@ -40,12 +60,36 @@ public class SmsSignatureGenerator
         return sig;
     }
 
+    /// <summary>
+    ///     Identifies the hashing algorithm used to compute the SMS request signature.
+    /// </summary>
     public enum Method
     {
+        /// <summary>
+        ///     Legacy MD5 hash of <c>query + secret</c>. Produces a lowercase hexadecimal digest.
+        ///     Kept for backwards compatibility; prefer one of the HMAC variants for new integrations.
+        /// </summary>
         md5hash,
+
+        /// <summary>
+        ///     HMAC-MD5 of the query keyed by the signature secret. Produces an uppercase hexadecimal digest.
+        /// </summary>
         md5,
+
+        /// <summary>
+        ///     HMAC-SHA1 of the query keyed by the signature secret. Produces an uppercase hexadecimal digest.
+        /// </summary>
         sha1,
+
+        /// <summary>
+        ///     HMAC-SHA256 of the query keyed by the signature secret. Produces an uppercase hexadecimal digest.
+        /// </summary>
         sha256,
+
+        /// <summary>
+        ///     HMAC-SHA512 of the query keyed by the signature secret. Produces an uppercase hexadecimal digest.
+        ///     Recommended for new integrations.
+        /// </summary>
         sha512
     }
 
