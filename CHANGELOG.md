@@ -1,4 +1,33 @@
 # Changelog
+## [v8.30.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.30.0) (2026-04-17)
+
+### Documentation
+
+- Generate changelog for v8.29.0 ([ab88237](https://github.com/Vonage/vonage-dotnet-sdk/commit/ab8823773624bf5d2b8466b55d35b77f0ae04be9))
+
+- Remove unused guides ([dfe9637](https://github.com/Vonage/vonage-dotnet-sdk/commit/dfe9637a6a841f9f6468c9643eb887a34b8b3ffb))
+
+- Improve XML documentation on Common ([bf6eec8](https://github.com/Vonage/vonage-dotnet-sdk/commit/bf6eec84ad6996ce0c5d05a0c9569dd414238e21))
+
+- Improve XML documentation on Video ([5f18d04](https://github.com/Vonage/vonage-dotnet-sdk/commit/5f18d04184cfbbdcb0b5d4fe18e74feaa694ddf8))
+
+- Improve XML documentation on Video ([35d2fb7](https://github.com/Vonage/vonage-dotnet-sdk/commit/35d2fb702c61113e9d5e4b5b62b9bb3c63e79681))
+
+- Bump version to v8.30.0 ([96948f1](https://github.com/Vonage/vonage-dotnet-sdk/commit/96948f1b5b773e84c2aa21880134c8a67e713d03))
+
+
+### Features
+
+- Add support for 24khz audio rate in Video audio connector ([be3bd47](https://github.com/Vonage/vonage-dotnet-sdk/commit/be3bd47908f979769b53aaa25ea13f5fa082fb48))
+
+
+### Merges
+
+- Merge branch 'docs-video'
+ ([efacad5](https://github.com/Vonage/vonage-dotnet-sdk/commit/efacad5e1982d3b37a9ccd30252e795642f0de61))
+
+Full Changelog: [v8.29.0...v8.30.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.29.0...v8.30.0)
+
 ## [v8.29.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.29.0) (2026-04-09)
 
 ### Documentation
