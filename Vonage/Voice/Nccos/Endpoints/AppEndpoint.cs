@@ -13,8 +13,8 @@ public class AppEndpoint : Endpoint
     [JsonProperty("user")]
     public string User { get; set; }
 
-    public AppEndpoint()
-    {
-        this.Type = EndpointType.App;
-    }
+    /// <summary>
+    ///     Initializes a new <see cref="AppEndpoint"/> with the endpoint type set to <see cref="Endpoint.EndpointType.App"/>.
+    /// </summary>
+    public AppEndpoint() => this.Type = EndpointType.App;
 }
