@@ -90,4 +90,9 @@ public enum SupportedAudioRates
     ///     16000Hz
     /// </summary>
     AUDIO_RATE_16000Hz = 16000,
+    
+    /// <summary>
+    ///     24000Hz
+    /// </summary>
+    AUDIO_RATE_24000Hz = 24000,
 }

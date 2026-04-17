@@ -68,14 +68,17 @@ public class RequestBuilderTest
             .Should()
             .BeSuccess(this.validApplicationId);
 
-    [Fact]
-    public void Build_ShouldSetAudioRate() =>
+    [Theory]
+    [InlineData(SupportedAudioRates.AUDIO_RATE_8000Hz)]
+    [InlineData(SupportedAudioRates.AUDIO_RATE_16000Hz)]
+    [InlineData(SupportedAudioRates.AUDIO_RATE_24000Hz)]
+    public void Build_ShouldSetAudioRate(SupportedAudioRates rate) =>
         this.BuildValidRequest()
-            .WithAudioRate(SupportedAudioRates.AUDIO_RATE_16000Hz)
+            .WithAudioRate(rate)
             .Create()
             .Map(request => request.WebSocket.AudioRate)
             .Should()
-            .BeSuccess(SupportedAudioRates.AUDIO_RATE_16000Hz);
+            .BeSuccess(rate);
 
     [Fact]
     public void Build_ShouldSetHeaders() =>
