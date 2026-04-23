@@ -1526,6 +1526,9 @@
         <None Update="Applications\Data\CreateVoiceFullApplication-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Reports\CancelReport\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="git config core.hooksPath .scripts/git_hooks"/>

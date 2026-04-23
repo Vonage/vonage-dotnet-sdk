@@ -17,6 +17,7 @@ using Vonage.Numbers;
 using Vonage.NumberVerification;
 using Vonage.Pricing;
 using Vonage.Redaction;
+using Vonage.Reports;
 using Vonage.Request;
 using Vonage.ShortCodes;
 using Vonage.SimSwap;
@@ -108,6 +109,11 @@ public class VonageClient
 
     public IRedactClient RedactClient { get; private set; }
 
+    /// <summary>
+    ///     Exposes Reports API features.
+    /// </summary>
+    public IReportsClient ReportsClient { get; private set; }
+
     public IShortCodesClient ShortCodesClient { get; private set; }
 
     [Obsolete("API has been deprecated. Favor IdentityInsights instead.")]
@@ -195,6 +201,8 @@ public class VonageClient
         this.EmergencyClient =
             new EmergencyClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(),
                 AuthType.Basic));
+        this.ReportsClient =
+            new ReportsClient(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(), AuthType.Basic));
         this.IdentityInsightsClient =
             new IdentityInsightsClient(this.Credentials, currentConfiguration);
     }

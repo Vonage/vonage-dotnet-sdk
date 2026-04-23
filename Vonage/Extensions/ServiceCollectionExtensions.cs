@@ -1,6 +1,7 @@
 #region
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Vonage.Reports;
 using Vonage.Request;
 using Vonage.Video.Authentication;
 #endregion
@@ -89,6 +90,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().NumberVerificationClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ReportsClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SimSwapClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().SubAccountsClient);
@@ -115,6 +117,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().NumberVerificationClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().PricingClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().RedactClient);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ReportsClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SimSwapClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ShortCodesClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().SubAccountsClient);

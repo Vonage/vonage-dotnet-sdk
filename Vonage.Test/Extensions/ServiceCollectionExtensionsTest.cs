@@ -16,6 +16,7 @@ using Vonage.Numbers;
 using Vonage.NumberVerification;
 using Vonage.Pricing;
 using Vonage.Redaction;
+using Vonage.Reports;
 using Vonage.Request;
 using Vonage.ShortCodes;
 using Vonage.SimSwap;
@@ -96,6 +97,7 @@ namespace Vonage.Test.Extensions
             yield return [typeof(INumberVerificationClient)];
             yield return [typeof(IPricingClient)];
             yield return [typeof(IRedactClient)];
+            yield return [typeof(IReportsClient)];
             yield return [typeof(ISimSwapClient)];
             yield return [typeof(IShortCodesClient)];
             yield return [typeof(ISubAccountsClient)];
