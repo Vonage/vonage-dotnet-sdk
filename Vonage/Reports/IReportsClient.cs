@@ -1,8 +1,10 @@
 #region
+using System.IO;
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.Reports.CancelReport;
 using Vonage.Reports.CreateReport;
+using Vonage.Reports.DownloadReport;
 using Vonage.Reports.GetReport;
 using Vonage.Reports.LoadRecords;
 #endregion
@@ -58,6 +60,32 @@ public interface IReportsClient
     /// </example>
     /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Reports">More examples in the snippets repository</seealso>
     Task<Result<ReportResponse>> CreateReportAsync(Result<CreateReportRequest> request);
+
+    /// <summary>
+    ///     Downloads the zipped archive of a completed asynchronous report. The file is available for 72 hours after the
+    ///     report reaches <see cref="ReportStatus.Success"/>. Obtain the file ID from
+    ///     <see cref="ReportLinks.DownloadReport"/>.
+    /// </summary>
+    /// <param name="request">The request containing the unique identifier of the file to download.</param>
+    /// <returns>
+    ///     A <see cref="Stream"/> over the ZIP archive on success, or failure if the file was not found or credentials
+    ///     are invalid. The caller is responsible for disposing the stream.
+    /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = DownloadReportRequest.Build()
+    ///     .WithFileId(Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"))
+    ///     .Create();
+    /// var result = await client.DownloadReportAsync(request);
+    /// result.IfSuccess(async stream =>
+    /// {
+    ///     using var file = File.OpenWrite("report.zip");
+    ///     await stream.CopyToAsync(file);
+    /// });
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Reports">More examples in the snippets repository</seealso>
+    Task<Result<Stream>> DownloadReportAsync(Result<DownloadReportRequest> request);
 
     /// <summary>
     ///     Retrieves the current status and details of an asynchronous report.

@@ -1,5 +1,6 @@
 ﻿#region
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -61,6 +62,34 @@ internal class VonageHttpClient<TError> where TError : IApiError
                 this.ParseResponseWhenFailure<Unit>,
                 _ => CreateEmptySuccess())
             .ConfigureAwait(false);
+
+    /// <summary>
+    ///     Sends a HttpRequest and returns the response content as a stream.
+    ///     Uses <see cref="HttpCompletionOption.ResponseHeadersRead"/> so the caller controls
+    ///     buffering — suitable for large binary payloads such as ZIP archives.
+    ///     The caller is responsible for disposing the returned stream.
+    /// </summary>
+    /// <param name="request">The request to send.</param>
+    /// <typeparam name="TRequest">Type of the request.</typeparam>
+    /// <returns>The response stream on success, or a failure containing the parsed error from the response body.</returns>
+    public Task<Result<Stream>> SendWithStreamResponseAsync<TRequest>(Result<TRequest> request)
+        where TRequest : IVonageRequest =>
+        request
+            .Bind(this.BuildHttpRequestMessageWithHeaders)
+            .BindAsync(async message =>
+            {
+                var response = await this.client
+                    .SendAsync(message, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    return this.ParseResponseWhenFailure<Stream>(
+                        new HttpResponseData(response.StatusCode, false, content));
+                }
+                return Result<Stream>.FromSuccess(
+                    await response.Content.ReadAsStreamAsync().ConfigureAwait(false));
+            });
 
     /// <summary>
     ///     Sends a HttpRequest and returns the raw content.
