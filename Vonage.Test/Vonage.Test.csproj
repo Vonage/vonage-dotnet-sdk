@@ -1526,7 +1526,7 @@
         <None Update="Applications\Data\CreateVoiceFullApplication-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="Reports\CancelReport\Data\ShouldDeserialize200-response.json">
+        <None Update="Reports\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

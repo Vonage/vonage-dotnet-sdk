@@ -1,6 +1,6 @@
 {
   "request_id": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
-  "request_status": "ABORTED",
+  "request_status": "SUCCESS",
   "receive_time": "2024-02-07T14:22:08+00:00",
   "start_time": "2024-02-07T14:22:10+00:00",
   "items_count": 1523,

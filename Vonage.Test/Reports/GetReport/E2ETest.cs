@@ -2,30 +2,30 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Vonage.Reports.CancelReport;
+using Vonage.Reports.GetReport;
 using Vonage.Test.Common.Extensions;
 using WireMock.ResponseBuilders;
 using Xunit;
 #endregion
 
-namespace Vonage.Test.Reports.CancelReport;
+namespace Vonage.Test.Reports.GetReport;
 
 [Trait("Category", "E2E")]
 [Trait("Product", "Reports")]
 public class E2ETest : E2EBase
 {
     [Fact]
-    public async Task CancelReport()
+    public async Task GetReport()
     {
         this.Helper.Server.Given(WireMock.RequestBuilders.Request.Create()
                 .WithPath("/v2/reports/aaaaaaaa-bbbb-cccc-dddd-0123456789ab")
                 .WithHeader("Authorization", this.Helper.ExpectedAuthorizationHeaderValue)
-                .UsingDelete())
+                .UsingGet())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK)
                 .WithBody(this.Serialization.GetResponseJson(
                     nameof(ReportResponseSerializationTest.ShouldDeserialize200))));
         await this.Helper.VonageClient.ReportsClient
-            .CancelReportAsync(CancelReportRequest.Build()
+            .GetReportAsync(GetReportRequest.Build()
                 .WithReportId(Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"))
                 .Create())
             .Should()

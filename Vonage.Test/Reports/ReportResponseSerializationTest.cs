@@ -1,36 +1,34 @@
 #region
 using System;
 using FluentAssertions;
-using Vonage.Common.Monads;
 using Vonage.Reports;
-using Vonage.Reports.CancelReport;
 using Vonage.Serialization;
 using Vonage.Test.Common;
 using Vonage.Test.Common.Extensions;
 using Xunit;
 #endregion
 
-namespace Vonage.Test.Reports.CancelReport;
+namespace Vonage.Test.Reports;
 
 [Trait("Category", "Serialization")]
 [Trait("Product", "Reports")]
-public class SerializationTest
+public class ReportResponseSerializationTest
 {
     private readonly SerializationTestHelper helper = new SerializationTestHelper(
-        typeof(SerializationTest).Namespace,
+        typeof(ReportResponseSerializationTest).Namespace,
         JsonSerializerBuilder.BuildWithSnakeCase());
 
     [Fact]
     public void ShouldDeserialize200() =>
         this.helper.Serializer
-            .DeserializeObject<CancelReportResponse>(this.helper.GetResponseJson())
+            .DeserializeObject<ReportResponse>(this.helper.GetResponseJson())
             .Should()
             .BeSuccess(VerifyExpectedResponse);
 
-    private static void VerifyExpectedResponse(CancelReportResponse response)
+    internal static void VerifyExpectedResponse(ReportResponse response)
     {
         response.RequestId.Should().Be(Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
-        response.RequestStatus.Should().Be(ReportStatus.Aborted);
+        response.RequestStatus.Should().Be(ReportStatus.Success);
         response.ReceiveTime.Should().Be(DateTimeOffset.Parse("2024-02-07T14:22:08+00:00"));
         response.StartTime.Should().Be(DateTimeOffset.Parse("2024-02-07T14:22:10+00:00"));
         response.ItemsCount.Should().Be(1523);

@@ -6,10 +6,11 @@ using Vonage.Test.TestHelpers;
 
 namespace Vonage.Test.Reports;
 
-public abstract class E2EBase(string serializationNamespace)
+public abstract class E2EBase
 {
     internal readonly TestingContext Helper = TestingContext.WithBasicCredentials();
 
     internal readonly SerializationTestHelper Serialization =
-        new SerializationTestHelper(serializationNamespace, JsonSerializerBuilder.BuildWithSnakeCase());
+        new SerializationTestHelper(typeof(ReportResponseSerializationTest).Namespace,
+            JsonSerializerBuilder.BuildWithSnakeCase());
 }

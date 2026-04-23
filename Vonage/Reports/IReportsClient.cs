@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.Reports.CancelReport;
+using Vonage.Reports.GetReport;
 #endregion
 
 namespace Vonage.Reports;
@@ -16,11 +17,13 @@ public interface IReportsClient
     /// </summary>
     /// <param name="request">The request containing the unique identifier of the report to cancel.</param>
     /// <returns>
-    ///     A <see cref="CancelReportResponse"/> with the final state of the report, or failure if the report was not found or is already in a terminal state.
+    ///     A <see cref="ReportResponse"/> with the final state of the report, or failure if the report was not found or is already in a terminal state.
     /// </returns>
     /// <example>
     /// <code><![CDATA[
-    /// var request = CancelReportRequest.Parse(Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"));
+    /// var request = CancelReportRequest.Build()
+    ///     .WithReportId(Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"))
+    ///     .Create();
     /// var result = await client.CancelReportAsync(request);
     /// result.Match(
     ///     response => Console.WriteLine($"Report status: {response.RequestStatus}"),
@@ -28,5 +31,24 @@ public interface IReportsClient
     /// ]]></code>
     /// </example>
     /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Reports">More examples in the snippets repository</seealso>
-    Task<Result<CancelReportResponse>> CancelReportAsync(Result<CancelReportRequest> request);
+    Task<Result<ReportResponse>> CancelReportAsync(Result<CancelReportRequest> request);
+
+    /// <summary>
+    ///     Retrieves the current status and details of an asynchronous report.
+    /// </summary>
+    /// <param name="request">The request containing the unique identifier of the report to retrieve.</param>
+    /// <returns>
+    ///     A <see cref="ReportResponse"/> with the report details and current status, or failure if the report was not found.
+    /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = GetReportRequest.Build()
+    ///     .WithReportId(Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-0123456789ab"))
+    ///     .Create();
+    /// var result = await client.GetReportAsync(request);
+    /// result.IfSuccess(response => Console.WriteLine($"Status: {response.RequestStatus}"));
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Reports">More examples in the snippets repository</seealso>
+    Task<Result<ReportResponse>> GetReportAsync(Result<GetReportRequest> request);
 }

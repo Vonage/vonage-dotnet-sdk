@@ -5,10 +5,10 @@ using Vonage.Common.Monads;
 using Vonage.Common.Serialization;
 #endregion
 
-namespace Vonage.Reports.CancelReport;
+namespace Vonage.Reports;
 
 /// <summary>
-///     Represents the response to a cancel report request.
+///     Represents the state of an asynchronous report, returned by both the get-status and cancel-report endpoints.
 /// </summary>
 /// <param name="RequestId">The unique identifier of the report.</param>
 /// <param name="RequestStatus">The current status of the report.</param>
@@ -22,7 +22,7 @@ namespace Vonage.Reports.CancelReport;
 /// <param name="DateEnd">The end of the reporting period.</param>
 /// <param name="IncludeSubaccounts">Whether sub-account data is included in the report.</param>
 /// <param name="CallbackUrl">The webhook URL that receives a notification when the report is ready.</param>
-public record CancelReportResponse(
+public record ReportResponse(
     [property: JsonPropertyName("request_id")] Guid RequestId,
     [property: JsonPropertyName("request_status")]
     [property: JsonConverter(typeof(EnumDescriptionJsonConverter<ReportStatus>))]
