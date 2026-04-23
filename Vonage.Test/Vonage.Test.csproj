@@ -1529,6 +1529,12 @@
         <None Update="Reports\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Reports\CreateReport\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Reports\CreateReport\Data\ShouldSerializeWithRequiredFieldsOnly-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Update="Reports\LoadRecords\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Vonage.Common.Monads;
 using Vonage.Reports.CancelReport;
+using Vonage.Reports.CreateReport;
 using Vonage.Reports.GetReport;
 using Vonage.Reports.LoadRecords;
 #endregion
@@ -33,6 +34,30 @@ public interface IReportsClient
     /// </example>
     /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Reports">More examples in the snippets repository</seealso>
     Task<Result<ReportResponse>> CancelReportAsync(Result<CancelReportRequest> request);
+
+    /// <summary>
+    ///     Creates an asynchronous report generation request. The report is processed in the background;
+    ///     use the returned <see cref="ReportResponse.RequestId"/> with <see cref="GetReportAsync"/> to poll for completion.
+    /// </summary>
+    /// <param name="request">The request containing the product, account ID, date range, and optional filters.</param>
+    /// <returns>
+    ///     A <see cref="ReportResponse"/> with the initial report state including the assigned request ID, or failure if required parameters are missing or credentials are invalid.
+    /// </returns>
+    /// <example>
+    /// <code><![CDATA[
+    /// var request = CreateReportRequest.Build()
+    ///     .WithProduct(ReportProduct.Sms)
+    ///     .WithAccountId("12aa3456")
+    ///     .WithDateStart(DateTimeOffset.Parse("2024-02-02T00:00:00+00:00"))
+    ///     .WithDateEnd(DateTimeOffset.Parse("2024-02-07T00:00:00+00:00"))
+    ///     .WithCallbackUrl(new Uri("https://example.com/webhook"))
+    ///     .Create();
+    /// var result = await client.CreateReportAsync(request);
+    /// result.IfSuccess(response => Console.WriteLine($"Report ID: {response.RequestId}"));
+    /// ]]></code>
+    /// </example>
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Reports">More examples in the snippets repository</seealso>
+    Task<Result<ReportResponse>> CreateReportAsync(Result<CreateReportRequest> request);
 
     /// <summary>
     ///     Retrieves the current status and details of an asynchronous report.

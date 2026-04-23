@@ -4,6 +4,7 @@ using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;
 using Vonage.Reports.CancelReport;
+using Vonage.Reports.CreateReport;
 using Vonage.Reports.GetReport;
 using Vonage.Reports.LoadRecords;
 using Vonage.Serialization;
@@ -27,6 +28,10 @@ internal class ReportsClient : IReportsClient
     /// <inheritdoc />
     public Task<Result<ReportResponse>> CancelReportAsync(Result<CancelReportRequest> request) =>
         this.vonageClient.SendWithResponseAsync<CancelReportRequest, ReportResponse>(request);
+
+    /// <inheritdoc />
+    public Task<Result<ReportResponse>> CreateReportAsync(Result<CreateReportRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<CreateReportRequest, ReportResponse>(request);
 
     /// <inheritdoc />
     public Task<Result<ReportResponse>> GetReportAsync(Result<GetReportRequest> request) =>
