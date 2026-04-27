@@ -1,4 +1,29 @@
 # Changelog
+## [v8.31.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.31.0) (2026-04-27)
+
+### Documentation
+
+- Generate changelog for v8.30.0 ([69f18e7](https://github.com/Vonage/vonage-dotnet-sdk/commit/69f18e743234e79ef3b59ea592b6d8d11840deac))
+
+- Bump version to v8.31.0 ([45d10e1](https://github.com/Vonage/vonage-dotnet-sdk/commit/45d10e1498edddf181f204ad3eeeec14c4143960))
+
+
+### Features
+
+- Improve XML documentation on Voice App endpoint ([767e23b](https://github.com/Vonage/vonage-dotnet-sdk/commit/767e23b19fe052c9482c6dbfa7eceb03b0410079))
+
+- Add client for Reports API, with CancelReport ([5c5c23e](https://github.com/Vonage/vonage-dotnet-sdk/commit/5c5c23efecd13ef1ccdb370aed96fce61987974e))
+
+- Add support for GetReport from Reports API ([1b26536](https://github.com/Vonage/vonage-dotnet-sdk/commit/1b26536e0bd0e54eb445b15f191201d48fb84de1))
+
+- Add support for LoadRecords from Reports API ([f72ae7b](https://github.com/Vonage/vonage-dotnet-sdk/commit/f72ae7be950c1414ef63d4c6c02caa0c7718e093))
+
+- Add support for CreateReport from Reports API ([9484bfd](https://github.com/Vonage/vonage-dotnet-sdk/commit/9484bfd046838e5b2671f21baba8b0ee96c25e25))
+
+- Add support for DownloadReport from Reports API ([3a65013](https://github.com/Vonage/vonage-dotnet-sdk/commit/3a6501390305c883f2beec0ffa321d69bd9f1644))
+
+Full Changelog: [v8.30.0...v8.31.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.30.0...v8.31.0)
+
 ## [v8.30.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.30.0) (2026-04-17)
 
 ### Documentation
