@@ -67,12 +67,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="StandardSocketsHttpHandler" Version="2.2.0.8"/>
-    <PackageReference Include="System.Formats.Asn1" Version="8.0.2"/>
+    <PackageReference Include="StandardSocketsHttpHandler" Version="2.2.0.10" />
+    <PackageReference Include="System.Formats.Asn1" Version="10.0.7" />
     <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0"/>
     <PackageReference Include="System.Text.Json" Version="8.0.5"/>
-    <PackageReference Include="TestableIO.System.IO.Abstractions" Version="22.0.16"/>
-    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.0.16"/>
+    <PackageReference Include="TestableIO.System.IO.Abstractions" Version="22.1.1" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.1.1" />
     <ProjectReference Include="..\Vonage.SourceGenerator\Vonage.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all"/>
     <Compile Include="$(GeneratedOutputPath)\*.g.cs" Pack="true"/>
   </ItemGroup>
