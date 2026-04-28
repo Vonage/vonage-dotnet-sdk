@@ -228,6 +228,36 @@ public class ConfigurationTest
     public void VonageUrl_ShouldReturnOidcUrl() =>
         Configuration.FromConfiguration(new ConfigurationBuilder().Build())
             .VonageUrls.Oidc.Should().Be(new Uri("https://oidc.idp.vonage.com"));
+    
+    [Fact]
+    public void GetBaseUri_ShouldAppendUrlPath() =>
+        new Configuration().BuildUri(ApiRequest.UriType.Api, "test/path").Should()
+            .Be(new Uri(new Configuration().VonageUrls.Nexmo, "test/path"));
+
+    [Fact]
+    public void GetBaseUri_ShouldHandleLeadingSlash() =>
+        new Configuration().BuildUri(ApiRequest.UriType.Api, "/test/path").Should()
+            .Be(new Uri(new Configuration().VonageUrls.Nexmo, "test/path"));
+
+    [Fact]
+    public void GetBaseUri_ShouldHandleNullUrl_Api() =>
+        new Configuration().BuildUri(ApiRequest.UriType.Api).Should()
+            .Be(new Configuration().VonageUrls.Nexmo);
+
+    [Fact]
+    public void GetBaseUri_ShouldHandleNullUrl_Rest() =>
+        new Configuration().BuildUri(ApiRequest.UriType.Rest).Should()
+            .Be(new Configuration().VonageUrls.Rest);
+
+    [Fact]
+    public void GetBaseUri_ShouldReturnCorrectApiUri() =>
+        new Configuration().BuildUri(ApiRequest.UriType.Api).Should()
+            .Be(new Configuration().VonageUrls.Nexmo);
+
+    [Fact]
+    public void GetBaseUri_ShouldReturnCorrectRestUri() =>
+        new Configuration().BuildUri(ApiRequest.UriType.Rest).Should()
+            .Be(new Configuration().VonageUrls.Rest);
 }
 
 [Trait("Category", "Core")]
@@ -306,36 +336,6 @@ public class ConnectionLifetimeTest
         spy.ReceivedRequests.Should().Be(loops);
         return spy.RefreshedConnections;
     }
-
-    [Fact]
-    public void GetBaseUri_ShouldAppendUrlPath() =>
-        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Api, "test/path").Should()
-            .Be(new Uri(this.defaultConfiguration.VonageUrls.Nexmo, "test/path"));
-
-    [Fact]
-    public void GetBaseUri_ShouldHandleLeadingSlash() =>
-        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Api, "/test/path").Should()
-            .Be(new Uri(this.defaultConfiguration.VonageUrls.Nexmo, "test/path"));
-
-    [Fact]
-    public void GetBaseUri_ShouldHandleNullUrl_Api() =>
-        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Api).Should()
-            .Be(this.defaultConfiguration.VonageUrls.Nexmo);
-
-    [Fact]
-    public void GetBaseUri_ShouldHandleNullUrl_Rest() =>
-        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Rest).Should()
-            .Be(this.defaultConfiguration.VonageUrls.Rest);
-
-    [Fact]
-    public void GetBaseUri_ShouldReturnCorrectApiUri() =>
-        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Api).Should()
-            .Be(this.defaultConfiguration.VonageUrls.Nexmo);
-
-    [Fact]
-    public void GetBaseUri_ShouldReturnCorrectRestUri() =>
-        this.defaultConfiguration.BuildUri(ApiRequest.UriType.Rest).Should()
-            .Be(this.defaultConfiguration.VonageUrls.Rest);
 }
 
 internal class EventSpy : EventListener
