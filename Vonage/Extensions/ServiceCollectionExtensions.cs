@@ -1,6 +1,7 @@
 #region
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Vonage.AccountsNew;
 using Vonage.Reports;
 using Vonage.Request;
 using Vonage.Video.Authentication;
@@ -80,6 +81,7 @@ public static class ServiceCollectionExtensions
     private static void RegisterScopedServices(IServiceCollection services)
     {
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().AccountsNewClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().EmergencyClient);
@@ -107,6 +109,7 @@ public static class ServiceCollectionExtensions
     private static void RegisterTransientServices(IServiceCollection services)
     {
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().AccountsNewClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().EmergencyClient);

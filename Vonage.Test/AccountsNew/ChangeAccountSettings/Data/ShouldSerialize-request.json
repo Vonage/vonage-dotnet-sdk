@@ -1,0 +1,1 @@
+moCallBackUrl=https%3A%2F%2Fexample.com%2Fwebhooks%2Finbound-sms&drCallBackUrl=https%3A%2F%2Fexample.com%2Fwebhooks%2Fdelivery-receipt&httpForwardMethod=POST_JSON

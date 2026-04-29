@@ -2,6 +2,7 @@
 using System;
 using System.Net.Http;
 using Vonage.Accounts;
+using Vonage.AccountsNew;
 using Vonage.Applications;
 using Vonage.Common;
 using Vonage.Common.Client;
@@ -61,6 +62,11 @@ public class VonageClient
     }
 
     public IAccountClient AccountClient { get; private set; }
+
+    /// <summary>
+    ///     Exposes Accounts API features (next-generation rewrite).
+    /// </summary>
+    public IAccountsNewClient AccountsNewClient { get; private set; }
 
     public IApplicationClient ApplicationClient { get; private set; }
 
@@ -179,6 +185,9 @@ public class VonageClient
         this.MessagesClient = new MessagesClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.VerifyV2Client =
             new VerifyV2Client(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo()));
+        this.AccountsNewClient =
+            new AccountsNewClient(
+                this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(), AuthType.Basic));
         this.SubAccountsClient =
             new SubAccountsClient(
                 this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(), AuthType.Basic),
