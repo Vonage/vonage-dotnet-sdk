@@ -1544,6 +1544,33 @@
         <None Update="Reports\LoadRecords\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Accounts\TopUpBalance\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Accounts\TopUpBalance\Data\ShouldDeserialize200-response.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Accounts\GetSecrets\Data\ShouldDeserialize200-response.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Accounts\GetBalance\Data\ShouldDeserialize200-response.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Accounts\Data\ShouldDeserialize200-response.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Accounts\CreateSecret\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Accounts\ChangeAccountSettings\Data\ShouldSerializeWithRequiredFieldsOnly-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Accounts\ChangeAccountSettings\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Accounts\ChangeAccountSettings\Data\ShouldDeserialize200-response.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="git config core.hooksPath .scripts/git_hooks"/>
