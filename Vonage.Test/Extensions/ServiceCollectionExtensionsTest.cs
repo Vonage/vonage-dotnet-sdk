@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vonage.Accounts;
 using Vonage.Applications;
-using Vonage.ApplicationsNew;
 using Vonage.Conversions;
 using Vonage.Extensions;
 using Vonage.Messages;

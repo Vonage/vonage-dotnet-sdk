@@ -1508,6 +1508,42 @@
         <None Update="Reports\LoadRecords\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Applications\CreateApplication\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\CreateApplication\Data\ShouldSerializeWithMeetingsCapability-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\CreateApplication\Data\ShouldSerializeWithNetworkApisCapability-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\CreateApplication\Data\ShouldSerializeWithRequiredFieldsOnly-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\CreateApplication\Data\ShouldSerializeWithRtcCapability-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\CreateApplication\Data\ShouldSerializeWithVbcCapability-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\CreateApplication\Data\ShouldSerializeWithVerifyCapability-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\CreateApplication\Data\ShouldSerializeWithVideoCapability-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\Data\ShouldDeserialize200-response.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\ListApplications\Data\ShouldDeserialize200-response.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\UpdateApplication\Data\ShouldSerializeWithRequiredFieldsOnly-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Applications\UpdateApplication\Data\ShouldSerialize-request.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="git config core.hooksPath .scripts/git_hooks"/>

@@ -3,7 +3,6 @@ using System;
 using System.Net.Http;
 using Vonage.Accounts;
 using Vonage.Applications;
-using Vonage.ApplicationsNew;
 using Vonage.Common;
 using Vonage.Common.Client;
 using Vonage.Common.Monads;

@@ -1,7 +1,6 @@
 #region
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Vonage.ApplicationsNew;
 using Vonage.Reports;
 using Vonage.Request;
 using Vonage.Video.Authentication;

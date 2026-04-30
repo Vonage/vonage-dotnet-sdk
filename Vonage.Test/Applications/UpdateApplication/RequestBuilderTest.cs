@@ -1,5 +1,7 @@
+using FluentAssertions;
 using Vonage.Applications;
 using Vonage.Applications.Capabilities;
+using Vonage.Applications.UpdateApplication;
 using Vonage.Common.Monads;
 using Vonage.Test.Common.Extensions;
 using Xunit;
