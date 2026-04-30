@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vonage.Accounts;
+using Vonage.Applications;
 using Vonage.ApplicationsNew;
 using Vonage.Conversions;
 using Vonage.Extensions;
@@ -87,7 +88,7 @@ namespace Vonage.Test.Extensions
         {
             yield return [typeof(VonageClient)];
             yield return [typeof(IAccountClient)];
-            yield return [typeof(IApplicationsNewClient)];
+            yield return [typeof(IApplicationsClient)];
             yield return [typeof(IConversionClient)];
             yield return [typeof(IEmergencyClient)];
             yield return [typeof(IMessagesClient)];
