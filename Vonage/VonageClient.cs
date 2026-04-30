@@ -2,7 +2,6 @@
 using System;
 using System.Net.Http;
 using Vonage.Accounts;
-using Vonage.Applications;
 using Vonage.ApplicationsNew;
 using Vonage.Common;
 using Vonage.Common.Client;
@@ -62,8 +61,6 @@ public class VonageClient
     }
 
     public IAccountClient AccountClient { get; private set; }
-
-    public IApplicationClient ApplicationClient { get; private set; }
 
     /// <summary>
     ///     Exposes Application API features (next-generation rewrite).
@@ -170,7 +167,6 @@ public class VonageClient
     {
         var currentConfiguration = this.GetConfiguration();
         this.AccountClient = new AccountClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.ApplicationClient = new ApplicationClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.VoiceClient = new VoiceClient(this.Credentials, currentConfiguration, this.timeProvider,
             Maybe<VonageUrls.Region>.None);
         this.ConversionClient = new ConversionClient(this.Credentials, currentConfiguration, this.timeProvider);
