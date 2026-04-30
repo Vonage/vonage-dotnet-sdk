@@ -1,0 +1,83 @@
+{
+  "id": "78d335fa-323d-0114-9c3d-d6f0d48968cf",
+  "name": "My Application",
+  "capabilities": {
+    "voice": {
+      "webhooks": {
+        "answer_url": {
+          "address": "https://example.com/webhooks/answer",
+          "http_method": "POST",
+          "connect_timeout": 500,
+          "socket_timeout": 3000
+        },
+        "event_url": {
+          "address": "https://example.com/webhooks/event",
+          "http_method": "POST",
+          "connect_timeout": 500,
+          "socket_timeout": 3000
+        }
+      },
+      "signed_callbacks": false,
+      "conversations_ttl": 12,
+      "leg_persistence_time": 10,
+      "region": "eu-west"
+    },
+    "messages": {
+      "webhooks": {
+        "inbound_url": {
+          "address": "https://example.com/webhooks/inbound",
+          "http_method": "POST"
+        },
+        "status_url": {
+          "address": "https://example.com/webhooks/status",
+          "http_method": "POST"
+        }
+      }
+    },
+    "rtc": {
+      "webhooks": {
+        "event_url": {
+          "address": "https://example.com/webhooks/event",
+          "http_method": "POST"
+        }
+      },
+      "signed_callbacks": false
+    },
+    "vbc": {},
+    "network_apis": {
+      "network_application_id": "2bzfIFqRG128IcjSj1YhZNtw6LADG",
+      "redirect_uri": "https://my-redirect-uri.example.com"
+    },
+    "meetings": {
+      "webhooks": {
+        "recording_changed": {
+          "address": "https://example.com/webhooks/recordings",
+          "http_method": "POST"
+        },
+        "room_changed": {
+          "address": "https://example.com/webhooks/rooms",
+          "http_method": "POST"
+        },
+        "session_changed": {
+          "address": "https://example.com/webhooks/sessions",
+          "http_method": "POST"
+        }
+      }
+    },
+    "verify": {
+      "webhooks": {
+        "status_url": {
+          "address": "https://example.com/webhooks/status",
+          "http_method": "POST"
+        }
+      }
+    }
+  },
+  "privacy": {
+    "improve_ai": true
+  },
+  "keys": {
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjAN\n-----END PUBLIC KEY-----",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIB\n-----END PRIVATE KEY-----"
+  }
+}

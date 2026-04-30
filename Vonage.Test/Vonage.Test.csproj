@@ -1526,6 +1526,42 @@
         <None Update="Applications\Data\CreateVoiceFullApplication-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="ApplicationsNew\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\ListApplications\Data\ShouldDeserialize200-response.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\CreateApplication\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\CreateApplication\Data\ShouldSerializeWithRequiredFieldsOnly-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\CreateApplication\Data\ShouldSerializeWithRtcCapability-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\CreateApplication\Data\ShouldSerializeWithVerifyCapability-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\CreateApplication\Data\ShouldSerializeWithVideoCapability-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\CreateApplication\Data\ShouldSerializeWithMeetingsCapability-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\CreateApplication\Data\ShouldSerializeWithNetworkApisCapability-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\CreateApplication\Data\ShouldSerializeWithVbcCapability-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\UpdateApplication\Data\ShouldSerialize-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="ApplicationsNew\UpdateApplication\Data\ShouldSerializeWithRequiredFieldsOnly-request.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Update="Reports\Data\ShouldDeserialize200-response.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
