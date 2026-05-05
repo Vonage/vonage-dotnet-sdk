@@ -1,136 +1,152 @@
 using System.Threading.Tasks;
-using Vonage.Request;
+using Vonage.Accounts.ChangeAccountSettings;
+using Vonage.Accounts.CreateSecret;
+using Vonage.Accounts.GetBalance;
+using Vonage.Accounts.GetSecret;
+using Vonage.Accounts.GetSecrets;
+using Vonage.Accounts.RevokeSecret;
+using Vonage.Accounts.TopUpBalance;
+using Vonage.Common.Monads;
 
 namespace Vonage.Accounts;
 
 /// <summary>
-///     Exposes methods for managing your Vonage account, including retrieving balance, managing API secrets, and configuring account settings.
+///     Exposes Vonage Account API features for managing account balance, settings, and API secrets.
 /// </summary>
 public interface IAccountClient
 {
     /// <summary>
-    ///     Retrieves the current balance of your Vonage API account.
+    ///     Retrieves the current balance of the Vonage API account.
     /// </summary>
-    /// <param name="creds">Optional credentials to override the default credentials.</param>
-    /// <returns>A <see cref="Balance"/> object containing the account balance in EUR and auto-reload status.</returns>
+    /// <returns>
+    ///     A <see cref="Result{T}"/> containing the <see cref="GetBalanceResponse"/> on success,
+    ///     or an error on failure.
+    /// </returns>
     /// <example>
     /// <code><![CDATA[
-    /// var balance = await client.AccountClient.GetAccountBalanceAsync();
-    /// Console.WriteLine($"Balance: {balance.Value} EUR");
-    /// Console.WriteLine($"Auto-reload: {balance.AutoReload}");
+    /// var result = await client.AccountsNewClient.GetBalanceAsync();
+    /// result.IfSuccess(balance => Console.WriteLine($"Balance: {balance.Value} EUR"));
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts/GetBalance.cs">Code snippet</seealso>
-    Task<Balance> GetAccountBalanceAsync(Credentials creds = null);
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts">More examples in the snippets repository</seealso>
+    Task<Result<GetBalanceResponse>> GetBalanceAsync();
 
     /// <summary>
-    ///     Tops up your account balance when auto-reload is enabled in the dashboard.
-    ///     The top-up amount matches the amount configured when auto-reload was enabled.
-    ///     Account balance is checked every 5-10 minutes for automatic top-up; use this endpoint
-    ///     when credit may be exhausted faster than automatic top-up occurs.
+    ///     Tops up the account balance using the auto-reload configuration.
     /// </summary>
-    /// <param name="request">The top-up request containing the transaction reference from when auto-reload was enabled.</param>
-    /// <param name="creds">Optional credentials to override the default credentials.</param>
-    /// <returns>A <see cref="TopUpResult"/> containing the response status.</returns>
+    /// <param name="request">The request containing the transaction reference for auto-reload.</param>
+    /// <returns>
+    ///     A <see cref="Result{T}"/> containing the <see cref="TopUpBalanceResponse"/> on success,
+    ///     or an error on failure.
+    /// </returns>
     /// <example>
     /// <code><![CDATA[
-    /// var request = new TopUpRequest { Trx = "your-transaction-reference" };
-    /// var result = await client.AccountClient.TopUpAccountBalanceAsync(request);
+    /// var request = TopUpBalanceRequest.Build()
+    ///     .WithTransactionReference("8ef2447e69604f642ae59363aa5f781b")
+    ///     .Create();
+    /// var result = await client.AccountsNewClient.TopUpBalanceAsync(request);
     /// ]]></code>
     /// </example>
-    Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null);
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts">More examples in the snippets repository</seealso>
+    Task<Result<TopUpBalanceResponse>> TopUpBalanceAsync(Result<TopUpBalanceRequest> request);
 
     /// <summary>
-    ///     Updates the default webhook callback URLs associated with your account for incoming SMS messages
-    ///     and delivery receipts. The provided URLs must be valid and return a 200 OK response for Vonage to save the settings.
+    ///     Updates the default webhook callback URLs and HTTP method for the account.
     /// </summary>
-    /// <param name="request">The request containing the new callback URLs. Use <see cref="AccountSettingsRequest"/>.</param>
-    /// <param name="creds">Optional credentials to override the default credentials.</param>
-    /// <returns>An <see cref="AccountSettingsResult"/> containing the updated settings and rate limits.</returns>
+    /// <param name="request">The request containing the new settings to apply.</param>
+    /// <returns>
+    ///     A <see cref="Result{T}"/> containing the updated <see cref="ChangeAccountSettingsResponse"/> on success,
+    ///     or an error on failure.
+    /// </returns>
     /// <example>
     /// <code><![CDATA[
-    /// var request = new AccountSettingsRequest
-    /// {
-    ///     MoCallBackUrl = "https://example.com/webhooks/inbound-sms",
-    ///     DrCallBackUrl = "https://example.com/webhooks/delivery-receipt"
-    /// };
-    /// var result = await client.AccountClient.ChangeAccountSettingsAsync(request);
+    /// var request = ChangeAccountSettingsRequest.Build()
+    ///     .WithInboundSmsCallbackUrl("https://example.com/webhooks/inbound-sms")
+    ///     .WithDeliveryReceiptCallbackUrl("https://example.com/webhooks/delivery-receipt")
+    ///     .Create();
+    /// var result = await client.AccountsNewClient.ChangeAccountSettingsAsync(request);
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts/ChangeAccountSettings.cs">Code snippet</seealso>
-    Task<AccountSettingsResult> ChangeAccountSettingsAsync(AccountSettingsRequest request, Credentials creds = null);
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts">More examples in the snippets repository</seealso>
+    Task<Result<ChangeAccountSettingsResponse>> ChangeAccountSettingsAsync(
+        Result<ChangeAccountSettingsRequest> request);
 
     /// <summary>
-    ///     Retrieves all API secrets associated with the specified API key.
-    ///     It is recommended to rotate secrets periodically for security purposes.
-    ///     To manage secrets for secondary accounts, authenticate with primary credentials
-    ///     and supply the secondary API key.
+    ///     Retrieves all API secrets for the specified account.
     /// </summary>
-    /// <param name="apiKey">The API key to retrieve secrets for. Defaults to the authenticated account's API key.</param>
-    /// <param name="creds">Optional credentials to override the default credentials.</param>
-    /// <returns>A <see cref="SecretsRequestResult"/> containing the list of secrets.</returns>
+    /// <param name="request">The request containing the API key to retrieve secrets for.</param>
+    /// <returns>
+    ///     A <see cref="Result{T}"/> containing the <see cref="GetSecretsResponse"/> on success,
+    ///     or an error on failure.
+    /// </returns>
     /// <example>
     /// <code><![CDATA[
-    /// var result = await client.AccountClient.RetrieveApiSecretsAsync();
-    /// foreach (var secret in result.Embedded.Secrets)
-    /// {
-    ///     Console.WriteLine($"Secret ID: {secret.Id}, Created: {secret.CreatedAt}");
-    /// }
+    /// var request = GetSecretsRequest.Build()
+    ///     .WithApiKey("abcd1234")
+    ///     .Create();
+    /// var result = await client.AccountsNewClient.GetSecretsAsync(request);
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts/ListAllSecrets.cs">Code snippet</seealso>
-    Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey = null, Credentials creds = null);
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts">More examples in the snippets repository</seealso>
+    Task<Result<GetSecretsResponse>> GetSecretsAsync(Result<GetSecretsRequest> request);
 
     /// <summary>
-    ///     Creates a new API secret for the specified API key. You can have a maximum of two secrets per API key.
+    ///     Creates a new API secret for the specified account.
     /// </summary>
-    /// <param name="request">The request containing the new secret value. See <see cref="CreateSecretRequest"/> for password requirements.</param>
-    /// <param name="apiKey">The API key to create a secret for. Defaults to the authenticated account's API key.</param>
-    /// <param name="creds">Optional credentials to override the default credentials.</param>
-    /// <returns>A <see cref="Secret"/> containing the created secret's ID and creation timestamp.</returns>
+    /// <param name="request">The request containing the API key and the new secret value.</param>
+    /// <returns>
+    ///     A <see cref="Result{T}"/> containing the created <see cref="SecretInfo"/> on success,
+    ///     or an error on failure.
+    /// </returns>
     /// <example>
     /// <code><![CDATA[
-    /// var request = new CreateSecretRequest { Secret = "MyNewS3cret!" };
-    /// var secret = await client.AccountClient.CreateApiSecretAsync(request);
-    /// Console.WriteLine($"Created secret with ID: {secret.Id}");
+    /// var request = CreateSecretRequest.Build()
+    ///     .WithApiKey("abcd1234")
+    ///     .WithSecret("example-4PI-s3cret")
+    ///     .Create();
+    /// var result = await client.AccountsNewClient.CreateSecretAsync(request);
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts/CreateSecret.cs">Code snippet</seealso>
-    Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey = null, Credentials creds = null);
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts">More examples in the snippets repository</seealso>
+    Task<Result<SecretInfo>> CreateSecretAsync(Result<CreateSecretRequest> request);
 
     /// <summary>
-    ///     Retrieves information about a specific API secret.
+    ///     Retrieves a specific API secret by its identifier.
     /// </summary>
-    /// <param name="secretId">The unique identifier of the secret to retrieve.</param>
-    /// <param name="apiKey">The API key the secret belongs to. Defaults to the authenticated account's API key.</param>
-    /// <param name="creds">Optional credentials to override the default credentials.</param>
-    /// <returns>A <see cref="Secret"/> containing the secret's ID, creation timestamp, and reference links.</returns>
+    /// <param name="request">The request containing the API key and secret identifier.</param>
+    /// <returns>
+    ///     A <see cref="Result{T}"/> containing the <see cref="SecretInfo"/> on success,
+    ///     or an error on failure.
+    /// </returns>
     /// <example>
     /// <code><![CDATA[
-    /// var secret = await client.AccountClient.RetrieveApiSecretAsync("secret-id-123");
-    /// Console.WriteLine($"Secret created at: {secret.CreatedAt}");
+    /// var request = GetSecretRequest.Build()
+    ///     .WithApiKey("abcd1234")
+    ///     .WithSecretId("ad6dc56f-07b5-46e1-a527-85530e625800")
+    ///     .Create();
+    /// var result = await client.AccountsNewClient.GetSecretAsync(request);
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts/FetchSecret.cs">Code snippet</seealso>
-    Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null);
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts">More examples in the snippets repository</seealso>
+    Task<Result<SecretInfo>> GetSecretAsync(Result<GetSecretRequest> request);
 
     /// <summary>
-    ///     Revokes (deletes) an API secret. Ensure you have another valid secret before revoking,
-    ///     as at least one secret is required for API authentication.
+    ///     Revokes (deletes) an API secret. Ensure at least one other valid secret exists before revoking.
     /// </summary>
-    /// <param name="secretId">The unique identifier of the secret to revoke.</param>
-    /// <param name="apiKey">The API key the secret belongs to. Defaults to the authenticated account's API key.</param>
-    /// <param name="creds">Optional credentials to override the default credentials.</param>
-    /// <returns><c>true</c> if the secret was successfully revoked.</returns>
+    /// <param name="request">The request containing the API key and secret identifier to revoke.</param>
+    /// <returns>
+    ///     A <see cref="Result{T}"/> containing <see cref="Common.Monads.Unit"/> on success,
+    ///     or an error on failure.
+    /// </returns>
     /// <example>
     /// <code><![CDATA[
-    /// var success = await client.AccountClient.RevokeApiSecretAsync("secret-id-123");
-    /// if (success)
-    /// {
-    ///     Console.WriteLine("Secret revoked successfully.");
-    /// }
+    /// var request = RevokeSecretRequest.Build()
+    ///     .WithApiKey("abcd1234")
+    ///     .WithSecretId("ad6dc56f-07b5-46e1-a527-85530e625800")
+    ///     .Create();
+    /// var result = await client.AccountsNewClient.RevokeSecretAsync(request);
     /// ]]></code>
     /// </example>
-    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts/RevokeSecret.cs">Code snippet</seealso>
-    Task<bool> RevokeApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null);
+    /// <seealso href="https://github.com/Vonage/vonage-dotnet-code-snippets/tree/master/DotNetCliCodeSnippets/Accounts">More examples in the snippets repository</seealso>
+    Task<Result<Unit>> RevokeSecretAsync(Result<RevokeSecretRequest> request);
 }

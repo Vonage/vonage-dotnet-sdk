@@ -330,7 +330,7 @@ public class ConnectionLifetimeTest
         for (var iterations = 0; iterations < loops; iterations++)
         {
             await timer.WaitForNextTickAsync();
-            await helper.VonageClient.AccountClient.GetAccountBalanceAsync();
+            await helper.VonageClient.AccountClient.GetBalanceAsync();
         }
 
         spy.ReceivedRequests.Should().Be(loops);

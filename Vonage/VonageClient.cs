@@ -60,6 +60,9 @@ public class VonageClient
         this.Credentials = configuration.BuildCredentials();
     }
 
+    /// <summary>
+    ///     Exposes Accounts API features.
+    /// </summary>
     public IAccountClient AccountClient { get; private set; }
 
     public IApplicationClient ApplicationClient { get; private set; }
@@ -163,7 +166,6 @@ public class VonageClient
     private void PropagateCredentials()
     {
         var currentConfiguration = this.GetConfiguration();
-        this.AccountClient = new AccountClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.ApplicationClient = new ApplicationClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.VoiceClient = new VoiceClient(this.Credentials, currentConfiguration, this.timeProvider,
             Maybe<VonageUrls.Region>.None);
@@ -179,6 +181,9 @@ public class VonageClient
         this.MessagesClient = new MessagesClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.VerifyV2Client =
             new VerifyV2Client(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo()));
+        this.AccountClient =
+            new AccountClient(
+                this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(), AuthType.Basic));
         this.SubAccountsClient =
             new SubAccountsClient(
                 this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(), AuthType.Basic),
