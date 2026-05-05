@@ -80,7 +80,7 @@ public static class ServiceCollectionExtensions
     private static void RegisterScopedServices(IServiceCollection services)
     {
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
-        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
+        services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationsClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().EmergencyClient);
         services.AddScoped(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);
@@ -107,7 +107,7 @@ public static class ServiceCollectionExtensions
     private static void RegisterTransientServices(IServiceCollection services)
     {
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().AccountClient);
-        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationClient);
+        services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ApplicationsClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().ConversionClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().EmergencyClient);
         services.AddTransient(serviceProvider => serviceProvider.GetService<VonageClient>().MessagesClient);

@@ -1,0 +1,1 @@
+{"name":"Demo Application","capabilities":{"rtc":{"webhooks":{"event_url":{"address":"https://example.com/webhooks/event","http_method":"POST"}},"signed_callbacks":true}}}

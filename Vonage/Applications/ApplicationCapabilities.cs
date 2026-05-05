@@ -1,55 +1,80 @@
-﻿#region
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Vonage.Applications.Capabilities;
-#endregion
 
 namespace Vonage.Applications;
 
 /// <summary>
-///     Represents capabilities of an application.
+///     Represents the capabilities enabled on a Vonage application as returned by the API.
 /// </summary>
-public class ApplicationCapabilities
+public record ApplicationCapabilities
 {
     /// <summary>
-    ///     Messages and Dispatch application webhook configuration for inbound messages and status updates.
+    ///     Voice call handling configuration, including answer, event, and fallback webhook URLs.
     /// </summary>
-    [JsonProperty("messages", Order = 5)]
-    public Capabilities.Messages Messages { get; set; }
+    [JsonPropertyName("voice")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public VoiceCapability Voice { get; init; }
 
     /// <summary>
-    ///     Network APIs configuration including network application ID and redirect URI.
+    ///     Messages (inbound and status) webhook configuration.
     /// </summary>
-    [JsonProperty("network_apis", Order = 1)]
-    public NetworkApis NetworkApis { get; set; }
+    [JsonPropertyName("messages")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public MessagesCapability Messages { get; init; }
 
     /// <summary>
-    ///     RTC / Client SDK application webhook configuration for real-time communication events.
+    ///     RTC / Client SDK event webhook configuration.
     /// </summary>
-    [JsonProperty("rtc", Order = 2)]
-    public Rtc Rtc { get; set; }
+    [JsonPropertyName("rtc")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public RtcCapability Rtc { get; init; }
 
     /// <summary>
-    ///     VBC (Vonage Business Communications) capability to enable zero-rated calls for VBC number programmability
-    ///     service applications. This must be an empty object.
+    ///     Enables zero-rated VBC calls. Set to a non-null instance to enable; omit to disable.
     /// </summary>
-    [JsonProperty("vbc", Order = 3)]
-    public Vbc Vbc { get; set; }
+    [JsonPropertyName("vbc")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public VbcCapability Vbc { get; init; }
 
     /// <summary>
-    ///     Verify v2 application webhook configuration for verification status updates.
+    ///     Network APIs configuration for network operator integrations.
     /// </summary>
-    [JsonProperty("verify", Order = 6)]
-    public Capabilities.Verify Verify { get; set; }
+    [JsonPropertyName("network_apis")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public NetworkApisCapability NetworkApis { get; init; }
 
     /// <summary>
-    ///     Video API configuration for in-app video calls, including webhooks for session and stream events.
+    ///     Meetings webhook configuration for recording, room, and session events.
     /// </summary>
-    [JsonProperty("video")]
-    public Capabilities.Video Video { get; set; }
+    [JsonPropertyName("meetings")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public MeetingsCapability Meetings { get; init; }
 
     /// <summary>
-    ///     Voice application webhook configuration for call events, including answer URL, event URL, and fallback settings.
+    ///     Verify v2 status webhook configuration.
     /// </summary>
-    [JsonProperty("voice", Order = 0)]
-    public Capabilities.Voice Voice { get; set; }
+    [JsonPropertyName("verify")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public VerifyCapability Verify { get; init; }
+
+    /// <summary>
+    ///     Video API webhook configuration for session, stream, and archive events.
+    /// </summary>
+    [JsonPropertyName("video")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public VideoCapability Video { get; init; }
+
+    /// <summary>
+    ///     Returns true if at least one capability is configured.
+    /// </summary>
+    [JsonIgnore]
+    public bool HasCapabilities =>
+        this.Voice != null ||
+        this.Messages != null ||
+        this.Rtc != null ||
+        this.Vbc != null ||
+        this.NetworkApis != null ||
+        this.Meetings != null ||
+        this.Verify != null ||
+        this.Video != null;
 }

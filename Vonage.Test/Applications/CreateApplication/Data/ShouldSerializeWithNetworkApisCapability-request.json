@@ -1,0 +1,1 @@
+{"name":"Demo Application","capabilities":{"network_apis":{"network_application_id":"my-network-app-id","redirect_uri":"https://example.com/oauth/callback"}}}
