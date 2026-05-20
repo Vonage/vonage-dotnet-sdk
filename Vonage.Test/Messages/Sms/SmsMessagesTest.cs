@@ -109,6 +109,36 @@ public class SmsMessagesTest : IDisposable
             TrustedRecipient = true,
         });
 
+    [Theory]
+    [InlineData(0)]
+    [InlineData(20)]
+    [InlineData(604800)]
+    public void GetErrors_ReturnsEmpty_WhenTtlIsValid(int ttl) =>
+        new SmsRequest { TimeToLive = ttl }.GetErrors().Should().BeEmpty();
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(19)]
+    [InlineData(604801)]
+    [InlineData(int.MaxValue)]
+    public void GetErrors_ReturnsError_WhenTtlIsOutOfRange(int ttl) =>
+        new SmsRequest { TimeToLive = ttl }.GetErrors().Should()
+            .ContainSingle(e => e == "TimeToLive must be between 20 and 604800.");
+
+    [Fact]
+    public async Task SendAsync_ThrowsVonageException_WhenTtlIsOutOfRange()
+    {
+        var exception = await Assert.ThrowsAsync<VonageException>(() =>
+            this.context.VonageClient.MessagesClient.SendAsync(new SmsRequest
+            {
+                To = "441234567890",
+                From = "015417543010",
+                Text = "This is a test",
+                TimeToLive = 5,
+            }));
+        exception.Message.Should().Be("TimeToLive must be between 20 and 604800.");
+    }
+
     private async Task VerifySendMessage(string expectedRequest, SmsRequest request)
     {
         this.context.Server.Given(WireMock.RequestBuilders.Request.Create()

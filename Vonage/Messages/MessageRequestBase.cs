@@ -50,6 +50,9 @@ public abstract class MessageRequestBase : IMessage
     public List<IMessage> Failover { get; set; }
 
     /// <inheritdoc />
+    public virtual IEnumerable<string> GetErrors() => Enumerable.Empty<string>();
+
+    /// <inheritdoc />
     public string Serialize()
     {
         var settings = JsonSerializerBuilder.BuildWithSnakeCase().Settings;

@@ -70,6 +70,12 @@ public interface IMessage
     List<IMessage> Failover { get; set; }
 
     /// <summary>
+    ///     Returns any validation errors for this message. An empty collection means the message is valid.
+    /// </summary>
+    /// <returns>A collection of error messages.</returns>
+    IEnumerable<string> GetErrors();
+
+    /// <summary>
     ///     Serializes the message.
     /// </summary>
     /// <returns>The serialized message.</returns>

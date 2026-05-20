@@ -1,5 +1,6 @@
 ﻿#region
 using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -10,8 +11,18 @@ namespace Vonage.Messages.Sms;
 /// </summary>
 public class SmsRequest : MessageRequestBase
 {
+    private const int TtlMin = 20;
+    private const int TtlMax = 604800;
+
     /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.SMS;
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetErrors()
+    {
+        if (this.TimeToLive != 0 && (this.TimeToLive < TtlMin || this.TimeToLive > TtlMax))
+            yield return $"TimeToLive must be between {TtlMin} and {TtlMax}.";
+    }
 
     /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Text;

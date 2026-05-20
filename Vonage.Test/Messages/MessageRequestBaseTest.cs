@@ -18,6 +18,10 @@ public class MessageRequestBaseTest
             JsonSerializerBuilder.BuildWithCamelCase());
 
     [Fact]
+    public void GetErrors_ReturnsEmpty_ByDefault() =>
+        new TestMessageBase().GetErrors().Should().BeEmpty();
+
+    [Fact]
     public void MessageBase()
     {
         var request = new TestMessageBase

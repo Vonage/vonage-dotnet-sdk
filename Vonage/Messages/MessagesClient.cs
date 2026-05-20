@@ -1,8 +1,10 @@
 ﻿#region
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Vonage.Common;
+using Vonage.Common.Exceptions;
 using Vonage.Request;
 using Vonage.Serialization;
 #endregion
@@ -43,6 +45,9 @@ public class MessagesClient : IMessagesClient
     /// <inheritdoc />
     public Task<MessagesResponse> SendAsync(IMessage message)
     {
+        var errors = message.GetErrors().ToList();
+        if (errors.Count > 0)
+            throw new VonageException(string.Join(", ", errors));
         var authType = this.credentials.GetPreferredAuthenticationType()
             .IfFailure(failure => throw failure.ToException());
         return ApiRequest.Build(this.credentials, this.configuration, this.timeProvider).DoRequestWithJsonContentAsync(
