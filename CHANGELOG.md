@@ -1,4 +1,48 @@
 # Changelog
+## [v8.32.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.32.0) (2026-05-20)
+
+### Build updates
+
+- Adding explicit permissions on upgrade-snippets.yml ([b8e4d03](https://github.com/Vonage/vonage-dotnet-sdk/commit/b8e4d03588a6076ebd23edf6b5b820a8e9c32223))
+
+- Remove input block from workflow dispatch ([f9f263b](https://github.com/Vonage/vonage-dotnet-sdk/commit/f9f263b08b01f5f21f52ce5b61574e68f5cbcdba))
+
+
+### Documentation
+
+- Generate changelog for v8.31.0 ([8cc6e30](https://github.com/Vonage/vonage-dotnet-sdk/commit/8cc6e305cc5c11f62be8af8c832fdb97aaa8db55))
+
+- Bump version to v8.32.0 ([13825c4](https://github.com/Vonage/vonage-dotnet-sdk/commit/13825c44a17917895d86f0a0822396eb14fd8795))
+
+
+### Features
+
+- Add skill to help maintaining a reliable XML documentation, including description from OAS, examples and links to code snippets ([8095679](https://github.com/Vonage/vonage-dotnet-sdk/commit/809567965a50a791cebc53f4ba5106455b472c52))
+
+- Add skill to help implementing new features, following the codebase's standard, from an OAS ([f2f1010](https://github.com/Vonage/vonage-dotnet-sdk/commit/f2f10106f394b3c3fdfc7e5f41fa1883c6956766))
+
+- Add min/max values verification on TTL for SMS Messages ([15b6400](https://github.com/Vonage/vonage-dotnet-sdk/commit/15b64005694a898584806a71748cc95140b7f18b))
+
+- Add missing validation to SMS Message request ([0ad60a3](https://github.com/Vonage/vonage-dotnet-sdk/commit/0ad60a37260efd111e630c0b2c5b824864af931c))
+
+- Implement missing validation on RCS Messages ([69512ce](https://github.com/Vonage/vonage-dotnet-sdk/commit/69512cedb5529b0cc71b38d9f7e84219ebcd60ce))
+
+
+### Other
+
+- Upgrade dependencies ([da4fe1d](https://github.com/Vonage/vonage-dotnet-sdk/commit/da4fe1da0cae2ba422a6acb02778a31237544c7d))
+
+- Add renovate.json to discard "Renovate Dashboard" from mend ([e43a462](https://github.com/Vonage/vonage-dotnet-sdk/commit/e43a46283a4a73e2ef300f504ab8658c8f0cdf3c))
+
+- Remove unused file ([92f9f04](https://github.com/Vonage/vonage-dotnet-sdk/commit/92f9f04f52a11a55299687619d7652634edb5232))
+
+
+### Refactoring
+
+- Move some tests outside ConnectionLifetimeTest ([4d53ca5](https://github.com/Vonage/vonage-dotnet-sdk/commit/4d53ca557ae3ef16df779ad999dc9d001e9d2d4b))
+
+Full Changelog: [v8.31.0...v8.32.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.31.0...v8.32.0)
+
 ## [v8.31.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.31.0) (2026-04-27)
 
 ### Documentation
