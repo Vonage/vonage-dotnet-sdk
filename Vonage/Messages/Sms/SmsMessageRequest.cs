@@ -1,6 +1,7 @@
 ﻿#region
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -20,18 +21,41 @@ public class SmsRequest : MessageRequestBase
     public override MessagesChannel Channel => MessagesChannel.SMS;
 
     /// <inheritdoc />
-    public override IEnumerable<string> GetErrors()
+    public override IEnumerable<string> GetErrors() =>
+        this.ValidateFrom()
+            .Concat(this.ValidateTo())
+            .Concat(this.ValidateText())
+            .Concat(this.ValidateTtl())
+            .Concat(this.ValidateWebhookVersion());
+
+    private IEnumerable<string> ValidateFrom()
     {
         if (string.IsNullOrEmpty(this.From))
             yield return "From must not be null or empty.";
+    }
+
+    private IEnumerable<string> ValidateTo()
+    {
         if (string.IsNullOrEmpty(this.To))
             yield return "To must not be null or empty.";
         else if (this.To.Length is < ToMinLength or > ToMaxLength)
             yield return $"To length must be between {ToMinLength} and {ToMaxLength} characters.";
+    }
+
+    private IEnumerable<string> ValidateText()
+    {
         if (string.IsNullOrEmpty(this.Text))
             yield return "Text must not be null or empty.";
+    }
+
+    private IEnumerable<string> ValidateTtl()
+    {
         if (this.TimeToLive != 0 && this.TimeToLive is < TtlMin or > TtlMax)
             yield return $"TimeToLive must be between {TtlMin} and {TtlMax}.";
+    }
+
+    private IEnumerable<string> ValidateWebhookVersion()
+    {
         if (this.WebhookVersion != null && this.WebhookVersion != "v0.1" && this.WebhookVersion != "v1")
             yield return "WebhookVersion must be 'v0.1' or 'v1'.";
     }

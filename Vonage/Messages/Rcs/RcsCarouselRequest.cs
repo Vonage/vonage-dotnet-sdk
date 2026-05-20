@@ -1,4 +1,6 @@
 ﻿#region
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using Vonage.Messages.Rcs.Suggestions;
 #endregion
@@ -10,8 +12,38 @@ namespace Vonage.Messages.Rcs;
 /// </summary>
 public class RcsCarouselRequest : RcsMessageBase
 {
+    private const int CardsMaxItems = 10;
+    private const int SuggestionsMaxItems = 11;
+
     /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.RCS;
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetErrors() =>
+        base.GetErrors()
+            .Concat(this.ValidateCarouselPresence())
+            .Concat(this.ValidateCardsCount())
+            .Concat(this.Carousel?.Cards?.SelectMany(c => c.GetErrors()) ?? Enumerable.Empty<string>())
+            .Concat(this.ValidateSuggestionsCount())
+            .Concat(this.Suggestions?.SelectMany(s => s.GetErrors()) ?? Enumerable.Empty<string>());
+
+    private IEnumerable<string> ValidateCarouselPresence()
+    {
+        if (this.Carousel == null)
+            yield return "Carousel must not be null.";
+    }
+
+    private IEnumerable<string> ValidateCardsCount()
+    {
+        if (this.Carousel?.Cards is {Length: > CardsMaxItems})
+            yield return $"Carousel must contain at most {CardsMaxItems} cards.";
+    }
+
+    private IEnumerable<string> ValidateSuggestionsCount()
+    {
+        if (this.Suggestions?.Length > SuggestionsMaxItems)
+            yield return $"Suggestions must contain at most {SuggestionsMaxItems} items.";
+    }
 
     /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Carousel;

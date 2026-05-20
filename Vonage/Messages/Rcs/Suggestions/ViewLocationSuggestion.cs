@@ -1,5 +1,7 @@
 ﻿#region
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -27,6 +29,31 @@ public record ViewLocationSuggestion(
     /// <inheritdoc />
     [JsonIgnore]
     public override string Type => "view_location";
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetErrors() =>
+        base.GetErrors()
+            .Concat(this.ValidateLatitude())
+            .Concat(this.ValidateLongitude())
+            .Concat(this.ValidatePinLabel());
+
+    private IEnumerable<string> ValidateLatitude()
+    {
+        if (string.IsNullOrEmpty(this.Latitude))
+            yield return "Latitude must not be null or empty.";
+    }
+
+    private IEnumerable<string> ValidateLongitude()
+    {
+        if (string.IsNullOrEmpty(this.Longitude))
+            yield return "Longitude must not be null or empty.";
+    }
+
+    private IEnumerable<string> ValidatePinLabel()
+    {
+        if (string.IsNullOrEmpty(this.PinLabel))
+            yield return "PinLabel must not be null or empty.";
+    }
 
     /// <summary>
     ///     A URL to open if the device is unable to display a map.

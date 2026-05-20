@@ -1,4 +1,6 @@
 ﻿#region
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -11,6 +13,18 @@ public class RcsVideoRequest : RcsMessageBase
 {
     /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.RCS;
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetErrors() =>
+        base.GetErrors().Concat(this.ValidateVideo());
+
+    private IEnumerable<string> ValidateVideo()
+    {
+        if (this.Video == null)
+            yield return "Video must not be null.";
+        else if (string.IsNullOrEmpty(this.Video.Url))
+            yield return "Video Url must not be null or empty.";
+    }
 
     /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Video;

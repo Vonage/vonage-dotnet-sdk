@@ -1,5 +1,7 @@
 ﻿#region
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -25,9 +27,34 @@ public record CreateCalendarEventSuggestion(
     string Title,
     string Description) : SuggestionBase
 {
+    private const int TitleMaxLength = 100;
+    private const int DescriptionMaxLength = 500;
+
     /// <inheritdoc />
     [JsonIgnore]
     public override string Type => "create_calendar_event";
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetErrors() =>
+        base.GetErrors()
+            .Concat(this.ValidateTitle())
+            .Concat(this.ValidateDescription());
+
+    private IEnumerable<string> ValidateTitle()
+    {
+        if (string.IsNullOrEmpty(this.Title))
+            yield return "Title must not be null or empty.";
+        else if (this.Title.Length > TitleMaxLength)
+            yield return $"Title must not exceed {TitleMaxLength} characters.";
+    }
+
+    private IEnumerable<string> ValidateDescription()
+    {
+        if (string.IsNullOrEmpty(this.Description))
+            yield return "Description must not be null or empty.";
+        else if (this.Description.Length > DescriptionMaxLength)
+            yield return $"Description must not exceed {DescriptionMaxLength} characters.";
+    }
 
     /// <summary>
     ///     StartTime formatted to ISO 8601

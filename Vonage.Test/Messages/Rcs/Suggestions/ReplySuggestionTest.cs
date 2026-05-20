@@ -21,5 +21,25 @@ public class ReplySuggestionTest
     [Fact]
     public void Type_ShouldBeReply() => BuildSuggestion().Type.Should().Be(Type);
 
+    [Fact]
+    public void GetErrors_ReturnsEmpty_WhenValid() => BuildSuggestion().GetErrors().Should().BeEmpty();
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenTextIsNullOrEmpty(string text) =>
+        new ReplySuggestion(text, PostbackData).GetErrors().Should().Contain("Text must not be null or empty.");
+
+    [Fact]
+    public void GetErrors_ReturnsError_WhenTextExceedsMaxLength() =>
+        new ReplySuggestion(new string('a', 26), PostbackData).GetErrors()
+            .Should().Contain("Text must not exceed 25 characters.");
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenPostbackDataIsNullOrEmpty(string postbackData) =>
+        new ReplySuggestion(Text, postbackData).GetErrors().Should().Contain("PostbackData must not be null or empty.");
+
     private static ReplySuggestion BuildSuggestion() => new ReplySuggestion(Text, PostbackData);
 }

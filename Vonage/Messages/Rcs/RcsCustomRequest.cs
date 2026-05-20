@@ -1,4 +1,6 @@
 ﻿#region
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -11,6 +13,16 @@ public class RcsCustomRequest : RcsMessageBase
 {
     /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.RCS;
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetErrors() =>
+        base.GetErrors().Concat(this.ValidateCustom());
+
+    private IEnumerable<string> ValidateCustom()
+    {
+        if (this.Custom == null)
+            yield return "Custom must not be null.";
+    }
 
     /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Custom;

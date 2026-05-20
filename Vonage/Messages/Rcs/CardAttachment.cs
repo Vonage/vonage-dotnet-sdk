@@ -21,6 +21,48 @@ namespace Vonage.Messages.Rcs;
 /// </param>
 public record CardAttachment(string Title, string Text, Uri MediaUrl)
 {
+    private const int TitleMaxLength = 200;
+    private const int TextMaxLength = 2000;
+    private const int SuggestionsMaxItems = 4;
+
+    /// <summary>
+    ///     Returns any validation errors for this card attachment.
+    /// </summary>
+    public IEnumerable<string> GetErrors() =>
+        this.ValidateTitle()
+            .Concat(this.ValidateCardText())
+            .Concat(this.ValidateMediaUrl())
+            .Concat(this.ValidateSuggestionsCount())
+            .Concat(this.Suggestions?.SelectMany(s => s.GetErrors()) ?? Enumerable.Empty<string>());
+
+    private IEnumerable<string> ValidateTitle()
+    {
+        if (string.IsNullOrEmpty(this.Title))
+            yield return "Card Title must not be null or empty.";
+        else if (this.Title.Length > TitleMaxLength)
+            yield return $"Card Title must not exceed {TitleMaxLength} characters.";
+    }
+
+    private IEnumerable<string> ValidateCardText()
+    {
+        if (string.IsNullOrEmpty(this.Text))
+            yield return "Card Text must not be null or empty.";
+        else if (this.Text.Length > TextMaxLength)
+            yield return $"Card Text must not exceed {TextMaxLength} characters.";
+    }
+
+    private IEnumerable<string> ValidateMediaUrl()
+    {
+        if (this.MediaUrl == null)
+            yield return "Card MediaUrl must not be null.";
+    }
+
+    private IEnumerable<string> ValidateSuggestionsCount()
+    {
+        if (this.Suggestions?.Length > SuggestionsMaxItems)
+            yield return $"Card Suggestions must contain at most {SuggestionsMaxItems} items.";
+    }
+
     /// <summary>
     ///     Defines the height of the media element in a rich card.
     /// </summary>

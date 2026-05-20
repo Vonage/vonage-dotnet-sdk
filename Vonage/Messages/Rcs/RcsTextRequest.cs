@@ -1,4 +1,6 @@
 ﻿#region
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using Vonage.Messages.Rcs.Suggestions;
 #endregion
@@ -10,8 +12,29 @@ namespace Vonage.Messages.Rcs;
 /// </summary>
 public class RcsTextRequest : RcsMessageBase
 {
+    private const int SuggestionsMaxItems = 11;
+
     /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.RCS;
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetErrors() =>
+        base.GetErrors()
+            .Concat(this.ValidateText())
+            .Concat(this.ValidateSuggestionsCount())
+            .Concat(this.Suggestions?.SelectMany(s => s.GetErrors()) ?? Enumerable.Empty<string>());
+
+    private IEnumerable<string> ValidateText()
+    {
+        if (string.IsNullOrEmpty(this.Text))
+            yield return "Text must not be null or empty.";
+    }
+
+    private IEnumerable<string> ValidateSuggestionsCount()
+    {
+        if (this.Suggestions?.Length > SuggestionsMaxItems)
+            yield return $"Suggestions must contain at most {SuggestionsMaxItems} items.";
+    }
 
     /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.Text;

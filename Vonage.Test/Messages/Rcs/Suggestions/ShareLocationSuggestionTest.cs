@@ -21,5 +21,26 @@ public class ShareLocationSuggestionTest
     [Fact]
     public void Type_ShouldBeShareLocation() => BuildSuggestion().Type.Should().Be(Type);
 
+    [Fact]
+    public void GetErrors_ReturnsEmpty_WhenValid() => BuildSuggestion().GetErrors().Should().BeEmpty();
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenTextIsNullOrEmpty(string text) =>
+        new ShareLocationSuggestion(text, PostbackData).GetErrors().Should().Contain("Text must not be null or empty.");
+
+    [Fact]
+    public void GetErrors_ReturnsError_WhenTextExceedsMaxLength() =>
+        new ShareLocationSuggestion(new string('a', 26), PostbackData).GetErrors()
+            .Should().Contain("Text must not exceed 25 characters.");
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenPostbackDataIsNullOrEmpty(string postbackData) =>
+        new ShareLocationSuggestion(Text, postbackData).GetErrors()
+            .Should().Contain("PostbackData must not be null or empty.");
+
     private static ShareLocationSuggestion BuildSuggestion() => new ShareLocationSuggestion(Text, PostbackData);
 }

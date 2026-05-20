@@ -30,6 +30,38 @@ public class OpenUrlSuggestionTest
     [Fact]
     public void Type_ShouldBeOpenUrl() => BuildSuggestion().Type.Should().Be(Type);
 
+    [Fact]
+    public void GetErrors_ReturnsEmpty_WhenValid() => BuildSuggestion().GetErrors().Should().BeEmpty();
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenTextIsNullOrEmpty(string text) =>
+        new OpenUrlSuggestion(text, PostbackData, new Uri(Url), Description).GetErrors()
+            .Should().Contain("Text must not be null or empty.");
+
+    [Fact]
+    public void GetErrors_ReturnsError_WhenTextExceedsMaxLength() =>
+        new OpenUrlSuggestion(new string('a', 26), PostbackData, new Uri(Url), Description).GetErrors()
+            .Should().Contain("Text must not exceed 25 characters.");
+
+    [Fact]
+    public void GetErrors_ReturnsError_WhenUrlIsNull() =>
+        new OpenUrlSuggestion(Text, PostbackData, null, Description).GetErrors()
+            .Should().Contain("Url must not be null.");
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenDescriptionIsNullOrEmpty(string description) =>
+        new OpenUrlSuggestion(Text, PostbackData, new Uri(Url), description).GetErrors()
+            .Should().Contain("Description must not be null or empty.");
+
+    [Fact]
+    public void GetErrors_ReturnsError_WhenDescriptionExceedsMaxLength() =>
+        new OpenUrlSuggestion(Text, PostbackData, new Uri(Url), new string('a', 501)).GetErrors()
+            .Should().Contain("Description must not exceed 500 characters.");
+
     private static OpenUrlSuggestion BuildSuggestion() =>
         new OpenUrlSuggestion(Text, PostbackData, new Uri(Url), Description);
 }

@@ -1,4 +1,6 @@
 ﻿#region
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -11,6 +13,18 @@ public class RcsFileRequest : RcsMessageBase
 {
     /// <inheritdoc />
     public override MessagesChannel Channel => MessagesChannel.RCS;
+
+    /// <inheritdoc />
+    public override IEnumerable<string> GetErrors() =>
+        base.GetErrors().Concat(this.ValidateFile());
+
+    private IEnumerable<string> ValidateFile()
+    {
+        if (this.File == null)
+            yield return "File must not be null.";
+        else if (string.IsNullOrEmpty(this.File.Url))
+            yield return "File Url must not be null or empty.";
+    }
 
     /// <inheritdoc />
     public override MessagesMessageType MessageType => MessagesMessageType.File;

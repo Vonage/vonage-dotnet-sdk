@@ -42,6 +42,42 @@ public class ViewLocationSuggestionTest
     public void WithFallbackUrl_ShouldSetFallbackUrl() => BuildSuggestion()
         .WithFallbackUrl(new Uri(FallbackUrl)).FallbackUrl.Should().Be(new Uri(FallbackUrl));
 
+    [Fact]
+    public void GetErrors_ReturnsEmpty_WhenValid() => BuildSuggestion().GetErrors().Should().BeEmpty();
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenTextIsNullOrEmpty(string text) =>
+        new ViewLocationSuggestion(text, PostbackData, Latitude, Longitude, PinLabel).GetErrors()
+            .Should().Contain("Text must not be null or empty.");
+
+    [Fact]
+    public void GetErrors_ReturnsError_WhenTextExceedsMaxLength() =>
+        new ViewLocationSuggestion(new string('a', 26), PostbackData, Latitude, Longitude, PinLabel).GetErrors()
+            .Should().Contain("Text must not exceed 25 characters.");
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenLatitudeIsNullOrEmpty(string latitude) =>
+        new ViewLocationSuggestion(Text, PostbackData, latitude, Longitude, PinLabel).GetErrors()
+            .Should().Contain("Latitude must not be null or empty.");
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenLongitudeIsNullOrEmpty(string longitude) =>
+        new ViewLocationSuggestion(Text, PostbackData, Latitude, longitude, PinLabel).GetErrors()
+            .Should().Contain("Longitude must not be null or empty.");
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenPinLabelIsNullOrEmpty(string pinLabel) =>
+        new ViewLocationSuggestion(Text, PostbackData, Latitude, Longitude, pinLabel).GetErrors()
+            .Should().Contain("PinLabel must not be null or empty.");
+
     private static ViewLocationSuggestion BuildSuggestion() =>
         new ViewLocationSuggestion(Text, PostbackData, Latitude, Longitude, PinLabel);
 }
