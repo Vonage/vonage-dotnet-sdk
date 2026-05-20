@@ -1,5 +1,7 @@
 #region
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -109,12 +111,58 @@ public class SmsMessagesTest : IDisposable
             TrustedRecipient = true,
         });
 
+    [Fact]
+    public void GetErrors_ReturnsEmpty_WhenRequestIsValid() =>
+        new SmsRequest { To = "441234567890", From = "015417543010", Text = "Hello" }
+            .GetErrors().Should().BeEmpty();
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenFromIsNullOrEmpty(string from) =>
+        new SmsRequest { To = "441234567890", From = from, Text = "Hello" }
+            .GetErrors().Should().Contain("From must not be null or empty.");
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenToIsNullOrEmpty(string to) =>
+        new SmsRequest { To = to, From = "015417543010", Text = "Hello" }
+            .GetErrors().Should().Contain("To must not be null or empty.");
+
+    [Theory]
+    [InlineData("1")]
+    [InlineData("123456")]
+    public void GetErrors_ReturnsError_WhenToIsTooShort(string to) =>
+        new SmsRequest { To = to, From = "015417543010", Text = "Hello" }
+            .GetErrors().Should().Contain("To length must be between 7 and 15 characters.");
+
+    [Fact]
+    public void GetErrors_ReturnsError_WhenToIsTooLong() =>
+        new SmsRequest { To = "1234567890123456", From = "015417543010", Text = "Hello" }
+            .GetErrors().Should().Contain("To length must be between 7 and 15 characters.");
+
+    [Theory]
+    [InlineData("1234567")]
+    [InlineData("123456789012345")]
+    public void GetErrors_ReturnsEmpty_WhenToIsAtLengthBoundary(string to) =>
+        new SmsRequest { To = to, From = "015417543010", Text = "Hello" }
+            .GetErrors().Should().BeEmpty();
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void GetErrors_ReturnsError_WhenTextIsNullOrEmpty(string text) =>
+        new SmsRequest { To = "441234567890", From = "015417543010", Text = text }
+            .GetErrors().Should().Contain("Text must not be null or empty.");
+
     [Theory]
     [InlineData(0)]
     [InlineData(20)]
     [InlineData(604800)]
     public void GetErrors_ReturnsEmpty_WhenTtlIsValid(int ttl) =>
-        new SmsRequest { TimeToLive = ttl }.GetErrors().Should().BeEmpty();
+        new SmsRequest { To = "441234567890", From = "015417543010", Text = "Hello", TimeToLive = ttl }
+            .GetErrors().Should().BeEmpty();
 
     [Theory]
     [InlineData(1)]
@@ -122,8 +170,33 @@ public class SmsMessagesTest : IDisposable
     [InlineData(604801)]
     [InlineData(int.MaxValue)]
     public void GetErrors_ReturnsError_WhenTtlIsOutOfRange(int ttl) =>
-        new SmsRequest { TimeToLive = ttl }.GetErrors().Should()
-            .ContainSingle(e => e == "TimeToLive must be between 20 and 604800.");
+        new SmsRequest { To = "441234567890", From = "015417543010", Text = "Hello", TimeToLive = ttl }
+            .GetErrors().Should().Contain("TimeToLive must be between 20 and 604800.");
+
+    [Theory]
+    [InlineData("v0.1")]
+    [InlineData("v1")]
+    public void GetErrors_ReturnsEmpty_WhenWebhookVersionIsValid(string version) =>
+        new SmsRequest { To = "441234567890", From = "015417543010", Text = "Hello", WebhookVersion = version }
+            .GetErrors().Should().BeEmpty();
+
+    [Theory]
+    [InlineData("v2")]
+    [InlineData("invalid")]
+    [InlineData("V1")]
+    public void GetErrors_ReturnsError_WhenWebhookVersionIsInvalid(string version) =>
+        new SmsRequest { To = "441234567890", From = "015417543010", Text = "Hello", WebhookVersion = version }
+            .GetErrors().Should().Contain("WebhookVersion must be 'v0.1' or 'v1'.");
+
+    [Fact]
+    public void GetErrors_ReturnsMultipleErrors_WhenMultipleFieldsAreInvalid()
+    {
+        var errors = new SmsRequest { TimeToLive = 5 }.GetErrors().ToList();
+        errors.Should().Contain("From must not be null or empty.");
+        errors.Should().Contain("To must not be null or empty.");
+        errors.Should().Contain("Text must not be null or empty.");
+        errors.Should().Contain("TimeToLive must be between 20 and 604800.");
+    }
 
     [Fact]
     public async Task SendAsync_ThrowsVonageException_WhenTtlIsOutOfRange()
