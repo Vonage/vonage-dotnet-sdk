@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Vonage.IdentityInsights;
 using Vonage.Test.Common.Extensions;
-using Vonage.Test.SubAccounts;
 using WireMock.ResponseBuilders;
 using Xunit;
 #endregion
