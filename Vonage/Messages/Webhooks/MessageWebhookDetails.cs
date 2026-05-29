@@ -1,4 +1,5 @@
 ﻿#region
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
@@ -92,6 +93,13 @@ public struct LocationDetails
     [JsonPropertyName("name")]
     [JsonProperty("name")]
     public string Name { get; set; }
+
+    /// <summary>
+    /// URL tied to the location, if provided by the sender.
+    /// </summary>
+    [JsonPropertyName("url")]
+    [JsonProperty("url")]
+    public Uri Url { get; set; }
 }
 
 /// <summary>

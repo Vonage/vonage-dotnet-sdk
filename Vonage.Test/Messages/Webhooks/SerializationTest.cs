@@ -81,6 +81,7 @@ public class SerializationTest
                     Longitude = -74.18847m,
                     Name = "Vonage",
                     Address = "23 Main St, Holmdel, NJ 07733, USA",
+                    Url = new Uri("https://www.vonage.com/"),
                 },
                 Order = new OrderDetails
                 {

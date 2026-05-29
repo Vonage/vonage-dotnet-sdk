@@ -45,7 +45,8 @@
     "lat": 40.34772,
     "long": -74.18847,
     "name": "Vonage",
-    "address": "23 Main St, Holmdel, NJ 07733, USA"
+    "address": "23 Main St, Holmdel, NJ 07733, USA",
+    "url": "https://www.vonage.com/"
   },
   "order": {
     "catalog_id": "2806150799683508",
