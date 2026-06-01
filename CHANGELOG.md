@@ -1,4 +1,24 @@
 # Changelog
+## [v8.33.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.33.0) (2026-06-01)
+
+### Documentation
+
+- Generate changelog for v8.32.0 ([a76ba4c](https://github.com/Vonage/vonage-dotnet-sdk/commit/a76ba4c53267a07a885c4a4221ba0d9735d0ab62))
+
+- Bump version to v8.33.0 ([113880f](https://github.com/Vonage/vonage-dotnet-sdk/commit/113880f550a5b757de573e0808ddac187f30383c))
+
+
+### Features
+
+- Add support for Url parameter on WhatsApp Location ([d0389b8](https://github.com/Vonage/vonage-dotnet-sdk/commit/d0389b8334b27f366a5f5178b43b3ff238da8b3d))
+
+
+### Refactoring
+
+- Create dedicated E2EBase for IdentityInsights ([5bde58b](https://github.com/Vonage/vonage-dotnet-sdk/commit/5bde58b0cc2ec2294dd62f09f97bd4f9fe8b925c))
+
+Full Changelog: [v8.32.0...v8.33.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.32.0...v8.33.0)
+
 ## [v8.32.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.32.0) (2026-05-20)
 
 ### Build updates
