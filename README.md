@@ -84,7 +84,7 @@ The following is a list of Vonage APIs and whether the Vonage .NET SDK provides 
 | Number Verification API | General Availability |     ✅      |
 | Pricing API             | General Availability |     ✅      |
 | Redact API              |  Developer Preview   |     ✅      |
-| Reports API             |         Beta         |     ❌      |
+| Reports API             | General Availability |     ✅      |
 | SimSwap API             | General Availability |     ✅      |
 | SMS API                 | General Availability |     ✅      |
 | SubAccounts API         | General Availability |     ✅      |
