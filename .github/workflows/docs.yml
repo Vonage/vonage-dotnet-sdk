@@ -48,10 +48,8 @@ jobs:
         run: dotnet restore
 
       - name: Build site
-        env:
-          DOC_VERSION: ${{ steps.version.outputs.version }}
         run: |
-          docfx docfx.json --globalMetadata "{\"_appFooter\":\"Vonage .NET SDK ${DOC_VERSION}\"}"
+          docfx docfx.json --globalMetadata '{"_appFooter":"Vonage .NET SDK ${{ steps.version.outputs.version }}"}'
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
