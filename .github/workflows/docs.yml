@@ -44,8 +44,8 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Building documentation for: **$VERSION**" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Build solution
+        run: dotnet build -c Release
 
       - name: Build site
         run: |
