@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\release-build.yml = .github\workflows\release-build.yml
 		.github\workflows\changelog.yml = .github\workflows\changelog.yml
 		.github\workflows\upgrade-snippets.yml = .github\workflows\upgrade-snippets.yml
+		.github\workflows\docs.yml = .github\workflows\docs.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vonage", "Vonage", "{A6874F74-A631-4DDC-901B-1D3219FAA50F}"
@@ -34,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vonage.SourceGenerator.Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source Generation", "Source Generation", "{42071A02-EE17-41F1-A3DE-ECDDC5409C39}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{CFD02797-7941-4920-B53D-EED3FD8C2759}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{CFD02797-7941-4920-B53D-EED3FD8C2759}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 		pull_request_template.md = pull_request_template.md
@@ -45,6 +46,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{CFD02797-7
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		CHANGELOG.md = CHANGELOG.md
 		LICENSE.md = LICENSE.md
+		MIGRATION_v6.0.0.md = MIGRATION_v6.0.0.md
+		MIGRATION_v9.0.0.md = MIGRATION_v9.0.0.md
+		toc.yml = toc.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{EDB165F8-CD99-41A0-9A61-37BD397DB7DA}"
@@ -52,6 +56,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{EDB1
 		cliff.toml = cliff.toml
 		.scripts\git_hooks\pre-commit = .scripts\git_hooks\pre-commit
 		release.sh = release.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{5B2ADBD2-C65F-4647-908D-43F6FCEC3303}"
+	ProjectSection(SolutionItems) = preProject
+		docs\getting-started.md = docs\getting-started.md
+		docs\toc.yml = docs\toc.yml
+		docs\working-with-result.md = docs\working-with-result.md
+		index.md = index.md
+		docfx.json = docfx.json
 	EndProjectSection
 EndProject
 Global
@@ -151,5 +164,6 @@ Global
 		{8BEFC27E-003A-49C3-B399-DDD40D37F024} = {A6874F74-A631-4DDC-901B-1D3219FAA50F}
 		{F3D366EC-E94A-4FF0-B02C-AC1DBFCC1528} = {42071A02-EE17-41F1-A3DE-ECDDC5409C39}
 		{E87D99EB-43A2-4BF5-A717-E1417216094E} = {42071A02-EE17-41F1-A3DE-ECDDC5409C39}
+		{5B2ADBD2-C65F-4647-908D-43F6FCEC3303} = {CFD02797-7941-4920-B53D-EED3FD8C2759}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,37 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": ["Vonage/Vonage.csproj"]
+        }
+      ],
+      "dest": "api",
+      "disableGitFeatures": false
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": ["api/**.yml"]
+      },
+      {
+        "files": ["docs/**.md", "docs/**/toc.yml", "toc.yml", "*.md"],
+        "exclude": ["_site/**", "README.md", "CHANGELOG.md", "MIGRATION_*.md", "OPENTOK_TO_VONAGE_MIGRATION.md"]
+      }
+    ],
+    "overwrite": [
+      {
+        "files": ["apidoc/**.md"]
+      }
+    ],
+    "dest": "_site",
+    "globalMetadata": {
+      "_appName": "Vonage .NET SDK",
+      "_appTitle": "Vonage .NET SDK",
+      "_enableSearch": true
+    },
+    "template": ["default", "modern"],
+    "markdownEngineName": "markdig"
+  }
+}

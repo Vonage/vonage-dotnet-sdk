@@ -14,7 +14,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <Version>8.33.0</Version>
     <PackageLicenseExpression/>
-    <PackageProjectUrl>https://github.com/Vonage/vonage-dotnet</PackageProjectUrl>
+    <PackageProjectUrl>https://vonage.github.io/vonage-dotnet-sdk</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.33.0</PackageReleaseNotes>
     <PackageTags>SMS voice telephony phone Vonage</PackageTags>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -25,7 +25,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <RepositoryUrl>https://github.com/Vonage/vonage-dotnet-sdk.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Vonage/vonage-dotnet-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>VonageLogo_Symbol_Black.png</PackageIcon>
     <PackageIconUrl/>

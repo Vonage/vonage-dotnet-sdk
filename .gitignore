@@ -193,3 +193,7 @@ appsettings.json
 Nexmo.Api.Test.Unit/private.key
 project.lock.json
 package-lock.json
+
+# docfx generated output
+api/
+_site/
