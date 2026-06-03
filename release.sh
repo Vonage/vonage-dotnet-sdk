@@ -56,7 +56,7 @@ if [ "$DRY_RUN" = true ]; then
     echo "  1. git add $CSPROJ"
     echo "  2. git commit -m \"docs: bump version to $TAG\""
     echo "  3. git tag -f $TAG"
-    echo "  4. git cliff -o CHANGELOG.md"
+    echo "  4. git cliff --config cliff.toml -o CHANGELOG.md"
     echo "  5. git add CHANGELOG.md"
     echo "  6. git commit -m \"docs: generate changelog for $TAG\""
     echo "  7. git push"
