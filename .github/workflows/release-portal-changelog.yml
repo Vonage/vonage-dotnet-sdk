@@ -1,0 +1,64 @@
+name: Publish changelog to developer portal
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish-changelog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install git-cliff
+        run: pipx install git-cliff
+
+      - name: Generate portal changelog for latest tag
+        run: ./generate-portal-changelog.sh --latest
+
+      - name: Checkout developer portal repository
+        uses: actions/checkout@v4
+        with:
+          repository: vonage-technology/developer-portal-content
+          token: ${{ secrets.PORTAL_PAT }}
+          path: portal
+
+      - name: Copy changelog into portal
+        id: changelog
+        run: |
+          FILE="$(ls portal-changelog/*.md)"
+          VERSION="$(basename "$FILE" .md)"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          DEST="portal/content/changelog-feed/en/server-sdk/dotnet"
+          mkdir -p "$DEST"
+          cp "$FILE" "$DEST/"
+
+      - name: Create Pull Request
+        working-directory: portal
+        env:
+          GH_TOKEN: ${{ secrets.PORTAL_PAT }}
+        run: |
+          VERSION="${{ steps.changelog.outputs.version }}"
+          BRANCH="changelog-dotnet-$VERSION"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "feat: add changelog for .NET SDK release $VERSION"
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "feat: add changelog for .NET SDK release $VERSION" \
+            --body "Auto-generated changelog for the Vonage .NET SDK v$VERSION release."

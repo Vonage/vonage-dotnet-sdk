@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\release-build.yml = .github\workflows\release-build.yml
 		.github\workflows\upgrade-snippets.yml = .github\workflows\upgrade-snippets.yml
 		.github\workflows\docs.yml = .github\workflows\docs.yml
+		.github\workflows\release-portal-changelog.yml = .github\workflows\release-portal-changelog.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vonage", "Vonage", "{A6874F74-A631-4DDC-901B-1D3219FAA50F}"
@@ -55,6 +56,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{EDB1
 		cliff.toml = cliff.toml
 		.scripts\git_hooks\pre-commit = .scripts\git_hooks\pre-commit
 		release.sh = release.sh
+		cliff-portal.toml = cliff-portal.toml
+		generate-portal-changelog.sh = generate-portal-changelog.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{5B2ADBD2-C65F-4647-908D-43F6FCEC3303}"
