@@ -1,20 +1,26 @@
 #!/usr/bin/env bash
 #
-# Generate one changelog file per release for the developer portal.
-# git-cliff renders every release in a single stream, each prefixed with a
-# "@@@FILE <version>@@@" marker; awk demuxes that stream into per-version files.
+# Generate the developer-portal changelog files (one .md per release).
+#
+#   ./generate-portal-changelog.sh            # regenerate every version
+#   ./generate-portal-changelog.sh --latest   # only the newest version
+#
+# Any extra arguments are forwarded to git-cliff as-is (e.g. --latest,
+# --current, --tag vX.Y.Z), so the command stays as simple as it looks.
 #
 set -euo pipefail
 
-CONFIG="${1:-cliff-portal.toml}"
-OUTDIR="${2:-portal-changelog}"
-# Extra args passed straight to git-cliff, e.g. CLIFF_ARGS="--latest" for CI.
-CLIFF_ARGS="${CLIFF_ARGS:-}"
+# --- settings (edit here, not on the command line) ---
+CONFIG="cliff-portal.toml"
+OUTDIR="portal-changelog"
+# ------------------------------------------------------
 
 mkdir -p "$OUTDIR"
 
-# shellcheck disable=SC2086
-git-cliff --config "$CONFIG" $CLIFF_ARGS | awk -v outdir="$OUTDIR" '
+# git-cliff renders all selected releases into one stream, each prefixed with
+# a "@@@FILE <version>@@@" marker; awk splits that into one file per version.
+# "$@" forwards flags like --latest straight through.
+git-cliff --config "$CONFIG" "$@" | awk -v outdir="$OUTDIR" '
     /^@@@FILE / {
         if (out != "") close(out)
         ver = $2
@@ -26,12 +32,11 @@ git-cliff --config "$CONFIG" $CLIFF_ARGS | awk -v outdir="$OUTDIR" '
     out != "" { print >> out }
 '
 
-# Tidy up: trim trailing blank lines, drop empty files (e.g. the very first
-# tag, which may have no preceding range).
+# Tidy up: trim leading/trailing blank lines and drop any entry-less file
+# (only the very first tag in history, which has no predecessor).
 for f in "$OUTDIR"/*.md; do
-    # remove leading/trailing blank lines
+    [ -e "$f" ] || continue
     awk 'NF{p=1} p' "$f" | tac | awk 'NF{p=1} p' | tac > "$f.tmp" && mv "$f.tmp" "$f"
-    # delete the file if it has no body (only frontmatter or empty)
     if ! grep -q '^### ' "$f"; then
         echo "skip (no entries): $(basename "$f")"
         rm -f "$f"
