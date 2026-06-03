@@ -22,7 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\net-build.yml = .github\workflows\net-build.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 		.github\workflows\release-build.yml = .github\workflows\release-build.yml
-		.github\workflows\changelog.yml = .github\workflows\changelog.yml
 		.github\workflows\upgrade-snippets.yml = .github\workflows\upgrade-snippets.yml
 		.github\workflows\docs.yml = .github\workflows\docs.yml
 	EndProjectSection
