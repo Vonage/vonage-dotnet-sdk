@@ -1,8 +1,6 @@
 name: Mutation testing
 on: 
   workflow_dispatch:
-  push:
-    branches: [ main ]
 
 permissions:
   actions: write
