@@ -34,6 +34,16 @@ public class SerializationTest
             new CarrierInsights("Orange Espana, S.A. Unipersonal", "MOBILE", "ES", "21403",
                 new InsightStatus("OK", "Success")),
             new CarrierInsights("Orange Espana, S.A. Unipersonal", "MOBILE", "ES", "21403",
+                new InsightStatus("OK", "Success")),
+            new LocationVerificationInsights("PARTIAL", DateTimeOffset.Parse("2024-07-08T09:30:27.504Z"), 85,
+                new InsightStatus("OK", "Success")),
+            new SubscriberMatchInsights("EXACT", "EXACT", "EXACT", "PARTIAL", "EXACT", "EXACT", "EXACT", "EXACT",
+                "EXACT", "EXACT", "LOW", "EXACT", new InsightStatus("OK", "Success")),
+            new RoamingInsights(DateTimeOffset.Parse("2024-02-20T10:41:38.657Z"), true, ["DE"],
+                new InsightStatus("OK", "Success")),
+            new ReachabilityInsights(DateTimeOffset.Parse("2024-02-20T10:41:38.657Z"), true, ["DATA"],
+                new InsightStatus("OK", "Success")),
+            new DeviceSwapInsights(DateTimeOffset.Parse("2024-07-08T09:30:27.504Z"), true,
                 new InsightStatus("OK", "Success"))));
 
     [Fact]
