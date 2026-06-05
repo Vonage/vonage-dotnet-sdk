@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vonage.Common.Client;
+using Vonage.Common.Failures;
 using Vonage.Common.Monads;
 using Vonage.Common.Validation;
 #endregion
@@ -17,6 +18,7 @@ internal struct StartRequestBuilder : IBuilderForApplicationId, IBuilderForOptio
     private Guid applicationId = Guid.Empty;
     private SupportedAudioRates audioRate = SupportedAudioRates.AUDIO_RATE_8000Hz;
     private bool bidirectional;
+    private Maybe<AudioTransport> audioTransport;
     private string sessionId = string.Empty;
     private string token = string.Empty;
     private Uri uri;
@@ -33,13 +35,17 @@ internal struct StartRequestBuilder : IBuilderForApplicationId, IBuilderForOptio
             SessionId = this.sessionId,
             Token = this.token,
             WebSocket = new WebSocket(this.uri, this.streams.ToArray(), this.headers, this.audioRate,
-                this.bidirectional),
+                this.bidirectional)
+            {
+                AudioTransport = this.audioTransport,
+            },
         })
         .Map(InputEvaluation<StartRequest>.Evaluate)
         .Bind(evaluation => evaluation.WithRules(
             VerifyToken,
             VerifyApplicationId,
-            VerifySessionId));
+            VerifySessionId,
+            VerifyAudioTransport));
 
     public IBuilderForOptional WithStream(string value)
     {
@@ -59,6 +65,7 @@ internal struct StartRequestBuilder : IBuilderForApplicationId, IBuilderForOptio
 
     public IBuilderForOptional WithAudioRate(SupportedAudioRates value) => this with {audioRate = value};
     public IBuilderForOptional EnableBidirectionalAudio() => this with {bidirectional = true};
+    public IBuilderForOptional WithAudioTransport(AudioTransport value) => this with {audioTransport = value};
 
     public IBuilderForToken WithSessionId(string value) => this with {sessionId = value};
 
@@ -74,6 +81,13 @@ internal struct StartRequestBuilder : IBuilderForApplicationId, IBuilderForOptio
 
     private static Result<StartRequest> VerifyToken(StartRequest request) =>
         InputValidation.VerifyNotEmpty(request, request.Token, nameof(request.Token));
+
+    private static Result<StartRequest> VerifyAudioTransport(StartRequest request) =>
+        request.WebSocket.AudioTransport.Match(
+            audioTransport => audioTransport.Transport == AudioTransportType.Json && audioTransport.Encoding.IsNone
+                ? ResultFailure.FromErrorMessage("Encoding is required when Transport is Json.").ToResult<StartRequest>()
+                : Result<StartRequest>.FromSuccess(request),
+            () => Result<StartRequest>.FromSuccess(request));
 }
 
 /// <summary>
@@ -159,4 +173,11 @@ public interface IBuilderForOptional : IVonageRequestBuilder<StartRequest>
     /// <param name="value">The stream Id.</param>
     /// <returns>The builder.</returns>
     IBuilderForOptional WithStream(string value);
+
+    /// <summary>
+    ///     Sets the audio transport configuration.
+    /// </summary>
+    /// <param name="value">The audio transport configuration.</param>
+    /// <returns>The builder.</returns>
+    IBuilderForOptional WithAudioTransport(AudioTransport value);
 }

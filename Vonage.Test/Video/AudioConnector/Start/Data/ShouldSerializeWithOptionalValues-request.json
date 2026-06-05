@@ -1,4 +1,4 @@
-﻿{
+{
   "sessionId": "flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN",
   "token": "830c9c9d-d09e-4513-9cc8-29c90a760248",
   "websocket": {
@@ -12,6 +12,15 @@
       "key-2": "value-2"
     },
     "audioRate": 16000,
-    "bidirectional": true
+    "bidirectional": true,
+    "audioTransport": {
+      "transport": "json",
+      "encoding": "base64",
+      "audio_field": "audio",
+      "receive_audio_field": "incoming_audio",
+      "static_fields": {
+        "call_id": "abc123"
+      }
+    }
   }
 }

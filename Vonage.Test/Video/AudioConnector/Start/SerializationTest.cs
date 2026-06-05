@@ -62,5 +62,13 @@ public class SerializationTest
             .WithStream("stream-2")
             .WithAudioRate(SupportedAudioRates.AUDIO_RATE_16000Hz)
             .EnableBidirectionalAudio()
+            .WithAudioTransport(new AudioTransport
+            {
+                Transport = AudioTransportType.Json,
+                Encoding = "base64",
+                AudioField = "audio",
+                ReceiveAudioField = "incoming_audio",
+                StaticFields = new Dictionary<string, string> {{"call_id", "abc123"}},
+            })
             .Create();
 }

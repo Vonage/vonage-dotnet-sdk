@@ -1,10 +1,13 @@
 ﻿#region
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
 using Vonage.Common.Client;
+using Vonage.Common.Monads;
+using Vonage.Common.Serialization;
 using Vonage.Serialization;
 #endregion
 
@@ -74,7 +77,79 @@ public record WebSocket(
     string[] Streams,
     Dictionary<string, string> Headers,
     SupportedAudioRates AudioRate,
-    bool Bidirectional);
+    bool Bidirectional)
+{
+    /// <summary>
+    ///     Configures how audio is serialized on the WebSocket wire. By default, audio is sent as raw binary PCM 16-bit
+    ///     frames.
+    /// </summary>
+    [JsonConverter(typeof(MaybeJsonConverter<AudioTransport>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<AudioTransport> AudioTransport { get; init; }
+}
+
+/// <summary>
+///     Defines the serialization format for audio on the WebSocket wire.
+/// </summary>
+public enum AudioTransportType
+{
+    /// <summary>
+    ///     Raw PCM16 binary frames (the default).
+    /// </summary>
+    [Description("binary")]
+    Binary,
+
+    /// <summary>
+    ///     JSON-wrapped audio frames. Requires <see cref="AudioTransport.Encoding"/> to be set to 'base64'.
+    /// </summary>
+    [Description("json")]
+    Json,
+}
+
+/// <summary>
+///     Represents the configuration for how audio is serialized on the WebSocket wire.
+/// </summary>
+public record AudioTransport
+{
+    /// <summary>
+    ///     Serialization format: 'binary' (raw PCM16, the default) or 'json'.
+    /// </summary>
+    [JsonConverter(typeof(EnumDescriptionJsonConverter<AudioTransportType>))]
+    public AudioTransportType Transport { get; init; }
+
+    /// <summary>
+    ///     Encoding format. Required when <see cref="Transport"/> is <see cref="AudioTransportType.Json"/>. Set to
+    ///     'base64'.
+    /// </summary>
+    [JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<string> Encoding { get; init; }
+
+    /// <summary>
+    ///     The JSON key for the outbound audio data. Defaults to 'audio'.
+    /// </summary>
+    [JsonPropertyName("audio_field")]
+    [JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<string> AudioField { get; init; }
+
+    /// <summary>
+    ///     The JSON key for inbound audio data when bidirectional is enabled. Defaults to the same value as
+    ///     <see cref="AudioField"/>.
+    /// </summary>
+    [JsonPropertyName("receive_audio_field")]
+    [JsonConverter(typeof(MaybeJsonConverter<string>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<string> ReceiveAudioField { get; init; }
+
+    /// <summary>
+    ///     Extra key-value pairs included in every outbound JSON audio message.
+    /// </summary>
+    [JsonPropertyName("static_fields")]
+    [JsonConverter(typeof(MaybeJsonConverter<Dictionary<string, string>>))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public Maybe<Dictionary<string, string>> StaticFields { get; init; }
+}
 
 /// <summary>
 ///     A number representing the audio sampling rate in Hz.

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Vonage.Common.Monads;
 using Vonage.Test.Common.Extensions;
 using Vonage.Video.AudioConnector.Start;
 using Xunit;
@@ -18,6 +19,26 @@ public class RequestBuilderTest
     private const string ValidToken = "token";
     private readonly Guid validApplicationId = Guid.NewGuid();
     private readonly Uri validUri = new Uri("https://example.com");
+
+    [Fact]
+    public void Build_ShouldHaveNoAudioTransport_GivenDefault() =>
+        this.BuildValidRequest()
+            .Create()
+            .Map(request => request.WebSocket.AudioTransport)
+            .Should()
+            .BeSuccess(Maybe<AudioTransport>.None);
+
+    [Fact]
+    public void Build_ShouldSetAudioTransport()
+    {
+        var audioTransport = new AudioTransport {Transport = AudioTransportType.Json, Encoding = "base64"};
+        this.BuildValidRequest()
+            .WithAudioTransport(audioTransport)
+            .Create()
+            .Map(request => request.WebSocket.AudioTransport)
+            .Should()
+            .BeSuccess(Maybe<AudioTransport>.Some(audioTransport));
+    }
 
     [Fact]
     public void Build_ShouldEnableBidirectionalAudio() =>
@@ -182,6 +203,19 @@ public class RequestBuilderTest
             .Create()
             .Should()
             .BeParsingFailure("SessionId cannot be null or whitespace.");
+
+    [Fact]
+    public void Parse_ShouldReturnFailure_GivenJsonTransportWithoutEncoding() =>
+        StartRequest
+            .Build()
+            .WithApplicationId(this.validApplicationId)
+            .WithSessionId(ValidSessionId)
+            .WithToken(ValidToken)
+            .WithUrl(this.validUri)
+            .WithAudioTransport(new AudioTransport {Transport = AudioTransportType.Json})
+            .Create()
+            .Should()
+            .BeParsingFailure("Encoding is required when Transport is Json.");
 
     [Theory]
     [InlineData("")]
