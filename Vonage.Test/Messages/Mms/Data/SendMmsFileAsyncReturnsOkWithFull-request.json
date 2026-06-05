@@ -11,5 +11,10 @@
     "caption": "Please see the attached file."
   },
   "ttl": 600,
+  "mms": {
+    "participants": [
+      "447700900002"
+    ]
+  },
   "trusted_recipient": true
 }

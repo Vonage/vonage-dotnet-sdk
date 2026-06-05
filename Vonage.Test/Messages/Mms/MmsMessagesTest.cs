@@ -63,6 +63,7 @@ public class MmsMessagesTest : IDisposable
             TimeToLive = 600,
             TrustedNumber = true,
             TrustedRecipient = true,
+            Mms = new MmsMessageObject {Participants = ["447700900002"]},
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -71,15 +72,15 @@ public class MmsMessagesTest : IDisposable
         {
             To = "441234567890",
             From = "015417543010",
-            Content = new[]
-            {
+            Content =
+            [
                 new Attachment
                 {
                     Type = "image",
                     Url = "https://example.com/image.jpg",
                     Caption = "See the attached image",
                 },
-            },
+            ],
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
@@ -91,21 +92,22 @@ public class MmsMessagesTest : IDisposable
         {
             To = "441234567890",
             From = "015417543010",
-            Content = new[]
-            {
+            Content =
+            [
                 new Attachment
                 {
                     Type = "image",
                     Url = "https://example.com/image.jpg",
                     Caption = "See the attached image",
                 },
-            },
+            ],
             ClientRef = "abcdefg",
             WebhookUrl = new Uri("https://example.com/status"),
             WebhookVersion = "v1",
             TimeToLive = 600,
             TrustedNumber = true,
             TrustedRecipient = true,
+            Mms = new MmsMessageObject {Participants = ["447700900002"]},
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -141,6 +143,7 @@ public class MmsMessagesTest : IDisposable
             TimeToLive = 600,
             TrustedNumber = true,
             TrustedRecipient = true,
+            Mms = new MmsMessageObject {Participants = ["447700900002"]},
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -176,6 +179,7 @@ public class MmsMessagesTest : IDisposable
             TimeToLive = 600,
             TrustedNumber = true,
             TrustedRecipient = true,
+            Mms = new MmsMessageObject {Participants = ["447700900002"]},
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -203,6 +207,7 @@ public class MmsMessagesTest : IDisposable
             TimeToLive = 600,
             TrustedNumber = true,
             TrustedRecipient = true,
+            Mms = new MmsMessageObject {Participants = ["447700900002"]},
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -238,6 +243,7 @@ public class MmsMessagesTest : IDisposable
             TimeToLive = 600,
             TrustedNumber = true,
             TrustedRecipient = true,
+            Mms = new MmsMessageObject {Participants = ["447700900002"]},
         }, this.helper.GetRequestJson());
 
     [Fact]
@@ -273,6 +279,7 @@ public class MmsMessagesTest : IDisposable
             TimeToLive = 600,
             TrustedNumber = true,
             TrustedRecipient = true,
+            Mms = new MmsMessageObject {Participants = ["447700900002"]},
         }, this.helper.GetRequestJson());
 
     private async Task AssertResponse(IMessage request, string expectedRequest)

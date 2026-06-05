@@ -11,6 +11,14 @@ namespace Vonage.Messages.Mms;
 public abstract class MmsMessageBase : MessageRequestBase
 {
     /// <summary>
+    ///     An object of optional settings for the MMS message, such as group conversation participants.
+    /// </summary>
+    [JsonPropertyName("mms")]
+    [JsonPropertyOrder(10)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public MmsMessageObject Mms { get; set; }
+
+    /// <summary>
     ///     Allows to skip fraud checks on a per-message basis. The feature is feature-flagged and must be enabled for the api
     ///     key.
     /// </summary>
