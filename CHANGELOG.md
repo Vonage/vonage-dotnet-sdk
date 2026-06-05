@@ -1,4 +1,55 @@
 # Changelog
+## [v8.34.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.34.0) (2026-06-05)
+
+### Bug Fixes
+
+- Variable issue in docs.yml ([8fcb4dd](https://github.com/Vonage/vonage-dotnet-sdk/commit/8fcb4dd128834ae4ff05d4afdc9d9d5159896658))
+
+- Remove --globalMetadata from docfx ([f021ce4](https://github.com/Vonage/vonage-dotnet-sdk/commit/f021ce42f597895a81d7757614738ff8f3f1d6fb))
+
+- Add build step in docs.yml ([e7e4b48](https://github.com/Vonage/vonage-dotnet-sdk/commit/e7e4b4874fc7a74e1ff8e190b017403c908a90a5))
+
+
+### Build updates
+
+- Add workflow to publish changelog on developer portal after a release ([acd049f](https://github.com/Vonage/vonage-dotnet-sdk/commit/acd049f1fdc214b9c30f5e0f21e7837c0ed2be13))
+
+- Change mutation testing workflow for workflow dispatch only ([1351987](https://github.com/Vonage/vonage-dotnet-sdk/commit/13519870fc606fd14be4b836a86c56a128d248a5))
+
+
+### Documentation
+
+- Generate changelog for v8.33.0 ([edfafc3](https://github.com/Vonage/vonage-dotnet-sdk/commit/edfafc3a6ed1f3740dbacc771603fa8177052065))
+
+- Flag Reports API as GA ([0a8581e](https://github.com/Vonage/vonage-dotnet-sdk/commit/0a8581e3bb27bda9a790e4f3ad8a54b6129dba6f))
+
+- Improve XML doc on IMessage's From/To ([56d9184](https://github.com/Vonage/vonage-dotnet-sdk/commit/56d91846a1ba129532d5795e2d2c78ce77301336))
+
+- Bump version to v8.34.0 ([a3db480](https://github.com/Vonage/vonage-dotnet-sdk/commit/a3db48053ede00e45712bd86c8636b813f03819d))
+
+
+### Features
+
+- Add documentation generation with docfx ([10788f0](https://github.com/Vonage/vonage-dotnet-sdk/commit/10788f0d851bef1a33d88b13c0e98b6b4ad35d49))
+
+- Add audiotransport in AudioConnector ([8fd57ff](https://github.com/Vonage/vonage-dotnet-sdk/commit/8fd57ffcbabfb787fcd7abb444ab5f879bb4c1d5))
+
+- Add participants for MMS ([ed2e104](https://github.com/Vonage/vonage-dotnet-sdk/commit/ed2e104283f280522bcfd3216f7d1bf3712823eb))
+
+
+### Other
+
+- Remove unnecessary workflow ([f4fad18](https://github.com/Vonage/vonage-dotnet-sdk/commit/f4fad18d355dd5b06b83e55980988093a5a41054))
+
+
+### Refactoring
+
+- Make release script target specific cliff.toml file for changelog generation ([74a8e93](https://github.com/Vonage/vonage-dotnet-sdk/commit/74a8e93c84cda4f2c826ea75065baed4d5637d08))
+
+- Improve portal changelog script DX ([85bd5de](https://github.com/Vonage/vonage-dotnet-sdk/commit/85bd5def2e7351afd95c36f4a6df449285c735b1))
+
+Full Changelog: [v8.33.0...v8.34.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.33.0...v8.34.0)
+
 ## [v8.33.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.33.0) (2026-06-01)
 
 ### Documentation
