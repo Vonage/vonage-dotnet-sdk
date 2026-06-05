@@ -24,12 +24,30 @@ public interface IMessage
     string ClientRef { get; set; }
 
     /// <summary>
-    ///     The phone number of the message sender in the E.164 format. Don't use a leading + or 00 when entering a phone
-    ///     number,
-    ///     start with the country code, for example, 447700900000. For SMS in certain localities alpha-numeric sender id's
-    ///     will
-    ///     work as well.
+    ///     The sender of the message. The accepted format depends on the channel
+    ///     of the concrete implementation (see remarks).
     /// </summary>
+    /// <remarks>
+    ///     <list type="bullet">
+    ///         <item><description>
+    ///             SMS, MMS, WhatsApp: a phone number in E.164 format, without a leading + or 00.
+    ///             Start with the country code, e.g. 447700900001. For SMS, alphanumeric sender
+    ///             IDs are supported in certain localities.
+    ///         </description></item>
+    ///         <item><description>
+    ///             RCS: an alphanumeric Sender ID that exactly matches the one registered during
+    ///             onboarding. Spaces are not permitted, e.g. Vonage.
+    ///         </description></item>
+    ///         <item><description>
+    ///             Messenger, Viber: the sender ID (1–50 characters).
+    ///         </description></item>
+    ///         <item><description>
+    ///             Email: the sender email address whose domain must be verified by Vonage before
+    ///             sending. A display name may be included using the format
+    ///             "Display Name &lt;your.address@yourdomain.com&gt;".
+    ///         </description></item>
+    ///     </list>
+    /// </remarks>
     [JsonPropertyOrder(4)]
     string From { get; set; }
 
@@ -40,10 +58,27 @@ public interface IMessage
     MessagesMessageType MessageType { get; }
 
     /// <summary>
-    ///     The phone number of the message recipient in the E.164 format. Don't use a leading + or 00 when entering a phone
-    ///     number,
-    ///     start with the country code, for example, 447700900000.
+    ///     The recipient of the message. The accepted format depends on the channel
+    ///     of the concrete implementation (see remarks).
     /// </summary>
+    /// <remarks>
+    ///     <list type="bullet">
+    ///         <item><description>
+    ///             SMS, MMS, RCS, Viber: a phone number in E.164 format (7–15 digits), without a
+    ///             leading + or 00. Start with the country code, e.g. 447700900000.
+    ///         </description></item>
+    ///         <item><description>
+    ///             WhatsApp: a phone number in E.164 format without a leading +, or a WhatsApp
+    ///             Business-scoped User ID (BSUID), e.g. US.13491208655302741918.
+    ///         </description></item>
+    ///         <item><description>
+    ///             Messenger: the recipient ID (1–50 characters).
+    ///         </description></item>
+    ///         <item><description>
+    ///             Email: the recipient email address, e.g. user@example.com.
+    ///         </description></item>
+    ///     </list>
+    /// </remarks>
     [JsonPropertyOrder(3)]
     string To { get; set; }
 
