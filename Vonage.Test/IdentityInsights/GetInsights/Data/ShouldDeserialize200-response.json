@@ -1,4 +1,4 @@
-﻿{
+{
   "request_id": "7e190c2f-22aa-4732-b44e-3794de3fa035",
   "insights": {
     "format": {
@@ -40,6 +40,63 @@
       "network_type": "MOBILE",
       "country_code": "ES",
       "network_code": "21403",
+      "status": {
+        "code": "OK",
+        "message": "Success"
+      }
+    },
+    "location_verification": {
+      "is_verified": "PARTIAL",
+      "latest_location_at": "2024-07-08T09:30:27.504Z",
+      "match_rate": 85,
+      "status": {
+        "code": "OK",
+        "message": "Success"
+      }
+    },
+    "subscriber_match": {
+      "id_document_match": "EXACT",
+      "given_name_match": "EXACT",
+      "family_name_match": "EXACT",
+      "address_match": "PARTIAL",
+      "street_name_match": "EXACT",
+      "street_number_match": "EXACT",
+      "postal_code_match": "EXACT",
+      "locality_match": "EXACT",
+      "region_match": "EXACT",
+      "country_match": "EXACT",
+      "house_number_extension_match": "LOW",
+      "birthdate_match": "EXACT",
+      "status": {
+        "code": "OK",
+        "message": "Success"
+      }
+    },
+    "roaming": {
+      "latest_status_at": "2024-02-20T10:41:38.657Z",
+      "is_roaming": true,
+      "country_codes": [
+        "DE"
+      ],
+      "status": {
+        "code": "OK",
+        "message": "Success"
+      }
+    },
+    "reachability": {
+      "latest_status_at": "2024-02-20T10:41:38.657Z",
+      "is_reachable": true,
+      "connectivity": [
+        "DATA"
+      ],
+      "status": {
+        "code": "OK",
+        "message": "Success"
+      }
+    },
+    "device_swap": {
+      "latest_device_swap_at": "2024-07-08T09:30:27.504Z",
+      "is_swapped": true,
       "status": {
         "code": "OK",
         "message": "Success"
