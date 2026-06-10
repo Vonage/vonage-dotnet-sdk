@@ -1,109 +1,57 @@
-﻿#region
-using System.Net.Http;
 using System.Threading.Tasks;
+using Vonage.Accounts.ChangeAccountSettings;
+using Vonage.Accounts.CreateSecret;
+using Vonage.Accounts.GetBalance;
+using Vonage.Accounts.GetSecret;
+using Vonage.Accounts.GetSecrets;
+using Vonage.Accounts.RevokeSecret;
+using Vonage.Accounts.TopUpBalance;
 using Vonage.Common;
-using Vonage.Request;
-#endregion
+using Vonage.Common.Client;
+using Vonage.Common.Monads;
+using Vonage.Serialization;
 
 namespace Vonage.Accounts;
 
-/// <summary>
-///     Client for managing Vonage account operations including balance inquiries, API secret management, and account settings.
-///     Implements the Vonage Account API.
-/// </summary>
-public class AccountClient : IAccountClient
+/// <inheritdoc />
+internal class AccountClient : IAccountClient
 {
-    private readonly Configuration configuration;
-    private readonly ITimeProvider timeProvider = new TimeProvider();
+    private readonly VonageHttpClient<StandardApiError> vonageClient;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="AccountClient"/> class.
+    ///     Creates a new Accounts API client.
     /// </summary>
-    /// <param name="creds">Optional credentials to use for authentication.</param>
-    public AccountClient(Credentials creds = null)
-    {
-        this.Credentials = creds;
-        this.configuration = Configuration.Instance;
-    }
-
-    internal AccountClient(Credentials creds, Configuration configuration, ITimeProvider timeProvider)
-    {
-        this.Credentials = creds;
-        this.configuration = configuration;
-        this.timeProvider = timeProvider;
-    }
-
-    /// <summary>
-    ///     The credentials used for authenticating API requests.
-    /// </summary>
-    public Credentials Credentials { get; set; }
+    /// <param name="configuration">The HTTP client configuration.</param>
+    public AccountClient(VonageHttpClientConfiguration configuration) =>
+        this.vonageClient =
+            new VonageHttpClient<StandardApiError>(configuration, JsonSerializerBuilder.BuildWithSnakeCase());
 
     /// <inheritdoc />
-    public Task<AccountSettingsResult> ChangeAccountSettingsAsync(AccountSettingsRequest request,
-        Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoPostRequestUrlContentFromObjectAsync<AccountSettingsResult>
-            (
-                this.configuration.BuildUri(ApiRequest.UriType.Rest, "/account/settings"),
-                request
-            );
+    public Task<Result<GetBalanceResponse>> GetBalanceAsync() =>
+        this.vonageClient.SendWithResponseAsync<GetBalanceRequest, GetBalanceResponse>(GetBalanceRequest.Default);
 
     /// <inheritdoc />
-    public Task<Secret> CreateApiSecretAsync(CreateSecretRequest request, string apiKey = null,
-        Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoRequestWithJsonContentAsync<Secret>(
-                HttpMethod.Post,
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
-                request,
-                AuthType.Basic
-            );
+    public Task<Result<TopUpBalanceResponse>> TopUpBalanceAsync(Result<TopUpBalanceRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<TopUpBalanceRequest, TopUpBalanceResponse>(request);
 
     /// <inheritdoc />
-    public Task<Balance> GetAccountBalanceAsync(Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParametersAsync<Balance>(
-                this.configuration.BuildUri(ApiRequest.UriType.Rest, "/account/get-balance"),
-                AuthType.Basic);
+    public Task<Result<ChangeAccountSettingsResponse>> ChangeAccountSettingsAsync(
+        Result<ChangeAccountSettingsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<ChangeAccountSettingsRequest, ChangeAccountSettingsResponse>(request);
 
     /// <inheritdoc />
-    public Task<Secret> RetrieveApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParametersAsync<Secret>(
-                this.configuration.BuildUri(ApiRequest.UriType.Api,
-                    $"/accounts/{apiKey}/secrets/{secretId}"),
-                AuthType.Basic
-            );
+    public Task<Result<GetSecretsResponse>> GetSecretsAsync(Result<GetSecretsRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetSecretsRequest, GetSecretsResponse>(request);
 
     /// <inheritdoc />
-    public Task<SecretsRequestResult> RetrieveApiSecretsAsync(string apiKey = null, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParametersAsync<SecretsRequestResult>(
-                this.configuration.BuildUri(ApiRequest.UriType.Api, $"/accounts/{apiKey}/secrets"),
-                AuthType.Basic
-            );
+    public Task<Result<SecretInfo>> CreateSecretAsync(Result<CreateSecretRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<CreateSecretRequest, SecretInfo>(request);
 
     /// <inheritdoc />
-    public async Task<bool> RevokeApiSecretAsync(string secretId, string apiKey = null, Credentials creds = null)
-    {
-        await ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoDeleteRequestWithUrlContentAsync(
-                this.configuration.BuildUri(ApiRequest.UriType.Api,
-                    $"/accounts/{apiKey}/secrets/{secretId}"),
-                null,
-                AuthType.Basic
-            ).ConfigureAwait(false);
-        return true;
-    }
+    public Task<Result<SecretInfo>> GetSecretAsync(Result<GetSecretRequest> request) =>
+        this.vonageClient.SendWithResponseAsync<GetSecretRequest, SecretInfo>(request);
 
     /// <inheritdoc />
-    public Task<TopUpResult> TopUpAccountBalanceAsync(TopUpRequest request, Credentials creds = null) =>
-        ApiRequest.Build(this.GetCredentials(creds), this.configuration, this.timeProvider)
-            .DoGetRequestWithQueryParametersAsync<TopUpResult>(
-                this.configuration.BuildUri(ApiRequest.UriType.Rest, "/account/top-up"),
-                AuthType.Basic,
-                request
-            );
-
-    private Credentials GetCredentials(Credentials overridenCredentials) => overridenCredentials ?? this.Credentials;
+    public Task<Result<Unit>> RevokeSecretAsync(Result<RevokeSecretRequest> request) =>
+        this.vonageClient.SendAsync(request);
 }
