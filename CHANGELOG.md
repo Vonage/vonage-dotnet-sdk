@@ -1,4 +1,25 @@
 # Changelog
+## [v8.35.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.35.0) (2026-06-10)
+
+### Documentation
+
+- Generate changelog for v8.34.0 ([f2efc1a](https://github.com/Vonage/vonage-dotnet-sdk/commit/f2efc1a26211040282371b7ed80e196c5c10df86))
+
+- Bump version to v8.35.0 ([4a61c96](https://github.com/Vonage/vonage-dotnet-sdk/commit/4a61c96be69f2aedf01fc9c8958a61e8d6494074))
+
+
+### Features
+
+- Add missing properties on GetInsightsResponse ([38b2d62](https://github.com/Vonage/vonage-dotnet-sdk/commit/38b2d62c3a8f83f3515e230fc6999e9bddfb6fe1))
+
+
+### Merges
+
+- Merge branch 'missing-properties-identity-insights'
+ ([765727f](https://github.com/Vonage/vonage-dotnet-sdk/commit/765727ff3f4bec06c2e30ba390123f2d7dca9916))
+
+Full Changelog: [v8.34.0...v8.35.0](https://github.com/Vonage/vonage-dotnet-sdk/compare/v8.34.0...v8.35.0)
+
 ## [v8.34.0](https://github.com/Vonage/vonage-dotnet-sdk/releases/tag/v8.34.0) (2026-06-05)
 
 ### Bug Fixes
