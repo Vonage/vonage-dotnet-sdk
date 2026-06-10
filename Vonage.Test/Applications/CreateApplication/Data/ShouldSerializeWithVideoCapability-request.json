@@ -1,0 +1,1 @@
+{"name":"Demo Application","capabilities":{"video":{"webhooks":{"archive_status":{"address":"https://example.com/webhooks/archive","active":true},"session_created":{"address":"https://example.com/webhooks/session-created","active":true}}}}}

@@ -1,0 +1,27 @@
+{
+  "page_size": 10,
+  "page": 1,
+  "total_items": 1,
+  "total_pages": 1,
+  "_embedded": {
+    "applications": [
+      {
+        "id": "78d335fa-323d-0114-9c3d-d6f0d48968cf",
+        "name": "My Application",
+        "capabilities": {
+          "voice": {
+            "webhooks": {
+              "answer_url": {
+                "address": "https://example.com/webhooks/answer",
+                "http_method": "POST"
+              }
+            }
+          }
+        },
+        "privacy": {
+          "improve_ai": true
+        }
+      }
+    ]
+  }
+}

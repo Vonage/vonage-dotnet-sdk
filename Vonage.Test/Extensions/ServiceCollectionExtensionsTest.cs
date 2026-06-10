@@ -87,7 +87,7 @@ namespace Vonage.Test.Extensions
         {
             yield return [typeof(VonageClient)];
             yield return [typeof(IAccountClient)];
-            yield return [typeof(IApplicationClient)];
+            yield return [typeof(IApplicationsClient)];
             yield return [typeof(IConversionClient)];
             yield return [typeof(IEmergencyClient)];
             yield return [typeof(IMessagesClient)];

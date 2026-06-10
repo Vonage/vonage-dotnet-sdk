@@ -1,0 +1,1 @@
+{"name":"Demo Application","capabilities":{"verify":{"webhooks":{"status_url":{"address":"https://example.com/webhooks/status","http_method":"POST"}}}}}

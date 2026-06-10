@@ -62,7 +62,10 @@ public class VonageClient
 
     public IAccountClient AccountClient { get; private set; }
 
-    public IApplicationClient ApplicationClient { get; private set; }
+    /// <summary>
+    ///     Exposes Application API features (next-generation rewrite).
+    /// </summary>
+    public IApplicationsClient ApplicationsClient { get; private set; }
 
     /// <summary>
     ///     Exposes Conversations features.
@@ -164,7 +167,6 @@ public class VonageClient
     {
         var currentConfiguration = this.GetConfiguration();
         this.AccountClient = new AccountClient(this.Credentials, currentConfiguration, this.timeProvider);
-        this.ApplicationClient = new ApplicationClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.VoiceClient = new VoiceClient(this.Credentials, currentConfiguration, this.timeProvider,
             Maybe<VonageUrls.Region>.None);
         this.ConversionClient = new ConversionClient(this.Credentials, currentConfiguration, this.timeProvider);
@@ -177,6 +179,9 @@ public class VonageClient
         this.SmsClient = new SmsClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.PricingClient = new PricingClient(this.Credentials, currentConfiguration, this.timeProvider);
         this.MessagesClient = new MessagesClient(this.Credentials, currentConfiguration, this.timeProvider);
+        this.ApplicationsClient =
+            new ApplicationsClient(
+                this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo(), AuthType.Basic));
         this.VerifyV2Client =
             new VerifyV2Client(this.BuildConfiguration(currentConfiguration.BuildHttpClientForNexmo()));
         this.SubAccountsClient =

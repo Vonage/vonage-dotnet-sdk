@@ -1,0 +1,1 @@
+{"name":"Demo Application","capabilities":{"meetings":{"webhooks":{"recording_changed":{"address":"https://example.com/webhooks/recording","http_method":"POST"},"room_changed":{"address":"https://example.com/webhooks/room","http_method":"POST"}}}}}
